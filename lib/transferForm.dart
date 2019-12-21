@@ -82,7 +82,7 @@ class _TransferFormState extends State<TransferForm>
   }
 
   _sendTransaction() async {
-    String from = 'sevenflash32';
+    String from = 'testingseeds';
     String to = widget.accountName;
     String quantity = "$amountValue SEEDS";
     String memo = "";

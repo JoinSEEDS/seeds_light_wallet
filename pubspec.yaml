@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  intro_views_flutter:
+    git: git://github.com/aagarwal1012/IntroViews-Flutter
+
   community_material_icon: ^3.5.95
   flutter_masked_text: ^0.8.0
 

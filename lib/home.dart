@@ -37,7 +37,7 @@ class Balance {
 
 class HttpService {
   final String transactionsURL =
-      "https://telos.caleos.io/v2/history/get_actions?account=sevenflash32&filter=*%3A*&skip=0&limit=100&sort=desc";
+      "https://telos.caleos.io/v2/history/get_actions?account=testingseeds&filter=*%3A*&skip=0&limit=100&sort=desc";
   final String balanceURL =
       "https://telos.caleos.io/v1/chain/get_currency_balance";
 
@@ -69,7 +69,7 @@ class HttpService {
 
   Future<Balance> getBalance() async {
     String request =
-        '{"code":"token.seeds","account":"sevenflash32","symbol":"SEEDS"}';
+        '{"code":"token.seeds","account":"testingseeds","symbol":"SEEDS"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(balanceURL, headers: headers, body: request);
@@ -100,7 +100,7 @@ class Home extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _titleText("Welcome, sevenflash32"),
+          _titleText("Welcome, testingseeds"),
           _dashboardList(),
           _titleText("Latest transactions"),
           _transactionsList()
@@ -130,7 +130,7 @@ class Home extends StatelessWidget {
                     leading: Container(
                       alignment: Alignment.centerLeft,
                       width: 42,
-                      child: trx.from == "sevenflash32"
+                      child: trx.from == "testingseeds"
                           ? Icon(
                               Icons.arrow_upward,
                               color: Colors.redAccent,
@@ -152,7 +152,7 @@ class Home extends StatelessWidget {
                       trx.quantity,
                       style: TextStyle(
                         fontSize: 15,
-                        color: trx.from == "sevenflash32"
+                        color: trx.from == "testingseeds"
                             ? Colors.redAccent
                             : CustomColors.Green,
                       ),
@@ -223,7 +223,9 @@ class Home extends StatelessWidget {
               },
             ),
             subtitle: Text("Available balance"),
-            trailing: SeedsButton("Transfer", () => movePage(1)),
+            trailing: SeedsButton("Transfer", () => {
+              movePage(1)
+            }),
           ),
         ),
         ListTile(

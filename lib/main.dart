@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/onboarding.dart';
+import 'package:seeds/transferAmount.dart';
+import 'package:seeds/transferForm.dart';
 
 import './app.dart';
 
@@ -11,7 +14,7 @@ class SeedsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: App(),
+      home: Onboarding(),
     );
   }
 }
