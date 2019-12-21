@@ -1,0 +1,78 @@
+name: seeds
+description: SEEDS Wallet
+
+version: 1.0.1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  community_material_icon: ^3.5.95
+  flutter_masked_text: ^0.8.0
+
+  http: ^0.12.0+2
+  dson: any
+  eosdart:
+    git:
+      url: https://github.com/7flash/eosdart.git
+      ref: 12f0d152bbf35ddeea71bc6e337deecb82f86fdf
+
+  cupertino_icons: ^0.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/avatars/
+
+  fonts:
+    # w100 Thin, the least thick
+    # w200 Extra-light
+    # w300 Light
+    # w400 Normal / regular / plain
+    # w500 Medium
+    # w600 Semi-bold
+    # w700 Bold
+    # w800 Extra-bold
+    # w900 Black, the most thick
+    - family: sfprotext
+      fonts:
+        - asset: assets/fonts/sfprotext/SF-Pro-Text-Regular.otf
+          weight: 300
+        - asset: assets/fonts/sfprotext/SF-Pro-Text-Medium.otf
+          weight: 500
+        - asset: assets/fonts/sfprotext/SF-Pro-Text-Bold.otf
+          weight: 600
+        - asset: assets/fonts/sfprotext/SF-Pro-Text-Semibold.otf
+          weight: 700
+    - family: vistolsans
+      fonts:
+        - asset: assets/fonts/vistolsanslight/VistolSans-Light.otf
+    - family: worksans
+      fonts:
+        - asset: assets/fonts/worksans/WorkSans-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/worksans/WorkSans-Light.ttf
+          weight: 200
+        - asset: assets/fonts/worksans/WorkSans-Regular.ttf
+          weight: 300
+        - asset: assets/fonts/worksans/WorkSans-SemiBold.ttf
+          weight: 400
+        - asset: assets/fonts/worksans/WorkSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/worksans/WorkSans-Bold.ttf
+          weight: 600
+        - asset: assets/fonts/worksans/WorkSans-SemiBold.ttf
+          weight: 700
+        - asset: assets/fonts/worksans/WorkSans-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/worksans/WorkSans-Black.ttf
+          weight: 900
