@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/onboarding.dart';
-import 'package:seeds/transferAmount.dart';
-import 'package:seeds/transferForm.dart';
 
 import './app.dart';
 

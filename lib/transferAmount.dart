@@ -88,12 +88,27 @@ class _TransferAmountState extends State<TransferAmount> {
                           fit: FlexFit.loose,
                           flex: 3,
                           child: TextField(
+                            textAlign: TextAlign.left,
+                            textDirection: TextDirection.ltr,
+                            showCursor: false,
+                            enableInteractiveSelection: false,
+                            autofocus: true,
                             controller: amountController,
                             keyboardType: TextInputType.numberWithOptions(
                               signed: false,
                               decimal: true,
                             ),
                             decoration: InputDecoration(
+                              prefixIcon: Padding(
+                                padding: EdgeInsetsDirectional.only(
+                                    top: 13, start: 25),
+                                child: Text(
+                                  '\$',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ),
+                              prefixStyle: TextStyle(
+                                  fontFamily: "vistolsans", fontSize: 25),
                               border: InputBorder.none,
                             ),
                             style: TextStyle(

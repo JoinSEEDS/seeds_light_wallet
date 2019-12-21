@@ -230,7 +230,7 @@ class _TransferFormState extends State<TransferForm>
               ),
               body: SingleChildScrollView(
                 child: Container(
-                  //width: MediaQuery.of(context).size.width * 1,
+                  width: MediaQuery.of(context).size.width * 1,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -240,7 +240,7 @@ class _TransferFormState extends State<TransferForm>
                         height: 150,
                         child: CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          backgroundImage: AssetImage(widget.avatar),
+                          backgroundImage: NetworkImage(widget.avatar),
                         ),
                       ),
                       SizedBox(height: 15),
@@ -348,7 +348,7 @@ class _TransferFormState extends State<TransferForm>
                             Opacity(
                               opacity: this.validAmount ? 1.0 : 0.0,
                               child: SizedBox(
-                                // width: MediaQuery.of(context).size.width,
+                                width: MediaQuery.of(context).size.width,
                                 height: 40,
                                 child: FlatButton(
                                   color: CustomColors.Green,
