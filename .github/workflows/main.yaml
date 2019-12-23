@@ -14,5 +14,5 @@ jobs:
         args: build apk --debug --split-per-abi
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "build/app/outputs/apk/debug/*.apk"
+        artifacts: "build/app/outputs/apk/release/*.apk"
         token: ${{ secrets.seedswallet }}
