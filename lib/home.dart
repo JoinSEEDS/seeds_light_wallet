@@ -36,12 +36,10 @@ class Balance {
 }
 
 class HttpService {
-  final String transactionsURL =
-      "https://telos.caleos.io/v2/history/get_actions?account=testingseeds&filter=*%3A*&skip=0&limit=100&sort=desc";
-  final String balanceURL =
-      "https://telos.caleos.io/v1/chain/get_currency_balance";
+  Future<List<Transaction>> getTransactions(accountName) async {
+    final String transactionsURL =
+      "https://telos.caleos.io/v2/history/get_actions?account=$accountName&filter=*%3A*&skip=0&limit=100&sort=desc";
 
-  Future<List<Transaction>> getTransactions() async {
     Response res = await get(transactionsURL);
 
     print('get transactions');
@@ -67,9 +65,12 @@ class HttpService {
     }
   }
 
-  Future<Balance> getBalance() async {
+  Future<Balance> getBalance(accountName) async {
+    final String balanceURL =
+      "https://telos.caleos.io/v1/chain/get_currency_balance";
+
     String request =
-        '{"code":"token.seeds","account":"testingseeds","symbol":"SEEDS"}';
+        '{"code":"token.seeds","account":"$accountName","symbol":"SEEDS"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(balanceURL, headers: headers, body: request);
@@ -90,17 +91,18 @@ class HttpService {
 
 class Home extends StatelessWidget {
   final Function movePage;
+  final String accountName;
 
   final HttpService httpService = HttpService();
 
-  Home(this.movePage);
+  Home(this.movePage, this.accountName);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _titleText("Welcome, testingseeds"),
+          _titleText("Welcome, $accountName"),
           _dashboardList(),
           _titleText("Latest transactions"),
           _transactionsList()
@@ -111,7 +113,7 @@ class Home extends StatelessWidget {
 
   Widget _transactionsList() {
     return FutureBuilder(
-      future: httpService.getTransactions(),
+      future: httpService.getTransactions(accountName),
       builder:
           (BuildContext context, AsyncSnapshot<List<Transaction>> snapshot) {
         if (snapshot.hasData) {
@@ -130,7 +132,7 @@ class Home extends StatelessWidget {
                     leading: Container(
                       alignment: Alignment.centerLeft,
                       width: 42,
-                      child: trx.from == "testingseeds"
+                      child: trx.from == accountName
                           ? Icon(
                               Icons.arrow_upward,
                               color: Colors.redAccent,
@@ -152,7 +154,7 @@ class Home extends StatelessWidget {
                       trx.quantity,
                       style: TextStyle(
                         fontSize: 15,
-                        color: trx.from == "testingseeds"
+                        color: trx.from == accountName
                             ? Colors.redAccent
                             : CustomColors.Green,
                       ),
@@ -212,9 +214,8 @@ class Home extends StatelessWidget {
               ),
             ),
             title: FutureBuilder(
-              future: httpService.getBalance(),
+              future: httpService.getBalance(accountName),
               builder: (BuildContext context, AsyncSnapshot<Balance> snapshot) {
-                print(snapshot);
                 if (snapshot.hasData) {
                   return Text(snapshot.data.quantity);
                 } else {

@@ -1,13 +1,36 @@
+import 'dart:async';
+
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:seeds/app.dart';
 import 'package:seeds/seedsButton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'customColors.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+
+Future saveAccount(String accountName, String privateKey) async {
+  // final storage = new FlutterSecureStorage();
+  // await storage.write(key: "privateKey", value: privateKey);
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString("accountName", accountName);
+  await prefs.setString("privateKey", privateKey);
+}
+
+String applicationAccount = DotEnv().env['APPLICATION_ACCOUNT_NAME'];
+String applicationPrivateKey = DotEnv().env['APPLICATION_PRIVATE_KEY'];
+String debugAccount = DotEnv().env['DEBUG_ACCOUNT_NAME'];
+String debugPrivateKey = DotEnv().env['DEBUG_PRIVATE_KEY'];
+String debugInviteSecret = DotEnv().env['DEBUG_INVITE_SECRET'];
+
+bool isDebugMode() => debugAccount != "" && debugPrivateKey != "";  
 
 PageViewModel page({bubble, mainImage, body, title}) {
   return PageViewModel(
@@ -50,14 +73,15 @@ class MaterialPopupScreen extends StatelessWidget {
             ),
             centerTitle: true,
             actions: <Widget>[
-              IconButton(
-                  icon: Icon(
-                    CommunityMaterialIcons.close_circle,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }),
+              if (Navigator.of(context).canPop())
+                IconButton(
+                    icon: Icon(
+                      CommunityMaterialIcons.close_circle,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }),
             ],
           ),
           body: SingleChildScrollView(
@@ -73,17 +97,239 @@ class MaterialPopupScreen extends StatelessWidget {
   }
 }
 
-class ImportPrivateKey extends StatelessWidget {
+class ImportAccount extends StatefulWidget {
+  @override
+  _ImportAccountState createState() => _ImportAccountState();
+}
+
+class _ImportAccountState extends State<ImportAccount> {
+  var accountNameController = MaskedTextController(
+      text: debugAccount,
+      mask: '@@@@@@@@@@@@', translator: {'@': new RegExp(r'[a-z1234]')});
+
+  var privateKeyController = TextEditingController(text: debugPrivateKey);
+
+  bool progress = false;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialPopupScreen();
+    return MaterialPopupScreen(
+      title: "Import account",
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Text(
+                    "Private key",
+                    style: TextStyle(fontFamily: "sfprotext"),
+                  ),
+                ),
+                Spacer(flex: 1),
+                Flexible(
+                  fit: FlexFit.tight,
+                  flex: 3,
+                  child: TextField(
+                    textAlign: TextAlign.left,
+                    showCursor: true,
+                    enableInteractiveSelection: true,
+                    autofocus: true,
+                    controller: privateKeyController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(
+                      fontFamily: "sfprotext",
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Flexible(
+                  fit: FlexFit.loose,
+                  flex: 4,
+                  child: Text(
+                    "Account name",
+                    style: TextStyle(fontFamily: "sfprotext"),
+                  ),
+                ),
+                Spacer(flex: 1),
+                Flexible(
+                  fit: FlexFit.tight,
+                  flex: 3,
+                  child: TextField(
+                    textAlign: TextAlign.left,
+                    showCursor: true,
+                    enableInteractiveSelection: true,
+                    autofocus: true,
+                    controller: accountNameController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(
+                      fontFamily: "sfprotext",
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              height: 40,
+              width: MediaQuery.of(context).size.width,
+              child: progress
+                  ? SeedsButton("Importing...")
+                  : SeedsButton("Import account", () async {
+                      setState(() {
+                        progress = true;
+                      });
+
+                      String accountName = accountNameController.value.text;
+                      String privateKey = privateKeyController.value.text;
+
+                      await saveAccount(accountName, privateKey);
+
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => Welcome(accountName),
+                      ));
+                    }),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
 class ScanCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return isDebugMode() ? SeedsButton("Scan success - continue to create an account", () async {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => CreateAccount(debugInviteSecret),
+      ));
+    }) : SeedsButton("Scan failed - back to choose another method", () async {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => Onboarding()),
+      );
+    });
+  }
+}
+
+class CreateAccount extends StatefulWidget {
+  final String inviteSecret;
+
+  CreateAccount(this.inviteSecret);
+
+  @override
+  _CreateAccountState createState() => _CreateAccountState();
+}
+
+class _CreateAccountState extends State<CreateAccount> {
+  var accountNameController = MaskedTextController(
+      text: debugAccount,
+      mask: '@@@@@@@@@@@@', translator: {'@': new RegExp(r'[a-z1234]')});
+
+  bool progress = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialPopupScreen(
+      title: "Create account",
+      body: Container(
+        margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
+        padding: EdgeInsets.only(bottom: 5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Flexible(
+                  fit: FlexFit.loose,
+                  flex: 2,
+                  child: Text(
+                    "Account name",
+                    style: TextStyle(fontFamily: "sfprotext"),
+                  ),
+                ),
+                Spacer(flex: 1),
+                Flexible(
+                  fit: FlexFit.loose,
+                  flex: 4,
+                  child: TextField(
+                    textAlign: TextAlign.left,
+                    textDirection: TextDirection.ltr,
+                    showCursor: true,
+                    enableInteractiveSelection: false,
+                    autofocus: true,
+                    controller: accountNameController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                    ),
+                    style: TextStyle(
+                      fontFamily: "sfprotext",
+                      color: Colors.black,
+                      fontSize: 32,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 40,
+              width: MediaQuery.of(context).size.width,
+              child: progress ? SeedsButton("Creating...") : SeedsButton(
+                "Create account",
+                () async {
+                  setState(() {
+                    progress = true;
+                  });
+
+                  String accountName = accountNameController.text;
+
+                  await saveAccount(accountName, debugPrivateKey);
+
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => Welcome(accountName),
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Text(
+              "Your account name should have 12 symbols (lowercase letters and only digits 1234)",
+              style: TextStyle(
+                color: Colors.black45,
+                fontFamily: "worksans",
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -113,7 +359,11 @@ class ImportScanChoice extends StatelessWidget {
               child: SeedsButton(
                 "Import private key",
                 () {
-                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => ImportAccount(),
+                    ),
+                  );
                 },
               ),
             ),
@@ -132,7 +382,11 @@ class ImportScanChoice extends StatelessWidget {
               child: SeedsButton(
                 "Scan QR Code",
                 () {
-                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => ScanCode(),
+                    ),
+                  );
                 },
               ),
             ),
@@ -168,13 +422,58 @@ class ImportScanChoice extends StatelessWidget {
   }
 }
 
-class Onboarding extends StatefulWidget {
+class Welcome extends StatelessWidget {
+  final String accountName;
+
+  Welcome(this.accountName);
+
   @override
-  _OnboardingState createState() => _OnboardingState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Builder(
+        builder: (context) => IntroViewsFlutter(
+          [
+            page(
+              bubble: Icons.done,
+              mainImage: 'assets/images/onboarding4.png',
+              body: 'Your account successfuly connected to SEEDS',
+              title: 'Welcome, $accountName',
+            ),
+          ],
+          key: new UniqueKey(),
+          onTapDoneButton: () async {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => App(accountName),
+              ),
+            );
+          },
+          doneButtonPersist: true,
+          doneText: Text(
+            "DONE",
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: "worksans",
+              fontSize: 24,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          showNextButton: true,
+          showBackButton: true,
+          pageButtonTextStyles: TextStyle(
+            fontFamily: "worksans",
+            fontSize: 18.0,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class _OnboardingState extends State<Onboarding> {
-  List<PageViewModel> pages = [
+class Onboarding extends StatelessWidget {
+  final List<PageViewModel> featurePages = [
     page(
       bubble: Icons.account_balance_wallet,
       mainImage: 'assets/images/onboarding1.png',
@@ -196,74 +495,51 @@ class _OnboardingState extends State<Onboarding> {
         title: 'Cooperative Economy'),
   ];
 
-  bool done = false;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "JOIN NOW",
-        home: Builder(
-          builder: (context) => IntroViewsFlutter(
-            pages,
-            key: new UniqueKey(),
-            onTapSkipButton: () async {
+      debugShowCheckedModeBanner: false,
+      home: Builder(
+        builder: (context) => IntroViewsFlutter(
+          featurePages,
+          key: new UniqueKey(),
+          onTapDoneButton: () async {
+            if (isDebugMode() && debugInviteSecret != "") {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => App(),
-                ),
-              );
-            },
-            onTapDoneButton: () async {
-              if (done) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => App(), 
-                  ),
-                );
-
-                return;
-              }
-
-              final success = await Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ImportScanChoice(),
+                  builder: (context) => CreateAccount(debugInviteSecret),
                 ),
               );
 
-              if (success) {
-                setState(() {
-                  done = true;
-                  pages = [
-                    page(
-                      bubble: Icons.done,
-                      mainImage: 'assets/images/onboarding4.png',
-                      body:
-                          'Your account testingseeds has been created on blockchain',
-                      title: 'Welcome to SEEDS',
-                    ),
-                  ];
-                });
-              }
-            },
-            doneButtonPersist: true,
-            doneText: Text(
-              done ? "SHOW APP" : "JOIN NOW",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "worksans",
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
+              return;
+            }
+
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => ImportScanChoice(),
               ),
-            ),
-            showNextButton: true,
-            showBackButton: true,
-            pageButtonTextStyles: TextStyle(
+            );
+          },
+          doneButtonPersist: true,
+          doneText: Text(
+            "JOIN NOW",
+            style: TextStyle(
+              color: Colors.white,
               fontFamily: "worksans",
-              fontSize: 18.0,
-              fontWeight: FontWeight.w700,
+              fontSize: 24,
+              fontWeight: FontWeight.w800,
             ),
           ),
-        ));
+          showSkipButton: false,
+          showNextButton: true,
+          showBackButton: true,
+          pageButtonTextStyles: TextStyle(
+            fontFamily: "worksans",
+            fontSize: 18.0,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
   }
 }

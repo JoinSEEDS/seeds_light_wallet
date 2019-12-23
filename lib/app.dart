@@ -1,14 +1,29 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:seeds/onboarding.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:seeds/seedsButton.dart';
 
 import './home.dart';
 import './transfer.dart';
 import './harvest.dart';
 import './friends.dart';
 
-import './customColors.dart';
+Future removeAccount() async {
+  // final storage = new FlutterSecureStorage();
+  // await storage.delete(key: "privateKey");
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.remove("accountName");
+  await prefs.remove("privateKey");
+}
 
 class App extends StatefulWidget {
+  final String accountName;
+
+  App(this.accountName);
+
   @override
   _AppState createState() => _AppState();
 }
@@ -17,7 +32,12 @@ class _AppState extends State<App> {
   int index = 0;
 
   final navigationTitles = ["Dashboard", "Transfer", "Harvest", "Friends"];
-  final navigationIcons = [Icons.home, Icons.account_balance_wallet, Icons.settings_backup_restore, Icons.people];
+  final navigationIcons = [
+    Icons.home,
+    Icons.account_balance_wallet,
+    Icons.settings_backup_restore,
+    Icons.people
+  ];
 
   List<BottomNavigationBarItem> buildNavigationItems() {
     List<BottomNavigationBarItem> items = [];
@@ -37,8 +57,6 @@ class _AppState extends State<App> {
 
   void movePage(index) {
     setState(() {
-      print('set state');
-      print(index);
       pageController.animateToPage(
         index,
         duration: Duration(milliseconds: 500),
@@ -50,15 +68,20 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFAFAFAFA),
-      appBar: buildAppBar(),
-      body: buildPageView(),
-      bottomNavigationBar: buildNavigation(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Container(
+        child: Scaffold(
+          backgroundColor: Color(0xFAFAFAFA),
+          appBar: buildAppBar(context),
+          body: buildPageView(),
+          bottomNavigationBar: buildNavigation(),
+        ),
+      ),
     );
   }
 
-  Widget buildAppBar() {
+  Widget buildAppBar(BuildContext context) {
     return AppBar(
       title: Image.asset(
         'assets/images/seeds-logo-with-text.png',
@@ -68,13 +91,19 @@ class _AppState extends State<App> {
       centerTitle: false,
       actions: <Widget>[
         Container(
-          alignment: Alignment.center,
+          child: SeedsButton("Logout", () async {
+            await removeAccount();
+
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => Onboarding(),
+              ),
+            );
+          }, true),
+          height: 20,
           margin: EdgeInsets.only(
+            top: 20,
             right: 15,
-          ),
-          child: Image.asset(
-            'assets/images/icon_school-bell.png',
-            color: CustomColors.Green,
           ),
         ),
       ],
@@ -88,8 +117,8 @@ class _AppState extends State<App> {
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        Home(movePage),
-        Transfer(),
+        Home(movePage, this.widget.accountName),
+        Transfer(this.widget.accountName),
         Harvest(),
         Friends(),
       ],
@@ -97,9 +126,6 @@ class _AppState extends State<App> {
   }
 
   Widget buildNavigation() {
-    print('rebuild navigation');
-    print(index);
-
     return BottomNavigationBar(
       currentIndex: index,
       onTap: (index) {

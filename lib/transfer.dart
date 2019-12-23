@@ -56,6 +56,10 @@ class HttpService {
 }
 
 class Transfer extends StatelessWidget {
+  final String accountName;
+
+  Transfer(this.accountName);
+
   final HttpService httpService = HttpService();
 
   @override
@@ -111,20 +115,6 @@ class Transfer extends StatelessWidget {
     );
   }
 
-  Widget _usersTitle() {
-    return Container(
-      margin: EdgeInsets.only(left: 20, top: 20),
-      child: Text(
-        'Users',
-        style: TextStyle(
-          fontFamily: "worksans",
-          fontSize: 16,
-          color: CustomColors.Grey,
-        ),
-      ),
-    );
-  }
-
   Widget _usersList(context) {
     return FutureBuilder(
         future: httpService.getMembers(),
@@ -159,6 +149,7 @@ class Transfer extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => TransferForm(
+                            this.accountName,
                             user.nickname,
                             user.account,
                             user.image,

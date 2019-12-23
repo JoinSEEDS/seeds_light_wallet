@@ -1,25 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/progressBar.dart';
 
 import 'customColors.dart';
 
-class SeedsButton extends StatelessWidget {
+class SeedsButton extends StatefulWidget {
   final String title;
   final Function onPressed;
-  
-  SeedsButton(this.title, [ this.onPressed ]);
-  
+  final bool showProgress;
+
+  SeedsButton(this.title, [this.onPressed, this.showProgress = false]);
+
+  @override
+  _SeedsButtonState createState() => _SeedsButtonState();
+}
+
+class _SeedsButtonState extends State<SeedsButton> {
+  bool pressed = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: UniqueKey(),
       width: 100,
-      child: FlatButton(
+      child: this.widget.showProgress && this.pressed ? ProgressBar() : FlatButton(
         onPressed: () {
-          if (this.onPressed != null) {
-            this.onPressed();
+          setState(() {
+            pressed = true;
+          });
+
+          if (this.widget.onPressed != null) {
+            this.widget.onPressed();
           }
         },
         child: Text(
-          this.title,
+          this.widget.title,
           style: TextStyle(
             fontFamily: "worksans",
             color: Colors.white,
@@ -28,7 +42,8 @@ class SeedsButton extends StatelessWidget {
           ),
         ),
         color: CustomColors.Green,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       ),
     );
   }

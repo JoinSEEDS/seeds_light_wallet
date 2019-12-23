@@ -8,11 +8,13 @@ import 'package:eosdart/eosdart.dart' as EOS;
 import 'transferAmount.dart';
 
 class TransferForm extends StatefulWidget {
+  final String senderAccountName;
+
   final String fullName;
   final String accountName;
   final String avatar;
 
-  TransferForm(this.fullName, this.accountName, this.avatar);
+  TransferForm(this.senderAccountName, this.fullName, this.accountName, this.avatar);
 
   @override
   _TransferFormState createState() => _TransferFormState();
@@ -82,7 +84,7 @@ class _TransferFormState extends State<TransferForm>
   }
 
   _sendTransaction() async {
-    String from = 'testingseeds';
+    String from = this.widget.senderAccountName;
     String to = widget.accountName;
     String quantity = "$amountValue SEEDS";
     String memo = "";

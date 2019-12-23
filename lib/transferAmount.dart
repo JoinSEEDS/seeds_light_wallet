@@ -22,7 +22,7 @@ class _TransferAmountState extends State<TransferAmount> {
     amountController.updateValue(0.0000);
   }
 
-  _checkInputForConfirm(double amount) {
+  _checkAmount(double amount) {
     if (amount > 0.0) {
       setState(() {
         _buttonEnabled = true;
@@ -40,7 +40,7 @@ class _TransferAmountState extends State<TransferAmount> {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIOverlays([]);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -103,7 +103,7 @@ class _TransferAmountState extends State<TransferAmount> {
                                 padding: EdgeInsetsDirectional.only(
                                     top: 13, start: 25),
                                 child: Text(
-                                  '\$',
+                                  '₴',
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ),
@@ -117,7 +117,7 @@ class _TransferAmountState extends State<TransferAmount> {
                               fontSize: 50,
                             ),
                             onChanged: (text) {
-                              _checkInputForConfirm(double.parse(text));
+                              _checkAmount(double.parse(text));
                             }
                           ),
                         ),
