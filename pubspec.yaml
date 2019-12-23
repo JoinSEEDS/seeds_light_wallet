@@ -4,7 +4,7 @@ description: SEEDS Wallet
 version: 1.0.1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -14,16 +14,29 @@ dependencies:
     git: git://github.com/aagarwal1012/IntroViews-Flutter
 
   community_material_icon: ^3.5.95
+
   flutter_masked_text: ^0.8.0
 
   http: ^0.12.0+2
+  
   dson: any
+  
   eosdart:
     git:
       url: https://github.com/7flash/eosdart.git
       ref: 12f0d152bbf35ddeea71bc6e337deecb82f86fdf
 
   cupertino_icons: ^0.1.2
+
+  localstorage: ^3.0.0
+
+  firebase_dynamic_links: ^0.5.0+9
+
+  flutter_secure_storage: ^3.3.1+1
+
+  shared_preferences: ^0.5.6  
+
+  flutter_dotenv: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +46,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/images/
     - assets/avatars/
 
