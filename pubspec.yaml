@@ -42,6 +42,7 @@ dependencies:
 
   passcode_screen: ^1.0.2
   
+  eosdart_ecc: ^0.3.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

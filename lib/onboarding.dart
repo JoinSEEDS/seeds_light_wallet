@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:seeds/app.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +14,8 @@ import 'package:seeds/seedsButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:eosdart/eosdart.dart' as EOS;
 
 // import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
@@ -29,6 +33,7 @@ String applicationPrivateKey = DotEnv().env['APPLICATION_PRIVATE_KEY'];
 String debugAccount = DotEnv().env['DEBUG_ACCOUNT_NAME'];
 String debugPrivateKey = DotEnv().env['DEBUG_PRIVATE_KEY'];
 String debugInviteSecret = DotEnv().env['DEBUG_INVITE_SECRET'];
+String debugInviteLink = DotEnv().env['DEBUG_INVITE_LINK'];
 
 bool isDebugMode() => debugAccount != "" && debugPrivateKey != "";
 
@@ -92,6 +97,86 @@ class OverlayPopupScreen extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 5),
             child: body,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ClaimCode extends StatefulWidget {
+  @override
+  _ClaimCodeState createState() => _ClaimCodeState();
+}
+
+class _ClaimCodeState extends State<ClaimCode> {
+  var inviteCodeController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return OverlayPopupScreen(
+      title: "Claim code",
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Text(
+                    "Invite code",
+                    style: TextStyle(fontFamily: "sfprotext"),
+                  ),
+                ),
+                Spacer(flex: 1),
+                Flexible(
+                  fit: FlexFit.tight,
+                  flex: 3,
+                  child: TextField(                    
+                    textAlign: TextAlign.left,
+                    showCursor: true,
+                    enableInteractiveSelection: true,
+                    autofocus: true,
+                    controller: inviteCodeController,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(
+                      fontFamily: "sfprotext",
+                      color: Colors.black,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              height: 40,
+              width: MediaQuery.of(context).size.width,
+              child: SeedsButton("Accept invite", () async {
+                String inviteCode = inviteCodeController.value.text;
+
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => CreateAccount(inviteCode)
+                  ),
+                );
+              }),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              height: 40,
+              width: MediaQuery.of(context).size.width,
+              child: SeedsButton("Paste from clipboard", () async {
+                ClipboardData clipboardData = await Clipboard.getData('text/plain');
+                String inviteCodeClipboard = clipboardData?.text ?? '';
+                inviteCodeController.text = inviteCodeClipboard;
+              }),
+            ),
+          ],
         ),
       ),
     );
@@ -249,6 +334,47 @@ class _CreateAccountState extends State<CreateAccount> {
 
   bool progress = false;
 
+  Future<String> createAccount(String accountName, String publicKey) async {
+    String endpointApi = "https://api.telos.eosindex.io";
+
+    EOS.EOSClient client = EOS.EOSClient(endpointApi, 'v1', privateKeys: [ applicationPrivateKey ]);
+
+    Map data = {
+      "account": accountName,
+      "publicKey": publicKey,
+      "invite_secret": widget.inviteSecret,
+    };
+
+    List<EOS.Authorization> auth = [
+      EOS.Authorization()
+        ..actor = applicationAccount
+        ..permission = "application"
+    ];
+
+    List<EOS.Action> actions = [
+      EOS.Action()
+        ..account = 'join.seeds'
+        ..name = 'accept'
+        ..authorization = auth
+        ..data = data
+    ];
+
+    EOS.Transaction transaction = EOS.Transaction()..actions = actions;
+
+    try {
+      var response = await client.pushTransaction(transaction, broadcast: true);
+      
+      String transactionId = response["transaction_id"];
+
+      return transactionId;
+    } catch (e) {
+      print("ERROR");
+      print(e);
+
+      return null;
+    }    
+  }
+
   @override
   Widget build(BuildContext context) {
     return OverlayPopupScreen(
@@ -311,7 +437,12 @@ class _CreateAccountState extends State<CreateAccount> {
 
                         String accountName = accountNameController.text;
 
-                        await saveAccount(accountName, debugPrivateKey);
+                        EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
+                        EOSPublicKey publicKey = privateKey.toEOSPublicKey();
+
+                        String trx = await createAccount(accountName, publicKey.toString()); 
+
+                        await saveAccount(accountName, privateKey.toString());
 
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
@@ -340,7 +471,7 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 }
 
-class ImportScanChoice extends StatelessWidget {
+class OnboardingMethodChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OverlayPopupScreen(
@@ -386,17 +517,28 @@ class ImportScanChoice extends StatelessWidget {
             SizedBox(
               height: 40,
               width: MediaQuery.of(context).size.width,
-              child: SeedsButton(
-                "Scan QR Code",
-                () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => ScanCode(),
-                    ),
-                  );
-                },
-              ),
+              child: SeedsButton("Claim invite code", () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => ClaimCode(),
+                  ),
+                );
+              }),
             ),
+            // SizedBox(
+            //   height: 40,
+            //   width: MediaQuery.of(context).size.width,
+            //   child: SeedsButton(
+            //     "Scan QR Code",
+            //     () {
+            //       Navigator.of(context).pushReplacement(
+            //         MaterialPageRoute(
+            //           builder: (context) => ScanCode(),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
             SizedBox(
               height: 40,
             ),
@@ -442,7 +584,7 @@ class Welcome extends StatelessWidget {
           page(
             bubble: Icons.done,
             mainImage: 'assets/images/onboarding4.png',
-            body: 'Your wallet is ready - choose Passcode to finish setup',
+            body: 'Your wallet almost ready - choose passcode to finish setup',
             title: 'Welcome, $accountName',
           ),
         ],
@@ -518,7 +660,7 @@ class Onboarding extends StatelessWidget {
 
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => ImportScanChoice(),
+              builder: (context) => OnboardingMethodChoice(),
             ),
           );
         },
