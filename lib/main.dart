@@ -6,10 +6,11 @@ import 'package:seeds/onboarding.dart';
 
 import './app.dart';
 
-Future<String> initializedAccountName() async {
+Future<String> initializedAccount() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   String accountName = prefs.getString("accountName");
+  String privateKey = prefs.getString("privateKey");
 
   if (accountName != null && accountName != "") {
     return accountName;
@@ -19,7 +20,7 @@ Future<String> initializedAccountName() async {
 }
 
 main(List<String> args) async {
-  await DotEnv().load('.env');  
+  await DotEnv().load('.env');
   runApp(SeedsApp());
 }
 
@@ -31,14 +32,17 @@ class SeedsApp extends StatefulWidget {
 class _SeedsAppState extends State<SeedsApp> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: initializedAccountName(),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        if (snapshot.hasData && snapshot.data != null) {
-          return App(snapshot.data);
-        }
-        return Onboarding();
-      },
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: FutureBuilder(
+        future: initializedAccount(),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return App(snapshot.data);
+          }
+          return Onboarding();
+        },
+      ),
     );
   }
 }

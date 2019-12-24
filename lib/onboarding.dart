@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:seeds/app.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:seeds/app.dart';
 import 'package:seeds/seedsButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,7 +30,7 @@ String debugAccount = DotEnv().env['DEBUG_ACCOUNT_NAME'];
 String debugPrivateKey = DotEnv().env['DEBUG_PRIVATE_KEY'];
 String debugInviteSecret = DotEnv().env['DEBUG_INVITE_SECRET'];
 
-bool isDebugMode() => debugAccount != "" && debugPrivateKey != "";  
+bool isDebugMode() => debugAccount != "" && debugPrivateKey != "";
 
 PageViewModel page({bubble, mainImage, body, title}) {
   return PageViewModel(
@@ -51,45 +51,46 @@ PageViewModel page({bubble, mainImage, body, title}) {
   );
 }
 
-class MaterialPopupScreen extends StatelessWidget {
+class OverlayPopupScreen extends StatelessWidget {
   final String title;
   final Widget body;
 
-  MaterialPopupScreen({this.title, this.body});
+  OverlayPopupScreen({this.title, this.body});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Container(
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: Text(
-              title,
-              style: TextStyle(fontFamily: "worksans", color: Colors.black),
-            ),
-            centerTitle: true,
-            actions: <Widget>[
-              if (Navigator.of(context).canPop())
-                IconButton(
-                    icon: Icon(
-                      CommunityMaterialIcons.close_circle,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    }),
-            ],
+    return Container(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(
+            title,
+            style: TextStyle(
+                fontFamily: "worksans",
+                color: Colors.black87,
+                fontSize: 24,
+                fontWeight: FontWeight.w500),
           ),
-          body: SingleChildScrollView(
-            child: Container(
-              margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
-              padding: EdgeInsets.only(bottom: 5),
-              child: body,
-            ),
+          centerTitle: true,
+          actions: <Widget>[
+            if (Navigator.of(context).canPop())
+              IconButton(
+                  icon: Icon(
+                    CommunityMaterialIcons.close_circle,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
+            padding: EdgeInsets.only(bottom: 5),
+            child: body,
           ),
         ),
       ),
@@ -105,7 +106,8 @@ class ImportAccount extends StatefulWidget {
 class _ImportAccountState extends State<ImportAccount> {
   var accountNameController = MaskedTextController(
       text: debugAccount,
-      mask: '@@@@@@@@@@@@', translator: {'@': new RegExp(r'[a-z1234]')});
+      mask: '@@@@@@@@@@@@',
+      translator: {'@': new RegExp(r'[a-z1234]')});
 
   var privateKeyController = TextEditingController(text: debugPrivateKey);
 
@@ -113,7 +115,7 @@ class _ImportAccountState extends State<ImportAccount> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialPopupScreen(
+    return OverlayPopupScreen(
       title: "Import account",
       body: Container(
         child: Column(
@@ -216,15 +218,17 @@ class _ImportAccountState extends State<ImportAccount> {
 class ScanCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return isDebugMode() ? SeedsButton("Scan success - continue to create an account", () async {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => CreateAccount(debugInviteSecret),
-      ));
-    }) : SeedsButton("Scan failed - back to choose another method", () async {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Onboarding()),
-      );
-    });
+    return isDebugMode()
+        ? SeedsButton("Scan success - continue to create an account", () async {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => CreateAccount(debugInviteSecret),
+            ));
+          })
+        : SeedsButton("Scan failed - back to choose another method", () async {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => Onboarding()),
+            );
+          });
   }
 }
 
@@ -240,13 +244,14 @@ class CreateAccount extends StatefulWidget {
 class _CreateAccountState extends State<CreateAccount> {
   var accountNameController = MaskedTextController(
       text: debugAccount,
-      mask: '@@@@@@@@@@@@', translator: {'@': new RegExp(r'[a-z1234]')});
+      mask: '@@@@@@@@@@@@',
+      translator: {'@': new RegExp(r'[a-z1234]')});
 
   bool progress = false;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialPopupScreen(
+    return OverlayPopupScreen(
       title: "Create account",
       body: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
@@ -295,24 +300,26 @@ class _CreateAccountState extends State<CreateAccount> {
             SizedBox(
               height: 40,
               width: MediaQuery.of(context).size.width,
-              child: progress ? SeedsButton("Creating...") : SeedsButton(
-                "Create account",
-                () async {
-                  setState(() {
-                    progress = true;
-                  });
+              child: progress
+                  ? SeedsButton("Creating...")
+                  : SeedsButton(
+                      "Create account",
+                      () async {
+                        setState(() {
+                          progress = true;
+                        });
 
-                  String accountName = accountNameController.text;
+                        String accountName = accountNameController.text;
 
-                  await saveAccount(accountName, debugPrivateKey);
+                        await saveAccount(accountName, debugPrivateKey);
 
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => Welcome(accountName),
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => Welcome(accountName),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
             SizedBox(
               height: 40,
@@ -336,7 +343,7 @@ class _CreateAccountState extends State<CreateAccount> {
 class ImportScanChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialPopupScreen(
+    return OverlayPopupScreen(
       title: "Import account / Scan Invite",
       body: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
@@ -429,43 +436,40 @@ class Welcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Builder(
-        builder: (context) => IntroViewsFlutter(
-          [
-            page(
-              bubble: Icons.done,
-              mainImage: 'assets/images/onboarding4.png',
-              body: 'Your account successfuly connected to SEEDS',
-              title: 'Welcome, $accountName',
-            ),
-          ],
-          key: new UniqueKey(),
-          onTapDoneButton: () async {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => App(accountName),
-              ),
-            );
-          },
-          doneButtonPersist: true,
-          doneText: Text(
-            "DONE",
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: "worksans",
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
-            ),
+    return Builder(
+      builder: (context) => IntroViewsFlutter(
+        [
+          page(
+            bubble: Icons.done,
+            mainImage: 'assets/images/onboarding4.png',
+            body: 'Your wallet is ready - choose Passcode to finish setup',
+            title: 'Welcome, $accountName',
           ),
-          showNextButton: true,
-          showBackButton: true,
-          pageButtonTextStyles: TextStyle(
+        ],
+        key: new UniqueKey(),
+        onTapDoneButton: () async {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => App(accountName),
+            ),
+          );
+        },
+        doneButtonPersist: true,
+        doneText: Text(
+          "FINISH",
+          style: TextStyle(
+            color: Colors.white,
             fontFamily: "worksans",
-            fontSize: 18.0,
-            fontWeight: FontWeight.w700,
+            fontSize: 24,
+            fontWeight: FontWeight.w800,
           ),
+        ),
+        showNextButton: true,
+        showBackButton: true,
+        pageButtonTextStyles: TextStyle(
+          fontFamily: "worksans",
+          fontSize: 18.0,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
@@ -497,47 +501,44 @@ class Onboarding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Builder(
-        builder: (context) => IntroViewsFlutter(
-          featurePages,
-          key: new UniqueKey(),
-          onTapDoneButton: () async {
-            if (isDebugMode() && debugInviteSecret != "") {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => CreateAccount(debugInviteSecret),
-                ),
-              );
-
-              return;
-            }
-
+    return Builder(
+      builder: (context) => IntroViewsFlutter(
+        featurePages,
+        key: new UniqueKey(),
+        onTapDoneButton: () async {
+          if (isDebugMode() && debugInviteSecret != "") {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => ImportScanChoice(),
+                builder: (context) => CreateAccount(debugInviteSecret),
               ),
             );
-          },
-          doneButtonPersist: true,
-          doneText: Text(
-            "JOIN NOW",
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: "worksans",
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
+
+            return;
+          }
+
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => ImportScanChoice(),
             ),
-          ),
-          showSkipButton: false,
-          showNextButton: true,
-          showBackButton: true,
-          pageButtonTextStyles: TextStyle(
+          );
+        },
+        doneButtonPersist: true,
+        doneText: Text(
+          "JOIN NOW",
+          style: TextStyle(
+            color: Colors.white,
             fontFamily: "worksans",
-            fontSize: 18.0,
-            fontWeight: FontWeight.w700,
+            fontSize: 24,
+            fontWeight: FontWeight.w800,
           ),
+        ),
+        showSkipButton: false,
+        showNextButton: true,
+        showBackButton: true,
+        pageButtonTextStyles: TextStyle(
+          fontFamily: "worksans",
+          fontSize: 18.0,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

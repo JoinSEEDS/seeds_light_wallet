@@ -38,6 +38,10 @@ dependencies:
 
   flutter_dotenv: ^2.1.0
 
+  local_auth: ^0.6.1
+
+  passcode_screen: ^1.0.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

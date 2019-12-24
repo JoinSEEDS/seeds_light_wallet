@@ -89,20 +89,26 @@ class HttpService {
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   final Function movePage;
   final String accountName;
 
-  final HttpService httpService = HttpService();
 
   Home(this.movePage, this.accountName);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final HttpService httpService = HttpService();
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _titleText("Welcome, $accountName"),
+          _titleText("Welcome, ${widget.accountName}"),
           _dashboardList(),
           _titleText("Latest transactions"),
           _transactionsList()
@@ -113,7 +119,7 @@ class Home extends StatelessWidget {
 
   Widget _transactionsList() {
     return FutureBuilder(
-      future: httpService.getTransactions(accountName),
+      future: httpService.getTransactions(widget.accountName),
       builder:
           (BuildContext context, AsyncSnapshot<List<Transaction>> snapshot) {
         if (snapshot.hasData) {
@@ -132,7 +138,7 @@ class Home extends StatelessWidget {
                     leading: Container(
                       alignment: Alignment.centerLeft,
                       width: 42,
-                      child: trx.from == accountName
+                      child: trx.from == widget.accountName
                           ? Icon(
                               Icons.arrow_upward,
                               color: Colors.redAccent,
@@ -154,7 +160,7 @@ class Home extends StatelessWidget {
                       trx.quantity,
                       style: TextStyle(
                         fontSize: 15,
-                        color: trx.from == accountName
+                        color: trx.from == widget.accountName
                             ? Colors.redAccent
                             : CustomColors.Green,
                       ),
@@ -214,7 +220,7 @@ class Home extends StatelessWidget {
               ),
             ),
             title: FutureBuilder(
-              future: httpService.getBalance(accountName),
+              future: httpService.getBalance(widget.accountName),
               builder: (BuildContext context, AsyncSnapshot<Balance> snapshot) {
                 if (snapshot.hasData) {
                   return Text(snapshot.data.quantity);
@@ -225,7 +231,7 @@ class Home extends StatelessWidget {
             ),
             subtitle: Text("Available balance"),
             trailing: SeedsButton("Transfer", () => {
-              movePage(1)
+              widget.movePage(1)
             }),
           ),
         ),
@@ -239,7 +245,7 @@ class Home extends StatelessWidget {
             ),
             title: Text("25.0000 SEEDS"),
             subtitle: Text("Planted amount"),
-            trailing: SeedsButton("Harvest", () => movePage(2))),
+            trailing: SeedsButton("Harvest", () => widget.movePage(2))),
         ListTile(
           leading: Container(
             width: 42,
@@ -250,7 +256,7 @@ class Home extends StatelessWidget {
           ),
           title: Text("75.0000 SEEDS"),
           subtitle: Text("Gifted amount"),
-          trailing: SeedsButton("Friends", () => movePage(3)),
+          trailing: SeedsButton("Friends", () => widget.movePage(3)),
         ),
         SizedBox(height: 10),
         Container(

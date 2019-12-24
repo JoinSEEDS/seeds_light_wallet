@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:seeds/onboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,6 +10,8 @@ import './transfer.dart';
 import './harvest.dart';
 import './friends.dart';
 
+import 'passcode.dart';
+
 Future removeAccount() async {
   // final storage = new FlutterSecureStorage();
   // await storage.delete(key: "privateKey");
@@ -17,6 +19,13 @@ Future removeAccount() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.remove("accountName");
   await prefs.remove("privateKey");
+  await prefs.remove("passcode");
+}
+
+Future<String> getPasscode() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  return prefs.getString("passcode");
 }
 
 class App extends StatefulWidget {
@@ -38,6 +47,33 @@ class _AppState extends State<App> {
     Icons.settings_backup_restore,
     Icons.people
   ];
+
+  Future requirePasscode() async {
+    String existingPasscode = await getPasscode();
+
+    Future.delayed(Duration.zero, () {
+      if (existingPasscode != null && existingPasscode != "") {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => UnlockWallet(existingPasscode),
+          ),
+        );
+      } else {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => LockWallet(),
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    requirePasscode();
+  }
 
   List<BottomNavigationBarItem> buildNavigationItems() {
     List<BottomNavigationBarItem> items = [];
@@ -68,20 +104,17 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Container(
+    return Container(
         child: Scaffold(
           backgroundColor: Color(0xFAFAFAFA),
           appBar: buildAppBar(context),
           body: buildPageView(),
           bottomNavigationBar: buildNavigation(),
         ),
-      ),
-    );
+      );
   }
 
-  Widget buildAppBar(BuildContext context) {
+  Widget buildAppBar(BuildContext _context) {
     return AppBar(
       title: Image.asset(
         'assets/images/seeds-logo-with-text.png',
@@ -96,7 +129,7 @@ class _AppState extends State<App> {
 
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => Onboarding(),
+                builder: (ctx) => Onboarding(),
               ),
             );
           }, true),
