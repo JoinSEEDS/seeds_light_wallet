@@ -10,6 +10,7 @@ import 'package:seeds/app.dart';
 
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:seeds/fullscreenLoader.dart';
 import 'package:seeds/seedsButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -136,7 +137,7 @@ class _ClaimCodeState extends State<ClaimCode> {
                 Flexible(
                   fit: FlexFit.tight,
                   flex: 3,
-                  child: TextField(                    
+                  child: TextField(
                     textAlign: TextAlign.left,
                     showCursor: true,
                     enableInteractiveSelection: true,
@@ -161,8 +162,7 @@ class _ClaimCodeState extends State<ClaimCode> {
 
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => CreateAccount(inviteCode)
-                  ),
+                      builder: (context) => CreateAccount(inviteCode)),
                 );
               }),
             ),
@@ -171,7 +171,8 @@ class _ClaimCodeState extends State<ClaimCode> {
               height: 40,
               width: MediaQuery.of(context).size.width,
               child: SeedsButton("Paste from clipboard", () async {
-                ClipboardData clipboardData = await Clipboard.getData('text/plain');
+                ClipboardData clipboardData =
+                    await Clipboard.getData('text/plain');
                 String inviteCodeClipboard = clipboardData?.text ?? '';
                 inviteCodeController.text = inviteCodeClipboard;
               }),
@@ -332,12 +333,46 @@ class _CreateAccountState extends State<CreateAccount> {
       mask: '@@@@@@@@@@@@',
       translator: {'@': new RegExp(r'[a-z1234]')});
 
+  final StreamController<bool> _statusNotifier =
+      StreamController<bool>.broadcast();
+
+  final StreamController<String> _messageNotifier =
+      StreamController<String>.broadcast();
+
   bool progress = false;
 
-  Future<String> createAccount(String accountName, String publicKey) async {
+  FocusNode accountNameFocus = FocusNode();
+
+  Widget buildPreloader() {
+    return FullscreenLoader(
+      statusStream: _statusNotifier.stream,
+      messageStream: _messageNotifier.stream,
+      afterSuccessCallback: () {
+        String accountName = accountNameController.text;
+
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => Welcome(accountName),
+          ),
+        );
+      },
+      afterFailureCallback: () {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => OnboardingMethodChoice(),
+          ),
+        );
+      }
+    );
+  }
+
+  Future<dynamic> createAccount(
+      String accountName, String publicKey) {
+
     String endpointApi = "https://api.telos.eosindex.io";
 
-    EOS.EOSClient client = EOS.EOSClient(endpointApi, 'v1', privateKeys: [ applicationPrivateKey ]);
+    EOS.EOSClient client =
+        EOS.EOSClient(endpointApi, 'v1', privateKeys: [applicationPrivateKey]);
 
     Map data = {
       "account": accountName,
@@ -361,112 +396,116 @@ class _CreateAccountState extends State<CreateAccount> {
 
     EOS.Transaction transaction = EOS.Transaction()..actions = actions;
 
-    try {
-      var response = await client.pushTransaction(transaction, broadcast: true);
-      
-      String transactionId = response["transaction_id"];
-
-      return transactionId;
-    } catch (e) {
-      print("ERROR");
-      print(e);
-
-      return null;
-    }    
+    return client.pushTransaction(transaction, broadcast: true);
   }
 
   @override
   Widget build(BuildContext context) {
-    return OverlayPopupScreen(
-      title: "Create account",
-      body: Container(
-        margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
-        padding: EdgeInsets.only(bottom: 5),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
+    return Stack(
+      children: <Widget>[
+        OverlayPopupScreen(
+          title: "Create account",
+          body: Container(
+            margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
+            padding: EdgeInsets.only(bottom: 5),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Flexible(
-                  fit: FlexFit.loose,
-                  flex: 2,
-                  child: Text(
-                    "Account name",
-                    style: TextStyle(fontFamily: "sfprotext"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 2,
+                      child: Text(
+                        "Account name",
+                        style: TextStyle(fontFamily: "sfprotext"),
+                      ),
+                    ),
+                    Spacer(flex: 1),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 4,
+                      child: TextField(
+                        focusNode: accountNameFocus,
+                        textAlign: TextAlign.left,
+                        textDirection: TextDirection.ltr,
+                        showCursor: true,
+                        enableInteractiveSelection: false,
+                        autofocus: true,
+                        controller: accountNameController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(
+                          fontFamily: "sfprotext",
+                          color: Colors.black,
+                          fontSize: 32,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 40,
+                  width: MediaQuery.of(context).size.width,
+                  child: SeedsButton(
+                    "Create account",
+                    () async {
+                      setState(() {
+                        progress = true;
+                      });
+
+                      accountNameFocus.unfocus();
+
+                      String accountName = accountNameController.text;
+
+                      EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
+                      EOSPublicKey publicKey = privateKey.toEOSPublicKey();
+
+                      try {
+                        var response = await createAccount(accountName, publicKey.toString());
+                      
+                        if (response == null || response["transaction_id"] == null)
+                          throw "Unexpected error, please try again";
+
+                        String trxid = response["transaction_id"];
+
+                        await Future.delayed(Duration.zero);
+                        _statusNotifier.add(true);
+                        _messageNotifier.add("Transaction hash: $trxid");
+                      } catch (err) {
+                        print(err);
+
+                        await Future.delayed(Duration.zero);
+                        _statusNotifier.add(false);
+                        _messageNotifier.add(err.toString());                        
+                      }
+                    },
                   ),
                 ),
-                Spacer(flex: 1),
-                Flexible(
-                  fit: FlexFit.loose,
-                  flex: 4,
-                  child: TextField(
-                    textAlign: TextAlign.left,
-                    textDirection: TextDirection.ltr,
-                    showCursor: true,
-                    enableInteractiveSelection: false,
-                    autofocus: true,
-                    controller: accountNameController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                    ),
-                    style: TextStyle(
-                      fontFamily: "sfprotext",
-                      color: Colors.black,
-                      fontSize: 32,
-                    ),
+                SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  "Your account name should have 12 symbols (lowercase letters and only digits 1234)",
+                  style: TextStyle(
+                    color: Colors.black45,
+                    fontFamily: "worksans",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
                   ),
-                )
+                ),
               ],
             ),
-            SizedBox(
-              height: 40,
-              width: MediaQuery.of(context).size.width,
-              child: progress
-                  ? SeedsButton("Creating...")
-                  : SeedsButton(
-                      "Create account",
-                      () async {
-                        setState(() {
-                          progress = true;
-                        });
-
-                        String accountName = accountNameController.text;
-
-                        EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
-                        EOSPublicKey publicKey = privateKey.toEOSPublicKey();
-
-                        String trx = await createAccount(accountName, publicKey.toString()); 
-
-                        await saveAccount(accountName, privateKey.toString());
-
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => Welcome(accountName),
-                          ),
-                        );
-                      },
-                    ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            Text(
-              "Your account name should have 12 symbols (lowercase letters and only digits 1234)",
-              style: TextStyle(
-                color: Colors.black45,
-                fontFamily: "worksans",
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        progress ? buildPreloader() : Container(),
+      ],
     );
   }
 }
@@ -484,7 +523,7 @@ class OnboardingMethodChoice extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "Do you have account already?",
+              "Do you have account?",
               style: TextStyle(
                 fontFamily: "worksans",
                 fontSize: 24,
