@@ -292,13 +292,13 @@ class _HomeState extends State<Home> {
                 Column(
                   children: <Widget>[
                     Text("30 %"),
-                    Text("Activity"),
+                    Text("Transactions"),
                   ],
                 ),
                 Column(
                   children: <Widget>[
                     Text("50 %"),
-                    Text("Staking"),
+                    Text("Planting"),
                   ],
                 ),
                 Column(
@@ -306,7 +306,14 @@ class _HomeState extends State<Home> {
                     Text("80 %"),
                     Text("Reputation"),
                   ],
-                )
+                ),
+
+                Column(
+                  children: <Widget>[
+                    Text("25%"),
+                    Text("Community")
+                  ],
+                ),
               ],
             ),
           ),

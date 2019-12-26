@@ -10,7 +10,6 @@ Future<String> initializedAccount() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   String accountName = prefs.getString("accountName");
-  String privateKey = prefs.getString("privateKey");
 
   if (accountName != null && accountName != "") {
     return accountName;

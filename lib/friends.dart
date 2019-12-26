@@ -21,7 +21,7 @@ class Friends extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "Connect friends - build trust",
+                  "Build community - gain reputation",
                   style: TextStyle(
                     fontFamily: "worksans",
                     fontSize: 15,
@@ -47,49 +47,49 @@ class Friends extends StatelessWidget {
                       color: CustomColors.Green,
                     ),
                   ),
-                  title: Text("Reputation Rating: 80/100"),
-                  subtitle: Text("Vouch for members to increase your reputation"),
+                  title: Text("Reputation Score: 80/100"),
+                  subtitle: Text("Get vouched for to increase your reputation"),
                 ),
               ),
               Container(
                 child: ListTile(
                   title: Text("GUEST"),
                   subtitle: Text("Your account status"),
-                  trailing: SeedsButton("Upgrade"),
+                  trailing: SeedsButton("Progress"),
                 ),
               ),
+              // Container(
+              //   child: ListTile(
+              //     title: Text("120 points"),
+              //     subtitle: Text("Your account reputation"),
+              //     trailing: SeedsButton("History"),
+              //   ),
+              // ),
               Container(
                 child: ListTile(
-                  title: Text("120 points"),
-                  subtitle: Text("Your account reputation"),
-                  trailing: SeedsButton("History"),
+                  title: Text("seedsgifting invited you"),
+                  subtitle: Text("Create invite for your friends"),
+                  trailing: SeedsButton("Invite"),
                 ),
               ),
+              // Container(
+              //   child: ListTile(
+              //     title: Text("3 members"),
+              //     subtitle: Text("Members invited by you"),
+              //     trailing: SeedsButton("Show"),
+              //   ),
+              // ),
               Container(
                 child: ListTile(
-                  title: Text("seedsgifting"),
-                  subtitle: Text("Organization invited you"),
-                  trailing: SeedsButton("Details"),
-                ),
+                    title: Text("5 / 20 requests sent"),
+                    subtitle: Text("Request someone to vouch for you"),
+                    trailing: SeedsButton("Request")),
               ),
               Container(
                 child: ListTile(
-                  title: Text("3 members"),
-                  subtitle: Text("Members invited by you"),
-                  trailing: SeedsButton("Show"),
-                ),
-              ),
-              Container(
-                child: ListTile(
-                    title: Text("5 members"),
-                    subtitle: Text("Vouched for your account"),
-                    trailing: SeedsButton("Show")),
-              ),
-              Container(
-                child: ListTile(
-                  title: Text("5 members"),
-                  subtitle: Text("You vouched for members"),
-                  trailing: SeedsButton("Vouch"),
+                  title: Text("5 / 150 requests approved"),
+                  subtitle: Text("Vouch for members waiting your approval"),
+                  trailing: SeedsButton("Approve"),
                 ),
               ),
             ],

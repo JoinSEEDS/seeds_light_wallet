@@ -22,7 +22,7 @@ class Harvest extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "Plant SEEDS - get SEEDS",
+                  "Plant Seeds - get Seeds",
                   style: TextStyle(
                     fontFamily: "worksans",
                     fontSize: 15,
@@ -48,8 +48,8 @@ class Harvest extends StatelessWidget {
                       color: CustomColors.Green,
                     ),
                   ),
-                  title: Text("Staking Rating: 50/100"),
-                  subtitle: Text("Plant SEEDS to increase your staking"),
+                  title: Text("Planting Score: 50/100"),
+                  subtitle: Text("Plant Seeds to increase your score"),
                 ),
               ),
               Container(

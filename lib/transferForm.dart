@@ -4,8 +4,19 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:seeds/customColors.dart';
 import 'package:eosdart/eosdart.dart' as EOS;
+import 'package:seeds/fullscreenLoader.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'seedsButton.dart';
 import 'transferAmount.dart';
+
+Future<String> getPrivateKey() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  String privateKey = prefs.getString("privateKey");
+
+  return privateKey;
+}
 
 class TransferForm extends StatefulWidget {
   final String senderAccountName;
@@ -14,7 +25,8 @@ class TransferForm extends StatefulWidget {
   final String accountName;
   final String avatar;
 
-  TransferForm(this.senderAccountName, this.fullName, this.accountName, this.avatar);
+  TransferForm(
+      this.senderAccountName, this.fullName, this.accountName, this.avatar);
 
   @override
   _TransferFormState createState() => _TransferFormState();
@@ -25,74 +37,31 @@ class _TransferFormState extends State<TransferForm>
   String amountValue = '1.0000';
   bool validAmount = true;
 
-  AnimationController animationController;
-
   bool showPageLoader = false;
-  bool showSpinner = false;
-  bool showChecked = false;
   String transactionId = "";
+
+  final StreamController<bool> _statusNotifier =
+      StreamController<bool>.broadcast();
+
+  final StreamController<String> _messageNotifier =
+      StreamController<String>.broadcast();
 
   @override
   void initState() {
     super.initState();
-
-    animationController = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-    );
-
-    animationController.addListener(() {
-      if (animationController.status == AnimationStatus.completed) {
-        if (showSpinner) {
-          animationController.reset();
-        }
-      } else if (animationController.status == AnimationStatus.dismissed) {
-        if (showSpinner) {
-          animationController.forward();
-        }
-      }
-    });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    animationController.dispose();
-  }
-
-  void _startTransaction() {
-    setState(() {
-      showPageLoader = true;
-      showSpinner = true;
-      animationController.forward();
-    });
-  }
-
-  void _finishTransaction(trxId) {
-    setState(() {
-      showSpinner = false;
-      showChecked = true;
-      transactionId = trxId ?? "";
-    });
-    Timer(Duration(seconds: 3), () {
-      setState(() {
-        showChecked = false;
-        showPageLoader = false;
-      });
-      Navigator.of(context).pop();
-    });
-  }
-
-  _sendTransaction() async {
+  transfer() async {
     String from = this.widget.senderAccountName;
     String to = widget.accountName;
     String quantity = "$amountValue SEEDS";
     String memo = "";
 
-    String privateKey = "";
+    String privateKey = await getPrivateKey();
     String endpointApi = "https://api.telos.eosindex.io";
 
-    EOS.EOSClient client = EOS.EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
+    EOS.EOSClient client =
+        EOS.EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
 
     Map data = {
       "from": from,
@@ -117,92 +86,38 @@ class _TransferFormState extends State<TransferForm>
 
     EOS.Transaction transaction = EOS.Transaction()..actions = actions;
 
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  void processTransaction() async {
+    setState(() {
+      showPageLoader = true;
+    });
+
     try {
-      var response = await client.pushTransaction(transaction, broadcast: true);
-      
-      String transactionId = response["transaction_id"];
+      var response = await transfer();
 
-      return transactionId;
-    } catch (e) {
-      print("ERROR");
-      print(e);
+      String trxid = response["transaction_id"];
 
-      return null;
+      _statusNotifier.add(true);
+      _messageNotifier.add("Transaction hash: $trxid");
+    } catch (err) {
+      print(err);
+      _statusNotifier.add(false);
+      _messageNotifier.add(err.toString());
     }
   }
 
-  _onPressedSend() async {
-    _startTransaction();
-
-    String transactionId = await _sendTransaction();
-
-    _finishTransaction(transactionId);
-  }
-
   Widget _buildPageLoader() {
-    return Stack(
-      children: <Widget>[
-        Positioned.fill(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaY: 10,
-              sigmaX: 10,
-            ),
-            child: Container(
-              color: Colors.white.withOpacity(0.6),
-            ),
-          ),
-        ),
-        showSpinner
-            ? Align(
-                alignment: Alignment.center,
-                child: RotationTransition(
-                  child: Image.asset('assets/images/loading.png'),
-                  turns:
-                      Tween(begin: 0.0, end: 2.0).animate(animationController),
-                ),
-              )
-            : Container(),
-        showChecked
-            ? Align(
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset('assets/images/checked.png'),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Material(
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            "Transaction Successful",
-                            style: TextStyle(
-                              fontFamily: "worksans",
-                              fontSize: 17,
-                              color: CustomColors.Green,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            transactionId,
-                            style: TextStyle(
-                              fontFamily: "worksans",
-                              fontSize: 11,
-                              color: CustomColors.Green,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : Container(),
-      ],
+    return FullscreenLoader(
+      statusStream: _statusNotifier.stream,
+      messageStream: _messageNotifier.stream,
+      afterSuccessCallback: () {
+        Navigator.of(context).pop();
+      },
+      afterFailureCallback: () {
+        Navigator.of(context).pop();
+      },
     );
   }
 
@@ -352,23 +267,9 @@ class _TransferFormState extends State<TransferForm>
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 height: 40,
-                                child: FlatButton(
-                                  color: CustomColors.Green,
-                                  textColor: CustomColors.Green,
-                                  disabledColor: CustomColors.Grey,
-                                  child: Text(
-                                    "Send Transaction",
-                                    style: TextStyle(
-                                      fontFamily: "worksans",
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                  ),
-                                  onPressed: () => _onPressedSend(),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
+                                child: SeedsButton(
+                                  "Send transaction",
+                                  processTransaction,
                                 ),
                               ),
                             ),
