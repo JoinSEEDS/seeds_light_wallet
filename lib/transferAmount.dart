@@ -6,6 +6,8 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:seeds/customColors.dart';
 
 class TransferAmount extends StatefulWidget {
+  final String amountValue;
+  TransferAmount(this.amountValue);
   @override
   _TransferAmountState createState() => _TransferAmountState();
 }
@@ -19,7 +21,7 @@ class _TransferAmountState extends State<TransferAmount> {
   @override
   void initState() {
     super.initState();
-    amountController.updateValue(0.0000);
+    amountController.updateValue(double.parse(widget.amountValue));
   }
 
   _checkAmount(double amount) {

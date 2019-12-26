@@ -218,15 +218,14 @@ class _TransferFormState extends State<TransferForm>
                                     var navigationResult = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => TransferAmount(),
+                                        builder: (context) => TransferAmount(amountValue),
                                         fullscreenDialog: true,
                                       ),
                                     );
 
                                     setState(() {
                                       this.amountValue =
-                                          navigationResult.toString();
-
+                                          navigationResult.toStringAsFixed(4);
                                       if (navigationResult.toString() !=
                                           '0.0') {
                                         this.validAmount = true;
