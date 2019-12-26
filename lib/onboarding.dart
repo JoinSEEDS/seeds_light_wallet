@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:eosdart_ecc/eosdart_ecc.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -327,6 +328,8 @@ class CreateAccount extends StatefulWidget {
   _CreateAccountState createState() => _CreateAccountState();
 }
 
+Future<bool> isExistingAccount(String accountName) => Future.sync(() => false);
+
 class _CreateAccountState extends State<CreateAccount> {
   var accountNameController = MaskedTextController(
       text: debugAccount,
@@ -345,29 +348,30 @@ class _CreateAccountState extends State<CreateAccount> {
 
   Widget buildPreloader() {
     return FullscreenLoader(
-      statusStream: _statusNotifier.stream,
-      messageStream: _messageNotifier.stream,
-      afterSuccessCallback: () {
-        String accountName = accountNameController.text;
+        statusStream: _statusNotifier.stream,
+        messageStream: _messageNotifier.stream,
+        afterSuccessCallback: () {
+          String accountName = accountNameController.text;
 
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => Welcome(accountName),
-          ),
-        );
-      },
-      afterFailureCallback: () {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => OnboardingMethodChoice(),
-          ),
-        );
-      }
-    );
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => Welcome(accountName),
+            ),
+          );
+        },
+        afterFailureCallback: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => OnboardingMethodChoice(),
+            ),
+          );
+        });
   }
 
-  Future<dynamic> createAccount(
-      String accountName, String publicKey) {
+  Future<dynamic> createAccount(String accountName, String publicKey) async {
+    if (await isExistingAccount(accountName) == true) {
+      throw "Account with chosen name already exists, please choose another";
+    }
 
     String endpointApi = "https://api.telos.eosindex.io";
 
@@ -468,9 +472,11 @@ class _CreateAccountState extends State<CreateAccount> {
                       EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
                       try {
-                        var response = await createAccount(accountName, publicKey.toString());
-                      
-                        if (response == null || response["transaction_id"] == null)
+                        var response = await createAccount(
+                            accountName, publicKey.toString());
+
+                        if (response == null ||
+                            response["transaction_id"] == null)
                           throw "Unexpected error, please try again";
 
                         String trxid = response["transaction_id"];
@@ -483,7 +489,7 @@ class _CreateAccountState extends State<CreateAccount> {
 
                         await Future.delayed(Duration.zero);
                         _statusNotifier.add(false);
-                        _messageNotifier.add(err.toString());                        
+                        _messageNotifier.add(err.toString());
                       }
                     },
                   ),
@@ -491,14 +497,24 @@ class _CreateAccountState extends State<CreateAccount> {
                 SizedBox(
                   height: 40,
                 ),
-                Text(
-                  "Your account name should have 12 symbols (lowercase letters and only digits 1234)",
-                  style: TextStyle(
-                    color: Colors.black45,
-                    fontFamily: "worksans",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                  ),
+                RichText(
+                  text: TextSpan(
+                      style: TextStyle(
+                        color: Colors.black45,
+                        fontFamily: "worksans",
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(text: "Your account name should have "),
+                        TextSpan(
+                          text: "exactly 12",
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                        TextSpan(
+                            text:
+                                " symbols (lowercase letters and digits only 1-5)"),
+                      ]),
                 ),
               ],
             ),
@@ -510,7 +526,51 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 }
 
-class OnboardingMethodChoice extends StatelessWidget {
+class OnboardingMethodChoice extends StatefulWidget {
+  @override
+  _OnboardingMethodChoiceState createState() => _OnboardingMethodChoiceState();
+}
+
+class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
+  @override
+  void initState() {
+    super.initState();
+
+    this.processInviteLink();
+  }
+
+  void processInviteLink() async {
+    final PendingDynamicLinkData data =
+        await FirebaseDynamicLinks.instance.getInitialLink();
+
+    final Uri deepLink = data?.link;
+
+    handleDeepLink(deepLink);
+
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData dynamicLink) async {
+      final Uri deepLink = dynamicLink?.link;
+
+      handleDeepLink(deepLink);
+    }, onError: (OnLinkErrorException e) async {
+      print(e.message);
+    });
+  }
+
+  void handleDeepLink(deepLink) {
+    if (deepLink != null) {
+      Map<String, String> queryParams = Uri.splitQueryString(deepLink.toString());
+
+      if (queryParams["inviterAccount"] != null && queryParams["inviteSecret"] != null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => ShowInvite(queryParams["inviterAccount"], queryParams["inviteSecret"])
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return OverlayPopupScreen(
@@ -657,6 +717,54 @@ class Welcome extends StatelessWidget {
   }
 }
 
+class ShowInvite extends StatelessWidget {
+  final String inviterAccountName;
+  final String inviteSecret;
+
+  ShowInvite(this.inviterAccountName, this.inviteSecret);
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: (context) => IntroViewsFlutter(
+        [
+          page(
+            bubble: Icons.done,
+            mainImage: 'assets/images/onboarding5.png',
+            body: 'Accept your invite to create a new account and join SEEDS',
+            title: 'You are invited by $inviterAccountName',
+          ),
+        ],
+        key: new UniqueKey(),
+        onTapDoneButton: () async {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => CreateAccount(inviteSecret),
+            ),
+          );
+        },
+        doneButtonPersist: true,
+        doneText: Text(
+          "ACCEPT",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: "worksans",
+            fontSize: 24,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        showNextButton: true,
+        showBackButton: true,
+        pageButtonTextStyles: TextStyle(
+          fontFamily: "worksans",
+          fontSize: 18.0,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+}
+
 class Onboarding extends StatelessWidget {
   final List<PageViewModel> featurePages = [
     page(
@@ -683,43 +791,45 @@ class Onboarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(
-      builder: (context) => IntroViewsFlutter(
-        featurePages,
-        key: new UniqueKey(),
-        onTapDoneButton: () async {
-          if (isDebugMode() && debugInviteSecret != "") {
+      builder: (context) => SafeArea(
+              child: IntroViewsFlutter(
+          featurePages,
+          key: new UniqueKey(),
+          onTapDoneButton: () async {
+            if (isDebugMode() && debugInviteSecret != "") {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => CreateAccount(debugInviteSecret),
+                ),
+              );
+
+              return;
+            }
+
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => CreateAccount(debugInviteSecret),
+                builder: (context) => OnboardingMethodChoice(),
               ),
             );
-
-            return;
-          }
-
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => OnboardingMethodChoice(),
+          },
+          doneButtonPersist: true,
+          doneText: Text(
+            "JOIN NOW",
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: "worksans",
+              fontSize: 24,
+              fontWeight: FontWeight.w800,
             ),
-          );
-        },
-        doneButtonPersist: true,
-        doneText: Text(
-          "JOIN NOW",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: "worksans",
-            fontSize: 24,
-            fontWeight: FontWeight.w800,
           ),
-        ),
-        showSkipButton: false,
-        showNextButton: true,
-        showBackButton: true,
-        pageButtonTextStyles: TextStyle(
-          fontFamily: "worksans",
-          fontSize: 18.0,
-          fontWeight: FontWeight.w700,
+          showSkipButton: false,
+          showNextButton: true,
+          showBackButton: true,
+          pageButtonTextStyles: TextStyle(
+            fontFamily: "worksans",
+            fontSize: 18.0,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );
