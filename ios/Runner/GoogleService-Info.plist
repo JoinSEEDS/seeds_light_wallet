@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>366914936426-daqh0o5pqqqb58tt71b3ms1lm0p82hge.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.366914936426-daqh0o5pqqqb58tt71b3ms1lm0p82hge</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCl7WOc4uKnUqlvCilb9Zt9IkBU9ib_Tn8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>366914936426</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.joinseeds.seedswallet</string>
+	<key>PROJECT_ID</key>
+	<string>seeds-77371</string>
+	<key>STORAGE_BUCKET</key>
+	<string>seeds-77371.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:366914936426:ios:e192d038cc0169b91a3413</string>
+	<key>DATABASE_URL</key>
+	<string>https://seeds-77371.firebaseio.com</string>
+</dict>
+</plist>
