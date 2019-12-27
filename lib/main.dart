@@ -1,25 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:seeds/onboarding.dart';
-
-import './app.dart';
-
-Future<String> initializedAccount() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  String accountName = prefs.getString("accountName");
-
-  if (accountName != null && accountName != "") {
-    return accountName;
-  } else {
-    return null;
-  }
-}
+import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/onboarding/onboarding.dart';
+import 'package:seeds/services/auth_service.dart';
 
 main(List<String> args) async {
   await DotEnv().load('.env');
+
   runApp(SeedsApp());
 }
 
@@ -29,12 +16,14 @@ class SeedsApp extends StatefulWidget {
 }
 
 class _SeedsAppState extends State<SeedsApp> {
+  final AuthService authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: FutureBuilder(
-        future: initializedAccount(),
+        future: authService.initializedAccount(),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
             return App(snapshot.data);

@@ -3,14 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:passcode_screen/passcode_screen.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
-void savePasscode(String passcode) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  prefs.setString("passcode", passcode);
-}
+import 'package:seeds/services/auth_service.dart';
 
 Widget buildPasscodeScreen(
     {shouldTriggerVerification,
@@ -58,6 +51,8 @@ class UnlockWallet extends StatelessWidget {
 }
 
 class LockWallet extends StatelessWidget {
+  final AuthService authService = AuthService();
+
   final StreamController<bool> _verificationNotifier =
       StreamController<bool>.broadcast();
 
@@ -67,7 +62,7 @@ class LockWallet extends StatelessWidget {
       title: "Choose Passcode",
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) {
-        savePasscode(passcode);
+        authService.savePasscode(passcode);
         _verificationNotifier.add(true);
       },
       isValidCallback: () {

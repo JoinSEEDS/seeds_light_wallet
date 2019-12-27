@@ -1,59 +1,10 @@
-import 'dart:convert';
-import 'package:http/http.dart';
-
 import 'package:flutter/material.dart';
-import 'package:seeds/progressBar.dart';
 
-import 'customColors.dart';
-import 'transferForm.dart';
+import 'package:seeds/constants/customColors.dart';
+import 'package:seeds/widgets/progressBar.dart';
+import 'package:seeds/services/http_service.dart';
 
-class MemberModel {
-  final String account;
-  final String nickname;
-  final String image;
-
-  MemberModel({this.account, this.nickname, this.image});
-
-  factory MemberModel.fromJson(Map<String, dynamic> json) {
-    return MemberModel(
-        account: json["account"],
-        nickname: json["nickname"],
-        image: json["image"]);
-  }
-}
-
-class HttpService {
-  final String membersURL = 'https://api.telos.eosindex.io/v1/chain/get_table_rows';
-
-  Future<List<MemberModel>> getMembers() async {
-    print('get members');
-    
-    String request = 
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
-    Map<String, String> headers = {"Content-type": "application/json"};
-
-    Response res = await post(membersURL, headers: headers, body: request);
-
-    if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
-
-      List<dynamic> accountsWithProfile = body["rows"].where((dynamic item) {
-        return item["image"] != "" &&
-            item["nickname"] != "" &&
-            item["account"] != "";
-      }).toList();
-
-      List<MemberModel> members =
-          accountsWithProfile.map((item) => MemberModel.fromJson(item)).toList();
-
-      return members;
-    } else {
-      print('Cannot fetch members...');
-
-      return [];
-    }
-  }
-}
+import 'transfer_form.dart';
 
 class Transfer extends StatelessWidget {
   final String accountName;
@@ -103,8 +54,8 @@ class Transfer extends StatelessWidget {
                   color: CustomColors.Green,
                 ),
               ),
-              title: Text("Transactions Score: 30/100"),
-              subtitle: Text("Send transactions to increase your score"),
+              title: Text("You sent 5 transactions of 10 transactions"),
+              subtitle: Text("Send more transactions to increase your score and upgrade your status"),
             ),
           ),
           // _usersTitle(),

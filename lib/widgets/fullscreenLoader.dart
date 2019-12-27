@@ -2,8 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
-import 'customColors.dart';
+import 'package:seeds/constants/customColors.dart';
 
 class FullscreenLoader extends StatefulWidget {
   final Stream<bool> statusStream;

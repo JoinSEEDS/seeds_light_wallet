@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/customColors.dart';
+import 'package:seeds/constants/customColors.dart';
+import 'package:seeds/widgets/seedsButton.dart';
 
-import './seedsButton.dart';
-
-class Friends extends StatelessWidget {
+class Harvest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -21,7 +20,7 @@ class Friends extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "Build community - gain reputation",
+                  "Plant Seeds - get Seeds",
                   style: TextStyle(
                     fontFamily: "worksans",
                     fontSize: 15,
@@ -47,49 +46,28 @@ class Friends extends StatelessWidget {
                       color: CustomColors.Green,
                     ),
                   ),
-                  title: Text("Reputation Score: 80/100"),
-                  subtitle: Text("Get vouched for to increase your reputation"),
+                  title: Text("You have planted 25 seeds of 50 required"),
+                  subtitle: Text("Plant more Seeds to increase your score and upgrade status"),
                 ),
               ),
               Container(
                 child: ListTile(
-                  title: Text("GUEST"),
-                  subtitle: Text("Your account status"),
-                  trailing: SeedsButton("Progress"),
+                    title: Text("25.0000 SEEDS"),
+                    subtitle: Text("Currently planted"),
+                    trailing: SeedsButton("Plant")),
+              ),
+              Container(
+                child: ListTile(
+                  title: Text("10.0000 SEEDS"),
+                  subtitle: Text("In process of unplanting"),
+                  trailing: SeedsButton("Unplant"),
                 ),
               ),
-              // Container(
-              //   child: ListTile(
-              //     title: Text("120 points"),
-              //     subtitle: Text("Your account reputation"),
-              //     trailing: SeedsButton("History"),
-              //   ),
-              // ),
               Container(
                 child: ListTile(
-                  title: Text("seedsgifting invited you"),
-                  subtitle: Text("Create invite for your friends"),
-                  trailing: SeedsButton("Invite"),
-                ),
-              ),
-              // Container(
-              //   child: ListTile(
-              //     title: Text("3 members"),
-              //     subtitle: Text("Members invited by you"),
-              //     trailing: SeedsButton("Show"),
-              //   ),
-              // ),
-              Container(
-                child: ListTile(
-                    title: Text("5 / 20 requests sent"),
-                    subtitle: Text("Request someone to vouch for you"),
-                    trailing: SeedsButton("Request")),
-              ),
-              Container(
-                child: ListTile(
-                  title: Text("5 / 150 requests approved"),
-                  subtitle: Text("Vouch for members waiting your approval"),
-                  trailing: SeedsButton("Approve"),
+                  title: Text("15.0000 SEEDS"),
+                  subtitle: Text("Available reward"),
+                  trailing: SeedsButton("Claim"),
                 ),
               ),
             ],
