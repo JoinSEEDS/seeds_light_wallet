@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:seeds/constants/custom_colors.dart';
-import 'package:seeds/widgets/seeds_button.dart';
 import 'package:seeds/services/http_service.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 class Home extends StatefulWidget {
   final Function movePage;
