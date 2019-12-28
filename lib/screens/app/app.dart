@@ -76,10 +76,8 @@ class _AppState extends State<App> {
 
   void movePage(index) {
     setState(() {
-      pageController.animateToPage(
+      pageController.jumpToPage(
         index,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.ease,
       );
       this.index = index;
     });
