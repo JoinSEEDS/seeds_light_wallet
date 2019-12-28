@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/customColors.dart';
+import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/services/eos_service.dart';
-import 'package:seeds/widgets/fullscreenLoader.dart';
-import 'package:seeds/widgets/seedsButton.dart';
+import 'package:seeds/widgets/fullscreen_loader.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 import 'transfer_amount.dart';
 

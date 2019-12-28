@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/screens/onboarding/create_account.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
-import 'package:seeds/widgets/seedsButton.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 import 'helpers.dart';
 

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:http/http.dart';
@@ -12,9 +11,10 @@ class MemberModel {
 
   factory MemberModel.fromJson(Map<String, dynamic> json) {
     return MemberModel(
-        account: json["account"],
-        nickname: json["nickname"],
-        image: json["image"]);
+      account: json["account"],
+      nickname: json["nickname"],
+      image: json["image"],
+    );
   }
 }
 
@@ -47,12 +47,11 @@ class BalanceModel {
 }
 
 class HttpService {
-  final String membersURL = 'https://api.telos.eosindex.io/v1/chain/get_table_rows';
-
   Future<List<MemberModel>> getMembers() async {
-    print('get members');
-    
-    String request = 
+    final String membersURL =
+        'https://api.telos.eosindex.io/v1/chain/get_table_rows';
+
+    String request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
@@ -67,8 +66,9 @@ class HttpService {
             item["account"] != "";
       }).toList();
 
-      List<MemberModel> members =
-          accountsWithProfile.map((item) => MemberModel.fromJson(item)).toList();
+      List<MemberModel> members = accountsWithProfile
+          .map((item) => MemberModel.fromJson(item))
+          .toList();
 
       return members;
     } else {
@@ -80,7 +80,7 @@ class HttpService {
 
   Future<List<TransactionModel>> getTransactions(accountName) async {
     final String transactionsURL =
-      "https://telos.caleos.io/v2/history/get_actions?account=$accountName&filter=*%3A*&skip=0&limit=100&sort=desc";
+        "https://telos.caleos.io/v2/history/get_actions?account=$accountName&filter=*%3A*&skip=0&limit=100&sort=desc";
 
     Response res = await get(transactionsURL);
 
@@ -109,7 +109,7 @@ class HttpService {
 
   Future<BalanceModel> getBalance(accountName) async {
     final String balanceURL =
-      "https://telos.caleos.io/v1/chain/get_currency_balance";
+        "https://telos.caleos.io/v1/chain/get_currency_balance";
 
     String request =
         '{"code":"token.seeds","account":"$accountName","symbol":"SEEDS"}';
@@ -128,5 +128,5 @@ class HttpService {
 
       return BalanceModel("0.0000 SEEDS");
     }
-  }  
+  }
 }

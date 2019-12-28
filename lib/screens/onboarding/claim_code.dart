@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:seeds/widgets/overlayPopup.dart';
-import 'package:seeds/widgets/seedsButton.dart';
+import 'package:seeds/widgets/overlay_popup.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 import 'create_account.dart';
 

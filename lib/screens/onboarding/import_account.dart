@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:seeds/screens/onboarding/welcome.dart';
-import 'package:seeds/widgets/overlayPopup.dart';
-import 'package:seeds/widgets/seedsButton.dart';
+import 'package:seeds/widgets/overlay_popup.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'helpers.dart';

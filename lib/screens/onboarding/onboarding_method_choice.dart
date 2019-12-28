@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';
 import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/show_invite.dart';
-import 'package:seeds/widgets/overlayPopup.dart';
-import 'package:seeds/widgets/seedsButton.dart';
+import 'package:seeds/widgets/overlay_popup.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 
 

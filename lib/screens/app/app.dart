@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/services/auth_service.dart';
 import 'package:seeds/widgets/passcode.dart';
-import 'package:seeds/widgets/seedsButton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 import './home.dart';
 import './transfer.dart';
