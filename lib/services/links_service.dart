@@ -6,7 +6,7 @@ import 'package:seeds/services/auth_service.dart';
 class LinksService {
   final AuthService authService = AuthService();
 
-  Future<Map<String, String>> parseInviteLink() async {
+  Future<dynamic> parseInviteLink() async {
     final PendingDynamicLinkData data =
         await FirebaseDynamicLinks.instance.getInitialLink();
 

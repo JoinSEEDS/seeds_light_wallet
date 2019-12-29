@@ -139,16 +139,17 @@ class HttpService {
 
 
   Future<List<InviteModel>> getInvites() async {
-    String inviterAccount = await authService.getAccountName();
+    String inviterAccount = "sow.seeds";// await authService.getAccountName();
 
     String request =
-        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$inviterAccount","upper_bound":"$inviterAccount","index_position":3,"key_type":"name","limit":"1","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$inviterAccount","upper_bound":"$inviterAccount","index_position":3,"key_type":"name","limit":"100","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(tablesURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
+      print(body);
 
       List<dynamic> activeInvites = body["rows"].where((dynamic item) {
         return item["inviteSecret"] == "";
@@ -157,6 +158,9 @@ class HttpService {
       List<InviteModel> invites = activeInvites
           .map((item) => InviteModel.fromJson(item))
           .toList();
+
+      print("Invites: ");
+      print(invites);
 
       return invites;
     } else {
