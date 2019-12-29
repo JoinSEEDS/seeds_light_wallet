@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'customColors.dart';
-// import 'harvestForm.dart';
-import './seedsButton.dart';
+import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 class Harvest extends StatelessWidget {
   @override
@@ -48,8 +46,8 @@ class Harvest extends StatelessWidget {
                       color: CustomColors.Green,
                     ),
                   ),
-                  title: Text("Planting Score: 50/100"),
-                  subtitle: Text("Plant Seeds to increase your score"),
+                  title: Text("You have planted 25 seeds of 50 required"),
+                  subtitle: Text("Plant more Seeds to increase your score and upgrade status"),
                 ),
               ),
               Container(

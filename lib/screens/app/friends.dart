@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/customColors.dart';
-
-import './seedsButton.dart';
+import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 class Friends extends StatelessWidget {
   @override
@@ -47,8 +46,8 @@ class Friends extends StatelessWidget {
                       color: CustomColors.Green,
                     ),
                   ),
-                  title: Text("Reputation Score: 80/100"),
-                  subtitle: Text("Get vouched for to increase your reputation"),
+                  title: Text("You invited 1 user of 2 required"),
+                  subtitle: Text("Invite more users to upgrade your status and become citizen"),
                 ),
               ),
               Container(
@@ -58,13 +57,6 @@ class Friends extends StatelessWidget {
                   trailing: SeedsButton("Progress"),
                 ),
               ),
-              // Container(
-              //   child: ListTile(
-              //     title: Text("120 points"),
-              //     subtitle: Text("Your account reputation"),
-              //     trailing: SeedsButton("History"),
-              //   ),
-              // ),
               Container(
                 child: ListTile(
                   title: Text("seedsgifting invited you"),
@@ -72,13 +64,6 @@ class Friends extends StatelessWidget {
                   trailing: SeedsButton("Invite"),
                 ),
               ),
-              // Container(
-              //   child: ListTile(
-              //     title: Text("3 members"),
-              //     subtitle: Text("Members invited by you"),
-              //     trailing: SeedsButton("Show"),
-              //   ),
-              // ),
               Container(
                 child: ListTile(
                     title: Text("5 / 20 requests sent"),

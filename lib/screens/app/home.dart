@@ -1,93 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
-import './customColors.dart';
-import './seedsButton.dart';
-
-import 'package:http/http.dart';
-
-class Transaction {
-  final String from;
-  final String to;
-  final String quantity;
-  final String memo;
-
-  Transaction(this.from, this.to, this.quantity, this.memo);
-
-  factory Transaction.fromJson(Map<String, dynamic> json) {
-    return Transaction(
-      json["from"],
-      json["to"],
-      json["quantity"],
-      json["memo"],
-    );
-  }
-}
-
-class Balance {
-  final String quantity;
-
-  Balance(this.quantity);
-
-  factory Balance.fromJson(List<dynamic> json) {
-    return Balance(json[0] as String);
-  }
-}
-
-class HttpService {
-  Future<List<Transaction>> getTransactions(accountName) async {
-    final String transactionsURL =
-      "https://telos.caleos.io/v2/history/get_actions?account=$accountName&filter=*%3A*&skip=0&limit=100&sort=desc";
-
-    Response res = await get(transactionsURL);
-
-    print('get transactions');
-
-    if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
-
-      List<dynamic> transfers = body["actions"].where((dynamic item) {
-        return item["act"]["account"] == "token.seeds" &&
-            item["act"]["data"] != null &&
-            item["act"]["data"]["from"] != null;
-      }).toList();
-
-      List<Transaction> transactions = transfers
-          .map((item) => Transaction.fromJson(item["act"]["data"]))
-          .toList();
-
-      return transactions;
-    } else {
-      print("Cannot fetch transactions...");
-
-      return [];
-    }
-  }
-
-  Future<Balance> getBalance(accountName) async {
-    final String balanceURL =
-      "https://telos.caleos.io/v1/chain/get_currency_balance";
-
-    String request =
-        '{"code":"token.seeds","account":"$accountName","symbol":"SEEDS"}';
-    Map<String, String> headers = {"Content-type": "application/json"};
-
-    Response res = await post(balanceURL, headers: headers, body: request);
-
-    if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
-
-      Balance balance = Balance.fromJson(body);
-
-      return balance;
-    } else {
-      print("Cannot fetch balance...");
-
-      return Balance("0.0000 SEEDS");
-    }
-  }
-}
+import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/services/http_service.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 class Home extends StatefulWidget {
   final Function movePage;
@@ -121,9 +36,9 @@ class _HomeState extends State<Home> {
     return FutureBuilder(
       future: httpService.getTransactions(widget.accountName),
       builder:
-          (BuildContext context, AsyncSnapshot<List<Transaction>> snapshot) {
+          (BuildContext context, AsyncSnapshot<List<TransactionModel>> snapshot) {
         if (snapshot.hasData) {
-          List<Transaction> transactions = snapshot.data;
+          List<TransactionModel> transactions = snapshot.data;
 
           return ListView.builder(
               physics: ClampingScrollPhysics(),
@@ -221,7 +136,7 @@ class _HomeState extends State<Home> {
             ),
             title: FutureBuilder(
               future: httpService.getBalance(widget.accountName),
-              builder: (BuildContext context, AsyncSnapshot<Balance> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<BalanceModel> snapshot) {
                 if (snapshot.hasData) {
                   return Text(snapshot.data.quantity);
                 } else {

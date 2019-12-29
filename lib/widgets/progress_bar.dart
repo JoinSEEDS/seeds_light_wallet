@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'customColors.dart';
+import 'package:seeds/constants/custom_colors.dart';
 
 class ProgressBar extends StatelessWidget {
   @override

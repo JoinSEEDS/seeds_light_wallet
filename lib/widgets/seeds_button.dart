@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/progressBar.dart';
+import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/widgets/progress_bar.dart';
 
-import 'customColors.dart';
 
 class SeedsButton extends StatefulWidget {
   final String title;

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:seeds/customColors.dart';
+import 'package:seeds/constants/custom_colors.dart';
 
 class TransferAmount extends StatefulWidget {
   final String amountValue;
@@ -93,7 +93,6 @@ class _TransferAmountState extends State<TransferAmount> {
                             textAlign: TextAlign.left,
                             textDirection: TextDirection.ltr,
                             showCursor: false,
-                            enableInteractiveSelection: false,
                             autofocus: true,
                             controller: amountController,
                             keyboardType: TextInputType.numberWithOptions(

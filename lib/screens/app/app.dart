@@ -1,32 +1,13 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:seeds/onboarding.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:seeds/seedsButton.dart';
+import 'package:seeds/screens/onboarding/onboarding.dart';
+import 'package:seeds/services/auth_service.dart';
+import 'package:seeds/widgets/passcode.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 import './home.dart';
 import './transfer.dart';
 import './harvest.dart';
 import './friends.dart';
-
-import 'passcode.dart';
-
-Future removeAccount() async {
-  // final storage = new FlutterSecureStorage();
-  // await storage.delete(key: "privateKey");
-
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove("accountName");
-  await prefs.remove("privateKey");
-  await prefs.remove("passcode");
-}
-
-Future<String> getPasscode() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  return prefs.getString("passcode");
-}
 
 class App extends StatefulWidget {
   final String accountName;
@@ -38,6 +19,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  final AuthService authService = AuthService();
+
   int index = 0;
 
   final navigationTitles = ["Dashboard", "Transfer", "Harvest", "Friends"];
@@ -49,7 +32,7 @@ class _AppState extends State<App> {
   ];
 
   Future requirePasscode() async {
-    String existingPasscode = await getPasscode();
+    String existingPasscode = await authService.getPasscode();
 
     Future.delayed(Duration.zero, () {
       if (existingPasscode != null && existingPasscode != "") {
@@ -123,7 +106,7 @@ class _AppState extends State<App> {
       actions: <Widget>[
         Container(
           child: SeedsButton("Logout", () async {
-            await removeAccount();
+            await authService.removeAccount();
 
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(

@@ -2,21 +2,12 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:seeds/customColors.dart';
-import 'package:eosdart/eosdart.dart' as EOS;
-import 'package:seeds/fullscreenLoader.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/services/eos_service.dart';
+import 'package:seeds/widgets/fullscreen_loader.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
-import 'seedsButton.dart';
-import 'transferAmount.dart';
-
-Future<String> getPrivateKey() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  String privateKey = prefs.getString("privateKey");
-
-  return privateKey;
-}
+import 'transfer_amount.dart';
 
 class TransferForm extends StatefulWidget {
   final String senderAccountName;
@@ -34,7 +25,10 @@ class TransferForm extends StatefulWidget {
 
 class _TransferFormState extends State<TransferForm>
     with SingleTickerProviderStateMixin {
-  String amountValue = '1.0000';
+      
+  final EosService eosService = EosService();
+
+  String amountValue = '0.0000';
   bool validAmount = true;
 
   bool showPageLoader = false;
@@ -51,51 +45,13 @@ class _TransferFormState extends State<TransferForm>
     super.initState();
   }
 
-  transfer() async {
-    String from = this.widget.senderAccountName;
-    String to = widget.accountName;
-    String quantity = "$amountValue SEEDS";
-    String memo = "";
-
-    String privateKey = await getPrivateKey();
-    String endpointApi = "https://api.telos.eosindex.io";
-
-    EOS.EOSClient client =
-        EOS.EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
-
-    Map data = {
-      "from": from,
-      "to": to,
-      "quantity": quantity,
-      "memo": memo,
-    };
-
-    List<EOS.Authorization> auth = [
-      EOS.Authorization()
-        ..actor = from
-        ..permission = "active"
-    ];
-
-    List<EOS.Action> actions = [
-      EOS.Action()
-        ..account = 'token.seeds'
-        ..name = 'transfer'
-        ..authorization = auth
-        ..data = data
-    ];
-
-    EOS.Transaction transaction = EOS.Transaction()..actions = actions;
-
-    return client.pushTransaction(transaction, broadcast: true);
-  }
-
   void processTransaction() async {
     setState(() {
       showPageLoader = true;
     });
 
     try {
-      var response = await transfer();
+      var response = await eosService.transferSeeds(widget.accountName, amountValue);
 
       String trxid = response["transaction_id"];
 
