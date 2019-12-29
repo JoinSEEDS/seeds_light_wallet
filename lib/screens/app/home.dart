@@ -10,7 +10,6 @@ class Home extends StatefulWidget {
   final Function movePage;
   final String accountName;
 
-
   Home(this.movePage, this.accountName);
 
   @override
@@ -37,8 +36,8 @@ class _HomeState extends State<Home> {
   Widget _transactionsList() {
     return FutureBuilder(
       future: httpService.getTransactions(widget.accountName),
-      builder:
-          (BuildContext context, AsyncSnapshot<List<TransactionModel>> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<List<TransactionModel>> snapshot) {
         if (snapshot.hasData) {
           List<TransactionModel> transactions = snapshot.data;
 
@@ -89,7 +88,6 @@ class _HomeState extends State<Home> {
           return Center(
             child: LinearProgressIndicator(
               backgroundColor: CustomColors.Green,
-
             ),
           );
         }
@@ -138,7 +136,8 @@ class _HomeState extends State<Home> {
             ),
             title: FutureBuilder(
               future: httpService.getBalance(widget.accountName),
-              builder: (BuildContext context, AsyncSnapshot<BalanceModel> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<BalanceModel> snapshot) {
                 if (snapshot.hasData) {
                   return Text(snapshot.data.quantity);
                 } else {
@@ -147,22 +146,20 @@ class _HomeState extends State<Home> {
               },
             ),
             subtitle: Text("Available balance"),
-            trailing: SeedsButton("Transfer", () => {
-              widget.movePage(1)
-            }),
+            trailing: SeedsButton("Transfer", () => {widget.movePage(1)}),
           ),
         ),
         ListTile(
             leading: Container(
               width: 42,
               child: Icon(
-                Icons.settings_backup_restore,
+                Icons.event_note,
                 color: CustomColors.Green,
               ),
             ),
-            title: Text("25.0000 SEEDS"),
-            subtitle: Text("Planted amount"),
-            trailing: SeedsButton("Harvest", () => widget.movePage(2))),
+            title: Text("0 VOICE"),
+            subtitle: Text("Voice balance"),
+            trailing: SeedsButton("Vote", () => widget.movePage(2))),
         ListTile(
           leading: Container(
             width: 42,
@@ -172,8 +169,8 @@ class _HomeState extends State<Home> {
             ),
           ),
           title: Text("75.0000 SEEDS"),
-          subtitle: Text("Gifted amount"),
-          trailing: SeedsButton("Friends", () => widget.movePage(3)),
+          subtitle: Text("Invites balance"),
+          trailing: SeedsButton("Invite", () => widget.movePage(3)),
         ),
         SizedBox(height: 10),
         Container(
@@ -203,35 +200,13 @@ class _HomeState extends State<Home> {
                 color: CustomColors.Green,
               ),
             ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text("30 %"),
-                    Text("Transactions"),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text("50 %"),
-                    Text("Planting"),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text("80 %"),
-                    Text("Reputation"),
-                  ],
-                ),
-
-                Column(
-                  children: <Widget>[
-                    Text("25%"),
-                    Text("Community")
-                  ],
-                ),
-              ],
+            title: Text(
+              "Urgent proposals waiting for your approval",
+              style: TextStyle(
+                fontFamily: "worksans",
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
         ),

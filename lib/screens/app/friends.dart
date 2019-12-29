@@ -46,7 +46,6 @@ class Friends extends StatelessWidget {
                       color: CustomColors.Green,
                     ),
                   ),
-                  title: Text("You invited 1 user of 2 required"),
                   subtitle: Text("Invite more users to upgrade your status and become citizen"),
                 ),
               ),

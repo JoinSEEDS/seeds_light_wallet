@@ -23,11 +23,11 @@ class _AppState extends State<App> {
 
   int index = 0;
 
-  final navigationTitles = ["Dashboard", "Transfer", "Harvest", "Friends"];
+  final navigationTitles = ["Dashboard", "Transfer", "Vote", "Invite"];
   final navigationIcons = [
     Icons.home,
     Icons.account_balance_wallet,
-    Icons.settings_backup_restore,
+    Icons.event_note,
     Icons.people
   ];
 

@@ -46,8 +46,7 @@ class Harvest extends StatelessWidget {
                       color: CustomColors.Green,
                     ),
                   ),
-                  title: Text("You have planted 25 seeds of 50 required"),
-                  subtitle: Text("Plant more Seeds to increase your score and upgrade status"),
+                  subtitle: Text("Plant more Seeds to increase your score and become a citizen"),
                 ),
               ),
               Container(
