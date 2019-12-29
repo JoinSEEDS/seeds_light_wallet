@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:seeds/services/auth_service.dart';
+import 'package:seeds/services/http_service/invite_model.dart';
 
 class MemberModel {
   final String account;
@@ -47,6 +49,11 @@ class BalanceModel {
 }
 
 class HttpService {
+  final AuthService authService = AuthService();
+
+  final String tablesURL =
+      'https://api.telos.eosindex.io/v1/chain/get_table_rows';
+
   Future<List<MemberModel>> getMembers() async {
     final String membersURL =
         'https://api.telos.eosindex.io/v1/chain/get_table_rows';
@@ -129,4 +136,33 @@ class HttpService {
       return BalanceModel("0.0000 SEEDS");
     }
   }
+
+
+  Future<List<InviteModel>> getInvites() async {
+    String inviterAccount = await authService.getAccountName();
+
+    String request =
+        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$inviterAccount","upper_bound":"$inviterAccount","index_position":3,"key_type":"name","limit":"1","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(tablesURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      List<dynamic> activeInvites = body["rows"].where((dynamic item) {
+        return item["inviteSecret"] == "";
+      }).toList();
+
+      List<InviteModel> invites = activeInvites
+          .map((item) => InviteModel.fromJson(item))
+          .toList();
+
+      return invites;
+    } else {
+      print('Cannot fetch invites...');
+
+      return [];
+    }
+  }  
 }

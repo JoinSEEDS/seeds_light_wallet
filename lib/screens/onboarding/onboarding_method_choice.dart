@@ -1,12 +1,10 @@
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';
 import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/show_invite.dart';
+import 'package:seeds/services/links_service.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-
-
 
 class OnboardingMethodChoice extends StatefulWidget {
   @override
@@ -14,43 +12,24 @@ class OnboardingMethodChoice extends StatefulWidget {
 }
 
 class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
+  final LinksService linksService = LinksService();
+
   @override
   void initState() {
     super.initState();
 
-    this.processInviteLink();
+    this.acceptInviteLink();
   }
 
-  void processInviteLink() async {
-    final PendingDynamicLinkData data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
+  void acceptInviteLink() async {
+    final Map<String, String> queryParams =
+        await linksService.parseInviteLink();
 
-    final Uri deepLink = data?.link;
-
-    handleDeepLink(deepLink);
-
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData dynamicLink) async {
-      final Uri deepLink = dynamicLink?.link;
-
-      handleDeepLink(deepLink);
-    }, onError: (OnLinkErrorException e) async {
-      print(e.message);
-    });
-  }
-
-  void handleDeepLink(deepLink) {
-    if (deepLink != null) {
-      Map<String, String> queryParams = Uri.splitQueryString(deepLink.toString());
-
-      if (queryParams["inviterAccount"] != null && queryParams["inviteSecret"] != null) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => ShowInvite(queryParams["inviterAccount"], queryParams["inviteSecret"])
-          ),
-        );
-      }
-    }
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+          builder: (context) => ShowInvite(
+              queryParams["inviterAccount"], queryParams["inviteSecret"])),
+    );
   }
 
   @override
