@@ -1,50 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-
-class MemberModel {
-  final String account;
-  final String nickname;
-  final String image;
-
-  MemberModel({this.account, this.nickname, this.image});
-
-  factory MemberModel.fromJson(Map<String, dynamic> json) {
-    return MemberModel(
-      account: json["account"],
-      nickname: json["nickname"],
-      image: json["image"],
-    );
-  }
-}
-
-class TransactionModel {
-  final String from;
-  final String to;
-  final String quantity;
-  final String memo;
-
-  TransactionModel(this.from, this.to, this.quantity, this.memo);
-
-  factory TransactionModel.fromJson(Map<String, dynamic> json) {
-    return TransactionModel(
-      json["from"],
-      json["to"],
-      json["quantity"],
-      json["memo"],
-    );
-  }
-}
-
-class BalanceModel {
-  final String quantity;
-
-  BalanceModel(this.quantity);
-
-  factory BalanceModel.fromJson(List<dynamic> json) {
-    return BalanceModel(json[0] as String);
-  }
-}
+import 'package:seeds/services/http_service/balance_model.dart';
+import 'package:seeds/services/http_service/member_model.dart';
+import 'package:seeds/services/http_service/proposal_model.dart';
+import 'package:seeds/services/http_service/transaction_model.dart';
+import 'package:seeds/services/http_service/voice_model.dart';
 
 class HttpService {
   Future<List<MemberModel>> getMembers() async {
@@ -127,6 +88,60 @@ class HttpService {
       print("Cannot fetch balance...");
 
       return BalanceModel("0.0000 SEEDS");
+    }
+  }
+
+  Future<VoiceModel> getVoice(accountName) async {
+    final String voiceURL =
+        'https://api.telos.eosindex.io/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"voice","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(voiceURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      VoiceModel voice = VoiceModel.fromJson(body);
+
+      return voice;
+    } else {
+      print('Cannot fetch members...');
+
+      return VoiceModel(0);
+    }
+  }
+
+  Future<List<ProposalModel>> getProposals() async {
+    final String proposalsURL =
+        'https://api.telos.eosindex.io/v1/chain/get_table_rows';
+
+    final String minimumStake = "1.0000 SEEDS";
+
+    String request =
+        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"props","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(proposalsURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      List<dynamic> activeProposals = body["rows"].where((dynamic item) {
+        return item["status"] == "open" && item["staked"] == minimumStake;
+      }).toList();
+
+      List<ProposalModel> proposals = activeProposals
+          .map((item) => ProposalModel.fromJson(item))
+          .toList();
+
+      return proposals;
+    } else {
+      print('Cannot fetch proposals...');
+
+      return [];
     }
   }
 }

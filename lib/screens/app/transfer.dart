@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/services/http_service/member_model.dart';
 import 'package:seeds/widgets/progress_bar.dart';
-import 'package:seeds/services/http_service.dart';
+import 'package:seeds/services/http_service/http_service.dart';
 
 import 'transfer_form.dart';
 
