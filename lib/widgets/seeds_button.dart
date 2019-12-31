@@ -8,8 +8,9 @@ class SeedsButton extends StatefulWidget {
   final Function onPressed;
   final bool showProgress;
   final double width;
+  final Color color;
 
-  SeedsButton(this.title, [this.onPressed, this.showProgress = false, this.width = 100]);
+  SeedsButton(this.title, [this.onPressed, this.showProgress = false, this.width = 100, this.color = CustomColors.Green]);
 
   @override
   _SeedsButtonState createState() => _SeedsButtonState();
@@ -42,7 +43,7 @@ class _SeedsButtonState extends State<SeedsButton> {
             fontSize: 17,
           ),
         ),
-        color: CustomColors.Green,
+        color: this.widget.color,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       ),
