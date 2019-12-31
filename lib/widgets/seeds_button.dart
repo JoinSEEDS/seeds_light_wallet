@@ -7,8 +7,9 @@ class SeedsButton extends StatefulWidget {
   final String title;
   final Function onPressed;
   final bool showProgress;
+  final double width;
 
-  SeedsButton(this.title, [this.onPressed, this.showProgress = false]);
+  SeedsButton(this.title, [this.onPressed, this.showProgress = false, this.width = 100]);
 
   @override
   _SeedsButtonState createState() => _SeedsButtonState();
@@ -21,7 +22,7 @@ class _SeedsButtonState extends State<SeedsButton> {
   Widget build(BuildContext context) {
     return Container(
       key: UniqueKey(),
-      width: 100,
+      width: this.widget.width,
       child: this.widget.showProgress && this.pressed ? ProgressBar() : FlatButton(
         onPressed: () {
           setState(() {
