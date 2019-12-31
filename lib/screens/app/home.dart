@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/screens/app/proposal_form.dart';
 import 'package:seeds/services/http_service/balance_model.dart';
 import 'package:seeds/services/http_service/http_service.dart';
 import 'package:seeds/services/http_service/transaction_model.dart';
@@ -192,7 +193,11 @@ class _HomeState extends State<Home> {
                   spreadRadius: 0.1,
                 )
               ]),
-          child: ListTile(
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProposalForm()));
+            },
+            child: ListTile(
             leading: Container(
               width: 42,
               child: Icon(
@@ -209,6 +214,7 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
+          )
         ),
       ],
     );

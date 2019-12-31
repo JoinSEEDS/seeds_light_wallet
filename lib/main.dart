@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/app/proposal_form.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/services/auth_service.dart';
 
@@ -20,6 +21,7 @@ class _SeedsAppState extends State<SeedsApp> {
 
   @override
   Widget build(BuildContext context) {
+    return ProposalForm();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: FutureBuilder(

@@ -43,6 +43,11 @@ dependencies:
   passcode_screen: ^1.0.2
   
   eosdart_ecc: ^0.3.2
+
+  url_launcher: ^5.4.1
+
+  expandable: ^4.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
