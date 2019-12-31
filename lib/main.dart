@@ -21,7 +21,7 @@ class _SeedsAppState extends State<SeedsApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ProposalForm();
+    //return ProposalForm();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: FutureBuilder(
