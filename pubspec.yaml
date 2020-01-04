@@ -12,6 +12,8 @@ dependencies:
   cupertino_icons: ^0.1.3
   community_material_icon: ^3.5.95
 
+  flutter_toolbox: ^4.4.3
+
   http: ^0.12.0+3
 
   localstorage: ^3.0.1+4
