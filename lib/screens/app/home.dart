@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/services/http_service.dart';
 import 'package:seeds/widgets/seeds_button.dart';
@@ -7,7 +6,6 @@ import 'package:seeds/widgets/seeds_button.dart';
 class Home extends StatefulWidget {
   final Function movePage;
   final String accountName;
-
 
   Home(this.movePage, this.accountName);
 
@@ -35,8 +33,8 @@ class _HomeState extends State<Home> {
   Widget _transactionsList() {
     return FutureBuilder(
       future: httpService.getTransactions(widget.accountName),
-      builder:
-          (BuildContext context, AsyncSnapshot<List<TransactionModel>> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<List<TransactionModel>> snapshot) {
         if (snapshot.hasData) {
           List<TransactionModel> transactions = snapshot.data;
 
@@ -87,7 +85,6 @@ class _HomeState extends State<Home> {
           return Center(
             child: LinearProgressIndicator(
               backgroundColor: CustomColors.Green,
-
             ),
           );
         }
@@ -136,7 +133,8 @@ class _HomeState extends State<Home> {
             ),
             title: FutureBuilder(
               future: httpService.getBalance(widget.accountName),
-              builder: (BuildContext context, AsyncSnapshot<BalanceModel> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<BalanceModel> snapshot) {
                 if (snapshot.hasData) {
                   return Text(snapshot.data.quantity);
                 } else {
@@ -145,9 +143,7 @@ class _HomeState extends State<Home> {
               },
             ),
             subtitle: Text("Available balance"),
-            trailing: SeedsButton("Transfer", () => {
-              widget.movePage(1)
-            }),
+            trailing: SeedsButton("Transfer", () => {widget.movePage(1)}),
           ),
         ),
         ListTile(
@@ -196,13 +192,15 @@ class _HomeState extends State<Home> {
           child: ListTile(
             leading: Container(
               width: 42,
+              alignment: Alignment.center,
               child: Icon(
                 Icons.star_half,
                 color: CustomColors.Green,
               ),
             ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            title: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              runSpacing: 8,
               children: <Widget>[
                 Column(
                   children: <Widget>[
@@ -222,12 +220,8 @@ class _HomeState extends State<Home> {
                     Text("Reputation"),
                   ],
                 ),
-
                 Column(
-                  children: <Widget>[
-                    Text("25%"),
-                    Text("Community")
-                  ],
+                  children: <Widget>[Text("25%"), Text("Community")],
                 ),
               ],
             ),
