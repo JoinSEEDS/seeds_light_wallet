@@ -22,6 +22,7 @@ dependencies:
   local_auth: ^0.6.1
 
   flutter_dotenv: ^2.1.0
+  cached_network_image: ^2.0.0
 
   intro_views_flutter:
     git: git://github.com/aagarwal1012/IntroViews-Flutter
