@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/services/eos_service.dart';
@@ -113,7 +114,7 @@ class _TransferFormState extends State<TransferForm>
                         height: 150,
                         child: CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          backgroundImage: NetworkImage(widget.avatar),
+                          backgroundImage: CachedNetworkImageProvider(widget.avatar),
                         ),
                       ),
                       SizedBox(height: 15),
