@@ -4,10 +4,10 @@ import 'package:seeds/services/auth_service.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
-import './home.dart';
-import './transfer.dart';
-import './harvest.dart';
 import './friends.dart';
+import './home.dart';
+import './proposals.dart';
+import './transfer.dart';
 
 class App extends StatefulWidget {
   final String accountName;
@@ -133,7 +133,7 @@ class _AppState extends State<App> {
       children: <Widget>[
         Home(movePage, this.widget.accountName),
         Transfer(this.widget.accountName),
-        Harvest(),
+        Proposals(),
         Friends(),
       ],
     );

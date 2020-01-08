@@ -36,7 +36,7 @@ class ProposalModel {
     this.status,
     this.stage,
     this.fund,
-    this.creationDate
+    this.creationDate,
   });
 
   factory ProposalModel.fromJson(Map<String, dynamic> json) {
@@ -58,7 +58,14 @@ class ProposalModel {
       status: json["status"],
       stage: json["stage"],
       fund: json["fund"],
-      creationDate: json["creation_date"]
+      creationDate: json["creation_date"],
     );
   }
+
+  @override
+  String toString() {
+    return 'ProposalModel{id: $id, creator: $creator, recipient: $recipient, quantity: $quantity, staked: $staked, executed: $executed, total: $total, favour: $favour, against: $against, title: $title, summary: $summary, description: $description, image: $image, url: $url, status: $status, stage: $stage, fund: $fund, creationDate: $creationDate}';
+  }
 }
+
+const proposalTypes = ['Open', 'Excuted', 'Cancled', 'Expired'];
