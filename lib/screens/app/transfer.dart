@@ -5,6 +5,7 @@ import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/services/http_service.dart';
 
 import 'transfer_form.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Transfer extends StatelessWidget {
   final String accountName;
@@ -85,7 +86,7 @@ class Transfer extends StatelessWidget {
                       height: 60,
                       child: CircleAvatar(
                         backgroundColor: Colors.transparent,
-                        backgroundImage: NetworkImage(user.image),
+                        backgroundImage: CachedNetworkImageProvider(user.image)
                       ),
                     ),
                     title: Text(
