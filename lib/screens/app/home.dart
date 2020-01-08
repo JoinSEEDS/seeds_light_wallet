@@ -10,6 +10,7 @@ class Home extends StatefulWidget {
   final Function movePage;
   final String accountName;
 
+
   Home(this.movePage, this.accountName);
 
   @override
@@ -88,6 +89,7 @@ class _HomeState extends State<Home> {
           return Center(
             child: LinearProgressIndicator(
               backgroundColor: CustomColors.Green,
+
             ),
           );
         }
@@ -195,6 +197,7 @@ class _HomeState extends State<Home> {
           child: ListTile(
             leading: Container(
               width: 42,
+              alignment: Alignment.center,
               child: Icon(
                 Icons.star_half,
                 color: CustomColors.Green,
