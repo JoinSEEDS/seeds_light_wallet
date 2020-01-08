@@ -22,39 +22,29 @@ class _ClaimCodeState extends State<ClaimCode> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Text(
-                    "Invite code",
-                    style: TextStyle(fontFamily: "sfprotext"),
-                  ),
+            TextField(
+              autofocus: true,
+              controller: inviteCodeController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Invite code",
+//                suffix:
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.content_paste),
+                  onPressed: () async {
+                    ClipboardData clipboardData =
+                        await Clipboard.getData('text/plain');
+                    String inviteCodeClipboard = clipboardData?.text ?? '';
+                    inviteCodeController.text = inviteCodeClipboard;
+                  },
                 ),
-                Spacer(flex: 1),
-                Flexible(
-                  fit: FlexFit.tight,
-                  flex: 3,
-                  child: TextField(
-                    textAlign: TextAlign.left,
-                    showCursor: true,
-                    enableInteractiveSelection: true,
-                    autofocus: true,
-                    controller: inviteCodeController,
-                    keyboardType: TextInputType.text,
-                    style: TextStyle(
-                      fontFamily: "sfprotext",
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-              ],
+                hintText: "Paste from clipboard",
+              ),
+              style: TextStyle(
+                fontFamily: "sfprotext",
+              ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 16),
             SizedBox(
               height: 40,
               width: MediaQuery.of(context).size.width,
@@ -68,16 +58,6 @@ class _ClaimCodeState extends State<ClaimCode> {
               }),
             ),
             SizedBox(height: 20),
-            SizedBox(
-              height: 40,
-              width: MediaQuery.of(context).size.width,
-              child: SeedsButton("Paste from clipboard", () async {
-                ClipboardData clipboardData =
-                    await Clipboard.getData('text/plain');
-                String inviteCodeClipboard = clipboardData?.text ?? '';
-                inviteCodeController.text = inviteCodeClipboard;
-              }),
-            ),
           ],
         ),
       ),
