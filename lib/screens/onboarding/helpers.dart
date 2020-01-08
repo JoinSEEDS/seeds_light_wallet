@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 
 PageViewModel page({bubble, mainImage, body, title}) {

@@ -6,8 +6,6 @@ import 'package:seeds/screens/onboarding/show_invite.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
-
-
 class OnboardingMethodChoice extends StatefulWidget {
   @override
   _OnboardingMethodChoiceState createState() => _OnboardingMethodChoiceState();
@@ -41,13 +39,15 @@ class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
 
   void handleDeepLink(deepLink) {
     if (deepLink != null) {
-      Map<String, String> queryParams = Uri.splitQueryString(deepLink.toString());
+      Map<String, String> queryParams =
+          Uri.splitQueryString(deepLink.toString());
 
-      if (queryParams["inviterAccount"] != null && queryParams["inviteSecret"] != null) {
+      if (queryParams["inviterAccount"] != null &&
+          queryParams["inviteSecret"] != null) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ShowInvite(queryParams["inviterAccount"], queryParams["inviteSecret"])
-          ),
+              builder: (context) => ShowInvite(
+                  queryParams["inviterAccount"], queryParams["inviteSecret"])),
         );
       }
     }

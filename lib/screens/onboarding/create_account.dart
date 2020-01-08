@@ -110,7 +110,8 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                     maxLength: 12,
                     validator: (val) {
-                      if (val.length != 12) return 'Your account name should have exactly 12 symbols';
+                      if (val.length != 12)
+                        return 'Your account name should have exactly 12 symbols';
                       if (RegExp(r'0|6|7|8|9').allMatches(val).length > 0)
                         return 'Your account name should have digits only 1-5';
                       return null;

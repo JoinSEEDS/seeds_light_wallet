@@ -28,7 +28,6 @@ class _ClaimCodeState extends State<ClaimCode> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Invite code",
-//                suffix:
                 suffixIcon: IconButton(
                   icon: Icon(Icons.content_paste),
                   onPressed: () async {
