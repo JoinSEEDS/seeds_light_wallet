@@ -121,7 +121,7 @@ class HttpService {
     final String minimumStake = "1.0000 SEEDS";
 
     String request =
-        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"props","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"props","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(proposalsURL, headers: headers, body: request);
@@ -129,8 +129,12 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
+
+print("RESULT");
+print(body);
+
       List<dynamic> activeProposals = body["rows"].where((dynamic item) {
-        return item["status"] == "open" && item["staked"] == minimumStake;
+        return item["stage"] == "active"; //&& item["staked"] == minimumStake;
       }).toList();
 
       List<ProposalModel> proposals = activeProposals

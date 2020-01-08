@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/screens/app/proposal_form.dart';
 import 'package:seeds/services/http_service/balance_model.dart';
 import 'package:seeds/services/http_service/http_service.dart';
 import 'package:seeds/services/http_service/transaction_model.dart';
@@ -9,7 +9,6 @@ import 'package:seeds/widgets/seeds_button.dart';
 class Home extends StatefulWidget {
   final Function movePage;
   final String accountName;
-
 
   Home(this.movePage, this.accountName);
 
@@ -89,7 +88,6 @@ class _HomeState extends State<Home> {
           return Center(
             child: LinearProgressIndicator(
               backgroundColor: CustomColors.Green,
-
             ),
           );
         }
@@ -176,43 +174,48 @@ class _HomeState extends State<Home> {
         ),
         SizedBox(height: 10),
         Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                width: 0,
+            decoration: BoxDecoration(
                 color: Colors.white,
-                style: BorderStyle.solid,
+                border: Border.all(
+                  width: 0,
+                  color: Colors.white,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5.0),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: CustomColors.LightGrey19,
+                    offset: Offset(0, 0),
+                    blurRadius: 0.1,
+                    spreadRadius: 0.1,
+                  )
+                ]),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ProposalForm()));
+              },
+              child: ListTile(
+                leading: Container(
+                  width: 42,
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.star_half,
+                    color: CustomColors.Green,
+                  ),
+                ),
+                title: Text(
+                  "Urgent proposals waiting for your approval",
+                  style: TextStyle(
+                    fontFamily: "worksans",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.0),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: CustomColors.LightGrey19,
-                  offset: Offset(0, 0),
-                  blurRadius: 0.1,
-                  spreadRadius: 0.1,
-                )
-              ]),
-          child: ListTile(
-            leading: Container(
-              width: 42,
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.star_half,
-                color: CustomColors.Green,
-              ),
-            ),
-            title: Text(
-              "Urgent proposals waiting for your approval",
-              style: TextStyle(
-                fontFamily: "worksans",
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
-        ),
+            )),
       ],
     );
   }

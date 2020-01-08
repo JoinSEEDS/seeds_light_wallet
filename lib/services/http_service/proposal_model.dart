@@ -4,7 +4,7 @@ class ProposalModel {
   final String recipient;
   final String quantity;
   final String staked;
-  final bool executed;
+  final int executed;
   final int total;
   final int favour;
   final int against;
@@ -40,6 +40,7 @@ class ProposalModel {
   });
 
   factory ProposalModel.fromJson(Map<String, dynamic> json) {
+    print("from JSON");
     return ProposalModel(
       id: json["id"],
       creator: json["creator"],

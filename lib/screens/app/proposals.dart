@@ -32,7 +32,7 @@ class ProposalsState extends State<Proposals> {
     recipient: 'Green trees',
     quantity: '300',
     staked: '120',
-    executed: false,
+    executed: 20,
     total: 120,
     favour: 90,
     against: 30,

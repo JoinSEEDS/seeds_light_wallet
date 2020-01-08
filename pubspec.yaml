@@ -30,6 +30,7 @@ dependencies:
   flutter_masked_text: ^0.8.0
   passcode_screen: ^1.0.2
   percent_indicator: ^2.1.1+1
+  expandable: ^4.0.2
 
   firebase_dynamic_links: ^0.5.0+9
 
