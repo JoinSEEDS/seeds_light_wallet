@@ -44,7 +44,7 @@ class ProposalForm extends StatelessWidget {
   Widget buildProposalCard(BuildContext context) {
     return SingleChildScrollView(
       child: FutureBuilder(
-          future: HttpService().getProposals(),
+          future: HttpService().getProposals('active'),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return ProgressBar();
@@ -119,36 +119,38 @@ class ProposalForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Stack(
-      children: [
-        Container(
-          color: Colors.white,
-          child: SafeArea(
-            child: Scaffold(
-              resizeToAvoidBottomInset: true,
-              appBar: AppBar(
-                automaticallyImplyLeading: true,
-                leading: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () => Navigator.of(context).pop(),
+      home: Stack(
+        children: [
+          Container(
+            color: Colors.white,
+            child: SafeArea(
+              child: Scaffold(
+                resizeToAvoidBottomInset: true,
+                appBar: AppBar(
+                  automaticallyImplyLeading: true,
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.black),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  title: Text(
+                    "Vote",
+                    style:
+                        TextStyle(fontFamily: "worksans", color: Colors.black),
+                  ),
+                  centerTitle: true,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
                 ),
-                title: Text(
-                  "Vote",
-                  style: TextStyle(fontFamily: "worksans", color: Colors.black),
+                body: Container(
+                  child: buildProposalCard(context),
+                  color: Colors.white,
                 ),
-                centerTitle: true,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
+                bottomSheet: yesNoButtons(2),
               ),
-              body: Container(
-                child: buildProposalCard(context),
-                color: Colors.white,
-              ),
-              bottomSheet: yesNoButtons(2),
             ),
-          ),
-        )
-      ],
-    ));
+          )
+        ],
+      ),
+    );
   }
 }

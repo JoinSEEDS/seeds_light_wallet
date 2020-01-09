@@ -114,7 +114,7 @@ class HttpService {
     }
   }
 
-  Future<List<ProposalModel>> getProposals() async {
+  Future<List<ProposalModel>> getProposals(String stage) async {
     final String proposalsURL =
         'https://api.telos.eosindex.io/v1/chain/get_table_rows';
 
@@ -129,17 +129,14 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-
-print("RESULT");
-print(body);
+//      d("body = ${res.body}");
 
       List<dynamic> activeProposals = body["rows"].where((dynamic item) {
-        return item["stage"] == "active"; //&& item["staked"] == minimumStake;
+        return item["stage"] == stage; //&& item["staked"] == minimumStake;
       }).toList();
 
-      List<ProposalModel> proposals = activeProposals
-          .map((item) => ProposalModel.fromJson(item))
-          .toList();
+      List<ProposalModel> proposals =
+          activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
 
       return proposals;
     } else {

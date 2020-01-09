@@ -40,7 +40,6 @@ class ProposalModel {
   });
 
   factory ProposalModel.fromJson(Map<String, dynamic> json) {
-    print("from JSON");
     return ProposalModel(
       id: json["id"],
       creator: json["creator"],
@@ -69,4 +68,10 @@ class ProposalModel {
   }
 }
 
-const proposalTypes = ['Open', 'Excuted', 'Cancled', 'Expired'];
+// the key is the tab text, the value is the server key
+const proposalTypes = {
+  'Open': 'active',
+  'Excuted': 'done',
+  'Cancled': 'done',
+  'Expired': 'done',
+};
