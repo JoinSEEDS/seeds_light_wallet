@@ -63,6 +63,51 @@ class ProposalModel {
   }
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ProposalModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          creator == other.creator &&
+          recipient == other.recipient &&
+          quantity == other.quantity &&
+          staked == other.staked &&
+          executed == other.executed &&
+          total == other.total &&
+          favour == other.favour &&
+          against == other.against &&
+          title == other.title &&
+          summary == other.summary &&
+          description == other.description &&
+          image == other.image &&
+          url == other.url &&
+          status == other.status &&
+          stage == other.stage &&
+          fund == other.fund &&
+          creationDate == other.creationDate;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      creator.hashCode ^
+      recipient.hashCode ^
+      quantity.hashCode ^
+      staked.hashCode ^
+      executed.hashCode ^
+      total.hashCode ^
+      favour.hashCode ^
+      against.hashCode ^
+      title.hashCode ^
+      summary.hashCode ^
+      description.hashCode ^
+      image.hashCode ^
+      url.hashCode ^
+      status.hashCode ^
+      stage.hashCode ^
+      fund.hashCode ^
+      creationDate.hashCode;
+
+  @override
   String toString() {
     return 'ProposalModel{id: $id, creator: $creator, recipient: $recipient, quantity: $quantity, staked: $staked, executed: $executed, total: $total, favour: $favour, against: $against, title: $title, summary: $summary, description: $description, image: $image, url: $url, status: $status, stage: $stage, fund: $fund, creationDate: $creationDate}';
   }
@@ -71,7 +116,7 @@ class ProposalModel {
 // the key is the tab text, the value is the server key
 const proposalTypes = {
   'Open': 'active',
-  'Excuted': 'done',
-  'Cancled': 'done',
+  'Excuted': '',
+  'Cancled': '',
   'Expired': 'done',
 };

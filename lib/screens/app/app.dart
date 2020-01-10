@@ -6,8 +6,8 @@ import 'package:seeds/widgets/seeds_button.dart';
 
 import './friends.dart';
 import './home.dart';
-import './proposals.dart';
 import './transfer.dart';
+import 'proposals/proposals.dart';
 
 class App extends StatefulWidget {
   final String accountName;

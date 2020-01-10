@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
-import 'package:seeds/screens/app/proposal_form.dart';
+import 'package:seeds/screens/app/proposals/proposal_form.dart';
 import 'package:seeds/services/http_service/balance_model.dart';
 import 'package:seeds/services/http_service/http_service.dart';
 import 'package:seeds/services/http_service/transaction_model.dart';
