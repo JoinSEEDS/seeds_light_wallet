@@ -113,6 +113,7 @@ class ProposalModel {
   }
 }
 
+// TODO add the missing keys
 // the key is the tab text, the value is the server key
 const proposalTypes = {
   'Open': 'active',
