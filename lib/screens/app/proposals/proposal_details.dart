@@ -178,7 +178,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                     setState(() => _voting = true);
                     await EosService()
                         .voteProposal(id: proposal.id, amount: _vote.toInt());
-                    setState(() => _voting = true);
+                    setState(() => _voting = false);
                   },
                   _voting,
                 ),
