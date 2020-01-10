@@ -176,8 +176,14 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                   'Vote',
                   () async {
                     setState(() => _voting = true);
-                    await EosService()
-                        .voteProposal(id: proposal.id, amount: _vote.toInt());
+                    try {
+                      await EosService()
+                          .voteProposal(id: proposal.id, amount: _vote.toInt());
+                    } catch (e) {
+                      d("e = $e");
+                      errorToast("Unexpected error, please try again");
+                      setState(() => _voting = false);
+                    }
                     setState(() => _voting = false);
                   },
                   _voting,
