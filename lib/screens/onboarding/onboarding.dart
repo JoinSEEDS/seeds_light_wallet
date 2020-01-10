@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:seeds/constants/custom_colors.dart';
 
 import 'create_account.dart';
 import 'helpers.dart';

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/services/http_service/member_model.dart';
 import 'package:seeds/widgets/progress_bar.dart';
-import 'package:seeds/services/http_service.dart';
+import 'package:seeds/services/http_service/http_service.dart';
 
 import 'transfer_form.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -55,8 +56,7 @@ class Transfer extends StatelessWidget {
                   color: CustomColors.Green,
                 ),
               ),
-              title: Text("You sent 5 transactions of 10 transactions"),
-              subtitle: Text("Send more transactions to increase your score and upgrade your status"),
+              subtitle: Text("Send more transactions to increase your score and upgrade your status (without fees)"),
             ),
           ),
           // _usersTitle(),
