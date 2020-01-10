@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/screens/app/proposals/proposal_header_details.dart';
+import 'package:seeds/services/eos_service.dart';
 import 'package:seeds/services/http_service/proposal_model.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProposalDetailsPage extends StatefulWidget {
@@ -16,6 +19,10 @@ class ProposalDetailsPage extends StatefulWidget {
 }
 
 class ProposalDetailsPageState extends State<ProposalDetailsPage> {
+  double _vote = 0;
+
+  bool _voting = false;
+
   @override
   Widget build(BuildContext context) {
     final proposal = widget.proposal;
@@ -30,26 +37,8 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
         children: <Widget>[
           buildProposalHeader(proposal),
           buildProposalDetails(proposal),
-          Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            clipBehavior: Clip.antiAlias,
-            elevation: 8,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Description',
-                    style: textTheme.title,
-                  ),
-                  SizedBox(height: 8),
-                  SelectableText('${proposal.description} '),
-                ],
-              ),
-            ),
-          ),
+          buildDescription(proposal),
+          buildVote(proposal),
         ],
       ),
     );
@@ -134,6 +123,75 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                   ),
                 ],
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Card buildDescription(ProposalModel proposal) {
+    final textTheme = Theme.of(context).textTheme;
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      clipBehavior: Clip.antiAlias,
+      elevation: 8,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Description',
+              style: textTheme.title,
+            ),
+            SizedBox(height: 8),
+            SelectableText('${proposal.description} '),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Card buildVote(ProposalModel proposal) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      clipBehavior: Clip.antiAlias,
+      elevation: 8,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Voting',
+                  style: textTheme.title,
+                ),
+                SeedsButton(
+                  'Vote',
+                  () async {
+                    setState(() => _voting = true);
+                    await EosService()
+                        .voteProposal(id: proposal.id, amount: _vote.toInt());
+                    setState(() => _voting = true);
+                  },
+                  _voting,
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+            FluidSlider(
+              value: _vote,
+              onChanged: (double newValue) {
+                setState(() => _vote = newValue);
+              },
+              min: -100,
+              max: 100,
             ),
           ],
         ),
