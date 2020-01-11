@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/services/http_service/http_service.dart';
 import 'package:seeds/services/http_service/member_model.dart';
 import 'package:seeds/widgets/progress_bar.dart';
-import 'package:seeds/services/http_service/http_service.dart';
 
 import 'transfer_form.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -25,7 +24,7 @@ class Transfer extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(width: 1, color: CustomColors.Green),
+                bottom: BorderSide(width: 1, color: CustomColors.green),
               ),
             ),
             margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
@@ -53,7 +52,7 @@ class Transfer extends StatelessWidget {
                 width: 42,
                 child: Icon(
                   Icons.star_half,
-                  color: CustomColors.Green,
+                  color: CustomColors.green,
                 ),
               ),
               subtitle: Text("Send more transactions to increase your score and upgrade your status (without fees)"),

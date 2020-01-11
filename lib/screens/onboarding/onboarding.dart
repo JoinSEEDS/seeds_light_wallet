@@ -37,6 +37,10 @@ class Onboarding extends StatelessWidget {
       builder: (context) {
         return SafeArea(
           child: IntroViewsFlutter(
+      builder: (context) => Container(
+        color: CustomColors.darkBlue,
+        child: SafeArea(
+                child: IntroViewsFlutter(
             featurePages,
             onTapDoneButton: () async {
               if (isDebugMode() && debugInviteSecret.isNotEmpty == true) {

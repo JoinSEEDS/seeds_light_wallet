@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
                             )
                           : Icon(
                               Icons.arrow_downward,
-                              color: CustomColors.Green,
+                              color: CustomColors.green,
                             ),
                     ),
                     title: Text(
@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
                         fontSize: 15,
                         color: trx.from == widget.accountName
                             ? Colors.redAccent
-                            : CustomColors.Green,
+                            : CustomColors.green,
                       ),
                     )),
                   ),
@@ -87,7 +87,7 @@ class _HomeState extends State<Home> {
         } else {
           return Center(
             child: LinearProgressIndicator(
-              backgroundColor: CustomColors.Green,
+              backgroundColor: CustomColors.green,
             ),
           );
         }
@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(width: 1, color: CustomColors.Green),
+          bottom: BorderSide(width: 1, color: CustomColors.green),
         ),
       ),
       margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
@@ -131,7 +131,7 @@ class _HomeState extends State<Home> {
               width: 42,
               child: Icon(
                 Icons.account_balance_wallet,
-                color: CustomColors.Green,
+                color: CustomColors.green,
               ),
             ),
             title: FutureBuilder(
@@ -154,7 +154,7 @@ class _HomeState extends State<Home> {
               width: 42,
               child: Icon(
                 Icons.event_note,
-                color: CustomColors.Green,
+                color: CustomColors.green,
               ),
             ),
             title: Text("0 VOICE"),
@@ -165,7 +165,7 @@ class _HomeState extends State<Home> {
             width: 42,
             child: Icon(
               Icons.people,
-              color: CustomColors.Green,
+              color: CustomColors.green,
             ),
           ),
           title: Text("75.0000 SEEDS"),
@@ -186,7 +186,7 @@ class _HomeState extends State<Home> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: CustomColors.LightGrey19,
+                    color: CustomColors.lightGrey19,
                     offset: Offset(0, 0),
                     blurRadius: 0.1,
                     spreadRadius: 0.1,
@@ -203,7 +203,7 @@ class _HomeState extends State<Home> {
                   alignment: Alignment.center,
                   child: Icon(
                     Icons.star_half,
-                    color: CustomColors.Green,
+                    color: CustomColors.green,
                   ),
                 ),
                 title: Text(
