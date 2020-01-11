@@ -2,52 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-class MemberModel {
-  final String account;
-  final String nickname;
-  final String image;
-
-  MemberModel({this.account, this.nickname, this.image});
-
-  factory MemberModel.fromJson(Map<String, dynamic> json) {
-    return MemberModel(
-      account: json["account"],
-      nickname: json["nickname"],
-      image: json["image"],
-    );
-  }
-}
-
-class TransactionModel {
-  final String from;
-  final String to;
-  final String quantity;
-  final String memo;
-
-  TransactionModel(this.from, this.to, this.quantity, this.memo);
-
-  factory TransactionModel.fromJson(Map<String, dynamic> json) {
-    return TransactionModel(
-      json["from"],
-      json["to"],
-      json["quantity"],
-      json["memo"],
-    );
-  }
-}
-
-class BalanceModel {
-  final String quantity;
-
-  BalanceModel(this.quantity);
-
-  factory BalanceModel.fromJson(List<dynamic> json) {
-    return BalanceModel(json[0] as String);
-  }
-}
+import 'package:seeds/models/models.dart';
 
 class HttpService {
-  Future<List<MemberModel>> getMembers() async {
+  Future<List<Member>> getMembers() async {
     final String membersURL =
         'https://api.telos.eosindex.io/v1/chain/get_table_rows';
 
@@ -66,8 +24,8 @@ class HttpService {
             item["account"] != "";
       }).toList();
 
-      List<MemberModel> members = accountsWithProfile
-          .map((item) => MemberModel.fromJson(item))
+      List<Member> members = accountsWithProfile
+          .map((item) => Member.fromJson(item))
           .toList();
 
       return members;
@@ -78,7 +36,7 @@ class HttpService {
     }
   }
 
-  Future<List<TransactionModel>> getTransactions(accountName) async {
+  Future<List<Transaction>> getTransactions(accountName) async {
     final String transactionsURL =
         "https://telos.caleos.io/v2/history/get_actions?account=$accountName&filter=*%3A*&skip=0&limit=100&sort=desc";
 
@@ -95,8 +53,8 @@ class HttpService {
             item["act"]["data"]["from"] != null;
       }).toList();
 
-      List<TransactionModel> transactions = transfers
-          .map((item) => TransactionModel.fromJson(item["act"]["data"]))
+      List<Transaction> transactions = transfers
+          .map((item) => Transaction.fromJson(item["act"]["data"]))
           .toList();
 
       return transactions;
@@ -107,7 +65,7 @@ class HttpService {
     }
   }
 
-  Future<BalanceModel> getBalance(accountName) async {
+  Future<Balance> getBalance(accountName) async {
     final String balanceURL =
         "https://telos.caleos.io/v1/chain/get_currency_balance";
 
@@ -120,13 +78,13 @@ class HttpService {
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
 
-      BalanceModel balance = BalanceModel.fromJson(body);
+      Balance balance = Balance.fromJson(body);
 
       return balance;
     } else {
       print("Cannot fetch balance...");
 
-      return BalanceModel("0.0000 SEEDS");
+      return Balance("0.0000 SEEDS");
     }
   }
 }

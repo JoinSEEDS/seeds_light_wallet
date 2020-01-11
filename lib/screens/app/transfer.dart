@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/services/http_service.dart';
 
@@ -70,9 +71,9 @@ class Transfer extends StatelessWidget {
   Widget _usersList(context) {
     return FutureBuilder(
         future: httpService.getMembers(),
-        builder: (BuildContext context, AsyncSnapshot<List<MemberModel>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List<Member>> snapshot) {
           if (snapshot.hasData) {
-            final List<MemberModel> members = snapshot.data;
+            final List<Member> members = snapshot.data;
             return ListView.builder(
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),

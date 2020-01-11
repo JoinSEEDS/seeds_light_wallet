@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/models/models.dart';
+import 'package:seeds/services/auth_service.dart';
 import 'package:seeds/services/http_service.dart';
 import 'package:seeds/widgets/seeds_button.dart';
+
+import 'package:provider/provider.dart';
+import 'package:seeds/viewmodels/transactions.dart';
 
 class Home extends StatefulWidget {
   final Function movePage;
@@ -30,67 +35,72 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _transactionsList() {
-    return FutureBuilder(
-      future: httpService.getTransactions(widget.accountName),
-      builder: (BuildContext context,
-          AsyncSnapshot<List<TransactionModel>> snapshot) {
-        if (snapshot.hasData) {
-          List<TransactionModel> transactions = snapshot.data;
-
-          return ListView.builder(
-              physics: ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: transactions.length,
-              itemBuilder: (ctx, index) {
-                final trx = transactions[index];
-
-                return Container(
-                  child: ListTile(
-                    dense: true,
-                    leading: Container(
-                      alignment: Alignment.centerLeft,
-                      width: 42,
-                      child: trx.from == widget.accountName
-                          ? Icon(
-                              Icons.arrow_upward,
-                              color: Colors.redAccent,
-                            )
-                          : Icon(
-                              Icons.arrow_downward,
-                              color: CustomColors.Green,
-                            ),
-                    ),
-                    title: Text(
-                      "${trx.from} -> ${trx.to}",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                    subtitle: Text(trx.memo),
-                    trailing: Container(
-                        child: Text(
-                      trx.quantity,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: trx.from == widget.accountName
-                            ? Colors.redAccent
-                            : CustomColors.Green,
-                      ),
-                    )),
-                  ),
-                );
-              });
-        } else {
-          return Center(
-            child: LinearProgressIndicator(
-              backgroundColor: CustomColors.Green,
-            ),
-          );
-        }
-      },
-    );
+  initState() {
+    Future.delayed(Duration.zero).then((_) {
+      Provider.of<TransactionsModel>(context, listen: false)
+          .fetchTransactions();
+    });
+    super.initState();
   }
+
+  Widget _transactionsList() {
+    AuthService auth = Provider.of(context);
+
+    return Consumer<TransactionsModel>(builder: (context, model, child) {
+      if (model != null && model.transactions != null) {
+        List<Transaction> transactions = model.transactions;
+        return ListView.builder(
+            physics: ClampingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: transactions.length,
+            itemBuilder: (ctx, index) {
+              final trx = transactions[index];
+
+              return Container(
+                child: ListTile(
+                  dense: true,
+                  leading: Container(
+                    alignment: Alignment.centerLeft,
+                    width: 42,
+                    child: trx.from == auth.accountName
+                        ? Icon(
+                            Icons.arrow_upward,
+                            color: Colors.redAccent,
+                          )
+                        : Icon(
+                            Icons.arrow_downward,
+                            color: CustomColors.Green,
+                          ),
+                  ),
+                  title: Text(
+                    "${trx.from} -> ${trx.to}",
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                  subtitle: Text(trx.memo),
+                  trailing: Container(
+                      child: Text(
+                    trx.quantity,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: trx.from == auth.accountName
+                          ? Colors.redAccent
+                          : CustomColors.Green,
+                    ),
+                  )),
+                ),
+              );
+            });
+      } else {
+        return Center(
+          child: LinearProgressIndicator(
+            backgroundColor: CustomColors.Green,
+          ),
+        );
+      }
+    });
+  }  
 
   Widget _titleText(String title) {
     return Container(
@@ -133,8 +143,7 @@ class _HomeState extends State<Home> {
             ),
             title: FutureBuilder(
               future: httpService.getBalance(widget.accountName),
-              builder:
-                  (BuildContext context, AsyncSnapshot<BalanceModel> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<Balance> snapshot) {
                 if (snapshot.hasData) {
                   return Text(snapshot.data.quantity);
                 } else {

@@ -1,6 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
+  String _accountName;
+
+  get accountName => _accountName;
+
   Future<String> initializedAccount() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -36,9 +40,11 @@ class AuthService {
   Future<String> getAccountName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String privateKey = prefs.getString("accountName");
+    String accountName = prefs.getString("accountName");
 
-    return privateKey;
+    _accountName = accountName;
+
+    return accountName;
   }
 
   Future<String> getPrivateKey() async {
