@@ -27,6 +27,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -39,6 +40,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     );
   }
 
+  @override
   initState() {
     // Future.delayed(Duration.zero).then((_) {
     //   Provider.of<TransactionsModel>(context, listen: false)
