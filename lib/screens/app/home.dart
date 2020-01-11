@@ -3,6 +3,7 @@ import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/services/auth_service.dart';
 import 'package:seeds/services/http_service.dart';
+import 'package:seeds/widgets/reactive_widget.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
 import 'package:provider/provider.dart';
@@ -18,7 +19,10 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
+  @override
+  bool get wantKeepAlive => true;
+
   final HttpService httpService = HttpService();
 
   @override
@@ -36,71 +40,75 @@ class _HomeState extends State<Home> {
   }
 
   initState() {
-    Future.delayed(Duration.zero).then((_) {
-      Provider.of<TransactionsModel>(context, listen: false)
-          .fetchTransactions();
-    });
+    // Future.delayed(Duration.zero).then((_) {
+    //   Provider.of<TransactionsModel>(context, listen: false)
+    //       .fetchTransactions();
+    // });
     super.initState();
   }
 
   Widget _transactionsList() {
     AuthService auth = Provider.of(context);
 
-    return Consumer<TransactionsModel>(builder: (context, model, child) {
-      if (model != null && model.transactions != null) {
-        List<Transaction> transactions = model.transactions;
-        return ListView.builder(
-            physics: ClampingScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: transactions.length,
-            itemBuilder: (ctx, index) {
-              final trx = transactions[index];
+    print("rebuild transactions widget");
 
-              return Container(
-                child: ListTile(
-                  dense: true,
-                  leading: Container(
-                    alignment: Alignment.centerLeft,
-                    width: 42,
-                    child: trx.from == auth.accountName
-                        ? Icon(
-                            Icons.arrow_upward,
-                            color: Colors.redAccent,
-                          )
-                        : Icon(
-                            Icons.arrow_downward,
-                            color: CustomColors.Green,
-                          ),
-                  ),
-                  title: Text(
-                    "${trx.from} -> ${trx.to}",
-                    style: TextStyle(
-                      fontSize: 14,
+    return ReactiveWidget(
+      onModelReady: (model) => model.fetchTransactions(),
+      model: TransactionsModel(
+        auth: Provider.of(context),
+        http: Provider.of(context),
+      ),
+      builder: (context, model, child) => model != null && model.transactions != null
+          ? ListView.builder(
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: model.transactions.length,
+              itemBuilder: (ctx, index) {
+                final trx = model.transactions[index];
+
+                return Container(
+                  child: ListTile(
+                    dense: true,
+                    leading: Container(
+                      alignment: Alignment.centerLeft,
+                      width: 42,
+                      child: trx.from == auth.accountName
+                          ? Icon(
+                              Icons.arrow_upward,
+                              color: Colors.redAccent,
+                            )
+                          : Icon(
+                              Icons.arrow_downward,
+                              color: CustomColors.Green,
+                            ),
                     ),
-                  ),
-                  subtitle: Text(trx.memo),
-                  trailing: Container(
-                      child: Text(
-                    trx.quantity,
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: trx.from == auth.accountName
-                          ? Colors.redAccent
-                          : CustomColors.Green,
+                    title: Text(
+                      "${trx.from} -> ${trx.to}",
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
                     ),
-                  )),
-                ),
-              );
-            });
-      } else {
-        return Center(
-          child: LinearProgressIndicator(
-            backgroundColor: CustomColors.Green,
-          ),
-        );
-      }
-    });
-  }  
+                    subtitle: Text(trx.memo),
+                    trailing: Container(
+                        child: Text(
+                      trx.quantity,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: trx.from == auth.accountName
+                            ? Colors.redAccent
+                            : CustomColors.Green,
+                      ),
+                    )),
+                  ),
+                );
+              })
+          : Center(
+              child: LinearProgressIndicator(
+                backgroundColor: CustomColors.Green,
+              ),
+            ),
+    );
+  }
 
   Widget _titleText(String title) {
     return Container(

@@ -10,6 +10,8 @@ class TransactionsModel extends ChangeNotifier {
   HttpService _http;
   AuthService _auth;
 
+  TransactionsModel({ HttpService http, AuthService auth }) : _http = http, _auth = auth;
+
   Future fetchTransactions() async {
     print('fetch transactions');
     transactions = await _http.getTransactions(await _auth.getAccountName());

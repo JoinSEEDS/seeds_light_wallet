@@ -10,6 +10,8 @@ import 'package:seeds/widgets/seeds_button.dart';
 
 import 'transfer_amount.dart';
 
+import 'package:provider/provider.dart';
+
 class TransferForm extends StatefulWidget {
   final String senderAccountName;
 
@@ -55,6 +57,8 @@ class _TransferFormState extends State<TransferForm>
       var response = await eosService.transferSeeds(widget.accountName, amountValue);
 
       String trxid = response["transaction_id"];
+
+      // TransactionsModel transactions = Provider.of(context, listen: false).addTransaction();
 
       _statusNotifier.add(true);
       _messageNotifier.add("Transaction hash: $trxid");

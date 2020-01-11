@@ -30,10 +30,6 @@ class _SeedsAppState extends State<SeedsApp> {
         providers: [
           Provider.value(value: HttpService()),
           Provider.value(value: AuthService()),
-          ChangeNotifierProxyProvider2<AuthService, HttpService, TransactionsModel>(
-            create: (context) => TransactionsModel(),
-            update: (context, auth, http, model) => model..update(auth, http),
-          )
         ],
         child: FutureBuilder(
           future: authService.initializedAccount(),
