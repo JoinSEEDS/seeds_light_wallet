@@ -128,7 +128,7 @@ class _TransferFormState extends State<TransferForm>
                       SizedBox(
                         height: 25,
                         child: FlatButton(
-                          color: CustomColors.Green,
+                          color: CustomColors.green,
                           textColor: Colors.white,
                           child: Text(
                             "${widget.accountName}",
@@ -158,7 +158,7 @@ class _TransferFormState extends State<TransferForm>
                                   style: TextStyle(
                                     fontFamily: "worksans",
                                     fontSize: 12,
-                                    color: CustomColors.Grey,
+                                    color: CustomColors.grey,
                                   ),
                                 ),
                                 SizedBox(width: 5),
@@ -192,7 +192,7 @@ class _TransferFormState extends State<TransferForm>
                               ],
                             ),
                             SizedBox(height: 10),
-                            Divider(height: 0.1, color: CustomColors.Grey),
+                            Divider(height: 0.1, color: CustomColors.grey),
                             SizedBox(height: 30),
                             Opacity(
                               opacity: this.validAmount ? 1.0 : 0.0,
@@ -205,12 +205,12 @@ class _TransferFormState extends State<TransferForm>
                                     style: TextStyle(
                                       fontFamily: "worksans",
                                       fontSize: 17,
-                                      color: CustomColors.Green,
+                                      color: CustomColors.green,
                                     ),
                                   ),
                                   Icon(
                                     Icons.chevron_right,
-                                    color: CustomColors.Grey,
+                                    color: CustomColors.grey,
                                     size: 40,
                                   ),
                                 ],

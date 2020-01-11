@@ -34,7 +34,7 @@ class Onboarding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) => Container(
-        color: CustomColors.DarkBlue,
+        color: CustomColors.darkBlue,
         child: SafeArea(
                 child: IntroViewsFlutter(
             featurePages,

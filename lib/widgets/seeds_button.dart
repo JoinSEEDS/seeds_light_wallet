@@ -10,7 +10,7 @@ class SeedsButton extends StatefulWidget {
   final double width;
   final Color color;
 
-  SeedsButton(this.title, [this.onPressed, this.showProgress = false, this.width = 100, this.color = CustomColors.Green]);
+  SeedsButton(this.title, [this.onPressed, this.showProgress = false, this.width = 100, this.color = CustomColors.green]);
 
   @override
   _SeedsButtonState createState() => _SeedsButtonState();

@@ -6,7 +6,7 @@ class ProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: LinearProgressIndicator(
-        backgroundColor: CustomColors.Green,
+        backgroundColor: CustomColors.green,
       ),
     );
   }

@@ -5,8 +5,8 @@ import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/services/auth_service.dart';
-import 'package:seeds/styles/colors.dart';
 
+import 'constants/custom_colors.dart';
 import 'generated/r.dart';
 
 main(List<String> args) async {
