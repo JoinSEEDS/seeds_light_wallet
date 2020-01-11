@@ -1,11 +1,24 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 
 import 'package:seeds/models/models.dart';
 
 class HttpService {
+  bool isDebugMode = DotEnv().env['DEBUG_MOCK_HTTP'] != "";
+
   Future<List<Member>> getMembers() async {
+    if (isDebugMode) {
+      return [
+        Member(
+          account: "sevenflash42",
+          nickname: "Igor Berlenko",
+          image: "",
+        ),
+      ];
+    }
+
     final String membersURL =
         'https://api.telos.eosindex.io/v1/chain/get_table_rows';
 
@@ -13,7 +26,7 @@ class HttpService {
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response res = await post(membersURL, headers: headers, body: request);
+    Response res = await post(membersURL, headers: headers, body: request);;
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);

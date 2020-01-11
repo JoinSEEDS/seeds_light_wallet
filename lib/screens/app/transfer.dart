@@ -2,21 +2,33 @@ import 'package:flutter/material.dart';
 
 import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/viewmodels/members.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/services/http_service.dart';
+import 'package:seeds/widgets/reactive_widget.dart';
 
 import 'transfer_form.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class Transfer extends StatelessWidget {
+import 'package:provider/provider.dart';
+
+class Transfer extends StatefulWidget {
   final String accountName;
 
   Transfer(this.accountName);
 
-  final HttpService httpService = HttpService();
+  @override
+  _TransferState createState() => _TransferState();
+}
+
+class _TransferState extends State<Transfer>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +69,8 @@ class Transfer extends StatelessWidget {
                 ),
               ),
               title: Text("You sent 5 transactions of 10 transactions"),
-              subtitle: Text("Send more transactions to increase your score and upgrade your status"),
+              subtitle: Text(
+                  "Send more transactions to increase your score and upgrade your status"),
             ),
           ),
           // _usersTitle(),
@@ -69,52 +82,51 @@ class Transfer extends StatelessWidget {
   }
 
   Widget _usersList(context) {
-    return FutureBuilder(
-        future: httpService.getMembers(),
-        builder: (BuildContext context, AsyncSnapshot<List<Member>> snapshot) {
-          if (snapshot.hasData) {
-            final List<Member> members = snapshot.data;
-            return ListView.builder(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemCount: members.length,
-                itemBuilder: (ctx, index) {
-                  final user = members[index];
+    print("rebuild users list");
 
-                  return ListTile(
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      child: CircleAvatar(
+    return ReactiveWidget(
+      onModelReady: (model) => model.fetchMembers(),
+      model: MembersModel(http: Provider.of<HttpService>(context)),
+      builder: (context, model, child) => model != null && model.members != null
+          ? ListView.builder(
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              itemCount: model.members.length,
+              itemBuilder: (ctx, index) {
+                final user = model.members[index];
+
+                return ListTile(
+                  leading: Container(
+                    width: 60,
+                    height: 60,
+                    child: CircleAvatar(
                         backgroundColor: Colors.transparent,
-                        backgroundImage: CachedNetworkImageProvider(user.image)
-                      ),
-                    ),
-                    title: Text(
-                      user.nickname,
-                      style: TextStyle(fontFamily: "worksans"),
-                    ),
-                    subtitle: Text(
-                      user.account,
-                      style: TextStyle(fontFamily: "worksans"),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => TransferForm(
-                            this.accountName,
-                            user.nickname,
-                            user.account,
-                            user.image,
-                          ),
+                        backgroundImage:
+                            CachedNetworkImageProvider(user.image)),
+                  ),
+                  title: Text(
+                    user.nickname,
+                    style: TextStyle(fontFamily: "worksans"),
+                  ),
+                  subtitle: Text(
+                    user.account,
+                    style: TextStyle(fontFamily: "worksans"),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => TransferForm(
+                          this.widget.accountName,
+                          user.nickname,
+                          user.account,
+                          user.image,
                         ),
-                      );
-                    },
-                  );
-                });
-          } else {
-            return ProgressBar();
-          }
-        });
+                      ),
+                    );
+                  },
+                );
+              })
+          : ProgressBar(),
+    );
   }
 }
