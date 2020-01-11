@@ -3,6 +3,7 @@ import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/services/auth_service.dart';
 import 'package:seeds/services/http_service.dart';
+import 'package:seeds/viewmodels/balance.dart';
 import 'package:seeds/widgets/reactive_widget.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
@@ -60,55 +61,56 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
         auth: Provider.of(context),
         http: Provider.of(context),
       ),
-      builder: (context, model, child) => model != null && model.transactions != null
-          ? ListView.builder(
-              physics: ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: model.transactions.length,
-              itemBuilder: (ctx, index) {
-                final trx = model.transactions[index];
+      builder: (context, model, child) =>
+          model != null && model.transactions != null
+              ? ListView.builder(
+                  physics: ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: model.transactions.length,
+                  itemBuilder: (ctx, index) {
+                    final trx = model.transactions[index];
 
-                return Container(
-                  child: ListTile(
-                    dense: true,
-                    leading: Container(
-                      alignment: Alignment.centerLeft,
-                      width: 42,
-                      child: trx.from == auth.accountName
-                          ? Icon(
-                              Icons.arrow_upward,
-                              color: Colors.redAccent,
-                            )
-                          : Icon(
-                              Icons.arrow_downward,
-                              color: CustomColors.Green,
-                            ),
-                    ),
-                    title: Text(
-                      "${trx.from} -> ${trx.to}",
-                      style: TextStyle(
-                        fontSize: 14,
+                    return Container(
+                      child: ListTile(
+                        dense: true,
+                        leading: Container(
+                          alignment: Alignment.centerLeft,
+                          width: 42,
+                          child: trx.from == auth.accountName
+                              ? Icon(
+                                  Icons.arrow_upward,
+                                  color: Colors.redAccent,
+                                )
+                              : Icon(
+                                  Icons.arrow_downward,
+                                  color: CustomColors.Green,
+                                ),
+                        ),
+                        title: Text(
+                          "${trx.from} -> ${trx.to}",
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                        subtitle: Text(trx.memo),
+                        trailing: Container(
+                            child: Text(
+                          trx.quantity,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: trx.from == auth.accountName
+                                ? Colors.redAccent
+                                : CustomColors.Green,
+                          ),
+                        )),
                       ),
-                    ),
-                    subtitle: Text(trx.memo),
-                    trailing: Container(
-                        child: Text(
-                      trx.quantity,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: trx.from == auth.accountName
-                            ? Colors.redAccent
-                            : CustomColors.Green,
-                      ),
-                    )),
+                    );
+                  })
+              : Center(
+                  child: LinearProgressIndicator(
+                    backgroundColor: CustomColors.Green,
                   ),
-                );
-              })
-          : Center(
-              child: LinearProgressIndicator(
-                backgroundColor: CustomColors.Green,
-              ),
-            ),
+                ),
     );
   }
 
@@ -138,6 +140,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   }
 
   Widget _dashboardList() {
+    print("rebuild dashboard");
+
     return ListView(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -151,15 +155,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                 color: CustomColors.Green,
               ),
             ),
-            title: FutureBuilder(
-              future: httpService.getBalance(widget.accountName),
-              builder: (BuildContext context, AsyncSnapshot<Balance> snapshot) {
-                if (snapshot.hasData) {
-                  return Text(snapshot.data.quantity);
-                } else {
-                  return LinearProgressIndicator();
-                }
-              },
+            title: ReactiveWidget(
+              onModelReady: (model) => model.fetchBalance(),
+              model: BalanceModel(
+                http: Provider.of<HttpService>(context),
+                auth: Provider.of<AuthService>(context),
+              ),
+              builder: (context, model, child) =>
+                  model != null && model.balance != null
+                      ? Text(model.balance.quantity)
+                      : LinearProgressIndicator(),
             ),
             subtitle: Text("Available balance"),
             trailing: SeedsButton("Transfer", () => {widget.movePage(1)}),

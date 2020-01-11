@@ -50,6 +50,23 @@ class HttpService {
   }
 
   Future<List<Transaction>> getTransactions(accountName) async {
+    if (isDebugMode) {
+      return [
+        Transaction(
+          "join.seeds",
+          "sevenflash42",
+          "15.0000 SEEDS",
+          ""
+        ),
+        Transaction(
+          "sevenflash42",
+          "testingseeds",
+          "5.0000 SEEDS",
+          ""
+        ),
+      ];
+    }
+
     final String transactionsURL =
         "https://telos.caleos.io/v2/history/get_actions?account=$accountName&filter=*%3A*&skip=0&limit=100&sort=desc";
 
@@ -79,6 +96,10 @@ class HttpService {
   }
 
   Future<Balance> getBalance(accountName) async {
+    if (isDebugMode) {
+      return Balance("10.0000 SEEDS");
+    }
+
     final String balanceURL =
         "https://telos.caleos.io/v1/chain/get_currency_balance";
 
