@@ -29,55 +29,15 @@ class _TransferState extends State<Transfer>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: 1, color: CustomColors.Green),
-              ),
-            ),
-            margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
-            padding: EdgeInsets.only(bottom: 5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "Send transactions - better than free",
-                  style: TextStyle(
-                    fontFamily: "worksans",
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: ListTile(
-              leading: Container(
-                width: 42,
-                child: Icon(
-                  Icons.star_half,
-                  color: CustomColors.Green,
-                ),
-              ),
-              title: Text("You sent 5 transactions of 10 transactions"),
-              subtitle: Text(
-                  "Send more transactions to increase your score and upgrade your status"),
-            ),
-          ),
-          // _usersTitle(),
-          SizedBox(height: 5),
-          _usersList(context),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: _usersList(context),
+        ),
+      ],
     );
   }
 
@@ -86,43 +46,54 @@ class _TransferState extends State<Transfer>
 
     return Consumer<MembersModel>(builder: (ctx, model, _) {
       return model != null && model.members != null
-          ? ListView.builder(
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
-              itemCount: model.members.length,
-              itemBuilder: (ctx, index) {
-                final user = model.members[index];
-
-                return ListTile(
-                  leading: Container(
-                    width: 60,
-                    height: 60,
-                    child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        backgroundImage:
-                            CachedNetworkImageProvider(user.image)),
-                  ),
-                  title: Text(
-                    user.nickname,
-                    style: TextStyle(fontFamily: "worksans"),
-                  ),
-                  subtitle: Text(
-                    user.account,
-                    style: TextStyle(fontFamily: "worksans"),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => TransferForm(
-                          user.nickname,
-                          user.account,
-                          user.image,
-                        ),
-                      ),
-                    );
-                  },
-                );
+          ? LiquidPullToRefresh(
+              springAnimationDurationInMilliseconds: 500,
+              showChildOpacityTransition: true,
+              backgroundColor: CustomColors.LightGreen,
+              color: CustomColors.LightBlue,
+              onRefresh: () async {
+                print("refresh");
+                Provider.of<MembersModel>(context, listen: false)
+                    .fetchMembers();
               },
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                itemCount: model.members.length,
+                itemBuilder: (ctx, index) {
+                  final user = model.members[index];
+
+                  return ListTile(
+                    leading: Container(
+                      width: 60,
+                      height: 60,
+                      child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          backgroundImage:
+                              CachedNetworkImageProvider(user.image)),
+                    ),
+                    title: Text(
+                      user.nickname,
+                      style: TextStyle(fontFamily: "worksans"),
+                    ),
+                    subtitle: Text(
+                      user.account,
+                      style: TextStyle(fontFamily: "worksans"),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TransferForm(
+                            user.nickname,
+                            user.account,
+                            user.image,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             )
           : ProgressBar();
     });
