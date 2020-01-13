@@ -54,7 +54,7 @@ class ProposalForm extends StatelessWidget {
             }
             print(snapshot);
 
-            var prop = snapshot.data[0] as Proposal;
+            var prop = snapshot.data[0] as ProposalModel;
             var title = prop.title;
             var subtitle = prop.summary;
             var urlString = prop.url;

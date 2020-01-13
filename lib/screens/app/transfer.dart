@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
-import 'package:seeds/viewmodels/balance.dart';
-import 'package:seeds/viewmodels/members.dart';
-import 'package:seeds/viewmodels/transactions.dart';
+import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/members_notifier.dart';
+import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 
 import 'transfer_form.dart';
@@ -40,9 +40,9 @@ class _TransferState extends State<Transfer>
   }
 
   Widget _usersList(context) {
-    print("rebuild users list");
+    print("[widget] rebuild users");
 
-    return Consumer<MembersModel>(builder: (ctx, model, _) {
+    return Consumer<MembersNotifier>(builder: (ctx, model, _) {
       return model != null && model.members != null
           ? LiquidPullToRefresh(
               springAnimationDurationInMilliseconds: 500,
@@ -50,8 +50,7 @@ class _TransferState extends State<Transfer>
               backgroundColor: CustomColors.lightGreen,
               color: CustomColors.lightBlue,
               onRefresh: () async {
-                print("refresh");
-                Provider.of<MembersModel>(context, listen: false)
+                Provider.of<MembersNotifier>(context, listen: false)
                     .fetchMembers();
               },
               child: ListView.builder(
@@ -89,8 +88,8 @@ class _TransferState extends State<Transfer>
                         ),
                       );
 
-                      Provider.of<TransactionsModel>(context, listen: false).fetchTransactions();
-                      Provider.of<BalanceModel>(context, listen: false).fetchBalance();
+                      TransactionsNotifier.of(context).fetchTransactions();
+                      BalanceNotifier.of(context).fetchBalance();
                     },
                   );
                 },

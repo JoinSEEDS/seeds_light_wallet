@@ -1,13 +1,13 @@
 
-class Member {
+class MemberModel {
   final String account;
   final String nickname;
   final String image;
 
-  Member({this.account, this.nickname, this.image});
+  MemberModel({this.account, this.nickname, this.image});
 
-  factory Member.fromJson(Map<String, dynamic> json) {
-    return Member(
+  factory MemberModel.fromJson(Map<String, dynamic> json) {
+    return MemberModel(
       account: json["account"],
       nickname: json["nickname"],
       image: json["image"],
@@ -15,16 +15,16 @@ class Member {
   }
 }
 
-class Transaction {
+class TransactionModel {
   final String from;
   final String to;
   final String quantity;
   final String memo;
 
-  Transaction(this.from, this.to, this.quantity, this.memo);
+  TransactionModel(this.from, this.to, this.quantity, this.memo);
 
-  factory Transaction.fromJson(Map<String, dynamic> json) {
-    return Transaction(
+  factory TransactionModel.fromJson(Map<String, dynamic> json) {
+    return TransactionModel(
       json["from"],
       json["to"],
       json["quantity"],
@@ -33,27 +33,27 @@ class Transaction {
   }
 }
 
-class Balance {
+class BalanceModel {
   final String quantity;
 
-  Balance(this.quantity);
+  BalanceModel(this.quantity);
 
-  factory Balance.fromJson(List<dynamic> json) {
-    return Balance(json[0] as String);
+  factory BalanceModel.fromJson(List<dynamic> json) {
+    return BalanceModel(json[0] as String);
   }
 }
 
-class Voice {
+class VoiceModel {
   final int amount;
 
-  Voice(this.amount);
+  VoiceModel(this.amount);
 
-  factory Voice.fromJson(Map<String, dynamic> json) {
-    return Voice(json[0] as int);
+  factory VoiceModel.fromJson(Map<String, dynamic> json) {
+    return VoiceModel(json[0] as int);
   }
 }
 
-class Proposal {
+class ProposalModel {
   final int id;
   final String creator;
   final String recipient;
@@ -73,7 +73,7 @@ class Proposal {
   final String fund;
   final int creationDate;
 
-  Proposal({
+  ProposalModel({
     this.id,
     this.creator,
     this.recipient,
@@ -94,8 +94,8 @@ class Proposal {
     this.creationDate,
   });
 
-  factory Proposal.fromJson(Map<String, dynamic> json) {
-    return Proposal(
+  factory ProposalModel.fromJson(Map<String, dynamic> json) {
+    return ProposalModel(
       id: json["id"],
       creator: json["creator"],
       recipient: json["recipient"],
@@ -120,7 +120,7 @@ class Proposal {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Proposal &&
+      other is ProposalModel &&
           runtimeType == other.runtimeType &&
           id == other.id &&
           creator == other.creator &&

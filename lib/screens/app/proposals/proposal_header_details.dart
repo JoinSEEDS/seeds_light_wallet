@@ -6,7 +6,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:seeds/models/models.dart';
 
 class ProposalHeaderDetails extends StatefulWidget {
-  final Proposal proposal;
+  final ProposalModel proposal;
 
   const ProposalHeaderDetails(this.proposal);
 
@@ -94,7 +94,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
     );
   }
 
-  Widget buildProposalDetails(Proposal proposal) {
+  Widget buildProposalDetails(ProposalModel proposal) {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       mainAxisSize: MainAxisSize.min,

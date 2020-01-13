@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:seeds/screens/onboarding/welcome.dart';
-import 'package:seeds/viewmodels/auth.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-
-import 'helpers.dart';
-
-import 'package:provider/provider.dart';
+import 'package:seeds/screens/onboarding/helpers.dart';
+import 'package:seeds/screens/onboarding/welcome.dart';
 
 class ImportAccount extends StatefulWidget {
   @override
@@ -112,7 +109,7 @@ class _ImportAccountState extends State<ImportAccount> {
                       String accountName = accountNameController.value.text;
                       String privateKey = privateKeyController.value.text;
 
-                      Provider.of<AuthModel>(context, listen: false).saveAccount(accountName, privateKey);
+                      AuthNotifier.of(context).saveAccount(accountName, privateKey);
 
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => Welcome(accountName),

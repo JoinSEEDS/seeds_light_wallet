@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/services/http_service.dart';
-import 'package:seeds/viewmodels/auth.dart';
-import 'package:seeds/viewmodels/balance.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
 import 'package:seeds/screens/app/proposals/proposal_form.dart';
 
 import 'package:provider/provider.dart';
-import 'package:seeds/viewmodels/transactions.dart';
 
 class Home extends StatefulWidget {
   final Function movePage;
@@ -31,7 +31,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _titleText("Welcome, ${Provider.of<AuthModel>(context, listen: false).accountName}"),
+          _titleText("Welcome, ${AuthNotifier.of(context).accountName}"),
           _dashboardList(),
           _titleText("Latest transactions"),
           _transactionsList(context)
@@ -43,16 +43,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   @override
   initState() {
     Future.delayed(Duration.zero).then((_) {
-      Provider.of<TransactionsModel>(context, listen: false).fetchTransactions();
-      Provider.of<BalanceModel>(context, listen: false).fetchBalance();
+      TransactionsNotifier.of(context).fetchTransactions();
+      BalanceNotifier.of(context).fetchBalance();
     });
     super.initState();
   }
 
   Widget _transactionsList(BuildContext context) {
-    print("rebuild transactions widget");
+    print("[widget] rebuild transactions");
 
-    return Consumer<TransactionsModel>(
+    return Consumer<TransactionsNotifier>(
       builder: (context, model, child) =>
           model != null && model.transactions != null
               ? ListView.builder(
@@ -68,7 +68,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                         leading: Container(
                           alignment: Alignment.centerLeft,
                           width: 42,
-                          child: trx.from == Provider.of<AuthModel>(context, listen: false).accountName
+                          child: trx.from == AuthNotifier.of(context).accountName
                               ? Icon(
                                   Icons.arrow_upward,
                                   color: Colors.redAccent,
@@ -90,7 +90,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                           trx.quantity,
                           style: TextStyle(
                             fontSize: 15,
-                            color: trx.from == Provider.of<AuthModel>(context, listen: false).accountName
+                            color: trx.from == AuthNotifier.of(context).accountName
                                 ? Colors.redAccent
                                 : CustomColors.green,
                           ),
@@ -132,7 +132,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   }
 
   Widget _dashboardList() {
-    print("rebuild dashboard");
+    print("[widget] rebuild dashboard");
 
     return ListView(
       physics: NeverScrollableScrollPhysics(),
@@ -147,7 +147,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                 color: CustomColors.green,
               ),
             ),
-            title: Consumer<BalanceModel>(
+            title: Consumer<BalanceNotifier>(
               builder: (context, model, child) =>
                   model != null && model.balance != null
                       ? Text(model.balance.quantity)

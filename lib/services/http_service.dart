@@ -1,22 +1,16 @@
 import 'dart:convert';
-
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
-
 import 'package:seeds/models/models.dart';
+import 'package:seeds/constants/http_mock_response.dart';
 
 class HttpService {
-  bool isDebugMode = DotEnv().env['DEBUG_MOCK_HTTP'] != "";
+  HttpMockResponse mockResponse = HttpMockResponse();
 
-  Future<List<Member>> getMembers() async {
-    if (isDebugMode) {
-      return [
-        Member(
-          account: "sevenflash42",
-          nickname: "Igor Berlenko",
-          image: "",
-        ),
-      ];
+  Future<List<MemberModel>> getMembers() async {
+    print("[http] get members");
+
+    if (mockResponse.isEnabled) {
+      return mockResponse.members;
     }
 
     final String membersURL =
@@ -37,8 +31,8 @@ class HttpService {
             item["account"] != "";
       }).toList();
 
-      List<Member> members = accountsWithProfile
-          .map((item) => Member.fromJson(item))
+      List<MemberModel> members = accountsWithProfile
+          .map((item) => MemberModel.fromJson(item))
           .toList();
 
       return members;
@@ -49,30 +43,17 @@ class HttpService {
     }
   }
 
-  Future<List<Transaction>> getTransactions(accountName) async {
-    if (isDebugMode) {
-      return [
-        Transaction(
-          "join.seeds",
-          "sevenflash42",
-          "15.0000 SEEDS",
-          ""
-        ),
-        Transaction(
-          "sevenflash42",
-          "testingseeds",
-          "5.0000 SEEDS",
-          ""
-        ),
-      ];
+  Future<List<TransactionModel>> getTransactions(accountName) async {
+    print("[http] get transactions");
+
+    if (mockResponse.isEnabled) {
+      return mockResponse.transactions;
     }
 
     final String transactionsURL =
         "https://telos.caleos.io/v2/history/get_actions?account=$accountName&filter=*%3A*&skip=0&limit=100&sort=desc";
 
     Response res = await get(transactionsURL);
-
-    print('get transactions');
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
@@ -83,8 +64,8 @@ class HttpService {
             item["act"]["data"]["from"] != null;
       }).toList();
 
-      List<Transaction> transactions = transfers
-          .map((item) => Transaction.fromJson(item["act"]["data"]))
+      List<TransactionModel> transactions = transfers
+          .map((item) => TransactionModel.fromJson(item["act"]["data"]))
           .toList();
 
       return transactions;
@@ -95,9 +76,11 @@ class HttpService {
     }
   }
 
-  Future<Balance> getBalance(accountName) async {
-    if (isDebugMode) {
-      return Balance("10.0000 SEEDS");
+  Future<BalanceModel> getBalance(accountName) async {
+    print("[http] get balance");
+
+    if (mockResponse.isEnabled) {
+      return mockResponse.balance;
     }
 
     final String balanceURL =
@@ -112,18 +95,24 @@ class HttpService {
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
 
-      Balance balance = Balance.fromJson(body);
+      BalanceModel balance = BalanceModel.fromJson(body);
 
       return balance;
     } else {
       print("Cannot fetch balance...");
 
-      return Balance("0.0000 SEEDS");
+      return BalanceModel("0.0000 SEEDS");
     }
   }
 
 
-  Future<Voice> getVoice(accountName) async {
+  Future<VoiceModel> getVoice(accountName) async {
+    print("[http] get voice");
+
+    if (mockResponse.isEnabled) {
+      return mockResponse.voice;
+    }
+
     final String voiceURL =
         'https://api.telos.eosindex.io/v1/chain/get_table_rows';
 
@@ -136,17 +125,23 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      Voice voice = Voice.fromJson(body);
+      VoiceModel voice = VoiceModel.fromJson(body);
 
       return voice;
     } else {
       print('Cannot fetch members...');
 
-      return Voice(0);
+      return VoiceModel(0);
     }
   }
 
-  Future<List<Proposal>> getProposals(String stage) async {
+  Future<List<ProposalModel>> getProposals(String stage) async {
+    print("[http] get proposals");
+
+    if (mockResponse.isEnabled) {
+      return mockResponse.proposals;
+    }
+
     final String proposalsURL =
         'https://api.telos.eosindex.io/v1/chain/get_table_rows';
 
@@ -167,8 +162,8 @@ class HttpService {
         return item["stage"] == stage; //&& item["staked"] == minimumStake;
       }).toList();
 
-      List<Proposal> proposals =
-          activeProposals.map((item) => Proposal.fromJson(item)).toList();
+      List<ProposalModel> proposals =
+          activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
 
       return proposals;
     } else {

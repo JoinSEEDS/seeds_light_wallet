@@ -51,17 +51,17 @@ class _ProposalsListState extends State<ProposalsList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return PaginatedListView<Proposal>(
+    return PaginatedListView<ProposalModel>(
       pageFuture: (int pageIndex) => HttpService().getProposals(widget.type),
       pageSize: 1000,
       showRefreshIndicator: true,
-      itemBuilder: (BuildContext context, Proposal proposal, int index) {
+      itemBuilder: (BuildContext context, ProposalModel proposal, int index) {
         return buildProposal(proposal);
       },
     );
   }
 
-  Widget buildProposal(Proposal proposal) {
+  Widget buildProposal(ProposalModel proposal) {
     return Hero(
       tag: proposal.hashCode,
       child: Card(

@@ -1,18 +1,18 @@
 import 'package:eosdart/eosdart.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/screens/onboarding/helpers.dart';
-import 'package:seeds/viewmodels/auth.dart';
 
 class EosService {
-  AuthModel _auth;
+  AuthNotifier _auth;
 
-  void initDependencies(AuthModel auth) {
+  final String endpointApi = "https://api.telos.eosindex.io";
+
+  void init({ AuthNotifier auth }) {
     print("eos update dependencies...");
     if (_auth == null) {
       _auth = auth;
     }
   }
-
-  final String endpointApi = "https://api.telos.eosindex.io";
 
   Future<dynamic> createAccount(
       String accountName, String publicKey, String inviteSecret) async {

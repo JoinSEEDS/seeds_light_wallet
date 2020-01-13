@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:seeds/viewmodels/auth.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-
-import './friends.dart';
-import './home.dart';
-import './transfer.dart';
-import 'proposals/proposals.dart';
+import 'package:seeds/screens/app/friends.dart';
+import 'package:seeds/screens/app/home.dart';
+import 'package:seeds/screens/app/transfer.dart';
+import 'package:seeds/screens/app/proposals/proposals.dart';
 
 class App extends StatefulWidget {
   App();
@@ -79,7 +77,7 @@ class _AppState extends State<App> {
       actions: <Widget>[
         Container(
           child: SeedsButton("Logout", () {
-            Provider.of<AuthModel>(context, listen: false).removeAccount();
+            AuthNotifier.of(context).removeAccount();
           }, true),
           height: 20,
           margin: EdgeInsets.only(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 enum AuthStatus {
   INIT,
@@ -9,7 +10,7 @@ enum AuthStatus {
   OPEN
 }
 
-class AuthModel extends ChangeNotifier {
+class AuthNotifier extends ChangeNotifier {
   AuthStatus status = AuthStatus.INIT;
   
   get accountName => _accountName;
@@ -21,13 +22,12 @@ class AuthModel extends ChangeNotifier {
   String _passcode;
 
   SharedPreferences _prefs;
-  bool _locked;
+  bool _locked = true;
 
-  AuthModel() {
-    _init();
-  }
+  static of(BuildContext context, {bool listen = false}) =>
+      Provider.of<AuthNotifier>(context, listen: listen);
 
-  void _init() async {
+  void init() async {
     _prefs = await SharedPreferences.getInstance();
     
     _locked = true;
@@ -45,11 +45,11 @@ class AuthModel extends ChangeNotifier {
       status = AuthStatus.UNLOCK;
     }
 
-    if (_passcode.isEmpty) {
+    if (_passcode == null) {
       status = AuthStatus.LOCK;
     }
 
-    if (_accountName.isEmpty || _privateKey.isEmpty) {
+    if (_accountName == null || _privateKey == null) {
       status = AuthStatus.CREATE;
     }
 
@@ -84,5 +84,11 @@ class AuthModel extends ChangeNotifier {
     _prefs.remove("accountName");
     _prefs.remove("privateKey");
     _prefs.remove("passcode");
+
+    _accountName = null;
+    _privateKey = null;
+    _passcode = null;
+
+    updateStatus();
   }
 }

@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:seeds/models/models.dart';
 
 class ProposalDetailsPage extends StatefulWidget {
-  final Proposal proposal;
+  final ProposalModel proposal;
 
   const ProposalDetailsPage({Key key, @required this.proposal})
       : super(key: key);
@@ -42,7 +42,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
     );
   }
 
-  Widget buildProposalHeader(Proposal proposal) {
+  Widget buildProposalHeader(ProposalModel proposal) {
     return Hero(
       tag: proposal.hashCode,
       flightShuttleBuilder: (BuildContext flightContext,
@@ -63,7 +63,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
     );
   }
 
-  Widget buildProposalDetails(Proposal proposal) {
+  Widget buildProposalDetails(ProposalModel proposal) {
     final textTheme = Theme.of(context).textTheme;
 
     return Card(
@@ -128,7 +128,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
     );
   }
 
-  Card buildDescription(Proposal proposal) {
+  Card buildDescription(ProposalModel proposal) {
     final textTheme = Theme.of(context).textTheme;
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -151,7 +151,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
     );
   }
 
-  Card buildVote(Proposal proposal) {
+  Card buildVote(ProposalModel proposal) {
     final textTheme = Theme.of(context).textTheme;
 
     return Card(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// https://github.com/FilledStacks/flutter-tutorials/blob/master/014-provider-v3-updates/2-final/lib/ui/views/base_widget.dart
 class ReactiveWidget<T extends ChangeNotifier> extends StatefulWidget {
   final Widget Function(BuildContext context, T model, Widget child) builder;
   final T model;
