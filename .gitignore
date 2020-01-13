@@ -74,7 +74,6 @@
 
 .vscode
 
-.env*
 pubspec\.lock
 
 \.flutter-plugins-dependencies

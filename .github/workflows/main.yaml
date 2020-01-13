@@ -2,7 +2,6 @@ name: Main
 on: [push]
 jobs:
   lint-and-test:
-    name: Lint and test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -14,17 +13,15 @@ jobs:
           channel: 'stable'
       - name: Upgrade flutter
         run: |
-          flutter channel master
+          flutter channel stable
           flutter upgrade
       - name: Install packages
         run: |
-          cd ./flutter_seeds_wallet
+          ls
           flutter pub get
       - name: Lint
         run: |
-          cd ./flutter_seeds_wallet
           flutter analyze
       - name: Unit test
         run: |
-          cd ./flutter_seeds_wallet
-          flutter test     
+          flutter test
