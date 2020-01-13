@@ -70,7 +70,7 @@ class _TransferFormState extends State<TransferForm>
       statusStream: _statusNotifier.stream,
       messageStream: _messageNotifier.stream,
       afterSuccessCallback: () {
-        Navigator.of(context).pop();
+        Navigator.of(context).pop();        
       },
       afterFailureCallback: () {
         Navigator.of(context).pop();

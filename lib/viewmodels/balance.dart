@@ -18,4 +18,12 @@ class BalanceModel extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  void initDependencies({ HttpService http, AuthModel auth }) {
+    if (_http == null)
+      _http = http;
+
+    if (_auth == null)
+      _auth = auth;
+  }
 }

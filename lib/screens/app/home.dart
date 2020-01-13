@@ -41,22 +41,17 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
 
   @override
   initState() {
-    // Future.delayed(Duration.zero).then((_) {
-    //   Provider.of<TransactionsModel>(context, listen: false)
-    //       .fetchTransactions();
-    // });
+    Future.delayed(Duration.zero).then((_) {
+      Provider.of<TransactionsModel>(context, listen: false).fetchTransactions();
+      Provider.of<BalanceModel>(context, listen: false).fetchBalance();
+    });
     super.initState();
   }
 
   Widget _transactionsList(BuildContext context) {
     print("rebuild transactions widget");
 
-    return ReactiveWidget(
-      onModelReady: (model) => model.fetchTransactions(),
-      model: TransactionsModel(
-        auth: Provider.of<AuthModel>(context),
-        http: Provider.of<HttpService>(context),
-      ),
+    return Consumer<TransactionsModel>(
       builder: (context, model, child) =>
           model != null && model.transactions != null
               ? ListView.builder(
@@ -151,12 +146,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                 color: CustomColors.Green,
               ),
             ),
-            title: ReactiveWidget(
-              onModelReady: (model) => model.fetchBalance(),
-              model: BalanceModel(
-                http: Provider.of<HttpService>(context),
-                auth: Provider.of<AuthModel>(context, listen: false),
-              ),
+            title: Consumer<BalanceModel>(
               builder: (context, model, child) =>
                   model != null && model.balance != null
                       ? Text(model.balance.quantity)

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/viewmodels/auth.dart';
+import 'package:seeds/viewmodels/balance.dart';
 import 'package:seeds/viewmodels/members.dart';
+import 'package:seeds/viewmodels/transactions.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/services/http_service.dart';
 import 'package:seeds/widgets/reactive_widget.dart';
@@ -80,8 +82,8 @@ class _TransferState extends State<Transfer>
                       user.account,
                       style: TextStyle(fontFamily: "worksans"),
                     ),
-                    onTap: () {
-                      Navigator.of(context).push(
+                    onTap: () async {
+                      await Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => TransferForm(
                             user.nickname,
@@ -90,6 +92,9 @@ class _TransferState extends State<Transfer>
                           ),
                         ),
                       );
+
+                      Provider.of<TransactionsModel>(context, listen: false).fetchTransactions();
+                      Provider.of<BalanceModel>(context, listen: false).fetchBalance();
                     },
                   );
                 },

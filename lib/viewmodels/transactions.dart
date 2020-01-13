@@ -17,4 +17,14 @@ class TransactionsModel extends ChangeNotifier {
     transactions = await _http.getTransactions(_auth.accountName);
     notifyListeners();
   }
+
+  void initDependencies({ HttpService http, AuthModel auth }) {
+    print("transactions init deps");
+
+    if (_http == null)
+      _http = http;
+
+    if (_auth == null)
+      _auth = auth;
+  }
 }

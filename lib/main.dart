@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:seeds/services/eos_service.dart';
 import 'package:seeds/services/http_service.dart';
 import 'package:seeds/viewmodels/auth.dart';
+import 'package:seeds/viewmodels/balance.dart';
 import 'package:seeds/viewmodels/members.dart';
+import 'package:seeds/viewmodels/transactions.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 
@@ -36,6 +38,14 @@ class _SeedsAppState extends State<SeedsApp> {
           create: (context) => MembersModel(),
           update: (context, http, members) => members..initDependencies(http),
         ),
+        ChangeNotifierProxyProvider2<AuthModel, HttpService, TransactionsModel>(
+          create: (context) => TransactionsModel(),
+          update: (context, auth, http, transactions) => transactions..initDependencies(auth: auth, http: http)
+        ),
+        ChangeNotifierProxyProvider2<AuthModel, HttpService, BalanceModel>(
+          create: (context) => BalanceModel(),
+          update: (context, auth, http, balance) => balance..initDependencies(auth: auth, http: http)
+        ),
       ],
       child: Consumer<AuthModel>(builder: (ctx, auth, _) {
         Widget screen;
@@ -51,7 +61,7 @@ class _SeedsAppState extends State<SeedsApp> {
             screen = LockWallet();
             break;
           case AuthStatus.UNLOCK:
-            screen = App(); // UnlockWallet();
+            screen = UnlockWallet();
             break;
           case AuthStatus.OPEN:
             screen = App();
