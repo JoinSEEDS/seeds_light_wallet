@@ -27,8 +27,6 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
   Widget build(BuildContext context) {
     final proposal = widget.proposal;
 
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Proposal details'),

@@ -46,11 +46,11 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
     super.dispose();
     animationController.dispose();
 
-    // if (statusSubscription != null)
-    //   statusSubscription.dispose();
+    if (statusSubscription != null)
+      statusSubscription.cancel();
 
-    // if (messageSubscription != null)
-    //   messageSubscription.dispose();
+    if (messageSubscription != null)
+      messageSubscription.cancel();
   }
 
   @override

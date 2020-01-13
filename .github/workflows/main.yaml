@@ -1,18 +1,30 @@
-on: push
-name: Build and release APK
+name: Main
+on: [push]
 jobs:
-  build:
-    name: Build APK
+  lint-and-test:
+    name: Lint and test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: steebchen/flutter@v1.0.0
-      with:
-        args: pub get
-    - uses: steebchen/flutter@v1.0.0
-      with:
-        args: build apk --debug --split-per-abi
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: "build/app/outputs/apk/debug/*.apk"
-        token: ${{ secrets.seedswallet }}
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - name: Upgrade flutter
+        run: |
+          flutter channel master
+          flutter upgrade
+      - name: Install packages
+        run: |
+          cd ./flutter_seeds_wallet
+          flutter pub get
+      - name: Lint
+        run: |
+          cd ./flutter_seeds_wallet
+          flutter analyze
+      - name: Unit test
+        run: |
+          cd ./flutter_seeds_wallet
+          flutter test     
