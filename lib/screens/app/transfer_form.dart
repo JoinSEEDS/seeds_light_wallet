@@ -6,8 +6,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/services/eos_service.dart';
-import 'package:seeds/viewmodels/balance.dart';
-import 'package:seeds/viewmodels/transactions.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
@@ -129,7 +127,7 @@ class _TransferFormState extends State<TransferForm>
                       SizedBox(
                         height: 25,
                         child: FlatButton(
-                          color: CustomColors.Green,
+                          color: CustomColors.green,
                           textColor: Colors.white,
                           child: Text(
                             "${widget.accountName}",
@@ -159,7 +157,7 @@ class _TransferFormState extends State<TransferForm>
                                   style: TextStyle(
                                     fontFamily: "worksans",
                                     fontSize: 12,
-                                    color: CustomColors.Grey,
+                                    color: CustomColors.grey,
                                   ),
                                 ),
                                 SizedBox(width: 5),
@@ -193,7 +191,7 @@ class _TransferFormState extends State<TransferForm>
                               ],
                             ),
                             SizedBox(height: 10),
-                            Divider(height: 0.1, color: CustomColors.Grey),
+                            Divider(height: 0.1, color: CustomColors.grey),
                             SizedBox(height: 30),
                             Opacity(
                               opacity: this.validAmount ? 1.0 : 0.0,
@@ -206,12 +204,12 @@ class _TransferFormState extends State<TransferForm>
                                     style: TextStyle(
                                       fontFamily: "worksans",
                                       fontSize: 17,
-                                      color: CustomColors.Green,
+                                      color: CustomColors.green,
                                     ),
                                   ),
                                   Icon(
                                     Icons.chevron_right,
-                                    color: CustomColors.Grey,
+                                    color: CustomColors.grey,
                                     size: 40,
                                   ),
                                 ],

@@ -11,7 +11,7 @@ class Friends extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(width: 1, color: CustomColors.Green),
+                bottom: BorderSide(width: 1, color: CustomColors.green),
               ),
             ),
             margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
@@ -43,10 +43,9 @@ class Friends extends StatelessWidget {
                     width: 42,
                     child: Icon(
                       Icons.star_half,
-                      color: CustomColors.Green,
+                      color: CustomColors.green,
                     ),
                   ),
-                  title: Text("You invited 1 user of 2 required"),
                   subtitle: Text("Invite more users to upgrade your status and become citizen"),
                 ),
               ),

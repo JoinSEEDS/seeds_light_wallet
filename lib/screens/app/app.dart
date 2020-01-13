@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:seeds/viewmodels/auth.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
+import './friends.dart';
 import './home.dart';
 import './transfer.dart';
-import './harvest.dart';
-import './friends.dart';
+import 'proposals/proposals.dart';
 
 class App extends StatefulWidget {
   App();
@@ -18,11 +18,11 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int index = 0;
 
-  final navigationTitles = ["Dashboard", "Transfer", "Harvest", "Friends"];
+  final navigationTitles = ["Dashboard", "Transfer", "Vote", "Invite"];
   final navigationIcons = [
     Icons.home,
     Icons.account_balance_wallet,
-    Icons.settings_backup_restore,
+    Icons.event_note,
     Icons.people
   ];
 
@@ -101,7 +101,7 @@ class _AppState extends State<App> {
       children: <Widget>[
         Home(movePage),
         Transfer(),
-        Harvest(),
+        Proposals(),
         Friends(),
       ],
     );

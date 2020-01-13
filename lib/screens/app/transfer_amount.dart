@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:seeds/constants/custom_colors.dart';
@@ -128,9 +127,9 @@ class _TransferAmountState extends State<TransferAmount> {
                       width: MediaQuery.of(context).size.width,
                       height: 40,
                       child: FlatButton(
-                        color: CustomColors.Green,
-                        textColor: CustomColors.Green,
-                        disabledColor: CustomColors.Grey,
+                        color: CustomColors.green,
+                        textColor: CustomColors.green,
+                        disabledColor: CustomColors.grey,
                         child: Text(
                           "Confirm",
                           style: TextStyle(

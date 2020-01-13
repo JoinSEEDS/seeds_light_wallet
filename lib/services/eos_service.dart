@@ -12,10 +12,12 @@ class EosService {
     }
   }
 
-  Future<dynamic> createAccount(String accountName, String publicKey, String inviteSecret) async {
-    String endpointApi = "https://api.telos.eosindex.io";
+  final String endpointApi = "https://api.telos.eosindex.io";
 
-    EOSClient client = EOSClient(endpointApi, 'v1', privateKeys: [applicationPrivateKey]);
+  Future<dynamic> createAccount(
+      String accountName, String publicKey, String inviteSecret) async {
+    EOSClient client =
+        EOSClient(endpointApi, 'v1', privateKeys: [applicationPrivateKey]);
 
     Map data = {
       "account": accountName,
@@ -46,10 +48,7 @@ class EosService {
     String privateKey = _auth.privateKey;
     String from = _auth.accountName;
 
-    String endpointApi = "https://api.telos.eosindex.io";
-
-    EOSClient client =
-        EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
+    EOSClient client = EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
 
     Map data = {
       "from": from,
@@ -77,4 +76,30 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
+  Future<dynamic> voteProposal({int id, int amount}) async {
+    String privateKey = _auth.privateKey;
+    String from = _auth.accountName;
+
+    EOSClient client = EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
+
+    Map data = {"voter": from, "id": id, "amount": amount.abs()};
+
+    List<Authorization> auth = [
+      Authorization()
+        ..actor = from
+        ..permission = "active"
+    ];
+
+    List<Action> actions = [
+      Action()
+        ..account = "funds.seeds"
+        ..name = amount.isNegative ? "against" : "favour"
+        ..authorization = auth
+        ..data = data
+    ];
+
+    Transaction transaction = Transaction()..actions = actions;
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
 }

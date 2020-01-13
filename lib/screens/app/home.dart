@@ -3,8 +3,9 @@ import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/services/http_service.dart';
 import 'package:seeds/viewmodels/auth.dart';
 import 'package:seeds/viewmodels/balance.dart';
-import 'package:seeds/widgets/reactive_widget.dart';
 import 'package:seeds/widgets/seeds_button.dart';
+
+import 'package:seeds/screens/app/proposals/proposal_form.dart';
 
 import 'package:provider/provider.dart';
 import 'package:seeds/viewmodels/transactions.dart';
@@ -74,7 +75,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                 )
                               : Icon(
                                   Icons.arrow_downward,
-                                  color: CustomColors.Green,
+                                  color: CustomColors.green,
                                 ),
                         ),
                         title: Text(
@@ -91,7 +92,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                             fontSize: 15,
                             color: trx.from == Provider.of<AuthModel>(context, listen: false).accountName
                                 ? Colors.redAccent
-                                : CustomColors.Green,
+                                : CustomColors.green,
                           ),
                         )),
                       ),
@@ -99,7 +100,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                   })
               : Center(
                   child: LinearProgressIndicator(
-                    backgroundColor: CustomColors.Green,
+                    backgroundColor: CustomColors.green,
                   ),
                 ),
     );
@@ -109,7 +110,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(width: 1, color: CustomColors.Green),
+          bottom: BorderSide(width: 1, color: CustomColors.green),
         ),
       ),
       margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
@@ -143,7 +144,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
               width: 42,
               child: Icon(
                 Icons.account_balance_wallet,
-                color: CustomColors.Green,
+                color: CustomColors.green,
               ),
             ),
             title: Consumer<BalanceModel>(
@@ -160,83 +161,69 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
             leading: Container(
               width: 42,
               child: Icon(
-                Icons.settings_backup_restore,
-                color: CustomColors.Green,
+                Icons.event_note,
+                color: CustomColors.green,
               ),
             ),
-            title: Text("25.0000 SEEDS"),
-            subtitle: Text("Planted amount"),
-            trailing: SeedsButton("Harvest", () => widget.movePage(2))),
+            title: Text("0 VOICE"),
+            subtitle: Text("Voice balance"),
+            trailing: SeedsButton("Vote", () => widget.movePage(2))),
         ListTile(
           leading: Container(
             width: 42,
             child: Icon(
               Icons.people,
-              color: CustomColors.Green,
+              color: CustomColors.green,
             ),
           ),
           title: Text("75.0000 SEEDS"),
-          subtitle: Text("Gifted amount"),
-          trailing: SeedsButton("Friends", () => widget.movePage(3)),
+          subtitle: Text("Invites balance"),
+          trailing: SeedsButton("Invite", () => widget.movePage(3)),
         ),
         SizedBox(height: 10),
         Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                width: 0,
+            decoration: BoxDecoration(
                 color: Colors.white,
-                style: BorderStyle.solid,
+                border: Border.all(
+                  width: 0,
+                  color: Colors.white,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5.0),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: CustomColors.lightGrey19,
+                    offset: Offset(0, 0),
+                    blurRadius: 0.1,
+                    spreadRadius: 0.1,
+                  )
+                ]),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ProposalForm()));
+              },
+              child: ListTile(
+                leading: Container(
+                  width: 42,
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.star_half,
+                    color: CustomColors.green,
+                  ),
+                ),
+                title: Text(
+                  "Urgent proposals waiting for your approval",
+                  style: TextStyle(
+                    fontFamily: "worksans",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.0),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: CustomColors.LightGrey19,
-                  offset: Offset(0, 0),
-                  blurRadius: 0.1,
-                  spreadRadius: 0.1,
-                )
-              ]),
-          child: ListTile(
-            leading: Container(
-              width: 42,
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.star_half,
-                color: CustomColors.Green,
-              ),
-            ),
-            title: Wrap(
-              alignment: WrapAlignment.spaceBetween,
-              runSpacing: 8,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text("30 %"),
-                    Text("Transactions"),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text("50 %"),
-                    Text("Planting"),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text("80 %"),
-                    Text("Reputation"),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[Text("25%"), Text("Community")],
-                ),
-              ],
-            ),
-          ),
-        ),
+            )),
       ],
     );
   }

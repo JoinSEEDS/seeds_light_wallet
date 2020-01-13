@@ -121,4 +121,60 @@ class HttpService {
       return Balance("0.0000 SEEDS");
     }
   }
+
+
+  Future<Voice> getVoice(accountName) async {
+    final String voiceURL =
+        'https://api.telos.eosindex.io/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"voice","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(voiceURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      Voice voice = Voice.fromJson(body);
+
+      return voice;
+    } else {
+      print('Cannot fetch members...');
+
+      return Voice(0);
+    }
+  }
+
+  Future<List<Proposal>> getProposals(String stage) async {
+    final String proposalsURL =
+        'https://api.telos.eosindex.io/v1/chain/get_table_rows';
+
+    // final String minimumStake = "1.0000 SEEDS";
+
+    String request =
+        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"props","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(proposalsURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+//      d("body = ${res.body}");
+
+      List<dynamic> activeProposals = body["rows"].where((dynamic item) {
+        return item["stage"] == stage; //&& item["staked"] == minimumStake;
+      }).toList();
+
+      List<Proposal> proposals =
+          activeProposals.map((item) => Proposal.fromJson(item)).toList();
+
+      return proposals;
+    } else {
+      print('Cannot fetch proposals...');
+
+      return [];
+    }
+  }  
 }

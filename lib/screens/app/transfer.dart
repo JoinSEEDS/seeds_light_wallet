@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:seeds/constants/custom_colors.dart';
-import 'package:seeds/viewmodels/auth.dart';
 import 'package:seeds/viewmodels/balance.dart';
 import 'package:seeds/viewmodels/members.dart';
 import 'package:seeds/viewmodels/transactions.dart';
 import 'package:seeds/widgets/progress_bar.dart';
-import 'package:seeds/services/http_service.dart';
-import 'package:seeds/widgets/reactive_widget.dart';
 
 import 'transfer_form.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -51,8 +47,8 @@ class _TransferState extends State<Transfer>
           ? LiquidPullToRefresh(
               springAnimationDurationInMilliseconds: 500,
               showChildOpacityTransition: true,
-              backgroundColor: CustomColors.LightGreen,
-              color: CustomColors.LightBlue,
+              backgroundColor: CustomColors.lightGreen,
+              color: CustomColors.lightBlue,
               onRefresh: () async {
                 print("refresh");
                 Provider.of<MembersModel>(context, listen: false)

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,8 @@ import 'package:seeds/viewmodels/transactions.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 
+import 'generated/r.dart';
+
 main(List<String> args) async {
   await DotEnv().load('.env');
 
@@ -22,6 +26,7 @@ class SeedsApp extends StatefulWidget {
   @override
   _SeedsAppState createState() => _SeedsAppState();
 }
+
 
 class _SeedsAppState extends State<SeedsApp> {
   @override
@@ -70,9 +75,13 @@ class _SeedsAppState extends State<SeedsApp> {
             screen = SplashScreen();
         }
 
-        return MaterialApp(
+        return ToolboxApp(child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home: screen,
+        ), noItemsFoundWidget: Padding(
+          padding: const EdgeInsets.all(32),
+          child: SvgPicture.asset(R.noItemFound),
+         ),
         );
       }),
     );
