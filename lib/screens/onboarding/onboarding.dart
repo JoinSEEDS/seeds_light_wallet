@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:seeds/constants/custom_colors.dart';
 
 import 'create_account.dart';
 import 'helpers.dart';
@@ -33,41 +34,44 @@ class Onboarding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        return SafeArea(
-          child: IntroViewsFlutter(
-            featurePages,
-            onTapDoneButton: () async {
-              if (isDebugMode() && debugInviteSecret.isNotEmpty == true) {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => CreateAccount(debugInviteSecret),
-                  ),
-                );
-              } else {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => OnboardingMethodChoice(),
-                  ),
-                );
-              }
-            },
-            doneButtonPersist: true,
-            doneText: Text(
-              "JOIN NOW",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "worksans",
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
+        return Container(
+          color: CustomColors.darkBlue,
+          child: SafeArea(
+            child: IntroViewsFlutter(
+              featurePages,
+              onTapDoneButton: () async {
+                if (isDebugMode() && debugInviteSecret.isNotEmpty == true) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => CreateAccount(debugInviteSecret),
+                    ),
+                  );
+                } else {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => OnboardingMethodChoice(),
+                    ),
+                  );
+                }
+              },
+              doneButtonPersist: true,
+              doneText: Text(
+                "JOIN NOW",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "worksans",
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
-            ),
-            showSkipButton: false,
-            showNextButton: true,
-            showBackButton: true,
-            pageButtonTextStyles: TextStyle(
-              fontFamily: "worksans",
-              fontSize: 18.0,
-              fontWeight: FontWeight.w700,
+              showSkipButton: false,
+              showNextButton: true,
+              showBackButton: true,
+              pageButtonTextStyles: TextStyle(
+                fontFamily: "worksans",
+                fontSize: 18.0,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         );
