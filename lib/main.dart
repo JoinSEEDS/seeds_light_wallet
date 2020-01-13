@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
-import 'package:seeds/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/services/eos_service.dart';
 import 'package:seeds/services/http_service.dart';
-
-import 'viewmodels/transactions.dart';
+import 'package:seeds/viewmodels/auth.dart';
+import 'package:seeds/viewmodels/members.dart';
+import 'package:seeds/widgets/passcode.dart';
+import 'package:seeds/widgets/splash_screen.dart';
 
 main(List<String> args) async {
   await DotEnv().load('.env');
@@ -20,27 +22,49 @@ class SeedsApp extends StatefulWidget {
 }
 
 class _SeedsAppState extends State<SeedsApp> {
-  final AuthService authService = AuthService();
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MultiProvider(
-        providers: [
-          Provider.value(value: HttpService()),
-          Provider.value(value: AuthService()),
-        ],
-        child: FutureBuilder(
-          future: authService.initializedAccount(),
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
-              return App(snapshot.data);
-            }
-            return Onboarding();
-          },
+    return MultiProvider(
+      providers: [
+        Provider.value(value: HttpService()),
+        ChangeNotifierProvider.value(value: AuthModel()),
+        ProxyProvider<AuthModel, EosService>(
+          create: (context) => EosService(),
+          update: (context, auth, eos) => eos..initDependencies(auth),
         ),
-      ),
+        ChangeNotifierProxyProvider<HttpService, MembersModel>(
+          create: (context) => MembersModel(),
+          update: (context, http, members) => members..initDependencies(http),
+        ),
+      ],
+      child: Consumer<AuthModel>(builder: (ctx, auth, _) {
+        Widget screen;
+
+        switch (auth.status) {
+          case AuthStatus.INIT:
+            screen = SplashScreen();
+            break;
+          case AuthStatus.CREATE:
+            screen = Onboarding();
+            break;
+          case AuthStatus.LOCK:
+            screen = LockWallet();
+            break;
+          case AuthStatus.UNLOCK:
+            screen = App(); // UnlockWallet();
+            break;
+          case AuthStatus.OPEN:
+            screen = App();
+            break;
+          default:
+            screen = SplashScreen();
+        }
+
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: screen,
+        );
+      }),
     );
   }
 }

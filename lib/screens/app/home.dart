@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/services/auth_service.dart';
 import 'package:seeds/services/http_service.dart';
+import 'package:seeds/viewmodels/auth.dart';
 import 'package:seeds/viewmodels/balance.dart';
 import 'package:seeds/widgets/reactive_widget.dart';
 import 'package:seeds/widgets/seeds_button.dart';
@@ -12,9 +11,8 @@ import 'package:seeds/viewmodels/transactions.dart';
 
 class Home extends StatefulWidget {
   final Function movePage;
-  final String accountName;
 
-  Home(this.movePage, this.accountName);
+  Home(this.movePage);
 
   @override
   _HomeState createState() => _HomeState();
@@ -22,7 +20,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 
   final HttpService httpService = HttpService();
 
@@ -32,10 +30,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _titleText("Welcome, ${widget.accountName}"),
+          _titleText("Welcome, ${Provider.of<AuthModel>(context, listen: false).accountName}"),
           _dashboardList(),
           _titleText("Latest transactions"),
-          _transactionsList()
+          _transactionsList(context)
         ],
       ),
     );
@@ -50,16 +48,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     super.initState();
   }
 
-  Widget _transactionsList() {
-    AuthService auth = Provider.of(context);
-
+  Widget _transactionsList(BuildContext context) {
     print("rebuild transactions widget");
 
     return ReactiveWidget(
       onModelReady: (model) => model.fetchTransactions(),
       model: TransactionsModel(
-        auth: Provider.of(context),
-        http: Provider.of(context),
+        auth: Provider.of<AuthModel>(context),
+        http: Provider.of<HttpService>(context),
       ),
       builder: (context, model, child) =>
           model != null && model.transactions != null
@@ -76,7 +72,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                         leading: Container(
                           alignment: Alignment.centerLeft,
                           width: 42,
-                          child: trx.from == auth.accountName
+                          child: trx.from == Provider.of<AuthModel>(context, listen: false).accountName
                               ? Icon(
                                   Icons.arrow_upward,
                                   color: Colors.redAccent,
@@ -98,7 +94,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                           trx.quantity,
                           style: TextStyle(
                             fontSize: 15,
-                            color: trx.from == auth.accountName
+                            color: trx.from == Provider.of<AuthModel>(context, listen: false).accountName
                                 ? Colors.redAccent
                                 : CustomColors.Green,
                           ),
@@ -159,7 +155,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
               onModelReady: (model) => model.fetchBalance(),
               model: BalanceModel(
                 http: Provider.of<HttpService>(context),
-                auth: Provider.of<AuthService>(context),
+                auth: Provider.of<AuthModel>(context, listen: false),
               ),
               builder: (context, model, child) =>
                   model != null && model.balance != null

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/screens/onboarding/onboarding.dart';
-import 'package:seeds/services/auth_service.dart';
-import 'package:seeds/widgets/passcode.dart';
+import 'package:provider/provider.dart';
+import 'package:seeds/viewmodels/auth.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
 import './home.dart';
@@ -10,17 +9,13 @@ import './harvest.dart';
 import './friends.dart';
 
 class App extends StatefulWidget {
-  final String accountName;
-
-  App(this.accountName);
+  App();
 
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  final AuthService authService = AuthService();
-
   int index = 0;
 
   final navigationTitles = ["Dashboard", "Transfer", "Harvest", "Friends"];
@@ -31,31 +26,9 @@ class _AppState extends State<App> {
     Icons.people
   ];
 
-  Future requirePasscode() async {
-    String existingPasscode = await authService.getPasscode();
-
-    Future.delayed(Duration.zero, () {
-      if (existingPasscode != null && existingPasscode != "") {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => UnlockWallet(existingPasscode),
-          ),
-        );
-      } else {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => LockWallet(),
-          ),
-        );
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-
-    requirePasscode();
   }
 
   List<BottomNavigationBarItem> buildNavigationItems() {
@@ -105,14 +78,8 @@ class _AppState extends State<App> {
       centerTitle: false,
       actions: <Widget>[
         Container(
-          child: SeedsButton("Logout", () async {
-            await authService.removeAccount();
-
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (ctx) => Onboarding(),
-              ),
-            );
+          child: SeedsButton("Logout", () {
+            Provider.of<AuthModel>(context, listen: false).removeAccount();
           }, true),
           height: 20,
           margin: EdgeInsets.only(
@@ -128,11 +95,12 @@ class _AppState extends State<App> {
 
   Widget buildPageView() {
     return PageView(
+      
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        Home(movePage, this.widget.accountName),
-        Transfer(this.widget.accountName),
+        Home(movePage),
+        Transfer(),
         Harvest(),
         Friends(),
       ],

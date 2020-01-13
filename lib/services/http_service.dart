@@ -26,7 +26,7 @@ class HttpService {
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response res = await post(membersURL, headers: headers, body: request);;
+    Response res = await post(membersURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);

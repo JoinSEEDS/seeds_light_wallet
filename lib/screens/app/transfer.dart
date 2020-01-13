@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seeds/constants/custom_colors.dart';
-import 'package:seeds/models/models.dart';
+import 'package:seeds/viewmodels/auth.dart';
 import 'package:seeds/viewmodels/members.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/services/http_service.dart';
@@ -12,10 +12,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:provider/provider.dart';
 
-class Transfer extends StatefulWidget {
-  final String accountName;
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-  Transfer(this.accountName);
+class Transfer extends StatefulWidget {
+  Transfer();
 
   @override
   _TransferState createState() => _TransferState();
@@ -84,10 +84,8 @@ class _TransferState extends State<Transfer>
   Widget _usersList(context) {
     print("rebuild users list");
 
-    return ReactiveWidget(
-      onModelReady: (model) => model.fetchMembers(),
-      model: MembersModel(http: Provider.of<HttpService>(context)),
-      builder: (context, model, child) => model != null && model.members != null
+    return Consumer<MembersModel>(builder: (ctx, model, _) {
+      return model != null && model.members != null
           ? ListView.builder(
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
@@ -116,7 +114,6 @@ class _TransferState extends State<Transfer>
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => TransferForm(
-                          this.widget.accountName,
                           user.nickname,
                           user.account,
                           user.image,
@@ -125,8 +122,9 @@ class _TransferState extends State<Transfer>
                     );
                   },
                 );
-              })
-          : ProgressBar(),
-    );
+              },
+            )
+          : ProgressBar();
+    });
   }
 }

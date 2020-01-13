@@ -5,7 +5,9 @@ import 'package:seeds/services/http_service.dart';
 class MembersModel extends ChangeNotifier {
   HttpService _http;
 
-  MembersModel({ http }) : _http = http;
+  MembersModel({ http }) {
+    _http = http;
+  }
 
   List<Member> members;
 
@@ -17,5 +19,14 @@ class MembersModel extends ChangeNotifier {
       members = result;
       notifyListeners();
     });
+  }
+
+  void initDependencies(HttpService http) {
+    print("members init dependencies...");
+
+    if (_http == null) {
+      _http = http;
+      fetchMembers();
+    }
   }
 }
