@@ -118,7 +118,7 @@ class HttpService {
     final String proposalsURL =
         'https://api.telos.eosindex.io/v1/chain/get_table_rows';
 
-    final String minimumStake = "1.0000 SEEDS";
+    // final String minimumStake = "1.0000 SEEDS";
 
     String request =
         '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"props","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
@@ -144,5 +144,9 @@ class HttpService {
 
       return [];
     }
+  }
+
+  Future<int> test() {
+    return Future.value(77);
   }
 }

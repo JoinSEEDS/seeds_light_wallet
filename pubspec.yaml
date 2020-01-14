@@ -49,6 +49,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  test: any  
 
 flutter:
   uses-material-design: true
@@ -69,9 +70,9 @@ flutter:
     - assets/images/success.png
     # assets end
 
-    - .env
     - assets/images/
     - assets/avatars/
+    - assets/config/
 
   fonts:
     # w100 Thin, the least thick

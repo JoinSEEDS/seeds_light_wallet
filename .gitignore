@@ -75,6 +75,7 @@
 .vscode
 
 .env*
+secret_config.json
 pubspec\.lock
 
 \.flutter-plugins-dependencies
