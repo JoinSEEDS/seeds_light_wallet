@@ -1,5 +1,5 @@
-name: Main
-on: [push]
+name: Guard
+on: [push, pull_request]
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
         run: |
           flutter build ios --release --no-codesign
   build-Android:
-    name: Build Android apk
+    name: Build Android package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -60,5 +60,4 @@ jobs:
           flutter upgrade
       - name: Build apk package
         run: |
-          cd ./flutter_seeds_wallet
           flutter build apk --release
