@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/screens/onboarding/onboarding.dart';
-import 'package:seeds/services/auth_service.dart';
-import 'package:seeds/widgets/passcode.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-
-import './friends.dart';
-import './home.dart';
-import './transfer.dart';
-import 'proposals/proposals.dart';
+import 'package:seeds/screens/app/friends.dart';
+import 'package:seeds/screens/app/home.dart';
+import 'package:seeds/screens/app/transfer.dart';
+import 'package:seeds/screens/app/proposals/proposals.dart';
 
 class App extends StatefulWidget {
-  final String accountName;
-
-  App(this.accountName);
+  App();
 
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  final AuthService authService = AuthService();
-
   int index = 0;
 
   final navigationTitles = ["Dashboard", "Transfer", "Vote", "Invite"];
@@ -31,31 +24,9 @@ class _AppState extends State<App> {
     Icons.people
   ];
 
-  Future requirePasscode() async {
-    String existingPasscode = await authService.getPasscode();
-
-    Future.delayed(Duration.zero, () {
-      if (existingPasscode != null && existingPasscode != "") {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => UnlockWallet(existingPasscode),
-          ),
-        );
-      } else {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => LockWallet(),
-          ),
-        );
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-
-    requirePasscode();
   }
 
   List<BottomNavigationBarItem> buildNavigationItems() {
@@ -105,14 +76,8 @@ class _AppState extends State<App> {
       centerTitle: false,
       actions: <Widget>[
         Container(
-          child: SeedsButton("Logout", () async {
-            await authService.removeAccount();
-
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (ctx) => Onboarding(),
-              ),
-            );
+          child: SeedsButton("Logout", () {
+            AuthNotifier.of(context).removeAccount();
           }, true),
           height: 20,
           margin: EdgeInsets.only(
@@ -128,11 +93,12 @@ class _AppState extends State<App> {
 
   Widget buildPageView() {
     return PageView(
+      
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        Home(movePage, this.widget.accountName),
-        Transfer(this.widget.accountName),
+        Home(movePage),
+        Transfer(),
         Proposals(),
         Friends(),
       ],

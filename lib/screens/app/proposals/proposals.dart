@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/screens/app/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/proposals/proposal_header_details.dart';
-import 'package:seeds/services/http_service/http_service.dart';
-import 'package:seeds/services/http_service/proposal_model.dart';
+import 'package:seeds/services/http_service.dart';
+import 'package:seeds/models/models.dart';
 
 class Proposals extends StatefulWidget {
   @override

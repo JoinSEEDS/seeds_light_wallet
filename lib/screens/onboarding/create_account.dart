@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:provider/provider.dart';
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -41,8 +42,6 @@ class _CreateAccountState extends State<CreateAccount> {
 
   FocusNode accountNameFocus = FocusNode();
 
-  final EosService eosService = EosService();
-
   Future createAccount() async {
     final FormState form = formKey.currentState;
     if (form.validate()) {
@@ -58,7 +57,7 @@ class _CreateAccountState extends State<CreateAccount> {
       EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
       try {
-        var response = await eosService.createAccount(
+        var response = await Provider.of<EosService>(context).createAccount(
           accountName,
           publicKey.toString(),
           widget.inviteSecret,

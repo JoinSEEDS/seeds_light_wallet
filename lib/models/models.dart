@@ -1,3 +1,58 @@
+
+class MemberModel {
+  final String account;
+  final String nickname;
+  final String image;
+
+  MemberModel({this.account, this.nickname, this.image});
+
+  factory MemberModel.fromJson(Map<String, dynamic> json) {
+    return MemberModel(
+      account: json["account"],
+      nickname: json["nickname"],
+      image: json["image"],
+    );
+  }
+}
+
+class TransactionModel {
+  final String from;
+  final String to;
+  final String quantity;
+  final String memo;
+
+  TransactionModel(this.from, this.to, this.quantity, this.memo);
+
+  factory TransactionModel.fromJson(Map<String, dynamic> json) {
+    return TransactionModel(
+      json["from"],
+      json["to"],
+      json["quantity"],
+      json["memo"],
+    );
+  }
+}
+
+class BalanceModel {
+  final String quantity;
+
+  BalanceModel(this.quantity);
+
+  factory BalanceModel.fromJson(List<dynamic> json) {
+    return BalanceModel(json[0] as String);
+  }
+}
+
+class VoiceModel {
+  final int amount;
+
+  VoiceModel(this.amount);
+
+  factory VoiceModel.fromJson(Map<String, dynamic> json) {
+    return VoiceModel(json[0] as int);
+  }
+}
+
 class ProposalModel {
   final int id;
   final String creator;
@@ -109,7 +164,7 @@ class ProposalModel {
 
   @override
   String toString() {
-    return 'ProposalModel{id: $id, creator: $creator, recipient: $recipient, quantity: $quantity, staked: $staked, executed: $executed, total: $total, favour: $favour, against: $against, title: $title, summary: $summary, description: $description, image: $image, url: $url, status: $status, stage: $stage, fund: $fund, creationDate: $creationDate}';
+    return 'Proposal{id: $id, creator: $creator, recipient: $recipient, quantity: $quantity, staked: $staked, executed: $executed, total: $total, favour: $favour, against: $against, title: $title, summary: $summary, description: $description, image: $image, url: $url, status: $status, stage: $stage, fund: $fund, creationDate: $creationDate}';
   }
 }
 
