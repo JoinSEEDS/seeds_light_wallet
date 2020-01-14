@@ -24,7 +24,7 @@ class Welcome extends StatelessWidget {
       onTapDoneButton: () async {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => App(),
+            builder: (context) => App(accountName),
           ),
         );
       },

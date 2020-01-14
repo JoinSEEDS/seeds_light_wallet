@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/screens/onboarding/welcome.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-import 'package:seeds/screens/onboarding/helpers.dart';
-import 'package:seeds/screens/onboarding/welcome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'helpers.dart';
 
 class ImportAccount extends StatefulWidget {
   @override
   _ImportAccountState createState() => _ImportAccountState();
+}
+
+Future saveAccount(String accountName, String privateKey) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString("accountName", accountName);
+  await prefs.setString("privateKey", privateKey);
 }
 
 class _ImportAccountState extends State<ImportAccount> {
@@ -109,7 +116,7 @@ class _ImportAccountState extends State<ImportAccount> {
                       String accountName = accountNameController.value.text;
                       String privateKey = privateKeyController.value.text;
 
-                      AuthNotifier.of(context).saveAccount(accountName, privateKey);
+                      await saveAccount(accountName, privateKey);
 
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => Welcome(accountName),

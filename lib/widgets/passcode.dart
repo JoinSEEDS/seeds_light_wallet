@@ -1,7 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import 'package:passcode_screen/passcode_screen.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/services/auth_service.dart';
 
 Widget buildPasscodeScreen(
     {shouldTriggerVerification,
@@ -24,6 +26,10 @@ Widget buildPasscodeScreen(
 }
 
 class UnlockWallet extends StatelessWidget {
+  final String correctPasscode;
+
+  UnlockWallet(this.correctPasscode);
+
   final StreamController<bool> _verificationNotifier =
       StreamController<bool>.broadcast();
 
@@ -32,21 +38,21 @@ class UnlockWallet extends StatelessWidget {
     return buildPasscodeScreen(
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) async {
-        if (passcode == AuthNotifier.of(context).passcode) {
+        if (passcode == correctPasscode) {
           _verificationNotifier.add(true);
         } else {
           _verificationNotifier.add(false);
         }
       },
-      isValidCallback: () {
-        AuthNotifier.of(context).unlockWallet();
-      },
+      isValidCallback: () {},
       cancelCallback: () {},
     );
   }
 }
 
 class LockWallet extends StatelessWidget {
+  final AuthService authService = AuthService();
+
   final StreamController<bool> _verificationNotifier =
       StreamController<bool>.broadcast();
 
@@ -56,10 +62,11 @@ class LockWallet extends StatelessWidget {
       title: "Choose Passcode",
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) {
+        authService.savePasscode(passcode);
         _verificationNotifier.add(true);
-        AuthNotifier.of(context).savePasscode(passcode);
       },
-      isValidCallback: () {},
+      isValidCallback: () {
+      },
       cancelCallback: () {},
     );
   }
