@@ -9,6 +9,7 @@ import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/providers.dart';
+import 'package:seeds/utils/config.dart';
 import 'generated/r.dart';
 
 main(List<String> args) async {
