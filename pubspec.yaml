@@ -70,7 +70,6 @@ flutter:
     - assets/images/success.png
     # assets end
 
-    - .env
     - assets/images/
     - assets/avatars/
     - assets/config/
