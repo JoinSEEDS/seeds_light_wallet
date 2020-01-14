@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/onboarding/helpers.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/services/auth_service.dart';
 import 'package:seeds/utils/config.dart';
 
 import 'constants/custom_colors.dart';
 import 'generated/r.dart';
-
-Config secretConfig;
 
 main(List<String> args) async {
   // you could add more than one config file

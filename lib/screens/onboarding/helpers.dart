@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
-
-import '../../main.dart';
+import 'package:seeds/utils/config.dart';
 
 PageViewModel page({bubble, mainImage, body, title}) {
   return PageViewModel(
@@ -21,6 +20,8 @@ PageViewModel page({bubble, mainImage, body, title}) {
     bodyTextStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
   );
 }
+
+Config secretConfig;
 
 String applicationAccount = secretConfig.value('APPLICATION_ACCOUNT_NAME');
 String applicationPrivateKey = secretConfig.value('APPLICATION_PRIVATE_KEY');
