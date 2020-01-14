@@ -1,10 +1,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
-  Future<String> initializedAccount() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String accountName = prefs.getString("accountName");
+  final storage = new FlutterSecureStorage();
+
+  Future<String> initializedAccount() async {   
+    String accountName = await storage.read(key: 'accountName');
 
     if (accountName != null && accountName != "") {
       return accountName;
@@ -14,38 +16,24 @@ class AuthService {
   }
 
   Future removeAccount() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    await prefs.remove("accountName");
-    await prefs.remove("privateKey");
-    await prefs.remove("passcode");
+    await storage.delete(key: 'accountName');
+    await storage.delete(key: 'privateKey');
+    await storage.delete(key: 'passcode');
   }
 
   Future<String> getPasscode() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    return prefs.getString("passcode");
+    return await storage.read(key: 'passcode');
   }
 
   Future<void> savePasscode(String passcode) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    prefs.setString("passcode", passcode);
+    await storage.write(key: 'passcode', value: passcode);
   }
 
   Future<String> getAccountName() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String privateKey = prefs.getString("accountName");
-
-    return privateKey;
+    return await storage.read(key: 'accountName');
   }
 
   Future<String> getPrivateKey() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String privateKey = prefs.getString("privateKey");
-
-    return privateKey;
+    return await storage.read(key: 'privateKey');
   }
 }

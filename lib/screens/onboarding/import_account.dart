@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:seeds/screens/onboarding/welcome.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
@@ -13,9 +14,12 @@ class ImportAccount extends StatefulWidget {
 }
 
 Future saveAccount(String accountName, String privateKey) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString("accountName", accountName);
-  await prefs.setString("privateKey", privateKey);
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // await prefs.setString("accountName", accountName);
+  // await prefs.setString("privateKey", privateKey);
+  final storage = new FlutterSecureStorage();
+  await storage.write(key: 'accountName', value: accountName);
+  await storage.write(key: 'privateKey', value: privateKey);
 }
 
 class _ImportAccountState extends State<ImportAccount> {

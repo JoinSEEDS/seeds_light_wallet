@@ -4,6 +4,7 @@ import 'package:seeds/screens/app/proposals/proposal_form.dart';
 import 'package:seeds/services/http_service/balance_model.dart';
 import 'package:seeds/services/http_service/http_service.dart';
 import 'package:seeds/services/http_service/transaction_model.dart';
+import 'package:seeds/storage/repository.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
 class Home extends StatefulWidget {
@@ -16,26 +17,41 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
-  final HttpService httpService = HttpService();
+class _HomeState extends State<Home>  with AutomaticKeepAliveClientMixin<Home> {
+  //final HttpService httpService = HttpService();
+  final repository = Repository();
+
+  Future _update() async {
+    await repository.getBalance(widget.accountName, true);
+    await repository.getTransactions(widget.accountName, true);
+    setState(() {});
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          _titleText("Welcome, ${widget.accountName}"),
-          _dashboardList(),
-          _titleText("Latest transactions"),
-          _transactionsList()
-        ],
-      ),
+    super.build(context);
+    return RefreshIndicator(
+      onRefresh: _update,
+      child:  SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            _titleText("Welcome, ${widget.accountName}"),
+            _dashboardList(),
+            _titleText("Latest transactions"),
+            _transactionsList()
+          ],
+        ),
+      )
     );
   }
 
   Widget _transactionsList() {
     return FutureBuilder(
-      future: httpService.getTransactions(widget.accountName),
+      future: repository.getTransactions(widget.accountName),
+      //future: httpService.getTransactions(widget.accountName),
       builder: (BuildContext context,
           AsyncSnapshot<List<TransactionModel>> snapshot) {
         if (snapshot.hasData) {
@@ -135,7 +151,8 @@ class _HomeState extends State<Home> {
               ),
             ),
             title: FutureBuilder(
-              future: httpService.getBalance(widget.accountName),
+              future: repository.getBalance(widget.accountName),
+              //future: httpService.getBalance(widget.accountName),
               builder:
                   (BuildContext context, AsyncSnapshot<BalanceModel> snapshot) {
                 if (snapshot.hasData) {

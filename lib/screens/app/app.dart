@@ -18,7 +18,7 @@ class App extends StatefulWidget {
   _AppState createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<App>  {
   final AuthService authService = AuthService();
 
   int index = 0;
@@ -50,7 +50,7 @@ class _AppState extends State<App> {
       }
     });
   }
-
+  
   @override
   void initState() {
     super.initState();
