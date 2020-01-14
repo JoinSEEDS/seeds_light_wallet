@@ -8,6 +8,7 @@ import './friends.dart';
 import './home.dart';
 import './transfer.dart';
 import 'proposals/proposals.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 
 class App extends StatefulWidget {
   final String accountName;
@@ -89,7 +90,7 @@ class _AppState extends State<App> {
         child: Scaffold(
           backgroundColor: Color(0xFAFAFAFA),
           appBar: buildAppBar(context),
-          body: buildPageView(),
+          body: buildPageView('check_on_off'),
           bottomNavigationBar: buildNavigation(),
         ),
       );
@@ -126,17 +127,58 @@ class _AppState extends State<App> {
     );
   }
 
-  Widget buildPageView() {
-    return PageView(
-      controller: pageController,
-      physics: NeverScrollableScrollPhysics(),
-      children: <Widget>[
-        Home(movePage, this.widget.accountName),
-        Transfer(this.widget.accountName),
-        Proposals(),
-        Friends(),
-      ],
+  Widget buildPageView(String type_page) {
+    if (type_page == 'check_on_off') {     
+        return  new Scaffold(
+              body: OfflineBuilder(
+                connectivityBuilder: (
+                  BuildContext context,
+                  ConnectivityResult connectivity,
+                  Widget child,
+                ) {
+                  final bool connected = connectivity != ConnectivityResult.none;
+                  if (connected == false) {
+                        print('Connection is off...');
+                        return new Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Positioned(
+                              height: 24.0,
+                              left: 0.0,
+                              right: 0.0,
+                              child: Container(
+                                color: connected ? Color(0xFF00EE44) : Color(0xFFEE4400),
+                                child: Center(
+                                  child: Text("${connected ? 'ONLINE' : 'OFFLINE'}"),
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: new Text(
+                                'Check connection!',
+                                 style: new TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        );
+                } else {
+                    return _PageView();
+                }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new Text(
+                      'Just turn on your internet.',
+                    ),
+                  ],
+                ),
+              ),
     );
+    } else {
+            print('Connection is working...');
+            return _PageView();
+    };
   }
 
   Widget buildNavigation() {
@@ -152,5 +194,18 @@ class _AppState extends State<App> {
       backgroundColor: Colors.white,
       items: buildNavigationItems(),
     );
+  }
+
+  _PageView() {
+    return PageView(
+              controller: pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                Home(movePage, this.widget.accountName),
+                Transfer(this.widget.accountName),
+                Proposals(),
+                Friends(),
+              ],
+            );
   }
 }
