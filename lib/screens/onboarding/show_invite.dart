@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:seeds/screens/onboarding/create_account.dart';
-import 'package:seeds/screens/onboarding/helpers.dart';
+import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
 
 class ShowInvite extends StatelessWidget {
   final String inviterAccountName;
@@ -14,7 +14,7 @@ class ShowInvite extends StatelessWidget {
     return Builder(
       builder: (context) => IntroViewsFlutter(
         [
-          page(
+          OnboardingViewModel(
             bubble: Icons.done,
             mainImage: 'assets/images/onboarding5.png',
             body: 'Accept your invite to create a new account and join SEEDS',

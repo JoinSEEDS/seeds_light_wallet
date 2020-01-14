@@ -1,23 +1,31 @@
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/screens/onboarding/helpers.dart';
+import 'package:seeds/providers/services/config_service.dart';
 
 class EosService {
   AuthNotifier _auth;
+  ConfigService _config;
 
   final String endpointApi = "https://api.telos.eosindex.io";
 
-  void init({ AuthNotifier auth }) {
+  void init({ AuthNotifier auth, ConfigService config }) {
     print("eos update dependencies...");
     if (_auth == null) {
       _auth = auth;
     }
+    if (_config == null) {
+      _config = config;
+    }
   }
 
   Future<dynamic> createAccount(
-      String accountName, String publicKey, String inviteSecret) async {
+      String accountName, String publicKey, String inviteSecret
+  ) async {
+    String applicationPrivateKey = _config.value("APPLICATION_PRIVATE_KEY");
+    String applicationAccount = _config.value("APPLICATION_ACCOUNT_NAME");
+
     EOSClient client =
-        EOSClient(endpointApi, 'v1', privateKeys: [applicationPrivateKey]);
+        EOSClient(endpointApi, 'v1', privateKeys: [ applicationPrivateKey ]);
 
     Map data = {
       "account": accountName,

@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:seeds/services/http_service/http_service.dart';
+import 'package:seeds/providers/services/http_service.dart';
 
 void main() {
   test('Counter value should be incremented', () async {

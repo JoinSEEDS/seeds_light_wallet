@@ -4,14 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:seeds/providers/services/config_service.dart';
 import 'package:seeds/screens/onboarding/onboarding_method_choice.dart';
 import 'package:seeds/screens/onboarding/welcome.dart';
-import 'package:seeds/services/eos_service.dart';
+import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-
-import 'helpers.dart';
 
 class CreateAccount extends StatefulWidget {
   final String inviteSecret;
@@ -28,9 +27,9 @@ class _CreateAccountState extends State<CreateAccount> {
   final formKey = GlobalKey<FormState>();
 
   final accountNameController = MaskedTextController(
-      text: debugAccount,
       mask: '@@@@@@@@@@@@',
-      translator: {'@': RegExp(r'[a-z1234]')});
+      translator: {'@': RegExp(r'[a-z1234]')}
+  );
 
   final StreamController<bool> _statusNotifier =
       StreamController<bool>.broadcast();
@@ -41,6 +40,14 @@ class _CreateAccountState extends State<CreateAccount> {
   bool loading = false;
 
   FocusNode accountNameFocus = FocusNode();
+
+  @override
+  void didChangeDependencies() {
+    if (accountNameController.text == "") {
+      accountNameController.updateText(ConfigService.of(context).value("DEBUG_ACCOUNT_NAME"));
+    }
+    super.didChangeDependencies();
+  }
 
   Future createAccount() async {
     final FormState form = formKey.currentState;

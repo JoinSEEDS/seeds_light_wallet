@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/services/config_service.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-import 'package:seeds/screens/onboarding/helpers.dart';
 import 'package:seeds/screens/onboarding/welcome.dart';
 
 class ImportAccount extends StatefulWidget {
@@ -13,13 +13,25 @@ class ImportAccount extends StatefulWidget {
 
 class _ImportAccountState extends State<ImportAccount> {
   var accountNameController = MaskedTextController(
-      text: debugAccount,
       mask: '@@@@@@@@@@@@',
       translator: {'@': new RegExp(r'[a-z1234]')});
 
-  var privateKeyController = TextEditingController(text: debugPrivateKey);
+  var privateKeyController = TextEditingController(text: "");
 
   bool progress = false;
+
+  @override
+  void didChangeDependencies() {
+    String debugAccount = ConfigService.of(context).value("DEBUG_ACCOUNT_NAME");
+    if (accountNameController.text == "" && debugAccount != "") {
+      accountNameController.updateText(debugAccount);
+    }
+    String debugPrivateKey = ConfigService.of(context).value("DEBUG_PRIVATE_KEY");
+    if (privateKeyController.text == "" && debugPrivateKey != "") {
+      accountNameController.updateText(debugPrivateKey);
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

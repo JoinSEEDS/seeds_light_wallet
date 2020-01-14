@@ -171,5 +171,9 @@ class HttpService {
 
       return [];
     }
+  }
+
+  Future<int> test() {
+    return Future.value(77);
   }  
 }

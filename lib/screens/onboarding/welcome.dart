@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:seeds/screens/app/app.dart';
-
-import 'helpers.dart';
+import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
 
 class Welcome extends StatelessWidget {
   final String accountName;
@@ -13,7 +12,7 @@ class Welcome extends StatelessWidget {
   Widget build(BuildContext context) {
     return IntroViewsFlutter(
       [
-        page(
+        OnboardingViewModel(
           bubble: Icons.done,
           mainImage: 'assets/images/onboarding4.png',
           body: 'Your wallet almost ready - choose passcode to finish setup',

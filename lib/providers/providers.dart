@@ -1,19 +1,19 @@
 import 'package:provider/provider.dart';
-
-import 'package:seeds/services/eos_service.dart';
-import 'package:seeds/services/http_service.dart';
-
-import './notifiers/auth_notifier.dart';
-import './notifiers/balance_notifier.dart';
-import './notifiers/members_notifier.dart';
-import './notifiers/transactions_notifier.dart';
+import 'package:seeds/providers/services/config_service.dart';
+import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/members_notifier.dart';
+import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 
 final providers = [
+  Provider(create: (_) => ConfigService()..init("secret_config.json")),
   Provider(create: (_) => HttpService()),
   ChangeNotifierProvider(create: (_) => AuthNotifier()..init()),
-  ProxyProvider<AuthNotifier, EosService>(
+  ProxyProvider2<AuthNotifier, ConfigService, EosService>(
     create: (context) => EosService(),
-    update: (context, auth, eos) => eos..init(auth: auth),
+    update: (context, auth, config, eos) => eos..init(auth: auth, config: config),
   ),
   ChangeNotifierProxyProvider<HttpService, MembersNotifier>(
     create: (context) => MembersNotifier(),

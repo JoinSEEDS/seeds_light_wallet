@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/models/models.dart';
-import 'package:seeds/services/http_service.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:provider/provider.dart';
 
 class MembersNotifier extends ChangeNotifier {
