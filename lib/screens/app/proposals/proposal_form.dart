@@ -1,7 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/services/http_service.dart';
+import 'package:seeds/services/http_service/http_service.dart';
+import 'package:seeds/services/http_service/proposal_model.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:url_launcher/url_launcher.dart';

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
@@ -12,11 +11,14 @@ import 'package:seeds/widgets/seeds_button.dart';
 import 'transfer_amount.dart';
 
 class TransferForm extends StatefulWidget {
+  final String senderAccountName;
+
   final String fullName;
   final String accountName;
   final String avatar;
 
-  TransferForm(this.fullName, this.accountName, this.avatar);
+  TransferForm(
+      this.senderAccountName, this.fullName, this.accountName, this.avatar);
 
   @override
   _TransferFormState createState() => _TransferFormState();
@@ -25,6 +27,8 @@ class TransferForm extends StatefulWidget {
 class _TransferFormState extends State<TransferForm>
     with SingleTickerProviderStateMixin {
       
+  final EosService eosService = EosService();
+
   String amountValue = '0.0000';
   bool validAmount = true;
 
@@ -48,11 +52,9 @@ class _TransferFormState extends State<TransferForm>
     });
 
     try {
-      var response = await Provider.of<EosService>(context, listen: false).transferSeeds(widget.accountName, amountValue);
+      var response = await eosService.transferSeeds(widget.accountName, amountValue);
 
       String trxid = response["transaction_id"];
-
-      // TransactionsModel transactions = Provider.of(context, listen: false).addTransaction();
 
       _statusNotifier.add(true);
       _messageNotifier.add("Transaction hash: $trxid");
@@ -68,7 +70,7 @@ class _TransferFormState extends State<TransferForm>
       statusStream: _statusNotifier.stream,
       messageStream: _messageNotifier.stream,
       afterSuccessCallback: () {
-        Navigator.of(context).pop();        
+        Navigator.of(context).pop();
       },
       afterFailureCallback: () {
         Navigator.of(context).pop();

@@ -1,18 +1,11 @@
 import 'package:eosdart/eosdart.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/screens/onboarding/helpers.dart';
+import 'package:seeds/services/auth_service.dart';
 
 class EosService {
-  AuthNotifier _auth;
+  final AuthService authService = AuthService();
 
   final String endpointApi = "https://api.telos.eosindex.io";
-
-  void init({ AuthNotifier auth }) {
-    print("eos update dependencies...");
-    if (_auth == null) {
-      _auth = auth;
-    }
-  }
 
   Future<dynamic> createAccount(
       String accountName, String publicKey, String inviteSecret) async {
@@ -45,8 +38,8 @@ class EosService {
   }
 
   Future<dynamic> transferSeeds(String accountName, String amount) async {
-    String privateKey = _auth.privateKey;
-    String from = _auth.accountName;
+    String privateKey = await authService.getPrivateKey();
+    String from = await authService.getAccountName();
 
     EOSClient client = EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
 
@@ -77,8 +70,8 @@ class EosService {
   }
 
   Future<dynamic> voteProposal({int id, int amount}) async {
-    String privateKey = _auth.privateKey;
-    String from = _auth.accountName;
+    String privateKey = await authService.getPrivateKey();
+    String from = await authService.getAccountName();
 
     EOSClient client = EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
 
