@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/onboarding/helpers.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
@@ -12,7 +12,9 @@ import 'package:seeds/providers/providers.dart';
 import 'generated/r.dart';
 
 main(List<String> args) async {
-  await DotEnv().load('.env');
+  // you could add more than one config file
+  // files should be added to assets/config
+  secretConfig = await Config.init('secret_config.json');
 
   runApp(SeedsApp());
 }
