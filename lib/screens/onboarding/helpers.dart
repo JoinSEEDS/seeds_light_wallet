@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
+
+import '../../main.dart';
 
 PageViewModel page({bubble, mainImage, body, title}) {
   return PageViewModel(
@@ -21,11 +22,11 @@ PageViewModel page({bubble, mainImage, body, title}) {
   );
 }
 
-String applicationAccount = DotEnv().env['APPLICATION_ACCOUNT_NAME'];
-String applicationPrivateKey = DotEnv().env['APPLICATION_PRIVATE_KEY'];
-String debugAccount = DotEnv().env['DEBUG_ACCOUNT_NAME'];
-String debugPrivateKey = DotEnv().env['DEBUG_PRIVATE_KEY'];
-String debugInviteSecret = DotEnv().env['DEBUG_INVITE_SECRET'];
-String debugInviteLink = DotEnv().env['DEBUG_INVITE_LINK'];
+String applicationAccount = secretConfig.value('APPLICATION_ACCOUNT_NAME');
+String applicationPrivateKey = secretConfig.value('APPLICATION_PRIVATE_KEY');
+String debugAccount = secretConfig.value('DEBUG_ACCOUNT_NAME');
+String debugPrivateKey = secretConfig.value('DEBUG_PRIVATE_KEY');
+String debugInviteSecret = secretConfig.value('DEBUG_INVITE_SECRET');
+String debugInviteLink = secretConfig.value('DEBUG_INVITE_LINK');
 
 bool isDebugMode() => debugAccount != "" && debugPrivateKey != "";

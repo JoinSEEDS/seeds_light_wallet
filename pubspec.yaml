@@ -73,6 +73,7 @@ flutter:
     - .env
     - assets/images/
     - assets/avatars/
+    - assets/config/
 
   fonts:
     # w100 Thin, the least thick
