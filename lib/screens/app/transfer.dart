@@ -6,6 +6,7 @@ import 'package:seeds/widgets/progress_bar.dart';
 
 import 'transfer_form.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'transfer_search.dart';
 
 class Transfer extends StatelessWidget {
   final String accountName;
@@ -32,6 +33,7 @@ class Transfer extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                _transferSearch(),
                 Text(
                   "Send transactions - better than free",
                   style: TextStyle(
@@ -40,6 +42,7 @@ class Transfer extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+              
               ],
             ),
           ),
@@ -114,5 +117,8 @@ class Transfer extends StatelessWidget {
             return ProgressBar();
           }
         });
+  }
+  _transferSearch() {
+    return new TransferSearch();
   }
 }
