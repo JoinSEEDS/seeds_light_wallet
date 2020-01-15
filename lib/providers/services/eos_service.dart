@@ -6,7 +6,7 @@ class EosService {
   AuthNotifier _auth;
   ConfigService _config;
 
-  final String endpointApi = "https://api.telos.eosindex.io";
+  String endpointApi;
 
   void init({ AuthNotifier auth, ConfigService config }) {
     print("eos update dependencies...");
@@ -15,14 +15,15 @@ class EosService {
     }
     if (_config == null) {
       _config = config;
+      endpointApi = _config.value("endpointApi");
     }
   }
 
   Future<dynamic> createAccount(
       String accountName, String publicKey, String inviteSecret
   ) async {
-    String applicationPrivateKey = _config.value("APPLICATION_PRIVATE_KEY");
-    String applicationAccount = _config.value("APPLICATION_ACCOUNT_NAME");
+    String applicationPrivateKey = _config.value("onboardingPrivateKey");
+    String applicationAccount = _config.value("onboardingAccountName");
 
     EOSClient client =
         EOSClient(endpointApi, 'v1', privateKeys: [ applicationPrivateKey ]);

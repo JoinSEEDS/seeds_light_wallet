@@ -22,11 +22,11 @@ class _ImportAccountState extends State<ImportAccount> {
 
   @override
   void didChangeDependencies() {
-    String debugAccount = ConfigService.of(context).value("DEBUG_ACCOUNT_NAME");
+    String debugAccount = ConfigService.of(context).value("testingAccountName");
     if (accountNameController.text == "" && debugAccount != "") {
       accountNameController.updateText(debugAccount);
     }
-    String debugPrivateKey = ConfigService.of(context).value("DEBUG_PRIVATE_KEY");
+    String debugPrivateKey = ConfigService.of(context).value("testingPrivateKey");
     if (privateKeyController.text == "" && debugPrivateKey != "") {
       accountNameController.updateText(debugPrivateKey);
     }

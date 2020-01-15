@@ -1,5 +1,5 @@
 {
-    "endpoint": "https://testnet.eos.miami",
+    "endpointApi": "https://testnet.eos.miami",
     "onboardingAccountName": "join.seeds",
     "onboardingPrivateKey": "5K1TQUxZo5oVTAjHRERTiP4kfoA3CNeYwKFVaksEQUw2zUWStUo",
     "testingAccountName": "seedsuserss1",

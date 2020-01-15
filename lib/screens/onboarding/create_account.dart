@@ -44,7 +44,7 @@ class _CreateAccountState extends State<CreateAccount> {
   @override
   void didChangeDependencies() {
     if (accountNameController.text == "") {
-      accountNameController.updateText(ConfigService.of(context).value("DEBUG_ACCOUNT_NAME"));
+      accountNameController.updateText(ConfigService.of(context).value("testingAccountName"));
     }
     super.didChangeDependencies();
   }
