@@ -8,12 +8,21 @@ import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 
 final providers = [
-  Provider(create: (_) => ConfigService()..init("secret_config.json")),
+  Provider(
+    create: (_) => ConfigService()
+      ..init(
+        [
+          {"name": "public_config.json", "isRequired": true},
+          {"name": "secret_config.json", "isRequired": false}
+        ],
+      ),
+  ),
   Provider(create: (_) => HttpService()),
   ChangeNotifierProvider(create: (_) => AuthNotifier()..init()),
   ProxyProvider2<AuthNotifier, ConfigService, EosService>(
     create: (context) => EosService(),
-    update: (context, auth, config, eos) => eos..init(auth: auth, config: config),
+    update: (context, auth, config, eos) =>
+        eos..init(auth: auth, config: config),
   ),
   ChangeNotifierProxyProvider<HttpService, MembersNotifier>(
     create: (context) => MembersNotifier(),
