@@ -1,6 +1,6 @@
 # flutter_seeds_wallet
 
-![](https://github.com/actions/flutter_seeds_wallet/workflows/.github/workflows/guard.yaml/badge.svg)
+[![Actions Status](https://github.com/7flash/flutter_seeds_wallet/workflows/Guard/badge.svg)](https://github.com/7flash/flutter_seeds_wallet/actions)
 
 Opensource Wallet & Explorer by joinseeds.com
 

@@ -2,27 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/providers/services/config_service.dart';
+import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
 
 import 'create_account.dart';
-import 'helpers.dart';
 import 'onboarding_method_choice.dart';
 
 class Onboarding extends StatelessWidget {
   final List<PageViewModel> featurePages = [
-    page(
+    OnboardingViewModel(
       bubble: Icons.account_balance_wallet,
       mainImage: 'assets/images/onboarding1.png',
       body:
           'Make global payments with zero fees - receive cashback for positive impact of your transactions',
       title: 'Better than free transactions',
     ),
-    page(
+    OnboardingViewModel(
         bubble: Icons.settings_backup_restore,
         mainImage: 'assets/images/onboarding2.png',
         body:
             'Plant Seeds for benefit of sustainable organizations - participate in harvest distribution',
         title: 'Plant Seeds - get Seeds'),
-    page(
+    OnboardingViewModel(
         bubble: Icons.people,
         mainImage: 'assets/images/onboarding3.png',
         body:
@@ -32,6 +33,8 @@ class Onboarding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final debugInviteSecret = ConfigService.of(context).value("debugInviteSecret");
+
     return Builder(
       builder: (context) {
         return Container(
@@ -40,7 +43,7 @@ class Onboarding extends StatelessWidget {
             child: IntroViewsFlutter(
               featurePages,
               onTapDoneButton: () async {
-                if (isDebugMode() && debugInviteSecret.isNotEmpty == true) {
+                if (debugInviteSecret.isNotEmpty == true) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => CreateAccount(debugInviteSecret),

@@ -1,16 +1,32 @@
 import 'package:eosdart/eosdart.dart';
-import 'package:seeds/screens/onboarding/helpers.dart';
-import 'package:seeds/services/auth_service.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/services/config_service.dart';
 
 class EosService {
-  final AuthService authService = AuthService();
+  AuthNotifier _auth;
+  ConfigService _config;
 
-  final String endpointApi = "https://api.telos.eosindex.io";
+  String endpointApi;
+
+  void init({ AuthNotifier auth, ConfigService config }) {
+    print("eos update dependencies...");
+    if (_auth == null) {
+      _auth = auth;
+    }
+    if (_config == null) {
+      _config = config;
+      endpointApi = _config.value("endpointApi");
+    }
+  }
 
   Future<dynamic> createAccount(
-      String accountName, String publicKey, String inviteSecret) async {
+      String accountName, String publicKey, String inviteSecret
+  ) async {
+    String applicationPrivateKey = _config.value("onboardingPrivateKey");
+    String applicationAccount = _config.value("onboardingAccountName");
+
     EOSClient client =
-        EOSClient(endpointApi, 'v1', privateKeys: [applicationPrivateKey]);
+        EOSClient(endpointApi, 'v1', privateKeys: [ applicationPrivateKey ]);
 
     Map data = {
       "account": accountName,
@@ -38,8 +54,8 @@ class EosService {
   }
 
   Future<dynamic> transferSeeds(String accountName, String amount) async {
-    String privateKey = await authService.getPrivateKey();
-    String from = await authService.getAccountName();
+    String privateKey = _auth.privateKey;
+    String from = _auth.accountName;
 
     EOSClient client = EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
 
@@ -70,8 +86,8 @@ class EosService {
   }
 
   Future<dynamic> voteProposal({int id, int amount}) async {
-    String privateKey = await authService.getPrivateKey();
-    String from = await authService.getAccountName();
+    String privateKey = _auth.privateKey;
+    String from = _auth.accountName;
 
     EOSClient client = EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
 

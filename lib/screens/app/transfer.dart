@@ -1,92 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
-import 'package:seeds/services/http_service/http_service.dart';
-import 'package:seeds/services/http_service/member_model.dart';
+import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/members_notifier.dart';
+import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 
 import 'transfer_form.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class Transfer extends StatelessWidget {
-  final String accountName;
+import 'package:provider/provider.dart';
 
-  Transfer(this.accountName);
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-  final HttpService httpService = HttpService();
+class Transfer extends StatefulWidget {
+  Transfer();
+
+  @override
+  _TransferState createState() => _TransferState();
+}
+
+class _TransferState extends State<Transfer>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: 1, color: CustomColors.green),
-              ),
-            ),
-            margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
-            padding: EdgeInsets.only(bottom: 5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "Send transactions - better than free",
-                  style: TextStyle(
-                    fontFamily: "worksans",
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: ListTile(
-              leading: Container(
-                width: 42,
-                child: Icon(
-                  Icons.star_half,
-                  color: CustomColors.green,
-                ),
-              ),
-              subtitle: Text("Send more transactions to increase your score and upgrade your status (without fees)"),
-            ),
-          ),
-          // _usersTitle(),
-          SizedBox(height: 5),
-          _usersList(context),
-        ],
-      ),
+    super.build(context);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: _usersList(context),
+        ),
+      ],
     );
   }
 
   Widget _usersList(context) {
-    return FutureBuilder(
-        future: httpService.getMembers(),
-        builder: (BuildContext context, AsyncSnapshot<List<MemberModel>> snapshot) {
-          if (snapshot.hasData) {
-            final List<MemberModel> members = snapshot.data;
-            return ListView.builder(
+    print("[widget] rebuild users");
+
+    return Consumer<MembersNotifier>(builder: (ctx, model, _) {
+      return model != null && model.members != null
+          ? LiquidPullToRefresh(
+              springAnimationDurationInMilliseconds: 500,
+              showChildOpacityTransition: true,
+              backgroundColor: CustomColors.lightGreen,
+              color: CustomColors.lightBlue,
+              onRefresh: () async {
+                Provider.of<MembersNotifier>(context, listen: false)
+                    .fetchMembers();
+              },
+              child: ListView.builder(
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
-                itemCount: members.length,
+                itemCount: model.members.length,
                 itemBuilder: (ctx, index) {
-                  final user = members[index];
+                  final user = model.members[index];
 
                   return ListTile(
                     leading: Container(
                       width: 60,
                       height: 60,
                       child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        backgroundImage: CachedNetworkImageProvider(user.image)
-                      ),
+                          backgroundColor: Colors.transparent,
+                          backgroundImage:
+                              CachedNetworkImageProvider(user.image)),
                     ),
                     title: Text(
                       user.nickname,
@@ -96,23 +77,25 @@ class Transfer extends StatelessWidget {
                       user.account,
                       style: TextStyle(fontFamily: "worksans"),
                     ),
-                    onTap: () {
-                      Navigator.of(context).push(
+                    onTap: () async {
+                      await Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => TransferForm(
-                            this.accountName,
                             user.nickname,
                             user.account,
                             user.image,
                           ),
                         ),
                       );
+
+                      TransactionsNotifier.of(context).fetchTransactions();
+                      BalanceNotifier.of(context).fetchBalance();
                     },
                   );
-                });
-          } else {
-            return ProgressBar();
-          }
-        });
+                },
+              ),
+            )
+          : ProgressBar();
+    });
   }
 }

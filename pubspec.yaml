@@ -46,6 +46,7 @@ dependencies:
 
   eosdart_ecc: ^0.3.2
 
+  liquid_pull_to_refresh: ^1.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

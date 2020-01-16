@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/screens/app/proposals/proposal_header_details.dart';
-import 'package:seeds/services/eos_service.dart';
-import 'package:seeds/services/http_service/proposal_model.dart';
+import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:seeds/models/models.dart';
 
 class ProposalDetailsPage extends StatefulWidget {
   final ProposalModel proposal;
