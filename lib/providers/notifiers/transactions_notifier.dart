@@ -8,7 +8,6 @@ class TransactionsNotifier extends ChangeNotifier {
   List<TransactionModel> transactions;
 
   HttpService _http;
-  AuthNotifier _auth;
 
   static of(BuildContext context, {bool listen = false}) =>
       Provider.of<TransactionsNotifier>(context, listen: listen);
@@ -16,13 +15,10 @@ class TransactionsNotifier extends ChangeNotifier {
   void init({ HttpService http, AuthNotifier auth }) {
     if (_http == null)
       _http = http;
-
-    if (_auth == null)
-      _auth = auth;
   }
 
   Future fetchTransactions() async {
-    transactions = await _http.getTransactions(_auth.accountName);
+    transactions = await _http.getTransactions();
     notifyListeners();
   }
 }

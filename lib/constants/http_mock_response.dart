@@ -1,10 +1,7 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:seeds/models/models.dart';
 
 class HttpMockResponse {
-  bool isEnabled = false;
-
-  final members = [
+  static final members = [
     MemberModel(
       account: "sevenflash42",
       nickname: "Igor Berlenko",
@@ -12,16 +9,16 @@ class HttpMockResponse {
     ),
   ];
 
-  final transactions = [
+  static final transactions = [
     TransactionModel("join.seeds", "sevenflash42", "15.0000 SEEDS", ""),
     TransactionModel("sevenflash42", "testingseeds", "5.0000 SEEDS", ""),
   ];
 
-  final balance = BalanceModel("10.0000 SEEDS");
+  static final balance = BalanceModel("10.0000 SEEDS");
 
-  final voice = VoiceModel(77);
+  static final voice = VoiceModel(77);
 
-  final proposals = [
+  static final proposals = [
     ProposalModel(
       id: 1,
       creator: "creator",
@@ -44,9 +41,15 @@ class HttpMockResponse {
     ),
   ];
 
-  HttpMockResponse() {
-    if (DotEnv().env['DEBUG_MOCK_HTTP'] != "") {
-      isEnabled = true;
-    }
-  }
+  static final invites = [
+    InviteModel(
+      inviteId: 1,
+      transferQuantity: "10.0000 SEEDS",
+      sowQuantity: "5.0000 SEEDS",
+      sponsor: "sponsor",
+      account: "account",
+      inviteHash: "invite_hash",
+      inviteSecret: "invite_secret"
+    ),
+  ];
 }

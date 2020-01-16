@@ -1,32 +1,52 @@
 import 'package:eosdart/eosdart.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/services/config_service.dart';
+import 'package:seeds/constants/config.dart';
 
 class EosService {
-  AuthNotifier _auth;
-  ConfigService _config;
+  String privateKey;
+  String accountName;
 
-  String endpointApi;
-
-  void init({ AuthNotifier auth, ConfigService config }) {
-    print("eos update dependencies...");
-    if (_auth == null) {
-      _auth = auth;
-    }
-    if (_config == null) {
-      _config = config;
-      endpointApi = _config.value("endpointApi");
-    }
+  void init({ userPrivateKey, userAccountName }) {
+    privateKey = userPrivateKey;
+    accountName = userAccountName;
   }
 
-  Future<dynamic> createAccount(
+  Future<dynamic> createInvite({ String transferQuantity, String sowQuantity, String inviteHash }) async {
+    EOSClient client = EOSClient(Config.defaultEndpoint, 'v1', privateKeys: [privateKey]);
+
+    Map data = {
+      "sponsor": accountName,
+      "transfer_quantity": transferQuantity,
+      "sow_quantity": sowQuantity,
+      "invite_hash": inviteHash,
+    };
+
+    List<Authorization> auth = [
+      Authorization()
+        ..actor = accountName
+        ..permission = "active"
+    ];
+
+    List<Action> actions = [
+      Action()
+        ..account = "join.seeds"
+        ..name = "invite"
+        ..authorization = auth
+        ..data = data
+    ];
+
+    Transaction transaction = Transaction()..actions = actions;
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  Future<dynamic> acceptInvite(
       String accountName, String publicKey, String inviteSecret
   ) async {
-    String applicationPrivateKey = _config.value("onboardingPrivateKey");
-    String applicationAccount = _config.value("onboardingAccountName");
+    String applicationPrivateKey = Config.onboardingPrivateKey;
+    String applicationAccount = Config.onboardingAccountName;
 
     EOSClient client =
-        EOSClient(endpointApi, 'v1', privateKeys: [ applicationPrivateKey ]);
+        EOSClient(Config.defaultEndpoint, 'v1', privateKeys: [ applicationPrivateKey ]);
 
     Map data = {
       "account": accountName,
@@ -53,22 +73,19 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferSeeds(String accountName, String amount) async {
-    String privateKey = _auth.privateKey;
-    String from = _auth.accountName;
-
-    EOSClient client = EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
+  Future<dynamic> transferSeeds(String beneficiary, String amount) async {
+    EOSClient client = EOSClient(Config.defaultEndpoint, 'v1', privateKeys: [privateKey]);
 
     Map data = {
-      "from": from,
-      "to": accountName,
+      "from": accountName,
+      "to": beneficiary,
       "quantity": "$amount SEEDS",
       "memo": "",
     };
 
     List<Authorization> auth = [
       Authorization()
-        ..actor = from
+        ..actor = accountName
         ..permission = "active"
     ];
 
@@ -86,16 +103,13 @@ class EosService {
   }
 
   Future<dynamic> voteProposal({int id, int amount}) async {
-    String privateKey = _auth.privateKey;
-    String from = _auth.accountName;
+    EOSClient client = EOSClient(Config.defaultEndpoint, 'v1', privateKeys: [privateKey]);
 
-    EOSClient client = EOSClient(endpointApi, 'v1', privateKeys: [privateKey]);
-
-    Map data = {"voter": from, "id": id, "amount": amount.abs()};
+    Map data = {"voter": accountName, "id": id, "amount": amount.abs()};
 
     List<Authorization> auth = [
       Authorization()
-        ..actor = from
+        ..actor = accountName
         ..permission = "active"
     ];
 
