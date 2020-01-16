@@ -5,14 +5,9 @@ import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
-import 'package:seeds/providers/services/links_service.dart';
 
 final providers = [
   ChangeNotifierProvider(create: (_) => AuthNotifier()..init()),
-  ProxyProvider<AuthNotifier, LinksService>(
-    create: (_) => LinksService(),
-    update: (_, auth, links) => links..init(auth.accountName),
-  ),
   ProxyProvider<AuthNotifier, HttpService>(
     create: (_) => HttpService(),
     update: (_, auth, http) => http
