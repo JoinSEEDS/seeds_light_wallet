@@ -3,10 +3,8 @@ import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
-
-import 'create_account.dart';
-import 'onboarding_method_choice.dart';
 
 class Onboarding extends StatelessWidget {
   final List<PageViewModel> featurePages = [
@@ -44,17 +42,9 @@ class Onboarding extends StatelessWidget {
               featurePages,
               onTapDoneButton: () async {
                 if (debugInviteSecret.isNotEmpty == true) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => CreateAccount(debugInviteSecret),
-                    ),
-                  );
+                  NavigationService.of(context).navigateTo("CreateAccount", debugInviteSecret);
                 } else {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => OnboardingMethodChoice(),
-                    ),
-                  );
+                  NavigationService.of(context).navigateTo("OnboardingMethodChoice");
                 }
               },
               doneButtonPersist: true,

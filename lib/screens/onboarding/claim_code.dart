@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-
-import 'create_account.dart';
 
 class ClaimCode extends StatefulWidget {
   @override
@@ -50,10 +49,7 @@ class _ClaimCodeState extends State<ClaimCode> {
               child: SeedsButton("Accept invite", () async {
                 String inviteCode = inviteCodeController.value.text;
 
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                      builder: (context) => CreateAccount(inviteCode)),
-                );
+                NavigationService.of(context).navigateTo("CreateAccount", inviteCode);
               }),
             ),
             SizedBox(height: 20),

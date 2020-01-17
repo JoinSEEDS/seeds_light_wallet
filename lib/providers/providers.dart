@@ -6,8 +6,10 @@ import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/links_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 
 final providers = [
+  Provider(create: (_) => NavigationService(),),
   ChangeNotifierProvider(create: (_) => AuthNotifier()..init()),
   ProxyProvider<AuthNotifier, LinksService>(
     create: (_) => LinksService(),

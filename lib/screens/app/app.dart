@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/screens/app/explorer/explorer.dart';
+import 'package:seeds/screens/app/profile/profile.dart';
+import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-import 'package:seeds/screens/app/friends.dart';
-import 'package:seeds/screens/app/home.dart';
-import 'package:seeds/screens/app/transfer.dart';
-import 'package:seeds/screens/app/proposals/proposals.dart';
 
 class App extends StatefulWidget {
   App();
@@ -14,13 +13,12 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int index = 0;
+  int index = 1;
 
-  final navigationTitles = ["Dashboard", "Transfer", "Vote", "Invite"];
+  final navigationTitles = ["Explorer", "Wallet", "Profile"];
   final navigationIcons = [
     Icons.home,
     Icons.account_balance_wallet,
-    Icons.event_note,
     Icons.people
   ];
 
@@ -43,7 +41,7 @@ class _AppState extends State<App> {
   }
 
   PageController pageController =
-      PageController(initialPage: 0, keepPage: true);
+      PageController(initialPage: 1, keepPage: true);
 
   void movePage(index) {
     setState(() {
@@ -93,14 +91,12 @@ class _AppState extends State<App> {
 
   Widget buildPageView() {
     return PageView(
-      
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        Home(movePage),
-        Transfer(),
-        Proposals(),
-        Friends(),
+        Explorer(),
+        Wallet(),
+        Profile(),
       ],
     );
   }

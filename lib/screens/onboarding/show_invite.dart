@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:seeds/screens/onboarding/create_account.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
+
+class ShowInviteArguments {
+  final String inviterAccount;
+  final String inviteSecret;
+
+  ShowInviteArguments(this.inviterAccount, this.inviteSecret);
+}
 
 class ShowInvite extends StatelessWidget {
   final String inviterAccountName;
@@ -23,11 +30,7 @@ class ShowInvite extends StatelessWidget {
         ],
         key: new UniqueKey(),
         onTapDoneButton: () async {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => CreateAccount(inviteSecret),
-            ),
-          );
+          NavigationService.of(context).navigateTo("CreateAccoutn", inviteSecret, replace: true);
         },
         doneButtonPersist: true,
         doneText: Text(

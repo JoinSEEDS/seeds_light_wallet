@@ -27,15 +27,17 @@ class _TransferState extends State<Transfer>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-          flex: 1,
-          child: _usersList(context),
-        ),
-      ],
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: _usersList(context),
+          ),
+        ],
+      ),
     );
   }
 
@@ -81,9 +83,11 @@ class _TransferState extends State<Transfer>
                       await Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => TransferForm(
-                            user.nickname,
-                            user.account,
-                            user.image,
+                            TransferFormArguments(
+                              user.nickname,
+                              user.account,
+                              user.image,
+                            ),
                           ),
                         ),
                       );

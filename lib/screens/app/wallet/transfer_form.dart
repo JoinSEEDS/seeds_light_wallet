@@ -6,17 +6,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
-import 'transfer_amount.dart';
-
-class TransferForm extends StatefulWidget {
+class TransferFormArguments {
   final String fullName;
   final String accountName;
   final String avatar;
 
-  TransferForm(this.fullName, this.accountName, this.avatar);
+  TransferFormArguments(this.fullName, this.accountName, this.avatar);
+}
+
+class TransferForm extends StatefulWidget {
+  final TransferFormArguments arguments;
+
+  TransferForm(this.arguments);
 
   @override
   _TransferFormState createState() => _TransferFormState();
@@ -48,7 +53,7 @@ class _TransferFormState extends State<TransferForm>
     });
 
     try {
-      var response = await Provider.of<EosService>(context, listen: false).transferSeeds(widget.accountName, amountValue);
+      var response = await Provider.of<EosService>(context, listen: false).transferSeeds(widget.arguments.accountName, amountValue);
 
       String trxid = response["transaction_id"];
 
@@ -68,18 +73,23 @@ class _TransferFormState extends State<TransferForm>
       statusStream: _statusNotifier.stream,
       messageStream: _messageNotifier.stream,
       afterSuccessCallback: () {
-        Navigator.of(context).pop();        
+        NavigationService.of(context).closeTransferForm();
       },
       afterFailureCallback: () {
-        Navigator.of(context).pop();
+        NavigationService.of(context).closeTransferForm();
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    String accountName = widget.arguments.accountName;
+    String fullName = widget.arguments.fullName;
+    String avatar = widget.arguments.avatar;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: NavigationService.of(context).transferNavigatorKey,
       home: Container(
         width: 150,
         child: Stack(
@@ -93,7 +103,7 @@ class _TransferFormState extends State<TransferForm>
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 title: Text(
-                  "Send to ${widget.accountName}",
+                  "Send to $accountName",
                   style: TextStyle(fontFamily: "worksans", color: Colors.black),
                 ),
                 centerTitle: true,
@@ -112,12 +122,12 @@ class _TransferFormState extends State<TransferForm>
                         height: 150,
                         child: CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          backgroundImage: CachedNetworkImageProvider(widget.avatar),
+                          backgroundImage: CachedNetworkImageProvider(avatar),
                         ),
                       ),
                       SizedBox(height: 15),
                       Text(
-                        "${widget.fullName}",
+                        "$fullName",
                         style: TextStyle(
                             fontFamily: "worksans",
                             fontSize: 22,
@@ -130,7 +140,7 @@ class _TransferFormState extends State<TransferForm>
                           color: CustomColors.green,
                           textColor: Colors.white,
                           child: Text(
-                            "${widget.accountName}",
+                            "$accountName",
                             style: TextStyle(
                               fontFamily: "worksans",
                               color: Colors.white,
@@ -170,13 +180,7 @@ class _TransferFormState extends State<TransferForm>
                                         fontWeight: FontWeight.w500),
                                   ),
                                   onTap: () async {
-                                    var navigationResult = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => TransferAmount(amountValue),
-                                        fullscreenDialog: true,
-                                      ),
-                                    );
+                                    var navigationResult = await NavigationService.of(context).showTransferAmount(amountValue);
 
                                     setState(() {
                                       this.amountValue =

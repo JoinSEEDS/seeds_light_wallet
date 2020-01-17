@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
-import 'package:seeds/screens/app/proposals/proposal_details.dart';
-import 'package:seeds/screens/app/proposals/proposal_header_details.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/explorer/proposals/proposal_details.dart';
+import 'package:seeds/screens/app/explorer/proposals/proposal_header_details.dart';
 
 class Proposals extends StatefulWidget {
   @override
@@ -70,7 +71,7 @@ class _ProposalsListState extends State<ProposalsList>
         margin: const EdgeInsets.all(16),
         elevation: 8,
         child: InkWell(
-          onTap: () => push(context, ProposalDetailsPage(proposal: proposal)),
+          onTap: () => NavigationService.of(context).navigateTo("ProposalDetailsPage", proposal),
           child: ProposalHeaderDetails(proposal),
         ),
       ),

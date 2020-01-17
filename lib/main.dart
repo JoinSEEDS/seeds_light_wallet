@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/passcode.dart';
@@ -18,7 +19,6 @@ class SeedsApp extends StatefulWidget {
   @override
   _SeedsAppState createState() => _SeedsAppState();
 }
-
 
 class _SeedsAppState extends State<SeedsApp> {
   @override
@@ -37,37 +37,52 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthNotifier>(builder: (ctx, auth, _) {
-      Widget screen;
+    return Consumer<AuthNotifier>(
+      builder: (ctx, auth, _) {
+        Widget screen;
+        Function onGenerateRoute;
 
-      switch (auth.status) {
-        case AuthStatus.INIT:
-          screen = SplashScreen();
-          break;
-        case AuthStatus.CREATE:
-          screen = Onboarding();
-          break;
-        case AuthStatus.LOCK:
-          screen = LockWallet();
-          break;
-        case AuthStatus.UNLOCK:
-          screen = UnlockWallet();
-          break;
-        case AuthStatus.OPEN:
-          screen = App();
-          break;
-        default:
-          screen = SplashScreen();
-      }
+        switch (auth.status) {
+          case AuthStatus.INIT:
+            screen = SplashScreen();
+            break;
+          case AuthStatus.CREATE:
+            screen = Onboarding();
+            break;
+          case AuthStatus.LOCK:
+            screen = LockWallet();
+            break;
+          case AuthStatus.UNLOCK:
+            screen = UnlockWallet();
+            break;
+          case AuthStatus.OPEN:
+            screen = App();
+            break;
+          default:
+            screen = SplashScreen();
+        }
 
-      return ToolboxApp(child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: screen,
-      ), noItemsFoundWidget: Padding(
-        padding: const EdgeInsets.all(32),
-        child: SvgPicture.asset(R.noItemFound),
-       ),
-      );
-    });
+        NavigationService navigationService = NavigationService.of(context);
+
+        if (auth.status == AuthStatus.CREATE) {
+          onGenerateRoute = navigationService.onGenerateRouteFromOnboarding;
+        } else if (auth.status == AuthStatus.OPEN) {
+          onGenerateRoute = navigationService.onGenerateRouteFromApplication;
+        }
+
+        return ToolboxApp(
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            navigatorKey: navigationService.navigatorKey,
+            home: screen,
+            onGenerateRoute: onGenerateRoute,
+          ),
+          noItemsFoundWidget: Padding(
+            padding: const EdgeInsets.all(32),
+            child: SvgPicture.asset(R.noItemFound),
+          ),
+        );
+      },
+    );
   }
 }
