@@ -41,4 +41,15 @@ class HttpMockResponse {
     ),
   ];
 
+  static final invites = [
+    InviteModel(
+      inviteId: 1,
+      transferQuantity: "10.0000 SEEDS",
+      sowQuantity: "5.0000 SEEDS",
+      sponsor: "sponsor",
+      account: "account",
+      inviteHash: "invite_hash",
+      inviteSecret: "invite_secret"
+    ),
+  ];
 }

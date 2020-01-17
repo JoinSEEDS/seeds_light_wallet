@@ -1,8 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/invites_notifier.dart';
+import 'package:seeds/widgets/progress_bar.dart';
+import 'package:seeds/widgets/reactive_widget.dart';
 import 'package:seeds/widgets/seeds_button.dart';
+import 'package:provider/provider.dart';
 
 class Friends extends StatelessWidget {
+  Widget buildInviteWidget(InviteModel model) {
+    return Container(
+      child: ListTile(
+          title: Text("Sow: " +
+              model.sowQuantity +
+              " Transfer: " +
+              model.transferQuantity),
+          trailing: Container(
+            width: 230,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                SeedsButton("Copy"),
+                SizedBox(width: 10),
+                SeedsButton("Cancel")
+              ],
+            ),
+          )),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -30,53 +56,14 @@ class Friends extends StatelessWidget {
               ],
             ),
           ),
-          ListView(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: ListTile(
-                  leading: Container(
-                    width: 42,
-                    child: Icon(
-                      Icons.star_half,
-                      color: CustomColors.green,
-                    ),
-                  ),
-                  subtitle: Text("Invite more users to upgrade your status and become citizen"),
-                ),
-              ),
-              Container(
-                child: ListTile(
-                  title: Text("GUEST"),
-                  subtitle: Text("Your account status"),
-                  trailing: SeedsButton("Progress"),
-                ),
-              ),
-              Container(
-                child: ListTile(
-                  title: Text("seedsgifting invited you"),
-                  subtitle: Text("Create invite for your friends"),
-                  trailing: SeedsButton("Invite"),
-                ),
-              ),
-              Container(
-                child: ListTile(
-                    title: Text("5 / 20 requests sent"),
-                    subtitle: Text("Request someone to vouch for you"),
-                    trailing: SeedsButton("Request")),
-              ),
-              Container(
-                child: ListTile(
-                  title: Text("5 / 150 requests approved"),
-                  subtitle: Text("Vouch for members waiting your approval"),
-                  trailing: SeedsButton("Approve"),
-                ),
-              ),
-            ],
+          ReactiveWidget(
+            model: InvitesNotifier()..init(http: Provider.of(context)),
+            onModelReady: (model) => model.fetchInvites(),
+            builder: (ctx, model, child) => model == null || model.invites == null ? ProgressBar() : ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (ctx, index) => buildInviteWidget(model.invites[index]),
+              itemCount: model.invites.length,
+            ),
           ),
         ],
       ),

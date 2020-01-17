@@ -1,3 +1,49 @@
+class InviteModel {
+  final int inviteId;
+  final String transferQuantity;
+  final String sowQuantity;
+  final String sponsor;
+  final String account;
+  final String inviteHash;
+  final String inviteSecret;
+
+  InviteModel({
+    this.inviteId,
+    this.transferQuantity,
+    this.sowQuantity,
+    this.sponsor,
+    this.account,
+    this.inviteHash,
+    this.inviteSecret,
+  });
+
+  factory InviteModel.fromJson(Map<String, dynamic> json) {
+    return InviteModel(
+      inviteId: json["invite_id"],
+      transferQuantity: json["transfer_quantity"],
+      sowQuantity: json["sow_quantity"],
+      sponsor: json["sponsor"],
+      account: json["account"],
+      inviteHash: json["invite_hash"],
+      inviteSecret: json["invite_secret"],
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is InviteModel &&
+          inviteId == other.inviteId &&
+          transferQuantity == other.transferQuantity &&
+          sowQuantity == other.sowQuantity &&
+          sponsor == other.sponsor &&
+          account == other.account &&
+          inviteHash == other.inviteHash &&
+          inviteSecret == other.inviteSecret;
+
+  @override
+  int get hashCode => super.hashCode;
+}
 
 class MemberModel {
   final String account;
@@ -13,6 +59,17 @@ class MemberModel {
       image: json["image"],
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MemberModel &&
+          account == other.account &&
+          nickname == other.nickname &&
+          image == other.image;
+
+  @override
+  int get hashCode => super.hashCode;
 }
 
 class TransactionModel {
@@ -31,6 +88,18 @@ class TransactionModel {
       json["memo"],
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TransactionModel &&
+          from == other.from &&
+          to == other.to &&
+          quantity == other.quantity &&
+          memo == other.memo;
+
+  @override
+  int get hashCode => super.hashCode;
 }
 
 class BalanceModel {
@@ -41,6 +110,14 @@ class BalanceModel {
   factory BalanceModel.fromJson(List<dynamic> json) {
     return BalanceModel(json[0] as String);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BalanceModel && quantity == other.quantity;
+
+  @override
+  int get hashCode => super.hashCode;
 }
 
 class VoiceModel {
@@ -51,6 +128,13 @@ class VoiceModel {
   factory VoiceModel.fromJson(Map<String, dynamic> json) {
     return VoiceModel(json[0] as int);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is VoiceModel && amount == other.amount;
+
+  @override
+  int get hashCode => super.hashCode;
 }
 
 class ProposalModel {
