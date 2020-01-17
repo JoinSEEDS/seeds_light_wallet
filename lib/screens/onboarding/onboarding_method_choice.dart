@@ -1,10 +1,11 @@
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';
 import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/show_invite.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
+import 'package:provider/provider.dart';
 
 class OnboardingMethodChoice extends StatefulWidget {
   @override
@@ -16,25 +17,23 @@ class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
   void initState() {
     super.initState();
 
-    this.processInviteLink();
+    Future.delayed(Duration.zero, this.acceptInviteLink);
   }
 
-  void processInviteLink() async {
-    final PendingDynamicLinkData data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
+  void acceptInviteLink() async {
 
-    final Uri deepLink = data?.link;
+    final Map<String, String> queryParams =
+        await Provider.of<LinksService>(context, listen: false)
+            .parseInviteLink();
 
-    handleDeepLink(deepLink);
-
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData dynamicLink) async {
-      final Uri deepLink = dynamicLink?.link;
-
-      handleDeepLink(deepLink);
-    }, onError: (OnLinkErrorException e) async {
-      print(e.message);
-    });
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => ShowInvite(
+          queryParams["inviterAccount"],
+          queryParams["inviteSecret"],
+        ),
+      ),
+    );
   }
 
   void handleDeepLink(deepLink) {
