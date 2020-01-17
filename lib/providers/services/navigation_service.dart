@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/screens/app/explorer/friends.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_details.dart';
-import 'package:seeds/screens/app/explorer/proposals/proposal_form.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposals.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer_amount.dart';
@@ -50,7 +50,16 @@ class NavigationService {
   }
 
   Future<dynamic> showTransferScreen() {
+    // callback();
     return navigatorKey.currentState.pushNamed("Transfer");
+  }
+
+  Future<dynamic> showInvitesScreen() {
+    return navigatorKey.currentState.pushNamed("Invites");
+  }
+
+  Future<dynamic> showProposalsScreen() {
+    return navigatorKey.currentState.pushNamed("Proposals");
   }
 
   RouteFactory onGenerateRouteFromOnboarding = (settings) {
@@ -104,6 +113,14 @@ class NavigationService {
     } else if (settings.name == "ProposalDetailsPage") {
       return MaterialPageRoute(
         builder: (_) => ProposalDetailsPage(proposal: settings.arguments),
+      );
+    } else if (settings.name == "Proposals") {
+      return MaterialPageRoute(
+        builder: (_) => Proposals(),
+      );
+    } else if (settings.name == "Invites") {
+      return MaterialPageRoute(
+        builder: (_) => Friends(),
       );
     }
 

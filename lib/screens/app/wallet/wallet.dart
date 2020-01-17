@@ -168,7 +168,7 @@ class _WalletState extends State<Wallet>
           title: Text("0 VOICE"),
           subtitle: Text("Voice balance"),
           trailing: SeedsButton("Vote", () {
-              NavigationService.of(context).navigateTo("Transfer", null);
+              NavigationService.of(context).navigateTo("Proposals", null);
           }),
         ),
         ListTile(
@@ -182,7 +182,7 @@ class _WalletState extends State<Wallet>
           title: Text("75.0000 SEEDS"),
           subtitle: Text("Invites balance"),
           trailing: SeedsButton("Invite", () {
-              NavigationService.of(context).navigateTo("Transfer", null);
+              NavigationService.of(context).navigateTo("Invites", null);
           }),
         ),
         SizedBox(height: 10),

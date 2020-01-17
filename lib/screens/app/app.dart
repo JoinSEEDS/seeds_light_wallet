@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/explorer/explorer.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
@@ -25,6 +26,15 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    NavigationService.of(context).listen(() {
+      print("change page requested from navigation service");
+      movePage(1);
+    });
   }
 
   List<BottomNavigationBarItem> buildNavigationItems() {

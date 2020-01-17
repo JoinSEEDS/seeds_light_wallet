@@ -3,7 +3,6 @@ import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/app/explorer/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_header_details.dart';
 
 class Proposals extends StatefulWidget {
@@ -18,6 +17,10 @@ class ProposalsState extends State<Proposals> {
       length: proposalTypes.length,
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
           title: TabBar(
