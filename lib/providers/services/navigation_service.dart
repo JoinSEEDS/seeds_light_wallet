@@ -50,7 +50,6 @@ class NavigationService {
   }
 
   Future<dynamic> showTransferScreen() {
-    // callback();
     return navigatorKey.currentState.pushNamed("Transfer");
   }
 

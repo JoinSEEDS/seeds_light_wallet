@@ -42,6 +42,8 @@ class MainScreen extends StatelessWidget {
         Widget screen;
         Function onGenerateRoute;
 
+        auth.status = AuthStatus.OPEN;
+
         switch (auth.status) {
           case AuthStatus.INIT:
             screen = SplashScreen();

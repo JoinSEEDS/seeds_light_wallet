@@ -31,10 +31,10 @@ class _AppState extends State<App> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    NavigationService.of(context).listen(() {
-      print("change page requested from navigation service");
-      movePage(1);
-    });
+    // NavigationService.of(context).listen(() {
+    //   print("change page requested from navigation service");
+    //   movePage(1);
+    // });
   }
 
   List<BottomNavigationBarItem> buildNavigationItems() {

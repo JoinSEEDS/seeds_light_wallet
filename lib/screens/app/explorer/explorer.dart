@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/explorer/friends.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposals.dart';
 import 'package:seeds/widgets/seeds_button.dart';
@@ -12,9 +13,7 @@ class Explorer extends StatelessWidget {
           child: ListTile(
             leading: Icon(Icons.description),
             trailing: SeedsButton("PROPOSALS", () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => Proposals())
-              );
+              NavigationService.of(context).showProposalsScreen();
             }),
             title: Text("Proposals"),
             subtitle: Text(
@@ -26,9 +25,7 @@ class Explorer extends StatelessWidget {
           child: ListTile(
             leading: Icon(Icons.child_friendly),
             trailing: SeedsButton("INVITES", () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => Friends())
-              );
+              NavigationService.of(context).showInvitesScreen();
             }),
             title: Text("Community"),
             subtitle: Text(
