@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/custom_colors.dart';
-import 'package:seeds/providers/services/config_service.dart';
 import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
 
 import 'create_account.dart';
@@ -33,7 +33,7 @@ class Onboarding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final debugInviteSecret = ConfigService.of(context).value("debugInviteSecret");
+    final debugInviteSecret = Config.debugInviteSecret;
 
     return Builder(
       builder: (context) {

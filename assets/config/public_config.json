@@ -1,10 +1,11 @@
 {
-    "endpointApi": "https://testnet.eos.miami",
+    "endpointApi": "https://telos.caleos.io",
     "onboardingAccountName": "join.seeds",
     "onboardingPrivateKey": "5K1TQUxZo5oVTAjHRERTiP4kfoA3CNeYwKFVaksEQUw2zUWStUo",
     "testingAccountName": "seedsuserss1",
     "testingPrivateKey": "5JV4wdW5NWSRoJD5qt5nHR3VUeRpbmvC83SS8gjp5rS1fcA78Gi",
     "cpuAccountName": "",
     "cpuPrivateKey": "",
-    "debugInviteSecret": ""
+    "debugInviteSecret": "",
+    "enableHttpMock": false
 }

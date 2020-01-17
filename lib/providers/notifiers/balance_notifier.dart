@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 class BalanceNotifier extends ChangeNotifier {
   BalanceModel balance;
 
-  AuthNotifier _auth;
   HttpService _http;
 
   static of(BuildContext context, {bool listen = false}) =>
@@ -17,13 +16,10 @@ class BalanceNotifier extends ChangeNotifier {
   void init({ HttpService http, AuthNotifier auth }) {
     if (_http == null)
       _http = http;
-
-    if (_auth == null)
-      _auth = auth;
   }
 
   void fetchBalance() {
-    _http.getBalance(_auth.accountName).then((result) {
+    _http.getBalance().then((result) {
       balance = result;
       notifyListeners();
     });
