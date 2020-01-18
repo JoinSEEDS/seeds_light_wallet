@@ -74,7 +74,7 @@ class EosService {
   }
 
   Future<dynamic> transferSeeds(String beneficiary, String amount) async {
-    EOSClient client = EOSClient(Config.defaultEndpoint, 'v1', privateKeys: [privateKey]);
+    EOSClient client = EOSClient(Config.defaultEndpoint, 'v1', privateKeys: [privateKey, Config.cpuPrivateKey]);
 
     Map data = {
       "from": accountName,
@@ -83,6 +83,15 @@ class EosService {
       "memo": "",
     };
 
+    List<Authorization> cpuAuth = [
+      Authorization()
+        ..actor = "harvst.seeds"
+        ..permission = "payforcpu",
+      Authorization()
+        ..actor = accountName
+        ..permission = "active"
+    ];
+
     List<Authorization> auth = [
       Authorization()
         ..actor = accountName
@@ -90,6 +99,11 @@ class EosService {
     ];
 
     List<Action> actions = [
+      Action()
+        ..account = "harvst.seeds"
+        ..name = 'payforcpu'
+        ..authorization = cpuAuth
+        ..data = { "account": accountName },
       Action()
         ..account = 'token.seeds'
         ..name = 'transfer'
