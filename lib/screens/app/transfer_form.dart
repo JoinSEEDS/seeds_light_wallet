@@ -107,42 +107,56 @@ class _TransferFormState extends State<TransferForm>
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        width: 150,
-                        height: 150,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: CachedNetworkImageProvider(widget.avatar),
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      Text(
-                        "${widget.fullName}",
-                        style: TextStyle(
-                            fontFamily: "worksans",
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(height: 15),
-                      SizedBox(
-                        height: 25,
-                        child: FlatButton(
-                          color: CustomColors.green,
-                          textColor: Colors.white,
-                          child: Text(
-                            "${widget.accountName}",
-                            style: TextStyle(
-                              fontFamily: "worksans",
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
+                      Hero(
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: CachedNetworkImageProvider(widget.avatar),
                             ),
                           ),
-                          onPressed: () {},
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                          tag: "avatar#${widget.accountName}"
+                      ),
+                      SizedBox(height: 15),
+                      Hero(
+                        child: Material(
+                          child: Text("${widget.fullName}",
+                            style: TextStyle(
+                                fontFamily: "worksans",
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          color: Colors.transparent,
+                        ),
+                        tag: "nickname#${widget.accountName}",
+                      ),
+                      SizedBox(height: 15),
+                      Hero(
+                        child: Material(
+                          color: Colors.transparent,
+                          child: SizedBox(
+                            height: 25,
+                            child: FlatButton(
+                              color: CustomColors.green,
+                              textColor: Colors.white,
+                              child: Text(
+                                "${widget.accountName}",
+                                style: TextStyle(
+                                  fontFamily: "worksans",
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                              onPressed: () {},
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
                           ),
                         ),
+                        tag: "account#${widget.accountName}",
                       ),
                       Container(
                         margin:
