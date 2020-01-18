@@ -153,7 +153,7 @@ class _DashboardState extends State<Dashboard>
             ),
             subtitle: Text("Available balance"),
             trailing: SeedsButton("Transfer", () {
-              NavigationService.of(context).navigateTo("Transfer");
+              NavigationService.of(context).navigateTo(Routes.transfer);
             }),
           ),
         ),
@@ -168,7 +168,7 @@ class _DashboardState extends State<Dashboard>
           title: Text("0 VOICE"),
           subtitle: Text("Voice balance"),
           trailing: SeedsButton("Vote", () {
-              NavigationService.of(context).navigateTo("Proposals");
+              NavigationService.of(context).navigateTo(Routes.proposals);
           }),
         ),
         ListTile(
@@ -182,7 +182,7 @@ class _DashboardState extends State<Dashboard>
           title: Text("75.0000 SEEDS"),
           subtitle: Text("Invites balance"),
           trailing: SeedsButton("Invite", () {
-              NavigationService.of(context).navigateTo("Invites");
+              NavigationService.of(context).navigateTo(Routes.invites);
           }),
         ),
         SizedBox(height: 10),
@@ -207,7 +207,7 @@ class _DashboardState extends State<Dashboard>
                 ]),
             child: InkWell(
               onTap: () {
-                NavigationService.of(context).navigateTo("Transfer");
+                NavigationService.of(context).navigateTo(Routes.proposals);
               },
               child: ListTile(
                 leading: Container(

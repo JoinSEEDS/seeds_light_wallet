@@ -20,6 +20,25 @@ import 'package:provider/provider.dart';
 import 'package:seeds/screens/onboarding/welcome.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
+class Routes {
+  static final app = "App";
+  static final transferForm = "TransferForm";
+  static final transferAmount = "TransferAmount";
+  static final onboarding = "Onboarding";
+  static final onboardingMethodChoice = "OnboardingMethodChoice";
+  static final importAccount = "ImportAccount";
+  static final createAccount = "CreateAccount";
+  static final showInvite = "ShowInvite";
+  static final claimCode = "ClaimCode";
+  static final welcome = "Welcome";
+  static final transfer = "Transfer";
+  static final invites = "Invites";
+  static final proposals = "Proposals";
+  static final proposalDetailsPage = "ProposalDetailsPage";
+  static final overview = "Overview";
+  static final dashboard = "Dashboard";
+}
+
 class NavigationService {
   final GlobalKey<NavigatorState> onboardingNavigatorKey =
       new GlobalKey<NavigatorState>();
@@ -39,31 +58,31 @@ class NavigationService {
   StreamController<String> streamRouteListener;
 
   final onboardingRoutes = {
-    "Onboarding": (_) => Onboarding(),
-    "OnboardingMethodChoice": (_) => OnboardingMethodChoice(),
-    "ImportAccount": (_) => ImportAccount(),
-    "CreateAccount": (args) => CreateAccount(args),
-    "ShowInvite": (args) => ShowInvite(args),
-    "ClaimCode": (_) => ClaimCode(),
-    "Welcome": (args) => Welcome(args),
+    Routes.onboarding: (_) => Onboarding(),
+    Routes.onboardingMethodChoice: (_) => OnboardingMethodChoice(),
+    Routes.importAccount: (_) => ImportAccount(),
+    Routes.createAccount: (args) => CreateAccount(args),
+    Routes.showInvite: (args) => ShowInvite(args),
+    Routes.claimCode: (_) => ClaimCode(),
+    Routes.welcome: (args) => Welcome(args),
   };
 
   final appRoutes = {
-    "App": (_) => App(),
-    "TransferForm": (args) => TransferForm(args),
-    "TransferAmount": (args) => TransferAmount(args),
-    "Transfer": (_) => Transfer(),
-    "Invites": (_) => Friends(),
-    "Proposals": (_) => Proposals(),
-    "ProposalDetailsPage": (args) => ProposalDetailsPage(proposal: args),
+    Routes.app: (_) => App(),
+    Routes.transferForm: (args) => TransferForm(args),
+    Routes.transferAmount: (args) => TransferAmount(args),
+    Routes.transfer: (_) => Transfer(),
+    Routes.invites: (_) => Friends(),
+    Routes.proposals: (_) => Proposals(),
+    Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
   };
 
   final explorerRoutes = {
-    "Overview": (_) => Overview(),
+    Routes.overview: (_) => Overview(),
   };
 
   final walletRoutes = {
-    "Dashboard": (_) => Dashboard(),
+    Routes.dashboard: (_) => Dashboard(),
   };
 
   void addListener(StreamController<String> listener) {

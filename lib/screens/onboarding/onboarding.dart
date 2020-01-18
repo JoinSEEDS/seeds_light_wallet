@@ -43,13 +43,9 @@ class Onboarding extends StatelessWidget {
             child: IntroViewsFlutter(
               featurePages,
               onTapDoneButton: () async {
-                if (debugInviteSecret.isNotEmpty == true) {
-                  NavigationService.of(context)
-                      .navigateTo("CreateAccount", debugInviteSecret);
-                } else {
-                  NavigationService.of(context)
-                      .navigateTo("OnboardingMethodChoice");
-                }
+                NavigationService.of(context)
+                  .navigateTo(Routes.onboardingMethodChoice);
+                
               },
               doneButtonPersist: true,
               doneText: Text(

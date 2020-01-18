@@ -6,7 +6,7 @@ class Wallet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: NavigationService.of(context).walletNavigatorKey,
-      initialRoute: "Dashboard",
+      initialRoute: Routes.dashboard,
       onGenerateRoute: NavigationService.of(context).onGenerateRoute,
     );
   }

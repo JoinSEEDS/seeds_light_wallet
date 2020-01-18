@@ -15,7 +15,7 @@ class Overview extends StatelessWidget {
           child: ListTile(
             leading: Icon(Icons.description),
             trailing: SeedsButton("PROPOSALS", () {
-              NavigationService.of(context).navigateTo("Proposals");
+              NavigationService.of(context).navigateTo(Routes.proposals);
             }, false, 200),
             title: Text("Proposals"),
             subtitle: Text(
@@ -27,7 +27,7 @@ class Overview extends StatelessWidget {
           child: ListTile(
             leading: Icon(Icons.child_friendly),
             trailing: SeedsButton("INVITES", () {
-              NavigationService.of(context).navigateTo("Invites");
+              NavigationService.of(context).navigateTo(Routes.invites);
             }, false, 200),
             title: Text("Community"),
             subtitle: Text(

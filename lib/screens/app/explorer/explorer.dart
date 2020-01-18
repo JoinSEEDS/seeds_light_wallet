@@ -6,7 +6,7 @@ class Explorer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: NavigationService.of(context).explorerNavigatorKey,
-      initialRoute: "Overview",
+      initialRoute: Routes.overview,
       onGenerateRoute: NavigationService.of(context).onGenerateRoute,
     );
   }

@@ -96,7 +96,7 @@ class _TransferState extends State<Transfer>
                     ),
                     onTap: () async {
                       await NavigationService.of(context).navigateTo(
-                        "TransferForm",
+                        Routes.transferForm,
                         TransferFormArguments(
                           user.nickname,
                           user.account,

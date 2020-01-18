@@ -49,7 +49,7 @@ class _ClaimCodeState extends State<ClaimCode> {
               child: SeedsButton("Accept invite", () async {
                 String inviteCode = inviteCodeController.value.text;
 
-                NavigationService.of(context).navigateTo("CreateAccount", inviteCode);
+                NavigationService.of(context).navigateTo(Routes.createAccount, inviteCode);
               }),
             ),
             SizedBox(height: 20),

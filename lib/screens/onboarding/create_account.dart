@@ -162,7 +162,7 @@ class _CreateAccountState extends State<CreateAccount> {
         afterSuccessCallback: () {
           String accountName = accountNameController.text;
 
-          NavigationService.of(context).navigateTo("Welcome", accountName, true);
+          NavigationService.of(context).navigateTo(Routes.welcome, accountName, true);
         },
         afterFailureCallback: () {
           NavigationService.of(context).navigateTo("OnboadingMethodChoice", true);

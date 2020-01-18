@@ -180,7 +180,7 @@ class _TransferFormState extends State<TransferForm>
                                   var navigationResult =
                                       await NavigationService.of(context)
                                           .navigateTo(
-                                              "TransferAmount", amountValue);
+                                              Routes.transferAmount, amountValue);
 
                                   setState(() {
                                     this.amountValue =

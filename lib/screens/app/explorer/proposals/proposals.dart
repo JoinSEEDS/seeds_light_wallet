@@ -89,7 +89,7 @@ class _ProposalsListState extends State<ProposalsList>
         elevation: 8,
         child: InkWell(
           onTap: () => NavigationService.of(context)
-              .navigateTo("ProposalDetailsPage", proposal),
+              .navigateTo(Routes.proposalDetailsPage, proposal),
           child: ProposalHeaderDetails(proposal),
         ),
       ),

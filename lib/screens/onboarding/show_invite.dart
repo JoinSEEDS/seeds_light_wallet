@@ -32,7 +32,7 @@ class ShowInvite extends StatelessWidget {
         ],
         key: new UniqueKey(),
         onTapDoneButton: () async {
-          NavigationService.of(context).navigateTo("CreateAccount", inviteSecret, true);
+          NavigationService.of(context).navigateTo(Routes.createAccount, inviteSecret, true);
         },
         doneButtonPersist: true,
         doneText: Text(

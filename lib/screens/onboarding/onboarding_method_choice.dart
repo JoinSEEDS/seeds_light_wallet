@@ -25,7 +25,7 @@ class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
             .parseInviteLink();
 
     NavigationService.of(context).navigateTo(
-      "ShowInvite",
+      Routes.showInvite,
       ShowInviteArguments(
         queryParams["inviterAccount"],
         queryParams["inviteSecret"],
@@ -59,7 +59,7 @@ class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
               child: SeedsButton(
                 "Import private key",
                 () {
-                  NavigationService.of(context).navigateTo("ImportAccount");
+                  NavigationService.of(context).navigateTo(Routes.importAccount);
                 },
               ),
             ),
@@ -76,7 +76,7 @@ class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
               height: 40,
               width: MediaQuery.of(context).size.width,
               child: SeedsButton("Claim invite code", () {
-                NavigationService.of(context).navigateTo("ClaimCode");
+                NavigationService.of(context).navigateTo(Routes.claimCode);
               }),
             ),
             // SizedBox(
