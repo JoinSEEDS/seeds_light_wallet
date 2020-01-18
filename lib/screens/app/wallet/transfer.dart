@@ -3,6 +3,7 @@ import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 
 import 'transfer_form.dart';
@@ -94,18 +95,15 @@ class _TransferState extends State<Transfer>
                       style: TextStyle(fontFamily: "worksans"),
                     ),
                     onTap: () async {
-                      await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => TransferForm(
-                            TransferFormArguments(
-                              user.nickname,
-                              user.account,
-                              user.image,
-                            ),
-                          ),
+                      await NavigationService.of(context).navigateTo(
+                        "TransferForm",
+                        TransferFormArguments(
+                          user.nickname,
+                          user.account,
+                          user.image,
                         ),
                       );
-
+                      
                       TransactionsNotifier.of(context).fetchTransactions();
                       BalanceNotifier.of(context).fetchBalance();
                     },

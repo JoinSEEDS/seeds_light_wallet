@@ -24,26 +24,14 @@ class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
         await Provider.of<LinksService>(context, listen: false)
             .parseInviteLink();
 
-    NavigationService.of(context)
-        .navigateTo("ShowInvite", queryParams, replace: true);
-  }
-
-  void handleDeepLink(deepLink) {
-    if (deepLink != null) {
-      Map<String, String> queryParams =
-          Uri.splitQueryString(deepLink.toString());
-
-      if (queryParams["inviterAccount"] != null &&
-          queryParams["inviteSecret"] != null) {
-        NavigationService.of(context).navigateTo(
-          "ShowInvite",
-          ShowInviteArguments(
-            queryParams["inviterAccount"],
-            queryParams["inviteSecret"],
-          ),
-        );
-      }
-    }
+    NavigationService.of(context).navigateTo(
+      "ShowInvite",
+      ShowInviteArguments(
+        queryParams["inviterAccount"],
+        queryParams["inviteSecret"],
+      ),
+      true,
+    );
   }
 
   @override

@@ -39,51 +39,46 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AuthNotifier>(
       builder: (ctx, auth, _) {
-        Widget screen;
-        Function onGenerateRoute;
-
-        auth.status = AuthStatus.OPEN;
-
-        switch (auth.status) {
-          case AuthStatus.INIT:
-            screen = SplashScreen();
-            break;
-          case AuthStatus.CREATE:
-            screen = Onboarding();
-            break;
-          case AuthStatus.LOCK:
-            screen = LockWallet();
-            break;
-          case AuthStatus.UNLOCK:
-            screen = UnlockWallet();
-            break;
-          case AuthStatus.OPEN:
-            screen = App();
-            break;
-          default:
-            screen = SplashScreen();
-        }
-
         NavigationService navigationService = NavigationService.of(context);
 
-        if (auth.status == AuthStatus.CREATE) {
-          onGenerateRoute = navigationService.onGenerateRouteFromOnboarding;
-        } else if (auth.status == AuthStatus.OPEN) {
-          onGenerateRoute = navigationService.onGenerateRouteFromApplication;
-        }
+        auth.status = AuthStatus.unlocked;
 
-        return ToolboxApp(
-          child: MaterialApp(
+        if (auth.status == AuthStatus.emptyAccount) {
+          return MaterialApp(
             debugShowCheckedModeBanner: false,
-            navigatorKey: navigationService.navigatorKey,
-            home: screen,
-            onGenerateRoute: onGenerateRoute,
-          ),
-          noItemsFoundWidget: Padding(
-            padding: const EdgeInsets.all(32),
-            child: SvgPicture.asset(R.noItemFound),
-          ),
-        );
+            home: Onboarding(),
+            navigatorKey: navigationService.onboardingNavigatorKey,
+            onGenerateRoute: navigationService.onGenerateRoute,
+          );
+        } else if (auth.status == AuthStatus.unlocked) {
+          return ToolboxApp(
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: App(),
+              navigatorKey: navigationService.appNavigatorKey,
+              onGenerateRoute: navigationService.onGenerateRoute,
+            ),
+            noItemsFoundWidget: Padding(
+              padding: const EdgeInsets.all(32),
+              child: SvgPicture.asset(R.noItemFound),
+            ),
+          );
+        } else if (auth.status == AuthStatus.emptyPasscode) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: LockWallet(),
+          );
+        } else if (auth.status == AuthStatus.locked) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: UnlockWallet(),
+          );
+        } else {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: SplashScreen(),
+          );
+        }
       },
     );
   }

@@ -4,20 +4,22 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
 
 class ShowInviteArguments {
-  final String inviterAccount;
-  final String inviteSecret;
-
-  ShowInviteArguments(this.inviterAccount, this.inviteSecret);
-}
-
-class ShowInvite extends StatelessWidget {
   final String inviterAccountName;
   final String inviteSecret;
 
-  ShowInvite(this.inviterAccountName, this.inviteSecret);
+  ShowInviteArguments(this.inviterAccountName, this.inviteSecret);
+}
+
+class ShowInvite extends StatelessWidget {
+  final ShowInviteArguments arguments;
+
+  ShowInvite(this.arguments);
 
   @override
   Widget build(BuildContext context) {
+    final inviterAccountName = arguments.inviterAccountName;
+    final inviteSecret = arguments.inviteSecret;
+
     return Builder(
       builder: (context) => IntroViewsFlutter(
         [
@@ -30,7 +32,7 @@ class ShowInvite extends StatelessWidget {
         ],
         key: new UniqueKey(),
         onTapDoneButton: () async {
-          NavigationService.of(context).navigateTo("CreateAccoutn", inviteSecret, replace: true);
+          NavigationService.of(context).navigateTo("CreateAccount", inviteSecret, true);
         },
         doneButtonPersist: true,
         doneText: Text(

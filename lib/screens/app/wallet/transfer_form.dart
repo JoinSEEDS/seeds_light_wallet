@@ -29,7 +29,6 @@ class TransferForm extends StatefulWidget {
 
 class _TransferFormState extends State<TransferForm>
     with SingleTickerProviderStateMixin {
-      
   String amountValue = '0.0000';
   bool validAmount = true;
 
@@ -53,7 +52,8 @@ class _TransferFormState extends State<TransferForm>
     });
 
     try {
-      var response = await Provider.of<EosService>(context, listen: false).transferSeeds(widget.arguments.accountName, amountValue);
+      var response = await Provider.of<EosService>(context, listen: false)
+          .transferSeeds(widget.arguments.accountName, amountValue);
 
       String trxid = response["transaction_id"];
 
@@ -73,10 +73,10 @@ class _TransferFormState extends State<TransferForm>
       statusStream: _statusNotifier.stream,
       messageStream: _messageNotifier.stream,
       afterSuccessCallback: () {
-        NavigationService.of(context).closeTransferForm();
+        Navigator.of(context).pop();
       },
       afterFailureCallback: () {
-        NavigationService.of(context).closeTransferForm();
+        Navigator.of(context).pop();
       },
     );
   }
@@ -87,161 +87,158 @@ class _TransferFormState extends State<TransferForm>
     String fullName = widget.arguments.fullName;
     String avatar = widget.arguments.avatar;
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: NavigationService.of(context).transferNavigatorKey,
-      home: Container(
-        width: 150,
-        child: Stack(
-          children: <Widget>[
-            Scaffold(
-              backgroundColor: Colors.white,
-              appBar: AppBar(
-                automaticallyImplyLeading: true,
-                leading: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                title: Text(
-                  "Send to $accountName",
-                  style: TextStyle(fontFamily: "worksans", color: Colors.black),
-                ),
-                centerTitle: true,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
+    return Container(
+      width: 150,
+      child: Stack(
+        children: <Widget>[
+          Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              automaticallyImplyLeading: true,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.of(context).pop(),
               ),
-              body: SingleChildScrollView(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 150,
-                        height: 150,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: CachedNetworkImageProvider(avatar),
-                        ),
+              title: Text(
+                "Send to $accountName",
+                style: TextStyle(fontFamily: "worksans", color: Colors.black),
+              ),
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            body: SingleChildScrollView(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: 150,
+                      height: 150,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        backgroundImage: CachedNetworkImageProvider(avatar),
                       ),
-                      SizedBox(height: 15),
-                      Text(
-                        "$fullName",
-                        style: TextStyle(
+                    ),
+                    SizedBox(height: 15),
+                    Text(
+                      "$fullName",
+                      style: TextStyle(
+                          fontFamily: "worksans",
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(height: 15),
+                    SizedBox(
+                      height: 25,
+                      child: FlatButton(
+                        color: CustomColors.green,
+                        textColor: Colors.white,
+                        child: Text(
+                          "$accountName",
+                          style: TextStyle(
                             fontFamily: "worksans",
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(height: 15),
-                      SizedBox(
-                        height: 25,
-                        child: FlatButton(
-                          color: CustomColors.green,
-                          textColor: Colors.white,
-                          child: Text(
-                            "$accountName",
-                            style: TextStyle(
-                              fontFamily: "worksans",
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          onPressed: () {},
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w300,
                           ),
                         ),
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
                       ),
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 80),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
+                    ),
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 80),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "SEEDS",
+                                style: TextStyle(
+                                  fontFamily: "worksans",
+                                  fontSize: 12,
+                                  color: CustomColors.grey,
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              InkWell(
+                                child: Text(
+                                  this.amountValue,
+                                  style: TextStyle(
+                                      fontFamily: "worksans",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                onTap: () async {
+                                  var navigationResult =
+                                      await NavigationService.of(context)
+                                          .navigateTo(
+                                              "TransferAmount", amountValue);
+
+                                  setState(() {
+                                    this.amountValue =
+                                        navigationResult.toStringAsFixed(4);
+                                    if (navigationResult.toString() != '0.0') {
+                                      this.validAmount = true;
+                                    }
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Divider(height: 0.1, color: CustomColors.grey),
+                          SizedBox(height: 30),
+                          Opacity(
+                            opacity: this.validAmount ? 1.0 : 0.0,
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  "SEEDS",
+                                  'Add Memo',
                                   style: TextStyle(
                                     fontFamily: "worksans",
-                                    fontSize: 12,
-                                    color: CustomColors.grey,
+                                    fontSize: 17,
+                                    color: CustomColors.green,
                                   ),
                                 ),
-                                SizedBox(width: 5),
-                                InkWell(
-                                  child: Text(
-                                    this.amountValue,
-                                    style: TextStyle(
-                                        fontFamily: "worksans",
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  onTap: () async {
-                                    var navigationResult = await NavigationService.of(context).showTransferAmount(amountValue);
-
-                                    setState(() {
-                                      this.amountValue =
-                                          navigationResult.toStringAsFixed(4);
-                                      if (navigationResult.toString() !=
-                                          '0.0') {
-                                        this.validAmount = true;
-                                      }
-                                    });
-                                  },
+                                Icon(
+                                  Icons.chevron_right,
+                                  color: CustomColors.grey,
+                                  size: 40,
                                 ),
                               ],
                             ),
-                            SizedBox(height: 10),
-                            Divider(height: 0.1, color: CustomColors.grey),
-                            SizedBox(height: 30),
-                            Opacity(
-                              opacity: this.validAmount ? 1.0 : 0.0,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    'Add Memo',
-                                    style: TextStyle(
-                                      fontFamily: "worksans",
-                                      fontSize: 17,
-                                      color: CustomColors.green,
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.chevron_right,
-                                    color: CustomColors.grey,
-                                    size: 40,
-                                  ),
-                                ],
+                          ),
+                          SizedBox(height: 1),
+                          Opacity(
+                            opacity: this.validAmount ? 1.0 : 0.0,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 40,
+                              child: SeedsButton(
+                                "Send transaction",
+                                processTransaction,
                               ),
                             ),
-                            SizedBox(height: 1),
-                            Opacity(
-                              opacity: this.validAmount ? 1.0 : 0.0,
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: 40,
-                                child: SeedsButton(
-                                  "Send transaction",
-                                  processTransaction,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            showPageLoader ? _buildPageLoader() : Container(),
-          ],
-        ),
+          ),
+          showPageLoader ? _buildPageLoader() : Container(),
+        ],
       ),
     );
   }

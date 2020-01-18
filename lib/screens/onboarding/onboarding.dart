@@ -16,17 +16,19 @@ class Onboarding extends StatelessWidget {
       title: 'Better than free transactions',
     ),
     OnboardingViewModel(
-        bubble: Icons.settings_backup_restore,
-        mainImage: 'assets/images/onboarding2.png',
-        body:
-            'Plant Seeds for benefit of sustainable organizations - participate in harvest distribution',
-        title: 'Plant Seeds - get Seeds'),
+      bubble: Icons.settings_backup_restore,
+      mainImage: 'assets/images/onboarding2.png',
+      body:
+          'Plant Seeds for benefit of sustainable organizations - participate in harvest distribution',
+      title: 'Plant Seeds - get Seeds',
+    ),
     OnboardingViewModel(
-        bubble: Icons.people,
-        mainImage: 'assets/images/onboarding3.png',
-        body:
-            'Connect with other members and get funded for positive social and environmental contributions',
-        title: 'Cooperative Economy'),
+      bubble: Icons.people,
+      mainImage: 'assets/images/onboarding3.png',
+      body:
+          'Connect with other members and get funded for positive social and environmental contributions',
+      title: 'Cooperative Economy',
+    ),
   ];
 
   @override
@@ -42,9 +44,11 @@ class Onboarding extends StatelessWidget {
               featurePages,
               onTapDoneButton: () async {
                 if (debugInviteSecret.isNotEmpty == true) {
-                  NavigationService.of(context).navigateTo("CreateAccount", debugInviteSecret);
+                  NavigationService.of(context)
+                      .navigateTo("CreateAccount", debugInviteSecret);
                 } else {
-                  NavigationService.of(context).navigateTo("OnboardingMethodChoice");
+                  NavigationService.of(context)
+                      .navigateTo("OnboardingMethodChoice");
                 }
               },
               doneButtonPersist: true,

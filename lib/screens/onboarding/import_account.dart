@@ -111,7 +111,7 @@ class _ImportAccountState extends State<ImportAccount> {
 
                       AuthNotifier.of(context).saveAccount(accountName, privateKey);
 
-                      NavigationService.of(context).navigateTo("Welcome", accountName, replace: true);
+                      NavigationService.of(context).navigateTo("Welcome", accountName, true);
                     }),
             ),
           ],
