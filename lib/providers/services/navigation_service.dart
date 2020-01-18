@@ -52,18 +52,18 @@ class NavigationService {
     "App": (_) => App(),
     "TransferForm": (args) => TransferForm(args),
     "TransferAmount": (args) => TransferAmount(args),
-  };
-
-  final explorerRoutes = {
-    "Overview": (_) => Overview(),
+    "Transfer": (_) => Transfer(),
     "Invites": (_) => Friends(),
     "Proposals": (_) => Proposals(),
     "ProposalDetailsPage": (args) => ProposalDetailsPage(proposal: args),
   };
 
+  final explorerRoutes = {
+    "Overview": (_) => Overview(),
+  };
+
   final walletRoutes = {
     "Dashboard": (_) => Dashboard(),
-    "Transfer": (_) => Transfer(),
   };
 
   void addListener(StreamController<String> listener) {

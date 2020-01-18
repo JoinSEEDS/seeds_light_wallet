@@ -66,12 +66,6 @@ class _AppState extends State<App> {
         case "Profile":
           pageIndex = 2;
           break;
-        case "Proposals":
-          pageIndex = 0;
-          break;
-        case "Invites":
-          pageIndex = 0;
-          break;
       }
 
       if (pageIndex != null) {
@@ -107,24 +101,8 @@ class _AppState extends State<App> {
 
   Widget buildAppBar(BuildContext _context) {
     return AppBar(
-      title: Image.asset(
-        'assets/images/seeds-logo-with-text.png',
-        height: 40,
-        alignment: Alignment.topLeft,
-      ),
-      centerTitle: false,
-      actions: <Widget>[
-        Container(
-          child: SeedsButton("Logout", () {
-            AuthNotifier.of(context).removeAccount();
-          }, true),
-          height: 20,
-          margin: EdgeInsets.only(
-            top: 20,
-            right: 15,
-          ),
-        ),
-      ],
+      title: Text(navigationTabs[index].title, style: TextStyle(color: Colors.black),),
+      centerTitle: true,
       backgroundColor: Colors.transparent,
       elevation: 0.0,
     );
