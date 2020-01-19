@@ -78,21 +78,36 @@ class _TransferState extends State<Transfer>
                   final user = model.members[index];
 
                   return ListTile(
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          backgroundImage:
+                    leading: Hero(
+                        child: Container(
+                        width: 60,
+                        height: 60,
+                          child: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              backgroundImage:
                               CachedNetworkImageProvider(user.image)),
+                        ),
+                        tag: "avatar#${user.account}"
                     ),
-                    title: Text(
-                      user.nickname,
-                      style: TextStyle(fontFamily: "worksans"),
+                    title: Hero(
+                      child: Material(
+                        child: Text(
+                          user.nickname,
+                          style: TextStyle(fontFamily: "worksans"),
+                        ),
+                        color: Colors.transparent,
+                      ),
+                      tag: "nickname#${user.account}",
                     ),
-                    subtitle: Text(
-                      user.account,
-                      style: TextStyle(fontFamily: "worksans"),
+                    subtitle: Hero(
+                      child: Material(
+                        child: Text(
+                          user.account,
+                          style: TextStyle(fontFamily: "worksans"),
+                        ),
+                        color: Colors.transparent,
+                      ),
+                      tag: "account#${user.account}",
                     ),
                     onTap: () async {
                       await NavigationService.of(context).navigateTo(

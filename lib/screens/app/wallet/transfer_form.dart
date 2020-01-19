@@ -114,43 +114,57 @@ class _TransferFormState extends State<TransferForm>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      width: 150,
-                      height: 150,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        backgroundImage: CachedNetworkImageProvider(avatar),
+                    Hero(
+                      child: Container(
+                        width: 150,
+                        height: 150,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: CachedNetworkImageProvider(avatar),
+                        ),
                       ),
+                      tag: "avatar#$accountName",
                     ),
                     SizedBox(height: 15),
-                    Text(
-                      "$fullName",
-                      style: TextStyle(
-                          fontFamily: "worksans",
-                          fontSize: 22,
-                          fontWeight: FontWeight.w500),
-                    ),
+                      Hero(
+                        child: Material(
+                          child: Text("$fullName",
+                            style: TextStyle(
+                                fontFamily: "worksans",
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          color: Colors.transparent,
+                        ),
+                        tag: "nickname#$accountName",
+                      ),
                     SizedBox(height: 15),
-                    SizedBox(
-                      height: 25,
-                      child: FlatButton(
-                        color: CustomColors.green,
-                        textColor: Colors.white,
-                        child: Text(
-                          "$accountName",
-                          style: TextStyle(
-                            fontFamily: "worksans",
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
+                      Hero(
+                        tag: "account#$accountName",                        
+                        child: Material(
+                          color: Colors.transparent,
+                          child: SizedBox(
+                            height: 25,
+                            child: FlatButton(
+                              color: CustomColors.green,
+                              textColor: Colors.white,
+                              child: Text(
+                                "$accountName",
+                                style: TextStyle(
+                                  fontFamily: "worksans",
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                              onPressed: () {},
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
                           ),
                         ),
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
                       ),
-                    ),
                     Container(
                       margin:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 80),
@@ -179,8 +193,8 @@ class _TransferFormState extends State<TransferForm>
                                 onTap: () async {
                                   var navigationResult =
                                       await NavigationService.of(context)
-                                          .navigateTo(
-                                              Routes.transferAmount, amountValue);
+                                          .navigateTo(Routes.transferAmount,
+                                              amountValue);
 
                                   setState(() {
                                     this.amountValue =
