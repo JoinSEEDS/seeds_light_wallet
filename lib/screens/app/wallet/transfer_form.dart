@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
@@ -146,7 +146,7 @@ class _TransferFormState extends State<TransferForm>
                           child: SizedBox(
                             height: 25,
                             child: FlatButton(
-                              color: CustomColors.green,
+                              color: AppColors.green,
                               textColor: Colors.white,
                               child: Text(
                                 "$accountName",
@@ -178,7 +178,7 @@ class _TransferFormState extends State<TransferForm>
                                 style: TextStyle(
                                   fontFamily: "worksans",
                                   fontSize: 12,
-                                  color: CustomColors.grey,
+                                  color: AppColors.grey,
                                 ),
                               ),
                               SizedBox(width: 5),
@@ -208,7 +208,7 @@ class _TransferFormState extends State<TransferForm>
                             ],
                           ),
                           SizedBox(height: 10),
-                          Divider(height: 0.1, color: CustomColors.grey),
+                          Divider(height: 0.1, color: AppColors.grey),
                           SizedBox(height: 30),
                           Opacity(
                             opacity: this.validAmount ? 1.0 : 0.0,
@@ -220,12 +220,12 @@ class _TransferFormState extends State<TransferForm>
                                   style: TextStyle(
                                     fontFamily: "worksans",
                                     fontSize: 17,
-                                    color: CustomColors.green,
+                                    color: AppColors.green,
                                   ),
                                 ),
                                 Icon(
                                   Icons.chevron_right,
-                                  color: CustomColors.grey,
+                                  color: AppColors.grey,
                                   size: 40,
                                 ),
                               ],

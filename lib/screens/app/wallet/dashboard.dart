@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/widgets/empty_button.dart';
+import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
 import 'package:provider/provider.dart';
+
+enum TransactionType { income, outcome }
 
 class Dashboard extends StatefulWidget {
   Dashboard();
@@ -26,15 +31,24 @@ class _DashboardState extends State<Dashboard>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          _titleText("Welcome, ${AuthNotifier.of(context).accountName}"),
-          _dashboardList(),
-          _titleText("Latest transactions"),
-          _transactionsList(context)
-        ],
-      ),
+      child: Container(
+          padding: EdgeInsets.all(17),
+          child: Column(
+            children: <Widget>[
+              buildNotification('Urgent proposals wating for your approval'),
+              buildHeader(),
+              Row(
+                children: <Widget>[
+                  buildBalance('Voice balance', "123", 'Proposals', onVote),
+                  Padding(padding: EdgeInsets.only(left: 7)),
+                  buildBalance('Planted balance', "22.33", 'Harvest', onInvite),
+                ],
+              ),
+              buildTransactions()
+            ],
+          )),
     );
   }
 
@@ -47,188 +61,245 @@ class _DashboardState extends State<Dashboard>
     super.initState();
   }
 
-  Widget _transactionsList(BuildContext context) {
-    print("[widget] rebuild transactions");
-
-    return Consumer<TransactionsNotifier>(
-      builder: (context, model, child) => model != null &&
-              model.transactions != null
-          ? ListView.builder(
-              physics: ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: model.transactions.length,
-              itemBuilder: (ctx, index) {
-                final trx = model.transactions[index];
-
-                return Container(
-                  child: ListTile(
-                    dense: true,
-                    leading: Container(
-                      alignment: Alignment.centerLeft,
-                      width: 42,
-                      child: trx.from == AuthNotifier.of(context).accountName
-                          ? Icon(
-                              Icons.arrow_upward,
-                              color: Colors.redAccent,
-                            )
-                          : Icon(
-                              Icons.arrow_downward,
-                              color: CustomColors.green,
-                            ),
-                    ),
-                    title: Text(
-                      "${trx.from} -> ${trx.to}",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                    subtitle: Text(trx.memo),
-                    trailing: Container(
-                        child: Text(
-                      trx.quantity,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: trx.from == AuthNotifier.of(context).accountName
-                            ? Colors.redAccent
-                            : CustomColors.green,
-                      ),
-                    )),
-                  ),
-                );
-              })
-          : Center(
-              child: LinearProgressIndicator(
-                backgroundColor: CustomColors.green,
-              ),
-            ),
-    );
+  void onTransfer() {
+    NavigationService.of(context).navigateTo(Routes.transfer);
   }
 
-  Widget _titleText(String title) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(width: 1, color: CustomColors.green),
-        ),
-      ),
-      margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
-      padding: EdgeInsets.only(bottom: 5),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-              fontFamily: "worksans",
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
+  void onVote() {
+    NavigationService.of(context).navigateTo(Routes.proposals);
   }
 
-  Widget _dashboardList() {
-    print("[widget] rebuild dashboard");
+  void onInvite() {
+    NavigationService.of(context).navigateTo(Routes.invites);
+  }
 
-    return ListView(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      children: <Widget>[
-        Container(
-          child: ListTile(
-            leading: Container(
-              width: 42,
-              child: Icon(
-                Icons.account_balance_wallet,
-                color: CustomColors.green,
-              ),
+  void onClose() {}
+
+  Widget buildNotification(String text) {
+    return InkWell(
+      onTap: (onVote),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 13),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: AppColors.orange),
+            color: AppColors.orange.withOpacity(0.16)),
+        padding: EdgeInsets.only(left: 15),
+        child: Row(
+          children: <Widget>[
+            Icon(
+              Icons.warning,
+              color: AppColors.orange,
+              size: 20,
             ),
-            title: Consumer<BalanceNotifier>(
-              builder: (context, model, child) =>
-                  model != null && model.balance != null
-                      ? Text(model.balance.quantity)
-                      : LinearProgressIndicator(),
-            ),
-            subtitle: Text("Available balance"),
-            trailing: SeedsButton("Transfer", () {
-              NavigationService.of(context).navigateTo(Routes.transfer);
-            }),
-          ),
-        ),
-        ListTile(
-          leading: Container(
-            width: 42,
-            child: Icon(
-              Icons.event_note,
-              color: CustomColors.green,
-            ),
-          ),
-          title: Text("0 VOICE"),
-          subtitle: Text("Voice balance"),
-          trailing: SeedsButton("Vote", () {
-              NavigationService.of(context).navigateTo(Routes.proposals);
-          }),
-        ),
-        ListTile(
-          leading: Container(
-            width: 42,
-            child: Icon(
-              Icons.people,
-              color: CustomColors.green,
-            ),
-          ),
-          title: Text("75.0000 SEEDS"),
-          subtitle: Text("Invites balance"),
-          trailing: SeedsButton("Invite", () {
-              NavigationService.of(context).navigateTo(Routes.invites);
-          }),
-        ),
-        SizedBox(height: 10),
-        Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  width: 0,
-                  color: Colors.white,
-                  style: BorderStyle.solid,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5.0),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: CustomColors.lightGrey19,
-                    offset: Offset(0, 0),
-                    blurRadius: 0.1,
-                    spreadRadius: 0.1,
-                  )
-                ]),
-            child: InkWell(
-              onTap: () {
-                NavigationService.of(context).navigateTo(Routes.proposals);
-              },
-              child: ListTile(
-                leading: Container(
-                  width: 42,
-                  alignment: Alignment.center,
-                  child: Icon(
-                    Icons.star_half,
-                    color: CustomColors.green,
-                  ),
-                ),
-                title: Text(
-                  "Urgent proposals waiting for your approval",
-                  style: TextStyle(
-                    fontFamily: "worksans",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+            Flexible(
+                child: Container(
+              margin: EdgeInsets.only(left: 7),
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppColors.orange, fontSize: 14),
               ),
             )),
+            IconButton(
+              padding: EdgeInsets.all(0),
+              icon: Icon(Icons.close),
+              onPressed: onClose,
+              color: AppColors.orange,
+              iconSize: 20,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildHeader() {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return Container(
+        width: width,
+        height: height * 0.2,
+        child: MainCard(
+            child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: AppColors.gradient),
+                    borderRadius: BorderRadius.circular(8)),
+                padding: EdgeInsets.all(7),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      'Available balance',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300),
+                    ),
+                    Consumer<BalanceNotifier>(
+                      builder: (context, model, child) =>
+                          model != null && model.balance != null
+                              ? Text(
+                                  '${model.balance.quantity}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w700),
+                                )
+                              : LinearProgressIndicator(),
+                    ),
+                    EmptyButton(
+                      width: width * 0.5,
+                      title: 'Transfer',
+                      color: Colors.white,
+                      onPressed: (onTransfer),
+                    )
+                  ],
+                ))));
+  }
+
+  Widget buildBalance(
+      String title, String balance, String buttonTitle, Function onPressed) {
+    final width = MediaQuery.of(context).size.width;
+    return Expanded(
+        child: Container(
+      margin: EdgeInsets.only(bottom: 7, top: 7),
+      child: MainCard(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            children: <Widget>[
+              Text(
+                title,
+                style: TextStyle(color: AppColors.grey, fontSize: 14),
+              ),
+              Padding(padding: EdgeInsets.only(top: 8)),
+              Text(
+                balance, // balance.toStringAsFixed(2),
+                style: TextStyle(fontSize: 20),
+              ),
+              Padding(padding: EdgeInsets.only(top: 12)),
+              EmptyButton(
+                  width: width * 0.25,
+                  height: 28,
+                  title: buttonTitle,
+                  onPressed: onPressed,
+                  fontSize: 14)
+            ],
+          )),
+    ));
+  }
+
+  Widget buildTransaction(String name, String amount, TransactionType type) {
+    return Container(
+        margin: EdgeInsets.only(top: 5, bottom: 5),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                  child: Row(
+                children: <Widget>[
+                  type == TransactionType.income
+                      ? Icon(
+                          Icons.arrow_downward,
+                          color: AppColors.green,
+                          size: 17,
+                        )
+                      : Icon(
+                          Icons.arrow_upward,
+                          color: AppColors.orange,
+                          size: 17,
+                        ),
+                  Padding(padding: EdgeInsets.only(left: 5)),
+                  Flexible(
+                    child: Text(
+                      name,
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  )
+                ],
+              )),
+              Row(
+                children: <Widget>[
+                  type == TransactionType.income
+                      ? Text(
+                          '+ ',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.green,
+                              fontWeight: FontWeight.w600),
+                        )
+                      : Text(
+                          '- ',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.orange,
+                              fontWeight: FontWeight.w600),
+                        ),
+                  Text(
+                    '$amount',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  )
+                ],
+              ),
+            ]));
+  }
+
+  Widget buildDateTransactions(
+      String date, List<TransactionModel> transactions) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Divider(),
+        Container(
+            margin: EdgeInsets.only(top: 10, bottom: 10),
+            child: Text(
+              date,
+              style: TextStyle(fontSize: 14, color: AppColors.grey),
+            )),
+        Column(
+          children: <Widget>[
+            ...transactions.map((trx) {
+              return buildTransaction(
+                  trx.to, trx.quantity, TransactionType.income);
+            }).toList()
+          ],
+        )
       ],
+    );
+  }
+
+  Widget buildTransactions() {
+    final width = MediaQuery.of(context).size.width;
+    return Container(
+      width: width,
+      margin: EdgeInsets.only(bottom: 7, top: 7),
+      child: MainCard(
+        padding: EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Latest transactions',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
+            Consumer<TransactionsNotifier>(
+              builder: (context, model, child) =>
+                  model != null && model.transactions != null
+                      ? buildDateTransactions('18.01.2020', model.transactions)
+                      : Center(
+                          child: LinearProgressIndicator(
+                            backgroundColor: AppColors.green,
+                          ),
+                        ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

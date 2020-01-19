@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
 
 class FullscreenLoader extends StatefulWidget {
   final Stream<bool> statusStream;
@@ -158,7 +158,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                               fontFamily: "worksans",
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
-                              color: CustomColors.green,
+                              color: AppColors.green,
                             ),
                           ),
                           SizedBox(
@@ -175,7 +175,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                                   fontFamily: "worksans",
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
-                                  color: CustomColors.green,
+                                  color: AppColors.green,
                                 ),
                               ),
                             ),
@@ -205,7 +205,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                               fontFamily: "worksans",
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
-                              color: CustomColors.green,
+                              color: AppColors.green,
                             ),
                           ),
                           SizedBox(
@@ -222,7 +222,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                                   fontFamily: "worksans",
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
-                                  color: CustomColors.green,
+                                  color: AppColors.green,
                                 ),
                               ),
                             ),

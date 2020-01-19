@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
 
 class ProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: LinearProgressIndicator(
-        backgroundColor: CustomColors.green,
+        backgroundColor: AppColors.green,
       ),
     );
   }

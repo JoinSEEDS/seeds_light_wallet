@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
@@ -64,8 +64,8 @@ class _TransferState extends State<Transfer>
           ? LiquidPullToRefresh(
               springAnimationDurationInMilliseconds: 500,
               showChildOpacityTransition: true,
-              backgroundColor: CustomColors.lightGreen,
-              color: CustomColors.lightBlue,
+              backgroundColor: AppColors.lightGreen,
+              color: AppColors.lightBlue,
               onRefresh: () async {
                 Provider.of<MembersNotifier>(context, listen: false)
                     .fetchMembers();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
 
@@ -35,7 +35,7 @@ class Onboarding extends StatelessWidget {
     return Builder(
       builder: (context) {
         return Container(
-          color: CustomColors.darkBlue,
+          color: AppColors.darkBlue,
           child: SafeArea(
             child: IntroViewsFlutter(
               featurePages,
