@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/explorer/explorer.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
-import 'package:seeds/widgets/seeds_button.dart';
 
 class NavigationTab {
   final String title;
