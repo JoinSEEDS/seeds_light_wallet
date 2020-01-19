@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/passcode.dart';
@@ -18,7 +19,6 @@ class SeedsApp extends StatefulWidget {
   @override
   _SeedsAppState createState() => _SeedsAppState();
 }
-
 
 class _SeedsAppState extends State<SeedsApp> {
   @override
@@ -37,37 +37,49 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthNotifier>(builder: (ctx, auth, _) {
-      Widget screen;
+    return Consumer<AuthNotifier>(
+      builder: (ctx, auth, _) {
+        NavigationService navigationService = NavigationService.of(context);
 
-      switch (auth.status) {
-        case AuthStatus.INIT:
-          screen = SplashScreen();
-          break;
-        case AuthStatus.CREATE:
-          screen = Onboarding();
-          break;
-        case AuthStatus.LOCK:
-          screen = LockWallet();
-          break;
-        case AuthStatus.UNLOCK:
-          screen = UnlockWallet();
-          break;
-        case AuthStatus.OPEN:
-          screen = App();
-          break;
-        default:
-          screen = SplashScreen();
-      }
+        auth.status = AuthStatus.unlocked;
 
-      return ToolboxApp(child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: screen,
-      ), noItemsFoundWidget: Padding(
-        padding: const EdgeInsets.all(32),
-        child: SvgPicture.asset(R.noItemFound),
-       ),
-      );
-    });
+        if (auth.status == AuthStatus.emptyAccount) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Onboarding(),
+            navigatorKey: navigationService.onboardingNavigatorKey,
+            onGenerateRoute: navigationService.onGenerateRoute,
+          );
+        } else if (auth.status == AuthStatus.unlocked) {
+          return ToolboxApp(
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: App(),
+              navigatorKey: navigationService.appNavigatorKey,
+              onGenerateRoute: navigationService.onGenerateRoute,
+            ),
+            noItemsFoundWidget: Padding(
+              padding: const EdgeInsets.all(32),
+              child: SvgPicture.asset(R.noItemFound),
+            ),
+          );
+        } else if (auth.status == AuthStatus.emptyPasscode) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: LockWallet(),
+          );
+        } else if (auth.status == AuthStatus.locked) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: UnlockWallet(),
+          );
+        } else {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: SplashScreen(),
+          );
+        }
+      },
+    );
   }
 }

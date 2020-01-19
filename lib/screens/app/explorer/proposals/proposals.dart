@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
-import 'package:seeds/screens/app/proposals/proposal_details.dart';
-import 'package:seeds/screens/app/proposals/proposal_header_details.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/explorer/proposals/proposal_header_details.dart';
 
 class Proposals extends StatefulWidget {
   @override
@@ -17,17 +17,35 @@ class ProposalsState extends State<Proposals> {
       length: proposalTypes.length,
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
-          title: TabBar(
-            labelColor: Colors.black,
-            tabs: proposalTypes.keys.map((type) => Tab(text: type)).toList(),
+          title: Text(
+            "Proposals",
+            style: TextStyle(color: Colors.black),
           ),
         ),
-        body: TabBarView(
-          children: proposalTypes.values
-              .map((type) => ProposalsList(type: type))
-              .toList(),
+        body: Column(
+          children: [
+            Container(
+              height: 33,
+              child: TabBar(
+                labelColor: Colors.black,
+                tabs:
+                    proposalTypes.keys.map((type) => Tab(text: type)).toList(),
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: proposalTypes.values
+                    .map((type) => ProposalsList(type: type))
+                    .toList(),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -70,7 +88,8 @@ class _ProposalsListState extends State<ProposalsList>
         margin: const EdgeInsets.all(16),
         elevation: 8,
         child: InkWell(
-          onTap: () => push(context, ProposalDetailsPage(proposal: proposal)),
+          onTap: () => NavigationService.of(context)
+              .navigateTo(Routes.proposalDetailsPage, proposal),
           child: ProposalHeaderDetails(proposal),
         ),
       ),

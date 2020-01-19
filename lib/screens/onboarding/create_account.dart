@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:seeds/screens/onboarding/onboarding_method_choice.dart';
-import 'package:seeds/screens/onboarding/welcome.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
@@ -163,18 +162,10 @@ class _CreateAccountState extends State<CreateAccount> {
         afterSuccessCallback: () {
           String accountName = accountNameController.text;
 
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => Welcome(accountName),
-            ),
-          );
+          NavigationService.of(context).navigateTo(Routes.welcome, accountName, true);
         },
         afterFailureCallback: () {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => OnboardingMethodChoice(),
-            ),
-          );
+          NavigationService.of(context).navigateTo("OnboadingMethodChoice", true);
         });
   }
 }

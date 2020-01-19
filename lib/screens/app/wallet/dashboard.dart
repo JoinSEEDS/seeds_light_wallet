@@ -4,22 +4,20 @@ import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-
-import 'package:seeds/screens/app/proposals/proposal_form.dart';
 
 import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  final Function movePage;
-
-  Home(this.movePage);
+class Dashboard extends StatefulWidget {
+  Dashboard();
 
   @override
-  _HomeState createState() => _HomeState();
+  _DashboardState createState() => _DashboardState();
 }
 
-class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
+class _DashboardState extends State<Dashboard>
+    with AutomaticKeepAliveClientMixin<Dashboard> {
   @override
   bool get wantKeepAlive => false;
 
@@ -53,56 +51,56 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     print("[widget] rebuild transactions");
 
     return Consumer<TransactionsNotifier>(
-      builder: (context, model, child) =>
-          model != null && model.transactions != null
-              ? ListView.builder(
-                  physics: ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: model.transactions.length,
-                  itemBuilder: (ctx, index) {
-                    final trx = model.transactions[index];
+      builder: (context, model, child) => model != null &&
+              model.transactions != null
+          ? ListView.builder(
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: model.transactions.length,
+              itemBuilder: (ctx, index) {
+                final trx = model.transactions[index];
 
-                    return Container(
-                      child: ListTile(
-                        dense: true,
-                        leading: Container(
-                          alignment: Alignment.centerLeft,
-                          width: 42,
-                          child: trx.from == AuthNotifier.of(context).accountName
-                              ? Icon(
-                                  Icons.arrow_upward,
-                                  color: Colors.redAccent,
-                                )
-                              : Icon(
-                                  Icons.arrow_downward,
-                                  color: CustomColors.green,
-                                ),
-                        ),
-                        title: Text(
-                          "${trx.from} -> ${trx.to}",
-                          style: TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                        subtitle: Text(trx.memo),
-                        trailing: Container(
-                            child: Text(
-                          trx.quantity,
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: trx.from == AuthNotifier.of(context).accountName
-                                ? Colors.redAccent
-                                : CustomColors.green,
-                          ),
-                        )),
+                return Container(
+                  child: ListTile(
+                    dense: true,
+                    leading: Container(
+                      alignment: Alignment.centerLeft,
+                      width: 42,
+                      child: trx.from == AuthNotifier.of(context).accountName
+                          ? Icon(
+                              Icons.arrow_upward,
+                              color: Colors.redAccent,
+                            )
+                          : Icon(
+                              Icons.arrow_downward,
+                              color: CustomColors.green,
+                            ),
+                    ),
+                    title: Text(
+                      "${trx.from} -> ${trx.to}",
+                      style: TextStyle(
+                        fontSize: 14,
                       ),
-                    );
-                  })
-              : Center(
-                  child: LinearProgressIndicator(
-                    backgroundColor: CustomColors.green,
+                    ),
+                    subtitle: Text(trx.memo),
+                    trailing: Container(
+                        child: Text(
+                      trx.quantity,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: trx.from == AuthNotifier.of(context).accountName
+                            ? Colors.redAccent
+                            : CustomColors.green,
+                      ),
+                    )),
                   ),
-                ),
+                );
+              })
+          : Center(
+              child: LinearProgressIndicator(
+                backgroundColor: CustomColors.green,
+              ),
+            ),
     );
   }
 
@@ -154,20 +152,25 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       : LinearProgressIndicator(),
             ),
             subtitle: Text("Available balance"),
-            trailing: SeedsButton("Transfer", () => {widget.movePage(1)}),
+            trailing: SeedsButton("Transfer", () {
+              NavigationService.of(context).navigateTo(Routes.transfer);
+            }),
           ),
         ),
         ListTile(
-            leading: Container(
-              width: 42,
-              child: Icon(
-                Icons.event_note,
-                color: CustomColors.green,
-              ),
+          leading: Container(
+            width: 42,
+            child: Icon(
+              Icons.event_note,
+              color: CustomColors.green,
             ),
-            title: Text("0 VOICE"),
-            subtitle: Text("Voice balance"),
-            trailing: SeedsButton("Vote", () => widget.movePage(2))),
+          ),
+          title: Text("0 VOICE"),
+          subtitle: Text("Voice balance"),
+          trailing: SeedsButton("Vote", () {
+              NavigationService.of(context).navigateTo(Routes.proposals);
+          }),
+        ),
         ListTile(
           leading: Container(
             width: 42,
@@ -178,7 +181,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
           ),
           title: Text("75.0000 SEEDS"),
           subtitle: Text("Invites balance"),
-          trailing: SeedsButton("Invite", () => widget.movePage(3)),
+          trailing: SeedsButton("Invite", () {
+              NavigationService.of(context).navigateTo(Routes.invites);
+          }),
         ),
         SizedBox(height: 10),
         Container(
@@ -202,8 +207,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                 ]),
             child: InkWell(
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => ProposalForm()));
+                NavigationService.of(context).navigateTo(Routes.proposals);
               },
               child: ListTile(
                 leading: Container(

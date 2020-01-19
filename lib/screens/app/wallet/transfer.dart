@@ -3,6 +3,7 @@ import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 
 import 'transfer_form.dart';
@@ -27,15 +28,31 @@ class _TransferState extends State<Transfer>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-          flex: 1,
-          child: _usersList(context),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-      ],
+        title: Text(
+          "Choose recipient",
+          style: TextStyle(fontFamily: "worksans", color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: _usersList(context),
+          ),
+        ],
+      ),
     );
   }
 
@@ -93,16 +110,15 @@ class _TransferState extends State<Transfer>
                       tag: "account#${user.account}",
                     ),
                     onTap: () async {
-                      await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => TransferForm(
-                            user.nickname,
-                            user.account,
-                            user.image,
-                          ),
+                      await NavigationService.of(context).navigateTo(
+                        Routes.transferForm,
+                        TransferFormArguments(
+                          user.nickname,
+                          user.account,
+                          user.image,
                         ),
                       );
-
+                      
                       TransactionsNotifier.of(context).fetchTransactions();
                       BalanceNotifier.of(context).fetchBalance();
                     },

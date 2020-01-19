@@ -3,15 +3,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 enum AuthStatus {
-  INIT,
-  CREATE,
-  LOCK,
-  UNLOCK,
-  OPEN
+  initial,
+  emptyAccount,
+  emptyPasscode,
+  locked,
+  unlocked,
 }
 
 class AuthNotifier extends ChangeNotifier {
-  AuthStatus status = AuthStatus.INIT;
+  AuthStatus status = AuthStatus.initial;
   
   get accountName => _accountName;
   get privateKey => _privateKey;
@@ -39,18 +39,18 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   void updateStatus() {
-    status = AuthStatus.OPEN;
+    status = AuthStatus.unlocked;
 
     if (_locked == true) {
-      status = AuthStatus.UNLOCK;
+      status = AuthStatus.locked;
     }
 
     if (_passcode == null) {
-      status = AuthStatus.LOCK;
+      status = AuthStatus.emptyPasscode;
     }
 
     if (_accountName == null || _privateKey == null) {
-      status = AuthStatus.CREATE;
+      status = AuthStatus.emptyAccount;
     }
 
     notifyListeners();
