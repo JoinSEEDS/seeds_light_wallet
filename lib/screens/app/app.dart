@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/explorer/explorer.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
@@ -8,10 +10,11 @@ import 'package:seeds/screens/app/wallet/wallet.dart';
 
 class NavigationTab {
   final String title;
-  final IconData icon;
+  final String icon;
   final Function screenBuilder;
+  final int index;
 
-  NavigationTab({this.title, this.icon, this.screenBuilder});
+  NavigationTab({this.title, this.icon, this.screenBuilder, this.index});
 }
 
 class App extends StatefulWidget {
@@ -25,18 +28,21 @@ class _AppState extends State<App> {
   final navigationTabs = [
     NavigationTab(
       title: "Explorer",
-      icon: Icons.home,
+      icon: 'assets/images/explorer.svg',
       screenBuilder: () => Explorer(),
+      index: 0,
     ),
     NavigationTab(
       title: "Wallet",
-      icon: Icons.account_balance_wallet,
+      icon: 'assets/images/wallet.svg',
       screenBuilder: () => Wallet(),
+      index: 1,
     ),
     NavigationTab(
       title: "Profile",
-      icon: Icons.people,
+      icon: 'assets/images/profile.svg',
       screenBuilder: () => Profile(),
+      index: 2,
     ),
   ];
 
@@ -116,6 +122,43 @@ class _AppState extends State<App> {
     );
   }
 
+  BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex) {
+    final width = MediaQuery.of(context).size.width * 0.21;
+    return BottomNavigationBarItem(
+      icon: Container(
+        width: width,
+        decoration: tabIndex == index ? BoxDecoration(
+          gradient: LinearGradient(
+            colors: AppColors.gradient
+          ),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))
+        ) : BoxDecoration(),
+        padding: EdgeInsets.only(top: 7, left: 3, right: 3),
+        child: SvgPicture.asset(icon,
+          color: tabIndex == index ? Colors.white: AppColors.grey,
+        ),
+      ),
+      title: Container(
+        width: width,
+        alignment: Alignment.center,
+        decoration: tabIndex == index ? BoxDecoration(
+          gradient: LinearGradient(
+            colors: AppColors.gradient
+          ),
+          borderRadius: BorderRadius.only(bottomRight: Radius.circular(8), bottomLeft: Radius.circular(8))
+        ) : BoxDecoration(),
+        padding: EdgeInsets.only(bottom: 5, top: 2, left: 3, right: 3),
+        child: Text(title,
+          style: TextStyle(
+            color: tabIndex == index ? Colors.white: AppColors.grey,
+            fontSize: 12
+          ),
+        )
+      )
+    );
+  }
+  
+
   Widget buildNavigation() {
     return BottomNavigationBar(
       currentIndex: index,
@@ -132,17 +175,22 @@ class _AppState extends State<App> {
             break;
         }
       },
+      showUnselectedLabels: true,
+      fixedColor: Colors.white,
+      unselectedItemColor: AppColors.grey,
+      type: BottomNavigationBarType.fixed,
+      selectedLabelStyle: TextStyle(
+        fontSize: 12
+      ),
+      unselectedLabelStyle: TextStyle(
+        color: Colors.grey.withOpacity(0.7)
+      ),
       elevation: 9,
       selectedFontSize: 12,
       unselectedFontSize: 12,
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.white,
       items: navigationTabs
           .map(
-            (tab) => BottomNavigationBarItem(
-              icon: Icon(tab.icon),
-              title: Text(tab.title),
-            ),
+            (tab) => buildIcon(tab.title, tab.icon, tab.index),
           )
           .toList(),
     );
