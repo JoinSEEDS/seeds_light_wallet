@@ -5,7 +5,7 @@ import 'package:seeds/constants/http_mock_response.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   test('HttpService Service', () async {
-    final service = HttpService()..init(enableMockResponse: true);
+    final service = HttpService()..update(enableMockResponse: true);
 
     final members = await service.getMembers();
     final transactions = await service.getTransactions();

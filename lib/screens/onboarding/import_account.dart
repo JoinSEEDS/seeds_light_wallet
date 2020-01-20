@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:seeds/constants/config.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
@@ -109,7 +109,7 @@ class _ImportAccountState extends State<ImportAccount> {
                       String accountName = accountNameController.value.text;
                       String privateKey = privateKeyController.value.text;
 
-                      AuthNotifier.of(context).saveAccount(accountName, privateKey);
+                      SettingsNotifier.of(context).saveAccount(accountName, privateKey);
 
                       NavigationService.of(context).navigateTo(Routes.welcome, accountName, true);
                     }),

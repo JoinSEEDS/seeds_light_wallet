@@ -5,12 +5,12 @@ import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/constants/config.dart';
 
 class HttpService {
-  final baseURL = Config.defaultEndpoint;
-  
+  String nodeEndpoint = Config.defaultEndpoint;
   String userAccount;
   bool mockResponse;
 
-  void init({ String accountName, bool enableMockResponse = false }) {
+  void update({ String accountName, String nodeEndpoint, bool enableMockResponse = false }) {
+    nodeEndpoint = nodeEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
@@ -24,7 +24,7 @@ class HttpService {
     }
     print("default");
 
-    final String membersURL = '$baseURL/v1/chain/get_table_rows';
+    final String membersURL = '$nodeEndpoint/v1/chain/get_table_rows';
 
     String request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
@@ -61,7 +61,7 @@ class HttpService {
       return HttpMockResponse.transactions;
     }
 
-    final String transactionsURL ="$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
+    final String transactionsURL ="$nodeEndpoint/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
 
     Response res = await get(transactionsURL);
 
@@ -93,7 +93,7 @@ class HttpService {
       return HttpMockResponse.balance;
     }
 
-    final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
+    final String balanceURL = "$nodeEndpoint/v1/chain/get_currency_balance";
 
     String request =
         '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
@@ -122,7 +122,7 @@ class HttpService {
       return HttpMockResponse.voice;
     }
 
-    final String voiceURL = '$baseURL/v1/chain/get_table_rows';
+    final String voiceURL = '$nodeEndpoint/v1/chain/get_table_rows';
 
     String request =
         '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"voice","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
@@ -150,7 +150,7 @@ class HttpService {
       return HttpMockResponse.proposals;
     }
 
-    final String proposalsURL = '$baseURL/v1/chain/get_table_rows';
+    final String proposalsURL = '$nodeEndpoint/v1/chain/get_table_rows';
 
     // final String minimumStake = "1.0000 SEEDS";
 
@@ -191,7 +191,7 @@ class HttpService {
         '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response res = await post(baseURL, headers: headers, body: request);
+    Response res = await post(nodeEndpoint, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
@@ -210,5 +210,7 @@ class HttpService {
 
       return [];
     }
-  }  
+  }
+
+
 }

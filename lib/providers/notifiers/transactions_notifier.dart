@@ -12,9 +12,8 @@ class TransactionsNotifier extends ChangeNotifier {
   static of(BuildContext context, {bool listen = false}) =>
       Provider.of<TransactionsNotifier>(context, listen: listen);
 
-  void init({ HttpService http, AuthNotifier auth }) {
-    if (_http == null)
-      _http = http;
+  void update({ HttpService http, AuthNotifier auth }) {
+    _http = http;
   }
 
   Future fetchTransactions() async {

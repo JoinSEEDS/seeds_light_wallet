@@ -5,7 +5,7 @@ class EosService {
   String privateKey;
   String accountName;
 
-  void init({ userPrivateKey, userAccountName }) {
+  void update({ userPrivateKey, userAccountName }) {
     privateKey = userPrivateKey;
     accountName = userAccountName;
   }
