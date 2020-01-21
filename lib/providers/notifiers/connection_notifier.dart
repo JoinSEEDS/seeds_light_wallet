@@ -1,24 +1,43 @@
 import 'package:flutter/foundation.dart';
 import 'package:seeds/constants/config.dart';
+import 'package:http/http.dart';
 
 class ConnectionNotifier extends ChangeNotifier {
+  bool status = true;
+  
   String currentEndpoint = Config.defaultEndpoint;
+  int currentEndpointPing = 0;
 
   final availableEndpoints = [
+    Config.defaultEndpoint,
     'https://mainnet.telosusa.io',
     'https://telos.eosphere.io',
     'https://telos.caleos.io',
-    'https://api.telosfoundation.io'
   ];
 
   void init() {
     discoverEndpoints();
   }
 
-  void discoverEndpoints() {
-    Future.delayed(Duration(seconds: 1), () {
-      currentEndpoint = availableEndpoints[2];
-      notifyListeners();
-    });
+  void discoverEndpoints() async {
+    for (var endpoint in availableEndpoints) {
+      var ping = Stopwatch()..start();
+      
+      Response res = await get("$endpoint/v2/health");
+
+      ping.stop();
+
+      if (res.statusCode == 200) {
+        int endpointPing = ping.elapsedMilliseconds;
+
+        print("ping from $endpoint is $endpointPing");
+
+        if (currentEndpointPing == 0 || endpointPing < currentEndpointPing) {
+          currentEndpoint = endpoint;
+          currentEndpointPing = endpointPing;
+          notifyListeners();
+        }
+      }
+    }
   }
 }

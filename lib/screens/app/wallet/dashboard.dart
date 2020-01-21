@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -29,7 +30,7 @@ class _DashboardState extends State<Dashboard>
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _titleText("Welcome, ${AuthNotifier.of(context).accountName}"),
+          _titleText("Welcome, ${SettingsNotifier.of(context).accountName}"),
           _dashboardList(),
           _titleText("Latest transactions"),
           _transactionsList(context)
@@ -66,7 +67,7 @@ class _DashboardState extends State<Dashboard>
                     leading: Container(
                       alignment: Alignment.centerLeft,
                       width: 42,
-                      child: trx.from == AuthNotifier.of(context).accountName
+                      child: trx.from == SettingsNotifier.of(context).accountName
                           ? Icon(
                               Icons.arrow_upward,
                               color: Colors.redAccent,
@@ -88,7 +89,7 @@ class _DashboardState extends State<Dashboard>
                       trx.quantity,
                       style: TextStyle(
                         fontSize: 15,
-                        color: trx.from == AuthNotifier.of(context).accountName
+                        color: trx.from == SettingsNotifier.of(context).accountName
                             ? Colors.redAccent
                             : CustomColors.green,
                       ),
