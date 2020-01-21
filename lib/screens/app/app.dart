@@ -69,9 +69,7 @@ class _AppState extends State<App> {
       if (pageIndex != null) {
         print("JUMP TO $pageIndex");
         setState(() {
-          pageController.jumpToPage(
-            pageIndex,
-          );
+          pageController.animateToPage(pageIndex, duration: Duration(milliseconds: 300), curve: Curves.easeIn,);
           this.index = pageIndex;
         });
       }
@@ -123,6 +121,7 @@ class _AppState extends State<App> {
         switch (index) {
           case 0:
             changePageNotifier.add("Explorer");
+//            pageController.animateToPage(0, duration: null, curve: null)
             break;
           case 1:
             changePageNotifier.add("Wallet");

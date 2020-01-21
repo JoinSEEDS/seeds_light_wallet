@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/providers.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/providers.dart';
+
 import 'generated/r.dart';
 
 main(List<String> args) async {
@@ -41,7 +42,7 @@ class MainScreen extends StatelessWidget {
       builder: (ctx, auth, _) {
         NavigationService navigationService = NavigationService.of(context);
 
-        auth.status = AuthStatus.unlocked;
+//        auth.status = AuthStatus.unlocked;
 
         if (auth.status == AuthStatus.emptyAccount) {
           return MaterialApp(
