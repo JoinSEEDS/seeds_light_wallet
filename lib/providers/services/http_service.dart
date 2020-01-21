@@ -1,16 +1,30 @@
 import 'dart:convert';
-
 import 'package:http/http.dart';
-import 'package:seeds/services/http_service/balance_model.dart';
-import 'package:seeds/services/http_service/member_model.dart';
-import 'package:seeds/services/http_service/proposal_model.dart';
-import 'package:seeds/services/http_service/transaction_model.dart';
-import 'package:seeds/services/http_service/voice_model.dart';
+import 'package:seeds/models/models.dart';
+import 'package:seeds/constants/http_mock_response.dart';
+import 'package:seeds/constants/config.dart';
 
 class HttpService {
+  final baseURL = Config.defaultEndpoint;
+  
+  String userAccount;
+  bool mockResponse;
+
+  void init({ String accountName, bool enableMockResponse = false }) {
+    userAccount = accountName;
+    mockResponse = enableMockResponse;
+  }
+
   Future<List<MemberModel>> getMembers() async {
-    final String membersURL =
-        'https://api.telos.eosindex.io/v1/chain/get_table_rows';
+    print("[http] get members");
+
+    if (mockResponse == true) {
+      print("mock response");
+      return HttpMockResponse.members;
+    }
+    print("default");
+
+    final String membersURL = '$baseURL/v1/chain/get_table_rows';
 
     String request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
@@ -39,13 +53,17 @@ class HttpService {
     }
   }
 
-  Future<List<TransactionModel>> getTransactions(accountName) async {
-    final String transactionsURL =
-        "https://telos.caleos.io/v2/history/get_actions?account=$accountName&filter=*%3A*&skip=0&limit=100&sort=desc";
+  Future<List<TransactionModel>> getTransactions() async {
+    print("[http] get transactions");
+
+    if (mockResponse != null) {
+      print("return mock");
+      return HttpMockResponse.transactions;
+    }
+
+    final String transactionsURL ="$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
 
     Response res = await get(transactionsURL);
-
-    print('get transactions');
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
@@ -68,12 +86,17 @@ class HttpService {
     }
   }
 
-  Future<BalanceModel> getBalance(accountName) async {
-    final String balanceURL =
-        "https://telos.caleos.io/v1/chain/get_currency_balance";
+  Future<BalanceModel> getBalance() async {
+    print("[http] get balance");
+
+    if (mockResponse != null) {
+      return HttpMockResponse.balance;
+    }
+
+    final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
 
     String request =
-        '{"code":"token.seeds","account":"$accountName","symbol":"SEEDS"}';
+        '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(balanceURL, headers: headers, body: request);
@@ -91,12 +114,18 @@ class HttpService {
     }
   }
 
-  Future<VoiceModel> getVoice(accountName) async {
-    final String voiceURL =
-        'https://api.telos.eosindex.io/v1/chain/get_table_rows';
+
+  Future<VoiceModel> getVoice() async {
+    print("[http] get voice");
+
+    if (mockResponse != null) {
+      return HttpMockResponse.voice;
+    }
+
+    final String voiceURL = '$baseURL/v1/chain/get_table_rows';
 
     String request =
-        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"voice","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"voice","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(voiceURL, headers: headers, body: request);
@@ -115,10 +144,15 @@ class HttpService {
   }
 
   Future<List<ProposalModel>> getProposals(String stage) async {
-    final String proposalsURL =
-        'https://api.telos.eosindex.io/v1/chain/get_table_rows';
+    print("[http] get proposals");
 
-    final String minimumStake = "1.0000 SEEDS";
+    if (mockResponse != null) {
+      return HttpMockResponse.proposals;
+    }
+
+    final String proposalsURL = '$baseURL/v1/chain/get_table_rows';
+
+    // final String minimumStake = "1.0000 SEEDS";
 
     String request =
         '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"props","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
@@ -145,4 +179,36 @@ class HttpService {
       return [];
     }
   }
+  
+  Future<List<InviteModel>> getInvites() async {
+    print("[http] get invites");
+
+    if (mockResponse != null) {
+      return HttpMockResponse.invites;
+    }
+
+    String request =
+        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(baseURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      List<dynamic> activeInvites = body["rows"].where((dynamic item) {
+        return item["inviteSecret"] == "";
+      }).toList();
+
+      List<InviteModel> invites = activeInvites
+          .map((item) => InviteModel.fromJson(item))
+          .toList();
+
+      return invites;
+    } else {
+      print('Cannot fetch invites...');
+
+      return [];
+    }
+  }  
 }

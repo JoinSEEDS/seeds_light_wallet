@@ -1,10 +1,10 @@
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/screens/onboarding/claim_code.dart';
-import 'package:seeds/screens/onboarding/import_account.dart';
+import 'package:seeds/providers/services/links_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/onboarding/show_invite.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:seeds/widgets/seeds_button.dart';
+import 'package:provider/provider.dart';
 
 class OnboardingMethodChoice extends StatefulWidget {
   @override
@@ -16,41 +16,22 @@ class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
   void initState() {
     super.initState();
 
-    this.processInviteLink();
+    Future.delayed(Duration.zero, this.acceptInviteLink);
   }
 
-  void processInviteLink() async {
-    final PendingDynamicLinkData data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
+  void acceptInviteLink() async {
+    final Map<String, String> queryParams =
+        await Provider.of<LinksService>(context, listen: false)
+            .parseInviteLink();
 
-    final Uri deepLink = data?.link;
-
-    handleDeepLink(deepLink);
-
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData dynamicLink) async {
-      final Uri deepLink = dynamicLink?.link;
-
-      handleDeepLink(deepLink);
-    }, onError: (OnLinkErrorException e) async {
-      print(e.message);
-    });
-  }
-
-  void handleDeepLink(deepLink) {
-    if (deepLink != null) {
-      Map<String, String> queryParams =
-          Uri.splitQueryString(deepLink.toString());
-
-      if (queryParams["inviterAccount"] != null &&
-          queryParams["inviteSecret"] != null) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (context) => ShowInvite(
-                  queryParams["inviterAccount"], queryParams["inviteSecret"])),
-        );
-      }
-    }
+    NavigationService.of(context).navigateTo(
+      Routes.showInvite,
+      ShowInviteArguments(
+        queryParams["inviterAccount"],
+        queryParams["inviteSecret"],
+      ),
+      true,
+    );
   }
 
   @override
@@ -78,11 +59,7 @@ class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
               child: SeedsButton(
                 "Import private key",
                 () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => ImportAccount(),
-                    ),
-                  );
+                  NavigationService.of(context).navigateTo(Routes.importAccount);
                 },
               ),
             ),
@@ -99,11 +76,7 @@ class _OnboardingMethodChoiceState extends State<OnboardingMethodChoice> {
               height: 40,
               width: MediaQuery.of(context).size.width,
               child: SeedsButton("Claim invite code", () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => ClaimCode(),
-                  ),
-                );
+                NavigationService.of(context).navigateTo(Routes.claimCode);
               }),
             ),
             // SizedBox(

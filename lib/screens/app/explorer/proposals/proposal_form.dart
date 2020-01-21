@@ -1,7 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/services/http_service/http_service.dart';
-import 'package:seeds/services/http_service/proposal_model.dart';
+import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,24 +19,24 @@ class ProposalForm extends StatelessWidget {
     }, false, 300));
   }
 
-  Widget yesLink(int proposal_id) {
+  Widget yesLink(int proposalId) {
     return new SeedsButton("YES", () {
       print("YES");
     }, false, 100);
   }
 
-  Widget noLink(int proposal_id) {
+  Widget noLink(int proposalId) {
     return new SeedsButton("NO", () {
       print("NO");
     }, false, 100, Colors.red);
   }
 
-  Widget yesNoButtons(int proposal_id) {
+  Widget yesNoButtons(int proposalId) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[yesLink(proposal_id), noLink(proposal_id)],
+        children: <Widget>[yesLink(proposalId), noLink(proposalId)],
       ),
     );
   }

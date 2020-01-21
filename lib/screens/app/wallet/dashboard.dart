@@ -1,52 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
-import 'package:seeds/screens/app/proposals/proposal_form.dart';
-import 'package:seeds/services/http_service/balance_model.dart';
-import 'package:seeds/services/http_service/http_service.dart';
-import 'package:seeds/services/http_service/transaction_model.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/transactions_notifier.dart';
+import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 
-class Home extends StatefulWidget {
-  final Function movePage;
-  final String accountName;
+import 'package:provider/provider.dart';
 
-  Home(this.movePage, this.accountName);
+class Dashboard extends StatefulWidget {
+  Dashboard();
 
   @override
-  _HomeState createState() => _HomeState();
+  _DashboardState createState() => _DashboardState();
 }
 
-class _HomeState extends State<Home> {
+class _DashboardState extends State<Dashboard>
+    with AutomaticKeepAliveClientMixin<Dashboard> {
+  @override
+  bool get wantKeepAlive => false;
+
   final HttpService httpService = HttpService();
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _titleText("Welcome, ${widget.accountName}"),
+          _titleText("Welcome, ${AuthNotifier.of(context).accountName}"),
           _dashboardList(),
           _titleText("Latest transactions"),
-          _transactionsList()
+          _transactionsList(context)
         ],
       ),
     );
   }
 
-  Widget _transactionsList() {
-    return FutureBuilder(
-      future: httpService.getTransactions(widget.accountName),
-      builder: (BuildContext context,
-          AsyncSnapshot<List<TransactionModel>> snapshot) {
-        if (snapshot.hasData) {
-          List<TransactionModel> transactions = snapshot.data;
+  @override
+  initState() {
+    Future.delayed(Duration.zero).then((_) {
+      TransactionsNotifier.of(context).fetchTransactions();
+      BalanceNotifier.of(context).fetchBalance();
+    });
+    super.initState();
+  }
 
-          return ListView.builder(
+  Widget _transactionsList(BuildContext context) {
+    print("[widget] rebuild transactions");
+
+    return Consumer<TransactionsNotifier>(
+      builder: (context, model, child) => model != null &&
+              model.transactions != null
+          ? ListView.builder(
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
-              itemCount: transactions.length,
+              itemCount: model.transactions.length,
               itemBuilder: (ctx, index) {
-                final trx = transactions[index];
+                final trx = model.transactions[index];
 
                 return Container(
                   child: ListTile(
@@ -54,7 +66,7 @@ class _HomeState extends State<Home> {
                     leading: Container(
                       alignment: Alignment.centerLeft,
                       width: 42,
-                      child: trx.from == widget.accountName
+                      child: trx.from == AuthNotifier.of(context).accountName
                           ? Icon(
                               Icons.arrow_upward,
                               color: Colors.redAccent,
@@ -76,22 +88,19 @@ class _HomeState extends State<Home> {
                       trx.quantity,
                       style: TextStyle(
                         fontSize: 15,
-                        color: trx.from == widget.accountName
+                        color: trx.from == AuthNotifier.of(context).accountName
                             ? Colors.redAccent
                             : CustomColors.green,
                       ),
                     )),
                   ),
                 );
-              });
-        } else {
-          return Center(
-            child: LinearProgressIndicator(
-              backgroundColor: CustomColors.green,
+              })
+          : Center(
+              child: LinearProgressIndicator(
+                backgroundColor: CustomColors.green,
+              ),
             ),
-          );
-        }
-      },
     );
   }
 
@@ -121,6 +130,8 @@ class _HomeState extends State<Home> {
   }
 
   Widget _dashboardList() {
+    print("[widget] rebuild dashboard");
+
     return ListView(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -134,32 +145,32 @@ class _HomeState extends State<Home> {
                 color: CustomColors.green,
               ),
             ),
-            title: FutureBuilder(
-              future: httpService.getBalance(widget.accountName),
-              builder:
-                  (BuildContext context, AsyncSnapshot<BalanceModel> snapshot) {
-                if (snapshot.hasData) {
-                  return Text(snapshot.data.quantity);
-                } else {
-                  return LinearProgressIndicator();
-                }
-              },
+            title: Consumer<BalanceNotifier>(
+              builder: (context, model, child) =>
+                  model != null && model.balance != null
+                      ? Text(model.balance.quantity)
+                      : LinearProgressIndicator(),
             ),
             subtitle: Text("Available balance"),
-            trailing: SeedsButton("Transfer", () => {widget.movePage(1)}),
+            trailing: SeedsButton("Transfer", () {
+              NavigationService.of(context).navigateTo(Routes.transfer);
+            }),
           ),
         ),
         ListTile(
-            leading: Container(
-              width: 42,
-              child: Icon(
-                Icons.event_note,
-                color: CustomColors.green,
-              ),
+          leading: Container(
+            width: 42,
+            child: Icon(
+              Icons.event_note,
+              color: CustomColors.green,
             ),
-            title: Text("0 VOICE"),
-            subtitle: Text("Voice balance"),
-            trailing: SeedsButton("Vote", () => widget.movePage(2))),
+          ),
+          title: Text("0 VOICE"),
+          subtitle: Text("Voice balance"),
+          trailing: SeedsButton("Vote", () {
+              NavigationService.of(context).navigateTo(Routes.proposals);
+          }),
+        ),
         ListTile(
           leading: Container(
             width: 42,
@@ -170,7 +181,9 @@ class _HomeState extends State<Home> {
           ),
           title: Text("75.0000 SEEDS"),
           subtitle: Text("Invites balance"),
-          trailing: SeedsButton("Invite", () => widget.movePage(3)),
+          trailing: SeedsButton("Invite", () {
+              NavigationService.of(context).navigateTo(Routes.invites);
+          }),
         ),
         SizedBox(height: 10),
         Container(
@@ -194,8 +207,7 @@ class _HomeState extends State<Home> {
                 ]),
             child: InkWell(
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => ProposalForm()));
+                NavigationService.of(context).navigateTo(Routes.proposals);
               },
               child: ListTile(
                 leading: Container(
