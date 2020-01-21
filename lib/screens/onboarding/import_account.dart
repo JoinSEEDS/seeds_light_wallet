@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/widgets/clipboard_text_field.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:provider/provider.dart';
+
+enum ImportStatus {
+  emptyPrivateKey,
+  loadingAccounts,
+  invaildPrivateKey,
+  noAccounts,
+  foundAccounts
+}
 
 class ImportAccount extends StatefulWidget {
   @override
@@ -17,77 +24,52 @@ class ImportAccount extends StatefulWidget {
 }
 
 class _ImportAccountState extends State<ImportAccount> {
-  var accountNameController = MaskedTextController(
-      text: Config.testingAccountName,
-      mask: '@@@@@@@@@@@@',
-      translator: {'@': new RegExp(r'[a-z1234]')});
-
   var privateKeyController =
       TextEditingController(text: Config.testingPrivateKey);
 
-  bool progress = false;
-  bool isEmptyField = true;
-  bool invalidPrivateKey = false;
-  bool noAccountsFound = false;
-
-  String chosenAccount;
   List<String> availableAccounts;
+  String chosenAccount;
 
-  @override
-  void didChangeDependencies() {
-    if (privateKeyController.text != "" && chosenAccount == null) {
-      setState(() {
-        isEmptyField = false;
-      });
-      discoverAccounts();
-    }
-    super.didChangeDependencies();
-  }
+  ImportStatus status = ImportStatus.emptyPrivateKey;
 
   void discoverAccounts() async {
     print("discover accounts");
 
-    setState(() {
-      progress = true;
-      noAccountsFound = false;
-      invalidPrivateKey = false;
-    });
+    String privateKey = privateKeyController.text;
+    String publicKey = "";
 
-    String publicKeyRaw;
+    if (privateKey == "") {
+      setState(() => status = ImportStatus.emptyPrivateKey);
+      return;
+    }
+
+    setState(() => status = ImportStatus.loadingAccounts);
 
     try {
-      EOSPrivateKey privateKey = EOSPrivateKey.fromString(
-        privateKeyController.text,
-      );
+      EOSPrivateKey eosPrivateKey = EOSPrivateKey.fromString(privateKey);
+      EOSPublicKey eosPublicKey = eosPrivateKey.toEOSPublicKey();
+      publicKey = eosPublicKey.toString();
+    } catch (_) {}
 
-      EOSPublicKey publicKey = privateKey.toEOSPublicKey();
-
-      publicKeyRaw = publicKey.toString();
-    } catch (err) {
-      setState(() {
-        invalidPrivateKey = true;
-        progress = false;
-      });
+    if (publicKey == "") {
+      setState(() => status = ImportStatus.invaildPrivateKey);
+      return;
     }
 
-    if (publicKeyRaw != null) {
-      print("publicKeyRaw: $publicKeyRaw");
+    List<String> keyAccounts =
+        await Provider.of<HttpService>(context, listen: false)
+            .getKeyAccounts(publicKey);
 
-      List<String> keyAccounts = await Provider.of<HttpService>(context, listen: false).getKeyAccounts(publicKeyRaw);      
-
-      if (keyAccounts != null && keyAccounts.length > 0) {
-        setState(() {
-          progress = false;
-          availableAccounts = keyAccounts;
-          chosenAccount = availableAccounts[0];
-        });
-      } else {
-        setState(() {
-          progress = false;
-          noAccountsFound = true;
-        });
-      }
+    if (keyAccounts == null || keyAccounts.length == 0) {
+      setState(() => status = ImportStatus.noAccounts);
+      return;
     }
+
+    setState(() {
+      status = ImportStatus.foundAccounts;
+      availableAccounts = keyAccounts;
+      chosenAccount = availableAccounts[0];
+    });
   }
 
   @override
@@ -99,84 +81,36 @@ class _ImportAccountState extends State<ImportAccount> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            TextField(
-              autofocus: false,
+            ClipboardTextField(
               controller: privateKeyController,
-              onChanged: (val) {
-                if (val == "" && isEmptyField == false) {
-                  setState(() {
-                    isEmptyField = true;
-                  });
-                } else if (val != "" && isEmptyField == true) {
-                  setState(() {
-                    isEmptyField = false;
-                  });
-                }
-                discoverAccounts();
-              },
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.blue, width: 2),
-                ),
-                labelText: "Private key",
-                suffixIcon: isEmptyField
-                    ? IconButton(
-                        icon: Icon(Icons.content_paste),
-                        onPressed: () async {
-                          ClipboardData clipboardData =
-                              await Clipboard.getData('text/plain');
-                          String privateKeyClipboard =
-                              clipboardData?.text ?? '';
-                          privateKeyController.text = privateKeyClipboard;
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          setState(() {
-                            isEmptyField = false;
-                          });
-                          discoverAccounts();
-                        },
-                      )
-                    : IconButton(
-                        icon: Icon(Icons.delete_outline),
-                        onPressed: () {
-                          WidgetsBinding.instance.addPostFrameCallback(
-                              (_) => privateKeyController.clear());
-                          setState(() {
-                            isEmptyField = true;
-                            availableAccounts = null;
-                          });
-                        },
-                      ),
-                hintText: "Paste from clipboard",
-              ),
-              style: TextStyle(
-                fontFamily: "sfprotext",
-              ),
+              labelText: "Private key",
+              hintText: "Paste from clipboard",
+              onChanged: discoverAccounts,
             ),
             SizedBox(height: 12),
-            progress == false
-                ? Container()
-                : Center(
+            status == ImportStatus.loadingAccounts
+                ? Center(
                     child: Column(
                       children: <Widget>[
                         CircularProgressIndicator(),
+                        SizedBox(height: 5),
                         Text("Looking for accounts..."),
                       ],
                     ),
-                  ),
-            noAccountsFound == false
-                ? Container()
-                : Center(
+                  )
+                : Container(),
+            status == ImportStatus.noAccounts
+                ? Center(
                     child: Text("No accounts found associated with given key"),
-                  ),
-            invalidPrivateKey == false
-                ? Container()
-                : Center(
+                  )
+                : Container(),
+            status == ImportStatus.invaildPrivateKey
+                ? Center(
                     child: Text("Given private key is not valid"),
-                  ),
-            availableAccounts == null
-                ? Container()
-                : Column(
+                  )
+                : Container(),
+            status == ImportStatus.foundAccounts
+                ? Column(
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -215,6 +149,7 @@ class _ImportAccountState extends State<ImportAccount> {
                       SizedBox(height: 20),
                     ],
                   )
+                : Container()
           ],
         ),
       ),
