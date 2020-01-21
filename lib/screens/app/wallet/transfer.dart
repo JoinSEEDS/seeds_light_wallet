@@ -13,8 +13,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-
 class Transfer extends StatefulWidget {
   Transfer();
 
@@ -61,7 +59,7 @@ class _TransferState extends State<Transfer>
                                   height: 40,
                                   color: AppColors.blue,
                                   child: imageUrl != null
-                                      ? Image.network(imageUrl)
+                                      ? CachedNetworkImage(imageUrl: imageUrl)
                                       : Container(
                                           alignment: Alignment.center,
                                           child: Text(
@@ -181,65 +179,5 @@ class _TransferState extends State<Transfer>
         ),
       ),
     );
-  }
-
-  Widget _usersList(context) {
-    print("[widget] rebuild users");
-
-    return Consumer<MembersNotifier>(builder: (ctx, model, _) {
-      return model != null && model.members != null
-          ? LiquidPullToRefresh(
-              springAnimationDurationInMilliseconds: 500,
-              showChildOpacityTransition: true,
-              backgroundColor: AppColors.lightGreen,
-              color: AppColors.lightBlue,
-              onRefresh: () async {
-                Provider.of<MembersNotifier>(context, listen: false)
-                    .fetchMembers();
-              },
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemCount: model.members.length,
-                itemBuilder: (ctx, index) {
-                  final user = model.members[index];
-
-                  return ListTile(
-                      leading: Hero(
-                          child: Container(
-                            width: 60,
-                            height: 60,
-                            child: CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                backgroundImage:
-                                    CachedNetworkImageProvider(user.image)),
-                          ),
-                          tag: "avatar#${user.account}"),
-                      title: Hero(
-                        child: Material(
-                          child: Text(
-                            user.nickname,
-                            style: TextStyle(fontFamily: "worksans"),
-                          ),
-                          color: Colors.transparent,
-                        ),
-                        tag: "nickname#${user.account}",
-                      ),
-                      subtitle: Hero(
-                        child: Material(
-                          child: Text(
-                            user.account,
-                            style: TextStyle(fontFamily: "worksans"),
-                          ),
-                          color: Colors.transparent,
-                        ),
-                        tag: "account#${user.account}",
-                      ),
-                      onTap: () {});
-                },
-              ),
-            )
-          : ProgressBar();
-    });
   }
 }
