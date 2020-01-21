@@ -52,4 +52,6 @@ class HttpMockResponse {
       inviteSecret: "invite_secret"
     ),
   ];
+
+  static final keyAccounts = ["sevenflash42", "testingseeds"];
 }

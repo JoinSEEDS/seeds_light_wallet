@@ -15,14 +15,44 @@ class HttpService {
     mockResponse = enableMockResponse;
   }
 
+  Future<List<String>> getKeyAccounts(String publicKey) async {
+    print("[http] get key accounts");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.keyAccounts;
+    }
+
+    final String keyAccountsURL = "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
+
+    Response res = await get(keyAccountsURL);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      List<String> keyAccounts = List<String>.from(body["account_names"]);
+
+      print("accounts found");
+      print(keyAccounts);
+
+      return keyAccounts;
+    } else if (res.statusCode == 400) {
+      print("invalid public key");
+      return [];
+    } else if (res.statusCode == 404) {
+      print("no accounts associated with public key");
+      return [];
+    } else {
+      print("unexpected error fetching accounts");
+      return [];
+    }
+  } 
+
   Future<List<MemberModel>> getMembers() async {
     print("[http] get members");
 
     if (mockResponse == true) {
-      print("mock response");
       return HttpMockResponse.members;
     }
-    print("default");
 
     final String membersURL = '$baseURL/v1/chain/get_table_rows';
 
@@ -57,7 +87,6 @@ class HttpService {
     print("[http] get transactions");
 
     if (mockResponse != null) {
-      print("return mock");
       return HttpMockResponse.transactions;
     }
 
