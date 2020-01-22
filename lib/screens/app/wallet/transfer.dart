@@ -22,8 +22,12 @@ class Transfer extends StatefulWidget {
 
 class _TransferState extends State<Transfer>
     with AutomaticKeepAliveClientMixin {
+  
+  bool is_search = false;
+
   @override
   bool get wantKeepAlive => true;
+  
 
   Future onContact(String imageUrl, String fullName, String userName) async {
     await NavigationService.of(context).navigateTo(
@@ -142,6 +146,25 @@ class _TransferState extends State<Transfer>
             )));
   }
 
+  Widget _searchBar(BuildContext contex) {
+    return
+      Container(
+      decoration: BoxDecoration(
+        color: Colors.tealAccent,
+        borderRadius: BorderRadius.all(Radius.circular(32)),
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          hintStyle: TextStyle(fontSize: 17),
+          hintText: 'Search user',
+          suffixIcon: Icon(Icons.highlight_off),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(15),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -152,7 +175,9 @@ class _TransferState extends State<Transfer>
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(
+        title: 
+        this.is_search? this._searchBar(context):
+        Text(
           "Transfer",
           style: TextStyle(fontFamily: "worksans", color: Colors.black),
         ),
@@ -160,7 +185,13 @@ class _TransferState extends State<Transfer>
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search,),
-            onPressed: () {},
+            onPressed: () { 
+              print(this.is_search);
+              this.is_search = !this.is_search;
+              setState(() {
+                
+              });
+              },
           )
         ],
         backgroundColor: Colors.transparent,
