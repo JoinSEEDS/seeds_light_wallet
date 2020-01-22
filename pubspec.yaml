@@ -14,7 +14,7 @@ dependencies:
   cupertino_icons: ^0.1.3
   community_material_icon: ^3.5.95
 
-  flutter_toolbox: ^4.4.4
+  flutter_toolbox: ^4.4.6
 
   http: ^0.12.0+4
 
@@ -22,7 +22,7 @@ dependencies:
   shared_preferences: ^0.5.6
   flutter_secure_storage: ^3.3.1+1
   local_auth: ^0.6.1
-  timeago: ^2.0.24
+  timeago: ^2.0.25
   url_launcher: ^5.4.1
 
   cached_network_image: ^2.0.0
@@ -33,8 +33,11 @@ dependencies:
   passcode_screen: ^1.0.2
   percent_indicator: ^2.1.1+1
   expandable: ^4.0.2
-  flutter_svg: ^0.15.0
+  flutter_svg: ^0.16.1
   flutter_fluid_slider: ^1.0.2
+  flutter_money_formatter:
+    git:
+      url: git://github.com/anisalibegic/flutter_money_formatter.git
 
   firebase_dynamic_links: ^0.5.0+9
 

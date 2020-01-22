@@ -1,10 +1,10 @@
 import 'package:provider/provider.dart';
-import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
+import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 
@@ -20,7 +20,7 @@ final providers = [
     update: (_, auth, http) => http
       ..init(
         accountName: auth.accountName,
-        enableMockResponse: false,
+        enableMockResponse: true,
       ),
   ),
   ProxyProvider<AuthNotifier, EosService>(
