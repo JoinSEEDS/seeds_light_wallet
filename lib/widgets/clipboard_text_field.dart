@@ -64,14 +64,15 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
       icon: Icon(Icons.delete_outline),
       onPressed: () {
         WidgetsBinding.instance.addPostFrameCallback(
-          (_) => widget.controller.clear(),
+          (_) {
+            widget.controller.clear();
+            onChanged();
+          },
         );
 
         setState(() {
           hasEmptyValue = true;
         });
-
-        onChanged();
       },
     );
   }
