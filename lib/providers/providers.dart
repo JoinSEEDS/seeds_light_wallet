@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
@@ -20,7 +21,7 @@ final providers = [
     update: (_, auth, http) => http
       ..init(
         accountName: auth.accountName,
-        enableMockResponse: true,
+        enableMockResponse: !kReleaseMode,
       ),
   ),
   ProxyProvider<AuthNotifier, EosService>(
