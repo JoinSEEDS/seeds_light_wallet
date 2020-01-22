@@ -20,7 +20,7 @@ final providers = [
     update: (_, auth, http) => http
       ..init(
         accountName: auth.accountName,
-        enableMockResponse: false,
+        enableMockResponse: true,
       ),
   ),
   ProxyProvider<AuthNotifier, EosService>(
