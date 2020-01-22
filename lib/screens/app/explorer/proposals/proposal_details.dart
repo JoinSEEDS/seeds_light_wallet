@@ -50,7 +50,6 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             delegate: SliverChildListDelegate.fixed(<Widget>[
               buildProposalHeader(proposal),
               buildProposalDetails(proposal),
-              buildDescription(proposal),
               buildVote(proposal),
             ]),
           ),
@@ -144,23 +143,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Card buildDescription(ProposalModel proposal) {
-    final textTheme = Theme.of(context).textTheme;
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      clipBehavior: Clip.antiAlias,
-      elevation: 8,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+            SizedBox(height: 8),
             Text(
               'Description',
               style: textTheme.title,
