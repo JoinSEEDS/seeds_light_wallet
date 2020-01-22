@@ -126,7 +126,7 @@ class VoiceModel {
   VoiceModel(this.amount);
 
   factory VoiceModel.fromJson(Map<String, dynamic> json) {
-    return VoiceModel(json[0] as int);
+    return VoiceModel(json["rows"][0]["balance"] as int);
   }
 
   @override
@@ -252,11 +252,8 @@ class ProposalModel {
   }
 }
 
-// TODO add the missing keys
-// the key is the tab text, the value is the server key
 const proposalTypes = {
-  'Open': 'active',
-  'Excuted': '',
-  'Cancled': '',
-  'Expired': 'done',
+  'Drafts': 'staged',
+  'Active': 'active',
+  'Finished': 'done',
 };

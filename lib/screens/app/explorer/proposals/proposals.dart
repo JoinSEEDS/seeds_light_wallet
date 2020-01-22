@@ -4,6 +4,7 @@ import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_header_details.dart';
+import 'package:provider/provider.dart';
 
 class Proposals extends StatefulWidget {
   @override
@@ -69,8 +70,9 @@ class _ProposalsListState extends State<ProposalsList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return PaginatedListView<ProposalModel>(
-      pageFuture: (int pageIndex) => HttpService().getProposals(widget.type),
+      pageFuture: (int pageIndex) => Provider.of<HttpService>(context).getProposals(widget.type),
       pageSize: 1000,
       showRefreshIndicator: true,
       itemBuilder: (BuildContext context, ProposalModel proposal, int index) {
