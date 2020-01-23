@@ -24,4 +24,12 @@ class MembersNotifier extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  List<MemberModel> searchMembers(name) {
+    if (members != null) {
+       print("searchMembers is working:$name");
+    }
+    print("searchMembers return:$members[0]");
+    return members;
+  }
 }

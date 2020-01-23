@@ -7,6 +7,11 @@ class HttpMockResponse {
       nickname: "Igor Berlenko",
       image: "",
     ),
+   MemberModel(
+      account: "sevenflash24",
+      nickname: "Andrey MK",
+      image: "",
+    )
   ];
 
   static final transactions = [

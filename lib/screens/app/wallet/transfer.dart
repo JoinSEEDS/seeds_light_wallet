@@ -7,7 +7,7 @@ import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/progress_bar.dart';
-
+import 'package:provider/provider.dart';
 import 'transfer_form.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -24,7 +24,7 @@ class _TransferState extends State<Transfer>
     with AutomaticKeepAliveClientMixin {
   
   bool is_search = false;
-
+  //Function searchItems;
   @override
   bool get wantKeepAlive => true;
   
@@ -43,7 +43,14 @@ class _TransferState extends State<Transfer>
     BalanceNotifier.of(context).fetchBalance();
   }
 
-  Widget buildContact(String imageUrl, String fullName, String userName) {
+  Widget buildContact(String imageUrl, String fullName, String userName, String search_name) {
+    print("buildContact:fullName=${fullName}, search_name=${search_name}");
+    if (search_name != null && !fullName.contains(search_name)  ) {
+        return Container(
+              color: Colors.white // This is optional
+            );
+    } else {
+   
     return InkWell(
         onTap: () => onContact(imageUrl, fullName, userName),
         child: Column(children: [
@@ -116,10 +123,18 @@ class _TransferState extends State<Transfer>
                 ],
               ))
         ]));
+    }
   }
 
   Widget buildList(String title, List<MemberModel> members) {
     final width = MediaQuery.of(context).size.width;
+    String search_value = null;
+
+    _searchInItems(name) {
+      setState(() {
+        print("_searchInItems name:${name}");
+      });
+    }
     return MainCard(
         padding: EdgeInsets.only(top: 15, bottom: 15),
         child: Container(
@@ -138,7 +153,8 @@ class _TransferState extends State<Transfer>
                   children: <Widget>[
                     ...members
                         .map((member) => buildContact(
-                            member.image, member.nickname, member.account))
+                            member.image, member.nickname, member.account,search_value)
+                      )
                         .toList(),
                   ],
                 )
@@ -146,28 +162,13 @@ class _TransferState extends State<Transfer>
             )));
   }
 
-  Widget _searchBar(BuildContext contex) {
-    return
-      Container(
-      decoration: BoxDecoration(
-        color: Colors.tealAccent,
-        borderRadius: BorderRadius.all(Radius.circular(32)),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintStyle: TextStyle(fontSize: 17),
-          hintText: 'Search user',
-          suffixIcon: Icon(Icons.highlight_off),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-        ),
-      ),
-    );
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    var member_items = Provider.of<MembersNotifier>(context).searchMembers('aaa');
+    
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -176,23 +177,27 @@ class _TransferState extends State<Transfer>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: 
-        this.is_search? this._searchBar(context):
+        this.is_search? this._searchBar(context,member_items):
         Text(
           "Transfer",
           style: TextStyle(fontFamily: "worksans", color: Colors.black),
         ),
         centerTitle: true,
         actions: <Widget>[
-          IconButton(
+          if (!this.is_search) IconButton(
             icon: Icon(Icons.search,),
             onPressed: () { 
               print(this.is_search);
               this.is_search = !this.is_search;
-              setState(() {
-                
-              });
+              setState(() {});
               },
-          )
+          ) else IconButton(
+            icon: Icon(Icons.highlight_off,),
+            onPressed: () { 
+              this.is_search = !this.is_search;
+              setState(() {});
+              },
+          )  ,
         ],
         backgroundColor: Colors.transparent,
         elevation: 0.2,
@@ -208,6 +213,34 @@ class _TransferState extends State<Transfer>
             },
           ),
         ),
+      ),
+    );
+  }
+   Widget _searchBar(BuildContext contex,items) {
+    return
+      Container(
+      decoration: BoxDecoration(
+        color: AppColors.lightGrey,
+        borderRadius: BorderRadius.all(Radius.circular(32)),
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          hintStyle: TextStyle(fontSize: 17),
+          hintText: 'Search user',
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(15),
+        ),
+        onChanged: (text) {
+          print("First text field: $text");
+          //searchCallBack();
+          for (var i in items) {
+            print(">Items:${i.nickname}");
+          }
+          print("item.l:${items.length}");//.members.nickname
+          print("parent=:$widget.parent}");
+          //callBack(text);
+          
+        },
       ),
     );
   }
