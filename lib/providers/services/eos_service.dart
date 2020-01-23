@@ -10,6 +10,28 @@ class EosService {
     accountName = userAccountName;
   }
 
+  List<Action> buildFreeTransaction(List<Action> actions) {
+    List<Authorization> freeAuth = [
+      Authorization()
+        ..actor = "harvst.seeds"
+        ..permission = "payforcpu",
+      Authorization()
+        ..actor = accountName
+        ..permission = "active"
+    ];
+
+    Action freeAction = Action()
+        ..account = "harvst.seeds"
+        ..name = 'payforcpu'
+        ..authorization = freeAuth
+        ..data = { "account": accountName };
+    
+    return [
+      freeAction,
+      ...actions,
+    ];
+  }
+
   Future<dynamic> createInvite({ String transferQuantity, String sowQuantity, String inviteHash }) async {
     EOSClient client = EOSClient(Config.defaultEndpoint, 'v1', privateKeys: [privateKey]);
 
@@ -26,13 +48,13 @@ class EosService {
         ..permission = "active"
     ];
 
-    List<Action> actions = [
+    List<Action> actions = buildFreeTransaction([
       Action()
         ..account = "join.seeds"
         ..name = "invite"
         ..authorization = auth
         ..data = data
-    ];
+    ]);
 
     Transaction transaction = Transaction()..actions = actions;
 
@@ -83,33 +105,19 @@ class EosService {
       "memo": "",
     };
 
-    List<Authorization> cpuAuth = [
-      Authorization()
-        ..actor = "harvst.seeds"
-        ..permission = "payforcpu",
-      Authorization()
-        ..actor = accountName
-        ..permission = "active"
-    ];
-
     List<Authorization> auth = [
       Authorization()
         ..actor = accountName
         ..permission = "active"
     ];
 
-    List<Action> actions = [
+    List<Action> actions = buildFreeTransaction([
       Action()
-        ..account = "harvst.seeds"
-        ..name = 'payforcpu'
-        ..authorization = cpuAuth
-        ..data = { "account": accountName },
-      Action()
-        ..account = 'token.seeds'
-        ..name = 'transfer'
+        ..account = "token.seeds"
+        ..name = "transfer"
         ..authorization = auth
         ..data = data
-    ];
+    ]);
 
     Transaction transaction = Transaction()..actions = actions;
 
@@ -127,13 +135,13 @@ class EosService {
         ..permission = "active"
     ];
 
-    List<Action> actions = [
+    List<Action> actions = buildFreeTransaction([
       Action()
         ..account = "funds.seeds"
         ..name = amount.isNegative ? "against" : "favour"
         ..authorization = auth
         ..data = data
-    ];
+    ]);
 
     Transaction transaction = Transaction()..actions = actions;
 
