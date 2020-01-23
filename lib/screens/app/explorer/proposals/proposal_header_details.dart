@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:seeds/models/models.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ProposalHeaderDetails extends StatefulWidget {
   final ProposalModel proposal;
+  final bool fromDetails;
 
-  const ProposalHeaderDetails(this.proposal);
+  const ProposalHeaderDetails(this.proposal, {this.fromDetails = false});
 
   @override
   _ProposalHeaderDetailsState createState() => _ProposalHeaderDetailsState();
@@ -22,10 +23,12 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
 
     final creationDateFormatted = timeago.format(
         DateTime.fromMillisecondsSinceEpoch(proposal.creationDate * 1000));
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (proposal.image.isNotEmpty == true) NetImage(proposal.image),
+        if (proposal.image.isNotEmpty == true && !widget.fromDetails)
+          NetImage(proposal.image),
         SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.all(16),
@@ -60,7 +63,8 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                     ),
                     TextSpan(
                       text: creationDateFormatted,
-                      style: textTheme.subtitle .copyWith(fontWeight: FontWeight.normal),
+                      style: textTheme.subtitle
+                          .copyWith(fontWeight: FontWeight.normal),
                     ),
                   ],
                 ),
@@ -99,17 +103,19 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (proposal.image.isNotEmpty == true) NetImage(proposal.image),
+        if (proposal.image.isNotEmpty == true && !widget.fromDetails)
+          NetImage(proposal.image),
         SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                proposal.title,
-                style: textTheme.title,
-              ),
+              if (!widget.fromDetails)
+                Text(
+                  proposal.title,
+                  style: textTheme.title,
+                ),
               SizedBox(height: 8),
               Text(
                 proposal.summary,

@@ -1,19 +1,25 @@
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/constants/http_mock_response.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
+import 'package:seeds/constants/http_mock_response.dart';
+import 'package:seeds/models/models.dart';
 
 class HttpService {
   final baseURL = Config.defaultEndpoint;
-  
+
   String userAccount;
   bool mockResponse;
 
-  void init({ String accountName, bool enableMockResponse = false }) {
+  void init({String accountName, bool enableMockResponse = false}) {
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
+
+  static HttpService of(BuildContext context, {bool listen = true}) =>
+      Provider.of(context, listen: listen);
 
   Future<List<MemberModel>> getMembers() async {
     print("[http] get members");
@@ -61,7 +67,8 @@ class HttpService {
       return HttpMockResponse.transactions;
     }
 
-    final String transactionsURL ="$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
+    final String transactionsURL =
+        "$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
 
     Response res = await get(transactionsURL);
 
@@ -114,7 +121,6 @@ class HttpService {
     }
   }
 
-
   Future<VoiceModel> getVoice() async {
     print("[http] get voice");
 
@@ -144,10 +150,12 @@ class HttpService {
   }
 
   Future<List<ProposalModel>> getProposals(String stage) async {
-    print("[http] get proposals");
+    print("[http] get proposals: stage = [$stage]");
 
     if (mockResponse != null) {
-      return HttpMockResponse.proposals;
+      return HttpMockResponse.proposals
+          .where((proposal) => proposal.stage == stage)
+          .toList();
     }
 
     final String proposalsURL = '$baseURL/v1/chain/get_table_rows';
@@ -179,7 +187,7 @@ class HttpService {
       return [];
     }
   }
-  
+
   Future<List<InviteModel>> getInvites() async {
     print("[http] get invites");
 
@@ -200,9 +208,8 @@ class HttpService {
         return item["inviteSecret"] == "";
       }).toList();
 
-      List<InviteModel> invites = activeInvites
-          .map((item) => InviteModel.fromJson(item))
-          .toList();
+      List<InviteModel> invites =
+          activeInvites.map((item) => InviteModel.fromJson(item)).toList();
 
       return invites;
     } else {
@@ -210,5 +217,5 @@ class HttpService {
 
       return [];
     }
-  }  
+  }
 }
