@@ -107,7 +107,6 @@ class ProposalForm extends StatelessWidget {
                       body,
                       softWrap: true,
                     ),
-                    tapHeaderToExpand: true,
                   ),
                 ],
               ),
