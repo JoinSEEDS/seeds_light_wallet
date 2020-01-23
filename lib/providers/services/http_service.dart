@@ -62,7 +62,7 @@ class HttpService {
   Future<List<TransactionModel>> getTransactions() async {
     print("[http] get transactions");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       print("return mock");
       return HttpMockResponse.transactions;
     }
@@ -96,7 +96,7 @@ class HttpService {
   Future<BalanceModel> getBalance() async {
     print("[http] get balance");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.balance;
     }
 
@@ -124,7 +124,7 @@ class HttpService {
   Future<VoiceModel> getVoice() async {
     print("[http] get voice");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.voice;
     }
 
@@ -152,7 +152,7 @@ class HttpService {
   Future<List<ProposalModel>> getProposals(String stage) async {
     print("[http] get proposals: stage = [$stage]");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.proposals
           .where((proposal) => proposal.stage == stage)
           .toList();
@@ -191,7 +191,7 @@ class HttpService {
   Future<List<InviteModel>> getInvites() async {
     print("[http] get invites");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.invites;
     }
 

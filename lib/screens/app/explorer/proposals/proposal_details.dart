@@ -5,9 +5,11 @@ import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_header_details.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
 class ProposalDetailsPage extends StatefulWidget {
   final ProposalModel proposal;
@@ -20,9 +22,21 @@ class ProposalDetailsPage extends StatefulWidget {
 }
 
 class ProposalDetailsPageState extends State<ProposalDetailsPage> {
+  VoiceModel voice;
+
   double _vote = 0;
 
   bool _voting = false;
+
+  @override
+  void didChangeDependencies() {
+    Provider.of<HttpService>(context).getVoice().then((val) {
+      setState(() {
+        voice = val;
+      });
+    });
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -197,15 +211,17 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                 ),
               ],
             ),
-            SizedBox(height: 8),
-            FluidSlider(
-              value: _vote,
-              onChanged: (double newValue) {
-                setState(() => _vote = newValue);
-              },
-              min: -100,
-              max: 100,
-            ),
+            SizedBox(height: 12),
+            voice == null
+                ? Text("Your voice balance is empty")
+                : FluidSlider(
+                    value: _vote,
+                    onChanged: (double newValue) {
+                      setState(() => _vote = newValue);
+                    },
+                    min: 0 - voice.amount.toDouble(),
+                    max: 0 + voice.amount.toDouble(),
+                  ),
           ],
         ),
       ),
