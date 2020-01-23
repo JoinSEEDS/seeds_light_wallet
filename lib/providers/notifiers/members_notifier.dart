@@ -11,11 +11,8 @@ class MembersNotifier extends ChangeNotifier {
   static of(BuildContext context, {bool listen = false}) =>
       Provider.of<MembersNotifier>(context, listen: listen);
 
-  void init({ HttpService http }) {
-    if (_http == null) {
-      _http = http;
-      fetchMembers();
-    }
+  void update({ HttpService http }) {
+    _http = http;
   }
 
   void fetchMembers() {

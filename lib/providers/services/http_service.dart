@@ -8,12 +8,12 @@ import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
 
 class HttpService {
-  final baseURL = Config.defaultEndpoint;
-
+  String baseURL = Config.defaultEndpoint;
   String userAccount;
   bool mockResponse;
 
-  void init({String accountName, bool enableMockResponse = false}) {
+  void update({ String accountName, String nodeEndpoint, bool enableMockResponse = false }) {
+    nodeEndpoint = nodeEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
@@ -218,4 +218,6 @@ class HttpService {
       return [];
     }
   }
+
+
 }

@@ -25,9 +25,7 @@ class _CreateAccountState extends State<CreateAccount> {
   final formKey = GlobalKey<FormState>();
 
   final accountNameController = MaskedTextController(
-      mask: '@@@@@@@@@@@@',
-      translator: {'@': RegExp(r'[a-z1234]')}
-  );
+      mask: '@@@@@@@@@@@@', translator: {'@': RegExp(r'[a-z1234]')});
 
   final StreamController<bool> _statusNotifier =
       StreamController<bool>.broadcast();
@@ -54,10 +52,12 @@ class _CreateAccountState extends State<CreateAccount> {
       EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
       try {
-        var response = await Provider.of<EosService>(context).acceptInvite(
-          accountName,
-          publicKey.toString(),
-          widget.inviteSecret,
+        var response = await Provider.of<EosService>(
+          context,
+        ).acceptInvite(
+          accountName: accountName,
+          publicKey: publicKey.toString(),
+          inviteSecret: widget.inviteSecret,
         );
 
         if (response == null || response["transaction_id"] == null)
@@ -162,10 +162,12 @@ class _CreateAccountState extends State<CreateAccount> {
         afterSuccessCallback: () {
           String accountName = accountNameController.text;
 
-          NavigationService.of(context).navigateTo(Routes.welcome, accountName, true);
+          NavigationService.of(context)
+              .navigateTo(Routes.welcome, accountName, true);
         },
         afterFailureCallback: () {
-          NavigationService.of(context).navigateTo("OnboadingMethodChoice", true);
+          NavigationService.of(context)
+              .navigateTo("OnboadingMethodChoice", true);
         });
   }
 }
