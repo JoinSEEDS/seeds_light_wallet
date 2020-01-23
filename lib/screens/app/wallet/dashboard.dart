@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/custom_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
-import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-
-import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard();
@@ -21,9 +19,8 @@ class _DashboardState extends State<Dashboard>
   @override
   bool get wantKeepAlive => false;
 
-  final HttpService httpService = HttpService();
-
   @override
+
   Widget build(BuildContext context) {
     super.build(context);
     return SingleChildScrollView(
@@ -168,7 +165,7 @@ class _DashboardState extends State<Dashboard>
           title: Text("0 VOICE"),
           subtitle: Text("Voice balance"),
           trailing: SeedsButton("Vote", () {
-              NavigationService.of(context).navigateTo(Routes.proposals);
+            NavigationService.of(context).navigateTo(Routes.proposals);
           }),
         ),
         ListTile(
@@ -182,7 +179,7 @@ class _DashboardState extends State<Dashboard>
           title: Text("75.0000 SEEDS"),
           subtitle: Text("Invites balance"),
           trailing: SeedsButton("Invite", () {
-              NavigationService.of(context).navigateTo(Routes.invites);
+            NavigationService.of(context).navigateTo(Routes.invites);
           }),
         ),
         SizedBox(height: 10),

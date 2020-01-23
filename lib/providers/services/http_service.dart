@@ -1,8 +1,11 @@
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/constants/http_mock_response.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
+import 'package:seeds/constants/http_mock_response.dart';
+import 'package:seeds/models/models.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
@@ -14,6 +17,9 @@ class HttpService {
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
+
+  static HttpService of(BuildContext context, {bool listen = true}) =>
+      Provider.of(context, listen: listen);
 
   Future<List<MemberModel>> getMembers() async {
     print("[http] get members");
@@ -56,12 +62,13 @@ class HttpService {
   Future<List<TransactionModel>> getTransactions() async {
     print("[http] get transactions");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       print("return mock");
       return HttpMockResponse.transactions;
     }
 
-    final String transactionsURL ="$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
+    final String transactionsURL =
+        "$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
 
     Response res = await get(transactionsURL);
 
@@ -89,7 +96,7 @@ class HttpService {
   Future<BalanceModel> getBalance() async {
     print("[http] get balance");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.balance;
     }
 
@@ -114,11 +121,10 @@ class HttpService {
     }
   }
 
-
   Future<VoiceModel> getVoice() async {
     print("[http] get voice");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.voice;
     }
 
@@ -144,10 +150,12 @@ class HttpService {
   }
 
   Future<List<ProposalModel>> getProposals(String stage) async {
-    print("[http] get proposals");
+    print("[http] get proposals: stage = [$stage]");
 
-    if (mockResponse != null) {
-      return HttpMockResponse.proposals;
+    if (mockResponse == true) {
+      return HttpMockResponse.proposals
+          .where((proposal) => proposal.stage == stage)
+          .toList();
     }
 
     final String proposalsURL = '$baseURL/v1/chain/get_table_rows';
@@ -179,11 +187,11 @@ class HttpService {
       return [];
     }
   }
-  
+
   Future<List<InviteModel>> getInvites() async {
     print("[http] get invites");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.invites;
     }
 
@@ -200,9 +208,8 @@ class HttpService {
         return item["inviteSecret"] == "";
       }).toList();
 
-      List<InviteModel> invites = activeInvites
-          .map((item) => InviteModel.fromJson(item))
-          .toList();
+      List<InviteModel> invites =
+          activeInvites.map((item) => InviteModel.fromJson(item)).toList();
 
       return invites;
     } else {
