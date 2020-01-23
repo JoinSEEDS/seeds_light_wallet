@@ -4,7 +4,6 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_header_details.dart';
-import 'package:provider/provider.dart';
 
 class Proposals extends StatefulWidget {
   @override

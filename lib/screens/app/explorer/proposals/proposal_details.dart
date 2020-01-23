@@ -9,7 +9,6 @@ import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_header_details.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:seeds/models/models.dart';
 import 'package:provider/provider.dart';
 
 class ProposalDetailsPage extends StatefulWidget {
@@ -76,12 +75,6 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
   Widget buildProposalHeader(ProposalModel proposal) {
     return Hero(
       tag: proposal.hashCode,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        clipBehavior: Clip.antiAlias,
-        elevation: 8,
-        child: ProposalHeaderDetails(proposal),
-      ),
       flightShuttleBuilder: (BuildContext flightContext,
           Animation<double> animation,
           HeroFlightDirection flightDirection,
