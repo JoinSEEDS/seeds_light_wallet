@@ -79,3 +79,4 @@ secret_config.json
 pubspec\.lock
 
 \.flutter-plugins-dependencies
+ios/Podfile.lock

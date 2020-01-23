@@ -1,5 +1,5 @@
 class Config {
-  static final defaultEndpoint = "https://telos.caleos.io";
+  static final defaultEndpoint = "https://api.telosfoundation.io";
   static final onboardingAccountName = "join.seeds";
   static final onboardingPrivateKey = "5K1TQUxZo5oVTAjHRERTiP4kfoA3CNeYwKFVaksEQUw2zUWStUo";
   static final testingAccountName = "seedsuserss1";

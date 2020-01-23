@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 
 Widget buildPasscodeScreen(
     {shouldTriggerVerification,
@@ -57,7 +58,7 @@ class LockWallet extends StatelessWidget {
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) {
         _verificationNotifier.add(true);
-        AuthNotifier.of(context).savePasscode(passcode);
+        SettingsNotifier.of(context).savePasscode(passcode);
       },
       isValidCallback: () {},
       cancelCallback: () {},

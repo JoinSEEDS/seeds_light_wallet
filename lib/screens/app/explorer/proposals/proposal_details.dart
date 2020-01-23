@@ -1,12 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
-import 'package:seeds/screens/app/proposals/proposal_header_details.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/screens/app/explorer/proposals/proposal_header_details.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:seeds/models/models.dart';
+import 'package:provider/provider.dart';
 
 class ProposalDetailsPage extends StatefulWidget {
   final ProposalModel proposal;
@@ -19,24 +22,51 @@ class ProposalDetailsPage extends StatefulWidget {
 }
 
 class ProposalDetailsPageState extends State<ProposalDetailsPage> {
+  VoiceModel voice;
+
   double _vote = 0;
 
   bool _voting = false;
+
+  @override
+  void didChangeDependencies() {
+    Provider.of<HttpService>(context).getVoice().then((val) {
+      setState(() {
+        voice = val;
+      });
+    });
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     final proposal = widget.proposal;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Proposal details'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          buildProposalHeader(proposal),
-          buildProposalDetails(proposal),
-          buildDescription(proposal),
-          buildVote(proposal),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            expandedHeight: 250,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                children: <Widget>[
+                  NetImage(
+                    proposal.image,
+                    height: 300,
+                    fit: BoxFit.cover,
+                    fullScreen: true,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate.fixed(<Widget>[
+              buildProposalHeader(proposal),
+              buildProposalDetails(proposal),
+              buildVote(proposal),
+            ]),
+          ),
         ],
       ),
     );
@@ -58,13 +88,22 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         clipBehavior: Clip.antiAlias,
         elevation: 8,
-        child: ProposalHeaderDetails(proposal),
+        child: ProposalHeaderDetails(
+          proposal,
+          fromDetails: true,
+        ),
       ),
     );
   }
 
   Widget buildProposalDetails(ProposalModel proposal) {
     final textTheme = Theme.of(context).textTheme;
+
+    double quantity =
+        double.tryParse(proposal.quantity.replaceAll(RegExp(r' SEEDS'), '')) ??
+            0.0;
+
+    final amountFormatter = FlutterMoneyFormatter(amount: quantity);
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -81,12 +120,12 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             ),
             SizedBox(height: 8),
             Text(
-              'Requested amount: ${proposal.quantity} ',
+              'Requested amount: ${amountFormatter.output.nonSymbol} SEEDS',
               style: textTheme.subhead,
             ),
             SizedBox(height: 8),
             Text(
-              'Fund: ${proposal.fund} ',
+              'Milestone funds: ${proposal.fund} ',
               style: textTheme.subhead,
             ),
             SizedBox(height: 8),
@@ -122,23 +161,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Card buildDescription(ProposalModel proposal) {
-    final textTheme = Theme.of(context).textTheme;
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      clipBehavior: Clip.antiAlias,
-      elevation: 8,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+            SizedBox(height: 8),
             Text(
               'Description',
               style: textTheme.title,
@@ -188,15 +211,17 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                 ),
               ],
             ),
-            SizedBox(height: 8),
-            FluidSlider(
-              value: _vote,
-              onChanged: (double newValue) {
-                setState(() => _vote = newValue);
-              },
-              min: -100,
-              max: 100,
-            ),
+            SizedBox(height: 12),
+            voice == null
+                ? Text("Your voice balance is empty")
+                : FluidSlider(
+                    value: _vote,
+                    onChanged: (double newValue) {
+                      setState(() => _vote = newValue);
+                    },
+                    min: 0 - voice.amount.toDouble(),
+                    max: 0 + voice.amount.toDouble(),
+                  ),
           ],
         ),
       ),

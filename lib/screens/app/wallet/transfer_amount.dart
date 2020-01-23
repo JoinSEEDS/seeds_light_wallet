@@ -43,52 +43,50 @@ class _TransferAmountState extends State<TransferAmount> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Container(
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: Text(
-              "Enter amount",
-              style: TextStyle(fontFamily: "worksans", color: Colors.black),
-            ),
-            centerTitle: true,
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(CommunityMaterialIcons.close_circle,
-                    color: Colors.black),
-                onPressed: () {
-                  Navigator.of(context).pop(amountController.numberValue);
-                },
-              ),
-            ],
+    return Container(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(
+            "Enter amount",
+            style: TextStyle(fontFamily: "worksans", color: Colors.black),
           ),
-          body: Center(
-            child: SingleChildScrollView(
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Flexible(
-                          fit: FlexFit.tight,
-                          child: Text(
-                            'SEEDS',
-                            style: TextStyle(fontFamily: "sfprotext"),
-                          ),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(CommunityMaterialIcons.close_circle,
+                  color: Colors.black),
+              onPressed: () {
+                Navigator.of(context).pop(amountController.numberValue);
+              },
+            ),
+          ],
+        ),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: Text(
+                          'SEEDS',
+                          style: TextStyle(fontFamily: "sfprotext"),
                         ),
-                        Spacer(flex: 1),
-                        Flexible(
-                          fit: FlexFit.loose,
-                          flex: 3,
-                          child: TextField(
+                      ),
+                      Spacer(flex: 1),
+                      Flexible(
+                        fit: FlexFit.loose,
+                        flex: 3,
+                        child: TextField(
                             textAlign: TextAlign.left,
                             textDirection: TextDirection.ltr,
                             showCursor: false,
@@ -118,36 +116,33 @@ class _TransferAmountState extends State<TransferAmount> {
                             ),
                             onChanged: (text) {
                               _checkAmount(double.parse(text));
-                            }
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 40,
-                      child: FlatButton(
-                        color: CustomColors.green,
-                        textColor: CustomColors.green,
-                        disabledColor: CustomColors.grey,
-                        child: Text(
-                          "Confirm",
-                          style: TextStyle(
-                            fontFamily: "worksans",
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        onPressed:
-                            _buttonEnabled ? () => _confirmAmount() : null,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+                            }),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 40,
+                    child: FlatButton(
+                      color: CustomColors.green,
+                      textColor: CustomColors.green,
+                      disabledColor: CustomColors.grey,
+                      child: Text(
+                        "Confirm",
+                        style: TextStyle(
+                          fontFamily: "worksans",
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
+                      onPressed: _buttonEnabled ? () => _confirmAmount() : null,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
