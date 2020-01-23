@@ -85,7 +85,11 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
   Widget buildProposalDetails(ProposalModel proposal) {
     final textTheme = Theme.of(context).textTheme;
 
-    final amountFormatter = FlutterMoneyFormatter(amount: proposal.quantity);
+    double quantity =
+        double.tryParse(proposal.quantity.replaceAll(RegExp(r' SEEDS'), '')) ??
+            0.0;
+
+    final amountFormatter = FlutterMoneyFormatter(amount: quantity);
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

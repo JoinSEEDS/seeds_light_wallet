@@ -23,7 +23,7 @@ class HttpMockResponse {
       id: 1,
       creator: "creator",
       recipient: "recipient",
-      quantity: 1000000.00,
+      quantity: "1000000.0000 SEEDS",
       staked: "1.0000 SEEDS",
       executed: 1,
       total: 1000,

@@ -141,7 +141,7 @@ class ProposalModel {
   final int id;
   final String creator;
   final String recipient;
-  final double quantity;
+  final String quantity;
   final String staked;
   final int executed;
   final int total;
