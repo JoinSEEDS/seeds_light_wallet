@@ -56,6 +56,8 @@ final providers = [
       ..update(
         userPrivateKey: settings.privateKey,
         userAccountName: settings.accountName,
+        nodeEndpoint: settings.nodeEndpoint,
+        enableMockTransactions: false,
       ),
   ),
   ChangeNotifierProxyProvider<HttpService, MembersNotifier>(

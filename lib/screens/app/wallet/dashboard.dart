@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/custom_colors.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
