@@ -74,6 +74,15 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
         elevation: 8,
         child: ProposalHeaderDetails(proposal),
       ),
+      flightShuttleBuilder: (BuildContext flightContext,
+          Animation<double> animation,
+          HeroFlightDirection flightDirection,
+          BuildContext fromHeroContext,
+          BuildContext toHeroContext) {
+        return SingleChildScrollView(
+          child: toHeroContext.widget,
+        );
+      },
     );
   }
 
