@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
-import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_header_details.dart';
 import 'package:provider/provider.dart';
@@ -72,7 +72,8 @@ class _ProposalsListState extends State<ProposalsList>
     super.build(context);
 
     return PaginatedListView<ProposalModel>(
-      pageFuture: (int pageIndex) => Provider.of<HttpService>(context).getProposals(widget.type),
+      pageFuture: (int pageIndex) =>
+          HttpService.of(context).getProposals(widget.type),
       pageSize: 1000,
       showRefreshIndicator: true,
       itemBuilder: (BuildContext context, ProposalModel proposal, int index) {
