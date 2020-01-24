@@ -6,39 +6,40 @@ import 'package:provider/provider.dart';
 class MembersNotifier extends ChangeNotifier {
   HttpService _http;
 
-  List<MemberModel> members;
-  List<MemberModel> membersSearch;
+  List<MemberModel> allMembers;
+  List<MemberModel> visibleMembers;
 
   static of(BuildContext context, {bool listen = false}) =>
       Provider.of<MembersNotifier>(context, listen: listen);
 
-  void update({ HttpService http }) {
+  void update({HttpService http}) {
     _http = http;
   }
 
   void fetchMembers() {
     _http.getMembers().then((result) {
-      members = result;
-      membersSearch = result;
+      allMembers = result;
+      visibleMembers = allMembers.where((MemberModel member) {
+        return member.image != "" &&
+            member.nickname != "" &&
+            member.account != "";
+      }).toList();
       notifyListeners();
     });
   }
 
-  List<MemberModel> searchMembers(String name) {
-    if (members != null) {
-       print("searchMembers is working:$name");
-    }
-    if (name !='') {
-        List<MemberModel> res = [];
-        for (var item in members) {
-            if (item.nickname.startsWith(name) ){
-                res.add(item);
-            }
-        }
-       membersSearch = res; 
+  void filterMembers(String name) {
+    if (name.isNotEmpty) {
+      visibleMembers = allMembers.where((MemberModel member) {
+        return member.nickname.contains(name) || member.account.contains(name);
+      }).toList();
     } else {
-      membersSearch = members;
+      visibleMembers = allMembers.where((MemberModel member) {
+        return member.image != "" &&
+            member.nickname != "" &&
+            member.account != "";
+      }).toList();
     }
-    return membersSearch;
+    notifyListeners();
   }
 }
