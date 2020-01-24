@@ -20,6 +20,15 @@ class _DashboardState extends State<Dashboard>
   bool get wantKeepAlive => false;
 
   @override
+  initState() {
+    Future.microtask(() {
+      TransactionsNotifier.of(context).fetchTransactions();
+      BalanceNotifier.of(context).fetchBalance();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return SingleChildScrollView(
@@ -34,14 +43,6 @@ class _DashboardState extends State<Dashboard>
     );
   }
 
-  @override
-  initState() {
-    Future.delayed(Duration.zero).then((_) {
-      TransactionsNotifier.of(context).fetchTransactions();
-      BalanceNotifier.of(context).fetchBalance();
-    });
-    super.initState();
-  }
 
   Widget _transactionsList(BuildContext context) {
     print("[widget] rebuild transactions");
