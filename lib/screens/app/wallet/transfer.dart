@@ -24,7 +24,7 @@ class _TransferState extends State<Transfer>
     with AutomaticKeepAliveClientMixin {
   
   bool is_search = false;
-  //Function searchItems;
+ 
   @override
   bool get wantKeepAlive => true;
   
@@ -130,11 +130,6 @@ class _TransferState extends State<Transfer>
     final width = MediaQuery.of(context).size.width;
     String search_value = null;
 
-    _searchInItems(name) {
-      setState(() {
-        print("_searchInItems name:${name}");
-      });
-    }
     return MainCard(
         padding: EdgeInsets.only(top: 15, bottom: 15),
         child: Container(
@@ -231,14 +226,7 @@ class _TransferState extends State<Transfer>
           border: InputBorder.none,
           contentPadding: EdgeInsets.all(15),
         ),
-        onChanged: (text) {
-          print("First text field: $text");
-          //searchCallBack();
-          for (var i in items) {
-            print(">Items:${i.nickname}");
-          }
-          print("item.l:${items.length}");//.members.nickname        
-          //callBack(text);
+        onChanged: (text) {      
           MembersNotifier.of(context).searchMembers(text);
           rebuildAllChildren(ctx);
         },

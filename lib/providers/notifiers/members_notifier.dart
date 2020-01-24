@@ -31,9 +31,7 @@ class MembersNotifier extends ChangeNotifier {
     if (members != null) {
        print("searchMembers is working:$name");
     }
-
     if (name !='') {
-        //membersSearch.where((item) => item.nickname.startsWith(name)).toList();
         List<MemberModel> res = [];
         for (var item in members) {
             if (item.nickname.startsWith(name) ){
@@ -41,11 +39,9 @@ class MembersNotifier extends ChangeNotifier {
             }
         }
        membersSearch = res; 
-       // membersSearch=[ MemberModel(account: "sevenflash24",nickname: "Andrey MAK",image: "") ];
     } else {
       membersSearch = members;
     }
-    print("!!! searchMembers return:${membersSearch}");
     return membersSearch;
   }
 }
