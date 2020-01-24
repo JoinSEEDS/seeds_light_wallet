@@ -8,9 +8,15 @@ class MainButton extends StatelessWidget {
   final EdgeInsets margin;
   final Function onPressed;
 
-  MainButton({this.title, this.height = 55, this.fontSize = 18, this.margin, this.onPressed});
+  MainButton({
+    this.title,
+    this.height = 55,
+    this.fontSize = 18,
+    this.margin,
+    this.onPressed,
+  });
 
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
       margin: margin,
@@ -23,8 +29,8 @@ class MainButton extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               blurRadius: 5,
               spreadRadius: 0.5,
-              offset: Offset(0.0, 1.0)
-            )
+              offset: Offset(0.0, 1.0),
+            ),
           ],
         ),
         child: Container(
@@ -32,30 +38,28 @@ class MainButton extends StatelessWidget {
           child: Container(
             height: height,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(13),
-              gradient: LinearGradient(
-                colors: AppColors.gradient
-              )
-            ),
+                borderRadius: BorderRadius.circular(13),
+                gradient: LinearGradient(colors: AppColors.gradient)),
             child: FlatButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(13),
+              ),
               onPressed: onPressed,
               color: Colors.transparent,
               child: Container(
                 height: height,
                 alignment: Alignment.center,
                 width: width,
-                child: Text(title,
+                child: Text(
+                  title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: fontSize
-                  )
+                  style: TextStyle(color: Colors.white, fontSize: fontSize),
                 ),
               ),
-            )
-          )
-        )
-      )
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
