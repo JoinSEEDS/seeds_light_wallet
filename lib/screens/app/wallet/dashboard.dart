@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
-import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
@@ -24,8 +25,6 @@ class _DashboardState extends State<Dashboard>
   @override
   bool get wantKeepAlive => false;
 
-  final HttpService httpService = HttpService();
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -39,9 +38,23 @@ class _DashboardState extends State<Dashboard>
               buildHeader(),
               Row(
                 children: <Widget>[
-                  buildBalance('Voice balance', "123", 'Proposals', onVote),
+                  Consumer<VoiceNotifier>(
+                    builder: (context, model, child) => buildBalance(
+                      'Voice balance',
+                      "${model?.balance?.amount ?? 0}",
+                      'Proposals',
+                      onVote,
+                    ),
+                  ),
                   Padding(padding: EdgeInsets.only(left: 7)),
-                  buildBalance('Planted balance', "22.33", 'Harvest', onInvite),
+                  Consumer<PlantedNotifier>(
+                    builder: (context, model, child) => buildBalance(
+                      'Planted balance',
+                      "${model?.balance?.quantity ?? 0}",
+                      'Harvest',
+                      onInvite,
+                    ),
+                  ),
                 ],
               ),
               buildTransactions()
@@ -55,6 +68,8 @@ class _DashboardState extends State<Dashboard>
     Future.delayed(Duration.zero).then((_) {
       TransactionsNotifier.of(context).fetchTransactions();
       BalanceNotifier.of(context).fetchBalance();
+      VoiceNotifier.of(context).fetchBalance();
+      PlantedNotifier.of(context).fetchBalance();
     });
     super.initState();
   }

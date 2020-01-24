@@ -1,14 +1,14 @@
+import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/clipboard_text_field.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
-import 'package:eosdart_ecc/eosdart_ecc.dart';
-import 'package:provider/provider.dart';
 
 enum ImportStatus {
   emptyPrivateKey,
@@ -70,6 +70,15 @@ class _ImportAccountState extends State<ImportAccount> {
       availableAccounts = keyAccounts;
       chosenAccount = availableAccounts[0];
     });
+  }
+
+  void onImport() {
+    String accountName = chosenAccount;
+    String privateKey = privateKeyController.value.text;
+
+    SettingsNotifier.of(context).saveAccount(accountName, privateKey);
+
+    NavigationService.of(context).navigateTo(Routes.welcome, accountName, true);
   }
 
   @override
@@ -154,14 +163,5 @@ class _ImportAccountState extends State<ImportAccount> {
         ),
       ),
     );
-  }
-
-  void onImport() {
-    String accountName = chosenAccount;
-    String privateKey = privateKeyController.value.text;
-
-    AuthNotifier.of(context).saveAccount(accountName, privateKey);
-
-    NavigationService.of(context).navigateTo(Routes.welcome, accountName, true);
   }
 }
