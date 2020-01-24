@@ -18,6 +18,8 @@ class HttpMockResponse {
 
   static final voice = VoiceModel(77);
 
+  static final planted = PlantedModel("5.0000 SEEDS");
+
   static final proposals = [
     ProposalModel(
       id: 1,

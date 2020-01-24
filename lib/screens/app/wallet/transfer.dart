@@ -144,7 +144,7 @@ class _TransferState extends State<Transfer>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
+    return Scaffold(      
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
@@ -158,6 +158,12 @@ class _TransferState extends State<Transfer>
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search, color: AppColors.green,),
+            onPressed: () {},
+          )
+        ],        
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

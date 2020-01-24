@@ -1,6 +1,8 @@
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
+import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
@@ -70,6 +72,14 @@ final providers = [
   ),
   ChangeNotifierProxyProvider<HttpService, BalanceNotifier>(
     create: (context) => BalanceNotifier(),
+    update: (context, http, balance) => balance..update(http: http),
+  ),
+  ChangeNotifierProxyProvider<HttpService, VoiceNotifier>(
+    create: (context) => VoiceNotifier(),
+    update: (context, http, balance) => balance..update(http: http),
+  ),
+  ChangeNotifierProxyProvider<HttpService, PlantedNotifier>(
+    create: (context) => PlantedNotifier(),
     update: (context, http, balance) => balance..update(http: http),
   ),
 ];

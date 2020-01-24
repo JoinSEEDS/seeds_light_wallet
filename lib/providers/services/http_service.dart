@@ -178,6 +178,34 @@ class HttpService {
     }
   }
 
+
+  Future<PlantedModel> getPlanted() async {
+    print("[http] get voice");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.planted;
+    }
+
+    final String plantedURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request = '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(plantedURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      PlantedModel balance = PlantedModel.fromJson(body);
+
+      return balance;
+    } else {
+      print('Cannot fetch members...');
+
+      return PlantedModel("0.0000 SEEDS");
+    }
+  }
+
   Future<List<ProposalModel>> getProposals(String stage) async {
     print("[http] get proposals: stage = [$stage]");
 
