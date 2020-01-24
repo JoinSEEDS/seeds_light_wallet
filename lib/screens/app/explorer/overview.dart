@@ -1,67 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/widgets/seeds_button.dart';
+import 'package:seeds/widgets/main_card.dart';
+// import 'package:seeds/widgets/seeds_button.dart';
 
 class Overview extends StatelessWidget {
   const Overview({
     Key key,
   }) : super(key: key);
 
+  Widget buildCategory(String title, String iconName, Function onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: MainCard(
+        margin: EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.all(15),
+        child: Row(
+          children: <Widget>[
+            Container(
+              width: 28,
+              height: 28,
+              margin: EdgeInsets.only(right: 15),
+              child: Image(
+                image: AssetImage(iconName),
+              ),
+            ),
+            Flexible(
+              child: Text(title,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16
+                )
+              )
+            )
+          ],
+        ),
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Card(
-          child: ListTile(
-            leading: Icon(Icons.description),
-            trailing: SeedsButton("PROPOSALS", () {
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.all(17),
+        child: Column(
+          children: <Widget>[
+            buildCategory('Governance', 'assets/images/explorer1.png', () {
               NavigationService.of(context).navigateTo(Routes.proposals);
-            }, false, 200),
-            title: Text("Proposals"),
-            subtitle: Text(
-              "Participate in governance and decide on money distribution - for regeneration instead of destruction",
-            ),
-          ),
-        ),
-        Card(
-          child: ListTile(
-            leading: Icon(Icons.child_friendly),
-            trailing: SeedsButton("INVITES", () {
+            }),
+            buildCategory('Community', 'assets/images/explorer2.png', () {
               NavigationService.of(context).navigateTo(Routes.invites);
-            }, false, 200),
-            title: Text("Community"),
-            subtitle: Text(
-                "Invite friends to regenerative economy and support others in their dreams - get rewarded for their achievements"),
-          ),
-        ),
-        Card(
-          child: ListTile(
-            leading: Icon(Icons.close),
-            trailing: SeedsButton("HYPHA", () {}, false, 200),
-            title: Text("Hypha"),
-            subtitle: Text(
-                "Explore Hypha DAO organization behind Seeds and apply for open roles - get paid for your contributions"),
-          ),
-        ),
-        Card(
-          child: ListTile(
-            leading: Icon(Icons.settings_backup_restore),
-            trailing: SeedsButton("HARVEST", () {}, false, 200),
-            title: Text("Harvest"),
-            subtitle: Text(
-                "Earn contribution score and get involved in harvest distribution"),
-          ),
-        ),
-        Card(
-          child: ListTile(
-            leading: Icon(Icons.settings_cell),
-            trailing: SeedsButton("CONTRACTS", () {}, false, 200),
-            title: Text("Contracts"),
-            subtitle: Text(
-                "Interact with custom smart contracts inside of ecosystem"),
-          ),
-        ),
-      ],
+            }),
+            buildCategory('Exchange', 'assets/images/explorer3.png', () {}),
+            buildCategory('Lending', 'assets/images/explorer4.png', () {}),
+            buildCategory('Harvest', 'assets/images/explorer5.png', () {})
+          ],
+        )
+      ),
     );
   }
 }

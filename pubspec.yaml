@@ -68,6 +68,11 @@ flutter:
     - assets/images/onboarding5.png
     - assets/images/seeds-logo-with-text.png
     - assets/images/success.png
+    - assets/images/explorer1.png
+    - assets/images/explorer2.png
+    - assets/images/explorer3.png
+    - assets/images/explorer4.png
+    - assets/images/explorer5.png
     # assets end
 
     - assets/images/
