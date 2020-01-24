@@ -51,7 +51,7 @@ class _CreateAccountState extends State<CreateAccount> {
 
       try {
         var response =
-            await Provider.of<EosService>(context, listen: false).acceptInvite(
+        await Provider.of<EosService>(context, listen: false).acceptInvite(
           _accountName,
           publicKey.toString(),
           widget.inviteSecret,
