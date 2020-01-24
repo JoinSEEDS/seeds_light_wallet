@@ -50,7 +50,8 @@ class _CreateAccountState extends State<CreateAccount> {
       EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
       try {
-        var response = await Provider.of<EosService>(context).acceptInvite(
+        var response =
+        await Provider.of<EosService>(context, listen: false).acceptInvite(
           _accountName,
           publicKey.toString(),
           widget.inviteSecret,
