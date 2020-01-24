@@ -21,19 +21,22 @@ class AuthNotifier extends ChangeNotifier {
       Provider.of<AuthNotifier>(context, listen: listen);
 
   void update({accountName, privateKey, passcode}) async {
+    print("update notifier");
     if (accountName != _accountName ||
         privateKey != _privateKey ||
         passcode != passcode) {
       _locked = true;
-      _accountName = accountName;
-      _privateKey = privateKey;
-      _passcode = passcode;
-
-      updateStatus();
     }
+    _accountName = accountName;
+    _privateKey = privateKey;
+    _passcode = passcode;
+
+    updateStatus();
   }
 
   void updateStatus() {
+    print("update status");
+
     status = AuthStatus.unlocked;
 
     if (_locked == true) {
@@ -58,6 +61,11 @@ class AuthNotifier extends ChangeNotifier {
 
   void unlockWallet() {
     _locked = false;
+    updateStatus();
+  }
+
+  void resetPasscode() {
+    _passcode = null;
     updateStatus();
   }
 }
