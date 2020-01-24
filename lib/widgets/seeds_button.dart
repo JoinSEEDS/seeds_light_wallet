@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 
 
@@ -10,7 +10,7 @@ class SeedsButton extends StatefulWidget {
   final double width;
   final Color color;
 
-  SeedsButton(this.title, [this.onPressed, this.showProgress = false, this.width = 100, this.color = CustomColors.green]);
+  SeedsButton(this.title, [this.onPressed, this.showProgress = false, this.width = 100, this.color = AppColors.green]);
 
   @override
   _SeedsButtonState createState() => _SeedsButtonState();

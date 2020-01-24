@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/invites_notifier.dart';
 import 'package:seeds/widgets/progress_bar.dart';
@@ -52,7 +52,7 @@ class Friends extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(width: 1, color: CustomColors.green),
+                  bottom: BorderSide(width: 1, color: AppColors.green),
                 ),
               ),
               margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),

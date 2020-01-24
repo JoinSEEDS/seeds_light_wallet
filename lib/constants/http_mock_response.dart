@@ -18,6 +18,8 @@ class HttpMockResponse {
 
   static final voice = VoiceModel(77);
 
+  static final planted = PlantedModel("5.0000 SEEDS");
+
   static final proposals = [
     ProposalModel(
       id: 1,
@@ -54,6 +56,8 @@ class HttpMockResponse {
         inviteHash: "invite_hash",
         inviteSecret: "invite_secret"),
   ];
+
+  static final keyAccounts = ["sevenflash42", "testingseeds"];
 
   static final transactionResult = {
     "transaction_id": "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"

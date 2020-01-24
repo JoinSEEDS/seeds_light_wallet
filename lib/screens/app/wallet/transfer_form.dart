@@ -4,11 +4,12 @@ import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
-import 'package:seeds/widgets/seeds_button.dart';
+import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/widgets/main_text_field.dart';
 
 class TransferFormArguments {
   final String fullName;
@@ -29,7 +30,7 @@ class TransferForm extends StatefulWidget {
 
 class _TransferFormState extends State<TransferForm>
     with SingleTickerProviderStateMixin {
-  String amountValue = '0.0000';
+  double amountValue = 0;
   bool validAmount = true;
 
   bool showPageLoader = false;
@@ -52,17 +53,11 @@ class _TransferFormState extends State<TransferForm>
     });
 
     try {
-      var response = await Provider.of<EosService>(
-        context,
-        listen: false,
-      ).transferSeeds(
-        beneficiary: widget.arguments.accountName,
-        amount: amountValue,
-      );
+      var response = await Provider.of<EosService>(context, listen: false)
+          .transferSeeds(
+              beneficiary: widget.arguments.accountName, amount: amountValue.toStringAsFixed(4));
 
       String trxid = response["transaction_id"];
-
-      // TransactionsModel transactions = Provider.of(context, listen: false).addTransaction();
 
       _statusNotifier.add(true);
       _messageNotifier.add("Transaction hash: $trxid");
@@ -86,180 +81,140 @@ class _TransferFormState extends State<TransferForm>
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    String accountName = widget.arguments.accountName;
-    String fullName = widget.arguments.fullName;
-    String avatar = widget.arguments.avatar;
+  final controller = TextEditingController(text: '0.00');
 
-    return Container(
-      width: 150,
-      child: Stack(
-        children: <Widget>[
-          Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              automaticallyImplyLeading: true,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              title: Text(
-                "Send to $accountName",
-                style: TextStyle(fontFamily: "worksans", color: Colors.black),
-              ),
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-            ),
-            body: SingleChildScrollView(
-              child: Container(
-                width: MediaQuery.of(context).size.width * 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Hero(
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: CachedNetworkImageProvider(avatar),
-                        ),
-                      ),
-                      tag: "avatar#$accountName",
-                    ),
-                    SizedBox(height: 15),
-                    Hero(
-                      child: Material(
-                        child: Text(
-                          "$fullName",
-                          style: TextStyle(
-                              fontFamily: "worksans",
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        color: Colors.transparent,
-                      ),
-                      tag: "nickname#$accountName",
-                    ),
-                    SizedBox(height: 15),
-                    Hero(
-                      tag: "account#$accountName",
-                      child: Material(
-                        color: Colors.transparent,
-                        child: SizedBox(
-                          height: 25,
-                          child: FlatButton(
-                            color: CustomColors.green,
-                            textColor: Colors.white,
-                            child: Text(
-                              "$accountName",
-                              style: TextStyle(
-                                fontFamily: "worksans",
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                            onPressed: () {},
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 80),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "SEEDS",
-                                style: TextStyle(
-                                  fontFamily: "worksans",
-                                  fontSize: 12,
-                                  color: CustomColors.grey,
-                                ),
-                              ),
-                              SizedBox(width: 5),
-                              InkWell(
-                                child: Text(
-                                  this.amountValue,
-                                  style: TextStyle(
-                                      fontFamily: "worksans",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                onTap: () async {
-                                  var navigationResult =
-                                      await NavigationService.of(context)
-                                          .navigateTo(Routes.transferAmount,
-                                              amountValue);
+  void onSend() {
+    processTransaction();
+  }
 
-                                  setState(() {
-                                    this.amountValue =
-                                        navigationResult.toStringAsFixed(4);
-                                    if (navigationResult.toString() != '0.0') {
-                                      this.validAmount = true;
-                                    }
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Divider(height: 0.1, color: CustomColors.grey),
-                          SizedBox(height: 30),
-                          Opacity(
-                            opacity: this.validAmount ? 1.0 : 0.0,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'Add Memo',
-                                  style: TextStyle(
-                                    fontFamily: "worksans",
-                                    fontSize: 17,
-                                    color: CustomColors.green,
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.chevron_right,
-                                  color: CustomColors.grey,
-                                  size: 40,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 1),
-                          Opacity(
-                            opacity: this.validAmount ? 1.0 : 0.0,
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              height: 40,
-                              child: SeedsButton(
-                                "Send transaction",
-                                processTransaction,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+  Widget buildProfile() {
+    final width = MediaQuery.of(context).size.width;
+    return Column(
+      children: <Widget>[
+        ClipRRect(
+          borderRadius: BorderRadius.circular(width * 0.22),
+          child: Container(
+            width: width * 0.22,
+            height: width * 0.22,
+            color: AppColors.blue,
+            child: widget.arguments.avatar != null
+                ? Hero(
+                    child:
+                        CachedNetworkImage(imageUrl: widget.arguments.avatar),
+                    tag: "avatar#${widget.arguments.accountName}")
+                : Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      widget.arguments.fullName.substring(0, 2).toUpperCase(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600),
                     ),
-                  ],
-                ),
+                  ),
+          ),
+        ),
+        Hero(
+          tag: "nickname#${widget.arguments.fullName}",
+          child: Material(
+            child: Container(
+              margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+              child: Text(
+                widget.arguments.fullName,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
             ),
           ),
-          showPageLoader ? _buildPageLoader() : Container(),
-        ],
-      ),
+        ),
+        Hero(
+          tag: "account#${widget.arguments.fullName}",
+          child: Material(
+            child: Container(
+              margin: EdgeInsets.only(top: 5, left: 20, right: 20),
+              child: Text(
+                widget.arguments.accountName,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, color: AppColors.grey),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildBalance() {
+    final balance = BalanceNotifier.of(context).balance.quantity;
+
+    final width = MediaQuery.of(context).size.width;
+    return Container(
+        width: width,
+        margin: EdgeInsets.only(bottom: 20, top: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: AppColors.blue.withOpacity(0.3)),
+        ),
+        padding: EdgeInsets.all(7),
+        child: Column(
+          children: <Widget>[
+            Text(
+              'Available balance',
+              style: TextStyle(
+                  color: AppColors.blue,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w300),
+            ),
+            Padding(padding: EdgeInsets.only(top: 3)),
+            Text(
+              '$balance',
+              style: TextStyle(
+                  color: AppColors.blue,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700),
+            ),
+          ],
+        ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Scaffold(
+          resizeToAvoidBottomPadding: false,
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.close, color: Colors.black),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          backgroundColor: Colors.white,
+          body: Container(
+            margin: EdgeInsets.only(left: 17, right: 17),
+            child: Column(
+              children: <Widget>[
+                buildProfile(),
+                buildBalance(),
+                MainTextField(
+                  keyboardType: TextInputType.number,
+                  controller: controller,
+                  labelText: 'Transfer amount',
+                  endText: 'SEEDS',
+                ),
+                MainButton(
+                  margin: EdgeInsets.only(top: 25),
+                  title: 'Send',
+                  onPressed: onSend,
+                )
+              ],
+            ),
+          ),
+        ),
+        showPageLoader ? _buildPageLoader() : Container(),
+      ],
     );
   }
 }
