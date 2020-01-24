@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:seeds/services/http_service/proposal_model.dart';
+import 'package:seeds/models/models.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ProposalHeaderDetails extends StatefulWidget {
@@ -60,7 +60,8 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                     ),
                     TextSpan(
                       text: creationDateFormatted,
-                      style: textTheme.subtitle .copyWith(fontWeight: FontWeight.normal),
+                      style: textTheme.subtitle
+                          .copyWith(fontWeight: FontWeight.normal),
                     ),
                   ],
                 ),

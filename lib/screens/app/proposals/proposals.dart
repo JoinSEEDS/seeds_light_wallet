@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
+import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/proposals/proposal_header_details.dart';
-import 'package:seeds/services/http_service/http_service.dart';
-import 'package:seeds/services/http_service/proposal_model.dart';
 
 class Proposals extends StatefulWidget {
   @override
@@ -52,7 +52,8 @@ class _ProposalsListState extends State<ProposalsList>
   Widget build(BuildContext context) {
     super.build(context);
     return PaginatedListView<ProposalModel>(
-      pageFuture: (int pageIndex) => HttpService().getProposals(widget.type),
+      pageFuture: (int pageIndex) =>
+          HttpService.of(context).getProposals(widget.type),
       pageSize: 1000,
       showRefreshIndicator: true,
       itemBuilder: (BuildContext context, ProposalModel proposal, int index) {

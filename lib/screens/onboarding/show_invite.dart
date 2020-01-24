@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:seeds/screens/onboarding/create_account.dart';
-import 'package:seeds/screens/onboarding/helpers.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
 
-class ShowInvite extends StatelessWidget {
+class ShowInviteArguments {
   final String inviterAccountName;
   final String inviteSecret;
 
-  ShowInvite(this.inviterAccountName, this.inviteSecret);
+  ShowInviteArguments(this.inviterAccountName, this.inviteSecret);
+}
+
+class ShowInvite extends StatelessWidget {
+  final ShowInviteArguments arguments;
+
+  ShowInvite(this.arguments);
 
   @override
   Widget build(BuildContext context) {
+    final inviterAccountName = arguments.inviterAccountName;
+    final inviteSecret = arguments.inviteSecret;
+
     return Builder(
       builder: (context) => IntroViewsFlutter(
         [
-          page(
+          OnboardingViewModel(
             bubble: Icons.done,
             mainImage: 'assets/images/onboarding5.png',
             body: 'Accept your invite to create a new account and join SEEDS',
@@ -23,11 +32,8 @@ class ShowInvite extends StatelessWidget {
         ],
         key: new UniqueKey(),
         onTapDoneButton: () async {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => CreateAccount(inviteSecret),
-            ),
-          );
+          NavigationService.of(context)
+              .navigateTo(Routes.createAccount, inviteSecret, true);
         },
         doneButtonPersist: true,
         doneText: Text(

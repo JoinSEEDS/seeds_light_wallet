@@ -1,35 +1,31 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:passcode_screen/passcode_screen.dart';
-import 'package:seeds/services/auth_service.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 
-Widget buildPasscodeScreen(
-    {shouldTriggerVerification,
-    passwordEnteredCallback,
-    isValidCallback,
-    cancelCallback,
-    title = "Enter Passcode",
-    }) {
+Widget buildPasscodeScreen({
+  shouldTriggerVerification,
+  passwordEnteredCallback,
+  isValidCallback,
+  cancelCallback,
+  title = "Enter Passcode",
+}) {
   return PasscodeScreen(
-      passwordDigits: 4,
-      title: title,
-      cancelLocalizedText: "",
-      deleteLocalizedText: "Delete",
-      backgroundColor: const Color(0xFF24b0d6),
-      shouldTriggerVerification: shouldTriggerVerification,
-      passwordEnteredCallback: passwordEnteredCallback,
-      isValidCallback: isValidCallback,
-      cancelCallback: cancelCallback,
+    passwordDigits: 4,
+    title: title,
+    cancelLocalizedText: "",
+    deleteLocalizedText: "Delete",
+    backgroundColor: const Color(0xFF24b0d6),
+    shouldTriggerVerification: shouldTriggerVerification,
+    passwordEnteredCallback: passwordEnteredCallback,
+    isValidCallback: isValidCallback,
+    cancelCallback: cancelCallback,
   );
 }
 
 class UnlockWallet extends StatelessWidget {
-  final String correctPasscode;
-
-  UnlockWallet(this.correctPasscode);
-
   final StreamController<bool> _verificationNotifier =
       StreamController<bool>.broadcast();
 
@@ -38,21 +34,21 @@ class UnlockWallet extends StatelessWidget {
     return buildPasscodeScreen(
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) async {
-        if (passcode == correctPasscode) {
+        if (passcode == AuthNotifier.of(context).passcode) {
           _verificationNotifier.add(true);
         } else {
           _verificationNotifier.add(false);
         }
       },
-      isValidCallback: () {},
+      isValidCallback: () {
+        AuthNotifier.of(context).unlockWallet();
+      },
       cancelCallback: () {},
     );
   }
 }
 
 class LockWallet extends StatelessWidget {
-  final AuthService authService = AuthService();
-
   final StreamController<bool> _verificationNotifier =
       StreamController<bool>.broadcast();
 
@@ -62,11 +58,10 @@ class LockWallet extends StatelessWidget {
       title: "Choose Passcode",
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) {
-        authService.savePasscode(passcode);
         _verificationNotifier.add(true);
+        SettingsNotifier.of(context).savePasscode(passcode);
       },
-      isValidCallback: () {
-      },
+      isValidCallback: () {},
       cancelCallback: () {},
     );
   }

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
+import 'package:provider/provider.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/providers.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
-import 'package:seeds/services/auth_service.dart';
-import 'package:seeds/styles/colors.dart';
+import 'package:seeds/widgets/passcode.dart';
+import 'package:seeds/widgets/splash_screen.dart';
 
 import 'generated/r.dart';
 
 main(List<String> args) async {
-  await DotEnv().load('.env');
-
   runApp(SeedsApp());
 }
 
@@ -21,36 +22,65 @@ class SeedsApp extends StatefulWidget {
 }
 
 class _SeedsAppState extends State<SeedsApp> {
-  final AuthService authService = AuthService();
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: providers,
+      child: MainScreen(),
+    );
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ToolboxApp(
-      noItemsFoundWidget: Padding(
-        padding: const EdgeInsets.all(32),
-        child: SvgPicture.asset(R.noItemFound),
-      ),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: primary,
-          tabBarTheme: TabBarTheme(
-            indicator: TabRoundedLineIndicator(
-              context,
-              indicatorColor: primary,
+    return Consumer<AuthNotifier>(
+      builder: (ctx, auth, _) {
+        NavigationService navigationService = NavigationService.of(context);
+
+        auth.status = AuthStatus.unlocked;
+
+        if (auth.status == AuthStatus.emptyAccount) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Onboarding(),
+            navigatorKey: navigationService.onboardingNavigatorKey,
+            onGenerateRoute: navigationService.onGenerateRoute,
+          );
+        } else if (auth.status == AuthStatus.unlocked) {
+          return ToolboxApp(
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: App(),
+              navigatorKey: navigationService.appNavigatorKey,
+              onGenerateRoute: navigationService.onGenerateRoute,
             ),
-          ),
-        ),
-        home: FutureBuilder(
-          future: authService.initializedAccount(),
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
-              return App(snapshot.data);
-            }
-            return Onboarding();
-          },
-        ),
-      ),
+            noItemsFoundWidget: Padding(
+              padding: const EdgeInsets.all(32),
+              child: SvgPicture.asset(R.noItemFound),
+            ),
+          );
+        } else if (auth.status == AuthStatus.emptyPasscode) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: LockWallet(),
+          );
+        } else if (auth.status == AuthStatus.locked) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: UnlockWallet(),
+          );
+        } else {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: SplashScreen(),
+          );
+        }
+      },
     );
   }
 }
