@@ -54,7 +54,7 @@ class _TransferFormState extends State<TransferForm>
     try {
       var response = await Provider.of<EosService>(context, listen: false)
           .transferSeeds(
-              widget.arguments.accountName, amountValue.toStringAsFixed(4));
+              beneficiary: widget.arguments.accountName, amount: amountValue.toStringAsFixed(4));
 
       String trxid = response["transaction_id"];
 

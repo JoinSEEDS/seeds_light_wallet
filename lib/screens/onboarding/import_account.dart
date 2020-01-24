@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/clipboard_text_field.dart';
@@ -76,7 +76,7 @@ class _ImportAccountState extends State<ImportAccount> {
     String accountName = chosenAccount;
     String privateKey = privateKeyController.value.text;
 
-    AuthNotifier.of(context).saveAccount(accountName, privateKey);
+    SettingsNotifier.of(context).saveAccount(accountName, privateKey);
 
     NavigationService.of(context).navigateTo(Routes.welcome, accountName, true);
   }

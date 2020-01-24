@@ -52,9 +52,9 @@ class _CreateAccountState extends State<CreateAccount> {
       try {
         var response =
         await Provider.of<EosService>(context, listen: false).acceptInvite(
-          _accountName,
-          publicKey.toString(),
-          widget.inviteSecret,
+          accountName: _accountName,
+          publicKey: publicKey.toString(),
+          inviteSecret: widget.inviteSecret,
         );
 
         if (response == null || response["transaction_id"] == null)
@@ -86,7 +86,6 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 
   List<Widget> createSuggestions() {
-    // TODO create more than one suggestion
     final suggestions = List<String>();
 
     String suggestion;

@@ -3,7 +3,6 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
-import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
@@ -24,9 +23,8 @@ class _DashboardState extends State<Dashboard>
   @override
   bool get wantKeepAlive => false;
 
-  final HttpService httpService = HttpService();
-
   @override
+
   Widget build(BuildContext context) {
     super.build(context);
 
