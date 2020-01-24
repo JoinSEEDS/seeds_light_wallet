@@ -7,6 +7,7 @@ class MembersNotifier extends ChangeNotifier {
   HttpService _http;
 
   List<MemberModel> members;
+  List<MemberModel> membersSearch;
 
   static of(BuildContext context, {bool listen = false}) =>
       Provider.of<MembersNotifier>(context, listen: listen);
@@ -21,15 +22,30 @@ class MembersNotifier extends ChangeNotifier {
   void fetchMembers() {
     _http.getMembers().then((result) {
       members = result;
+      membersSearch = result;
       notifyListeners();
     });
   }
 
-  List<MemberModel> searchMembers(name) {
+  List<MemberModel> searchMembers(String name) {
     if (members != null) {
        print("searchMembers is working:$name");
     }
-    print("searchMembers return:$members[0]");
-    return members;
+
+    if (name !='') {
+        //membersSearch.where((item) => item.nickname.startsWith(name)).toList();
+        List<MemberModel> res = [];
+        for (var item in members) {
+            if (item.nickname.startsWith(name) ){
+                res.add(item);
+            }
+        }
+       membersSearch = res; 
+       // membersSearch=[ MemberModel(account: "sevenflash24",nickname: "Andrey MAK",image: "") ];
+    } else {
+      membersSearch = members;
+    }
+    print("!!! searchMembers return:${membersSearch}");
+    return membersSearch;
   }
 }

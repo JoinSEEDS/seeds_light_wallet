@@ -167,8 +167,8 @@ class _TransferState extends State<Transfer>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var member_items = Provider.of<MembersNotifier>(context).searchMembers('aaa');
-    
+    var member_items = Provider.of<MembersNotifier>(context).members;
+    var ctx = context;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -177,7 +177,7 @@ class _TransferState extends State<Transfer>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: 
-        this.is_search? this._searchBar(context,member_items):
+        this.is_search? this._searchBar(context,member_items,ctx):
         Text(
           "Transfer",
           style: TextStyle(fontFamily: "worksans", color: Colors.black),
@@ -195,6 +195,7 @@ class _TransferState extends State<Transfer>
             icon: Icon(Icons.highlight_off,),
             onPressed: () { 
               this.is_search = !this.is_search;
+              MembersNotifier.of(context).searchMembers('');
               setState(() {});
               },
           )  ,
@@ -207,8 +208,8 @@ class _TransferState extends State<Transfer>
           padding: EdgeInsets.all(17),
           child: Consumer<MembersNotifier>(
             builder: (ctx, model, _) {
-              return model != null && model.members != null
-                  ? buildList('All users', model.members)
+              return model != null && model.membersSearch != null
+                  ? buildList('All users', model.membersSearch)
                   : ProgressBar();
             },
           ),
@@ -216,7 +217,7 @@ class _TransferState extends State<Transfer>
       ),
     );
   }
-   Widget _searchBar(BuildContext contex,items) {
+   Widget _searchBar(BuildContext contex,items,ctx) {
     return
       Container(
       decoration: BoxDecoration(
@@ -236,12 +237,20 @@ class _TransferState extends State<Transfer>
           for (var i in items) {
             print(">Items:${i.nickname}");
           }
-          print("item.l:${items.length}");//.members.nickname
-          print("parent=:$widget.parent}");
+          print("item.l:${items.length}");//.members.nickname        
           //callBack(text);
-          
+          MembersNotifier.of(context).searchMembers(text);
+          rebuildAllChildren(ctx);
         },
       ),
     );
   }
+  //Attention from Andrey MK! This is a hack call.Use it if you know exectly what you want!
+  void rebuildAllChildren(BuildContext context) {
+  void rebuild(Element el) {
+    el.markNeedsBuild();
+    el.visitChildren(rebuild);
+  }
+  (context as Element).visitChildren(rebuild);
+}
 }

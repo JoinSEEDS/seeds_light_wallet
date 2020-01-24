@@ -11,6 +11,36 @@ class HttpMockResponse {
       account: "sevenflash24",
       nickname: "Andrey MK",
       image: "",
+    ),
+      MemberModel(
+      account: "fghreww",
+      nickname: "Linda Lynch",
+      image: "",
+    ),
+      MemberModel(
+      account: "semfg",
+      nickname: "Sean West",
+      image: "",
+    ),
+      MemberModel(
+      account: "joihjkl4",
+      nickname: "John Rice",
+      image: "",
+    ),
+    MemberModel(
+      account: "jkl9jj",
+      nickname: "Joe Collins",
+      image: "",
+    ),
+      MemberModel(
+      account: "grsw4fr",
+      nickname: "Keith Graham",
+      image: "",
+    ),
+      MemberModel(
+      account: "silvaG",
+      nickname: "Gloria Silva",
+      image: "",
     )
   ];
 
