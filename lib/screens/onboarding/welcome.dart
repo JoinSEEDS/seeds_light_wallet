@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
 
 class Welcome extends StatelessWidget {
