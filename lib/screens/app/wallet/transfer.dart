@@ -8,7 +8,6 @@ import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/widgets/progress_bar.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:seeds/widgets/main_card.dart';
 
@@ -27,6 +26,8 @@ class _TransferState extends State<Transfer>
 
   @override
   bool get wantKeepAlive => true;
+
+  FocusNode _searchFocusNode;
 
   Future onContact(String imageUrl, String fullName, String userName) async {
     await NavigationService.of(context).navigateTo(
@@ -152,11 +153,29 @@ class _TransferState extends State<Transfer>
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: AppColors.green),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: showSearch
-            ? _searchBar()
+            ? Container(
+                decoration: BoxDecoration(
+                  color: AppColors.lightGrey,
+                  borderRadius: BorderRadius.all(Radius.circular(32)),
+                ),
+                child: TextField(
+                  autofocus: true,
+                  focusNode: _searchFocusNode,
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(fontSize: 17),
+                    hintText: 'Enter user name or account',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(15),
+                  ),
+                  onChanged: (text) {
+                    MembersNotifier.of(context).filterMembers(text);
+                  },
+                ),
+              )
             : Text(
                 "Transfer",
                 style: TextStyle(fontFamily: "worksans", color: Colors.black),
@@ -167,9 +186,17 @@ class _TransferState extends State<Transfer>
             IconButton(
               icon: Icon(
                 Icons.search,
+                color: AppColors.green,
               ),
               onPressed: () {
+                print("change focus");
+
+                FocusScope.of(context).requestFocus(_searchFocusNode);
+
                 setState(() {
+                  print("set state");
+                FocusScope.of(context).requestFocus(_searchFocusNode);
+
                   showSearch = true;
                 });
               },
@@ -178,8 +205,11 @@ class _TransferState extends State<Transfer>
             IconButton(
               icon: Icon(
                 Icons.highlight_off,
+                color: AppColors.green,
               ),
               onPressed: () {
+                _searchFocusNode.unfocus();
+
                 MembersNotifier.of(context).filterMembers('');
                 setState(() {
                   showSearch = false;
@@ -190,17 +220,15 @@ class _TransferState extends State<Transfer>
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(17),
-          child: Consumer<MembersNotifier>(
-            builder: (ctx, model, _) {
-              return model != null && model.visibleMembers != null
-                  ? buildList('All users', model.visibleMembers)
-                  : ProgressBar();
-            },
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: _usersList(context),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -211,100 +239,89 @@ class _TransferState extends State<Transfer>
       MembersNotifier.of(context).fetchMembers();
     });
     super.initState();
+    _searchFocusNode = new FocusNode();
   }
 
-  // Widget _usersList(context) {
-  //   print("[widget] rebuild users");
+  @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
 
-  //   return Consumer<MembersNotifier>(builder: (ctx, model, _) {
-  //     return LiquidPullToRefresh(
-  //       springAnimationDurationInMilliseconds: 500,
-  //       showChildOpacityTransition: true,
-  //       backgroundColor: AppColors.lightGreen,
-  //       color: AppColors.lightBlue,
-  //       onRefresh: () async {
-  //         Provider.of<MembersNotifier>(context, listen: false).fetchMembers();
-  //       },
-  //       child: ListView.builder(
-  //         shrinkWrap: true,
-  //         physics: ClampingScrollPhysics(),
-  //         itemCount: model?.members?.length ?? 8,
-  //         itemBuilder: (ctx, index) {
-  //           if (model?.members == null || model.members.isEmpty) {
-  //             return _shimmerTile();
-  //           } else {
-  //             final user = model.members[index];
-  //             return ListTile(
-  //               leading: Hero(
-  //                 child: Container(
-  //                   width: 60,
-  //                   height: 60,
-  //                   child: CircleAvatar(
-  //                     backgroundColor: Colors.transparent,
-  //                     backgroundImage: CachedNetworkImageProvider(user.image),
-  //                   ),
-  //                 ),
-  //                 tag: "avatar#${user.account}",
-  //               ),
-  //               title: Hero(
-  //                 child: Material(
-  //                   child: Text(
-  //                     user.nickname,
-  //                     style: TextStyle(fontFamily: "worksans"),
-  //                   ),
-  //                   color: Colors.transparent,
-  //                 ),
-  //                 tag: "nickname#${user.account}",
-  //               ),
-  //               subtitle: Hero(
-  //                 child: Material(
-  //                   child: Text(
-  //                     user.account,
-  //                     style: TextStyle(fontFamily: "worksans"),
-  //                   ),
-  //                   color: Colors.transparent,
-  //                 ),
-  //                 tag: "account#${user.account}",
-  //               ),
-  //               onTap: () async {
-  //                 await NavigationService.of(context).navigateTo(
-  //                   Routes.transferForm,
-  //                   TransferFormArguments(
-  //                     user.nickname,
-  //                     user.account,
-  //                     user.image,
-  //                   ),
-  //                 );
+  Widget _usersList(context) {
+    print("[widget] rebuild users");
 
-  //                 TransactionsNotifier.of(context).fetchTransactions();
-  //                 BalanceNotifier.of(context).fetchBalance();
-  //               },
-  //             );
-  //           }
-  //         },
-  //       ),
-  //     );
-  //   });
-  // }
-
-  Widget _searchBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.lightGrey,
-        borderRadius: BorderRadius.all(Radius.circular(32)),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintStyle: TextStyle(fontSize: 17),
-          hintText: 'Search user',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-        ),
-        onChanged: (text) {
-          MembersNotifier.of(context).filterMembers(text);
+    return Consumer<MembersNotifier>(builder: (ctx, model, _) {
+      return LiquidPullToRefresh(
+        springAnimationDurationInMilliseconds: 500,
+        showChildOpacityTransition: true,
+        backgroundColor: AppColors.lightGreen,
+        color: AppColors.lightBlue,
+        onRefresh: () async {
+          Provider.of<MembersNotifier>(context, listen: false).fetchMembers();
         },
-      ),
-    );
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          itemCount: model?.visibleMembers?.length ?? 8,
+          itemBuilder: (ctx, index) {
+            if (model?.visibleMembers == null || model.visibleMembers.isEmpty) {
+              return _shimmerTile();
+            } else {
+              final user = model.visibleMembers[index];
+              return ListTile(
+                leading: Hero(
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: CachedNetworkImageProvider(user.image),
+                    ),
+                  ),
+                  tag: "avatar#${user.account}",
+                ),
+                title: Hero(
+                  child: Material(
+                    child: Text(
+                      user.nickname,
+                      style: TextStyle(
+                          fontFamily: "worksans", fontWeight: FontWeight.w500),
+                    ),
+                    color: Colors.transparent,
+                  ),
+                  tag: "nickname#${user.account}",
+                ),
+                subtitle: Hero(
+                  child: Material(
+                    child: Text(
+                      user.account,
+                      style: TextStyle(
+                          fontFamily: "worksans", fontWeight: FontWeight.w400),
+                    ),
+                    color: Colors.transparent,
+                  ),
+                  tag: "account#${user.account}",
+                ),
+                onTap: () async {
+                  await NavigationService.of(context).navigateTo(
+                    Routes.transferForm,
+                    TransferFormArguments(
+                      user.nickname,
+                      user.account,
+                      user.image,
+                    ),
+                  );
+
+                  TransactionsNotifier.of(context).fetchTransactions();
+                  BalanceNotifier.of(context).fetchBalance();
+                },
+              );
+            }
+          },
+        ),
+      );
+    });
   }
 
   Widget _shimmerTile() {
