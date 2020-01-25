@@ -1,6 +1,7 @@
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
+import 'package:seeds/models/models.dart';
 
 class EosService {
   String privateKey;
@@ -8,7 +9,11 @@ class EosService {
   String baseURL = Config.defaultEndpoint;
   bool mockEnabled;
 
-  void update({ userPrivateKey, userAccountName, nodeEndpoint, bool enableMockTransactions = false }) {
+  void update(
+      {userPrivateKey,
+      userAccountName,
+      nodeEndpoint,
+      bool enableMockTransactions = false}) {
     privateKey = userPrivateKey;
     accountName = userAccountName;
     baseURL = nodeEndpoint;
@@ -26,18 +31,65 @@ class EosService {
     ];
 
     Action freeAction = Action()
-        ..account = "harvst.seeds"
-        ..name = 'payforcpu'
-        ..authorization = freeAuth
-        ..data = { "account": accountName };
-    
+      ..account = "harvst.seeds"
+      ..name = 'payforcpu'
+      ..authorization = freeAuth
+      ..data = {"account": accountName};
+
     return [
       freeAction,
       ...actions,
     ];
   }
 
-  Future<dynamic> createInvite({ String transferQuantity, String sowQuantity, String inviteHash }) async {
+  Future<dynamic> updateProfile({
+    String nickname,
+    String image,
+    String story,
+    String roles,
+    String skills,
+    String interests,
+  }) async {
+    print("[eos] update profile");
+
+    if (mockEnabled) {
+      return HttpMockResponse.transactionResult;
+    }
+
+    EOSClient client = EOSClient(baseURL, 'v1', privateKeys: [privateKey]);
+
+    Map data = {
+      "user": accountName,
+      "type": "individual",
+      "nickname": nickname,
+      "image": image,
+      "story": story,
+      "roles": roles,
+      "skills": skills,
+      "interests": interests
+    };
+
+    List<Authorization> auth = [
+      Authorization()
+        ..actor = accountName
+        ..permission = "active"
+    ];
+
+    List<Action> actions = buildFreeTransaction([
+      Action()
+        ..account = "accts.seeds"
+        ..name = "update"
+        ..authorization = auth
+        ..data = data
+    ]);
+
+    Transaction transaction = Transaction()..actions = actions;
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  Future<dynamic> createInvite(
+      {String transferQuantity, String sowQuantity, String inviteHash}) async {
     print("[eos] create invite $inviteHash ($transferQuantity + $sowQuantity)");
 
     if (mockEnabled) {
@@ -73,8 +125,7 @@ class EosService {
   }
 
   Future<dynamic> acceptInvite(
-      { String accountName, String publicKey, String inviteSecret }
-  ) async {
+      {String accountName, String publicKey, String inviteSecret}) async {
     print("[eos] accept invite");
 
     if (mockEnabled) {
@@ -85,7 +136,7 @@ class EosService {
     String applicationAccount = Config.onboardingAccountName;
 
     EOSClient client =
-        EOSClient(baseURL, 'v1', privateKeys: [ applicationPrivateKey ]);
+        EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey]);
 
     Map data = {
       "account": accountName,
@@ -112,7 +163,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferSeeds({ String beneficiary, String amount }) async {
+  Future<dynamic> transferSeeds({String beneficiary, String amount}) async {
     print("[eos] transfer seeds to $beneficiary ($amount)");
 
     if (mockEnabled) {

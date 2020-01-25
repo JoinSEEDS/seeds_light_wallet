@@ -32,10 +32,12 @@ void main() {
     final acceptInvite = await service.acceptInvite();
     final transferSeeds = await service.transferSeeds();
     final voteProposal = await service.voteProposal();
+    final updateProfile = await service.updateProfile();
 
     expect(createInvite, HttpMockResponse.transactionResult);
     expect(acceptInvite, HttpMockResponse.transactionResult);
     expect(transferSeeds, HttpMockResponse.transactionResult);
     expect(voteProposal, HttpMockResponse.transactionResult);
+    expect(updateProfile, HttpMockResponse.transactionResult);
   });
 }
