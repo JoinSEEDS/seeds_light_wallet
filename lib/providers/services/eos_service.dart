@@ -1,7 +1,6 @@
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
-import 'package:seeds/models/models.dart';
 
 class EosService {
   String privateKey;
