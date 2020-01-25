@@ -16,6 +16,8 @@ class HttpMockResponse {
 
   static final balance = BalanceModel("10.0000 SEEDS");
 
+  static final telosBalance = BalanceModel("10.0000 TLOS");
+
   static final voice = VoiceModel(77);
 
   static final planted = PlantedModel("5.0000 SEEDS");
@@ -60,6 +62,14 @@ class HttpMockResponse {
   static final keyAccounts = ["sevenflash42", "testingseeds"];
 
   static final transactionResult = {
-    "transaction_id": "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"
+    "transaction_id":
+        "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"
   };
+
+  static final exchangeConfig = ExchangeModel(
+    rate: "7.0000 SEEDS",
+    citizenLimit: "250000.0000 SEEDS",
+    residentLimit: "250000.0000 SEEDS",
+    visitorLimit: "25000.0000 SEEDS",
+  );
 }
