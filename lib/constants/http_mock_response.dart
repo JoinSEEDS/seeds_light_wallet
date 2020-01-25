@@ -62,4 +62,17 @@ class HttpMockResponse {
   static final transactionResult = {
     "transaction_id": "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"
   };
+
+  static final harvest = HarvestModel(
+    planted: "5.0000 SEEDS",
+    reward: "0.0000 SEEDS",
+  );
+
+  static final score = ScoreModel(
+    plantedScore: 50,
+    transactionsScore: 50,
+    reputationScore: 50,
+    communityBuildingScore: 50,
+    contributionScore: 50,
+  );
 }

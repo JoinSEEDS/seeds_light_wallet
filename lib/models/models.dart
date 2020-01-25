@@ -138,6 +138,48 @@ class PlantedModel {
   int get hashCode => super.hashCode;
 }
 
+class HarvestModel {
+  final String planted;
+  final String reward;
+
+  HarvestModel({this.planted, this.reward});
+
+  factory HarvestModel.fromJson(Map<String, dynamic> json) {
+    return HarvestModel(
+      planted: json["rows"][0]["planted"],
+      reward: json["rows"][0]["reward"],
+    );
+  }
+}
+
+class ScoreModel {
+  int plantedScore;
+  int transactionsScore;
+  int reputationScore;
+  int communityBuildingScore;
+  int contributionScore;
+
+  ScoreModel({
+    this.plantedScore,
+    this.transactionsScore,
+    this.reputationScore,
+    this.communityBuildingScore,
+    this.contributionScore,
+  });
+
+  factory ScoreModel.fromJson(Map<String, dynamic> json) {
+    Map<String, dynamic> item = json["rows"][0];
+
+    return ScoreModel(
+      plantedScore: item["planted_score"],
+      transactionsScore: item["transactions_score"],
+      reputationScore: item["reputation_score"],
+      communityBuildingScore: item["community_building_score"],
+      contributionScore: item["contribution_score"],
+    );
+  }
+}
+
 class VoiceModel {
   final int amount;
 
