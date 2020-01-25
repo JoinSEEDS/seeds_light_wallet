@@ -14,6 +14,7 @@ void main() {
     final voice = await service.getVoice();
     final proposals = await service.getProposals("active");
     final invites = await service.getInvites();
+    final profile = await service.getProfile();
 
     expect(members, HttpMockResponse.members);
     expect(transactions, HttpMockResponse.transactions);
@@ -21,6 +22,7 @@ void main() {
     expect(voice.amount, HttpMockResponse.voice.amount);
     expect(proposals, HttpMockResponse.proposals);
     expect(invites, HttpMockResponse.invites);
+    expect(profile, HttpMockResponse.profile);
   });
 
   test('Eos Service', () async {
