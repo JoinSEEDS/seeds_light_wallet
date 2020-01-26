@@ -71,13 +71,9 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      List<dynamic> accountsWithProfile = body["rows"].where((dynamic item) {
-        return item["image"] != "" &&
-            item["nickname"] != "" &&
-            item["account"] != "";
-      }).toList();
+      List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members = accountsWithProfile
+      List<MemberModel> members = allAccounts
           .map((item) => MemberModel.fromJson(item))
           .toList();
 
