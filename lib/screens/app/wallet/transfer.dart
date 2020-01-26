@@ -153,7 +153,7 @@ class _TransferState extends State<Transfer>
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.green),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: showSearch
@@ -186,7 +186,7 @@ class _TransferState extends State<Transfer>
             IconButton(
               icon: Icon(
                 Icons.search,
-                color: AppColors.green,
+                color: Colors.black,
               ),
               onPressed: () {
                 print("change focus");
@@ -205,7 +205,7 @@ class _TransferState extends State<Transfer>
             IconButton(
               icon: Icon(
                 Icons.highlight_off,
-                color: AppColors.green,
+                color: Colors.black,
               ),
               onPressed: () {
                 _searchFocusNode.unfocus();
@@ -361,14 +361,5 @@ class _TransferState extends State<Transfer>
         ),
       ),
     );
-  }
-
-  void rebuildAllChildren(BuildContext context) {
-    void rebuild(Element el) {
-      el.markNeedsBuild();
-      el.visitChildren(rebuild);
-    }
-
-    (context as Element).visitChildren(rebuild);
   }
 }
