@@ -34,8 +34,16 @@ class AppColors {
   static const orange = Color(0xFFFF9900);
   static const red = Color(0xFFEB5757);
   static const borderGrey = Color(0xFFEBEBEB);
-  static const gradient = [
-    green,
-    blue
-  ];
+  static const gradient = [green, blue];
+
+  static Color getColorByString(String str) {
+    int hash = 0;
+    if (str == null || str.length == 0) return Colors.grey;
+    for (var i = 0; i < str.length; i++) {
+      hash = str.codeUnitAt(i) + ((hash << 5) - hash);
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    var shortened = hash.abs() % 360;
+    return HSLColor.fromAHSL(1.0, shortened.toDouble(), 0.3, 0.6).toColor();
+  }
 }

@@ -8,11 +8,12 @@ class EosService {
   String baseURL = Config.defaultEndpoint;
   bool mockEnabled;
 
-  void update(
-      {userPrivateKey,
-      userAccountName,
-      nodeEndpoint,
-      bool enableMockTransactions = false}) {
+  void update({
+    userPrivateKey,
+    userAccountName,
+    nodeEndpoint,
+    bool enableMockTransactions = false,
+  }) {
     privateKey = userPrivateKey;
     accountName = userAccountName;
     baseURL = nodeEndpoint;
@@ -49,7 +50,7 @@ class EosService {
     String skills,
     String interests,
   }) async {
-    print("[eos] update profile");
+    print("[eos] update profile, privateKey: $privateKey");
 
     if (mockEnabled) {
       return HttpMockResponse.transactionResult;

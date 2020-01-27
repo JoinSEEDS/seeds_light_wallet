@@ -9,7 +9,7 @@ class MainButton extends StatelessWidget {
   final Function onPressed;
 
   MainButton({
-    this.title,
+    @required this.title,
     this.height = 55,
     this.fontSize = 18,
     this.margin,
