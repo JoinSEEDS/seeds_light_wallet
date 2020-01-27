@@ -31,7 +31,8 @@ class HttpService {
       return HttpMockResponse.keyAccounts;
     }
 
-    final String keyAccountsURL = "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
+    final String keyAccountsURL =
+        "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
 
     Response res = await get(keyAccountsURL);
 
@@ -54,7 +55,7 @@ class HttpService {
       print("unexpected error fetching accounts");
       return [];
     }
-  } 
+  }
 
   Future<List<MemberModel>> getMembers() async {
     print("[http] get members");
@@ -74,9 +75,13 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      List<dynamic> allAccounts = body["rows"].toList();
+      List<dynamic> accountsWithProfile = body["rows"].where((dynamic item) {
+        return item["image"] != "" &&
+            item["nickname"] != "" &&
+            item["account"] != "";
+      }).toList();
 
-      List<MemberModel> members = allAccounts
+      List<MemberModel> members = accountsWithProfile
           .map((item) => MemberModel.fromJson(item))
           .toList();
 
@@ -177,7 +182,6 @@ class HttpService {
     }
   }
 
-
   Future<PlantedModel> getPlanted() async {
     print("[http] get voice");
 
@@ -187,7 +191,8 @@ class HttpService {
 
     final String plantedURL = '$baseURL/v1/chain/get_table_rows';
 
-    String request = '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
+    String request =
+        '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(plantedURL, headers: headers, body: request);
@@ -272,6 +277,25 @@ class HttpService {
       print('Cannot fetch invites...');
 
       return [];
+    }
+  }
+
+  /// returns true if the account name doesn't exist
+  Future<bool> checkAccountName(String accountName) async {
+    if (mockResponse == true) return true;
+
+    final String keyAccountsURL =
+        "$baseURL/v2/history/get_creator?account=$accountName";
+
+    Response res = await get(keyAccountsURL);
+
+    if (res.statusCode == 200) {
+      return false;
+    } else if (res.statusCode == 404) {
+      // the account doesn't exist
+      return true;
+    } else {
+      return false;
     }
   }
 }
