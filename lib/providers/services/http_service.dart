@@ -242,35 +242,36 @@ class HttpService {
   }
 
   Future<List<InviteModel>> getInvites() async {
-    print("[http] get invites");
+    print("[http] get active invites");
 
     if (mockResponse == true) {
       return HttpMockResponse.invites;
     }
 
+    String invitesURL = "$baseURL/v1/chain/get_table_rows";
+
     String request =
-        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1000","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response res = await post(baseURL, headers: headers, body: request);
+    Response res = await post(invitesURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      List<dynamic> activeInvites = body["rows"].where((dynamic item) {
-        return item["inviteSecret"] == "";
-      }).toList();
+      if (body["rows"].length > 0) {
+        List<InviteModel> invites =
+            body["rows"].map((item) => InviteModel.fromJson(item)).toList();
 
-      List<InviteModel> invites =
-          activeInvites.map((item) => InviteModel.fromJson(item)).toList();
+        return invites;
+      } else {
+        return [];
+      }
 
-      return invites;
     } else {
       print('Cannot fetch invites...');
 
       return [];
     }
   }
-
-
 }

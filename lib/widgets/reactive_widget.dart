@@ -17,10 +17,10 @@ class ReactiveWidget<T extends ChangeNotifier> extends StatefulWidget {
   }) : super(key: key);
   
   @override
-  _ReactiveWidgetState createState() => _ReactiveWidgetState();
+  _ReactiveWidgetState<T> createState() => _ReactiveWidgetState<T>();
 }
 
-class _ReactiveWidgetState<T extends ChangeNotifier> extends State<ReactiveWidget> {
+class _ReactiveWidgetState<T extends ChangeNotifier> extends State<ReactiveWidget<T>> {
   T model;
 
   @override

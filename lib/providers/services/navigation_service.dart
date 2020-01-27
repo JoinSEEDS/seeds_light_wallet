@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:seeds/screens/app/app.dart';
-import 'package:seeds/screens/app/explorer/friends.dart';
 import 'package:seeds/screens/app/explorer/overview.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposals.dart';
+import 'package:seeds/screens/app/explorer/invites.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer_amount.dart';
@@ -72,7 +72,7 @@ class NavigationService {
     Routes.transferForm: (args) => TransferForm(args),
     Routes.transferAmount: (args) => TransferAmount(args),
     Routes.transfer: (_) => Transfer(),
-    Routes.invites: (_) => Friends(),
+    Routes.invites: (_) => Invites(),
     Routes.proposals: (_) => Proposals(),
     Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
   };

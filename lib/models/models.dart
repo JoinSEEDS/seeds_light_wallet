@@ -1,3 +1,4 @@
+
 class InviteModel {
   final int inviteId;
   final String transferQuantity;
