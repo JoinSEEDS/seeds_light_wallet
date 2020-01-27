@@ -24,14 +24,44 @@ class HttpService {
   static HttpService of(BuildContext context, {bool listen = true}) =>
       Provider.of(context, listen: listen);
 
+  Future<List<String>> getKeyAccounts(String publicKey) async {
+    print("[http] get key accounts");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.keyAccounts;
+    }
+
+    final String keyAccountsURL = "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
+
+    Response res = await get(keyAccountsURL);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      List<String> keyAccounts = List<String>.from(body["account_names"]);
+
+      print("accounts found");
+      print(keyAccounts);
+
+      return keyAccounts;
+    } else if (res.statusCode == 400) {
+      print("invalid public key");
+      return [];
+    } else if (res.statusCode == 404) {
+      print("no accounts associated with public key");
+      return [];
+    } else {
+      print("unexpected error fetching accounts");
+      return [];
+    }
+  } 
+
   Future<List<MemberModel>> getMembers() async {
     print("[http] get members");
 
     if (mockResponse == true) {
-      print("mock response");
       return HttpMockResponse.members;
     }
-    print("default");
 
     final String membersURL = '$baseURL/v1/chain/get_table_rows';
 
@@ -44,13 +74,9 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      List<dynamic> accountsWithProfile = body["rows"].where((dynamic item) {
-        return item["image"] != "" &&
-            item["nickname"] != "" &&
-            item["account"] != "";
-      }).toList();
+      List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members = accountsWithProfile
+      List<MemberModel> members = allAccounts
           .map((item) => MemberModel.fromJson(item))
           .toList();
 
@@ -66,7 +92,6 @@ class HttpService {
     print("[http] get transactions");
 
     if (mockResponse == true) {
-      print("return mock");
       return HttpMockResponse.transactions;
     }
 
@@ -149,6 +174,34 @@ class HttpService {
       print('Cannot fetch members...');
 
       return VoiceModel(0);
+    }
+  }
+
+
+  Future<PlantedModel> getPlanted() async {
+    print("[http] get voice");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.planted;
+    }
+
+    final String plantedURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request = '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(plantedURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      PlantedModel balance = PlantedModel.fromJson(body);
+
+      return balance;
+    } else {
+      print('Cannot fetch members...');
+
+      return PlantedModel("0.0000 SEEDS");
     }
   }
 

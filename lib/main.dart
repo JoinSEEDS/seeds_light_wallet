@@ -42,8 +42,6 @@ class MainScreen extends StatelessWidget {
       builder: (ctx, auth, _) {
         NavigationService navigationService = NavigationService.of(context);
 
-        auth.status = AuthStatus.unlocked;
-
         if (auth.status == AuthStatus.emptyAccount) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,

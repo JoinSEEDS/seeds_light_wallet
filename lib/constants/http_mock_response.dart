@@ -7,6 +7,41 @@ class HttpMockResponse {
       nickname: "Igor Berlenko",
       image: "",
     ),
+   MemberModel(
+      account: "sevenflash24",
+      nickname: "Andrey MK",
+      image: "",
+    ),
+      MemberModel(
+      account: "fghreww",
+      nickname: "Linda Lynch",
+      image: "",
+    ),
+      MemberModel(
+      account: "semfg",
+      nickname: "Sean West",
+      image: "",
+    ),
+      MemberModel(
+      account: "joihjkl4",
+      nickname: "John Rice",
+      image: "",
+    ),
+    MemberModel(
+      account: "jkl9jj",
+      nickname: "Joe Collins",
+      image: "",
+    ),
+      MemberModel(
+      account: "grsw4fr",
+      nickname: "Keith Graham",
+      image: "",
+    ),
+      MemberModel(
+      account: "silvaG",
+      nickname: "Gloria Silva",
+      image: "",
+    )
   ];
 
   static final transactions = [
@@ -17,6 +52,8 @@ class HttpMockResponse {
   static final balance = BalanceModel("10.0000 SEEDS");
 
   static final voice = VoiceModel(77);
+
+  static final planted = PlantedModel("5.0000 SEEDS");
 
   static final proposals = [
     ProposalModel(
@@ -54,6 +91,8 @@ class HttpMockResponse {
         inviteHash: "invite_hash",
         inviteSecret: "invite_secret"),
   ];
+
+  static final keyAccounts = ["sevenflash42", "testingseeds"];
 
   static final transactionResult = {
     "transaction_id":

@@ -120,6 +120,24 @@ class BalanceModel {
   int get hashCode => super.hashCode;
 }
 
+class PlantedModel {
+  final String quantity;
+
+  PlantedModel(this.quantity);
+
+  factory PlantedModel.fromJson(Map<String, dynamic> json) {
+    return PlantedModel(json["rows"][0]["balance"] as String);
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PlantedModel && quantity == other.quantity;
+
+  @override
+  int get hashCode => super.hashCode;
+}
+
 class VoiceModel {
   final int amount;
 

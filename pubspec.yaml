@@ -41,7 +41,7 @@ dependencies:
   eosdart_ecc: ^0.3.2
   liquid_pull_to_refresh: ^1.1.1
   shimmer: ^1.0.1
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -70,6 +70,11 @@ flutter:
     - assets/images/onboarding5.png
     - assets/images/seeds-logo-with-text.png
     - assets/images/success.png
+    - assets/images/explorer1.png
+    - assets/images/explorer2.png
+    - assets/images/explorer3.png
+    - assets/images/explorer4.png
+    - assets/images/explorer5.png
     # assets end
 
     - assets/images/

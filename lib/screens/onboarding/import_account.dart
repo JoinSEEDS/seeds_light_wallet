@@ -1,10 +1,22 @@
+import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:provider/provider.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/widgets/clipboard_text_field.dart';
+import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
-import 'package:seeds/widgets/seeds_button.dart';
+
+enum ImportStatus {
+  emptyPrivateKey,
+  loadingAccounts,
+  invaildPrivateKey,
+  noAccounts,
+  foundAccounts
+}
 
 class ImportAccount extends StatefulWidget {
   @override
@@ -12,15 +24,62 @@ class ImportAccount extends StatefulWidget {
 }
 
 class _ImportAccountState extends State<ImportAccount> {
-  var accountNameController = MaskedTextController(
-      text: Config.testingAccountName,
-      mask: '@@@@@@@@@@@@',
-      translator: {'@': new RegExp(r'[a-z1234]')});
-
   var privateKeyController =
       TextEditingController(text: Config.testingPrivateKey);
 
-  bool progress = false;
+  List<String> availableAccounts;
+  String chosenAccount;
+
+  ImportStatus status = ImportStatus.emptyPrivateKey;
+
+  void discoverAccounts() async {
+    print("discover accounts");
+
+    String privateKey = privateKeyController.text;
+    String publicKey = "";
+
+    if (privateKey == "") {
+      setState(() => status = ImportStatus.emptyPrivateKey);
+      return;
+    }
+
+    setState(() => status = ImportStatus.loadingAccounts);
+
+    try {
+      EOSPrivateKey eosPrivateKey = EOSPrivateKey.fromString(privateKey);
+      EOSPublicKey eosPublicKey = eosPrivateKey.toEOSPublicKey();
+      publicKey = eosPublicKey.toString();
+    } catch (_) {}
+
+    if (publicKey == "") {
+      setState(() => status = ImportStatus.invaildPrivateKey);
+      return;
+    }
+
+    List<String> keyAccounts =
+        await Provider.of<HttpService>(context, listen: false)
+            .getKeyAccounts(publicKey);
+
+    if (keyAccounts == null || keyAccounts.length == 0) {
+      setState(() => status = ImportStatus.noAccounts);
+      return;
+    }
+
+    setState(() {
+      status = ImportStatus.foundAccounts;
+      availableAccounts = keyAccounts;
+      chosenAccount = availableAccounts[0];
+    });
+  }
+
+  void onImport() {
+    String accountName = chosenAccount;
+    String privateKey = privateKeyController.value.text;
+
+    SettingsNotifier.of(context).saveAccount(accountName, privateKey);
+
+    NavigationService.of(context).navigateTo(Routes.welcome, accountName, true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,92 +90,75 @@ class _ImportAccountState extends State<ImportAccount> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Text(
-                    "Private key",
-                    style: TextStyle(fontFamily: "sfprotext"),
-                  ),
-                ),
-                Spacer(flex: 1),
-                Flexible(
-                  fit: FlexFit.tight,
-                  flex: 3,
-                  child: TextField(
-                    textAlign: TextAlign.left,
-                    showCursor: true,
-                    enableInteractiveSelection: true,
-                    autofocus: true,
-                    controller: privateKeyController,
-                    keyboardType: TextInputType.text,
-                    style: TextStyle(
-                      fontFamily: "sfprotext",
-                      color: Colors.black,
-                      fontSize: 18,
+            ClipboardTextField(
+              controller: privateKeyController,
+              labelText: "Private key",
+              hintText: "Paste from clipboard",
+              onChanged: discoverAccounts,
+            ),
+            SizedBox(height: 12),
+            status == ImportStatus.loadingAccounts
+                ? Center(
+                    child: Column(
+                      children: <Widget>[
+                        CircularProgressIndicator(),
+                        SizedBox(height: 5),
+                        Text("Looking for accounts..."),
+                      ],
                     ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Flexible(
-                  fit: FlexFit.loose,
-                  flex: 4,
-                  child: Text(
-                    "Account name",
-                    style: TextStyle(fontFamily: "sfprotext"),
-                  ),
-                ),
-                Spacer(flex: 1),
-                Flexible(
-                  fit: FlexFit.tight,
-                  flex: 3,
-                  child: TextField(
-                    textAlign: TextAlign.left,
-                    showCursor: true,
-                    enableInteractiveSelection: true,
-                    autofocus: true,
-                    controller: accountNameController,
-                    keyboardType: TextInputType.text,
-                    style: TextStyle(
-                      fontFamily: "sfprotext",
-                      color: Colors.black,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              height: 40,
-              width: MediaQuery.of(context).size.width,
-              child: progress
-                  ? SeedsButton("Importing...")
-                  : SeedsButton("Import account", () async {
-                      setState(() {
-                        progress = true;
-                      });
-
-                      String accountName = accountNameController.value.text;
-                      String privateKey = privateKeyController.value.text;
-
-                      SettingsNotifier.of(context)
-                          .saveAccount(accountName, privateKey);
-
-                      NavigationService.of(context)
-                          .navigateTo(Routes.welcome, accountName, true);
-                    }),
-            ),
+                  )
+                : Container(),
+            status == ImportStatus.noAccounts
+                ? Center(
+                    child: Text("No accounts found associated with given key"),
+                  )
+                : Container(),
+            status == ImportStatus.invaildPrivateKey
+                ? Center(
+                    child: Text("Given private key is not valid"),
+                  )
+                : Container(),
+            status == ImportStatus.foundAccounts
+                ? Column(
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: new BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(3.0),
+                          ),
+                          border: new Border.all(
+                            color: AppColors.blue,
+                            width: 2,
+                          ),
+                        ),
+                        child: DropdownButton(
+                          underline: Container(height: 0),
+                          hint: Text("Account name"),
+                          isExpanded: true,
+                          value: chosenAccount,
+                          onChanged: (val) {
+                            setState(() {
+                              chosenAccount = val;
+                            });
+                          },
+                          items: availableAccounts.map((val) {
+                            return new DropdownMenuItem<String>(
+                              value: val,
+                              child: Text(val),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      MainButton(
+                        title: 'Import account',
+                        onPressed: onImport,
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  )
+                : Container()
           ],
         ),
       ),

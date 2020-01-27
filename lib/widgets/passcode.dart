@@ -34,7 +34,7 @@ class UnlockWallet extends StatelessWidget {
     return buildPasscodeScreen(
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) async {
-        if (passcode == AuthNotifier.of(context).passcode) {
+        if (passcode == SettingsNotifier.of(context).passcode) {
           _verificationNotifier.add(true);
         } else {
           _verificationNotifier.add(false);

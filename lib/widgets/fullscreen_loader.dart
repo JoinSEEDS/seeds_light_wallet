@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/custom_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
 
 class FullscreenLoader extends StatefulWidget {
   final Stream<bool> statusStream;
@@ -46,9 +46,11 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
     super.dispose();
     animationController.dispose();
 
-    if (statusSubscription != null) statusSubscription.cancel();
+    if (statusSubscription != null)
+      statusSubscription.cancel();
 
-    if (messageSubscription != null) messageSubscription.cancel();
+    if (messageSubscription != null)
+      messageSubscription.cancel();
   }
 
   @override
@@ -77,7 +79,8 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
 
         await Future.delayed(widget.duration);
 
-        if (widget.afterSuccessCallback != null) widget.afterSuccessCallback();
+        if (widget.afterSuccessCallback != null)
+          widget.afterSuccessCallback();
       } else {
         setState(() {
           showSpinner = false;
@@ -87,7 +90,8 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
 
         await Future.delayed(widget.duration);
 
-        if (widget.afterSuccessCallback != null) widget.afterFailureCallback();
+        if (widget.afterSuccessCallback != null)
+          widget.afterFailureCallback();
       }
     });
 
@@ -147,37 +151,37 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                       height: 25,
                     ),
                     Column(
-                      children: <Widget>[
-                        Text(
-                          widget.successTitle,
-                          style: TextStyle(
-                            fontFamily: "worksans",
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: CustomColors.green,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Material(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          color: Colors.black12,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              message,
-                              style: TextStyle(
-                                fontFamily: "worksans",
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                color: CustomColors.green,
-                              ),
+                        children: <Widget>[
+                          Text(
+                            widget.successTitle,
+                            style: TextStyle(
+                              fontFamily: "worksans",
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.green,
                             ),
                           ),
-                        )
-                      ],
-                    ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Material(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Colors.black12,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                message,
+                                style: TextStyle(
+                                  fontFamily: "worksans",
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.green,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                   ],
                 ),
               )
@@ -201,7 +205,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                               fontFamily: "worksans",
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
-                              color: CustomColors.green,
+                              color: AppColors.green,
                             ),
                           ),
                           SizedBox(
@@ -218,7 +222,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                                   fontFamily: "worksans",
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
-                                  color: CustomColors.green,
+                                  color: AppColors.green,
                                 ),
                               ),
                             ),
@@ -229,7 +233,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                   ],
                 ),
               )
-            : Container(),
+            : Container(),            
       ],
     );
   }
