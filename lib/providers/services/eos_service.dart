@@ -112,7 +112,42 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferSeeds({ String beneficiary, String amount }) async {
+  Future<dynamic> transferTelos({ String beneficiary, double amount }) async {
+    print("[eos] transfer telos to $beneficiary ($amount)");
+
+    if (mockEnabled) {
+      return HttpMockResponse.transactionResult;
+    }
+
+    EOSClient client = EOSClient(baseURL, 'v1', privateKeys: [privateKey]);
+
+    Map data = {
+      "from": accountName,
+      "to": beneficiary,
+      "quantity": "${amount.toStringAsFixed(4)} TLOS",
+      "memo": "",
+    };
+
+    List<Authorization> auth = [
+      Authorization()
+        ..actor = accountName
+        ..permission = "active"
+    ];
+
+    List<Action> actions = buildFreeTransaction([
+      Action()
+        ..account = "eosio.token"
+        ..name = "transfer"
+        ..authorization = auth
+        ..data = data
+    ]);
+
+    Transaction transaction = Transaction()..actions = actions;
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }  
+
+  Future<dynamic> transferSeeds({ String beneficiary, double amount }) async {
     print("[eos] transfer seeds to $beneficiary ($amount)");
 
     if (mockEnabled) {
@@ -124,7 +159,7 @@ class EosService {
     Map data = {
       "from": accountName,
       "to": beneficiary,
-      "quantity": "$amount SEEDS",
+      "quantity": "${amount.toStringAsFixed(4)} SEEDS",
       "memo": "",
     };
 

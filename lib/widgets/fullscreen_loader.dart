@@ -4,25 +4,38 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 
+import 'main_button.dart';
+
 class FullscreenLoader extends StatefulWidget {
   final Stream<bool> statusStream;
   final Stream<String> messageStream;
 
-  final Duration duration;
+  final Duration successCallbackDelay;
+  final Duration failureCallbackDelay;
+
   final String successTitle;
   final String failureTitle;
+  final String successButtonText;
+  final String failureButtonText;
 
   final Function afterSuccessCallback;
   final Function afterFailureCallback;
+  final Function successButtonCallback;
+  final Function failureButtonCallback;
 
   FullscreenLoader({
     @required this.statusStream,
     this.messageStream,
     this.afterSuccessCallback,
     this.afterFailureCallback,
-    this.duration = const Duration(milliseconds: 2500),
+    this.successCallbackDelay = const Duration(milliseconds: 2500),
+    this.failureCallbackDelay = const Duration(milliseconds: 2500),
     this.successTitle = "Transaction successful",
     this.failureTitle = "Transaction failed",
+    this.successButtonText = "Close",
+    this.failureButtonText = "Close",
+    this.successButtonCallback,
+    this.failureButtonCallback,
   });
 
   @override
@@ -46,22 +59,17 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
     super.dispose();
     animationController.dispose();
 
-    if (statusSubscription != null)
-      statusSubscription.cancel();
+    if (statusSubscription != null) statusSubscription.cancel();
 
-    if (messageSubscription != null)
-      messageSubscription.cancel();
+    if (messageSubscription != null) messageSubscription.cancel();
   }
 
   @override
   void initState() {
-    print("init loader");
-
     super.initState();
 
     if (widget.messageStream != null) {
       messageSubscription = widget.messageStream.listen((resultMessage) {
-        print("new message");
         setState(() {
           message = resultMessage;
         });
@@ -69,7 +77,6 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
     }
 
     statusSubscription = widget.statusStream.listen((status) async {
-      print("new status");
       if (status == true) {
         setState(() {
           showSpinner = false;
@@ -77,10 +84,9 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
           showFailure = false;
         });
 
-        await Future.delayed(widget.duration);
+        await Future.delayed(widget.successCallbackDelay);
 
-        if (widget.afterSuccessCallback != null)
-          widget.afterSuccessCallback();
+        if (widget.afterSuccessCallback != null) widget.afterSuccessCallback();
       } else {
         setState(() {
           showSpinner = false;
@@ -88,10 +94,9 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
           showFailure = true;
         });
 
-        await Future.delayed(widget.duration);
+        await Future.delayed(widget.failureCallbackDelay);
 
-        if (widget.afterSuccessCallback != null)
-          widget.afterFailureCallback();
+        if (widget.afterSuccessCallback != null) widget.afterFailureCallback();
       }
     });
 
@@ -135,8 +140,9 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                 alignment: Alignment.center,
                 child: RotationTransition(
                   child: Image.asset('assets/images/loading.png'),
-                  turns:
-                      Tween(begin: 0.0, end: 2.0).animate(animationController),
+                  turns: Tween(begin: 0.0, end: 2.0).animate(
+                    animationController,
+                  ),
                 ),
               )
             : Container(),
@@ -150,38 +156,44 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                     SizedBox(
                       height: 25,
                     ),
-                    Column(
-                        children: <Widget>[
-                          Text(
-                            widget.successTitle,
-                            style: TextStyle(
-                              fontFamily: "worksans",
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.green,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Material(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            color: Colors.black12,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                message,
-                                style: TextStyle(
-                                  fontFamily: "worksans",
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.green,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
+                    Text(
+                      widget.successTitle,
+                      style: TextStyle(
+                        fontFamily: "worksans",
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.green,
                       ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Material(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      color: Colors.black12,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          message,
+                          style: TextStyle(
+                            fontFamily: "worksans",
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.green,
+                          ),
+                        ),
+                      ),
+                    ),
+                    MainButton(
+                      title: widget.successButtonText,
+                      onPressed: () {
+                        if (widget.successButtonCallback != null) {
+                          widget.successButtonCallback();
+                        } else {
+                          Navigator.of(context).maybePop();
+                        }
+                      },
+                    ),
                   ],
                 ),
               )
@@ -197,43 +209,49 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                       height: 25,
                     ),
                     Material(
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            widget.failureTitle,
-                            style: TextStyle(
-                              fontFamily: "worksans",
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.green,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Material(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            color: Colors.black12,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                message,
-                                style: TextStyle(
-                                  fontFamily: "worksans",
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.green,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
+                      child: Text(
+                        widget.failureTitle,
+                        style: TextStyle(
+                          fontFamily: "worksans",
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.green,
+                        ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Material(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      color: Colors.black12,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          message,
+                          style: TextStyle(
+                            fontFamily: "worksans",
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.green,
+                          ),
+                        ),
+                      ),
+                    ),
+                    MainButton(
+                      title: widget.failureButtonText,
+                      onPressed: () {
+                        if (widget.failureButtonCallback != null) {
+                          widget.failureButtonCallback();
+                        } else {
+                          Navigator.of(context).maybePop();
+                        }
+                      },
                     ),
                   ],
                 ),
               )
-            : Container(),            
+            : Container(),
       ],
     );
   }
