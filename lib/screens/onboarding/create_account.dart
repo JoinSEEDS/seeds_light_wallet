@@ -85,6 +85,8 @@ class _CreateAccountState extends State<CreateAccount> {
       return "Your account name can't cont'n uppercase letters";
     } else if (RegExp(r'[a-z]|1|2|3|4|5').allMatches(val).length != 12) {
       return 'Your account name should only contain number 1-5';
+    } else if (RegExp(r'[a-z]').allMatches(val[0]).length == 0) {
+      return 'Your account name should lower case letter';
     }
     return null;
   }
@@ -94,17 +96,35 @@ class _CreateAccountState extends State<CreateAccount> {
     final suggestions = List<String>();
 
     String suggestion;
+
     // remove uppercase
     if (_accountName.toLowerCase() != _accountName) {
       suggestion = _accountName.toLowerCase();
     }
+
     // replace 0|6|7|8|9 with 1
     if (RegExp(r'0|6|7|8|9').allMatches(_accountName).length > 0) {
-      suggestion = _accountName.replaceAll(RegExp(r'0|6|7|8|9'), '1');
+      suggestion = _accountName.replaceAll(RegExp(r'0|6|7|8|9'), '');
     }
+
+    // remove characters out of the accepted range
+    suggestion = _accountName.split('').map((char) {
+      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(char).length > 0;
+
+      return legalChar ? char.toString() : '';
+    }).join();
+
+    // remove the first char if it was a number
+    if (suggestion?.isNotEmpty == true) {
+      final illegalChar =
+          RegExp(r'[a-z]').allMatches(suggestion[0]).length == 0;
+
+      if (illegalChar) suggestion = suggestion.substring(1);
+    }
+
     // add the missing characters.
-    if (_accountName.length < 12) {
-      final missingCharsCount = 12 - _accountName.length;
+    if (suggestion.length < 12) {
+      final missingCharsCount = 12 - suggestion.length;
 
       final missingChars = (_accountName.hashCode.toString() * 2)
           .split('')
