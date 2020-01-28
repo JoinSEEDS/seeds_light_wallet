@@ -33,6 +33,7 @@ class Routes {
   static final welcome = "Welcome";
   static final transfer = "Transfer";
   static final invites = "Invites";
+  static final transactionHistory = "TransactionHistory";
   static final proposals = "Proposals";
   static final proposalDetailsPage = "ProposalDetailsPage";
   static final overview = "Overview";

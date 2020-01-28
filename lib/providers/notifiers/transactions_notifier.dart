@@ -16,8 +16,8 @@ class TransactionsNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  Future fetchTransactions() async {
-    transactions = await _http.getTransactions();
+  Future fetchTransactions(int limit) async {
+    transactions = await _http.getTransactions(limit);
     notifyListeners();
   }
 }

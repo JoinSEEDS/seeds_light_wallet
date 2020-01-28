@@ -12,6 +12,7 @@ import 'package:seeds/widgets/main_card.dart';
 import 'package:provider/provider.dart';
 
 enum TransactionType { income, outcome }
+const DashboardTransactionElements = 3;
 
 class Dashboard extends StatefulWidget {
   Dashboard();
@@ -66,7 +67,7 @@ class _DashboardState extends State<Dashboard>
   @override
   initState() {
     Future.delayed(Duration.zero).then((_) {
-      TransactionsNotifier.of(context).fetchTransactions();
+      TransactionsNotifier.of(context).fetchTransactions(DashboardTransactionElements);
       BalanceNotifier.of(context).fetchBalance();
       VoiceNotifier.of(context).fetchBalance();
       PlantedNotifier.of(context).fetchBalance();
@@ -84,6 +85,11 @@ class _DashboardState extends State<Dashboard>
 
   void onInvite() {
     NavigationService.of(context).navigateTo(Routes.invites);
+  }
+
+  void onTransactionHistory() {
+    print("Tr history");
+    //NavigationService.of(context).navigateTo(Routes.transactionHistory);
   }
 
   void onClose() {}
@@ -296,10 +302,30 @@ class _DashboardState extends State<Dashboard>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'Latest transactions',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                                   Text(
+                                    'Latest\nTransactions',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    ), 
+                                    Spacer(),                               
+                                    Expanded(
+                                       child: EmptyButton(
+                                                width: width * 0.75,
+                                                height: 28,
+                                                fontSize:12,
+                                                title: 'Show all',
+                                                color: Colors.blue,
+                                                onPressed: onTransactionHistory
+                                      ),
+                                    )
+                              ],
+              ),
             ),
+           
             Consumer<TransactionsNotifier>(
               builder: (context, model, child) =>
                   model != null && model.transactions != null
