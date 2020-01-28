@@ -8,19 +8,16 @@ class ReactiveWidget<T extends ChangeNotifier> extends StatefulWidget {
   final Widget child;
   final Function(T) onModelReady;
 
-  ReactiveWidget({
-    Key key,
-    this.builder,
-    this.model,
-    this.child,
-    this.onModelReady
-  }) : super(key: key);
-  
+  ReactiveWidget(
+      {Key key, this.builder, this.model, this.child, this.onModelReady})
+      : super(key: key);
+
   @override
   _ReactiveWidgetState createState() => _ReactiveWidgetState();
 }
 
-class _ReactiveWidgetState<T extends ChangeNotifier> extends State<ReactiveWidget> {
+class _ReactiveWidgetState<T extends ChangeNotifier>
+    extends State<ReactiveWidget> {
   T model;
 
   @override
@@ -33,7 +30,7 @@ class _ReactiveWidgetState<T extends ChangeNotifier> extends State<ReactiveWidge
 
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>(

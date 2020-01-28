@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/constants/http_mock_response.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

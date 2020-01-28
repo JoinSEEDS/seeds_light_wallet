@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/app/explorer/friends.dart';
 import 'package:seeds/screens/app/explorer/overview.dart';
@@ -16,7 +17,6 @@ import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/screens/onboarding/onboarding_method_choice.dart';
 import 'package:seeds/screens/onboarding/show_invite.dart';
-import 'package:provider/provider.dart';
 import 'package:seeds/screens/onboarding/welcome.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
