@@ -103,13 +103,9 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      List<dynamic> accountsWithProfile = body["rows"].where((dynamic item) {
-        return item["image"] != "" &&
-            item["nickname"] != "" &&
-            item["account"] != "";
-      }).toList();
+      List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members = accountsWithProfile
+      List<MemberModel> members = allAccounts
           .map((item) => MemberModel.fromJson(item))
           .toList();
 
@@ -305,6 +301,25 @@ class HttpService {
       print('Cannot fetch invites...');
 
       return [];
+    }
+  }
+
+  /// returns true if the account name doesn't exist
+  Future<bool> checkAccountName(String accountName) async {
+    if (mockResponse == true) return true;
+
+    final String keyAccountsURL =
+        "$baseURL/v2/history/get_creator?account=$accountName";
+
+    Response res = await get(keyAccountsURL);
+
+    if (res.statusCode == 200) {
+      return false;
+    } else if (res.statusCode == 404) {
+      // the account doesn't exist
+      return true;
+    } else {
+      return false;
     }
   }
 }

@@ -7,6 +7,41 @@ class HttpMockResponse {
       nickname: "Igor Berlenko",
       image: "",
     ),
+   MemberModel(
+      account: "sevenflash24",
+      nickname: "Andrey MK",
+      image: "",
+    ),
+      MemberModel(
+      account: "fghreww",
+      nickname: "Linda Lynch",
+      image: "",
+    ),
+      MemberModel(
+      account: "semfg",
+      nickname: "Sean West",
+      image: "",
+    ),
+      MemberModel(
+      account: "joihjkl4",
+      nickname: "John Rice",
+      image: "",
+    ),
+    MemberModel(
+      account: "jkl9jj",
+      nickname: "Joe Collins",
+      image: "",
+    ),
+      MemberModel(
+      account: "grsw4fr",
+      nickname: "Keith Graham",
+      image: "",
+    ),
+      MemberModel(
+      account: "silvaG",
+      nickname: "Gloria Silva",
+      image: "",
+    )
   ];
 
   static final transactions = [
@@ -60,7 +95,8 @@ class HttpMockResponse {
   static final keyAccounts = ["sevenflash42", "testingseeds"];
 
   static final transactionResult = {
-    "transaction_id": "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"
+    "transaction_id":
+        "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"
   };
 
   static final profile = ProfileModel(

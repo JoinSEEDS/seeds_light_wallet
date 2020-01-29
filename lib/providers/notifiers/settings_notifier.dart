@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsNotifier extends ChangeNotifier {
   get accountName => _preferences?.getString("accountName");
+
   get privateKey => _preferences?.getString("privateKey");
+
   get passcode => _preferences?.getString("passcode");
+
   get nodeEndpoint => _preferences?.getString("nodeEndpoint");
-  
-  set nodeEndpoint(String value) => _preferences?.setString("nodeEndpoint", value);
-  set accountName(String value) => _preferences?.setString("accountName", value);
+
+  set nodeEndpoint(String value) =>
+      _preferences?.setString("nodeEndpoint", value);
+
+  set accountName(String value) =>
+      _preferences?.setString("accountName", value);
+
   set privateKey(String value) => _preferences?.setString("privateKey", value);
+
   set passcode(String value) => _preferences?.setString("passcode", value);
 
   SharedPreferences _preferences;
@@ -23,7 +31,7 @@ class SettingsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void update({ String nodeEndpoint }) {
+  void update({String nodeEndpoint}) {
     if (nodeEndpoint != _preferences?.getString("nodeEndpoint")) {
       saveEndpoint(nodeEndpoint);
     }

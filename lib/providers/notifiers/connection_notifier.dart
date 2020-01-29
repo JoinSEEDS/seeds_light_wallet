@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:seeds/constants/config.dart';
 import 'package:http/http.dart';
+import 'package:seeds/constants/config.dart';
 
 class ConnectionNotifier extends ChangeNotifier {
   bool status = true;
-  
+
   String currentEndpoint = Config.defaultEndpoint;
   int currentEndpointPing = 0;
 
@@ -22,7 +22,7 @@ class ConnectionNotifier extends ChangeNotifier {
   void discoverEndpoints() async {
     for (var endpoint in availableEndpoints) {
       var ping = Stopwatch()..start();
-      
+
       Response res = await get("$endpoint/v2/health");
 
       ping.stop();

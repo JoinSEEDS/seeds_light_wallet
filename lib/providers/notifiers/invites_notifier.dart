@@ -12,7 +12,7 @@ class InvitesNotifier extends ChangeNotifier {
   static of(BuildContext context, {bool listen = false}) =>
       Provider.of<MembersNotifier>(context, listen: listen);
 
-  void init({ HttpService http }) {
+  void init({HttpService http}) {
     print("init invites... ");
     print(http);
     _http = http;

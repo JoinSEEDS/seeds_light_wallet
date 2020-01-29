@@ -1,4 +1,6 @@
 import 'package:eosdart/eosdart.dart';
+import 'package:flutter/widgets.dart' show BuildContext;
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 
@@ -8,12 +10,21 @@ class EosService {
   String baseURL = Config.defaultEndpoint;
   bool mockEnabled;
 
+
   void update({
     userPrivateKey,
     userAccountName,
     nodeEndpoint,
     bool enableMockTransactions = false,
   }) {
+  static EosService of(BuildContext context, {bool listen = true}) =>
+      Provider.of(context, listen: listen);
+
+  void update(
+      {userPrivateKey,
+      userAccountName,
+      nodeEndpoint,
+      bool enableMockTransactions = false}) {
     privateKey = userPrivateKey;
     accountName = userAccountName;
     baseURL = nodeEndpoint;
