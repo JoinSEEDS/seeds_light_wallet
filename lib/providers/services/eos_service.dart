@@ -10,6 +10,8 @@ class EosService {
   String baseURL = Config.defaultEndpoint;
   bool mockEnabled;
 
+  static EosService of(BuildContext context, {bool listen = true}) =>
+      Provider.of(context, listen: listen);
 
   void update({
     userPrivateKey,
@@ -17,14 +19,6 @@ class EosService {
     nodeEndpoint,
     bool enableMockTransactions = false,
   }) {
-  static EosService of(BuildContext context, {bool listen = true}) =>
-      Provider.of(context, listen: listen);
-
-  void update(
-      {userPrivateKey,
-      userAccountName,
-      nodeEndpoint,
-      bool enableMockTransactions = false}) {
     privateKey = userPrivateKey;
     accountName = userAccountName;
     baseURL = nodeEndpoint;

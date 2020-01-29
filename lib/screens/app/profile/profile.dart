@@ -40,7 +40,9 @@ class _ProfileState extends State<Profile> {
       builder: (ctx, model, _) {
         print(
             'ProfileModel: ${model?.profile?.nickname ?? 'no'}, ${_profileImage}');
+        if (model?.profile != null && model.profile.nickname != null) {
         _nameController.text = model?.profile?.nickname ?? '';
+        }
         return Scaffold(
           body: ListView(
             children: <Widget>[
@@ -222,8 +224,8 @@ class _ProfileState extends State<Profile> {
     print('save profile, ${attachmentUrl}');
     var response =
         await Provider.of<EosService>(context, listen: false).updateProfile(
-      nickname: _nameController.text ?? '',
-      image: attachmentUrl ?? '',
+      nickname: _nameController.text ?? (profile.nickname ?? ''),
+      image: attachmentUrl ?? (profile.image ?? ''),
       story: '',
       roles: '',
       skills:'',
