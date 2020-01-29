@@ -88,8 +88,7 @@ class _DashboardState extends State<Dashboard>
   }
 
   void onTransactionHistory() {
-    print("Tr history");
-    //NavigationService.of(context).navigateTo(Routes.transactionHistory);
+    NavigationService.of(context).navigateTo(Routes.transactionHistory);
   }
 
   void onClose() {}

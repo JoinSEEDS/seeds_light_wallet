@@ -11,6 +11,7 @@ import 'package:seeds/screens/app/wallet/dashboard.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer_amount.dart';
 import 'package:seeds/screens/app/wallet/transfer_form.dart';
+import 'package:seeds/screens/app/wallet/transaction_history.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';
 import 'package:seeds/screens/onboarding/create_account.dart';
 import 'package:seeds/screens/onboarding/import_account.dart';
@@ -74,6 +75,7 @@ class NavigationService {
     Routes.transferAmount: (args) => TransferAmount(args),
     Routes.transfer: (_) => Transfer(),
     Routes.invites: (_) => Friends(),
+    Routes.transactionHistory: (_) => TransactionHistory(),
     Routes.proposals: (_) => Proposals(),
     Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
   };

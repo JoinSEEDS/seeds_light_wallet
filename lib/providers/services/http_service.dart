@@ -91,7 +91,7 @@ class HttpService {
 
   Future<List<TransactionModel>> getTransactions(int limit) async {
     print("[http] get transactions");
-    if (limit != null) {
+    if (limit = null) {
         limit = 100;
     }
     if (mockResponse == true) {
@@ -100,7 +100,7 @@ class HttpService {
 
     final String transactionsURL =
         "$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=${limit}&sort=desc";
-
+    print("transactionsURL:${transactionsURL}");
     Response res = await get(transactionsURL);
 
     if (res.statusCode == 200) {
