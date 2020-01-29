@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 
-class MainButton extends StatelessWidget {
+class MainButton extends StatefulWidget {
   final double height;
   final double fontSize;
   final String title;
@@ -9,17 +9,25 @@ class MainButton extends StatelessWidget {
   final Function onPressed;
 
   MainButton({
+    Key key,
     @required this.title,
     this.height = 55,
     this.fontSize = 18,
     this.margin,
     this.onPressed,
-  });
+  }): super(key: key);
+
+  @override
+  MainButtonState createState() => MainButtonState();
+}
+
+class MainButtonState extends State<MainButton> {
+  bool isLoading = false;
 
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(
-      margin: margin,
+      margin: widget.margin,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.black,
@@ -36,7 +44,7 @@ class MainButton extends StatelessWidget {
         child: Container(
           width: width,
           child: Container(
-            height: height,
+            height: widget.height,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(13),
                 gradient: LinearGradient(colors: AppColors.gradient)),
@@ -44,22 +52,43 @@ class MainButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(13),
               ),
-              onPressed: onPressed,
+              onPressed: widget.onPressed,
               color: Colors.transparent,
               child: Container(
-                height: height,
+                height: widget.height,
                 alignment: Alignment.center,
                 width: width,
-                child: Text(
-                  title,
+                child: isLoading ? Center(
+                  child: SizedBox(
+                    width: 24.0,
+                    height: 24.0,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      strokeWidth: 4.0,
+                    ),
+                  ),
+                ): Text(
+                  widget.title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: fontSize),
-                ),
+                  style: TextStyle(color: Colors.white, fontSize: widget.fontSize),
+                ) ,
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  loading() {
+    setState(() {
+      isLoading = true;
+    });
+  }
+
+  done() {
+    setState(() {
+      isLoading = false;
+    });
   }
 }

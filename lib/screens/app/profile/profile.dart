@@ -1,16 +1,20 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
+import 'package:path/path.dart' as pathUtils;
+import 'package:uuid/uuid.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -20,6 +24,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final _nameController = TextEditingController();
   File _profileImage;
+  var savingLoader = GlobalKey<MainButtonState>();
 
   @override
   initState() {
@@ -129,8 +134,9 @@ class _ProfileState extends State<Profile> {
                 padding:
                     const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0),
                 child: MainButton(
+                  key: savingLoader,
                   title: 'Save',
-                  onPressed: () => _saveProfile(),
+                  onPressed: () => _saveProfile(model.profile),
                 ),
               ),
             ],
@@ -207,17 +213,40 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  void _saveProfile() async {
-    print('save profile');
+  void _saveProfile(ProfileModel profile) async {
+    savingLoader.currentState.loading();
+    var attachmentUrl;
+    if(_profileImage != null) {
+      attachmentUrl = await _uploadFile(profile);
+    }
+    print('save profile, ${attachmentUrl}');
     var response =
         await Provider.of<EosService>(context, listen: false).updateProfile(
-      nickname: "Divyanshu",
-      image: "",
-      story: "",
-      roles: "",
-      skills: "",
-      interests: "",
+      nickname: _nameController.text ?? '',
+      image: attachmentUrl ?? '',
+      story: '',
+      roles: '',
+      skills:'',
+      interests: '',
     );
     print('res: ${response}');
+    savingLoader.currentState.done();
+  }
+
+  _uploadFile(ProfileModel profile) async {
+    String extensionName = pathUtils.extension(_profileImage.path);
+    String path = "ProfileImage/" +
+        profile.account +
+        '/' +
+        Uuid().v4() +
+        extensionName;
+    StorageReference storageReference =
+    FirebaseStorage.instance.ref().child(path);
+    String fileType =
+    extensionName.isNotEmpty ? extensionName.substring(1) : '*';
+    var uploadTask = storageReference.putFile(
+        _profileImage, StorageMetadata(contentType: "image/$fileType"));
+    await uploadTask.onComplete;
+    return await storageReference.getDownloadURL();
   }
 }
