@@ -48,10 +48,11 @@ class LinksService {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://seedswallet.page.link',
       link: Uri.parse(
-          'https://joinseeds.com/?placeholder=&inviterAccount=$inviterAccount&inviteSecret=$inviteSecret'),
+        'https://joinseeds.com/?placeholder=&inviterAccount=$inviterAccount&inviteSecret=$inviteSecret',
+      ),
     );
 
-    final Uri dynamicUrl = await parameters.buildUrl();
+    final Uri dynamicUrl = (await parameters.buildShortLink()).shortUrl;
 
     return dynamicUrl;
   }

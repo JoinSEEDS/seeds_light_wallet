@@ -41,7 +41,9 @@ dependencies:
   eosdart_ecc: ^0.3.2
   liquid_pull_to_refresh: ^1.1.1
   shimmer: ^1.0.1
-  
+  random_words: ^1.0.2
+  share: ^0.6.3+5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

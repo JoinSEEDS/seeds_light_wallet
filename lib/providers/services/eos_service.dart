@@ -8,7 +8,11 @@ class EosService {
   String baseURL = Config.defaultEndpoint;
   bool mockEnabled;
 
-  void update({ userPrivateKey, userAccountName, nodeEndpoint, bool enableMockTransactions = false }) {
+  void update(
+      {userPrivateKey,
+      userAccountName,
+      nodeEndpoint,
+      bool enableMockTransactions = false}) {
     privateKey = userPrivateKey;
     accountName = userAccountName;
     baseURL = nodeEndpoint;
@@ -26,30 +30,34 @@ class EosService {
     ];
 
     Action freeAction = Action()
-        ..account = "harvst.seeds"
-        ..name = 'payforcpu'
-        ..authorization = freeAuth
-        ..data = { "account": accountName };
-    
+      ..account = "harvst.seeds"
+      ..name = 'payforcpu'
+      ..authorization = freeAuth
+      ..data = {"account": accountName};
+
     return [
       freeAction,
       ...actions,
     ];
   }
 
-  Future<dynamic> createInvite({ String transferQuantity, String sowQuantity, String inviteHash }) async {
+  Future<dynamic> createInvite(
+      {double transferQuantity, double sowQuantity, String inviteHash}) async {
     print("[eos] create invite $inviteHash ($transferQuantity + $sowQuantity)");
 
     if (mockEnabled) {
-      return HttpMockResponse.transactionResult;
+      return Future.delayed(
+        Duration(seconds: 1),
+        () => HttpMockResponse.transactionResult,
+      );
     }
 
     EOSClient client = EOSClient(baseURL, 'v1', privateKeys: [privateKey]);
 
     Map data = {
       "sponsor": accountName,
-      "transfer_quantity": transferQuantity,
-      "sow_quantity": sowQuantity,
+      "transfer_quantity": "${transferQuantity.toStringAsFixed(4)} SEEDS",
+      "sow_quantity": "${sowQuantity.toStringAsFixed(4)} SEEDS",
       "invite_hash": inviteHash,
     };
 
@@ -73,8 +81,7 @@ class EosService {
   }
 
   Future<dynamic> acceptInvite(
-      { String accountName, String publicKey, String inviteSecret }
-  ) async {
+      {String accountName, String publicKey, String inviteSecret}) async {
     print("[eos] accept invite");
 
     if (mockEnabled) {
@@ -85,7 +92,7 @@ class EosService {
     String applicationAccount = Config.onboardingAccountName;
 
     EOSClient client =
-        EOSClient(baseURL, 'v1', privateKeys: [ applicationPrivateKey ]);
+        EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey]);
 
     Map data = {
       "account": accountName,
@@ -112,7 +119,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferTelos({ String beneficiary, double amount }) async {
+  Future<dynamic> transferTelos({String beneficiary, double amount}) async {
     print("[eos] transfer telos to $beneficiary ($amount)");
 
     if (mockEnabled) {
@@ -145,9 +152,9 @@ class EosService {
     Transaction transaction = Transaction()..actions = actions;
 
     return client.pushTransaction(transaction, broadcast: true);
-  }  
+  }
 
-  Future<dynamic> transferSeeds({ String beneficiary, double amount }) async {
+  Future<dynamic> transferSeeds({String beneficiary, double amount}) async {
     print("[eos] transfer seeds to $beneficiary ($amount)");
 
     if (mockEnabled) {

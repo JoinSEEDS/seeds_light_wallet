@@ -76,7 +76,11 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
       });
     }
 
+    print("listen now...");
+
     statusSubscription = widget.statusStream.listen((status) async {
+      print("status: $status");
+
       if (status == true) {
         setState(() {
           showSpinner = false;
