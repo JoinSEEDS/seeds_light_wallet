@@ -12,7 +12,7 @@ import 'package:seeds/widgets/main_card.dart';
 import 'package:provider/provider.dart';
 
 enum TransactionType { income, outcome }
-const DashboardTransactionElements = 3;
+const DashboardTransactionElements = 4;
 
 class Dashboard extends StatefulWidget {
   Dashboard();

@@ -91,7 +91,7 @@ class HttpService {
 
   Future<List<TransactionModel>> getTransactions(int limit) async {
     print("[http] get transactions");
-    if (limit = null) {
+    if (limit == null) {
         limit = 100;
     }
     if (mockResponse == true) {
@@ -105,7 +105,7 @@ class HttpService {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
-
+      print("[http] DONE transactions");
       List<dynamic> transfers = body["actions"].where((dynamic item) {
         return item["act"]["account"] == "token.seeds" &&
             item["act"]["data"] != null &&
