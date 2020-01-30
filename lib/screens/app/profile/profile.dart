@@ -38,8 +38,6 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Consumer<ProfileNotifier>(
       builder: (ctx, model, _) {
-        print(
-            'ProfileModel: ${model?.profile?.nickname ?? 'no'}, ${_profileImage}');
         if (model?.profile != null && model.profile.nickname != null) {
         _nameController.text = model?.profile?.nickname ?? '';
         }
@@ -221,9 +219,7 @@ class _ProfileState extends State<Profile> {
     if(_profileImage != null) {
       attachmentUrl = await _uploadFile(profile);
     }
-    print('save profile, ${attachmentUrl}');
-    var response =
-        await Provider.of<EosService>(context, listen: false).updateProfile(
+    await Provider.of<EosService>(context, listen: false).updateProfile(
       nickname: _nameController.text ?? (profile.nickname ?? ''),
       image: attachmentUrl ?? (profile.image ?? ''),
       story: '',
@@ -231,7 +227,6 @@ class _ProfileState extends State<Profile> {
       skills:'',
       interests: '',
     );
-    print('res: ${response}');
     savingLoader.currentState.done();
   }
 
