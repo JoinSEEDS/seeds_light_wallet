@@ -98,4 +98,18 @@ class HttpMockResponse {
     "transaction_id":
         "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"
   };
+
+  static final profile = ProfileModel(
+    account: "illumination",
+    status:	"citizen",
+    type: "individual",
+    nickname: "Nikolaus",
+    image: "https://seeds-service.s3.amazonaws.com/development/e46ea503-b743-44b0-901a-4fe07e4d781f/87b2c661-7af6-4b82-9cbe-0a352b5b248c-1920.jpg",
+    story: "Seeds Team",
+    roles: '["#light #support #askmeanything"]',	
+    skills: "[]",	
+    interests: "[]",	
+    reputation:	0,
+    timestamp:	1577382580,
+  );
 }

@@ -41,7 +41,11 @@ dependencies:
   eosdart_ecc: ^0.3.2
   liquid_pull_to_refresh: ^1.1.1
   shimmer: ^1.0.1
-  
+  photo_view: ^0.9.1
+  image_picker: ^0.6.3+1
+  image_cropper: ^1.2.0
+  firebase_storage: ^3.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

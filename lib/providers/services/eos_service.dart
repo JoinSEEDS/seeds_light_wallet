@@ -13,11 +13,12 @@ class EosService {
   static EosService of(BuildContext context, {bool listen = true}) =>
       Provider.of(context, listen: listen);
 
-  void update(
-      {userPrivateKey,
-      userAccountName,
-      nodeEndpoint,
-      bool enableMockTransactions = false}) {
+  void update({
+    userPrivateKey,
+    userAccountName,
+    nodeEndpoint,
+    bool enableMockTransactions = false,
+  }) {
     privateKey = userPrivateKey;
     accountName = userAccountName;
     baseURL = nodeEndpoint;
@@ -44,6 +45,52 @@ class EosService {
       freeAction,
       ...actions,
     ];
+  }
+
+  Future<dynamic> updateProfile({
+    String nickname,
+    String image,
+    String story,
+    String roles,
+    String skills,
+    String interests,
+  }) async {
+    print("[eos] update profile, privateKey: $privateKey");
+
+    if (mockEnabled) {
+      return HttpMockResponse.transactionResult;
+    }
+
+    EOSClient client = EOSClient(baseURL, 'v1', privateKeys: [privateKey]);
+
+    Map data = {
+      "user": accountName,
+      "type": "individual",
+      "nickname": nickname,
+      "image": image,
+      "story": story,
+      "roles": roles,
+      "skills": skills,
+      "interests": interests
+    };
+
+    List<Authorization> auth = [
+      Authorization()
+        ..actor = accountName
+        ..permission = "active"
+    ];
+
+    List<Action> actions = buildFreeTransaction([
+      Action()
+        ..account = "accts.seeds"
+        ..name = "update"
+        ..authorization = auth
+        ..data = data
+    ]);
+
+    Transaction transaction = Transaction()..actions = actions;
+
+    return client.pushTransaction(transaction, broadcast: true);
   }
 
   Future<dynamic> createInvite(
