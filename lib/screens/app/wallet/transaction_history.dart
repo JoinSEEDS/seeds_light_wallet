@@ -9,8 +9,8 @@ import 'package:seeds/widgets/main_card.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-enum TransactionType { income, outcome }
-const DashboardTransactionElements = 100;
+enum  TransactionType { income, outcome }
+const TransactionHistoryElements = 100;
 
 class TransactionFilter {
   static const today     = 0;
@@ -27,9 +27,11 @@ class TransactionHistory extends StatefulWidget {
 
 class TransactionHistoryState extends State<TransactionHistory> {
   DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+  DateTime today  = new DateTime.now();
   DateTime lastTransactionDate  = new DateTime.now();
   DateTime firstTransactionDate = new DateTime.now();
   String todayTransactionDay = '';
+  bool _searching = false;
 
   Choice _selectedChoice = choices[0];
 
@@ -39,38 +41,48 @@ class TransactionHistoryState extends State<TransactionHistory> {
       print("Transaction period: ${_selectedChoice.title}");
       todayTransactionDay = dateFormat.format(lastTransactionDate);
       if (_selectedChoice.index == TransactionFilter.all) {//--all
+          _searching = true;
           Future.delayed(Duration.zero).then((_) {
-              TransactionsNotifier.of(context).fetchTransactions(DashboardTransactionElements);
+              TransactionsNotifier.of(context).fetchTransactions(TransactionHistoryElements);
+              _searching = false;
             });
       }
     });
   }
   
   String _getFilterTitle() {
-    var dateRangTitles = ': from...to..';
+    var dateRangTitles = '';
+    lastTransactionDate = today;
     switch(_selectedChoice.index) { 
           case TransactionFilter.today: { //--today
-              dateRangTitles = ':'+todayTransactionDay; 
+              dateRangTitles = dateFormat.format(today); 
           } 
           break;           
-          case TransactionFilter.last2day: { //--Last 2 Days          
+          case TransactionFilter.last2day: { //--Last 2 Days 
+            firstTransactionDate = today.add(new Duration(days: -2));         
           } 
           break; 
-          case TransactionFilter.lastweek: { //--last week              
+          case TransactionFilter.lastweek: { //--last week  
+            firstTransactionDate = today.add(new Duration(days: -7));              
           } 
           break; 
-          case TransactionFilter.lastmonth: { //--last month              
+          case TransactionFilter.lastmonth: { //--last month  
+            firstTransactionDate = today.add(new Duration(days: -30));              
           } 
           break;
-          case TransactionFilter.all: { //--all              
+          case TransactionFilter.all: { //--all
+            firstTransactionDate = today.add(new Duration(days: -180));              
           } 
           break;      
           default: { 
              dateRangTitles =''  ;
           }
           break; 
-}
-    return _selectedChoice.title + dateRangTitles;
+    }
+    if (_selectedChoice.index != TransactionFilter.today) {
+        dateRangTitles = 'From '+dateFormat.format(firstTransactionDate)+ ' To '+dateFormat.format(lastTransactionDate);         
+    }
+    return dateRangTitles;
   }
 
   @override
@@ -79,7 +91,7 @@ class TransactionHistoryState extends State<TransactionHistory> {
     initState() {
       firstTransactionDate = lastTransactionDate.add(new Duration(days: -30));
       todayTransactionDay = dateFormat.format(lastTransactionDate);
-      TransactionsNotifier.of(context).fetchTransactions(DashboardTransactionElements);
+      TransactionsNotifier.of(context).fetchTransactions(TransactionHistoryElements);
     }
     return Scaffold(
       appBar: AppBar(
@@ -200,6 +212,10 @@ class TransactionHistoryState extends State<TransactionHistory> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Divider(),
+        _searching == true?
+         LinearProgressIndicator(
+                            backgroundColor: AppColors.green,
+                          ):
         Column(
           children: <Widget>[
             ...transactions.map((trx) {

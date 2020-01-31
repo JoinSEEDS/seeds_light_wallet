@@ -8,11 +8,13 @@ import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
-
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 enum TransactionType { income, outcome }
-const DashboardTransactionElements = 4;
+const DashboardTransactionElements = 3;
+DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+DateTime today = new DateTime.now();
 
 class Dashboard extends StatefulWidget {
   Dashboard();
@@ -328,7 +330,7 @@ class _DashboardState extends State<Dashboard>
             Consumer<TransactionsNotifier>(
               builder: (context, model, child) =>
                   model != null && model.transactions != null
-                      ? buildDateTransactions('18.01.2020', model.transactions)
+                      ? buildDateTransactions(dateFormat.format(today), model.transactions.sublist(0,DashboardTransactionElements >= model.transactions.length?model.transactions.length:DashboardTransactionElements))
                       : Center(
                           child: LinearProgressIndicator(
                             backgroundColor: AppColors.green,
