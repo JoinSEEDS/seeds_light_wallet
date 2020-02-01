@@ -18,6 +18,8 @@ class HttpMockResponse {
 
   static final voice = VoiceModel(77);
 
+  static final planted = PlantedModel("5.0000 SEEDS");
+
   static final proposals = [
     ProposalModel(
       id: 1,
@@ -31,11 +33,14 @@ class HttpMockResponse {
       against: 200,
       title: "title",
       summary: "summary",
-      description: "description",
-      image: "https://seeds-service.s3.amazonaws.com/development/a26a6d72-dd50-4c40-8504-00930b97961b/5bc29df1-1f72-4868-b900-3d177678ef77-1920.jpg",
-      url: "https://ipfs.globalupload.io/QmVGQyjnRM77hAK4SfaVTVu45Lb7QoFpJRLeoYwA1XijyS",
+      description:
+          "description description description description description description description description description description description description description description description description description ",
+      image:
+          "https://seeds-service.s3.amazonaws.com/development/a26a6d72-dd50-4c40-8504-00930b97961b/5bc29df1-1f72-4868-b900-3d177678ef77-1920.jpg",
+      url:
+          "https://ipfs.globalupload.io/QmVGQyjnRM77hAK4SfaVTVu45Lb7QoFpJRLeoYwA1XijyS",
       status: "status",
-      stage: "stage",
+      stage: "active",
       fund: "fund",
       creationDate: 1000,
     ),
@@ -43,15 +48,18 @@ class HttpMockResponse {
 
   static final invites = [
     InviteModel(
-      inviteId: 1,
-      transferQuantity: "10.0000 SEEDS",
-      sowQuantity: "5.0000 SEEDS",
-      sponsor: "sponsor",
-      account: "account",
-      inviteHash: "invite_hash",
-      inviteSecret: "invite_secret"
-    ),
+        inviteId: 1,
+        transferQuantity: "10.0000 SEEDS",
+        sowQuantity: "5.0000 SEEDS",
+        sponsor: "sponsor",
+        account: "account",
+        inviteHash: "invite_hash",
+        inviteSecret: "invite_secret"),
   ];
 
   static final keyAccounts = ["sevenflash42", "testingseeds"];
+
+  static final transactionResult = {
+    "transaction_id": "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"
+  };
 }

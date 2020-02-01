@@ -1,19 +1,25 @@
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/constants/http_mock_response.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
+import 'package:seeds/constants/http_mock_response.dart';
+import 'package:seeds/models/models.dart';
 
 class HttpService {
-  final baseURL = Config.defaultEndpoint;
-  
+  String baseURL = Config.defaultEndpoint;
   String userAccount;
   bool mockResponse;
 
-  void init({ String accountName, bool enableMockResponse = false }) {
+  void update({ String accountName, String nodeEndpoint, bool enableMockResponse = false }) {
+    nodeEndpoint = nodeEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
+
+  static HttpService of(BuildContext context, {bool listen = true}) =>
+      Provider.of(context, listen: listen);
 
   Future<List<String>> getKeyAccounts(String publicKey) async {
     print("[http] get key accounts");
@@ -86,11 +92,12 @@ class HttpService {
   Future<List<TransactionModel>> getTransactions() async {
     print("[http] get transactions");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.transactions;
     }
 
-    final String transactionsURL ="$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
+    final String transactionsURL =
+        "$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
 
     Response res = await get(transactionsURL);
 
@@ -118,7 +125,7 @@ class HttpService {
   Future<BalanceModel> getBalance() async {
     print("[http] get balance");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.balance;
     }
 
@@ -143,11 +150,10 @@ class HttpService {
     }
   }
 
-
   Future<VoiceModel> getVoice() async {
     print("[http] get voice");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.voice;
     }
 
@@ -172,11 +178,41 @@ class HttpService {
     }
   }
 
-  Future<List<ProposalModel>> getProposals(String stage) async {
-    print("[http] get proposals");
 
-    if (mockResponse != null) {
-      return HttpMockResponse.proposals;
+  Future<PlantedModel> getPlanted() async {
+    print("[http] get voice");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.planted;
+    }
+
+    final String plantedURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request = '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(plantedURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      PlantedModel balance = PlantedModel.fromJson(body);
+
+      return balance;
+    } else {
+      print('Cannot fetch members...');
+
+      return PlantedModel("0.0000 SEEDS");
+    }
+  }
+
+  Future<List<ProposalModel>> getProposals(String stage) async {
+    print("[http] get proposals: stage = [$stage]");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.proposals
+          .where((proposal) => proposal.stage == stage)
+          .toList();
     }
 
     final String proposalsURL = '$baseURL/v1/chain/get_table_rows';
@@ -208,11 +244,11 @@ class HttpService {
       return [];
     }
   }
-  
+
   Future<List<InviteModel>> getInvites() async {
     print("[http] get invites");
 
-    if (mockResponse != null) {
+    if (mockResponse == true) {
       return HttpMockResponse.invites;
     }
 
@@ -229,9 +265,8 @@ class HttpService {
         return item["inviteSecret"] == "";
       }).toList();
 
-      List<InviteModel> invites = activeInvites
-          .map((item) => InviteModel.fromJson(item))
-          .toList();
+      List<InviteModel> invites =
+          activeInvites.map((item) => InviteModel.fromJson(item)).toList();
 
       return invites;
     } else {
@@ -239,5 +274,7 @@ class HttpService {
 
       return [];
     }
-  }  
+  }
+
+
 }

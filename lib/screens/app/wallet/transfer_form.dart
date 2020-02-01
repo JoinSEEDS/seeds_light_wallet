@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -54,7 +55,7 @@ class _TransferFormState extends State<TransferForm>
     try {
       var response = await Provider.of<EosService>(context, listen: false)
           .transferSeeds(
-              widget.arguments.accountName, amountValue.toStringAsFixed(4));
+              beneficiary: widget.arguments.accountName, amount: amountValue.toStringAsFixed(4));
 
       String trxid = response["transaction_id"];
 
@@ -80,7 +81,7 @@ class _TransferFormState extends State<TransferForm>
     );
   }
 
-  final controller = TextEditingController(text: '5.00');
+  final controller = TextEditingController(text: '0.00');
 
   void onSend() {
     processTransaction();
@@ -144,7 +145,7 @@ class _TransferFormState extends State<TransferForm>
   }
 
   Widget buildBalance() {
-    final balance = 2.2323;
+    final balance = BalanceNotifier.of(context).balance.quantity;
 
     final width = MediaQuery.of(context).size.width;
     return Container(
@@ -166,7 +167,7 @@ class _TransferFormState extends State<TransferForm>
             ),
             Padding(padding: EdgeInsets.only(top: 3)),
             Text(
-              '${balance.toStringAsFixed(2)} SEEDS',
+              '$balance',
               style: TextStyle(
                   color: AppColors.blue,
                   fontSize: 20,

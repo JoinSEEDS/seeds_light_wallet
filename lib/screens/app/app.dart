@@ -7,6 +7,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/explorer/explorer.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
+import 'package:seeds/widgets/connection_status.dart';
 
 class NavigationTab {
   final String title;
@@ -24,24 +25,32 @@ class App extends StatefulWidget {
   _AppState createState() => _AppState();
 }
 
+bool connected = true;
+
 class _AppState extends State<App> {
   final navigationTabs = [
     NavigationTab(
       title: "Explorer",
       icon: 'assets/images/explorer.svg',
-      screenBuilder: () => Explorer(),
+      screenBuilder: () => ConnectionStatus(
+        child: Explorer(),
+      ),
       index: 0,
     ),
     NavigationTab(
       title: "Wallet",
       icon: 'assets/images/wallet.svg',
-      screenBuilder: () => Wallet(),
+      screenBuilder: () => ConnectionStatus(
+        child: Wallet(),
+      ),
       index: 1,
     ),
     NavigationTab(
       title: "Profile",
       icon: 'assets/images/profile.svg',
-      screenBuilder: () => Profile(),
+      screenBuilder: () => ConnectionStatus(
+        child: Profile(),
+      ),
       index: 2,
     ),
   ];
@@ -105,7 +114,10 @@ class _AppState extends State<App> {
 
   Widget buildAppBar(BuildContext _context) {
     return AppBar(
-      title: Text(navigationTabs[index].title, style: TextStyle(color: Colors.black),),
+      title: Text(
+        navigationTabs[index].title,
+        style: TextStyle(color: Colors.black),
+      ),
       centerTitle: true,
       backgroundColor: Colors.white,
       elevation: 0.0,

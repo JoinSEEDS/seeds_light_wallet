@@ -120,13 +120,31 @@ class BalanceModel {
   int get hashCode => super.hashCode;
 }
 
+class PlantedModel {
+  final String quantity;
+
+  PlantedModel(this.quantity);
+
+  factory PlantedModel.fromJson(Map<String, dynamic> json) {
+    return PlantedModel(json["rows"][0]["balance"] as String);
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PlantedModel && quantity == other.quantity;
+
+  @override
+  int get hashCode => super.hashCode;
+}
+
 class VoiceModel {
   final int amount;
 
   VoiceModel(this.amount);
 
   factory VoiceModel.fromJson(Map<String, dynamic> json) {
-    return VoiceModel(json[0] as int);
+    return VoiceModel(json["rows"][0]["balance"] as int);
   }
 
   @override
@@ -252,11 +270,8 @@ class ProposalModel {
   }
 }
 
-// TODO add the missing keys
-// the key is the tab text, the value is the server key
 const proposalTypes = {
-  'Open': 'active',
-  'Excuted': '',
-  'Cancled': '',
-  'Expired': 'done',
+  'Drafts': 'staged',
+  'Active': 'active',
+  'Finished': 'done',
 };

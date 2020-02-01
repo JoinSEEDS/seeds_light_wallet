@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:provider/provider.dart';
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
+import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
-import 'package:seeds/widgets/seeds_button.dart';
 
 class CreateAccount extends StatefulWidget {
   final String inviteSecret;
@@ -24,16 +23,15 @@ Future<bool> isExistingAccount(String accountName) => Future.sync(() => false);
 class _CreateAccountState extends State<CreateAccount> {
   final formKey = GlobalKey<FormState>();
 
-  final accountNameController = MaskedTextController(
-      mask: '@@@@@@@@@@@@',
-      translator: {'@': RegExp(r'[a-z1234]')}
-  );
+  final _accountNameController = TextEditingController();
 
   final StreamController<bool> _statusNotifier =
       StreamController<bool>.broadcast();
 
   final StreamController<String> _messageNotifier =
       StreamController<String>.broadcast();
+
+  String _accountName = '';
 
   bool loading = false;
 
@@ -48,16 +46,15 @@ class _CreateAccountState extends State<CreateAccount> {
 
       accountNameFocus.unfocus();
 
-      String accountName = accountNameController.text;
-
       EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
       EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
       try {
-        var response = await Provider.of<EosService>(context).acceptInvite(
-          accountName,
-          publicKey.toString(),
-          widget.inviteSecret,
+        var response =
+        await Provider.of<EosService>(context, listen: false).acceptInvite(
+          accountName: _accountName,
+          publicKey: publicKey.toString(),
+          inviteSecret: widget.inviteSecret,
         );
 
         if (response == null || response["transaction_id"] == null)
@@ -78,6 +75,54 @@ class _CreateAccountState extends State<CreateAccount> {
     }
   }
 
+  String _validateAccountName(String val) {
+    if (val.length != 12)
+      return 'Your account name should have exactly 12 symbols';
+    if (RegExp(r'0|6|7|8|9').allMatches(val).length > 0)
+      return 'Your account name should only contain number 1-5';
+    if (val.toLowerCase() != val)
+      return "Your account name can't cont'n uppercase letters";
+    return null;
+  }
+
+  List<Widget> createSuggestions() {
+    final suggestions = List<String>();
+
+    String suggestion;
+    if (_accountName.toLowerCase() != _accountName) {
+      suggestion = _accountName.toLowerCase();
+    }
+    if (RegExp(r'0|6|7|8|9').allMatches(_accountName).length > 0) {
+      suggestion = _accountName.replaceAll(RegExp(r'0|6|7|8|9'), '1');
+    }
+    if (_accountName.length < 12) {
+      final missingChars = 12 - _accountName.length;
+      suggestion = (suggestion ?? _accountName) + '_' * missingChars;
+    }
+
+    suggestions.add(suggestion);
+
+    return suggestions.map((suggestion) {
+      return InkWell(
+        onTap: () {
+          setState(() {
+            _accountNameController.text = suggestion;
+
+            _accountNameController.selection = TextSelection.fromPosition(
+                TextPosition(offset: _accountNameController.text.length));
+          });
+        },
+        child: Text(
+          suggestion,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -94,6 +139,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TextFormField(
+                    controller: _accountNameController,
                     focusNode: accountNameFocus,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -105,22 +151,24 @@ class _CreateAccountState extends State<CreateAccount> {
                       fontSize: 32,
                     ),
                     maxLength: 12,
-                    validator: (val) {
-                      if (val.length != 12)
-                        return 'Your account name should have exactly 12 symbols';
-                      if (RegExp(r'0|6|7|8|9').allMatches(val).length > 0)
-                        return 'Your account name should have digits only 1-5';
-                      return null;
+                    validator: _validateAccountName,
+                    onChanged: (value) {
+                      setState(() => _accountName = value);
                     },
                   ),
                   SizedBox(height: 16),
-                  SizedBox(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width,
-                    child: SeedsButton(
-                      "Create account",
-                      () async => await createAccount(),
+                  if (_validateAccountName(_accountName) != null &&
+                      _accountName.isNotEmpty)
+                    Wrap(
+                      children: <Widget>[
+                        Text('Available: '),
+                        ...createSuggestions(),
+                      ],
                     ),
+                  SizedBox(height: 16),
+                  MainButton(
+                    title: "Create account",
+                    onPressed: () async => await createAccount(),
                   ),
                   SizedBox(
                     height: 40,
@@ -160,12 +208,14 @@ class _CreateAccountState extends State<CreateAccount> {
         statusStream: _statusNotifier.stream,
         messageStream: _messageNotifier.stream,
         afterSuccessCallback: () {
-          String accountName = accountNameController.text;
+          String accountName = _accountName;
 
-          NavigationService.of(context).navigateTo(Routes.welcome, accountName, true);
+          NavigationService.of(context, listen: false)
+              .navigateTo(Routes.welcome, accountName, true);
         },
         afterFailureCallback: () {
-          NavigationService.of(context).navigateTo("OnboadingMethodChoice", true);
+          NavigationService.of(context, listen: false)
+              .navigateTo("OnboadingMethodChoice", true);
         });
   }
 }
