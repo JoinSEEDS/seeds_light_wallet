@@ -107,7 +107,7 @@ class _AppState extends State<App> {
     return AppBar(
       title: Text(navigationTabs[index].title, style: TextStyle(color: Colors.black),),
       centerTitle: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       elevation: 0.0,
     );
   }

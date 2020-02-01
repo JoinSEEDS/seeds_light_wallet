@@ -181,7 +181,7 @@ class _DashboardState extends State<Dashboard>
               ),
               Padding(padding: EdgeInsets.only(top: 12)),
               EmptyButton(
-                  width: width * 0.25,
+                  margin: EdgeInsets.only(left: 10, right: 10),
                   height: 28,
                   title: buttonTitle,
                   onPressed: onPressed,
