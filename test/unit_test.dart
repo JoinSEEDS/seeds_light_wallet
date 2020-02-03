@@ -5,6 +5,18 @@ import 'package:seeds/constants/http_mock_response.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  test('Invite Integration', () async {
+    final service = HttpService()
+      ..update(
+        enableMockResponse: false,
+        nodeEndpoint: 'https://telos.caleos.io',
+      );
+
+    final invites = await service.getInvites();
+
+    print(invites);
+  });
+
   test('Http Service', () async {
     final service = HttpService()..update(enableMockResponse: true);
 
@@ -37,3 +49,7 @@ void main() {
     expect(voteProposal, HttpMockResponse.transactionResult);
   });
 }
+
+// I/flutter ( 3715): invite mnemonic: musician-layer-faith-jump-decision
+// I/flutter ( 3715): invite secret: 59f703fe1e94a07d08c31cc63996e864342b9af034a9b4a00c5946037b7cf4c6
+// I/flutter ( 3715): invite hash: 5a1c8afc4aa6b001e9f36d4f1fe1997ef93bcbaec551ed9bd03be3c166913ccb

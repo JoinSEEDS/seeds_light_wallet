@@ -11,14 +11,9 @@ import 'package:seeds/screens/app/wallet/dashboard.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer_amount.dart';
 import 'package:seeds/screens/app/wallet/transfer_form.dart';
-import 'package:seeds/screens/onboarding/claim_code.dart';
-import 'package:seeds/screens/onboarding/create_account.dart';
-import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
-import 'package:seeds/screens/onboarding/onboarding_method_choice.dart';
-import 'package:seeds/screens/onboarding/show_invite.dart';
+import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/screens/onboarding/welcome.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -26,7 +21,7 @@ class Routes {
   static final transferForm = "TransferForm";
   static final transferAmount = "TransferAmount";
   static final onboarding = "Onboarding";
-  static final onboardingMethodChoice = "OnboardingMethodChoice";
+  static final joinProcess = "JoinProcess";
   static final importAccount = "ImportAccount";
   static final createAccount = "CreateAccount";
   static final showInvite = "ShowInvite";
@@ -61,12 +56,12 @@ class NavigationService {
 
   final onboardingRoutes = {
     Routes.onboarding: (_) => Onboarding(),
-    Routes.onboardingMethodChoice: (_) => OnboardingMethodChoice(),
-    Routes.importAccount: (_) => ImportAccount(),
-    Routes.createAccount: (args) => CreateAccount(args),
-    Routes.showInvite: (args) => ShowInvite(args),
-    Routes.claimCode: (_) => ClaimCode(),
-    Routes.welcome: (args) => Welcome(args),
+    Routes.joinProcess: (_) => JoinProcess(),
+    // Routes.importAccount: (_) => ImportAccount(),
+    // Routes.createAccount: (args) => CreateAccount(args),
+    // Routes.showInvite: (args) => ShowInvite(args),
+    // Routes.claimCode: (_) => ClaimCode(),
+    // Routes.welcome: (args) => Welcome(args),
   };
 
   final appRoutes = {

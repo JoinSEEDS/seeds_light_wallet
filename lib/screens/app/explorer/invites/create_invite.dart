@@ -1,19 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:random_words/random_words.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
+import 'package:seeds/utils/invites.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/reactive_widget.dart';
 import 'package:share/share.dart';
 import 'package:provider/provider.dart';
-import 'package:crypto/crypto.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 
 enum InviteStatus {
@@ -309,50 +306,31 @@ class _CreateInviteState extends State<CreateInvite> {
   @override
   void didChangeDependencies() {
     if (status == InviteStatus.initial) {
-      generateInviteSecret();
+      prepareInviteSecret();
     }
 
     super.didChangeDependencies();
   }
 
-  // EOSPrivateKey secretPrivateKey = EOSPrivateKey.fromRandom();
-  // String secretHex = hex.encode(secretBytes).substring(0, 64);
-  // Digest secretBytesHash = sha256.convert(secretBytes);
-  // int n = 1.toRadixString(16).padLeft(64, '0');
-  void generateInviteSecret() async {
-    var random = Random.secure();
+  void prepareInviteSecret() async {
+    String inviteMnemonic = generateMnemonic();
+    String inviteSecret = convertHash(inviteMnemonic);
+    String inviteHash = convertHash(inviteSecret);
 
-    int dictionaryWordsTotal = 2535;
-    int secretWordsTotal = 5;
-
-    var randomDictionaryIndexes = List<int>.generate(
-        secretWordsTotal, (i) => random.nextInt(dictionaryWordsTotal));
-
-    List<String> randomDictionaryWords =
-        randomDictionaryIndexes.map((index) => nouns[index]).toList();
-
-    String readableSecretCode = randomDictionaryWords.join('-');
-
-    String encodedSecretCode =
-        sha256.convert(utf8.encode(readableSecretCode)).toString();
-
-    // generate hash from 64-bytes secret code
-    // (because smart contract performs the same operation for verification)
-    String hashedSecretCode =
-        sha256.convert(utf8.encode(encodedSecretCode)).toString();
+    print("invite mnemonic: $inviteMnemonic");
+    print("invite secret: $inviteSecret");
+    print("invite hash: $inviteHash");
 
     setState(() {
-      _readableSecretCode = readableSecretCode;
-      _hashedSecretCode = hashedSecretCode;
+      _readableSecretCode = inviteMnemonic;
+      _hashedSecretCode = inviteHash;
       status = InviteStatus.transaction;
     });
   }
 
-  void generateInviteLink() async {
+  void prepareInviteLink() async {
     Uri dynamicSecretLink = await Provider.of<LinksService>(context, listen: false)
         .createInviteLink(_readableSecretCode);
-
-    print(dynamicSecretLink.toString());
 
     setState(() {
       _dynamicSecretLink = dynamicSecretLink.toString();
@@ -374,7 +352,7 @@ class _CreateInviteState extends State<CreateInvite> {
       case InviteStatus.transaction:
         inviteScreen = CreateInviteTransaction(
           inviteHash: _hashedSecretCode,
-          nextStep: generateInviteLink,
+          nextStep: prepareInviteLink,
         );
         break;
 

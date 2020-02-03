@@ -18,7 +18,9 @@ class InviteModel {
     this.inviteSecret,
   });
 
-  factory InviteModel.fromJson(Map<String, dynamic> json) {
+  factory InviteModel.fromJson(Map<String, dynamic> jsonFull) {
+    var json = jsonFull["rows"][0];
+
     return InviteModel(
       inviteId: json["invite_id"],
       transferQuantity: json["transfer_quantity"],

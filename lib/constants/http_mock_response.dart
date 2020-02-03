@@ -102,6 +102,8 @@ class HttpMockResponse {
     ),
   ];
 
+  static final invite = invites[0];
+
   static final keyAccounts = ["sevenflash42", "testingseeds"];
 
   static final transactionResult = {

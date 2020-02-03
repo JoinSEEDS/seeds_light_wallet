@@ -1,18 +1,13 @@
 import 'dart:async';
 
-import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/overlay_popup.dart';
 
 class CreateAccount extends StatefulWidget {
   final String inviteSecret;
+  final Function onSubmit;
 
-  CreateAccount(this.inviteSecret);
+  CreateAccount({this.inviteSecret, this.onSubmit});
 
   @override
   _CreateAccountState createState() => _CreateAccountState();
@@ -25,15 +20,7 @@ class _CreateAccountState extends State<CreateAccount> {
 
   final _accountNameController = TextEditingController();
 
-  final StreamController<bool> _statusNotifier =
-      StreamController<bool>.broadcast();
-
-  final StreamController<String> _messageNotifier =
-      StreamController<String>.broadcast();
-
   String _accountName = '';
-
-  bool loading = false;
 
   FocusNode accountNameFocus = FocusNode();
 
@@ -42,36 +29,9 @@ class _CreateAccountState extends State<CreateAccount> {
     if (form.validate()) {
       form.save();
 
-      setState(() => loading = true);
-
       accountNameFocus.unfocus();
 
-      EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
-      EOSPublicKey publicKey = privateKey.toEOSPublicKey();
-
-      try {
-        var response =
-        await Provider.of<EosService>(context, listen: false).acceptInvite(
-          accountName: _accountName,
-          publicKey: publicKey.toString(),
-          inviteSecret: widget.inviteSecret,
-        );
-
-        if (response == null || response["transaction_id"] == null)
-          throw "Unexpected error, please try again";
-
-        String trxid = response["transaction_id"];
-
-        await Future.delayed(Duration.zero);
-        _statusNotifier.add(true);
-        _messageNotifier.add("Transaction hash: $trxid");
-      } catch (err) {
-        print(err);
-
-        await Future.delayed(Duration.zero);
-        _statusNotifier.add(false);
-        _messageNotifier.add(err.toString());
-      }
+      widget.onSubmit(_accountName);
     }
   }
 
@@ -125,97 +85,75 @@ class _CreateAccountState extends State<CreateAccount> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        OverlayPopup(
-          title: "Create account",
-          body: Form(
-            key: formKey,
-            child: Container(
-              margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
-              padding: EdgeInsets.only(bottom: 5),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TextFormField(
-                    controller: _accountNameController,
-                    focusNode: accountNameFocus,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Account name",
-                    ),
-                    style: TextStyle(
-                      fontFamily: "sfprotext",
-                      color: Colors.black,
-                      fontSize: 32,
-                    ),
-                    maxLength: 12,
-                    validator: _validateAccountName,
-                    onChanged: (value) {
-                      setState(() => _accountName = value);
-                    },
-                  ),
-                  SizedBox(height: 16),
-                  if (_validateAccountName(_accountName) != null &&
-                      _accountName.isNotEmpty)
-                    Wrap(
-                      children: <Widget>[
-                        Text('Available: '),
-                        ...createSuggestions(),
-                      ],
-                    ),
-                  SizedBox(height: 16),
-                  MainButton(
-                    title: "Create account",
-                    onPressed: () async => await createAccount(),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                        color: Colors.black45,
-                        fontFamily: "worksans",
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(text: "Your account name should have "),
-                        TextSpan(
-                          text: "exactly 12",
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        TextSpan(
-                            text:
-                                " symbols (lowercase letters and digits only 1-5)"),
-                      ],
-                    ),
-                  ),
-                ],
+    return Container(
+      child: Form(
+        key: formKey,
+        child: Container(
+          margin: EdgeInsets.only(left: 15, right: 15, bottom: 5),
+          padding: EdgeInsets.only(bottom: 5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                controller: _accountNameController,
+                focusNode: accountNameFocus,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Account name",
+                ),
+                style: TextStyle(
+                  fontFamily: "sfprotext",
+                  color: Colors.black,
+                  fontSize: 32,
+                ),
+                maxLength: 12,
+                validator: _validateAccountName,
+                onChanged: (value) {
+                  setState(() => _accountName = value);
+                },
               ),
-            ),
+              SizedBox(height: 16),
+              if (_validateAccountName(_accountName) != null &&
+                  _accountName.isNotEmpty)
+                Wrap(
+                  children: <Widget>[
+                    Text('Available: '),
+                    ...createSuggestions(),
+                  ],
+                ),
+              SizedBox(height: 16),
+              MainButton(
+                title: "Create account",
+                onPressed: () async => await createAccount(),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                    color: Colors.black45,
+                    fontFamily: "worksans",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(text: "Your account name should have "),
+                    TextSpan(
+                      text: "exactly 12",
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    TextSpan(
+                        text:
+                            " symbols (lowercase letters and digits only 1-5)"),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-        loading ? buildPreLoader() : Container(),
-      ],
+      ),
     );
-  }
-
-  Widget buildPreLoader() {
-    return FullscreenLoader(
-        statusStream: _statusNotifier.stream,
-        messageStream: _messageNotifier.stream,
-        afterSuccessCallback: () {
-          String accountName = _accountName;
-
-          NavigationService.of(context, listen: false)
-              .navigateTo(Routes.welcome, accountName, true);
-        },
-        afterFailureCallback: () {
-          NavigationService.of(context, listen: false)
-              .navigateTo("OnboadingMethodChoice", true);
-        });
   }
 }

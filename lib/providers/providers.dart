@@ -40,7 +40,8 @@ final providers = [
     create: (_) => LinksService(),
     update: (_, settings, links) => links
       ..update(
-        settings.accountName,
+        accountName: settings.accountName,
+        enableMockLink: true,
       ),
   ),
   ProxyProvider<SettingsNotifier, HttpService>(
@@ -49,7 +50,7 @@ final providers = [
       ..update(
         accountName: settings.accountName,
         nodeEndpoint: settings.nodeEndpoint,
-        enableMockResponse: false,
+        enableMockResponse: true,
       ),
   ),
   ProxyProvider<SettingsNotifier, EosService>(
@@ -59,7 +60,7 @@ final providers = [
         userPrivateKey: settings.privateKey,
         userAccountName: settings.accountName,
         nodeEndpoint: settings.nodeEndpoint,
-        enableMockTransactions: false,
+        enableMockTransactions: true,
       ),
   ),
   ChangeNotifierProxyProvider<HttpService, MembersNotifier>(

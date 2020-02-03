@@ -12,13 +12,16 @@ class HttpService {
   String userAccount;
   bool mockResponse;
 
-  void update({ String accountName, String nodeEndpoint, bool enableMockResponse = false }) {
+  void update(
+      {String accountName,
+      String nodeEndpoint,
+      bool enableMockResponse = false}) {
     nodeEndpoint = nodeEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
 
-  static HttpService of(BuildContext context, {bool listen = true}) =>
+  static HttpService of(BuildContext context, {bool listen = false}) =>
       Provider.of(context, listen: listen);
 
   Future<List<String>> getKeyAccounts(String publicKey) async {
@@ -28,7 +31,8 @@ class HttpService {
       return HttpMockResponse.keyAccounts;
     }
 
-    final String keyAccountsURL = "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
+    final String keyAccountsURL =
+        "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
 
     Response res = await get(keyAccountsURL);
 
@@ -51,7 +55,7 @@ class HttpService {
       print("unexpected error fetching accounts");
       return [];
     }
-  } 
+  }
 
   Future<List<MemberModel>> getMembers() async {
     print("[http] get members");
@@ -73,9 +77,8 @@ class HttpService {
 
       List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members = allAccounts
-          .map((item) => MemberModel.fromJson(item))
-          .toList();
+      List<MemberModel> members =
+          allAccounts.map((item) => MemberModel.fromJson(item)).toList();
 
       return members;
     } else {
@@ -174,7 +177,6 @@ class HttpService {
     }
   }
 
-
   Future<PlantedModel> getPlanted() async {
     print("[http] get voice");
 
@@ -184,7 +186,8 @@ class HttpService {
 
     final String plantedURL = '$baseURL/v1/chain/get_table_rows';
 
-    String request = '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
+    String request =
+        '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(plantedURL, headers: headers, body: request);
@@ -241,6 +244,34 @@ class HttpService {
     }
   }
 
+  Future<InviteModel> findInvite(String inviteHash) async {
+    print("[http] find invite by hash");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.invite;
+    }
+
+    String inviteURL = "$baseURL/v1/chain/get_table_rows";
+
+    String request =
+        '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","table_key":"byhash","lower_bound":"$inviteHash","upper_bound":"$inviteHash","index_position":2,"key_type":"sha256","limit":100,"reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(inviteURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      InviteModel invite = InviteModel.fromJson(body);
+
+      return invite;
+    } else {
+      print("Cannot fetch invite...");
+
+      return InviteModel();
+    }
+  }
+
   Future<List<InviteModel>> getInvites() async {
     print("[http] get active invites");
 
@@ -267,7 +298,6 @@ class HttpService {
       } else {
         return [];
       }
-
     } else {
       print('Cannot fetch invites...');
 
