@@ -7,6 +7,7 @@ import 'package:seeds/screens/app/explorer/invites/invites.dart';
 import 'package:seeds/screens/app/explorer/overview.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposals.dart';
+import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer_amount.dart';
@@ -34,6 +35,7 @@ class Routes {
   static final proposalDetailsPage = "ProposalDetailsPage";
   static final overview = "Overview";
   static final dashboard = "Dashboard";
+  static final logout = "Logout";
 }
 
 class NavigationService {
@@ -73,6 +75,7 @@ class NavigationService {
     Routes.createInvite: (_) => CreateInvite(),
     Routes.proposals: (_) => Proposals(),
     Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
+    Routes.logout: (_) => Logout(),
   };
 
   final explorerRoutes = {
