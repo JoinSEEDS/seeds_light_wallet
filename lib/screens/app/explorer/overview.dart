@@ -49,7 +49,7 @@ class Overview extends StatelessWidget {
               NavigationService.of(context).navigateTo(Routes.proposals);
             }),
             buildCategory('Community', 'assets/images/explorer2.png', () {
-              NavigationService.of(context).navigateTo(Routes.invites);
+              NavigationService.of(context).navigateTo(Routes.createInvite);
             }),
             buildCategory('Exchange', 'assets/images/explorer3.png', () {}),
             buildCategory('Lending', 'assets/images/explorer4.png', () {}),

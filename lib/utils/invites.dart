@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import 'package:convert/convert.dart';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:random_words/random_words.dart';
@@ -20,8 +22,12 @@ String generateMnemonic({ int words = 5, separator = '-' }) {
   return mnemonic;
 }
 
-String convertHash(String data) {
-  return sha256.convert(utf8.encode(data)).toString();
+String secretFromMnemonic(String mnemonic) {
+  return sha256.convert(utf8.encode(mnemonic)).toString();
+}
+
+String hashFromSecret(String secret) {
+  return sha256.convert(hex.decode(secret)).toString();
 }
 
 String reverseHash(String hash) {

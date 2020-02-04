@@ -28,20 +28,25 @@ final providers = [
       ),
   ),
   ChangeNotifierProxyProvider<SettingsNotifier, AuthNotifier>(
-    create: (_) => AuthNotifier(),
-    update: (_, settings, auth) => auth
-      ..update(
-        accountName: settings.accountName,
-        privateKey: settings.privateKey,
-        passcode: settings.passcode,
-      ),
-  ),
+      create: (_) => AuthNotifier(),
+      update: (_, settings, auth) {
+        if (settings.isInitialized) {
+          return auth
+            ..update(
+              accountName: settings.accountName,
+              privateKey: settings.privateKey,
+              passcode: settings.passcode,
+            );
+        } else {
+          return auth;
+        }
+      }),
   ProxyProvider<SettingsNotifier, LinksService>(
     create: (_) => LinksService(),
     update: (_, settings, links) => links
       ..update(
         accountName: settings.accountName,
-        enableMockLink: true,
+        enableMockLink: false,
       ),
   ),
   ProxyProvider<SettingsNotifier, HttpService>(
@@ -50,7 +55,7 @@ final providers = [
       ..update(
         accountName: settings.accountName,
         nodeEndpoint: settings.nodeEndpoint,
-        enableMockResponse: true,
+        enableMockResponse: false,
       ),
   ),
   ProxyProvider<SettingsNotifier, EosService>(
@@ -60,7 +65,7 @@ final providers = [
         userPrivateKey: settings.privateKey,
         userAccountName: settings.accountName,
         nodeEndpoint: settings.nodeEndpoint,
-        enableMockTransactions: true,
+        enableMockTransactions: false,
       ),
   ),
   ChangeNotifierProxyProvider<HttpService, MembersNotifier>(

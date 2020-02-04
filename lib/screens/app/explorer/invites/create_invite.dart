@@ -249,7 +249,7 @@ class _ShareScreenState extends State<ShareScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Share secret code",
+          "Share invite",
           style: TextStyle(color: Colors.black, fontFamily: "worksans"),
         ),
         centerTitle: true,
@@ -266,9 +266,13 @@ class _ShareScreenState extends State<ShareScreen> {
               widget.inviteSecret,
               style: TextStyle(fontFamily: "worksans", fontSize: 18),
             ),
+            Text(
+              widget.inviteLink,
+              style: TextStyle(fontFamily: "worksans", fontSize: 14),
+            ),
             SizedBox(height: 14),
             MainButton(
-              title: "Share",
+              title: "Share link",
               onPressed: () {
                 setState(() {
                   secretShared = true;
@@ -314,8 +318,8 @@ class _CreateInviteState extends State<CreateInvite> {
 
   void prepareInviteSecret() async {
     String inviteMnemonic = generateMnemonic();
-    String inviteSecret = convertHash(inviteMnemonic);
-    String inviteHash = convertHash(inviteSecret);
+    String inviteSecret = secretFromMnemonic(inviteMnemonic);
+    String inviteHash = hashFromSecret(inviteSecret);
 
     print("invite mnemonic: $inviteMnemonic");
     print("invite secret: $inviteSecret");

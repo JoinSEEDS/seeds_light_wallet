@@ -255,6 +255,7 @@ class HttpService {
     String reversedHash = reverseHash(inviteHash);
 
     String inviteURL = "https://node.hypha.earth/v1/chain/get_table_rows";
+    
     String request =
         '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$reversedHash","upper_bound":"$reversedHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};

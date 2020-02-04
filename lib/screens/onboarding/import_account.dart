@@ -25,13 +25,22 @@ class ImportAccount extends StatefulWidget {
 }
 
 class _ImportAccountState extends State<ImportAccount> {
-  var privateKeyController =
-      TextEditingController(text: Config.testingPrivateKey);
+  var privateKeyController = TextEditingController();
 
   List<String> availableAccounts;
   String chosenAccount;
 
   ImportStatus status = ImportStatus.emptyPrivateKey;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      if (Config.testingPrivateKey != null) {
+        privateKeyController.text = Config.testingPrivateKey;
+      }
+    });
+  }
 
   void discoverAccounts() async {
     print("discover accounts");
@@ -97,6 +106,18 @@ class _ImportAccountState extends State<ImportAccount> {
             onChanged: discoverAccounts,
           ),
           SizedBox(height: 12),
+          status == ImportStatus.emptyPrivateKey
+              ? Center(
+                  child: Text(
+                    "If you already have Seeds account - enter active private key and account will be imported automatically",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "worksans",
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                )
+              : Container(),
           status == ImportStatus.loadingAccounts
               ? Center(
                   child: Column(

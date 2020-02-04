@@ -50,6 +50,10 @@ class _JoinProcessState extends State<JoinProcess> {
           if (data["privateKey"] != null) {
             privateKey = data["privateKey"];
           }
+
+          if (data["inviteSecret"] != null) {
+            inviteSecret = data["inviteSecret"];
+          }
         }
       });
 
@@ -58,6 +62,10 @@ class _JoinProcessState extends State<JoinProcess> {
       }
 
       if (transition["event"] == Events.foundInviteDetails) {
+        acceptInvite();
+      }
+
+      if (transition["event"] == Events.claimInviteRequested) {
         acceptInvite();
       }
 
@@ -106,7 +114,7 @@ class _JoinProcessState extends State<JoinProcess> {
       );
 
       if (response == null || response["transaction_id"] == null) {
-        return machine.transition(Events.createAccountCanceled);
+        return machine.transition(Events.createAccountFailed);
       }
 
       SettingsNotifier.of(context)
@@ -115,14 +123,14 @@ class _JoinProcessState extends State<JoinProcess> {
       machine.transition(Events.accountCreated);
     } catch (err) {
       print(err);
-      machine.transition(Events.createAccountCanceled);
+      machine.transition(Events.createAccountFailed);
     }
   }
 
   void validateInvite(String inviteMnemonic) async {
     await Future.delayed(Duration(seconds: 2), () {});
     inviteCode = inviteMnemonic;
-    inviteSecret = convertHash(inviteMnemonic);
+    inviteSecret = secretFromMnemonic(inviteMnemonic);
 
     InviteModel invite = await findInvite(inviteSecret);
     if (invite.sponsor != null) {
@@ -136,7 +144,7 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   Future<InviteModel> findInvite(String inviteSecret) async {
-    String inviteHash = convertHash(inviteSecret);
+    String inviteHash = hashFromSecret(inviteSecret);
     return HttpService.of(context).findInvite(inviteHash);
   }
 
@@ -189,7 +197,13 @@ class _JoinProcessState extends State<JoinProcess> {
       case States.claimInviteCode:
         currentScreen = ClaimCode(
           inviteCode: inviteCode,
-          onClaim: (secret) => machine.transition(Events.inviteCodeClaimed),
+          onClaim: ({ inviteSecret, inviterAccount }) => machine.transition(
+            Events.claimInviteRequested,
+            data: {
+              "inviteSecret": inviteSecret,
+              "inviterAccount": inviterAccount,
+            },
+          ),
         );
         backCallback = () => machine.transition(Events.claimInviteCanceled);
         break;
@@ -220,9 +234,9 @@ class _JoinProcessState extends State<JoinProcess> {
         break;
       case States.importAccount:
         currentScreen = ImportAccount(
-          onImport: (accountName) => machine.transition(
-            Events.accountImported,
-            data: {accountName: accountName},
+          onImport: ({accountName, privateKey}) => machine.transition(
+            Events.importAccountRequested,
+            data: {"accountName": accountName, "privateKey": privateKey},
           ),
         );
         backCallback = () => machine.transition(Events.importAccountCanceled);

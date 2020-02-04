@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
@@ -8,13 +6,31 @@ import 'package:seeds/utils/invites.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  test('Convert invite hash', () async {
-    String input = "8669574470f134c4d95c284d9f397f6c48a6db8ea44830d8e433574836ff007e";
+
+  test('hash from secret', () async {
+    String input = 'efb35624d5623b1973f5379d6a5c1c5d05e24f0027e5d18f6d0628a2814d3226';
+    String expectedOutput = '';
+
+    String output = hashFromSecret(input);
+
+    expect(output, expectedOutput);
+  });
+
+  test('secret from mnemonic', () async {
+    String input = "59f703fe1e94a07d08c31cc63996e864342b9af034a9b4a00c5946037b7cf4c6";
+    String expectedOutput = "efb35624d5623b1973f5379d6a5c1c5d05e24f0027e5d18f6d0628a2814d3226";
+
+    String output = secretFromMnemonic(input);
+
+    expect(output, expectedOutput);
+  });
+  test('reverse hash', () async {
+    String input = "e45e36a13b9c90b053f08097d962a6a27b753416264efb345781f4e064f406f4";
     String expectedOutput = '6c7f399f4d285cd9c434f170445769867e00ff36485733e4d83048a48edba648';
 
     String output = reverseHash(input);
 
-    expect(expectedOutput, output);
+    expect(output, expectedOutput);
   });
   test('Invite Integration', () async {
     final service = HttpService()
@@ -25,7 +41,7 @@ void main() {
 
     final invites = await service.getInvites();
 
-    print(invites);
+    expect(invites.length > 0, true);
   });
 
   test('Http Service', () async {
@@ -60,7 +76,3 @@ void main() {
     expect(voteProposal, HttpMockResponse.transactionResult);
   });
 }
-
-// I/flutter ( 3715): invite mnemonic: musician-layer-faith-jump-decision
-// I/flutter ( 3715): invite secret: 59f703fe1e94a07d08c31cc63996e864342b9af034a9b4a00c5946037b7cf4c6
-// I/flutter ( 3715): invite hash: 5a1c8afc4aa6b001e9f36d4f1fe1997ef93bcbaec551ed9bd03be3c166913ccb

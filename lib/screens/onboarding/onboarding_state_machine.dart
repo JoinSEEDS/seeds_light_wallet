@@ -29,11 +29,11 @@ enum Events {
   chosenClaimInvite,
   accountCreated,
   accountImported,
-  inviteCodeClaimed,
   createAccountRequested,
   importAccountRequested,
   createAccountFailed,
   importAccountFailed,
+  claimInviteRequested
 }
 
 enum States {
@@ -116,8 +116,8 @@ class OnboardingStateMachine {
           targetState: States.onboardingMethodChoice,
         ),
         _Transition(
-          event: Events.inviteCodeClaimed,
-          targetState: States.createAccount,
+          event: Events.claimInviteRequested,
+          targetState: States.inviteConfirmation,
         ),
       ],
     ),

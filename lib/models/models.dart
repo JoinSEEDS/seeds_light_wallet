@@ -111,7 +111,12 @@ class BalanceModel {
   BalanceModel(this.quantity);
 
   factory BalanceModel.fromJson(List<dynamic> json) {
-    return BalanceModel(json[0] as String);
+    if (json != null && json.isNotEmpty) {
+      print("first");
+      return BalanceModel(json[0] as String);
+    } else {
+      return BalanceModel("0.0000 SEEDS");
+    }
   }
 
   @override
@@ -129,7 +134,11 @@ class PlantedModel {
   PlantedModel(this.quantity);
 
   factory PlantedModel.fromJson(Map<String, dynamic> json) {
-    return PlantedModel(json["rows"][0]["balance"] as String);
+    if (json != null && json["rows"].isNotEmpty) {
+      return PlantedModel(json["rows"][0]["planted"] as String);
+    } else {
+      return PlantedModel("0.0000 SEEDS");
+    }
   }
 
   @override
@@ -147,7 +156,11 @@ class VoiceModel {
   VoiceModel(this.amount);
 
   factory VoiceModel.fromJson(Map<String, dynamic> json) {
-    return VoiceModel(json["rows"][0]["balance"] as int);
+    if (json != null && json["rows"].isNotEmpty) {
+      return VoiceModel(json["rows"][0]["balance"] as int);
+    } else {
+      return VoiceModel(0);
+    }
   }
 
   @override
