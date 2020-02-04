@@ -25,6 +25,34 @@ class HttpService {
   static HttpService of(BuildContext context, {bool listen = false}) =>
       Provider.of(context, listen: listen);
 
+  Future<ProfileModel> getProfile() async {
+    print("[http] get profile");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.profile;
+    }
+
+    final String profileURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(profileURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      ProfileModel profile = ProfileModel.fromJson(body);
+
+      return profile;
+    } else {
+      print('Cannot fetch profile...');
+
+      return ProfileModel();
+    }
+  }
+
   Future<List<String>> getKeyAccounts(String publicKey) async {
     print("[http] get key accounts");
 
@@ -309,6 +337,25 @@ class HttpService {
       print('Cannot fetch invites...');
 
       return [];
+    }
+  }
+
+  /// returns true if the account name doesn't exist
+  Future<bool> checkAccountName(String accountName) async {
+    if (mockResponse == true) return true;
+
+    final String keyAccountsURL =
+        "$baseURL/v2/history/get_creator?account=$accountName";
+
+    Response res = await get(keyAccountsURL);
+
+    if (res.statusCode == 200) {
+      return false;
+    } else if (res.statusCode == 404) {
+      // the account doesn't exist
+      return true;
+    } else {
+      return false;
     }
   }
 }

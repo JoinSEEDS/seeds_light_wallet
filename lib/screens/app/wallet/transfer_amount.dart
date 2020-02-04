@@ -6,7 +6,9 @@ import 'package:seeds/constants/app_colors.dart';
 
 class TransferAmount extends StatefulWidget {
   final String amountValue;
+
   TransferAmount(this.amountValue);
+
   @override
   _TransferAmountState createState() => _TransferAmountState();
 }

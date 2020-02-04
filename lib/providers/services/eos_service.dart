@@ -1,4 +1,6 @@
 import 'package:eosdart/eosdart.dart';
+import 'package:flutter/widgets.dart' show BuildContext;
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 
@@ -10,11 +12,15 @@ class EosService {
   EOSClient client;
   bool mockEnabled;
 
-  void update(
-      {userPrivateKey,
-      userAccountName,
-      nodeEndpoint,
-      bool enableMockTransactions = false}) {
+  static EosService of(BuildContext context, {bool listen = true}) =>
+      Provider.of(context, listen: listen);
+
+  void update({
+    userPrivateKey,
+    userAccountName,
+    nodeEndpoint,
+    bool enableMockTransactions = false,
+  }) {
     privateKey = userPrivateKey;
     accountName = userAccountName;
     baseURL = nodeEndpoint;
@@ -48,6 +54,44 @@ class EosService {
       ];
 
     return transaction;
+  }
+
+  Future<dynamic> updateProfile({
+    String nickname,
+    String image,
+    String story,
+    String roles,
+    String skills,
+    String interests,
+  }) async {
+    print("[eos] update profile");
+
+    if (mockEnabled) {
+      return HttpMockResponse.transactionResult;
+    }
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "accts.seeds"
+        ..name = "update"
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = {
+          "user": accountName,
+          "type": "individual",
+          "nickname": nickname,
+          "image": image,
+          "story": story,
+          "roles": roles,
+          "skills": skills,
+          "interests": interests
+        }
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
   }
 
   Future<dynamic> createInvite(

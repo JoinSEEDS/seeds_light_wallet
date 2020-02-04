@@ -43,6 +43,11 @@ dependencies:
   provider: ^4.0.2
   basic_utils: ^2.4.8  
 
+  photo_view: ^0.9.1
+  image_picker: ^0.6.3+1
+  image_cropper: ^1.2.0
+  firebase_storage: ^3.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

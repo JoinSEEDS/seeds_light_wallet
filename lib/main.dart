@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/providers.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/providers.dart';
+
 import 'generated/r.dart';
 
 main(List<String> args) async {

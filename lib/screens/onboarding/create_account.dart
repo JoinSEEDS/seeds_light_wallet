@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_toolbox/flutter_toolbox.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 
 class CreateAccount extends StatefulWidget {
@@ -24,7 +27,7 @@ class _CreateAccountState extends State<CreateAccount> {
 
   FocusNode accountNameFocus = FocusNode();
 
-  Future createAccount() async {
+  createAccount() async {
     final FormState form = formKey.currentState;
     if (form.validate()) {
       form.save();
@@ -36,51 +39,116 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 
   String _validateAccountName(String val) {
-    if (val.length != 12)
+    if (val.length != 12) {
       return 'Your account name should have exactly 12 symbols';
-    if (RegExp(r'0|6|7|8|9').allMatches(val).length > 0)
+    } else if (RegExp(r'0|6|7|8|9').allMatches(val).length > 0) {
       return 'Your account name should only contain number 1-5';
-    if (val.toLowerCase() != val)
+    } else if (val.toLowerCase() != val) {
       return "Your account name can't cont'n uppercase letters";
+    } else if (RegExp(r'[a-z]|1|2|3|4|5').allMatches(val).length != 12) {
+      return 'Your account name should only contain number 1-5';
+    } else if (RegExp(r'[a-z]').allMatches(val[0]).length == 0) {
+      return 'Your account name should lower case letter';
+    }
     return null;
   }
 
+  // TODO: add debounce so we don't send unnecessary requests.
   List<Widget> createSuggestions() {
     final suggestions = List<String>();
 
     String suggestion;
+
+    // remove uppercase
     if (_accountName.toLowerCase() != _accountName) {
       suggestion = _accountName.toLowerCase();
     }
+
+    // replace 0|6|7|8|9 with 1
     if (RegExp(r'0|6|7|8|9').allMatches(_accountName).length > 0) {
-      suggestion = _accountName.replaceAll(RegExp(r'0|6|7|8|9'), '1');
+      suggestion = _accountName.replaceAll(RegExp(r'0|6|7|8|9'), '');
     }
-    if (_accountName.length < 12) {
-      final missingChars = 12 - _accountName.length;
-      suggestion = (suggestion ?? _accountName) + '_' * missingChars;
+
+    // remove characters out of the accepted range
+    suggestion = _accountName.split('').map((char) {
+      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(char).length > 0;
+
+      return legalChar ? char.toString() : '';
+    }).join();
+
+    // remove the first char if it was a number
+    if (suggestion?.isNotEmpty == true) {
+      final illegalChar =
+          RegExp(r'[a-z]').allMatches(suggestion[0]).length == 0;
+
+      if (illegalChar) suggestion = suggestion.substring(1);
+    }
+
+    // add the missing characters.
+    if (suggestion.length < 12) {
+      final missingCharsCount = 12 - suggestion.length;
+
+      final missingChars = (_accountName.hashCode.toString() * 2)
+          .split('')
+          .map((char) => int.parse(char).clamp(1, 5))
+          .take(missingCharsCount)
+          .join();
+
+      suggestion = (suggestion ?? _accountName) + missingChars;
     }
 
     suggestions.add(suggestion);
 
     return suggestions.map((suggestion) {
-      return InkWell(
-        onTap: () {
-          setState(() {
-            _accountNameController.text = suggestion;
+      return FutureLoadingBuilder<String>(
+        future: getValidAccountName(suggestion),
+        mutable: true,
+        builder: (context, suggestion) {
+          return InkWell(
+            onTap: () {
+              setState(() {
+                _accountNameController.text = suggestion;
 
-            _accountNameController.selection = TextSelection.fromPosition(
-                TextPosition(offset: _accountNameController.text.length));
-          });
+                _accountNameController.selection = TextSelection.fromPosition(
+                    TextPosition(offset: _accountNameController.text.length));
+              });
+            },
+            child: Text(
+              suggestion,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+            ),
+          );
         },
-        child: Text(
-          suggestion,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
-          ),
-        ),
       );
     }).toList();
+  }
+
+  Future<String> getValidAccountName(
+    String suggestion, {
+    int triedIndex = 0,
+  }) async {
+    final isAvailable = await HttpService.of(context, listen: false)
+        .checkAccountName(suggestion);
+    if (isAvailable) {
+      return suggestion;
+    } else {
+      final newSuggestion = replaceCharAt(
+        suggestion,
+        suggestion.length - 1 - triedIndex,
+        Random().nextInt(6).clamp(1, 5).toString(),
+      );
+      return await getValidAccountName(newSuggestion,
+          triedIndex: triedIndex + 1);
+    }
+  }
+
+  String replaceCharAt(String oldString, int index, String newChar) {
+    return oldString.substring(0, index) +
+        newChar +
+        oldString.substring(index + 1);
   }
 
   @override
@@ -126,6 +194,25 @@ class _CreateAccountState extends State<CreateAccount> {
               MainButton(
                 title: "Create account",
                 onPressed: () async => await createAccount(),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(text: "Your account name should have "),
+                    TextSpan(
+                      text: "exactly 12",
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16),
+              MainButton(
+                title: "Create account",
+                onPressed: createAccount,
               ),
               SizedBox(
                 height: 40,

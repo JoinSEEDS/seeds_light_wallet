@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/utils/invites.dart';
 
 void main() {
@@ -53,6 +53,7 @@ void main() {
     final voice = await service.getVoice();
     final proposals = await service.getProposals("active");
     final invites = await service.getInvites();
+    final profile = await service.getProfile();
 
     expect(members, HttpMockResponse.members);
     expect(transactions, HttpMockResponse.transactions);
@@ -60,6 +61,7 @@ void main() {
     expect(voice.amount, HttpMockResponse.voice.amount);
     expect(proposals, HttpMockResponse.proposals);
     expect(invites, HttpMockResponse.invites);
+    expect(profile, HttpMockResponse.profile);
   });
 
   test('Eos Service', () async {
@@ -69,10 +71,12 @@ void main() {
     final acceptInvite = await service.acceptInvite();
     final transferSeeds = await service.transferSeeds();
     final voteProposal = await service.voteProposal();
+    final updateProfile = await service.updateProfile();
 
     expect(createInvite, HttpMockResponse.transactionResult);
     expect(acceptInvite, HttpMockResponse.transactionResult);
     expect(transferSeeds, HttpMockResponse.transactionResult);
     expect(voteProposal, HttpMockResponse.transactionResult);
+    expect(updateProfile, HttpMockResponse.transactionResult);
   });
 }
