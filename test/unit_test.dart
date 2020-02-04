@@ -1,10 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/constants/http_mock_response.dart';
+import 'package:seeds/utils/invites.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  test('Convert invite hash', () async {
+    String input = "8669574470f134c4d95c284d9f397f6c48a6db8ea44830d8e433574836ff007e";
+    String expectedOutput = '6c7f399f4d285cd9c434f170445769867e00ff36485733e4d83048a48edba648';
+
+    String output = reverseHash(input);
+
+    expect(expectedOutput, output);
+  });
   test('Invite Integration', () async {
     final service = HttpService()
       ..update(

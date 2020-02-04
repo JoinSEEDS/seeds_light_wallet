@@ -41,6 +41,7 @@ dependencies:
   random_words: ^1.0.2
   share: ^0.6.3+5
   provider: ^4.0.2
+  basic_utils: ^2.4.8  
 
 dev_dependencies:
   flutter_test:

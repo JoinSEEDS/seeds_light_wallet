@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/utils/invites.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
@@ -251,10 +252,11 @@ class HttpService {
       return HttpMockResponse.invite;
     }
 
-    String inviteURL = "$baseURL/v1/chain/get_table_rows";
+    String reversedHash = reverseHash(inviteHash);
 
+    String inviteURL = "https://node.hypha.earth/v1/chain/get_table_rows";
     String request =
-        '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","table_key":"byhash","lower_bound":"$inviteHash","upper_bound":"$inviteHash","index_position":2,"key_type":"sha256","limit":100,"reverse":false,"show_payer":false}';
+        '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$reversedHash","upper_bound":"$reversedHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(inviteURL, headers: headers, body: request);
@@ -262,7 +264,11 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      InviteModel invite = InviteModel.fromJson(body);
+      InviteModel invite = InviteModel();
+
+      if (body["rows"] != null && body["rows"].length > 0) {
+        invite = InviteModel.fromJson(body);
+      }
 
       return invite;
     } else {
