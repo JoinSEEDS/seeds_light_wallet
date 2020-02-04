@@ -139,30 +139,18 @@ class _AppState extends State<App> {
     return BottomNavigationBarItem(
       icon: Container(
         width: width,
-        decoration: tabIndex == index ? BoxDecoration(
-          gradient: LinearGradient(
-            colors: AppColors.gradient
-          ),
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))
-        ) : BoxDecoration(),
         padding: EdgeInsets.only(top: 7, left: 3, right: 3),
         child: SvgPicture.asset(icon,
-          color: tabIndex == index ? Colors.white: AppColors.grey,
+          color: tabIndex == index ? AppColors.blue: AppColors.grey,
         ),
       ),
       title: Container(
         width: width,
         alignment: Alignment.center,
-        decoration: tabIndex == index ? BoxDecoration(
-          gradient: LinearGradient(
-            colors: AppColors.gradient
-          ),
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(8), bottomLeft: Radius.circular(8))
-        ) : BoxDecoration(),
-        padding: EdgeInsets.only(bottom: 5, top: 2, left: 3, right: 3),
+        padding: EdgeInsets.only(bottom: 5, top: 5, left: 3, right: 3),
         child: Text(title,
           style: TextStyle(
-            color: tabIndex == index ? Colors.white: AppColors.grey,
+            color: tabIndex == index ? AppColors.blue: AppColors.grey,
             fontSize: 12
           ),
         )

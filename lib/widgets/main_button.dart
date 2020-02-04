@@ -53,7 +53,11 @@ class MainButton extends StatelessWidget {
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: fontSize),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white, 
+                    fontSize: fontSize
+                    ),
                 ),
               ),
             ),

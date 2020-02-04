@@ -92,10 +92,10 @@ class _TransferFormState extends State<TransferForm>
     return Column(
       children: <Widget>[
         ClipRRect(
-          borderRadius: BorderRadius.circular(width * 0.22),
+          borderRadius: BorderRadius.circular(70),//width * 0.22),
           child: Container(
-            width: width * 0.22,
-            height: width * 0.22,
+            width: 70,//width * 0.22,
+            height: 70,//width * 0.22,
             color: AppColors.blue,
             child: widget.arguments.avatar != null
                 ? Hero(
@@ -117,6 +117,7 @@ class _TransferFormState extends State<TransferForm>
         Hero(
           tag: "nickname#${widget.arguments.fullName}",
           child: Material(
+            color: Colors.white,
             child: Container(
               margin: EdgeInsets.only(top: 10, left: 20, right: 20),
               child: Text(
@@ -130,6 +131,7 @@ class _TransferFormState extends State<TransferForm>
         Hero(
           tag: "account#${widget.arguments.fullName}",
           child: Material(
+            color: Colors.white,
             child: Container(
               margin: EdgeInsets.only(top: 5, left: 20, right: 20),
               child: Text(
@@ -144,34 +146,79 @@ class _TransferFormState extends State<TransferForm>
     );
   }
 
+  Widget buildTextField() {
+    return Container(
+      margin: EdgeInsets.only(top: 40),
+      child: Stack(
+        alignment: Alignment.centerRight,
+        children:[
+          TextFormField(
+            autofocus: true,
+            keyboardType: TextInputType.number,
+            controller: controller,    
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w500,
+            ),
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              errorBorder: InputBorder.none,
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: AppColors.blue.withOpacity(0.5), width: 3)
+              ),
+              contentPadding: EdgeInsets.zero,
+              focusedBorder:UnderlineInputBorder(
+                borderSide: BorderSide(color: AppColors.blue, width: 3)
+              ),
+              hintStyle: TextStyle(
+                color: Colors.grey,
+              )
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(),
+            child: Text('SEEDS',
+              style: TextStyle(
+                color: AppColors.grey,
+                fontWeight: FontWeight.w500,
+                fontSize: 25
+              ),
+            ),
+          ) 
+        ]
+      )
+    );
+  }
+
   Widget buildBalance() {
     final balance = BalanceNotifier.of(context).balance.quantity;
 
     final width = MediaQuery.of(context).size.width;
     return Container(
         width: width,
-        margin: EdgeInsets.only(bottom: 20, top: 20),
+        margin: EdgeInsets.only(bottom: 20, top: 30),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.blue.withOpacity(0.3)),
+          border: Border.all(color: AppColors.lightGrey),
         ),
-        padding: EdgeInsets.all(7),
-        child: Column(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              'Available balance',
+              'Your vailable balance',
               style: TextStyle(
-                  color: AppColors.blue,
+                  color: AppColors.grey,
                   fontSize: 14,
                   fontWeight: FontWeight.w300),
             ),
-            Padding(padding: EdgeInsets.only(top: 3)),
             Text(
               '$balance',
               style: TextStyle(
-                  color: AppColors.blue,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
+                  color: AppColors.grey,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600),
             ),
           ],
         ));
@@ -182,36 +229,47 @@ class _TransferFormState extends State<TransferForm>
     return Stack(
       children: <Widget>[
         Scaffold(
-          resizeToAvoidBottomPadding: false,
+          resizeToAvoidBottomPadding: true,
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.close, color: Colors.black),
               onPressed: () => Navigator.of(context).pop(),
             ),
+            centerTitle: true,
+            title: Text('Transfer to',
+              style: TextStyle(
+                color: Colors.black
+              ),
+            ),
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           backgroundColor: Colors.white,
-          body: Container(
-            margin: EdgeInsets.only(left: 17, right: 17),
-            child: Column(
-              children: <Widget>[
-                buildProfile(),
-                buildBalance(),
-                MainTextField(
-                  keyboardType: TextInputType.number,
-                  controller: controller,
-                  labelText: 'Transfer amount',
-                  endText: 'SEEDS',
-                ),
-                MainButton(
-                  margin: EdgeInsets.only(top: 25),
-                  title: 'Send',
-                  onPressed: onSend,
-                )
-              ],
+          body: SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.only(left: 17, right: 17),
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                    child: Column(
+                      children: [
+                        buildProfile(),
+                        buildTextField(),
+                        buildBalance(),
+                      ]
+                    )
+                  ),
+                  MainButton(
+                    margin: EdgeInsets.only(bottom: 20, top: 15),
+                    title: 'Send',
+                    onPressed: onSend,
+                  )
+                ],
+              ),
             ),
-          ),
+          )
         ),
         showPageLoader ? _buildPageLoader() : Container(),
       ],

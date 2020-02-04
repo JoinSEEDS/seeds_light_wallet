@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
@@ -6,10 +7,12 @@ import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
 
 import 'package:provider/provider.dart';
+import 'package:seeds/widgets/transaction_dialog.dart';
 
 enum TransactionType { income, outcome }
 
@@ -36,27 +39,27 @@ class _DashboardState extends State<Dashboard>
             children: <Widget>[
               buildNotification('Urgent proposals wating for your approval'),
               buildHeader(),
-              Row(
-                children: <Widget>[
-                  Consumer<VoiceNotifier>(
-                    builder: (context, model, child) => buildBalance(
-                      'Voice balance',
-                      "${model?.balance?.amount ?? 0}",
-                      'Proposals',
-                      onVote,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(left: 7)),
-                  Consumer<PlantedNotifier>(
-                    builder: (context, model, child) => buildBalance(
-                      'Planted balance',
-                      "${model?.balance?.quantity ?? 0}",
-                      'Harvest',
-                      onInvite,
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: <Widget>[
+              //     Consumer<VoiceNotifier>(
+              //       builder: (context, model, child) => buildBalance(
+              //         'Voice balance',
+              //         "${model?.balance?.amount ?? 0}",
+              //         'Proposals',
+              //         onVote,
+              //       ),
+              //     ),
+              //     Padding(padding: EdgeInsets.only(left: 7)),
+              //     Consumer<PlantedNotifier>(
+              //       builder: (context, model, child) => buildBalance(
+              //         'Planted balance',
+              //         "${model?.balance?.quantity ?? 0}",
+              //         'Harvest',
+              //         onInvite,
+              //       ),
+              //     ),
+              //   ],
+              // ),
               buildTransactions()
             ],
           )),
@@ -75,7 +78,8 @@ class _DashboardState extends State<Dashboard>
   }
 
   void onTransfer() {
-    NavigationService.of(context).navigateTo(Routes.transfer);
+    //NavigationService.of(context).navigateTo(Routes.transfer);
+    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext ctx){ return Transfer();}));
   }
 
   void onVote() {
@@ -84,6 +88,22 @@ class _DashboardState extends State<Dashboard>
 
   void onInvite() {
     NavigationService.of(context).navigateTo(Routes.invites);
+  }
+
+  void onTransaction(TransactionModel model) {
+    //TODO: show correctly in fullscreen (above bottom tabs and tapbar)
+    showModalBottomSheet(
+      context: context,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+      ),
+      builder: (BuildContext context){
+        return TransactionDialog(
+          transaction: model
+        );
+      }
+    );
   }
 
   void onClose() {}
@@ -206,104 +226,131 @@ class _DashboardState extends State<Dashboard>
     ));
   }
 
-  Widget buildTransaction(String name, String amount, TransactionType type) {
-    return Container(
-        margin: EdgeInsets.only(top: 5, bottom: 5),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                  child: Row(
+  Widget buildTransaction(TransactionModel model) {
+     final type = TransactionType.income;
+     final fullName = 'fddf as';
+     final imageUrl = null;
+     return InkWell(
+        onTap: ()=> onTransaction(model),
+        child: Column(children: [
+          Divider(height: 22),
+          Container(
+              child: Row(
                 children: <Widget>[
-                  type == TransactionType.income
-                      ? Icon(
-                          Icons.arrow_downward,
-                          color: AppColors.green,
-                          size: 17,
-                        )
-                      : Icon(
-                          Icons.arrow_upward,
-                          color: AppColors.orange,
-                          size: 17,
-                        ),
-                  Padding(padding: EdgeInsets.only(left: 5)),
                   Flexible(
-                    child: Text(
-                      name,
-                      maxLines: 1,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  )
-                ],
-              )),
-              Row(
-                children: <Widget>[
-                  type == TransactionType.income
-                      ? Text(
-                          '+ ',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: AppColors.green,
-                              fontWeight: FontWeight.w600),
-                        )
-                      : Text(
-                          '- ',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: AppColors.orange,
-                              fontWeight: FontWeight.w600),
+                      child: Row(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 10),
+                        child: Icon(type == TransactionType.income ? Icons.arrow_downward : Icons.arrow_upward,
+                          color: type == TransactionType.income ? AppColors.green : AppColors.red,
                         ),
-                  Text(
-                    '$amount',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                      ),
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: Hero(
+                              child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  color: AppColors.blue,
+                                  child: imageUrl != null
+                                    ? CachedNetworkImage(imageUrl: imageUrl)
+                                    : Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          fullName
+                                              .substring(0, 2)
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      )),
+                              tag: 'avatar#${model.from}')),
+                      Flexible(
+                          child: Container(
+                              margin: EdgeInsets.only(left: 10, right: 10),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Hero(
+                                        child: Container(
+                                          child: Text(
+                                            fullName,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 15),
+                                          ),
+                                        ),
+                                        tag: 'nickname${model.from}'),
+                                    Hero(
+                                        child: Container(
+                                          child: Text(
+                                            model.from,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                color: AppColors.grey,
+                                                fontSize: 13),
+                                          ),
+                                        ),
+                                        tag: 'account#${model.from}}'),
+                                  ])))
+                    ],
+                  )),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 15),
+                    child: Row(
+                      children: <Widget>[
+                        Text(type == TransactionType.income ? '+ ' : '-' ,
+                          style: TextStyle(
+                            color: type == TransactionType.income ? AppColors.green : AppColors.red,
+                            fontSize: 16
+                          ),
+                        ),
+                        Text(model.quantity,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15
+                          ),
+                        )
+                      ],
+                    )
                   )
                 ],
-              ),
-            ]));
-  }
-
-  Widget buildDateTransactions(
-      String date, List<TransactionModel> transactions) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Divider(),
-        Container(
-            margin: EdgeInsets.only(top: 10, bottom: 10),
-            child: Text(
-              date,
-              style: TextStyle(fontSize: 14, color: AppColors.grey),
-            )),
-        Column(
-          children: <Widget>[
-            ...transactions.map((trx) {
-              return buildTransaction(
-                  trx.to, trx.quantity, TransactionType.income);
-            }).toList()
-          ],
-        )
-      ],
-    );
+              ))
+        ]));
   }
 
   Widget buildTransactions() {
     final width = MediaQuery.of(context).size.width;
     return Container(
       width: width,
-      margin: EdgeInsets.only(bottom: 7, top: 7),
+      margin: EdgeInsets.only(bottom: 7, top: 15),
       child: MainCard(
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.only(top: 15, bottom: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'Latest transactions',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            Container(
+              padding: EdgeInsets.only(bottom: 3, left: 15, right: 15),
+              child: Text(
+                'Latest transactions',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              )
             ),
             Consumer<TransactionsNotifier>(
               builder: (context, model, child) =>
                   model != null && model.transactions != null
-                      ? buildDateTransactions('18.01.2020', model.transactions)
+                      ? Column(
+                        children: <Widget>[
+                          ...model.transactions.map((trx) {
+                            // TODO: actual model
+                            return buildTransaction(trx);
+                          }).toList()
+                        ],
+                      )
                       : Center(
                           child: LinearProgressIndicator(
                             backgroundColor: AppColors.green,

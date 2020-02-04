@@ -75,6 +75,16 @@ flutter:
     - assets/images/explorer3.png
     - assets/images/explorer4.png
     - assets/images/explorer5.png
+    - assets/images/share.svg
+    - assets/images/repeat.svg
+    - assets/images/governance.svg
+    - assets/images/community.svg
+    - assets/images/exchange.svg
+    - assets/images/lending.svg
+    - assets/images/harvest.svg
+    - assets/images/success.svg
+    - assets/images/error.svg
+
     # assets end
 
     - assets/images/

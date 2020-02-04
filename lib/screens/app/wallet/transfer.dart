@@ -152,17 +152,17 @@ class _TransferState extends State<Transfer>
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          "Choose recipient",
-          style: TextStyle(fontFamily: "worksans", color: Colors.black),
+          'Transfer',
+          style: TextStyle(
+            color: Colors.black
+          ),
+          // "Choose recipient",
+          // style: TextStyle(fontFamily: "worksans", color: Colors.black),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search, color: AppColors.green,),
-            onPressed: () {},
-          )
         ],        
       ),
       body: Column(
@@ -223,7 +223,11 @@ class _TransferState extends State<Transfer>
                   child: Material(
                     child: Text(
                       user.nickname,
-                      style: TextStyle(fontFamily: "worksans"),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600
+                      ),
+                      //style: TextStyle(fontFamily: "worksans"),
                     ),
                     color: Colors.transparent,
                   ),
@@ -233,7 +237,11 @@ class _TransferState extends State<Transfer>
                   child: Material(
                     child: Text(
                       user.account,
-                      style: TextStyle(fontFamily: "worksans"),
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: AppColors.grey
+                      ),
+                      //style: TextStyle(fontFamily: "worksans"),
                     ),
                     color: Colors.transparent,
                   ),
