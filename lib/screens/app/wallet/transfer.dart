@@ -22,8 +22,12 @@ class Transfer extends StatefulWidget {
 
 class _TransferState extends State<Transfer>
     with AutomaticKeepAliveClientMixin {
+  bool showSearch = false;
+
   @override
   bool get wantKeepAlive => true;
+
+  FocusNode _searchFocusNode;
 
   Future onContact(String imageUrl, String fullName, String userName) async {
     await NavigationService.of(context).navigateTo(
@@ -55,23 +59,24 @@ class _TransferState extends State<Transfer>
                           borderRadius: BorderRadius.circular(40),
                           child: Hero(
                               child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  color: AppColors.blue,
-                                  child: imageUrl != null
-                                      ? CachedNetworkImage(imageUrl: imageUrl)
-                                      : Container(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            fullName
-                                                .substring(0, 2)
-                                                .toUpperCase(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        )),
+                                width: 40,
+                                height: 40,
+                                color: AppColors.blue,
+                                child: imageUrl != null
+                                    ? CachedNetworkImage(imageUrl: imageUrl)
+                                    : Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          fullName
+                                              .substring(0, 2)
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                              ),
                               tag: 'avatar#$userName')),
                       Flexible(
                           child: Container(
@@ -141,29 +146,80 @@ class _TransferState extends State<Transfer>
               ],
             )));
   }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(      
+    return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(
-          "Choose recipient",
-          style: TextStyle(fontFamily: "worksans", color: Colors.black),
-        ),
+        title: showSearch
+            ? Container(
+                decoration: BoxDecoration(
+                  color: AppColors.lightGrey,
+                  borderRadius: BorderRadius.all(Radius.circular(32)),
+                ),
+                child: TextField(
+                  autofocus: true,
+                  focusNode: _searchFocusNode,
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(fontSize: 17),
+                    hintText: 'Enter user name or account',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(15),
+                  ),
+                  onChanged: (text) {
+                    MembersNotifier.of(context).filterMembers(text);
+                  },
+                ),
+              )
+            : Text(
+                "Transfer",
+                style: TextStyle(fontFamily: "worksans", color: Colors.black),
+              ),
         centerTitle: true,
+        actions: <Widget>[
+          if (!showSearch)
+            IconButton(
+              icon: Icon(
+                Icons.search,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                print("change focus");
+
+                FocusScope.of(context).requestFocus(_searchFocusNode);
+
+                setState(() {
+                  print("set state");
+                  FocusScope.of(context).requestFocus(_searchFocusNode);
+
+                  showSearch = true;
+                });
+              },
+            )
+          else
+            IconButton(
+              icon: Icon(
+                Icons.highlight_off,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                _searchFocusNode.unfocus();
+
+                MembersNotifier.of(context).filterMembers('');
+                setState(() {
+                  showSearch = false;
+                });
+              },
+            ),
+        ],
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search, color: AppColors.green,),
-            onPressed: () {},
-          )
-        ],        
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -184,6 +240,13 @@ class _TransferState extends State<Transfer>
       MembersNotifier.of(context).fetchMembers();
     });
     super.initState();
+    _searchFocusNode = new FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    super.dispose();
   }
 
   Widget _usersList(context) {
@@ -201,12 +264,12 @@ class _TransferState extends State<Transfer>
         child: ListView.builder(
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),
-          itemCount: model?.members?.length ?? 8,
+          itemCount: model?.visibleMembers?.length ?? 8,
           itemBuilder: (ctx, index) {
-            if (model?.members == null || model.members.isEmpty) {
+            if (model?.visibleMembers == null || model.visibleMembers.isEmpty) {
               return _shimmerTile();
             } else {
-              final user = model.members[index];
+              final user = model.visibleMembers[index];
               return ListTile(
                 leading: Hero(
                   child: Container(
@@ -223,7 +286,8 @@ class _TransferState extends State<Transfer>
                   child: Material(
                     child: Text(
                       user.nickname,
-                      style: TextStyle(fontFamily: "worksans"),
+                      style: TextStyle(
+                          fontFamily: "worksans", fontWeight: FontWeight.w500),
                     ),
                     color: Colors.transparent,
                   ),
@@ -233,7 +297,8 @@ class _TransferState extends State<Transfer>
                   child: Material(
                     child: Text(
                       user.account,
-                      style: TextStyle(fontFamily: "worksans"),
+                      style: TextStyle(
+                          fontFamily: "worksans", fontWeight: FontWeight.w400),
                     ),
                     color: Colors.transparent,
                   ),

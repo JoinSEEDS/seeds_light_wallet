@@ -1,23 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
-import 'package:seeds/screens/app/explorer/friends.dart';
+import 'package:seeds/screens/app/explorer/invites/create_invite.dart';
+import 'package:seeds/screens/app/explorer/invites/invites.dart';
 import 'package:seeds/screens/app/explorer/overview.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposals.dart';
+import 'package:seeds/screens/app/profile/logout.dart';
+import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer_amount.dart';
 import 'package:seeds/screens/app/wallet/transfer_form.dart';
-import 'package:seeds/screens/onboarding/claim_code.dart';
-import 'package:seeds/screens/onboarding/create_account.dart';
-import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
-import 'package:seeds/screens/onboarding/onboarding_method_choice.dart';
-import 'package:seeds/screens/onboarding/show_invite.dart';
-import 'package:provider/provider.dart';
-import 'package:seeds/screens/onboarding/welcome.dart';
+import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -25,7 +23,7 @@ class Routes {
   static final transferForm = "TransferForm";
   static final transferAmount = "TransferAmount";
   static final onboarding = "Onboarding";
-  static final onboardingMethodChoice = "OnboardingMethodChoice";
+  static final joinProcess = "JoinProcess";
   static final importAccount = "ImportAccount";
   static final createAccount = "CreateAccount";
   static final showInvite = "ShowInvite";
@@ -33,10 +31,13 @@ class Routes {
   static final welcome = "Welcome";
   static final transfer = "Transfer";
   static final invites = "Invites";
+  static final createInvite = "CreateInvite";
   static final proposals = "Proposals";
   static final proposalDetailsPage = "ProposalDetailsPage";
   static final overview = "Overview";
   static final dashboard = "Dashboard";
+  static final logout = "Logout";
+  static final imageViewer = 'ImageViewer';
 }
 
 class NavigationService {
@@ -59,12 +60,12 @@ class NavigationService {
 
   final onboardingRoutes = {
     Routes.onboarding: (_) => Onboarding(),
-    Routes.onboardingMethodChoice: (_) => OnboardingMethodChoice(),
-    Routes.importAccount: (_) => ImportAccount(),
-    Routes.createAccount: (args) => CreateAccount(args),
-    Routes.showInvite: (args) => ShowInvite(args),
-    Routes.claimCode: (_) => ClaimCode(),
-    Routes.welcome: (args) => Welcome(args),
+    Routes.joinProcess: (_) => JoinProcess(),
+    // Routes.importAccount: (_) => ImportAccount(),
+    // Routes.createAccount: (args) => CreateAccount(args),
+    // Routes.showInvite: (args) => ShowInvite(args),
+    // Routes.claimCode: (_) => ClaimCode(),
+    // Routes.welcome: (args) => Welcome(args),
   };
 
   final appRoutes = {
@@ -72,9 +73,12 @@ class NavigationService {
     Routes.transferForm: (args) => TransferForm(args),
     Routes.transferAmount: (args) => TransferAmount(args),
     Routes.transfer: (_) => Transfer(),
-    Routes.invites: (_) => Friends(),
+    Routes.invites: (_) => Invites(),
+    Routes.createInvite: (_) => CreateInvite(),
     Routes.proposals: (_) => Proposals(),
     Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
+    Routes.logout: (_) => Logout(),
+    Routes.imageViewer: (args) => ImageViewer(profileModel: args),
   };
 
   final explorerRoutes = {

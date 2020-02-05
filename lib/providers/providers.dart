@@ -1,14 +1,15 @@
 import 'package:provider/provider.dart';
+import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
+import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
+import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/notifiers/balance_notifier.dart';
-import 'package:seeds/providers/notifiers/members_notifier.dart';
-import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 
@@ -28,19 +29,25 @@ final providers = [
       ),
   ),
   ChangeNotifierProxyProvider<SettingsNotifier, AuthNotifier>(
-    create: (_) => AuthNotifier(),
-    update: (_, settings, auth) => auth
-      ..update(
-        accountName: settings.accountName,
-        privateKey: settings.privateKey,
-        passcode: settings.passcode,
-      ),
-  ),
+      create: (_) => AuthNotifier(),
+      update: (_, settings, auth) {
+        if (settings.isInitialized) {
+          return auth
+            ..update(
+              accountName: settings.accountName,
+              privateKey: settings.privateKey,
+              passcode: settings.passcode,
+            );
+        } else {
+          return auth;
+        }
+      }),
   ProxyProvider<SettingsNotifier, LinksService>(
     create: (_) => LinksService(),
     update: (_, settings, links) => links
       ..update(
-        settings.accountName,
+        accountName: settings.accountName,
+        enableMockLink: false,
       ),
   ),
   ProxyProvider<SettingsNotifier, HttpService>(
@@ -81,5 +88,9 @@ final providers = [
   ChangeNotifierProxyProvider<HttpService, PlantedNotifier>(
     create: (context) => PlantedNotifier(),
     update: (context, http, balance) => balance..update(http: http),
+  ),
+  ChangeNotifierProxyProvider<HttpService, ProfileNotifier>(
+    create: (context) => ProfileNotifier(),
+    update: (context, http, members) => members..update(http: http),
   ),
 ];

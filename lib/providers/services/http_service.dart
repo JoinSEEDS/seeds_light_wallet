@@ -6,20 +6,52 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/utils/invites.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
   String userAccount;
   bool mockResponse;
 
-  void update({ String accountName, String nodeEndpoint, bool enableMockResponse = false }) {
+  void update(
+      {String accountName,
+      String nodeEndpoint,
+      bool enableMockResponse = false}) {
     nodeEndpoint = nodeEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
 
-  static HttpService of(BuildContext context, {bool listen = true}) =>
+  static HttpService of(BuildContext context, {bool listen = false}) =>
       Provider.of(context, listen: listen);
+
+  Future<ProfileModel> getProfile() async {
+    print("[http] get profile");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.profile;
+    }
+
+    final String profileURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(profileURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      ProfileModel profile = ProfileModel.fromJson(body);
+
+      return profile;
+    } else {
+      print('Cannot fetch profile...');
+
+      return ProfileModel();
+    }
+  }
 
   Future<List<String>> getKeyAccounts(String publicKey) async {
     print("[http] get key accounts");
@@ -28,7 +60,8 @@ class HttpService {
       return HttpMockResponse.keyAccounts;
     }
 
-    final String keyAccountsURL = "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
+    final String keyAccountsURL =
+        "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
 
     Response res = await get(keyAccountsURL);
 
@@ -51,7 +84,7 @@ class HttpService {
       print("unexpected error fetching accounts");
       return [];
     }
-  } 
+  }
 
   Future<List<MemberModel>> getMembers() async {
     print("[http] get members");
@@ -71,15 +104,10 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      List<dynamic> accountsWithProfile = body["rows"].where((dynamic item) {
-        return item["image"] != "" &&
-            item["nickname"] != "" &&
-            item["account"] != "";
-      }).toList();
+      List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members = accountsWithProfile
-          .map((item) => MemberModel.fromJson(item))
-          .toList();
+      List<MemberModel> members =
+          allAccounts.map((item) => MemberModel.fromJson(item)).toList();
 
       return members;
     } else {
@@ -187,7 +215,8 @@ class HttpService {
 
     final String plantedURL = '$baseURL/v1/chain/get_table_rows';
 
-    String request = '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
+    String request =
+        '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(plantedURL, headers: headers, body: request);
@@ -294,30 +323,70 @@ class HttpService {
     }
   }
 
+  Future<InviteModel> findInvite(String inviteHash) async {
+    print("[http] find invite by hash");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.invite;
+    }
+
+    String reversedHash = reverseHash(inviteHash);
+
+    String inviteURL = "https://node.hypha.earth/v1/chain/get_table_rows";
+
+    String request =
+        '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$reversedHash","upper_bound":"$reversedHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(inviteURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      if (body["rows"].isNotEmpty) {
+        return InviteModel.fromJson(body["rows"][0]);
+      } else {
+        throw EmptyResultException(
+          requestUrl: inviteURL,
+          requestBody: request,
+        );
+      }
+    } else {
+      throw NetworkException(
+        requestUrl: inviteURL,
+        requestBody: request,
+        responseStatusCode: res.statusCode,
+        responseBody: res.body.toString(),
+      );
+    }
+  }
+
   Future<List<InviteModel>> getInvites() async {
-    print("[http] get invites");
+    print("[http] get active invites");
 
     if (mockResponse == true) {
       return HttpMockResponse.invites;
     }
 
+    String invitesURL = "$baseURL/v1/chain/get_table_rows";
+
     String request =
-        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1000","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response res = await post(baseURL, headers: headers, body: request);
+    Response res = await post(invitesURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      List<dynamic> activeInvites = body["rows"].where((dynamic item) {
-        return item["inviteSecret"] == "";
-      }).toList();
+      if (body["rows"].length > 0) {
+        List<InviteModel> invites =
+            body["rows"].map((item) => InviteModel.fromJson(item)).toList();
 
-      List<InviteModel> invites =
-          activeInvites.map((item) => InviteModel.fromJson(item)).toList();
-
-      return invites;
+        return invites;
+      } else {
+        return [];
+      }
     } else {
       print('Cannot fetch invites...');
 
@@ -325,5 +394,57 @@ class HttpService {
     }
   }
 
+  /// returns true if the account name doesn't exist
+  Future<bool> checkAccountName(String accountName) async {
+    if (mockResponse == true) return true;
 
+    final String keyAccountsURL =
+        "$baseURL/v2/history/get_creator?account=$accountName";
+
+    Response res = await get(keyAccountsURL);
+
+    if (res.statusCode == 200) {
+      return false;
+    } else if (res.statusCode == 404) {
+      // the account doesn't exist
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+class NetworkException implements Exception {
+  final String requestUrl;
+  final String requestBody;
+  final int responseStatusCode;
+  final String responseBody;
+
+  NetworkException({
+    this.requestUrl,
+    this.requestBody,
+    this.responseStatusCode,
+    this.responseBody,
+  });
+
+  String get message => "request failed $requestUrl ($responseStatusCode)";
+
+  @override
+  String toString() {
+    return "NetworkException: $message";
+  }
+}
+
+class EmptyResultException implements Exception {
+  final String requestUrl;
+  final String requestBody;
+
+  EmptyResultException({this.requestUrl, this.requestBody});
+
+  String get message => "empty result at $requestUrl";
+
+  @override
+  String toString() {
+    return "EmptyResultException: $message";
+  }
 }
