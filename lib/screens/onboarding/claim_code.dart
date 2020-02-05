@@ -11,6 +11,7 @@ enum ClaimCodeStatus {
   foundNoInvite,
   foundClaimedInvite,
   foundValidInvite,
+  networkError,
 }
 
 class ClaimCode extends StatefulWidget {
@@ -61,9 +62,11 @@ class _ClaimCodeState extends State<ClaimCode> {
     inviteSecret = secretFromMnemonic(inviteCode);
     inviteHash = hashFromSecret(inviteSecret);
 
-    InviteModel invite = await HttpService.of(context).findInvite(inviteHash);
+    InviteModel invite;
 
-    if (invite.sponsor != null) {
+    try {
+      invite = await HttpService.of(context).findInvite(inviteHash);
+
       if (invite.account == null || invite.account == '') {
         setState(() {
           status = ClaimCodeStatus.foundValidInvite;
@@ -78,7 +81,11 @@ class _ClaimCodeState extends State<ClaimCode> {
           claimedAccount = invite.account;
         });
       }
-    } else {
+    } on NetworkException {
+      setState(() {
+        status = ClaimCodeStatus.networkError;
+      });
+    } on EmptyResultException {
       setState(() {
         status = ClaimCodeStatus.foundNoInvite;
       });
@@ -120,6 +127,11 @@ class _ClaimCodeState extends State<ClaimCode> {
                       Text("Looking for invite..."),
                     ],
                   ),
+                )
+              : Container(),
+          status == ClaimCodeStatus.networkError
+              ? Center(
+                  child: Text("Network not available, try later"),
                 )
               : Container(),
           status == ClaimCodeStatus.foundNoInvite

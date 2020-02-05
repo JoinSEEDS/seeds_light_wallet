@@ -283,7 +283,7 @@ class HttpService {
     String reversedHash = reverseHash(inviteHash);
 
     String inviteURL = "https://node.hypha.earth/v1/chain/get_table_rows";
-    
+
     String request =
         '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$reversedHash","upper_bound":"$reversedHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -293,17 +293,21 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      InviteModel invite = InviteModel();
-
-      if (body["rows"] != null && body["rows"].length > 0) {
-        invite = InviteModel.fromJson(body);
+      if (body["rows"].isNotEmpty) {
+        return InviteModel.fromJson(body["rows"][0]);
+      } else {
+        throw EmptyResultException(
+          requestUrl: inviteURL,
+          requestBody: request,
+        );
       }
-
-      return invite;
     } else {
-      print("Cannot fetch invite...");
-
-      return InviteModel();
+      throw NetworkException(
+        requestUrl: inviteURL,
+        requestBody: request,
+        responseStatusCode: res.statusCode,
+        responseBody: res.body.toString(),
+      );
     }
   }
 
@@ -357,5 +361,40 @@ class HttpService {
     } else {
       return false;
     }
+  }
+}
+
+class NetworkException implements Exception {
+  final String requestUrl;
+  final String requestBody;
+  final int responseStatusCode;
+  final String responseBody;
+
+  NetworkException({
+    this.requestUrl,
+    this.requestBody,
+    this.responseStatusCode,
+    this.responseBody,
+  });
+
+  String get message => "request failed $requestUrl ($responseStatusCode)";
+
+  @override
+  String toString() {
+    return "NetworkException: $message";
+  }
+}
+
+class EmptyResultException implements Exception {
+  final String requestUrl;
+  final String requestBody;
+
+  EmptyResultException({this.requestUrl, this.requestBody});
+
+  String get message => "empty result at $requestUrl";
+
+  @override
+  String toString() {
+    return "EmptyResultException: $message";
   }
 }
