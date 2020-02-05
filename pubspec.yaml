@@ -58,7 +58,7 @@ dev_dependencies:
 flutter_icons:
   android: false
   ios: true
-  image_path: "assets/images/launcher_icon.jpg"
+  image_path: "assets/images/launcher_icon.png"
 
 flutter:
   uses-material-design: true
@@ -82,6 +82,7 @@ flutter:
     - assets/images/explorer3.png
     - assets/images/explorer4.png
     - assets/images/explorer5.png
+    - assets/images/launcher_icon.png
     # assets end
 
     - assets/images/
