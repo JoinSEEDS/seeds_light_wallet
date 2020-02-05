@@ -9,6 +9,7 @@ import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
+import 'package:shimmer/shimmer.dart';
 
 enum TransactionType { income, outcome }
 
@@ -141,11 +142,13 @@ class _DashboardState extends State<Dashboard>
       child: MainCard(
         child: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: AppColors.gradient),
-              borderRadius: BorderRadius.circular(8)),
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: AppColors.gradient,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
           padding: EdgeInsets.all(7),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -157,18 +160,25 @@ class _DashboardState extends State<Dashboard>
                     fontSize: 14,
                     fontWeight: FontWeight.w300),
               ),
-              Consumer<BalanceNotifier>(
-                builder: (context, model, child) =>
-                    model != null && model.balance != null
-                        ? Text(
-                            '${model.balance.quantity}',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w700),
-                          )
-                        : LinearProgressIndicator(),
-              ),
+              Consumer<BalanceNotifier>(builder: (context, model, child) {
+                return (model != null && model.balance != null)
+                    ? Text(
+                        '${model.balance.quantity}',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w700),
+                      )
+                    : Shimmer.fromColors(
+                        baseColor: Colors.green[300],
+                        highlightColor: Colors.blue[300],
+                        child: Container(
+                          width: 200.0,
+                          height: 26,
+                          color: Colors.white,
+                        ),
+                      );
+              }),
               EmptyButton(
                 width: width * 0.5,
                 title: 'Transfer',
@@ -279,7 +289,9 @@ class _DashboardState extends State<Dashboard>
   }
 
   Widget buildDateTransactions(
-      String date, List<TransactionModel> transactions) {
+    String date,
+    List<TransactionModel> transactions,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -291,12 +303,34 @@ class _DashboardState extends State<Dashboard>
               style: TextStyle(fontSize: 14, color: AppColors.grey),
             )),
         Column(
-          children: <Widget>[
-            ...transactions.map((trx) {
-              return buildTransaction(
-                  trx.to, trx.quantity, TransactionType.income);
-            }).toList()
-          ],
+          children: (transactions != null)
+              ? transactions.map((trx) {
+                  return buildTransaction(
+                      trx.to, trx.quantity, TransactionType.income);
+                }).toList()
+              : List(1)
+                  .map((_) => Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              height: 16,
+                              width: 160,
+                              color: Colors.white,
+                              margin: EdgeInsets.only(top: 5, bottom: 5),
+                            ),
+                            Container(
+                              height: 16,
+                              width: 40,
+                              color: Colors.white,
+                              margin: EdgeInsets.only(top: 5, bottom: 5),
+                            ),
+                          ],
+                        ),
+                      ))
+                  .toList(),
         )
       ],
     );
@@ -318,13 +352,7 @@ class _DashboardState extends State<Dashboard>
             ),
             Consumer<TransactionsNotifier>(
               builder: (context, model, child) =>
-                  model != null && model.transactions != null
-                      ? buildDateTransactions('18.01.2020', model.transactions)
-                      : Center(
-                          child: LinearProgressIndicator(
-                            backgroundColor: AppColors.green,
-                          ),
-                        ),
+                  buildDateTransactions('18.01.2020', model?.transactions),
             ),
           ],
         ),
