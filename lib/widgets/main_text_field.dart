@@ -20,10 +20,8 @@ class MainTextField extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Container(
-      margin: margin,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        margin: margin,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
             padding: EdgeInsets.only(left: 5, top: 3, bottom: 3),
             child: Text(

@@ -59,23 +59,24 @@ class _TransferState extends State<Transfer>
                           borderRadius: BorderRadius.circular(40),
                           child: Hero(
                               child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  color: AppColors.blue,
-                                  child: imageUrl != null
-                                      ? CachedNetworkImage(imageUrl: imageUrl)
-                                      : Container(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            fullName
-                                                .substring(0, 2)
-                                                .toUpperCase(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        )),
+                                width: 40,
+                                height: 40,
+                                color: AppColors.blue,
+                                child: imageUrl != null
+                                    ? CachedNetworkImage(imageUrl: imageUrl)
+                                    : Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          fullName
+                                              .substring(0, 2)
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                              ),
                               tag: 'avatar#$userName')),
                       Flexible(
                           child: Container(
@@ -195,7 +196,7 @@ class _TransferState extends State<Transfer>
 
                 setState(() {
                   print("set state");
-                FocusScope.of(context).requestFocus(_searchFocusNode);
+                  FocusScope.of(context).requestFocus(_searchFocusNode);
 
                   showSearch = true;
                 });

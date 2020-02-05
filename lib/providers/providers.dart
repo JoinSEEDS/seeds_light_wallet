@@ -29,19 +29,25 @@ final providers = [
       ),
   ),
   ChangeNotifierProxyProvider<SettingsNotifier, AuthNotifier>(
-    create: (_) => AuthNotifier(),
-    update: (_, settings, auth) => auth
-      ..update(
-        accountName: settings.accountName,
-        privateKey: settings.privateKey,
-        passcode: settings.passcode,
-      ),
-  ),
+      create: (_) => AuthNotifier(),
+      update: (_, settings, auth) {
+        if (settings.isInitialized) {
+          return auth
+            ..update(
+              accountName: settings.accountName,
+              privateKey: settings.privateKey,
+              passcode: settings.passcode,
+            );
+        } else {
+          return auth;
+        }
+      }),
   ProxyProvider<SettingsNotifier, LinksService>(
     create: (_) => LinksService(),
     update: (_, settings, links) => links
       ..update(
-        settings.accountName,
+        accountName: settings.accountName,
+        enableMockLink: false,
       ),
   ),
   ProxyProvider<SettingsNotifier, HttpService>(

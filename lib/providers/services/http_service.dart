@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/utils/invites.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
@@ -21,7 +22,7 @@ class HttpService {
     mockResponse = enableMockResponse;
   }
 
-  static HttpService of(BuildContext context, {bool listen = true}) =>
+  static HttpService of(BuildContext context, {bool listen = false}) =>
       Provider.of(context, listen: listen);
 
   Future<ProfileModel> getProfile() async {
@@ -105,9 +106,8 @@ class HttpService {
 
       List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members = allAccounts
-          .map((item) => MemberModel.fromJson(item))
-          .toList();
+      List<MemberModel> members =
+          allAccounts.map((item) => MemberModel.fromJson(item)).toList();
 
       return members;
     } else {
@@ -273,30 +273,70 @@ class HttpService {
     }
   }
 
+  Future<InviteModel> findInvite(String inviteHash) async {
+    print("[http] find invite by hash");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.invite;
+    }
+
+    String reversedHash = reverseHash(inviteHash);
+
+    String inviteURL = "https://node.hypha.earth/v1/chain/get_table_rows";
+
+    String request =
+        '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$reversedHash","upper_bound":"$reversedHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(inviteURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      if (body["rows"].isNotEmpty) {
+        return InviteModel.fromJson(body["rows"][0]);
+      } else {
+        throw EmptyResultException(
+          requestUrl: inviteURL,
+          requestBody: request,
+        );
+      }
+    } else {
+      throw NetworkException(
+        requestUrl: inviteURL,
+        requestBody: request,
+        responseStatusCode: res.statusCode,
+        responseBody: res.body.toString(),
+      );
+    }
+  }
+
   Future<List<InviteModel>> getInvites() async {
-    print("[http] get invites");
+    print("[http] get active invites");
 
     if (mockResponse == true) {
       return HttpMockResponse.invites;
     }
 
+    String invitesURL = "$baseURL/v1/chain/get_table_rows";
+
     String request =
-        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1000","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response res = await post(baseURL, headers: headers, body: request);
+    Response res = await post(invitesURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      List<dynamic> activeInvites = body["rows"].where((dynamic item) {
-        return item["inviteSecret"] == "";
-      }).toList();
+      if (body["rows"].length > 0) {
+        List<InviteModel> invites =
+            body["rows"].map((item) => InviteModel.fromJson(item)).toList();
 
-      List<InviteModel> invites =
-          activeInvites.map((item) => InviteModel.fromJson(item)).toList();
-
-      return invites;
+        return invites;
+      } else {
+        return [];
+      }
     } else {
       print('Cannot fetch invites...');
 
@@ -321,5 +361,40 @@ class HttpService {
     } else {
       return false;
     }
+  }
+}
+
+class NetworkException implements Exception {
+  final String requestUrl;
+  final String requestBody;
+  final int responseStatusCode;
+  final String responseBody;
+
+  NetworkException({
+    this.requestUrl,
+    this.requestBody,
+    this.responseStatusCode,
+    this.responseBody,
+  });
+
+  String get message => "request failed $requestUrl ($responseStatusCode)";
+
+  @override
+  String toString() {
+    return "NetworkException: $message";
+  }
+}
+
+class EmptyResultException implements Exception {
+  final String requestUrl;
+  final String requestBody;
+
+  EmptyResultException({this.requestUrl, this.requestBody});
+
+  String get message => "empty result at $requestUrl";
+
+  @override
+  String toString() {
+    return "EmptyResultException: $message";
   }
 }

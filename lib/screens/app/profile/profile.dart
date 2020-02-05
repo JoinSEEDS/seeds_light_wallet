@@ -39,7 +39,7 @@ class _ProfileState extends State<Profile> {
     return Consumer<ProfileNotifier>(
       builder: (ctx, model, _) {
         if (model?.profile != null && model.profile.nickname != null) {
-        _nameController.text = model?.profile?.nickname ?? '';
+          _nameController.text = model?.profile?.nickname ?? '';
         }
         return Scaffold(
           body: ListView(
@@ -139,6 +139,12 @@ class _ProfileState extends State<Profile> {
                   onPressed: () => _saveProfile(model.profile),
                 ),
               ),
+              MainButton(
+                title: "Logout",
+                onPressed: () {
+                  NavigationService.of(context).navigateTo(Routes.logout);
+                },
+              ),
             ],
           ),
         );
@@ -216,7 +222,7 @@ class _ProfileState extends State<Profile> {
   void _saveProfile(ProfileModel profile) async {
     savingLoader.currentState.loading();
     var attachmentUrl;
-    if(_profileImage != null) {
+    if (_profileImage != null) {
       attachmentUrl = await _uploadFile(profile);
     }
     await Provider.of<EosService>(context, listen: false).updateProfile(
@@ -224,7 +230,7 @@ class _ProfileState extends State<Profile> {
       image: attachmentUrl ?? (profile.image ?? ''),
       story: '',
       roles: '',
-      skills:'',
+      skills: '',
       interests: '',
     );
     savingLoader.currentState.done();
@@ -232,15 +238,12 @@ class _ProfileState extends State<Profile> {
 
   _uploadFile(ProfileModel profile) async {
     String extensionName = pathUtils.extension(_profileImage.path);
-    String path = "ProfileImage/" +
-        profile.account +
-        '/' +
-        Uuid().v4() +
-        extensionName;
+    String path =
+        "ProfileImage/" + profile.account + '/' + Uuid().v4() + extensionName;
     StorageReference storageReference =
-    FirebaseStorage.instance.ref().child(path);
+        FirebaseStorage.instance.ref().child(path);
     String fileType =
-    extensionName.isNotEmpty ? extensionName.substring(1) : '*';
+        extensionName.isNotEmpty ? extensionName.substring(1) : '*';
     var uploadTask = storageReference.putFile(
         _profileImage, StorageMetadata(contentType: "image/$fileType"));
     await uploadTask.onComplete;

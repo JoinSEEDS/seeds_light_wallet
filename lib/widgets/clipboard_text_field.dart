@@ -27,15 +27,21 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
   }
 
   @override
-  void didChangeDependencies() {
-    print("did change deps");
-    if (widget.controller.text != "" && hasEmptyValue == true) {
-      setState(() {
-        hasEmptyValue = false;
-      });
-      Future.delayed(Duration.zero, onChanged);
-    }
-    super.didChangeDependencies();
+  void initState() {
+    widget.controller.addListener(() {
+      String val = widget.controller.text;
+      if (val == "" && hasEmptyValue == false) {
+        setState(() {
+          hasEmptyValue = true;
+        });
+      } else if (val != "" && hasEmptyValue == true) {
+        setState(() {
+          hasEmptyValue = false;
+        });
+      }
+      onChanged();
+    });
+    super.initState();
   }
 
   Widget showPasteButton() {
@@ -82,18 +88,6 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
     return TextField(
       autofocus: false,
       controller: widget.controller,
-      onChanged: (val) {
-        if (val == "" && hasEmptyValue == false) {
-          setState(() {
-            hasEmptyValue = true;
-          });
-        } else if (val != "" && hasEmptyValue == true) {
-          setState(() {
-            hasEmptyValue = false;
-          });
-        }
-        onChanged();
-      },
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         enabledBorder: OutlineInputBorder(

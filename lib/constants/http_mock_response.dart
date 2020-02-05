@@ -7,22 +7,22 @@ class HttpMockResponse {
       nickname: "Igor Berlenko",
       image: "",
     ),
-   MemberModel(
+    MemberModel(
       account: "sevenflash24",
       nickname: "Andrey MK",
       image: "",
     ),
-      MemberModel(
+    MemberModel(
       account: "fghreww",
       nickname: "Linda Lynch",
       image: "",
     ),
-      MemberModel(
+    MemberModel(
       account: "semfg",
       nickname: "Sean West",
       image: "",
     ),
-      MemberModel(
+    MemberModel(
       account: "joihjkl4",
       nickname: "John Rice",
       image: "",
@@ -32,12 +32,12 @@ class HttpMockResponse {
       nickname: "Joe Collins",
       image: "",
     ),
-      MemberModel(
+    MemberModel(
       account: "grsw4fr",
       nickname: "Keith Graham",
       image: "",
     ),
-      MemberModel(
+    MemberModel(
       account: "silvaG",
       nickname: "Gloria Silva",
       image: "",
@@ -83,14 +83,26 @@ class HttpMockResponse {
 
   static final invites = [
     InviteModel(
-        inviteId: 1,
-        transferQuantity: "10.0000 SEEDS",
-        sowQuantity: "5.0000 SEEDS",
-        sponsor: "sponsor",
-        account: "account",
-        inviteHash: "invite_hash",
-        inviteSecret: "invite_secret"),
+      inviteId: 1,
+      transferQuantity: "10.0000 SEEDS",
+      sowQuantity: "5.0000 SEEDS",
+      sponsor: "sponsor",
+      account: "account",
+      inviteHash: "invite_hash",
+      inviteSecret: "invite_secret",
+    ),
+    InviteModel(
+      inviteId: 2,
+      transferQuantity: "10.0000 SEEDS",
+      sowQuantity: "5.0000 SEEDS",
+      sponsor: "sponsor",
+      account: "",
+      inviteHash: "invite_hash",
+      inviteSecret: "",
+    ),
   ];
+
+  static final invite = invites[0];
 
   static final keyAccounts = ["sevenflash42", "testingseeds"];
 
