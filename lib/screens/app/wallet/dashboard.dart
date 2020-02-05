@@ -88,39 +88,44 @@ class _DashboardState extends State<Dashboard>
   void onClose() {}
 
   Widget buildNotification(String text) {
-    return InkWell(
-      onTap: (onVote),
-      child: Container(
-        margin: EdgeInsets.only(bottom: 13),
-        decoration: BoxDecoration(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: InkWell(
+        onTap: onVote,
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: AppColors.orange),
-            color: AppColors.orange.withOpacity(0.16)),
-        padding: EdgeInsets.only(left: 15),
-        child: Row(
-          children: <Widget>[
-            Icon(
-              Icons.warning,
-              color: AppColors.orange,
-              size: 20,
-            ),
-            Flexible(
-                child: Container(
-              margin: EdgeInsets.only(left: 7),
-              child: Text(
-                text,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.orange, fontSize: 14),
+            color: AppColors.orange.withOpacity(0.16),
+          ),
+          padding: EdgeInsets.only(left: 15),
+          child: Row(
+            children: <Widget>[
+              Icon(
+                Icons.warning,
+                color: AppColors.orange,
+                size: 20,
               ),
-            )),
-            IconButton(
-              padding: EdgeInsets.all(0),
-              icon: Icon(Icons.close),
-              onPressed: onClose,
-              color: AppColors.orange,
-              iconSize: 20,
-            )
-          ],
+              Flexible(
+                child: Container(
+                  margin: EdgeInsets.only(left: 7),
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: AppColors.orange, fontSize: 14),
+                  ),
+                ),
+              ),
+              IconButton(
+                padding: EdgeInsets.all(0),
+                icon: Icon(Icons.close),
+                onPressed: onClose,
+                color: AppColors.orange,
+                iconSize: 20,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -178,33 +183,43 @@ class _DashboardState extends State<Dashboard>
   }
 
   Widget buildBalance(
-      String title, String balance, String buttonTitle, Function onPressed) {
+    String title,
+    String balance,
+    String buttonTitle,
+    Function onPressed,
+  ) {
     return Expanded(
-        child: Container(
-      margin: EdgeInsets.only(bottom: 7, top: 7),
       child: MainCard(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(color: AppColors.grey, fontSize: 14),
-              ),
-              Padding(padding: EdgeInsets.only(top: 8)),
-              Text(
+        margin: EdgeInsets.only(bottom: 7, top: 7),
+        padding: EdgeInsets.all(15),
+        child: Column(
+          children: <Widget>[
+            Text(
+              title,
+              style: TextStyle(color: AppColors.grey, fontSize: 14),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: Text(
                 balance, // balance.toStringAsFixed(2),
                 style: TextStyle(fontSize: 20),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              Padding(padding: EdgeInsets.only(top: 12)),
-              EmptyButton(
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 12),
+              child: EmptyButton(
                 height: 28,
                 title: buttonTitle,
                 onPressed: onPressed,
                 fontSize: 14,
-              )
-            ],
-          )),
-    ));
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildTransaction(String name, String amount, TransactionType type) {
