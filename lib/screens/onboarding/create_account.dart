@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/widgets/main_text_field.dart';
 
 class CreateAccount extends StatefulWidget {
   final String inviteSecret;
@@ -20,12 +21,9 @@ Future<bool> isExistingAccount(String accountName) => Future.sync(() => false);
 
 class _CreateAccountState extends State<CreateAccount> {
   final formKey = GlobalKey<FormState>();
-
   final _accountNameController = TextEditingController();
-
-  String _accountName = '';
-
-  FocusNode accountNameFocus = FocusNode();
+  var _accountName = '';
+  var accountNameFocus = FocusNode();
 
   createAccount() async {
     final FormState form = formKey.currentState;
@@ -163,78 +161,55 @@ class _CreateAccountState extends State<CreateAccount> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextFormField(
+              MainTextField(
+                labelText: 'Account Name',
                 controller: _accountNameController,
-                focusNode: accountNameFocus,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Account name",
-                ),
-                style: TextStyle(
-                  fontFamily: "sfprotext",
-                  color: Colors.black,
-                  fontSize: 32,
-                ),
                 maxLength: 12,
+                focusNode: accountNameFocus,
                 validator: _validateAccountName,
                 onChanged: (value) {
                   setState(() => _accountName = value);
                 },
               ),
-              SizedBox(height: 16),
               if (_validateAccountName(_accountName) != null &&
                   _accountName.isNotEmpty)
-                Wrap(
-                  children: <Widget>[
-                    Text('Available: '),
-                    ...createSuggestions(),
-                  ],
-                ),
-              SizedBox(height: 16),
-              MainButton(
-                title: "Create account",
-                onPressed: () async => await createAccount(),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(text: "Your account name should have "),
-                    TextSpan(
-                      text: "exactly 12",
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 16),
-              MainButton(
-                title: "Create account",
-                onPressed: createAccount,
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              RichText(
-                text: TextSpan(
-                  style: TextStyle(
-                    color: Colors.black45,
-                    fontFamily: "worksans",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Wrap(
+                    children: <Widget>[
+                      Text('Available: '),
+                      ...createSuggestions(),
+                    ],
                   ),
-                  children: <TextSpan>[
-                    TextSpan(text: "Your account name should have "),
-                    TextSpan(
-                      text: "exactly 12",
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: MainButton(
+                  title: "Create account",
+                  onPressed: () async => await createAccount(),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 24.0),
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: Colors.black45,
+                      fontFamily: "worksans",
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
                     ),
-                    TextSpan(
-                        text:
-                            " symbols (lowercase letters and digits only 1-5)"),
-                  ],
+                    children: <TextSpan>[
+                      TextSpan(text: "Your account name should have "),
+                      TextSpan(
+                        text: "exactly 12",
+                        style: TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      TextSpan(
+                          text:
+                              " symbols (lowercase letters and digits only 1-5)"),
+                    ],
+                  ),
                 ),
               ),
             ],

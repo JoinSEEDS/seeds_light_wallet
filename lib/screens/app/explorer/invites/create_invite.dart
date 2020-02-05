@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/utils/invites.dart';
 import 'package:seeds/widgets/available_balance.dart';
+import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/transaction_details.dart';
 import 'package:share/share.dart';
-import 'package:provider/provider.dart';
-import 'package:seeds/widgets/fullscreen_loader.dart';
 
 enum InviteStatus {
   initial,
@@ -100,32 +100,34 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
       backgroundColor: Colors.white,
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 17),
-        child: Column(
-          children: <Widget>[
-            TransactionDetails(
-              image: Image.asset("assets/images/explorer2.png"),
-              title: "Invite friend",
-              beneficiary: "join.seeds",
-            ),
-            AvailableBalance(),
-            MainTextField(
-              keyboardType: TextInputType.number,
-              controller: sowController,
-              labelText: 'Sow amount (minimum: 5)',
-              endText: 'SEEDS',
-            ),
-            MainTextField(
-              keyboardType: TextInputType.number,
-              controller: transferController,
-              labelText: 'Transfer amount',
-              endText: 'SEEDS',
-            ),
-            MainButton(
-              margin: EdgeInsets.only(top: 25),
-              title: 'Create invite',
-              onPressed: onSend,
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              TransactionDetails(
+                image: Image.asset("assets/images/explorer2.png"),
+                title: "Invite friend",
+                beneficiary: "join.seeds",
+              ),
+              AvailableBalance(),
+              MainTextField(
+                keyboardType: TextInputType.number,
+                controller: sowController,
+                labelText: 'Sow amount (minimum: 5)',
+                endText: 'SEEDS',
+              ),
+              MainTextField(
+                keyboardType: TextInputType.number,
+                controller: transferController,
+                labelText: 'Transfer amount',
+                endText: 'SEEDS',
+              ),
+              MainButton(
+                margin: EdgeInsets.only(top: 25),
+                title: 'Create invite',
+                onPressed: onSend,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -244,8 +246,9 @@ class _CreateInviteState extends State<CreateInvite> {
   }
 
   void prepareInviteLink() async {
-    Uri dynamicSecretLink = await Provider.of<LinksService>(context, listen: false)
-        .createInviteLink(_readableSecretCode);
+    Uri dynamicSecretLink =
+        await Provider.of<LinksService>(context, listen: false)
+            .createInviteLink(_readableSecretCode);
 
     setState(() {
       _dynamicSecretLink = dynamicSecretLink.toString();
