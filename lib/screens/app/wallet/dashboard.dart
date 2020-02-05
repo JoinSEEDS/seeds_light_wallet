@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
@@ -8,8 +9,6 @@ import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
-
-import 'package:provider/provider.dart';
 
 enum TransactionType { income, outcome }
 
@@ -132,52 +131,54 @@ class _DashboardState extends State<Dashboard>
     final height = MediaQuery.of(context).size.height;
 
     return Container(
-        width: width,
-        height: height * 0.2,
-        child: MainCard(
-            child: Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: AppColors.gradient),
-                    borderRadius: BorderRadius.circular(8)),
-                padding: EdgeInsets.all(7),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text(
-                      'Available balance',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300),
-                    ),
-                    Consumer<BalanceNotifier>(
-                      builder: (context, model, child) =>
-                          model != null && model.balance != null
-                              ? Text(
-                                  '${model.balance.quantity}',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w700),
-                                )
-                              : LinearProgressIndicator(),
-                    ),
-                    EmptyButton(
-                      width: width * 0.5,
-                      title: 'Transfer',
-                      color: Colors.white,
-                      onPressed: (onTransfer),
-                    )
-                  ],
-                ))));
+      width: width,
+      height: height * 0.2,
+      child: MainCard(
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: AppColors.gradient),
+              borderRadius: BorderRadius.circular(8)),
+          padding: EdgeInsets.all(7),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text(
+                'Available balance',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300),
+              ),
+              Consumer<BalanceNotifier>(
+                builder: (context, model, child) =>
+                    model != null && model.balance != null
+                        ? Text(
+                            '${model.balance.quantity}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.w700),
+                          )
+                        : LinearProgressIndicator(),
+              ),
+              EmptyButton(
+                width: width * 0.5,
+                title: 'Transfer',
+                color: Colors.white,
+                onPressed: onTransfer,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget buildBalance(
       String title, String balance, String buttonTitle, Function onPressed) {
-    final width = MediaQuery.of(context).size.width;
     return Expanded(
         child: Container(
       margin: EdgeInsets.only(bottom: 7, top: 7),
@@ -196,11 +197,11 @@ class _DashboardState extends State<Dashboard>
               ),
               Padding(padding: EdgeInsets.only(top: 12)),
               EmptyButton(
-                  width: width * 0.25,
-                  height: 28,
-                  title: buttonTitle,
-                  onPressed: onPressed,
-                  fontSize: 14)
+                height: 28,
+                title: buttonTitle,
+                onPressed: onPressed,
+                fontSize: 14,
+              )
             ],
           )),
     ));

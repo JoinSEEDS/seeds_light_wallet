@@ -10,35 +10,33 @@ class EmptyButton extends StatelessWidget {
   final Function onPressed;
   final Color color;
 
-  EmptyButton({this.title, this.height = 40, this.width, this.fontSize = 18, this.color = AppColors.blue, this.margin, this.onPressed});
+  EmptyButton({
+    this.title,
+    this.height = 40,
+    this.width,
+    this.fontSize = 18,
+    this.color = AppColors.blue,
+    this.margin,
+    this.onPressed,
+  });
 
-  Widget build(BuildContext context) { 
-    //final width = MediaQuery.of(context).size.width;
+  Widget build(BuildContext context) {
     return Container(
+      width: width,
+      height: height,
       margin: margin,
-      child: Container(
-        height: height,
-        width: width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(26),
-          border: Border.all(color: color)
+      child: OutlineButton(
+        borderSide: BorderSide(color: color),
+        highlightedBorderColor: color,
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: color, fontSize: fontSize),
         ),
-        child: FlatButton(
-          onPressed: onPressed,
-          color: Colors.transparent,
-          child: Container(
-            height: height,
-            alignment: Alignment.center,
-            child: Text(title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: color,
-                fontSize: fontSize
-              )
-            ),
-          ),
-        )
-      )
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+        onPressed: onPressed,
+      ),
     );
   }
 }
