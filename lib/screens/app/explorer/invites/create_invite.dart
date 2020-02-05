@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/utils/invites.dart';
+import 'package:seeds/widgets/available_balance.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
-import 'package:seeds/widgets/reactive_widget.dart';
+import 'package:seeds/widgets/transaction_details.dart';
 import 'package:share/share.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
@@ -38,7 +37,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
       StreamController<String>.broadcast();
 
   final sowController = TextEditingController(text: '5');
-  final transferController = TextEditingController(text: '0');
+  final transferController = TextEditingController(text: '2');
 
   @override
   void dispose() {
@@ -112,7 +111,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
             MainTextField(
               keyboardType: TextInputType.number,
               controller: sowController,
-              labelText: 'Sow amount',
+              labelText: 'Sow amount (minimum: 5)',
               endText: 'SEEDS',
             ),
             MainTextField(
@@ -139,94 +138,6 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
         buildTransactionForm(),
         transactionSubmitted ? buildProgressOverlay() : Container(),
       ],
-    );
-  }
-}
-
-class TransactionDetails extends StatelessWidget {
-  final Widget image;
-  final String title;
-  final String beneficiary;
-
-  TransactionDetails({this.image, this.title, this.beneficiary});
-
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
-    return Column(
-      children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.circular(width * 0.22),
-          child: Container(
-            width: width * 0.22,
-            height: width * 0.22,
-            color: AppColors.blue,
-            child: image,
-          ),
-        ),
-        Material(
-          child: Container(
-            margin: EdgeInsets.only(top: 10, left: 20, right: 20),
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-          ),
-        ),
-        Material(
-          child: Container(
-            margin: EdgeInsets.only(top: 5, left: 20, right: 20),
-            child: Text(
-              beneficiary,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: AppColors.grey),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class AvailableBalance extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
-    return ReactiveWidget<BalanceNotifier>(
-      builder: (ctx, model, child) {
-        return Container(
-          width: width,
-          margin: EdgeInsets.only(bottom: 20, top: 20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.blue.withOpacity(0.3)),
-          ),
-          padding: EdgeInsets.all(7),
-          child: Column(
-            children: <Widget>[
-              Text(
-                'Available balance',
-                style: TextStyle(
-                    color: AppColors.blue,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300),
-              ),
-              Padding(padding: EdgeInsets.only(top: 3)),
-              Text(
-                '${model?.balance?.quantity}',
-                style: TextStyle(
-                  color: AppColors.blue,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

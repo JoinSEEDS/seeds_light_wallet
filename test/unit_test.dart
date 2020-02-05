@@ -9,7 +9,7 @@ void main() {
 
   test('hash from secret', () async {
     String input = 'efb35624d5623b1973f5379d6a5c1c5d05e24f0027e5d18f6d0628a2814d3226';
-    String expectedOutput = '';
+    String expectedOutput = '8dd7882c9509452f2cd769ffed67b17af2435f4c36f342f1b1924fc406d37063';
 
     String output = hashFromSecret(input);
 
