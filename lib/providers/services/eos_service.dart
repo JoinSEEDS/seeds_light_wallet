@@ -98,14 +98,14 @@ class EosService {
       {double transferQuantity, double sowQuantity, String inviteHash}) async {
     print("[eos] create invite $inviteHash ($transferQuantity + $sowQuantity)");
 
-    double totalQuantity = sowQuantity + transferQuantity;
-
     if (mockEnabled) {
       return Future.delayed(
         Duration(seconds: 1),
         () => HttpMockResponse.transactionResult,
       );
     }
+
+    double totalQuantity = sowQuantity + transferQuantity;
 
     Transaction transaction = buildFreeTransaction([
       Action()

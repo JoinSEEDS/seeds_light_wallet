@@ -17,8 +17,8 @@ void main() {
   });
 
   test('secret from mnemonic', () async {
-    String input = "59f703fe1e94a07d08c31cc63996e864342b9af034a9b4a00c5946037b7cf4c6";
-    String expectedOutput = "efb35624d5623b1973f5379d6a5c1c5d05e24f0027e5d18f6d0628a2814d3226";
+    String input = "senator-gender-pole-campus-electronics";
+    String expectedOutput = "acc8468f23dbd4dadb54d20556a454338d0d9fa0fd758137d9f0bb5953e32690";
 
     String output = secretFromMnemonic(input);
 
@@ -26,7 +26,7 @@ void main() {
   });
   test('reverse hash', () async {
     String input = "e45e36a13b9c90b053f08097d962a6a27b753416264efb345781f4e064f406f4";
-    String expectedOutput = '6c7f399f4d285cd9c434f170445769867e00ff36485733e4d83048a48edba648';
+    String expectedOutput = 'a2a662d99780f053b0909c3ba1365ee4f406f464e0f4815734fb4e261634757b';
 
     String output = reverseHash(input);
 
@@ -35,7 +35,8 @@ void main() {
   test('Invite Integration', () async {
     final service = HttpService()
       ..update(
-        enableMockResponse: false,
+        accountName: 'testingseeds',
+        enableMockResponse: true,
         nodeEndpoint: 'https://telos.caleos.io',
       );
 
