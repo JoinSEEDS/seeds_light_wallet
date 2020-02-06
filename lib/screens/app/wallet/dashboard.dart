@@ -4,12 +4,14 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../utils/string_extension.dart';
 
 enum TransactionType { income, outcome }
 
@@ -37,10 +39,11 @@ class _DashboardState extends State<Dashboard>
               //buildNotification('Urgent proposals wating for your approval'),
               buildHeader(),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Consumer<VoiceNotifier>(
                     builder: (context, model, child) => buildBalance(
-                      'Voice balance',
+                      'Trust Tokens',
                       "${model?.balance?.amount ?? 0}",
                       'Proposals',
                       onVote,
@@ -49,8 +52,8 @@ class _DashboardState extends State<Dashboard>
                   Padding(padding: EdgeInsets.only(left: 7)),
                   Consumer<PlantedNotifier>(
                     builder: (context, model, child) => buildBalance(
-                      'Planted balance',
-                      "${model?.balance?.quantity ?? 0}",
+                      'Planted Seeds',
+                      "${model?.balance?.quantity?.seedsFormatted() ?? 0}",
                       'Harvest',
                       onInvite,
                     ),
@@ -163,7 +166,7 @@ class _DashboardState extends State<Dashboard>
               Consumer<BalanceNotifier>(builder: (context, model, child) {
                 return (model != null && model.balance != null)
                     ? Text(
-                        '${model.balance.quantity}',
+                        '${model.balance.quantity.seedsFormatted}',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 25,
@@ -199,7 +202,7 @@ class _DashboardState extends State<Dashboard>
     Function onPressed,
   ) {
     return Expanded(
-      child: MainCard(
+        child: MainCard(
         margin: EdgeInsets.only(bottom: 7, top: 7),
         padding: EdgeInsets.all(15),
         child: Column(
@@ -211,10 +214,11 @@ class _DashboardState extends State<Dashboard>
             Padding(
               padding: EdgeInsets.only(top: 8),
               child: Text(
-                balance, // balance.toStringAsFixed(2),
+                balance,
                 style: TextStyle(fontSize: 20),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                overflow: TextOverflow.fade,
+                
               ),
             ),
             Padding(
@@ -232,7 +236,11 @@ class _DashboardState extends State<Dashboard>
     );
   }
 
-  Widget buildTransaction(String name, String amount, TransactionType type) {
+  Widget buildTransaction(TransactionModel trx) {
+    var accountName = SettingsNotifier.of(context).accountName;
+    var incoming = trx.to == accountName;
+    var nameToShow = incoming ? trx.from : trx.to;
+    var amount = trx.quantity;
     return Container(
         margin: EdgeInsets.only(top: 5, bottom: 5),
         child: Row(
@@ -241,7 +249,7 @@ class _DashboardState extends State<Dashboard>
               Flexible(
                   child: Row(
                 children: <Widget>[
-                  type == TransactionType.income
+                  incoming
                       ? Icon(
                           Icons.arrow_downward,
                           color: AppColors.green,
@@ -255,7 +263,7 @@ class _DashboardState extends State<Dashboard>
                   Padding(padding: EdgeInsets.only(left: 5)),
                   Flexible(
                     child: Text(
-                      name,
+                      nameToShow,
                       maxLines: 1,
                       style: TextStyle(fontSize: 14),
                     ),
@@ -264,7 +272,7 @@ class _DashboardState extends State<Dashboard>
               )),
               Row(
                 children: <Widget>[
-                  type == TransactionType.income
+                  incoming
                       ? Text(
                           '+ ',
                           style: TextStyle(
@@ -305,8 +313,7 @@ class _DashboardState extends State<Dashboard>
         Column(
           children: (transactions != null)
               ? transactions.map((trx) {
-                  return buildTransaction(
-                      trx.to, trx.quantity, TransactionType.income);
+                  return buildTransaction(trx);
                 }).toList()
               : List(1)
                   .map((_) => Shimmer.fromColors(

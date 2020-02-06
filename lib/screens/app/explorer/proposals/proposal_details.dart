@@ -213,7 +213,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             ),
             SizedBox(height: 12),
             voice == null
-                ? Text("Your voice balance is empty")
+                ? Text("You have no trust tokens")
                 : FluidSlider(
                     value: _vote,
                     onChanged: (double newValue) {
