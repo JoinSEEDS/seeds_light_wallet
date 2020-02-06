@@ -34,7 +34,7 @@ class _DashboardState extends State<Dashboard>
           padding: EdgeInsets.all(17),
           child: Column(
             children: <Widget>[
-              buildNotification('Urgent proposals wating for your approval'),
+              //buildNotification('Urgent proposals wating for your approval'),
               buildHeader(),
               Row(
                 children: <Widget>[
