@@ -246,6 +246,7 @@ class _TransferState extends State<Transfer>
   @override
   void dispose() {
     _searchFocusNode.dispose();
+    MembersNotifier.of(context).filterMembers('');
     super.dispose();
   }
 
