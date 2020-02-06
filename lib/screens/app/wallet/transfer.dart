@@ -237,7 +237,7 @@ class _TransferState extends State<Transfer>
   @override
   initState() {
     Future.delayed(Duration.zero).then((_) {
-      MembersNotifier.of(context).fetchMembers();
+      MembersNotifier.of(context).refreshMembers();
     });
     super.initState();
     _searchFocusNode = new FocusNode();
@@ -260,7 +260,7 @@ class _TransferState extends State<Transfer>
         backgroundColor: AppColors.lightGreen,
         color: AppColors.lightBlue,
         onRefresh: () async {
-          Provider.of<MembersNotifier>(context, listen: false).fetchMembers();
+          Provider.of<MembersNotifier>(context, listen: false).refreshMembers();
         },
         child: ListView.builder(
           shrinkWrap: true,

@@ -117,6 +117,44 @@ class HttpService {
     }
   }
 
+  Future<MemberModel> getMember(String accountName) async {
+    print("[http] get members");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.members[0];
+    }
+
+    final String membersURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    print("Get member");
+
+    Response res = await post(membersURL, headers: headers, body: request);
+
+    print(res);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      print(body);
+
+      List<dynamic> result = body["rows"].toList();
+
+      if (result.length == 1) {
+        return MemberModel.fromJson(result[0]);
+      } else {
+        return null;
+      }
+    } else {
+      print('Cannot fetch members...');
+
+      return null;
+    }
+  }
+
   Future<List<TransactionModel>> getTransactions() async {
     print("[http] get transactions");
 
