@@ -8,6 +8,10 @@ class MainTextField extends StatelessWidget {
   final String hintText;
   final String endText;
   final EdgeInsets margin;
+  final int maxLength;
+  final Function validator;
+  final Function(String) onChanged;
+  final FocusNode focusNode;
 
   MainTextField({
     this.controller,
@@ -16,12 +20,18 @@ class MainTextField extends StatelessWidget {
     this.hintText,
     this.endText,
     this.margin,
+    this.maxLength,
+    this.validator,
+    this.onChanged,
+    this.focusNode,
   });
 
   Widget build(BuildContext context) {
     return Container(
-        margin: margin,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      margin: margin,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Container(
             padding: EdgeInsets.only(left: 5, top: 3, bottom: 3),
             child: Text(
@@ -35,6 +45,10 @@ class MainTextField extends StatelessWidget {
               TextFormField(
                 controller: controller,
                 keyboardType: keyboardType,
+                maxLength: maxLength,
+                validator: validator,
+                onChanged: (value) => onChanged(value),
+                focusNode: focusNode,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,

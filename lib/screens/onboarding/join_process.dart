@@ -1,5 +1,6 @@
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -10,7 +11,6 @@ import 'package:seeds/screens/onboarding/claim_code.dart';
 import 'package:seeds/screens/onboarding/create_account.dart';
 import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/onboarding_state_machine.dart';
-import 'package:provider/provider.dart';
 import 'package:seeds/screens/onboarding/show_onboarding_choice.dart';
 import 'package:seeds/utils/invites.dart';
 import 'package:seeds/widgets/notion_loader.dart';
@@ -197,7 +197,7 @@ class _JoinProcessState extends State<JoinProcess> {
       case States.claimInviteCode:
         currentScreen = ClaimCode(
           inviteCode: inviteCode,
-          onClaim: ({ inviteSecret, inviterAccount }) => machine.transition(
+          onClaim: ({inviteSecret, inviterAccount}) => machine.transition(
             Events.claimInviteRequested,
             data: {
               "inviteSecret": inviteSecret,
