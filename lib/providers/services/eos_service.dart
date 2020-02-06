@@ -94,43 +94,35 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-
-  Future<dynamic> plantSeeds({ String amount }) async {
+  Future<dynamic> plantSeeds({String amount}) async {
     print("[eos] plant seeds ($amount)");
 
     if (mockEnabled) {
       return HttpMockResponse.transactionResult;
     }
 
-    EOSClient client = EOSClient(baseURL, 'v1', privateKeys: [privateKey]);
-
-    Map data = {
-      "from": accountName,
-      "to": "harvst.seeds",
-      "quantity": "$amount SEEDS",
-      "memo": "",
-    };
-
-    List<Authorization> auth = [
-      Authorization()
-        ..actor = accountName
-        ..permission = "active"
-    ];
-
-    List<Action> actions = buildFreeTransaction([
+    Transaction transaction = buildFreeTransaction([
       Action()
         ..account = "token.seeds"
         ..name = "transfer"
-        ..authorization = auth
-        ..data = data
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = {
+          "from": accountName,
+          "to": "harvst.seeds",
+          "quantity": "$amount SEEDS",
+          "memo": "",
+        }
     ]);
-
-    Transaction transaction = Transaction()..actions = actions;
 
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> createInvite({ String transferQuantity, String sowQuantity, String inviteHash }) async {
+  Future<dynamic> createInvite(
+      {double transferQuantity, double sowQuantity, double inviteHash}) async {
     print("[eos] create invite $inviteHash ($transferQuantity + $sowQuantity)");
 
     if (mockEnabled) {
