@@ -55,7 +55,7 @@ class _DashboardState extends State<Dashboard>
                     Consumer<PlantedNotifier>(
                       builder: (context, model, child) => buildBalance(
                         'Planted Seeds',
-                        "${model?.balance?.quantity ?? 0}",
+                        "${model?.balance?.quantity?.seedsFormatted ?? 0}",
                         'Harvest',
                         onInvite,
                       ),
@@ -175,7 +175,7 @@ class _DashboardState extends State<Dashboard>
               Consumer<BalanceNotifier>(builder: (context, model, child) {
                 return (model != null && model.balance != null)
                     ? Text(
-                        '${model.balance.quantity.seedsFormatted}',
+                        '${model.balance.quantity.seedsFormatted} SEEDS',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 25,
