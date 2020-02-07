@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +23,8 @@ class MembersNotifier extends ChangeNotifier {
   void updateVisibleMembers() {
     if (filterName.isNotEmpty) {
       visibleMembers = allMembers.where((MemberModel member) {
-        return member.nickname.contains(filterName) || member.account.contains(filterName);
+        return member.nickname.contains(filterName) ||
+            member.account.contains(filterName);
       }).toList();
     } else {
       visibleMembers = allMembers.where((MemberModel member) {
@@ -47,14 +47,15 @@ class MembersNotifier extends ChangeNotifier {
 
       if (member != null) {
         box.put(accountName, member);
+      } else {
+        box.put(
+          accountName,
+          MemberModel(account: accountName, nickname: "Anonymous", image: ""),
+        );
       }
     }
 
-    return box.get(accountName) ?? MemberModel(
-      account: accountName,
-      nickname: "Anonymous",
-      image: "",
-    );
+    return box.get(accountName);
   }
 
   Future<void> refreshMembers() async {
@@ -68,7 +69,7 @@ class MembersNotifier extends ChangeNotifier {
       var cacheMember = cacheMembers.get(memberKey);
 
       if (cacheMember == null || cacheMember != actualMember) {
-        cacheMembers.put(memberKey, cacheMember);
+        cacheMembers.put(memberKey, actualMember);
       }
     });
 

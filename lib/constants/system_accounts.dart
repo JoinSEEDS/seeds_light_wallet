@@ -1,7 +1,7 @@
 import 'package:seeds/models/models.dart';
 
 class SystemAccounts {
-  static final JoinSeeds = MemberModel(
+  static final joinSeeds = MemberModel(
     account: 'join.seeds',
     nickname: 'Onboarding Contract',
     image: ''
@@ -10,7 +10,7 @@ class SystemAccounts {
 
 MemberModel getSystemAccount(String accountName) {
   if (accountName == 'join.seeds') {
-    return SystemAccounts.JoinSeeds;
+    return SystemAccounts.joinSeeds;
   } else {
     return null;
   }

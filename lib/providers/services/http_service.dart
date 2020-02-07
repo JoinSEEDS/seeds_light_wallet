@@ -118,7 +118,7 @@ class HttpService {
   }
 
   Future<MemberModel> getMember(String accountName) async {
-    print("[http] get members");
+    print("[http] get member");
 
     if (mockResponse == true) {
       return HttpMockResponse.members[0];
@@ -177,7 +177,7 @@ class HttpService {
       }).toList();
 
       List<TransactionModel> transactions = transfers
-          .map((item) => TransactionModel.fromJson(item["act"]["data"]))
+          .map((item) => TransactionModel.fromJson(item))
           .toList();
 
       return transactions;

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
@@ -34,52 +33,60 @@ class _DashboardState extends State<Dashboard>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return SingleChildScrollView(
-      child: Container(
-          padding: EdgeInsets.all(17),
-          child: Column(
-            children: <Widget>[
-              buildNotification('Urgent proposals wating for your approval'),
-              buildHeader(),
-              Row(
-                children: <Widget>[
-                  Consumer<VoiceNotifier>(
-                    builder: (context, model, child) => buildBalance(
-                      'Voice balance',
-                      "${model?.balance?.amount ?? 0}",
-                      'Proposals',
-                      onVote,
+    return RefreshIndicator(
+      child: SingleChildScrollView(
+        child: Container(
+            padding: EdgeInsets.all(17),
+            child: Column(
+              children: <Widget>[
+                buildNotification('Urgent proposals wating for your approval'),
+                buildHeader(),
+                Row(
+                  children: <Widget>[
+                    Consumer<VoiceNotifier>(
+                      builder: (context, model, child) => buildBalance(
+                        'Voice balance',
+                        "${model?.balance?.amount ?? 0}",
+                        'Proposals',
+                        onVote,
+                      ),
                     ),
-                  ),
-                  Padding(padding: EdgeInsets.only(left: 7)),
-                  Consumer<PlantedNotifier>(
-                    builder: (context, model, child) => buildBalance(
-                      'Planted balance',
-                      "${model?.balance?.quantity ?? 0}",
-                      'Harvest',
-                      onInvite,
+                    Padding(padding: EdgeInsets.only(left: 7)),
+                    Consumer<PlantedNotifier>(
+                      builder: (context, model, child) => buildBalance(
+                        'Planted balance',
+                        "${model?.balance?.quantity ?? 0}",
+                        'Harvest',
+                        onInvite,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              buildTransactions()
-            ],
-          )),
+                  ],
+                ),
+                buildTransactions()
+              ],
+            )),
+      ),
+      onRefresh: refreshData,
     );
   }
 
   @override
-  initState() {
-    Future.delayed(Duration.zero).then((_) {
-      TransactionsNotifier.of(context).fetchTransactions();
-      BalanceNotifier.of(context).fetchBalance();
-      VoiceNotifier.of(context).fetchBalance();
-      PlantedNotifier.of(context).fetchBalance();
-    });
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refreshData();
+  }
+
+  Future<void> refreshData() async {
+    await Future.wait(<Future<dynamic>>[
+      TransactionsNotifier.of(context).fetchTransactions(),
+      BalanceNotifier.of(context).fetchBalance(),
+      VoiceNotifier.of(context).fetchBalance(),
+      PlantedNotifier.of(context).fetchBalance(),
+    ]);
   }
 
   void onTransfer() {
+    print("go to transfer");
     NavigationService.of(context).navigateTo(Routes.transfer);
   }
 
@@ -237,7 +244,11 @@ class _DashboardState extends State<Dashboard>
     );
   }
 
-  void onTransaction(TransactionModel model) {
+  void onTransaction({
+    TransactionModel transaction,
+    MemberModel member,
+    TransactionType type,
+  }) {
     //TODO: show correctly in fullscreen (above bottom tabs and tapbar)
     showModalBottomSheet(
         context: context,
@@ -247,7 +258,11 @@ class _DashboardState extends State<Dashboard>
               topLeft: Radius.circular(25), topRight: Radius.circular(25)),
         ),
         builder: (BuildContext context) {
-          return TransactionDialog(transaction: model);
+          return TransactionDialog(
+            transaction: transaction,
+            member: member,
+            transactionType: type,
+          );
         });
   }
 
@@ -261,130 +276,125 @@ class _DashboardState extends State<Dashboard>
     String participantAccountName =
         type == TransactionType.income ? model.from : model.to;
 
-    return InkWell(
-        onTap: () => onTransaction(model),
-        child: Column(children: [
-          Divider(height: 22),
-          FutureBuilder(
-              future: MembersNotifier.of(context)
-                  .getAccountDetails(participantAccountName),
-              builder: (ctx, details) => details.hasData
-                  ? Container(
-                      child: Row(
-                        children: <Widget>[
-                          Flexible(
-                              child: Row(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(left: 12, right: 10),
-                                child: Icon(
-                                  type == TransactionType.income
-                                      ? Icons.arrow_downward
-                                      : Icons.arrow_upward,
-                                  color: type == TransactionType.income
-                                      ? AppColors.green
-                                      : AppColors.red,
-                                ),
+    return FutureBuilder(
+      future:
+          MembersNotifier.of(context).getAccountDetails(participantAccountName),
+      builder: (ctx, member) => member.hasData
+          ? InkWell(
+              onTap: () =>
+                  onTransaction(transaction: model, member: member.data, type: type),
+              child: Column(
+                children: [
+                  Divider(height: 22),
+                  Container(
+                    child: Row(
+                      children: <Widget>[
+                        Flexible(
+                            child: Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: 12, right: 10),
+                              child: Icon(
+                                type == TransactionType.income
+                                    ? Icons.arrow_downward
+                                    : Icons.arrow_upward,
+                                color: type == TransactionType.income
+                                    ? AppColors.green
+                                    : AppColors.red,
                               ),
-                              ClipRRect(
-                                  borderRadius: BorderRadius.circular(40),
-                                  child: Hero(
-                                      child: Container(
-                                          width: 40,
-                                          height: 40,
-                                          color: AppColors.purple,
-                                          child: details.data.image != null
-                                              ? CachedNetworkImage(
-                                                  imageUrl: details.data.image)
-                                              : Container(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    details.data.nickname
-                                                        .substring(0, 2)
-                                                        .toUpperCase(),
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                )),
-                                      tag: 'avatar#${details.data.account}')),
-                              Flexible(
-                                  child: Container(
-                                      margin:
-                                          EdgeInsets.only(left: 10, right: 10),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Hero(
-                                                child: Container(
-                                                  child: Text(
-                                                    details.data.nickname,
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 15),
-                                                  ),
-                                                ),
-                                                tag:
-                                                    'nickname${details.data.account}'),
-                                            Hero(
-                                                child: Container(
-                                                  child: Text(
-                                                    details.data.account,
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                        color: AppColors.grey,
-                                                        fontSize: 13),
-                                                  ),
-                                                ),
-                                                tag:
-                                                    'account#${details.data.account}}'),
-                                          ])))
-                            ],
-                          )),
-                          Container(
-                              margin: EdgeInsets.only(left: 10, right: 15),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    type == TransactionType.income ? '+ ' : '-',
-                                    style: TextStyle(
-                                        color: type == TransactionType.income
-                                            ? AppColors.green
-                                            : AppColors.red,
-                                        fontSize: 16),
-                                  ),
-                                  Text(
-                                    model.quantity,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15),
-                                  )
-                                ],
-                              ))
-                        ],
-                      ),
-                    )
-                  : Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            height: 16,
-                            width: 320,
-                            color: Colors.white,
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                          ),
-                        ],
-                      ),
-                    ))
-        ]));
+                            ),
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(40),
+                                child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    color: AppColors.blue,
+                                    child: member.data.image != null
+                                        ? CachedNetworkImage(
+                                            imageUrl: member.data.image)
+                                        : Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              member.data.nickname
+                                                  .substring(0, 2)
+                                                  .toUpperCase(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ))),
+                            Flexible(
+                                child: Container(
+                                    margin:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            child: Text(
+                                              member.data.nickname,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 15),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              member.data.account,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  color: AppColors.grey,
+                                                  fontSize: 13),
+                                            ),
+                                          ),
+                                        ])))
+                          ],
+                        )),
+                        Container(
+                            margin: EdgeInsets.only(left: 10, right: 15),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  type == TransactionType.income ? '+ ' : '-',
+                                  style: TextStyle(
+                                      color: type == TransactionType.income
+                                          ? AppColors.green
+                                          : AppColors.red,
+                                      fontSize: 16),
+                                ),
+                                Text(
+                                  model.quantity,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : Shimmer.fromColors(
+              baseColor: Colors.grey[300],
+              highlightColor: Colors.grey[100],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    height: 16,
+                    width: 320,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                  ),
+                ],
+              ),
+            ),
+    );
   }
 
   Widget buildTransactions() {
@@ -413,9 +423,19 @@ class _DashboardState extends State<Dashboard>
                             }).toList()
                           ],
                         )
-                      : Center(
-                          child: LinearProgressIndicator(
-                            backgroundColor: AppColors.green,
+                      : Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.grey[100],
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                height: 16,
+                                width: 320,
+                                color: Colors.white,
+                                margin: EdgeInsets.only(left: 10, right: 10),
+                              ),
+                            ],
                           ),
                         ),
             ),

@@ -86,11 +86,8 @@ flutter:
     - assets/images/explorer4.png
     - assets/images/explorer5.png
     - assets/images/launcher_icon.png
+    - assets/images/share.svg
     # assets end
-
-    - assets/images/
-    - assets/avatars/
-    - assets/config/
 
   fonts:
     # w100 Thin, the least thick
