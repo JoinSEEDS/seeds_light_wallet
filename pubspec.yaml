@@ -86,6 +86,8 @@ flutter:
     - assets/images/explorer4.png
     - assets/images/explorer5.png
     - assets/images/launcher_icon.png
+    - assets/images/error.svg
+    - assets/images/success.svg
     # assets end
 
     - assets/images/
