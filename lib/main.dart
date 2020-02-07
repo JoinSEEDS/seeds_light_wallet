@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/models/member_adapter.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/providers.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -14,6 +17,7 @@ import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 import 'package:sentry/sentry.dart' as Sentry;
+import 'package:path_provider/path_provider.dart';
 
 import 'generated/r.dart';
 
@@ -45,6 +49,9 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
 
 main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  var appDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDir.path);
+  Hive.registerAdapter<MemberModel>(MemberAdapter());
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {

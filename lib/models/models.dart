@@ -77,15 +77,19 @@ class TransactionModel {
   final String to;
   final String quantity;
   final String memo;
+  final String timestamp;
+  final String transactionId;
 
-  TransactionModel(this.from, this.to, this.quantity, this.memo);
+  TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp, this.transactionId);
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      json["from"],
-      json["to"],
-      json["quantity"],
-      json["memo"],
+      json["act"]["data"]["from"],
+      json["act"]["data"]["to"],
+      json["act"]["data"]["quantity"],
+      json["act"]["data"]["memo"],
+      json["@timestamp"],
+      json["trx_id"],
     );
   }
 
