@@ -45,8 +45,8 @@ class HttpMockResponse {
   ];
 
   static final transactions = [
-    TransactionModel("join.seeds", "sevenflash42", "15.0000 SEEDS", ""),
-    TransactionModel("sevenflash42", "testingseeds", "5.0000 SEEDS", ""),
+    TransactionModel("join.seeds", "sevenflash42", "15.0000 SEEDS", "", "2020-02-05T17:24:28.500", "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
+    TransactionModel("sevenflash42", "testingseeds", "5.0000 SEEDS", "", "2020-02-05T17:24:28.500", "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
   ];
 
   static final balance = BalanceModel("10.0000 SEEDS");

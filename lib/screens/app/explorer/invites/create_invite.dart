@@ -51,6 +51,8 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
       transactionSubmitted = true;
     });
 
+    FocusScope.of(context).requestFocus(FocusNode());
+
     try {
       var response =
           await Provider.of<EosService>(context, listen: false).createInvite(
@@ -58,7 +60,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
         sowQuantity: double.parse(sowController.text),
         inviteHash: widget.inviteHash,
       );
-
+      
       String transactionId = response["transaction_id"];
 
       print("notify now...");

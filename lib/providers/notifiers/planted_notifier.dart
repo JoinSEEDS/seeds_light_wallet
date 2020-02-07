@@ -16,8 +16,8 @@ class PlantedNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  void fetchBalance() {
-    _http.getPlanted().then((result) {
+  Future<void> fetchBalance() {
+    return _http.getPlanted().then((result) {
       balance = result;
       notifyListeners();
     });
