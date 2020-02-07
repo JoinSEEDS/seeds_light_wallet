@@ -40,7 +40,6 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Consumer<ProfileNotifier>(
       builder: (ctx, model, _) {
-        print('profile: ${model?.profile?.nickname}');
         if (model?.profile != null && model.profile.nickname != null) {
           _nameController.text = model?.profile?.nickname ?? '';
         }
@@ -268,7 +267,7 @@ class _ProfileState extends State<Profile> {
             ),
             Expanded(
               child: Text(
-                'Profile updated successfully Profile updated successfully Profile updated successfully Profile updated successfullyProfile updated successfully Profile updated successfully',
+                'Profile updated successfully. ${transaction["transaction_id"]}',
                 maxLines: null,
               ),
             ),
