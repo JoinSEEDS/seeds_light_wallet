@@ -14,6 +14,7 @@ import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../utils/string_extension.dart';
 
 enum TransactionType { income, outcome }
 
@@ -39,13 +40,12 @@ class _DashboardState extends State<Dashboard>
             padding: EdgeInsets.all(17),
             child: Column(
               children: <Widget>[
-                buildNotification('Urgent proposals wating for your approval'),
                 buildHeader(),
                 Row(
                   children: <Widget>[
                     Consumer<VoiceNotifier>(
                       builder: (context, model, child) => buildBalance(
-                        'Voice balance',
+                        'Trust Tokens',
                         "${model?.balance?.amount ?? 0}",
                         'Proposals',
                         onVote,
@@ -54,7 +54,7 @@ class _DashboardState extends State<Dashboard>
                     Padding(padding: EdgeInsets.only(left: 7)),
                     Consumer<PlantedNotifier>(
                       builder: (context, model, child) => buildBalance(
-                        'Planted balance',
+                        'Planted Seeds',
                         "${model?.balance?.quantity ?? 0}",
                         'Harvest',
                         onInvite,
@@ -175,7 +175,7 @@ class _DashboardState extends State<Dashboard>
               Consumer<BalanceNotifier>(builder: (context, model, child) {
                 return (model != null && model.balance != null)
                     ? Text(
-                        '${model.balance.quantity}',
+                        '${model.balance.quantity.seedsFormatted}',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 25,
@@ -211,7 +211,7 @@ class _DashboardState extends State<Dashboard>
     Function onPressed,
   ) {
     return Expanded(
-      child: MainCard(
+        child: MainCard(
         margin: EdgeInsets.only(bottom: 7, top: 7),
         padding: EdgeInsets.all(15),
         child: Column(
@@ -223,10 +223,11 @@ class _DashboardState extends State<Dashboard>
             Padding(
               padding: EdgeInsets.only(top: 8),
               child: Text(
-                balance, // balance.toStringAsFixed(2),
+                balance,
                 style: TextStyle(fontSize: 20),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                overflow: TextOverflow.fade,
+                
               ),
             ),
             Padding(

@@ -8,6 +8,7 @@ class ConnectionStatus extends StatelessWidget {
 
   ConnectionStatus({this.child});
 
+
   Widget build(BuildContext context) {
     return Consumer<ConnectionNotifier>(
       child: Flexible(
@@ -17,13 +18,12 @@ class ConnectionStatus extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.symmetric(
-              vertical: 5,
+              vertical: connection.status ? 0 : 5,
               horizontal: 10,
             ),
-            color: connection.status == true
-                ? AppColors.green
-                : AppColors.black50,
-            child: Center(
+            color:
+                connection.status ? AppColors.green : AppColors.red,
+            child: connection.status ? null : Center(
               child: Text(
                   "${connection.status ? "ONLINE (connected to ${connection.currentEndpoint})" : 'OFFLINE (trying to reconnect)'}",
                   style: TextStyle(color: AppColors.lightGrey)),
