@@ -43,8 +43,7 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
-      ProfileModel profile = ProfileModel.fromJson(body);
-
+      ProfileModel profile = ProfileModel.fromJson(body["rows"][0]);
       return profile;
     } else {
       print('Cannot fetch profile...');

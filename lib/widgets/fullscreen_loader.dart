@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 
 import 'main_button.dart';
@@ -113,148 +114,116 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Positioned.fill(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaY: 10,
-              sigmaX: 10,
-            ),
-            child: Container(
-              color: Colors.white.withOpacity(0.6),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaY: 10,
+                sigmaX: 10,
+              ),
+              child: Container(
+                color: Colors.white.withOpacity(0.6),
+              ),
             ),
           ),
-        ),
-        if (showSpinner)
-          AnimatedBuilder(
-            animation: animationController,
-            builder: (context, child) {
-              double scale =
-                  math.sin(math.pi * animationController.value) + 0.5;
-              return Align(
-                alignment: Alignment.center,
-                child: Transform.scale(
-                  scale: scale,
-                  child: RotationTransition(
-                    child: Image.asset(
-                      'assets/images/launcher_icon.png',
-                      width: 100,
-                      height: 100,
-                    ),
-                    turns: Tween(begin: 0.0, end: 2.0).animate(
-                      animationController,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        if (showSuccess)
-          Align(
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset('assets/images/success.png'),
-                SizedBox(
-                  height: 25,
-                ),
-                Text(
-                  widget.successTitle,
-                  style: TextStyle(
-                    fontFamily: "worksans",
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.green,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Material(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  color: Colors.black12,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      message,
-                      style: TextStyle(
-                        fontFamily: "worksans",
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.green,
+          if (showSpinner)
+            AnimatedBuilder(
+              animation: animationController,
+              builder: (context, child) {
+                double scale =
+                    math.sin(math.pi * animationController.value) + 0.5;
+                return Align(
+                  alignment: Alignment.center,
+                  child: Transform.scale(
+                    scale: scale,
+                    child: RotationTransition(
+                      child: Image.asset(
+                        'assets/images/launcher_icon.png',
+                        width: 100,
+                        height: 100,
+                      ),
+                      turns: Tween(begin: 0.0, end: 2.0).animate(
+                        animationController,
                       ),
                     ),
                   ),
-                ),
-                MainButton(
-                  title: widget.successButtonText,
-                  onPressed: () {
-                    if (widget.successButtonCallback != null) {
-                      widget.successButtonCallback();
-                    } else {
-                      Navigator.of(context).maybePop();
-                    }
-                  },
-                ),
-              ],
+                );
+              },
             ),
-          ),
-        if (showFailure)
-          Align(
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset('assets/images/failure.png'),
-                SizedBox(
-                  height: 25,
-                ),
-                Material(
-                  child: Text(
-                    widget.failureTitle,
-                    style: TextStyle(
-                      fontFamily: "worksans",
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.green,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Material(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  color: Colors.black12,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      message,
-                      style: TextStyle(
-                        fontFamily: "worksans",
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.green,
+          if (!showSpinner)
+            Container(
+              margin: EdgeInsets.only(left: 32, right: 32),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        (showSuccess == true)
+                            ? widget.successTitle
+                            : widget.failureTitle,
+                        style: TextStyle(
+                          color: (showSuccess == true)
+                              ? AppColors.blue
+                              : AppColors.red,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 25,
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 24.0, top: 24.0),
+                        child: SvgPicture.asset(
+                          (showSuccess == true)
+                              ? 'assets/images/success.svg'
+                              : 'assets/images/error.svg',
+                          color: (showSuccess == true)
+                              ? AppColors.blue
+                              : AppColors.red,
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(13),
+                          color: Color(0xFFf4f4f4),
+                        ),
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.all(15),
+                        child: Text(
+                          message,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                MainButton(
-                  title: widget.failureButtonText,
-                  onPressed: () {
-                    if (widget.failureButtonCallback != null) {
-                      widget.failureButtonCallback();
-                    } else {
-                      Navigator.of(context).maybePop();
-                    }
-                  },
-                ),
-              ],
+                  Column(
+                    children: <Widget>[
+                      MainButton(
+                        title: (showSuccess)
+                            ? widget.successButtonText
+                            : widget.failureButtonText,
+                        onPressed: () {
+                          if (showSuccess &&
+                              widget.successButtonCallback != null) {
+                            widget.successButtonCallback();
+                          } else if (showFailure &&
+                              widget.failureButtonCallback != null) {
+                            widget.failureButtonCallback();
+                          } else {
+                            Navigator.of(context).maybePop();
+                          }
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }

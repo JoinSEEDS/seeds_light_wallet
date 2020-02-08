@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/invites_notifier.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/widgets/reactive_widget.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-import 'package:provider/provider.dart';
 
 class Friends extends StatelessWidget {
   Widget buildInviteWidget(InviteModel model) {
