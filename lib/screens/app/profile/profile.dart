@@ -13,6 +13,7 @@ import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:share/share.dart';
@@ -58,8 +59,13 @@ class _ProfileState extends State<Profile> {
                       GestureDetector(
                         onTap: () {
                           if (model?.profile?.image != null)
-                            NavigationService.of(context)
-                                .navigateTo(Routes.imageViewer, model.profile);
+                            NavigationService.of(context).navigateTo(
+                              Routes.imageViewer,
+                              ImageViewerArguments(
+                                imageUrl: model.profile.image,
+                                heroTag: "profilePic",
+                              ),
+                            );
                         },
                         child: Hero(
                           tag: 'profilePic',

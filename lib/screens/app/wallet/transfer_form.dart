@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
@@ -100,10 +102,20 @@ class _TransferFormState extends State<TransferForm>
             height: width * 0.22,
             color: AppColors.blue,
             child: widget.arguments.avatar != null
-                ? Hero(
-                    child:
-                        CachedNetworkImage(imageUrl: widget.arguments.avatar),
-                    tag: "avatar#${widget.arguments.accountName}")
+                ? GestureDetector(
+                    onTap: () => NavigationService.of(context).navigateTo(
+                      Routes.imageViewer,
+                      ImageViewerArguments(
+                        imageUrl: widget.arguments.avatar,
+                        heroTag: "avatar#${widget.arguments.accountName}",
+                      ),
+                    ),
+                    child: Hero(
+                      child:
+                          CachedNetworkImage(imageUrl: widget.arguments.avatar),
+                      tag: "avatar#${widget.arguments.accountName}",
+                    ),
+                  )
                 : Container(
                     alignment: Alignment.center,
                     child: Text(
