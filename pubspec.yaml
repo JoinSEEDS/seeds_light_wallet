@@ -90,6 +90,11 @@ flutter:
     - assets/images/explorer5.png
     - assets/images/launcher_icon.png
     - assets/images/share.svg
+    - assets/images/governance.svg
+    - assets/images/community.svg
+    - assets/images/harvest.svg
+    - assets/images/exchange.svg
+    - assets/images/lending.svg
     # assets end
 
   fonts:
