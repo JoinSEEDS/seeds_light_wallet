@@ -72,26 +72,31 @@ flutter:
   assets:
     # assets begin
     # assets/images/*
+    - assets/images/error.svg
+    - assets/images/explorer.svg
+    - assets/images/explorer1.png
+    - assets/images/explorer2.png
+    - assets/images/explorer3.png
+    - assets/images/explorer4.png
+    - assets/images/explorer5.png
+    - assets/images/explorer_icon.png
     - assets/images/failure.png
     - assets/images/icon_school-bell.png
+    - assets/images/launcher_icon.png
     - assets/images/loading.png
+    - assets/images/logo_title.png
     - assets/images/no_item_found.svg
     - assets/images/onboarding1.png
     - assets/images/onboarding2.png
     - assets/images/onboarding3.png
     - assets/images/onboarding4.png
     - assets/images/onboarding5.png
+    - assets/images/profile.svg
     - assets/images/seeds-logo-with-text.png
-    - assets/images/success.png
-    - assets/images/explorer1.png
-    - assets/images/explorer2.png
-    - assets/images/explorer3.png
-    - assets/images/explorer4.png
-    - assets/images/explorer5.png
-    - assets/images/launcher_icon.png
-    - assets/images/error.svg
-    - assets/images/success.svg
     - assets/images/share.svg
+    - assets/images/success.svg
+    - assets/images/success_circle.png
+    - assets/images/wallet.svg
     # assets end
 
   fonts:
