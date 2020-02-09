@@ -7,22 +7,22 @@ class HttpMockResponse {
       nickname: "Igor Berlenko",
       image: "",
     ),
-   MemberModel(
+    MemberModel(
       account: "sevenflash24",
       nickname: "Andrey MK",
       image: "",
     ),
-      MemberModel(
+    MemberModel(
       account: "fghreww",
       nickname: "Linda Lynch",
       image: "",
     ),
-      MemberModel(
+    MemberModel(
       account: "semfg",
       nickname: "Sean West",
       image: "",
     ),
-      MemberModel(
+    MemberModel(
       account: "joihjkl4",
       nickname: "John Rice",
       image: "",
@@ -32,12 +32,12 @@ class HttpMockResponse {
       nickname: "Joe Collins",
       image: "",
     ),
-      MemberModel(
+    MemberModel(
       account: "grsw4fr",
       nickname: "Keith Graham",
       image: "",
     ),
-      MemberModel(
+    MemberModel(
       account: "silvaG",
       nickname: "Gloria Silva",
       image: "",
@@ -45,8 +45,8 @@ class HttpMockResponse {
   ];
 
   static final transactions = [
-    TransactionModel("join.seeds", "sevenflash42", "15.0000 SEEDS", ""),
-    TransactionModel("sevenflash42", "testingseeds", "5.0000 SEEDS", ""),
+    TransactionModel("join.seeds", "sevenflash42", "15.0000 SEEDS", "", "2020-02-05T17:24:28.500", "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
+    TransactionModel("sevenflash42", "testingseeds", "5.0000 SEEDS", "", "2020-02-05T17:24:28.500", "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
   ];
 
   static final balance = BalanceModel("10.0000 SEEDS");
@@ -83,14 +83,26 @@ class HttpMockResponse {
 
   static final invites = [
     InviteModel(
-        inviteId: 1,
-        transferQuantity: "10.0000 SEEDS",
-        sowQuantity: "5.0000 SEEDS",
-        sponsor: "sponsor",
-        account: "account",
-        inviteHash: "invite_hash",
-        inviteSecret: "invite_secret"),
+      inviteId: 1,
+      transferQuantity: "10.0000 SEEDS",
+      sowQuantity: "5.0000 SEEDS",
+      sponsor: "sponsor",
+      account: "account",
+      inviteHash: "invite_hash",
+      inviteSecret: "invite_secret",
+    ),
+    InviteModel(
+      inviteId: 2,
+      transferQuantity: "10.0000 SEEDS",
+      sowQuantity: "5.0000 SEEDS",
+      sponsor: "sponsor",
+      account: "",
+      inviteHash: "invite_hash",
+      inviteSecret: "",
+    ),
   ];
+
+  static final invite = invites[0];
 
   static final keyAccounts = ["sevenflash42", "testingseeds"];
 
@@ -98,4 +110,18 @@ class HttpMockResponse {
     "transaction_id":
         "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"
   };
+
+  static final profile = ProfileModel(
+    account: "illumination",
+    status:	"citizen",
+    type: "individual",
+    nickname: "Nikolaus",
+    image: "https://seeds-service.s3.amazonaws.com/development/e46ea503-b743-44b0-901a-4fe07e4d781f/87b2c661-7af6-4b82-9cbe-0a352b5b248c-1920.jpg",
+    story: "Seeds Team",
+    roles: '["#light #support #askmeanything"]',	
+    skills: "[]",	
+    interests: "[]",	
+    reputation:	0,
+    timestamp:	1577382580,
+  );
 }

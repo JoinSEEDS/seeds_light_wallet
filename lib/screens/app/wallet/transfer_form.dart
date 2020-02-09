@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
@@ -32,9 +34,9 @@ class _TransferFormState extends State<TransferForm>
     with SingleTickerProviderStateMixin {
   double amountValue = 0;
   bool validAmount = true;
-
   bool showPageLoader = false;
   String transactionId = "";
+  final _formKey = GlobalKey<FormState>();
 
   final StreamController<bool> _statusNotifier =
       StreamController<bool>.broadcast();
@@ -55,7 +57,7 @@ class _TransferFormState extends State<TransferForm>
     try {
       var response = await Provider.of<EosService>(context, listen: false)
           .transferSeeds(
-              beneficiary: widget.arguments.accountName, amount: amountValue.toStringAsFixed(4));
+              beneficiary: widget.arguments.accountName, amount: amountValue);
 
       String trxid = response["transaction_id"];
 
@@ -84,7 +86,9 @@ class _TransferFormState extends State<TransferForm>
   final controller = TextEditingController(text: '0.00');
 
   void onSend() {
-    processTransaction();
+    if (_formKey.currentState.validate()) {
+      processTransaction();
+    }
   }
 
   Widget buildProfile() {
@@ -98,10 +102,20 @@ class _TransferFormState extends State<TransferForm>
             height: width * 0.22,
             color: AppColors.blue,
             child: widget.arguments.avatar != null
-                ? Hero(
-                    child:
-                        CachedNetworkImage(imageUrl: widget.arguments.avatar),
-                    tag: "avatar#${widget.arguments.accountName}")
+                ? GestureDetector(
+                    onTap: () => NavigationService.of(context).navigateTo(
+                      Routes.imageViewer,
+                      ImageViewerArguments(
+                        imageUrl: widget.arguments.avatar,
+                        heroTag: "avatar#${widget.arguments.accountName}",
+                      ),
+                    ),
+                    child: Hero(
+                      child:
+                          CachedNetworkImage(imageUrl: widget.arguments.avatar),
+                      tag: "avatar#${widget.arguments.accountName}",
+                    ),
+                  )
                 : Container(
                     alignment: Alignment.center,
                     child: Text(
@@ -144,10 +158,9 @@ class _TransferFormState extends State<TransferForm>
     );
   }
 
-  Widget buildBalance() {
-    final balance = BalanceNotifier.of(context).balance.quantity;
-
+  Widget buildBalance(balance) {
     final width = MediaQuery.of(context).size.width;
+
     return Container(
         width: width,
         margin: EdgeInsets.only(bottom: 20, top: 20),
@@ -179,6 +192,7 @@ class _TransferFormState extends State<TransferForm>
 
   @override
   Widget build(BuildContext context) {
+    String balance = BalanceNotifier.of(context).balance.quantity;
     return Stack(
       children: <Widget>[
         Scaffold(
@@ -194,22 +208,43 @@ class _TransferFormState extends State<TransferForm>
           backgroundColor: Colors.white,
           body: Container(
             margin: EdgeInsets.only(left: 17, right: 17),
-            child: Column(
-              children: <Widget>[
-                buildProfile(),
-                buildBalance(),
-                MainTextField(
-                  keyboardType: TextInputType.number,
-                  controller: controller,
-                  labelText: 'Transfer amount',
-                  endText: 'SEEDS',
-                ),
-                MainButton(
-                  margin: EdgeInsets.only(top: 25),
-                  title: 'Send',
-                  onPressed: onSend,
-                )
-              ],
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  buildProfile(),
+                  buildBalance(balance),
+                  MainTextField(
+                    keyboardType:
+                        TextInputType.numberWithOptions(signed: false),
+                    controller: controller,
+                    labelText: 'Transfer amount',
+                    endText: 'SEEDS',
+                    validator: (val) {
+                      String error;
+                      double availableBalance =
+                          double.tryParse(balance.replaceFirst(' SEEDS', ''));
+                      double transferAmount = double.tryParse(val);
+
+                      if (transferAmount == 0.0) {
+                        error = "Transfer amount cannot be 0.";
+                      } else if (transferAmount == null ||
+                          availableBalance == null) {
+                        error = "Transfer amount is not valid.";
+                      } else if (transferAmount > availableBalance) {
+                        error =
+                            "Transfer amount cannot be greater than availabe balance.";
+                      }
+                      return error;
+                    },
+                  ),
+                  MainButton(
+                    margin: EdgeInsets.only(top: 25),
+                    title: 'Send',
+                    onPressed: onSend,
+                  )
+                ],
+              ),
             ),
           ),
         ),

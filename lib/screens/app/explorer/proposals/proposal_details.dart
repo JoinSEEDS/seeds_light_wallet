@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
@@ -103,7 +102,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
         double.tryParse(proposal.quantity.replaceAll(RegExp(r' SEEDS'), '')) ??
             0.0;
 
-    final amountFormatter = FlutterMoneyFormatter(amount: quantity);
+    // final amountFormatter = FlutterMoneyFormatter(amount: quantity);
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -120,7 +119,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             ),
             SizedBox(height: 8),
             Text(
-              'Requested amount: ${amountFormatter.output.nonSymbol} SEEDS',
+              'Requested amount: $quantity SEEDS',
               style: textTheme.subhead,
             ),
             SizedBox(height: 8),
@@ -213,7 +212,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             ),
             SizedBox(height: 12),
             voice == null
-                ? Text("Your voice balance is empty")
+                ? Text("You have no trust tokens")
                 : FluidSlider(
                     value: _vote,
                     onChanged: (double newValue) {

@@ -32,4 +32,10 @@ class R {
 
   /// ![](http://127.0.0.1:2227/assets/images/success.png)
   static final String success = 'assets/images/success.png';
+
+  /// ![](http://127.0.0.1:2227/assets/images/success.svg)
+  static final String successSvg = 'assets/images/success.svg';
+
+  /// ![](http://127.0.0.1:2227/assets/images/success.png)
+  static final String error = 'assets/images/error.svg';
 }

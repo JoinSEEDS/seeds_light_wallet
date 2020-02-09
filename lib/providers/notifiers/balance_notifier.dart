@@ -16,8 +16,8 @@ class BalanceNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  void fetchBalance() {
-    _http.getBalance().then((result) {
+  Future<void> fetchBalance() {
+    return _http.getBalance().then((result) {
       balance = result;
       notifyListeners();
     });

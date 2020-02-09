@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsNotifier extends ChangeNotifier {
+  get isInitialized => _preferences != null;
   get accountName => _preferences?.getString("accountName");
 
   get privateKey => _preferences?.getString("privateKey");
@@ -43,6 +44,7 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   void saveAccount(String accountName, String privateKey) {
+    print("settings save account: $accountName - $privateKey");
     _preferences?.setString("accountName", accountName);
     _preferences?.setString("privateKey", privateKey);
     notifyListeners();

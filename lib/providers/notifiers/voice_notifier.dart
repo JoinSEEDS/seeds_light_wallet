@@ -16,8 +16,8 @@ class VoiceNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  void fetchBalance() {
-    _http.getVoice().then((result) {
+  Future<void> fetchBalance() {
+    return _http.getVoice().then((result) {
       balance = result;
       notifyListeners();
     });
