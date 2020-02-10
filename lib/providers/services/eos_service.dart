@@ -94,7 +94,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> plantSeeds({String amount}) async {
+  Future<dynamic> plantSeeds({ double amount }) async {
     print("[eos] plant seeds ($amount)");
 
     if (mockEnabled) {

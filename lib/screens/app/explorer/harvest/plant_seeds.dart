@@ -85,7 +85,6 @@ class _PlantSeedState extends State<PlantSeeds> {
                 beneficiary: "harvst.seeds",
               ),
               AvailableBalance(),
-
               PlantedBalance(),
               MainTextField(
                 keyboardType: TextInputType.number,
@@ -106,8 +105,7 @@ class _PlantSeedState extends State<PlantSeeds> {
   }
 
   Future<String> plantSeeds() async {
-    var response = await EosService.of(context, listen: false).transferSeeds(
-      beneficiary: "harvst.seeds",
+    var response = await EosService.of(context, listen: false).plantSeeds(
       amount: double.parse(plantController.text),
     );
     return response["transaction_id"];
