@@ -95,6 +95,9 @@ flutter:
     - assets/images/harvest.svg
     - assets/images/exchange.svg
     - assets/images/lending.svg
+    - assets/images/explorer.svg
+    - assets/images/wallet.svg
+    - assets/images/profile.svg
     # assets end
 
   fonts:
