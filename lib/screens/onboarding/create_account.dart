@@ -67,18 +67,19 @@ class _CreateAccountState extends State<CreateAccount> {
 
     String suggestion;
 
+    final inputName = _accountName.isNotEmpty ? _accountName : _name;
     // remove uppercase
-    if (_accountName.toLowerCase() != _accountName) {
-      suggestion = _accountName.toLowerCase();
+    if (inputName.toLowerCase() != inputName) {
+      suggestion = inputName.toLowerCase();
     }
 
     // replace 0|6|7|8|9 with 1
-    if (RegExp(r'0|6|7|8|9').allMatches(_accountName).length > 0) {
-      suggestion = _accountName.replaceAll(RegExp(r'0|6|7|8|9'), '');
+    if (RegExp(r'0|6|7|8|9').allMatches(inputName).length > 0) {
+      suggestion = inputName.replaceAll(RegExp(r'0|6|7|8|9'), '');
     }
 
     // remove characters out of the accepted range
-    suggestion = _accountName.split('').map((char) {
+    suggestion = inputName.split('').map((char) {
       final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(char).length > 0;
 
       return legalChar ? char.toString() : '';
@@ -96,42 +97,44 @@ class _CreateAccountState extends State<CreateAccount> {
     if (suggestion.length < 12) {
       final missingCharsCount = 12 - suggestion.length;
 
-      final missingChars = (_accountName.hashCode.toString() * 2)
+      final missingChars = (inputName.hashCode.toString() * 2)
           .split('')
           .map((char) => int.parse(char).clamp(1, 5))
           .take(missingCharsCount)
           .join();
 
-      suggestion = (suggestion ?? _accountName) + missingChars;
+      suggestion = (suggestion ?? inputName) + missingChars;
     }
 
     suggestions.add(suggestion);
 
-    return suggestions.map((suggestion) {
-      return FutureLoadingBuilder<String>(
-        future: getValidAccountName(suggestion),
-        mutable: true,
-        builder: (context, suggestion) {
-          return InkWell(
-            onTap: () {
-              setState(() {
-                _accountNameController.text = suggestion;
+    return suggestions.map(buildSuggestionWidget).toList();
+  }
 
-                _accountNameController.selection = TextSelection.fromPosition(
-                    TextPosition(offset: _accountNameController.text.length));
-              });
-            },
-            child: Text(
-              suggestion,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
+  FutureLoadingBuilder<String> buildSuggestionWidget(String suggestion) {
+    return FutureLoadingBuilder<String>(
+      future: getValidAccountName(suggestion),
+      mutable: true,
+      builder: (context, suggestion) {
+        return InkWell(
+          onTap: () {
+            setState(() {
+              _accountNameController.text = suggestion;
+
+              _accountNameController.selection = TextSelection.fromPosition(
+                  TextPosition(offset: _accountNameController.text.length));
+            });
+          },
+          child: Text(
+            suggestion,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
             ),
-          );
-        },
-      );
-    }).toList();
+          ),
+        );
+      },
+    );
   }
 
   Future<String> getValidAccountName(
@@ -191,7 +194,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 },
               ),
               if (_validateAccountName(_accountName) != null &&
-                  _accountName.isNotEmpty)
+                  (_accountName.isNotEmpty || _name.isNotEmpty))
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Wrap(
