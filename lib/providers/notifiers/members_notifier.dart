@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/providers/services/http_service.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/system_accounts.dart';
+import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/services/http_service.dart';
 
 class MembersNotifier extends ChangeNotifier {
   HttpService _http;

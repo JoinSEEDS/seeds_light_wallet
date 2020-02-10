@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/widgets/main_button.dart';
 
@@ -30,28 +32,39 @@ class ShowOnboardingChoice extends StatelessWidget {
   }
 
   Widget buildBottom() {
+    final seedsUrl = 'joinseeds.com';
+
     return Container(
-        margin: EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(children: [
-                  TextSpan(
-                      text: 'You can ask for invite at ',
-                      style: TextStyle(fontSize: 14, color: AppColors.grey)),
-                  TextSpan(
-                      text: 'joinseeds.com',
-                      style: TextStyle(fontSize: 14, color: AppColors.blue)),
-                  TextSpan(
-                      text: '\n\nMembership based on Web of Trust',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                      ))
-                ]))
-          ],
-        ));
+      margin: EdgeInsets.all(10),
+      child: Column(
+        children: <Widget>[
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'You can ask for invite at ',
+                  style: TextStyle(fontSize: 14, color: AppColors.grey),
+                ),
+                TextSpan(
+                  text: seedsUrl,
+                  style: TextStyle(fontSize: 14, color: AppColors.blue),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => safeLaunch('https://www.$seedsUrl'),
+                ),
+                TextSpan(
+                  text: '\n\nMembership based on Web of Trust',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override

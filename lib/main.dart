@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/member_adapter.dart';
 import 'package:seeds/models/models.dart';
@@ -17,7 +18,6 @@ import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 import 'package:sentry/sentry.dart' as Sentry;
-import 'package:path_provider/path_provider.dart';
 
 import 'generated/r.dart';
 

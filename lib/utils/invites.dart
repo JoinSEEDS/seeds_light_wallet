@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'package:convert/convert.dart';
 import 'dart:math';
+
+import 'package:basic_utils/basic_utils.dart';
+import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:random_words/random_words.dart';
-import 'package:basic_utils/basic_utils.dart';
 
 String generateMnemonic({ int words = 5, separator = '-' }) {
   var random = Random.secure();
