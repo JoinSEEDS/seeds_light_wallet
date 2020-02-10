@@ -77,15 +77,19 @@ class TransactionModel {
   final String to;
   final String quantity;
   final String memo;
+  final String timestamp;
+  final String transactionId;
 
-  TransactionModel(this.from, this.to, this.quantity, this.memo);
+  TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp, this.transactionId);
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      json["from"],
-      json["to"],
-      json["quantity"],
-      json["memo"],
+      json["act"]["data"]["from"],
+      json["act"]["data"]["to"],
+      json["act"]["data"]["quantity"],
+      json["act"]["data"]["memo"],
+      json["@timestamp"],
+      json["trx_id"],
     );
   }
 
@@ -108,7 +112,12 @@ class BalanceModel {
   BalanceModel(this.quantity);
 
   factory BalanceModel.fromJson(List<dynamic> json) {
-    return BalanceModel(json[0] as String);
+    if (json != null && json.isNotEmpty) {
+      print("first");
+      return BalanceModel(json[0] as String);
+    } else {
+      return BalanceModel("0.0000 SEEDS");
+    }
   }
 
   @override
@@ -126,7 +135,11 @@ class PlantedModel {
   PlantedModel(this.quantity);
 
   factory PlantedModel.fromJson(Map<String, dynamic> json) {
-    return PlantedModel(json["rows"][0]["balance"] as String);
+    if (json != null && json["rows"].isNotEmpty) {
+      return PlantedModel(json["rows"][0]["planted"] as String);
+    } else {
+      return PlantedModel("0.0000 SEEDS");
+    }
   }
 
   @override
@@ -169,7 +182,11 @@ class VoiceModel {
   VoiceModel(this.amount);
 
   factory VoiceModel.fromJson(Map<String, dynamic> json) {
-    return VoiceModel(json["rows"][0]["balance"] as int);
+    if (json != null && json["rows"].isNotEmpty) {
+      return VoiceModel(json["rows"][0]["balance"] as int);
+    } else {
+      return VoiceModel(0);
+    }
   }
 
   @override
@@ -178,6 +195,50 @@ class VoiceModel {
 
   @override
   int get hashCode => super.hashCode;
+}
+
+class ProfileModel {
+  final String account;
+  final String status;
+  final String type;
+  final String nickname;
+  final String image;
+  final String story;
+  final String roles;
+  final String skills;
+  final String interests;
+  final int reputation;
+  final int timestamp;
+
+  ProfileModel({
+    this.account,
+    this.status,
+    this.type,
+    this.nickname,
+    this.image,
+    this.story,
+    this.roles,
+    this.skills,
+    this.interests,
+    this.reputation,
+    this.timestamp,
+  });
+
+  factory ProfileModel.fromJson(Map<String, dynamic> json) {
+    return ProfileModel(
+      account: json["account"],
+      status: json["status"],
+      type: json["type"],
+      nickname: json["nickname"],
+      image: json["image"],
+      story: json["story"],
+      roles: json["roles"],
+      skills: json["skills"],
+      interests: json["interests"],
+      reputation: json["reputation"],
+      timestamp: json["timestamp"],
+    );
+  }
 }
 
 class ProposalModel {

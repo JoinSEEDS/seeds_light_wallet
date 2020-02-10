@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
 class MainCard extends StatelessWidget {
-
   final Widget child;
   final EdgeInsets padding;
   final EdgeInsets margin;
+  final Function onPressed;
 
-  MainCard({this.child, this.padding, this.margin});
+  MainCard({
+    this.child,
+    this.padding,
+    this.margin,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
       margin: margin,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.075),
-            blurRadius: 5,
-            spreadRadius: 0.5,
-            offset: Offset(0.0, 1.0,),
-          )
-        ],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(8.0),
+        child: Padding(
+          padding: padding ?? const EdgeInsets.all(0.0),
+          child: child,
+        ),
       ),
-      padding: padding,
-      child: child
     );
   }
 }

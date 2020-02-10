@@ -1,26 +1,27 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 
-Widget buildPasscodeScreen(
-    {shouldTriggerVerification,
-    passwordEnteredCallback,
-    isValidCallback,
-    cancelCallback,
-    title = "Enter Passcode",
-    }) {
+Widget buildPasscodeScreen({
+  shouldTriggerVerification,
+  passwordEnteredCallback,
+  isValidCallback,
+  cancelCallback,
+  title = "Enter Passcode",
+}) {
   return PasscodeScreen(
-      passwordDigits: 4,
-      title: title,
-      cancelLocalizedText: "",
-      deleteLocalizedText: "Delete",
-      backgroundColor: const Color(0xFF24b0d6),
-      shouldTriggerVerification: shouldTriggerVerification,
-      passwordEnteredCallback: passwordEnteredCallback,
-      isValidCallback: isValidCallback,
-      cancelCallback: cancelCallback,
+    passwordDigits: 4,
+    title: title,
+    cancelLocalizedText: "",
+    deleteLocalizedText: "Delete",
+    backgroundColor: const Color(0xFF24b0d6),
+    shouldTriggerVerification: shouldTriggerVerification,
+    passwordEnteredCallback: passwordEnteredCallback,
+    isValidCallback: isValidCallback,
+    cancelCallback: cancelCallback,
   );
 }
 

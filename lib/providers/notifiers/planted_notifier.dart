@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
-import 'package:provider/provider.dart';
 
 class PlantedNotifier extends ChangeNotifier {
   PlantedModel balance;
@@ -16,8 +16,8 @@ class PlantedNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  void fetchBalance() {
-    _http.getPlanted().then((result) {
+  Future<void> fetchBalance() {
+    return _http.getPlanted().then((result) {
       balance = result;
       notifyListeners();
     });

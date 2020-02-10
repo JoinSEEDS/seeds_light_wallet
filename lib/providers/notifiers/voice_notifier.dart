@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
-import 'package:provider/provider.dart';
 
 class VoiceNotifier extends ChangeNotifier {
   VoiceModel balance;
@@ -16,8 +16,8 @@ class VoiceNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  void fetchBalance() {
-    _http.getVoice().then((result) {
+  Future<void> fetchBalance() {
+    return _http.getVoice().then((result) {
       balance = result;
       notifyListeners();
     });
