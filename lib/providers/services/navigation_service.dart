@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/app/explorer/harvest/plant_seeds.dart';
 import 'package:seeds/screens/app/explorer/invites/create_invite.dart';
 import 'package:seeds/screens/app/explorer/invites/invites.dart';
 import 'package:seeds/screens/app/explorer/overview.dart';
@@ -38,6 +39,7 @@ class Routes {
   static final dashboard = "Dashboard";
   static final logout = "Logout";
   static final imageViewer = 'ImageViewer';
+  static final plantSeeds = "plantSeeds";
 }
 
 class NavigationService {
@@ -79,6 +81,7 @@ class NavigationService {
     Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
     Routes.logout: (_) => Logout(),
     Routes.imageViewer: (args) => ImageViewer(profileModel: args),
+    Routes.plantSeeds: (_) => PlantSeeds(),
   };
 
   final explorerRoutes = {

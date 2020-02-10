@@ -46,7 +46,9 @@ class Overview extends StatelessWidget {
               }),
               buildCategory('Exchange', 'assets/images/explorer3.png', () {}),
               buildCategory('Lending', 'assets/images/explorer4.png', () {}),
-              buildCategory('Harvest', 'assets/images/explorer5.png', () {})
+              buildCategory('Harvest', 'assets/images/explorer5.png', () {
+                NavigationService.of(context).navigateTo(Routes.plantSeeds);
+              })
             ],
           )),
     );

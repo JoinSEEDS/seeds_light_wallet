@@ -16,21 +16,7 @@ class PlantSeeds extends StatefulWidget {
   _PlantSeedState createState() => _PlantSeedState();
 }
 
-mixin TransactionMixin {
-  bool transactionSubmitted = false;
-
-  final StreamController<bool> _statusNotifier =
-      StreamController<bool>.broadcast();
-  final StreamController<String> _messageNotifier =
-      StreamController<String>.broadcast();
-
-  void dispose() {
-    _statusNotifier.close();
-    _messageNotifier.close();
-  }
-}
-
-class _PlantSeedState extends State<PlantSeeds> with TransactionMixin {
+class _PlantSeedState extends State<PlantSeeds> {
   final plantController = TextEditingController(text: '1');
 
   bool transactionSubmitted = false;
@@ -94,11 +80,12 @@ class _PlantSeedState extends State<PlantSeeds> with TransactionMixin {
           child: Column(
             children: <Widget>[
               TransactionDetails(
-                image: Image.asset("assets/images/explorer2.png"),
-                title: "Invite friend",
-                beneficiary: "join.seeds",
+                image: Image.asset("assets/images/explorer5.png"),
+                title: "Plant Seeds",
+                beneficiary: "harvst.seeds",
               ),
               AvailableBalance(),
+
               PlantedBalance(),
               MainTextField(
                 keyboardType: TextInputType.number,
@@ -109,7 +96,7 @@ class _PlantSeedState extends State<PlantSeeds> with TransactionMixin {
               MainButton(
                 margin: EdgeInsets.only(top: 25),
                 title: 'Plant Seeds',
-                onPressed: plantSeeds,
+                onPressed: onSubmit,
               ),
             ],
           ),

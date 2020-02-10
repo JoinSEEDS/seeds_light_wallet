@@ -122,7 +122,7 @@ class EosService {
   }
 
   Future<dynamic> createInvite(
-      {double transferQuantity, double sowQuantity, double inviteHash}) async {
+      {double transferQuantity, double sowQuantity, String inviteHash}) async {
     print("[eos] create invite $inviteHash ($transferQuantity + $sowQuantity)");
 
     if (mockEnabled) {

@@ -17,7 +17,7 @@ class PlantedBalance extends StatelessWidget {
 
         return Container(
           width: width,
-          margin: EdgeInsets.only(bottom: 20, top: 20),
+          margin: EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: AppColors.blue.withOpacity(0.3)),
