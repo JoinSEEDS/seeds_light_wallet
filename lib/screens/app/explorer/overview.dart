@@ -5,9 +5,9 @@ import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:seeds/utils/string_extension.dart';
 
 class Overview extends StatefulWidget {
   const Overview({
@@ -27,87 +27,86 @@ class _OverviewState extends State<Overview> {
     String balanceValue,
     Function onTap,
   ) {
-    var width = MediaQuery.of(context).size.width;
-
     return Row(
       children: [
-        Container(
-          width: width * 0.58,
-          child: InkWell(
-            onTap: onTap,
-            child: MainCard(
-              margin: EdgeInsets.only(bottom: 10),
-              padding: EdgeInsets.all(15),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                      width: 28,
-                      height: 28,
-                      margin: EdgeInsets.only(right: 15),
-                      child: SvgPicture.asset(iconName)),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
+        Flexible(
+          flex: 2,
+          child: MainCard(
+            onPressed: onTap,
+            margin: EdgeInsets.only(bottom: 8),
+            padding: EdgeInsets.all(14),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  width: 24,
+                  height: 24,
+                  margin: EdgeInsets.only(right: 15),
+                  child: SvgPicture.asset(iconName),
+                ),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
                         ),
-                        Padding(padding: EdgeInsets.only(top: 4)),
-                        Text(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
                           subtitle,
                           style: TextStyle(
                             fontWeight: FontWeight.w300,
                             fontSize: 12,
                           ),
-                        )
-                      ]),
-                ],
-              ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        Padding(padding: EdgeInsets.only(left: 8)),
         Flexible(
+          flex: 1,
           child: MainCard(
-            margin: EdgeInsets.only(bottom: 10),
-            padding: EdgeInsets.all(15),
-            child: Row(
+            margin: EdgeInsets.only(left: 8, bottom: 8),
+            padding: EdgeInsets.all(14),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        balanceTitle,
-                        style: TextStyle(
-                          color: AppColors.grey,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 8),
-                        child: balanceValue != null
-                            ? Text(
-                                balanceValue,
-                                style: TextStyle(fontSize: 14),
-                              )
-                            : Shimmer.fromColors(
-                                baseColor: Colors.grey[300],
-                                highlightColor: Colors.grey[100],
-                                child: Container(
-                                  width: 80.0,
-                                  height: 10,
-                                  color: Colors.white,
-                                ),
-                              ),
-                      ),
-                    ],
+                Text(
+                  balanceTitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: AppColors.grey,
+                    fontSize: 14,
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: balanceValue != null
+                      ? Text(
+                          balanceValue,
+                          style: TextStyle(fontSize: 14),
+                        )
+                      : Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.grey[100],
+                          child: Container(
+                            width: 80.0,
+                            height: 10,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
               ],
             ),
