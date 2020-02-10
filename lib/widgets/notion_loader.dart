@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 class NotionLoader extends StatefulWidget {
@@ -24,17 +26,7 @@ class _NotionLoaderState extends State<NotionLoader>
     animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
-    );
-
-    animationController.addListener(() {
-      if (animationController.status == AnimationStatus.completed) {
-        animationController.reset();
-      } else if (animationController.status == AnimationStatus.dismissed) {
-        animationController.forward();
-      }
-    });
-
-    animationController.forward();
+    )..repeat();
 
     super.initState();
   }
@@ -44,11 +36,27 @@ class _NotionLoaderState extends State<NotionLoader>
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        RotationTransition(
-          child: Image.asset('assets/images/loading.png'),
-          turns: Tween(begin: 0.0, end: 1.0).animate(
-            animationController,
-          ),
+        AnimatedBuilder(
+          animation: animationController,
+          builder: (context, child) {
+            double scale = math.sin(math.pi * animationController.value) + 0.5;
+            return Align(
+              alignment: Alignment.center,
+              child: Transform.scale(
+                scale: scale,
+                child: RotationTransition(
+                  child: Image.asset(
+                    'assets/images/launcher_icon.png',
+                    width: 100,
+                    height: 100,
+                  ),
+                  turns: Tween(begin: 0.0, end: 2.0).animate(
+                    animationController,
+                  ),
+                ),
+              ),
+            );
+          },
         ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 17),
