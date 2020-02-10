@@ -210,9 +210,12 @@ class _JoinProcessState extends State<JoinProcess> {
       case States.createAccount:
         currentScreen = CreateAccount(
           inviteSecret: inviteSecret,
-          onSubmit: (accountName) => machine.transition(
+          onSubmit: (accountName, nickName) => machine.transition(
             Events.createAccountRequested,
-            data: {"accountName": accountName},
+            data: {
+              "accountName": accountName,
+              "nickname": nickName,
+            },
           ),
         );
         backCallback = () => machine.transition(Events.createAccountCanceled);

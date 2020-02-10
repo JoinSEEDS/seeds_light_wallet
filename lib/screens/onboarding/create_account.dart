@@ -9,7 +9,7 @@ import 'package:seeds/widgets/main_text_field.dart';
 
 class CreateAccount extends StatefulWidget {
   final String inviteSecret;
-  final Function onSubmit;
+  final Function(String accountName, String nickName) onSubmit;
 
   CreateAccount({this.inviteSecret, this.onSubmit});
 
@@ -21,6 +21,9 @@ Future<bool> isExistingAccount(String accountName) => Future.sync(() => false);
 
 class _CreateAccountState extends State<CreateAccount> {
   final formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  var _name = '';
+
   final _accountNameController = TextEditingController();
   var _accountName = '';
   var accountNameFocus = FocusNode();
@@ -32,8 +35,15 @@ class _CreateAccountState extends State<CreateAccount> {
 
       accountNameFocus.unfocus();
 
-      widget.onSubmit(_accountName);
+      widget.onSubmit(_accountName, _name);
     }
+  }
+
+  String _validateName(String val) {
+    if (val.isEmpty) {
+      return 'Please enter your name';
+    }
+    return null;
   }
 
   String _validateAccountName(String val) {
@@ -161,6 +171,15 @@ class _CreateAccountState extends State<CreateAccount> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              MainTextField(
+                labelText: 'Your name',
+                controller: _nameController,
+                validator: _validateName,
+                onChanged: (value) {
+                  setState(() => _name = value);
+                },
+              ),
+              SizedBox(height: 8),
               MainTextField(
                 labelText: 'Account Name',
                 controller: _accountNameController,
