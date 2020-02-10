@@ -31,8 +31,8 @@ class _OverviewState extends State<Overview> {
 
     return Row(
       children: [
-        Container(
-          width: width * 0.58,
+        Expanded(
+          flex: 2,
           child: InkWell(
             onTap: onTap,
             child: MainCard(
@@ -72,6 +72,7 @@ class _OverviewState extends State<Overview> {
         ),
         Padding(padding: EdgeInsets.only(left: 8)),
         Flexible(
+          flex: 1,
           child: MainCard(
             margin: EdgeInsets.only(bottom: 10),
             padding: EdgeInsets.all(15),
