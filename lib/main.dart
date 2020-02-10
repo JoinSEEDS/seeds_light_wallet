@@ -13,6 +13,7 @@ import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/providers.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/app/explorer/exchange/buy_seeds.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
@@ -119,7 +120,7 @@ class MainScreen extends StatelessWidget {
           return ToolboxApp(
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: App(),
+              home: BuySeeds(),
               navigatorKey: navigationService.appNavigatorKey,
               onGenerateRoute: navigationService.onGenerateRoute,
             ),
