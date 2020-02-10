@@ -75,7 +75,6 @@ class _OverviewState extends State<Overview> {
           ),
         ),
         Flexible(
-          flex: 1,
           child: MainCard(
             margin: EdgeInsets.only(left: 8, bottom: 8),
             padding: EdgeInsets.all(14),
