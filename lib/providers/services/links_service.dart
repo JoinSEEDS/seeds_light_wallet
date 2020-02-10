@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
 
 class LinksService {
   String inviterAccount;
@@ -20,7 +19,6 @@ class LinksService {
 
     final PendingDynamicLinkData data =
         await FirebaseDynamicLinks.instance.getInitialLink();
-    d("data = ${data}");
 
     final Uri deepLink = data?.link;
 
