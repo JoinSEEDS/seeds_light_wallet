@@ -115,6 +115,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Stack(
         children: <Widget>[
           Positioned.fill(
