@@ -51,7 +51,7 @@ class LinksService {
   Future<Uri> createInviteLink(String inviteMnemonic) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       androidParameters: AndroidParameters(
-        packageName: "com.example.seeds",
+        packageName: "com.joinseeds.wallet",
       ),
       uriPrefix: 'https://seedswallet.page.link',
       link: Uri.parse(

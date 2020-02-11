@@ -38,13 +38,22 @@ class _TransferState extends State<Transfer> {
   }
 
   @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            MembersNotifier.of(context).filterMembers('');
+            Navigator.of(context).pop();
+          },
         ),
         title: showSearch
             ? Container(
@@ -130,13 +139,6 @@ class _TransferState extends State<Transfer> {
     });
     super.initState();
     _searchFocusNode = new FocusNode();
-  }
-
-  @override
-  void dispose() {
-    _searchFocusNode.dispose();
-    MembersNotifier.of(context).filterMembers('');
-    super.dispose();
   }
 
   Widget _usersList(context) {

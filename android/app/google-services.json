@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:366914936426:android:1486cf437333c24a1a3413",
         "android_client_info": {
-          "package_name": "com.example.seeds"
+          "package_name": "com.joinseeds.wallet"
         }
       },
       "oauth_client": [

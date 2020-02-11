@@ -50,7 +50,8 @@ class MembersNotifier extends ChangeNotifier {
       } else {
         box.put(
           accountName,
-          MemberModel(account: accountName, nickname: "Anonymous", image: ""),
+          MemberModel(
+              account: accountName, nickname: "Telos Account", image: ""),
         );
       }
     }
@@ -69,7 +70,18 @@ class MembersNotifier extends ChangeNotifier {
       var cacheMember = cacheMembers.get(memberKey);
 
       if (cacheMember == null || cacheMember != actualMember) {
-        cacheMembers.put(memberKey, actualMember);
+        if (actualMember.nickname.isEmpty) {
+          cacheMembers.put(
+            memberKey,
+            MemberModel(
+              nickname: "Seeds Account",
+              account: actualMember.account,
+              image: actualMember.image,
+            ),
+          );
+        } else {
+          cacheMembers.put(memberKey, actualMember);
+        }
       }
     });
 
