@@ -19,6 +19,36 @@ class Overview extends StatefulWidget {
 }
 
 class _OverviewState extends State<Overview> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refreshData();
+  }
+
+  Future<void> refreshData() async {
+    await Future.wait(<Future<dynamic>>[
+      BalanceNotifier.of(context).fetchBalance(),
+      VoiceNotifier.of(context).fetchBalance(),
+      PlantedNotifier.of(context).fetchBalance(),
+    ]);
+  }
+
+  void onVote() {
+    NavigationService.of(context).navigateTo(Routes.proposals);
+  }
+
+  void onInvite() {
+    NavigationService.of(context).navigateTo(Routes.createInvite);
+  }
+
+  void onPlant() {
+    NavigationService.of(context).navigateTo(Routes.plantSeeds);
+  }
+
+  void onBuy() {
+    NavigationService.of(context).navigateTo(Routes.buySeeds);
+  }
+
   Widget buildCategory(
     String title,
     String subtitle,
@@ -116,28 +146,6 @@ class _OverviewState extends State<Overview> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    refreshData();
-  }
-
-  Future<void> refreshData() async {
-    await Future.wait(<Future<dynamic>>[
-      BalanceNotifier.of(context).fetchBalance(),
-      VoiceNotifier.of(context).fetchBalance(),
-      PlantedNotifier.of(context).fetchBalance(),
-    ]);
-  }
-
-  void onVote() {
-    NavigationService.of(context).navigateTo(Routes.proposals);
-  }
-
-  void onInvite() {
-    NavigationService.of(context).navigateTo(Routes.createInvite);
-  }
-
-  @override
   Widget build(BuildContext context) {
     String balance = BalanceNotifier.of(context).balance?.quantity;
     String planted = PlantedNotifier.of(context).balance?.quantity;
@@ -174,7 +182,7 @@ class _OverviewState extends State<Overview> {
                   'assets/images/harvest.svg',
                   'Planted Seeds',
                   planted?.seedsFormatted,
-                  () {},
+                  onPlant,
                 ),
                 Divider(),
                 buildCategory(
@@ -183,7 +191,7 @@ class _OverviewState extends State<Overview> {
                   'assets/images/exchange.svg',
                   'Liquid TLOS',
                   '0',
-                  () {},
+                  onBuy,
                 ),
               ],
             )),
