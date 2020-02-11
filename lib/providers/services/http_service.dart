@@ -188,7 +188,7 @@ class HttpService {
   }
 
   Future<BalanceModel> getBalance() async {
-    print("[http] get balance");
+    print("[http] get seeds balance");
 
     if (mockResponse == true) {
       return HttpMockResponse.balance;
@@ -212,6 +212,62 @@ class HttpService {
       print("Cannot fetch balance...");
 
       return BalanceModel("0.0000 SEEDS");
+    }
+  }
+
+  Future<BalanceModel> getTelosBalance() async {
+    print("[http] get telos balance");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.telosBalance;
+    }
+
+    final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
+
+    String request =
+        '{"code":"eosio.token","account":"$userAccount","symbol":"TLOS"}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(balanceURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      List<dynamic> body = jsonDecode(res.body);
+
+      BalanceModel balance = BalanceModel.fromJson(body);
+
+      return balance;
+    } else {
+      print("Cannot fetch balance...");
+
+      return BalanceModel("0.0000 TLOS");
+    }
+  }
+
+  Future<ExchangeModel> getExchangeConfig() async {
+    print("[http] get exchange config");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.exchangeConfig;
+    }
+
+    final String exchangeURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"config","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(exchangeURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      ExchangeModel exchangeConfig = ExchangeModel.fromJson(body);
+
+      return exchangeConfig;
+    } else {
+      print('Cannot fetch members...');
+
+      return ExchangeModel();
     }
   }
 

@@ -51,6 +51,8 @@ class HttpMockResponse {
 
   static final balance = BalanceModel("10.0000 SEEDS");
 
+  static final telosBalance = BalanceModel("10.0000 TLOS");
+
   static final voice = VoiceModel(77);
 
   static final planted = PlantedModel("5.0000 SEEDS");
@@ -122,6 +124,13 @@ class HttpMockResponse {
     reputationScore: 50,
     communityBuildingScore: 50,
     contributionScore: 50,
+  );
+
+  static final exchangeConfig = ExchangeModel(
+    rate: "7.0000 SEEDS",
+    citizenLimit: "250000.0000 SEEDS",
+    residentLimit: "250000.0000 SEEDS",
+    visitorLimit: "25000.0000 SEEDS",
   );
 
   static final profile = ProfileModel(

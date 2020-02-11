@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/app/explorer/harvest/plant_seeds.dart';
+import 'package:seeds/screens/app/explorer/exchange/buy_seeds.dart';
 import 'package:seeds/screens/app/explorer/invites/create_invite.dart';
 import 'package:seeds/screens/app/explorer/invites/invites.dart';
 import 'package:seeds/screens/app/explorer/overview.dart';
@@ -40,6 +41,7 @@ class Routes {
   static final logout = "Logout";
   static final imageViewer = 'ImageViewer';
   static final plantSeeds = "plantSeeds";
+  static final buySeeds = "BuySeeds";
 }
 
 class NavigationService {
@@ -84,6 +86,7 @@ class NavigationService {
           arguments: args,
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
+    Routes.buySeeds: (_) => BuySeeds(),
   };
 
   final explorerRoutes = {

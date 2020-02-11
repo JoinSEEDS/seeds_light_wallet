@@ -57,6 +57,8 @@ void main() {
     final profile = await service.getProfile();
     final harvest = await service.getHarvest();
     final score = await service.getScore();
+    final exchange = await service.getExchangeConfig();
+    final telosBalance = await service.getTelosBalance();
 
     expect(members, HttpMockResponse.members);
     expect(transactions, HttpMockResponse.transactions);
@@ -67,6 +69,8 @@ void main() {
     expect(profile, HttpMockResponse.profile);
     expect(harvest, HttpMockResponse.harvest);
     expect(score, HttpMockResponse.score);
+    expect(exchange, HttpMockResponse.exchangeConfig);
+    expect(telosBalance, HttpMockResponse.telosBalance);
   });
 
   test('Eos Service', () async {
@@ -78,6 +82,7 @@ void main() {
     final voteProposal = await service.voteProposal();
     final updateProfile = await service.updateProfile();
     final plantSeeds = await service.plantSeeds();
+    final transferTelos = await service.transferTelos();
 
     expect(createInvite, HttpMockResponse.transactionResult);
     expect(acceptInvite, HttpMockResponse.transactionResult);
@@ -85,5 +90,6 @@ void main() {
     expect(voteProposal, HttpMockResponse.transactionResult);
     expect(updateProfile, HttpMockResponse.transactionResult);
     expect(plantSeeds, HttpMockResponse.transactionResult);
+    expect(transferTelos, HttpMockResponse.transactionResult);
   });
 }
