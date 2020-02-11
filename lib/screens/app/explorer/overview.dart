@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/main_card.dart';
-// import 'package:seeds/widgets/seeds_button.dart';
 
 class Overview extends StatelessWidget {
   const Overview({
