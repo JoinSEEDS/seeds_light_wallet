@@ -1,11 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:seeds/models/models.dart';
+
+class ImageViewerArguments {
+  final String imageUrl;
+  final String heroTag;
+
+  const ImageViewerArguments({this.imageUrl, this.heroTag});
+}
 
 class ImageViewer extends StatelessWidget {
-  final ProfileModel profileModel;
-  const ImageViewer({this.profileModel});
+  final ImageViewerArguments arguments;
+
+  const ImageViewer({this.arguments});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +24,9 @@ class ImageViewer extends StatelessWidget {
             minScale: PhotoViewComputedScale.contained,
             maxScale: PhotoViewComputedScale.contained,
             initialScale: PhotoViewComputedScale.contained,
-            heroAttributes: const PhotoViewHeroAttributes(tag: "profilePic"),
+            heroAttributes: PhotoViewHeroAttributes(tag: arguments.heroTag),
             imageProvider: CachedNetworkImageProvider(
-              profileModel.image,
+              arguments?.imageUrl ?? '',
             ),
           ),
           Positioned(

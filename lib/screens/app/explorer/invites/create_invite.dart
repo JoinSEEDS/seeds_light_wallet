@@ -60,7 +60,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
         sowQuantity: double.parse(sowController.text),
         inviteHash: widget.inviteHash,
       );
-      
+
       String transactionId = response["transaction_id"];
 
       print("notify now...");
@@ -84,7 +84,6 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
         setState(() {
           transactionSubmitted = false;
         });
-        Navigator.of(context).maybePop();
       },
     );
   }
@@ -173,7 +172,7 @@ class _ShareScreenState extends State<ShareScreen> {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
+        margin: const EdgeInsets.all(32.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -185,15 +184,17 @@ class _ShareScreenState extends State<ShareScreen> {
               widget.inviteLink,
               style: TextStyle(fontFamily: "worksans", fontSize: 14),
             ),
-            SizedBox(height: 14),
-            MainButton(
-              title: "Share link",
-              onPressed: () {
-                setState(() {
-                  secretShared = true;
-                });
-                Share.share(widget.inviteLink);
-              },
+            Padding(
+              padding: const EdgeInsets.only(top: 32.0),
+              child: MainButton(
+                title: "Share link",
+                onPressed: () {
+                  setState(() {
+                    secretShared = true;
+                  });
+                  Share.share(widget.inviteLink);
+                },
+              ),
             ),
             SizedBox(height: 12),
             secretShared == true

@@ -1,4 +1,3 @@
-
 class InviteModel {
   final int inviteId;
   final String transferQuantity;
@@ -150,6 +149,31 @@ class PlantedModel {
 
   @override
   int get hashCode => super.hashCode;
+}
+
+class ExchangeModel {
+  final String rate;
+  final String citizenLimit;
+  final String residentLimit;
+  final String visitorLimit;
+
+  ExchangeModel({
+    this.rate,
+    this.citizenLimit,
+    this.residentLimit,
+    this.visitorLimit,
+  });
+
+  factory ExchangeModel.fromJson(Map<String, dynamic> json) {
+    var item = json["rows"][0];
+
+    return ExchangeModel(
+      rate: item["rate"],
+      citizenLimit: item["citizen_limit"],
+      residentLimit: item["resident_limit"],
+      visitorLimit: item["visitor_limit"],
+    );
+  }
 }
 
 class VoiceModel {

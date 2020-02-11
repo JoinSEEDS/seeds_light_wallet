@@ -236,6 +236,33 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
+  Future<dynamic> buySeeds({double amount}) async {
+    print("[eos] buy seeds ($amount)");
+
+    if (mockEnabled) {
+      return HttpMockResponse.transactionResult;
+    }
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "eosio.token"
+        ..name = "transfer"
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = {
+          "from": accountName,
+          "to": "tlosto.seeds",
+          "quantity": "${amount.toStringAsFixed(4)} TLOS",
+          "memo": "",
+        }
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
   Future<dynamic> voteProposal({int id, int amount}) async {
     print("[eos] vote proposal $id ($amount)");
 

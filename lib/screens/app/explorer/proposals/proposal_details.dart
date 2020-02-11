@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
-// import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';

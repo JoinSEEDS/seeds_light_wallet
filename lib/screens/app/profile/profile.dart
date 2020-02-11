@@ -5,15 +5,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as pathUtils;
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
-import 'package:path/path.dart' as pathUtils;
+import 'package:share/share.dart';
 import 'package:uuid/uuid.dart';
 
 class Profile extends StatefulWidget {
@@ -56,8 +59,13 @@ class _ProfileState extends State<Profile> {
                       GestureDetector(
                         onTap: () {
                           if (model?.profile?.image != null)
-                            NavigationService.of(context)
-                                .navigateTo(Routes.imageViewer, model.profile);
+                            NavigationService.of(context).navigateTo(
+                              Routes.imageViewer,
+                              ImageViewerArguments(
+                                imageUrl: model.profile.image,
+                                heroTag: "profilePic",
+                              ),
+                            );
                         },
                         child: Hero(
                           tag: 'profilePic',
@@ -139,12 +147,27 @@ class _ProfileState extends State<Profile> {
                   onPressed: () => _saveProfile(model.profile),
                 ),
               ),
-              MainButton(
-                title: "Logout",
-                onPressed: () {
-                  NavigationService.of(context).navigateTo(Routes.logout);
-                },
+              Padding(
+                padding: const EdgeInsets.only(top: 80.0),
+                child: FlatButton(
+                  color: Colors.white,
+                  child: Text(
+                    'Export private key',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  onPressed: () =>
+                      Share.share(SettingsNotifier.of(context).privateKey),
+                ),
               ),
+              FlatButton(
+                color: Colors.white,
+                child: Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () =>
+                    NavigationService.of(context).navigateTo(Routes.logout),
+              )
             ],
           ),
         );
@@ -225,15 +248,67 @@ class _ProfileState extends State<Profile> {
     if (_profileImage != null) {
       attachmentUrl = await _uploadFile(profile);
     }
-    await Provider.of<EosService>(context, listen: false).updateProfile(
-      nickname: _nameController.text ?? (profile.nickname ?? ''),
-      image: attachmentUrl ?? (profile.image ?? ''),
-      story: '',
-      roles: '',
-      skills: '',
-      interests: '',
-    );
+    try {
+      var transaction =
+          await Provider.of<EosService>(context, listen: false).updateProfile(
+        nickname: (_nameController.text == null || _nameController.text.isEmpty)
+            ? (profile.nickname ?? '')
+            : _nameController.text,
+        image: attachmentUrl ?? (profile.image ?? ''),
+        story: '',
+        roles: '',
+        skills: '',
+        interests: '',
+      );
+
+      final snackBar = SnackBar(
+        content: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(
+                Icons.done,
+                color: Colors.green,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                'Profile updated successfully. ${transaction["transaction_id"]}',
+                maxLines: null,
+              ),
+            ),
+          ],
+        ),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    } catch (e) {
+      print('error: $e');
+      final snackBar = SnackBar(
+        content: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(
+                Icons.close,
+                color: Colors.red,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                'Error occured!! Please try again.',
+                maxLines: null,
+              ),
+            ),
+          ],
+        ),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+
     savingLoader.currentState.done();
+    Future.delayed(Duration.zero).then((_) {
+      ProfileNotifier.of(context).fetchProfile();
+    });
   }
 
   _uploadFile(ProfileModel profile) async {

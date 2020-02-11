@@ -3,19 +3,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/app/explorer/exchange/buy_seeds.dart';
 import 'package:seeds/screens/app/explorer/invites/create_invite.dart';
 import 'package:seeds/screens/app/explorer/invites/invites.dart';
 import 'package:seeds/screens/app/explorer/overview.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposals.dart';
-import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
+import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer_amount.dart';
 import 'package:seeds/screens/app/wallet/transfer_form.dart';
-import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
+import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -38,6 +39,7 @@ class Routes {
   static final dashboard = "Dashboard";
   static final logout = "Logout";
   static final imageViewer = 'ImageViewer';
+  static final buySeeds = "BuySeeds";
 }
 
 class NavigationService {
@@ -78,7 +80,10 @@ class NavigationService {
     Routes.proposals: (_) => Proposals(),
     Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
     Routes.logout: (_) => Logout(),
-    Routes.imageViewer: (args) => ImageViewer(profileModel: args),
+    Routes.imageViewer: (args) => ImageViewer(
+          arguments: args,
+        ),
+    Routes.buySeeds: (_) => BuySeeds(),
   };
 
   final explorerRoutes = {

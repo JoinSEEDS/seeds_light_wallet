@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/providers/notifiers/invites_notifier.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/widgets/reactive_widget.dart';
-import 'package:provider/provider.dart';
 
 class Invites extends StatelessWidget {
   @override
