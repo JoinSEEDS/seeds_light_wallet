@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/main_card.dart';
-// import 'package:seeds/widgets/seeds_button.dart';
 
 class Overview extends StatelessWidget {
   const Overview({
@@ -46,7 +45,9 @@ class Overview extends StatelessWidget {
               }),
               buildCategory('Exchange', 'assets/images/explorer3.png', () {}),
               buildCategory('Lending', 'assets/images/explorer4.png', () {}),
-              buildCategory('Harvest', 'assets/images/explorer5.png', () {})
+              buildCategory('Harvest', 'assets/images/explorer5.png', () {
+                NavigationService.of(context).navigateTo(Routes.plantSeeds);
+              })
             ],
           )),
     );

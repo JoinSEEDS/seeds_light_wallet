@@ -51,18 +51,6 @@ class Invites extends StatelessWidget {
                                       fontSize: 24,
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "worksans"));
-
-                              // return ListTile(
-                              //   leading: member.image,
-                              //   title: member.nickname,
-                              //   subtitle: member.accountName,
-                              //   trailing: Column(
-                              //     children: <Widget>[
-                              //       Text("Sow: ${member.sow}"),
-                              //       Text("Transfer: ${member.transfer}")
-                              //     ],
-                              //   ),
-                              // );
                             },
                           )
                         : ProgressBar(),
