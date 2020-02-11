@@ -66,4 +66,4 @@ jobs:
           flutter upgrade
       - name: Build apk package
         run: |
-          flutter build apk --release
+          flutter build apk
