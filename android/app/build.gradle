@@ -64,6 +64,9 @@ android {
        release {
            signingConfig signingConfigs.release
        }
+       debug {
+           applicationIdSuffix '.d'
+       }
    }
 }
 
