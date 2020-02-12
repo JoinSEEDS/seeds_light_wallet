@@ -182,6 +182,10 @@ class _DashboardState extends State<Dashboard> {
                               account: member.data.account,
                               nickname: member.data.nickname,
                               image: member.data.image,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.blue,
+                              ),
                             ),
                             Flexible(
                                 child: Container(

@@ -1,17 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/constants/app_colors.dart';
 
 class TransactionAvatar extends StatelessWidget {
   final String image;
   final String nickname;
   final String account;
   final double size;
-  final Decoration decoration;
+  final BoxDecoration decoration;
 
   TransactionAvatar(
-      {this.image, this.nickname, this.account, this.size, this.decoration});
+      {this.image, this.nickname, this.account, this.size, this.decoration });
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +34,7 @@ class TransactionAvatar extends StatelessWidget {
         width: size,
         height: size,
         child: SvgPicture.asset(image),
+        decoration: decoration != null ? decoration.copyWith(color: Colors.white) : null,
       );
     } else {
       String shortName = nickname.isNotEmpty &&
@@ -48,7 +48,6 @@ class TransactionAvatar extends StatelessWidget {
         child: Container(
           width: size,
           height: size,
-          color: AppColors.blue,
           child: Container(
             alignment: Alignment.center,
             child: Text(
@@ -59,6 +58,7 @@ class TransactionAvatar extends StatelessWidget {
                   fontWeight: FontWeight.w600),
             ),
           ),
+          decoration: decoration,
         ),
       );
     }
