@@ -1,13 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
-import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
-import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'transfer_form.dart';
@@ -23,20 +21,6 @@ class _TransferState extends State<Transfer> {
   bool showSearch = false;
 
   FocusNode _searchFocusNode;
-
-  Future onContact(String imageUrl, String fullName, String userName) async {
-    await NavigationService.of(context).navigateTo(
-      Routes.transferForm,
-      TransferFormArguments(
-        fullName,
-        userName,
-        imageUrl,
-      ),
-    );
-
-    TransactionsNotifier.of(context).fetchTransactions();
-    BalanceNotifier.of(context).fetchBalance();
-  }
 
   @override
   void dispose() {
@@ -147,40 +131,61 @@ class _TransferState extends State<Transfer> {
     print("[widget] rebuild users");
 
     return Consumer<MembersNotifier>(builder: (ctx, model, _) {
-      return LiquidPullToRefresh(
-        springAnimationDurationInMilliseconds: 500,
-        showChildOpacityTransition: true,
-        backgroundColor: AppColors.lightGreen,
-        color: AppColors.lightBlue,
-        onRefresh: () async {
-          Provider.of<MembersNotifier>(context, listen: false).refreshMembers();
-        },
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: ClampingScrollPhysics(),
-          itemCount: model.visibleMembers.length > 8 ? model.visibleMembers.length : 8,
-          itemBuilder: (ctx, index) {
-            if (model.visibleMembers == null || model.visibleMembers.isEmpty || model.visibleMembers.elementAt(index) == null) {
-              return _shimmerTile();
-            } else {
-              final user = model.visibleMembers[index];
-              return _userTile(user);
-            }
-          },
-        ),
-      );
+      return (model.visibleMembers.isEmpty && showSearch == true)
+          ? Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 25,
+                vertical: 7,
+              ),
+              child: Text(
+                "Choose existing Seeds Member to transfer",
+                style: TextStyle(
+                    fontFamily: "worksans",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w200),
+              ),
+            )
+          : LiquidPullToRefresh(
+              springAnimationDurationInMilliseconds: 500,
+              showChildOpacityTransition: true,
+              backgroundColor: AppColors.lightGreen,
+              color: AppColors.lightBlue,
+              onRefresh: () async {
+                Provider.of<MembersNotifier>(context, listen: false)
+                    .refreshMembers();
+              },
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                itemCount: model.visibleMembers.length > 8
+                    ? model.visibleMembers.length
+                    : (showSearch == true ? model.visibleMembers.length : 8),
+                itemBuilder: (ctx, index) {
+                  if (model.visibleMembers == null ||
+                      model.visibleMembers.isEmpty ||
+                      model.visibleMembers.elementAt(index) == null) {
+                    return _shimmerTile();
+                  } else {
+                    final user = model.visibleMembers[index];
+                    return _userTile(user);
+                  }
+                },
+              ),
+            );
     });
   }
 
   Widget _userTile(MemberModel user) {
     return ListTile(
       leading: Hero(
-        child: Container(
-          width: 60,
-          height: 60,
-          child: CircleAvatar(
-            backgroundColor: Colors.transparent,
-            backgroundImage: CachedNetworkImageProvider(user.image),
+        child: TransactionAvatar(
+          size: 60,
+          image: user.image,
+          account: user.account,
+          nickname: user.nickname,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.blue,
           ),
         ),
         tag: "avatar#${user.account}",
@@ -216,9 +221,6 @@ class _TransferState extends State<Transfer> {
             user.image,
           ),
         );
-
-        TransactionsNotifier.of(context).fetchTransactions();
-        BalanceNotifier.of(context).fetchBalance();
       },
     );
   }

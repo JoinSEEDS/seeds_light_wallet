@@ -93,7 +93,6 @@ class MembersNotifier extends ChangeNotifier {
             image: actualMember.image,
           ),
         );
-        cacheMembers.put(memberKey, actualMember);
       }
     });
 
