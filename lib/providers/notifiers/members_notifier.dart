@@ -51,7 +51,10 @@ class MembersNotifier extends ChangeNotifier {
         box.put(
           accountName,
           MemberModel(
-              account: accountName, nickname: "Telos Account", image: ""),
+            account: accountName,
+            nickname: "Telos Account",
+            image: "",
+          ),
         );
       }
     }
@@ -59,8 +62,18 @@ class MembersNotifier extends ChangeNotifier {
     return box.get(accountName);
   }
 
+  Future<void> fetchMembersCache() async {
+    Box cacheMembers = await Hive.openBox<MemberModel>("members");
+
+    if (cacheMembers != null && cacheMembers.isNotEmpty) {
+      allMembers = cacheMembers.values.toList();
+      updateVisibleMembers();
+      notifyListeners();
+    }
+  }
+
   Future<void> refreshMembers() async {
-    var cacheMembers = await Hive.openBox<MemberModel>("members");
+    Box cacheMembers = await Hive.openBox<MemberModel>("members");
 
     var actualMembers = await _http.getMembers();
 
@@ -70,25 +83,23 @@ class MembersNotifier extends ChangeNotifier {
       var cacheMember = cacheMembers.get(memberKey);
 
       if (cacheMember == null || cacheMember != actualMember) {
-        if (actualMember.nickname.isEmpty) {
-          cacheMembers.put(
-            memberKey,
-            MemberModel(
-              nickname: "Seeds Account",
-              account: actualMember.account,
-              image: actualMember.image,
-            ),
-          );
-        } else {
-          cacheMembers.put(memberKey, actualMember);
-        }
+        cacheMembers.put(
+          memberKey,
+          MemberModel(
+            nickname: actualMember.nickname.isNotEmpty
+                ? actualMember.nickname
+                : "Seeds Account",
+            account: actualMember.account,
+            image: actualMember.image,
+          ),
+        );
+        cacheMembers.put(memberKey, actualMember);
       }
     });
 
     allMembers = cacheMembers.values.toList();
 
     updateVisibleMembers();
-
     notifyListeners();
   }
 

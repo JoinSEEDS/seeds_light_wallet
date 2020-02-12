@@ -135,6 +135,7 @@ class _TransferState extends State<Transfer> {
   @override
   initState() {
     Future.delayed(Duration.zero).then((_) {
+      MembersNotifier.of(context).fetchMembersCache();
       MembersNotifier.of(context).refreshMembers();
     });
     super.initState();

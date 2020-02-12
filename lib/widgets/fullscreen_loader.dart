@@ -134,7 +134,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
               animation: animationController,
               builder: (context, child) {
                 double scale =
-                    math.sin(math.pi * animationController.value) + 0.5;
+                    math.sin(math.pi * animationController.value) + 0.7;
                 return Align(
                   alignment: Alignment.center,
                   child: Transform.scale(

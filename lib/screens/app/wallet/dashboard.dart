@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
@@ -49,7 +50,8 @@ class _DashboardState extends State<Dashboard> {
 
   Future<void> refreshData() async {
     await Future.wait(<Future<dynamic>>[
-      TransactionsNotifier.of(context).fetchTransactions(),
+      TransactionsNotifier.of(context).fetchTransactionsCache(),
+      TransactionsNotifier.of(context).refreshTransactions(),
       BalanceNotifier.of(context).fetchBalance(),
     ]);
   }
@@ -177,27 +179,7 @@ class _DashboardState extends State<Dashboard> {
                                     : AppColors.red,
                               ),
                             ),
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(40),
-                                child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    color: AppColors.blue,
-                                    child: member.data.image != null
-                                        ? CachedNetworkImage(
-                                            imageUrl: member.data.image)
-                                        : Container(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              member.data.nickname
-                                                  .substring(0, 2)
-                                                  .toUpperCase(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ))),
+                            _buildTransactionAvatar(member.data),
                             Flexible(
                                 child: Container(
                                     margin:
@@ -269,6 +251,49 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
     );
+  }
+
+  Widget _buildTransactionAvatar(dynamic data) {
+    String image = data.image;
+    String nickname = data.nickname;
+
+    if (image.startsWith("http")) {
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(40),
+          child: Container(
+              width: 40,
+              height: 40,
+              child: CachedNetworkImage(imageUrl: image)));
+    } else if (image.endsWith('.svg')) {
+      return Container(
+        width: 40,
+        height: 40,
+        child: SvgPicture.asset(image),
+      );
+    } else {
+      String shortName = data.nickname.isNotEmpty && data.nickname != "Seeds Account" && data.nickname != "Telos Account"
+          ? data.nickname.substring(0, 2).toUpperCase()
+          : data.account.substring(0, 2).toUpperCase();
+
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(40),
+        child: Container(
+          width: 40,
+          height: 40,
+          color: AppColors.blue,
+          child: Container(
+            alignment: Alignment.center,
+            child: Text(
+              shortName,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   Widget buildTransactions() {

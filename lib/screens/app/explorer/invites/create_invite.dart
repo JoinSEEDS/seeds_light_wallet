@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
@@ -105,7 +106,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
           child: Column(
             children: <Widget>[
               TransactionDetails(
-                image: Image.asset("assets/images/explorer2.png"),
+                image: SvgPicture.asset("assets/images/community.svg"),
                 title: "Invite friend",
                 beneficiary: "join.seeds",
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
@@ -12,12 +13,32 @@ class TransactionsNotifier extends ChangeNotifier {
   static of(BuildContext context, {bool listen = false}) =>
       Provider.of<TransactionsNotifier>(context, listen: listen);
 
-  void update({HttpService http, AuthNotifier auth}) {
+  void update({HttpService http, AuthNotifier auth}) async {
     _http = http;
   }
 
-  Future fetchTransactions() async {
-    transactions = await _http.getTransactions();
+  Future fetchTransactionsCache() async {
+    Box cacheTransactions =
+        await Hive.openBox<TransactionModel>("transactions");
+    if (cacheTransactions != null && cacheTransactions.isNotEmpty) {
+      transactions = cacheTransactions.values.toList();
+      notifyListeners();
+    }
+  }
+
+  Future refreshTransactions() async {
+    Box cacheTransactions =
+        await Hive.openBox<TransactionModel>("transactions");
+
+    List<TransactionModel> actualTransactions = await _http.getTransactions();
+
+    if (actualTransactions.length > cacheTransactions.values.length) {
+      await cacheTransactions.clear();
+      await cacheTransactions.addAll(actualTransactions);
+    }
+
+    transactions = cacheTransactions.values.toList();
+
     notifyListeners();
   }
 }

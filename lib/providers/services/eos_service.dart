@@ -113,7 +113,7 @@ class EosService {
         ..data = {
           "from": accountName,
           "to": "harvst.seeds",
-          "quantity": "$amount SEEDS",
+          "quantity": "${amount.toStringAsFixed(4)} SEEDS",
           "memo": "",
         }
     ]);

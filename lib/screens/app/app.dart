@@ -32,25 +32,19 @@ class _AppState extends State<App> {
     NavigationTab(
       title: "Explorer",
       icon: 'assets/images/explorer.svg',
-      screenBuilder: () => ConnectionStatus(
-        child: Explorer(),
-      ),
+      screenBuilder: () => Explorer(),
       index: 0,
     ),
     NavigationTab(
       title: "Wallet",
       icon: 'assets/images/wallet.svg',
-      screenBuilder: () => ConnectionStatus(
-        child: Wallet(),
-      ),
+      screenBuilder: () => Wallet(),
       index: 1,
     ),
     NavigationTab(
       title: "Profile",
       icon: 'assets/images/profile.svg',
-      screenBuilder: () => ConnectionStatus(
-        child: Profile(),
-      ),
+      screenBuilder: () => Profile(),
       index: 2,
     ),
   ];
