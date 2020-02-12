@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
@@ -135,6 +136,7 @@ class _TransferState extends State<Transfer> {
   @override
   initState() {
     Future.delayed(Duration.zero).then((_) {
+      MembersNotifier.of(context).fetchMembersCache();
       MembersNotifier.of(context).refreshMembers();
     });
     super.initState();
@@ -156,65 +158,69 @@ class _TransferState extends State<Transfer> {
         child: ListView.builder(
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),
-          itemCount: model?.visibleMembers?.length ?? 8,
+          itemCount: model.visibleMembers.length > 8 ? model.visibleMembers.length : 8,
           itemBuilder: (ctx, index) {
-            if (model?.visibleMembers == null || model.visibleMembers.isEmpty) {
+            if (model.visibleMembers == null || model.visibleMembers.isEmpty || model.visibleMembers.elementAt(index) == null) {
               return _shimmerTile();
             } else {
               final user = model.visibleMembers[index];
-              return ListTile(
-                leading: Hero(
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: CachedNetworkImageProvider(user.image),
-                    ),
-                  ),
-                  tag: "avatar#${user.account}",
-                ),
-                title: Hero(
-                  child: Material(
-                    child: Text(
-                      user.nickname,
-                      style: TextStyle(
-                          fontFamily: "worksans", fontWeight: FontWeight.w500),
-                    ),
-                    color: Colors.transparent,
-                  ),
-                  tag: "nickname#${user.account}",
-                ),
-                subtitle: Hero(
-                  child: Material(
-                    child: Text(
-                      user.account,
-                      style: TextStyle(
-                          fontFamily: "worksans", fontWeight: FontWeight.w400),
-                    ),
-                    color: Colors.transparent,
-                  ),
-                  tag: "account#${user.account}",
-                ),
-                onTap: () async {
-                  await NavigationService.of(context).navigateTo(
-                    Routes.transferForm,
-                    TransferFormArguments(
-                      user.nickname,
-                      user.account,
-                      user.image,
-                    ),
-                  );
-
-                  TransactionsNotifier.of(context).fetchTransactions();
-                  BalanceNotifier.of(context).fetchBalance();
-                },
-              );
+              return _userTile(user);
             }
           },
         ),
       );
     });
+  }
+
+  Widget _userTile(MemberModel user) {
+    return ListTile(
+      leading: Hero(
+        child: Container(
+          width: 60,
+          height: 60,
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            backgroundImage: CachedNetworkImageProvider(user.image),
+          ),
+        ),
+        tag: "avatar#${user.account}",
+      ),
+      title: Hero(
+        child: Material(
+          child: Text(
+            user.nickname,
+            style:
+                TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
+          ),
+          color: Colors.transparent,
+        ),
+        tag: "nickname#${user.account}",
+      ),
+      subtitle: Hero(
+        child: Material(
+          child: Text(
+            user.account,
+            style:
+                TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
+          ),
+          color: Colors.transparent,
+        ),
+        tag: "account#${user.account}",
+      ),
+      onTap: () async {
+        await NavigationService.of(context).navigateTo(
+          Routes.transferForm,
+          TransferFormArguments(
+            user.nickname,
+            user.account,
+            user.image,
+          ),
+        );
+
+        TransactionsNotifier.of(context).fetchTransactions();
+        BalanceNotifier.of(context).fetchBalance();
+      },
+    );
   }
 
   Widget _shimmerTile() {

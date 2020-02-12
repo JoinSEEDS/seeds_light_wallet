@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/available_balance.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
@@ -80,7 +81,7 @@ class _PlantSeedState extends State<PlantSeeds> {
           child: Column(
             children: <Widget>[
               TransactionDetails(
-                image: Image.asset("assets/images/explorer5.png"),
+                image: SvgPicture.asset("assets/images/harvest.svg"),
                 title: "Plant Seeds",
                 beneficiary: "harvst.seeds",
               ),
