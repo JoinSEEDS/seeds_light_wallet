@@ -15,8 +15,8 @@ class ProfileNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  void fetchProfile() {
-    _http.getProfile().then((result) {
+  Future fetchProfile() {
+    return _http.getProfile().then((result) {
       profile = result;
       notifyListeners();
     });

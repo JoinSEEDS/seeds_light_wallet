@@ -169,7 +169,7 @@ class EosService {
   }
 
   Future<dynamic> acceptInvite(
-      {String accountName, String publicKey, String inviteSecret}) async {
+      {String accountName, String publicKey, String inviteSecret, String nickname}) async {
     print("[eos] accept invite");
 
     if (mockEnabled) {
@@ -186,9 +186,8 @@ class EosService {
       "account": accountName,
       "publicKey": publicKey,
       "invite_secret": inviteSecret,
+      "fullname": nickname,
     };
-
-    print(inviteSecret);
 
     List<Authorization> auth = [
       Authorization()
@@ -201,7 +200,7 @@ class EosService {
         ..account = 'join.seeds'
         ..name = 'acceptnew'
         ..authorization = auth
-        ..data = data
+        ..data = data,
     ];
 
     Transaction transaction = Transaction()..actions = actions;

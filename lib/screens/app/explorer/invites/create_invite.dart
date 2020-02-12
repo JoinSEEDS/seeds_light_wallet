@@ -64,8 +64,6 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
 
       String transactionId = response["transaction_id"];
 
-      print("notify now...");
-
       _statusNotifier.add(true);
       _messageNotifier.add("Transaction hash: $transactionId");
     } catch (err) {

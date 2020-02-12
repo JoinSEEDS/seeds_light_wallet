@@ -32,7 +32,10 @@ class _ProfileState extends State<Profile> {
   @override
   initState() {
     Future.delayed(Duration.zero).then((_) {
-      ProfileNotifier.of(context).fetchProfile();
+      ProfileNotifier.of(context).fetchProfile().then((_) {
+        _nameController.text =
+            ProfileNotifier.of(context)?.profile?.nickname ?? '';
+      });
     });
     super.initState();
   }
@@ -41,9 +44,8 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Consumer<ProfileNotifier>(
       builder: (ctx, model, _) {
-        if (model?.profile != null && model.profile.nickname != null) {
-          _nameController.text = model?.profile?.nickname ?? '';
-        }
+        //  var model = ProfileNotifier.of(context).profile;
+
         return Scaffold(
           body: ListView(
             children: <Widget>[
@@ -53,87 +55,103 @@ class _ProfileState extends State<Profile> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: AppColors.gradient),
                 ),
-                child: Center(
-                  child: Stack(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          if (model?.profile?.image != null)
-                            NavigationService.of(context).navigateTo(
-                              Routes.imageViewer,
-                              ImageViewerArguments(
-                                imageUrl: model.profile.image,
-                                heroTag: "profilePic",
-                              ),
-                            );
-                        },
-                        child: Hero(
-                          tag: 'profilePic',
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50.0),
-                            child: Container(
-                              width: 100.0,
-                              height: 100.0,
-                              child: (_profileImage != null)
-                                  ? Image.file(
-                                      _profileImage,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : CachedNetworkImage(
-                                      imageUrl: model?.profile?.image ?? '',
-                                      errorWidget: (context, url, error) {
-                                        return Container(
-                                          color: AppColors.getColorByString(
-                                              model?.profile?.nickname ?? ''),
-                                          child: Center(
-                                            child: Text(
-                                              (model?.profile?.nickname != null)
-                                                  ? model?.profile?.nickname
-                                                      ?.substring(0, 2)
-                                                      ?.toUpperCase()
-                                                  : '?',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w600,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Stack(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            if (model?.profile?.image != null)
+                              NavigationService.of(context).navigateTo(
+                                Routes.imageViewer,
+                                ImageViewerArguments(
+                                  imageUrl: model.profile.image,
+                                  heroTag: "profilePic",
+                                ),
+                              );
+                          },
+                          child: Hero(
+                            tag: 'profilePic',
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50.0),
+                              child: Container(
+                                width: 100.0,
+                                height: 100.0,
+                                child: (_profileImage != null)
+                                    ? Image.file(
+                                        _profileImage,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : CachedNetworkImage(
+                                        imageUrl: model?.profile?.image ?? '',
+                                        errorWidget: (context, url, error) {
+                                          return Container(
+                                            color: AppColors.getColorByString(
+                                                model?.profile?.nickname ?? ''),
+                                            child: Center(
+                                              child: Text(
+                                                (model?.profile?.nickname !=
+                                                        null)
+                                                    ? model?.profile?.nickname
+                                                        ?.substring(0, 2)
+                                                        ?.toUpperCase()
+                                                    : '?',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                          );
+                                        },
+                                      ),
+                              ),
                             ),
                           ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            width: 32.0,
+                            height: 32.0,
+                            child: FloatingActionButton(
+                              elevation: 0,
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.camera_alt,
+                                size: 16.0,
+                                color: Colors.black,
+                              ),
+                              onPressed: () =>
+                                  _editProfilePicBottomSheet(context),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 5),
+                      child: Text(
+                        SettingsNotifier.of(context).accountName,
+                        style: TextStyle(
+                          fontFamily: "worksans",
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          width: 32.0,
-                          height: 32.0,
-                          child: FloatingActionButton(
-                            elevation: 0,
-                            backgroundColor: Colors.white,
-                            child: Icon(
-                              Icons.camera_alt,
-                              size: 16.0,
-                              color: Colors.black,
-                            ),
-                            onPressed: () =>
-                                _editProfilePicBottomSheet(context),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               Padding(
                 padding:
                     const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0),
                 child: MainTextField(
-                  labelText: "Name",
+                  labelText: "Full Name",
                   hintText: 'Your Name',
                   controller: _nameController,
                 ),

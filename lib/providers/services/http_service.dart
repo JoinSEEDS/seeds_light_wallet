@@ -44,6 +44,7 @@ class HttpService {
       Map<String, dynamic> body = jsonDecode(res.body);
 
       ProfileModel profile = ProfileModel.fromJson(body["rows"][0]);
+
       return profile;
     } else {
       print('Cannot fetch profile...');
@@ -68,9 +69,6 @@ class HttpService {
       Map<String, dynamic> body = jsonDecode(res.body);
 
       List<String> keyAccounts = List<String>.from(body["account_names"]);
-
-      print("accounts found");
-      print(keyAccounts);
 
       return keyAccounts;
     } else if (res.statusCode == 400) {
@@ -129,16 +127,10 @@ class HttpService {
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    print("Get member");
-
     Response res = await post(membersURL, headers: headers, body: request);
-
-    print(res);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
-
-      print(body);
 
       List<dynamic> result = body["rows"].toList();
 
@@ -233,9 +225,11 @@ class HttpService {
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
 
-      BalanceModel balance = BalanceModel.fromJson(body);
-
-      return balance;
+      if (body != null && body.isNotEmpty) {
+        return BalanceModel.fromJson(body);
+      } else {
+        return BalanceModel("0.0000 TLOS");
+      }
     } else {
       print("Cannot fetch balance...");
 

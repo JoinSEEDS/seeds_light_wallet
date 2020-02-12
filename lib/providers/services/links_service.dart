@@ -53,6 +53,10 @@ class LinksService {
       androidParameters: AndroidParameters(
         packageName: "com.joinseeds.wallet",
       ),
+      iosParameters: IosParameters(
+        bundleId: "com.joinseeds.seedswallet",
+        appStoreId: "1492883192",
+      ),
       uriPrefix: 'https://seedswallet.page.link',
       link: Uri.parse(
         'https://joinseeds.com/?placeholder=&inviteMnemonic=$inviteMnemonic',

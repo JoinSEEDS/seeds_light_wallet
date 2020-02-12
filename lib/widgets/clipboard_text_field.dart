@@ -21,6 +21,7 @@ class ClipboardTextField extends StatefulWidget {
 
 class _ClipboardTextFieldState extends State<ClipboardTextField> {
   bool hasEmptyValue = true;
+  String previousValue;
 
   void onChanged() {
     if (widget.onChanged != null) widget.onChanged();
@@ -30,6 +31,10 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
   void initState() {
     widget.controller.addListener(() {
       String val = widget.controller.text;
+
+      if (val == previousValue) return;
+      else previousValue = val;
+
       if (val == "" && hasEmptyValue == false) {
         setState(() {
           hasEmptyValue = true;
@@ -53,14 +58,6 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
         widget.controller.text = clipboardText;
 
         FocusScope.of(context).requestFocus(FocusNode());
-
-        if (widget.controller.text != "") {
-          setState(() {
-            hasEmptyValue = false;
-          });
-        }
-
-        onChanged();
       },
     );
   }
@@ -72,13 +69,8 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
         WidgetsBinding.instance.addPostFrameCallback(
           (_) {
             widget.controller.clear();
-            onChanged();
           },
         );
-
-        setState(() {
-          hasEmptyValue = true;
-        });
       },
     );
   }

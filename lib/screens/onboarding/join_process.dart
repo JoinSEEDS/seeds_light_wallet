@@ -2,7 +2,6 @@ import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
@@ -24,6 +23,7 @@ class JoinProcess extends StatefulWidget {
 class _JoinProcessState extends State<JoinProcess> {
   final machine = OnboardingStateMachine();
 
+  String nickname;
   String accountName;
   String privateKey;
   String inviteCode;
@@ -36,9 +36,11 @@ class _JoinProcessState extends State<JoinProcess> {
       setState(() {
         var data = transition["data"];
 
-        print(data);
-
         if (data != null) {
+          if (data["nickname"] != null) {
+            nickname = data["nickname"];
+          }
+
           if (data["accountName"] != null) {
             accountName = data["accountName"];
           }
@@ -79,16 +81,23 @@ class _JoinProcessState extends State<JoinProcess> {
 
       if (transition["event"] == Events.accountCreated ||
           transition["event"] == Events.accountImported) {
-        showPasscodeScreen();
+        secureAccountWithPasscode();
       }
     });
     listenInviteLink();
     super.initState();
   }
 
+  void secureAccountWithPasscode() async {
+    await Future.delayed(Duration(seconds: 1), () {});
+    SettingsNotifier.of(context).saveAccount(
+      accountName,
+      privateKey.toString(),
+    );
+  }
+
   void importAccount() async {
     await Future.delayed(Duration(seconds: 1), () {});
-    SettingsNotifier.of(context).saveAccount(accountName, privateKey);
     machine.transition(Events.accountImported);
   }
 
@@ -111,14 +120,12 @@ class _JoinProcessState extends State<JoinProcess> {
         accountName: accountName,
         publicKey: publicKey.toString(),
         inviteSecret: inviteSecret,
+        nickname: nickname,
       );
 
       if (response == null || response["transaction_id"] == null) {
         return machine.transition(Events.createAccountFailed);
       }
-
-      SettingsNotifier.of(context)
-          .saveAccount(accountName, privateKey.toString());
 
       machine.transition(Events.accountCreated);
     } catch (err) {
@@ -146,11 +153,6 @@ class _JoinProcessState extends State<JoinProcess> {
   Future<InviteModel> findInvite(String inviteSecret) async {
     String inviteHash = hashFromSecret(inviteSecret);
     return HttpService.of(context).findInvite(inviteHash);
-  }
-
-  void showPasscodeScreen() async {
-    await Future.delayed(Duration(seconds: 1), () {});
-    AuthNotifier.of(context).resetPasscode();
   }
 
   void listenInviteLink() async {
@@ -226,7 +228,7 @@ class _JoinProcessState extends State<JoinProcess> {
         break;
       case States.importingAccount:
         currentScreen = NotionLoader(
-          notion: "Importing account: $accountName...",
+          notion: "Import account $accountName...",
         );
         break;
       case States.finishOnboarding:

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
+import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/string_extension.dart';
@@ -30,6 +32,7 @@ class _OverviewState extends State<Overview> {
       BalanceNotifier.of(context).fetchBalance(),
       VoiceNotifier.of(context).fetchBalance(),
       PlantedNotifier.of(context).fetchBalance(),
+      TelosBalanceNotifier.of(context).fetchBalance(),
     ]);
   }
 
@@ -147,10 +150,6 @@ class _OverviewState extends State<Overview> {
 
   @override
   Widget build(BuildContext context) {
-    String balance = BalanceNotifier.of(context).balance?.quantity;
-    String planted = PlantedNotifier.of(context).balance?.quantity;
-    String voice = VoiceNotifier.of(context).balance?.amount?.toString();
-
     return RefreshIndicator(
       onRefresh: refreshData,
       child: SingleChildScrollView(
@@ -158,41 +157,41 @@ class _OverviewState extends State<Overview> {
             padding: EdgeInsets.all(17),
             child: Column(
               children: <Widget>[
-                buildCategory(
+                Consumer<VoiceNotifier>(builder: (ctx, model, _) => buildCategory(
                   'Proposals - Vote',
                   'Tap to participate in voting',
                   'assets/images/governance.svg',
                   'Trust Tokens',
-                  voice,
+                  model?.balance?.amount.toString(),
                   onVote,
-                ),
+                ),),
                 Divider(),
-                buildCategory(
+                Consumer<BalanceNotifier>(builder: (ctx, model, _) => buildCategory(
                   'Community - Invite',
                   'Tap to generate invite',
                   'assets/images/community.svg',
                   'Liquid Seeds',
-                  balance?.seedsFormatted,
+                  model?.balance?.quantity?.seedsFormatted,
                   onInvite,
-                ),
+                ),),
                 Divider(),
-                buildCategory(
+                Consumer<PlantedNotifier>(builder: (ctx, model, _) => buildCategory(
                   'Harvest - Plant',
                   'Tap to plant Seeds',
                   'assets/images/harvest.svg',
                   'Planted Seeds',
-                  planted?.seedsFormatted,
+                  model?.balance?.quantity?.seedsFormatted,
                   onPlant,
-                ),
+                ),),
                 Divider(),
-                buildCategory(
+                Consumer<TelosBalanceNotifier>(builder: (ctx, model, _) => buildCategory(
                   'Exchange - Buy',
                   'Tap to buy Seeds',
                   'assets/images/exchange.svg',
                   'Liquid TLOS',
-                  '0',
+                  model?.balance?.quantity?.seedsFormatted,
                   onBuy,
-                ),
+                ),),
               ],
             )),
       ),
