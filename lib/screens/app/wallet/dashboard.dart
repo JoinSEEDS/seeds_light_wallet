@@ -1,6 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
@@ -11,6 +9,7 @@ import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
+import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:seeds/utils/string_extension.dart';
@@ -125,7 +124,6 @@ class _DashboardState extends State<Dashboard> {
     MemberModel member,
     TransactionType type,
   }) {
-    //TODO: show correctly in fullscreen (above bottom tabs and tapbar)
     showModalBottomSheet(
         context: context,
         elevation: 0,
@@ -179,7 +177,12 @@ class _DashboardState extends State<Dashboard> {
                                     : AppColors.red,
                               ),
                             ),
-                            _buildTransactionAvatar(member.data),
+                            TransactionAvatar(
+                              size: 40,
+                              account: member.data.account,
+                              nickname: member.data.nickname,
+                              image: member.data.image,
+                            ),
                             Flexible(
                                 child: Container(
                                     margin:
@@ -251,49 +254,6 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
     );
-  }
-
-  Widget _buildTransactionAvatar(dynamic data) {
-    String image = data.image;
-    String nickname = data.nickname;
-
-    if (image.startsWith("http")) {
-      return ClipRRect(
-          borderRadius: BorderRadius.circular(40),
-          child: Container(
-              width: 40,
-              height: 40,
-              child: CachedNetworkImage(imageUrl: image)));
-    } else if (image.endsWith('.svg')) {
-      return Container(
-        width: 40,
-        height: 40,
-        child: SvgPicture.asset(image),
-      );
-    } else {
-      String shortName = data.nickname.isNotEmpty && data.nickname != "Seeds Account" && data.nickname != "Telos Account"
-          ? data.nickname.substring(0, 2).toUpperCase()
-          : data.account.substring(0, 2).toUpperCase();
-
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(40),
-        child: Container(
-          width: 40,
-          height: 40,
-          color: AppColors.blue,
-          child: Container(
-            alignment: Alignment.center,
-            child: Text(
-              shortName,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-        ),
-      );
-    }
   }
 
   Widget buildTransactions() {

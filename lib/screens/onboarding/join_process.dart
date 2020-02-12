@@ -87,18 +87,18 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void importAccount() async {
-    await Future.delayed(Duration(seconds: 2), () {});
+    await Future.delayed(Duration(seconds: 1), () {});
     SettingsNotifier.of(context).saveAccount(accountName, privateKey);
     machine.transition(Events.accountImported);
   }
 
   void acceptInvite() async {
-    await Future.delayed(Duration(seconds: 2), () {});
+    await Future.delayed(Duration(seconds: 1), () {});
     machine.transition(Events.inviteAccepted);
   }
 
   void createAccount() async {
-    await Future.delayed(Duration(seconds: 2), () {});
+    await Future.delayed(Duration(seconds: 1), () {});
 
     EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
     EOSPublicKey publicKey = privateKey.toEOSPublicKey();
@@ -128,7 +128,7 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void validateInvite(String inviteMnemonic) async {
-    await Future.delayed(Duration(seconds: 2), () {});
+    await Future.delayed(Duration(seconds: 1), () {});
     inviteCode = inviteMnemonic;
     inviteSecret = secretFromMnemonic(inviteMnemonic);
 
@@ -149,13 +149,12 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void showPasscodeScreen() async {
-    await Future.delayed(Duration(seconds: 2), () {});
-    print("show passcode screen");
+    await Future.delayed(Duration(seconds: 1), () {});
     AuthNotifier.of(context).resetPasscode();
   }
 
   void listenInviteLink() async {
-    await Future.delayed(Duration(seconds: 2), () {});
+    await Future.delayed(Duration(seconds: 1), () {});
 
     final dynamic result =
         await Provider.of<LinksService>(context, listen: false)

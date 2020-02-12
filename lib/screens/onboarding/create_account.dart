@@ -61,7 +61,6 @@ class _CreateAccountState extends State<CreateAccount> {
     return null;
   }
 
-  // TODO: add debounce so we don't send unnecessary requests.
   List<Widget> createSuggestions() {
     final suggestions = List<String>();
 

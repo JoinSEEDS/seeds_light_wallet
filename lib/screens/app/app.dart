@@ -7,7 +7,6 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/explorer/explorer.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
-import 'package:seeds/widgets/connection_status.dart';
 
 class NavigationTab {
   final String title;

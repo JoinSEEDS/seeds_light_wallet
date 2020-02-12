@@ -8,8 +8,8 @@ import 'package:seeds/providers/services/http_service.dart';
 class MembersNotifier extends ChangeNotifier {
   HttpService _http;
 
-  List<MemberModel> allMembers;
-  List<MemberModel> visibleMembers;
+  List<MemberModel> allMembers = [];
+  List<MemberModel> visibleMembers = [];
 
   static of(BuildContext context, {bool listen = false}) =>
       Provider.of<MembersNotifier>(context, listen: listen);

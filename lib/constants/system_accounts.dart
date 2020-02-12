@@ -25,6 +25,8 @@ MemberModel getSystemAccount(String accountName) {
     return SystemAccounts.exchangeContract;
   } else if (accountName == 'harvst.seeds') {
     return SystemAccounts.harvestContract;
+  } else {
+    return null;
   }
 }
 

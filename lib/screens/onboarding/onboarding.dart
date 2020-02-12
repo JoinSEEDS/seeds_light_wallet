@@ -36,32 +36,29 @@ class Onboarding extends StatelessWidget {
       builder: (context) {
         return Container(
           color: AppColors.darkBlue,
-          child: SafeArea(
-            child: IntroViewsFlutter(
-              featurePages,
-              onTapDoneButton: () async {
-                NavigationService.of(context)
+          child: IntroViewsFlutter(
+            featurePages,
+            onTapDoneButton: () async {
+              NavigationService.of(context)
                   .navigateTo(Routes.joinProcess, null, true);
-                
-              },
-              doneButtonPersist: true,
-              doneText: Text(
-                "JOIN NOW",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "worksans",
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              showSkipButton: false,
-              showNextButton: true,
-              showBackButton: true,
-              pageButtonTextStyles: TextStyle(
+            },
+            doneButtonPersist: true,
+            doneText: Text(
+              "JOIN NOW",
+              style: TextStyle(
+                color: Colors.white,
                 fontFamily: "worksans",
-                fontSize: 18.0,
-                fontWeight: FontWeight.w700,
+                fontSize: 24,
+                fontWeight: FontWeight.w800,
               ),
+            ),
+            showSkipButton: false,
+            showNextButton: true,
+            showBackButton: true,
+            pageButtonTextStyles: TextStyle(
+              fontFamily: "worksans",
+              fontSize: 18.0,
+              fontWeight: FontWeight.w700,
             ),
           ),
         );
