@@ -113,7 +113,6 @@ class BalanceModel {
 
   factory BalanceModel.fromJson(List<dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      print("first");
       return BalanceModel(json[0] as String);
     } else {
       return BalanceModel("0.0000 SEEDS");

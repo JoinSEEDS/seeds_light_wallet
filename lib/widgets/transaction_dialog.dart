@@ -93,7 +93,6 @@ class TransactionDialogState extends State<TransactionDialog> {
   }
 
   Widget buildContent() {
-    final fullName = widget.member.nickname;
     final type = widget.transactionType;
     return Expanded(
         child: Column(
@@ -104,14 +103,14 @@ class TransactionDialogState extends State<TransactionDialog> {
             Container(
               margin: EdgeInsets.only(top: 5, bottom: 2),
               child: Text(
-                fullName,
+                widget.member.nickname,
                 maxLines: 1,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
             Container(
               child: Text(
-                widget.transaction.from,
+                widget.member.account,
                 maxLines: 1,
                 style: TextStyle(color: AppColors.grey, fontSize: 14),
               ),

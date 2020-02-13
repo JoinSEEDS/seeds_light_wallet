@@ -44,7 +44,6 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   void saveAccount(String accountName, String privateKey) {
-    print("settings save account: $accountName - $privateKey");
     _preferences?.setString("accountName", accountName);
     _preferences?.setString("privateKey", privateKey);
     notifyListeners();

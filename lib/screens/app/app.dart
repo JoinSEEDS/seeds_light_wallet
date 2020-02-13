@@ -75,7 +75,6 @@ class _AppState extends State<App> {
       }
 
       if (pageIndex != null) {
-        print("JUMP TO $pageIndex");
         setState(() {
           pageController.jumpToPage(
             pageIndex,
@@ -89,7 +88,6 @@ class _AppState extends State<App> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print("app changed dependencies");
     NavigationService.of(context).addListener(changePageNotifier);
   }
 

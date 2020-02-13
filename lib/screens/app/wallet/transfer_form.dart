@@ -32,7 +32,6 @@ class TransferForm extends StatefulWidget {
 
 class _TransferFormState extends State<TransferForm>
     with SingleTickerProviderStateMixin {
-  double amountValue = 0;
   bool validAmount = true;
   bool showPageLoader = false;
   String transactionId = "";
@@ -55,9 +54,11 @@ class _TransferFormState extends State<TransferForm>
     });
 
     try {
-      var response = await Provider.of<EosService>(context, listen: false)
-          .transferSeeds(
-              beneficiary: widget.arguments.accountName, amount: amountValue);
+      var response =
+          await Provider.of<EosService>(context, listen: false).transferSeeds(
+        beneficiary: widget.arguments.accountName,
+        amount: double.parse(controller.text),
+      );
 
       String trxid = response["transaction_id"];
 
@@ -74,12 +75,6 @@ class _TransferFormState extends State<TransferForm>
     return FullscreenLoader(
       statusStream: _statusNotifier.stream,
       messageStream: _messageNotifier.stream,
-      afterSuccessCallback: () {
-        Navigator.of(context).pop();
-      },
-      afterFailureCallback: () {
-        Navigator.of(context).pop();
-      },
     );
   }
 
