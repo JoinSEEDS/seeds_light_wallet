@@ -132,6 +132,10 @@ class OnboardingStateMachine {
           event: Events.chosenClaimInvite,
           targetState: States.claimInviteCode,
         ),
+        _Transition(
+          event: Events.foundInviteLink,
+          targetState: States.processingInviteLink,
+        ),
       ],
     ),
     States.importAccount: _State(
