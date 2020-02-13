@@ -7,7 +7,6 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/explorer/explorer.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
-import 'package:seeds/widgets/connection_status.dart';
 
 class NavigationTab {
   final String title;
@@ -32,25 +31,19 @@ class _AppState extends State<App> {
     NavigationTab(
       title: "Explorer",
       icon: 'assets/images/explorer.svg',
-      screenBuilder: () => ConnectionStatus(
-        child: Explorer(),
-      ),
+      screenBuilder: () => Explorer(),
       index: 0,
     ),
     NavigationTab(
       title: "Wallet",
       icon: 'assets/images/wallet.svg',
-      screenBuilder: () => ConnectionStatus(
-        child: Wallet(),
-      ),
+      screenBuilder: () => Wallet(),
       index: 1,
     ),
     NavigationTab(
       title: "Profile",
       icon: 'assets/images/profile.svg',
-      screenBuilder: () => ConnectionStatus(
-        child: Profile(),
-      ),
+      screenBuilder: () => Profile(),
       index: 2,
     ),
   ];
@@ -82,7 +75,6 @@ class _AppState extends State<App> {
       }
 
       if (pageIndex != null) {
-        print("JUMP TO $pageIndex");
         setState(() {
           pageController.jumpToPage(
             pageIndex,
@@ -96,7 +88,6 @@ class _AppState extends State<App> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print("app changed dependencies");
     NavigationService.of(context).addListener(changePageNotifier);
   }
 

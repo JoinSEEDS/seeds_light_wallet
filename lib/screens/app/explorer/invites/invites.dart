@@ -51,18 +51,6 @@ class Invites extends StatelessWidget {
                                       fontSize: 24,
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "worksans"));
-
-                              // return ListTile(
-                              //   leading: member.image,
-                              //   title: member.nickname,
-                              //   subtitle: member.accountName,
-                              //   trailing: Column(
-                              //     children: <Widget>[
-                              //       Text("Sow: ${member.sow}"),
-                              //       Text("Transfer: ${member.transfer}")
-                              //     ],
-                              //   ),
-                              // );
                             },
                           )
                         : ProgressBar(),
@@ -84,8 +72,6 @@ class Invites extends StatelessWidget {
                             itemCount: model.activeInvites.length,
                             itemBuilder: (ctx, index) {
                               var invite = model.activeInvites[index];
-
-                              print(invite.inviteId);
 
                               return ListTile(
                                 leading: Icon(Icons.copyright),

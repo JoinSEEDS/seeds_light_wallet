@@ -63,12 +63,11 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
     if (widget.messageStream != null) {
       messageSubscription = widget.messageStream.listen(_messageListener);
     }
-    print("listen now...");
     statusSubscription = widget.statusStream.listen(_statusListener);
 
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
     )..repeat();
   }
 
@@ -79,8 +78,6 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
   }
 
   void _statusListener(status) async {
-    print("status: $status");
-
     if (status == true) {
       setState(() {
         showSpinner = false;
@@ -115,6 +112,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Stack(
         children: <Widget>[
           Positioned.fill(
@@ -133,7 +131,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
               animation: animationController,
               builder: (context, child) {
                 double scale =
-                    math.sin(math.pi * animationController.value) + 0.5;
+                    math.sin(math.pi * animationController.value) + 0.8;
                 return Align(
                   alignment: Alignment.center,
                   child: Transform.scale(

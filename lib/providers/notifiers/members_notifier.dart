@@ -8,8 +8,8 @@ import 'package:seeds/providers/services/http_service.dart';
 class MembersNotifier extends ChangeNotifier {
   HttpService _http;
 
-  List<MemberModel> allMembers;
-  List<MemberModel> visibleMembers;
+  List<MemberModel> allMembers = [];
+  List<MemberModel> visibleMembers = [];
 
   static of(BuildContext context, {bool listen = false}) =>
       Provider.of<MembersNotifier>(context, listen: listen);
@@ -23,7 +23,7 @@ class MembersNotifier extends ChangeNotifier {
   void updateVisibleMembers() {
     if (filterName.isNotEmpty) {
       visibleMembers = allMembers.where((MemberModel member) {
-        return member.nickname.contains(filterName) ||
+        return member.nickname.toLowerCase().contains(filterName) ||
             member.account.contains(filterName);
       }).toList();
     } else {
@@ -50,7 +50,11 @@ class MembersNotifier extends ChangeNotifier {
       } else {
         box.put(
           accountName,
-          MemberModel(account: accountName, nickname: "Anonymous", image: ""),
+          MemberModel(
+            account: accountName,
+            nickname: "Telos Account",
+            image: "",
+          ),
         );
       }
     }
@@ -58,8 +62,18 @@ class MembersNotifier extends ChangeNotifier {
     return box.get(accountName);
   }
 
+  Future<void> fetchMembersCache() async {
+    Box cacheMembers = await Hive.openBox<MemberModel>("members");
+
+    if (cacheMembers != null && cacheMembers.isNotEmpty) {
+      allMembers = cacheMembers.values.toList();
+      updateVisibleMembers();
+      notifyListeners();
+    }
+  }
+
   Future<void> refreshMembers() async {
-    var cacheMembers = await Hive.openBox<MemberModel>("members");
+    Box cacheMembers = await Hive.openBox<MemberModel>("members");
 
     var actualMembers = await _http.getMembers();
 
@@ -69,19 +83,27 @@ class MembersNotifier extends ChangeNotifier {
       var cacheMember = cacheMembers.get(memberKey);
 
       if (cacheMember == null || cacheMember != actualMember) {
-        cacheMembers.put(memberKey, actualMember);
+        cacheMembers.put(
+          memberKey,
+          MemberModel(
+            nickname: actualMember.nickname.isNotEmpty
+                ? actualMember.nickname
+                : "Seeds Account",
+            account: actualMember.account,
+            image: actualMember.image,
+          ),
+        );
       }
     });
 
     allMembers = cacheMembers.values.toList();
 
     updateVisibleMembers();
-
     notifyListeners();
   }
 
   void filterMembers(String name) {
-    filterName = name;
+    filterName = name.toLowerCase();
 
     updateVisibleMembers();
 

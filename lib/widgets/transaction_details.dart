@@ -14,14 +14,10 @@ class TransactionDetails extends StatelessWidget {
 
     return Column(
       children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.circular(width * 0.22),
-          child: Container(
-            width: width * 0.22,
-            height: width * 0.22,
-            color: AppColors.blue,
-            child: image,
-          ),
+        Container(
+          width: width * 0.22,
+          height: width * 0.22,
+          child: image,
         ),
         Material(
           child: Container(

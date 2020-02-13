@@ -25,7 +25,7 @@ class _NotionLoaderState extends State<NotionLoader>
   void initState() {
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
     )..repeat();
 
     super.initState();
@@ -39,7 +39,7 @@ class _NotionLoaderState extends State<NotionLoader>
         AnimatedBuilder(
           animation: animationController,
           builder: (context, child) {
-            double scale = math.sin(math.pi * animationController.value) + 0.5;
+            double scale = math.sin(math.pi * animationController.value) + 0.7;
             return Align(
               alignment: Alignment.center,
               child: Transform.scale(
@@ -63,7 +63,7 @@ class _NotionLoaderState extends State<NotionLoader>
           child: Text(
             widget.notion,
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 18,
               fontWeight: FontWeight.w400,
               fontFamily: "worksans",
             ),

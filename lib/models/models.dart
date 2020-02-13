@@ -113,7 +113,6 @@ class BalanceModel {
 
   factory BalanceModel.fromJson(List<dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      print("first");
       return BalanceModel(json[0] as String);
     } else {
       return BalanceModel("0.0000 SEEDS");
@@ -149,6 +148,73 @@ class PlantedModel {
 
   @override
   int get hashCode => super.hashCode;
+}
+
+class HarvestModel {
+  final String planted;
+  final String reward;
+
+  HarvestModel({this.planted, this.reward});
+
+  factory HarvestModel.fromJson(Map<String, dynamic> json) {
+    return HarvestModel(
+      planted: json["rows"][0]["planted"],
+      reward: json["rows"][0]["reward"],
+    );
+  }
+}
+
+class ScoreModel {
+  int plantedScore;
+  int transactionsScore;
+  int reputationScore;
+  int communityBuildingScore;
+  int contributionScore;
+
+  ScoreModel({
+    this.plantedScore,
+    this.transactionsScore,
+    this.reputationScore,
+    this.communityBuildingScore,
+    this.contributionScore,
+  });
+
+  factory ScoreModel.fromJson(Map<String, dynamic> json) {
+    Map<String, dynamic> item = json["rows"][0];
+
+    return ScoreModel(
+      plantedScore: item["planted_score"],
+      transactionsScore: item["transactions_score"],
+      reputationScore: item["reputation_score"],
+      communityBuildingScore: item["community_building_score"],
+      contributionScore: item["contribution_score"],
+    );
+  }
+}
+
+class ExchangeModel {
+  final String rate;
+  final String citizenLimit;
+  final String residentLimit;
+  final String visitorLimit;
+
+  ExchangeModel({
+    this.rate,
+    this.citizenLimit,
+    this.residentLimit,
+    this.visitorLimit,
+  });
+
+  factory ExchangeModel.fromJson(Map<String, dynamic> json) {
+    var item = json["rows"][0];
+
+    return ExchangeModel(
+      rate: item["rate"],
+      citizenLimit: item["citizen_limit"],
+      residentLimit: item["resident_limit"],
+      visitorLimit: item["visitor_limit"],
+    );
+  }
 }
 
 class VoiceModel {

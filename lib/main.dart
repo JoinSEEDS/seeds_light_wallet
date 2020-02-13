@@ -10,11 +10,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/member_adapter.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/models/transaction_adapter.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/providers.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
-import 'package:seeds/screens/onboarding/join_process.dart';
+import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 import 'package:sentry/sentry.dart' as Sentry;
@@ -52,6 +53,7 @@ main(List<String> args) async {
   var appDir = await getApplicationDocumentsDirectory();
   Hive.init(appDir.path);
   Hive.registerAdapter<MemberModel>(MemberAdapter());
+  Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
@@ -111,7 +113,7 @@ class MainScreen extends StatelessWidget {
         if (auth.status == AuthStatus.emptyAccount) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: JoinProcess(),
+            home: Onboarding(),
             navigatorKey: navigationService.onboardingNavigatorKey,
             onGenerateRoute: navigationService.onGenerateRoute,
           );

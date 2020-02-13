@@ -9,9 +9,6 @@ class ScanCode extends StatelessWidget {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => Onboarding()),
       );
-      // Navigator.of(context).pushReplacement(MaterialPageRoute(
-      //   builder: (context) => CreateAccount(debugInviteSecret),
-      // ));
     });
   }
 }

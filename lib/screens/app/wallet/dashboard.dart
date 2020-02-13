@@ -1,21 +1,18 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
-import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
-import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
+import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../../utils/string_extension.dart';
 
 enum TransactionType { income, outcome }
 
@@ -26,15 +23,9 @@ class Dashboard extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard>
-    with AutomaticKeepAliveClientMixin<Dashboard> {
-  @override
-  bool get wantKeepAlive => false;
-
+class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return RefreshIndicator(
       child: SingleChildScrollView(
         child: Container(
@@ -42,28 +33,7 @@ class _DashboardState extends State<Dashboard>
             child: Column(
               children: <Widget>[
                 buildHeader(),
-                Row(
-                  children: <Widget>[
-                    Consumer<VoiceNotifier>(
-                      builder: (context, model, child) => buildBalance(
-                        'Trust Tokens',
-                        "${model?.balance?.amount ?? 0}",
-                        'Proposals',
-                        onVote,
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.only(left: 7)),
-                    Consumer<PlantedNotifier>(
-                      builder: (context, model, child) => buildBalance(
-                        'Planted Seeds',
-                        "${model?.balance?.quantity?.seedsFormatted ?? 0}",
-                        'Harvest',
-                        onInvite,
-                      ),
-                    ),
-                  ],
-                ),
-                buildTransactions()
+                buildTransactions(),
               ],
             )),
       ),
@@ -79,70 +49,14 @@ class _DashboardState extends State<Dashboard>
 
   Future<void> refreshData() async {
     await Future.wait(<Future<dynamic>>[
-      TransactionsNotifier.of(context).fetchTransactions(),
+      TransactionsNotifier.of(context).fetchTransactionsCache(),
+      TransactionsNotifier.of(context).refreshTransactions(),
       BalanceNotifier.of(context).fetchBalance(),
-      VoiceNotifier.of(context).fetchBalance(),
-      PlantedNotifier.of(context).fetchBalance(),
     ]);
   }
 
   void onTransfer() {
-    print("go to transfer");
     NavigationService.of(context).navigateTo(Routes.transfer);
-  }
-
-  void onVote() {
-    NavigationService.of(context).navigateTo(Routes.proposals);
-  }
-
-  void onInvite() {
-    NavigationService.of(context).navigateTo(Routes.invites);
-  }
-
-  void onClose() {}
-
-  Widget buildNotification(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: InkWell(
-        onTap: onVote,
-        borderRadius: BorderRadius.circular(8),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.orange),
-            color: AppColors.orange.withOpacity(0.16),
-          ),
-          padding: EdgeInsets.only(left: 15),
-          child: Row(
-            children: <Widget>[
-              Icon(
-                Icons.warning,
-                color: AppColors.orange,
-                size: 20,
-              ),
-              Flexible(
-                child: Container(
-                  margin: EdgeInsets.only(left: 7),
-                  child: Text(
-                    text,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.orange, fontSize: 14),
-                  ),
-                ),
-              ),
-              IconButton(
-                padding: EdgeInsets.all(0),
-                icon: Icon(Icons.close),
-                onPressed: onClose,
-                color: AppColors.orange,
-                iconSize: 20,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   Widget buildHeader() {
@@ -176,7 +90,7 @@ class _DashboardState extends State<Dashboard>
               Consumer<BalanceNotifier>(builder: (context, model, child) {
                 return (model != null && model.balance != null)
                     ? Text(
-                        '${model.balance.quantity.seedsFormatted} SEEDS',
+                        '${model.balance?.quantity?.seedsFormatted} SEEDS',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 25,
@@ -205,53 +119,11 @@ class _DashboardState extends State<Dashboard>
     );
   }
 
-  Widget buildBalance(
-    String title,
-    String balance,
-    String buttonTitle,
-    Function onPressed,
-  ) {
-    return Expanded(
-        child: MainCard(
-        margin: EdgeInsets.only(bottom: 7, top: 7),
-        padding: EdgeInsets.all(15),
-        child: Column(
-          children: <Widget>[
-            Text(
-              title,
-              style: TextStyle(color: AppColors.grey, fontSize: 14),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: Text(
-                balance,
-                style: TextStyle(fontSize: 20),
-                maxLines: 2,
-                overflow: TextOverflow.fade,
-                
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 12),
-              child: EmptyButton(
-                height: 28,
-                title: buttonTitle,
-                onPressed: onPressed,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   void onTransaction({
     TransactionModel transaction,
     MemberModel member,
     TransactionType type,
   }) {
-    //TODO: show correctly in fullscreen (above bottom tabs and tapbar)
     showModalBottomSheet(
         context: context,
         elevation: 0,
@@ -283,8 +155,8 @@ class _DashboardState extends State<Dashboard>
           MembersNotifier.of(context).getAccountDetails(participantAccountName),
       builder: (ctx, member) => member.hasData
           ? InkWell(
-              onTap: () =>
-                  onTransaction(transaction: model, member: member.data, type: type),
+              onTap: () => onTransaction(
+                  transaction: model, member: member.data, type: type),
               child: Column(
                 children: [
                   Divider(height: 22),
@@ -305,27 +177,16 @@ class _DashboardState extends State<Dashboard>
                                     : AppColors.red,
                               ),
                             ),
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(40),
-                                child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    color: AppColors.blue,
-                                    child: member.data.image != null
-                                        ? CachedNetworkImage(
-                                            imageUrl: member.data.image)
-                                        : Container(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              member.data.nickname
-                                                  .substring(0, 2)
-                                                  .toUpperCase(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ))),
+                            TransactionAvatar(
+                              size: 40,
+                              account: member.data.account,
+                              nickname: member.data.nickname,
+                              image: member.data.image,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.blue,
+                              ),
+                            ),
                             Flexible(
                                 child: Container(
                                     margin:

@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
+import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:share/share.dart';
 
 class TransactionDialog extends StatefulWidget {
@@ -33,8 +33,6 @@ class TransactionDialogState extends State<TransactionDialog> {
 
   Widget buildHeader() {
     final width = MediaQuery.of(context).size.width;
-    final imageUrl = widget.member.image;
-    final fullName = widget.member.nickname;
     final time = DateTime.tryParse(widget.transaction.timestamp).toString();
 
     return Stack(children: [
@@ -55,29 +53,20 @@ class TransactionDialogState extends State<TransactionDialog> {
         ),
       ),
       Container(
-          margin: EdgeInsets.only(top: 35), //width * 0.1),
-          width: width,
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(40),
-              child: Container(
-                  width: 70, //width * 0.19,
-                  height: 70, //width * 0.19,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.blue,
-                      border: Border.all(color: Colors.white, width: 5)),
-                  child: imageUrl != null
-                      ? CachedNetworkImage(imageUrl: imageUrl)
-                      : Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            fullName.substring(0, 2).toUpperCase(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ))))
+        margin: EdgeInsets.only(top: 35), //width * 0.1),
+        width: width,
+        child: TransactionAvatar(
+          size: 70,
+          image: widget.member.image,
+          account: widget.member.account,
+          nickname: widget.member.nickname,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.blue,
+            border: Border.all(color: Colors.white, width: 5),
+          ),
+        ),
+      ),
     ]);
   }
 
@@ -104,7 +93,6 @@ class TransactionDialogState extends State<TransactionDialog> {
   }
 
   Widget buildContent() {
-    final fullName = widget.member.nickname;
     final type = widget.transactionType;
     return Expanded(
         child: Column(
@@ -115,14 +103,14 @@ class TransactionDialogState extends State<TransactionDialog> {
             Container(
               margin: EdgeInsets.only(top: 5, bottom: 2),
               child: Text(
-                fullName,
+                widget.member.nickname,
                 maxLines: 1,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
             Container(
               child: Text(
-                widget.transaction.from,
+                widget.member.account,
                 maxLines: 1,
                 style: TextStyle(color: AppColors.grey, fontSize: 14),
               ),
