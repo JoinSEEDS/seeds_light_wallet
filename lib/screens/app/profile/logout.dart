@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/widgets/second_button.dart';
 import 'package:share/share.dart';
 
 class Logout extends StatefulWidget {
@@ -35,29 +38,51 @@ class _LogoutState extends State<Logout> {
       body: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              "Save private key in secure place - to be able to restore access to your wallet later",
-              style: TextStyle(fontFamily: "worksans", fontSize: 18),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  alignment: Alignment.center,
+                  child: SvgPicture.asset(
+                    'assets/images/logout.svg',
+                    width: 100.0,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Save private key in secure place - to be able to restore access to your wallet later',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: AppColors.blue, fontSize: 16),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 14),
-            MainButton(
-              title: "Save private key",
-              onPressed: () {
-                setState(() {
-                  privateKeySaved = true;
-                });
-                Share.share(SettingsNotifier.of(context).privateKey);
-              },
-            ),
-            SizedBox(height: 12),
-            privateKeySaved == true
-                ? MainButton(
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                MainButton(
+                  title: "Save private key",
+                  onPressed: () {
+                    setState(() {
+                      privateKeySaved = true;
+                    });
+                    Share.share(SettingsNotifier.of(context).privateKey);
+                  },
+                ),
+                if (privateKeySaved == true)
+                  SecondButton(
+                    margin: const EdgeInsets.only(top: 10, bottom: 40.0),
                     title: "Logout",
                     onPressed: onLogout,
-                  )
-                : Container(),
+                    color: AppColors.red,
+                  ),
+              ],
+            )
           ],
         ),
       ),

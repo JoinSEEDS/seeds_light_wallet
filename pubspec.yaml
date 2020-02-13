@@ -104,6 +104,7 @@ flutter:
     - assets/images/profile.svg
     - assets/images/success.svg
     - assets/images/success_circle.png
+    - assets/images/logout.svg
     # assets end
 
   fonts:
