@@ -25,7 +25,7 @@ class EosService {
     accountName = userAccountName;
     baseURL = nodeEndpoint;
     mockEnabled = enableMockTransactions;
-    if (privateKey != null) {
+    if (privateKey != null && privateKey.isNotEmpty) {
       client =
           EOSClient(baseURL, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
     }

@@ -109,8 +109,10 @@ class _JoinProcessState extends State<JoinProcess> {
   void createAccount() async {
     await Future.delayed(Duration(seconds: 1), () {});
 
-    EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
-    EOSPublicKey publicKey = privateKey.toEOSPublicKey();
+    EOSPrivateKey privateKeyRaw = EOSPrivateKey.fromRandom();
+    EOSPublicKey publicKey = privateKeyRaw.toEOSPublicKey();
+
+    privateKey = privateKeyRaw.toString();
 
     try {
       var response = await Provider.of<EosService>(

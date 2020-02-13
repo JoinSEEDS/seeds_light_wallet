@@ -140,7 +140,7 @@ class _ProfileState extends State<Profile> {
                           fontFamily: "worksans",
                           fontSize: 24,
                           color: Colors.white,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
