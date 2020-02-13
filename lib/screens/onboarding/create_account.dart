@@ -79,7 +79,7 @@ class _CreateAccountState extends State<CreateAccount> {
     }
 
     // remove characters out of the accepted range
-    suggestion = inputName.split('').map((char) {
+    suggestion = suggestion.split('').map((char) {
       final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(char).length > 0;
 
       return legalChar ? char.toString() : '';
