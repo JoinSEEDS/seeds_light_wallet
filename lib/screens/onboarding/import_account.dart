@@ -39,12 +39,17 @@ class _ImportAccountState extends State<ImportAccount> {
       if (Config.testingPrivateKey != null) {
         privateKeyController.text = Config.testingPrivateKey;
       }
+      discoverAccounts();
     });
   }
 
-  void discoverAccounts() async {
-    print("discover accounts");
+  @override
+  void dispose() {
+    privateKeyController.dispose();
+    super.dispose();
+  }
 
+  void discoverAccounts() async {
     String privateKey = privateKeyController.text;
     String publicKey = "";
 

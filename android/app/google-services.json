@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:366914936426:android:1486cf437333c24a1a3413",
+        "mobilesdk_app_id": "1:366914936426:android:389b18d13a862a531a3413",
         "android_client_info": {
           "package_name": "com.joinseeds.wallet"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "366914936426-k4i8n24qb9eu1ug0cqs0rcfvc3pq1fh3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.joinseeds.wallet",
+            "certificate_hash": "1d4a3d87c78e5d83f8b7c7fb5240f10fe072132f"
+          }
+        },
         {
           "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
           "client_type": 3
@@ -30,6 +38,14 @@
             {
               "client_id": "366914936426-92ud91kd7hqj98to79aospg00m3f3to7.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "366914936426-daqh0o5pqqqb58tt71b3ms1lm0p82hge.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.joinseeds.seedswallet",
+                "app_store_id": "1492883192"
+              }
             }
           ]
         }

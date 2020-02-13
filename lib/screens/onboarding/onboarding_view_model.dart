@@ -17,8 +17,8 @@ class OnboardingViewModel extends PageViewModel {
           ),
           pageColor: const Color(0xFF24b0d6),
           titleTextStyle:
-              TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+              TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 38, fontFamily: "worksans"),
           bodyTextStyle:
-              TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+              TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 22, fontFamily: "worksans"),
         );
 }

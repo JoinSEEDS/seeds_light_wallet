@@ -73,14 +73,9 @@ class _TransferState extends State<Transfer> {
                 color: Colors.black,
               ),
               onPressed: () {
-                print("change focus");
-
                 FocusScope.of(context).requestFocus(_searchFocusNode);
 
                 setState(() {
-                  print("set state");
-                  FocusScope.of(context).requestFocus(_searchFocusNode);
-
                   showSearch = true;
                 });
               },
@@ -95,6 +90,7 @@ class _TransferState extends State<Transfer> {
                 _searchFocusNode.unfocus();
 
                 MembersNotifier.of(context).filterMembers('');
+                
                 setState(() {
                   showSearch = false;
                 });
@@ -128,8 +124,6 @@ class _TransferState extends State<Transfer> {
   }
 
   Widget _usersList(context) {
-    print("[widget] rebuild users");
-
     return Consumer<MembersNotifier>(builder: (ctx, model, _) {
       return (model.visibleMembers.isEmpty && showSearch == true)
           ? Padding(
@@ -161,9 +155,7 @@ class _TransferState extends State<Transfer> {
                     ? model.visibleMembers.length
                     : (showSearch == true ? model.visibleMembers.length : 8),
                 itemBuilder: (ctx, index) {
-                  if (model.visibleMembers == null ||
-                      model.visibleMembers.isEmpty ||
-                      model.visibleMembers.elementAt(index) == null) {
+                  if (model.visibleMembers.length <= index) {
                     return _shimmerTile();
                   } else {
                     final user = model.visibleMembers[index];

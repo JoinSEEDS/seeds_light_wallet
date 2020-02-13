@@ -73,8 +73,6 @@ class Invites extends StatelessWidget {
                             itemBuilder: (ctx, index) {
                               var invite = model.activeInvites[index];
 
-                              print(invite.inviteId);
-
                               return ListTile(
                                 leading: Icon(Icons.copyright),
                                 title: Text("${invite.inviteHash} (copy)"),

@@ -54,8 +54,6 @@ main(List<String> args) async {
   Hive.init(appDir.path);
   Hive.registerAdapter<MemberModel>(MemberAdapter());
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
-  // await Hive.deleteBoxFromDisk("members");
-  // await Hive.deleteBoxFromDisk("transactions");
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {

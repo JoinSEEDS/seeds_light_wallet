@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
-import 'package:seeds/widgets/reactive_widget.dart';
 
 class TelosBalance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return ReactiveWidget<TelosBalanceNotifier>(
-      model: TelosBalanceNotifier()..update(http: Provider.of(context)),
-      onModelReady: (model) => model.fetchBalance(),
+    return Consumer<TelosBalanceNotifier>(
       builder: (ctx, model, child) {
-        var quantity = model?.balance?.quantity ?? '0.0000 SEEDS';
+        var quantity = model?.balance?.quantity ?? '0.0000 TLOS';
 
         return Container(
           width: width,

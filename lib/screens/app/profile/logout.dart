@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:share/share.dart';
@@ -13,6 +14,8 @@ class _LogoutState extends State<Logout> {
 
   void onLogout() {
     SettingsNotifier.of(context).removeAccount();
+    Hive.deleteBoxFromDisk("members");
+    Hive.deleteBoxFromDisk("transactions");
   }
 
   @override

@@ -21,7 +21,6 @@ class AuthNotifier extends ChangeNotifier {
       Provider.of<AuthNotifier>(context, listen: listen);
 
   void update({accountName, privateKey, passcode}) async {
-    print("update auth notifier: $accountName - $passcode");
     if (accountName != _accountName ||
         privateKey != _privateKey ||
         passcode != passcode) {
@@ -35,8 +34,6 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   void updateStatus() {
-    print("update status");
-
     status = AuthStatus.unlocked;
 
     if (_locked == true) {

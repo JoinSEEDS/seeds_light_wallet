@@ -120,6 +120,8 @@ class _CreateAccountState extends State<CreateAccount> {
             setState(() {
               _accountNameController.text = suggestion;
 
+              _accountName = suggestion;
+
               _accountNameController.selection = TextSelection.fromPosition(
                   TextPosition(offset: _accountNameController.text.length));
             });

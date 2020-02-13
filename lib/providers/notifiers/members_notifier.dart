@@ -23,7 +23,7 @@ class MembersNotifier extends ChangeNotifier {
   void updateVisibleMembers() {
     if (filterName.isNotEmpty) {
       visibleMembers = allMembers.where((MemberModel member) {
-        return member.nickname.contains(filterName) ||
+        return member.nickname.toLowerCase().contains(filterName) ||
             member.account.contains(filterName);
       }).toList();
     } else {
@@ -103,7 +103,7 @@ class MembersNotifier extends ChangeNotifier {
   }
 
   void filterMembers(String name) {
-    filterName = name;
+    filterName = name.toLowerCase();
 
     updateVisibleMembers();
 
