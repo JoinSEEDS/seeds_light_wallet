@@ -7,12 +7,12 @@ import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:seeds/utils/string_extension.dart';
 
 enum TransactionType { income, outcome }
 
