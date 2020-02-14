@@ -63,7 +63,7 @@ class _NotionLoaderState extends State<NotionLoader>
           child: Text(
             widget.notion,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 24,
               fontWeight: FontWeight.w400,
               fontFamily: "worksans",
             ),

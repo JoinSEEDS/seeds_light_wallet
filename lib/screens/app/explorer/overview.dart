@@ -60,91 +60,84 @@ class _OverviewState extends State<Overview> {
     String balanceValue,
     Function onTap,
   ) {
-    return Row(
-      children: [
-        Flexible(
-          flex: 2,
-          child: MainCard(
-            onPressed: onTap,
-            margin: EdgeInsets.only(bottom: 8),
-            padding: EdgeInsets.all(14),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  width: 24,
-                  height: 24,
-                  margin: EdgeInsets.only(right: 15),
-                  child: SvgPicture.asset(iconName),
+    return MainCard(
+      onPressed: onTap,
+      margin: EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.all(14),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 24,
+                height: 24,
+                margin: EdgeInsets.only(right: 15),
+                child: SvgPicture.asset(iconName),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 12,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                balanceTitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppColors.grey,
+                  fontSize: 14,
                 ),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: balanceValue != null
+                    ? Text(
+                        balanceValue,
+                        style: TextStyle(fontSize: 14),
+                      )
+                    : Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: Container(
+                          width: 80.0,
+                          height: 10,
+                          color: Colors.white,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          subtitle,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 12,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Flexible(
-          child: MainCard(
-            margin: EdgeInsets.only(left: 8, bottom: 8),
-            padding: EdgeInsets.all(14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  balanceTitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: AppColors.grey,
-                    fontSize: 14,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: balanceValue != null
-                      ? Text(
-                          balanceValue,
-                          style: TextStyle(fontSize: 14),
-                        )
-                      : Shimmer.fromColors(
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[100],
-                          child: Container(
-                            width: 80.0,
-                            height: 10,
-                            color: Colors.white,
-                          ),
-                        ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -154,7 +147,7 @@ class _OverviewState extends State<Overview> {
       onRefresh: refreshData,
       child: SingleChildScrollView(
         child: Container(
-            padding: EdgeInsets.all(17),
+            padding: EdgeInsets.all(8),
             child: Column(
               children: <Widget>[
                 Consumer<VoiceNotifier>(builder: (ctx, model, _) => buildCategory(

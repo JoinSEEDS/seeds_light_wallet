@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/utils/invites.dart';
@@ -10,6 +11,7 @@ import 'package:seeds/widgets/available_balance.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
+import 'package:seeds/widgets/second_button.dart';
 import 'package:seeds/widgets/transaction_details.dart';
 import 'package:share/share.dart';
 
@@ -160,50 +162,114 @@ class _ShareScreenState extends State<ShareScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
       appBar: AppBar(
-        title: Text(
-          "Share invite",
-          style: TextStyle(color: Colors.black, fontFamily: "worksans"),
-        ),
-        centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       backgroundColor: Colors.white,
       body: Container(
-        margin: const EdgeInsets.all(32.0),
+        margin: EdgeInsets.only(left: 20, right: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              widget.inviteSecret,
-              style: TextStyle(fontFamily: "worksans", fontSize: 18),
+            Column(
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'GREAT!',
+                    style: TextStyle(
+                        color: AppColors.blue,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 25),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  alignment: Alignment.center,
+                  child: SvgPicture.asset(
+                    'assets/images/success.svg',
+                    color: AppColors.blue,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'We generated code. Share it with person you want invite to community!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: AppColors.blue, fontSize: 16),
+                  ),
+                )
+              ],
             ),
-            Text(
-              widget.inviteLink,
-              style: TextStyle(fontFamily: "worksans", fontSize: 14),
+            Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(13),
+                      color: Color(0xFFf4f4f4)),
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    widget.inviteSecret,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(13),
+                        color: Color(0xFFf4f4f4)),
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                      widget.inviteLink,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 32.0),
-              child: MainButton(
-                title: "Share link",
-                onPressed: () {
-                  setState(() {
-                    secretShared = true;
-                  });
-                  Share.share(widget.inviteLink);
-                },
-              ),
-            ),
-            SizedBox(height: 12),
-            secretShared == true
-                ? MainButton(
-                    title: "Close",
-                    onPressed: () {
-                      Navigator.of(context).maybePop();
-                    },
-                  )
-                : Container(),
+            Column(
+              children: <Widget>[
+                MainButton(
+                  title: 'Share Link',
+                  onPressed: () {
+                    setState(() {
+                      secretShared = true;
+                    });
+                    Share.share(widget.inviteLink);
+                  },
+                ),
+                MainButton(
+                  title: 'Share Code',
+                  margin: const EdgeInsets.only(top: 10),
+                  onPressed: () {
+                    setState(() {
+                      secretShared = true;
+                    });
+                    Share.share(widget.inviteSecret);
+                  },
+                ),
+                (true)
+                    ? SecondButton(
+                        margin: const EdgeInsets.only(bottom: 40, top: 10),
+                        title: 'Close',
+                        onPressed: () => Navigator.of(context).maybePop(),
+                      )
+                    : Container(
+                        margin: const EdgeInsets.only(bottom: 40, top: 10),
+                        height: 55.0,
+                      )
+              ],
+            )
           ],
         ),
       ),
