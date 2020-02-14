@@ -64,17 +64,16 @@ class _CreateAccountState extends State<CreateAccount> {
   List<Widget> createSuggestions() {
     final suggestions = List<String>();
 
-    String suggestion;
+    String suggestion = _accountName.isNotEmpty ? _accountName : _name;
 
-    final inputName = _accountName.isNotEmpty ? _accountName : _name;
     // remove uppercase
-    if (inputName.toLowerCase() != inputName) {
-      suggestion = inputName.toLowerCase();
+    if (suggestion.toLowerCase() != suggestion) {
+      suggestion = suggestion.toLowerCase();
     }
 
     // replace 0|6|7|8|9 with 1
-    if (RegExp(r'0|6|7|8|9').allMatches(inputName).length > 0) {
-      suggestion = inputName.replaceAll(RegExp(r'0|6|7|8|9'), '');
+    if (RegExp(r'0|6|7|8|9').allMatches(suggestion).length > 0) {
+      suggestion = suggestion.replaceAll(RegExp(r'0|6|7|8|9'), '');
     }
 
     // remove characters out of the accepted range
@@ -96,13 +95,18 @@ class _CreateAccountState extends State<CreateAccount> {
     if (suggestion.length < 12) {
       final missingCharsCount = 12 - suggestion.length;
 
-      final missingChars = (inputName.hashCode.toString() * 2)
+      final missingChars = (suggestion.hashCode.toString() * 2)
           .split('')
           .map((char) => int.parse(char).clamp(1, 5))
           .take(missingCharsCount)
           .join();
 
-      suggestion = (suggestion ?? inputName) + missingChars;
+      suggestion = suggestion + missingChars;
+    }
+
+    // remove the additional characters
+    if (suggestion.length > 12) {
+      suggestion = suggestion.substring(0, 12);
     }
 
     suggestions.add(suggestion);
