@@ -1,30 +1,17 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/notifiers/balance_notifier.dart';
-import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/app/profile/image_viewer.dart';
-import 'package:seeds/widgets/fullscreen_loader.dart';
-import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/main_text_field.dart';
-
-class TransferFormArguments {
-  final String fullName;
-  final String accountName;
-  final String avatar;
-
-  TransferFormArguments(this.fullName, this.accountName, this.avatar);
-}
+import 'package:teloswallet/constants/app_colors.dart';
+import 'package:teloswallet/providers/notifiers/telos_balance_notifier.dart';
+import 'package:teloswallet/providers/services/eos_service.dart';
+import 'package:teloswallet/widgets/fullscreen_loader.dart';
+import 'package:teloswallet/widgets/main_button.dart';
+import 'package:teloswallet/widgets/main_text_field.dart';
 
 class TransferForm extends StatefulWidget {
-  final TransferFormArguments arguments;
-
-  TransferForm(this.arguments);
+  TransferForm();
 
   @override
   _TransferFormState createState() => _TransferFormState();
@@ -55,9 +42,10 @@ class _TransferFormState extends State<TransferForm>
 
     try {
       var response =
-          await Provider.of<EosService>(context, listen: false).transferSeeds(
-        beneficiary: widget.arguments.accountName,
-        amount: double.parse(controller.text),
+          await Provider.of<EosService>(context, listen: false).transferTelos(
+        beneficiary: beneficiaryController.text,
+        amount: double.parse(amountController.text),
+        memo: memoController.text,
       );
 
       String trxid = response["transaction_id"];
@@ -78,7 +66,9 @@ class _TransferFormState extends State<TransferForm>
     );
   }
 
-  final controller = TextEditingController(text: '0.00');
+  final amountController = TextEditingController(text: '0.00');
+  final beneficiaryController = TextEditingController(text: '');
+  final memoController = TextEditingController(text: '');
 
   void onSend() {
     if (_formKey.currentState.validate()) {
@@ -87,6 +77,8 @@ class _TransferFormState extends State<TransferForm>
   }
 
   Widget buildProfile() {
+    String name = beneficiaryController.text;
+
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: <Widget>[
@@ -96,56 +88,25 @@ class _TransferFormState extends State<TransferForm>
             width: width * 0.22,
             height: width * 0.22,
             color: AppColors.blue,
-            child: widget.arguments.avatar != null
-                ? GestureDetector(
-                    onTap: () => NavigationService.of(context).navigateTo(
-                      Routes.imageViewer,
-                      ImageViewerArguments(
-                        imageUrl: widget.arguments.avatar,
-                        heroTag: "avatar#${widget.arguments.accountName}",
-                      ),
-                    ),
-                    child: Hero(
-                      child:
-                          CachedNetworkImage(imageUrl: widget.arguments.avatar),
-                      tag: "avatar#${widget.arguments.accountName}",
-                    ),
-                  )
-                : Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      widget.arguments.fullName.substring(0, 2).toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-          ),
-        ),
-        Hero(
-          tag: "nickname#${widget.arguments.fullName}",
-          child: Material(
             child: Container(
-              margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+              alignment: Alignment.center,
               child: Text(
-                widget.arguments.fullName,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                name.length >= 2 ? name.substring(0, 2).toUpperCase() : name,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600),
               ),
             ),
           ),
         ),
-        Hero(
-          tag: "account#${widget.arguments.fullName}",
-          child: Material(
-            child: Container(
-              margin: EdgeInsets.only(top: 5, left: 20, right: 20),
-              child: Text(
-                widget.arguments.accountName,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: AppColors.grey),
-              ),
+        Material(
+          child: Container(
+            margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+            child: Text(
+              name,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
           ),
         ),
@@ -187,7 +148,7 @@ class _TransferFormState extends State<TransferForm>
 
   @override
   Widget build(BuildContext context) {
-    String balance = BalanceNotifier.of(context).balance.quantity;
+    String balance = TelosBalanceNotifier.of(context).balance.quantity;
     return Stack(
       children: <Widget>[
         Scaffold(
@@ -210,15 +171,18 @@ class _TransferFormState extends State<TransferForm>
                   buildProfile(),
                   buildBalance(balance),
                   MainTextField(
+                      controller: beneficiaryController,
+                      labelText: 'Beneficiary'),
+                  MainTextField(
                     keyboardType:
                         TextInputType.numberWithOptions(signed: false),
-                    controller: controller,
+                    controller: amountController,
                     labelText: 'Transfer amount',
-                    endText: 'SEEDS',
+                    endText: 'TLOS',
                     validator: (val) {
                       String error;
                       double availableBalance =
-                          double.tryParse(balance.replaceFirst(' SEEDS', ''));
+                          double.tryParse(balance.replaceFirst(' TLOS', ''));
                       double transferAmount = double.tryParse(val);
 
                       if (transferAmount == 0.0) {
@@ -233,6 +197,7 @@ class _TransferFormState extends State<TransferForm>
                       return error;
                     },
                   ),
+                  MainTextField(controller: memoController, labelText: 'Memo'),
                   MainButton(
                     margin: EdgeInsets.only(top: 25),
                     title: 'Send',

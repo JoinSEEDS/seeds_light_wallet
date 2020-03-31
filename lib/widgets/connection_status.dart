@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/notifiers/connection_notifier.dart';
+import 'package:teloswallet/constants/app_colors.dart';
+import 'package:teloswallet/providers/notifiers/connection_notifier.dart';
 
 class ConnectionStatus extends StatefulWidget {
   final Widget child;

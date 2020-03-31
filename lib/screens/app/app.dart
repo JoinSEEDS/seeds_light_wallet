@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/app/explorer/explorer.dart';
-import 'package:seeds/screens/app/profile/profile.dart';
-import 'package:seeds/screens/app/wallet/wallet.dart';
+import 'package:teloswallet/constants/app_colors.dart';
+import 'package:teloswallet/generated/r.dart';
+import 'package:teloswallet/providers/services/navigation_service.dart';
+import 'package:teloswallet/screens/app/tools/tools.dart';
+import 'package:teloswallet/screens/app/scan/custom_transaction.dart';
+import 'package:teloswallet/screens/app/scan/scan.dart';
+import 'package:teloswallet/screens/app/scan/signing_request/get_readable_request.dart';
+import 'package:teloswallet/screens/app/wallet/wallet.dart';
+import 'package:uni_links/uni_links.dart';
 
 class NavigationTab {
   final String title;
@@ -27,23 +31,57 @@ class App extends StatefulWidget {
 bool connected = true;
 
 class _AppState extends State<App> {
+  StreamSubscription requestSubscription;
+
+  void processSigningRequest(String uriPath) async {
+    Map<String, dynamic> signingRequest = await getReadableRequest(uriPath);
+
+    var action = signingRequest['action'];
+    var account = signingRequest['account'];
+    var data = signingRequest['data'];
+
+    NavigationService.of(context).navigateTo(
+      Routes.customTransaction,
+      CustomTransactionArguments(account: action, name: account, data: data),
+      false,
+    );
+  }
+
+  void listenSigningRequests() async {
+    requestSubscription = getUriLinksStream().listen((Uri uri) {
+      String uriPath = uri.path;
+
+      processSigningRequest(uriPath);
+    }, onError: (err) {});
+
+    try {
+      Uri initialUri = await getInitialUri();
+
+      if (initialUri != null) {
+        String uriPath = initialUri.path;
+
+        processSigningRequest(uriPath);
+      }
+    } on FormatException {}
+  }
+
   final navigationTabs = [
     NavigationTab(
-      title: "Explorer",
-      icon: 'assets/images/explorer.svg',
-      screenBuilder: () => Explorer(),
+      title: "Tools",
+      icon: R.tools,
+      screenBuilder: () => Tools(),
       index: 0,
     ),
     NavigationTab(
       title: "Wallet",
-      icon: 'assets/images/wallet.svg',
+      icon: R.wallet,
       screenBuilder: () => Wallet(),
       index: 1,
     ),
     NavigationTab(
-      title: "Profile",
-      icon: 'assets/images/profile.svg',
-      screenBuilder: () => Profile(),
+      title: "Scan QR",
+      icon: R.scan,
+      screenBuilder: () => Scan(),
       index: 2,
     ),
   ];
@@ -59,17 +97,19 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
 
+    listenSigningRequests();
+
     changePageNotifier.stream.listen((page) {
       int pageIndex;
 
       switch (page) {
-        case "Explorer":
+        case "Tools":
           pageIndex = 0;
           break;
         case "Wallet":
           pageIndex = 1;
           break;
-        case "Profile":
+        case "Scan":
           pageIndex = 2;
           break;
       }
@@ -83,6 +123,12 @@ class _AppState extends State<App> {
         });
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    requestSubscription.cancel();
   }
 
   @override
@@ -128,39 +174,39 @@ class _AppState extends State<App> {
   BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex) {
     final width = MediaQuery.of(context).size.width * 0.21;
     return BottomNavigationBarItem(
-      icon: Container(
-        width: width,
-        decoration: tabIndex == index ? BoxDecoration(
-          gradient: LinearGradient(
-            colors: AppColors.gradient
+        icon: Container(
+          width: width,
+          decoration: tabIndex == index
+              ? BoxDecoration(
+                  gradient: LinearGradient(colors: AppColors.gradient),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8)))
+              : BoxDecoration(),
+          padding: EdgeInsets.only(top: 7, left: 3, right: 3),
+          child: SvgPicture.asset(
+            icon,
+            color: tabIndex == index ? Colors.white : AppColors.grey,
           ),
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))
-        ) : BoxDecoration(),
-        padding: EdgeInsets.only(top: 7, left: 3, right: 3),
-        child: SvgPicture.asset(icon,
-          color: tabIndex == index ? Colors.white: AppColors.grey,
         ),
-      ),
-      title: Container(
-        width: width,
-        alignment: Alignment.center,
-        decoration: tabIndex == index ? BoxDecoration(
-          gradient: LinearGradient(
-            colors: AppColors.gradient
-          ),
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(8), bottomLeft: Radius.circular(8))
-        ) : BoxDecoration(),
-        padding: EdgeInsets.only(bottom: 5, top: 2, left: 3, right: 3),
-        child: Text(title,
-          style: TextStyle(
-            color: tabIndex == index ? Colors.white: AppColors.grey,
-            fontSize: 12
-          ),
-        )
-      )
-    );
+        title: Container(
+            width: width,
+            alignment: Alignment.center,
+            decoration: tabIndex == index
+                ? BoxDecoration(
+                    gradient: LinearGradient(colors: AppColors.gradient),
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(8)))
+                : BoxDecoration(),
+            padding: EdgeInsets.only(bottom: 5, top: 2, left: 3, right: 3),
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: tabIndex == index ? Colors.white : AppColors.grey,
+                  fontSize: 12),
+            )));
   }
-  
 
   Widget buildNavigation() {
     return BottomNavigationBar(
@@ -168,13 +214,13 @@ class _AppState extends State<App> {
       onTap: (index) {
         switch (index) {
           case 0:
-            changePageNotifier.add("Explorer");
+            changePageNotifier.add("Tools");
             break;
           case 1:
             changePageNotifier.add("Wallet");
             break;
           case 2:
-            changePageNotifier.add("Profile");
+            changePageNotifier.add("Scan");
             break;
         }
       },
@@ -182,12 +228,8 @@ class _AppState extends State<App> {
       fixedColor: Colors.white,
       unselectedItemColor: AppColors.grey,
       type: BottomNavigationBarType.fixed,
-      selectedLabelStyle: TextStyle(
-        fontSize: 12
-      ),
-      unselectedLabelStyle: TextStyle(
-        color: Colors.grey.withOpacity(0.7)
-      ),
+      selectedLabelStyle: TextStyle(fontSize: 12),
+      unselectedLabelStyle: TextStyle(color: Colors.grey.withOpacity(0.7)),
       elevation: 9,
       selectedFontSize: 12,
       unselectedFontSize: 12,

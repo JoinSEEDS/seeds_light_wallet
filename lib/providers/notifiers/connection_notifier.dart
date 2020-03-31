@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
-import 'package:seeds/constants/config.dart';
+import 'package:teloswallet/constants/config.dart';
 
 class ConnectionNotifier extends ChangeNotifier {
   bool status = true;

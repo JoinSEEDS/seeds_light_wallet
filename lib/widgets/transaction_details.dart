@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:teloswallet/constants/app_colors.dart';
 
 class TransactionDetails extends StatelessWidget {
   final Widget image;

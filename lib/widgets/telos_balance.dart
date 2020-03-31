@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
+import 'package:teloswallet/constants/app_colors.dart';
+import 'package:teloswallet/providers/notifiers/telos_balance_notifier.dart';
 
 class TelosBalance extends StatelessWidget {
   @override

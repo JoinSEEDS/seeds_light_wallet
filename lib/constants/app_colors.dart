@@ -18,9 +18,9 @@ const Color primary = MaterialColor(_primaryValue, {
 class AppColors {
   static const purple = Color(0xFF5719FF);
 
-  static const lightBlue = Color.fromRGBO(61, 179, 158, 1);
-  static const darkBlue = Color.fromRGBO(61, 179, 158, 1);
-  static const lightGrey19 = Color.fromRGBO(61, 179, 158, 1);
+  static const lightBlue = Color.fromRGBO(0, 154, 224, 1);
+  static const darkBlue = Color.fromRGBO(18, 106, 175, 1);
+  static const lightGrey19 = Color.fromRGBO(112,112,112, 0.19);
   static const lightGrey = Color.fromRGBO(242, 242, 242, 1);
   static const black50 = Color.fromRGBO(0, 0, 0, 0.5);
 

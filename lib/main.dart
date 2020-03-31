@@ -3,27 +3,22 @@ import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/models/member_adapter.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/models/transaction_adapter.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/providers.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/app/app.dart';
-import 'package:seeds/screens/onboarding/onboarding.dart';
-import 'package:seeds/widgets/passcode.dart';
-import 'package:seeds/widgets/splash_screen.dart';
+import 'package:teloswallet/models/models.dart';
+import 'package:teloswallet/models/transaction_adapter.dart';
+import 'package:teloswallet/providers/notifiers/auth_notifier.dart';
+import 'package:teloswallet/providers/providers.dart';
+import 'package:teloswallet/providers/services/navigation_service.dart';
+import 'package:teloswallet/screens/app/app.dart';
+import 'package:teloswallet/screens/onboarding/onboarding.dart';
+import 'package:teloswallet/widgets/passcode.dart';
+import 'package:teloswallet/widgets/splash_screen.dart';
 import 'package:sentry/sentry.dart' as Sentry;
 
-import 'generated/r.dart';
-
 final Sentry.SentryClient _sentry = Sentry.SentryClient(
-    dsn: "https://ee2dd9f706974248b5b4a10850586d94@sentry.io/2239437");
+    dsn: "https://0d8efb4e01384655ad21e58ca64d86a0@sentry.io/5181804");
 
 bool get isInDebugMode {
   bool inDebugMode = false;
@@ -52,12 +47,11 @@ main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   var appDir = await getApplicationDocumentsDirectory();
   Hive.init(appDir.path);
-  Hive.registerAdapter<MemberModel>(MemberAdapter());
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
-      runApp(SeedsApp());
+      runApp(TelosApp());
     } else {
       FlutterError.onError = (FlutterErrorDetails details) async {
         print('FlutterError.onError caught an error');
@@ -75,7 +69,7 @@ main(List<String> args) async {
       );
 
       runZoned<Future<Null>>(() async {
-        runApp(SeedsApp());
+        runApp(TelosApp());
       }, onError: (error, stackTrace) async {
         print('Zone caught an error');
         await _reportError(error, stackTrace);
@@ -84,12 +78,12 @@ main(List<String> args) async {
   });
 }
 
-class SeedsApp extends StatefulWidget {
+class TelosApp extends StatefulWidget {
   @override
-  _SeedsAppState createState() => _SeedsAppState();
+  _TelosAppState createState() => _TelosAppState();
 }
 
-class _SeedsAppState extends State<SeedsApp> {
+class _TelosAppState extends State<TelosApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -118,17 +112,11 @@ class MainScreen extends StatelessWidget {
             onGenerateRoute: navigationService.onGenerateRoute,
           );
         } else if (auth.status == AuthStatus.unlocked) {
-          return ToolboxApp(
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: App(),
-              navigatorKey: navigationService.appNavigatorKey,
-              onGenerateRoute: navigationService.onGenerateRoute,
-            ),
-            noItemsFoundWidget: Padding(
-              padding: const EdgeInsets.all(32),
-              child: SvgPicture.asset(R.noItemFound),
-            ),
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: App(),
+            navigatorKey: navigationService.appNavigatorKey,
+            onGenerateRoute: navigationService.onGenerateRoute,
           );
         } else if (auth.status == AuthStatus.emptyPasscode) {
           return MaterialApp(

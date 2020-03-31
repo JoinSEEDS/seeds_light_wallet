@@ -1,68 +1,100 @@
 import 'package:flutter/material.dart';
-import 'package:intro_views_flutter/Models/page_view_model.dart';
-import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
+import 'package:teloswallet/providers/notifiers/settings_notifier.dart';
+import 'package:teloswallet/screens/onboarding/import_account.dart';
+import 'package:teloswallet/widgets/overlay_popup.dart';
+import './choice_option.dart';
+import './create_account.dart';
+import './register_phone.dart';
 
-class Onboarding extends StatelessWidget {
-  final List<PageViewModel> featurePages = [
-    OnboardingViewModel(
-      bubble: null,
-      mainImage: 'assets/images/onboarding1.png',
-      body:
-          'Make global payments with zero fees - receive cashback for positive impact of your transactions',
-      title: 'Better than free transactions',
-    ),
-    OnboardingViewModel(
-      bubble: null,
-      mainImage: 'assets/images/onboarding2.png',
-      body:
-          'Plant Seeds for benefit of sustainable organizations - participate in harvest distribution',
-      title: 'Plant Seeds - get Seeds',
-    ),
-    OnboardingViewModel(
-      bubble: null,
-      mainImage: 'assets/images/onboarding3.png',
-      body:
-          'Connect with other members and get funded for positive social and environmental contributions',
-      title: 'Cooperative Economy',
-    ),
-  ];
+enum Steps { Choice, Import, Create, Register }
+
+class Onboarding extends StatefulWidget {
+  Onboarding();
+
+  @override
+  _OnboardingState createState() => _OnboardingState();
+}
+
+class _OnboardingState extends State<Onboarding> {
+  Steps step = Steps.Choice;
+
+  String privateKey;
+  String publicKey;
+  String accountName;
+
+  void onCreateChoice() {
+    setState(() {
+      step = Steps.Create;
+    });
+  }
+
+  void onImportChoice() {
+    setState(() {
+      step = Steps.Import;
+    });
+  }
+
+  void saveAccount(accountName, privateKey) {
+    SettingsNotifier.of(context).saveAccount(
+      accountName,
+      privateKey.toString()
+    );
+  }
+
+  void onImport({ accountName, privateKey }) {
+    saveAccount(accountName, privateKey);
+  }
+
+  void onRegister() {
+    saveAccount(accountName, privateKey);
+  }
+
+  void onCreate({ privateKey, publicKey, accountName }) {
+    setState(() {
+      step = Steps.Register;
+      this.privateKey = privateKey;
+      this.publicKey = publicKey;
+      this.accountName = accountName;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        return Container(
-          color: AppColors.darkBlue,
-          child: IntroViewsFlutter(
-            featurePages,
-            onTapDoneButton: () async {
-              NavigationService.of(context)
-                  .navigateTo(Routes.joinProcess, null, true);
-            },
-            doneButtonPersist: true,
-            doneText: Text(
-              "JOIN NOW",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "worksans",
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            showSkipButton: false,
-            showNextButton: true,
-            showBackButton: true,
-            pageButtonTextStyles: TextStyle(
-              fontFamily: "worksans",
-              fontSize: 18.0,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+    Widget screen;
+
+    switch (step) {
+      case Steps.Choice:
+        screen = ChoiceOption(
+          onCreate: onCreateChoice,
+          onImport: onImportChoice
         );
+        break;
+      case Steps.Import:
+        screen = ImportAccount(
+          onImport: onImport,
+        );
+        break;
+      case Steps.Create:
+        screen = CreateAccount(
+          onSubmit: onCreate
+        );
+        break;
+      case Steps.Register:
+        screen = RegisterPhone(
+          onSubmit: onRegister,
+          publicKey: this.publicKey,
+          accountName: this.accountName
+        );
+        break;
+    }
+  
+    return OverlayPopup(
+      backCallback: step == Steps.Choice ? null : () {
+        setState(() {
+          step = Steps.Choice;
+        });
       },
+      body: screen,
     );
   }
 }

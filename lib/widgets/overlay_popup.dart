@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:provider/provider.dart';
+import 'package:teloswallet/constants/app_colors.dart';
+import 'package:teloswallet/providers/notifiers/settings_notifier.dart';
 
 class OverlayPopup extends StatefulWidget {
   final String title;
@@ -19,19 +21,51 @@ class _OverlayPopupState extends State<OverlayPopup> {
     return Container(
       width: width,
       height: height * 0.35,
-      padding: EdgeInsets.only(
-          left: width * 0.23,
-          right: width * 0.23,
-          top: MediaQuery.of(context).padding.top,
-          bottom: 30),
       decoration: BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               stops: [0.0, 1.32],
               colors: AppColors.gradient)),
-      child: Image(
-        image: AssetImage('assets/images/logo_title.png'),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Expanded(
+            child: Container(
+              child: Image(
+                image: AssetImage('assets/images/logo_title.png'),
+              ),
+              padding: EdgeInsets.only(
+                left: width * 0.23,
+                right: width * 0.23,
+                top: 70,
+                bottom: 30,
+              ),
+            ),
+          ),
+          Consumer<SettingsNotifier>(builder: (context, model, child) {
+            return Container(
+              padding: EdgeInsets.only(
+                  left: width * 0.15, right: width * 0.15, bottom: 30),
+              child: DropdownButton<String>(
+                  value: model != null && model.nodeEndpoint.isNotEmpty ? model.nodeEndpoint : 'Connecting...',
+                  items: <String>[
+                    'https://api.telosfoundation.io',
+                    'https://mainnet.telosusa.io',
+                    'https://telos.eosphere.io',
+                    'https://telos.caleos.io',
+                  ].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    SettingsNotifier.of(context).saveEndpoint(value);
+                  }),
+            );
+          }),
+        ],
       ),
     );
   }

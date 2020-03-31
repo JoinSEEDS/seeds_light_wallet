@@ -1,11 +1,11 @@
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/constants/config.dart';
-import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/widgets/clipboard_text_field.dart';
-import 'package:seeds/widgets/main_button.dart';
+import 'package:teloswallet/constants/app_colors.dart';
+import 'package:teloswallet/constants/config.dart';
+import 'package:teloswallet/providers/services/http_service.dart';
+import 'package:teloswallet/widgets/clipboard_text_field.dart';
+import 'package:teloswallet/widgets/main_button.dart';
 
 enum ImportStatus {
   emptyPrivateKey,
@@ -114,7 +114,7 @@ class _ImportAccountState extends State<ImportAccount> {
           status == ImportStatus.emptyPrivateKey
               ? Center(
                   child: Text(
-                    "If you already have Seeds account - enter active private key and account will be imported automatically",
+                    "If you already have Telos account - enter active private key and account will be imported automatically",
                     style: TextStyle(
                       fontSize: 14,
                       fontFamily: "worksans",

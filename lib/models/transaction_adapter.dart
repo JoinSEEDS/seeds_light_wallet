@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:seeds/models/models.dart';
+import 'package:teloswallet/models/models.dart';
 
 class TransactionAdapter extends TypeAdapter<TransactionModel> {
   final typeId = 2;

@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:teloswallet/constants/app_colors.dart';
+import 'package:teloswallet/generated/r.dart';
 
 import 'main_button.dart';
 
@@ -67,7 +67,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
 
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 2),
     )..repeat();
   }
 
@@ -127,28 +127,18 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
             ),
           ),
           if (showSpinner)
-            AnimatedBuilder(
-              animation: animationController,
-              builder: (context, child) {
-                double scale =
-                    math.sin(math.pi * animationController.value) + 0.8;
-                return Align(
-                  alignment: Alignment.center,
-                  child: Transform.scale(
-                    scale: scale,
-                    child: RotationTransition(
-                      child: Image.asset(
-                        'assets/images/launcher_icon.png',
-                        width: 100,
-                        height: 100,
-                      ),
-                      turns: Tween(begin: 0.0, end: 2.0).animate(
-                        animationController,
-                      ),
-                    ),
-                  ),
-                );
-              },
+            Align(
+              alignment: Alignment.center,
+              child: RotationTransition(
+                child: Image.asset(
+                  'assets/images/loading.png',
+                  width: 100,
+                  height: 100,
+                ),
+                turns: Tween(begin: 0.0, end: 2.0).animate(
+                  animationController,
+                ),
+              ),
             ),
           if (!showSpinner)
             Container(
@@ -173,9 +163,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                       Padding(
                         padding: const EdgeInsets.only(bottom: 24.0, top: 24.0),
                         child: SvgPicture.asset(
-                          (showSuccess == true)
-                              ? 'assets/images/success.svg'
-                              : 'assets/images/error.svg',
+                          (showSuccess == true) ? R.success : R.error,
                           color: (showSuccess == true)
                               ? AppColors.blue
                               : AppColors.red,

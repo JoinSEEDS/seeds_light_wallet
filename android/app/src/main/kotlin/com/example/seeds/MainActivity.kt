@@ -1,4 +1,4 @@
-package com.joinseeds.wallet
+package com.telowallet.kitchen
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

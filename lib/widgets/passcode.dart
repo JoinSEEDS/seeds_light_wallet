@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:passcode_screen/passcode_screen.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:teloswallet/providers/notifiers/auth_notifier.dart';
+import 'package:teloswallet/providers/notifiers/settings_notifier.dart';
 
 Widget buildPasscodeScreen({
   shouldTriggerVerification,

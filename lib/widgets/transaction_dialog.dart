@@ -1,18 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/screens/app/wallet/dashboard.dart';
-import 'package:seeds/widgets/transaction_avatar.dart';
+import 'package:teloswallet/constants/app_colors.dart';
+import 'package:teloswallet/generated/r.dart';
+import 'package:teloswallet/models/models.dart';
+import 'package:teloswallet/screens/app/wallet/wallet.dart';
+import 'package:teloswallet/widgets/transaction_avatar.dart';
 import 'package:share/share.dart';
 
 class TransactionDialog extends StatefulWidget {
   final TransactionModel transaction;
-  final MemberModel member;
   final TransactionType transactionType;
+  final String account;
 
-  TransactionDialog({this.transaction, this.member, this.transactionType});
+  TransactionDialog({this.transaction, this.account, this.transactionType});
 
   @override
   TransactionDialogState createState() => TransactionDialogState();
@@ -57,9 +58,7 @@ class TransactionDialogState extends State<TransactionDialog> {
         width: width,
         child: TransactionAvatar(
           size: 70,
-          image: widget.member.image,
-          account: widget.member.account,
-          nickname: widget.member.nickname,
+          account: widget.account,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: AppColors.blue,
@@ -101,16 +100,8 @@ class TransactionDialogState extends State<TransactionDialog> {
         Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 5, bottom: 2),
               child: Text(
-                widget.member.nickname,
-                maxLines: 1,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-              ),
-            ),
-            Container(
-              child: Text(
-                widget.member.account,
+                widget.account,
                 maxLines: 1,
                 style: TextStyle(color: AppColors.grey, fontSize: 14),
               ),
@@ -143,7 +134,7 @@ class TransactionDialogState extends State<TransactionDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            buildButton('Share receipt', 'assets/images/share.svg', onShare),
+            buildButton('Share receipt', R.share, onShare),
           ],
         ),
         Padding(padding: EdgeInsets.only())

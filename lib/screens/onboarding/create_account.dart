@@ -1,17 +1,18 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:eosdart_ecc/eosdart_ecc.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
-import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/main_text_field.dart';
+import 'package:teloswallet/providers/services/http_service.dart';
+import 'package:teloswallet/widgets/loading_builder.dart';
+import 'package:teloswallet/widgets/main_button.dart';
+import 'package:teloswallet/widgets/main_text_field.dart';
 
 class CreateAccount extends StatefulWidget {
-  final String inviteSecret;
-  final Function(String accountName, String nickName) onSubmit;
+  final Function({String accountName, String publicKey, String privateKey})
+      onSubmit;
 
-  CreateAccount({this.inviteSecret, this.onSubmit});
+  CreateAccount({this.onSubmit});
 
   @override
   _CreateAccountState createState() => _CreateAccountState();
@@ -35,7 +36,16 @@ class _CreateAccountState extends State<CreateAccount> {
 
       accountNameFocus.unfocus();
 
-      widget.onSubmit(_accountName, _name);
+      EOSPrivateKey randomPrivateKey = EOSPrivateKey.fromRandom();
+
+      String privateKey = randomPrivateKey.toString();
+      String publicKey = randomPrivateKey.toEOSPublicKey().toString();
+
+      widget.onSubmit(
+        accountName: _accountName,
+        privateKey: privateKey,
+        publicKey: publicKey
+      );
     }
   }
 

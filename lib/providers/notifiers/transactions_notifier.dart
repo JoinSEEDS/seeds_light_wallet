@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/services/http_service.dart';
+import 'package:teloswallet/models/models.dart';
+import 'package:teloswallet/providers/notifiers/auth_notifier.dart';
+import 'package:teloswallet/providers/services/http_service.dart';
 
 class TransactionsNotifier extends ChangeNotifier {
   List<TransactionModel> transactions;

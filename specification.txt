@@ -1,0 +1,38 @@
+Flutter wallet user stories/requirements
+
+1) Account Import - User can import an existing account by importing a private key and select account. User secures account with a PIN number just like the Seeds app (unless this can be FaceID?)
+
+2) Endpoint selection - User can enter a custom API endpoint to be used (or select from a list). On the initial screen, there can be a button on the bottom to change the endpoint. (Defaults to Telos main net)
+
+3) Account creation - The user can create a new account. To create the account, the app must integrate with the account creator services described here. (Telos only)
+ - https://gitlab.com/telos-kitchen/telos-account-creator-services
+ - There are two steps: request enrollment code (which is delivered via SMS) and then create account, which requires the enrollment code, public keys, and account name as parameters. I will provide an api-key for these services in prod.
+ 
+ 4) Wallet screen should be the same as the Seeds app. TLOS balance shown, transfer button, and history (what are you using to query history?).  And how do you associate the icons with each transaction type?  When the user clicks transfer, they should go to a screen to enter (or search) for the account for the recipient, enter the amount, memo, and submit. Can the account name field also have a drop down with accounts previously transferred to?
+ 
+ 5) In comparison to the Seeds app, the bottom left menu should say "Tools". When the user clicks this, there will be three options (for now).  
+    5a) One should be named Resources, and when the user clicks here, they are able to stake for CPU, NET, or buy RAM. 
+    5b) One should be Manage Accounts.  Here they can Export Private Key (which does the same as the existing export button on the profile screen), Import another Key/account, or Switch the account currently being used. 
+    5c) The third tool should be Change Endpoint, which allows them to select from a list or enter a new one. The list of Endpoints should be retrieved from a web service (I can provide this service), and each Endpoint should have a Label, Location, and URI. 
+ 
+ 6) In comparison to the Seeds app, the bottom right menu item should be "Scan QR" (instead of Profile). This allows the camera to open to detect and scan the QR code. After the scan, the details of the transaction should be shown on screen, which looks like the attached details screen. The user can click 'Approve' to submit the transaction.  This should request the user's PIN or FaceID, and then submit the transaction. After submitting, the user should receive the Transaction successful message with trx ID, just like Seeds app. 
+ 
+ 7) User should be able to click a transaction request in a browser and have it open in the app for approval. It should open directly to the same screen shown after a QR code is scanned.
+ 
+ 8) Aesthetics - existing fonts and icons look great. The green color should be changed to a blue color with gradient. I can provide an example. What other images or logos are needed?  
+ 
+Resources
+ You can create EEP-7 transactions here:  https://greymass.github.io/eosio-uri-builder/
+ You can read and submit transactions here (sample trx embedded in link): https://eosio.to/gmNgZGRkAIFXBqEFopc6760yugsVYWBggtKCMIEFRnclpF9eTWUACgAA
+ 
+ Specification Draft (Rev 1, Rev 2 soon): 
+https://github.com/eosio-eps/EEPs/blob/master/EEPS/eep-7.md
+
+Client Library:
+https://github.com/greymass/eosio-signing-request
+
+Client Library Demos: 
+https://github.com/greymass/eosio-signing-request-demo
+
+Callback Service Handler: (not sure if this is needed)
+https://github.com/greymass/buoy-nodejs
