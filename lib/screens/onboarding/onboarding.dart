@@ -14,11 +14,16 @@ class Onboarding extends StatelessWidget {
         "Make global payments with zero fees. Earn rewards when you support 'regenerative' organisations and people.",
       title: 'Better than free transactions',
     ),
-    OnboardingViewModel(
+    OnboardingViewModel.rich(
       bubble: null,
       mainImage: 'assets/images/onboarding2.png',
-      body:
-        'Earn rewards for participating in campaigns for direct social, community and environmental regeneration. Get paid to heal our planet and grow community.',
+      body: [
+        TextSpan(text: 'Earn rewards for participating in campaigns for direct social, community and environmental regeneration. '),
+        TextSpan(
+          text: '\nGet paid to heal our planet and grow community.', 
+          style: TextStyle(fontWeight: FontWeight.bold)
+        )
+      ],
       title: 'Citizen Campaigns',
     ),
     OnboardingViewModel(
