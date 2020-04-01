@@ -13,7 +13,10 @@ class OnboardingViewModel extends PageViewModel {
           ),
           body: Text(body),
           title: Center(
-            child: Text(title),
+            child: Text(
+              title,
+              textAlign: TextAlign.center
+            ),
           ),
           pageColor: const Color(0xFF24b0d6),
           titleTextStyle:
