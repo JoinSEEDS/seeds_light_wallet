@@ -29,7 +29,7 @@ bool connected = true;
 class _AppState extends State<App> {
   final navigationTabs = [
     NavigationTab(
-      title: "Explorer",
+      title: "Ecosystem",
       icon: 'assets/images/explorer.svg',
       screenBuilder: () => Explorer(),
       index: 0,
