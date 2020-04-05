@@ -11,22 +11,27 @@ class Onboarding extends StatelessWidget {
       bubble: null,
       mainImage: 'assets/images/onboarding1.png',
       body:
-          'Make global payments with zero fees - receive cashback for positive impact of your transactions',
+        "Make global payments with zero fees. Earn rewards when you support 'regenerative' organisations and people.",
       title: 'Better than free transactions',
     ),
-    OnboardingViewModel(
+    OnboardingViewModel.rich(
       bubble: null,
       mainImage: 'assets/images/onboarding2.png',
-      body:
-          'Plant Seeds for benefit of sustainable organizations - participate in harvest distribution',
-      title: 'Plant Seeds - get Seeds',
+      body: [
+        TextSpan(text: 'Earn rewards for participating in campaigns for direct social, community and environmental regeneration. '),
+        TextSpan(
+          text: '\nGet paid to heal our planet and grow community.', 
+          style: TextStyle(fontWeight: FontWeight.bold)
+        )
+      ],
+      title: 'Citizen Campaigns',
     ),
     OnboardingViewModel(
       bubble: null,
       mainImage: 'assets/images/onboarding3.png',
       body:
-          'Connect with other members and get funded for positive social and environmental contributions',
-      title: 'Cooperative Economy',
+        'Unite with a global movement of organisations and people to heal our planet. Access funding for social and environmental impact projects.',
+      title: 'Regenerative Economy',
     ),
   ];
 
