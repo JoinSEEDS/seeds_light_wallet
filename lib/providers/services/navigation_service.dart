@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/app/explorer/atm/atm.dart';
 import 'package:seeds/screens/app/explorer/exchange/buy_seeds.dart';
 import 'package:seeds/screens/app/explorer/harvest/plant_seeds.dart';
 import 'package:seeds/screens/app/explorer/invites/create_invite.dart';
@@ -42,6 +43,7 @@ class Routes {
   static final imageViewer = 'ImageViewer';
   static final plantSeeds = "plantSeeds";
   static final buySeeds = "BuySeeds";
+  static final atm = "ATM";
 }
 
 class NavigationService {
@@ -87,6 +89,7 @@ class NavigationService {
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
     Routes.buySeeds: (_) => BuySeeds(),
+    Routes.atm: (_) => Atm(),
   };
 
   final explorerRoutes = {

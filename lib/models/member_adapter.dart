@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:seeds/models/models.dart';
 
@@ -14,6 +15,7 @@ class MemberAdapter extends TypeAdapter<MemberModel> {
     reader.readByte();
     fields.add(reader.readString());
 
+    debugPrint("account: \"${fields[0]}\", nickname: \"${fields[1]}\", image: \"${fields[2]}\", ");
     return MemberModel(
       account: fields[0] as String,
       nickname: fields[1] as String,

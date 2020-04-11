@@ -20,7 +20,7 @@ class TransactionAvatar extends StatelessWidget {
   }
 
   Widget _buildTransactionAvatar() {
-    if (image.startsWith("http")) {
+    if (image?.startsWith("http") == true) {
       return ClipRRect(
           borderRadius: BorderRadius.circular(40),
           child: Container(
@@ -29,7 +29,7 @@ class TransactionAvatar extends StatelessWidget {
             child: CachedNetworkImage(imageUrl: image),
             decoration: decoration,
           ));
-    } else if (image.endsWith('.svg')) {
+    } else if (image?.endsWith('.svg') == true) {
       return Container(
         width: size,
         height: size,

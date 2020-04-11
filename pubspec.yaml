@@ -84,6 +84,7 @@ flutter:
     - assets/images/icon_school-bell.png
     - assets/images/launcher_icon.png
     - assets/images/loading.png
+    - assets/images/logo.png
     - assets/images/logo_title.png
     - assets/images/no_item_found.svg
     - assets/images/onboarding1.png
