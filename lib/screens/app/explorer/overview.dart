@@ -52,6 +52,10 @@ class _OverviewState extends State<Overview> {
     NavigationService.of(context).navigateTo(Routes.buySeeds);
   }
 
+  void onAtm() {
+    NavigationService.of(context).navigateTo(Routes.atm);
+  }
+
   Widget buildCategory(
     String title,
     String subtitle,
@@ -184,6 +188,15 @@ class _OverviewState extends State<Overview> {
                   'Liquid TLOS',
                   model?.balance?.quantity?.seedsFormatted,
                   onBuy,
+                ),),
+                Divider(),
+                Consumer<TelosBalanceNotifier>(builder: (ctx, model, _) => buildCategory(
+                  'ATM',
+                  'Tap to buy or sell Seeds without fees',
+                  'assets/images/exchange.svg',
+                  'Liquid Seeds',
+                  model?.balance?.quantity?.seedsFormatted,
+                  onAtm,
                 ),),
               ],
             )),

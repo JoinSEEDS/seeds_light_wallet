@@ -32,7 +32,7 @@ class MainTextField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          if(labelText != null) Container(
             padding: EdgeInsets.only(left: 5, top: 3, bottom: 3),
             child: Text(
               labelText,
