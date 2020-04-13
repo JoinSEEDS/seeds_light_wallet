@@ -15,7 +15,6 @@ class MemberAdapter extends TypeAdapter<MemberModel> {
     reader.readByte();
     fields.add(reader.readString());
 
-    debugPrint("account: \"${fields[0]}\", nickname: \"${fields[1]}\", image: \"${fields[2]}\", ");
     return MemberModel(
       account: fields[0] as String,
       nickname: fields[1] as String,

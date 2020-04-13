@@ -12,6 +12,7 @@ class MainTextField extends StatelessWidget {
   final Function validator;
   final Function(String) onChanged;
   final FocusNode focusNode;
+  final Image suffixIcon;
 
   MainTextField({
     this.controller,
@@ -24,6 +25,7 @@ class MainTextField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.focusNode,
+    this.suffixIcon,
   });
 
   Widget build(BuildContext context) {
@@ -64,6 +66,7 @@ class MainTextField extends StatelessWidget {
                   hintStyle: TextStyle(
                     color: Colors.grey,
                   ),
+                  suffixIcon: suffixIcon,
                 ),
               ),
               endText != null

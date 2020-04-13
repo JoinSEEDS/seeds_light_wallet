@@ -18,24 +18,22 @@ class AtmCurrency extends StatelessWidget {
 
     return Container(
       width: double.maxFinite,
-      margin: EdgeInsets.only(top: 5, bottom: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: color,
-      ),
-      padding: EdgeInsets.only(top: 7, bottom: 7, left: 7 + relativePadding, right: 7 + relativePadding),
+      margin: EdgeInsets.only(top: 8, bottom: 8),
+      //padding: EdgeInsets.only(top: 7, bottom: 7, left: 7 + relativePadding, right: 7 + relativePadding),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+
             children: <Widget>[
               Text(
                 name,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20
+                  fontSize: 20,
+                  color: Colors.white,
                 ),
               ),
               if(exchangeRate != null) Container(
@@ -50,27 +48,18 @@ class AtmCurrency extends StatelessWidget {
               ),
             ],
           ),
-          Image.asset(
-            'assets/images/logo.png',
-            width: 40,
-            height: 40,
-          ),
-
           SizedBox(
             width: 200,
             child: MainTextField(
               keyboardType: TextInputType.number,
               controller: null,
+              suffixIcon: Image.asset(
+                'assets/images/logo.png',
+                width: 40,
+                height: 40,
+              ),
             ),
           ),
-
-          /*MainTextField(
-            keyboardType: TextInputType.number,
-            controller: null,
-            labelText: 'Transfer amount',
-            endText: 'TLOS',
-            maxLength: 100,
-          ),*/
         ],
       ),
     );

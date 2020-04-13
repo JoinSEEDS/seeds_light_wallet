@@ -2,17 +2,26 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/members_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/screens/app/explorer/atm/atm_currency.dart';
+import 'package:seeds/screens/app/explorer/atm/atm_offer.dart';
 import 'package:seeds/screens/app/explorer/atm/atm_seller.dart';
+import 'package:seeds/screens/app/wallet/dashboard.dart';
 import 'package:seeds/widgets/available_balance.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/telos_balance.dart';
+import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_details.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Atm extends StatefulWidget {
   Atm({Key key}) : super(key: key);
@@ -58,47 +67,13 @@ class _Atm extends State<Atm> {
             children: <Widget>[
               WithTitle(
                 title: "HELLO",
-                child: AtmCurrency(
+                child: AtmOffer(
                   name: "USD",
                   color: AppColors.blue.withOpacity(0.3),
                   exchangeRate: "0.123",
                 ),
               ),
-              AtmCurrency(
-                name: "SEEDS",
-                color: AppColors.green.withOpacity(0.3),
-                exchangeRate: "123",
-              ),
-              WithTitle(
-                title: "YOU PAY",
-                child: AtmCurrency(
-                  name: "Fiat",
-                  color: AppColors.blue.withOpacity(0.3),
-                ),
-              ),
-              WithTitle(
-                title: "SELLERS",
-                child: Column(
-                  children: <Widget>[
-                    AtmSeller(
-                      member: MemberModel(
-                        account: "astoryteller",
-                        nickname: "Nila Phi",
-                        //image: "https://seeds-service.s3.amazonaws.com/development/4af2c217-60a2-402e-8ed1-439fd426f5c0/fab347bd-928c-449e-84f5-e162570e5735-1920.jpg",
-                      ),
-                      color: AppColors.grey.withOpacity(0.3),
-                    ),
-                    AtmSeller(
-                      member: MemberModel(
-                        account: "illumination",
-                        nickname: "Nik",
-                        image: "https://seeds-service.s3.amazonaws.com/development/e46ea503-b743-44b0-901a-4fe07e4d781f/87b2c661-7af6-4b82-9cbe-0a352b5b248c-1920.jpg",
-                      ),
-                      color: AppColors.grey.withOpacity(0.3),
-                    ),
-                  ],
-                ),
-              ),
+              buildTransactions(),
             ],
           ),
         ),
@@ -106,15 +81,161 @@ class _Atm extends State<Atm> {
     );
   }
 
-  /*
-  sdfsdf dgeInsets.only(bottom: 20, top: 20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.blue.withOpacity(0.3)),
-          ),
-          padding: EdgeInsets.all(7),
-          child:
-   */
+  Widget buildTransactions() {
+    List<TransactionModel> transactions = [
+      TransactionModel("astoryteller", "illumination", "9", "memo", "123", "trxId"),
+      TransactionModel("illumination", "astoryteller", "18", "memo", "123", "trxId"),
+    ];
+    final width = MediaQuery.of(context).size.width;
+    return Container(
+      width: width,
+      margin: EdgeInsets.only(bottom: 7, top: 15),
+      child: MainCard(
+        padding: EdgeInsets.only(top: 15, bottom: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(bottom: 3, left: 15, right: 15),
+              child: Text(
+                'Latest transactions',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              )
+            ),
+            Column(
+              children: <Widget>[
+                ...transactions.take(2).map((trx) {
+                  return buildTransaction(trx);
+                }).toList()
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildTransaction(TransactionModel model) {
+    String userAccount = SettingsNotifier.of(context).accountName;
+
+    TransactionType type = model.to == userAccount
+      ? TransactionType.income
+      : TransactionType.outcome;
+
+    String participantAccountName =
+    type == TransactionType.income ? model.from : model.to;
+
+    return FutureBuilder(
+      future:
+      MembersNotifier.of(context).getAccountDetails(participantAccountName),
+      builder: (ctx, member) => member.hasData
+        ? InkWell(
+        onTap: () {
+          debugPrint("onTap");
+        },
+        child: Column(
+          children: [
+            Divider(height: 22),
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Flexible(
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: 12, right: 10),
+                          child: Icon(
+                            type == TransactionType.income
+                              ? Icons.arrow_downward
+                              : Icons.arrow_upward,
+                            color: type == TransactionType.income
+                              ? AppColors.green
+                              : AppColors.red,
+                          ),
+                        ),
+                        TransactionAvatar(
+                          size: 40,
+                          account: member.data.account,
+                          nickname: member.data.nickname,
+                          image: member.data.image,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.blue,
+                          ),
+                        ),
+                        Flexible(
+                          child: Container(
+                            margin:
+                            EdgeInsets.only(left: 10, right: 10),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    member.data.nickname,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(
+                                    member.data.account,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      color: AppColors.grey,
+                                      fontSize: 13),
+                                  ),
+                                ),
+                              ])))
+                      ],
+                    )),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 15),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          type == TransactionType.income ? '+ ' : '-',
+                          style: TextStyle(
+                            color: type == TransactionType.income
+                              ? AppColors.green
+                              : AppColors.red,
+                            fontSize: 16),
+                        ),
+                        Text(
+                          model.quantity,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15),
+                        )
+                      ],
+                    ))
+                ],
+              ),
+            ),
+          ],
+        ),
+      )
+        : Shimmer.fromColors(
+        baseColor: Colors.grey[300],
+        highlightColor: Colors.grey[100],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              height: 16,
+              width: 320,
+              color: Colors.white,
+              margin: EdgeInsets.only(left: 10, right: 10),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }
 
 class WithTitle extends StatelessWidget {
