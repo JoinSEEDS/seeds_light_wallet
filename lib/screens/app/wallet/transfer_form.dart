@@ -211,7 +211,7 @@ class _TransferFormState extends State<TransferForm>
                   buildBalance(balance),
                   MainTextField(
                     keyboardType:
-                        TextInputType.numberWithOptions(signed: false),
+                        TextInputType.numberWithOptions(signed: false, decimal: true),
                     controller: controller,
                     labelText: 'Transfer amount',
                     endText: 'SEEDS',
