@@ -82,6 +82,7 @@ class _TransferFormState extends State<TransferForm>
 
   void onSend() {
     if (_formKey.currentState.validate()) {
+      FocusScope.of(context).unfocus();
       processTransaction();
     }
   }
