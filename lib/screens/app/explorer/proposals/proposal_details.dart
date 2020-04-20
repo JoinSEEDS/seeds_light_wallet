@@ -115,27 +115,27 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
           children: [
             Text(
               'Recipient: ${proposal.recipient} ',
-              style: textTheme.subtitle1,
+              style: textTheme.subhead,
             ),
             SizedBox(height: 8),
             Text(
               'Requested amount: $quantity SEEDS',
-              style: textTheme.subtitle1,
+              style: textTheme.subhead,
             ),
             SizedBox(height: 8),
             Text(
               'Milestone funds: ${proposal.fund} ',
-              style: textTheme.subtitle1,
+              style: textTheme.subhead,
             ),
             SizedBox(height: 8),
             Text(
               'Status: ${proposal.status} ',
-              style: textTheme.subtitle1,
+              style: textTheme.subhead,
             ),
             SizedBox(height: 8),
             Text(
               'Stage: ${proposal.stage} ',
-              style: textTheme.subtitle1,
+              style: textTheme.subhead,
             ),
             SizedBox(height: 8),
             RichText(
@@ -143,11 +143,11 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                 children: [
                   TextSpan(
                     text: 'URL: ',
-                    style: textTheme.subtitle1,
+                    style: textTheme.subhead,
                   ),
                   TextSpan(
                     text: proposal.url,
-                    style: textTheme.subtitle1.copyWith(color: Colors.blue),
+                    style: textTheme.subhead.copyWith(color: Colors.blue),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         if (await canLaunch(proposal.url)) {
@@ -163,7 +163,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             SizedBox(height: 8),
             Text(
               'Description',
-              style: textTheme.headline6,
+              style: textTheme.title,
             ),
             SizedBox(height: 8),
             SelectableText('${proposal.description} '),
@@ -190,7 +190,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
               children: <Widget>[
                 Text(
                   'Voting',
-                  style: textTheme.headline6,
+                  style: textTheme.title,
                 ),
                 SeedsButton(
                   'Vote',

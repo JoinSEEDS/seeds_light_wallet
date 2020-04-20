@@ -80,7 +80,6 @@ main(List<String> args) async {
         print('Zone caught an error');
         await _reportError(error, stackTrace);
       });
-
     }
   });
 }
