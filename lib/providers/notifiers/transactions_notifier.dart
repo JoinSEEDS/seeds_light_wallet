@@ -32,10 +32,8 @@ class TransactionsNotifier extends ChangeNotifier {
 
     List<TransactionModel> actualTransactions = await _http.getTransactions();
 
-    if (actualTransactions.length > cacheTransactions.values.length) {
-      await cacheTransactions.clear();
-      await cacheTransactions.addAll(actualTransactions);
-    }
+    await cacheTransactions.clear();
+    await cacheTransactions.addAll(actualTransactions);
 
     transactions = cacheTransactions.values.toList();
 
