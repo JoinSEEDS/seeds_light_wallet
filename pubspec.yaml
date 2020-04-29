@@ -21,9 +21,9 @@ dependencies:
   localstorage: ^3.0.1+4
   shared_preferences: ^0.5.6+1
   flutter_secure_storage: ^3.3.2
-  local_auth: ^0.6.1
+  local_auth: ^0.6.2+1
   timeago: ^2.0.26
-  url_launcher: ^5.4.1
+  url_launcher: ^5.4.5
   cached_network_image: ^2.0.0
   intro_views_flutter:
     git: git://github.com/aagarwal1012/IntroViews-Flutter
@@ -42,8 +42,8 @@ dependencies:
   liquid_pull_to_refresh: ^1.1.1
   shimmer: ^1.0.1
   random_words: ^1.0.2
-  share: ^0.6.3+5
-  provider: ^4.0.4
+  share: ^0.6.4
+  provider: ^4.0.5
   basic_utils: ^2.4.8  
   photo_view: ^0.9.1
   image_picker: ^0.6.3+1
@@ -52,6 +52,7 @@ dependencies:
   sentry: ^3.0.1
   hive: ^1.4.1+1
   hive_flutter: ^0.2.1
+  rxdart: ^0.24.0
 
 dev_dependencies:
   flutter_test:

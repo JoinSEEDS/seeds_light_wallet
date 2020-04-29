@@ -1,4 +1,6 @@
+import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/features/biometrics/auth_bloc.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
@@ -9,6 +11,7 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
+import 'package:seeds/features/biometrics/biometrics_service.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
@@ -38,6 +41,7 @@ final providers = [
               accountName: settings.accountName,
               privateKey: settings.privateKey,
               passcode: settings.passcode,
+              passcodeActive: settings.passcodeActive,
             );
         } else {
           return auth;
@@ -97,5 +101,14 @@ final providers = [
   ChangeNotifierProxyProvider<HttpService, ProfileNotifier>(
     create: (context) => ProfileNotifier(),
     update: (context, http, members) => members..update(http: http),
+  ),
+  Provider(
+    create: (_) => BiometricsService(LocalAuthentication()),
+  ),
+  ProxyProvider3<BiometricsService, AuthNotifier, SettingsNotifier, AuthBloc>(
+    create: (_) => AuthBloc(),
+    update: (_, service, authNotifier, settingsNotifier, authBloc) =>
+      authBloc..update(service, authNotifier, settingsNotifier), // AuthNotifier seems broken, shouldn't need to be updated so often
+    // dispose:
   ),
 ];

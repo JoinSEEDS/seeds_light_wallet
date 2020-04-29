@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:passcode_screen/passcode_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:seeds/features/biometrics/auth_commands.dart';
+import 'package:seeds/features/biometrics/auth_bloc.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 
@@ -11,6 +14,7 @@ Widget buildPasscodeScreen({
   isValidCallback,
   cancelCallback,
   title = "Enter Passcode",
+  Widget bottomWidget,
 }) {
   return PasscodeScreen(
     passwordDigits: 4,
@@ -22,6 +26,7 @@ Widget buildPasscodeScreen({
     passwordEnteredCallback: passwordEnteredCallback,
     isValidCallback: isValidCallback,
     cancelCallback: cancelCallback,
+    bottomWidget: bottomWidget,
   );
 }
 
@@ -54,6 +59,8 @@ class LockWallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthBloc bloc = Provider.of(context);
+
     return buildPasscodeScreen(
       title: "Choose Passcode",
       shouldTriggerVerification: _verificationNotifier.stream,
@@ -63,6 +70,32 @@ class LockWallet extends StatelessWidget {
       },
       isValidCallback: () {},
       cancelCallback: () {},
+      bottomWidget: Padding(
+        padding: const EdgeInsets.only(top: 32),
+        child: MaterialButton(
+          child: Container(
+            padding: const EdgeInsets.only(left: 17, right: 17, top: 12, bottom: 12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              border: Border.all(
+                color: Colors.white,
+              ),
+            ),
+            child: Text(
+              "Disable Passcode",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+                fontWeight: FontWeight.w300
+              ),
+            ),
+          ),
+          onPressed: () {
+            bloc.execute(DisablePasswordCmd());
+          },
+        ),
+      ),
     );
   }
 }

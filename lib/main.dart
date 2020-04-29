@@ -8,6 +8,7 @@ import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/features/biometrics/biometrics_verification.dart';
 import 'package:seeds/models/member_adapter.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/models/transaction_adapter.dart';
@@ -138,7 +139,7 @@ class MainScreen extends StatelessWidget {
         } else if (auth.status == AuthStatus.locked) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: UnlockWallet(),
+            home: BiometricsVerification(),
           );
         } else {
           return MaterialApp(
