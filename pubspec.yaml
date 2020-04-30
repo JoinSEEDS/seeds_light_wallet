@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 1.0.9+9
+version: 1.1.0
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -58,13 +58,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   test: any
-  flutter_launcher_icons: ^0.7.4
+  flutter_launcher_icons: ^0.7.5
   build_runner: ^1.8.1
 
 flutter_icons:
-  android: false
+  android: "app_icon"
   ios: true
-  image_path: "assets/images/launcher_icon.png"
+  image_path: "assets/images/app_icon.png"
 
 flutter:
   uses-material-design: true
@@ -82,9 +82,11 @@ flutter:
     - assets/images/explorer_icon.png
     - assets/images/failure.png
     - assets/images/icon_school-bell.png
+    - assets/images/app_icon.png
     - assets/images/launcher_icon.png
     - assets/images/loading.png
-    - assets/images/logo_title.png
+    - assets/images/logo_title_blue.png
+    - assets/images/logo_title_white.png
     - assets/images/no_item_found.svg
     - assets/images/onboarding1.png
     - assets/images/onboarding2.png
@@ -92,7 +94,6 @@ flutter:
     - assets/images/onboarding4.png
     - assets/images/onboarding5.png
     - assets/images/profile.svg
-    - assets/images/seeds-logo-with-text.png
     - assets/images/share.svg
     - assets/images/governance.svg
     - assets/images/community.svg
