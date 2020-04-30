@@ -8,15 +8,19 @@ class SettingsNotifier extends ChangeNotifier {
   static const ACCOUNT_NAME = "accountName";
   static const PRIVATE_KEY = "privateKey";
   static const PASSCODE = "passcode";
+  static const PASSCODE_ACTIVE = "passcode_active";
+  static const PASSCODE_ACTIVE_DEFAULT = true;
   static const NODE_ENDPOINT = "nodeEndpoint";
 
   String _privateKey;
   String _passcode;
+  bool _passcodeActive;
 
   get isInitialized => _preferences != null;
   get accountName => _preferences?.getString(ACCOUNT_NAME);
   get privateKey => _privateKey;
   get passcode => _passcode;
+  get passcodeActive => _passcodeActive;
   get nodeEndpoint => _preferences?.getString(NODE_ENDPOINT);
 
   set nodeEndpoint(String value) => _preferences?.setString(NODE_ENDPOINT, value);
@@ -31,6 +35,11 @@ class SettingsNotifier extends ChangeNotifier {
   set passcode(String value) {
     _secureStorage.write(key: PASSCODE, value: value);
     _passcode = value;
+  }
+
+  set passcodeActive(bool value) {
+    _secureStorage.write(key: PASSCODE_ACTIVE, value: value.toString());
+    _passcodeActive = value;
   }
 
   SharedPreferences _preferences;
@@ -52,6 +61,12 @@ class SettingsNotifier extends ChangeNotifier {
         _passcode = values[PASSCODE];
         if(_passcode == null) {
           _passcode = _migrateFromPrefs(PASSCODE);
+        }
+
+        if(values.containsKey(PASSCODE_ACTIVE)) {
+          _passcodeActive = values[PASSCODE_ACTIVE] == "true";
+        } else {
+          _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
         }
       })
       .whenComplete(() => notifyListeners());
@@ -79,6 +94,14 @@ class SettingsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void savePasscodeActive(bool value) {
+    this.passcodeActive = value;
+    if(!passcodeActive) {
+      this.passcode = null;
+    }
+    notifyListeners();
+  }
+
   void saveAccount(String accountName, String privateKey) {
     this.accountName = accountName;
     this.privateKey = privateKey;
@@ -94,6 +117,8 @@ class SettingsNotifier extends ChangeNotifier {
     _preferences?.remove(PASSCODE);
     _secureStorage.delete(key: PASSCODE);
     _passcode = null;
+    _secureStorage.delete(key: PASSCODE_ACTIVE);
+    _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
     notifyListeners();
   }
 
