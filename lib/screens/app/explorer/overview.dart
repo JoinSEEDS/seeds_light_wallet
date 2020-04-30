@@ -178,7 +178,7 @@ class _OverviewState extends State<Overview> {
                 ),),
                 Divider(),
                 Consumer<TelosBalanceNotifier>(builder: (ctx, model, _) => buildCategory(
-                  'Exchange - Buy',
+                  'Get Seeds - Buy',
                   'Tap to buy Seeds',
                   'assets/images/exchange.svg',
                   'Liquid TLOS',
