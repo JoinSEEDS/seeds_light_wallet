@@ -152,7 +152,7 @@ class _OverviewState extends State<Overview> {
               children: <Widget>[
                 Consumer<VoiceNotifier>(builder: (ctx, model, _) => buildCategory(
                   'Proposals - Vote',
-                  'Tap to participate in voting',
+                  'Tap to participate',
                   'assets/images/governance.svg',
                   'Trust Tokens',
                   model?.balance?.amount.toString(),
@@ -161,9 +161,9 @@ class _OverviewState extends State<Overview> {
                 Divider(),
                 Consumer<BalanceNotifier>(builder: (ctx, model, _) => buildCategory(
                   'Community - Invite',
-                  'Tap to generate invite',
+                  'Tap to send an invite',
                   'assets/images/community.svg',
-                  'Liquid Seeds',
+                  'Available Seeds',
                   model?.balance?.quantity?.seedsFormatted,
                   onInvite,
                 ),),
