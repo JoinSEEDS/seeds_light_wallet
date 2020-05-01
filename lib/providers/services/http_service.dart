@@ -375,7 +375,7 @@ class HttpService {
     }
   }
 
-  Future<List<ProposalModel>> getProposals(String stage) async {
+  Future<List<ProposalModel>> getProposals(String stage, String status) async {
     print("[http] get proposals: stage = [$stage]");
 
     if (mockResponse == true) {
@@ -396,7 +396,7 @@ class HttpService {
       Map<String, dynamic> body = jsonDecode(res.body);
 
       List<dynamic> activeProposals = body["rows"].where((dynamic item) {
-        return item["stage"] == stage;
+        return item["stage"] == stage && item["status"] == status;
       }).toList();
 
       List<ProposalModel> proposals =

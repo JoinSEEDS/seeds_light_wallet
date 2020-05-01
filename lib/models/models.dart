@@ -398,7 +398,20 @@ class ProposalModel {
 }
 
 const proposalTypes = {
-  'Drafts': 'staged',
-  'Active': 'active',
-  'Finished': 'done',
+  'Staged': {
+    'stage': 'staged',
+    'status': 'open'
+  },
+  'Open': {
+    'stage': 'active',
+    'status': 'open'
+  },
+  'Passed': {
+    'stage': 'done',
+    'status': 'passed'
+  },
+  'Failed': {
+    'stage': 'done',
+    'status': 'rejected'
+  },
 };
