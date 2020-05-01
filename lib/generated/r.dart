@@ -21,6 +21,8 @@ class R {
   static final String iconSchoolBell = 'assets/images/icon_school-bell.png';
   /// ![](http://127.0.0.1:2227/assets/images/app_icon.png)
   static final String appIcon = 'assets/images/app_icon.png';
+  /// ![](http://127.0.0.1:2227/assets/images/app_icon_transparent.png)
+  static final String appIconTransparent = 'assets/images/app_icon_transparent.png';
   /// ![](http://127.0.0.1:2227/assets/images/launcher_icon.png)
   static final String launcherIcon = 'assets/images/launcher_icon.png';
   /// ![](http://127.0.0.1:2227/assets/images/loading.png)
