@@ -76,7 +76,7 @@ void main() {
   test('Eos Service', () async {
     final service = EosService()..update(enableMockTransactions: true);
 
-    final createInvite = await service.createInvite();
+    final createInvite = await service.createInvite(quantity: 10.0);
     final acceptInvite = await service.acceptInvite();
     final transferSeeds = await service.transferSeeds();
     final voteProposal = await service.voteProposal();
