@@ -122,8 +122,11 @@ class EosService {
   }
 
   Future<dynamic> createInvite(
-      {double transferQuantity, double sowQuantity, String inviteHash}) async {
-    print("[eos] create invite $inviteHash ($transferQuantity + $sowQuantity)");
+      {double quantity, String inviteHash}) async {
+    print("[eos] create invite $inviteHash ($quantity)");
+
+    double sowQuantity = 5;
+    double transferQuantity = quantity - sowQuantity;
 
     if (mockEnabled) {
       return Future.delayed(
@@ -131,8 +134,6 @@ class EosService {
         () => HttpMockResponse.transactionResult,
       );
     }
-
-    double totalQuantity = sowQuantity + transferQuantity;
 
     Transaction transaction = buildFreeTransaction([
       Action()
@@ -146,7 +147,7 @@ class EosService {
         ..data = {
           "from": accountName,
           "to": "join.seeds",
-          "quantity": "${totalQuantity.toStringAsFixed(4)} SEEDS",
+          "quantity": "${quantity.toStringAsFixed(4)} SEEDS",
           "memo": "",
         },
       Action()
