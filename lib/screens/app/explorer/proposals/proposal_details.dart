@@ -8,7 +8,7 @@ import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/explorer/proposals/proposal_header_details.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class ProposalDetailsPage extends StatefulWidget {
   final ProposalModel proposal;
@@ -150,8 +150,8 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                     style: textTheme.subhead.copyWith(color: Colors.blue),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
-                        if (await canLaunch(proposal.url)) {
-                          await launch(proposal.url);
+                        if (await UrlLauncher.canLaunch(proposal.url)) {
+                          await UrlLauncher.launch(proposal.url);
                         } else {
                           errorToast("Couldn't open this url");
                         }
