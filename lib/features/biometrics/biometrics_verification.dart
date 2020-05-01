@@ -32,7 +32,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
               return UnlockWallet();
             case AuthType.fingerprint:
             case AuthType.face:
-              return buildBiometricsView("Verify Identity");
+              return buildBiometricsView("Loading your SEEDS Wallet...");
           }
         } else {
           bloc.execute(InitAuthenticationCmd());
