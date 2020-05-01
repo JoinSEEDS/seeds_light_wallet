@@ -7,4 +7,6 @@ class Config {
   static final cpuPrivateKey = "5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a";
   static final debugInviteSecret = "";
   static final enableHttpMock = false;
+  static final termsAndConditionsUrl = "https://www.joinseeds.com/seeds-terms-and-conditions.html";
+  static final privacyPolicyUrl = "https://www.joinseeds.com/seeds-privacy-policy.html";
 }
