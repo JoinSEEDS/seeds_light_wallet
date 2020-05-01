@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
 import 'package:seeds/features/biometrics/auth_commands.dart';
 import 'package:seeds/features/biometrics/auth_state.dart';
@@ -48,7 +49,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
     final margin = MediaQuery.of(context).size.height / 4;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF24b0d6),
+      backgroundColor: AppColors.blue,
       body: Padding(
         padding: EdgeInsets.only(top: margin, bottom: margin),
         child: Center(
