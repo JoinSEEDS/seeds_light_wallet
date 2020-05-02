@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
+import 'package:seeds/constants/app_colors.dart';
 
 class OnboardingViewModel extends PageViewModel {
   static const defaultBodyTextStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 22, fontFamily: "worksans");
@@ -20,7 +21,7 @@ class OnboardingViewModel extends PageViewModel {
               textAlign: TextAlign.center
             ),
           ),
-          pageColor: const Color(0xFF24b0d6),
+          pageColor: AppColors.blue,
           titleTextStyle:
               TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 38, fontFamily: "worksans"),
           bodyTextStyle: defaultBodyTextStyle,

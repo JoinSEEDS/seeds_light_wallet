@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 1.1.0
+version: 1.1.0+4
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -83,6 +83,7 @@ flutter:
     - assets/images/failure.png
     - assets/images/icon_school-bell.png
     - assets/images/app_icon.png
+    - assets/images/app_icon_transparent.png
     - assets/images/launcher_icon.png
     - assets/images/loading.png
     - assets/images/logo_title_blue.png

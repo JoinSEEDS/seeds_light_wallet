@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/biometrics/auth_commands.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
@@ -21,7 +22,7 @@ Widget buildPasscodeScreen({
     title: title,
     cancelLocalizedText: "",
     deleteLocalizedText: "Delete",
-    backgroundColor: const Color(0xFF24b0d6),
+    backgroundColor: AppColors.blue,
     shouldTriggerVerification: shouldTriggerVerification,
     passwordEnteredCallback: passwordEnteredCallback,
     isValidCallback: isValidCallback,
