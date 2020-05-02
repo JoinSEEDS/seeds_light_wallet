@@ -47,7 +47,7 @@ class _NotionLoaderState extends State<NotionLoader>
                 scale: scale,
                 child: RotationTransition(
                   child: Image.asset(
-                    R.appIcon,
+                    R.appIconTransparent,
                     width: 100,
                     height: 100,
                   ),
