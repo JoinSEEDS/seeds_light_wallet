@@ -114,7 +114,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
               MainTextField(
                 keyboardType: TextInputType.number,
                 controller: sowController,
-                labelText: 'Sow amount (minimum: 5)',
+                labelText: 'Invite amount (minimum: 5)',
                 endText: 'SEEDS',
               ),
               MainTextField(
