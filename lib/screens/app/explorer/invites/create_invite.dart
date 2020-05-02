@@ -39,8 +39,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
   final StreamController<String> _messageNotifier =
       StreamController<String>.broadcast();
 
-  final sowController = TextEditingController(text: '5');
-  final transferController = TextEditingController(text: '2');
+  final quantityController = TextEditingController(text: '5');
 
   @override
   void dispose() {
@@ -59,8 +58,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
     try {
       var response =
           await Provider.of<EosService>(context, listen: false).createInvite(
-        transferQuantity: double.parse(transferController.text),
-        sowQuantity: double.parse(sowController.text),
+        quantity: double.parse(quantityController.text),
         inviteHash: widget.inviteHash,
       );
 
@@ -113,14 +111,8 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
               AvailableBalance(),
               MainTextField(
                 keyboardType: TextInputType.number,
-                controller: sowController,
+                controller: quantityController,
                 labelText: 'Invite amount (minimum: 5)',
-                endText: 'SEEDS',
-              ),
-              MainTextField(
-                keyboardType: TextInputType.number,
-                controller: transferController,
-                labelText: 'Transfer amount',
                 endText: 'SEEDS',
               ),
               MainButton(
