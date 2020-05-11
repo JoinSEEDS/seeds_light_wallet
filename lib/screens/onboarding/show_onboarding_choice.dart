@@ -62,6 +62,13 @@ class ShowOnboardingChoice extends StatelessWidget {
                     color: Colors.black,
                     fontSize: 14,
                   ),
+                ),
+                TextSpan(
+                  text: '\n\nBy signing up, you agree to our terms and privacy policy',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 13,
+                  ),
                 )
               ],
             ),
@@ -73,7 +80,10 @@ class ShowOnboardingChoice extends StatelessWidget {
                 color: Colors.transparent,
                 child: Text(
                   'Terms & Conditions',
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(
+                    color: AppColors.blue,
+                    fontSize: 13,
+                  ),
                 ),
                 onPressed: () => UrlLauncher.launch(Config.termsAndConditionsUrl),
               ),
@@ -81,7 +91,10 @@ class ShowOnboardingChoice extends StatelessWidget {
                 color: Colors.transparent,
                 child: Text(
                   'Privacy Policy',
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(
+                    color: AppColors.blue,
+                    fontSize: 13,
+                  ),
                 ),
                 onPressed: () => UrlLauncher.launch(Config.privacyPolicyUrl),
               ),
