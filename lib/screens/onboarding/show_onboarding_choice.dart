@@ -1,8 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/constants/config.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/widgets/main_button.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class ShowOnboardingChoice extends StatelessWidget {
   final Function onInvite;
@@ -61,7 +65,28 @@ class ShowOnboardingChoice extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FlatButton(
+                color: Colors.transparent,
+                child: Text(
+                  'Terms & Conditions',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onPressed: () => UrlLauncher.launch(Config.termsAndConditionsUrl),
+              ),
+              FlatButton(
+                color: Colors.transparent,
+                child: Text(
+                  'Privacy Policy',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onPressed: () => UrlLauncher.launch(Config.privacyPolicyUrl),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -86,4 +111,5 @@ class ShowOnboardingChoice extends StatelessWidget {
       ],
     );
   }
+
 }
