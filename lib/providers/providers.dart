@@ -1,5 +1,6 @@
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
@@ -110,5 +111,9 @@ final providers = [
     update: (_, service, authNotifier, settingsNotifier, authBloc) =>
       authBloc..update(service, authNotifier, settingsNotifier), // AuthNotifier seems broken, shouldn't need to be updated so often
     // dispose:
+  ),
+  ProxyProvider<SettingsNotifier, BackupService>(
+    create: (_) => BackupService(),
+    update: (_, settings, backupService) => backupService..update(settings),
   ),
 ];
