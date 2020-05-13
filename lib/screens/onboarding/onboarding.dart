@@ -7,30 +7,38 @@ import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
 
 class Onboarding extends StatelessWidget {
   final List<PageViewModel> featurePages = [
-    OnboardingViewModel(
+    OnboardingViewModel.rich(
       bubble: null,
       mainImage: 'assets/images/onboarding1.png',
-      body:
-        "Make global payments with zero fees. Earn rewards when you support 'regenerative' organisations and people.",
+      body: [
+        TextSpan(
+          text: "Make payments globally without any fees. Earn rewards when you support 'regenerative' organisations and people.",
+          style: TextStyle(fontWeight: FontWeight.bold)
+        )
+      ],
       title: 'Better than free transactions',
     ),
     OnboardingViewModel.rich(
       bubble: null,
       mainImage: 'assets/images/onboarding2.png',
       body: [
-        TextSpan(text: 'Earn rewards for participating in campaigns for direct social, community and environmental regeneration. '),
+        //TextSpan(text: 'Heal our planet, grow the community and get rewarded for it.'),
         TextSpan(
-          text: '\nGet paid to heal our planet and grow community.', 
+          text: 'Vote directly on social and environmental impact projects you care about.', 
           style: TextStyle(fontWeight: FontWeight.bold)
         )
       ],
       title: 'Citizen Campaigns',
     ),
-    OnboardingViewModel(
+    OnboardingViewModel.rich(
       bubble: null,
       mainImage: 'assets/images/onboarding3.png',
-      body:
-        'Unite with a global movement of organisations and people to heal our planet. Access funding for social and environmental impact projects.',
+      body: [
+        TextSpan(
+          text: 'Unite with a global movement of organisations and people to regenerate our planet and heal our economy.', 
+          style: TextStyle(fontWeight: FontWeight.bold)
+        )
+      ],
       title: 'Regenerative Economy',
     ),
   ];
@@ -40,30 +48,30 @@ class Onboarding extends StatelessWidget {
     return Builder(
       builder: (context) {
         return Container(
-          color: AppColors.darkBlue,
-          child: IntroViewsFlutter(
-            featurePages,
-            onTapDoneButton: () async {
-              NavigationService.of(context)
-                  .navigateTo(Routes.joinProcess, null, true);
-            },
-            doneButtonPersist: true,
-            doneText: Text(
-              "JOIN NOW",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: "worksans",
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
+          color: AppColors.blue,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IntroViewsFlutter(
+              featurePages,
+              onTapDoneButton: () async {
+                NavigationService.of(context)
+                    .navigateTo(Routes.joinProcess, null, true);
+              },
+              doneButtonPersist: true,
+              doneText: Text(
+                "JOIN NOW",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
-            ),
-            showSkipButton: false,
-            showNextButton: true,
-            showBackButton: true,
-            pageButtonTextStyles: TextStyle(
-              fontFamily: "worksans",
-              fontSize: 18.0,
-              fontWeight: FontWeight.w700,
+              showSkipButton: false,
+              showNextButton: true,
+              showBackButton: true,
+              pageButtonTextStyles: TextStyle(
+                fontFamily: "worksans",
+                fontSize: 18.0,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         );
