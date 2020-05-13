@@ -13,7 +13,6 @@ import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
-import 'package:share/share.dart';
 import 'package:shimmer/shimmer.dart';
 
 enum TransactionType { income, outcome }
@@ -124,7 +123,6 @@ class _DashboardState extends State<Dashboard> {
 
   Widget buildNotification() {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     final SettingsNotifier settings = SettingsNotifier.of(context);
     final backupService = Provider.of<BackupService>(context);
