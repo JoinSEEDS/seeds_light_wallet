@@ -73,13 +73,13 @@ flutter:
     # assets begin
     # assets/images/*
     - assets/images/error.svg
-    - assets/images/explorer.svg
-    - assets/images/explorer1.png
-    - assets/images/explorer2.png
-    - assets/images/explorer3.png
-    - assets/images/explorer4.png
-    - assets/images/explorer5.png
-    - assets/images/explorer_icon.png
+    - assets/images/ecosystem.svg
+    - assets/images/ecosystem1.png
+    - assets/images/ecosystem2.png
+    - assets/images/ecosystem3.png
+    - assets/images/ecosystem4.png
+    - assets/images/ecosystem5.png
+    - assets/images/ecosystem_icon.png
     - assets/images/failure.png
     - assets/images/icon_school-bell.png
     - assets/images/app_icon.png
@@ -101,7 +101,7 @@ flutter:
     - assets/images/harvest.svg
     - assets/images/exchange.svg
     - assets/images/lending.svg
-    - assets/images/explorer.svg
+    - assets/images/ecosystem.svg
     - assets/images/wallet.svg
     - assets/images/profile.svg
     - assets/images/success.svg
