@@ -1,20 +1,20 @@
 class R {
   /// ![](http://127.0.0.1:2227/assets/images/error.svg)
   static final String error = 'assets/images/error.svg';
-  /// ![](http://127.0.0.1:2227/assets/images/explorer.svg)
-  static final String explorer = 'assets/images/explorer.svg';
-  /// ![](http://127.0.0.1:2227/assets/images/explorer1.png)
-  static final String explorer1 = 'assets/images/explorer1.png';
-  /// ![](http://127.0.0.1:2227/assets/images/explorer2.png)
-  static final String explorer2 = 'assets/images/explorer2.png';
-  /// ![](http://127.0.0.1:2227/assets/images/explorer3.png)
-  static final String explorer3 = 'assets/images/explorer3.png';
-  /// ![](http://127.0.0.1:2227/assets/images/explorer4.png)
-  static final String explorer4 = 'assets/images/explorer4.png';
-  /// ![](http://127.0.0.1:2227/assets/images/explorer5.png)
-  static final String explorer5 = 'assets/images/explorer5.png';
-  /// ![](http://127.0.0.1:2227/assets/images/explorer_icon.png)
-  static final String explorerIcon = 'assets/images/explorer_icon.png';
+  /// ![](http://127.0.0.1:2227/assets/images/ecosystem.svg)
+  static final String explorer = 'assets/images/ecosystem.svg';
+  /// ![](http://127.0.0.1:2227/assets/images/ecosystem1.png)
+  static final String explorer1 = 'assets/images/ecosystem1.png';
+  /// ![](http://127.0.0.1:2227/assets/images/ecosystem2.png)
+  static final String explorer2 = 'assets/images/ecosystem2.png';
+  /// ![](http://127.0.0.1:2227/assets/images/ecosystem3.png)
+  static final String explorer3 = 'assets/images/ecosystem3.png';
+  /// ![](http://127.0.0.1:2227/assets/images/ecosystem4.png)
+  static final String explorer4 = 'assets/images/ecosystem4.png';
+  /// ![](http://127.0.0.1:2227/assets/images/ecosystem5.png)
+  static final String explorer5 = 'assets/images/ecosystem5.png';
+  /// ![](http://127.0.0.1:2227/assets/images/ecosystem_icon.png)
+  static final String explorerIcon = 'assets/images/ecosystem_icon.png';
   /// ![](http://127.0.0.1:2227/assets/images/failure.png)
   static final String failure = 'assets/images/failure.png';
   /// ![](http://127.0.0.1:2227/assets/images/icon_school-bell.png)
