@@ -12,7 +12,7 @@ class Onboarding extends StatelessWidget {
       mainImage: 'assets/images/onboarding1.png',
       body: [
         TextSpan(
-          text: "Make payments globally without any fees. Earn rewards when you suport 'regenerative' organisations and people.",
+          text: "Make payments globally without any fees. Earn rewards when you support 'regenerative' organisations and people.",
           style: TextStyle(fontWeight: FontWeight.bold)
         )
       ],
@@ -39,7 +39,6 @@ class Onboarding extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold)
         )
       ],
-        //'Unite with a global movement of organisations and people to regenerate our planet and heal our economy. Vote directly on social and environmental impact projects you care about.',
       title: 'Regenerative Economy',
     ),
   ];
@@ -63,9 +62,6 @@ class Onboarding extends StatelessWidget {
                 "JOIN NOW",
                 style: TextStyle(
                   color: Colors.white,
-                  //fontFamily: "worksans",
-                  //fontSize: 24,
-                  //fontWeight: FontWeight.w800,
                 ),
               ),
               showSkipButton: false,
