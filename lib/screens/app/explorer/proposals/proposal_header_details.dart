@@ -37,12 +37,12 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
             children: <Widget>[
               Text(
                 proposal.title,
-                style: textTheme.title,
+                style: textTheme.headline6,
               ),
               SizedBox(height: 8),
               Text(
                 proposal.summary,
-                style: textTheme.subhead,
+                style: textTheme.subtitle1,
               ),
               SizedBox(height: 8),
               RichText(
@@ -50,20 +50,20 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                   children: <InlineSpan>[
                     TextSpan(
                       text: 'Created by: ',
-                      style: textTheme.subtitle
+                      style: textTheme.subtitle2
                           .copyWith(fontWeight: FontWeight.normal),
                     ),
                     TextSpan(
                       text: proposal.creator,
-                      style: textTheme.subtitle,
+                      style: textTheme.subtitle2,
                     ),
                     TextSpan(
                       text: ' • ',
-                      style: textTheme.subtitle,
+                      style: textTheme.subtitle2,
                     ),
                     TextSpan(
                       text: creationDateFormatted,
-                      style: textTheme.subtitle
+                      style: textTheme.subtitle2
                           .copyWith(fontWeight: FontWeight.normal),
                     ),
                   ],
@@ -114,18 +114,18 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
               if (!widget.fromDetails)
                 Text(
                   proposal.title,
-                  style: textTheme.title,
+                  style: textTheme.headline6,
                 ),
               SizedBox(height: 8),
               Text(
                 proposal.summary,
-                style: textTheme.subhead,
+                style: textTheme.subtitle1,
               ),
               SizedBox(height: 8),
               Text(
                 DateFormat.yMMMd().format(
                     DateTime.fromMillisecondsSinceEpoch(proposal.creationDate)),
-                style: textTheme.subtitle,
+                style: textTheme.subtitle2,
               ),
               SizedBox(height: 16),
               Row(
