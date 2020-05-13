@@ -19,7 +19,6 @@ class AppColors {
   static const purple = Color(0xFF5719FF);
 
   static const lightBlue = Color.fromRGBO(61, 179, 158, 1);
-  static const darkBlue = Color.fromRGBO(61, 179, 158, 1);
   static const lightGrey19 = Color.fromRGBO(61, 179, 158, 1);
   static const lightGrey = Color.fromRGBO(242, 242, 242, 1);
   static const black50 = Color.fromRGBO(0, 0, 0, 0.5);
