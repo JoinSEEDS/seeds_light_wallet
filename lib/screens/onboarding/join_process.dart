@@ -98,6 +98,7 @@ class _JoinProcessState extends State<JoinProcess> {
 
   void importAccount() async {
     await Future.delayed(Duration(milliseconds: 2000), () {});
+    SettingsNotifier.of(context).privateKeyBackedUp = true;
     machine.transition(Events.accountImported);
   }
 

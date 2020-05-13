@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>seeds</string>
+	<string>SEEDS Wallet</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -25,7 +25,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Uses camera to take pictures for profile.</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>FaceID can be used for local authorization</string>
+	<string>Unlock wallet with FaceID</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We do not track a user's location but one of the packages we are using is triggering this. That code does not run.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

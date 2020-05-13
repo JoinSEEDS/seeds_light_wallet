@@ -19,12 +19,16 @@ class R {
   static final String failure = 'assets/images/failure.png';
   /// ![](http://127.0.0.1:2227/assets/images/icon_school-bell.png)
   static final String iconSchoolBell = 'assets/images/icon_school-bell.png';
+  /// ![](http://127.0.0.1:2227/assets/images/app_icon.png)
+  static final String appIcon = 'assets/images/app_icon.png';
+  /// ![](http://127.0.0.1:2227/assets/images/app_icon_transparent.png)
+  static final String appIconTransparent = 'assets/images/app_icon_transparent.png';
   /// ![](http://127.0.0.1:2227/assets/images/launcher_icon.png)
   static final String launcherIcon = 'assets/images/launcher_icon.png';
   /// ![](http://127.0.0.1:2227/assets/images/loading.png)
   static final String loading = 'assets/images/loading.png';
   /// ![](http://127.0.0.1:2227/assets/images/logo_title.png)
-  static final String logoTitle = 'assets/images/logo_title.png';
+  static final String logoTitleWhite = 'assets/images/logo_title_white.png';
   /// ![](http://127.0.0.1:2227/assets/images/no_item_found.svg)
   static final String noItemFound = 'assets/images/no_item_found.svg';
   /// ![](http://127.0.0.1:2227/assets/images/onboarding1.png)
@@ -39,8 +43,6 @@ class R {
   static final String onboarding5 = 'assets/images/onboarding5.png';
   /// ![](http://127.0.0.1:2227/assets/images/profile.svg)
   static final String profile = 'assets/images/profile.svg';
-  /// ![](http://127.0.0.1:2227/assets/images/seeds-logo-with-text.png)
-  static final String seedsLogoWithText = 'assets/images/seeds-logo-with-text.png';
   /// ![](http://127.0.0.1:2227/assets/images/share.svg)
   static final String share = 'assets/images/share.svg';
   /// ![](http://127.0.0.1:2227/assets/images/success.svg)

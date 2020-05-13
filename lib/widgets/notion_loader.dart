@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:seeds/generated/r.dart';
 
 class NotionLoader extends StatefulWidget {
   final String notion;
@@ -46,7 +47,7 @@ class _NotionLoaderState extends State<NotionLoader>
                 scale: scale,
                 child: RotationTransition(
                   child: Image.asset(
-                    'assets/images/launcher_icon.png',
+                    R.appIconTransparent,
                     width: 100,
                     height: 100,
                   ),

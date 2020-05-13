@@ -52,7 +52,7 @@ void main() {
     final transactions = await service.getTransactions();
     final balance = await service.getBalance();
     final voice = await service.getVoice();
-    final proposals = await service.getProposals("active");
+    final proposals = await service.getProposals("active", "passed");
     final invites = await service.getInvites();
     final profile = await service.getProfile();
     final harvest = await service.getHarvest();
@@ -76,7 +76,7 @@ void main() {
   test('Eos Service', () async {
     final service = EosService()..update(enableMockTransactions: true);
 
-    final createInvite = await service.createInvite();
+    final createInvite = await service.createInvite(quantity: 10.0);
     final acceptInvite = await service.acceptInvite();
     final transferSeeds = await service.transferSeeds();
     final voteProposal = await service.voteProposal();

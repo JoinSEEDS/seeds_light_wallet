@@ -375,7 +375,7 @@ class HttpService {
     }
   }
 
-  Future<List<ProposalModel>> getProposals(String stage) async {
+  Future<List<ProposalModel>> getProposals(String stage, String status) async {
     print("[http] get proposals: stage = [$stage]");
 
     if (mockResponse == true) {
@@ -396,7 +396,7 @@ class HttpService {
       Map<String, dynamic> body = jsonDecode(res.body);
 
       List<dynamic> activeProposals = body["rows"].where((dynamic item) {
-        return item["stage"] == stage;
+        return item["stage"] == stage && item["status"] == status;
       }).toList();
 
       List<ProposalModel> proposals =
@@ -419,7 +419,7 @@ class HttpService {
 
     String reversedHash = reverseHash(inviteHash);
 
-    String inviteURL = "https://node.hypha.earth/v1/chain/get_table_rows";
+    String inviteURL = "https://node.hypha.earth/v1/chain/get_table_rows"; // todo: Why is this still Hypha when config has changed?
 
     String request =
         '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$reversedHash","upper_bound":"$reversedHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';

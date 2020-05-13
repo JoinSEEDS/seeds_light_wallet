@@ -32,11 +32,11 @@ class AppColors {
   static const green = Color(0xFF59B293);
   static const grey = Color(0xFF6C6C6C);
 
-  static const blue = Color(0xFF52AFCC);
+  static const blue = Color(0xFF3A8BA8);
   static const orange = Color(0xFFFF9900);
   static const red = Color(0xFFEB5757);
   static const borderGrey = Color(0xFFEBEBEB);
-  static const gradient = [green, blue];
+  static const gradient = [blue, blue];
 
   static Color getColorByString(String str) {
     int hash = 0;

@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as pathUtils;
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/constants/config.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -18,6 +19,7 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:share/share.dart';
 import 'package:uuid/uuid.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class Profile extends StatefulWidget {
   @override
@@ -166,16 +168,32 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 80.0),
+                padding: const EdgeInsets.only(top: 50.0),
                 child: FlatButton(
                   color: Colors.white,
                   child: Text(
-                    'Export private key',
-                    style: TextStyle(color: Colors.red),
+                    'Terms & Conditions',
+                    style: TextStyle(color: Colors.blue),
                   ),
-                  onPressed: () =>
-                      Share.share(SettingsNotifier.of(context).privateKey),
+                  onPressed: () => UrlLauncher.launch(Config.termsAndConditionsUrl),
                 ),
+              ),
+              FlatButton(
+                color: Colors.white,
+                child: Text(
+                  'Privacy Policy',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onPressed: () => UrlLauncher.launch(Config.privacyPolicyUrl),
+              ),
+              FlatButton(
+                color: Colors.white,
+                child: Text(
+                  'Export private key',
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () =>
+                  Share.share(SettingsNotifier.of(context).privateKey),
               ),
               FlatButton(
                 color: Colors.white,

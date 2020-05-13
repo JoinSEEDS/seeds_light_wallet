@@ -41,7 +41,7 @@ class ProposalsState extends State<Proposals> {
             Expanded(
               child: TabBarView(
                 children: proposalTypes.values
-                    .map((type) => ProposalsList(type: type))
+                    .map((data) => ProposalsList(type: data['stage'], status: data['status']))
                     .toList(),
               ),
             )
@@ -54,8 +54,9 @@ class ProposalsState extends State<Proposals> {
 
 class ProposalsList extends StatefulWidget {
   final String type;
+  final String status;
 
-  const ProposalsList({Key key, @required this.type}) : super(key: key);
+  const ProposalsList({Key key, @required this.type, @required this.status}) : super(key: key);
 
   @override
   _ProposalsListState createState() => _ProposalsListState();
@@ -72,7 +73,7 @@ class _ProposalsListState extends State<ProposalsList>
 
     return PaginatedListView<ProposalModel>(
       pageFuture: (int pageIndex) =>
-          HttpService.of(context).getProposals(widget.type),
+          HttpService.of(context).getProposals(widget.type, widget.status),
       pageSize: 1000,
       showRefreshIndicator: true,
       itemBuilder: (BuildContext context, ProposalModel proposal, int index) {

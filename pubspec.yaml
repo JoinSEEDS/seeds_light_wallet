@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 1.0.9+9
+version: 1.1.0+4
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -12,23 +12,23 @@ analyzer:
 dependencies:
   flutter:
     sdk: flutter
-  intl:
+  intl: ^0.16.0
   intl_translation:
   cupertino_icons: ^0.1.3
   community_material_icon: ^3.5.95
-  flutter_toolbox: ^4.4.12
+  flutter_toolbox: ^4.6.2
   http: ^0.12.0+4
   localstorage: ^3.0.1+4
   shared_preferences: ^0.5.6+1
-  flutter_secure_storage: ^3.3.1+1
-  local_auth: ^0.6.1
+  flutter_secure_storage: ^3.3.2
+  local_auth: ^0.6.2+1
   timeago: ^2.0.26
-  url_launcher: ^5.4.1
+  url_launcher: ^5.4.5
   cached_network_image: ^2.0.0
   intro_views_flutter:
     git: git://github.com/aagarwal1012/IntroViews-Flutter
   flutter_masked_text: ^0.8.0
-  passcode_screen: ^1.0.2
+  passcode_screen: 1.0.2  # More time to look into the breaking version 1.1.0 before upgrading
   percent_indicator: ^2.1.1+1
   expandable: ^4.1.2
   flutter_svg: ^0.17.1
@@ -42,29 +42,29 @@ dependencies:
   liquid_pull_to_refresh: ^1.1.1
   shimmer: ^1.0.1
   random_words: ^1.0.2
-  share: ^0.6.3+5
-  provider: ^4.0.4
+  share: ^0.6.4
+  provider: ^4.0.5
   basic_utils: ^2.4.8  
   photo_view: ^0.9.1
   image_picker: ^0.6.3+1
   image_cropper: ^1.2.1
   firebase_storage: ^3.1.1
   sentry: ^3.0.1
-  hive: ^1.4.0+1
-  hive_flutter: ^0.3.0+1
+  hive: ^1.4.1+1
+  hive_flutter: ^0.2.1
+  rxdart: ^0.24.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   test: any
-  flutter_launcher_icons: ^0.7.4
-  hive_generator: ^0.7.0
-  build_runner: ^1.7.4  
+  flutter_launcher_icons: ^0.7.5
+  build_runner: ^1.8.1
 
 flutter_icons:
-  android: false
+  android: "app_icon"
   ios: true
-  image_path: "assets/images/launcher_icon.png"
+  image_path: "assets/images/app_icon.png"
 
 flutter:
   uses-material-design: true
@@ -82,9 +82,12 @@ flutter:
     - assets/images/ecosystem_icon.png
     - assets/images/failure.png
     - assets/images/icon_school-bell.png
+    - assets/images/app_icon.png
+    - assets/images/app_icon_transparent.png
     - assets/images/launcher_icon.png
     - assets/images/loading.png
-    - assets/images/logo_title.png
+    - assets/images/logo_title_blue.png
+    - assets/images/logo_title_white.png
     - assets/images/no_item_found.svg
     - assets/images/onboarding1.png
     - assets/images/onboarding2.png
@@ -92,7 +95,6 @@ flutter:
     - assets/images/onboarding4.png
     - assets/images/onboarding5.png
     - assets/images/profile.svg
-    - assets/images/seeds-logo-with-text.png
     - assets/images/share.svg
     - assets/images/governance.svg
     - assets/images/community.svg

@@ -15,12 +15,13 @@ class AuthNotifier extends ChangeNotifier {
   String _accountName;
   String _privateKey;
   String _passcode;
+  bool _passcodeActive;
   bool _locked = true;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static AuthNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<AuthNotifier>(context, listen: listen);
 
-  void update({accountName, privateKey, passcode}) async {
+  void update({accountName, privateKey, passcode, bool passcodeActive}) async {
     if (accountName != _accountName ||
         privateKey != _privateKey ||
         passcode != passcode) {
@@ -29,6 +30,7 @@ class AuthNotifier extends ChangeNotifier {
     _accountName = accountName;
     _privateKey = privateKey;
     _passcode = passcode;
+    _passcodeActive = passcodeActive;
 
     updateStatus();
   }
@@ -40,8 +42,12 @@ class AuthNotifier extends ChangeNotifier {
       status = AuthStatus.locked;
     }
 
-    if (_passcode == null) {
+    if (_passcode == null && _passcodeActive) {
       status = AuthStatus.emptyPasscode;
+    }
+
+    if(status == AuthStatus.emptyPasscode && !_passcodeActive) {
+      status = AuthStatus.locked;
     }
 
     if (_accountName == null || _privateKey == null) {
@@ -65,4 +71,9 @@ class AuthNotifier extends ChangeNotifier {
     _passcode = null;
     updateStatus();
   }
+
+  void disablePasscode() {
+    _passcodeActive = false;
+  }
+
 }

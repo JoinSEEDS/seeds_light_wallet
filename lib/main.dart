@@ -8,6 +8,7 @@ import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/features/biometrics/biometrics_verification.dart';
 import 'package:seeds/models/member_adapter.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/models/transaction_adapter.dart';
@@ -74,9 +75,9 @@ main(List<String> args) async {
         }).sendPort,
       );
 
-      runZoned<Future<Null>>(() async {
+      runZonedGuarded<Future<Null>>(() async {
         runApp(SeedsApp());
-      }, onError: (error, stackTrace) async {
+      }, (error, stackTrace) async {
         print('Zone caught an error');
         await _reportError(error, stackTrace);
       });
@@ -138,7 +139,7 @@ class MainScreen extends StatelessWidget {
         } else if (auth.status == AuthStatus.locked) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: UnlockWallet(),
+            home: BiometricsVerification(),
           );
         } else {
           return MaterialApp(
