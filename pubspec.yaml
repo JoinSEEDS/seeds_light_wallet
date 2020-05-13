@@ -28,7 +28,7 @@ dependencies:
   intro_views_flutter:
     git: git://github.com/aagarwal1012/IntroViews-Flutter
   flutter_masked_text: ^0.8.0
-  passcode_screen: ^1.0.2
+  passcode_screen: 1.0.2  # More time to look into the breaking version 1.1.0 before upgrading
   percent_indicator: ^2.1.1+1
   expandable: ^4.1.2
   flutter_svg: ^0.17.1

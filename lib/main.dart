@@ -75,9 +75,9 @@ main(List<String> args) async {
         }).sendPort,
       );
 
-      runZoned<Future<Null>>(() async {
+      runZonedGuarded<Future<Null>>(() async {
         runApp(SeedsApp());
-      }, onError: (error, stackTrace) async {
+      }, (error, stackTrace) async {
         print('Zone caught an error');
         await _reportError(error, stackTrace);
       });
