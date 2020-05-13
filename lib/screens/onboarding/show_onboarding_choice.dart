@@ -2,7 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/constants/config.dart';
 import 'package:seeds/widgets/main_button.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class ShowOnboardingChoice extends StatelessWidget {
   final Function onInvite;
@@ -58,10 +60,44 @@ class ShowOnboardingChoice extends StatelessWidget {
                     color: Colors.black,
                     fontSize: 14,
                   ),
+                ),
+                TextSpan(
+                  text: '\n\nBy signing up, you agree to our terms and privacy policy',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 13,
+                  ),
                 )
               ],
             ),
-          )
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FlatButton(
+                color: Colors.transparent,
+                child: Text(
+                  'Terms & Conditions',
+                  style: TextStyle(
+                    color: AppColors.blue,
+                    fontSize: 13,
+                  ),
+                ),
+                onPressed: () => UrlLauncher.launch(Config.termsAndConditionsUrl),
+              ),
+              FlatButton(
+                color: Colors.transparent,
+                child: Text(
+                  'Privacy Policy',
+                  style: TextStyle(
+                    color: AppColors.blue,
+                    fontSize: 13,
+                  ),
+                ),
+                onPressed: () => UrlLauncher.launch(Config.privacyPolicyUrl),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -86,4 +122,5 @@ class ShowOnboardingChoice extends StatelessWidget {
       ],
     );
   }
+
 }
