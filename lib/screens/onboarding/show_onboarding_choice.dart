@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
