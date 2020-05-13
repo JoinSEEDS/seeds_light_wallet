@@ -53,8 +53,8 @@ class Onboarding extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: "worksans",
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
               ),
             ),
             showSkipButton: false,
@@ -62,8 +62,8 @@ class Onboarding extends StatelessWidget {
             showBackButton: true,
             pageButtonTextStyles: TextStyle(
               fontFamily: "worksans",
-              fontSize: 18.0,
-              fontWeight: FontWeight.w700,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w600,
             ),
           ),
         );

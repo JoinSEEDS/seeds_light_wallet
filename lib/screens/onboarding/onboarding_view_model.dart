@@ -3,7 +3,7 @@ import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:seeds/constants/app_colors.dart';
 
 class OnboardingViewModel extends PageViewModel {
-  static const defaultBodyTextStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 22, fontFamily: "worksans");
+  static const defaultBodyTextStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20, fontFamily: "worksans");
 
   OnboardingViewModel._({bubble, mainImage, title, Widget body})
       : super(

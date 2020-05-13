@@ -25,8 +25,7 @@ dependencies:
   timeago: ^2.0.26
   url_launcher: ^5.4.5
   cached_network_image: ^2.0.0
-  intro_views_flutter:
-    git: git://github.com/aagarwal1012/IntroViews-Flutter
+  intro_views_flutter: ^2.8.1
   flutter_masked_text: ^0.8.0
   passcode_screen: 1.0.2  # More time to look into the breaking version 1.1.0 before upgrading
   percent_indicator: ^2.1.1+1
