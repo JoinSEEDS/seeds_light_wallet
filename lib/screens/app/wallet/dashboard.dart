@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
@@ -12,6 +13,7 @@ import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
+import 'package:share/share.dart';
 import 'package:shimmer/shimmer.dart';
 
 enum TransactionType { income, outcome }
@@ -32,6 +34,7 @@ class _DashboardState extends State<Dashboard> {
             padding: EdgeInsets.all(17),
             child: Column(
               children: <Widget>[
+                buildNotification(),
                 buildHeader(),
                 buildTransactions(),
               ],
@@ -117,6 +120,75 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
     );
+  }
+
+  Widget buildNotification() {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    final SettingsNotifier settings = SettingsNotifier.of(context);
+    final backupService = Provider.of<BackupService>(context);
+
+    if(backupService.showReminder) {
+      return Consumer<BalanceNotifier>(builder: (context, model, child) {
+        if (model != null && model.balance != null &&
+          model.balance.numericQuantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
+          return Container(
+            width: width,
+            child: MainCard(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.red,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      'Your private key has not been backed up!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          EmptyButton(
+                            width: width * 0.3,
+                            title: 'Backup',
+                            color: Colors.white,
+                            onPressed: () {
+                              backupService.backup();
+                            },
+                          ),
+                          EmptyButton(
+                            width: width * 0.3,
+                            title: 'Later',
+                            color: Colors.white,
+                            onPressed: () {
+                              settings.updateBackupLater();
+                            },
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        } else {
+          return Container();
+        }
+      });
+    } else {
+      return Container();
+    }
   }
 
   void onTransaction({

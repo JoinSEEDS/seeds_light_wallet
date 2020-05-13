@@ -11,10 +11,16 @@ class SettingsNotifier extends ChangeNotifier {
   static const PASSCODE_ACTIVE = "passcode_active";
   static const PASSCODE_ACTIVE_DEFAULT = true;
   static const NODE_ENDPOINT = "nodeEndpoint";
+  static const PRIVATE_KEY_BACKED_UP = "private_key_backed_up";
+  static const BACKUP_LATEST_REMINDER = "backup_latest_reminder";
+  static const BACKUP_REMINDER_COUNT = "backup_reminder_count";
 
   String _privateKey;
   String _passcode;
   bool _passcodeActive;
+  bool _privateKeyBackedUp;
+  int _backupLatestReminder;
+  int _backupReminderCount;
 
   get isInitialized => _preferences != null;
   get accountName => _preferences?.getString(ACCOUNT_NAME);
@@ -22,6 +28,9 @@ class SettingsNotifier extends ChangeNotifier {
   get passcode => _passcode;
   get passcodeActive => _passcodeActive;
   get nodeEndpoint => _preferences?.getString(NODE_ENDPOINT);
+  get privateKeyBackedUp => _privateKeyBackedUp;
+  get backupLatestReminder => _backupLatestReminder;
+  get backupReminderCount => _backupReminderCount;
 
   set nodeEndpoint(String value) => _preferences?.setString(NODE_ENDPOINT, value);
 
@@ -42,10 +51,25 @@ class SettingsNotifier extends ChangeNotifier {
     _passcodeActive = value;
   }
 
+  set privateKeyBackedUp(bool value) {
+    _secureStorage.write(key: PRIVATE_KEY_BACKED_UP, value: value.toString());
+    _privateKeyBackedUp = value;
+  }
+
+  set backupLatestReminder(int value) {
+    _secureStorage.write(key: BACKUP_LATEST_REMINDER, value: value.toString());
+    _backupLatestReminder = value;
+  }
+
+  set backupReminderCount(int value) {
+    _secureStorage.write(key: BACKUP_REMINDER_COUNT, value: value.toString());
+    _backupReminderCount = value;
+  }
+
   SharedPreferences _preferences;
   FlutterSecureStorage _secureStorage;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static SettingsNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<SettingsNotifier>(context, listen: listen);
 
   void init() async {
@@ -68,11 +92,29 @@ class SettingsNotifier extends ChangeNotifier {
         } else {
           _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
         }
+
+        if(values.containsKey(PRIVATE_KEY_BACKED_UP)) {
+          _privateKeyBackedUp = values[PRIVATE_KEY_BACKED_UP] == "true";
+        } else {
+          _privateKeyBackedUp = false;
+        }
+
+        if(values.containsKey(BACKUP_LATEST_REMINDER)) {
+          _backupLatestReminder = int.parse(values[BACKUP_LATEST_REMINDER]);
+        } else {
+          _backupLatestReminder = 0;
+        }
+
+        if(values.containsKey(BACKUP_REMINDER_COUNT)) {
+          _backupReminderCount = int.parse(values[BACKUP_REMINDER_COUNT]);
+        } else {
+          _backupReminderCount = 0;
+        }
       })
       .whenComplete(() => notifyListeners());
   }
 
-  // TODO: @Deprecated("Temporary while people still have the previous app version. Remove after 2020-05-31")
+  // TODO: @Deprecated("Temporary while people still have the previous app version. Remove after 2020-06-31")
   String _migrateFromPrefs(String key) {
     String value = _preferences.get(key);
     if(value != null) {
@@ -108,6 +150,17 @@ class SettingsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void savePrivateKeyBackedUp(bool value) {
+    this.privateKeyBackedUp = value;
+    notifyListeners();
+  }
+
+  void updateBackupLater() {
+    this.backupLatestReminder = DateTime.now().millisecondsSinceEpoch;
+    this.backupReminderCount++;
+    notifyListeners();
+  }
+
   void removeAccount() {
     _preferences?.remove(ACCOUNT_NAME);
     _secureStorage.delete(key: ACCOUNT_NAME);
@@ -119,6 +172,11 @@ class SettingsNotifier extends ChangeNotifier {
     _passcode = null;
     _secureStorage.delete(key: PASSCODE_ACTIVE);
     _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
+    _secureStorage.delete(key: PRIVATE_KEY_BACKED_UP);
+    _secureStorage.delete(key: BACKUP_LATEST_REMINDER);
+    _backupLatestReminder = 0;
+    _secureStorage.delete(key: BACKUP_REMINDER_COUNT);
+    _backupReminderCount = 0;
     notifyListeners();
   }
 
