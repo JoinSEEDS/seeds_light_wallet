@@ -3,9 +3,12 @@ import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:hive/hive.dart';
+import 'package:i18n_extension/i18n_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/biometrics/biometrics_verification.dart';
@@ -52,6 +55,7 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
 main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   var appDir = await getApplicationDocumentsDirectory();
+
   Hive.init(appDir.path);
   Hive.registerAdapter<MemberModel>(MemberAdapter());
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
@@ -85,6 +89,31 @@ main(List<String> args) async {
   });
 }
 
+  GlobalKey<NavigatorState> nState = new GlobalKey<NavigatorState>();
+
+
+class SeedsMaterialApp extends MaterialApp {
+  SeedsMaterialApp({
+      home,
+      navigatorKey,
+      onGenerateRoute
+    }) : super(
+      localizationsDelegates: [            
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+          const Locale('en', "US"), 
+          const Locale('es', "ES"), 
+      ],
+      debugShowCheckedModeBanner: false,
+      home: I18n(child: home),
+      navigatorKey: navigatorKey,
+      onGenerateRoute: onGenerateRoute
+    );
+}
+
 class SeedsApp extends StatefulWidget {
   @override
   _SeedsAppState createState() => _SeedsAppState();
@@ -112,16 +141,14 @@ class MainScreen extends StatelessWidget {
         NavigationService navigationService = NavigationService.of(context);
 
         if (auth.status == AuthStatus.emptyAccount) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
+          return SeedsMaterialApp(
             home: Onboarding(),
             navigatorKey: navigationService.onboardingNavigatorKey,
             onGenerateRoute: navigationService.onGenerateRoute,
           );
         } else if (auth.status == AuthStatus.unlocked) {
           return ToolboxApp(
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
+            child: SeedsMaterialApp(
               home: App(),
               navigatorKey: navigationService.appNavigatorKey,
               onGenerateRoute: navigationService.onGenerateRoute,
@@ -132,18 +159,15 @@ class MainScreen extends StatelessWidget {
             ),
           );
         } else if (auth.status == AuthStatus.emptyPasscode) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
+          return SeedsMaterialApp(
             home: LockWallet(),
           );
         } else if (auth.status == AuthStatus.locked) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
+          return SeedsMaterialApp(
             home: BiometricsVerification(),
           );
         } else {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
+          return SeedsMaterialApp(
             home: SplashScreen(),
           );
         }
