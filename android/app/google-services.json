@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:366914936426:android:389b18d13a862a531a3413",
         "android_client_info": {
-          "package_name": "com.joinseeds.wallet"
+          "package_name": "com.joinseeds.seedswallet"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "366914936426-k4i8n24qb9eu1ug0cqs0rcfvc3pq1fh3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.joinseeds.wallet",
+            "package_name": "com.joinseeds.seedswallet",
             "certificate_hash": "1d4a3d87c78e5d83f8b7c7fb5240f10fe072132f"
           }
         },
