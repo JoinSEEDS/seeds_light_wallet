@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:i18n_extension/i18n_widget.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -47,11 +46,6 @@ class Onboarding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    String localeStr = I18n.localeStr;
-    print('LOCALE: $localeStr');
-I18n.of(context).locale = Locale("es", "ES");
-
     return Builder(
       builder: (context) {
         return Container(

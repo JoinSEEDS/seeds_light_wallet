@@ -6,6 +6,7 @@ import 'package:seeds/features/biometrics/auth_commands.dart';
 import 'package:seeds/features/biometrics/auth_state.dart';
 import 'package:seeds/features/biometrics/auth_type.dart';
 import 'package:seeds/widgets/passcode.dart';
+import 'package:seeds/i18n/biometrics_verification.i18n.dart';
 
 class BiometricsVerification extends StatefulWidget {
 
@@ -28,17 +29,17 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
         if(snapshot.hasData) {
           switch (snapshot.data) {
             case AuthType.nothing:
-              return buildBiometricsView("Biometrics Disabled");
+              return buildBiometricsView("Biometrics Disabled".i18n);
             case AuthType.password:
               return UnlockWallet();
             case AuthType.fingerprint:
             case AuthType.face:
-              return buildBiometricsView("Loading your SEEDS Wallet...");
+              return buildBiometricsView("Loading your SEEDS Wallet...".i18n);
           }
         } else {
           bloc.execute(InitAuthenticationCmd());
         }
-        return buildBiometricsView("Initializing Biometrics");
+        return buildBiometricsView("Initializing Biometrics".i18n);
       }
     );
 
@@ -88,7 +89,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
               ),
             ),
             child: Text(
-              state == AuthState.setupNeeded ? "Enable Settings" : "Try Again",
+              state == AuthState.setupNeeded ? "Enable Settings".i18n : "Try Again".i18n,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
@@ -128,7 +129,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
                 ),
               ),
               child: Text(
-                "Use Passcode",
+                "Use Passcode".i18n,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
