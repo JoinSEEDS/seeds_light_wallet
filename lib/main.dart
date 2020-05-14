@@ -55,7 +55,6 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
 main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   var appDir = await getApplicationDocumentsDirectory();
-
   Hive.init(appDir.path);
   Hive.registerAdapter<MemberModel>(MemberAdapter());
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
@@ -88,9 +87,6 @@ main(List<String> args) async {
     }
   });
 }
-
-  GlobalKey<NavigatorState> nState = new GlobalKey<NavigatorState>();
-
 
 class SeedsMaterialApp extends MaterialApp {
   SeedsMaterialApp({
