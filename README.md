@@ -16,3 +16,10 @@ cd flutter_seeds_wallet
 flutter pub get
 flutter run
 ```
+
+## Dev configuration
+
+Use the projects git hooks
+```
+git config core.hooksPath .githooks/
+```
