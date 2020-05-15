@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>366914936426-daqh0o5pqqqb58tt71b3ms1lm0p82hge.apps.googleusercontent.com</string>
+	<string>366914936426-eop45t8oepqu48v4fsp8frgqo0h0fmqd.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.366914936426-daqh0o5pqqqb58tt71b3ms1lm0p82hge</string>
+	<string>com.googleusercontent.apps.366914936426-eop45t8oepqu48v4fsp8frgqo0h0fmqd</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>366914936426-k4i8n24qb9eu1ug0cqs0rcfvc3pq1fh3.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCl7WOc4uKnUqlvCilb9Zt9IkBU9ib_Tn8</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.joinseeds.seedswallet</string>
+	<string>com.joinseeds.seedslight</string>
 	<key>PROJECT_ID</key>
 	<string>seeds-77371</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:366914936426:ios:e192d038cc0169b91a3413</string>
+	<string>1:366914936426:ios:75e7ba91678551811a3413</string>
 	<key>DATABASE_URL</key>
 	<string>https://seeds-77371.firebaseio.com</string>
 </dict>
