@@ -306,7 +306,7 @@ class EosService {
             ..actor = accountName
             ..permission = "active"
         ]
-        ..data = {"user": accountName, "id": id, "amount": amount.abs()}
+        ..data = {"voter": accountName, "id": id, "amount": amount.abs()}
     ]);
 
     return client.pushTransaction(transaction, broadcast: true);
