@@ -1,4 +1,4 @@
-package com.joinseeds.wallet
+package com.joinseeds.seedswallet
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterFragmentActivity

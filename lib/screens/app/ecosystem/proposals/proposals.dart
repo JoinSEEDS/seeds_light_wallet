@@ -15,6 +15,7 @@ class ProposalsState extends State<Proposals> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: proposalTypes.length,
+      initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
