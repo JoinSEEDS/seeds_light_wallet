@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+flutter analyze
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+flutter test
+if [ $? -ne 0 ]; then
+  exit 1
+fi
