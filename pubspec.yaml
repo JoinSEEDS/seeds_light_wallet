@@ -53,6 +53,9 @@ dependencies:
   hive: ^1.4.1+1
   hive_flutter: ^0.2.1
   rxdart: ^0.24.0
+  firebase_auth_mocks:
+    git: git@github.com:atn832/firebase_auth_mocks.git
+
 
 dev_dependencies:
   flutter_test:
