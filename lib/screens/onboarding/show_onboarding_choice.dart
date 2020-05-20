@@ -52,7 +52,7 @@ class ShowOnboardingChoice extends StatelessWidget {
                   text: seedsUrl,
                   style: TextStyle(fontSize: 14, color: AppColors.blue),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () => launchExternal('https://www.joinseeds.com/letmein'),
+                    ..onTap = () => launchExternal('https://www.joinseeds.com/letmein?client=seedslight'),
                 ),
                 TextSpan(
                   text: '\n\nMembership based on Web of Trust',
