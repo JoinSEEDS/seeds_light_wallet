@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
 class AtmSeller extends StatelessWidget {

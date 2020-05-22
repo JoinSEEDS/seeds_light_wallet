@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
@@ -22,11 +20,6 @@ class _Atm extends State<Atm> {
   final plantController = TextEditingController(text: '1');
 
   bool transactionSubmitted = false;
-
-  final StreamController<bool> _statusNotifier =
-      StreamController<bool>.broadcast();
-  final StreamController<String> _messageNotifier =
-      StreamController<String>.broadcast();
 
   @override
   Widget build(BuildContext context) {

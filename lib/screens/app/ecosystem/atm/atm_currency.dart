@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 
 class AtmCurrency extends StatelessWidget {
@@ -13,9 +11,6 @@ class AtmCurrency extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final relativePadding = width * 0.05;
-
     return Container(
       width: double.maxFinite,
       margin: EdgeInsets.only(top: 8, bottom: 8),
@@ -51,6 +46,7 @@ class AtmCurrency extends StatelessWidget {
           SizedBox(
             width: 200,
             child: MainTextField(
+              labelText: "to do",
               keyboardType: TextInputType.number,
               controller: null,
               suffixIcon: Image.asset(
