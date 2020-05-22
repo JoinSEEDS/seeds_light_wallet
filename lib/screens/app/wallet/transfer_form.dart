@@ -82,6 +82,7 @@ class _TransferFormState extends State<TransferForm>
 
   void onSend() {
     if (_formKey.currentState.validate()) {
+      FocusScope.of(context).unfocus();
       processTransaction();
     }
   }
@@ -211,7 +212,7 @@ class _TransferFormState extends State<TransferForm>
                   buildBalance(balance),
                   MainTextField(
                     keyboardType:
-                        TextInputType.numberWithOptions(signed: false),
+                        TextInputType.numberWithOptions(signed: false, decimal: true),
                     controller: controller,
                     labelText: 'Transfer amount',
                     endText: 'SEEDS',

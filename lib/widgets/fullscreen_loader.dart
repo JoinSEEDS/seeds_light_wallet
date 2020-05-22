@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/generated/r.dart';
 
 import 'main_button.dart';
 
@@ -138,7 +139,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                     scale: scale,
                     child: RotationTransition(
                       child: Image.asset(
-                        'assets/images/launcher_icon.png',
+                        R.appIcon,
                         width: 100,
                         height: 100,
                       ),

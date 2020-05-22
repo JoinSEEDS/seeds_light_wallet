@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/app/explorer/atm/atm.dart';
-import 'package:seeds/screens/app/explorer/exchange/buy_seeds.dart';
-import 'package:seeds/screens/app/explorer/harvest/plant_seeds.dart';
-import 'package:seeds/screens/app/explorer/invites/create_invite.dart';
-import 'package:seeds/screens/app/explorer/invites/invites.dart';
-import 'package:seeds/screens/app/explorer/overview.dart';
-import 'package:seeds/screens/app/explorer/proposals/proposal_details.dart';
-import 'package:seeds/screens/app/explorer/proposals/proposals.dart';
+import 'package:seeds/screens/app/ecosystem/exchange/buy_seeds.dart';
+import 'package:seeds/screens/app/ecosystem/harvest/plant_seeds.dart';
+import 'package:seeds/screens/app/ecosystem/invites/create_invite.dart';
+import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
+import 'package:seeds/screens/app/ecosystem/overview.dart';
+import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
+import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
@@ -56,7 +56,7 @@ class NavigationService {
   final GlobalKey<NavigatorState> walletNavigatorKey =
       new GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> explorerNavigatorKey =
+  final GlobalKey<NavigatorState> ecosystemNavigatorKey =
       new GlobalKey<NavigatorState>();
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
@@ -92,7 +92,7 @@ class NavigationService {
     Routes.atm: (_) => Atm(),
   };
 
-  final explorerRoutes = {
+  final ecosystemRoutes = {
     Routes.overview: (_) => Overview(),
   };
 
@@ -116,8 +116,8 @@ class NavigationService {
       navigatorKey = appNavigatorKey;
     } else if (walletRoutes[routeName] != null) {
       navigatorKey = walletNavigatorKey;
-    } else if (explorerRoutes[routeName] != null) {
-      navigatorKey = explorerNavigatorKey;
+    } else if (ecosystemRoutes[routeName] != null) {
+      navigatorKey = ecosystemNavigatorKey;
     } else if (onboardingRoutes[routeName] != null) {
       navigatorKey = onboardingNavigatorKey;
     }
@@ -147,9 +147,9 @@ class NavigationService {
       return MaterialPageRoute(
         builder: (context) => onboardingRoutes[routeName](arguments),
       );
-    } else if (explorerRoutes[routeName] != null) {
+    } else if (ecosystemRoutes[routeName] != null) {
       return MaterialPageRoute(
-        builder: (_) => explorerRoutes[routeName](arguments),
+        builder: (_) => ecosystemRoutes[routeName](arguments),
       );
     } else if (walletRoutes[routeName] != null) {
       return MaterialPageRoute(

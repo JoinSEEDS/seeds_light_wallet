@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
+import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/second_button.dart';
-import 'package:share/share.dart';
 
 class Logout extends StatefulWidget {
   @override
@@ -23,6 +24,8 @@ class _LogoutState extends State<Logout> {
 
   @override
   Widget build(BuildContext context) {
+    final backupService = Provider.of<BackupService>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -74,7 +77,7 @@ class _LogoutState extends State<Logout> {
                     setState(() {
                       privateKeySaved = true;
                     });
-                    Share.share(SettingsNotifier.of(context).privateKey);
+                    backupService.backup();
                   },
                 ),
                 if (privateKeySaved == true)

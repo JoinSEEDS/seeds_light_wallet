@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/app/explorer/explorer.dart';
+import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 
@@ -29,9 +29,9 @@ bool connected = true;
 class _AppState extends State<App> {
   final navigationTabs = [
     NavigationTab(
-      title: "Explorer",
-      icon: 'assets/images/explorer.svg',
-      screenBuilder: () => Explorer(),
+      title: "Ecosystem",
+      icon: 'assets/images/ecosystem.svg',
+      screenBuilder: () => Ecosystem(),
       index: 0,
     ),
     NavigationTab(
@@ -63,7 +63,7 @@ class _AppState extends State<App> {
       int pageIndex;
 
       switch (page) {
-        case "Explorer":
+        case "Ecosystem":
           pageIndex = 0;
           break;
         case "Wallet":
@@ -168,7 +168,7 @@ class _AppState extends State<App> {
       onTap: (index) {
         switch (index) {
           case 0:
-            changePageNotifier.add("Explorer");
+            changePageNotifier.add("Ecosystem");
             break;
           case 1:
             changePageNotifier.add("Wallet");

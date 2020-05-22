@@ -19,7 +19,6 @@ class AppColors {
   static const purple = Color(0xFF5719FF);
 
   static const lightBlue = Color.fromRGBO(61, 179, 158, 1);
-  static const darkBlue = Color.fromRGBO(61, 179, 158, 1);
   static const lightGrey19 = Color.fromRGBO(61, 179, 158, 1);
   static const lightGrey = Color.fromRGBO(242, 242, 242, 1);
   static const black50 = Color.fromRGBO(0, 0, 0, 0.5);
@@ -32,11 +31,11 @@ class AppColors {
   static const green = Color(0xFF59B293);
   static const grey = Color(0xFF6C6C6C);
 
-  static const blue = Color(0xFF52AFCC);
+  static const blue = Color(0xFF3A8BA8);
   static const orange = Color(0xFFFF9900);
   static const red = Color(0xFFEB5757);
   static const borderGrey = Color(0xFFEBEBEB);
-  static const gradient = [green, blue];
+  static const gradient = [blue, blue];
 
   static Color getColorByString(String str) {
     int hash = 0;

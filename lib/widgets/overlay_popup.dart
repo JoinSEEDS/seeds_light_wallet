@@ -31,7 +31,7 @@ class _OverlayPopupState extends State<OverlayPopup> {
               stops: [0.0, 1.32],
               colors: AppColors.gradient)),
       child: Image(
-        image: AssetImage('assets/images/logo_title.png'),
+        image: AssetImage('assets/images/logo_title_white.png'),
       ),
     );
   }

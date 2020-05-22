@@ -108,8 +108,9 @@ class TransactionModel {
 
 class BalanceModel {
   final String quantity;
+  final double numericQuantity;
 
-  BalanceModel(this.quantity);
+  BalanceModel(this.quantity) : numericQuantity = _parseQuantityString(quantity);
 
   factory BalanceModel.fromJson(List<dynamic> json) {
     if (json != null && json.isNotEmpty) {
@@ -117,6 +118,13 @@ class BalanceModel {
     } else {
       return BalanceModel("0.0000 SEEDS");
     }
+  }
+
+  static double _parseQuantityString(String quantityString) {
+    if(quantityString == null) {
+      return 0;
+    }
+    return double.parse(quantityString.split(" ")[0]);
   }
 
   @override
@@ -398,7 +406,20 @@ class ProposalModel {
 }
 
 const proposalTypes = {
-  'Drafts': 'staged',
-  'Active': 'active',
-  'Finished': 'done',
+  'Staged': {
+    'stage': 'staged',
+    'status': 'open'
+  },
+  'Open': {
+    'stage': 'active',
+    'status': 'open'
+  },
+  'Passed': {
+    'stage': 'done',
+    'status': 'passed'
+  },
+  'Failed': {
+    'stage': 'done',
+    'status': 'rejected'
+  },
 };
