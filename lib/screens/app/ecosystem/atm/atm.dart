@@ -1,26 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/notifiers/transactions_notifier.dart';
-import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/screens/app/explorer/atm/atm_currency.dart';
-import 'package:seeds/screens/app/explorer/atm/atm_offer.dart';
-import 'package:seeds/screens/app/explorer/atm/atm_seller.dart';
+import 'package:seeds/screens/app/ecosystem/atm/atm_offer.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
-import 'package:seeds/widgets/available_balance.dart';
-import 'package:seeds/widgets/fullscreen_loader.dart';
-import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
-import 'package:seeds/widgets/main_text_field.dart';
-import 'package:seeds/widgets/telos_balance.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
-import 'package:seeds/widgets/transaction_details.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Atm extends StatefulWidget {

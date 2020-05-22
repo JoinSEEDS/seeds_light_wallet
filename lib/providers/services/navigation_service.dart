@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
-import 'package:seeds/screens/app/explorer/atm/atm.dart';
+import 'package:seeds/screens/app/ecosystem/atm/atm.dart';
 import 'package:seeds/screens/app/ecosystem/exchange/buy_seeds.dart';
 import 'package:seeds/screens/app/ecosystem/harvest/plant_seeds.dart';
 import 'package:seeds/screens/app/ecosystem/invites/create_invite.dart';

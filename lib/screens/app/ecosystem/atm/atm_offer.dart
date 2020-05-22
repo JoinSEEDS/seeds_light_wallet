@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/screens/app/explorer/atm/atm_currency.dart';
+import 'package:seeds/screens/app/ecosystem/atm/atm_currency.dart';
 import 'package:seeds/widgets/empty_button.dart';
-import 'package:seeds/widgets/main_text_field.dart';
 
 class AtmOffer extends StatelessWidget {
   
