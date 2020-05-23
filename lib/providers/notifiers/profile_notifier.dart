@@ -15,10 +15,11 @@ class ProfileNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  Future fetchProfile() {
+  Future<ProfileModel> fetchProfile() {
     return _http.getProfile().then((result) {
       profile = result;
       notifyListeners();
+      return result;
     });
   }
 }

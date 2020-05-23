@@ -18,8 +18,8 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:share/share.dart';
-import 'package:uuid/uuid.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:uuid/uuid.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -33,14 +33,18 @@ class _ProfileState extends State<Profile> {
 
   @override
   initState() {
+    var cachedProfile = ProfileNotifier.of(context).profile;
+    if (cachedProfile != null) _nameController.text = cachedProfile.nickname;
+
     Future.delayed(Duration.zero).then((_) {
-      ProfileNotifier.of(context).fetchProfile().then((_) {
-        _nameController.text =
-            ProfileNotifier.of(context)?.profile?.nickname ?? '';
+      ProfileNotifier.of(context).fetchProfile().then((profile) {
+        _nameController.text = profile.nickname;
       });
     });
     super.initState();
   }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +91,7 @@ class _ProfileState extends State<Profile> {
                                       )
                                     : CachedNetworkImage(
                                         imageUrl: model?.profile?.image ?? '',
+                                        fit: BoxFit.cover,
                                         errorWidget: (context, url, error) {
                                           return Container(
                                             color: AppColors.getColorByString(
@@ -150,21 +155,32 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0),
-                child: MainTextField(
-                  labelText: "Full Name",
-                  hintText: 'Your Name',
-                  controller: _nameController,
-                ),
-              ),
+                  padding:
+                      const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0),
+                  child: Form(
+                    key: _formKey,
+                    child: MainTextField(
+                        labelText: "Full Name",
+                        hintText: 'Your Name',
+                        controller: _nameController,
+                        validator: (String val) {
+                          String error;
+                          if (val.isEmpty) {
+                            error = "Name must not be empty";
+                          }
+                          return error;
+                        }),
+                  )),
               Padding(
                 padding:
                     const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0),
                 child: MainButton(
                   key: savingLoader,
                   title: 'Save',
-                  onPressed: () => _saveProfile(model.profile),
+                  onPressed: () => {
+                    if (_formKey.currentState.validate())
+                      {_saveProfile(model.profile)}
+                  },
                 ),
               ),
               Padding(
@@ -175,7 +191,8 @@ class _ProfileState extends State<Profile> {
                     'Terms & Conditions',
                     style: TextStyle(color: Colors.blue),
                   ),
-                  onPressed: () => UrlLauncher.launch(Config.termsAndConditionsUrl),
+                  onPressed: () =>
+                      UrlLauncher.launch(Config.termsAndConditionsUrl),
                 ),
               ),
               FlatButton(
@@ -193,7 +210,7 @@ class _ProfileState extends State<Profile> {
                   style: TextStyle(color: Colors.red),
                 ),
                 onPressed: () =>
-                  Share.share(SettingsNotifier.of(context).privateKey),
+                    Share.share(SettingsNotifier.of(context).privateKey),
               ),
               FlatButton(
                 color: Colors.white,
@@ -214,7 +231,7 @@ class _ProfileState extends State<Profile> {
   void _editProfilePicBottomSheet(BuildContext context) {
     Map<String, IconData> _items = {
       'Choose from Gallery': Icons.image,
-      'Click a picture': Icons.camera_alt,
+      'Take a picture': Icons.camera_alt,
     };
     showModalBottomSheet(
       context: context,
@@ -254,6 +271,7 @@ class _ProfileState extends State<Profile> {
 
   Future _getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (image == null) return;
     var croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
       aspectRatioPresets: [
@@ -267,6 +285,7 @@ class _ProfileState extends State<Profile> {
 
   Future _getImageFromCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    if (image == null) return;
     var croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
       aspectRatioPresets: [
@@ -285,8 +304,7 @@ class _ProfileState extends State<Profile> {
       attachmentUrl = await _uploadFile(profile);
     }
     try {
-      var transaction =
-          await Provider.of<EosService>(context, listen: false).updateProfile(
+      await Provider.of<EosService>(context, listen: false).updateProfile(
         nickname: (_nameController.text == null || _nameController.text.isEmpty)
             ? (profile.nickname ?? '')
             : _nameController.text,
@@ -309,7 +327,7 @@ class _ProfileState extends State<Profile> {
             ),
             Expanded(
               child: Text(
-                'Profile updated successfully. ${transaction["transaction_id"]}',
+                'Profile updated successfully.',
                 maxLines: null,
               ),
             ),
@@ -331,7 +349,7 @@ class _ProfileState extends State<Profile> {
             ),
             Expanded(
               child: Text(
-                'Error occured!! Please try again.',
+                'An error occured, please try again.',
                 maxLines: null,
               ),
             ),
