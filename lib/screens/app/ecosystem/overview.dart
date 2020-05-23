@@ -155,7 +155,7 @@ class _OverviewState extends State<Overview> {
                   'Tap to participate',
                   'assets/images/governance.svg',
                   'Trust Tokens',
-                  model?.balance?.amount.toString(),
+                  (model?.balance?.amount != null) ? model?.balance?.amount.toString() : "-",
                   onVote,
                 ),),
                 Consumer<BalanceNotifier>(builder: (ctx, model, _) => buildCategory(
