@@ -34,8 +34,7 @@ class _ProfileState extends State<Profile> {
   @override
   initState() {
     var cachedProfile = ProfileNotifier.of(context).profile;
-    if (cachedProfile != null)
-      _nameController.text = cachedProfile.nickname;
+    if (cachedProfile != null) _nameController.text = cachedProfile.nickname;
 
     Future.delayed(Duration.zero).then((_) {
       ProfileNotifier.of(context).fetchProfile().then((profile) {
@@ -285,7 +284,7 @@ class _ProfileState extends State<Profile> {
 
   Future _getImageFromCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    if (image ==  null) return;
+    if (image == null) return;
     var croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
       aspectRatioPresets: [
@@ -304,8 +303,7 @@ class _ProfileState extends State<Profile> {
       attachmentUrl = await _uploadFile(profile);
     }
     try {
-      var transaction =
-          await Provider.of<EosService>(context, listen: false).updateProfile(
+      await Provider.of<EosService>(context, listen: false).updateProfile(
         nickname: (_nameController.text == null || _nameController.text.isEmpty)
             ? (profile.nickname ?? '')
             : _nameController.text,
