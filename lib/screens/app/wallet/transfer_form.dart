@@ -108,7 +108,7 @@ class _TransferFormState extends State<TransferForm>
                     ),
                     child: Hero(
                       child:
-                          CachedNetworkImage(imageUrl: widget.arguments.avatar),
+                          CachedNetworkImage(imageUrl: widget.arguments.avatar, fit: BoxFit.cover),
                       tag: "avatar#${widget.arguments.accountName}",
                     ),
                   )

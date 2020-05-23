@@ -91,6 +91,7 @@ class _ProfileState extends State<Profile> {
                                       )
                                     : CachedNetworkImage(
                                         imageUrl: model?.profile?.image ?? '',
+                                        fit: BoxFit.cover,
                                         errorWidget: (context, url, error) {
                                           return Container(
                                             color: AppColors.getColorByString(

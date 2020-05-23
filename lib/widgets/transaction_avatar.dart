@@ -26,7 +26,7 @@ class TransactionAvatar extends StatelessWidget {
           child: Container(
             width: size,
             height: size,
-            child: CachedNetworkImage(imageUrl: image),
+            child: CachedNetworkImage(imageUrl: image,fit: BoxFit.cover),
             decoration: decoration,
           ));
     } else if (image.endsWith('.svg')) {
