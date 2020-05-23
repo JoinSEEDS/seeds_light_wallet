@@ -158,7 +158,6 @@ class _OverviewState extends State<Overview> {
                   model?.balance?.amount.toString(),
                   onVote,
                 ),),
-                Divider(),
                 Consumer<BalanceNotifier>(builder: (ctx, model, _) => buildCategory(
                   'Community - Invite',
                   'Tap to send an invite',
@@ -167,7 +166,6 @@ class _OverviewState extends State<Overview> {
                   model?.balance?.quantity?.seedsFormatted,
                   onInvite,
                 ),),
-                Divider(),
                 Consumer<PlantedNotifier>(builder: (ctx, model, _) => buildCategory(
                   'Harvest - Plant',
                   'Tap to plant Seeds',
