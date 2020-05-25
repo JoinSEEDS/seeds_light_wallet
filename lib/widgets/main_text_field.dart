@@ -12,6 +12,7 @@ class MainTextField extends StatelessWidget {
   final Function validator;
   final Function(String) onChanged;
   final FocusNode focusNode;
+  final bool autofocus;
 
   MainTextField({
     this.controller,
@@ -24,6 +25,7 @@ class MainTextField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.focusNode,
+    this.autofocus,
   });
 
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class MainTextField extends StatelessWidget {
                 maxLength: maxLength,
                 validator: validator,
                 onChanged: (value) => onChanged(value),
+                autofocus: autofocus != null ? autofocus : false,
                 focusNode: focusNode,
                 decoration: InputDecoration(
                   filled: true,
