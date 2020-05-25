@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:ui';
 
@@ -74,8 +75,24 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
 
   void _messageListener(String resultMessage) {
     setState(() {
-      message = resultMessage;
+      if (showFailure)
+        message = buildErrorMessage(resultMessage);
+      else
+        message = resultMessage;
     });
+  }
+
+  String buildErrorMessage(String resultMessage) {
+    var parsedError = json.decode(resultMessage);
+    if (parsedError != null) {
+      var errors = parsedError['error']['details'] as List;
+      for (var err in errors) {
+        var errorMessage = err['message'];
+        var friendlyMessageFound = false;
+        if (friendlyMessageFound) return errorMessage;
+      }
+    }
+    return "Unexpected error. Please try again with a different value.";
   }
 
   void _statusListener(status) async {
