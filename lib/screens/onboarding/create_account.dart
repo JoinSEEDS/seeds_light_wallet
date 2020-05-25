@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
+import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
@@ -47,18 +48,8 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 
   String _validateAccountName(String val) {
-    if (val.length != 12) {
-      return 'Your account name should have exactly 12 symbols';
-    } else if (RegExp(r'0|6|7|8|9').allMatches(val).length > 0) {
-      return 'Your account name should only contain number 1-5';
-    } else if (val.toLowerCase() != val) {
-      return "Your account name can't cont'n uppercase letters";
-    } else if (RegExp(r'[a-z]|1|2|3|4|5').allMatches(val).length != 12) {
-      return 'Your account name should only contain number 1-5';
-    } else if (RegExp(r'[a-z]').allMatches(val[0]).length == 0) {
-      return 'Your account name should lower case letter';
-    }
-    return null;
+    final result = AccountGeneratorService.validate(val);
+    return result.valid ? null : result.message;
   }
 
   List<Widget> createSuggestions() {
