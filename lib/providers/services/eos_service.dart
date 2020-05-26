@@ -199,7 +199,7 @@ class EosService {
     List<Action> actions = [
       Action()
         ..account = 'join.seeds'
-        ..name = 'acceptnew'
+        ..name = 'accept'
         ..authorization = auth
         ..data = data,
     ];
