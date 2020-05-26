@@ -191,7 +191,7 @@ class _TransferFormState extends State<TransferForm>
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.close, color: Colors.black),
+              icon: Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => Navigator.of(context).pop(),
             ),
             backgroundColor: Colors.transparent,
