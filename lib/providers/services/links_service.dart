@@ -54,7 +54,7 @@ class LinksService {
         packageName: "com.joinseeds.seedswallet",
       ),
       iosParameters: IosParameters(
-        bundleId: "com.joinseeds.seedswallet",
+        bundleId: "com.joinseeds.seedslight",
         appStoreId: "1492883192",
       ),
       uriPrefix: 'https://seedswallet.page.link',
