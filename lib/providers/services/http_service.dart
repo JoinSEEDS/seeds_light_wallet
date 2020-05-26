@@ -482,7 +482,7 @@ class HttpService {
   }
 
   /// returns true if the account name doesn't exist
-  Future<bool> checkAccountName(String accountName) async {
+  Future<bool> isAccountNameAvailable(String accountName) async {
     if (mockResponse == true) return true;
 
     final String keyAccountsURL =

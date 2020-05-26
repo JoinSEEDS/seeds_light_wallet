@@ -53,56 +53,9 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 
   List<Widget> createSuggestions() {
-    final suggestions = List<String>();
-
-    String suggestion = _accountName.isNotEmpty ? _accountName : _name;
-
-    // remove uppercase
-    if (suggestion.toLowerCase() != suggestion) {
-      suggestion = suggestion.toLowerCase();
-    }
-
-    // replace 0|6|7|8|9 with 1
-    if (RegExp(r'0|6|7|8|9').allMatches(suggestion).length > 0) {
-      suggestion = suggestion.replaceAll(RegExp(r'0|6|7|8|9'), '');
-    }
-
-    // remove characters out of the accepted range
-    suggestion = suggestion.split('').map((char) {
-      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(char).length > 0;
-
-      return legalChar ? char.toString() : '';
-    }).join();
-
-    // remove the first char if it was a number
-    if (suggestion?.isNotEmpty == true) {
-      final illegalChar =
-          RegExp(r'[a-z]').allMatches(suggestion[0]).length == 0;
-
-      if (illegalChar) suggestion = suggestion.substring(1);
-    }
-
-    // add the missing characters.
-    if (suggestion.length < 12) {
-      final missingCharsCount = 12 - suggestion.length;
-
-      final missingChars = (suggestion.hashCode.toString() * 2)
-          .split('')
-          .map((char) => int.parse(char).clamp(1, 5))
-          .take(missingCharsCount)
-          .join();
-
-      suggestion = suggestion + missingChars;
-    }
-
-    // remove the additional characters
-    if (suggestion.length > 12) {
-      suggestion = suggestion.substring(0, 12);
-    }
-
-    suggestions.add(suggestion);
-
-    return suggestions.map(buildSuggestionWidget).toList();
+    String input = _accountName.isNotEmpty ? _accountName : _name;
+    String suggestion = AccountGeneratorService.generate(input);
+    return [buildSuggestionWidget(suggestion)];
   }
 
   FutureLoadingBuilder<String> buildSuggestionWidget(String suggestion) {
@@ -138,7 +91,7 @@ class _CreateAccountState extends State<CreateAccount> {
     int triedIndex = 0,
   }) async {
     final isAvailable = await HttpService.of(context, listen: false)
-        .checkAccountName(suggestion);
+        .isAccountNameAvailable(suggestion);
     if (isAvailable) {
       return suggestion;
     } else {
