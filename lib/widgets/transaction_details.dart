@@ -19,24 +19,20 @@ class TransactionDetails extends StatelessWidget {
           height: width * 0.22,
           child: image,
         ),
-        Material(
-          child: Container(
-            margin: EdgeInsets.only(top: 10, left: 20, right: 20),
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
+        Container(
+          margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
         ),
-        Material(
-          child: Container(
-            margin: EdgeInsets.only(top: 5, left: 20, right: 20),
-            child: Text(
-              beneficiary,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: AppColors.grey),
-            ),
+        Container(
+          margin: EdgeInsets.only(top: 5, left: 20, right: 20),
+          child: Text(
+            beneficiary,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14, color: AppColors.grey),
           ),
         ),
       ],

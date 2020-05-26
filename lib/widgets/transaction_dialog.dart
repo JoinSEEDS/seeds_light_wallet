@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
@@ -33,7 +34,9 @@ class TransactionDialogState extends State<TransactionDialog> {
 
   Widget buildHeader() {
     final width = MediaQuery.of(context).size.width;
-    final time = DateTime.tryParse(widget.transaction.timestamp).toString();
+
+    var df = DateFormat("EEE dd MMM y kk:mm:ss");
+    final time = df.format(DateTime.tryParse(widget.transaction.timestamp));
 
     return Stack(children: [
       Container(
@@ -54,7 +57,7 @@ class TransactionDialogState extends State<TransactionDialog> {
       ),
       Container(
         margin: EdgeInsets.only(top: 35), //width * 0.1),
-        width: width,
+        alignment: Alignment.center,
         child: TransactionAvatar(
           size: 70,
           image: widget.member.image,
@@ -63,7 +66,6 @@ class TransactionDialogState extends State<TransactionDialog> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: AppColors.blue,
-            border: Border.all(color: Colors.white, width: 5),
           ),
         ),
       ),
@@ -75,8 +77,10 @@ class TransactionDialogState extends State<TransactionDialog> {
         onTap: onTap,
         child: Column(children: [
           Container(
-            width: 65, //width * 0.13,
-            height: 65, //width * 0.13,
+            width: 65,
+            //width * 0.13,
+            height: 65,
+            //width * 0.13,
             margin: EdgeInsets.only(bottom: 5),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -143,7 +147,7 @@ class TransactionDialogState extends State<TransactionDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            buildButton('Share receipt', 'assets/images/share.svg', onShare),
+            buildButton('', 'assets/images/share.svg', onShare),
           ],
         ),
         Padding(padding: EdgeInsets.only())

@@ -10,7 +10,7 @@ class TransactionAvatar extends StatelessWidget {
   final BoxDecoration decoration;
 
   TransactionAvatar(
-      {this.image, this.nickname, this.account, this.size, this.decoration });
+      {this.image, this.nickname, this.account, this.size, this.decoration});
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +26,20 @@ class TransactionAvatar extends StatelessWidget {
           child: Container(
             width: size,
             height: size,
-            child: CachedNetworkImage(imageUrl: image,fit: BoxFit.cover),
+            child: CachedNetworkImage(imageUrl: image, fit: BoxFit.cover),
             decoration: decoration,
           ));
     } else if (image.endsWith('.svg')) {
-      return Container(
-        width: size,
-        height: size,
-        child: SvgPicture.asset(image),
-        decoration: decoration != null ? decoration.copyWith(color: Colors.white) : null,
-      );
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(40),
+          child: Container(
+            width: size,
+            height: size,
+            child: SvgPicture.asset(image, fit: BoxFit.scaleDown),
+            decoration: decoration != null
+                ? decoration.copyWith(color: Colors.white)
+                : null,
+          ));
     } else {
       String shortName = nickname.isNotEmpty &&
               nickname != "Seeds Account" &&

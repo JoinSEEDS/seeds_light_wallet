@@ -78,7 +78,7 @@ class _TransferFormState extends State<TransferForm>
     );
   }
 
-  final controller = TextEditingController(text: '0.00');
+  final controller = TextEditingController(text: '');
 
   void onSend() {
     if (_formKey.currentState.validate()) {
@@ -107,8 +107,8 @@ class _TransferFormState extends State<TransferForm>
                       ),
                     ),
                     child: Hero(
-                      child:
-                          CachedNetworkImage(imageUrl: widget.arguments.avatar, fit: BoxFit.cover),
+                      child: CachedNetworkImage(
+                          imageUrl: widget.arguments.avatar, fit: BoxFit.cover),
                       tag: "avatar#${widget.arguments.accountName}",
                     ),
                   )
@@ -126,27 +126,23 @@ class _TransferFormState extends State<TransferForm>
         ),
         Hero(
           tag: "nickname#${widget.arguments.fullName}",
-          child: Material(
-            child: Container(
-              margin: EdgeInsets.only(top: 10, left: 20, right: 20),
-              child: Text(
-                widget.arguments.fullName,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              ),
+          child: Container(
+            margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+            child: Text(
+              widget.arguments.fullName,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
           ),
         ),
         Hero(
           tag: "account#${widget.arguments.fullName}",
-          child: Material(
-            child: Container(
-              margin: EdgeInsets.only(top: 5, left: 20, right: 20),
-              child: Text(
-                widget.arguments.accountName,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: AppColors.grey),
-              ),
+          child: Container(
+            margin: EdgeInsets.only(top: 5, left: 20, right: 20),
+            child: Text(
+              widget.arguments.accountName,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: AppColors.grey),
             ),
           ),
         ),
@@ -211,11 +207,12 @@ class _TransferFormState extends State<TransferForm>
                   buildProfile(),
                   buildBalance(balance),
                   MainTextField(
-                    keyboardType:
-                        TextInputType.numberWithOptions(signed: false, decimal: true),
+                    keyboardType: TextInputType.numberWithOptions(
+                        signed: false, decimal: true),
                     controller: controller,
                     labelText: 'Transfer amount',
                     endText: 'SEEDS',
+                    autofocus: true,
                     validator: (val) {
                       String error;
                       double availableBalance =

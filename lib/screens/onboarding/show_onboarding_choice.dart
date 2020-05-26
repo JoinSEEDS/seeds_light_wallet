@@ -52,7 +52,7 @@ class ShowOnboardingChoice extends StatelessWidget {
                   text: seedsUrl,
                   style: TextStyle(fontSize: 14, color: AppColors.blue),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () => launchExternal('https://www.joinseeds.com/letmein?client=seedslight'),
+                    ..onTap = () => safeLaunch('https://www.joinseeds.com/letmein?client=seedslight'),
                 ),
                 TextSpan(
                   text: '\n\nMembership based on Web of Trust',
@@ -122,14 +122,5 @@ class ShowOnboardingChoice extends StatelessWidget {
       ],
     );
   }
-
-Future<void> launchExternal(String urlString) async {
-  if (await UrlLauncher.canLaunch(urlString)) {
-    await UrlLauncher.launch(urlString, forceSafariVC: false, forceWebView: false);
-  } else {
-    errorToast("Couldn't open url");
-  }
-}
-
 
 }
