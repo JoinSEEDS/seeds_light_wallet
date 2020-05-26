@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/generated/r.dart';
+import 'package:seeds/i18n/fullscreen_loader.i18n.dart';
+import 'package:seeds/utils/error_builder.dart';
 
 import 'main_button.dart';
 
@@ -74,7 +76,10 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
 
   void _messageListener(String resultMessage) {
     setState(() {
-      message = resultMessage;
+      if (showFailure)
+        message = ErrorBuilder.getErrorMessageKey(resultMessage);
+      else
+        message = resultMessage;
     });
   }
 
@@ -192,7 +197,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                         margin: EdgeInsets.only(left: 10, right: 10),
                         padding: EdgeInsets.all(15),
                         child: Text(
-                          message,
+                          (showFailure == true) ? message.i18n : message,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
