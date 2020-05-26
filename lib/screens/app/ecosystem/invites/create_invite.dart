@@ -166,6 +166,9 @@ class _ShareScreenState extends State<ShareScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Column(
+              children: <Widget>[],
+            ),
+            Column(
               children: <Widget>[
                 Container(
                   alignment: Alignment.center,
@@ -189,43 +192,13 @@ class _ShareScreenState extends State<ShareScreen> {
                   margin: EdgeInsets.all(20),
                   alignment: Alignment.center,
                   child: Text(
-                    'We generated code. Share it with person you want invite to community!',
+                    'Share this link with the person you want to invite!',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: AppColors.blue, fontSize: 16),
-                  ),
-                )
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(13),
-                      color: Color(0xFFf4f4f4)),
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(left: 10, right: 10),
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    widget.inviteSecret,
-                    style: TextStyle(fontSize: 16),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(13),
-                        color: Color(0xFFf4f4f4)),
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    padding: EdgeInsets.all(15),
-                    child: Text(
-                      widget.inviteLink,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
                 ),
               ],
             ),
