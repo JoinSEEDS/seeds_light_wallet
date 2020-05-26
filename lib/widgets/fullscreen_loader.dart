@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:ui';
 
@@ -7,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/generated/r.dart';
+import 'package:seeds/i18n/fullscreen_loader.i18n.dart';
+import 'package:seeds/utils/error_builder.dart';
 
 import 'main_button.dart';
 
@@ -76,23 +77,10 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
   void _messageListener(String resultMessage) {
     setState(() {
       if (showFailure)
-        message = buildErrorMessage(resultMessage);
+        message = ErrorBuilder.getErrorMessageKey(resultMessage);
       else
         message = resultMessage;
     });
-  }
-
-  String buildErrorMessage(String resultMessage) {
-    var parsedError = json.decode(resultMessage);
-    if (parsedError != null) {
-      var errors = parsedError['error']['details'] as List;
-      for (var err in errors) {
-        var errorMessage = err['message'];
-        var friendlyMessageFound = false;
-        if (friendlyMessageFound) return errorMessage;
-      }
-    }
-    return "Unexpected error. Please try again with a different value.";
   }
 
   void _statusListener(status) async {
@@ -209,7 +197,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                         margin: EdgeInsets.only(left: 10, right: 10),
                         padding: EdgeInsets.all(15),
                         child: Text(
-                          message,
+                          (showFailure == true) ? message.i18n : message,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
