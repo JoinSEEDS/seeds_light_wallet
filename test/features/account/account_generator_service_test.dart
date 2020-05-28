@@ -84,7 +84,8 @@ void main() {
       expect(result, "abc123abc123");
     });
 
-    /*test('Modify name if it is not available', () async {
+    /* WIP
+    test('Modify name if it is not available', () async {
       when(httpService.isAccountNameAvailable('abc123abc123')).thenAnswer((_) async => false);
 
       final result = await _service.generateAvailable("abc123abc123");
@@ -126,17 +127,29 @@ void main() {
       expect(result, 21);
     });
 
-    /*test('Bump to 34 after 33', () async {
+    test('Bump to 34 after 33', () async {
       final result = _service.increaseReplaceCounter(33);
 
       expect(result, 34);
-    });*/
+    });
 
-    /*test('Bump to 111 after 55', () async {
+    test('Bump to 51 after 45', () async {
+      final result = _service.increaseReplaceCounter(45);
+
+      expect(result, 51);
+    });
+
+    test('Bump to 111 after 55', () async {
       final result = _service.increaseReplaceCounter(55);
 
-      expect(result, 55);
-    });*/
+      expect(result, 111);
+    });
+
+    test('Bump to 1111 after 555', () async {
+      final result = _service.increaseReplaceCounter(555);
+
+      expect(result, 1111);
+    });
 
   });
 

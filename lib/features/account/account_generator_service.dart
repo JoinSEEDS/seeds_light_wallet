@@ -27,10 +27,25 @@ class AccountGeneratorService {
 
   @visibleForTesting
   int increaseReplaceCounter(int counter) {
-    if(counter < 5) {
-      return counter + 1;
+    var str = counter.toString();
+    int modify = 0;
+
+    int multiplier = 1;
+    for(int i = str.length; i > 0; i--) {
+      var x = int.parse(str[i - 1]);
+      if(x < 5) {
+        modify += 1 * multiplier;
+        break;
+      } else if(i == 1) {
+        modify += 6 * multiplier;
+      } else {
+        modify -= 4 * multiplier;
+      }
+
+      multiplier *= 10;
     }
-    return counter - 4 + 10;
+
+    return counter + modify;
   }
 
   static String generate(String suggestion) {
