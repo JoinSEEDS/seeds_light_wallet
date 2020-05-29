@@ -5,6 +5,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:seeds/i18n/show_onboarding_choice.i18n.dart';
 
 class ShowOnboardingChoice extends StatelessWidget {
   final Function onInvite;
@@ -45,7 +46,7 @@ class ShowOnboardingChoice extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: 'You can ask for an invite at ',
+                  text: 'You can ask for an invite at' + ' ',
                   style: TextStyle(fontSize: 14, color: AppColors.grey),
                 ),
                 TextSpan(
@@ -55,14 +56,14 @@ class ShowOnboardingChoice extends StatelessWidget {
                     ..onTap = () => safeLaunch('https://www.joinseeds.com/letmein?client=seedslight'),
                 ),
                 TextSpan(
-                  text: '\n\nMembership based on Web of Trust',
+                  text: "\n\n" + "Membership based on Web of Trust",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14,
                   ),
                 ),
                 TextSpan(
-                  text: '\n\nBy signing up, you agree to our terms and privacy policy',
+                  text: '\n\n' + "By signing up, you agree to our terms and privacy policy",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 13,
@@ -115,7 +116,7 @@ class ShowOnboardingChoice extends StatelessWidget {
         ),
         buildGroup(
           'If you have an invite\nclick here',
-          'Claim invite code',
+          "Claim invite code".i18n,
           onInvite,
         ),
         buildBottom()

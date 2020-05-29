@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/generated/r.dart';
-import 'package:seeds/i18n/fullscreen_loader.i18n.dart';
 import 'package:seeds/utils/error_builder.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 
 import 'main_button.dart';
 
@@ -17,6 +17,11 @@ class FullscreenLoader extends StatefulWidget {
 
   final Duration successCallbackDelay;
   final Duration failureCallbackDelay;
+
+  final String _successTitle = "Transaction successful".i18n;
+  final String _failureTitle = "Transaction failed".i18n;
+  final String _successButtonText = "Done".i18n;
+  final String _failureButtonText = "Done".i18n;
 
   final String successTitle;
   final String failureTitle;
@@ -35,10 +40,10 @@ class FullscreenLoader extends StatefulWidget {
     this.afterFailureCallback,
     this.successCallbackDelay = const Duration(milliseconds: 2500),
     this.failureCallbackDelay = const Duration(milliseconds: 2500),
-    this.successTitle = "Transaction successful",
-    this.failureTitle = "Transaction failed",
-    this.successButtonText = "Close",
-    this.failureButtonText = "Close",
+    this.successTitle,
+    this.failureTitle,
+    this.successButtonText,
+    this.failureButtonText,
     this.successButtonCallback,
     this.failureButtonCallback,
   });
@@ -109,10 +114,10 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
 
   @override
   void dispose() {
-    super.dispose();
     animationController?.dispose();
     statusSubscription?.cancel();
     messageSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -166,8 +171,8 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                     children: <Widget>[
                       Text(
                         (showSuccess == true)
-                            ? widget.successTitle
-                            : widget.failureTitle,
+                            ? (widget.successTitle == null ? widget._successTitle : widget.successTitle)
+                            : (widget.failureTitle == null ? widget._failureTitle : widget.failureTitle),
                         style: TextStyle(
                           color: (showSuccess == true)
                               ? AppColors.blue
@@ -207,8 +212,8 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                     children: <Widget>[
                       MainButton(
                         title: (showSuccess)
-                            ? widget.successButtonText
-                            : widget.failureButtonText,
+                            ? (widget.successButtonText == null ? widget._successButtonText : widget.successButtonText)
+                            : (widget.failureButtonText == null ? widget._failureButtonText : widget.failureButtonText),
                         onPressed: () {
                           if (showSuccess &&
                               widget.successButtonCallback != null) {

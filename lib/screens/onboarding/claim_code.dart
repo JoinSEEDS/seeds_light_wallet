@@ -4,6 +4,7 @@ import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/utils/invites.dart';
 import 'package:seeds/widgets/clipboard_text_field.dart';
 import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/i18n/claim_code.i18n.dart';
 
 enum ClaimCodeStatus {
   emptyInviteCode,
@@ -101,15 +102,15 @@ class _ClaimCodeState extends State<ClaimCode> {
         children: <Widget>[
           ClipboardTextField(
             controller: inviteCodeController,
-            labelText: "Invite code (5 words)",
-            hintText: "Paste from clipboard",
+            labelText: "Invite code (5 words)".i18n,
+            hintText: "Paste from clipboard".i18n,
             onChanged: findInvite,
           ),
           SizedBox(height: 16),
           status == ClaimCodeStatus.emptyInviteCode
               ? Center(
                   child: Text(
-                    "If you received invite from another Seeds member - enter secret words and it will be claimed automatically",
+                    "If you received invite from another Seeds member - enter secret words and it will be claimed automatically".i18n,
                     style: TextStyle(
                       fontSize: 14,
                       fontFamily: "worksans",
@@ -124,25 +125,25 @@ class _ClaimCodeState extends State<ClaimCode> {
                     children: <Widget>[
                       CircularProgressIndicator(),
                       SizedBox(height: 5),
-                      Text("Looking for invite..."),
+                      Text("Looking for invite...".i18n),
                     ],
                   ),
                 )
               : Container(),
           status == ClaimCodeStatus.networkError
               ? Center(
-                  child: Text("Network not available, try later"),
+                  child: Text("Network not available, try later".i18n),
                 )
               : Container(),
           status == ClaimCodeStatus.foundNoInvite
               ? Center(
-                  child: Text("No invites found, try another code"),
+                  child: Text("No invites found, try another code".i18n),
                 )
               : Container(),
           status == ClaimCodeStatus.foundClaimedInvite
               ? Center(
                   child: Text(
-                    "Invite of $inviterAccount already claimed by $claimedAccount",
+                    "Invite of %s was already claimed by %s".i18n.fill(["$inviterAccount", "$claimedAccount"]),
                   ),
                 )
               : Container(),
@@ -150,10 +151,10 @@ class _ClaimCodeState extends State<ClaimCode> {
               ? Column(
                   children: <Widget>[
                     Text(
-                      "Congratulations! You are invited by $inviterAccount - $transferQuantity will be transferred and $sowQuantity will be planted to your account - continue to create an account",
+                      "Congratulations! You are invited by %s - %s will be transferred and %s will be planted to your account - continue to create an account".i18n.fill(["$inviterAccount", "$transferQuantity", "$sowQuantity"]),
                     ),
                     MainButton(
-                      title: 'Claim code',
+                      title: 'Claim code'.i18n,
                       margin: EdgeInsets.only(top: 10),
                       onPressed: () => widget.onClaim(
                         inviteSecret: inviteSecret,
