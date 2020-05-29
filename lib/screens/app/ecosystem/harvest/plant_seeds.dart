@@ -9,6 +9,7 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/planted_balance.dart';
 import 'package:seeds/widgets/transaction_details.dart';
+import 'package:seeds/i18n/harvest.i18n.dart';
 
 class PlantSeeds extends StatefulWidget {
   PlantSeeds({Key key}) : super(key: key);
@@ -43,7 +44,7 @@ class _PlantSeedState extends State<PlantSeeds> {
       String transactionId = await plantSeeds();
 
       _statusNotifier.add(true);
-      _messageNotifier.add("Transaction hash: $transactionId");
+      _messageNotifier.add("Transaction hash: %s".i18n.fill(["$transactionId"]));
     } catch (err) {
       _statusNotifier.add(false);
       _messageNotifier.add(err.toString());
@@ -54,7 +55,7 @@ class _PlantSeedState extends State<PlantSeeds> {
     return FullscreenLoader(
       statusStream: _statusNotifier.stream,
       messageStream: _messageNotifier.stream,
-      successButtonText: "Success!",
+      successButtonText: "Success!".i18n,
       failureButtonCallback: () {
         setState(() {
           transactionSubmitted = false;
@@ -82,7 +83,7 @@ class _PlantSeedState extends State<PlantSeeds> {
             children: <Widget>[
               TransactionDetails(
                 image: SvgPicture.asset("assets/images/harvest.svg"),
-                title: "Plant Seeds",
+                title: "Plant Seeds".i18n,
                 beneficiary: "harvst.seeds",
               ),
               AvailableBalance(),
@@ -90,7 +91,7 @@ class _PlantSeedState extends State<PlantSeeds> {
               MainTextField(
                 keyboardType: TextInputType.number,
                 controller: plantController,
-                labelText: 'Plant amount',
+                labelText: 'Plant amount'.i18n,
                 endText: 'SEEDS',
               ),
               MainButton(

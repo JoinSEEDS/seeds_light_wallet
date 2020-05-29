@@ -14,6 +14,7 @@ import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/second_button.dart';
 import 'package:seeds/widgets/transaction_details.dart';
 import 'package:share/share.dart';
+import 'package:seeds/i18n/invites.i18n.dart';
 
 enum InviteStatus {
   initial,
@@ -65,7 +66,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
       String transactionId = response["transaction_id"];
 
       _statusNotifier.add(true);
-      _messageNotifier.add("Transaction hash: $transactionId");
+      _messageNotifier.add("Transaction hash: %s".i18n.fill(["$transactionId"]));
     } catch (err) {
       print(err.toString());
       _statusNotifier.add(false);
@@ -78,7 +79,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
       statusStream: _statusNotifier.stream,
       messageStream: _messageNotifier.stream,
       successButtonCallback: widget.nextStep,
-      successButtonText: "Show invite code",
+      successButtonText: "Show invite code".i18n,
       failureButtonCallback: () {
         setState(() {
           transactionSubmitted = false;
@@ -91,7 +92,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.close, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).maybePop(),
         ),
         backgroundColor: Colors.transparent,
@@ -105,19 +106,19 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
             children: <Widget>[
               TransactionDetails(
                 image: SvgPicture.asset("assets/images/community.svg"),
-                title: "Invite friend",
+                title: "Invite friend".i18n,
                 beneficiary: "join.seeds",
               ),
               AvailableBalance(),
               MainTextField(
                 keyboardType: TextInputType.number,
                 controller: quantityController,
-                labelText: 'Invite amount (minimum: 5)',
+                labelText: 'Invite amount (minimum: 5)'.i18n,
                 endText: 'SEEDS',
               ),
               MainButton(
                 margin: EdgeInsets.only(top: 25),
-                title: 'Create invite',
+                title: 'Create invite'.i18n,
                 onPressed: onSend,
               ),
             ],
@@ -173,7 +174,7 @@ class _ShareScreenState extends State<ShareScreen> {
                 Container(
                   alignment: Alignment.center,
                   child: Text(
-                    'GREAT!',
+                    'GREAT!'.i18n,
                     style: TextStyle(
                         color: AppColors.blue,
                         fontWeight: FontWeight.w600,
@@ -192,7 +193,7 @@ class _ShareScreenState extends State<ShareScreen> {
                   margin: EdgeInsets.all(20),
                   alignment: Alignment.center,
                   child: Text(
-                    'Share this link with the person you want to invite!',
+                    'Share this link with the person you want to invite!'.i18n,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: AppColors.blue, fontSize: 16),
                   ),
@@ -205,7 +206,7 @@ class _ShareScreenState extends State<ShareScreen> {
             Column(
               children: <Widget>[
                 MainButton(
-                  title: 'Share Link',
+                  title: 'Share Link'.i18n,
                   onPressed: () {
                     setState(() {
                       secretShared = true;
@@ -214,7 +215,7 @@ class _ShareScreenState extends State<ShareScreen> {
                   },
                 ),
                 MainButton(
-                  title: 'Share Code',
+                  title: 'Share Code'.i18n,
                   margin: const EdgeInsets.only(top: 10),
                   onPressed: () {
                     setState(() {
@@ -226,7 +227,7 @@ class _ShareScreenState extends State<ShareScreen> {
                 (true)
                     ? SecondButton(
                         margin: const EdgeInsets.only(bottom: 40, top: 10),
-                        title: 'Close',
+                        title: 'Done'.i18n,
                         onPressed: () => Navigator.of(context).maybePop(),
                       )
                     : Container(

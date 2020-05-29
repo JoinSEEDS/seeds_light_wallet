@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
+import 'package:seeds/i18n/create_account.i18n.dart';
 
 class CreateAccount extends StatefulWidget {
   final String inviteSecret;
@@ -41,22 +41,22 @@ class _CreateAccountState extends State<CreateAccount> {
 
   String _validateName(String val) {
     if (val.isEmpty) {
-      return 'Please enter your name';
+      return 'Please enter your name'.i18n;
     }
     return null;
   }
 
   String _validateAccountName(String val) {
     if (val.length != 12) {
-      return 'Your account name should have exactly 12 symbols';
+      return 'Your account name should have exactly 12 symbols'.i18n;
     } else if (RegExp(r'0|6|7|8|9').allMatches(val).length > 0) {
-      return 'Your account name should only contain number 1-5';
+      return 'Your account name should only contain numbers 1-5'.i18n;
     } else if (val.toLowerCase() != val) {
-      return "Your account name can't cont'n uppercase letters";
+      return "Your account name can't cont'n uppercase letters".i18n;
     } else if (RegExp(r'[a-z]|1|2|3|4|5').allMatches(val).length != 12) {
-      return 'Your account name should only contain number 1-5';
+      return 'Your account name should only contain numbers 1-5'.i18n;
     } else if (RegExp(r'[a-z]').allMatches(val[0]).length == 0) {
-      return 'Your account name should lower case letter';
+      return "Your account name should cont'n lower case letters".i18n;
     }
     return null;
   }
@@ -180,7 +180,7 @@ class _CreateAccountState extends State<CreateAccount> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               MainTextField(
-                labelText: 'Your name',
+                labelText: 'Your name'.i18n,
                 controller: _nameController,
                 validator: _validateName,
                 onChanged: (value) {
@@ -189,7 +189,7 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
               SizedBox(height: 8),
               MainTextField(
-                labelText: 'Account Name',
+                labelText: 'Account Name'.i18n,
                 controller: _accountNameController,
                 maxLength: 12,
                 focusNode: accountNameFocus,
@@ -204,7 +204,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Wrap(
                     children: <Widget>[
-                      Text('Available: '),
+                      Text('Available: '.i18n),
                       ...createSuggestions(),
                     ],
                   ),
@@ -212,7 +212,7 @@ class _CreateAccountState extends State<CreateAccount> {
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: MainButton(
-                  title: "Create account",
+                  title: "Create account".i18n,
                   onPressed: () async => await createAccount(),
                 ),
               ),
@@ -227,14 +227,14 @@ class _CreateAccountState extends State<CreateAccount> {
                       fontWeight: FontWeight.w400,
                     ),
                     children: <TextSpan>[
-                      TextSpan(text: "Your account name should have "),
+                      TextSpan(text: "Your account name should have ".i18n),
                       TextSpan(
-                        text: "exactly 12",
+                        text: "exactly 12".i18n,
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                       TextSpan(
                           text:
-                              " symbols (lowercase letters and digits only 1-5)"),
+                              " symbols (lowercase letters and digits only 1-5)".i18n),
                     ],
                   ),
                 ),

@@ -4,6 +4,7 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_header_details.dart';
+import 'package:seeds/i18n/proposals.i18n.dart';
 
 class Proposals extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class ProposalsState extends State<Proposals> {
           backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
           title: Text(
-            "Proposals",
+            "Proposals".i18n,
             style: TextStyle(color: Colors.black),
           ),
         ),
@@ -36,7 +37,7 @@ class ProposalsState extends State<Proposals> {
               child: TabBar(
                 labelColor: Colors.black,
                 tabs:
-                    proposalTypes.keys.map((type) => Tab(text: type)).toList(),
+                    proposalTypes.keys.map((type) => Tab(text: type.i18n)).toList(),
               ),
             ),
             Expanded(

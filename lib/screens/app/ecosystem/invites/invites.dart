@@ -4,6 +4,7 @@ import 'package:seeds/providers/notifiers/invites_notifier.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/widgets/reactive_widget.dart';
+import 'package:seeds/i18n/invites.i18n.dart';
 
 class Invites extends StatelessWidget {
   @override
@@ -17,7 +18,7 @@ class Invites extends StatelessWidget {
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 0,
         title: Text(
-          "Invites",
+          "Invites".i18n,
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -33,7 +34,7 @@ class Invites extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Members invited by you: ",
+                    "Members invited by you:".i18n,
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w500,
@@ -59,7 +60,7 @@ class Invites extends StatelessWidget {
                     thickness: 3,
                   ),
                   Text(
-                    "Active invites: ",
+                    "Active invites:".i18n,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w500,
@@ -75,21 +76,21 @@ class Invites extends StatelessWidget {
 
                               return ListTile(
                                 leading: Icon(Icons.copyright),
-                                title: Text("${invite.inviteHash} (copy)"),
+                                title: Text("%s (copy)".i18n.fill(["${invite.inviteHash}"])),
                                 trailing: Column(
                                   children: <Widget>[
-                                    Text("Sow: ${invite.sowQuantity}"),
+                                    Text("Sow: %s".i18n.fill(["${invite.sowQuantity}"])),
                                     Text(
-                                        "Transfer: ${invite.transferQuantity}"),
+                                        "Transfer: %s".i18n.fill(["${invite.transferQuantity}"])),
                                   ],
                                 ),
                               );
                             },
                           )
-                        : Text("No active invites"),
+                        : Text("No active invites".i18n),
                   ),
                   MainButton(
-                    title: "Create new invite",
+                    title: "Create new invite".i18n,
                   ),
                 ],
               ),

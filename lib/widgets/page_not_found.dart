@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 
 class PageNotFound extends StatelessWidget {
   final String routeName;
@@ -17,7 +18,7 @@ class PageNotFound extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        title: Text('Page Not Found'),
+        title: Text('Page Not Found'.i18n),
       ),
       body: Center(
         child: Container(
@@ -32,7 +33,7 @@ class PageNotFound extends StatelessWidget {
               ),
               SizedBox(height: 24.0),
               Text(
-                'Page that you are looking for is not available!',
+                'The page you are looking for is not available'.i18n,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16.0,

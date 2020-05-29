@@ -14,6 +14,7 @@ import 'package:seeds/screens/onboarding/show_onboarding_choice.dart';
 import 'package:seeds/utils/invites.dart';
 import 'package:seeds/widgets/notion_loader.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
+import 'package:seeds/i18n/join_process.i18n.dart';
 
 class JoinProcess extends StatefulWidget {
   @override
@@ -185,17 +186,17 @@ class _JoinProcessState extends State<JoinProcess> {
     switch (machine.currentState) {
       case States.checkingInviteLink:
         currentScreen = NotionLoader(
-          notion: "Initialize new wallet...",
+          notion: "Initialize new wallet...".i18n,
         );
         break;
       case States.processingInviteLink:
         currentScreen = NotionLoader(
-          notion: "Process invite link...",
+          notion: "Process invite link...".i18n,
         );
         break;
       case States.inviteConfirmation:
         currentScreen = NotionLoader(
-          notion: "Accept invite from $inviterAccount...",
+          notion: "Accept invite from %s...".i18n.fill(["$inviterAccount"]),
         );
         break;
       case States.claimInviteCode:
@@ -226,17 +227,17 @@ class _JoinProcessState extends State<JoinProcess> {
         break;
       case States.creatingAccount:
         currentScreen = NotionLoader(
-          notion: "Create account $accountName...",
+          notion: "Create account %s...".i18n.fill(["$accountName"]),
         );
         break;
       case States.importingAccount:
         currentScreen = NotionLoader(
-          notion: "Import account $accountName...",
+          notion: "Import account %s...".i18n.fill(["$accountName"]),
         );
         break;
       case States.finishOnboarding:
         currentScreen = NotionLoader(
-          notion: "Secure wallet $accountName...",
+          notion: "Secure wallet %s...".i18n.fill(["$accountName"]),
         );
         break;
       case States.importAccount:
