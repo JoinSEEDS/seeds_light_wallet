@@ -31,6 +31,7 @@ class _ProfileState extends State<Profile> {
   final _nameController = TextEditingController();
   File _profileImage;
   var savingLoader = GlobalKey<MainButtonState>();
+  final picker = ImagePicker();
 
   @override
   initState() {
@@ -271,7 +272,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Future _getImageFromGallery() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await picker.getImage(source: ImageSource.gallery);
     if (image == null) return;
     var croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
@@ -285,7 +286,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Future _getImageFromCamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    var image = await picker.getImage(source: ImageSource.camera);
     if (image == null) return;
     var croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
