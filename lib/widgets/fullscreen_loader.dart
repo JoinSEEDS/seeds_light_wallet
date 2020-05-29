@@ -109,8 +109,8 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
 
   @override
   void dispose() {
-    super.dispose();
     animationController?.dispose();
+    super.dispose();
     statusSubscription?.cancel();
     messageSubscription?.cancel();
   }
