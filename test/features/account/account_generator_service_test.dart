@@ -84,14 +84,14 @@ void main() {
       expect(result, "abc123abc123");
     });
 
-    /* WIP
     test('Modify name if it is not available', () async {
-      when(httpService.isAccountNameAvailable('abc123abc123')).thenAnswer((_) async => false);
+      when(httpService.isAccountNameAvailable('abcdefabcdef')).thenAnswer((_) async => false);
+      when(httpService.isAccountNameAvailable('abcdefabcde1')).thenAnswer((_) async => true);
 
-      final result = await _service.generateAvailable("abc123abc123");
+      final result = await _service.generateAvailable("abcdefabcdef");
 
-      expect(result, "abc123abc12?");
-    });*/
+      expect(result, "abcdefabcde1");
+    });
 
   });
 
