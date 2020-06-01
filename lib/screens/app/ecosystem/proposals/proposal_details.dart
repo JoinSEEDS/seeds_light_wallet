@@ -9,6 +9,7 @@ import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_header_details.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:seeds/i18n/proposals.i18n.dart';
 
 class ProposalDetailsPage extends StatefulWidget {
   final ProposalModel proposal;
@@ -114,27 +115,27 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Recipient: ${proposal.recipient} ',
+              'Recipient: %s '.i18n.fill(["${proposal.recipient}"]),
               style: textTheme.subtitle1,
             ),
             SizedBox(height: 8),
             Text(
-              'Requested amount: $quantity SEEDS',
+              'Requested amount: %s SEEDS'.i18n.fill(["$quantity"]),
               style: textTheme.subtitle1,
             ),
             SizedBox(height: 8),
             Text(
-              'Milestone funds: ${proposal.fund} ',
+              'Funded by: %s '.i18n.fill(["${proposal.fund}"]),
               style: textTheme.subtitle1,
             ),
             SizedBox(height: 8),
             Text(
-              'Status: ${proposal.status} ',
+              'Status: %s '.i18n.fill(["${proposal.status}"]),
               style: textTheme.subtitle1,
             ),
             SizedBox(height: 8),
             Text(
-              'Stage: ${proposal.stage} ',
+              'Stage: %s '.i18n.fill(["${proposal.stage}"]),
               style: textTheme.subtitle1,
             ),
             SizedBox(height: 8),
@@ -142,7 +143,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'URL: ',
+                    text: 'URL: '.i18n,
                     style: textTheme.subtitle1,
                   ),
                   TextSpan(
@@ -153,7 +154,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                         if (await UrlLauncher.canLaunch(proposal.url)) {
                           await UrlLauncher.launch(proposal.url);
                         } else {
-                          errorToast("Couldn't open this url");
+                          errorToast("Couldn't open this url".i18n);
                         }
                       },
                   ),
@@ -162,7 +163,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             ),
             SizedBox(height: 8),
             Text(
-              'Description',
+              'Description'.i18n,
               style: textTheme.headline6,
             ),
             SizedBox(height: 8),
@@ -189,11 +190,11 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Voting',
+                  'Voting'.i18n,
                   style: textTheme.headline6,
                 ),
                 SeedsButton(
-                  'Vote',
+                  'Vote'.i18n,
                   () async {
                     setState(() => _voting = true);
                     try {
@@ -201,7 +202,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                         .voteProposal(id: proposal.id, amount: _vote.toInt());
                     } catch (e) {
                       d("e = $e");
-                      errorToast("Unexpected error, please try again");
+                      errorToast("Unexpected error, please try again".i18n);
                       setState(() => _voting = false);
                     }
                     setState(() => _voting = false);
@@ -212,7 +213,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             ),
             SizedBox(height: 12),
             voice == null
-                ? Text("You have no trust tokens")
+                ? Text("You have no trust tokens".i18n)
                 : FluidSlider(
                     value: _vote,
                     onChanged: (double newValue) {

@@ -12,6 +12,7 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 
 class TransferFormArguments {
   final String fullName;
@@ -63,7 +64,7 @@ class _TransferFormState extends State<TransferForm>
       String trxid = response["transaction_id"];
 
       _statusNotifier.add(true);
-      _messageNotifier.add("Transaction hash: $trxid");
+      _messageNotifier.add("Transaction hash: %s".i18n.fill(["$trxid"]));
     } catch (err) {
       print(err);
       _statusNotifier.add(false);
@@ -164,7 +165,7 @@ class _TransferFormState extends State<TransferForm>
         child: Column(
           children: <Widget>[
             Text(
-              'Available balance',
+              'Available balance'.i18n,
               style: TextStyle(
                   color: AppColors.blue,
                   fontSize: 14,
@@ -210,7 +211,7 @@ class _TransferFormState extends State<TransferForm>
                     keyboardType: TextInputType.numberWithOptions(
                         signed: false, decimal: true),
                     controller: controller,
-                    labelText: 'Transfer amount',
+                    labelText: 'Transfer amount'.i18n,
                     endText: 'SEEDS',
                     autofocus: true,
                     validator: (val) {
@@ -220,20 +221,20 @@ class _TransferFormState extends State<TransferForm>
                       double transferAmount = double.tryParse(val);
 
                       if (transferAmount == 0.0) {
-                        error = "Transfer amount cannot be 0.";
+                        error = "Transfer amount cannot be 0.".i18n;
                       } else if (transferAmount == null ||
                           availableBalance == null) {
-                        error = "Transfer amount is not valid.";
+                        error = "Transfer amount is not valid.".i18n;
                       } else if (transferAmount > availableBalance) {
                         error =
-                            "Transfer amount cannot be greater than availabe balance.";
+                            "Transfer amount cannot be greater than availabe balance.".i18n;
                       }
                       return error;
                     },
                   ),
                   MainButton(
                     margin: EdgeInsets.only(top: 25),
-                    title: 'Send',
+                    title: 'Send'.i18n,
                     onPressed: onSend,
                   )
                 ],

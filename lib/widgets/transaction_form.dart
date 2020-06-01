@@ -7,6 +7,7 @@ import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 
 enum TransactionType { seedsTransfer, telosTranfser }
 
@@ -75,7 +76,7 @@ class _TransactionFormState extends State<TransactionForm> {
       String transactionId = response["transaction_id"];
 
       _statusNotifier.add(true);
-      _messageNotifier.add("Transaction hash: $transactionId");
+      _messageNotifier.add("Transaction hash: %s".i18n.fill(["$transactionId"]));
     } catch (err) {
       print(err.toString());
       _statusNotifier.add(false);
@@ -118,7 +119,7 @@ class _TransactionFormState extends State<TransactionForm> {
     return MainTextField(
       keyboardType: TextInputType.number,
       controller: controller,
-      labelText: 'Transfer amount',
+      labelText: 'Transfer amount'.i18n,
       endText: widget.type == TransactionType.seedsTransfer ? 'SEEDS' : 'TLOS',
     );
   }

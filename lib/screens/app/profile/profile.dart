@@ -20,6 +20,7 @@ import 'package:seeds/widgets/main_text_field.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:uuid/uuid.dart';
+import 'package:seeds/i18n/profile.i18n.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -30,6 +31,7 @@ class _ProfileState extends State<Profile> {
   final _nameController = TextEditingController();
   File _profileImage;
   var savingLoader = GlobalKey<MainButtonState>();
+  final picker = ImagePicker();
 
   @override
   initState() {
@@ -160,13 +162,13 @@ class _ProfileState extends State<Profile> {
                   child: Form(
                     key: _formKey,
                     child: MainTextField(
-                        labelText: "Full Name",
-                        hintText: 'Your Name',
+                        labelText: "Full Name".i18n,
+                        hintText: 'Enter your name'.i18n,
                         controller: _nameController,
                         validator: (String val) {
                           String error;
                           if (val.isEmpty) {
-                            error = "Name must not be empty";
+                            error = "Name cannot be empty".i18n;
                           }
                           return error;
                         }),
@@ -176,7 +178,7 @@ class _ProfileState extends State<Profile> {
                     const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0),
                 child: MainButton(
                   key: savingLoader,
-                  title: 'Save',
+                  title: 'Save'.i18n,
                   onPressed: () => {
                     if (_formKey.currentState.validate())
                       {_saveProfile(model.profile)}
@@ -188,7 +190,7 @@ class _ProfileState extends State<Profile> {
                 child: FlatButton(
                   color: Colors.white,
                   child: Text(
-                    'Terms & Conditions',
+                    'Terms & Conditions'.i18n,
                     style: TextStyle(color: Colors.blue),
                   ),
                   onPressed: () =>
@@ -198,7 +200,7 @@ class _ProfileState extends State<Profile> {
               FlatButton(
                 color: Colors.white,
                 child: Text(
-                  'Privacy Policy',
+                  'Privacy Policy'.i18n,
                   style: TextStyle(color: Colors.blue),
                 ),
                 onPressed: () => UrlLauncher.launch(Config.privacyPolicyUrl),
@@ -206,7 +208,7 @@ class _ProfileState extends State<Profile> {
               FlatButton(
                 color: Colors.white,
                 child: Text(
-                  'Export private key',
+                  'Export private key'.i18n,
                   style: TextStyle(color: Colors.red),
                 ),
                 onPressed: () =>
@@ -215,7 +217,7 @@ class _ProfileState extends State<Profile> {
               FlatButton(
                 color: Colors.white,
                 child: Text(
-                  'Logout',
+                  'Logout'.i18n,
                   style: TextStyle(color: Colors.red),
                 ),
                 onPressed: () =>
@@ -230,8 +232,8 @@ class _ProfileState extends State<Profile> {
 
   void _editProfilePicBottomSheet(BuildContext context) {
     Map<String, IconData> _items = {
-      'Choose from Gallery': Icons.image,
-      'Take a picture': Icons.camera_alt,
+      'Choose Picture'.i18n: Icons.image,
+      'Take a picture'.i18n: Icons.camera_alt,
     };
     showModalBottomSheet(
       context: context,
@@ -270,7 +272,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Future _getImageFromGallery() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await picker.getImage(source: ImageSource.gallery);
     if (image == null) return;
     var croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
@@ -284,7 +286,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Future _getImageFromCamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    var image = await picker.getImage(source: ImageSource.camera);
     if (image == null) return;
     var croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
@@ -327,7 +329,7 @@ class _ProfileState extends State<Profile> {
             ),
             Expanded(
               child: Text(
-                'Profile updated successfully.',
+                'Profile updated successfully.'.i18n,
                 maxLines: null,
               ),
             ),
@@ -349,7 +351,7 @@ class _ProfileState extends State<Profile> {
             ),
             Expanded(
               child: Text(
-                'An error occured, please try again.',
+                'An error occured, please try again.'.i18n,
                 maxLines: null,
               ),
             ),

@@ -8,20 +8,21 @@ import 'package:seeds/features/biometrics/auth_commands.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 
 Widget buildPasscodeScreen({
   shouldTriggerVerification,
   passwordEnteredCallback,
   isValidCallback,
   cancelCallback,
-  title = "Enter Passcode",
+  title,
   Widget bottomWidget,
 }) {
   return PasscodeScreen(
     passwordDigits: 4,
     title: title,
     cancelLocalizedText: "",
-    deleteLocalizedText: "Delete",
+    deleteLocalizedText: "Delete".i18n,
     backgroundColor: AppColors.blue,
     shouldTriggerVerification: shouldTriggerVerification,
     passwordEnteredCallback: passwordEnteredCallback,
@@ -38,6 +39,7 @@ class UnlockWallet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return buildPasscodeScreen(
+      title: "Enter Passcode".i18n,
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) async {
         if (passcode == SettingsNotifier.of(context).passcode) {
@@ -63,7 +65,7 @@ class LockWallet extends StatelessWidget {
     AuthBloc bloc = Provider.of(context);
 
     return buildPasscodeScreen(
-      title: "Choose Passcode",
+      title: "Choose Passcode".i18n,
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) {
         _verificationNotifier.add(true);
@@ -83,7 +85,7 @@ class LockWallet extends StatelessWidget {
               ),
             ),
             child: Text(
-              "Disable Passcode",
+              "Disable Passcode".i18n,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,

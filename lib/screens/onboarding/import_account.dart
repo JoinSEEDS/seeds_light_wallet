@@ -6,6 +6,7 @@ import 'package:seeds/constants/config.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/clipboard_text_field.dart';
 import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/i18n/import_account.i18n.dart';
 
 enum ImportStatus {
   emptyPrivateKey,
@@ -106,15 +107,15 @@ class _ImportAccountState extends State<ImportAccount> {
         children: <Widget>[
           ClipboardTextField(
             controller: privateKeyController,
-            labelText: "Private key",
-            hintText: "Paste from clipboard",
+            labelText: "Private key".i18n,
+            hintText: "Paste from clipboard".i18n,
             onChanged: discoverAccounts,
           ),
           SizedBox(height: 12),
           status == ImportStatus.emptyPrivateKey
               ? Center(
                   child: Text(
-                    "If you already have Seeds account - enter active private key and account will be imported automatically",
+                    "If you already have Seeds account - enter active private key and account will be imported automatically".i18n,
                     style: TextStyle(
                       fontSize: 14,
                       fontFamily: "worksans",
@@ -129,19 +130,19 @@ class _ImportAccountState extends State<ImportAccount> {
                     children: <Widget>[
                       CircularProgressIndicator(),
                       SizedBox(height: 5),
-                      Text("Looking for accounts..."),
+                      Text("Looking for accounts...".i18n),
                     ],
                   ),
                 )
               : Container(),
           status == ImportStatus.noAccounts
               ? Center(
-                  child: Text("No accounts found associated with given key"),
+                  child: Text("No accounts found associated with given key".i18n),
                 )
               : Container(),
           status == ImportStatus.invaildPrivateKey
               ? Center(
-                  child: Text("Given private key is not valid"),
+                  child: Text("Given private key is not valid".i18n),
                 )
               : Container(),
           status == ImportStatus.foundAccounts
@@ -160,7 +161,7 @@ class _ImportAccountState extends State<ImportAccount> {
                       ),
                       child: DropdownButton(
                         underline: Container(height: 0),
-                        hint: Text("Account name"),
+                        hint: Text("Account name".i18n),
                         isExpanded: true,
                         value: chosenAccount,
                         onChanged: (val) {
@@ -178,7 +179,7 @@ class _ImportAccountState extends State<ImportAccount> {
                     ),
                     SizedBox(height: 16),
                     MainButton(
-                      title: 'Import account',
+                      title: 'Import account'.i18n,
                       onPressed: onImport,
                     ),
                     SizedBox(height: 20),

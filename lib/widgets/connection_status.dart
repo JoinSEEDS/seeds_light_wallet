@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 
 class ConnectionStatus extends StatefulWidget {
   final Widget child;
@@ -47,7 +48,7 @@ class _ConnectionStatusState extends State<ConnectionStatus> {
               color: connection.status ? AppColors.blue : AppColors.red,
               child: Center(
                 child: Text(
-                    "[x] ${connection.status ? "ONLINE (connected to ${connection.currentEndpoint})" : 'OFFLINE (trying to reconnect)'}",
+                    "[x] ${connection.status ? "ONLINE (connected to %s)".i18n.fill(["${connection.currentEndpoint}"]) : 'OFFLINE (trying to reconnect)'.i18n}",
                     style: TextStyle(color: AppColors.lightGrey)),
               ),
             ),

@@ -406,6 +406,9 @@ class ProposalModel {
 }
 
 const proposalTypes = {
+  // NOTE: 
+  // The keys here need to have i18n entries 
+  // in the ecosystem.i18n.dart file
   'Staged': {
     'stage': 'staged',
     'status': 'open'

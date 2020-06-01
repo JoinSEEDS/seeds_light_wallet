@@ -6,23 +6,21 @@ import 'package:seeds/providers/notifiers/invites_notifier.dart';
 import 'package:seeds/widgets/progress_bar.dart';
 import 'package:seeds/widgets/reactive_widget.dart';
 import 'package:seeds/widgets/seeds_button.dart';
+import 'package:seeds/i18n/ecosystem.i18n.dart';
 
 class Friends extends StatelessWidget {
   Widget buildInviteWidget(InviteModel model) {
     return Container(
       child: ListTile(
-          title: Text("Sow: " +
-              model.sowQuantity +
-              " Transfer: " +
-              model.transferQuantity),
+          title: Text("Sow: %s Transfer: %s".i18n.fill([model.sowQuantity, model.transferQuantity])),
           trailing: Container(
             width: 230,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                SeedsButton("Copy"),
+                SeedsButton("Copy".i18n),
                 SizedBox(width: 10),
-                SeedsButton("Cancel")
+                SeedsButton("Cancel".i18n)
               ],
             ),
           )),
@@ -39,7 +37,7 @@ class Friends extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          "Your invites",
+          "Your invites".i18n,
           style: TextStyle(fontFamily: "worksans", color: Colors.black),
         ),
         centerTitle: true,
@@ -61,7 +59,7 @@ class Friends extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Build community - gain reputation",
+                    "Build community - gain reputation".i18n,
                     style: TextStyle(
                       fontFamily: "worksans",
                       fontSize: 15,
