@@ -115,6 +115,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
   @override
   void dispose() {
     animationController?.dispose();
+    super.dispose();
     statusSubscription?.cancel();
     messageSubscription?.cancel();
     super.dispose();
@@ -149,7 +150,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                     scale: scale,
                     child: RotationTransition(
                       child: Image.asset(
-                        R.appIcon,
+                        R.appIconTransparent,
                         width: 100,
                         height: 100,
                       ),
