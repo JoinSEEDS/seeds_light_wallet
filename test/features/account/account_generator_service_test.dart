@@ -11,32 +11,32 @@ void main() {
   AccountGeneratorService _service;
 
   setUp(() {
-    _service = AccountGeneratorService(httpService);
+    _service = AccountGeneratorService()..update(httpService);
   });
 
   group('Validate account name', () {
 
     test('Valid account name', () async {
-      final result = AccountGeneratorService.validate("abcdefgzhijk");
+      final result = _service.validate("abcdefgzhijk");
 
       expect(result.valid, true);
     });
 
     test('Valid account name', () async {
-      final result = AccountGeneratorService.validate("abcdEFGzhijk");
+      final result = _service.validate("abcdEFGzhijk");
 
       expect(result.valid, false);
       expect(result.message, "Your account name should be lowercase only");
     });
 
     test('Numeric only account name is valid', () async {
-      final result = AccountGeneratorService.validate("123451234512");
+      final result = _service.validate("123451234512");
 
       expect(result.valid, true);
     });
 
     test('Account name too short', () async {
-      final result = AccountGeneratorService.validate("abcdefgzhij");
+      final result = _service.validate("abcdefgzhij");
 
       expect(result.valid, false);
       expect(result.message, "Your account name should have exactly 12 symbols");
@@ -44,34 +44,34 @@ void main() {
 
   });
 
-  group('Generate account name', () {
+  group('Convert suggestion to valid account name', () {
 
     test('Input is complete account name', () async {
-      final result = AccountGeneratorService.generate("abc123abc123");
+      final result = _service.convert("abc123abc123");
 
       expect(result, "abc123abc123");
     });
 
     test('Input is too short', () async {
-      final result = AccountGeneratorService.generate("abc123");
+      final result = _service.convert("abc123");
 
       expect(result, "abc123425553");
     });
 
     test('With special character', () async {
-      final result = AccountGeneratorService.generate("abc12.?!#-_");
+      final result = _service.convert("abc12.?!#-_");
 
       expect(result, "abc125341554");
     });
 
     test('With space', () async {
-      final result = AccountGeneratorService.generate("hello world");
+      final result = _service.convert("hello world");
 
       expect(result, "helloworld55");
     });
 
     test('Input is too long', () async {
-      final result = AccountGeneratorService.generate("abc123abc12345");
+      final result = _service.convert("abc123abc12345");
 
       expect(result, "abc123abc123");
     });
@@ -79,18 +79,49 @@ void main() {
     test('Return name if it is available', () async {
       when(httpService.isAccountNameAvailable('abc123abc123')).thenAnswer((_) async => true);
 
-      final result = await _service.generateAvailable("abc123abc123");
+      final result = await _service.generate("abc123abc123");
 
-      expect(result, "abc123abc123");
+      expect(result.available, "abc123abc123");
     });
 
     test('Modify name if it is not available', () async {
       when(httpService.isAccountNameAvailable('abcdefabcdef')).thenAnswer((_) async => false);
       when(httpService.isAccountNameAvailable('abcdefabcde1')).thenAnswer((_) async => true);
 
-      final result = await _service.generateAvailable("abcdefabcdef");
+      final result = await _service.generate("abcdefabcdef");
 
-      expect(result, "abcdefabcde1");
+      expect(result.available, "abcdefabcde1");
+    });
+
+    test('Generate with exclude', () async {
+      when(httpService.isAccountNameAvailable('abc123abc123')).thenAnswer((_) async => true);
+
+      final result = await _service.generate("abc123abc121", exclude: [ "abc123abc121", "abc123abc122" ]);
+
+      expect(result.available, "abc123abc123");
+    });
+
+    test('Generate with no more to try', () async {
+      when(httpService.isAccountNameAvailable('555555555551')).thenAnswer((_) async => false);
+
+      try {
+        await _service.generate("555555555551", exclude: ["555555555551", "555555555552"], recursionAttempts: 1);
+        fail("Expected exception");
+      } catch(error) {
+        expect(error, "Couldn't find a valid account name");
+      }
+    });
+
+    test('Generate a list of two account names', () async {
+      when(httpService.isAccountNameAvailable('abcdefabcdef')).thenAnswer((_) async => false);
+      when(httpService.isAccountNameAvailable('abcdefabcde1')).thenAnswer((_) async => true);
+      when(httpService.isAccountNameAvailable('abcdefabcde2')).thenAnswer((_) async => true);
+
+      final result = await _service.generateList("abcdefabcdef", count: 2);
+
+      expect(result.length, 2);
+      expect(result[0], "abcdefabcde1");
+      expect(result[1], "abcdefabcde2");
     });
 
   });
@@ -152,6 +183,5 @@ void main() {
     });
 
   });
-
 
 }

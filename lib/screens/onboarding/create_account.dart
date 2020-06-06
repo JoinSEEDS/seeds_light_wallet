@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -45,17 +46,6 @@ class _CreateAccountState extends State<CreateAccount> {
       return 'Please enter your name';
     }
     return null;
-  }
-
-  String _validateAccountName(String val) {
-    final result = AccountGeneratorService.validate(val);
-    return result.valid ? null : result.message;
-  }
-
-  List<Widget> createSuggestions() {
-    String input = _accountName.isNotEmpty ? _accountName : _name;
-    String suggestion = AccountGeneratorService.generate(input);
-    return [buildSuggestionWidget(suggestion)];
   }
 
   FutureLoadingBuilder<String> buildSuggestionWidget(String suggestion) {
@@ -113,6 +103,8 @@ class _CreateAccountState extends State<CreateAccount> {
 
   @override
   Widget build(BuildContext context) {
+    AccountGeneratorService accountGeneratorService = Provider.of(context);
+
     return Container(
       child: Form(
         key: formKey,
@@ -137,19 +129,19 @@ class _CreateAccountState extends State<CreateAccount> {
                 controller: _accountNameController,
                 maxLength: 12,
                 focusNode: accountNameFocus,
-                validator: _validateAccountName,
+                validator: accountGeneratorService.validator,
                 onChanged: (value) {
                   setState(() => _accountName = value);
                 },
               ),
-              if (_validateAccountName(_accountName) != null &&
+              if (accountGeneratorService.validate(_accountName).valid &&
                   (_accountName.isNotEmpty || _name.isNotEmpty))
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Wrap(
                     children: <Widget>[
                       Text('Available: '),
-                      ...createSuggestions(),
+                      ...accountGeneratorService.generate(suggestedAccount).map(buildSuggestionWidget),
                     ],
                   ),
                 ),

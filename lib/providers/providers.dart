@@ -1,5 +1,6 @@
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
@@ -115,5 +116,9 @@ final providers = [
   ProxyProvider<SettingsNotifier, BackupService>(
     create: (_) => BackupService(),
     update: (_, settings, backupService) => backupService..update(settings),
+  ),
+  ProxyProvider<HttpService, AccountGeneratorService>(
+    create: (_) => AccountGeneratorService(),
+    update: (_, httpService, accountGeneratorService) => accountGeneratorService..update(httpService),
   ),
 ];
