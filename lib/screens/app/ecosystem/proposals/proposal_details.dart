@@ -47,16 +47,10 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
         slivers: <Widget>[
           SliverAppBar(
             expandedHeight: 250,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                children: <Widget>[
-                  NetImage(
-                    proposal.image,
-                    height: 300,
-                    fit: BoxFit.cover,
-                    fullScreen: true,
-                  ),
-                ],
+            flexibleSpace: FittedBox(
+              fit: BoxFit.cover,
+              child: NetImage(
+                proposal.image,                      
               ),
             ),
           ),
