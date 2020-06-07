@@ -48,51 +48,29 @@ class _CreateAccountState extends State<CreateAccount> {
     return null;
   }
 
-  FutureLoadingBuilder<String> buildSuggestionWidget(String suggestion) {
-    return FutureLoadingBuilder<String>(
-      future: getValidAccountName(suggestion),
-      mutable: true,
-      builder: (context, suggestion) {
-        return InkWell(
-          onTap: () {
-            setState(() {
-              _accountNameController.text = suggestion;
+  Widget buildSuggestionWidget(String suggestion) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 6, right: 10, bottom: 10),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _accountNameController.text = suggestion;
 
-              _accountName = suggestion;
+            _accountName = suggestion;
 
-              _accountNameController.selection = TextSelection.fromPosition(
-                  TextPosition(offset: _accountNameController.text.length));
-            });
-          },
-          child: Text(
-            suggestion,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
-            ),
+            _accountNameController.selection = TextSelection.fromPosition(
+              TextPosition(offset: _accountNameController.text.length));
+          });
+        },
+        child: Text(
+          suggestion,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
           ),
-        );
-      },
+        ),
+      ),
     );
-  }
-
-  Future<String> getValidAccountName(
-    String suggestion, {
-    int triedIndex = 0,
-  }) async {
-    final isAvailable = await HttpService.of(context, listen: false)
-        .isAccountNameAvailable(suggestion);
-    if (isAvailable) {
-      return suggestion;
-    } else {
-      final newSuggestion = replaceCharAt(
-        suggestion,
-        suggestion.length - 1 - triedIndex,
-        Random().nextInt(6).clamp(1, 5).toString(),
-      );
-      return await getValidAccountName(newSuggestion,
-          triedIndex: triedIndex + 1);
-    }
   }
 
   String replaceCharAt(String oldString, int index, String newChar) {
@@ -129,21 +107,32 @@ class _CreateAccountState extends State<CreateAccount> {
                 controller: _accountNameController,
                 maxLength: 12,
                 focusNode: accountNameFocus,
-                validator: accountGeneratorService.validator,
+                validator: accountGeneratorService.validator, // so cumbersome, rebuild as Bloc I think
                 onChanged: (value) {
                   setState(() => _accountName = value);
                 },
               ),
-              if (accountGeneratorService.validate(_accountName).valid &&
-                  (_accountName.isNotEmpty || _name.isNotEmpty))
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Wrap(
-                    children: <Widget>[
-                      Text('Available: '),
-                      ...accountGeneratorService.generate(suggestedAccount).map(buildSuggestionWidget),
-                    ],
-                  ),
+              if (accountGeneratorService.validate(_accountName).invalid &&
+                  (_accountName.length > 3 || _name.length > 3))
+                FutureBuilder<List<String>>(
+                  future: accountGeneratorService.generateList(_accountName.isNotEmpty ? _accountName : _name),
+                  builder: (context, snapshot) {
+                    if(snapshot.hasError) {
+                      return Text("Failed to generate");
+                    } else if (snapshot.hasData) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Wrap(
+                          children: <Widget>[
+                            Text('Available: '),
+                            ...snapshot.data.map(buildSuggestionWidget),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  }
                 ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),

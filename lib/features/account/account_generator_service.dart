@@ -12,7 +12,7 @@ class AccountGeneratorService {
     this._httpService = httpService;
   }
 
-  Future<List<String>> generateList(String suggestedAccount, { int count: 5 }) async {
+  Future<List<String>> generateList(String suggestedAccount, { int count: 3 }) async {
     List<String> available = [];
     List<String> excludes = [];
     for(int i = 0; i < count; i++) {
@@ -145,13 +145,14 @@ class ValidationResult {
   final bool valid;
   final String message;
   String get validation => valid ? null : message;
+  bool get invalid => !valid;
 
   ValidationResult(this.valid, this.message);
 
   ValidationResult.valid() : this(true, null);
 
   ValidationResult.invalid(String message) : this(false, message);
-  
+
 }
 
 class AccountAvailableResult {
