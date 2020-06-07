@@ -486,13 +486,16 @@ class HttpService {
     if (mockResponse == true) return true;
 
     final String keyAccountsURL =
-        "$baseURL/v2/history/get_creator?account=$accountName";
+        "$baseURL/v1/chain/get_account";
 
-    Response res = await get(keyAccountsURL);
+    Response res = await post(
+      keyAccountsURL,
+      body: '{ "account_name": "$accountName" }',
+    );
 
     if (res.statusCode == 200) {
       return false;
-    } else if (res.statusCode == 404) {
+    } else if (res.statusCode == 500) {
       // the account doesn't exist
       return true;
     } else {
