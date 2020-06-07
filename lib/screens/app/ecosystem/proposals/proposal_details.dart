@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
@@ -47,16 +48,10 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
         slivers: <Widget>[
           SliverAppBar(
             expandedHeight: 250,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                children: <Widget>[
-                  NetImage(
-                    proposal.image,
-                    height: 300,
-                    fit: BoxFit.cover,
-                    fullScreen: true,
-                  ),
-                ],
+            flexibleSpace: FittedBox(
+              fit: BoxFit.cover,
+              child: NetImage(
+                proposal.image,                      
               ),
             ),
           ),
