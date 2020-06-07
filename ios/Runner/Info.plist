@@ -68,5 +68,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>FirebaseDynamicLinksCustomDomains</key>
+    <array>
+        <string>https://joinseeds.com</string>
+      <string>https://seedswallet.page.link</string>
+    </array>
 </dict>
 </plist>
