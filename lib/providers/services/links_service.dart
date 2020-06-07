@@ -13,7 +13,6 @@ class LinksService {
 
   Future<dynamic> processInitialLink() async {
     await Future.delayed(Duration(seconds: 1));
-
     if (_enableMockLink)
       return {"inviteMnemonic": "first-second-third-fourth-fifth"};
 
@@ -21,11 +20,8 @@ class LinksService {
         await FirebaseDynamicLinks.instance.getInitialLink();
 
     final Uri deepLink = data?.link;
-
     if (deepLink != null) {
-      Map<String, String> queryParams =
-          Uri.splitQueryString(deepLink.toString());
-
+      final queryParams = deepLink.queryParameters;
       if (queryParams["inviteMnemonic"] != null) {
         return queryParams;
       }
@@ -50,16 +46,16 @@ class LinksService {
 
   Future<Uri> createInviteLink(String inviteMnemonic) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: 'https://seedswallet.page.link',
+      link: Uri.parse(
+        'https://joinseeds.com/?placeholder=&inviteMnemonic=$inviteMnemonic',
+      ),
       androidParameters: AndroidParameters(
         packageName: "com.joinseeds.seedswallet",
       ),
       iosParameters: IosParameters(
-        bundleId: "com.joinseeds.seedswallet",
-        appStoreId: "1492883192",
-      ),
-      uriPrefix: 'https://seedswallet.page.link',
-      link: Uri.parse(
-        'https://joinseeds.com/?placeholder=&inviteMnemonic=$inviteMnemonic',
+        bundleId: "com.joinseeds.seedslight",
+        appStoreId: "1507143650",
       ),
     );
 
