@@ -16,8 +16,8 @@ class CreateAccountBloc {
 
   Stream<ValidAccounts> get validAccounts => _validAccounts.stream;
   Stream<bool> get available => _available.stream.distinct();
-  Stream<String> get userName => _userName.stream.debounceTime(Duration(milliseconds: 500)).where((value) => value.length > 0);
-  Stream<String> get userAccount => _userAccount.stream.debounceTime(Duration(milliseconds: 500)).where((value) => value.length > 0);
+  Stream<String> get userName => _userName.stream.debounceTime(Duration(milliseconds: 500));
+  Stream<String> get userAccount => _userAccount.stream.debounceTime(Duration(milliseconds: 500));
   Function(String) get setUserName => _userName.add;
   Function(String) get setUserAccount => _userAccount.add;
   Function(UpdateSuggestionCmd) get execute => _execute.add;
@@ -35,17 +35,14 @@ class CreateAccountBloc {
 
   void _initGenerateAccountFromUserName() {
     userName
+      .where((value) => value.length > 0)
       .flatMap((name) => generateList(name))
       .listen(_addValidAccounts);
   }
-
-  Stream<List<String>> generateList(String name) {
-    _validAccounts.add(_validAccounts.value.switchToInProgress());
-    return _accountGeneratorService.generateList(name).asStream();
-  }
-
+  
   void _initGenerateAccountFromUserAccount() {
     userAccount
+      .where((value) => value.length > 0)
       .where((account) => _accountGeneratorService.validate(account).invalid)
       .flatMap((account) => generateList(account))
       .listen(_addValidAccounts);
@@ -53,12 +50,17 @@ class CreateAccountBloc {
 
   void _initValidateLatestAccountUnlessAlreadyValid() {
     CombineLatestStream
-      .combine2(userAccount, _validAccounts, (account, alreadyValidated) => stuff(account, alreadyValidated))
+      .combine2(userAccount, _validAccounts, (account, alreadyValidated) => validateLocalBeforeOnChain(account, alreadyValidated))
       .flatMap((value) => value)
       .listen(_available.add);
   }
 
-  Stream<bool> stuff(String account, ValidAccounts alreadyValidated) {
+  Stream<List<String>> generateList(String name) {
+    _validAccounts.add(_validAccounts.value.switchToInProgress());
+    return _accountGeneratorService.generateList(name).asStream();
+  }
+
+  Stream<bool> validateLocalBeforeOnChain(String account, ValidAccounts alreadyValidated) {
     if(alreadyValidated.contains(account)) {
       return Stream.value(true);
     } else if(_accountGeneratorService.validate(account).valid) {
