@@ -1,8 +1,10 @@
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
+import 'package:seeds/features/account/create_account_bloc.dart';
 import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
+import 'package:seeds/features/biometrics/biometrics_service.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
@@ -13,7 +15,6 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
-import 'package:seeds/features/biometrics/biometrics_service.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
@@ -120,5 +121,9 @@ final providers = [
   ProxyProvider<HttpService, AccountGeneratorService>(
     create: (_) => AccountGeneratorService(),
     update: (_, httpService, accountGeneratorService) => accountGeneratorService..update(httpService),
+  ),
+  ProxyProvider<AccountGeneratorService, CreateAccountBloc>(
+    create: (_) => CreateAccountBloc(),
+    update: (_, accountGeneratorService, createAccountBloc) => createAccountBloc..update(accountGeneratorService),
   ),
 ];

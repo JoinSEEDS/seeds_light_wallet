@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:quiver/iterables.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
 class AccountGeneratorService {
@@ -30,7 +29,7 @@ class AccountGeneratorService {
     }
 
     if(!exclude.contains(account)) {
-      final isAvailable = await _httpService.isAccountNameAvailable(account);
+      final isAvailable = await availableOnChain(account);
       if (isAvailable) {
         return AccountAvailableResult(
           available: account,
@@ -47,6 +46,13 @@ class AccountGeneratorService {
     final modified = modifyAccountName(account, replaceWith);
     final nextReplacement = increaseReplaceCounter(replaceWith);
     return generate(modified, replaceWith: nextReplacement, exclude: exclude, recursionAttempts: recursionAttempts - 1);
+  }
+
+  Future<bool> availableOnChain(String account) {
+    if(validate(account).valid) {
+      return _httpService.isAccountNameAvailable(account);
+    }
+    return Future.value(false);
   }
 
   @visibleForTesting

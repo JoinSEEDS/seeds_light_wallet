@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
-import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/features/account/create_account_bloc.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 
@@ -49,12 +47,14 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 
   Widget buildSuggestionWidget(String suggestion) {
+    CreateAccountBloc bloc = Provider.of(context);
     return Padding(
       padding: const EdgeInsets.only(left: 6, right: 10, bottom: 10),
       child: InkWell(
         onTap: () {
           setState(() {
             _accountNameController.text = suggestion;
+            bloc.setUserAccount(suggestion);
 
             _accountName = suggestion;
 
@@ -81,6 +81,7 @@ class _CreateAccountState extends State<CreateAccount> {
 
   @override
   Widget build(BuildContext context) {
+    CreateAccountBloc bloc = Provider.of(context);
     AccountGeneratorService accountGeneratorService = Provider.of(context);
 
     return Container(
@@ -99,6 +100,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 validator: _validateName,
                 onChanged: (value) {
                   setState(() => _name = value);
+                  bloc.setUserName(value);
                 },
               ),
               SizedBox(height: 8),
@@ -110,9 +112,35 @@ class _CreateAccountState extends State<CreateAccount> {
                 validator: accountGeneratorService.validator, // so cumbersome, rebuild as Bloc I think
                 onChanged: (value) {
                   setState(() => _accountName = value);
+                  bloc.setUserAccount(value);
                 },
               ),
-              if (accountGeneratorService.validate(_accountName).invalid &&
+              StreamBuilder<ValidAccounts>(
+                stream: bloc.validAccounts,
+                initialData: ValidAccounts.empty(),
+                builder: (context, snapshot) {
+                  if(snapshot.hasError) {
+                    return Text("Failed to generate");
+                  } else {
+                    ValidAccounts va = snapshot.data;
+                    if(va.inProgress) {
+                      return Center(
+                        child: CircularProgressIndicator()
+                      );
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Wrap(
+                        children: <Widget>[
+                          Text('Available: '),
+                          ...va.latest(5).map(buildSuggestionWidget),
+                        ],
+                      ),
+                    );
+                  }
+                },
+              ),
+              /*if (accountGeneratorService.validate(_accountName).invalid &&
                   (_accountName.length > 3 || _name.length > 3))
                 FutureBuilder<List<String>>(
                   future: accountGeneratorService.generateList(_accountName.isNotEmpty ? _accountName : _name),
@@ -133,12 +161,19 @@ class _CreateAccountState extends State<CreateAccount> {
                       return CircularProgressIndicator();
                     }
                   }
-                ),
+                ),*/
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
-                child: MainButton(
-                  title: "Create account",
-                  onPressed: () async => await createAccount(),
+                child: StreamBuilder<bool>(
+                  stream: bloc.available,
+                  initialData: false,
+                  builder: (context, snapshot) {
+                    return MainButton(
+                      title: "Create account",
+                      active: snapshot.data,
+                      onPressed: () async => await createAccount(),
+                    );
+                  }
                 ),
               ),
               Padding(

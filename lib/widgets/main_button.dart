@@ -7,6 +7,7 @@ class MainButton extends StatefulWidget {
   final String title;
   final EdgeInsets margin;
   final Function onPressed;
+  final bool active;
 
   MainButton({
     Key key,
@@ -15,6 +16,7 @@ class MainButton extends StatefulWidget {
     this.fontSize = 18,
     this.margin,
     this.onPressed,
+    this.active: true,
   }): super(key: key);
 
   @override
@@ -52,7 +54,7 @@ class MainButtonState extends State<MainButton> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(13),
               ),
-              onPressed: widget.onPressed,
+              onPressed: widget.active ? widget.onPressed : null,
               color: Colors.transparent,
               child: Container(
                 height: widget.height,
@@ -70,7 +72,7 @@ class MainButtonState extends State<MainButton> {
                 ): Text(
                   widget.title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: widget.fontSize),
+                  style: TextStyle(color: widget.active ? Colors.white : Colors.grey, fontSize: widget.fontSize),
                 ) ,
               ),
             ),
