@@ -16,8 +16,8 @@ class CreateAccountBloc {
 
   Stream<ValidAccounts> get validAccounts => _validAccounts.stream;
   Stream<bool> get available => _available.stream.distinct();
-  Stream<String> get userName => _userName.stream.debounceTime(Duration(milliseconds: 500));
-  Stream<String> get userAccount => _userAccount.stream.debounceTime(Duration(milliseconds: 500));
+  Stream<String> get userName => _userName.stream.debounceTime(Duration(milliseconds: 500)).where((value) => value.length > 0);
+  Stream<String> get userAccount => _userAccount.stream.debounceTime(Duration(milliseconds: 500)).where((value) => value.length > 0);
   Function(String) get setUserName => _userName.add;
   Function(String) get setUserAccount => _userAccount.add;
   Function(UpdateSuggestionCmd) get execute => _execute.add;

@@ -133,7 +133,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       child: Wrap(
                         children: <Widget>[
                           Text('Available: '.i18n),
-                          ...va.latest(5).map(buildSuggestionWidget),
+                          ...va.latest(4).map(buildSuggestionWidget),
                         ],
                       ),
                     );
