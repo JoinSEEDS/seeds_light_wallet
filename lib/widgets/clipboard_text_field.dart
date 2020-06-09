@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 
 class ClipboardTextField extends StatefulWidget {
+  final String defaultHintText =  "Paste from clipboard".i18n;
   final TextEditingController controller;
   final Function onChanged;
   final String labelText;
@@ -12,7 +14,7 @@ class ClipboardTextField extends StatefulWidget {
     this.controller,
     this.onChanged,
     this.labelText,
-    this.hintText = "Paste from clipboard",
+    this.hintText,
   });
 
   @override
@@ -87,7 +89,7 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
         ),
         labelText: widget.labelText,
         suffixIcon: hasEmptyValue ? showPasteButton() : showClearButton(),
-        hintText: widget.hintText,
+        hintText: widget.hintText != null ? widget.hintText.i18n : widget.defaultHintText,
       ),
       style: TextStyle(
         fontFamily: "sfprotext",

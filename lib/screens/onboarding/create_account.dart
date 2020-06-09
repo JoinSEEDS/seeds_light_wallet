@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/features/account/create_account_bloc.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
+import 'package:seeds/i18n/create_account.i18n.dart';
 
 class CreateAccount extends StatefulWidget {
   final String inviteSecret;
@@ -41,7 +41,7 @@ class _CreateAccountState extends State<CreateAccount> {
 
   String _validateName(String val) {
     if (val.isEmpty) {
-      return 'Please enter your name';
+      return 'Please enter your name'.i18n;
     }
     return null;
   }
@@ -95,7 +95,7 @@ class _CreateAccountState extends State<CreateAccount> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               MainTextField(
-                labelText: 'Your name',
+                labelText: 'Your name'.i18n,
                 controller: _nameController,
                 validator: _validateName,
                 onChanged: (value) {
@@ -105,11 +105,11 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
               SizedBox(height: 8),
               MainTextField(
-                labelText: 'Account Name',
+                labelText: 'Account Name'.i18n,
                 controller: _accountNameController,
                 maxLength: 12,
                 focusNode: accountNameFocus,
-                validator: accountGeneratorService.validator, // so cumbersome, rebuild as Bloc I think
+                validator: accountGeneratorService.validator,
                 onChanged: (value) {
                   setState(() => _accountName = value);
                   bloc.setUserAccount(value);
@@ -120,7 +120,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 initialData: ValidAccounts.empty(),
                 builder: (context, snapshot) {
                   if(snapshot.hasError) {
-                    return Text("Failed to generate");
+                    return Text("Failed to generate".i18n);
                   } else {
                     ValidAccounts va = snapshot.data;
                     if(va.inProgress) {
@@ -132,7 +132,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       padding: const EdgeInsets.only(top: 16.0),
                       child: Wrap(
                         children: <Widget>[
-                          Text('Available: '),
+                          Text('Available: '.i18n),
                           ...va.latest(5).map(buildSuggestionWidget),
                         ],
                       ),
@@ -140,28 +140,6 @@ class _CreateAccountState extends State<CreateAccount> {
                   }
                 },
               ),
-              /*if (accountGeneratorService.validate(_accountName).invalid &&
-                  (_accountName.length > 3 || _name.length > 3))
-                FutureBuilder<List<String>>(
-                  future: accountGeneratorService.generateList(_accountName.isNotEmpty ? _accountName : _name),
-                  builder: (context, snapshot) {
-                    if(snapshot.hasError) {
-                      return Text("Failed to generate");
-                    } else if (snapshot.hasData) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: Wrap(
-                          children: <Widget>[
-                            Text('Available: '),
-                            ...snapshot.data.map(buildSuggestionWidget),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  }
-                ),*/
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: StreamBuilder<bool>(
@@ -169,7 +147,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   initialData: false,
                   builder: (context, snapshot) {
                     return MainButton(
-                      title: "Create account",
+                      title: "Create account".i18n,
                       active: snapshot.data,
                       onPressed: () async => await createAccount(),
                     );
@@ -187,14 +165,14 @@ class _CreateAccountState extends State<CreateAccount> {
                       fontWeight: FontWeight.w400,
                     ),
                     children: <TextSpan>[
-                      TextSpan(text: "Your account name should have "),
+                      TextSpan(text: "Your account name should have ".i18n),
                       TextSpan(
-                        text: "exactly 12",
+                        text: "exactly 12".i18n,
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                       TextSpan(
                           text:
-                              " symbols (lowercase letters and digits only 1-5)"),
+                              " symbols (lowercase letters and digits only 1-5)".i18n),
                     ],
                   ),
                 ),

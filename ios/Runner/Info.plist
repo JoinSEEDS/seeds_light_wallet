@@ -18,6 +18,19 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.joinseeds.seedslight</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.joinseeds.seedslight</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -55,5 +68,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>FirebaseDynamicLinksCustomDomains</key>
+    <array>
+        <string>https://joinseeds.com</string>
+      <string>https://seedswallet.page.link</string>
+    </array>
 </dict>
 </plist>

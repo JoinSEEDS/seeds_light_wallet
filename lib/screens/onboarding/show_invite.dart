@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
+import 'package:seeds/i18n/show_invite.i18n.dart';
 
 class ShowInviteArguments {
   final String inviterAccountName;
@@ -26,8 +27,8 @@ class ShowInvite extends StatelessWidget {
           OnboardingViewModel(
             bubble: Icons.done,
             mainImage: 'assets/images/onboarding5.png',
-            body: 'Accept your invite to create a new account and join SEEDS',
-            title: 'You are invited by $inviterAccountName',
+            body: 'Accept your invite to create a new account and join SEEDS'.i18n,
+            title: 'You are invited by %s'.i18n.fill(["$inviterAccountName"]),
           ),
         ],
         key: new UniqueKey(),
@@ -37,7 +38,7 @@ class ShowInvite extends StatelessWidget {
         },
         doneButtonPersist: true,
         doneText: Text(
-          "ACCEPT",
+          "ACCEPT".i18n,
           style: TextStyle(
             color: Colors.white,
             fontFamily: "worksans",

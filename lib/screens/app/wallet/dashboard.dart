@@ -14,6 +14,7 @@ import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 
 enum TransactionType { income, outcome }
 
@@ -83,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Text(
-                'Available balance',
+                'Available balance'.i18n,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
@@ -110,7 +111,7 @@ class _DashboardState extends State<Dashboard> {
               }),
               EmptyButton(
                 width: width * 0.5,
-                title: 'Transfer',
+                title: 'Transfer'.i18n,
                 color: Colors.white,
                 onPressed: onTransfer,
               )
@@ -144,7 +145,7 @@ class _DashboardState extends State<Dashboard> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Text(
-                      'Your private key has not been backed up!',
+                      'Your private key has not been backed up!'.i18n,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -158,7 +159,7 @@ class _DashboardState extends State<Dashboard> {
                         children: [
                           EmptyButton(
                             width: width * 0.3,
-                            title: 'Backup',
+                            title: 'Backup'.i18n,
                             color: Colors.white,
                             onPressed: () {
                               backupService.backup();
@@ -166,7 +167,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           EmptyButton(
                             width: width * 0.3,
-                            title: 'Later',
+                            title: 'Later'.i18n,
                             color: Colors.white,
                             onPressed: () {
                               settings.updateBackupLater();
@@ -343,7 +344,7 @@ class _DashboardState extends State<Dashboard> {
             Container(
                 padding: EdgeInsets.only(bottom: 3, left: 15, right: 15),
                 child: Text(
-                  'Latest transactions',
+                  'Latest transactions'.i18n,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 )),
             Consumer<TransactionsNotifier>(

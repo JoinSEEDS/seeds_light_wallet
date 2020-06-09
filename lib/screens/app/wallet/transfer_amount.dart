@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 
 class TransferAmount extends StatefulWidget {
   final String amountValue;
@@ -52,7 +53,7 @@ class _TransferAmountState extends State<TransferAmount> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
-            "Enter amount",
+            "Enter amount".i18n,
             style: TextStyle(fontFamily: "worksans", color: Colors.black),
           ),
           centerTitle: true,

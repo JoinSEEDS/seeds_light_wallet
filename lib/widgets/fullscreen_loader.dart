@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/generated/r.dart';
+import 'package:seeds/utils/error_builder.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 
 import 'main_button.dart';
 
@@ -15,6 +17,11 @@ class FullscreenLoader extends StatefulWidget {
 
   final Duration successCallbackDelay;
   final Duration failureCallbackDelay;
+
+  final String _successTitle = "Transaction successful".i18n;
+  final String _failureTitle = "Transaction failed".i18n;
+  final String _successButtonText = "Done".i18n;
+  final String _failureButtonText = "Done".i18n;
 
   final String successTitle;
   final String failureTitle;
@@ -33,10 +40,10 @@ class FullscreenLoader extends StatefulWidget {
     this.afterFailureCallback,
     this.successCallbackDelay = const Duration(milliseconds: 2500),
     this.failureCallbackDelay = const Duration(milliseconds: 2500),
-    this.successTitle = "Transaction successful",
-    this.failureTitle = "Transaction failed",
-    this.successButtonText = "Close",
-    this.failureButtonText = "Close",
+    this.successTitle,
+    this.failureTitle,
+    this.successButtonText,
+    this.failureButtonText,
     this.successButtonCallback,
     this.failureButtonCallback,
   });
@@ -74,7 +81,10 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
 
   void _messageListener(String resultMessage) {
     setState(() {
-      message = resultMessage;
+      if (showFailure)
+        message = ErrorBuilder.getErrorMessageKey(resultMessage);
+      else
+        message = resultMessage;
     });
   }
 
@@ -104,10 +114,11 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
 
   @override
   void dispose() {
-    super.dispose();
     animationController?.dispose();
+    super.dispose();
     statusSubscription?.cancel();
     messageSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -139,7 +150,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                     scale: scale,
                     child: RotationTransition(
                       child: Image.asset(
-                        R.appIcon,
+                        R.appIconTransparent,
                         width: 100,
                         height: 100,
                       ),
@@ -161,8 +172,8 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                     children: <Widget>[
                       Text(
                         (showSuccess == true)
-                            ? widget.successTitle
-                            : widget.failureTitle,
+                            ? (widget.successTitle == null ? widget._successTitle : widget.successTitle)
+                            : (widget.failureTitle == null ? widget._failureTitle : widget.failureTitle),
                         style: TextStyle(
                           color: (showSuccess == true)
                               ? AppColors.blue
@@ -192,7 +203,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                         margin: EdgeInsets.only(left: 10, right: 10),
                         padding: EdgeInsets.all(15),
                         child: Text(
-                          message,
+                          (showFailure == true) ? message.i18n : message,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -202,8 +213,8 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                     children: <Widget>[
                       MainButton(
                         title: (showSuccess)
-                            ? widget.successButtonText
-                            : widget.failureButtonText,
+                            ? (widget.successButtonText == null ? widget._successButtonText : widget.successButtonText)
+                            : (widget.failureButtonText == null ? widget._failureButtonText : widget.failureButtonText),
                         onPressed: () {
                           if (showSuccess &&
                               widget.successButtonCallback != null) {

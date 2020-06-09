@@ -7,6 +7,7 @@ import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/second_button.dart';
+import 'package:seeds/i18n/profile.i18n.dart';
 
 class Logout extends StatefulWidget {
   @override
@@ -29,7 +30,7 @@ class _LogoutState extends State<Logout> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Logout",
+          "Logout".i18n,
           style: TextStyle(color: Colors.black, fontFamily: "worksans"),
         ),
         leading: IconButton(
@@ -61,7 +62,7 @@ class _LogoutState extends State<Logout> {
                   margin: EdgeInsets.all(20),
                   alignment: Alignment.center,
                   child: Text(
-                    'Save private key in secure place - to be able to restore access to your wallet later',
+                    'Save private key in secure place - to be able to restore access to your wallet later'.i18n,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: AppColors.blue, fontSize: 16),
                   ),
@@ -72,7 +73,7 @@ class _LogoutState extends State<Logout> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 MainButton(
-                  title: "Save private key",
+                  title: "Save private key".i18n,
                   onPressed: () {
                     setState(() {
                       privateKeySaved = true;
@@ -83,7 +84,7 @@ class _LogoutState extends State<Logout> {
                 if (privateKeySaved == true)
                   SecondButton(
                     margin: const EdgeInsets.only(top: 10, bottom: 40.0),
-                    title: "Logout",
+                    title: "Logout".i18n,
                     onPressed: onLogout,
                     color: AppColors.red,
                   ),

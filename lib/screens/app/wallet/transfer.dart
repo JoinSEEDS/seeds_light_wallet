@@ -7,6 +7,7 @@ import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 
 import 'transfer_form.dart';
 
@@ -51,7 +52,7 @@ class _TransferState extends State<Transfer> {
                   focusNode: _searchFocusNode,
                   decoration: InputDecoration(
                     hintStyle: TextStyle(fontSize: 17),
-                    hintText: 'Enter user name or account',
+                    hintText: 'Enter user name or account'.i18n,
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(15),
                   ),
@@ -61,7 +62,7 @@ class _TransferState extends State<Transfer> {
                 ),
               )
             : Text(
-                "Transfer",
+                "Transfer".i18n,
                 style: TextStyle(fontFamily: "worksans", color: Colors.black),
               ),
         centerTitle: true,
@@ -132,7 +133,7 @@ class _TransferState extends State<Transfer> {
                 vertical: 7,
               ),
               child: Text(
-                "Choose existing Seeds Member to transfer",
+                "Choose existing Seeds Member to transfer".i18n,
                 style: TextStyle(
                     fontFamily: "worksans",
                     fontSize: 18,

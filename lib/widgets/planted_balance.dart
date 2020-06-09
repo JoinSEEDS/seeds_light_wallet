@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 
 class PlantedBalance extends StatelessWidget {
   @override
@@ -23,7 +24,7 @@ class PlantedBalance extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                'Planted balance',
+                'Planted balance'.i18n,
                 style: TextStyle(
                     color: AppColors.blue,
                     fontSize: 14,

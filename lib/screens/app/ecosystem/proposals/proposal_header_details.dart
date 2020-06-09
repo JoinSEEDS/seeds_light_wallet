@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:seeds/models/models.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:seeds/i18n/proposals.i18n.dart';
 
 class ProposalHeaderDetails extends StatefulWidget {
   final ProposalModel proposal;
@@ -49,7 +50,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                 text: TextSpan(
                   children: <InlineSpan>[
                     TextSpan(
-                      text: 'Created by: ',
+                      text: 'Created by:'.i18n + ' ',
                       style: textTheme.subtitle2
                           .copyWith(fontWeight: FontWeight.normal),
                     ),
@@ -74,7 +75,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '${proposal.total} votes',
+                    '%s votes'.i18n.fill(["${proposal.total}"]),
                     style: textTheme.caption.copyWith(fontSize: 14),
                   ),
                   buildVotesIndicator(
@@ -132,17 +133,17 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '${proposal.total} votes',
+                    '%s votes'.i18n.fill(["${proposal.total}"]),
                     style: textTheme.caption.copyWith(fontSize: 14),
                   ),
                   buildVotesIndicator(
-                    title: 'Yes',
+                    title: 'Yes'.i18n,
                     color: Colors.greenAccent,
                     votes: proposal.favour,
                     total: proposal.total,
                   ),
                   buildVotesIndicator(
-                    title: 'No',
+                    title: 'No'.i18n,
                     color: Colors.redAccent,
                     votes: proposal.against,
                     total: proposal.total,
@@ -175,7 +176,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
               animation: true,
               lineHeight: 8,
               animationDuration: 800,
-              percent: votes / total,
+              percent: (total == 0 ? 0 : votes.toDouble() / total.toDouble()),
               linearStrokeCap: LinearStrokeCap.roundAll,
               progressColor: color,
             ),
