@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/i18n/invites.i18n.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/utils/invites.dart';
@@ -14,7 +15,6 @@ import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/second_button.dart';
 import 'package:seeds/widgets/transaction_details.dart';
 import 'package:share/share.dart';
-import 'package:seeds/i18n/invites.i18n.dart';
 
 enum InviteStatus {
   initial,
@@ -57,16 +57,11 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
     FocusScope.of(context).requestFocus(FocusNode());
 
     try {
-      var response =
-          await Provider.of<EosService>(context, listen: false).createInvite(
+      await Provider.of<EosService>(context, listen: false).createInvite(
         quantity: double.parse(quantityController.text),
         inviteHash: widget.inviteHash,
       );
-
-      String transactionId = response["transaction_id"];
-
-      _statusNotifier.add(true);
-      _messageNotifier.add("Transaction hash: %s".i18n.fill(["$transactionId"]));
+      widget.nextStep();
     } catch (err) {
       print(err.toString());
       _statusNotifier.add(false);

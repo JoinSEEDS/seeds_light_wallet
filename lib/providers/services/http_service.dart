@@ -41,7 +41,7 @@ class HttpService {
     Response res = await post(profileURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       ProfileModel profile = ProfileModel.fromJson(body["rows"][0]);
 
@@ -66,7 +66,7 @@ class HttpService {
     Response res = await get(keyAccountsURL);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       List<String> keyAccounts = List<String>.from(body["account_names"]);
 
@@ -99,7 +99,7 @@ class HttpService {
     Response res = await post(membersURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       List<dynamic> allAccounts = body["rows"].toList();
 
@@ -130,7 +130,7 @@ class HttpService {
     Response res = await post(membersURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       List<dynamic> result = body["rows"].toList();
 
@@ -159,7 +159,7 @@ class HttpService {
     Response res = await get(transactionsURL);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       List<dynamic> transfers = body["actions"].where((dynamic item) {
         return item["act"]["account"] == "token.seeds" &&
@@ -195,7 +195,7 @@ class HttpService {
     Response res = await post(balanceURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
+      List<dynamic> body = res.parseJson();
 
       BalanceModel balance = BalanceModel.fromJson(body);
 
@@ -223,7 +223,7 @@ class HttpService {
     Response res = await post(balanceURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
+      List<dynamic> body = res.parseJson();
 
       if (body != null && body.isNotEmpty) {
         return BalanceModel.fromJson(body);
@@ -253,7 +253,7 @@ class HttpService {
     Response res = await post(exchangeURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       ExchangeModel exchangeConfig = ExchangeModel.fromJson(body);
 
@@ -281,7 +281,7 @@ class HttpService {
     Response res = await post(voiceURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       VoiceModel voice = VoiceModel.fromJson(body);
 
@@ -309,7 +309,7 @@ class HttpService {
     Response res = await post(plantedURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       PlantedModel balance = PlantedModel.fromJson(body);
 
@@ -336,7 +336,7 @@ class HttpService {
     Response res = await post(harvestURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       HarvestModel harvest = HarvestModel.fromJson(body);
 
@@ -363,7 +363,7 @@ class HttpService {
     Response res = await post(scoreURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       ScoreModel score = ScoreModel.fromJson(body);
 
@@ -393,7 +393,7 @@ class HttpService {
     Response res = await post(proposalsURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       List<dynamic> activeProposals = body["rows"].where((dynamic item) {
         return item["stage"] == stage && item["status"] == status;
@@ -428,7 +428,7 @@ class HttpService {
     Response res = await post(inviteURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
+      Map<String, dynamic> body = res.parseJson();
 
       if (body["rows"].isNotEmpty) {
         return InviteModel.fromJson(body["rows"][0]);
@@ -482,23 +482,31 @@ class HttpService {
   }
 
   /// returns true if the account name doesn't exist
-  Future<bool> checkAccountName(String accountName) async {
+  Future<bool> isAccountNameAvailable(String accountName) async {
     if (mockResponse == true) return true;
 
     final String keyAccountsURL =
-        "$baseURL/v2/history/get_creator?account=$accountName";
+        "$baseURL/v1/chain/get_account";
 
-    Response res = await get(keyAccountsURL);
+    Response res = await post(
+      keyAccountsURL,
+      body: '{ "account_name": "$accountName" }',
+    );
 
     if (res.statusCode == 200) {
       return false;
-    } else if (res.statusCode == 404) {
+    } else if (res.statusCode == 500) {
       // the account doesn't exist
       return true;
     } else {
       return false;
     }
   }
+}
+extension ResponseExtension on Response {
+  dynamic parseJson() {
+    return json.decode(utf8.decode(this.bodyBytes));
+  } 
 }
 
 class NetworkException implements Exception {
