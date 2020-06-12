@@ -2,6 +2,8 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
+import 'package:seeds/features/scanner/scanner_bloc.dart';
+import 'package:seeds/features/scanner/scanner_service.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
@@ -115,5 +117,12 @@ final providers = [
   ProxyProvider<SettingsNotifier, BackupService>(
     create: (_) => BackupService(),
     update: (_, settings, backupService) => backupService..update(settings),
+  ),
+  Provider(
+    create: (_) => ScannerService(),
+  ),
+  ProxyProvider<ScannerService, ScannerBloc>(
+    create: (_) => ScannerBloc(),
+    update: (_, scannerService, scannerBloc) => scannerBloc..update(scannerService),
   ),
 ];
