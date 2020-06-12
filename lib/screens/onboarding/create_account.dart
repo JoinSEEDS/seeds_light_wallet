@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
-import 'package:seeds/providers/services/http_service.dart';
+import 'package:provider/provider.dart';
+import 'package:seeds/features/account/account_generator_service.dart';
+import 'package:seeds/features/account/create_account_bloc.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/i18n/create_account.i18n.dart';
@@ -46,119 +46,31 @@ class _CreateAccountState extends State<CreateAccount> {
     return null;
   }
 
-  String _validateAccountName(String val) {
-    if (val.length != 12) {
-      return 'Your account name should have exactly 12 symbols'.i18n;
-    } else if (RegExp(r'0|6|7|8|9').allMatches(val).length > 0) {
-      return 'Your account name should only contain numbers 1-5'.i18n;
-    } else if (val.toLowerCase() != val) {
-      return "Your account name can't cont'n uppercase letters".i18n;
-    } else if (RegExp(r'[a-z]|1|2|3|4|5').allMatches(val).length != 12) {
-      return 'Your account name should only contain numbers 1-5'.i18n;
-    } else if (RegExp(r'[a-z]').allMatches(val[0]).length == 0) {
-      return "Your account name should cont'n lower case letters".i18n;
-    }
-    return null;
-  }
+  Widget buildSuggestionWidget(String suggestion) {
+    CreateAccountBloc bloc = Provider.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(left: 6, right: 10, bottom: 10),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _accountNameController.text = suggestion;
+            bloc.setUserAccount(suggestion);
 
-  List<Widget> createSuggestions() {
-    final suggestions = List<String>();
+            _accountName = suggestion;
 
-    String suggestion = _accountName.isNotEmpty ? _accountName : _name;
-
-    // remove uppercase
-    if (suggestion.toLowerCase() != suggestion) {
-      suggestion = suggestion.toLowerCase();
-    }
-
-    // replace 0|6|7|8|9 with 1
-    if (RegExp(r'0|6|7|8|9').allMatches(suggestion).length > 0) {
-      suggestion = suggestion.replaceAll(RegExp(r'0|6|7|8|9'), '');
-    }
-
-    // remove characters out of the accepted range
-    suggestion = suggestion.split('').map((char) {
-      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(char).length > 0;
-
-      return legalChar ? char.toString() : '';
-    }).join();
-
-    // remove the first char if it was a number
-    if (suggestion?.isNotEmpty == true) {
-      final illegalChar =
-          RegExp(r'[a-z]').allMatches(suggestion[0]).length == 0;
-
-      if (illegalChar) suggestion = suggestion.substring(1);
-    }
-
-    // add the missing characters.
-    if (suggestion.length < 12) {
-      final missingCharsCount = 12 - suggestion.length;
-
-      final missingChars = (suggestion.hashCode.toString() * 2)
-          .split('')
-          .map((char) => int.parse(char).clamp(1, 5))
-          .take(missingCharsCount)
-          .join();
-
-      suggestion = suggestion + missingChars;
-    }
-
-    // remove the additional characters
-    if (suggestion.length > 12) {
-      suggestion = suggestion.substring(0, 12);
-    }
-
-    suggestions.add(suggestion);
-
-    return suggestions.map(buildSuggestionWidget).toList();
-  }
-
-  FutureLoadingBuilder<String> buildSuggestionWidget(String suggestion) {
-    return FutureLoadingBuilder<String>(
-      future: getValidAccountName(suggestion),
-      mutable: true,
-      builder: (context, suggestion) {
-        return InkWell(
-          onTap: () {
-            setState(() {
-              _accountNameController.text = suggestion;
-
-              _accountName = suggestion;
-
-              _accountNameController.selection = TextSelection.fromPosition(
-                  TextPosition(offset: _accountNameController.text.length));
-            });
-          },
-          child: Text(
-            suggestion,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
-            ),
+            _accountNameController.selection = TextSelection.fromPosition(
+              TextPosition(offset: _accountNameController.text.length));
+          });
+        },
+        child: Text(
+          suggestion,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
           ),
-        );
-      },
+        ),
+      ),
     );
-  }
-
-  Future<String> getValidAccountName(
-    String suggestion, {
-    int triedIndex = 0,
-  }) async {
-    final isAvailable = await HttpService.of(context, listen: false)
-        .checkAccountName(suggestion);
-    if (isAvailable) {
-      return suggestion;
-    } else {
-      final newSuggestion = replaceCharAt(
-        suggestion,
-        suggestion.length - 1 - triedIndex,
-        Random().nextInt(6).clamp(1, 5).toString(),
-      );
-      return await getValidAccountName(newSuggestion,
-          triedIndex: triedIndex + 1);
-    }
   }
 
   String replaceCharAt(String oldString, int index, String newChar) {
@@ -169,6 +81,9 @@ class _CreateAccountState extends State<CreateAccount> {
 
   @override
   Widget build(BuildContext context) {
+    CreateAccountBloc bloc = Provider.of(context);
+    AccountGeneratorService accountGeneratorService = Provider.of(context);
+
     return Container(
       child: Form(
         key: formKey,
@@ -185,6 +100,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 validator: _validateName,
                 onChanged: (value) {
                   setState(() => _name = value);
+                  bloc.setUserName(value);
                 },
               ),
               SizedBox(height: 8),
@@ -193,27 +109,49 @@ class _CreateAccountState extends State<CreateAccount> {
                 controller: _accountNameController,
                 maxLength: 12,
                 focusNode: accountNameFocus,
-                validator: _validateAccountName,
+                validator: accountGeneratorService.validator,
                 onChanged: (value) {
                   setState(() => _accountName = value);
+                  bloc.setUserAccount(value);
                 },
               ),
-              if (_validateAccountName(_accountName) != null &&
-                  (_accountName.isNotEmpty || _name.isNotEmpty))
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Wrap(
-                    children: <Widget>[
-                      Text('Available: '.i18n),
-                      ...createSuggestions(),
-                    ],
-                  ),
-                ),
+              StreamBuilder<ValidAccounts>(
+                stream: bloc.validAccounts,
+                initialData: ValidAccounts.empty(),
+                builder: (context, snapshot) {
+                  if(snapshot.hasError) {
+                    return Text("Failed to generate".i18n);
+                  } else {
+                    ValidAccounts va = snapshot.data;
+                    if(va.inProgress) {
+                      return Center(
+                        child: CircularProgressIndicator()
+                      );
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Wrap(
+                        children: <Widget>[
+                          Text('Available: '.i18n),
+                          ...va.latest(4).map(buildSuggestionWidget),
+                        ],
+                      ),
+                    );
+                  }
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
-                child: MainButton(
-                  title: "Create account".i18n,
-                  onPressed: () async => await createAccount(),
+                child: StreamBuilder<bool>(
+                  stream: bloc.available,
+                  initialData: false,
+                  builder: (context, snapshot) {
+                    return MainButton(
+                      title: "Create account".i18n,
+                      active: snapshot.data,
+                      onPressed: () async => await createAccount(),
+                    );
+                  }
                 ),
               ),
               Padding(
