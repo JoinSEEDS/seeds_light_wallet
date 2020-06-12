@@ -6,20 +6,15 @@ enum ScanStatus {
   failed
 }
 
+enum ScanContentType {
+  invite,
+  esr, // EOSIO signing request; https://github.com/eosio-eps/EEPs/blob/master/EEPS/eep-7.md
+  guardian,
+  unknown,
+}
+
 class ScannerService {
-
-  void test() async {
-    final opt = ScanOptions(
-
-    );
-    var result = await BarcodeScanner.scan(options: opt);
-
-    print(result.type); // The result type (barcode, cancelled, failed)
-    print(result.rawContent); // The barcode content
-    print(result.format); // The barcode format (as enum)
-    print(result.formatNote); // If a unknown format was scanned this field contains a note
-  }
-
+  
   Future<ScanResult> start() {
     return BarcodeScanner.scan();
   }
@@ -36,6 +31,21 @@ class ScannerService {
       default:
         return ScanStatus.failed;
     }
+  }
+
+  ScanContentType contentTypeOf(String content) {
+    if(content == null) {
+      return ScanContentType.unknown;
+    } else if(content.startsWith("esr:")) {
+      return ScanContentType.esr;
+    } else if(content.contains("-")) {
+      final words = content.split("-");
+      if(words.length >= 5) {
+        return ScanContentType.invite;
+      }
+    }
+
+    return ScanContentType.unknown;
   }
 
 }

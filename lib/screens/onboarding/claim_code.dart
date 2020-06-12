@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:seeds/features/scanner/scanner_bloc.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/utils/invites.dart';
@@ -95,11 +97,31 @@ class _ClaimCodeState extends State<ClaimCode> {
 
   @override
   Widget build(BuildContext context) {
+    final ScannerBloc scannerBloc = Provider.of(context);
+    scannerBloc.setTextController(inviteCodeController);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 33),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          MainButton(
+            title: "Scan QR code".i18n,
+            onPressed: () {
+              scannerBloc.execute(StartScannerCmd());
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(
+              "...or enter by yourself below".i18n,
+              style: TextStyle(
+                fontSize: 14,
+                fontFamily: "worksans",
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ),
           ClipboardTextField(
             controller: inviteCodeController,
             labelText: "Invite code (5 words)".i18n,

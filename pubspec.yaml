@@ -61,6 +61,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   test: any
+  mockito: any
   flutter_launcher_icons: ^0.7.5
   build_runner: ^1.8.1
 
