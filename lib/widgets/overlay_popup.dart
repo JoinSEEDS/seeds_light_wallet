@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 
 class OverlayPopup extends StatefulWidget {
   final String title;
@@ -65,7 +66,7 @@ class _OverlayPopupState extends State<OverlayPopup> {
                         children: <Widget>[
                           Icon(Icons.arrow_back),
                           Text(
-                            "Back",
+                            "Back".i18n,
                             style: TextStyle(
                                 fontFamily: "worksans",
                                 fontSize: 17,

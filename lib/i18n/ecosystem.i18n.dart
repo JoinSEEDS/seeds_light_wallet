@@ -5,23 +5,23 @@ extension Localization on String {
 static var _t = Translations.byLocale("en_us") +
     {
       "es_es": {
-        "Proposals - Vote": "tbd",
-        "Tap to participate": "tbd",
-        "Trust Tokens": "tbd",
+        "Proposals - Vote": "Propuestas - Votar",
+        "Tap to participate": "Toca para participar",
+        "Trust Tokens": "Tokens de Confianza",
 
-        "Community - Invite": "tbd",
-        "Tap to send an invite": "tbd",
-        "Available Seeds": "tbd",
+        "Community - Invite": "Comunidad - Invitar",
+        "Tap to send an invite": "Toca para enviar invitación",
+        "Available Seeds": "Seeds disponibles",
         
-        "Harvest - Plant": "tbd",
-        "Tap to plant Seeds": "tbd",
-        "Planted Seeds": "tbd",
+        "Harvest - Plant": "Cosecha - Planta",
+        "Tap to plant Seeds": "Toca para plantar Seeds",
+        "Planted Seeds": "Seeds plantadas",
 
-        "Sow: %s Transfer: %s": "tbd",
-        "Copy": "tbd",
-        "Cancel": "tbd",
-        "Your invites": "tbd",
-        "Build community - gain reputation": "tbd",
+        "Sow: %s Transfer: %s": "Siembra: %s Transfiere: %s",
+        "Copy": "Copiar",
+        "Cancel": "Cancelar",
+        "Your invites": "Tus invitaciones",
+        "Build community - gain reputation": "Construye comunidad - gana reputación",
       }
     };
 
