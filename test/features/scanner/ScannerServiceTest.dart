@@ -17,8 +17,8 @@ void main() {
       expect(result, ScanContentType.invite);
     });
 
-    test('Url invite', () async {
-      final result = _service.contentTypeOf("https://joinseeds.com?seeds-user-code-invite-words");
+    test('Url invite expands into invite code promotion-copy-receiver-eating-sexuality', () async {
+      final result = _service.contentTypeOf("https://seedswallet.page.link/ufUTCu7CbgQ9hSjk9");
 
       expect(result, ScanContentType.invite);
     });
