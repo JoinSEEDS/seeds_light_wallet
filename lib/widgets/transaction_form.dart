@@ -178,7 +178,7 @@ class _TransactionFormState extends State<TransactionForm> {
           child: Column(
             children: <Widget>[
               Text(
-                'Available balance',
+                'Available balance'.i18n,
                 style: TextStyle(
                     color: AppColors.blue,
                     fontSize: 14,

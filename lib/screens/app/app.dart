@@ -7,6 +7,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 
 class NavigationTab {
   final String title;
@@ -29,19 +30,19 @@ bool connected = true;
 class _AppState extends State<App> {
   final navigationTabs = [
     NavigationTab(
-      title: "Ecosystem",
+      title: "Explore".i18n,
       icon: 'assets/images/ecosystem.svg',
       screenBuilder: () => Ecosystem(),
       index: 0,
     ),
     NavigationTab(
-      title: "Wallet",
+      title: "Wallet".i18n,
       icon: 'assets/images/wallet.svg',
       screenBuilder: () => Wallet(),
       index: 1,
     ),
     NavigationTab(
-      title: "Profile",
+      title: "Profile".i18n,
       icon: 'assets/images/profile.svg',
       screenBuilder: () => Profile(),
       index: 2,
@@ -63,7 +64,7 @@ class _AppState extends State<App> {
       int pageIndex;
 
       switch (page) {
-        case "Ecosystem":
+        case "Explore":
           pageIndex = 0;
           break;
         case "Wallet":
@@ -168,7 +169,7 @@ class _AppState extends State<App> {
       onTap: (index) {
         switch (index) {
           case 0:
-            changePageNotifier.add("Ecosystem");
+            changePageNotifier.add("Explore");
             break;
           case 1:
             changePageNotifier.add("Wallet");

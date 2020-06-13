@@ -5,34 +5,34 @@ extension Localization on String {
 static var _t = Translations.byLocale("en_us") +
     {
       "es_es": {
-        'Available balance': "tbd",
-        "Paste from clipboard": "tbd",
-        "ONLINE (connected to %s)": "tbd",
-        'OFFLINE (trying to reconnect)': "tbd",
+        'Available balance': "Balance disponible",
+        "Paste from clipboard": "Pegar del portapapeles",
+        "ONLINE (connected to %s)": "EN LÍNEA (conectado a %s)",
+        'OFFLINE (trying to reconnect)': "FUERA DE LÍNEA (intentando reconectar)",
 
-        "Transaction successful": "tbd",
-        "Transaction failed": "tbd",
-        "Done": "tbd",
+        "Transaction successful": "Transacción exitosa",
+        "Transaction failed": "Transacción fallida",
+        "Done": "Listo",
 
-        'Page Not Found': "tbd",
-        'The page you are looking for is not available': "tbd",
+        'Page Not Found': "Página no encontrada",
+        'The page you are looking for is not available': "La página que buscas no está disponible",
 
-        "Delete": "tbd",
-        "Enter Passcode": "tbd",
-        "Choose Passcode": "tbd",
-        "Disable Passcode": "tbd",
+        "Delete": "Borrar",
+        "Enter Passcode": "Ingresar código de acceso",
+        "Choose Passcode": "Escoge código de acceso",
+        "Disable Passcode": "Deshabilita código de acceso",
 
-        'Planted balance': "tbd",
+        'Planted balance': "Balance plantado",
 
-        'Telos balance': "tbd",
+        'Telos balance': "Balance Telos",
 
-        "Transaction hash: %s": "tbd",
-        'Transfer amount': "tbd",
-        'Send': "tbd",
-        //'Available balance': "tbd",
-
-
-
+        "Transaction hash: %s": "Hash de transacción: %s",
+        'Transfer amount': "Monto a transferir",
+        'Send': "Enviar",
+        'Back': 'Atrás',
+        "Explore": "Explorar",
+        "Wallet": "Billetera",
+        "Profile": "Perfil",
       }
     };
 
