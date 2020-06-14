@@ -177,6 +177,12 @@ class _OverviewState extends State<Overview> {
                   model?.balance?.quantity?.seedsFormatted,
                   onPlant,
                 ),),
+                StreamBuilder<String>(
+                  stream: bloc.inviteCode,
+                  builder: (context, snapshot) {
+                    return Text("Scanned: ${snapshot.data}");
+                  }
+                ),
                 Container(
                   color: Colors.red[100],
                   child: MaterialButton(

@@ -128,8 +128,9 @@ final providers = [
     create: (_) => CreateAccountBloc(),
     update: (_, accountGeneratorService, createAccountBloc) => createAccountBloc..update(accountGeneratorService),
   ),
-  Provider(
+  ProxyProvider<LinksService, ScannerService>(
     create: (_) => ScannerService(),
+    update: (_, linksService, scannerService) => scannerService..update(linksService),
   ),
   ProxyProvider<ScannerService, ScannerBloc>(
     create: (_) => ScannerBloc(),

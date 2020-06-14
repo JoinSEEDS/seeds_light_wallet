@@ -14,13 +14,13 @@ void main() {
     test('Simple invite', () async {
       final result = _service.contentTypeOf("seeds-user-code-invite-words");
 
-      expect(result, ScanContentType.invite);
+      expect(result, ScanContentType.inviteUrl);
     });
 
     test('Url invite expands into invite code promotion-copy-receiver-eating-sexuality', () async {
       final result = _service.contentTypeOf("https://seedswallet.page.link/ufUTCu7CbgQ9hSjk9");
 
-      expect(result, ScanContentType.invite);
+      expect(result, ScanContentType.inviteUrl);
     });
 
     test('Random text with dash', () async {

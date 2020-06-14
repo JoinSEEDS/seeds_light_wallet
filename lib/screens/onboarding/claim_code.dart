@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/scanner/scanner_bloc.dart';
+import 'package:seeds/features/scanner/scanner_service.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/utils/invites.dart';
@@ -98,7 +99,7 @@ class _ClaimCodeState extends State<ClaimCode> {
   @override
   Widget build(BuildContext context) {
     final ScannerBloc scannerBloc = Provider.of(context);
-    scannerBloc.setTextController(inviteCodeController);
+    scannerBloc.execute(SetTextControllerCmd(inviteCodeController, ScanContentType.inviteCode));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 33),
