@@ -6,7 +6,6 @@ class OverlayPopup extends StatefulWidget {
   final String title;
   final Widget body;
   final Function backCallback;
-  var topViewPercentage = 0.35;
 
   OverlayPopup({this.title, this.body, this.backCallback});
 
@@ -20,7 +19,6 @@ class _OverlayPopupState extends State<OverlayPopup>
   Widget buildHeader() {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
 
     return AnimatedSize(
       vsync: this,

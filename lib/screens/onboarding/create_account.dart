@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/features/account/create_account_bloc.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
@@ -59,7 +58,6 @@ class _CreateAccountState extends State<CreateAccount> {
   @override
   Widget build(BuildContext context) {
     CreateAccountBloc bloc = Provider.of(context);
-    AccountGeneratorService accountGeneratorService = Provider.of(context);
 
     return Container(
       child: Form(

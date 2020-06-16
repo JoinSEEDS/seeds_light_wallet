@@ -46,13 +46,6 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
     }
   }
 
-  String _validateName(String val) {
-    if (val.isEmpty) {
-      return 'Please enter your name'.i18n;
-    }
-    return null;
-  }
-
   Widget buildSuggestionWidget(String suggestion) {
     CreateAccountBloc bloc = Provider.of(context);
     return Padding(
@@ -65,12 +58,12 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
 
 
             _accountNameController.text = suggestion;
-            //bloc.setUserAccount(suggestion);
+            bloc.setUserAccount(suggestion);
 
             _accountName = suggestion;
 
-            //_accountNameController.selection = TextSelection.fromPosition(
-            //  TextPosition(offset: _accountNameController.text.length));
+            _accountNameController.selection = TextSelection.fromPosition(
+             TextPosition(offset: _accountNameController.text.length));
           });
         },
         child: Text(
