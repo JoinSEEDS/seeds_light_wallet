@@ -6,6 +6,7 @@ class OverlayPopup extends StatefulWidget {
   final String title;
   final Widget body;
   final Function backCallback;
+  var topViewPercentage = 0.35;
 
   OverlayPopup({this.title, this.body, this.backCallback});
 
@@ -13,36 +14,51 @@ class OverlayPopup extends StatefulWidget {
   _OverlayPopupState createState() => _OverlayPopupState();
 }
 
-class _OverlayPopupState extends State<OverlayPopup> {
+class _OverlayPopupState extends State<OverlayPopup>
+    with SingleTickerProviderStateMixin {
+
   Widget buildHeader() {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return Container(
-      width: width,
-      height: height * 0.35,
-      padding: EdgeInsets.only(
-          left: width * 0.23,
-          right: width * 0.23,
-          top: MediaQuery.of(context).padding.top,
-          bottom: 30),
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              stops: [0.0, 1.32],
-              colors: AppColors.gradient)),
-      child: Image(
-        image: AssetImage('assets/images/logo_title_white.png'),
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+
+    return AnimatedSize(
+      vsync: this,
+      duration: Duration(milliseconds: 150),
+      curve: Curves.fastOutSlowIn,
+      child: Container(
+        width: width,
+        height: height * topSize(),
+        padding: EdgeInsets.only(
+            left: width * 0.23,
+            right: width * 0.23,
+            top: MediaQuery.of(context).padding.top,
+            bottom: 30),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.0, 1.32],
+                colors: AppColors.gradient)),
+        child: Image(
+          image: AssetImage('assets/images/logo_title_white.png'),
+        ),
       ),
     );
+  }
+
+  double topSize() {
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return keyboardSpace > 33 ? 0.25 : 0.35;
   }
 
   Widget buildCard() {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
     return Container(
       width: width,
-      margin: EdgeInsets.only(top: height * 0.35 - 30),
+      margin: EdgeInsets.only(top: height * topSize() - 30),
       padding: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -56,24 +72,26 @@ class _OverlayPopupState extends State<OverlayPopup> {
               children: <Widget>[
                 Hero(
                   tag: 'header',
-                  child: InkWell(
-                    onTap: () => widget.backCallback(),
-                    child: Container(
-                      padding: EdgeInsets.only(left: 7, bottom: 25),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Icon(Icons.arrow_back),
-                          Text(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 7, bottom: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        InkWell(
+                            onTap: () => widget.backCallback(),
+                            child: Icon(Icons.arrow_back)),
+                        InkWell(
+                          onTap: () => widget.backCallback(),
+                          child: Text(
                             "Back".i18n,
                             style: TextStyle(
                                 fontFamily: "worksans",
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -86,13 +104,18 @@ class _OverlayPopupState extends State<OverlayPopup> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: <Widget>[
-          buildHeader(),
-          buildCard(),
-        ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: <Widget>[
+            buildHeader(),
+            buildCard(),
+          ],
+        ),
       ),
     );
   }

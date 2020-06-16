@@ -9,9 +9,10 @@ import 'package:seeds/i18n/create_account.i18n.dart';
 
 class CreateAccount extends StatefulWidget {
   final String inviteSecret;
-  final Function(String accountName, String nickName) onSubmit;
+  final String initialName;
+  final Function(String nickName) onSubmit;
 
-  CreateAccount({this.inviteSecret, this.onSubmit});
+  CreateAccount({this.inviteSecret, this.initialName, this.onSubmit});
 
   @override
   _CreateAccountState createState() => _CreateAccountState();
@@ -24,18 +25,27 @@ class _CreateAccountState extends State<CreateAccount> {
   final _nameController = TextEditingController();
   var _name = '';
 
-  final _accountNameController = TextEditingController();
-  var _accountName = '';
   var accountNameFocus = FocusNode();
 
-  createAccount() async {
+  @override
+  void initState() {
+    super.initState();
+    _name = widget.initialName;
+    _nameController.text = _name;
+  }
+
+  createAccountName() async {
+    print("create acct ");
+
     final FormState form = formKey.currentState;
     if (form.validate()) {
       form.save();
 
       accountNameFocus.unfocus();
 
-      widget.onSubmit(_accountName, _name);
+      print("siubmite $_name");
+
+      widget.onSubmit(_name);
     }
   }
 
@@ -44,39 +54,6 @@ class _CreateAccountState extends State<CreateAccount> {
       return 'Please enter your name'.i18n;
     }
     return null;
-  }
-
-  Widget buildSuggestionWidget(String suggestion) {
-    CreateAccountBloc bloc = Provider.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(left: 6, right: 10, bottom: 10),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            _accountNameController.text = suggestion;
-            bloc.setUserAccount(suggestion);
-
-            _accountName = suggestion;
-
-            _accountNameController.selection = TextSelection.fromPosition(
-              TextPosition(offset: _accountNameController.text.length));
-          });
-        },
-        child: Text(
-          suggestion,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
-          ),
-        ),
-      ),
-    );
-  }
-
-  String replaceCharAt(String oldString, int index, String newChar) {
-    return oldString.substring(0, index) +
-        newChar +
-        oldString.substring(index + 1);
   }
 
   @override
@@ -95,64 +72,28 @@ class _CreateAccountState extends State<CreateAccount> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               MainTextField(
-                labelText: 'Your name'.i18n,
+                labelText: "Name",
+                hintText: "Enter your name",
+                textInputAction: TextInputAction.next,
+                onEditingComplete: () => {createAccountName()},
                 controller: _nameController,
                 validator: _validateName,
                 onChanged: (value) {
                   setState(() => _name = value);
-                  bloc.setUserName(value);
-                },
-              ),
-              SizedBox(height: 8),
-              MainTextField(
-                labelText: 'Account Name'.i18n,
-                controller: _accountNameController,
-                maxLength: 12,
-                focusNode: accountNameFocus,
-                validator: accountGeneratorService.validator,
-                onChanged: (value) {
-                  setState(() => _accountName = value);
-                  bloc.setUserAccount(value);
-                },
-              ),
-              StreamBuilder<ValidAccounts>(
-                stream: bloc.validAccounts,
-                initialData: ValidAccounts.empty(),
-                builder: (context, snapshot) {
-                  if(snapshot.hasError) {
-                    return Text("Failed to generate".i18n);
-                  } else {
-                    ValidAccounts va = snapshot.data;
-                    if(va.inProgress) {
-                      return Center(
-                        child: CircularProgressIndicator()
-                      );
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Wrap(
-                        children: <Widget>[
-                          Text('Available: '.i18n),
-                          ...va.latest(4).map(buildSuggestionWidget),
-                        ],
-                      ),
-                    );
-                  }
                 },
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: StreamBuilder<bool>(
-                  stream: bloc.available,
-                  initialData: false,
-                  builder: (context, snapshot) {
-                    return MainButton(
-                      title: "Create account".i18n,
-                      active: snapshot.data,
-                      onPressed: () async => await createAccount(),
-                    );
-                  }
-                ),
+                    stream: bloc.available,
+                    initialData: false,
+                    builder: (context, snapshot) {
+                      return MainButton(
+                        title: "Next".i18n,
+                        active: _name != null && _name.length >= 3,
+                        onPressed: () async => await createAccountName(),
+                      );
+                    }),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 24.0),
@@ -172,7 +113,8 @@ class _CreateAccountState extends State<CreateAccount> {
                       ),
                       TextSpan(
                           text:
-                              " symbols (lowercase letters and digits only 1-5)".i18n),
+                              " symbols (lowercase letters and digits only 1-5)"
+                                  .i18n),
                     ],
                   ),
                 ),
