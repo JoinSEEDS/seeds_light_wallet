@@ -70,8 +70,9 @@ class _CreateAccountState extends State<CreateAccount> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               MainTextField(
-                labelText: "Name",
-                hintText: "Enter your name",
+                labelText: "Full Name".i18n,
+                hintText: 'Enter your name'.i18n,
+                autocorrect: false,
                 textInputAction: TextInputAction.next,
                 onEditingComplete: () => {createAccountName()},
                 controller: _nameController,
@@ -92,30 +93,6 @@ class _CreateAccountState extends State<CreateAccount> {
                         onPressed: () async => await createAccountName(),
                       );
                     }),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 24.0),
-                child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      color: Colors.black45,
-                      fontFamily: "worksans",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(text: "Your account name should have ".i18n),
-                      TextSpan(
-                        text: "exactly 12".i18n,
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      TextSpan(
-                          text:
-                              " symbols (lowercase letters and digits only 1-5)"
-                                  .i18n),
-                    ],
-                  ),
-                ),
               ),
             ],
           ),

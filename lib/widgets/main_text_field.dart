@@ -17,8 +17,11 @@ class MainTextField extends StatelessWidget {
   final String initialValue;
   final TextStyle counterStyle;
   final TextStyle textStyle;
+  final String errorText;
+  final Widget suffixIcon;
 
   final bool autofocus;
+  final bool autocorrect;
 
   MainTextField({
     this.controller,
@@ -37,6 +40,9 @@ class MainTextField extends StatelessWidget {
     this.autofocus,
     this.counterStyle,
     this.textStyle,
+    this.autocorrect = true,
+    this.errorText,
+    this.suffixIcon,
   });
 
   Widget build(BuildContext context) {
@@ -60,6 +66,7 @@ class MainTextField extends StatelessWidget {
                 controller: controller,
                 initialValue: initialValue,
                 keyboardType: keyboardType,
+                autocorrect: autocorrect,
                 maxLength: maxLength,
                 validator: validator,
                 onChanged: (value) => onChanged(value),
@@ -68,9 +75,16 @@ class MainTextField extends StatelessWidget {
                 onEditingComplete: onEditingComplete,
                 textInputAction: textInputAction,
                 decoration: InputDecoration(
+                  suffixIcon: suffixIcon,
+                  errorText: errorText,
                   filled: true,
                   fillColor: Colors.white,
-                  errorBorder: InputBorder.none,
+                  focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(13),
+                      borderSide: BorderSide(color: Colors.amberAccent)),
+                  errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(13),
+                      borderSide: BorderSide(color: Colors.redAccent)),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(13),
                       borderSide: BorderSide(color: AppColors.borderGrey)),

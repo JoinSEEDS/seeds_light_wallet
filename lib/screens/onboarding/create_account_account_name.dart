@@ -14,7 +14,8 @@ class CreateAccountAccountName extends StatefulWidget {
   CreateAccountAccountName({this.nickname, this.onSubmit});
 
   @override
-  _CreateAccountAccountNameState createState() => _CreateAccountAccountNameState();
+  _CreateAccountAccountNameState createState() =>
+      _CreateAccountAccountNameState();
 }
 
 Future<bool> isExistingAccount(String accountName) => Future.sync(() => false);
@@ -23,16 +24,13 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
   final formKey = GlobalKey<FormState>();
 
   final _accountNameController = TextEditingController();
-  var _accountName = '';
   var _available = true;
   var accountNameFocus = FocusNode();
-  var validAccounts = ValidAccounts.empty();
 
   @override
   void initState() {
     super.initState();
-    _accountName = initialUsername(widget.nickname);
-    _accountNameController.text = _accountName;
+    _accountNameController.text = initialUsername(widget.nickname);
   }
 
   createAccount() async {
@@ -42,7 +40,7 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
 
       accountNameFocus.unfocus();
 
-      widget.onSubmit(_accountName, widget.nickname);
+      widget.onSubmit(_accountNameController.text, widget.nickname);
     }
   }
 
@@ -53,17 +51,11 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
       child: InkWell(
         onTap: () {
           setState(() {
-            print("suggest widget $suggestion");
-
-
-
             _accountNameController.text = suggestion;
             bloc.setUserAccount(suggestion);
 
-            _accountName = suggestion;
-
             _accountNameController.selection = TextSelection.fromPosition(
-             TextPosition(offset: _accountNameController.text.length));
+                TextPosition(offset: _accountNameController.text.length));
           });
         },
         child: Text(
@@ -77,15 +69,9 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
     );
   }
 
-  String replaceCharAt(String oldString, int index, String newChar) {
-    return oldString.substring(0, index) +
-        newChar +
-        oldString.substring(index + 1);
-  }
-
   String initialUsername(String nickname) {
     var result = nickname.toLowerCase().trim();
-    
+
     result = result.split('').map((char) {
       final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(char).length > 0;
       return legalChar ? char.toString() : '';
@@ -94,121 +80,163 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
     result = result.padRight(12, '1');
     result = result.substring(0, 12);
 
-    print("initial user name $result");
-
     return result;
+  }
+
+  Widget buildSelection(
+      BuildContext context, AsyncSnapshot<ValidAccounts> snapshot) {
+    if (snapshot.hasError) {
+      return Text("Failed to generate".i18n);
+    } else {
+      var validAccounts = snapshot.data;
+      if (validAccounts.inProgress /*&& validAccounts.accounts.length == 0*/) {
+        return Center(child: CircularProgressIndicator());
+      }
+      _available = validAccounts.contains(_accountNameController.text);
+      var accounts = validAccounts
+          .latest(4)
+          .where((element) => element != _accountNameController.text)
+          .toList();
+      accounts.sort();
+
+      return Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Wrap(
+          children: <Widget>[
+            //Text('Other: '.i18n),
+            ...accounts.map(buildSuggestionWidget),
+          ],
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     CreateAccountBloc bloc = Provider.of(context);
-    bloc.setUserName(initialUsername(widget.nickname));
+    bloc.setUserName(_accountNameController.text);
 
     AccountGeneratorService accountGeneratorService = Provider.of(context);
-    var valid = accountGeneratorService.validator(_accountName) == null;
 
     return Container(
-      child: Form(
-        key: formKey,
-        child: Container(
-          margin: EdgeInsets.only(left: 15, right: 15, bottom: 5),
-          padding: EdgeInsets.only(bottom: 5),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              MainTextField(
-                labelText: 'SEEDS Username'.i18n,
-                textStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.w400, fontFamily: "worksans"),
-                controller: _accountNameController,
-                maxLength: 12,
-                focusNode: accountNameFocus,
-                validator: accountGeneratorService.validator,
-                counterStyle: TextStyle(color: valid ? Colors.green : Colors.black45, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: "worksans"),
-                onChanged: (value) {
-                  print("set state to $value");
-                  setState(() => _accountName = value);
-                  var isValid = accountGeneratorService.validator(value) == null;
-                  print("valud $isValid");
+      child: StreamBuilder<ValidAccounts>(
+          stream: bloc.validAccounts,
+          initialData: ValidAccounts.empty(),
+          builder: (context, snapshot) {
+            var currentText = _accountNameController.text;
+            var errorString = accountGeneratorService.validator(currentText);
+            var valid = errorString == null;
+            var validAccounts = snapshot.data;
+            var available = validAccounts.contains(currentText);
+            var inProgress = validAccounts.inProgress;
 
-                  if (!validAccounts.contains(value)) {
-                    print("set user account ${validAccounts.accounts.map((x)=>x)}");
-                    bloc.setUserAccount(value);
-                  }
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 12.0),
-                child: StreamBuilder<bool>(
-                  stream: bloc.available,
-                  initialData: false,
-                  builder: (context, snapshot) {
-                    return MainButton(
-                      title: "Create account".i18n,
-                      active: valid && _available,
-                      onPressed: () async => await createAccount(),
-                    );
-                  }
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      color: Colors.black45,
-                      //fontFamily: "worksans",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+            if (valid && !available) {
+              errorString = "Not available".i18n;
+            } else if (currentText.length<12) {
+              errorString = null;
+            }
+
+            var showProgress = inProgress && valid;
+            var showOk = valid && available && !inProgress;
+            var showError = valid && !available && !inProgress;
+
+            return Form(
+              key: formKey,
+              child: Container(
+                margin: EdgeInsets.only(left: 15, right: 15, bottom: 5),
+                padding: EdgeInsets.only(bottom: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Stack(children: [
+                      MainTextField(
+                        labelText: 'SEEDS Username'.i18n,
+                        autocorrect: false,
+                        textStyle: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "worksans"),
+                        controller: _accountNameController,
+                        maxLength: 12,
+                        focusNode: accountNameFocus,
+                        validator: accountGeneratorService.validator,
+                        counterStyle: TextStyle(
+                            color: valid ? Colors.green : Colors.black45,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "worksans"),
+                        onChanged: (value) {
+                          bloc.setUserName(value);
+                        },
+                        errorText: errorString,
+                        suffixIcon: showProgress
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: CircularProgressIndicator()),
+                                ],
+                              )
+                            : showOk
+                                ? Icon(
+                                    Icons.check_circle,
+                                    color: Colors.greenAccent,
+                                    size: 24.0,
+                                  )
+                                : showError ? Icon(
+                                    Icons.remove_circle,
+                                    color: Colors.redAccent,
+                                    size: 24.0,
+                                  ) : Container(width: 1, color: Colors.transparent,),
+                      ),
+                    ]),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: StreamBuilder<bool>(
+                          stream: bloc.available,
+                          initialData: false,
+                          builder: (context, snapshot) {
+                            return MainButton(
+                              title: "Create account".i18n,
+                              active: valid && _available,
+                              onPressed: () async => await createAccount(),
+                            );
+                          }),
                     ),
-                    children: <TextSpan>[
-                      TextSpan(text: "Your account name should have ".i18n),
-                      TextSpan(
-                        text: "exactly 12".i18n,
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: "Your account name should have ".i18n),
+                            TextSpan(
+                              text: "exactly 12".i18n,
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                            TextSpan(
+                                text:
+                                    " symbols (lowercase letters and digits only 1-5)"
+                                        .i18n),
+                          ],
+                        ),
                       ),
-                      TextSpan(
-                          text:
-                              " symbols (lowercase letters and digits only 1-5)".i18n),
-                    ],
-                  ),
+                    ),
+                    buildSelection(context, snapshot),
+                  ],
                 ),
               ),
-              StreamBuilder<ValidAccounts>(
-                stream: bloc.validAccounts,
-                initialData: validAccounts,
-                builder: (context, snapshot) {
-                  if(snapshot.hasError) {
-                    return Text("Failed to generate".i18n);
-                  } else {
-                    validAccounts = snapshot.data;
-                    if(validAccounts.inProgress /*&& validAccounts.accounts.length == 0*/) {
-                      return Center(
-                        child: CircularProgressIndicator()
-                      );
-                    }
-                    print("${validAccounts.accounts}");
-                    _available = validAccounts.contains(_accountNameController.text);
-                    var accounts = validAccounts.latest(4).where((element) => element != _accountNameController.text).toList();
-                    accounts.sort();
-
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Wrap(
-                        children: <Widget>[
-                          //Text('Other: '.i18n),
-                          ...accounts.map(buildSuggestionWidget),
-                        ],
-                      ),
-                    );
-                  }
-                },
-              ),
-              
-            ],
-          ),
-        ),
-      ),
+            );
+          }),
     );
   }
 }

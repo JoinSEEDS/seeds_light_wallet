@@ -24,22 +24,22 @@ class CreateAccountBloc {
 
   CreateAccountBloc() {
     _execute.listen(_executeCommand);
-    _initGenerateAccountFromUserName();
     _initGenerateAccountFromUserAccount();
+    _initGenerateAccountFromUserName();
     _initValidateLatestAccountUnlessAlreadyValid();
   }
 
   void update(AccountGeneratorService accountGeneratorService) {
     this._accountGeneratorService = accountGeneratorService;
   }
-
+  
   void _initGenerateAccountFromUserName() {
     userName
       .where((value) => value.length > 0)
       .flatMap((name) => generateList(name))
       .listen(_addValidAccounts);
   }
-  
+
   void _initGenerateAccountFromUserAccount() {
     userAccount
       .where((value) => value.length > 0)
@@ -108,7 +108,7 @@ class ValidAccounts {
 
   ValidAccounts.empty() : this(true, []);
 
-  ValidAccounts switchToInProgress() => ValidAccounts(!inProgress, accounts);
+  ValidAccounts switchToInProgress() => ValidAccounts(true, accounts);
 
   bool contains(String account) => accounts.contains(account);
 

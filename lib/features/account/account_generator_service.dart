@@ -11,7 +11,7 @@ class AccountGeneratorService {
     this._httpService = httpService;
   }
 
-  Future<List<String>> generateList(String suggestedAccount, { int count: 3 }) async {
+  Future<List<String>> generateList(String suggestedAccount, { int count: 1 }) async {
     List<String> available = [];
     List<String> excludes = [];
     for(int i = 0; i < count; i++) {
@@ -21,6 +21,8 @@ class AccountGeneratorService {
     }
     return available;
   }
+
+  static const List<String> empty = [];
 
   Future<AccountAvailableResult> generate(String suggestedAccount, { int replaceWith: 1, List<String> exclude, int recursionAttempts: 40 }) async {
     final account = convert(suggestedAccount);
@@ -36,15 +38,15 @@ class AccountGeneratorService {
           unavailable: exclude,
         );
       }
-    }
+    } 
 
     if(recursionAttempts <= 0) {
       return Future.error("Couldn't find a valid account name");
     }
-
     exclude.add(account);
     final modified = modifyAccountName(account, replaceWith);
     final nextReplacement = increaseReplaceCounter(replaceWith);
+
     return generate(modified, replaceWith: nextReplacement, exclude: exclude, recursionAttempts: recursionAttempts - 1);
   }
 
@@ -105,12 +107,12 @@ class AccountGeneratorService {
       return legalChar ? char.toString() : '';
     }).join();
 
-    // remove the first char if it was a number
+    // if first char is a number, start with 'a'
     if (suggestion?.isNotEmpty == true) {
       final illegalChar =
         RegExp(r'[a-z]').allMatches(suggestion[0]).length == 0;
 
-      if (illegalChar) suggestion = suggestion.substring(1);
+      if (illegalChar) suggestion = 'a' + suggestion;
     }
 
     // add the missing characters.
@@ -131,13 +133,15 @@ class AccountGeneratorService {
   
   ValidationResult validate(String accountName) {
     if (accountName.length != 12) {
-      return ValidationResult.invalid('Your account name should have exactly 12 symbols');
+      return ValidationResult.invalid('Name should have 12 symbols');
     } else if (RegExp(r'0|6|7|8|9').allMatches(accountName).length > 0) {
-      return ValidationResult.invalid('Your account name should only contain number 1-5');
+      return ValidationResult.invalid('Name can only contain numbers 1-5');
     } else if (accountName.toLowerCase() != accountName) {
-      return ValidationResult.invalid("Your account name should be lowercase only");
+      return ValidationResult.invalid("Name can be lowercase only");
+    } else if (accountName.contains(' ')) {
+      return ValidationResult.invalid("Name can't have space");
     } else if (RegExp(r'[a-z]|1|2|3|4|5').allMatches(accountName).length != 12) {
-      return ValidationResult.invalid('Your account name should only contain number 1-5');
+      return ValidationResult.invalid('Only letters a..z and numbers 1..5');
     }
     return ValidationResult.valid();
   }
