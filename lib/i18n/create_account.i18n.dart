@@ -11,7 +11,10 @@ static var _t = Translations.byLocale("en_us") +
         "Your account name can't cont'n uppercase letters": "Tu nombre de cuenta no puede tener letras mayúsculas",
         "Your account name should cont'n lower case letters": "Tu nombre de cuenta debe tener letras minúsculas",
         'Your name': "Tu nombre",
-        'Account Name': "Nombre de cuenta",
+        'SEEDS Username': "SEEDS Nombre de usuario",
+        'Full Name': "Nombre completo",
+        'Enter your name': "Ingresa tu nombre", 
+        'Next': "Siguiente", 
         'Available: ': "Disponible: ",
         "Create account": "Crear cuenta",
         

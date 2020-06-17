@@ -13,6 +13,7 @@ class CreateAccountBloc {
   final _validAccounts = BehaviorSubject<ValidAccounts>.seeded(ValidAccounts(false, []));
   final _available = BehaviorSubject<bool>();
   final _execute = PublishSubject<AccountCmd>();
+  String _lastSearchTarget = "";
 
   Stream<ValidAccounts> get validAccounts => _validAccounts.stream;
   Stream<bool> get available => _available.stream.distinct();
@@ -26,7 +27,7 @@ class CreateAccountBloc {
     _execute.listen(_executeCommand);
     _initGenerateAccountFromUserAccount();
     _initGenerateAccountFromUserName();
-    _initValidateLatestAccountUnlessAlreadyValid();
+    //_initValidateLatestAccountUnlessAlreadyValid();
   }
 
   void update(AccountGeneratorService accountGeneratorService) {
@@ -48,29 +49,39 @@ class CreateAccountBloc {
       .listen(_addValidAccounts);
   }
 
-  void _initValidateLatestAccountUnlessAlreadyValid() {
-    CombineLatestStream
-      .combine2(userAccount, _validAccounts, (account, alreadyValidated) => validateLocalBeforeOnChain(account, alreadyValidated))
-      .flatMap((value) => value)
-      .listen(_available.add);
-  }
+  // void _initValidateLatestAccountUnlessAlreadyValid() {
+  //   CombineLatestStream
+  //     .combine2(userAccount, _validAccounts, (account, alreadyValidated) => validateLocalBeforeOnChain(account, alreadyValidated))
+  //     .flatMap((value) => value)
+  //     .listen(_available.add);
+  // }
 
   Stream<List<String>> generateList(String name) {
+    print("Generate list...");
     _validAccounts.add(_validAccounts.value.switchToInProgress());
     return _accountGeneratorService.generateList(name).asStream();
   }
 
   Stream<bool> validateLocalBeforeOnChain(String account, ValidAccounts alreadyValidated) {
+    print("validateLocalBeforeOnChain: $account");
     if(alreadyValidated.contains(account)) {
+      print("got it returning true");
       return Stream.value(true);
     } else if(_accountGeneratorService.validate(account).valid) {
+      print("returning stream future ...");
+
       return _accountGeneratorService.availableOnChain(account).asStream();
     }
+    print("returning FALSE");
+
     return Stream.value(false);
   }
 
   _addValidAccounts(List<String> accounts) {
     final distinctList = (_validAccounts.value.accounts + accounts).toSet().toList();
+
+    print("add valid $distinctList");
+
     _validAccounts.add(ValidAccounts(false, distinctList));
   }
 
