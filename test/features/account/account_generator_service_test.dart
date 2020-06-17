@@ -26,7 +26,7 @@ void main() {
       final result = _service.validate("abcdEFGzhijk");
 
       expect(result.valid, false);
-      expect(result.message, "Your account name should be lowercase only");
+      expect(result.message, "Name can be lowercase only");
     });
 
     test('Numeric only account name is valid', () async {
@@ -39,7 +39,7 @@ void main() {
       final result = _service.validate("abcdefgzhij");
 
       expect(result.valid, false);
-      expect(result.message, "Your account name should have exactly 12 symbols");
+      expect(result.message, "Name should have 12 symbols");
     });
 
   });
