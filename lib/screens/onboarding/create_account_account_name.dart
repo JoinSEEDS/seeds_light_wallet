@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
-import 'package:seeds/features/account/create_account_bloc.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/i18n/create_account.i18n.dart';
@@ -59,20 +58,6 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
     return result;
   }
 
-  Widget buildAlternatives(BuildContext context, String suggested) {
-    AccountGeneratorService accountGeneratorService = Provider.of(context);
-    return Container(
-      child: FutureBuilder(
-          future: accountGeneratorService.generateList(suggested, count: 4),
-          builder: (context, snapshot) {
-          var isLoading = snapshot.connectionState != ConnectionState.done;
-
-            return Container();
-          }
-      )
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     AccountGeneratorService accountGeneratorService = Provider.of(context);
@@ -91,12 +76,16 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
             var currentText = _accountNameController.text;
             var errorString = accountGeneratorService.validator(currentText);
             var valid = errorString == null;
-            var definitelyAvailableOnChain = !isLoading && availableName == currentText;
-            var accountNameIsTaken = valid && !isLoading && availableName != currentText;
+            var definitelyAvailableOnChain =
+                !isLoading && availableName == currentText;
+            var accountNameIsTaken =
+                valid && !isLoading && availableName != currentText;
 
             if (accountNameIsTaken) {
               errorString = "$currentText is not availale";
             }
+
+            var createEnabled = valid && definitelyAvailableOnChain;
 
             print(
                 "builder text: ${_accountNameController.text}  snapshot: ${snapshot.hasData} data: $availableName");
@@ -128,9 +117,11 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                             fontWeight: FontWeight.bold,
                             fontFamily: "worksans"),
                         onChanged: (value) {
-                          setState(() {
-                            _accountName = value;
-                          });
+                          if (_accountName != value) {
+                            setState(() {
+                              _accountName = value;
+                            });
+                          }
                         },
                         errorText: errorString,
                         suffixIcon: isLoading
@@ -162,36 +153,48 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                                       ),
                       ),
                     ]),
+                    //buildAlternativesBox(context, accountNameIsTaken, currentText),
                     Padding(
                         padding: const EdgeInsets.only(top: 12.0),
-                        child: MainButton(
-                          title: "Create account".i18n,
-                          active: valid && definitelyAvailableOnChain,
-                          onPressed: () async => await createAccount(),
+                        child: AnimatedCrossFade(
+                          duration: const Duration(milliseconds: 500),
+                          crossFadeState: valid
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                          firstChild: MainButton(
+                            title: "Create account".i18n,
+                            active: createEnabled,
+                            onPressed: () async => await createAccount(),
+                          ),
+                          secondChild: Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            child: RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                  color: Colors.black45,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: "Your account name should have "
+                                          .i18n),
+                                  TextSpan(
+                                    text: "exactly 12".i18n,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w700),
+                                  ),
+                                  TextSpan(
+                                      text:
+                                          " symbols (lowercase letters and digits only 1-5)"
+                                              .i18n),
+                                ],
+                              ),
+                            ),
+                          ),
                         )),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
-                      child: RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            color: Colors.black45,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: "Your account name should have ".i18n),
-                            TextSpan(
-                              text: "exactly 12".i18n,
-                              style: TextStyle(fontWeight: FontWeight.w700),
-                            ),
-                            TextSpan(
-                                text:
-                                    " symbols (lowercase letters and digits only 1-5)"
-                                        .i18n),
-                          ],
-                        ),
-                      ),
                     ),
                   ],
                 ),
@@ -201,4 +204,56 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
     );
   }
 
+  Widget buildAlternativesBox(
+      BuildContext context, bool show, String suggested) {
+    AccountGeneratorService accountGeneratorService = Provider.of(context);
+    return Visibility(
+        visible: show,
+        replacement: Container(
+          width: 0,
+          height: 0,
+        ),
+        child: FutureBuilder(
+            future: accountGeneratorService.generateList(suggested, count: 4),
+            builder: (context, snapshot) {
+              var isLoading = snapshot.connectionState != ConnectionState.done;
+              return isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : buildSelection(context, snapshot.data);
+            }));
+  }
+
+  Widget buildSelection(BuildContext context, List<String> accounts) {
+    accounts.sort();
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: Wrap(
+        children: <Widget>[
+          Text('Available:'.i18n),
+          ...accounts.map(buildSuggestionWidget),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSuggestionWidget(String suggestion) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 6, right: 10, bottom: 10),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _accountNameController.text = suggestion;
+            _accountName = suggestion;
+          });
+        },
+        child: Text(
+          suggestion,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
+      ),
+    );
+  }
 }
