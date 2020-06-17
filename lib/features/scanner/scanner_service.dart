@@ -24,11 +24,7 @@ class ScannerService {
   }
   
   Future<ScanResult> start() {
-    try {
-      return BarcodeScanner.scan();
-    } on Exception catch (e) {
-      // TODO
-    }
+    return BarcodeScanner.scan();
   }
 
   ScanStatus statusFromResult(ScanResult result) {
