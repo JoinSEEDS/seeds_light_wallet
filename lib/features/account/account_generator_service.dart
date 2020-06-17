@@ -11,11 +11,22 @@ class AccountGeneratorService {
     this._httpService = httpService;
   }
 
-  Future<List<String>> generateList(String suggestedAccount, { int count: 1 }) async {
+  Future<List<String>> generateList(String suggestedAccount, { int count: 4 }) async {
     List<String> available = [];
     List<String> excludes = [];
     for(int i = 0; i < count; i++) {
-      final result = await generate(suggestedAccount, exclude: excludes);
+      final result = await findAvailable(suggestedAccount, exclude: excludes);
+      available.add(result.available);
+      excludes.addAll(result.all);
+    }
+    return available;
+  }
+
+  Future<List<String>> alternativeAccountsList(String baseAccount, { int count: 4 }) async {
+    List<String> available = [];
+    List<String> excludes = [baseAccount];
+    for(int i = 0; i < count; i++) {
+      final result = await findAvailable(baseAccount, exclude: excludes);
       available.add(result.available);
       excludes.addAll(result.all);
     }
@@ -24,7 +35,7 @@ class AccountGeneratorService {
 
   static const List<String> empty = [];
 
-  Future<AccountAvailableResult> generate(String suggestedAccount, { int replaceWith: 1, List<String> exclude, int recursionAttempts: 40 }) async {
+  Future<AccountAvailableResult> findAvailable(String suggestedAccount, { int replaceWith: 1, List<String> exclude, int recursionAttempts: 40 }) async {
     final account = convert(suggestedAccount);
     if(exclude == null) {
       exclude = [];
@@ -47,7 +58,7 @@ class AccountGeneratorService {
     final modified = modifyAccountName(account, replaceWith);
     final nextReplacement = increaseReplaceCounter(replaceWith);
 
-    return generate(modified, replaceWith: nextReplacement, exclude: exclude, recursionAttempts: recursionAttempts - 1);
+    return findAvailable(modified, replaceWith: nextReplacement, exclude: exclude, recursionAttempts: recursionAttempts - 1);
   }
 
   Future<bool> availableOnChain(String account) {

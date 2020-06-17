@@ -79,7 +79,7 @@ void main() {
     test('Return name if it is available', () async {
       when(httpService.isAccountNameAvailable('abc123abc123')).thenAnswer((_) async => true);
 
-      final result = await _service.generate("abc123abc123");
+      final result = await _service.findAvailable("abc123abc123");
 
       expect(result.available, "abc123abc123");
     });
@@ -88,7 +88,7 @@ void main() {
       when(httpService.isAccountNameAvailable('abcdefabcdef')).thenAnswer((_) async => false);
       when(httpService.isAccountNameAvailable('abcdefabcde1')).thenAnswer((_) async => true);
 
-      final result = await _service.generate("abcdefabcdef");
+      final result = await _service.findAvailable("abcdefabcdef");
 
       expect(result.available, "abcdefabcde1");
     });
@@ -96,7 +96,7 @@ void main() {
     test('Generate with exclude', () async {
       when(httpService.isAccountNameAvailable('abc123abc123')).thenAnswer((_) async => true);
 
-      final result = await _service.generate("abc123abc121", exclude: [ "abc123abc121", "abc123abc122" ]);
+      final result = await _service.findAvailable("abc123abc121", exclude: [ "abc123abc121", "abc123abc122" ]);
 
       expect(result.available, "abc123abc123");
     });
@@ -105,7 +105,7 @@ void main() {
       when(httpService.isAccountNameAvailable('555555555551')).thenAnswer((_) async => false);
 
       try {
-        await _service.generate("555555555551", exclude: ["555555555551", "555555555552"], recursionAttempts: 1);
+        await _service.findAvailable("555555555551", exclude: ["555555555551", "555555555552"], recursionAttempts: 1);
         fail("Expected exception");
       } catch(error) {
         expect(error, "Couldn't find a valid account name");

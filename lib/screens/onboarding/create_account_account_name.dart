@@ -24,32 +24,16 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
   final formKey = GlobalKey<FormState>();
 
   final _accountNameController = TextEditingController();
-  var _searchMode = true;
-  var _inited = false;
   var accountNameFocus = FocusNode();
-  CreateAccountBloc _bloc;
+  String _accountName;
+  bool _initial = true;
 
   @override
   void initState() {
     super.initState();
     print("INIT STATE ${initialUsername(widget.nickname)}");
-    _searchMode = true;
+    _accountName = initialUsername(widget.nickname);
     _accountNameController.text = initialUsername(widget.nickname);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_inited) {
-      _bloc = Provider.of(context);
-      print("setting username");
-      
-      _bloc.setUserName(_accountNameController.text);
-      
-      print("done setting username");
-
-      _inited = true;
-    }
   }
 
   createAccount() async {
@@ -59,31 +43,6 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
       accountNameFocus.unfocus();
       widget.onSubmit(_accountNameController.text, widget.nickname);
     }
-  }
-
-  Widget buildSuggestionWidget(String suggestion) {
-    CreateAccountBloc bloc = _bloc;
-    return Padding(
-      padding: const EdgeInsets.only(left: 6, right: 10, bottom: 10),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            _accountNameController.text = suggestion;
-            bloc.setUserAccount(suggestion);
-
-            _accountNameController.selection = TextSelection.fromPosition(
-                TextPosition(offset: _accountNameController.text.length));
-          });
-        },
-        child: Text(
-          suggestion,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
-          ),
-        ),
-      ),
-    );
   }
 
   String initialUsername(String nickname) {
@@ -100,73 +59,47 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
     return result;
   }
 
-  Widget buildSelection(
-      BuildContext context, AsyncSnapshot<ValidAccounts> snapshot) {
-    if (snapshot.hasError) {
-      return Text("Failed to generate".i18n);
-    } else {
-      var validAccounts = snapshot.data;
-      if (validAccounts.inProgress /*&& validAccounts.accounts.length == 0*/) {
-        return Center(child: CircularProgressIndicator());
-      }
-      //_available = validAccounts.contains(_accountNameController.text);
-      var accounts = validAccounts
-          .latest(4)
-          .where((element) => element != _accountNameController.text)
-          .toList();
-      accounts.sort();
+  Widget buildAlternatives(BuildContext context, String suggested) {
+    AccountGeneratorService accountGeneratorService = Provider.of(context);
+    return Container(
+      child: FutureBuilder(
+          future: accountGeneratorService.generateList(suggested, count: 4),
+          builder: (context, snapshot) {
+          var isLoading = snapshot.connectionState != ConnectionState.done;
 
-      return Padding(
-        padding: const EdgeInsets.only(top: 16.0),
-        child: Wrap(
-          children: <Widget>[
-            //Text('Other: '.i18n),
-            ...accounts.map(buildSuggestionWidget),
-          ],
-        ),
-      );
-    }
+            return Container();
+          }
+      )
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    CreateAccountBloc bloc = _bloc;
-
     AccountGeneratorService accountGeneratorService = Provider.of(context);
 
     return Container(
-      child: StreamBuilder<ValidAccounts>(
-          stream: bloc.validAccounts,
-          initialData: ValidAccounts.empty(),
+      child: FutureBuilder(
+          future: accountGeneratorService.findAvailable(_accountName),
           builder: (context, snapshot) {
-
+            var isLoading = snapshot.connectionState != ConnectionState.done;
+            var availableName = snapshot.hasData ? snapshot.data.available : "";
+            if (!isLoading && snapshot.hasData && _initial) {
+              _initial = false;
+              _accountName = availableName; // this might change the name
+              _accountNameController.text = availableName;
+            }
             var currentText = _accountNameController.text;
             var errorString = accountGeneratorService.validator(currentText);
             var valid = errorString == null;
-            var validAccounts = snapshot.data;
-            var available = validAccounts.contains(currentText);
-            var inProgress = validAccounts.inProgress;
+            var definitelyAvailableOnChain = !isLoading && availableName == currentText;
+            var accountNameIsTaken = valid && !isLoading && availableName != currentText;
 
-            print(
-                "builder text: ${_accountNameController.text} search: $_searchMode snapshot: ${snapshot.data.accounts} inProgress: $inProgress");
-
-            if (valid && !available && !inProgress) {
-              print("$currentText is valid but not available..");
-              if (_searchMode && validAccounts.accounts.length > 0) {
-                errorString = null;
-                _searchMode = false;
-                //_accountNameController.text = validAccounts.accounts.first;
-                available = true;
-              } else {
-                errorString = "Not available".i18n;
-              }
-            } else if (currentText.length < 12) {
-              errorString = null;
+            if (accountNameIsTaken) {
+              errorString = "$currentText is not availale";
             }
 
-            var showProgress = inProgress && valid && !available;
-            var showOk = available;
-            var showError = valid && !available && !inProgress;
+            print(
+                "builder text: ${_accountNameController.text}  snapshot: ${snapshot.hasData} data: $availableName");
 
             return Form(
               key: formKey,
@@ -195,11 +128,12 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                             fontWeight: FontWeight.bold,
                             fontFamily: "worksans"),
                         onChanged: (value) {
-                          print("on change");
-                          bloc.setUserName(value);
+                          setState(() {
+                            _accountName = value;
+                          });
                         },
                         errorText: errorString,
-                        suffixIcon: showProgress
+                        suffixIcon: isLoading
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -210,13 +144,13 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                                       child: CircularProgressIndicator()),
                                 ],
                               )
-                            : showOk
+                            : definitelyAvailableOnChain
                                 ? Icon(
                                     Icons.check_circle,
                                     color: Colors.greenAccent,
                                     size: 24.0,
                                   )
-                                : showError
+                                : accountNameIsTaken
                                     ? Icon(
                                         Icons.remove_circle,
                                         color: Colors.redAccent,
@@ -229,18 +163,12 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                       ),
                     ]),
                     Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
-                      child: StreamBuilder<bool>(
-                          stream: bloc.available,
-                          initialData: false,
-                          builder: (context, snapshot) {
-                            return MainButton(
-                              title: "Create account".i18n,
-                              active: valid && available,
-                              onPressed: () async => await createAccount(),
-                            );
-                          }),
-                    ),
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: MainButton(
+                          title: "Create account".i18n,
+                          active: valid && definitelyAvailableOnChain,
+                          onPressed: () async => await createAccount(),
+                        )),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: RichText(
@@ -265,7 +193,6 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                         ),
                       ),
                     ),
-                    buildSelection(context, snapshot),
                   ],
                 ),
               ),
@@ -273,4 +200,5 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
           }),
     );
   }
+
 }
