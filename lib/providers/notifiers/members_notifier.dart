@@ -72,7 +72,7 @@ class MembersNotifier extends ChangeNotifier {
     }
   }
 
-  void addMembers(List<MemberModel> members) async {
+  Future<void> addMembers(List<MemberModel> members) async {
     Box cacheMembers = await Hive.openBox<MemberModel>("members");
     members.forEach((actualMember) {
       var memberKey = actualMember.account;
