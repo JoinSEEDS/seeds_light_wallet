@@ -49,6 +49,7 @@ class _TransferState extends State<Transfer> {
                 ),
                 child: TextField(
                   autofocus: true,
+                  autocorrect: false,
                   focusNode: _searchFocusNode,
                   decoration: InputDecoration(
                     hintStyle: TextStyle(fontSize: 17),
@@ -137,7 +138,7 @@ class _TransferState extends State<Transfer> {
                 style: TextStyle(
                     fontFamily: "worksans",
                     fontSize: 18,
-                    fontWeight: FontWeight.w200),
+                    fontWeight: FontWeight.w300),
               ),
             )
           : LiquidPullToRefresh(

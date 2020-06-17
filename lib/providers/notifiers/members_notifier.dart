@@ -72,12 +72,9 @@ class MembersNotifier extends ChangeNotifier {
     }
   }
 
-  Future<void> refreshMembers() async {
+  void addMembers(List<MemberModel> members) async {
     Box cacheMembers = await Hive.openBox<MemberModel>("members");
-
-    var actualMembers = await _http.getMembers();
-
-    actualMembers.forEach((actualMember) {
+    members.forEach((actualMember) {
       var memberKey = actualMember.account;
 
       var cacheMember = cacheMembers.get(memberKey);
@@ -95,17 +92,30 @@ class MembersNotifier extends ChangeNotifier {
         );
       }
     });
-
     allMembers = cacheMembers.values.toList();
-
     updateVisibleMembers();
+
+  }
+
+  Future<void> refreshMembers() async {
+
+    var actualMembers = await _http.getMembers();
+
+    await addMembers(actualMembers);
+
     notifyListeners();
   }
 
-  void filterMembers(String name) {
+
+  Future<void> filterMembers(String name) async {
     filterName = name.toLowerCase();
 
     updateVisibleMembers();
+
+    if (filterName.length > 1 && visibleMembers.length < 10) {
+      var moreMembers = await _http.getMembersWithFilter(filterName);
+      await addMembers(moreMembers);
+    }
 
     notifyListeners();
   }

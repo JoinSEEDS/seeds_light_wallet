@@ -108,7 +108,39 @@ class HttpService {
 
       return members;
     } else {
-      print('Cannot fetch members...');
+      print('Cannot fetch members...'+res.body);
+
+      return [];
+    }
+  }
+
+  Future<List<MemberModel>> getMembersWithFilter(String filter) async {
+    print("[http] getMembersWithFilter $filter ");
+    if (filter.length < 2) {
+      return [];
+    } 
+    String lower_bound = filter;
+    String upper_bound = filter.padRight(12 - filter.length, "z");
+
+    final String membersURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":"$lower_bound","upper_bound":"$upper_bound","index_position":1,"key_type":"i64","limit":"100","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(membersURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      List<dynamic> allAccounts = body["rows"].toList();
+
+      List<MemberModel> members =
+          allAccounts.map((item) => MemberModel.fromJson(item)).toList();
+
+      return members;
+    } else {
+      print("Cannot fetch members... ${res.body}");
 
       return [];
     }
