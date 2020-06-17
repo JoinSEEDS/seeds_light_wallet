@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:seeds/constants/app_colors.dart';
 
 class MainTextField extends StatelessWidget {
@@ -19,6 +20,7 @@ class MainTextField extends StatelessWidget {
   final TextStyle textStyle;
   final String errorText;
   final Widget suffixIcon;
+  final List<TextInputFormatter> inputFormatters;
 
   final bool autofocus;
   final bool autocorrect;
@@ -43,6 +45,7 @@ class MainTextField extends StatelessWidget {
     this.autocorrect = true,
     this.errorText,
     this.suffixIcon,
+    this.inputFormatters,
   });
 
   Widget build(BuildContext context) {
@@ -63,6 +66,7 @@ class MainTextField extends StatelessWidget {
             children: [
               TextFormField(
                 style: textStyle,
+                inputFormatters: inputFormatters,
                 controller: controller,
                 initialValue: initialValue,
                 keyboardType: keyboardType,
