@@ -13,7 +13,6 @@ class CreateAccountBloc {
   final _validAccounts = BehaviorSubject<ValidAccounts>.seeded(ValidAccounts(false, []));
   final _available = BehaviorSubject<bool>();
   final _execute = PublishSubject<AccountCmd>();
-  String _lastSearchTarget = "";
 
   Stream<ValidAccounts> get validAccounts => _validAccounts.stream;
   Stream<bool> get available => _available.stream.distinct();
