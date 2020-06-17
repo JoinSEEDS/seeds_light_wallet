@@ -33,7 +33,7 @@ dependencies:
   passcode_screen: 1.0.2  # More time to look into the breaking version 1.1.0 before upgrading
   percent_indicator: ^2.1.1+1
   expandable: ^4.1.2
-  flutter_svg: ^0.17.1
+  flutter_svg: ^0.18.0
   flutter_fluid_slider: ^1.0.2
   firebase_dynamic_links: ^0.5.1
   eosdart:
@@ -55,6 +55,7 @@ dependencies:
   hive: ^1.4.1+1
   hive_flutter: ^0.2.1
   rxdart: ^0.24.0
+  permission_handler: ^5.0.1
   barcode_scan: ^3.0.1
 
 dev_dependencies:
@@ -62,7 +63,7 @@ dev_dependencies:
     sdk: flutter
   test: any
   mockito: any
-  flutter_launcher_icons: ^0.7.5
+  # flutter_launcher_icons: ^0.7.5  # temporary until new version fixing dependency issues
   build_runner: ^1.8.1
 
 flutter_icons:

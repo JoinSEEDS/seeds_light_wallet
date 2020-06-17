@@ -4,7 +4,7 @@ import 'package:seeds/providers/services/links_service.dart';
 enum ScanStatus {
   successful,
   cancelled,
-  failed
+  failed,
 }
 
 enum ScanContentType {
@@ -24,7 +24,11 @@ class ScannerService {
   }
   
   Future<ScanResult> start() {
-    return BarcodeScanner.scan();
+    try {
+      return BarcodeScanner.scan();
+    } on Exception catch (e) {
+      // TODO
+    }
   }
 
   ScanStatus statusFromResult(ScanResult result) {

@@ -21,6 +21,7 @@ import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/providers/services/permission_service.dart';
 
 // Connection => Settings => Auth => Http => Members
 final providers = [
@@ -128,12 +129,19 @@ final providers = [
     create: (_) => CreateAccountBloc(),
     update: (_, accountGeneratorService, createAccountBloc) => createAccountBloc..update(accountGeneratorService),
   ),
+  Provider(
+    create: (_) => PermissionService(),
+  ),
   ProxyProvider<LinksService, ScannerService>(
     create: (_) => ScannerService(),
     update: (_, linksService, scannerService) => scannerService..update(linksService),
   ),
-  ProxyProvider<ScannerService, ScannerBloc>(
+  ProxyProvider<LinksService, ScannerService>(
+    create: (_) => ScannerService(),
+    update: (_, linksService, scannerService) => scannerService..update(linksService),
+  ),
+  ProxyProvider2<ScannerService, PermissionService, ScannerBloc>(
     create: (_) => ScannerBloc(),
-    update: (_, scannerService, scannerBloc) => scannerBloc..update(scannerService),
+    update: (_, scannerService, permissionService, scannerBloc) => scannerBloc..update(scannerService, permissionService),
   ),
 ];

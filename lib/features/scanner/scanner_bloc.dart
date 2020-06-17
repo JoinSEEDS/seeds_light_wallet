@@ -1,11 +1,16 @@
 
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/features/scanner/scanner_service.dart';
+import 'package:seeds/providers/services/permission_service.dart';
 import 'package:seeds/utils/bloc/cmd_common.dart';
 
 abstract class ScannerCmd extends Cmd {}
+class QueryCameraPermissionCmd extends ScannerCmd {}
+class RequestCameraPermissionCmd extends ScannerCmd {}
 class StartScannerCmd extends ScannerCmd {}
 class UpdateTextCmd extends ScannerCmd {
   final TextEditingController textController;
@@ -30,11 +35,15 @@ class SetTextControllerCmd extends ScannerCmd {
 class ScannerBloc {
 
   ScannerService _scannerService;
+  PermissionService _permissionService;
+  final _available = BehaviorSubject<ScannerAvailable>();
   final _scanResult = BehaviorSubject<ScanResult>();
+  final _status = BehaviorSubject<ScanStatus>();
   final _execute = PublishSubject<ScannerCmd>();
   final _textController = BehaviorSubject<SetTextControllerCmd>();
   final _inviteCode = BehaviorSubject<String>();
 
+  Stream<ScannerAvailable> get available => _available.stream;
   Stream<ScannedData> get data => _scanResult.stream
     .where((result) => _scannerService.statusFromResult(result) == ScanStatus.successful)
     .map((result) => ScannedData(result.rawContent, _scannerService.contentTypeOf(result.rawContent)));
@@ -45,12 +54,25 @@ class ScannerBloc {
 
   ScannerBloc() {
     _execute.listen(_executeCommand);
+    _initCameraPermission();
+    _initScanResultStatus();
     _initUpdateTextController();
     _initInviteCode();
   }
 
-  void update(ScannerService scannerService) {
+  void update(ScannerService scannerService, PermissionService permissionService) {
     this._scannerService = scannerService;
+    this._permissionService = permissionService;
+  }
+
+  void _initCameraPermission() {
+    execute(QueryCameraPermissionCmd());
+  }
+  
+  void _initScanResultStatus() {
+    _scanResult.stream
+      .map((scanResult) => _scannerService.statusFromResult(scanResult))
+      .listen(_status.add);
   }
 
   void _initUpdateTextController() {
@@ -76,6 +98,12 @@ class ScannerBloc {
 
   _executeCommand(ScannerCmd cmd) {
     switch(cmd.runtimeType) {
+      case QueryCameraPermissionCmd:
+        return _cameraPermission(true);
+
+      case RequestCameraPermissionCmd:
+        return _cameraPermission(false);
+        
       case StartScannerCmd:
         return _startScanner();
 
@@ -90,11 +118,40 @@ class ScannerBloc {
     }
   }
 
+  void _cameraPermission(bool query) {
+    _permissionService
+      .camera(query)
+      .asStream()
+      .map(_convertPermissionStatus)
+      .listen(_available.add);
+  }
+
+  ScannerAvailable _convertPermissionStatus(PermissionStatus permissionStatus) {
+    switch(permissionStatus) {
+      case PermissionStatus.granted:
+        return ScannerAvailable.available;
+        
+      case PermissionStatus.undetermined:
+        return ScannerAvailable.permissionRequired;
+
+      default:
+        return ScannerAvailable.unavailable;
+    }  
+  }
+  
   void _startScanner() {
     _scannerService
       .start()
       .asStream()
-      .listen(_scanResult.add);
+      .listen(_scanResult.add)
+      .onError((error) {
+          if(error is PlatformException && error.code == "PERMISSION_NOT_GRANTED") {
+            _available.add(ScannerAvailable.permissionRequired);
+          } else {
+            _available.add(ScannerAvailable.unavailable);
+            debugPrint("$error");
+          }
+      });
   }
 
   _updateText(UpdateTextCmd cmd) {
@@ -103,6 +160,7 @@ class ScannerBloc {
 
   void discard() {
     _scanResult.close();
+    _status.close();
     _execute.close();
     _textController.close();
     _inviteCode.close();
@@ -111,10 +169,13 @@ class ScannerBloc {
 }
 
 class ScannedData {
-
   final String data;
   final ScanContentType type;
-
   ScannedData(this.data, this.type);
+}
 
+enum ScannerAvailable {
+  available,
+  unavailable,
+  permissionRequired,
 }
