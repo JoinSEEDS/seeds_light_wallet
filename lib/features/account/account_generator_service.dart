@@ -143,14 +143,20 @@ class AccountGeneratorService {
   }
   
   ValidationResult validate(String accountName) {
-    if (accountName.length != 12) {
-      return ValidationResult.invalid('Name should have 12 symbols');
-    } else if (RegExp(r'0|6|7|8|9').allMatches(accountName).length > 0) {
+    var validCharacters = RegExp(r'^[a-z1-5]+$');
+
+    if (RegExp(r'0|6|7|8|9').allMatches(accountName).length > 0) {
       return ValidationResult.invalid('Name can only contain numbers 1-5');
     } else if (accountName.toLowerCase() != accountName) {
       return ValidationResult.invalid("Name can be lowercase only");
     } else if (accountName.contains(' ')) {
       return ValidationResult.invalid("Name can't have space");
+    } else if (accountName.contains('@')) {
+      return ValidationResult.invalid("Name can't have @");
+    } else if (!validCharacters.hasMatch(accountName)) {
+      return ValidationResult.invalid("Name can't have special characters");
+    } else if (accountName.length != 12) {
+      return ValidationResult.invalid('Name should have 12 symbols');
     } else if (RegExp(r'[a-z]|1|2|3|4|5').allMatches(accountName).length != 12) {
       return ValidationResult.invalid('Only letters a..z and numbers 1..5');
     }
