@@ -8,6 +8,7 @@ import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';
 import 'package:seeds/screens/onboarding/create_account.dart';
+import 'package:seeds/screens/onboarding/create_account_account_name.dart';
 import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/onboarding_state_machine.dart';
 import 'package:seeds/screens/onboarding/show_onboarding_choice.dart';
@@ -76,8 +77,8 @@ class _JoinProcessState extends State<JoinProcess> {
         importAccount();
       }
 
-      if (transition["event"] == Events.createAccountRequested) {
-        createAccount();
+      if (transition["event"] == Events.createAccountRequestedFinal) {
+        createAccountRequested();
       }
 
       if (transition["event"] == Events.accountCreated ||
@@ -108,8 +109,7 @@ class _JoinProcessState extends State<JoinProcess> {
     machine.transition(Events.inviteAccepted);
   }
 
-  void createAccount() async {
-    await Future.delayed(Duration(milliseconds: 500), () {});
+  void createAccountRequested() async {
 
     EOSPrivateKey privateKeyRaw = EOSPrivateKey.fromRandom();
     EOSPublicKey publicKey = privateKeyRaw.toEOSPublicKey();
@@ -212,18 +212,31 @@ class _JoinProcessState extends State<JoinProcess> {
         );
         backCallback = () => machine.transition(Events.claimInviteCanceled);
         break;
-      case States.createAccount:
+      case States.createAccountEnterName:
         currentScreen = CreateAccount(
           inviteSecret: inviteSecret,
+          initialName: nickname,
+          onSubmit: (nickName) => machine.transition(
+            Events.createAccountNameEntered,
+            data: {
+              "nickname": nickName,
+            },
+          ),
+        );
+        backCallback = () => machine.transition(Events.createAccountCanceled);
+        break;
+      case States.createAccountAccountName:
+        currentScreen = CreateAccountAccountName(
+          nickname: nickname,
           onSubmit: (accountName, nickName) => machine.transition(
-            Events.createAccountRequested,
+            Events.createAccountRequestedFinal,
             data: {
               "accountName": accountName,
               "nickname": nickName,
             },
           ),
         );
-        backCallback = () => machine.transition(Events.createAccountCanceled);
+        backCallback = () => machine.transition(Events.createAccountAccountNameBack);
         break;
       case States.creatingAccount:
         currentScreen = NotionLoader(

@@ -10,6 +10,7 @@ import 'package:seeds/utils/invites.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
+  String hyphaURL = Config.hyphaEndpoint;
   String userAccount;
   bool mockResponse;
 
@@ -518,7 +519,7 @@ class HttpService {
     if (mockResponse == true) return true;
 
     final String keyAccountsURL =
-        "$baseURL/v1/chain/get_account";
+        "$hyphaURL/v1/chain/get_account";
 
     Response res = await post(
       keyAccountsURL,

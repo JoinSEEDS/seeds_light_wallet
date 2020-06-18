@@ -24,22 +24,21 @@ class CreateAccountBloc {
 
   CreateAccountBloc() {
     _execute.listen(_executeCommand);
-    _initGenerateAccountFromUserName();
     _initGenerateAccountFromUserAccount();
-    _initValidateLatestAccountUnlessAlreadyValid();
+    _initGenerateAccountFromUserName();
   }
 
   void update(AccountGeneratorService accountGeneratorService) {
     this._accountGeneratorService = accountGeneratorService;
   }
-
+  
   void _initGenerateAccountFromUserName() {
     userName
       .where((value) => value.length > 0)
       .flatMap((name) => generateList(name))
       .listen(_addValidAccounts);
   }
-  
+
   void _initGenerateAccountFromUserAccount() {
     userAccount
       .where((value) => value.length > 0)
@@ -48,29 +47,39 @@ class CreateAccountBloc {
       .listen(_addValidAccounts);
   }
 
-  void _initValidateLatestAccountUnlessAlreadyValid() {
-    CombineLatestStream
-      .combine2(userAccount, _validAccounts, (account, alreadyValidated) => validateLocalBeforeOnChain(account, alreadyValidated))
-      .flatMap((value) => value)
-      .listen(_available.add);
-  }
+  // void _initValidateLatestAccountUnlessAlreadyValid() {
+  //   CombineLatestStream
+  //     .combine2(userAccount, _validAccounts, (account, alreadyValidated) => validateLocalBeforeOnChain(account, alreadyValidated))
+  //     .flatMap((value) => value)
+  //     .listen(_available.add);
+  // }
 
   Stream<List<String>> generateList(String name) {
+    print("Generate list...");
     _validAccounts.add(_validAccounts.value.switchToInProgress());
     return _accountGeneratorService.generateList(name).asStream();
   }
 
   Stream<bool> validateLocalBeforeOnChain(String account, ValidAccounts alreadyValidated) {
+    print("validateLocalBeforeOnChain: $account");
     if(alreadyValidated.contains(account)) {
+      print("got it returning true");
       return Stream.value(true);
     } else if(_accountGeneratorService.validate(account).valid) {
+      print("returning stream future ...");
+
       return _accountGeneratorService.availableOnChain(account).asStream();
     }
+    print("returning FALSE");
+
     return Stream.value(false);
   }
 
   _addValidAccounts(List<String> accounts) {
     final distinctList = (_validAccounts.value.accounts + accounts).toSet().toList();
+
+    print("add valid $distinctList");
+
     _validAccounts.add(ValidAccounts(false, distinctList));
   }
 
@@ -108,7 +117,7 @@ class ValidAccounts {
 
   ValidAccounts.empty() : this(true, []);
 
-  ValidAccounts switchToInProgress() => ValidAccounts(!inProgress, accounts);
+  ValidAccounts switchToInProgress() => ValidAccounts(true, accounts);
 
   bool contains(String account) => accounts.contains(account);
 

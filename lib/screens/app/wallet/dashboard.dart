@@ -155,10 +155,11 @@ class _DashboardState extends State<Dashboard> {
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           EmptyButton(
-                            width: width * 0.3,
+                            width: width * 0.35,
                             title: 'Backup'.i18n,
                             color: Colors.white,
                             onPressed: () {
@@ -166,7 +167,7 @@ class _DashboardState extends State<Dashboard> {
                             },
                           ),
                           EmptyButton(
-                            width: width * 0.3,
+                            width: width * 0.35,
                             title: 'Later'.i18n,
                             color: Colors.white,
                             onPressed: () {

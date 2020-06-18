@@ -164,6 +164,7 @@ class _ProfileState extends State<Profile> {
                     child: MainTextField(
                         labelText: "Full Name".i18n,
                         hintText: 'Enter your name'.i18n,
+                        autocorrect: false,
                         controller: _nameController,
                         validator: (String val) {
                           String error;
