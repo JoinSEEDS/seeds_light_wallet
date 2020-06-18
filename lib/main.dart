@@ -103,7 +103,8 @@ class SeedsMaterialApp extends MaterialApp {
           const Locale('en', "US"), 
           const Locale('es', "ES"), 
       ],
-      debugShowCheckedModeBanner: false,
+      //debugShowCheckedModeBanner: false,
+      //debugShowMaterialGrid: true,
       home: I18n(child: home),
       navigatorKey: navigatorKey,
       onGenerateRoute: onGenerateRoute

@@ -114,6 +114,7 @@ class ShowOnboardingChoice extends StatelessWidget {
           'Import private key'.i18n,
           onImport,
         ),
+        Container(height: 10,),
         buildGroup(
           'If you have an invite\nclick here'.i18n,
           "Claim invite code".i18n,

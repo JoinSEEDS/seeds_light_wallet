@@ -23,6 +23,8 @@ enum Events {
   inviteAccepted,
   inviteRejected,
   createAccountCanceled,
+  createAccountNameEntered,
+  createAccountAccountNameBack,
   claimInviteCanceled,
   importAccountCanceled,
   chosenImportAccount,
@@ -30,6 +32,7 @@ enum Events {
   accountCreated,
   accountImported,
   createAccountRequested,
+  createAccountRequestedFinal,
   importAccountRequested,
   createAccountFailed,
   importAccountFailed,
@@ -41,7 +44,8 @@ enum States {
   processingInviteLink,
   onboardingMethodChoice,
   inviteConfirmation,
-  createAccount,
+  createAccountEnterName,
+  createAccountAccountName,
   importAccount,
   claimInviteCode,
   creatingAccount,
@@ -87,7 +91,7 @@ class OnboardingStateMachine {
       transitions: [
         _Transition(
           event: Events.inviteAccepted,
-          targetState: States.createAccount,
+          targetState: States.createAccountEnterName,
         ),
         _Transition(
           event: Events.inviteRejected,
@@ -95,15 +99,28 @@ class OnboardingStateMachine {
         )
       ],
     ),
-    States.createAccount: _State(
-      name: States.createAccount,
+    States.createAccountEnterName: _State(
+      name: States.createAccountEnterName,
       transitions: [
         _Transition(
           event: Events.createAccountCanceled,
           targetState: States.onboardingMethodChoice,
         ),
         _Transition(
-          event: Events.createAccountRequested,
+          event: Events.createAccountNameEntered,
+          targetState: States.createAccountAccountName,
+        ),
+      ],
+    ),
+    States.createAccountAccountName: _State(
+      name: States.createAccountAccountName,
+      transitions: [
+        _Transition(
+          event: Events.createAccountAccountNameBack,
+          targetState: States.createAccountEnterName,
+        ),
+        _Transition(
+          event: Events.createAccountRequestedFinal,
           targetState: States.creatingAccount,
         ),
       ],
@@ -182,6 +199,8 @@ class OnboardingStateMachine {
   void transition(Events event, {Map<String, dynamic> data}) {
     var targetTransition =
         states[currentState].transitions.firstWhere((t) => t.event == event);
+
+      print("event: $event  ---> ${targetTransition.targetState}");
 
     if (targetTransition != null) {
       currentState = targetTransition.targetState;
