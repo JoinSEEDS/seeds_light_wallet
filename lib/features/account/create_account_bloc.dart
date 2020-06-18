@@ -26,7 +26,6 @@ class CreateAccountBloc {
     _execute.listen(_executeCommand);
     _initGenerateAccountFromUserAccount();
     _initGenerateAccountFromUserName();
-    //_initValidateLatestAccountUnlessAlreadyValid();
   }
 
   void update(AccountGeneratorService accountGeneratorService) {
