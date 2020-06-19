@@ -25,7 +25,7 @@ dependencies:
   flutter_secure_storage: ^3.3.2
   local_auth: ^0.6.2+3
   timeago: ^2.0.26
-  url_launcher: ^5.4.5
+  url_launcher: ^5.4.11
   cached_network_image: ^2.0.0
   intro_views_flutter:
     git: git://github.com/n13/IntroViews-Flutter
