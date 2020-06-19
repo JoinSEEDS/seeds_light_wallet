@@ -6,11 +6,6 @@ static var _t = Translations.byLocale("en_us") +
     {
       "es_es": {
         'Please enter your name': "Por favor ingresa tu nombre",
-        'Your account name should have exactly 12 symbols': "Tu nombre de cuenta debe tener exactamente 12 caracteres",
-        'Your account name should only contain numbers 1-5': "Tu nombre de cuenta puede contener números del 1 al 5",
-        "Your account name can't cont'n uppercase letters": "Tu nombre de cuenta no puede tener letras mayúsculas",
-        "Your account name should cont'n lower case letters": "Tu nombre de cuenta debe tener letras minúsculas",
-        'Your name': "Tu nombre",
         'SEEDS Username': "SEEDS Nombre de usuario",
         'Full Name': "Nombre completo",
         'Enter your name': "Ingresa tu nombre", 
@@ -18,6 +13,16 @@ static var _t = Translations.byLocale("en_us") +
         'Available: ': "Disponible: ",
         "Create account": "Crear cuenta",
         
+        "Couldn't find a valid account name": "No se pudo encontrar un nombre de cuenta válido",
+        "Name can only contain numbers 1..5":"Solo puede contener los números 1..5",
+        "Name can be lowercase only": "Solo puede estar en minúsculas",
+        "Name can't have space": "Tu nombre no puede tener espacio",
+        "Name can't contain @": "Tu nombre no puede contener @",
+        "Name can't have special characters":"Tu nombre no puede tener caracteres especiales",
+        "Name should have 12 symbols": "Tu nombre debe tener 12 símbolos",
+        "Only letters a..z and numbers 1..5": "Solo letras a..z y números 1..5",
+        "%s is not available": "%s no está disponible",
+
         // NOTE: The sentence "your account should have exactly 12 symbols ..."
         // the words "exactly 12" are bold on the screen
         "Your account name should have ": "Tu nombre de cuenta debe tener ",
