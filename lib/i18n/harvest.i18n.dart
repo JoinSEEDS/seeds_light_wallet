@@ -5,10 +5,10 @@ extension Localization on String {
 static var _t = Translations.byLocale("en_us") +
     {
       "es_es": {
-        "Transaction hash: %s": "tbd",
-        "Success!": "tbd",
-        "Plant Seeds": "tbd",
-        "Plant amount": "tbd",
+        "Transaction hash: %s": "Hash de transacción",
+        "Success!": "Éxito!",
+        "Plant Seeds": "Plantar Seeds",
+        "Plant amount": "Monto a plantar",
       }
     };
 

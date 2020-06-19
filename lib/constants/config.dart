@@ -1,5 +1,6 @@
 class Config {
   static final defaultEndpoint = "https://api.telosfoundation.io";
+  static final hyphaEndpoint = "https://node.hypha.earth";
   static final onboardingAccountName = "join.seeds";
   static final onboardingPrivateKey = "5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW";
   static final testingPrivateKey = null;
