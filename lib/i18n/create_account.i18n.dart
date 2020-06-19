@@ -13,16 +13,15 @@ static var _t = Translations.byLocale("en_us") +
         'Available: ': "Disponible: ",
         "Create account": "Crear cuenta",
         
-        "Couldn't find a valid account name": "No se pudo encontrar un nombre de cuenta válido",
-        "Name can only contain numbers 1..5":"Solo puede contener los números 1..5",
-        "Name can be lowercase only": "Solo puede estar en minúsculas",
-        "Name can't have space": "Tu nombre no puede tener espacio",
-        "Name can't contain @": "Tu nombre no puede contener @",
-        "Name can't have special characters":"Tu nombre no puede tener caracteres especiales",
-        "Name should have 12 symbols": "Tu nombre debe tener 12 símbolos",
-        "Only letters a..z and numbers 1..5": "Solo letras a..z y números 1..5",
-        "%s is not available": "%s no está disponible",
-
+        "Couldn't find a valid account name": "No se encontró el nombre de la cuenta",
+        "Name can only contain numbers 1..5":"Nombre solo puede tener números 1..5",
+        "Name can be lowercase only": "Nombre solo puede tener minúsculas",
+        "Name can't have space": "Nombre no puede tener espacio",
+        "Name can't contain @": "Nombre no puede tener @",
+        "Name can't have special characters":"Nombre no puede tener caracteres especiale",
+        "Name should have 12 symbols": "Nombre debe tener 12 caracteres",
+        "Only letters a..z and numbers 1..5": "Solo letras de a..z y números 1..5",
+        "%s is not available": "%s no está disponible"
         // NOTE: The sentence "your account should have exactly 12 symbols ..."
         // the words "exactly 12" are bold on the screen
         "Your account name should have ": "Tu nombre de cuenta debe tener ",
