@@ -1,7 +1,6 @@
 
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/features/scanner/scanner_service.dart';
@@ -11,6 +10,7 @@ import 'package:seeds/utils/bloc/cmd_common.dart';
 abstract class ScannerCmd extends Cmd {}
 class QueryCameraPermissionCmd extends ScannerCmd {}
 class RequestCameraPermissionCmd extends ScannerCmd {}
+class OpenSettingsCmd extends ScannerCmd {}
 class StartScannerCmd extends ScannerCmd {}
 class UpdateTextCmd extends ScannerCmd {
   final TextEditingController textController;
@@ -54,7 +54,6 @@ class ScannerBloc {
 
   ScannerBloc() {
     _execute.listen(_executeCommand);
-    _initCameraPermission();
     _initScanResultStatus();
     _initUpdateTextController();
     _initInviteCode();
@@ -65,10 +64,6 @@ class ScannerBloc {
     this._permissionService = permissionService;
   }
 
-  void _initCameraPermission() {
-    execute(QueryCameraPermissionCmd());
-  }
-  
   void _initScanResultStatus() {
     _scanResult.stream
       .map((scanResult) => _scannerService.statusFromResult(scanResult))
@@ -103,7 +98,10 @@ class ScannerBloc {
 
       case RequestCameraPermissionCmd:
         return _cameraPermission(false);
-        
+
+      case OpenSettingsCmd:
+        return _permissionService.openSettings();
+
       case StartScannerCmd:
         return _startScanner();
 
@@ -138,19 +136,15 @@ class ScannerBloc {
         return ScannerAvailable.unavailable;
     }  
   }
-  
+
   void _startScanner() {
     _scannerService
       .start()
       .asStream()
       .listen(_scanResult.add)
       .onError((error) {
-          if(error is PlatformException && error.code == "PERMISSION_NOT_GRANTED") {
-            _available.add(ScannerAvailable.permissionRequired);
-          } else {
-            _available.add(ScannerAvailable.unavailable);
-            debugPrint("$error");
-          }
+        print("Camera error: $error");
+        execute(QueryCameraPermissionCmd());
       });
   }
 
@@ -159,6 +153,7 @@ class ScannerBloc {
   }
 
   void discard() {
+    _available.close();
     _scanResult.close();
     _status.close();
     _execute.close();
@@ -175,7 +170,16 @@ class ScannedData {
 }
 
 enum ScannerAvailable {
+  unknown,
   available,
   unavailable,
   permissionRequired,
+}
+
+extension ScannerAvailableExt on ScannerAvailable {
+  bool get isScanButtonVisible => [
+    ScannerAvailable.unknown,
+    ScannerAvailable.available,
+    ScannerAvailable.permissionRequired,
+  ].contains(this);
 }

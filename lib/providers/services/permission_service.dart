@@ -11,4 +11,6 @@ class PermissionService {
     }
   }
 
+  Future<bool> openSettings() => openAppSettings();
+
 }

@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/scanner/scanner_bloc.dart';
 import 'package:seeds/features/scanner/scanner_service.dart';
 import 'package:seeds/models/models.dart';
@@ -26,9 +28,11 @@ class ClaimCode extends StatefulWidget {
 
   @override
   _ClaimCodeState createState() => _ClaimCodeState();
+
+
 }
 
-class _ClaimCodeState extends State<ClaimCode> {
+class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
   var inviteCodeController = TextEditingController();
 
   ClaimCodeStatus status = ClaimCodeStatus.emptyInviteCode;
@@ -47,6 +51,21 @@ class _ClaimCodeState extends State<ClaimCode> {
       }
     });
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    Provider.of<ScannerBloc>(context, listen: false).execute(QueryCameraPermissionCmd());
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      Provider.of<ScannerBloc>(context, listen: false).execute(QueryCameraPermissionCmd());
+    }
   }
 
   void findInvite() async {
@@ -103,28 +122,49 @@ class _ClaimCodeState extends State<ClaimCode> {
 
     return StreamBuilder<ScannerAvailable>(
       stream: scannerBloc.available,
-      initialData: ScannerAvailable.available,
+      initialData: ScannerAvailable.unknown,
       builder: (context, snapshot) {
-        final scannerAvailable = snapshot.data == ScannerAvailable.available;
+        final scannerAvailable = snapshot.data;
+        
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 33),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              if(scannerAvailable) MainButton(
-                title: "Scan QR code $scannerAvailable".i18n,
+              if(scannerAvailable.isScanButtonVisible) MainButton(
+                title: "Scan QR code".i18n,
                 onPressed: () {
                   scannerBloc.execute(StartScannerCmd());
                 },
               ),
               Padding(
                 padding: const EdgeInsets.all(20),
-                child: Text(
-                  scannerAvailable ? "...or enter by yourself below".i18n : "Please give SEEDS Wallet access to the camera to enable QR scanning".i18n,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: "worksans",
-                    fontWeight: FontWeight.w300,
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    children: [
+                      if(scannerAvailable.isScanButtonVisible) TextSpan(
+                        text: "...or enter by yourself below".i18n,
+                        style: TextStyle(fontSize: 14, color: AppColors.grey),
+                      ),
+
+                      if(!scannerAvailable.isScanButtonVisible) ...[
+                        TextSpan(
+                          text: "Please give SEEDS Wallet access to the camera to enable QR scanning. ".i18n,
+                          style: TextStyle(fontSize: 14, color: AppColors.grey),
+                        ),
+                        TextSpan(
+                          text: "Open Settings".i18n,
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () => scannerBloc.execute(OpenSettingsCmd()),
+                        ),
+                        TextSpan(
+                          text: " to give camera permissions.".i18n,
+                          style: TextStyle(fontSize: 14, color: AppColors.grey),
+                        ),
+                      ],
+                    ],
                   ),
                 ),
               ),
