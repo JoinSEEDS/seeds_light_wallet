@@ -1,6 +1,5 @@
 
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/features/scanner/scanner_service.dart';
@@ -12,11 +11,6 @@ class QueryCameraPermissionCmd extends ScannerCmd {}
 class RequestCameraPermissionCmd extends ScannerCmd {}
 class OpenSettingsCmd extends ScannerCmd {}
 class StartScannerCmd extends ScannerCmd {}
-class UpdateTextCmd extends ScannerCmd {
-  final TextEditingController textController;
-  final String text;
-  UpdateTextCmd(this.textController, this.text);
-}
 
 class ScannerBloc {
 
@@ -80,9 +74,6 @@ class ScannerBloc {
       case StartScannerCmd:
         return _startScanner();
 
-      case UpdateTextCmd:
-        return _updateText(cmd as UpdateTextCmd);
-        
       default:
         throw UnknownCmd(cmd);
     }
@@ -118,10 +109,6 @@ class ScannerBloc {
         print("Camera error: $error");
         execute(QueryCameraPermissionCmd());
       });
-  }
-
-  _updateText(UpdateTextCmd cmd) {
-    cmd.textController.text = cmd.text;
   }
 
   void discard() {

@@ -60,7 +60,6 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
 
     ScannerBloc bloc = Provider.of<ScannerBloc>(context, listen: false);
     this.inviteCodeSubscriber = bloc.inviteCode.listen((inviteCode) {
-      debugPrint("Update controller with: $inviteCode");
       inviteCodeController.text = inviteCode;
     });
     bloc.execute(QueryCameraPermissionCmd());
