@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/scanner/scanner_bloc.dart';
-import 'package:seeds/features/scanner/scanner_service.dart';
+import 'package:seeds/i18n/claim_code.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/utils/invites.dart';
 import 'package:seeds/widgets/clipboard_text_field.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/i18n/claim_code.i18n.dart';
 
 enum ClaimCodeStatus {
   emptyInviteCode,
@@ -36,6 +35,9 @@ class ClaimCode extends StatefulWidget {
 
 class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
   var inviteCodeController = TextEditingController();
+
+  // Cancelled in the dispose method
+  // ignore: cancel_subscriptions
   StreamSubscription<String> inviteCodeSubscriber;
 
   ClaimCodeStatus status = ClaimCodeStatus.emptyInviteCode;
@@ -66,7 +68,9 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    this.inviteCodeSubscriber.cancel();
+    if(inviteCodeSubscriber != null) {
+      this.inviteCodeSubscriber.cancel();
+    }
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
