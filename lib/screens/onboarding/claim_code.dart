@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +36,7 @@ class ClaimCode extends StatefulWidget {
 
 class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
   var inviteCodeController = TextEditingController();
+  StreamSubscription<String> inviteCodeSubscriber;
 
   ClaimCodeStatus status = ClaimCodeStatus.emptyInviteCode;
   String claimedAccount;
@@ -52,11 +55,18 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
     });
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    Provider.of<ScannerBloc>(context, listen: false).execute(QueryCameraPermissionCmd());
+
+    ScannerBloc bloc = Provider.of<ScannerBloc>(context, listen: false);
+    this.inviteCodeSubscriber = bloc.inviteCode.listen((inviteCode) {
+      debugPrint("Update controller with: $inviteCode");
+      inviteCodeController.text = inviteCode;
+    });
+    bloc.execute(QueryCameraPermissionCmd());
   }
 
   @override
   void dispose() {
+    this.inviteCodeSubscriber.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -117,11 +127,10 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final ScannerBloc scannerBloc = Provider.of(context);
-    scannerBloc.execute(SetTextControllerCmd(inviteCodeController, ScanContentType.inviteCode));
+    final ScannerBloc bloc = Provider.of(context);
 
     return StreamBuilder<ScannerAvailable>(
-      stream: scannerBloc.available,
+      stream: bloc.available,
       initialData: ScannerAvailable.unknown,
       builder: (context, snapshot) {
         final scannerAvailable = snapshot.data;
@@ -134,7 +143,7 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
               if(scannerAvailable.isScanButtonVisible) MainButton(
                 title: "Scan QR code".i18n,
                 onPressed: () {
-                  scannerBloc.execute(StartScannerCmd());
+                  bloc.execute(StartScannerCmd());
                 },
               ),
               Padding(
@@ -157,7 +166,7 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
                           text: "Open Settings".i18n,
                           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.blue),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () => scannerBloc.execute(OpenSettingsCmd()),
+                            ..onTap = () => bloc.execute(OpenSettingsCmd()),
                         ),
                         TextSpan(
                           text: " to give camera permissions.".i18n,

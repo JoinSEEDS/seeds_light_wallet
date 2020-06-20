@@ -17,20 +17,6 @@ class UpdateTextCmd extends ScannerCmd {
   final String text;
   UpdateTextCmd(this.textController, this.text);
 }
-class SetTextControllerCmd extends ScannerCmd {
-  final TextEditingController textController;
-  final ScanContentType updateOnType;
-  SetTextControllerCmd(this.textController, this.updateOnType);
-
-  @override
-  bool operator ==(Object other) => identical(this, other) ||
-    other is SetTextControllerCmd &&
-    runtimeType == other.runtimeType &&
-    textController == other.textController &&
-    updateOnType == other.updateOnType;
-
-  @override int get hashCode => textController.hashCode ^ updateOnType.hashCode;
-}
 
 class ScannerBloc {
 
@@ -40,7 +26,6 @@ class ScannerBloc {
   final _scanResult = BehaviorSubject<ScanResult>();
   final _status = BehaviorSubject<ScanStatus>();
   final _execute = PublishSubject<ScannerCmd>();
-  final _textController = BehaviorSubject<SetTextControllerCmd>();
   final _inviteCode = BehaviorSubject<String>();
 
   Stream<ScannerAvailable> get available => _available.stream;
@@ -49,13 +34,11 @@ class ScannerBloc {
     .map((result) => ScannedData(result.rawContent, _scannerService.contentTypeOf(result.rawContent)));
   Stream<ScanStatus> get status => _scanResult.stream.map(_scannerService.statusFromResult);
   Stream<String> get inviteCode => _inviteCode.stream;
-  Stream<SetTextControllerCmd> get textController => _textController.stream.distinct();
   Function(ScannerCmd) get execute => _execute.add;
 
   ScannerBloc() {
     _execute.listen(_executeCommand);
     _initScanResultStatus();
-    _initUpdateTextController();
     _initInviteCode();
   }
 
@@ -70,14 +53,6 @@ class ScannerBloc {
       .listen(_status.add);
   }
 
-  void _initUpdateTextController() {
-    CombineLatestStream
-      .combine2(_textController.distinct(), inviteCode, (SetTextControllerCmd ctrl, code) {
-        return ctrl.updateOnType == ScanContentType.inviteCode ? UpdateTextCmd(ctrl.textController, code) : null;
-      }).where((cmd) => cmd != null)
-      .listen(execute);
-  }
-  
   void _initInviteCode() {
     data
       .where((data) => data.type == ScanContentType.inviteUrl)
@@ -108,9 +83,6 @@ class ScannerBloc {
       case UpdateTextCmd:
         return _updateText(cmd as UpdateTextCmd);
         
-      case SetTextControllerCmd:
-        return _textController.add(cmd as SetTextControllerCmd);
-
       default:
         throw UnknownCmd(cmd);
     }
@@ -157,7 +129,6 @@ class ScannerBloc {
     _scanResult.close();
     _status.close();
     _execute.close();
-    _textController.close();
     _inviteCode.close();
   }
 
