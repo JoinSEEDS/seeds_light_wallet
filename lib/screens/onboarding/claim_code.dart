@@ -151,29 +151,11 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    children: [
-                      if(scannerAvailable.isScanButtonVisible) TextSpan(
-                        text: "...or enter by yourself below".i18n,
-                        style: TextStyle(fontSize: 14, color: AppColors.grey),
-                      ),
-
-                      if(!scannerAvailable.isScanButtonVisible) ...[
-                        TextSpan(
-                          text: "Please give SEEDS Wallet access to the camera to enable QR scanning. ".i18n,
-                          style: TextStyle(fontSize: 14, color: AppColors.grey),
-                        ),
-                        TextSpan(
-                          text: "Open Settings".i18n,
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.blue),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => bloc.execute(OpenSettingsCmd()),
-                        ),
-                        TextSpan(
-                          text: " to give camera permissions.".i18n,
-                          style: TextStyle(fontSize: 14, color: AppColors.grey),
-                        ),
-                      ],
-                    ],
+                    children: buildTextContent(
+                      scannerAvailable: scannerAvailable,
+                      onOpenSettings: () {
+                        bloc.execute(OpenSettingsCmd());
+                      }),
                   ),
                 ),
               ),
@@ -246,5 +228,33 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
         );
       }
     );
+  }
+
+  List<InlineSpan> buildTextContent({ScannerAvailable scannerAvailable, Function onOpenSettings}) {
+    if(scannerAvailable.isScanButtonVisible) {
+      return [
+        TextSpan(
+          text: "...or enter by yourself below".i18n,
+          style: TextStyle(fontSize: 14, color: AppColors.grey),
+        ),
+      ];
+    } else {
+      return [
+        TextSpan(
+          text: "Please give SEEDS Wallet access to the camera to enable QR scanning. ".i18n,
+          style: TextStyle(fontSize: 14, color: AppColors.grey),
+        ),
+        TextSpan(
+          text: "Open Settings".i18n,
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.blue),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () => onOpenSettings,
+        ),
+        TextSpan(
+          text: " to give camera permissions.".i18n,
+          style: TextStyle(fontSize: 14, color: AppColors.grey),
+        ),
+      ];
+    }
   }
 }
