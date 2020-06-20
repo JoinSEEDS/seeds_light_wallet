@@ -136,10 +136,6 @@ final providers = [
     create: (_) => ScannerService(),
     update: (_, linksService, scannerService) => scannerService..update(linksService),
   ),
-  ProxyProvider<LinksService, ScannerService>(
-    create: (_) => ScannerService(),
-    update: (_, linksService, scannerService) => scannerService..update(linksService),
-  ),
   ProxyProvider2<ScannerService, PermissionService, ScannerBloc>(
     create: (_) => ScannerBloc(),
     update: (_, scannerService, permissionService, scannerBloc) => scannerBloc..update(scannerService, permissionService),
