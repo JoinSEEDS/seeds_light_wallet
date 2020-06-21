@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/features/scanner/scanner_bloc.dart';
+import 'package:seeds/i18n/ecosystem.i18n.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
@@ -10,7 +12,6 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:seeds/i18n/ecosystem.i18n.dart';
 
 class Overview extends StatefulWidget {
   const Overview({
@@ -144,6 +145,7 @@ class _OverviewState extends State<Overview> {
 
   @override
   Widget build(BuildContext context) {
+    final ScannerBloc bloc = Provider.of(context);
     return RefreshIndicator(
       onRefresh: refreshData,
       child: SingleChildScrollView(
@@ -175,6 +177,21 @@ class _OverviewState extends State<Overview> {
                   model?.balance?.quantity?.seedsFormatted,
                   onPlant,
                 ),),
+                StreamBuilder<String>(
+                  stream: bloc.inviteCode,
+                  builder: (context, snapshot) {
+                    return Text("Scanned: ${snapshot.data}");
+                  }
+                ),
+                Container(
+                  color: Colors.red[100],
+                  child: MaterialButton(
+                    child: Text("test"),
+                    onPressed: () {
+                      bloc.execute(StartScannerCmd());
+                    },
+                  ),
+                ),
               ],
             )),
       ),

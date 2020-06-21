@@ -17,7 +17,7 @@ jobs:
           channel: 'stable'
       - name: Upgrade flutter
         run: |
-          flutter channel master
+          flutter channel stable
           flutter upgrade
       - name: Build apk package
         run: |

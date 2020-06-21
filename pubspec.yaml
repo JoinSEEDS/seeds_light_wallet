@@ -55,6 +55,8 @@ dependencies:
   hive: ^1.4.1+1
   hive_flutter: ^0.2.1
   rxdart: ^0.24.0
+  permission_handler: ^5.0.1
+  barcode_scan: ^3.0.1
 
 dev_dependencies:
   flutter_test:

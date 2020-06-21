@@ -36,7 +36,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Uses camera to take pictures for profile.</string>
+	<string>Uses camera for profile pictures and QR codes.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Unlock wallet with FaceID</string>
 	<key>NSLocationAlwaysUsageDescription</key>
