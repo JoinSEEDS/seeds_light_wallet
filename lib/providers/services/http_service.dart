@@ -240,6 +240,33 @@ class HttpService {
     }
   }
 
+    Future<RateModel> getUSDRate() async {
+    print("[http] get seeds rate USD");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.rate;
+    }
+
+    final String rateURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
+    
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(rateURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      return RateModel.fromJson(body);
+    } else {
+      print("Cannot fetch balance...");
+
+      return RateModel(0);
+    }
+  }
+
   Future<BalanceModel> getTelosBalance() async {
     print("[http] get telos balance");
 

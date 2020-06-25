@@ -50,6 +50,8 @@ class HttpMockResponse {
   ];
 
   static final balance = BalanceModel("10.0000 SEEDS");
+  
+  static final rate = RateModel(0.011);
 
   static final telosBalance = BalanceModel("10.0000 TLOS");
 

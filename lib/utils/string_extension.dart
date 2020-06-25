@@ -6,8 +6,18 @@ extension StringExtension on String{
     if (this != null) {
       var parts = this.split(" ");
       var number = double.parse(parts[0]);
-      //number = number + 30000000.0007; // debug
-      var showDecimals = number < 1000000;
+      return number.seedsFormatted;
+    } else {
+      return null;
+    }
+  }
+}
+
+extension DoubleExtension on double {
+  String get seedsFormatted {
+    if (this != null) {
+      var number = this;
+      var showDecimals = this < 1000000;
       var seedsFormatter = showDecimals ? NumberFormat("#,###,###,###,###.####") : NumberFormat("#,###,###,###,###,###");
       return seedsFormatter.format(number);// + " " + parts[1];
     } else {

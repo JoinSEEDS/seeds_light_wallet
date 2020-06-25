@@ -1,3 +1,5 @@
+import '../utils/string_extension.dart';
+
 class InviteModel {
   final int inviteId;
   final String transferQuantity;
@@ -131,6 +133,45 @@ class BalanceModel {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is BalanceModel && quantity == other.quantity;
+
+  @override
+  int get hashCode => super.hashCode;
+}
+
+class RateModel {
+  final double numericQuantity;
+
+  RateModel(
+    this.numericQuantity
+  );
+
+  factory RateModel.fromJson(Map<String, dynamic> json) {
+    if (json != null && json.isNotEmpty) {
+      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String));
+    } else {
+      return RateModel(0);
+    }
+  }
+
+  static double _parseQuantityString(String quantityString) {
+    if(quantityString == null) {
+      return 0;
+    }
+    return double.parse(quantityString.split(" ")[0]);
+  }
+
+  double convert(double seedsAmount) {
+    return numericQuantity > 0 ? seedsAmount / numericQuantity : 0;
+  }
+
+  String usdString(double seedsAmount) {
+    return convert(seedsAmount).seedsFormatted + " USD"; 
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RateModel && numericQuantity == other.numericQuantity;
 
   @override
   int get hashCode => super.hashCode;
