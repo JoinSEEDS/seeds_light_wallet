@@ -137,6 +137,10 @@ final providers = [
     create: (_) => ScannerService(),
     update: (_, linksService, scannerService) => scannerService..update(linksService),
   ),
+  ProxyProvider<EosService, EsrService>(
+    create: (_) => EsrService(),
+    update: (_, eosService, esrService) => esrService..update(eosService.client), // todo: should break out EosClient into it's own injectable
+  ),
   ProxyProvider3<ScannerService, PermissionService, EsrService, ScannerBloc>(
     create: (_) => ScannerBloc(),
     update: (_, scanner, permission, esr, scannerBloc) => scannerBloc..update(
@@ -144,9 +148,5 @@ final providers = [
       permissionService: permission,
       esrService: esr
     ),
-  ),
-  ProxyProvider<EosService, EsrService>(
-    create: (_) => EsrService(),
-    update: (_, eosService, esrService) => esrService..update(eosService.client), // todo: should break out EosClient into it's own injectable
   ),
 ];

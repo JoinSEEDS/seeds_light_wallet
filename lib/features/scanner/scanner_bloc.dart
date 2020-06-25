@@ -1,5 +1,6 @@
 
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/features/scanner/esr_service.dart';
@@ -31,12 +32,14 @@ class ScannerBloc {
     .map((result) => ScannedData(result.rawContent, _scannerService.contentTypeOf(result.rawContent)));
   Stream<ScanStatus> get status => _scanResult.stream.map(_scannerService.statusFromResult);
   Stream<String> get inviteCode => _inviteCode.stream;
+  Stream<String> get esrData => _esrData.stream;
   Function(ScannerCmd) get execute => _execute.add;
 
   ScannerBloc() {
     _execute.listen(_executeCommand);
     _initScanResultStatus();
     _initInviteCode();
+    _initEsr();
   }
 
   void update({ ScannerService scannerService, PermissionService permissionService, EsrService esrService }) {
@@ -62,6 +65,14 @@ class ScannerBloc {
       .where((data) => data.type == ScanContentType.inviteCode)
       .map((data) => data.data)
       .listen(_inviteCode.add);
+  }
+
+  void _initEsr() {
+    data
+      .where((data) => data.type == ScanContentType.esr)
+      .listen((esr) {
+        debugPrint("ESR $esr");
+      });
   }
 
   _executeCommand(ScannerCmd cmd) {
@@ -121,6 +132,7 @@ class ScannerBloc {
     _status.close();
     _execute.close();
     _inviteCode.close();
+    _esrData.close();
   }
 
 }

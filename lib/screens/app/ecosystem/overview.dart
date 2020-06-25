@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/features/scanner/scanner_bloc.dart';
 import 'package:seeds/i18n/ecosystem.i18n.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
@@ -144,6 +145,7 @@ class _OverviewState extends State<Overview> {
 
   @override
   Widget build(BuildContext context) {
+    final ScannerBloc bloc = Provider.of(context);
     return RefreshIndicator(
       onRefresh: refreshData,
       child: SingleChildScrollView(
@@ -175,6 +177,21 @@ class _OverviewState extends State<Overview> {
                   model?.balance?.quantity?.seedsFormatted,
                   onPlant,
                 ),),
+                StreamBuilder<String>(
+                  stream: bloc.esrData,
+                  builder: (context, snapshot) {
+                    return Text("Scanned: ${snapshot.data}");
+                  }
+                ),
+                Container(
+                  color: Colors.red[100],
+                  child: MaterialButton(
+                    child: Text("test"),
+                    onPressed: () {
+                      bloc.execute(StartScannerCmd());
+                    },
+                  ),
+                ),
               ],
             )),
       ),
