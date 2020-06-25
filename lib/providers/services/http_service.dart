@@ -236,7 +236,7 @@ class HttpService {
     } else {
       print("Cannot fetch balance...");
 
-      return BalanceModel("0.0000 SEEDS");
+      return BalanceModel("0.0000 SEEDS", true);
     }
   }
 
@@ -261,9 +261,9 @@ class HttpService {
 
       return RateModel.fromJson(body);
     } else {
-      print("Cannot fetch balance...");
+      print("Cannot fetch balance..."+res.body.toString());
 
-      return RateModel(0);
+      return RateModel(0, true);
     }
   }
 
@@ -288,12 +288,12 @@ class HttpService {
       if (body != null && body.isNotEmpty) {
         return BalanceModel.fromJson(body);
       } else {
-        return BalanceModel("0.0000 TLOS");
+        return BalanceModel("0.0000 TLOS", false);
       }
     } else {
       print("Cannot fetch balance...");
 
-      return BalanceModel("0.0000 TLOS");
+      return BalanceModel("0.0000 TLOS", true);
     }
   }
 

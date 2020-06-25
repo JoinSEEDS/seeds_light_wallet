@@ -1,4 +1,4 @@
-import '../utils/string_extension.dart';
+import '../utils/double_extension.dart';
 
 class InviteModel {
   final int inviteId;
@@ -111,14 +111,15 @@ class TransactionModel {
 class BalanceModel {
   final String quantity;
   final double numericQuantity;
+  final bool error;
 
-  BalanceModel(this.quantity) : numericQuantity = _parseQuantityString(quantity);
+  BalanceModel(this.quantity, this.error) : numericQuantity = _parseQuantityString(quantity);
 
   factory BalanceModel.fromJson(List<dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return BalanceModel(json[0] as String);
+      return BalanceModel(json[0] as String, false);
     } else {
-      return BalanceModel("0.0000 SEEDS");
+      return BalanceModel("0.0000 SEEDS", true);
     }
   }
 
@@ -139,17 +140,19 @@ class BalanceModel {
 }
 
 class RateModel {
-  final double numericQuantity;
+  final double seedsPerUSD;
+  final bool error;
 
   RateModel(
-    this.numericQuantity
+    this.seedsPerUSD,
+    this.error
   );
 
   factory RateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String));
+      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String), false);
     } else {
-      return RateModel(0);
+      return RateModel(0, true);
     }
   }
 
@@ -161,7 +164,7 @@ class RateModel {
   }
 
   double convert(double seedsAmount) {
-    return numericQuantity > 0 ? seedsAmount / numericQuantity : 0;
+    return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
   }
 
   String usdString(double seedsAmount) {
@@ -171,7 +174,7 @@ class RateModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is RateModel && numericQuantity == other.numericQuantity;
+      other is RateModel && seedsPerUSD == other.seedsPerUSD;
 
   @override
   int get hashCode => super.hashCode;

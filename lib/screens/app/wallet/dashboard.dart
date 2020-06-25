@@ -97,7 +97,7 @@ class _DashboardState extends State<Dashboard> {
                     ? Column(
                         children: <Widget>[
                           Text(
-                            '${model.balance?.quantity?.seedsFormatted} SEEDS',
+                            model.balance.error ? 'Network error'.i18n : '${model.balance?.quantity?.seedsFormatted} SEEDS',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,
@@ -106,7 +106,8 @@ class _DashboardState extends State<Dashboard> {
                           Consumer<RateNotifier>(
                             builder: (context, rateModel, child) {
                               return Text(
-                                '${rateModel.rate?.usdString(model.balance.numericQuantity)}',
+                                model.balance.error ? 'Pull to update'.i18n :
+                                rateModel.rate.error ? "Exchange rate load error".i18n : '${rateModel.rate?.usdString(model.balance.numericQuantity)}',
                                 style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 12,
