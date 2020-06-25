@@ -2,6 +2,7 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:seeds/features/scanner/esr_service.dart';
 import 'package:seeds/features/scanner/scanner_service.dart';
 import 'package:seeds/providers/services/permission_service.dart';
 import 'package:seeds/utils/bloc/cmd_common.dart';
@@ -16,11 +17,13 @@ class ScannerBloc {
 
   ScannerService _scannerService;
   PermissionService _permissionService;
+  EsrService _esrService;
   final _available = BehaviorSubject<ScannerAvailable>();
   final _scanResult = BehaviorSubject<ScanResult>();
   final _status = BehaviorSubject<ScanStatus>();
   final _execute = PublishSubject<ScannerCmd>();
   final _inviteCode = BehaviorSubject<String>();
+  final _esrData = BehaviorSubject<String>();
 
   Stream<ScannerAvailable> get available => _available.stream;
   Stream<ScannedData> get data => _scanResult.stream
@@ -36,9 +39,10 @@ class ScannerBloc {
     _initInviteCode();
   }
 
-  void update(ScannerService scannerService, PermissionService permissionService) {
+  void update({ ScannerService scannerService, PermissionService permissionService, EsrService esrService }) {
     this._scannerService = scannerService;
     this._permissionService = permissionService;
+    this._esrService = esrService;
   }
 
   void _initScanResultStatus() {

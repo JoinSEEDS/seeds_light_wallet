@@ -57,6 +57,8 @@ dependencies:
   rxdart: ^0.24.0
   permission_handler: ^5.0.1
   barcode_scan: ^3.0.1
+  dartesr:
+    path: /Users/pdahlberg/dev/seeds/dartesr
 
 dev_dependencies:
   flutter_test:

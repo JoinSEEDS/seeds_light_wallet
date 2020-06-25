@@ -4,6 +4,7 @@ import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/features/account/create_account_bloc.dart';
 import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
+import 'package:seeds/features/scanner/esr_service.dart';
 import 'package:seeds/features/scanner/scanner_bloc.dart';
 import 'package:seeds/features/scanner/scanner_service.dart';
 import 'package:seeds/features/biometrics/biometrics_service.dart';
@@ -136,8 +137,16 @@ final providers = [
     create: (_) => ScannerService(),
     update: (_, linksService, scannerService) => scannerService..update(linksService),
   ),
-  ProxyProvider2<ScannerService, PermissionService, ScannerBloc>(
+  ProxyProvider3<ScannerService, PermissionService, EsrService, ScannerBloc>(
     create: (_) => ScannerBloc(),
-    update: (_, scannerService, permissionService, scannerBloc) => scannerBloc..update(scannerService, permissionService),
+    update: (_, scanner, permission, esr, scannerBloc) => scannerBloc..update(
+      scannerService: scanner,
+      permissionService: permission,
+      esrService: esr
+    ),
+  ),
+  ProxyProvider<EosService, EsrService>(
+    create: (_) => EsrService(),
+    update: (_, eosService, esrService) => esrService..update(eosService.client), // todo: should break out EosClient into it's own injectable
   ),
 ];
