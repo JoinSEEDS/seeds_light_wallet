@@ -165,7 +165,7 @@ class RateModel {
   }
 
   String usdString(double seedsAmount) {
-    return convert(seedsAmount).seedsFormatted + " USD"; 
+    return convert(seedsAmount).fiatFormatted + " USD"; 
   }
 
   @override
