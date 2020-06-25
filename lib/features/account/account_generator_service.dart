@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:seeds/providers/services/http_service.dart';
+import '../../i18n/create_account.i18n.dart';
 
 class AccountGeneratorService {
 
@@ -52,7 +53,7 @@ class AccountGeneratorService {
     } 
 
     if(recursionAttempts <= 0) {
-      return Future.error("Couldn't find a valid account name");
+      return Future.error("Couldn't find a valid account name".i18n);
     }
     exclude.add(account);
     final modified = modifyAccountName(account, replaceWith);
@@ -146,19 +147,19 @@ class AccountGeneratorService {
     var validCharacters = RegExp(r'^[a-z1-5]+$');
 
     if (RegExp(r'0|6|7|8|9').allMatches(accountName).length > 0) {
-      return ValidationResult.invalid('Name can only contain numbers 1-5');
+      return ValidationResult.invalid('Name can only contain numbers 1..5'.i18n);
     } else if (accountName.toLowerCase() != accountName) {
-      return ValidationResult.invalid("Name can be lowercase only");
+      return ValidationResult.invalid("Name can be lowercase only".i18n);
     } else if (accountName.contains(' ')) {
-      return ValidationResult.invalid("Name can't have space");
+      return ValidationResult.invalid("Name can't have space".i18n);
     } else if (accountName.contains('@')) {
-      return ValidationResult.invalid("Name can't have @");
+      return ValidationResult.invalid("Name can't contain @".i18n);
     } else if (!validCharacters.hasMatch(accountName)) {
-      return ValidationResult.invalid("Name can't have special characters");
+      return ValidationResult.invalid("Name can't have special characters".i18n);
     } else if (accountName.length != 12) {
-      return ValidationResult.invalid('Name should have 12 symbols');
+      return ValidationResult.invalid('Name should have 12 symbols'.i18n);
     } else if (RegExp(r'[a-z]|1|2|3|4|5').allMatches(accountName).length != 12) {
-      return ValidationResult.invalid('Only letters a..z and numbers 1..5');
+      return ValidationResult.invalid('Only letters a..z and numbers 1..5'.i18n);
     }
     return ValidationResult.valid();
   }

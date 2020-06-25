@@ -519,7 +519,7 @@ class HttpService {
     if (mockResponse == true) return true;
 
     final String keyAccountsURL =
-        "$hyphaURL/v1/chain/get_account";
+        "$baseURL/v1/chain/get_account";
 
     Response res = await post(
       keyAccountsURL,
