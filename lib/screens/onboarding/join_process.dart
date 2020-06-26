@@ -99,13 +99,13 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void importAccount() async {
-    await Future.delayed(Duration(milliseconds: 2000), () {});
+    await Future.delayed(Duration(milliseconds: 1000), () {});
     SettingsNotifier.of(context).privateKeyBackedUp = true;
     machine.transition(Events.accountImported);
   }
 
   void acceptInvite() async {
-    await Future.delayed(Duration(milliseconds: 2000), () {});
+    await Future.delayed(Duration(milliseconds: 1000), () {});
     machine.transition(Events.inviteAccepted);
   }
 

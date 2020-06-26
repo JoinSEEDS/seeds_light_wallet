@@ -125,7 +125,13 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
       setState(() {
         status = ClaimCodeStatus.foundNoInvite;
       });
+    } catch (error) {
+      print("error: " + error.toString());
+      setState(() {
+        status = ClaimCodeStatus.networkError;
+      });
     }
+
   }
 
   @override

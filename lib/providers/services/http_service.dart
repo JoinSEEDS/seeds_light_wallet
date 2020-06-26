@@ -10,7 +10,6 @@ import 'package:seeds/utils/invites.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
-  String hyphaURL = Config.hyphaEndpoint;
   String userAccount;
   bool mockResponse;
 
@@ -458,7 +457,8 @@ class HttpService {
         '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$reversedHash","upper_bound":"$reversedHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response res = await post(inviteURL, headers: headers, body: request);
+    Response res = await post(inviteURL, headers: headers, body: request)
+    .timeout(Duration(seconds: 120));
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
@@ -519,7 +519,7 @@ class HttpService {
     if (mockResponse == true) return true;
 
     final String keyAccountsURL =
-        "$hyphaURL/v1/chain/get_account";
+        "$baseURL/v1/chain/get_account";
 
     Response res = await post(
       keyAccountsURL,
