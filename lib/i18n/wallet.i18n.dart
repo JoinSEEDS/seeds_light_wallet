@@ -23,6 +23,11 @@ static var _t = Translations.byLocale("en_us") +
          'Backup': "Copia de seguridad",
          'Later': "Luego",
          'Latest transactions': "Últimas transacciones",
+
+         'Network error': 'Error de red',
+         'Pull to update': 'Tire para actualizar',
+         'Exchange rate load error': 'Error de red',
+         
       }
     };
 

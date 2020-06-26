@@ -13,6 +13,7 @@ import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
+import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
@@ -95,6 +96,10 @@ final providers = [
   ChangeNotifierProxyProvider<HttpService, BalanceNotifier>(
     create: (context) => BalanceNotifier(),
     update: (context, http, balance) => balance..update(http: http),
+  ),
+  ChangeNotifierProxyProvider<HttpService, RateNotifier>(
+    create: (context) => RateNotifier(),
+    update: (context, http, rate) => rate..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, VoiceNotifier>(
     create: (context) => VoiceNotifier(),

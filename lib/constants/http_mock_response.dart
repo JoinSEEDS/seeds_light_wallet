@@ -49,9 +49,11 @@ class HttpMockResponse {
     TransactionModel("sevenflash42", "testingseeds", "5.0000 SEEDS", "", "2020-02-05T17:24:28.500", "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
   ];
 
-  static final balance = BalanceModel("10.0000 SEEDS");
+  static final balance = BalanceModel("10.0000 SEEDS", false);
 
-  static final telosBalance = BalanceModel("10.0000 TLOS");
+  static final rate = RateModel(0.011, false);
+
+  static final telosBalance = BalanceModel("10.0000 TLOS", false);
 
   static final voice = VoiceModel(77);
 

@@ -5,6 +5,7 @@ import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
+import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -55,6 +56,7 @@ class _DashboardState extends State<Dashboard> {
       TransactionsNotifier.of(context).fetchTransactionsCache(),
       TransactionsNotifier.of(context).refreshTransactions(),
       BalanceNotifier.of(context).fetchBalance(),
+      RateNotifier.of(context).fetchRate(),
     ]);
   }
 
@@ -92,12 +94,28 @@ class _DashboardState extends State<Dashboard> {
               ),
               Consumer<BalanceNotifier>(builder: (context, model, child) {
                 return (model != null && model.balance != null)
-                    ? Text(
-                        '${model.balance?.quantity?.seedsFormatted} SEEDS',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w700),
+                    ? Column(
+                        children: <Widget>[
+                          Text(
+                            model.balance.error ? 'Network error'.i18n : '${model.balance?.quantity?.seedsFormatted} SEEDS',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Consumer<RateNotifier>(
+                            builder: (context, rateModel, child) {
+                              return Text(
+                                model.balance.error ? 'Pull to update'.i18n :
+                                rateModel.rate.error ? "Exchange rate load error".i18n : '${rateModel.rate?.usdString(model.balance.numericQuantity)}',
+                                style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w300),
+                              );
+                            }
+                          )
+                        ],
                       )
                     : Shimmer.fromColors(
                         baseColor: Colors.green[300],
@@ -128,10 +146,12 @@ class _DashboardState extends State<Dashboard> {
     final SettingsNotifier settings = SettingsNotifier.of(context);
     final backupService = Provider.of<BackupService>(context);
 
-    if(backupService.showReminder) {
+    if (backupService.showReminder) {
       return Consumer<BalanceNotifier>(builder: (context, model, child) {
-        if (model != null && model.balance != null &&
-          model.balance.numericQuantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
+        if (model != null &&
+            model.balance != null &&
+            model.balance.numericQuantity >=
+                BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
           return Container(
             width: width,
             child: MainCard(
@@ -147,10 +167,9 @@ class _DashboardState extends State<Dashboard> {
                     Text(
                       'Your private key has not been backed up!'.i18n,
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300
-                      ),
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
