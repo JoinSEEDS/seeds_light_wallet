@@ -5,6 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/features/scanner/esr_service.dart';
 import 'package:seeds/features/scanner/scanner_service.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/permission_service.dart';
 import 'package:seeds/utils/bloc/cmd_common.dart';
 
@@ -42,10 +43,11 @@ class ScannerBloc {
     _initEsr();
   }
 
-  void update({ ScannerService scannerService, PermissionService permissionService, EsrService esrService }) {
+  void update({ ScannerService scannerService, PermissionService permissionService, EsrService esrService, SettingsNotifier settings }) {
     this._scannerService = scannerService;
     this._permissionService = permissionService;
     this._esrService = esrService;
+    //this._settings = settings;
   }
 
   void _initScanResultStatus() {
@@ -69,9 +71,13 @@ class ScannerBloc {
 
   void _initEsr() {
     data
-      .where((data) => data.type == ScanContentType.esr)
-      .listen((esr) {
-        debugPrint("ESR $esr");
+      .where((scanned) => scanned.type == ScanContentType.esr)
+      //.flatMap((scanned) => _esrService.test(scanned.data, _settings.accountName))
+      .listen((scanned) {
+        _esrService.test("esr:gmN0S9_Eeqy57zv_9xn9eU3hL_bxCbUs-jptJqsXY3-JtawgEwMKYGQoCOJqXqlwFsgO17U5e5axYXLQjtTjk9eAZFe8NTJShQkcWGe1cabK-lUL2hjBWlmCXV1dgoF0SWpxCQOTdUZJSUGxlb5-cpJeYl5yRn6RXk5mXra-ZUpKSmqymYWuUWpqmq6JhZmxbpJxmoFuSqqpOVDKyNLSyIiRuyi1pLQoL74gsSRDH2ZQSWpOfrFeUk5-drFeZr5-eWJOTmqJfklRYl5xWmqRsqdTlGdhZIErAA", "pmdwithseeds");
+        //_esrService.test("esr:gmPgY2BY1mTC_MoglIGBIVzX5uxZRkYGCGCC0ooGmvN67fgn2jEwGKz9xbbCE6aAJcTHPxjEAAoAAA", "buckyjohnso1");
+        //_esrService.test(scanned.data, _settings.accountName);
+        debugPrint("ESR $scanned");
       });
   }
 
