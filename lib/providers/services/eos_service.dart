@@ -27,7 +27,7 @@ class EosService {
     mockEnabled = enableMockTransactions;
     if (privateKey != null && privateKey.isNotEmpty) {
       client =
-          EOSClient(baseURL, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
+          EOSClient(baseURL, 'v1', privateKeys: [privateKey, cpuPrivateKey], httpTimeout: 45);
     }
   }
 
@@ -181,7 +181,7 @@ class EosService {
     String applicationAccount = Config.onboardingAccountName;
 
     EOSClient appClient =
-        EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey]);
+        EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey], httpTimeout: 45);
 
     Map data = {
       "account": accountName,

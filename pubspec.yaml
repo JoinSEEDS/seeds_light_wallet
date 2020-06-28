@@ -36,7 +36,7 @@ dependencies:
   flutter_svg: ^0.17.1
   flutter_fluid_slider: ^1.0.2
   firebase_dynamic_links: ^0.5.1
-  eosdart: ^0.4.4
+  eosdart: ^0.4.5
   eosdart_ecc: ^0.4.1
   liquid_pull_to_refresh: ^1.1.1
   shimmer: ^1.0.1
