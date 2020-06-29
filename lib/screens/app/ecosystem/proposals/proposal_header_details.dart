@@ -79,13 +79,13 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                     style: textTheme.caption.copyWith(fontSize: 14),
                   ),
                   buildVotesIndicator(
-                    title: 'Yes',
+                    title: 'Yes'.i18n,
                     color: Colors.greenAccent,
                     votes: proposal.favour,
                     total: proposal.total,
                   ),
                   buildVotesIndicator(
-                    title: 'No',
+                    title: 'No'.i18n,
                     color: Colors.redAccent,
                     votes: proposal.against,
                     total: proposal.total,
