@@ -1,4 +1,4 @@
-# flutter_seeds_wallet
+# seeds_light_wallet
 
 [![Actions Status](https://github.com/7flash/flutter_seeds_wallet/workflows/Guard/badge.svg)](https://github.com/7flash/flutter_seeds_wallet/actions)
 
