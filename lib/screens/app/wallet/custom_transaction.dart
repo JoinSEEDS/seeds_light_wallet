@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hancock/generated/r.dart';
-import 'package:hancock/providers/services/eos_service.dart';
-import 'package:hancock/providers/services/navigation_service.dart';
-import 'package:hancock/widgets/broadcast_transaction_overlay.dart';
-import 'package:hancock/widgets/main_button.dart';
-import 'package:hancock/widgets/transaction_details.dart';
+import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/widgets/broadcast_transaction_overlay.dart';
+import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/widgets/transaction_details.dart';
 
 class CustomTransactionArguments {
   final String account;
@@ -93,7 +92,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
             children: <Widget>[
               TransactionDetails(
                 image: SvgPicture.asset(
-                  R.signrequest,
+                  "icon",
                   color: Colors.black,
                 ),
                 title: name,
@@ -167,4 +166,5 @@ class _CustomTransactionState extends State<CustomTransaction> {
       ],
     );
   }
+
 }

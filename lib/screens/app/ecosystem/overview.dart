@@ -186,9 +186,9 @@ class _OverviewState extends State<Overview> {
                 Container(
                   color: Colors.red[100],
                   child: MaterialButton(
-                    child: Text("test"),
+                    child: Text("SCAN"),
                     onPressed: () {
-                      bloc.execute(StartScannerCmd());
+                      NavigationService.of(context).navigateTo(Routes.scanQRCode);
                     },
                   ),
                 ),

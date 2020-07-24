@@ -3,10 +3,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hancock/constants/app_colors.dart';
-import 'package:hancock/constants/config.dart';
-import 'package:hancock/generated/r.dart';
-import 'package:hancock/widgets/second_button.dart';
+import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/constants/config.dart';
+import 'package:seeds/generated/r.dart';
+import 'package:seeds/widgets/second_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'main_button.dart';

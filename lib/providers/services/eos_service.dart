@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
+import 'package:seeds/screens/app/wallet/get_readable_action.dart';
+import 'package:seeds/screens/app/wallet/parse_request_path.dart';
 
 class EosService {
   String privateKey;
@@ -310,5 +312,52 @@ class EosService {
     ]);
 
     return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  Future<dynamic> sendTransaction(
+      {String account, String name, Map<String, dynamic> data}) async {
+    print("[eos] send transaction ($account | $name)");
+
+    if (mockEnabled) {
+      return HttpMockResponse.transactionResult;
+    }
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = account
+        ..name = name
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = data
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  Future<Map<String, dynamic>> getReadableRequest(String uriPath) async {
+    var signingRequest = parseRequestPath(uriPath);
+
+
+  print("signing req: $signingRequest");
+
+    var action = signingRequest["req"][1];
+
+    var account = action["account"];
+    var name = action["name"];
+    var data = action["data"];
+
+    var abi = await client.getRawAbi(account);
+
+    Map<String, dynamic> dataDecoded = await getReadableAction(
+      account: account,
+      name: name,
+      data: data,
+      abi: abi,
+    );
+
+    return {"account": account, "action": name, "data": dataDecoded};
   }
 }

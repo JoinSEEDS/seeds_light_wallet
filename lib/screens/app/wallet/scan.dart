@@ -1,11 +1,12 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hancock/providers/notifiers/settings_notifier.dart';
-import 'package:hancock/providers/services/eos_service.dart';
-import 'package:hancock/providers/services/navigation_service.dart';
-import 'package:hancock/screens/app/scan/custom_transaction.dart';
-import 'package:hancock/screens/app/scan/signing_request/fill_request_placeholders.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/wallet/custom_transaction.dart';
+import 'package:seeds/screens/app/wallet/fill_request_placeholders.dart';
+// import 'package:seeds/screens/app/scan/signing_request/fill_request_placeholders.dart';
 
 enum Steps { init, scan, processing, success, error }
 
@@ -30,14 +31,14 @@ class _ScanState extends State<Scan> {
     });
 
     try {
-      String qrcode = await BarcodeScanner.scan();
+      ScanResult scanResult = await BarcodeScanner.scan();
       setState(() {
         this.step = Steps.processing;
-        this.qrcode = qrcode;
+        this.qrcode = scanResult.rawContent;
       });
       processSigningRequest();
     } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.CameraAccessDenied) {
+      if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
           this.error = 'The user did not grant the camera permission!';
           this.step = Steps.error;
@@ -65,7 +66,7 @@ class _ScanState extends State<Scan> {
   void processSigningRequest() async {
     var uri = this.qrcode;
 
-    print('uri: $uri');
+    print('X uri: $uri');
 
     try {
       String uriPath = uri.split(':')[1];
@@ -73,6 +74,8 @@ class _ScanState extends State<Scan> {
       Map<String, dynamic> signingRequest =
           await EosService.of(context, listen: false)
               .getReadableRequest(uriPath);
+
+    print('X signingRequest: $signingRequest');
 
       var action = signingRequest['action'];
       var account = signingRequest['account'];
@@ -96,10 +99,11 @@ class _ScanState extends State<Scan> {
       );
     } catch (e) {
       setState(() {
-        this.step = Steps.error;
+        this.step = Steps.scan;
         this.error = 'Processing unknown error: $e';
       });
       print(e.toString());
+      scan();
     }
   }
 
@@ -125,14 +129,16 @@ class _ScanState extends State<Scan> {
         break;
     }
 
-    return Center(
-      child: Text(
-        message,
-        style: TextStyle(
-          fontFamily: "heebo",
-          fontSize: 18,
-          color: Colors.black,
-          fontWeight: FontWeight.w400,
+    return Scaffold(
+          body: Center(
+        child: Text(
+          message,
+          style: TextStyle(
+            fontFamily: "heebo",
+            fontSize: 18,
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+          ),
         ),
       ),
     );
