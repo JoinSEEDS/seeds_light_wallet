@@ -7,6 +7,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/broadcast_transaction_overlay.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/transaction_details.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 
 class CustomTransactionArguments {
   final String account;
@@ -133,7 +134,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
               SizedBox(height: 8),
               MainButton(
                 margin: EdgeInsets.only(top: 25),
-                title: 'Sign & Broadcast',
+                title: 'Send'.i18n,
                 onPressed: onSubmit,
               ),
             ],
