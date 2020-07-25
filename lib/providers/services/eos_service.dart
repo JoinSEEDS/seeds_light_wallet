@@ -340,9 +340,6 @@ class EosService {
   Future<Map<String, dynamic>> getReadableRequest(String uriPath) async {
     var signingRequest = parseRequestPath(uriPath);
 
-
-  print("signing req: $signingRequest");
-
     var action = signingRequest["req"][1];
 
     var account = action["account"];
