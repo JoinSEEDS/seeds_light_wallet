@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:eosdart/eosdart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartesr/eosio_signing_request.dart';
