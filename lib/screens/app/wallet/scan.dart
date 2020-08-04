@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,8 +7,8 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
-import 'package:seeds/screens/app/wallet/fill_request_placeholders.dart';
-// import 'package:seeds/screens/app/scan/signing_request/fill_request_placeholders.dart';
+
+import 'package:dartesr/eosio_signing_request.dart';
 
 enum Steps { init, scan, processing, success, error }
 
@@ -64,83 +66,139 @@ class _ScanState extends State<Scan> {
   }
 
   void processSigningRequest() async {
-    var uri = this.qrcode;
-
-    print('X uri: $uri');
-
     try {
-      String uriPath = uri.split(':')[1];
+      final esr = await EosioSigningRequest.factory(
+        EosService.of(context, listen: false).client,
+        this.qrcode,
+        SettingsNotifier.of(context, listen: false).accountName,
+      );
 
-      Map<String, dynamic> signingRequest =
-          await EosService.of(context, listen: false)
-              .getReadableRequest(uriPath);
-
-    print('X signingRequest: $signingRequest');
-
-      var action = signingRequest['action'];
-      var account = signingRequest['account'];
-      var data = signingRequest['data'];
-
-      Map<String, dynamic> actionData = fillRequestPlaceholders(
-          data, SettingsNotifier.of(context).accountName);
+      assert(esr.action.account.isNotEmpty);
+      assert(esr.action.name.isNotEmpty);
 
       setState(() {
         this.step = Steps.success;
       });
 
+      Map<String, dynamic> data = Map<String, dynamic>.from(esr.action.data);
+
       NavigationService.of(context).navigateTo(
-        Routes.customTransaction,
-        CustomTransactionArguments(
-          account: account,
-          name: action,
-          data: actionData,
-        ),
-        true,
-      );
+          Routes.customTransaction,
+          CustomTransactionArguments(
+            account: esr.action.account,
+            name: esr.action.name,
+            data: data,
+          ),
+          true);
     } catch (e) {
+      print(e);
+
       setState(() {
-        this.step = Steps.scan;
-        this.error = 'Processing unknown error: $e';
+        this.error = 'Invalid QR code: $e';
+        this.step = Steps.error;
       });
-      print(e.toString());
-      scan();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var message;
+    Widget widget;
 
     switch (step) {
       case Steps.init:
-        message = 'Initialize Camera...';
+        widget = Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            Text(
+              'Initialize Camera...',
+              style: TextStyle(
+                fontFamily: "heebo",
+                fontSize: 18,
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        );
         break;
       case Steps.scan:
-        message = 'Scan QR Code...';
+        widget = Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            Text(
+              'Scan QR Code...',
+              style: TextStyle(
+                fontFamily: "heebo",
+                fontSize: 18,
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        );
         break;
       case Steps.processing:
-        message = 'Process signing request...';
+        widget = Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                'Processing QR Code...',
+                style: TextStyle(
+                  fontFamily: "heebo",
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ],
+        );
         break;
       case Steps.success:
-        message = 'Success!';
+        widget = Center(
+          child: Text(
+            'Success!',
+            style: TextStyle(
+              fontFamily: "heebo",
+              fontSize: 24,
+              color: Colors.black,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        );
         break;
       case Steps.error:
-        message = this.error;
+        widget = Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            OutlineButton(
+              child: Text('Try Again'),
+              onPressed: scan,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                this.error,
+                style: TextStyle(
+                  fontFamily: "heebo",
+                  fontSize: 18,
+                  color: Colors.red,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ],
+        );
         break;
     }
 
     return Scaffold(
-          body: Center(
-        child: Text(
-          message,
-          style: TextStyle(
-            fontFamily: "heebo",
-            fontSize: 18,
-            color: Colors.black,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ),
+      body: widget,
     );
   }
 }
