@@ -55,7 +55,8 @@ dependencies:
   permission_handler: ^5.0.1
   barcode_scan: ^3.0.1
   dartesr:
-    path: dartesr
+    git:
+      url: git@github.com:digital-scarcity/dartesr.git
 
 dev_dependencies:
   flutter_test:
