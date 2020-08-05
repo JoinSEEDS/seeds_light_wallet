@@ -23,5 +23,20 @@ void main() {
       expect(data['quantity'], '7.0000 SEEDS');
       expect(data['memo'], '');
     });
+    test('login signing', () async {
+      final client =
+          EOSClient('https://telos.caleos.io', 'v1', privateKeys: []);
+
+      final esr = await EosioSigningRequest.factory(
+        client,
+        'esr:AgACAwACO2h0dHBzOi8vY2IuYW5jaG9yLmxpbmsvODE3NzNjYWUtYjUzZS00YTdmLTg2ZjctNzJmOTQzZjhiYTk3AQRsaW5rKgAIAAAA06oHAAKLu05xjZ9d38TXa0W9f_WH76gGXk4wxIzEw31kEpVMQg',
+        'illumination',
+      );
+
+      Map<String, dynamic> data = Map<String, dynamic>.from(esr.action.data);
+      print("ESR");
+      print(esr);
+
+    });
   });
 }

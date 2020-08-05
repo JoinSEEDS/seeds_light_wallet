@@ -65,6 +65,9 @@ class _ScanState extends State<Scan> {
 
   void processSigningRequest() async {
     try {
+
+      print("QR Code: "+this.qrcode);
+
       final esr = await EosioSigningRequest.factory(
         EosService.of(context, listen: false).client,
         this.qrcode,
