@@ -1,3 +1,4 @@
+import 'package:dartesr/eosio_signing_request.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:provider/provider.dart';
@@ -337,17 +338,24 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<Map<String, dynamic>> getReadableRequest(String uriPath) async {
-    var signingRequest = parseRequestPath(uriPath);
+  Future<Map<String, dynamic>> getReadableRequest(String esrUri) async {
+    
+    //var signingRequest = parseRequestPath(uriPath);
+    
+    EosioSigningRequest signingRequest = await EosioSigningRequest.factory(client, esrUri, "illumination");
 
 
   print("signing req: $signingRequest");
 
-    var action = signingRequest["req"][1];
+    // var action = signingRequest["req"][1];
 
-    var account = action["account"];
-    var name = action["name"];
-    var data = action["data"];
+    // var account = action["account"];
+    // var name = action["name"];
+    // var data = action["data"];
+    
+    var account = signingRequest.action.account;
+    var name = signingRequest.action.name;
+    var data = signingRequest.action.data;
 
     var abi = await client.getRawAbi(account);
 

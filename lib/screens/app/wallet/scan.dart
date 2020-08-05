@@ -8,7 +8,7 @@ import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/fill_request_placeholders.dart';
 // import 'package:seeds/screens/app/scan/signing_request/fill_request_placeholders.dart';
 
-enum Steps { init, scan, processing, success, error }
+enum Steps { init, scan, processing, success, error, cancel }
 
 class Scan extends StatefulWidget {
   @override
@@ -32,11 +32,24 @@ class _ScanState extends State<Scan> {
 
     try {
       ScanResult scanResult = await BarcodeScanner.scan();
-      setState(() {
-        this.step = Steps.processing;
-        this.qrcode = scanResult.rawContent;
-      });
-      processSigningRequest();
+
+      print("scan result: "+scanResult.type.toString());
+
+      if (scanResult.type == ResultType.Cancelled) {
+        // setState(() {
+        //   this.step = Steps.cancel;
+        // });
+          
+        Navigator.pop(context, true); 
+
+      } else {
+        setState(() {
+          this.step = Steps.processing;
+          this.qrcode = scanResult.rawContent;
+        });
+        processSigningRequest();
+      }
+
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
@@ -69,13 +82,13 @@ class _ScanState extends State<Scan> {
     print('X uri: $uri');
 
     try {
-      String uriPath = uri.split(':')[1];
+      //String uriPath = uri.split(':')[1];
 
       Map<String, dynamic> signingRequest =
           await EosService.of(context, listen: false)
-              .getReadableRequest(uriPath);
+              .getReadableRequest(uri);
 
-    print('X signingRequest: $signingRequest');
+      print('X signingRequest: $signingRequest');
 
       var action = signingRequest['action'];
       var account = signingRequest['account'];
@@ -97,12 +110,13 @@ class _ScanState extends State<Scan> {
         ),
         true,
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
       setState(() {
         this.step = Steps.scan;
         this.error = 'Processing unknown error: $e';
       });
-      print(e.toString());
+      print("Error scanning: " + e.toString());
+      print("Error "+stackTrace.toString());
       scan();
     }
   }
@@ -126,6 +140,9 @@ class _ScanState extends State<Scan> {
         break;
       case Steps.error:
         message = this.error;
+        break;
+      case Steps.cancel:
+        message = "";
         break;
     }
 

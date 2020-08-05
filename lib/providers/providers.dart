@@ -35,7 +35,7 @@ final providers = [
   ChangeNotifierProxyProvider<ConnectionNotifier, SettingsNotifier>(
     create: (_) => SettingsNotifier()..init(),
     update: (_, connection, settings) => settings
-      ..update(
+      ..updateEndpoint(
         nodeEndpoint: connection.currentEndpoint,
       ),
   ),

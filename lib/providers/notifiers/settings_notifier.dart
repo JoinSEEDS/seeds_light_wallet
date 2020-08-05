@@ -125,7 +125,7 @@ class SettingsNotifier extends ChangeNotifier {
     return value;
   }
 
-  void update({String nodeEndpoint}) {
+  void updateEndpoint({String nodeEndpoint}) {
     if (nodeEndpoint != _preferences?.getString(NODE_ENDPOINT)) {
       saveEndpoint(nodeEndpoint);
     }

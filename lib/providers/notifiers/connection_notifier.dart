@@ -10,7 +10,7 @@ class ConnectionNotifier extends ChangeNotifier {
 
   final availableEndpoints = [
     Config.defaultEndpoint,
-    'https://mainnet.telosusa.io',
+    //'https://mainnet.telosusa.io',
     'https://telos.eosphere.io',
     'https://telos.caleos.io',
   ];
