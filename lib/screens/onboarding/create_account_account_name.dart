@@ -82,7 +82,7 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                 valid && !isLoading && availableName != currentText;
 
             if (accountNameIsTaken) {
-              errorString = "%s is not available".i18n.fill([currentText]);
+              errorString = "$currentText is not availale";
             }
 
             var createEnabled = valid && definitelyAvailableOnChain;
