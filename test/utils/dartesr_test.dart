@@ -33,10 +33,7 @@ void main() {
         'illumination',
       );
 
-      Map<String, dynamic> data = Map<String, dynamic>.from(esr.action.data);
-      print("ESR");
-      print(esr);
-
+      expect(esr.action.name, 'identity');
     });
   });
 }
