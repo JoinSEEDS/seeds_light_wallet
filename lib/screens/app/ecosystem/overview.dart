@@ -176,21 +176,7 @@ class _OverviewState extends State<Overview> {
                   'Planted Seeds'.i18n,
                   model?.balance?.quantity?.seedsFormatted,
                   onPlant,
-                ),),
-                StreamBuilder<String>(
-                  stream: bloc.esrData,
-                  builder: (context, snapshot) {
-                    return Text("Scanned: ${snapshot.data}");
-                  }
                 ),
-                Container(
-                  color: Colors.red[100],
-                  child: MaterialButton(
-                    child: Text("SCAN"),
-                    onPressed: () {
-                      NavigationService.of(context).navigateTo(Routes.scanQRCode);
-                    },
-                  ),
                 ),
               ],
             )),
