@@ -18,7 +18,7 @@ static var _t = Translations.byLocale("en_us") +
         'No': "No",
 
         'Recipient: %s ': "Recipiente: %s ",
-        'Requested amount: %s SEEDS': "Monto solicitado: %s SEEDS",
+        'Requested: %s SEEDS': "Monto solicitado: %s SEEDS",
         'Funded by: %s ': "Subvencionado por: %s ",
         'Status: %s ': "Estado: %s ",
         'Stage: %s ': "Etapa: %s ",
