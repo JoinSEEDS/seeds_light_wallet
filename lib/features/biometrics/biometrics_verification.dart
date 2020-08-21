@@ -99,7 +99,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
             ),
           ),
           onPressed: () {
-            bloc.execute(AuthenticateCmd());
+            bloc.execute(AuthenticateCmd(AuthType.password));
           },
         ),
         buildPasscodeFallback(),
