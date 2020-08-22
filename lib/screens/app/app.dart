@@ -105,12 +105,20 @@ class _AppState extends State<App> {
   }
 
   Widget buildAppBar(BuildContext _context) {
-    return AppBar(
-      title: Text(
-        navigationTabs[index].title,
-        style: TextStyle(color: Colors.black),
-      ),
-      centerTitle: true,
+    
+    var svgPicture = SvgPicture.asset('assets/images/qr-code.svg',color: Colors.black,);
+        return AppBar(
+          title: Text(
+            navigationTabs[index].title,
+            style: TextStyle(color: Colors.black),
+          ),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: svgPicture,
+              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)
+            ),
+          ],
       backgroundColor: Colors.transparent,
       elevation: 0.0,
     );
