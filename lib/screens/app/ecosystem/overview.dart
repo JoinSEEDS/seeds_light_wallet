@@ -145,7 +145,6 @@ class _OverviewState extends State<Overview> {
 
   @override
   Widget build(BuildContext context) {
-    final ScannerBloc bloc = Provider.of(context);
     return RefreshIndicator(
       onRefresh: refreshData,
       child: SingleChildScrollView(
