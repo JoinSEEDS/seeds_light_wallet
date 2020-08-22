@@ -127,7 +127,7 @@ class _TransactionFormState extends State<TransactionForm> {
   Widget _buildButton() {
     return MainButton(
       margin: EdgeInsets.only(top: 25),
-      title: 'Send',
+      title: 'Send'.i18n,
       onPressed: onSend,
     );
   }

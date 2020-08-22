@@ -12,7 +12,9 @@ import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
+import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
+import 'package:seeds/screens/app/wallet/scan.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer_amount.dart';
 import 'package:seeds/screens/app/wallet/transfer_form.dart';
@@ -42,6 +44,8 @@ class Routes {
   static final imageViewer = 'ImageViewer';
   static final plantSeeds = "plantSeeds";
   static final buySeeds = "BuySeeds";
+  static final customTransaction = "CustomTransation";
+  static final scanQRCode = "ScanQRCode";
 }
 
 class NavigationService {
@@ -87,6 +91,8 @@ class NavigationService {
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
     Routes.buySeeds: (_) => BuySeeds(),
+    Routes.customTransaction: (args) => CustomTransaction(args),
+    Routes.scanQRCode: (_) => Scan(),
   };
 
   final ecosystemRoutes = {
