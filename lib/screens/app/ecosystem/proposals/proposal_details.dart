@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/eos_service.dart';
@@ -97,7 +98,9 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
         double.tryParse(proposal.quantity.replaceAll(RegExp(r' SEEDS'), '')) ??
             0.0;
 
-    // final amountFormatter = FlutterMoneyFormatter(amount: quantity);
+    NumberFormat format = NumberFormat.currency(decimalDigits: 0, symbol: "", name: "");
+
+    String numSeeds = format.format(quantity);
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -114,7 +117,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             ),
             SizedBox(height: 8),
             Text(
-              'Requested amount: %s SEEDS'.i18n.fill(["$quantity"]),
+              'Requested: %s SEEDS'.i18n.fill(["$numSeeds"]),
               style: textTheme.subtitle1,
             ),
             SizedBox(height: 8),
