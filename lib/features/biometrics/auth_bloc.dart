@@ -30,7 +30,7 @@ class AuthBloc {
       //.where((type) => type == AuthType.fingerprint || type == AuthType.face)
       .listen((type) {
         if(type == AuthType.fingerprint || type == AuthType.face) {
-          execute(AuthenticateCmd());
+          execute(AuthenticateCmd(type));
         } else if(type == AuthType.nothing) {
           _authenticated.add(AuthState.setupNeeded);
         }
@@ -132,7 +132,7 @@ class AuthBloc {
   }
 
   void _authenticate(AuthenticateCmd cmd) {
-    _service.authenticate()
+    _service.authenticate(cmd)
       .then((value) {
         if(value) {
           _authenticated.add(AuthState.authorized);
