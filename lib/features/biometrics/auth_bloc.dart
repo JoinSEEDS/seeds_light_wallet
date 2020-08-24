@@ -35,11 +35,10 @@ class AuthBloc {
           _authenticated.add(AuthState.setupNeeded);
         }
       });
-    
     available
       .map(preferredAuthType)
       .listen(_preferred.add);
-    
+
     _execute.listen((cmd) => _executeCommand(cmd));
   }
 
@@ -145,6 +144,8 @@ class AuthBloc {
       .catchError((error) {
         debugPrint("Error auth with biometrics: $error");
         _authenticated.addError("Auth error: $error");
+        // Biometrics auth failed, Send user to password input.
+        _addPasswordToAvailable();
       });
   }
 
