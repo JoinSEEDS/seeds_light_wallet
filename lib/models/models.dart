@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../utils/double_extension.dart';
 
 class InviteModel {
@@ -297,7 +299,7 @@ class ProfileModel {
   final String nickname;
   final String image;
   final String story;
-  final String roles;
+  final List<String> roles;
   final String skills;
   final String interests;
   final int reputation;
@@ -325,7 +327,7 @@ class ProfileModel {
       nickname: json["nickname"],
       image: json["image"],
       story: json["story"],
-      roles: json["roles"],
+      roles: (jsonDecode(json["roles"]) as List<dynamic>).cast<String>(),
       skills: json["skills"],
       interests: json["interests"],
       reputation: json["reputation"],

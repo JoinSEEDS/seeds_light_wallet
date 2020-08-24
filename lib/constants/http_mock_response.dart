@@ -142,7 +142,7 @@ class HttpMockResponse {
     nickname: "Nikolaus",
     image: "https://seeds-service.s3.amazonaws.com/development/e46ea503-b743-44b0-901a-4fe07e4d781f/87b2c661-7af6-4b82-9cbe-0a352b5b248c-1920.jpg",
     story: "Seeds Team",
-    roles: '["#light #support #askmeanything"]',	
+    roles: List.from(["#light", "#support", "#askmeanything"]),
     skills: "[]",	
     interests: "[]",	
     reputation:	0,
