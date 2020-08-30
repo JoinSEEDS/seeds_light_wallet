@@ -15,6 +15,7 @@ import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/second_button.dart';
 import 'package:seeds/widgets/transaction_details.dart';
 import 'package:share/share.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 enum InviteStatus {
   initial,
@@ -179,16 +180,14 @@ class _ShareScreenState extends State<ShareScreen> {
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
-                  child: SvgPicture.asset(
-                    'assets/images/success.svg',
-                    color: AppColors.blue,
-                  ),
+                  child: QrImage(data: widget.inviteLink, size: 256,),
                 ),
                 Container(
                   margin: EdgeInsets.all(20),
                   alignment: Alignment.center,
                   child: Text(
-                    'Share this link with the person you want to invite!'.i18n,
+                    'Share this QR code or send link for the person you want to invite!'
+                        .i18n,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: AppColors.blue, fontSize: 16),
                   ),
