@@ -14,21 +14,34 @@ class Receive extends StatefulWidget {
 class _ReceiveState extends State<Receive> {
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '');
-  String invoiceTransaction;
+  String invoiceImage = '';
+  String invoiceAmount = '0.00 SEEDS';
 
   void generateInvoice(String amount) async {
     double receiveAmount = double.parse(amount);
 
-    var uri = await EosService.of(context, listen: false).generateInvoice(receiveAmount);
+    var uri = await EosService.of(context, listen: false)
+        .generateInvoice(receiveAmount);
 
     setState(() {
-      invoiceTransaction = uri;
+      invoiceAmount = receiveAmount.toStringAsFixed(4);
+      invoiceImage = uri;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      backgroundColor: Colors.white,
       body: Container(
         margin: EdgeInsets.only(left: 17, right: 17),
         child: Form(
@@ -61,9 +74,16 @@ class _ReceiveState extends State<Receive> {
                   }
                 },
               ),
-              QrImage(
-                data: invoiceTransaction,
-              ),
+              invoiceImage.isNotEmpty
+                  ? Column(
+                      children: [
+                        QrImage(
+                          data: invoiceImage,
+                        ),
+                        Text('Scan to transfer $invoiceAmount SEEDS'),
+                      ],
+                    )
+                  : Container(),
             ],
           ),
         ),

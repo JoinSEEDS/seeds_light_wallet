@@ -74,7 +74,7 @@ class _DashboardState extends State<Dashboard> {
 
     return Container(
       width: width,
-      height: height * 0.2,
+      height: height * 0.25,
       child: MainCard(
         child: Container(
           decoration: BoxDecoration(
@@ -101,24 +101,28 @@ class _DashboardState extends State<Dashboard> {
                     ? Column(
                         children: <Widget>[
                           Text(
-                            model.balance.error ? 'Network error'.i18n : '${model.balance?.quantity?.seedsFormatted} SEEDS',
+                            model.balance.error
+                                ? 'Network error'.i18n
+                                : '${model.balance?.quantity?.seedsFormatted} SEEDS',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,
                                 fontWeight: FontWeight.w700),
                           ),
                           Consumer<RateNotifier>(
-                            builder: (context, rateModel, child) {
-                              return Text(
-                                model.balance.error ? 'Pull to update'.i18n :
-                                rateModel.rate.error ? "Exchange rate load error".i18n : '${rateModel.rate?.usdString(model.balance.numericQuantity)}',
-                                style: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300),
-                              );
-                            }
-                          )
+                              builder: (context, rateModel, child) {
+                            return Text(
+                              model.balance.error
+                                  ? 'Pull to update'.i18n
+                                  : rateModel.rate.error
+                                      ? "Exchange rate load error".i18n
+                                      : '${rateModel.rate?.usdString(model.balance.numericQuantity)}',
+                              style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w300),
+                            );
+                          })
                         ],
                       )
                     : Shimmer.fromColors(
@@ -131,17 +135,22 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       );
               }),
-              EmptyButton(
-                width: width * 0.5,
-                title: 'Send'.i18n,
-                color: Colors.white,
-                onPressed: onTransfer,
-              ),
-              EmptyButton(
-                width: width * 0.5,
-                title: 'Receive'.i18n,
-                color: Colors.white,
-                onPressed: onReceive,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  EmptyButton(
+                    width: width * 0.3,
+                    title: 'Send'.i18n,
+                    color: Colors.white,
+                    onPressed: onTransfer,
+                  ),
+                  EmptyButton(
+                    width: width * 0.3,
+                    title: 'Receive'.i18n,
+                    color: Colors.white,
+                    onPressed: onReceive,
+                  ),
+                ],
               ),
             ],
           ),

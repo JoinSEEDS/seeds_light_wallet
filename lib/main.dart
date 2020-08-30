@@ -134,18 +134,6 @@ class MainScreen extends StatelessWidget {
       builder: (ctx, auth, _) {
         NavigationService navigationService = NavigationService.of(context);
 
-        return ToolboxApp(
-          child: SeedsMaterialApp(
-            home: Receive(),
-            navigatorKey: navigationService.appNavigatorKey,
-            onGenerateRoute: navigationService.onGenerateRoute,
-          ),
-          noItemsFoundWidget: Padding(
-            padding: const EdgeInsets.all(32),
-            child: SvgPicture.asset(R.noItemFound),
-          ),
-        );
-
         if (auth.status == AuthStatus.emptyAccount) {
           return SeedsMaterialApp(
             home: Onboarding(),
