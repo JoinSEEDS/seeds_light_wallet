@@ -160,7 +160,7 @@ class _OverviewState extends State<Overview> {
                   onVote,
                 ),),
                 Consumer<BalanceNotifier>(builder: (ctx, model, _) => buildCategory(
-                  'Community - Invite'.i18n,
+                  'Invite'.i18n,
                   'Tap to send an invite'.i18n,
                   'assets/images/community.svg',
                   'Available Seeds'.i18n,

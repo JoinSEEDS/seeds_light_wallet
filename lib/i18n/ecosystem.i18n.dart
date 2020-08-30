@@ -9,7 +9,7 @@ static var _t = Translations.byLocale("en_us") +
         "Tap to participate": "Toca para participar",
         "Trust Tokens": "Tokens de Confianza",
 
-        "Community - Invite": "Comunidad - Invitar",
+        "Invite": "Invitar",
         "Tap to send an invite": "Toca para enviar invitación",
         "Available Seeds": "Seeds disponibles",
         
