@@ -300,7 +300,7 @@ class ProfileModel {
   final String image;
   final String story;
   final List<String> roles;
-  final String skills;
+  final List<String> skills;
   final String interests;
   final int reputation;
   final int timestamp;
@@ -320,6 +320,7 @@ class ProfileModel {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
+    print(json);
     return ProfileModel(
       account: json["account"],
       status: json["status"],
@@ -328,7 +329,7 @@ class ProfileModel {
       image: json["image"],
       story: json["story"],
       roles: (jsonDecode(json["roles"]) as List<dynamic>).cast<String>(),
-      skills: json["skills"],
+      skills: (jsonDecode(json["skills"]) as List<dynamic>).cast<String>(),
       interests: json["interests"],
       reputation: json["reputation"],
       timestamp: json["timestamp"],
