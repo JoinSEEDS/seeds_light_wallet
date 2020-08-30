@@ -64,6 +64,10 @@ class _DashboardState extends State<Dashboard> {
     NavigationService.of(context).navigateTo(Routes.transfer);
   }
 
+  void onReceive() {
+    NavigationService.of(context).navigateTo(Routes.receive);
+  }
+
   Widget buildHeader() {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -129,10 +133,16 @@ class _DashboardState extends State<Dashboard> {
               }),
               EmptyButton(
                 width: width * 0.5,
-                title: 'Transfer'.i18n,
+                title: 'Send'.i18n,
                 color: Colors.white,
                 onPressed: onTransfer,
-              )
+              ),
+              EmptyButton(
+                width: width * 0.5,
+                title: 'Receive'.i18n,
+                color: Colors.white,
+                onPressed: onReceive,
+              ),
             ],
           ),
         ),

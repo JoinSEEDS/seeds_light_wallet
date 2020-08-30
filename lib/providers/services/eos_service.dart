@@ -3,6 +3,10 @@ import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
+import 'package:dart_esr/dart_esr.dart' as ESR;
+
+String chainId =
+    "4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11";
 
 class EosService {
   String privateKey;
@@ -94,7 +98,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> plantSeeds({ double amount }) async {
+  Future<dynamic> plantSeeds({double amount}) async {
     print("[eos] plant seeds ($amount)");
 
     if (mockEnabled) {
@@ -121,8 +125,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> createInvite(
-      {double quantity, String inviteHash}) async {
+  Future<dynamic> createInvite({double quantity, String inviteHash}) async {
     print("[eos] create invite $inviteHash ($quantity)");
 
     double sowQuantity = 5;
@@ -170,7 +173,10 @@ class EosService {
   }
 
   Future<dynamic> acceptInvite(
-      {String accountName, String publicKey, String inviteSecret, String nickname}) async {
+      {String accountName,
+      String publicKey,
+      String inviteSecret,
+      String nickname}) async {
     print("[eos] accept invite");
 
     if (mockEnabled) {
@@ -333,5 +339,31 @@ class EosService {
     ]);
 
     return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  Future<String> generateInvoice(double amount) async {
+    var auth = [ESR.ESRConstants.PlaceholderAuth];
+
+    var data = {
+      'from': ESR.ESRConstants.PlaceholderName,
+      'to': accountName,
+      'quantity': '${amount.toStringAsFixed(4)} SEEDS',
+      'memo': ''
+    };
+
+    var action = ESR.Action()
+      ..account = 'token.seeds'
+      ..name = 'transfer'
+      ..authorization = auth
+      ..data = data;
+
+    var args = ESR.SigningRequestCreateArguments(action: action, chainId: chainId);
+
+    var request = await ESR.SigningRequestManager.create(args,
+        options: ESR.defaultSigningRequestEncodingOptions(
+          nodeUrl: Config.hyphaEndpoint,
+        ));
+
+    return request.encode();
   }
 }
