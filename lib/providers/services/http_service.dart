@@ -235,7 +235,34 @@ class HttpService {
     } else {
       print("Cannot fetch balance...");
 
-      return BalanceModel("0.0000 SEEDS");
+      return BalanceModel("0.0000 SEEDS", true);
+    }
+  }
+
+    Future<RateModel> getUSDRate() async {
+    print("[http] get seeds rate USD");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.rate;
+    }
+
+    final String rateURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
+    
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(rateURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      return RateModel.fromJson(body);
+    } else {
+      print("Cannot fetch balance..."+res.body.toString());
+
+      return RateModel(0, true);
     }
   }
 
@@ -260,12 +287,12 @@ class HttpService {
       if (body != null && body.isNotEmpty) {
         return BalanceModel.fromJson(body);
       } else {
-        return BalanceModel("0.0000 TLOS");
+        return BalanceModel("0.0000 TLOS", false);
       }
     } else {
       print("Cannot fetch balance...");
 
-      return BalanceModel("0.0000 TLOS");
+      return BalanceModel("0.0000 TLOS", true);
     }
   }
 

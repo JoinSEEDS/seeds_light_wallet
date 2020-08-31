@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 1.1.1+15
+version: 1.2.0+18
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -33,7 +33,7 @@ dependencies:
   passcode_screen: 1.0.2  # More time to look into the breaking version 1.1.0 before upgrading
   percent_indicator: ^2.1.1+1
   expandable: ^4.1.2
-  flutter_svg: ^0.17.1
+  flutter_svg: ^0.18.0
   flutter_fluid_slider: ^1.0.2
   firebase_dynamic_links: ^0.5.1
   eosdart: ^0.4.5
@@ -54,6 +54,10 @@ dependencies:
   rxdart: ^0.24.0
   permission_handler: ^5.0.1
   barcode_scan: ^3.0.1
+  dartesr:
+    git:
+      url: https://github.com/digital-scarcity/dartesr.git
+  qr_flutter: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -109,6 +113,7 @@ flutter:
     - assets/images/success.svg
     - assets/images/success_circle.png
     - assets/images/logout.svg
+    - assets/images/qr-code.svg
     # assets end
 
   fonts:

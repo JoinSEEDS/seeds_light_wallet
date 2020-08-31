@@ -1,12 +1,13 @@
+import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart' show PlatformException;
+import 'package:seeds/features/biometrics/auth_commands.dart';
+import 'package:seeds/features/biometrics/auth_type.dart';
 
 class BiometricsService {
-
   final LocalAuthentication _localAuth;
 
-  BiometricsService(LocalAuthentication localAuth) :
-      _localAuth = localAuth;
+  BiometricsService(LocalAuthentication localAuth) : _localAuth = localAuth;
 
   Future<bool> checkBiometrics() async {
     try {
@@ -26,13 +27,34 @@ class BiometricsService {
     }
   }
 
-  Future<bool> authenticate() async {
+  Future<bool> authenticate(AuthenticateCmd cmd) async {
+    var androidAuthStrings;
+    switch(cmd.type) {
+      case AuthType.fingerprint:
+        androidAuthStrings = AndroidAuthMessages(
+          fingerprintHint: "Touch Sensor",
+          signInTitle: "Fingerprint Authentication",
+        );
+        break;
+      case AuthType.face:
+        androidAuthStrings = AndroidAuthMessages(
+          fingerprintHint: "Face Sensor",
+          signInTitle: "Face Authentication",
+        );
+        break;
+      default: {
+        androidAuthStrings = AndroidAuthMessages(
+          signInTitle: "Authenticate using biometric credentials",
+        );
+      }
+    }
+
     try {
       return _localAuth.authenticateWithBiometrics(
-        localizedReason: 'Scan your fingerprint to authenticate',
-        useErrorDialogs: true,
-        stickyAuth: true
-      );
+          androidAuthStrings: androidAuthStrings,
+          localizedReason: 'Use your device to authenticate',
+          useErrorDialogs: true,
+          stickyAuth: true);
     } on PlatformException catch (e) {
       print(e);
       return Future.error(e);
@@ -47,5 +69,4 @@ class BiometricsService {
       return Future.error(e);
     }
   }
-
 }

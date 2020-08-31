@@ -30,16 +30,15 @@ class AuthBloc {
       //.where((type) => type == AuthType.fingerprint || type == AuthType.face)
       .listen((type) {
         if(type == AuthType.fingerprint || type == AuthType.face) {
-          execute(AuthenticateCmd());
+          execute(AuthenticateCmd(type));
         } else if(type == AuthType.nothing) {
           _authenticated.add(AuthState.setupNeeded);
         }
       });
-    
     available
       .map(preferredAuthType)
       .listen(_preferred.add);
-    
+
     _execute.listen((cmd) => _executeCommand(cmd));
   }
 
@@ -132,7 +131,7 @@ class AuthBloc {
   }
 
   void _authenticate(AuthenticateCmd cmd) {
-    _service.authenticate()
+    _service.authenticate(cmd)
       .then((value) {
         if(value) {
           _authenticated.add(AuthState.authorized);
@@ -145,6 +144,8 @@ class AuthBloc {
       .catchError((error) {
         debugPrint("Error auth with biometrics: $error");
         _authenticated.addError("Auth error: $error");
+        // Biometrics auth failed, Send user to password input.
+        _addPasswordToAvailable();
       });
   }
 

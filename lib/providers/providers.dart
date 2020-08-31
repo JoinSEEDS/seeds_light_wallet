@@ -4,15 +4,17 @@ import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/features/account/create_account_bloc.dart';
 import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
+import 'package:seeds/features/biometrics/biometrics_service.dart';
+import 'package:seeds/features/scanner/esr_service.dart';
 import 'package:seeds/features/scanner/scanner_bloc.dart';
 import 'package:seeds/features/scanner/scanner_service.dart';
-import 'package:seeds/features/biometrics/biometrics_service.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
+import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
@@ -96,6 +98,10 @@ final providers = [
     create: (context) => BalanceNotifier(),
     update: (context, http, balance) => balance..update(http: http),
   ),
+  ChangeNotifierProxyProvider<HttpService, RateNotifier>(
+    create: (context) => RateNotifier(),
+    update: (context, http, rate) => rate..update(http: http),
+  ),
   ChangeNotifierProxyProvider<HttpService, VoiceNotifier>(
     create: (context) => VoiceNotifier(),
     update: (context, http, balance) => balance..update(http: http),
@@ -136,8 +142,17 @@ final providers = [
     create: (_) => ScannerService(),
     update: (_, linksService, scannerService) => scannerService..update(linksService),
   ),
-  ProxyProvider2<ScannerService, PermissionService, ScannerBloc>(
+  ProxyProvider<EosService, EsrService>(
+    create: (_) => EsrService(),
+    update: (_, eosService, esrService) => esrService..update(eosService.client), // todo: should break out EosClient into it's own injectable
+  ),
+  ProxyProvider4<ScannerService, PermissionService, EsrService, SettingsNotifier, ScannerBloc>(
     create: (_) => ScannerBloc(),
-    update: (_, scannerService, permissionService, scannerBloc) => scannerBloc..update(scannerService, permissionService),
+    update: (_, scanner, permission, esr, settings, scannerBloc) => scannerBloc..update(
+      scannerService: scanner,
+      permissionService: permission,
+      esrService: esr,
+      settings: settings,
+    ),
   ),
 ];

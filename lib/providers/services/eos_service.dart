@@ -311,4 +311,27 @@ class EosService {
 
     return client.pushTransaction(transaction, broadcast: true);
   }
+
+  Future<dynamic> sendTransaction(
+      {String account, String name, Map<String, dynamic> data}) async {
+    print("[eos] send transaction ($account | $name)");
+
+    if (mockEnabled) {
+      return HttpMockResponse.transactionResult;
+    }
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = account
+        ..name = name
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = data
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
 }

@@ -1,3 +1,5 @@
+import '../utils/double_extension.dart';
+
 class InviteModel {
   final int inviteId;
   final String transferQuantity;
@@ -109,14 +111,15 @@ class TransactionModel {
 class BalanceModel {
   final String quantity;
   final double numericQuantity;
+  final bool error;
 
-  BalanceModel(this.quantity) : numericQuantity = _parseQuantityString(quantity);
+  BalanceModel(this.quantity, this.error) : numericQuantity = _parseQuantityString(quantity);
 
   factory BalanceModel.fromJson(List<dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return BalanceModel(json[0] as String);
+      return BalanceModel(json[0] as String, false);
     } else {
-      return BalanceModel("0.0000 SEEDS");
+      return BalanceModel("0.0000 SEEDS", true);
     }
   }
 
@@ -131,6 +134,47 @@ class BalanceModel {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is BalanceModel && quantity == other.quantity;
+
+  @override
+  int get hashCode => super.hashCode;
+}
+
+class RateModel {
+  final double seedsPerUSD;
+  final bool error;
+
+  RateModel(
+    this.seedsPerUSD,
+    this.error
+  );
+
+  factory RateModel.fromJson(Map<String, dynamic> json) {
+    if (json != null && json.isNotEmpty) {
+      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String), false);
+    } else {
+      return RateModel(0, true);
+    }
+  }
+
+  static double _parseQuantityString(String quantityString) {
+    if(quantityString == null) {
+      return 0;
+    }
+    return double.parse(quantityString.split(" ")[0]);
+  }
+
+  double convert(double seedsAmount) {
+    return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
+  }
+
+  String usdString(double seedsAmount) {
+    return convert(seedsAmount).fiatFormatted + " USD"; 
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RateModel && seedsPerUSD == other.seedsPerUSD;
 
   @override
   int get hashCode => super.hashCode;
