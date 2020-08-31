@@ -58,7 +58,6 @@ dependencies:
   dart_esr:
     git:
       url: https://github.com/7flash/dart-esr.git
-  qr_flutter: ^3.2.0
 
 dev_dependencies:
   flutter_test:
