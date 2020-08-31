@@ -144,7 +144,7 @@ class HttpMockResponse {
     story: "Seeds Team",
     roles: List.from(["light", "support", "askmeanything"]),
     skills: List.from(["skill1", "skill2"]),
-    interests: "[]",	
+    interests: List.from(["interests1", "interests2"]),
     reputation:	0,
     timestamp:	1577382580,
   );

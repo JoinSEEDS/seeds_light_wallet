@@ -170,7 +170,7 @@ class RateModel {
   }
 
   String usdString(double seedsAmount) {
-    return convert(seedsAmount).fiatFormatted + " USD"; 
+    return convert(seedsAmount).fiatFormatted + " USD";
   }
 
   @override
@@ -301,7 +301,7 @@ class ProfileModel {
   final String story;
   final List<String> roles;
   final List<String> skills;
-  final String interests;
+  final List<String> interests;
   final int reputation;
   final int timestamp;
 
@@ -328,12 +328,23 @@ class ProfileModel {
       nickname: json["nickname"],
       image: json["image"],
       story: json["story"],
-      roles: (jsonDecode(json["roles"]) as List<dynamic>).cast<String>(),
-      skills: (jsonDecode(json["skills"]) as List<dynamic>).cast<String>(),
-      interests: json["interests"],
+      roles: decodeStringArray(json, "roles"),
+      skills: decodeStringArray(json, "skills"),
+      interests: decodeStringArray(json, "interests"),
       reputation: json["reputation"],
       timestamp: json["timestamp"],
     );
+  }
+}
+
+// Data from service might be corrupted and not follow our contract.
+// We try to decode the data and if its corrupted we ignore it.
+decodeStringArray(Map<String, dynamic> json, String key) {
+  try {
+    return (jsonDecode(json[key]) as List<dynamic>).cast<String>();
+  } catch(e)  {
+    print("error on ProfileModel formatting data from service. ");
+    return List<String>();
   }
 }
 
@@ -453,8 +464,8 @@ class ProposalModel {
 }
 
 const proposalTypes = {
-  // NOTE: 
-  // The keys here need to have i18n entries 
+  // NOTE:
+  // The keys here need to have i18n entries
   // in the ecosystem.i18n.dart file
   'Staged': {
     'stage': 'staged',
