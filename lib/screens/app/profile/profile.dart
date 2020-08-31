@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as pathUtils;
@@ -168,27 +169,35 @@ class _ProfileState extends State<Profile> {
                   padding: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0),
                   child: Form(
                     key: _formKey,
-                    child: MainTextField(
-                        labelText: "Full Name".i18n,
-                        hintText: 'Enter your name'.i18n,
-                        autocorrect: false,
-                        controller: _nameController,
-                        validator: (String val) {
-                          String error;
-                          if (val.isEmpty) {
-                            error = "Name cannot be empty".i18n;
-                          }
-                          return error;
-                        }),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MainTextField(
+                            labelText: "Full Name".i18n,
+                            hintText: 'Enter your name'.i18n,
+                            autocorrect: false,
+                            controller: _nameController,
+                            validator: (String val) {
+                              String error;
+                              if (val.isEmpty) {
+                                error = "Name cannot be empty".i18n;
+                              }
+                              return error;
+                            }),
+                        SizedBox(height: 16),
+                        Text(
+                          "Roles",
+                        ),
+                        _rolesView(model?.profile?.roles, 3),
+                        SizedBox(height: 16),
+                        Text("Skills"),
+                        _rolesView(model?.profile?.skills, 9),
+                        SizedBox(height: 16),
+                        Text("Interests"),
+                        _rolesView(model?.profile?.interests, 9),
+                      ],
+                    ),
                   )),
-              Padding(
-                padding: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0),
-                child: Row(
-                    children: model?.profile?.roles?.map((e) => Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Chip(label: Text(e)),
-                            ))?.toList() ?? [Container()]),
-              ),
               Padding(
                 padding: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0),
                 child: MainButton(
@@ -376,6 +385,27 @@ class _ProfileState extends State<Profile> {
     Future.delayed(Duration.zero).then((_) {
       ProfileNotifier.of(context).fetchProfile();
     });
+  }
+
+  _rolesView(List<String> items, int maxAllowed) {
+    return items.isEmpty
+        ? _userDataListLabel(maxAllowed)
+        : Row(
+            children: items
+                    ?.map((e) => Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Chip(label: Text(e)),
+                        ))
+                    ?.toList() ??
+                _userDataListLabel(maxAllowed));
+  }
+
+  _userDataListLabel(int maxAllowed) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      color: Colors.white,
+      child: Text("Add 1 to " + maxAllowed.toString() + " words", textAlign: TextAlign.center),
+    );
   }
 
   _uploadFile(ProfileModel profile) async {

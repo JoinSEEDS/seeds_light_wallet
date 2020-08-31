@@ -328,9 +328,9 @@ class ProfileModel {
       nickname: json["nickname"],
       image: json["image"],
       story: json["story"],
-      roles: decodeStringArray(json, "roles"),
-      skills: decodeStringArray(json, "skills"),
-      interests: decodeStringArray(json, "interests"),
+      roles: _decodeStringArray(json, "roles"),
+      skills: _decodeStringArray(json, "skills"),
+      interests: _decodeStringArray(json, "interests"),
       reputation: json["reputation"],
       timestamp: json["timestamp"],
     );
@@ -339,7 +339,7 @@ class ProfileModel {
 
 // Data from service might be corrupted and not follow our contract.
 // We try to decode the data and if its corrupted we ignore it.
-decodeStringArray(Map<String, dynamic> json, String key) {
+_decodeStringArray(Map<String, dynamic> json, String key) {
   try {
     return (jsonDecode(json[key]) as List<dynamic>).cast<String>();
   } catch(e)  {
