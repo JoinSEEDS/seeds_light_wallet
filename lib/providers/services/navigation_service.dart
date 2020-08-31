@@ -10,6 +10,7 @@ import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
 import 'package:seeds/screens/app/ecosystem/overview.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
+import 'package:seeds/screens/app/profile/add_user_profile_data.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
@@ -46,6 +47,7 @@ class Routes {
   static final buySeeds = "BuySeeds";
   static final customTransaction = "CustomTransation";
   static final scanQRCode = "ScanQRCode";
+  static final addUserProfileData = "AddUserProfileData";
 }
 
 class NavigationService {
@@ -93,6 +95,7 @@ class NavigationService {
     Routes.buySeeds: (_) => BuySeeds(),
     Routes.customTransaction: (args) => CustomTransaction(args),
     Routes.scanQRCode: (_) => Scan(),
+    Routes.addUserProfileData: (_) => AddUserProfileDataPage(),
   };
 
   final ecosystemRoutes = {

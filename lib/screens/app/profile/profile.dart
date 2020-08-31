@@ -396,7 +396,7 @@ class _ProfileState extends State<Profile> {
   }
 
   _rolesView(List<String> items, int maxAllowed) {
-    return items.isEmpty
+    return items == null || items.isEmpty
         ? _userDataListLabel(maxAllowed)
         : Row(
             children: items
@@ -413,7 +413,9 @@ class _ProfileState extends State<Profile> {
       backgroundColor: Colors.white,
       label: Text("Add 1 to " + maxAllowed.toString() + " words"),
       deleteIcon: Icon(Icons.add),
-      onDeleted: () {},
+      onDeleted: () {
+        NavigationService.of(context).navigateTo(Routes.addUserProfileData);
+      },
     );
   }
 
