@@ -55,12 +55,10 @@ dependencies:
   qr_flutter: ^3.2.0
   eosdart_ecc:  ^0.4.3
   eosdart: ^0.4.4
-  dartesr:
-    git:
-      url: https://github.com/digital-scarcity/dartesr.git
   dart_esr:
     git:
       url: https://github.com/7flash/dart-esr.git
+  qr_flutter: ^3.2.0
 
 dev_dependencies:
   flutter_test:
