@@ -456,7 +456,7 @@ class HttpService {
       Map<String, dynamic> body = res.parseJson();
 
       List<dynamic> activeProposals = body["rows"].where((dynamic item) {
-        return item["stage"] == stage && item["status"] == status;
+        return item["stage"] == stage && item["status"] == status && int.parse(item["staked"].split(".")[0]) > 0 ;
       }).toList();
 
       List<ProposalModel> proposals =
