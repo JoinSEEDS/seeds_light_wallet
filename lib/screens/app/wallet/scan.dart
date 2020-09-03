@@ -32,11 +32,16 @@ class _ScanState extends State<Scan> {
 
     try {
       ScanResult scanResult = await BarcodeScanner.scan();
-      setState(() {
-        this.step = Steps.processing;
-        this.qrcode = scanResult.rawContent;
-      });
-      processSigningRequest();
+      if (scanResult.type == ResultType.Cancelled) {
+         Navigator.of(context).pop();
+         
+      } else {
+        setState(() {
+          this.step = Steps.processing;
+          this.qrcode = scanResult.rawContent;
+        });
+        processSigningRequest();
+      }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
