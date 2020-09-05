@@ -58,7 +58,10 @@ dependencies:
   dart_esr:
     git:
       url: https://github.com/7flash/dart-esr.git
-
+  dartesr:
+    git:
+      url: https://github.com/digital-scarcity/dartesr.git
+    
 dev_dependencies:
   flutter_test:
     sdk: flutter
