@@ -89,26 +89,22 @@ main(List<String> args) async {
 }
 
 class SeedsMaterialApp extends MaterialApp {
-  SeedsMaterialApp({
-      home,
-      navigatorKey,
-      onGenerateRoute
-    }) : super(
-      localizationsDelegates: [            
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-          const Locale('en', "US"), 
-          const Locale('es', "ES"), 
-      ],
-      //debugShowCheckedModeBanner: false,
-      //debugShowMaterialGrid: true,
-      home: I18n(child: home),
-      navigatorKey: navigatorKey,
-      onGenerateRoute: onGenerateRoute
-    );
+  SeedsMaterialApp({home, navigatorKey, onGenerateRoute})
+      : super(
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [
+              const Locale('en', "US"),
+              const Locale('es', "ES"),
+            ],
+            //debugShowCheckedModeBanner: false,
+            //debugShowMaterialGrid: true,
+            home: I18n(child: home),
+            navigatorKey: navigatorKey,
+            onGenerateRoute: onGenerateRoute);
 }
 
 class SeedsApp extends StatefulWidget {

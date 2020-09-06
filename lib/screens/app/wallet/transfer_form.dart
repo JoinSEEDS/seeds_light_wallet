@@ -33,7 +33,6 @@ class TransferForm extends StatefulWidget {
 
 class _TransferFormState extends State<TransferForm>
     with SingleTickerProviderStateMixin {
-  bool validAmount = true;
   bool showPageLoader = false;
   String transactionId = "";
   final _formKey = GlobalKey<FormState>();

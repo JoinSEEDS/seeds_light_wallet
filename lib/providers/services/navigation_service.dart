@@ -15,6 +15,7 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
+import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/scan.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer_amount.dart';
@@ -47,6 +48,7 @@ class Routes {
   static final buySeeds = "BuySeeds";
   static final customTransaction = "CustomTransation";
   static final scanQRCode = "ScanQRCode";
+  static final receive = 'Receive';
   static final addUserProfileData = "AddUserProfileData";
 }
 
@@ -95,6 +97,7 @@ class NavigationService {
     Routes.buySeeds: (_) => BuySeeds(),
     Routes.customTransaction: (args) => CustomTransaction(args),
     Routes.scanQRCode: (_) => Scan(),
+    Routes.receive: (_) => Receive(),
     Routes.addUserProfileData: (args) => AddUserProfileDataPage(args: args),
   };
 
