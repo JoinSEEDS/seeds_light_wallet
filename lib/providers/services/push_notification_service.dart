@@ -43,8 +43,8 @@ class PushNotificationService {
       token = await _firebaseMessaging.getToken();
       print("FirebaseMessaging token: $token");
 
-      _firebaseMessaging.onTokenRefresh.listen((event) {
-        token = event;
+      _firebaseMessaging.onTokenRefresh.listen((newToken) {
+        token = newToken;
       });
 
       _initialized = true;
