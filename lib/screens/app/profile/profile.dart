@@ -96,15 +96,11 @@ class _ProfileState extends State<Profile> {
                                         fit: BoxFit.cover,
                                         errorWidget: (context, url, error) {
                                           return Container(
-                                            color: AppColors.getColorByString(
-                                                model?.profile?.nickname ?? ''),
+                                            color: AppColors.getColorByString(model?.profile?.nickname ?? ''),
                                             child: Center(
                                               child: Text(
-                                                (model?.profile?.nickname !=
-                                                        null)
-                                                    ? model?.profile?.nickname
-                                                        ?.substring(0, 2)
-                                                        ?.toUpperCase()
+                                                (model?.profile?.nickname != null)
+                                                    ? model?.profile?.nickname?.substring(0, 2)?.toUpperCase()
                                                     : '?',
                                                 style: TextStyle(
                                                   color: Colors.white,
@@ -134,8 +130,7 @@ class _ProfileState extends State<Profile> {
                                 size: 16.0,
                                 color: Colors.black,
                               ),
-                              onPressed: () =>
-                                  _editProfilePicBottomSheet(context),
+                              onPressed: () => _editProfilePicBottomSheet(context),
                             ),
                           ),
                         )
@@ -143,22 +138,34 @@ class _ProfileState extends State<Profile> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 5),
-                      child: Text(
-                        SettingsNotifier.of(context).accountName,
-                        style: TextStyle(
-                          fontFamily: "worksans",
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            SettingsNotifier.of(context).accountName,
+                            style: TextStyle(
+                              fontFamily: "worksans",
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            model?.profile?.status ?? '',
+                            style: TextStyle(
+                              fontFamily: "worksans",
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
               Padding(
-                  padding:
-                      const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0),
+                  padding: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0),
                   child: Form(
                     key: _formKey,
                     child: MainTextField(
@@ -175,14 +182,12 @@ class _ProfileState extends State<Profile> {
                         }),
                   )),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0),
+                padding: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0),
                 child: MainButton(
                   key: savingLoader,
                   title: 'Save'.i18n,
                   onPressed: () => {
-                    if (_formKey.currentState.validate())
-                      {_saveProfile(model.profile)}
+                    if (_formKey.currentState.validate()) {_saveProfile(model.profile)}
                   },
                 ),
               ),
@@ -194,8 +199,7 @@ class _ProfileState extends State<Profile> {
                     'Terms & Conditions'.i18n,
                     style: TextStyle(color: Colors.blue),
                   ),
-                  onPressed: () =>
-                      UrlLauncher.launch(Config.termsAndConditionsUrl),
+                  onPressed: () => UrlLauncher.launch(Config.termsAndConditionsUrl),
                 ),
               ),
               FlatButton(
@@ -212,8 +216,7 @@ class _ProfileState extends State<Profile> {
                   'Export private key'.i18n,
                   style: TextStyle(color: Colors.red),
                 ),
-                onPressed: () =>
-                    Share.share(SettingsNotifier.of(context).privateKey),
+                onPressed: () => Share.share(SettingsNotifier.of(context).privateKey),
               ),
               FlatButton(
                 color: Colors.white,
@@ -221,8 +224,7 @@ class _ProfileState extends State<Profile> {
                   'Logout'.i18n,
                   style: TextStyle(color: Colors.red),
                 ),
-                onPressed: () =>
-                    NavigationService.of(context).navigateTo(Routes.logout),
+                onPressed: () => NavigationService.of(context).navigateTo(Routes.logout),
               )
             ],
           ),
@@ -370,14 +372,10 @@ class _ProfileState extends State<Profile> {
 
   _uploadFile(ProfileModel profile) async {
     String extensionName = pathUtils.extension(_profileImage.path);
-    String path =
-        "ProfileImage/" + profile.account + '/' + Uuid().v4() + extensionName;
-    StorageReference storageReference =
-        FirebaseStorage.instance.ref().child(path);
-    String fileType =
-        extensionName.isNotEmpty ? extensionName.substring(1) : '*';
-    var uploadTask = storageReference.putFile(
-        _profileImage, StorageMetadata(contentType: "image/$fileType"));
+    String path = "ProfileImage/" + profile.account + '/' + Uuid().v4() + extensionName;
+    StorageReference storageReference = FirebaseStorage.instance.ref().child(path);
+    String fileType = extensionName.isNotEmpty ? extensionName.substring(1) : '*';
+    var uploadTask = storageReference.putFile(_profileImage, StorageMetadata(contentType: "image/$fileType"));
     await uploadTask.onComplete;
     return await storageReference.getDownloadURL();
   }
