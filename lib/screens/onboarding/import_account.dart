@@ -37,9 +37,9 @@ class _ImportAccountState extends State<ImportAccount> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      if (Config.testingPrivateKey != null) {
-        privateKeyController.text = Config.testingPrivateKey;
-      }
+      // if (Config.testingPrivateKey != null) {
+      //   privateKeyController.text = Config.testingPrivateKey;
+      // }
       discoverAccounts();
     });
   }
