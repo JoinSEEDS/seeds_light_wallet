@@ -54,7 +54,7 @@ dependencies:
   barcode_scan: ^3.0.1
   qr_flutter: ^3.2.0
   eosdart_ecc:  ^0.4.3
-  eosdart: ^0.4.4
+  eosdart: ^0.4.6
   dart_esr:
     git:
       url: https://github.com/7flash/dart-esr.git
