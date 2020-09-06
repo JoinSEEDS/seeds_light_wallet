@@ -138,14 +138,27 @@ class _ProfileState extends State<Profile> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 5),
-                      child: Text(
-                        SettingsNotifier.of(context).accountName,
-                        style: TextStyle(
-                          fontFamily: "worksans",
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            SettingsNotifier.of(context).accountName,
+                            style: TextStyle(
+                              fontFamily: "worksans",
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            model?.profile?.status ?? '',
+                            style: TextStyle(
+                              fontFamily: "worksans",
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ],
