@@ -95,7 +95,7 @@ class NavigationService {
     Routes.buySeeds: (_) => BuySeeds(),
     Routes.customTransaction: (args) => CustomTransaction(args),
     Routes.scanQRCode: (_) => Scan(),
-    Routes.addUserProfileData: (_) => AddUserProfileDataPage(),
+    Routes.addUserProfileData: (args) => AddUserProfileDataPage(args: args),
   };
 
   final ecosystemRoutes = {

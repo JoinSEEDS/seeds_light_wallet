@@ -16,6 +16,7 @@ import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/profile/add_user_profile_data.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
@@ -190,19 +191,19 @@ class _ProfileState extends State<Profile> {
                           "Roles",
                           style: TextStyle(color: AppColors.grey),
                         ),
-                        _rolesView(model?.profile?.roles, 3),
+                        _rolesView(model?.profile?.roles, InputType.ROLES),
                         SizedBox(height: 16),
                         Text(
                           "Skills",
                           style: TextStyle(color: AppColors.grey),
                         ),
-                        _rolesView(model?.profile?.skills, 9),
+                        _rolesView(model?.profile?.skills, InputType.SKILLS),
                         SizedBox(height: 16),
                         Text(
                           "Interests",
                           style: TextStyle(color: AppColors.grey),
                         ),
-                        _rolesView(model?.profile?.interests, 9),
+                        _rolesView(model?.profile?.interests, InputType.INTERESTS),
                       ],
                     ),
                   )),
@@ -339,10 +340,10 @@ class _ProfileState extends State<Profile> {
             ? (profile.nickname ?? '')
             : _nameController.text,
         image: attachmentUrl ?? (profile.image ?? ''),
-        story: '',
-        roles: '',
-        skills: '',
-        interests: '',
+        story: profile.story,
+        roles: profile.roles,
+        skills: profile.skills,
+        interests: profile.interests,
       );
 
       final snackBar = SnackBar(
@@ -379,7 +380,7 @@ class _ProfileState extends State<Profile> {
             ),
             Expanded(
               child: Text(
-                'An error occured, please try again.'.i18n,
+                'An error occurred, please try again.'.i18n,
                 maxLines: null,
               ),
             ),
@@ -395,28 +396,41 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  _rolesView(List<String> items, int maxAllowed) {
-    return items == null || items.isEmpty
-        ? _userDataListLabel(maxAllowed)
-        : Row(
-            children: items
-                    ?.map((e) => Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Chip(label: Text(e)),
-                        ))
-                    ?.toList() ??
-                _userDataListLabel(maxAllowed));
-  }
+  _rolesView(List<String> items, InputType inputType) {
+    if (items == null) {
+      items = List<String>();
+    }
 
-  _userDataListLabel(int maxAllowed) {
-    return Chip(
-      backgroundColor: Colors.white,
-      label: Text("Add 1 to " + maxAllowed.toString() + " words"),
-      deleteIcon: Icon(Icons.add),
-      onDeleted: () {
-        NavigationService.of(context).navigateTo(Routes.addUserProfileData);
-      },
-    );
+    var values = items
+        .map((e) => Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Chip(
+                  label: Text(e),
+                  deleteIcon: Icon(
+                    Icons.close,
+                    size: 16,
+                  ),
+                  onDeleted: () {}),
+            ))
+        .toList();
+
+    if (items.length < getMaxedAllowed(inputType)) {
+      values.add(Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Chip(
+              backgroundColor: Colors.white,
+              label: Text("Add"),
+              deleteIcon: Icon(Icons.add, size: 16),
+              onDeleted: () async {
+                List<String> result = await NavigationService.of(context)
+                    .navigateTo(Routes.addUserProfileData, AddUserProfileDataArgs(inputType: inputType, items: items));
+
+                print(result);
+                _saveProfile(ProfileNotifier.of(context).profile);
+              })));
+    }
+
+    return Wrap(children: values);
   }
 
   _uploadFile(ProfileModel profile) async {

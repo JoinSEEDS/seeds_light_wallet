@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:eosdart/eosdart.dart';
 import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:provider/provider.dart';
@@ -12,8 +14,7 @@ class EosService {
   EOSClient client;
   bool mockEnabled;
 
-  static EosService of(BuildContext context, {bool listen = true}) =>
-      Provider.of(context, listen: listen);
+  static EosService of(BuildContext context, {bool listen = true}) => Provider.of(context, listen: listen);
 
   void update({
     userPrivateKey,
@@ -26,8 +27,7 @@ class EosService {
     baseURL = nodeEndpoint;
     mockEnabled = enableMockTransactions;
     if (privateKey != null && privateKey.isNotEmpty) {
-      client =
-          EOSClient(baseURL, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
+      client = EOSClient(baseURL, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
     }
   }
 
@@ -56,13 +56,38 @@ class EosService {
     return transaction;
   }
 
+  Future<dynamic> updateProfileData({Map<String, Object> data}) async {
+    print("[eos] update profile");
+
+    if (mockEnabled) {
+      return HttpMockResponse.transactionResult;
+    }
+
+    data.putIfAbsent("user", () => accountName);
+    data.putIfAbsent("type", () => "individual");
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "accts.seeds"
+        ..name = "update"
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = data
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
   Future<dynamic> updateProfile({
     String nickname,
     String image,
     String story,
-    String roles,
-    String skills,
-    String interests,
+    List<String> roles,
+    List<String> skills,
+    List<String> interests,
   }) async {
     print("[eos] update profile");
 
@@ -85,16 +110,16 @@ class EosService {
           "nickname": nickname,
           "image": image,
           "story": story,
-          "roles": roles,
-          "skills": skills,
-          "interests": interests
+          "roles": json.encode(roles),
+          "skills": json.encode(skills),
+          "interests": json.encode(interests)
         }
     ]);
 
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> plantSeeds({ double amount }) async {
+  Future<dynamic> plantSeeds({double amount}) async {
     print("[eos] plant seeds ($amount)");
 
     if (mockEnabled) {
@@ -121,8 +146,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> createInvite(
-      {double quantity, String inviteHash}) async {
+  Future<dynamic> createInvite({double quantity, String inviteHash}) async {
     print("[eos] create invite $inviteHash ($quantity)");
 
     double sowQuantity = 5;
@@ -169,8 +193,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> acceptInvite(
-      {String accountName, String publicKey, String inviteSecret, String nickname}) async {
+  Future<dynamic> acceptInvite({String accountName, String publicKey, String inviteSecret, String nickname}) async {
     print("[eos] accept invite");
 
     if (mockEnabled) {
@@ -180,8 +203,7 @@ class EosService {
     String applicationPrivateKey = Config.onboardingPrivateKey;
     String applicationAccount = Config.onboardingAccountName;
 
-    EOSClient appClient =
-        EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey]);
+    EOSClient appClient = EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey]);
 
     Map data = {
       "account": accountName,
@@ -312,8 +334,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> sendTransaction(
-      {String account, String name, Map<String, dynamic> data}) async {
+  Future<dynamic> sendTransaction({String account, String name, Map<String, dynamic> data}) async {
     print("[eos] send transaction ($account | $name)");
 
     if (mockEnabled) {

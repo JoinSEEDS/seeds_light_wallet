@@ -67,10 +67,7 @@ class MemberModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MemberModel &&
-          account == other.account &&
-          nickname == other.nickname &&
-          image == other.image;
+      other is MemberModel && account == other.account && nickname == other.nickname && image == other.image;
 
   @override
   int get hashCode => super.hashCode;
@@ -126,16 +123,14 @@ class BalanceModel {
   }
 
   static double _parseQuantityString(String quantityString) {
-    if(quantityString == null) {
+    if (quantityString == null) {
       return 0;
     }
     return double.parse(quantityString.split(" ")[0]);
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is BalanceModel && quantity == other.quantity;
+  bool operator ==(Object other) => identical(this, other) || other is BalanceModel && quantity == other.quantity;
 
   @override
   int get hashCode => super.hashCode;
@@ -145,10 +140,7 @@ class RateModel {
   final double seedsPerUSD;
   final bool error;
 
-  RateModel(
-    this.seedsPerUSD,
-    this.error
-  );
+  RateModel(this.seedsPerUSD, this.error);
 
   factory RateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
@@ -159,7 +151,7 @@ class RateModel {
   }
 
   static double _parseQuantityString(String quantityString) {
-    if(quantityString == null) {
+    if (quantityString == null) {
       return 0;
     }
     return double.parse(quantityString.split(" ")[0]);
@@ -174,9 +166,7 @@ class RateModel {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is RateModel && seedsPerUSD == other.seedsPerUSD;
+  bool operator ==(Object other) => identical(this, other) || other is RateModel && seedsPerUSD == other.seedsPerUSD;
 
   @override
   int get hashCode => super.hashCode;
@@ -196,9 +186,7 @@ class PlantedModel {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PlantedModel && quantity == other.quantity;
+  bool operator ==(Object other) => identical(this, other) || other is PlantedModel && quantity == other.quantity;
 
   @override
   int get hashCode => super.hashCode;
@@ -285,8 +273,7 @@ class VoiceModel {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is VoiceModel && amount == other.amount;
+  bool operator ==(Object other) => identical(this, other) || other is VoiceModel && amount == other.amount;
 
   @override
   int get hashCode => super.hashCode;
@@ -342,9 +329,10 @@ class ProfileModel {
 _decodeStringArray(Map<String, dynamic> json, String key) {
   try {
     return (jsonDecode(json[key]) as List<dynamic>).cast<String>();
-  } catch(e)  {
-    print("error on ProfileModel formatting data from service. ");
-    return List<String>();
+  } catch (e) {
+    print("Map Key: " + key);
+    print("error on ProfileModel formatting data from service." + e.toString());
+    return null;
   }
 }
 
@@ -467,20 +455,8 @@ const proposalTypes = {
   // NOTE:
   // The keys here need to have i18n entries
   // in the ecosystem.i18n.dart file
-  'Staged': {
-    'stage': 'staged',
-    'status': 'open'
-  },
-  'Open': {
-    'stage': 'active',
-    'status': 'open'
-  },
-  'Passed': {
-    'stage': 'done',
-    'status': 'passed'
-  },
-  'Failed': {
-    'stage': 'done',
-    'status': 'rejected'
-  },
+  'Staged': {'stage': 'staged', 'status': 'open'},
+  'Open': {'stage': 'active', 'status': 'open'},
+  'Passed': {'stage': 'done', 'status': 'passed'},
+  'Failed': {'stage': 'done', 'status': 'rejected'},
 };
