@@ -1,1 +1,1 @@
-const String FIREBASE_MESSAGE_TOKEN_KEY = "firebaseMessageToken";
+const String FIREBASE_MESSAGE_TOKENS_KEY = "firebaseMessageTokens";

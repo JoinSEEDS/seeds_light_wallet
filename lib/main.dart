@@ -62,7 +62,7 @@ main(List<String> args) async {
   Hive.init(appDir.path);
   Hive.registerAdapter<MemberModel>(MemberAdapter());
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   PushNotificationService().initialise();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {

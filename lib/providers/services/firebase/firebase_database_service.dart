@@ -12,13 +12,12 @@ class FirebaseDatabaseService {
   final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users');
 
   setFirebaseMessageToken(String userId) {
-    print("setFirebaseMessageToken: " + userId);
     // Users can have multiple tokens. Ex: Multiple devices.
     List<String> tokens = [PushNotificationService().token];
     Map<String, Object> data = {
-      FIREBASE_MESSAGE_TOKEN_KEY: FieldValue.arrayUnion(tokens),
+      FIREBASE_MESSAGE_TOKENS_KEY: FieldValue.arrayUnion(tokens),
     };
 
-    _usersCollection.doc(userId).update(data);
+    _usersCollection.doc(userId).set(data, SetOptions(merge: true));
   }
 }
