@@ -20,4 +20,14 @@ class FirebaseDatabaseService {
 
     _usersCollection.doc(userId).set(data, SetOptions(merge: true));
   }
+
+  removeFirebaseMessageToken(String userId) {
+    // Users can have multiple tokens. Ex: Multiple devices.
+    List<String> tokens = [PushNotificationService().token];
+    Map<String, Object> data = {
+      FIREBASE_MESSAGE_TOKENS_KEY: FieldValue.arrayRemove(tokens),
+    };
+
+    _usersCollection.doc(userId).set(data, SetOptions(merge: true));
+  }
 }
