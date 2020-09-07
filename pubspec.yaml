@@ -37,6 +37,7 @@ dependencies:
   flutter_fluid_slider: ^1.0.2
   firebase_dynamic_links: ^0.5.1
   firebase_messaging: ^7.0.0
+  cloud_firestore: ^0.14.0+2
   liquid_pull_to_refresh: ^1.1.1
   shimmer: ^1.0.1
   random_words: ^1.0.2
