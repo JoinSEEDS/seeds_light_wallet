@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
+import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 
 class FirebaseDatabaseService {
   FirebaseDatabaseService._();
@@ -8,14 +9,16 @@ class FirebaseDatabaseService {
 
   static final FirebaseDatabaseService _instance = FirebaseDatabaseService._();
 
-  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+  final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users');
 
-  setFirebaseMessageToken(String token, String userId) {
+  setFirebaseMessageToken(String userId) {
+    print("setFirebaseMessageToken: " + userId);
     // Users can have multiple tokens. Ex: Multiple devices.
-    List<String> tokens = [token];
+    List<String> tokens = [PushNotificationService().token];
     Map<String, Object> data = {
       FIREBASE_MESSAGE_TOKEN_KEY: FieldValue.arrayUnion(tokens),
     };
-    usersCollection.doc(userId).update(data);
+
+    _usersCollection.doc(userId).update(data);
   }
 }
