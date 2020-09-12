@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -16,8 +17,11 @@ import 'package:seeds/models/member_adapter.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/models/transaction_adapter.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/providers.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/passcode.dart';
@@ -58,6 +62,8 @@ main(List<String> args) async {
   Hive.init(appDir.path);
   Hive.registerAdapter<MemberModel>(MemberAdapter());
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
+  await Firebase.initializeApp();
+  PushNotificationService().initialise();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
@@ -140,6 +146,9 @@ class MainScreen extends StatelessWidget {
             onGenerateRoute: navigationService.onGenerateRoute,
           );
         } else if (auth.status == AuthStatus.unlocked) {
+          String userAccount = SettingsNotifier.of(context).accountName;
+          FirebaseDatabaseService().setFirebaseMessageToken(userAccount);
+
           return ToolboxApp(
             child: SeedsMaterialApp(
               home: App(),
