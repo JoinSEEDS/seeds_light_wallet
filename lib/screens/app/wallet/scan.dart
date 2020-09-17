@@ -1,6 +1,4 @@
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -8,7 +6,9 @@ import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 
 import 'package:dartesr/eosio_signing_request.dart';
 
-enum Steps { init, scan, processing, success, error }
+import 'package:qr_mobile_vision/qr_camera.dart';
+
+enum Steps { initial, processing, success, error }
 
 class Scan extends StatefulWidget {
   @override
@@ -16,66 +16,24 @@ class Scan extends StatefulWidget {
 }
 
 class _ScanState extends State<Scan> {
-  String action, account, data, error, qrcode;
-  Steps step = Steps.init;
+  String qrcode;
+  Steps step = Steps.initial;
 
-  @override
-  void initState() {
-    super.initState();
-    scan();
-  }
+  void qrCodeCallback(String code) async {
+    if (this.step == Steps.processing) return;
 
-  Future scan() async {
+    print(EosService.of(context, listen: false).client);
+
     setState(() {
-      this.step = Steps.scan;
+      this.step = Steps.processing;
     });
 
     try {
-      ScanResult scanResult = await BarcodeScanner.scan();
-      if (scanResult.type == ResultType.Cancelled) {
-         Navigator.of(context).pop();
-         
-      } else {
-        setState(() {
-          this.step = Steps.processing;
-          this.qrcode = scanResult.rawContent;
-        });
-        processSigningRequest();
-      }
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.cameraAccessDenied) {
-        setState(() {
-          this.error = 'The user did not grant the camera permission!';
-          this.step = Steps.error;
-        });
-      } else {
-        setState(() {
-          this.error = 'Unknown error: $e';
-          this.step = Steps.error;
-        });
-      }
-    } on FormatException {
-      setState(() {
-        this.error =
-            'null (User returned using the "back"-button before scanning anything. Result)';
-        this.step = Steps.error;
-      });
-    } catch (e) {
-      setState(() {
-        this.error = 'Scan unknown error: $e';
-        this.step = Steps.error;
-      });
-    }
-  }
-
-  void processSigningRequest() async {
-    try {
-
-      print("QR Code: "+this.qrcode);
+      print("QR Code: " + code);
 
       final esr = await EosioSigningRequest.factory(
         EosService.of(context, listen: false).client,
-        this.qrcode,
+        code,
         SettingsNotifier.of(context, listen: false).accountName,
       );
 
@@ -100,7 +58,6 @@ class _ScanState extends State<Scan> {
       print(e);
 
       setState(() {
-        this.error = 'Invalid QR code: $e';
         this.step = Steps.error;
       });
     }
@@ -108,103 +65,50 @@ class _ScanState extends State<Scan> {
 
   @override
   Widget build(BuildContext context) {
-    Widget widget;
-
-    switch (step) {
-      case Steps.init:
-        widget = Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            Text(
-              'Initialize Camera...',
-              style: TextStyle(
-                fontFamily: "heebo",
-                fontSize: 18,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
-        );
-        break;
-      case Steps.scan:
-        widget = Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            Text(
-              'Scan QR Code...',
-              style: TextStyle(
-                fontFamily: "heebo",
-                fontSize: 18,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
-        );
-        break;
-      case Steps.processing:
-        widget = Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                'Processing QR Code...',
-                style: TextStyle(
-                  fontFamily: "heebo",
-                  fontSize: 18,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          ],
-        );
-        break;
-      case Steps.success:
-        widget = Center(
-          child: Text(
-            'Success!',
-            style: TextStyle(
-              fontFamily: "heebo",
-              fontSize: 24,
-              color: Colors.black,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        );
-        break;
-      case Steps.error:
-        widget = Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            OutlineButton(
-              child: Text('Try Again'),
-              onPressed: scan,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                this.error,
-                style: TextStyle(
-                  fontFamily: "heebo",
-                  fontSize: 18,
-                  color: Colors.red,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          ],
-        );
-        break;
-    }
-
     return Scaffold(
-      body: widget,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.close, color: Colors.black),
+          onPressed: () => Navigator.of(context).maybePop(),
+        ),
+        title: Text(
+          "Scan Signing Requests",
+          style: TextStyle(fontFamily: "worksans", color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            this.step == Steps.error
+                ? LinearProgressIndicator(
+                    backgroundColor: Colors.red,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                  )
+                : Container(),
+            this.step == Steps.success
+                ? LinearProgressIndicator(
+                    backgroundColor: Colors.green,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                  )
+                : Container(),
+            this.step == Steps.processing
+                ? LinearProgressIndicator()
+                : Container(),
+            new Expanded(
+                child: new Center(
+              child: QrCamera(
+                qrCodeCallback: qrCodeCallback,
+                child: new Container(),
+              ),
+            )),
+          ],
+        ),
+      ),
     );
   }
 }
