@@ -44,13 +44,25 @@
 	<string>Uses camera for profile pictures and QR codes.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Unlock wallet with FaceID</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We do not track a user's location but one of the packages we are using is triggering this. That code does not run.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We don't ask for a user's location, this warning triggered by a library we are using. But we never ask for location.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Uses photo library to access pictures for profile.</string>
-	<key>UIBackgroundModes</key>
+
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>We do not track a user's location but one of the packages we are using is triggering this. That code does not run.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We don't ask for a user's location, this warning triggered by a library we are using. But we never ask for location.</string>
+    <key>NSContactsUsageDescription</key>
+    <string>We do not access user contacts but one of the packages we are using is triggering this.</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>We do not access the calendar but one of the packages we are using is triggering this.</string>
+    <key>NSAppleMusicUsageDescription </key>
+    <string>We do not access Apple Music but one of the packages we are using is triggering this.</string>
+    <key>NSMotionUsageDescription</key>
+    <string>We do not access motion sensors but one of the packages we are using is triggering this.</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>We do not access speech recognition but one of the packages we are using is triggering this.</string>
+    
+    <key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 		<string>remote-notification</string>
