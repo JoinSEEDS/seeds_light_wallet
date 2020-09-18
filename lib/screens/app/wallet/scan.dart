@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:flutter/material.dart' hide Action;
+import 'package:eosdart/eosdart.dart' show Action;
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 
-import 'package:dartesr/eosio_signing_request.dart';
+import 'package:dart_esr/dart_esr.dart' hide Action;
 
 import 'package:qr_mobile_vision/qr_camera.dart';
 
@@ -19,41 +19,59 @@ class _ScanState extends State<Scan> {
   String qrcode;
   Steps step = Steps.initial;
 
-  void qrCodeCallback(String code) async {
-    if (this.step == Steps.processing) return;
+  void processIdentity(SigningRequest request) {}
 
-    print(EosService.of(context, listen: false).client);
+  void processAction(dynamic action) async {
+    final data =
+        await EosService.of(context, listen: false).fillActionPlaceholders(
+      account: action["account"],
+      name: action["name"],
+      data: action["data"],
+    );
+
+    NavigationService.of(context).navigateTo(
+      Routes.customTransaction,
+      CustomTransactionArguments(
+        account: action["account"],
+        name: action["name"],
+        data: data,
+      ),
+    );
+  }
+
+  void qrCodeCallback(String code) async {
+    if (this.step == Steps.processing || this.step == Steps.success) return;
 
     setState(() {
       this.step = Steps.processing;
     });
 
     try {
-      print("QR Code: " + code);
+      final esr = SigningRequestManager.from(code,
+          options: defaultSigningRequestEncodingOptions(
+            nodeUrl: EosService.of(context, listen: false).baseURL,
+          ));
 
-      final esr = await EosioSigningRequest.factory(
-        EosService.of(context, listen: false).client,
-        code,
-        SettingsNotifier.of(context, listen: false).accountName,
-      );
-
-      assert(esr.action.account.isNotEmpty);
-      assert(esr.action.name.isNotEmpty);
+      final type = esr.data.req[0];
 
       setState(() {
         this.step = Steps.success;
       });
 
-      Map<String, dynamic> data = Map<String, dynamic>.from(esr.action.data);
-
-      NavigationService.of(context).navigateTo(
-          Routes.customTransaction,
-          CustomTransactionArguments(
-            account: esr.action.account,
-            name: esr.action.name,
-            data: data,
-          ),
-          true);
+      switch (type) {
+        case 'identity':
+          processIdentity(esr.data);
+          break;
+        case 'action':
+          processAction(esr.data.req[1]);
+          break;
+        case 'action[]':
+          processAction(Action.fromJson(Map.from(esr.data.req[1][0])));
+          break;
+        case 'transaction':
+          processAction(Action.fromJson(Map.from(esr.data.req[1].actions[0])));
+          break;
+      }
     } catch (e) {
       print(e);
 
