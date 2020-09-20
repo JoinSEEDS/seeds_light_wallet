@@ -55,13 +55,13 @@
     <string>We do not access user contacts but one of the packages we are using is triggering this.</string>
     <key>NSCalendarsUsageDescription</key>
     <string>We do not access the calendar but one of the packages we are using is triggering this.</string>
-    <key>NSAppleMusicUsageDescription </key>
+    <key>NSAppleMusicUsageDescription</key>
     <string>We do not access Apple Music but one of the packages we are using is triggering this.</string>
     <key>NSMotionUsageDescription</key>
     <string>We do not access motion sensors but one of the packages we are using is triggering this.</string>
     <key>NSSpeechRecognitionUsageDescription</key>
     <string>We do not access speech recognition but one of the packages we are using is triggering this.</string>
-    
+     
     <key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
