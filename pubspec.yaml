@@ -63,8 +63,9 @@ dependencies:
   dartesr:
     git:
       url: https://github.com/digital-scarcity/dartesr.git
-    
-dev_dependencies:
+  qr_mobile_vision: ^1.0.2
+
+dev_dependencies: 
   flutter_test:
     sdk: flutter
   test: any

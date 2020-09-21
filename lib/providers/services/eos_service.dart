@@ -1,4 +1,5 @@
 import 'package:eosdart/eosdart.dart';
+import 'package:convert/convert.dart';
 import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
@@ -357,7 +358,8 @@ class EosService {
       ..authorization = auth
       ..data = data;
 
-    var args = ESR.SigningRequestCreateArguments(action: action, chainId: chainId);
+    var args =
+        ESR.SigningRequestCreateArguments(action: action, chainId: chainId);
 
     var request = await ESR.SigningRequestManager.create(args,
         options: ESR.defaultSigningRequestEncodingOptions(
@@ -365,5 +367,34 @@ class EosService {
         ));
 
     return request.encode();
+  }
+
+  Future<Map<String, String>> fillActionPlaceholders(
+      {String account, String name, Object data}) async {
+    String actorPlaceholder = '............1';
+
+    Abi contractAbi = (await client.getRawAbi(account)).abi;
+
+    Map<String, Type> contractTypes =
+        getTypesFromAbi(createInitialTypes(), contractAbi);
+
+    Map<String, Type> contractActions = {};
+    for (var act in contractAbi.actions) {
+      contractActions[act.name] = getType(contractTypes, act.type);
+    }
+
+    final contract = Contract(contractTypes, contractActions);
+
+    Type actionType = contract.actions[name];
+
+    Map<String, String> actionData =
+        actionType.deserialize(actionType, SerialBuffer(hex.decode(data)));
+
+    return actionData.map(
+      (key, value) => MapEntry(
+        key,
+        value == actorPlaceholder ? accountName : value,
+      ),
+    );
   }
 }
