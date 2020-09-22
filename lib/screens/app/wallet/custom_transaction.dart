@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/broadcast_transaction_overlay.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/transaction_details.dart';
@@ -64,7 +63,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
       statusStream: _statusNotifier.stream,
       messageStream: _messageNotifier.stream,
       onClose: () {
-        NavigationService.of(context).navigateTo(Routes.app, null, true);
+        Navigator.of(context).pop();
       },
     );
   }
@@ -79,7 +78,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
         leading: IconButton(
           icon: Icon(Icons.close, color: Colors.black),
           onPressed: () {
-            NavigationService.of(context).navigateTo(Routes.app);
+            Navigator.pop(context);
           },
         ),
         backgroundColor: Colors.transparent,
