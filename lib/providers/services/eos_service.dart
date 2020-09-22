@@ -387,8 +387,8 @@ class EosService {
 
     Type actionType = contract.actions[name];
 
-    Map<String, String> actionData =
-        actionType.deserialize(actionType, SerialBuffer(hex.decode(data)));
+    final actionData = Map.from(
+        actionType.deserialize(actionType, SerialBuffer(hex.decode(data))));
 
     return actionData.map(
       (key, value) => MapEntry(
