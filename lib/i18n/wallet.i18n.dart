@@ -15,6 +15,7 @@ static var _t = Translations.byLocale("en_us") +
         "Transfer amount is not valid.": "Monto a transferir no es válido",
         "Transfer amount cannot be greater than availabe balance.": "Monto a transferir no puede ser mayor al balance disponible",
         'Send': "Enviar",
+        'Receive': "Cobrar",
 
          "Enter amount": "Ingresa monto",
          "Confirm": "Confirmar",
