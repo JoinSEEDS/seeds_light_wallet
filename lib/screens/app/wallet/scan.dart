@@ -30,13 +30,13 @@ class _ScanState extends State<Scan> {
     );
 
     NavigationService.of(context).navigateTo(
-      Routes.customTransaction,
-      CustomTransactionArguments(
-        account: action["account"],
-        name: action["name"],
-        data: data,
-      ),
-    );
+        Routes.customTransaction,
+        CustomTransactionArguments(
+          account: action["account"],
+          name: action["name"],
+          data: data,
+        ),
+        true);
   }
 
   void qrCodeCallback(String code) async {
