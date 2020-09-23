@@ -12,15 +12,15 @@ void main() {
     });
 
     test('Secret from mnemonic', () async {
-      final result = secretFromMnemonic("word1-word2-word3-word4-word5");
+      final result = secretFromMnemonic("founder-judgment-mate-menu-harassment");
 
-      expect(result, "34428fab184f30bfd02d3f93e51704831fe5c1a5f9c7546b62d1b593e85c3cea");
+      expect(result, "0e1db5f717be39fe62405ad3ec64e628e44e0d671e7ddb8a7beb2c35a8caa1b8");
     });
 
     test('Hash from mnemonic secret', () async {
-      final result = hashFromSecret("34428fab184f30bfd02d3f93e51704831fe5c1a5f9c7546b62d1b593e85c3cea");
+      final result = hashFromSecret("0e1db5f717be39fe62405ad3ec64e628e44e0d671e7ddb8a7beb2c35a8caa1b8");
 
-      expect(result, "dc548a2cc50055fb46d7f3f475366b9fda686dadae02f6f14256065a88ccb58f");
+      expect(result, "23b96581f3d5c10973904cf1b0dbca23cafdd7425852be0ca664ce17ae98bcd5");
     });
 
     test('Reverse hash', () async {
