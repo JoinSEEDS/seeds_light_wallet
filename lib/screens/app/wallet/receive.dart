@@ -19,7 +19,8 @@ class _ReceiveState extends State<Receive> {
   double invoiceAmountDouble = 0;
 
   void generateInvoice(String amount) async {
-    double receiveAmount = double.parse(amount);
+    
+    double receiveAmount = double.tryParse(amount) ?? 0;
 
     setState(() {
       invoiceAmountDouble = receiveAmount;
@@ -54,12 +55,14 @@ class _ReceiveState extends State<Receive> {
                 labelText: 'Receive'.i18n,
                 endText: 'SEEDS',
                 autofocus: true,
-                validator: (val) {
+                validator: (String amount) {
                   String error;
 
-                  double receiveAmount = double.tryParse(val);
+                  double receiveAmount = double.tryParse(amount);
 
-                  if (receiveAmount == 0.0) {
+                  if(amount == null || amount.isEmpty) {
+                    error = null;
+                  } else if (receiveAmount == 0.0) {
                     error = "Amount cannot be 0.".i18n;
                   } else if (receiveAmount < 0.0001) {
                     error = "Amount must be > 0.0001".i18n;
@@ -69,9 +72,9 @@ class _ReceiveState extends State<Receive> {
 
                   return error;
                 },
-                onChanged: (val) {
+                onChanged: (String amount) {
                   if (formKey.currentState.validate()) {
-                    generateInvoice(val);
+                    generateInvoice(amount);
                   } else {
                     setState(() {
                       invoiceAmountDouble = 0;
