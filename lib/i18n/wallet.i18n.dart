@@ -15,9 +15,12 @@ static var _t = Translations.byLocale("en_us") +
         "Transfer amount is not valid.": "Monto a transferir no es válido",
         "Transfer amount cannot be greater than availabe balance.": "Monto a transferir no puede ser mayor al balance disponible",
         'Send': "Enviar",
+        'Receive': "Recibir",
 
          "Enter amount": "Ingresa monto",
          "Confirm": "Confirmar",
+         'Pay %s SEEDS to %s':'Pagar %s SEEDS a %s',
+         "Done": "Hecho",
 
          'Your private key has not been backed up!': "¡Tu llave privada no ha sido respaldada en copia de seguridad!",
          'Backup': "Copia de seguridad",
@@ -27,7 +30,6 @@ static var _t = Translations.byLocale("en_us") +
          'Network error': 'Error de red',
          'Pull to update': 'Tire para actualizar',
          'Exchange rate load error': 'Error de red',
-         
       }
     };
 

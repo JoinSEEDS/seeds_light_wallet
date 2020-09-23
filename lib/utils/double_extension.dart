@@ -17,7 +17,7 @@ extension DoubleExtension on double {
     if (this != null) {
       var number = this;
       var showDecimals = this < 1000000;
-      var seedsFormatter = showDecimals ? NumberFormat("#,###,###,###,###.##") : NumberFormat("#,###,###,###,###,###");
+      var seedsFormatter = showDecimals ? NumberFormat("#,###,###,###,###.####") : NumberFormat("#,###,###,###,###,###");
       return seedsFormatter.format(number);// + " " + parts[1];
     } else {
       return null;

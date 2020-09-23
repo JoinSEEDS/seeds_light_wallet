@@ -24,14 +24,6 @@ void main() {
 
     expect(output, expectedOutput);
   });
-  test('reverse hash', () async {
-    String input = "e45e36a13b9c90b053f08097d962a6a27b753416264efb345781f4e064f406f4";
-    String expectedOutput = 'a2a662d99780f053b0909c3ba1365ee4f406f464e0f4815734fb4e261634757b';
-
-    String output = reverseHash(input);
-
-    expect(output, expectedOutput);
-  });
   test('Invite Integration', () async {
     final service = HttpService()
       ..update(
