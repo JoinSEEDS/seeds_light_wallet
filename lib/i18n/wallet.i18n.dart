@@ -19,6 +19,7 @@ static var _t = Translations.byLocale("en_us") +
 
          "Enter amount": "Ingresa monto",
          "Confirm": "Confirmar",
+         'Pay %s SEEDS to %s':'Pagar %s SEEDS a %s',
 
          'Your private key has not been backed up!': "¡Tu llave privada no ha sido respaldada en copia de seguridad!",
          'Backup': "Copia de seguridad",
@@ -28,7 +29,6 @@ static var _t = Translations.byLocale("en_us") +
          'Network error': 'Error de red',
          'Pull to update': 'Tire para actualizar',
          'Exchange rate load error': 'Error de red',
-         
       }
     };
 

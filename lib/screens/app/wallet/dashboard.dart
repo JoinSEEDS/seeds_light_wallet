@@ -32,7 +32,7 @@ class _DashboardState extends State<Dashboard> {
     return RefreshIndicator(
       child: SingleChildScrollView(
         child: Container(
-            padding: EdgeInsets.all(17),
+            padding: EdgeInsets.fromLTRB(17, 0, 17, 17),
             child: Column(
               children: <Widget>[
                 buildNotification(),
@@ -85,7 +85,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             borderRadius: BorderRadius.circular(8),
           ),
-          padding: EdgeInsets.all(7),
+          padding: EdgeInsets.fromLTRB(7, 7, 7, 7),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -139,15 +139,19 @@ class _DashboardState extends State<Dashboard> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   EmptyButton(
-                    width: width * 0.3,
+                    height: 33,
+                    width: width * 0.33,
                     title: 'Send'.i18n,
                     color: Colors.white,
+                    fontSize: 17,
                     onPressed: onTransfer,
                   ),
                   EmptyButton(
-                    width: width * 0.3,
+                    height: 33,
+                    width: width * 0.33,
                     title: 'Receive'.i18n,
                     color: Colors.white,
+                    fontSize: 17,
                     onPressed: onReceive,
                   ),
                 ],
