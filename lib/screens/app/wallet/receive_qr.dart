@@ -63,6 +63,7 @@ class ReceiveQRState extends State<ReceiveQR> {
                 children: [
                   QrImage(
                     data: invoiceImage,
+                    foregroundColor: Colors.black87
                   ),
                   Text(
                     "Pay %s SEEDS to %s"
