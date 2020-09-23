@@ -85,7 +85,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             borderRadius: BorderRadius.circular(8),
           ),
-          padding: EdgeInsets.fromLTRB(7, 7, 7, 7),
+          padding: EdgeInsets.all(7),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[

@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
-import 'package:seeds/utils/invites.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
