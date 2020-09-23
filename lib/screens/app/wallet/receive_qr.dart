@@ -54,7 +54,6 @@ class ReceiveQRState extends State<ReceiveQR> {
           )),
       backgroundColor: Colors.white,
       body: Container(
-        //color: Colors.blueAccent,
         margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
         child: invoiceImage.isNotEmpty
             ? Column(
@@ -75,7 +74,7 @@ class ReceiveQRState extends State<ReceiveQR> {
                         fontWeight: FontWeight.w500),
                   ),
                   MainButton(
-                      title: "Done",
+                      title: "Done".i18n,
                       onPressed: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();

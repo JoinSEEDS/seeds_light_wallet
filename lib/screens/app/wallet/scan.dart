@@ -7,6 +7,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 
 import 'package:dartesr/eosio_signing_request.dart';
+import 'package:seeds/i18n/scan.i18n.dart';
 
 enum Steps { init, scan, processing, success, error }
 
@@ -29,7 +30,6 @@ class _ScanState extends State<Scan> {
     setState(() {
       this.step = Steps.scan;
     });
-    //return;
     try {
       bool shouldKeepScanning = true;
       while (shouldKeepScanning) {
@@ -66,7 +66,7 @@ class _ScanState extends State<Scan> {
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
-          this.error = 'Please enable camera access to scan QR codes!';
+          this.error = 'Please enable camera access to scan QR codes!'.i18n;
           this.step = Steps.error;
         });
       } else {
