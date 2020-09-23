@@ -23,12 +23,6 @@ void main() {
       expect(result, "23b96581f3d5c10973904cf1b0dbca23cafdd7425852be0ca664ce17ae98bcd5");
     });
 
-    test('Reverse hash', () async {
-      final result = reverseHash("dc548a2cc50055fb46d7f3f475366b9fda686dadae02f6f14256065a88ccb58f");
-
-      expect(result, "9f6b3675f4f3d746fb5500c52c8a54dc8fb5cc885a065642f1f602aead6d68da");
-    });
-
   });
 
 
