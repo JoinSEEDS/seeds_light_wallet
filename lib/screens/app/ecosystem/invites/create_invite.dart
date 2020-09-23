@@ -180,7 +180,7 @@ class _ShareScreenState extends State<ShareScreen> {
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
-                  child: QrImage(data: widget.inviteLink, size: 256,),
+                  child: QrImage(data: widget.inviteLink, size: 256,foregroundColor: Colors.black87,),
                 ),
                 Container(
                   margin: EdgeInsets.all(20),

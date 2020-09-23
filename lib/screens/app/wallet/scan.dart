@@ -7,6 +7,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 
 import 'package:dartesr/eosio_signing_request.dart';
+import 'package:seeds/i18n/scan.i18n.dart';
 
 enum Steps { init, scan, processing, success, error }
 
@@ -29,23 +30,43 @@ class _ScanState extends State<Scan> {
     setState(() {
       this.step = Steps.scan;
     });
-
     try {
-      ScanResult scanResult = await BarcodeScanner.scan();
-      if (scanResult.type == ResultType.Cancelled) {
-         Navigator.of(context).pop();
-         
-      } else {
-        setState(() {
-          this.step = Steps.processing;
-          this.qrcode = scanResult.rawContent;
-        });
-        processSigningRequest();
+      bool shouldKeepScanning = true;
+      while (shouldKeepScanning) {
+        ScanResult scanResult = await BarcodeScanner.scan();
+        if (scanResult.type == ResultType.Cancelled) {
+          shouldKeepScanning = false;
+          Navigator.of(context).pop();
+          break;
+        } else {
+          setState(() {
+            this.step = Steps.processing;
+            this.qrcode = scanResult.rawContent;
+          });
+
+          print("QR Code: " + scanResult.rawContent);
+          var esr;
+          try {
+            esr = await EosioSigningRequest.factory(
+              EosService.of(context, listen: false).client,
+              scanResult.rawContent,
+              SettingsNotifier.of(context, listen: false).accountName,
+            );
+          } catch (e) {
+            print("can't parse ESR " + e.toString());
+            print("ignoring...");
+          }
+          if (esr != null && canProcess(esr)) {
+            shouldKeepScanning = false;
+            processSigningRequest(esr);
+            break;
+          }
+        }
       }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
-          this.error = 'The user did not grant the camera permission!';
+          this.error = 'Please enable camera access to scan QR codes!'.i18n;
           this.step = Steps.error;
         });
       } else {
@@ -54,12 +75,8 @@ class _ScanState extends State<Scan> {
           this.step = Steps.error;
         });
       }
-    } on FormatException {
-      setState(() {
-        this.error =
-            'null (User returned using the "back"-button before scanning anything. Result)';
-        this.step = Steps.error;
-      });
+    } on FormatException catch (e) {
+      print("format exception: " + e.toString());
     } catch (e) {
       setState(() {
         this.error = 'Scan unknown error: $e';
@@ -68,37 +85,32 @@ class _ScanState extends State<Scan> {
     }
   }
 
-  void processSigningRequest() async {
+  bool canProcess(EosioSigningRequest esr) {
+    return esr.action.account.isNotEmpty && esr.action.name.isNotEmpty;
+  }
+
+  void processSigningRequest(EosioSigningRequest esr) async {
     try {
+      if (esr.action.account.isNotEmpty && esr.action.name.isNotEmpty) {
+        setState(() {
+          this.step = Steps.success;
+        });
 
-      print("QR Code: "+this.qrcode);
+        Map<String, dynamic> data = Map<String, dynamic>.from(esr.action.data);
 
-      final esr = await EosioSigningRequest.factory(
-        EosService.of(context, listen: false).client,
-        this.qrcode,
-        SettingsNotifier.of(context, listen: false).accountName,
-      );
-
-      assert(esr.action.account.isNotEmpty);
-      assert(esr.action.name.isNotEmpty);
-
-      setState(() {
-        this.step = Steps.success;
-      });
-
-      Map<String, dynamic> data = Map<String, dynamic>.from(esr.action.data);
-
-      NavigationService.of(context).navigateTo(
-          Routes.customTransaction,
-          CustomTransactionArguments(
-            account: esr.action.account,
-            name: esr.action.name,
-            data: data,
-          ),
-          true);
+        NavigationService.of(context).navigateTo(
+            Routes.customTransaction,
+            CustomTransactionArguments(
+              account: esr.action.account,
+              name: esr.action.name,
+              data: data,
+            ), true);
+      } else {
+        print("unable to read QR, continuing");
+        scan();
+      }
     } catch (e) {
-      print(e);
-
+      print("scan error: " + e);
       setState(() {
         this.error = 'Invalid QR code: $e';
         this.step = Steps.error;
@@ -121,7 +133,7 @@ class _ScanState extends State<Scan> {
               style: TextStyle(
                 fontFamily: "heebo",
                 fontSize: 18,
-                color: Colors.black,
+                color: Colors.white,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -129,40 +141,45 @@ class _ScanState extends State<Scan> {
         );
         break;
       case Steps.scan:
-        widget = Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            Text(
-              'Scan QR Code...',
-              style: TextStyle(
-                fontFamily: "heebo",
-                fontSize: 18,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
-        );
-        break;
-      case Steps.processing:
-        widget = Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                'Processing QR Code...',
+        widget = Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              Text(
+                // this never actually shows
+                'Scan QR Code...',
                 style: TextStyle(
                   fontFamily: "heebo",
                   fontSize: 18,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.w400,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+        );
+        break;
+      case Steps.processing:
+        widget = Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Text(
+                  'Processing QR Code...',
+                  style: TextStyle(
+                    fontFamily: "heebo",
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
         break;
       case Steps.success:
@@ -172,7 +189,7 @@ class _ScanState extends State<Scan> {
             style: TextStyle(
               fontFamily: "heebo",
               fontSize: 24,
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -183,7 +200,11 @@ class _ScanState extends State<Scan> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OutlineButton(
-              child: Text('Try Again'),
+              child: Text(
+                'Try Again',
+                style: TextStyle(color: Colors.white),
+              ),
+              color: Colors.white,
               onPressed: scan,
             ),
             Padding(
@@ -193,7 +214,7 @@ class _ScanState extends State<Scan> {
                 style: TextStyle(
                   fontFamily: "heebo",
                   fontSize: 18,
-                  color: Colors.red,
+                  color: Colors.redAccent,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -205,6 +226,7 @@ class _ScanState extends State<Scan> {
 
     return Scaffold(
       body: widget,
+      backgroundColor: Colors.black,
     );
   }
 }
