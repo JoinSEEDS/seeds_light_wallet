@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -82,7 +83,7 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                 valid && !isLoading && availableName != currentText;
 
             if (accountNameIsTaken) {
-              errorString = "$currentText is not availale";
+              errorString = "$currentText is not available";
             }
 
             var createEnabled = valid && definitelyAvailableOnChain;
@@ -109,6 +110,7 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                             fontFamily: "worksans"),
                         controller: _accountNameController,
                         maxLength: 12,
+                        inputFormatters: [LowerCaseTextFormatter(),],
                         focusNode: accountNameFocus,
                         validator: accountGeneratorService.validator,
                         counterStyle: TextStyle(
@@ -254,6 +256,16 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class LowerCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text?.toLowerCase(),
+      selection: newValue.selection,
     );
   }
 }
