@@ -53,7 +53,7 @@ class BiometricsService {
       return _localAuth.authenticateWithBiometrics(
           androidAuthStrings: androidAuthStrings,
           localizedReason: 'Use your device to authenticate',
-          useErrorDialogs: true,
+          useErrorDialogs: false,
           stickyAuth: true);
     } on PlatformException catch (e) {
       print(e);
