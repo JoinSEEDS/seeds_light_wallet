@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/backup/backup_service.dart';
@@ -101,14 +103,33 @@ class _DashboardState extends State<Dashboard> {
                 return (model != null && model.balance != null)
                     ? Column(
                         children: <Widget>[
-                          Text(
-                            model.balance.error
-                                ? 'Network error'.i18n
-                                : '${model.balance?.quantity?.seedsFormatted} SEEDS',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w700),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // Icon is very thin and tall, container to make it a bit fatter
+                              // and shorter
+                              Container(
+                                width: 16,
+                                height: 32,
+                                child: FittedBox(
+                                  child: SvgPicture.asset(
+                                    'assets/images/S-Seeds.svg',
+                                    color: Colors.white,
+                                  ),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                model.balance.error
+                                    ? 'Network error'.i18n
+                                    : '${model.balance?.quantity?.seedsFormatted}',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ],
                           ),
                           Consumer<RateNotifier>(
                               builder: (context, rateModel, child) {

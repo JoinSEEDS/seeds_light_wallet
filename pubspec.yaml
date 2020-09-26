@@ -119,6 +119,7 @@ flutter:
     - assets/images/success_circle.png
     - assets/images/logout.svg
     - assets/images/qr-code.svg
+    - assets/images/S-Seeds.svg
     # assets end
 
   fonts:
