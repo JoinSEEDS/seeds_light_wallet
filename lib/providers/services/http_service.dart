@@ -178,6 +178,54 @@ class HttpService {
     }
   }
 
+  Future<List<TransactionModel>> getTransactionsMongo({int blockHeight = 0}) async {
+    const url = "https://mongo-api.hypha.earth/find";
+    var blockNum = blockHeight;
+//        "block_num": {"\$gt": "$blockNum" },
+
+    var params = '''{ 
+      "collection":"action_traces",
+      "query": { 
+        "act.account": "token.seeds",
+        "act.name":"transfer",
+        "block_num": {"\$gt": $blockNum },
+        "\$or": [ { "act.data.from": "$userAccount" }, { "act.data.to":"$userAccount"} ]
+      },
+      "projection":{
+        "trx_id": true,
+        "block_num": true,
+        "block_time": true,
+        "act.data": true
+      },
+      "sort":{
+        "block_num": -1
+      },
+      "skip":0,
+      "limit": 100,
+      "reverse": true
+    }''';
+
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(url, headers: headers, body: params);
+    
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      List<dynamic> transfers = body["items"];
+
+      List<TransactionModel> transactions = transfers
+          .map((item) => TransactionModel.fromJsonMongo(item))
+          .toList();
+
+      return transactions;
+
+    } else {
+      print("Error fetching transactions..."+res.parseJson().toString());
+      return [];
+    }
+  }
+
   Future<List<TransactionModel>> getTransactions() async {
     print("[http] get transactions");
 

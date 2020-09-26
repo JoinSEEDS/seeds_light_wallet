@@ -19,7 +19,7 @@ class TransactionsNotifier extends ChangeNotifier {
 
   Future fetchTransactionsCache() async {
     Box cacheTransactions =
-        await Hive.openBox<TransactionModel>("transactions");
+        await Hive.openBox<TransactionModel>("transactions3");
     if (cacheTransactions != null && cacheTransactions.isNotEmpty) {
       transactions = cacheTransactions.values.toList();
       notifyListeners();
@@ -27,14 +27,17 @@ class TransactionsNotifier extends ChangeNotifier {
   }
 
   Future refreshTransactions() async {
-    Box cacheTransactions =
-        await Hive.openBox<TransactionModel>("transactions");
+    Box<TransactionModel> cacheTransactions =
+        await Hive.openBox<TransactionModel>("transactions3");
 
-    List<TransactionModel> actualTransactions = await _http.getTransactions();
+    int blockHeight = cacheTransactions.length > 0 ? cacheTransactions.getAt(0).blockNum : 0;
 
-    if (actualTransactions.length > 0) {
+    List<TransactionModel> transactions = await _http.getTransactionsMongo(blockHeight: blockHeight);
+
+    if (transactions.length > 0) {
+      var newList = transactions + cacheTransactions.values.toList();
       await cacheTransactions.clear();
-      await cacheTransactions.addAll(actualTransactions);
+      await cacheTransactions.addAll(newList);
     }
 
     transactions = cacheTransactions.values.toList();
