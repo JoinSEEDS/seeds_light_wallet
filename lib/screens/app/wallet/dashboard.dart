@@ -69,8 +69,9 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget buildHeader() {
-    final width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final double textScaleFactor = width >= 320 ? 1.0 : 0.8;
 
     return Container(
       width: width,
@@ -114,7 +115,8 @@ class _DashboardState extends State<Dashboard> {
                             return Text(
                               model.balance.error
                                   ? 'Pull to update'.i18n
-                                  : rateModel.rate.error
+                                  : rateModel.rate == null 
+                                    ? "" : rateModel.rate.error
                                       ? "Exchange rate load error".i18n
                                       : '${rateModel.rate?.usdString(model.balance.numericQuantity)}',
                               style: TextStyle(
@@ -139,20 +141,18 @@ class _DashboardState extends State<Dashboard> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   EmptyButton(
-                    height: 33,
                     width: width * 0.33,
                     title: 'Send'.i18n,
                     color: Colors.white,
-                    fontSize: 17,
                     onPressed: onTransfer,
+                    textScaleFactor: textScaleFactor,
                   ),
                   EmptyButton(
-                    height: 33,
                     width: width * 0.33,
                     title: 'Receive'.i18n,
                     color: Colors.white,
-                    fontSize: 17,
                     onPressed: onReceive,
+                    textScaleFactor: textScaleFactor,
                   ),
                 ],
               ),

@@ -9,6 +9,7 @@ class EmptyButton extends StatelessWidget {
   final EdgeInsets margin;
   final Function onPressed;
   final Color color;
+  final double textScaleFactor;
 
   EmptyButton({
     this.title,
@@ -18,6 +19,7 @@ class EmptyButton extends StatelessWidget {
     this.color = AppColors.blue,
     this.margin,
     this.onPressed,
+    this.textScaleFactor = 1.0
   });
 
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class EmptyButton extends StatelessWidget {
           title,
           textAlign: TextAlign.center,
           style: TextStyle(color: color, fontSize: fontSize),
+          textScaleFactor: textScaleFactor,
         ),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
