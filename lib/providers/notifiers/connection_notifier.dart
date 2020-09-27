@@ -2,6 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:seeds/constants/config.dart';
 
+class Endpoint {
+  final String url;
+  final int ping;
+  const Endpoint(this.url, this.ping);
+}
+
 class ConnectionNotifier extends ChangeNotifier {
   bool status = true;
 
@@ -13,6 +19,8 @@ class ConnectionNotifier extends ChangeNotifier {
     'https://mainnet.telosusa.io',
     'https://telos.eosphere.io',
     'https://telos.caleos.io',
+    'https://api.eos.miami',
+    'https://hyperion.telosgermany.io',
   ];
 
   void init() {
@@ -20,24 +28,39 @@ class ConnectionNotifier extends ChangeNotifier {
   }
 
   void discoverEndpoints() async {
+    List<Future> checks = List<Future>();
+
     for (var endpoint in availableEndpoints) {
+      checks.add(checkEndpoint(endpoint));
+    }
+
+    var responses = await Future.wait(checks);
+
+    responses.sort((a, b) => a.ping - b.ping);
+
+    //for (int i=0; i<responses.length; i++) {
+    //  print("$i ping: ${responses[i].ping} endpoint: "+responses[i].url);
+    //}
+    currentEndpoint = responses[0].url;
+    currentEndpointPing = responses[0].ping;
+    notifyListeners();
+
+  }
+
+  Future<Endpoint> checkEndpoint(String endpoint) async {
+    try {
       var ping = Stopwatch()..start();
-
       Response res = await get("$endpoint/v2/health");
-
       ping.stop();
-
       if (res.statusCode == 200) {
         int endpointPing = ping.elapsedMilliseconds;
-
-        print("ping from $endpoint is $endpointPing");
-
-        if (currentEndpointPing == 0 || endpointPing < currentEndpointPing) {
-          currentEndpoint = endpoint;
-          currentEndpointPing = endpointPing;
-          notifyListeners();
-        }
+        return Endpoint(endpoint, endpointPing);
+      } else {
+        return Endpoint(endpoint, 1000000);
       }
+    } catch (err) {
+      print("error pinging: " + err);
+      return Endpoint(endpoint, 2000000);
     }
   }
 }
