@@ -8,6 +8,9 @@ class Endpoint {
   const Endpoint(this.url, this.ping);
 }
 
+const infinitePing = 1000000;
+const doubleInfinitePing = 2000000;
+
 class ConnectionNotifier extends ChangeNotifier {
   bool status = true;
 
@@ -38,9 +41,6 @@ class ConnectionNotifier extends ChangeNotifier {
 
     responses.sort((a, b) => a.ping - b.ping);
 
-    //for (int i=0; i<responses.length; i++) {
-    //  print("$i ping: ${responses[i].ping} endpoint: "+responses[i].url);
-    //}
     currentEndpoint = responses[0].url;
     currentEndpointPing = responses[0].ping;
     notifyListeners();
@@ -56,11 +56,11 @@ class ConnectionNotifier extends ChangeNotifier {
         int endpointPing = ping.elapsedMilliseconds;
         return Endpoint(endpoint, endpointPing);
       } else {
-        return Endpoint(endpoint, 1000000);
+        return Endpoint(endpoint, infinitePing);
       }
     } catch (err) {
       print("error pinging: " + err);
-      return Endpoint(endpoint, 2000000);
+      return Endpoint(endpoint, doubleInfinitePing);
     }
   }
 }
