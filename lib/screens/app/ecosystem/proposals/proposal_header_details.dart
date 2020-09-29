@@ -3,6 +3,7 @@ import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:seeds/i18n/proposals.i18n.dart';
 
@@ -92,6 +93,13 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                   ),
                 ],
               ),
+              Text("Voted: +72"),
+              FutureBuilder(
+                future: VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
+                builder: (ctx, votes) => votes != null ? 
+                  Text("Voted: $votes") :
+                  Text("Not voted yet")
+                )
             ],
           ),
         ),

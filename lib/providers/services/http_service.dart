@@ -515,7 +515,7 @@ class HttpService {
     String invitesURL = "$baseURL/v1/chain/get_table_rows";
 
     String request =
-        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1000","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1000","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(invitesURL, headers: headers, body: request);
@@ -559,6 +559,52 @@ class HttpService {
       return false;
     }
   }
+
+  Future<int> getVote({proposalId: int}) async {
+    print("[http] get votes for proposal id $proposalId");
+
+    String invitesURL = "$baseURL/v1/chain/get_table_rows";
+
+    var request = '''{
+      "json": true,
+      "code": "funds.seeds",
+      "scope": "21",
+      "table": "votes",
+      "table_key": "",
+      "lower_bound": "$userAccount",
+      "upper_bound": "$userAccount",
+      "limit": 10,
+      "key_type": "",
+      "index_position": "",
+      "encode_type": "dec",
+      "reverse": false,
+      "show_payer": false
+    }''';
+
+    print("req body $request");
+
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(invitesURL, headers: headers, body: request);
+
+    print("votes: ${res.body}");
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      if (body["rows"].length > 0) {
+        var item = body["rows"][0];
+        int amount = item.amount;
+        return item.favour == 1 ? amount : -amount;
+      } else {
+        return null;
+      }
+    } else {
+      print('Cannot fetch invites...${res.toString()}');
+      return null;
+    }
+  }
+
 }
 extension ResponseExtension on Response {
   dynamic parseJson() {
@@ -600,3 +646,6 @@ class EmptyResultException implements Exception {
     return "EmptyResultException: $message";
   }
 }
+
+
+
