@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
@@ -27,7 +29,7 @@ class App extends StatefulWidget {
 
 bool connected = true;
 
-class _AppState extends State<App> {
+class _AppState extends State<App> with WidgetsBindingObserver {
   final navigationTabs = [
     NavigationTab(
       title: "Explore".i18n,
@@ -59,7 +61,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    
+
     changePageNotifier.stream.listen((page) {
       int pageIndex;
 
@@ -84,12 +86,30 @@ class _AppState extends State<App> {
         });
       }
     });
+
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     NavigationService.of(context).addListener(changePageNotifier);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.paused:
+        break;
+      case AppLifecycleState.resumed:
+        Provider.of<ConnectionNotifier>(context, listen: false)
+            .discoverEndpoints();
+        break;
+      case AppLifecycleState.detached:
+        break;
+    }
   }
 
   @override
@@ -105,20 +125,22 @@ class _AppState extends State<App> {
   }
 
   Widget buildAppBar(BuildContext _context) {
-    
-    var svgPicture = SvgPicture.asset('assets/images/qr-code.svg',color: Colors.black,);
-        return AppBar(
-          title: Text(
-            navigationTabs[index].title,
-            style: TextStyle(color: Colors.black),
-          ),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-              icon: svgPicture,
-              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)
-            ),
-          ],
+    var svgPicture = SvgPicture.asset(
+      'assets/images/qr-code.svg',
+      color: Colors.black,
+    );
+    return AppBar(
+      title: Text(
+        navigationTabs[index].title,
+        style: TextStyle(color: Colors.black),
+      ),
+      centerTitle: true,
+      actions: <Widget>[
+        IconButton(
+            icon: svgPicture,
+            onPressed: () =>
+                NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+      ],
       backgroundColor: Colors.transparent,
       elevation: 0.0,
     );
@@ -137,39 +159,39 @@ class _AppState extends State<App> {
   BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex) {
     final width = MediaQuery.of(context).size.width * 0.21;
     return BottomNavigationBarItem(
-      icon: Container(
-        width: width,
-        decoration: tabIndex == index ? BoxDecoration(
-          gradient: LinearGradient(
-            colors: AppColors.gradient
+        icon: Container(
+          width: width,
+          decoration: tabIndex == index
+              ? BoxDecoration(
+                  gradient: LinearGradient(colors: AppColors.gradient),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8)))
+              : BoxDecoration(),
+          padding: EdgeInsets.only(top: 7, left: 3, right: 3),
+          child: SvgPicture.asset(
+            icon,
+            color: tabIndex == index ? Colors.white : AppColors.grey,
           ),
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))
-        ) : BoxDecoration(),
-        padding: EdgeInsets.only(top: 7, left: 3, right: 3),
-        child: SvgPicture.asset(icon,
-          color: tabIndex == index ? Colors.white: AppColors.grey,
         ),
-      ),
-      title: Container(
-        width: width,
-        alignment: Alignment.center,
-        decoration: tabIndex == index ? BoxDecoration(
-          gradient: LinearGradient(
-            colors: AppColors.gradient
-          ),
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(8), bottomLeft: Radius.circular(8))
-        ) : BoxDecoration(),
-        padding: EdgeInsets.only(bottom: 5, top: 2, left: 3, right: 3),
-        child: Text(title,
-          style: TextStyle(
-            color: tabIndex == index ? Colors.white: AppColors.grey,
-            fontSize: 12
-          ),
-        )
-      )
-    );
+        title: Container(
+            width: width,
+            alignment: Alignment.center,
+            decoration: tabIndex == index
+                ? BoxDecoration(
+                    gradient: LinearGradient(colors: AppColors.gradient),
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(8)))
+                : BoxDecoration(),
+            padding: EdgeInsets.only(bottom: 5, top: 2, left: 3, right: 3),
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: tabIndex == index ? Colors.white : AppColors.grey,
+                  fontSize: 12),
+            )));
   }
-  
 
   Widget buildNavigation() {
     return BottomNavigationBar(
@@ -191,12 +213,8 @@ class _AppState extends State<App> {
       fixedColor: Colors.white,
       unselectedItemColor: AppColors.grey,
       type: BottomNavigationBarType.fixed,
-      selectedLabelStyle: TextStyle(
-        fontSize: 12
-      ),
-      unselectedLabelStyle: TextStyle(
-        color: Colors.grey.withOpacity(0.7)
-      ),
+      selectedLabelStyle: TextStyle(fontSize: 12),
+      unselectedLabelStyle: TextStyle(color: Colors.grey.withOpacity(0.7)),
       elevation: 9,
       selectedFontSize: 12,
       unselectedFontSize: 12,
