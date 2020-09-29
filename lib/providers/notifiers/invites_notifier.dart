@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
-import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
 class InvitesNotifier extends ChangeNotifier {
@@ -12,7 +11,7 @@ class InvitesNotifier extends ChangeNotifier {
   Map<String, String> inviteSecrets;
 
   static of(BuildContext context, {bool listen = false}) =>
-      Provider.of<MembersNotifier>(context, listen: listen);
+      Provider.of<InvitesNotifier>(context, listen: listen);
 
   void init({HttpService http}) {
     _http = http;
