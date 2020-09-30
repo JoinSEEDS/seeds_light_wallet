@@ -4,7 +4,9 @@ import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_header_details.dart';
@@ -180,38 +182,55 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
       elevation: 8,
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Voting'.i18n,
-                  style: textTheme.headline6,
-                ),
-                SeedsButton(
-                  'Vote'.i18n,
-                  () async {
-                    setState(() => _voting = true);
-                    try {
-                      await Provider.of<EosService>(context, listen: false)
-                        .voteProposal(id: proposal.id, amount: _vote.toInt());
-                    } catch (e) {
-                      d("e = $e");
-                      errorToast("Unexpected error, please try again".i18n);
+        child: FutureBuilder(
+          future: VotedNotifier.of(context).fetchVote(),
+          builder: (ctx, snapshot) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    snapshot.hasData && snapshot.data.voted ? 'Voted'.i18n : 'Voting'.i18n,
+                    style: textTheme.headline6,
+                  ),
+                  snapshot.hasData && snapshot.data.voted ? Container() : SeedsButton(
+                    'Vote'.i18n,
+                    () async {
+                      setState(() => _voting = true);
+                      try {
+                        await Provider.of<EosService>(context, listen: false)
+                          .voteProposal(id: proposal.id, amount: _vote.toInt());
+                      } catch (e) {
+                        d("e = $e");
+                        errorToast("Unexpected error, please try again".i18n);
+                        setState(() => _voting = false);
+                      }
                       setState(() => _voting = false);
-                    }
-                    setState(() => _voting = false);
-                  },
-                  _voting,
-                ),
-              ],
-            ),
-            SizedBox(height: 12),
-            voice == null
+                    },
+                    _voting,
+                  ),
+                ],
+              ),
+              SizedBox(height: 12),
+              voice == null
                 ? Text("You have no trust tokens".i18n)
-                : FluidSlider(
+                : 
+                snapshot.hasData && snapshot.data.voted ? 
+                  FluidSlider(
+                    value: snapshot.data.amount.toDouble(),
+                    onChanged: (double newValue) {},
+                    min: -100,
+                    max: 100,
+                    sliderColor: AppColors.grey,
+                    labelsTextStyle: TextStyle(color: AppColors.grey),
+                    valueTextStyle: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontWeight: FontWeight.bold, color: AppColors.grey),
+                    thumbColor: Colors.white,
+                  ) : 
+                  FluidSlider(
                     value: _vote,
                     onChanged: (double newValue) {
                       setState(() => _vote = newValue);
@@ -222,6 +241,8 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
           ],
         ),
       ),
-    );
+    )
+  );
   }
+  
 }

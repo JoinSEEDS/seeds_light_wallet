@@ -96,11 +96,13 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
               FutureBuilder(
                 future: VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
                 builder: (ctx, snapShot) {
+                  var voteString = snapShot.data.amount==0 ? 'Neutral' :
+                    snapShot.data.amount < 0 ? 'no with ${-snapShot.data.amount} votes' : 'yes with ${snapShot.data.amount} votes';
                   if (snapShot.hasData) {
                     return snapShot.data.voted ? 
-                      Text("Voted: ${snapShot.data.amount}") :
-                      Text("Not voted yet");
-                  } else {
+                      Text("You voted $voteString", textAlign: TextAlign.right,) :
+                      Text("You have not voted yet", style: textTheme.caption.copyWith(fontSize: 14),textAlign: TextAlign.center);
+                  } else { 
                     return
                     Container();
                   }
