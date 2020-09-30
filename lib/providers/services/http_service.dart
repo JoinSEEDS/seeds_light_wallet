@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/voted_notifier.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
@@ -560,7 +561,7 @@ class HttpService {
     }
   }
 
-  Future<int> getVote({proposalId: int}) async {
+  Future<VoteResult> getVote({proposalId: int}) async {
     print("[http] get votes for proposal id $proposalId");
 
     String invitesURL = "$baseURL/v1/chain/get_table_rows";
@@ -592,20 +593,22 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
 
+        return VoteResult(-33, true);
+
       if (body["rows"].length > 0) {
         var item = body["rows"][0];
         int amount = item.amount;
-        return item.favour == 1 ? amount : -amount;
+        return VoteResult(item.favour == 1 ? amount : -amount, true);
       } else {
-        return null;
+        return VoteResult(0, false);
       }
     } else {
       print('Cannot fetch invites...${res.toString()}');
-      return null;
+      return VoteResult(0, false, error: true);
     }
   }
-
 }
+
 extension ResponseExtension on Response {
   dynamic parseJson() {
     return json.decode(utf8.decode(this.bodyBytes));

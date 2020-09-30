@@ -93,13 +93,18 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                   ),
                 ],
               ),
-              Text("Voted: +72"),
               FutureBuilder(
                 future: VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
-                builder: (ctx, votes) => votes != null ? 
-                  Text("Voted: $votes") :
-                  Text("Not voted yet")
-                )
+                builder: (ctx, snapShot) {
+                  if (snapShot.hasData) {
+                    return snapShot.data.voted ? 
+                      Text("Voted: ${snapShot.data.amount}") :
+                      Text("Not voted yet");
+                  } else {
+                    return
+                    Container();
+                  }
+                })
             ],
           ),
         ),
