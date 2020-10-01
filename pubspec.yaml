@@ -49,8 +49,7 @@ dependencies:
   image_picker: ^0.6.7
   image_cropper: ^1.2.1
   sentry: ^3.0.1
-  hive: ^1.4.1+1
-  hive_flutter: ^0.2.1
+  hive: ^1.4.4
   rxdart: ^0.24.0
   permission_handler: ^5.0.1
   barcode_scan: ^3.0.1
