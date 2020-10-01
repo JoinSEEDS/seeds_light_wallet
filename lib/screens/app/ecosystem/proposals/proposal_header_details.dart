@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -32,22 +33,28 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
         if (proposal.image.isNotEmpty == true && !widget.fromDetails)
           NetImage(proposal.image),
         SizedBox(height: 8),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: Text(
                 proposal.title,
                 style: textTheme.headline6,
               ),
-              SizedBox(height: 8),
-              Text(
+            ),
+            SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: Text(
                 proposal.summary,
                 style: textTheme.subtitle1,
               ),
-              SizedBox(height: 8),
-              RichText(
+            ),
+            SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: RichText(
                 text: TextSpan(
                   children: <InlineSpan>[
                     TextSpan(
@@ -71,13 +78,18 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                   ],
                 ),
               ),
-              SizedBox(height: 16),
-              Row(
+            ),
+            SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    '%s votes'.i18n.fill(["${proposal.total}"]),
-                    style: textTheme.caption.copyWith(fontSize: 14),
+                    'total\n%s'.i18n.fill(["${proposal.total}"]),
+                    textAlign: TextAlign.left,
+                    style: textTheme.caption.copyWith(fontSize: 14,),
                   ),
                   buildVotesIndicator(
                     title: 'Yes'.i18n,
@@ -93,22 +105,39 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                   ),
                 ],
               ),
-              FutureBuilder(
-                future: VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
-                builder: (ctx, snapShot) {
-                  if (snapShot.hasData) {
-                    var voteString = snapShot.data.amount==0 ? 'Neutral' :
-                      snapShot.data.amount < 0 ? 'no with ${-snapShot.data.amount} votes' : 'yes with ${snapShot.data.amount} votes';
-                    return snapShot.data.voted ? 
-                      Text("You voted $voteString", textAlign: TextAlign.right,) :
-                      Container(); // Text("You have not voted yet", style: textTheme.caption.copyWith(fontSize: 14),textAlign: TextAlign.center);
-                  } else { 
-                    return
-                    Container();
-                  }
-                })
-            ],
-          ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: FutureBuilder(
+                    future: VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
+                    builder: (ctx, snapShot) {
+                      if (snapShot.hasData) {
+                        // var voteString = snapShot.data.amount==0 ? 'Neutral' :
+                        //   snapShot.data.amount < 0 ? 'no with ${-snapShot.data.amount} votes' : 'yes with ${snapShot.data.amount} votes';
+                        var voted = true;//snapShot.data.voted;
+                        var amount = snapShot.data.amount;
+                        var voteString = amount==0 ? 'neutral' :
+                          amount < 0 ? '-${-amount}' : '+$amount';
+                        return voted ? 
+                          Container(
+                            padding: EdgeInsets.all(4),
+                            height: 24,
+                            child: Text(
+                              "Voted $voteString", 
+                              textAlign: TextAlign.center, 
+                              style: TextStyle(color: amount < 0 ? Colors.white : Colors.grey[600], fontWeight: FontWeight.bold),),
+                            color: amount == 0 ? Colors.black12 : amount > 0 ? Colors.greenAccent : Colors.red.withOpacity(.8)
+                          ) :
+                          Container(height: 16,); // Text("You have not voted yet", style: textTheme.caption.copyWith(fontSize: 14),textAlign: TextAlign.center);
+                      } else { 
+                        return Container(height: 16,);
+                      }
+                    }),
+                ),
+              ],
+            )
+          ],
         ),
       ],
     );
