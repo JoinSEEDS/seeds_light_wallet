@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/system_accounts.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/utils/extensions/SafeHive.dart';
 
 class MembersNotifier extends ChangeNotifier {
   HttpService _http;
@@ -36,7 +37,7 @@ class MembersNotifier extends ChangeNotifier {
   }
 
   Future<MemberModel> getAccountDetails(String accountName) async {
-    var box = await Hive.openBox<MemberModel>("members");
+    Box<MemberModel> box = await SafeHive.safeOpenBox("members");
 
     if (isSystemAccount(accountName)) {
       return getSystemAccount(accountName);
@@ -46,9 +47,9 @@ class MembersNotifier extends ChangeNotifier {
       MemberModel member = await _http.getMember(accountName);
 
       if (member != null) {
-        box.put(accountName, member);
+        await box.put(accountName, member);
       } else {
-        box.put(
+        await box.put(
           accountName,
           MemberModel(
             account: accountName,
@@ -63,7 +64,7 @@ class MembersNotifier extends ChangeNotifier {
   }
 
   Future<void> fetchMembersCache() async {
-    Box cacheMembers = await Hive.openBox<MemberModel>("members");
+    Box cacheMembers = await SafeHive.safeOpenBox<MemberModel>("members");
 
     if (cacheMembers != null && cacheMembers.isNotEmpty) {
       allMembers = cacheMembers.values.toList();
@@ -73,7 +74,7 @@ class MembersNotifier extends ChangeNotifier {
   }
 
   Future<void> addMembers(List<MemberModel> members) async {
-    Box cacheMembers = await Hive.openBox<MemberModel>("members");
+    Box cacheMembers = await SafeHive.safeOpenBox<MemberModel>("members");
     members.forEach((actualMember) {
       var memberKey = actualMember.account;
 
@@ -120,3 +121,4 @@ class MembersNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
+

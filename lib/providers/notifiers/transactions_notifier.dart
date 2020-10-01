@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/utils/extensions/SafeHive.dart';
 
 class TransactionsNotifier extends ChangeNotifier {
   List<TransactionModel> transactions;
@@ -19,7 +20,7 @@ class TransactionsNotifier extends ChangeNotifier {
 
   Future fetchTransactionsCache() async {
     Box cacheTransactions =
-        await Hive.openBox<TransactionModel>("transactions");
+        await SafeHive.safeOpenBox<TransactionModel>("transactions");
     if (cacheTransactions != null && cacheTransactions.isNotEmpty) {
       transactions = cacheTransactions.values.toList();
       notifyListeners();
@@ -28,7 +29,7 @@ class TransactionsNotifier extends ChangeNotifier {
 
   Future refreshTransactions() async {
     Box cacheTransactions =
-        await Hive.openBox<TransactionModel>("transactions");
+        await SafeHive.safeOpenBox<TransactionModel>("transactions");
 
     List<TransactionModel> actualTransactions = await _http.getTransactions();
 
