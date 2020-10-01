@@ -586,15 +586,10 @@ class HttpService {
     Response res = await post(url, headers: headers, body: request);
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
-
-print("body: $body");
-
       if (body["rows"].length > 0) {
-        var item = body["rows"][0];
-        print("item: $item");
-
-        int amount = item.amount;
-        return VoteResult(item.favour == 1 ? amount : -amount, true);
+        var item = body["rows"][0];  
+        int amount = item["favour"] == 1 ? item["amount"] : -item["amount"];
+        return VoteResult(amount, true);
       } else {
         return VoteResult(0, false);
       }
@@ -602,7 +597,7 @@ print("body: $body");
       print('Cannot fetch votes...${res.toString()}');
       return VoteResult(0, false, error: true);
     }
-  }
+}
 }
 
 extension ResponseExtension on Response {

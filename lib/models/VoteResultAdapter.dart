@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 
 class VoteResultAdapter extends TypeAdapter<VoteResult> {

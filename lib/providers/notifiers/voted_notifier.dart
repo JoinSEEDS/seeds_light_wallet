@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
@@ -22,12 +21,6 @@ class VotedNotifier extends ChangeNotifier {
   }
 
   Future<VoteResult> fetchVote({proposalId: int}) async {
-    Box<VoteResult> box = await Hive.openBox("voted.history");
-    VoteResult r = box.get(proposalId);
-    if (r == null) {
-      r = await _http.getVote(proposalId: proposalId);
-      await box.put(proposalId, r);
-    }
-    return r;
+     return _http.getVote(proposalId: proposalId);
   }
 }
