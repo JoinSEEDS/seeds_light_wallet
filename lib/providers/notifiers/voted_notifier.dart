@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/utils/extensions/SafeHive.dart';
 
 class VoteResult {
   int amount;
@@ -21,6 +23,14 @@ class VotedNotifier extends ChangeNotifier {
   }
 
   Future<VoteResult> fetchVote({proposalId: int}) async {
-     return _http.getVote(proposalId: proposalId);
+    Box box = await SafeHive.safeOpenBox<VoteResult>("votes.1.box");
+    VoteResult result = box.get(proposalId);
+    if (result == null) {
+      result = await _http.getVote(proposalId: proposalId);
+      if (result.voted && !result.error) {
+        await box.put(proposalId, result);
+      }
+    }
+    return result;
   }
 }

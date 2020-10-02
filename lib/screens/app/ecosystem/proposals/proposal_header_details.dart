@@ -113,9 +113,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                     future: VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
                     builder: (ctx, snapShot) {
                       if (snapShot.hasData) {
-                        // var voteString = snapShot.data.amount==0 ? 'Neutral' :
-                        //   snapShot.data.amount < 0 ? 'no with ${-snapShot.data.amount} votes' : 'yes with ${snapShot.data.amount} votes';
-                        var voted = true;//snapShot.data.voted;
+                        var voted = snapShot.data.voted;
                         var amount = snapShot.data.amount;
                         var voteString = amount==0 ? 'neutral' :
                           amount < 0 ? '-${-amount}' : '+$amount';
@@ -129,7 +127,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                               style: TextStyle(color: amount < 0 ? Colors.white : Colors.grey[600], fontWeight: FontWeight.bold),),
                             color: amount == 0 ? Colors.black12 : amount > 0 ? Colors.greenAccent : Colors.red.withOpacity(.8)
                           ) :
-                          Container(height: 16,); // Text("You have not voted yet", style: textTheme.caption.copyWith(fontSize: 14),textAlign: TextAlign.center);
+                          Container(height: 16,);
                       } else { 
                         return Container(height: 16,);
                       }
