@@ -14,6 +14,7 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
+import 'package:seeds/screens/app/wallet/merchant.dart';
 import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/scan.dart';
@@ -50,6 +51,7 @@ class Routes {
   static final scanQRCode = "ScanQRCode";
   static final receive = 'Receive';
   static final receiveQR = 'ReceiveQR';
+  static final merchant = 'Merchant';
 }
 
 class NavigationService {
@@ -99,6 +101,7 @@ class NavigationService {
     Routes.scanQRCode: (_) => Scan(),
     Routes.receive: (_) => Receive(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
+    Routes.merchant: () => Merchant(),
   };
 
   final ecosystemRoutes = {

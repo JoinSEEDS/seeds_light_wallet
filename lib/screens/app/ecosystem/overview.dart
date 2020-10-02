@@ -53,6 +53,10 @@ class _OverviewState extends State<Overview> {
     NavigationService.of(context).navigateTo(Routes.buySeeds);
   }
 
+  void onMerchant() {
+    NavigationService.of(context).navigateTo(Routes.merchant);
+  }
+
   Widget buildCategory(
     String title,
     String subtitle,
@@ -151,30 +155,48 @@ class _OverviewState extends State<Overview> {
             padding: EdgeInsets.all(8),
             child: Column(
               children: <Widget>[
-                Consumer<BalanceNotifier>(builder: (ctx, model, _) => buildCategory(
-                  'Invite'.i18n,
-                  'Tap to send an invite'.i18n,
-                  'assets/images/community.svg',
-                  'Available Seeds'.i18n,
-                  model?.balance?.quantity?.seedsFormatted,
-                  onInvite,
-                ),),
-                Consumer<PlantedNotifier>(builder: (ctx, model, _) => buildCategory(
-                  'Plant'.i18n,
-                  'Tap to plant Seeds'.i18n,
-                  'assets/images/harvest.svg',
-                  'Planted Seeds'.i18n,
-                  model?.balance?.quantity?.seedsFormatted,
-                  onPlant,
-                ),),
-                Consumer<VoiceNotifier>(builder: (ctx, model, _) => buildCategory(
-                  'Vote'.i18n,
-                  'Tap to participate'.i18n,
-                  'assets/images/governance.svg',
-                  'Trust Tokens'.i18n,
-                  (model?.balance?.amount != null) ? model?.balance?.amount.toString() : "-",
-                  onVote,
-                ),),
+                Consumer<BalanceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Invite'.i18n,
+                    'Tap to send an invite'.i18n,
+                    'assets/images/community.svg',
+                    'Available Seeds'.i18n,
+                    model?.balance?.quantity?.seedsFormatted,
+                    onInvite,
+                  ),
+                ),
+                Consumer<PlantedNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Plant'.i18n,
+                    'Tap to plant Seeds'.i18n,
+                    'assets/images/harvest.svg',
+                    'Planted Seeds'.i18n,
+                    model?.balance?.quantity?.seedsFormatted,
+                    onPlant,
+                  ),
+                ),
+                Consumer<VoiceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Vote'.i18n,
+                    'Tap to participate'.i18n,
+                    'assets/images/governance.svg',
+                    'Trust Tokens'.i18n,
+                    (model?.balance?.amount != null)
+                        ? model?.balance?.amount.toString()
+                        : "-",
+                    onVote,
+                  ),
+                ),
+                Consumer<BalanceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Merchant',
+                    'Sell items for Seeds',
+                    'assets/images/harvest.svg',
+                    'Available Seeds',
+                    model?.balance?.quantity?.seedsFormatted,
+                    onMerchant,
+                  ),
+                ),
               ],
             )),
       ),
