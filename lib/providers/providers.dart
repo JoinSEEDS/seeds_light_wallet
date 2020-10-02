@@ -11,6 +11,7 @@ import 'package:seeds/features/scanner/scanner_service.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
+import 'package:seeds/providers/notifiers/items_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
@@ -29,6 +30,9 @@ import 'package:seeds/providers/services/permission_service.dart';
 final providers = [
   Provider(
     create: (_) => NavigationService(),
+  ),
+  ChangeNotifierProvider(
+    create: (_) => ItemsNotifier(),
   ),
   ChangeNotifierProvider(
     create: (_) => ConnectionNotifier()..init(),
@@ -119,8 +123,9 @@ final providers = [
   ),
   ProxyProvider3<BiometricsService, AuthNotifier, SettingsNotifier, AuthBloc>(
     create: (_) => AuthBloc(),
-    update: (_, service, authNotifier, settingsNotifier, authBloc) =>
-      authBloc..update(service, authNotifier, settingsNotifier), // AuthNotifier seems broken, shouldn't need to be updated so often
+    update: (_, service, authNotifier, settingsNotifier, authBloc) => authBloc
+      ..update(service, authNotifier,
+          settingsNotifier), // AuthNotifier seems broken, shouldn't need to be updated so often
     // dispose:
   ),
   ProxyProvider<SettingsNotifier, BackupService>(
@@ -129,30 +134,37 @@ final providers = [
   ),
   ProxyProvider<HttpService, AccountGeneratorService>(
     create: (_) => AccountGeneratorService(),
-    update: (_, httpService, accountGeneratorService) => accountGeneratorService..update(httpService),
+    update: (_, httpService, accountGeneratorService) =>
+        accountGeneratorService..update(httpService),
   ),
   ProxyProvider<AccountGeneratorService, CreateAccountBloc>(
     create: (_) => CreateAccountBloc(),
-    update: (_, accountGeneratorService, createAccountBloc) => createAccountBloc..update(accountGeneratorService),
+    update: (_, accountGeneratorService, createAccountBloc) =>
+        createAccountBloc..update(accountGeneratorService),
   ),
   Provider(
     create: (_) => PermissionService(),
   ),
   ProxyProvider<LinksService, ScannerService>(
     create: (_) => ScannerService(),
-    update: (_, linksService, scannerService) => scannerService..update(linksService),
+    update: (_, linksService, scannerService) =>
+        scannerService..update(linksService),
   ),
   ProxyProvider<EosService, EsrService>(
     create: (_) => EsrService(),
-    update: (_, eosService, esrService) => esrService..update(eosService.client), // todo: should break out EosClient into it's own injectable
+    update: (_, eosService, esrService) => esrService
+      ..update(eosService
+          .client), // todo: should break out EosClient into it's own injectable
   ),
-  ProxyProvider4<ScannerService, PermissionService, EsrService, SettingsNotifier, ScannerBloc>(
+  ProxyProvider4<ScannerService, PermissionService, EsrService,
+      SettingsNotifier, ScannerBloc>(
     create: (_) => ScannerBloc(),
-    update: (_, scanner, permission, esr, settings, scannerBloc) => scannerBloc..update(
-      scannerService: scanner,
-      permissionService: permission,
-      esrService: esr,
-      settings: settings,
-    ),
+    update: (_, scanner, permission, esr, settings, scannerBloc) => scannerBloc
+      ..update(
+        scannerService: scanner,
+        permissionService: permission,
+        esrService: esr,
+        settings: settings,
+      ),
   ),
 ];

@@ -13,6 +13,7 @@ import 'package:i18n_extension/i18n_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/biometrics/biometrics_verification.dart';
+import 'package:seeds/models/item_adapter.dart';
 import 'package:seeds/models/member_adapter.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/models/transaction_adapter.dart';
@@ -62,6 +63,7 @@ main(List<String> args) async {
   Hive.init(appDir.path);
   Hive.registerAdapter<MemberModel>(MemberAdapter());
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
+  Hive.registerAdapter<ItemModel>(ItemAdapter());
   await Firebase.initializeApp();
   PushNotificationService().initialise();
   SystemChrome.setPreferredOrientations(
