@@ -20,6 +20,7 @@ import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/providers.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/screens/app/app.dart';
@@ -63,6 +64,7 @@ main(List<String> args) async {
   Hive.registerAdapter<MemberModel>(MemberAdapter());
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   await Firebase.initializeApp();
+  FirebaseRemoteConfigService().initialise();
   PushNotificationService().initialise();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
