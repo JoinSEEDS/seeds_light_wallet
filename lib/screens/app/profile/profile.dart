@@ -13,6 +13,7 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -191,6 +192,7 @@ class _ProfileState extends State<Profile> {
                   },
                 ),
               ),
+              _guardiansView(),
               Padding(
                 padding: const EdgeInsets.only(top: 50.0),
                 child: FlatButton(
@@ -378,5 +380,23 @@ class _ProfileState extends State<Profile> {
     var uploadTask = storageReference.putFile(_profileImage, StorageMetadata(contentType: "image/$fileType"));
     await uploadTask.onComplete;
     return await storageReference.getDownloadURL();
+  }
+
+  Widget _guardiansView() {
+    if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 50.0),
+        child: RaisedButton(
+          color: Colors.white,
+          child: Text(
+            'Guardians'.i18n,
+            style: TextStyle(color: Colors.blue),
+          ),
+          onPressed: () => UrlLauncher.launch(Config.termsAndConditionsUrl),
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 }

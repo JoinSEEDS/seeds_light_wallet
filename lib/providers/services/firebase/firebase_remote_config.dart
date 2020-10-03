@@ -3,22 +3,18 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 const String _FeatureFlagGuardianKey = "feature_guardians";
 
 class FirebaseRemoteConfigService {
-  final defaults = <String, dynamic>{_FeatureFlagGuardianKey: false};
+  final defaults = <String, dynamic>{_FeatureFlagGuardianKey: true};
+  RemoteConfig _remoteConfig;
 
-  final RemoteConfig _remoteConfig;
-  static FirebaseRemoteConfigService _instance;
+  FirebaseRemoteConfigService._();
 
-  FirebaseRemoteConfigService({RemoteConfig remoteConfig}) : _remoteConfig = remoteConfig;
+  factory FirebaseRemoteConfigService() => _instance;
 
-  static Future<FirebaseRemoteConfigService> getInstance() async {
-    if (_instance == null) {
-      _instance = FirebaseRemoteConfigService(remoteConfig: await RemoteConfig.instance);
-    }
-
-    return _instance;
-  }
+  static final FirebaseRemoteConfigService _instance = FirebaseRemoteConfigService._();
 
   Future initialise() async {
+    _remoteConfig = await RemoteConfig.instance;
+
     try {
       await _remoteConfig.setDefaults(defaults);
       await _fetchAndActivate();
