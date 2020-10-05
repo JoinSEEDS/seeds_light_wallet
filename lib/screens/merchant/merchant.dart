@@ -114,6 +114,16 @@ class MerchantController extends GetxController {
     Get.close(1);
   }
 
+  var editingItemIdx = 0;
+
+  void onPressedEditItem(int index) {
+    editingItemIdx = index;
+
+    Get.bottomSheet(
+      EditItem(),
+    );
+  }
+
   final storeItems = List<ItemModel>().obs;
 }
 
@@ -160,13 +170,7 @@ class MerchantStore extends StatelessWidget {
             subtitle: Text(item.price.toString()),
             trailing: IconButton(
               icon: Icon(Icons.edit),
-              onPressed: () => Get.bottomSheet(
-                EditItem(
-                  name: item.name,
-                  price: item.price,
-                  itemIdx: index,
-                ),
-              ),
+              onPressed: () => controller.onPressedEditItem(index),
             ),
           );
         },
@@ -244,26 +248,23 @@ class Merchant extends StatelessWidget {
 }
 
 class EditItemController extends GetxController {
-  List<ItemModel> get storeItems => Get.find<MerchantController>().storeItems;
-  Box<ItemModel> get box => Get.find<MerchantController>().box;
+  final MerchantController merchantController = Get.find();
+
+  List<ItemModel> get storeItems => merchantController.storeItems;
+  Box<ItemModel> get box => merchantController.box;
+  int get itemIdx => merchantController.editingItemIdx;
 
   final nameController = TextEditingController();
   final priceController = TextEditingController();
 
-  int _itemIdx;
-
-  EditItemController({name, price, itemIdx}) {
-    nameController.text = name;
-    priceController.text = price.toString();
-    _itemIdx = itemIdx;
+  void onInit() {
+    nameController.text = storeItems[itemIdx].name;
   }
-
-  void onInit() {}
 
   void onPressedEditItem() {
     final name = nameController.text;
 
-    final item = box.getAt(_itemIdx);
+    final item = box.getAt(itemIdx);
     item.name = name;
     item.price = double.parse(priceController.text);
     item.save();
@@ -272,27 +273,17 @@ class EditItemController extends GetxController {
   }
 
   void onPressedDeleteItem() {
-    box.deleteAt(_itemIdx);
+    box.deleteAt(itemIdx);
 
     Get.close(1);
   }
 }
 
 class EditItem extends StatelessWidget {
-  final String name;
-  final double price;
-  final int itemIdx;
-
-  EditItem({this.name, this.price, this.itemIdx});
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: EditItemController(
-        name: this.name,
-        price: this.price,
-        itemIdx: this.itemIdx,
-      ),
+      init: EditItemController(),
       builder: (controller) => Container(
         color: Colors.white,
         padding: EdgeInsets.symmetric(
