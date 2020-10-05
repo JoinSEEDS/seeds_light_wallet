@@ -17,6 +17,8 @@ class HttpService {
       {String accountName,
       String nodeEndpoint,
       bool enableMockResponse = false}) {
+    print("userAccount: $userAccount");
+
     nodeEndpoint = nodeEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
@@ -108,7 +110,7 @@ class HttpService {
 
       return members;
     } else {
-      print('Cannot fetch members...'+res.body);
+      print('Cannot fetch members...' + res.body);
 
       return [];
     }
@@ -118,7 +120,7 @@ class HttpService {
     print("[http] getMembersWithFilter $filter ");
     if (filter.length < 2) {
       return [];
-    } 
+    }
     String lowerBound = filter;
     String upperBound = filter.padRight(12 - filter.length, "z");
 
@@ -199,9 +201,8 @@ class HttpService {
             item["act"]["data"]["from"] != null;
       }).toList();
 
-      List<TransactionModel> transactions = transfers
-          .map((item) => TransactionModel.fromJson(item))
-          .toList();
+      List<TransactionModel> transactions =
+          transfers.map((item) => TransactionModel.fromJson(item)).toList();
 
       return transactions;
     } else {
@@ -213,6 +214,8 @@ class HttpService {
 
   Future<BalanceModel> getBalance() async {
     print("[http] get seeds balance");
+
+    print(userAccount);
 
     if (mockResponse == true) {
       return HttpMockResponse.balance;
@@ -239,7 +242,7 @@ class HttpService {
     }
   }
 
-    Future<RateModel> getUSDRate() async {
+  Future<RateModel> getUSDRate() async {
     print("[http] get seeds rate USD");
 
     if (mockResponse == true) {
@@ -250,7 +253,7 @@ class HttpService {
 
     String request =
         '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
-    
+
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(rateURL, headers: headers, body: request);
@@ -260,7 +263,7 @@ class HttpService {
 
       return RateModel.fromJson(body);
     } else {
-      print("Cannot fetch balance..."+res.body.toString());
+      print("Cannot fetch balance..." + res.body.toString());
 
       return RateModel(0, true);
     }
@@ -389,7 +392,8 @@ class HttpService {
 
     final String harvestURL = '$baseURL/v1/chain/get_table_rows';
 
-    String request = '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
+    String request =
+        '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(harvestURL, headers: headers, body: request);
@@ -416,7 +420,8 @@ class HttpService {
 
     final String scoreURL = '$baseURL/v1/chain/get_table_rows';
 
-    String request = '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"harvest","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+    String request =
+        '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"harvest","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(scoreURL, headers: headers, body: request);
@@ -476,7 +481,8 @@ class HttpService {
       return HttpMockResponse.invite;
     }
 
-    String inviteURL = "https://node.hypha.earth/v1/chain/get_table_rows"; // todo: Why is this still Hypha when config has changed?
+    String inviteURL =
+        "https://node.hypha.earth/v1/chain/get_table_rows"; // todo: Why is this still Hypha when config has changed?
 
     String request =
         '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$inviteHash","upper_bound":"$inviteHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
@@ -542,8 +548,7 @@ class HttpService {
   Future<bool> isAccountNameAvailable(String accountName) async {
     if (mockResponse == true) return true;
 
-    final String keyAccountsURL =
-        "$baseURL/v1/chain/get_account";
+    final String keyAccountsURL = "$baseURL/v1/chain/get_account";
 
     Response res = await post(
       keyAccountsURL,
@@ -560,10 +565,11 @@ class HttpService {
     }
   }
 }
+
 extension ResponseExtension on Response {
   dynamic parseJson() {
     return json.decode(utf8.decode(this.bodyBytes));
-  } 
+  }
 }
 
 class NetworkException implements Exception {

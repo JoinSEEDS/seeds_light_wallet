@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 
 enum AuthStatus {
   initial,
@@ -7,6 +8,7 @@ enum AuthStatus {
   emptyPasscode,
   locked,
   unlocked,
+  merchantMode
 }
 
 class AuthNotifier extends ChangeNotifier {
@@ -16,27 +18,43 @@ class AuthNotifier extends ChangeNotifier {
   String _privateKey;
   String _passcode;
   bool _passcodeActive;
+  bool _merchantMode = false;
   bool _locked = true;
 
   static AuthNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<AuthNotifier>(context, listen: listen);
 
-  void update({accountName, privateKey, passcode, bool passcodeActive}) async {
+  void update(
+      {accountName,
+      privateKey,
+      passcode,
+      bool passcodeActive,
+      bool merchantMode}) async {
     if (accountName != _accountName ||
         privateKey != _privateKey ||
-        passcode != passcode) {
+        passcode != _passcode ||
+        merchantMode != _merchantMode) {
       _locked = true;
     }
     _accountName = accountName;
     _privateKey = privateKey;
     _passcode = passcode;
     _passcodeActive = passcodeActive;
+    _merchantMode = merchantMode;
+
+    if (_locked == false && _accountName != null) {
+      FirebaseDatabaseService().setFirebaseMessageToken(_accountName);
+    }
 
     updateStatus();
   }
 
   void updateStatus() {
     status = AuthStatus.unlocked;
+
+    if (_merchantMode) {
+      status = AuthStatus.merchantMode;
+    }
 
     if (_locked == true) {
       status = AuthStatus.locked;
@@ -46,7 +64,7 @@ class AuthNotifier extends ChangeNotifier {
       status = AuthStatus.emptyPasscode;
     }
 
-    if(status == AuthStatus.emptyPasscode && !_passcodeActive) {
+    if (status == AuthStatus.emptyPasscode && !_passcodeActive) {
       status = AuthStatus.locked;
     }
 
@@ -75,5 +93,4 @@ class AuthNotifier extends ChangeNotifier {
   void disablePasscode() {
     _passcodeActive = false;
   }
-
 }

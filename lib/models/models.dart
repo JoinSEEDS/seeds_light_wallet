@@ -1,3 +1,5 @@
+import 'package:hive/hive.dart';
+
 import '../utils/double_extension.dart';
 
 class InviteModel {
@@ -47,9 +49,9 @@ class InviteModel {
   int get hashCode => super.hashCode;
 }
 
-class ItemModel {
-  final String name;
-  final double price;
+class ItemModel extends HiveObject {
+  String name;
+  double price;
 
   ItemModel({this.name, this.price});
 

@@ -17,9 +17,9 @@ class ItemAdapter extends TypeAdapter<ItemModel> {
 
   @override
   void write(BinaryWriter writer, ItemModel obj) {
-    writer.writeByte(0);
-    writer.writeString(obj.name);
     writer.writeByte(1);
+    writer.writeString(obj.name);
+    writer.writeByte(2);
     writer.writeDouble(obj.price);
   }
 }

@@ -54,6 +54,7 @@ final providers = [
               privateKey: settings.privateKey,
               passcode: settings.passcode,
               passcodeActive: settings.passcodeActive,
+              merchantMode: settings.isMerchantMode,
             );
         } else {
           return auth;

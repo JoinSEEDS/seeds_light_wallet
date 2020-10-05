@@ -63,7 +63,8 @@ dependencies:
   dartesr:
     git:
       url: https://github.com/digital-scarcity/dartesr.git
-    
+  get: ^3.12.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
