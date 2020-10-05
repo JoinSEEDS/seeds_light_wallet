@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' hide Action;
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';

@@ -4,8 +4,6 @@ import 'package:hive/hive.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 
@@ -15,24 +13,12 @@ enum Pages {
   store,
 }
 
-class MerchantController extends GetxController {
+class WalletController extends GetxController {
   BuildContext context;
-
-  MerchantController(this.context);
-
-  final TextEditingController nameController = TextEditingController();
-
-  final TextEditingController priceController = TextEditingController();
-
-  final pageViewController = PageController(initialPage: 2);
-
-  final currentPage = Pages.store.obs;
+  WalletController(this.context);
 
   final balance = "0.0000 SEEDS".obs;
-
   final accountName = "".obs;
-
-  Box<ItemModel> box;
 
   void onInit() async {
     final balanceProvider = BalanceNotifier.of(context);
@@ -46,27 +32,61 @@ class MerchantController extends GetxController {
     balanceProvider.addListener(() {
       balance.value = balanceProvider.balance.quantity;
     });
+  }
+}
 
+class StoreController extends GetxController {
+  Box<ItemModel> box;
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+
+  void onInit() async {
     box = await Hive.openBox<ItemModel>("items");
 
     storeItems.addAll(box.values);
+    update();
 
     box.watch().listen((event) {
       storeItems.clear();
       storeItems.addAll(box.values);
-
-      // var entries = Map<String, ItemModel>();
-
-      // box.putAll(entries);
-
-      // if (event.deleted == true) {
-      //   final deletedItem = storeItems.find
-      //   storeItems.remove(deletedItem);
-      // }
-
-      // storeItems.firstWhere((item) => item.name == event.key)
+      update();
     });
   }
+
+  void onPressedAddItem() {
+    final item = ItemModel(
+      name: nameController.text,
+      price: double.parse(priceController.text),
+    );
+
+    box.add(item);
+
+    update();
+
+    Get.close(1);
+  }
+
+  var editingItemIdx = 0;
+
+  void onPressedEditItem(int index) {
+    editingItemIdx = index;
+
+    Get.bottomSheet(
+      EditItem(),
+    );
+  }
+
+  final storeItems = List<ItemModel>();
+}
+
+class MerchantController extends GetxController {
+  BuildContext context;
+  MerchantController(this.context);
+
+  final pageViewController = PageController(initialPage: 2);
+
+  final currentPage = Pages.store.obs;
 
   int get currentIndex {
     switch (currentPage.value) {
@@ -77,6 +97,10 @@ class MerchantController extends GetxController {
       default:
         return 2;
     }
+  }
+
+  void onPressedExitMerchant() {
+    SettingsNotifier.of(context, listen: false).disableMerchantMode();
   }
 
   void onPageChanged(int index) {
@@ -103,64 +127,38 @@ class MerchantController extends GetxController {
     );
   }
 
-  void onPressedAddItem() {
-    final item = ItemModel(
-      name: nameController.text,
-      price: double.parse(priceController.text),
-    );
-
-    box.add(item);
-
-    Get.close(1);
+  void onPressedActionButton() {
+    Get.bottomSheet(StoreBottomSheet());
   }
-
-  var editingItemIdx = 0;
-
-  void onPressedEditItem(int index) {
-    editingItemIdx = index;
-
-    Get.bottomSheet(
-      EditItem(),
-    );
-  }
-
-  final storeItems = List<ItemModel>().obs;
 }
 
 class MerchantWallet extends StatelessWidget {
-  final MerchantController controller = Get.find();
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          'Balance',
-          style: TextStyle(fontFamily: "worksans", fontSize: 25),
-        ),
-        Text(
-          controller.balance.value,
-          style: TextStyle(fontFamily: "worksans", fontSize: 25),
-        ),
-      ],
+    return GetBuilder(
+      init: WalletController(context),
+      builder: (controller) => Column(
+        children: <Widget>[
+          Text(
+            'Balance',
+            style: TextStyle(fontFamily: "worksans", fontSize: 25),
+          ),
+          Text(
+            controller.balance.value,
+            style: TextStyle(fontFamily: "worksans", fontSize: 25),
+          ),
+        ],
+      ),
     );
   }
 }
 
 class MerchantStore extends StatelessWidget {
-  final MerchantController controller = Get.find();
-
-  static Widget merchantActionButton() => FloatingActionButton(
-        onPressed: () {
-          Get.bottomSheet(StoreBottomSheet());
-        },
-        child: Icon(Icons.add),
-      );
-
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => ListView.builder(
+    return GetBuilder(
+      init: StoreController(),
+      builder: (controller) => ListView.builder(
         itemBuilder: (ctx, index) {
           final item = controller.storeItems[index];
 
@@ -201,10 +199,7 @@ class Merchant extends StatelessWidget {
               child: Center(
                 child: Text('Exit Merchant'),
               ),
-              onPressed: () {
-                SettingsNotifier.of(context, listen: false)
-                    .disableMerchantMode();
-              },
+              onPressed: controller.onPressedExitMerchant,
             ),
           ],
         ),
@@ -239,7 +234,10 @@ class Merchant extends StatelessWidget {
         ),
         floatingActionButton: Obx(
           () => controller.currentPage.value == Pages.store
-              ? MerchantStore.merchantActionButton()
+              ? FloatingActionButton(
+                  onPressed: controller.onPressedActionButton,
+                  child: Icon(Icons.add),
+                )
               : Container(),
         ),
       ),
@@ -248,17 +246,18 @@ class Merchant extends StatelessWidget {
 }
 
 class EditItemController extends GetxController {
-  final MerchantController merchantController = Get.find();
+  final StoreController storeController = Get.find();
 
-  List<ItemModel> get storeItems => merchantController.storeItems;
-  Box<ItemModel> get box => merchantController.box;
-  int get itemIdx => merchantController.editingItemIdx;
+  List<ItemModel> get storeItems => storeController.storeItems;
+  Box<ItemModel> get box => storeController.box;
+  int get itemIdx => storeController.editingItemIdx;
 
   final nameController = TextEditingController();
   final priceController = TextEditingController();
 
   void onInit() {
     nameController.text = storeItems[itemIdx].name;
+    priceController.text = storeItems[itemIdx].price.toString();
   }
 
   void onPressedEditItem() {
@@ -320,7 +319,7 @@ class EditItem extends StatelessWidget {
 }
 
 class StoreBottomSheet extends StatelessWidget {
-  final MerchantController controller = Get.find();
+  final StoreController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
