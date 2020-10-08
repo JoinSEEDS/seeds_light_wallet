@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as pathUtils;
@@ -392,7 +393,9 @@ class _ProfileState extends State<Profile> {
             'Guardians'.i18n,
             style: TextStyle(color: Colors.blue),
           ),
-          onPressed: () => UrlLauncher.launch(Config.termsAndConditionsUrl),
+          onPressed: () => {
+            toast("Work In Progress")
+          },
         ),
       );
     } else {
