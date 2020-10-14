@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/voted_notifier.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
@@ -512,13 +513,13 @@ class HttpService {
       return HttpMockResponse.invites;
     }
 
-    String invitesURL = "$baseURL/v1/chain/get_table_rows";
+    String url = "$baseURL/v1/chain/get_table_rows";
 
     String request =
-        '{"json":true,"code":"funds.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1000","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1000","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response res = await post(invitesURL, headers: headers, body: request);
+    Response res = await post(url, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
@@ -559,7 +560,46 @@ class HttpService {
       return false;
     }
   }
+
+  Future<VoteResult> getVote({proposalId: int}) async {
+
+    String url = "$baseURL/v1/chain/get_table_rows";
+
+    var request = '''{
+      "json": true,
+      "code": "funds.seeds",
+      "scope": "$proposalId",
+      "table": "votes",
+      "table_key": "",
+      "lower_bound": "$userAccount",
+      "upper_bound": "$userAccount",
+      "limit": 10,
+      "key_type": "",
+      "index_position": "",
+      "encode_type": "dec",
+      "reverse": false,
+      "show_payer": false
+    }''';
+
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(url, headers: headers, body: request);
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+      if (body["rows"].length > 0) {
+        var item = body["rows"][0];  
+        int amount = item["favour"] == 1 ? item["amount"] : -item["amount"];
+        return VoteResult(amount, true);
+      } else {
+        return VoteResult(0, false);
+      }
+    } else {
+      print('Cannot fetch votes...${res.toString()}');
+      return VoteResult(0, false, error: true);
+    }
 }
+}
+
 extension ResponseExtension on Response {
   dynamic parseJson() {
     return json.decode(utf8.decode(this.bodyBytes));
@@ -600,3 +640,6 @@ class EmptyResultException implements Exception {
     return "EmptyResultException: $message";
   }
 }
+
+
+

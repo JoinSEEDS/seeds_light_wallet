@@ -19,6 +19,7 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
+import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
@@ -101,6 +102,10 @@ final providers = [
   ChangeNotifierProxyProvider<HttpService, RateNotifier>(
     create: (context) => RateNotifier(),
     update: (context, http, rate) => rate..update(http: http),
+  ),
+  ChangeNotifierProxyProvider<HttpService, VotedNotifier>(
+    create: (context) => VotedNotifier(),
+    update: (context, http, vote) => vote..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, VoiceNotifier>(
     create: (context) => VoiceNotifier(),

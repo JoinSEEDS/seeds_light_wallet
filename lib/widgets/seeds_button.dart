@@ -9,8 +9,9 @@ class SeedsButton extends StatefulWidget {
   final bool showProgress;
   final double width;
   final Color color;
+  final bool enabled;
 
-  SeedsButton(this.title, [this.onPressed, this.showProgress = false, this.width = 100, this.color = AppColors.green]);
+  SeedsButton(this.title, {this.onPressed, this.showProgress = false, this.width = 100, this.color = AppColors.green, this.enabled = true});
 
   @override
   _SeedsButtonState createState() => _SeedsButtonState();
@@ -25,7 +26,7 @@ class _SeedsButtonState extends State<SeedsButton> {
       key: UniqueKey(),
       width: this.widget.width,
       child: this.widget.showProgress && this.pressed ? ProgressBar() : FlatButton(
-        onPressed: () {
+        onPressed: this.widget.enabled ? () {
           setState(() {
             pressed = true;
           });
@@ -33,7 +34,7 @@ class _SeedsButtonState extends State<SeedsButton> {
           if (this.widget.onPressed != null) {
             this.widget.onPressed();
           }
-        },
+        } : null,
         child: Text(
           this.widget.title,
           style: TextStyle(

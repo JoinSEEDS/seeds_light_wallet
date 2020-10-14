@@ -4,7 +4,9 @@ import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_header_details.dart';
@@ -51,7 +53,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             flexibleSpace: FittedBox(
               fit: BoxFit.cover,
               child: NetImage(
-                proposal.image,                      
+                proposal.image,
               ),
             ),
           ),
@@ -98,7 +100,8 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
         double.tryParse(proposal.quantity.replaceAll(RegExp(r' SEEDS'), '')) ??
             0.0;
 
-    NumberFormat format = NumberFormat.currency(decimalDigits: 0, symbol: "", name: "");
+    NumberFormat format =
+        NumberFormat.currency(decimalDigits: 0, symbol: "", name: "");
 
     String numSeeds = format.format(quantity);
 
@@ -175,53 +178,84 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
     final textTheme = Theme.of(context).textTheme;
 
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      clipBehavior: Clip.antiAlias,
-      elevation: 8,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        clipBehavior: Clip.antiAlias,
+        elevation: 8,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: FutureBuilder(
+            future:
+                VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
+            builder: (ctx, snapshot) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Voting'.i18n,
-                  style: textTheme.headline6,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      snapshot.hasData && snapshot.data.voted
+                          ? 'Voted'.i18n
+                          : 'Voting'.i18n,
+                      style: textTheme.headline6,
+                    ),
+                    snapshot.hasData && snapshot.data.voted
+                        ? Container()
+                        : SeedsButton(
+                            'Vote'.i18n,
+                            onPressed: () async {
+                              if (_vote.toInt() != 0) {
+                                setState(() => _voting = true);
+                                try {
+                                  await Provider.of<EosService>(context,
+                                          listen: false)
+                                      .voteProposal(
+                                          id: proposal.id,
+                                          amount: _vote.toInt());
+                                } catch (e) {
+                                  d("e = $e");
+                                  errorToast(
+                                      "Unexpected error, please try again"
+                                          .i18n);
+                                  setState(() => _voting = false);
+                                }
+                                setState(() => _voting = false);
+                              }
+                            },
+                            showProgress: _voting,
+                            enabled: _vote.toInt() != 0,
+                          ),
+                  ],
                 ),
-                SeedsButton(
-                  'Vote'.i18n,
-                  () async {
-                    setState(() => _voting = true);
-                    try {
-                      await Provider.of<EosService>(context, listen: false)
-                        .voteProposal(id: proposal.id, amount: _vote.toInt());
-                    } catch (e) {
-                      d("e = $e");
-                      errorToast("Unexpected error, please try again".i18n);
-                      setState(() => _voting = false);
-                    }
-                    setState(() => _voting = false);
-                  },
-                  _voting,
-                ),
+                SizedBox(height: 12),
+                voice == null
+                    ? Text("You have no trust tokens".i18n)
+                    : snapshot.hasData && snapshot.data.voted
+                        ? FluidSlider(
+                            value: snapshot.data.amount.toDouble(),
+                            onChanged: (double newValue) {},
+                            min: -100,
+                            max: 100,
+                            sliderColor: AppColors.grey,
+                            labelsTextStyle: TextStyle(color: AppColors.grey),
+                            valueTextStyle: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.grey),
+                            thumbColor: Colors.white,
+                          )
+                        : FluidSlider(
+                            value: _vote,
+                            onChanged: (double newValue) {
+                              setState(() => _vote = newValue);
+                            },
+                            min: 0 - voice.amount.toDouble(),
+                            max: 0 + voice.amount.toDouble(),
+                          ),
               ],
             ),
-            SizedBox(height: 12),
-            voice == null
-                ? Text("You have no trust tokens".i18n)
-                : FluidSlider(
-                    value: _vote,
-                    onChanged: (double newValue) {
-                      setState(() => _vote = newValue);
-                    },
-                    min: 0 - voice.amount.toDouble(),
-                    max: 0 + voice.amount.toDouble(),
-                  ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

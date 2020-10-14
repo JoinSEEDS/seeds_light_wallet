@@ -13,7 +13,8 @@ static var _t = Translations.byLocale("en_us") +
         'Failed': "Fallidas",
 
         'Created by:': "Creada por",
-        '%s votes': "%s votos", // "27 votes"
+        'total\n%s': "votos\n%s",
+        'Voted': "Votado",
         'Yes': "Sí",
         'No': "No",
 

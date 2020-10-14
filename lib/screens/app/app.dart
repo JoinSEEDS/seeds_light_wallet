@@ -174,6 +174,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             color: tabIndex == index ? Colors.white : AppColors.grey,
           ),
         ),
+        // Note - wait for redesign of app to change this.
+        // ignore: deprecated_member_use
         title: Container(
             width: width,
             alignment: Alignment.center,
