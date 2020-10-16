@@ -39,7 +39,7 @@ class _OverviewState extends State<Overview> {
     ]);
   }
 
-  void onBuy() {
+  void onGet() {
     UrlLauncher.launch("https://www.joinseeds.com/buy-seeds.php");
   }
 
@@ -198,12 +198,12 @@ class _OverviewState extends State<Overview> {
                 ),
                 Consumer<BalanceNotifier>(
                   builder: (ctx, model, _) => buildCategory(
-                    'Buy'.i18n,
-                    'Tap to buy'.i18n,
+                    'Get Seeds'.i18n,
+                    'Tap to get Seeds'.i18n,
                     'assets/images/harvest.svg',
                     'Available Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
-                    onBuy,
+                    onGet,
                   ),
                 ),
                 Consumer<BalanceNotifier>(

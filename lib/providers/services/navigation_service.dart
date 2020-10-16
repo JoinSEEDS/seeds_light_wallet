@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
-import 'package:seeds/screens/app/ecosystem/exchange/buy_seeds.dart';
+import 'package:seeds/screens/app/ecosystem/exchange/get_seeds.dart';
 import 'package:seeds/screens/app/ecosystem/harvest/plant_seeds.dart';
 import 'package:seeds/screens/app/ecosystem/invites/create_invite.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
@@ -45,7 +45,7 @@ class Routes {
   static final logout = "Logout";
   static final imageViewer = 'ImageViewer';
   static final plantSeeds = "plantSeeds";
-  static final buySeeds = "BuySeeds";
+  static final getSeeds = "GetSeeds";
   static final customTransaction = "CustomTransation";
   static final scanQRCode = "ScanQRCode";
   static final receive = 'Receive';
@@ -94,7 +94,7 @@ class NavigationService {
           arguments: args,
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
-    Routes.buySeeds: (_) => BuySeeds(),
+    Routes.getSeeds: (_) => GetSeeds(),
     Routes.customTransaction: (args) => CustomTransaction(args),
     Routes.scanQRCode: (_) => Scan(),
     Routes.receive: (_) => Receive(),

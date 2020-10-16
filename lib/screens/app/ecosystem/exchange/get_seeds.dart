@@ -10,14 +10,14 @@ import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/telos_balance.dart';
 import 'package:seeds/widgets/transaction_details.dart';
 
-class BuySeeds extends StatefulWidget {
-  BuySeeds({Key key}) : super(key: key);
+class GetSeeds extends StatefulWidget {
+  GetSeeds({Key key}) : super(key: key);
 
   @override
   _PlantSeedState createState() => _PlantSeedState();
 }
 
-class _PlantSeedState extends State<BuySeeds> {
+class _PlantSeedState extends State<GetSeeds> {
   final plantController = TextEditingController(text: '1');
 
   bool transactionSubmitted = false;
@@ -40,7 +40,7 @@ class _PlantSeedState extends State<BuySeeds> {
     });
 
     try {
-      String transactionId = await buySeeds();
+      String transactionId = await getSeeds();
 
       _statusNotifier.add(true);
       _messageNotifier.add("Transaction hash: $transactionId");
@@ -82,7 +82,7 @@ class _PlantSeedState extends State<BuySeeds> {
             children: <Widget>[
               TransactionDetails(
                 image: SvgPicture.asset("assets/images/exchange.svg"),
-                title: "Buy Seeds",
+                title: "Get Seeds",
                 beneficiary: "tlosto.seeds",
               ),
               AvailableBalance(),
@@ -95,7 +95,7 @@ class _PlantSeedState extends State<BuySeeds> {
               ),
               MainButton(
                 margin: EdgeInsets.only(top: 25),
-                title: 'Buy Seeds',
+                title: 'get Seeds',
                 onPressed: onSubmit,
               ),
             ],
@@ -105,8 +105,8 @@ class _PlantSeedState extends State<BuySeeds> {
     );
   }
 
-  Future<String> buySeeds() async {
-    var response = await EosService.of(context, listen: false).buySeeds(
+  Future<String> getSeeds() async {
+    var response = await EosService.of(context, listen: false).getSeeds(
       amount: double.parse(plantController.text),
     );
     return response["transaction_id"];
