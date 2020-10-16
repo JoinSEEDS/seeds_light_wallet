@@ -45,7 +45,6 @@ class Routes {
   static final logout = "Logout";
   static final imageViewer = 'ImageViewer';
   static final plantSeeds = "plantSeeds";
-  static final getSeeds = "GetSeeds";
   static final customTransaction = "CustomTransation";
   static final scanQRCode = "ScanQRCode";
   static final receive = 'Receive';
@@ -94,7 +93,6 @@ class NavigationService {
           arguments: args,
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
-    Routes.getSeeds: (_) => GetSeeds(),
     Routes.customTransaction: (args) => CustomTransaction(args),
     Routes.scanQRCode: (_) => Scan(),
     Routes.receive: (_) => Receive(),
