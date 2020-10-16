@@ -85,14 +85,7 @@ class SettingsNotifier extends ChangeNotifier {
     _secureStorage = FlutterSecureStorage();
     _secureStorage.readAll().then((values) {
       _privateKey = values[PRIVATE_KEY];
-      if (_privateKey == null) {
-        _privateKey = _migrateFromPrefs(PRIVATE_KEY);
-      }
-
       _passcode = values[PASSCODE];
-      if (_passcode == null) {
-        _passcode = _migrateFromPrefs(PASSCODE);
-      }
 
       if (values.containsKey(PASSCODE_ACTIVE)) {
         _passcodeActive = values[PASSCODE_ACTIVE] == "true";
@@ -124,17 +117,6 @@ class SettingsNotifier extends ChangeNotifier {
         _isMerchantMode = false;
       }
     }).whenComplete(() => notifyListeners());
-  }
-
-  // TODO: @Deprecated("Temporary while people still have the previous app version. Remove after 2020-06-31")
-  String _migrateFromPrefs(String key) {
-    String value = _preferences.get(key);
-    if (value != null) {
-      _secureStorage.write(key: key, value: value);
-      _preferences?.remove(key);
-      debugPrint("Converted $key to secure storage");
-    }
-    return value;
   }
 
   void update({String nodeEndpoint}) {

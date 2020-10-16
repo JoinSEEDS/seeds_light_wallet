@@ -49,6 +49,27 @@ class InviteModel {
   int get hashCode => super.hashCode;
 }
 
+enum OrderStatus {
+  created, // kitchen should be immediately notified when new order being created
+  paid, // listen for blockchain payment transaction
+  delivered // allow kitchen to switch status for delivered
+}
+
+class OrderModel extends HiveObject {
+  List<ItemModel> products;
+  List<int> productsNumber;
+
+  double totalAmount;
+  bool status;
+
+  bool isPaid;
+  bool isCooked;
+  bool isDelivered;
+  String accountName;
+
+  String paymentTransaction;
+}
+
 class ItemModel extends HiveObject {
   String name;
   double price;
