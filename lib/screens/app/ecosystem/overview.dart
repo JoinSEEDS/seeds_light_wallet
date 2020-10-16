@@ -174,16 +174,6 @@ class _OverviewState extends State<Overview> {
                     onInvite,
                   ),
                 ),
-                Consumer<PlantedNotifier>(
-                  builder: (ctx, model, _) => buildCategory(
-                    'Plant'.i18n,
-                    'Tap to plant Seeds'.i18n,
-                    'assets/images/harvest.svg',
-                    'Planted Seeds'.i18n,
-                    model?.balance?.quantity?.seedsFormatted,
-                    onPlant,
-                  ),
-                ),
                 Consumer<VoiceNotifier>(
                   builder: (ctx, model, _) => buildCategory(
                     'Vote'.i18n,
@@ -194,6 +184,16 @@ class _OverviewState extends State<Overview> {
                         ? model?.balance?.amount.toString()
                         : "-",
                     onVote,
+                  ),
+                ),
+                Consumer<PlantedNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Plant'.i18n,
+                    'Tap to plant Seeds'.i18n,
+                    'assets/images/harvest.svg',
+                    'Planted Seeds'.i18n,
+                    model?.balance?.quantity?.seedsFormatted,
+                    onPlant,
                   ),
                 ),
                 Consumer<BalanceNotifier>(
