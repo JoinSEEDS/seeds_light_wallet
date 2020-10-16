@@ -8,9 +8,11 @@ import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/wallet/transfer_form.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class Overview extends StatefulWidget {
   const Overview({
@@ -37,6 +39,21 @@ class _OverviewState extends State<Overview> {
     ]);
   }
 
+  void onBuy() {
+    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds.php");
+  }
+
+  void onDonate() {
+    NavigationService.of(context).navigateTo(
+      Routes.transferForm,
+      TransferFormArguments(
+        "balisupport.org",
+        "kaelaatleewo",
+        "https://balisupport.org/wp-content/uploads/2020/04/Asset-12@3x-1.png",
+      ),
+    );
+  }
+
   void onVote() {
     NavigationService.of(context).navigateTo(Routes.proposals);
   }
@@ -47,10 +64,6 @@ class _OverviewState extends State<Overview> {
 
   void onPlant() {
     NavigationService.of(context).navigateTo(Routes.plantSeeds);
-  }
-
-  void onBuy() {
-    NavigationService.of(context).navigateTo(Routes.buySeeds);
   }
 
   Widget buildCategory(
@@ -151,30 +164,58 @@ class _OverviewState extends State<Overview> {
             padding: EdgeInsets.all(8),
             child: Column(
               children: <Widget>[
-                Consumer<BalanceNotifier>(builder: (ctx, model, _) => buildCategory(
-                  'Invite'.i18n,
-                  'Tap to send an invite'.i18n,
-                  'assets/images/community.svg',
-                  'Available Seeds'.i18n,
-                  model?.balance?.quantity?.seedsFormatted,
-                  onInvite,
-                ),),
-                Consumer<PlantedNotifier>(builder: (ctx, model, _) => buildCategory(
-                  'Plant'.i18n,
-                  'Tap to plant Seeds'.i18n,
-                  'assets/images/harvest.svg',
-                  'Planted Seeds'.i18n,
-                  model?.balance?.quantity?.seedsFormatted,
-                  onPlant,
-                ),),
-                Consumer<VoiceNotifier>(builder: (ctx, model, _) => buildCategory(
-                  'Vote'.i18n,
-                  'Tap to participate'.i18n,
-                  'assets/images/governance.svg',
-                  'Trust Tokens'.i18n,
-                  (model?.balance?.amount != null) ? model?.balance?.amount.toString() : "-",
-                  onVote,
-                ),),
+                Consumer<BalanceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Invite'.i18n,
+                    'Tap to send an invite'.i18n,
+                    'assets/images/community.svg',
+                    'Available Seeds'.i18n,
+                    model?.balance?.quantity?.seedsFormatted,
+                    onInvite,
+                  ),
+                ),
+                Consumer<PlantedNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Plant'.i18n,
+                    'Tap to plant Seeds'.i18n,
+                    'assets/images/harvest.svg',
+                    'Planted Seeds'.i18n,
+                    model?.balance?.quantity?.seedsFormatted,
+                    onPlant,
+                  ),
+                ),
+                Consumer<VoiceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Vote'.i18n,
+                    'Tap to participate'.i18n,
+                    'assets/images/governance.svg',
+                    'Trust Tokens'.i18n,
+                    (model?.balance?.amount != null)
+                        ? model?.balance?.amount.toString()
+                        : "-",
+                    onVote,
+                  ),
+                ),
+                Consumer<BalanceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Buy'.i18n,
+                    'Tap to buy'.i18n,
+                    'assets/images/harvest.svg',
+                    'Available Seeds'.i18n,
+                    model?.balance?.quantity?.seedsFormatted,
+                    onBuy,
+                  ),
+                ),
+                Consumer<BalanceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Donate'.i18n,
+                    'Tap to donate'.i18n,
+                    'assets/images/harvest.svg',
+                    'Available Seeds'.i18n,
+                    model?.balance?.quantity?.seedsFormatted,
+                    onDonate,
+                  ),
+                ),
               ],
             )),
       ),
