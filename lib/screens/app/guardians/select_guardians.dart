@@ -5,9 +5,10 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/i18n/guardians.i18n.dart';
 
 class SelectGuardians extends StatefulWidget {
   SelectGuardians();
@@ -20,6 +21,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
   bool showSearch = false;
 
   FocusNode _searchFocusNode;
+  Set<MemberModel> selectedUsers = Set();
 
   @override
   void dispose() {
@@ -90,7 +92,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                 _searchFocusNode.unfocus();
 
                 MembersNotifier.of(context).filterMembers('');
-                
+
                 setState(() {
                   showSearch = false;
                 });
@@ -106,7 +108,55 @@ class _SelectGuardiansState extends State<SelectGuardians> {
         children: <Widget>[
           Expanded(
             flex: 1,
-            child: _usersList(context),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, bottom: 8, top: 8),
+                  child: Text(
+                    "Select up to 5 Guardians to invite",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: selectedUsers.length == 0
+                      ? Container()
+                      : Container(
+                          height: 50.0,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: selectedUsers
+                                .map((e) => Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: ActionChip(
+                                        label: Text(e.nickname),
+                                        avatar: Icon(Icons.highlight_off),
+                                        onPressed: () {
+                                          setState(() {
+                                            selectedUsers.remove(e);
+                                          });
+                                        },
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
+                        ),
+                ),
+                Expanded(child: _usersList(context)),
+                MainButton(
+                  active: selectedUsers.length >= 3,
+                  margin: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 16),
+                  title: 'Next'.i18n,
+                  onPressed: () => {
+                    if (selectedUsers.length >= 3)
+                      {
+                        //TODO: Next Page
+                      }
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -133,10 +183,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
               ),
               child: Text(
                 "Choose existing Seeds Member to add as guardians".i18n,
-                style: TextStyle(
-                    fontFamily: "worksans",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300),
+                style: TextStyle(fontFamily: "worksans", fontSize: 18, fontWeight: FontWeight.w300),
               ),
             )
           : LiquidPullToRefresh(
@@ -145,8 +192,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
               backgroundColor: AppColors.lightGreen,
               color: AppColors.lightBlue,
               onRefresh: () async {
-                Provider.of<MembersNotifier>(context, listen: false)
-                    .refreshMembers();
+                Provider.of<MembersNotifier>(context, listen: false).refreshMembers();
               },
               child: ListView.builder(
                 shrinkWrap: true,
@@ -158,7 +204,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                   if (model.visibleMembers.length <= index) {
                     return _shimmerTile();
                   } else {
-                    final user = model.visibleMembers[index];
+                    final MemberModel user = model.visibleMembers[index];
                     return _userTile(user);
                   }
                 },
@@ -169,52 +215,44 @@ class _SelectGuardiansState extends State<SelectGuardians> {
 
   Widget _userTile(MemberModel user) {
     return ListTile(
-      leading: Hero(
-        child: TransactionAvatar(
-          size: 60,
-          image: user.image,
-          account: user.account,
-          nickname: user.nickname,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.blue,
+        leading: Hero(
+          child: TransactionAvatar(
+            size: 60,
+            image: user.image,
+            account: user.account,
+            nickname: user.nickname,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.blue,
+            ),
           ),
+          tag: "avatar#${user.account}",
         ),
-        tag: "avatar#${user.account}",
-      ),
-      title: Hero(
-        child: Material(
-          child: Text(
-            user.nickname,
-            style:
-                TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
+        title: Hero(
+          child: Material(
+            child: Text(
+              user.nickname,
+              style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
+            ),
+            color: Colors.transparent,
           ),
-          color: Colors.transparent,
+          tag: "nickname#${user.account}",
         ),
-        tag: "nickname#${user.account}",
-      ),
-      subtitle: Hero(
-        child: Material(
-          child: Text(
-            user.account,
-            style:
-                TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
+        subtitle: Hero(
+          child: Material(
+            child: Text(
+              user.account,
+              style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
+            ),
+            color: Colors.transparent,
           ),
-          color: Colors.transparent,
+          tag: "account#${user.account}",
         ),
-        tag: "account#${user.account}",
-      ),
-      onTap: () async {
-        // await NavigationService.of(context).navigateTo(
-        //   Routes.transferForm,
-        //   TransferFormArguments(
-        //     user.nickname,
-        //     user.account,
-        //     user.image,
-        //   ),
-        // );
-      },
-    );
+        onTap: () async {
+          setState(() {
+            selectedUsers.add(user);
+          });
+        });
   }
 
   Widget _shimmerTile() {

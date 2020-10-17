@@ -5,6 +5,7 @@ extension Localization on String {
       {
         "es_es": {
           'Select Guardian': 'Seleccionar Guardian',
+          'Next': 'Seguir',
         }
       };
 
