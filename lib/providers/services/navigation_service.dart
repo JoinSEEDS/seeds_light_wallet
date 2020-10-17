@@ -11,6 +11,7 @@ import 'package:seeds/screens/app/ecosystem/overview.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
 import 'package:seeds/screens/app/guardians/guardian_instructions.dart';
+import 'package:seeds/screens/app/guardians/select_guardians.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
@@ -52,6 +53,7 @@ class Routes {
   static final receive = 'Receive';
   static final receiveQR = 'ReceiveQR';
   static final guardianInstructions = "GuardianInstructions";
+  static final selectGuardians = "SelectGuardians";
 }
 
 class NavigationService {
@@ -102,6 +104,7 @@ class NavigationService {
     Routes.receive: (_) => Receive(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
     Routes.guardianInstructions: (_) => GuardianInstructions(),
+    Routes.selectGuardians: (_) => SelectGuardians(),
   };
 
   final ecosystemRoutes = {

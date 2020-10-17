@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 
 class GuardianInstructions extends StatefulWidget {
@@ -51,7 +52,9 @@ class InstructionsBody extends StatelessWidget {
             child: MainButton(
               margin: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 16),
               title: 'Select Guardians'.i18n,
-              onPressed: () => {},
+              onPressed: () => {
+                NavigationService.of(context).navigateTo(Routes.selectGuardians),
+              },
             ),
           ),
         ),
