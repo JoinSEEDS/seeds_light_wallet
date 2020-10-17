@@ -4,12 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/shared/shimmer_tile.dart';
 import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/transaction_avatar.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
 
 class SelectGuardians extends StatefulWidget {
