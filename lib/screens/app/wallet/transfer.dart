@@ -5,6 +5,8 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/shared/shimmer_tile.dart';
+import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
@@ -92,7 +94,7 @@ class _TransferState extends State<Transfer> {
                 _searchFocusNode.unfocus();
 
                 MembersNotifier.of(context).filterMembers('');
-                
+
                 setState(() {
                   showSearch = false;
                 });
@@ -135,10 +137,7 @@ class _TransferState extends State<Transfer> {
               ),
               child: Text(
                 "Choose existing Seeds Member to transfer".i18n,
-                style: TextStyle(
-                    fontFamily: "worksans",
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300),
+                style: TextStyle(fontFamily: "worksans", fontSize: 18, fontWeight: FontWeight.w300),
               ),
             )
           : LiquidPullToRefresh(
@@ -147,8 +146,7 @@ class _TransferState extends State<Transfer> {
               backgroundColor: AppColors.lightGreen,
               color: AppColors.lightBlue,
               onRefresh: () async {
-                Provider.of<MembersNotifier>(context, listen: false)
-                    .refreshMembers();
+                Provider.of<MembersNotifier>(context, listen: false).refreshMembers();
               },
               child: ListView.builder(
                 shrinkWrap: true,
@@ -158,103 +156,23 @@ class _TransferState extends State<Transfer> {
                     : (showSearch == true ? model.visibleMembers.length : 8),
                 itemBuilder: (ctx, index) {
                   if (model.visibleMembers.length <= index) {
-                    return _shimmerTile();
+                    return shimmerTile();
                   } else {
                     final user = model.visibleMembers[index];
-                    return _userTile(user);
+                    return userTile(user, () async {
+                      await NavigationService.of(context).navigateTo(
+                        Routes.transferForm,
+                        TransferFormArguments(
+                          user.nickname,
+                          user.account,
+                          user.image,
+                        ),
+                      );
+                    });
                   }
                 },
               ),
             );
     });
-  }
-
-  Widget _userTile(MemberModel user) {
-    return ListTile(
-      leading: Hero(
-        child: TransactionAvatar(
-          size: 60,
-          image: user.image,
-          account: user.account,
-          nickname: user.nickname,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.blue,
-          ),
-        ),
-        tag: "avatar#${user.account}",
-      ),
-      title: Hero(
-        child: Material(
-          child: Text(
-            user.nickname,
-            style:
-                TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
-          ),
-          color: Colors.transparent,
-        ),
-        tag: "nickname#${user.account}",
-      ),
-      subtitle: Hero(
-        child: Material(
-          child: Text(
-            user.account,
-            style:
-                TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
-          ),
-          color: Colors.transparent,
-        ),
-        tag: "account#${user.account}",
-      ),
-      onTap: () async {
-        await NavigationService.of(context).navigateTo(
-          Routes.transferForm,
-          TransferFormArguments(
-            user.nickname,
-            user.account,
-            user.image,
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _shimmerTile() {
-    return ListTile(
-      leading: Shimmer.fromColors(
-        baseColor: Colors.grey[300],
-        highlightColor: Colors.grey[100],
-        child: Container(
-          width: 60.0,
-          height: 60.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(50.0),
-          ),
-        ),
-      ),
-      title: Shimmer.fromColors(
-        baseColor: Colors.grey[300],
-        highlightColor: Colors.grey[100],
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 100.0,
-              height: 12.0,
-              color: Colors.white,
-            ),
-          ],
-        ),
-      ),
-      subtitle: Shimmer.fromColors(
-        baseColor: Colors.grey[300],
-        highlightColor: Colors.grey[100],
-        child: Container(
-          width: 40.0,
-          height: 12.0,
-          color: Colors.white,
-        ),
-      ),
-    );
   }
 }
