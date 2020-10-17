@@ -19,7 +19,7 @@ static var _t = Translations.byLocale("en_us") +
         'An error occured, please try again.': "Ocurrió un error, por favor intentar de nuevo",
         'Save private key in secure place - to be able to restore access to your wallet later': "Guarda la llave privada en un lugar seguro - para poder recuperar acceso a tu billetera luego",
         "Save private key": "Guarda la llave privada",
-        "Guardians": "Guardianes"
+        "Key Guardians": "Guardianes de Llave"
       }
     };
 
