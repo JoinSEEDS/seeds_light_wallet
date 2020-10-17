@@ -6,6 +6,9 @@ extension Localization on String {
         "es_es": {
           'Select Guardian': 'Seleccionar Guardian',
           'Next': 'Seguir',
+          'Choose existing Seeds Member to add as guardians':  'Elija miembros de Seeds para agregar como guardianes',
+          'Select up to 5 Guardians to invite': 'Selecciona hasta 5 guardianes para invitar ',
+          'Enter user name or account': "Ingresa nombre de cuenta",
         }
       };
 
