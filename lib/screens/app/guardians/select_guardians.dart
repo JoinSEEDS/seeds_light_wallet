@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -125,7 +126,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                           height: 50.0,
                           child: ListView(
                             scrollDirection: Axis.horizontal,
-                            children: selectedUsers
+                            children: selectedUsers.toList().reversed
                                 .map((e) => Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: ActionChip(
@@ -205,9 +206,13 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                   } else {
                     final MemberModel user = model.visibleMembers[index];
                     return userTile(user, () async {
-                      setState(() {
-                        selectedUsers.add(user);
-                      });
+                      if(selectedUsers.length >= 5) {
+                        errorToast("Max 5 guardians. Tap next to proceed".i18n);
+                      } else {
+                        setState(() {
+                          selectedUsers.add(user);
+                        });
+                      }
                     });
                   }
                 },
