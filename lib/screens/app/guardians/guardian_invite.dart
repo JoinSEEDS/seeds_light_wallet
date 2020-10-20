@@ -62,6 +62,7 @@ class InviteGuardianBody extends StatelessWidget {
           child: Text(
             "The users below will be sent an invite to become your Guardian.".i18n,
             style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
           ),
         ),
         Expanded(
