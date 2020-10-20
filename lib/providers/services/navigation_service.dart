@@ -11,6 +11,7 @@ import 'package:seeds/screens/app/ecosystem/overview.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
 import 'package:seeds/screens/app/guardians/guardian_instructions.dart';
+import 'package:seeds/screens/app/guardians/guardian_invite.dart';
 import 'package:seeds/screens/app/guardians/select_guardians.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
@@ -54,6 +55,7 @@ class Routes {
   static final receiveQR = 'ReceiveQR';
   static final guardianInstructions = "GuardianInstructions";
   static final selectGuardians = "SelectGuardians";
+  static final inviteGuardians = "InviteGuardians";
 }
 
 class NavigationService {
@@ -105,6 +107,7 @@ class NavigationService {
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
     Routes.guardianInstructions: (_) => GuardianInstructions(),
     Routes.selectGuardians: (_) => SelectGuardians(),
+    Routes.inviteGuardians: (args) => InviteGuardians(args),
   };
 
   final ecosystemRoutes = {

@@ -3,7 +3,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 const String _FeatureFlagGuardianKey = "feature_guardians";
 
 class FirebaseRemoteConfigService {
-  final defaults = <String, dynamic>{_FeatureFlagGuardianKey: false};
+  final defaults = <String, dynamic>{_FeatureFlagGuardianKey: true};
   RemoteConfig _remoteConfig;
 
   FirebaseRemoteConfigService._();

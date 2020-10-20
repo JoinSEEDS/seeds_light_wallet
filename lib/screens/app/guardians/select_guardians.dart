@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/shared/shimmer_tile.dart';
 import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -126,7 +127,9 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                           height: 50.0,
                           child: ListView(
                             scrollDirection: Axis.horizontal,
-                            children: selectedUsers.toList().reversed
+                            children: selectedUsers
+                                .toList()
+                                .reversed
                                 .map((e) => Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: ActionChip(
@@ -151,7 +154,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                   onPressed: () => {
                     if (selectedUsers.length >= 3)
                       {
-                        //TODO: Next Page
+                        NavigationService.of(context).navigateTo(Routes.inviteGuardians, selectedUsers),
                       }
                   },
                 ),
@@ -206,7 +209,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                   } else {
                     final MemberModel user = model.visibleMembers[index];
                     return userTile(user, () async {
-                      if(selectedUsers.length >= 5) {
+                      if (selectedUsers.length >= 5) {
                         errorToast("Max 5 guardians. Tap next to proceed".i18n);
                       } else {
                         setState(() {
