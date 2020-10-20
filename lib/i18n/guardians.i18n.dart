@@ -12,6 +12,7 @@ extension Localization on String {
           'Invite Guardians': "Invitar Guardianes",
           'Send Invite': "Enviar Invitacion",
           'The users below will be sent an invite to become your Guardian.': "Los siguientes usuarios recibirán una invitación para convertirse en su Guardian.",
+          'Invites Sent!': "Invitaciones Enviadas",
         }
       };
 

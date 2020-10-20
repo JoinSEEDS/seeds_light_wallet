@@ -7,21 +7,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/widgets/main_button.dart';
 
-class InviteGuardians extends StatefulWidget {
-  final Set<MemberModel> selectedUsers;
-
-  InviteGuardians(this.selectedUsers);
-
-  @override
-  _InviteGuardiansState createState() => _InviteGuardiansState(selectedUsers);
-}
-
-class _InviteGuardiansState extends State<InviteGuardians> {
-  final Set<MemberModel> selectedUsers;
-  bool loading = false;
-
-  _InviteGuardiansState(this.selectedUsers);
-
+class InviteGuardiansSent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,45 +27,36 @@ class _InviteGuardiansState extends State<InviteGuardians> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: InviteGuardianBody(selectedUsers),
+      body: InviteGuardianSentBody(),
     );
   }
 }
 
-class InviteGuardianBody extends StatelessWidget {
-  final Set<MemberModel> selectedUsers;
-
-  InviteGuardianBody(this.selectedUsers);
-
+class InviteGuardianSentBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(height: 16),
-        Container(child: Icon(Icons.email_outlined, size: 120)),
+        Container(child: Icon(Icons.check_circle, size: 120)),
         Padding(
           padding: const EdgeInsets.all(24.0),
           child: Text(
-            "The users below will be sent an invite to become your Guardian.".i18n,
+            "Invites Sent!".i18n,
             style: TextStyle(fontSize: 18),
             textAlign: TextAlign.center,
           ),
         ),
         Expanded(
-          child: ListView(
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-            children: selectedUsers.map((e) => userTile(e, null)).toList(),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: MainButton(
-            margin: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 16),
-            title: 'Send Invite'.i18n,
-            onPressed: () => {
-              NavigationService.of(context).navigateTo(Routes.inviteGuardiansSent),
-            },
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: MainButton(
+              margin: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 16),
+              title: 'Ok'.i18n,
+              onPressed: () => {
+                //TODO: where do we go from here?
+              },
+            ),
           ),
         ),
       ],
