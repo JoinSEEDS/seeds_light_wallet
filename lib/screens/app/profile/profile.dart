@@ -387,14 +387,14 @@ class _ProfileState extends State<Profile> {
     if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
       return Padding(
         padding: const EdgeInsets.only(top: 50.0),
-        child: RaisedButton(
+        child: FlatButton(
           color: Colors.white,
           child: Text(
-            'Guardians'.i18n,
+            'Key Guardians'.i18n,
             style: TextStyle(color: Colors.blue),
           ),
           onPressed: () => {
-            toast("Work In Progress")
+            NavigationService.of(context).navigateTo(Routes.guardianInstructions),
           },
         ),
       );
