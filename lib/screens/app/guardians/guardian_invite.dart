@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:hive/hive.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -18,7 +21,6 @@ class InviteGuardians extends StatefulWidget {
 
 class _InviteGuardiansState extends State<InviteGuardians> {
   final Set<MemberModel> selectedUsers;
-  bool loading = false;
 
   _InviteGuardiansState(this.selectedUsers);
 
@@ -46,11 +48,17 @@ class _InviteGuardiansState extends State<InviteGuardians> {
   }
 }
 
-class InviteGuardianBody extends StatelessWidget {
+class InviteGuardianBody extends StatefulWidget {
   final Set<MemberModel> selectedUsers;
+  final savingLoader = GlobalKey<MainButtonState>();
 
   InviteGuardianBody(this.selectedUsers);
 
+  @override
+  _InviteGuardianBodyState createState() => _InviteGuardianBodyState();
+}
+
+class _InviteGuardianBodyState extends State<InviteGuardianBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -69,20 +77,31 @@ class InviteGuardianBody extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
-            children: selectedUsers.map((e) => userTile(user: e, onTap: null)).toList(),
+            children: widget.selectedUsers.map((e) => userTile(user: e, onTap: null)).toList(),
           ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
           child: MainButton(
+            key: widget.savingLoader,
             margin: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 16),
             title: 'Send Invite'.i18n,
             onPressed: () => {
-              NavigationService.of(context).navigateTo(Routes.inviteGuardiansSent),
+              widget.savingLoader.currentState.loading(),
+              FirebaseDatabaseService()
+                  .sendGuardiansInvite(SettingsNotifier.of(context).accountName, widget.selectedUsers.toList())
+                  .catchError((onError) => onSendInviteError(onError))
+                  .then((value) => NavigationService.of(context).navigateTo(Routes.inviteGuardiansSent))
             },
           ),
         ),
       ],
     );
+  }
+
+  onSendInviteError(onError) {
+    print(onError.toString());
+    errorToast('Oops, Something went wrong.');
+    widget.savingLoader.currentState.done();
   }
 }

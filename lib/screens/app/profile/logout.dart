@@ -19,8 +19,8 @@ class _LogoutState extends State<Logout> {
   bool privateKeySaved = false;
 
   void onLogout() {
-    SettingsNotifier.of(context).removeAccount();
     String userAccount = SettingsNotifier.of(context).accountName;
+    SettingsNotifier.of(context).removeAccount();
     FirebaseDatabaseService().removeFirebaseMessageToken(userAccount);
     Hive.deleteBoxFromDisk("members");
     Hive.deleteBoxFromDisk("transactions");
