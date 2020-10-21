@@ -41,12 +41,21 @@ class FirebaseDatabaseService {
         UID_KEY: user.account,
         TYPE_KEY: GuardianType.myGuardian.name,
         GUARDIANS_STATUS_KEY: GuardianStatus.requestSent.name,
-        GUARDIANS_DISPLAY_NAME_KEY: user.nickname,
+        GUARDIANS_DATE_SENT_KEY: FieldValue.serverTimestamp(),
+      };
+
+      Map<String, Object> dataOther = {
+        UID_KEY: currentUserId,
+        TYPE_KEY: GuardianType.imGuardian.name,
+        GUARDIANS_STATUS_KEY: GuardianStatus.requestedMe.name,
         GUARDIANS_DATE_SENT_KEY: FieldValue.serverTimestamp(),
       };
 
       var docRef = _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(user.account);
+      var docRefOther = _usersCollection.doc(user.account).collection(GUARDIANS_COLLECTION_KEY).doc(currentUserId);
+
       batch.set(docRef, data, SetOptions(merge: true));
+      batch.set(docRefOther, dataOther, SetOptions(merge: true));
     });
 
     return batch.commit();
