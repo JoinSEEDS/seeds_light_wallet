@@ -5,6 +5,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/ecosystem.i18n.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -40,7 +41,8 @@ class _OverviewState extends State<Overview> {
   }
 
   void onGet() {
-    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds.php");
+    String userAccount = SettingsNotifier.of(context).accountName;
+    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount", forceSafariVC: false, forceWebView: false);
   }
 
   void onDonate() {
