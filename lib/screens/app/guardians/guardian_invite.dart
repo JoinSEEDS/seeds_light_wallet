@@ -69,7 +69,7 @@ class InviteGuardianBody extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
-            children: selectedUsers.map((e) => userTile(e, null)).toList(),
+            children: selectedUsers.map((e) => userTile(user: e, onTap: null)).toList(),
           ),
         ),
         Align(

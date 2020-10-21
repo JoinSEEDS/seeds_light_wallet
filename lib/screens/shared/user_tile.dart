@@ -3,8 +3,9 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
-Widget userTile(MemberModel user, GestureTapCallback onTap) {
+Widget userTile({MemberModel user, bool selected = false, GestureTapCallback onTap}) {
   return ListTile(
+      trailing: selected ? Icon(Icons.check, color: Colors.green) : SizedBox.shrink(),
       leading: Hero(
         child: TransactionAvatar(
           size: 60,

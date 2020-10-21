@@ -123,27 +123,24 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: selectedUsers.length == 0
                       ? Container()
-                      : Container(
-                          height: 50.0,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: selectedUsers
-                                .toList()
-                                .reversed
-                                .map((e) => Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: ActionChip(
-                                        label: Text(e.nickname),
-                                        avatar: Icon(Icons.highlight_off),
-                                        onPressed: () {
-                                          setState(() {
-                                            selectedUsers.remove(e);
-                                          });
-                                        },
-                                      ),
-                                    ))
-                                .toList(),
-                          ),
+                      : Wrap(
+                          // scrollDirection: Axis.horizontal,
+                          children: selectedUsers
+                              .toList()
+                              .reversed
+                              .map((e) => Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: ActionChip(
+                                      label: Text(e.nickname),
+                                      avatar: Icon(Icons.highlight_off),
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedUsers.remove(e);
+                                        });
+                                      },
+                                    ),
+                                  ))
+                              .toList(),
                         ),
                 ),
                 Expanded(child: _usersList(context)),
@@ -208,15 +205,18 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                     return shimmerTile();
                   } else {
                     final MemberModel user = model.visibleMembers[index];
-                    return userTile(user, () async {
-                      if (selectedUsers.length >= 5) {
-                        errorToast("Max 5 guardians. Tap next to proceed".i18n);
-                      } else {
-                        setState(() {
-                          selectedUsers.add(user);
+                    return userTile(
+                        user: user,
+                        selected: selectedUsers.contains(user),
+                        onTap: () async {
+                          if (selectedUsers.length >= 5) {
+                            errorToast("Max 5 guardians. Tap next to proceed".i18n);
+                          } else {
+                            setState(() {
+                              selectedUsers.add(user);
+                            });
+                          }
                         });
-                      }
-                    });
                   }
                 },
               ),

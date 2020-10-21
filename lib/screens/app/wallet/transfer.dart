@@ -156,7 +156,7 @@ class _TransferState extends State<Transfer> {
                     return shimmerTile();
                   } else {
                     final user = model.visibleMembers[index];
-                    return userTile(user, () async {
+                    return userTile(user: user,onTap: () async {
                       await NavigationService.of(context).navigateTo(
                         Routes.transferForm,
                         TransferFormArguments(
