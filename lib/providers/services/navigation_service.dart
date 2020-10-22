@@ -13,6 +13,7 @@ import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
 import 'package:seeds/screens/app/guardians/guardian_instructions.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite_sent.dart';
+import 'package:seeds/screens/app/guardians/guardians_lists.dart';
 import 'package:seeds/screens/app/guardians/select_guardians.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
@@ -58,6 +59,7 @@ class Routes {
   static final selectGuardians = "SelectGuardians";
   static final inviteGuardians = "InviteGuardians";
   static final inviteGuardiansSent = "InviteGuardiansSent";
+  static final guardianTabs = "GuardianTabs";
 }
 
 class NavigationService {
@@ -111,6 +113,7 @@ class NavigationService {
     Routes.selectGuardians: (_) => SelectGuardians(),
     Routes.inviteGuardians: (args) => InviteGuardians(args),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),
+    Routes.guardianTabs: (_) => GuardianTabs(),
   };
 
   final ecosystemRoutes = {

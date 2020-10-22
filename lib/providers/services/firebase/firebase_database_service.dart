@@ -60,4 +60,24 @@ class FirebaseDatabaseService {
 
     return batch.commit();
   }
+
+  Future<QuerySnapshot> getAllUserGuardians(String uid) {
+    return _usersCollection.doc(uid).collection(GUARDIANS_COLLECTION_KEY).get();
+  }
+
+  Future<QuerySnapshot> getMyGuardians(String uid) {
+    return _usersCollection
+        .doc(uid)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
+        .get();
+  }
+
+  Future<QuerySnapshot> getImGuardiansFor(String uid) {
+    return _usersCollection
+        .doc(uid)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .where(TYPE_KEY, isEqualTo: GuardianType.imGuardian.name)
+        .get();
+  }
 }
