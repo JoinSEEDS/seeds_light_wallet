@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:seeds/models/firebase/GuardianStatus.dart';
+import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
@@ -36,9 +36,9 @@ class FirebaseDatabaseService {
   Future<void> sendGuardiansInvite(String currentUserId, List<MemberModel> usersToInvite) {
     var batch = FirebaseFirestore.instance.batch();
 
-    usersToInvite.forEach((user) {
+    usersToInvite.forEach((guardian) {
       Map<String, Object> data = {
-        UID_KEY: user.account,
+        UID_KEY: guardian.account,
         TYPE_KEY: GuardianType.myGuardian.name,
         GUARDIANS_STATUS_KEY: GuardianStatus.requestSent.name,
         GUARDIANS_DATE_SENT_KEY: FieldValue.serverTimestamp(),
@@ -51,11 +51,14 @@ class FirebaseDatabaseService {
         GUARDIANS_DATE_SENT_KEY: FieldValue.serverTimestamp(),
       };
 
-      var docRef = _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(user.account);
-      var docRefOther = _usersCollection.doc(user.account).collection(GUARDIANS_COLLECTION_KEY).doc(currentUserId);
+      DocumentReference otherUserRef = _usersCollection.doc(guardian.account);
+      DocumentReference currentUserRef = _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(guardian.account);
+      DocumentReference otherUserGuardianRef = otherUserRef.collection(GUARDIANS_COLLECTION_KEY).doc(currentUserId);
 
-      batch.set(docRef, data, SetOptions(merge: true));
-      batch.set(docRefOther, dataOther, SetOptions(merge: true));
+      // This empty is needed in case the user does not exist in the database yet. Create him.
+      batch.set(otherUserRef, {}, SetOptions(merge: true));
+      batch.set(currentUserRef, data, SetOptions(merge: true));
+      batch.set(otherUserGuardianRef, dataOther, SetOptions(merge: true));
     });
 
     return batch.commit();
@@ -65,12 +68,11 @@ class FirebaseDatabaseService {
     return _usersCollection.doc(uid).collection(GUARDIANS_COLLECTION_KEY).get();
   }
 
-  Future<QuerySnapshot> getMyGuardians(String uid) {
+  Stream<QuerySnapshot> getMyGuardians(String uid) {
     return _usersCollection
         .doc(uid)
         .collection(GUARDIANS_COLLECTION_KEY)
-        .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
-        .get();
+        .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name).snapshots();
   }
 
   Future<QuerySnapshot> getImGuardiansFor(String uid) {
@@ -79,5 +81,25 @@ class FirebaseDatabaseService {
         .collection(GUARDIANS_COLLECTION_KEY)
         .where(TYPE_KEY, isEqualTo: GuardianType.imGuardian.name)
         .get();
+  }
+
+  Future<void> cancelGuardianRequest({String currentUserId, String friendId}) {
+    return _deleteGuardianFromUsers(currentUserId: currentUserId, friendId: friendId);
+  }
+
+  Future<void> removeGuardianGuardian({String currentUserId, String friendId}) {
+     return _deleteGuardianFromUsers(currentUserId: currentUserId, friendId: friendId);
+  }
+
+  Future<void> _deleteGuardianFromUsers({String currentUserId, String friendId}){
+    var batch = FirebaseFirestore.instance.batch();
+
+    var docRef = _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(friendId);
+    var docRefOther = _usersCollection.doc(friendId).collection(GUARDIANS_COLLECTION_KEY).doc(currentUserId);
+
+    batch.delete(docRef);
+    batch.delete(docRefOther);
+
+    return batch.commit();
   }
 }

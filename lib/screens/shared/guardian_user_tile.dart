@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/models/firebase/GuardianStatus.dart';
+import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
-Widget guardianUserTile({MemberModel user, GuardianStatus status, GestureTapCallback onTap}) {
+Widget guardianUserTile({MemberModel user, GuardianStatus status, String currentUserId, GestureTapCallback onTap}) {
   return ListTile(
-      trailing: trailingWidget(status, onTap),
+      trailing: trailingWidget(status, user, currentUserId),
       leading: Hero(
         child: TransactionAvatar(
           size: 60,
@@ -43,17 +44,24 @@ Widget guardianUserTile({MemberModel user, GuardianStatus status, GestureTapCall
       onTap: onTap);
 }
 
-Widget trailingWidget(GuardianStatus status, GestureTapCallback onTap) {
+Widget trailingWidget(GuardianStatus status, MemberModel user, String currentUserId) {
   switch (status) {
     case GuardianStatus.requestedMe:
       return Wrap(
         children: [
-          TextButton(child: Text("Accept", style: TextStyle(color: Colors.green)), onPressed: onTap),
-          TextButton(child: Text("Decline", style: TextStyle(color: Colors.red)), onPressed: onTap)
+          TextButton(child: Text("Accept", style: TextStyle(color: Colors.blue)), onPressed: () {}),
+          TextButton(child: Text("Decline", style: TextStyle(color: Colors.red)), onPressed: () {})
         ],
       );
     case GuardianStatus.requestSent:
-      return TextButton(child: Text("Cancel Request", style: TextStyle(color: Colors.red)), onPressed: onTap);
+      return TextButton(
+          child: Text("Cancel Request", style: TextStyle(color: Colors.red)),
+          onPressed: () {
+            FirebaseDatabaseService().cancelGuardianRequest(
+              currentUserId: currentUserId,
+              friendId: user.account,
+            );
+          });
     default:
       return SizedBox.shrink();
   }
