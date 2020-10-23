@@ -397,11 +397,11 @@ class _ProfileState extends State<Profile> {
             style: TextStyle(color: Colors.blue),
           ),
           onPressed: () async {
-            QuerySnapshot guardians =
-                await FirebaseDatabaseService().getAllUserGuardians(SettingsNotifier.of(context).accountName);
+            var guardians =
+                FirebaseDatabaseService().getAllUserGuardians(SettingsNotifier.of(context).accountName);
 
             //User has Already seen guardians feature or has been invited to be a guardian
-            if (guardians.size > 0) {
+            if (await guardians.length > 0) {
               NavigationService.of(context).navigateTo(Routes.guardianTabs);
             } else {
               NavigationService.of(context).navigateTo(Routes.guardianInstructions);

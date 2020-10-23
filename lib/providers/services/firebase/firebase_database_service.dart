@@ -64,8 +64,8 @@ class FirebaseDatabaseService {
     return batch.commit();
   }
 
-  Future<QuerySnapshot> getAllUserGuardians(String uid) {
-    return _usersCollection.doc(uid).collection(GUARDIANS_COLLECTION_KEY).get();
+  Stream<QuerySnapshot> getAllUserGuardians(String uid) {
+    return _usersCollection.doc(uid).collection(GUARDIANS_COLLECTION_KEY).snapshots();
   }
 
   Stream<QuerySnapshot> getMyGuardians(String uid) {
