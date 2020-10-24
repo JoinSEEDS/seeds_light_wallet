@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
@@ -51,14 +52,13 @@ class GuardianTabs extends StatelessWidget {
               stream: FirebaseDatabaseService().getAllUserGuardians(SettingsNotifier.of(context).accountName),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  Iterable<Guardian> guardians =
+                      snapshot.data.docs.map((DocumentSnapshot e) => Guardian.fromMap(e.data()));
+
                   return TabBarView(
                     children: [
-                      MyGuardiansTab(snapshot.data.docs
-                          .where((DocumentSnapshot e) => fromTypeName(e[TYPE_KEY]) == GuardianType.myGuardian)
-                          .toList()),
-                      ImGuardianForTab(snapshot.data.docs
-                          .where((DocumentSnapshot e) => fromTypeName(e[TYPE_KEY]) == GuardianType.imGuardian)
-                          .toList()),
+                      MyGuardiansTab(guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList()),
+                      ImGuardianForTab(guardians.where((Guardian e) => e.type == GuardianType.imGuardian).toList()),
                     ],
                   );
                 } else {

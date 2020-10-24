@@ -41,14 +41,16 @@ class FirebaseDatabaseService {
         UID_KEY: guardian.account,
         TYPE_KEY: GuardianType.myGuardian.name,
         GUARDIANS_STATUS_KEY: GuardianStatus.requestSent.name,
-        GUARDIANS_DATE_SENT_KEY: FieldValue.serverTimestamp(),
+        GUARDIANS_DATE_CREATED_KEY: FieldValue.serverTimestamp(),
+        GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
       };
 
       Map<String, Object> dataOther = {
         UID_KEY: currentUserId,
         TYPE_KEY: GuardianType.imGuardian.name,
         GUARDIANS_STATUS_KEY: GuardianStatus.requestedMe.name,
-        GUARDIANS_DATE_SENT_KEY: FieldValue.serverTimestamp(),
+        GUARDIANS_DATE_CREATED_KEY: FieldValue.serverTimestamp(),
+        GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
       };
 
       DocumentReference otherUserRef = _usersCollection.doc(guardian.account);

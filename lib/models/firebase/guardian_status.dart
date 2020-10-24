@@ -11,7 +11,7 @@ extension GuardianTypeExtension on GuardianStatus {
   String get name => describeEnum(this);
 }
 
-GuardianStatus fromName(String name) {
+GuardianStatus fromStatusName(String name) {
   switch (name) {
     case "alreadyGuardian":
       return GuardianStatus.alreadyGuardian;
