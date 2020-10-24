@@ -1,11 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/app/profile/profile.dart';
-import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/widgets/main_button.dart';
 
 class InviteGuardiansSent extends StatelessWidget {
