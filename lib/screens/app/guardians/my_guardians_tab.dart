@@ -23,7 +23,9 @@ class _MyGuardiansState extends State<MyGuardiansTab> {
         future: HttpService().getMembersByIds(widget.guardians.map((e) => e.id).toList()),
         builder: (context, memberModels) {
           if (memberModels.hasData) {
-            return buildGuardiansListView(memberModels, SettingsNotifier.of(context).accountName, widget.guardians);
+            return buildGuardiansListView(memberModels, SettingsNotifier.of(context).accountName, widget.guardians, () {
+              // TODO: Not sure what we do here
+            });
           } else {
             return SizedBox.shrink();
           }

@@ -52,7 +52,8 @@ class FirebaseDatabaseService {
       };
 
       DocumentReference otherUserRef = _usersCollection.doc(guardian.account);
-      DocumentReference currentUserRef = _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(guardian.account);
+      DocumentReference currentUserRef =
+          _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(guardian.account);
       DocumentReference otherUserGuardianRef = otherUserRef.collection(GUARDIANS_COLLECTION_KEY).doc(currentUserId);
 
       // This empty is needed in case the user does not exist in the database yet. Create him.
@@ -68,19 +69,24 @@ class FirebaseDatabaseService {
     return _usersCollection.doc(uid).collection(GUARDIANS_COLLECTION_KEY).snapshots();
   }
 
+  Future<QuerySnapshot> getGuardiansCount(String uid) {
+    return _usersCollection.doc(uid).collection(GUARDIANS_COLLECTION_KEY).get();
+  }
+
   Stream<QuerySnapshot> getMyGuardians(String uid) {
     return _usersCollection
         .doc(uid)
         .collection(GUARDIANS_COLLECTION_KEY)
-        .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name).snapshots();
+        .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
+        .snapshots();
   }
 
-  Future<QuerySnapshot> getImGuardiansFor(String uid) {
+  Stream<QuerySnapshot> getImGuardiansFor(String uid) {
     return _usersCollection
         .doc(uid)
         .collection(GUARDIANS_COLLECTION_KEY)
         .where(TYPE_KEY, isEqualTo: GuardianType.imGuardian.name)
-        .get();
+        .snapshots();
   }
 
   Future<void> cancelGuardianRequest({String currentUserId, String friendId}) {
@@ -88,10 +94,10 @@ class FirebaseDatabaseService {
   }
 
   Future<void> removeGuardianGuardian({String currentUserId, String friendId}) {
-     return _deleteGuardianFromUsers(currentUserId: currentUserId, friendId: friendId);
+    return _deleteGuardianFromUsers(currentUserId: currentUserId, friendId: friendId);
   }
 
-  Future<void> _deleteGuardianFromUsers({String currentUserId, String friendId}){
+  Future<void> _deleteGuardianFromUsers({String currentUserId, String friendId}) {
     var batch = FirebaseFirestore.instance.batch();
 
     var docRef = _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(friendId);

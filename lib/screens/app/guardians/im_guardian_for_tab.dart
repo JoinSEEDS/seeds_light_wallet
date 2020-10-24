@@ -23,7 +23,7 @@ class _ImGuardianForState extends State<ImGuardianForTab> {
         future: HttpService().getMembersByIds(widget.guardians.map((e) => e.id).toList()),
         builder: (context, memberModels) {
           if (memberModels.hasData) {
-            return buildGuardiansListView(memberModels, SettingsNotifier.of(context).accountName, widget.guardians);
+            return buildGuardiansListView(memberModels, SettingsNotifier.of(context).accountName, widget.guardians, (){});
           } else {
             return SizedBox.shrink();
           }

@@ -5,7 +5,7 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
-Widget guardianUserTile({MemberModel user, GuardianStatus status, String currentUserId, GestureTapCallback onTap}) {
+Widget guardianUserTile({MemberModel user, GuardianStatus status, String currentUserId, GestureTapCallback tileOnTap}) {
   return ListTile(
       trailing: trailingWidget(status, user, currentUserId),
       leading: Hero(
@@ -41,7 +41,7 @@ Widget guardianUserTile({MemberModel user, GuardianStatus status, String current
         ),
         tag: "account#${user.account}",
       ),
-      onTap: onTap);
+      onTap: tileOnTap);
 }
 
 Widget trailingWidget(GuardianStatus status, MemberModel user, String currentUserId) {

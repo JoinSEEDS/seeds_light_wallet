@@ -13,7 +13,7 @@ import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
 import 'package:seeds/screens/app/guardians/guardian_instructions.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite_sent.dart';
-import 'package:seeds/screens/app/guardians/guardians_lists.dart';
+import 'package:seeds/screens/app/guardians/guardians_tabs.dart';
 import 'package:seeds/screens/app/guardians/select_guardians.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';

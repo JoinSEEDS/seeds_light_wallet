@@ -7,14 +7,14 @@ import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dar
 import 'guardian_user_tile.dart';
 
 ListView buildGuardiansListView(
-    AsyncSnapshot<List<MemberModel>> memberModels, String currentUserId, List<QueryDocumentSnapshot> guardians) {
+    AsyncSnapshot<List<MemberModel>> memberModels, String currentUserId, List<QueryDocumentSnapshot> guardians, GestureTapCallback tileOnTap) {
   return ListView(
     children: memberModels.data
         .map((e) => guardianUserTile(
             user: e,
             currentUserId: currentUserId,
             status: fromName(guardians.firstWhere((element) => element.id == e.account)[GUARDIANS_STATUS_KEY]),
-            onTap: () {}))
+            tileOnTap: tileOnTap))
         .toList(),
   );
 }
