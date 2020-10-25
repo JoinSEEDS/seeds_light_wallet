@@ -14,17 +14,13 @@ class HttpService {
   String userAccount;
   bool mockResponse;
 
-  void update(
-      {String accountName,
-      String nodeEndpoint,
-      bool enableMockResponse = false}) {
+  void update({String accountName, String nodeEndpoint, bool enableMockResponse = false}) {
     nodeEndpoint = nodeEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
 
-  static HttpService of(BuildContext context, {bool listen = false}) =>
-      Provider.of(context, listen: listen);
+  static HttpService of(BuildContext context, {bool listen = false}) => Provider.of(context, listen: listen);
 
   Future<ProfileModel> getProfile() async {
     print("[http] get profile");
@@ -61,8 +57,7 @@ class HttpService {
       return HttpMockResponse.keyAccounts;
     }
 
-    final String keyAccountsURL =
-        "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
+    final String keyAccountsURL = "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
 
     Response res = await get(keyAccountsURL);
 
@@ -104,12 +99,11 @@ class HttpService {
 
       List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members =
-          allAccounts.map((item) => MemberModel.fromJson(item)).toList();
+      List<MemberModel> members = allAccounts.map((item) => MemberModel.fromJson(item)).toList();
 
       return members;
     } else {
-      print('Cannot fetch members...'+res.body);
+      print('Cannot fetch members...' + res.body);
 
       return [];
     }
@@ -119,7 +113,7 @@ class HttpService {
     print("[http] getMembersWithFilter $filter ");
     if (filter.length < 2) {
       return [];
-    } 
+    }
     String lowerBound = filter;
     String upperBound = filter.padRight(12 - filter.length, "z");
 
@@ -136,8 +130,7 @@ class HttpService {
 
       List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members =
-          allAccounts.map((item) => MemberModel.fromJson(item)).toList();
+      List<MemberModel> members = allAccounts.map((item) => MemberModel.fromJson(item)).toList();
 
       return members;
     } else {
@@ -179,6 +172,42 @@ class HttpService {
     }
   }
 
+  Future<List<MemberModel>> getMembersByIds(List<String> accountNames) async {
+    print("[http] get getMembersByIds " + accountNames.length.toString());
+
+    if (mockResponse == true) {
+      return HttpMockResponse.members;
+    }
+
+    final String membersURL = '$baseURL/v1/chain/get_table_rows';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Iterable<String> requests = accountNames.map((e) =>
+        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $e","upper_bound":" $e","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}');
+
+    var futures = List<Future<Response>>();
+    requests.forEach((element) {
+      futures.add(post(membersURL, headers: headers, body: element));
+    });
+
+    // Waif for all futures to complete
+    List<Response> res = await Future.wait(futures);
+    Iterable<Response> filtered = res.where((element) => element.statusCode == 200);
+
+    List<MemberModel> users = List<MemberModel>();
+    filtered.forEach((element) {
+      Map<String, dynamic> body = element.parseJson();
+
+      List<dynamic> result = body["rows"].toList();
+
+      if (result.length == 1) {
+        users.add(MemberModel.fromJson(result[0]));
+      }
+    });
+
+    return users;
+  }
+
   Future<List<TransactionModel>> getTransactions() async {
     print("[http] get transactions");
 
@@ -200,9 +229,7 @@ class HttpService {
             item["act"]["data"]["from"] != null;
       }).toList();
 
-      List<TransactionModel> transactions = transfers
-          .map((item) => TransactionModel.fromJson(item))
-          .toList();
+      List<TransactionModel> transactions = transfers.map((item) => TransactionModel.fromJson(item)).toList();
 
       return transactions;
     } else {
@@ -221,8 +248,7 @@ class HttpService {
 
     final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
 
-    String request =
-        '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
+    String request = '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(balanceURL, headers: headers, body: request);
@@ -240,7 +266,7 @@ class HttpService {
     }
   }
 
-    Future<RateModel> getUSDRate() async {
+  Future<RateModel> getUSDRate() async {
     print("[http] get seeds rate USD");
 
     if (mockResponse == true) {
@@ -249,9 +275,8 @@ class HttpService {
 
     final String rateURL = '$baseURL/v1/chain/get_table_rows';
 
-    String request =
-        '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
-    
+    String request = '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
+
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(rateURL, headers: headers, body: request);
@@ -261,7 +286,7 @@ class HttpService {
 
       return RateModel.fromJson(body);
     } else {
-      print("Cannot fetch balance..."+res.body.toString());
+      print("Cannot fetch balance..." + res.body.toString());
 
       return RateModel(0, true);
     }
@@ -276,8 +301,7 @@ class HttpService {
 
     final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
 
-    String request =
-        '{"code":"eosio.token","account":"$userAccount","symbol":"TLOS"}';
+    String request = '{"code":"eosio.token","account":"$userAccount","symbol":"TLOS"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(balanceURL, headers: headers, body: request);
@@ -390,7 +414,8 @@ class HttpService {
 
     final String harvestURL = '$baseURL/v1/chain/get_table_rows';
 
-    String request = '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
+    String request =
+        '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(harvestURL, headers: headers, body: request);
@@ -417,7 +442,8 @@ class HttpService {
 
     final String scoreURL = '$baseURL/v1/chain/get_table_rows';
 
-    String request = '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"harvest","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+    String request =
+        '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"harvest","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(scoreURL, headers: headers, body: request);
@@ -439,9 +465,7 @@ class HttpService {
     print("[http] get proposals: stage = [$stage]");
 
     if (mockResponse == true) {
-      return HttpMockResponse.proposals
-          .where((proposal) => proposal.stage == stage)
-          .toList();
+      return HttpMockResponse.proposals.where((proposal) => proposal.stage == stage).toList();
     }
 
     final String proposalsURL = '$baseURL/v1/chain/get_table_rows';
@@ -459,8 +483,7 @@ class HttpService {
         return item["stage"] == stage && item["status"] == status;
       }).toList();
 
-      List<ProposalModel> proposals =
-          activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
+      List<ProposalModel> proposals = activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
 
       return proposals;
     } else {
@@ -477,7 +500,8 @@ class HttpService {
       return HttpMockResponse.invite;
     }
 
-    String inviteURL = "https://node.hypha.earth/v1/chain/get_table_rows"; // todo: Why is this still Hypha when config has changed?
+    String inviteURL =
+        "https://node.hypha.earth/v1/chain/get_table_rows"; // todo: Why is this still Hypha when config has changed?
 
     String request =
         '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$inviteHash","upper_bound":"$inviteHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
@@ -525,8 +549,7 @@ class HttpService {
       Map<String, dynamic> body = jsonDecode(res.body);
 
       if (body["rows"].length > 0) {
-        List<InviteModel> invites =
-            body["rows"].map((item) => InviteModel.fromJson(item)).toList();
+        List<InviteModel> invites = body["rows"].map((item) => InviteModel.fromJson(item)).toList();
 
         return invites;
       } else {
@@ -543,8 +566,7 @@ class HttpService {
   Future<bool> isAccountNameAvailable(String accountName) async {
     if (mockResponse == true) return true;
 
-    final String keyAccountsURL =
-        "$baseURL/v1/chain/get_account";
+    final String keyAccountsURL = "$baseURL/v1/chain/get_account";
 
     Response res = await post(
       keyAccountsURL,
@@ -562,7 +584,6 @@ class HttpService {
   }
 
   Future<VoteResult> getVote({proposalId: int}) async {
-
     String url = "$baseURL/v1/chain/get_table_rows";
 
     var request = '''{
@@ -587,7 +608,7 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
       if (body["rows"].length > 0) {
-        var item = body["rows"][0];  
+        var item = body["rows"][0];
         int amount = item["favour"] == 1 ? item["amount"] : -item["amount"];
         return VoteResult(amount, true);
       } else {
@@ -597,13 +618,13 @@ class HttpService {
       print('Cannot fetch votes...${res.toString()}');
       return VoteResult(0, false, error: true);
     }
-}
+  }
 }
 
 extension ResponseExtension on Response {
   dynamic parseJson() {
     return json.decode(utf8.decode(this.bodyBytes));
-  } 
+  }
 }
 
 class NetworkException implements Exception {
@@ -640,6 +661,3 @@ class EmptyResultException implements Exception {
     return "EmptyResultException: $message";
   }
 }
-
-
-

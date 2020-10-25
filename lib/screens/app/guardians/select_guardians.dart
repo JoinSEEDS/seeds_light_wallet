@@ -11,6 +11,7 @@ import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
 
+const _MIN_SELECTED_ALLOWED = 3;
 class SelectGuardians extends StatefulWidget {
   SelectGuardians();
 
@@ -145,11 +146,11 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                 ),
                 Expanded(child: _usersList(context)),
                 MainButton(
-                  active: selectedUsers.length >= 3,
+                  active: selectedUsers.length >= _MIN_SELECTED_ALLOWED,
                   margin: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 16),
                   title: 'Next'.i18n,
                   onPressed: () => {
-                    if (selectedUsers.length >= 3)
+                    if (selectedUsers.length >= _MIN_SELECTED_ALLOWED)
                       {
                         NavigationService.of(context).navigateTo(Routes.inviteGuardians, selectedUsers),
                       }
