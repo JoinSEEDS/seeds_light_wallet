@@ -99,6 +99,23 @@ class FirebaseDatabaseService {
     return _deleteGuardianFromUsers(currentUserId: currentUserId, friendId: friendId);
   }
 
+  Future<void> acceptGuardianRequest({String currentUserId, String friendId}) {
+    var batch = FirebaseFirestore.instance.batch();
+
+    Map<String, Object> data = {
+      GUARDIANS_STATUS_KEY: GuardianStatus.alreadyGuardian.name,
+      GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
+    };
+
+    var docRef = _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(friendId);
+    var docRefOther = _usersCollection.doc(friendId).collection(GUARDIANS_COLLECTION_KEY).doc(currentUserId);
+
+    batch.set(docRef, data, SetOptions(merge: true));
+    batch.set(docRefOther, data, SetOptions(merge: true));
+
+    return batch.commit();
+  }
+
   Future<void> _deleteGuardianFromUsers({String currentUserId, String friendId}) {
     var batch = FirebaseFirestore.instance.batch();
 

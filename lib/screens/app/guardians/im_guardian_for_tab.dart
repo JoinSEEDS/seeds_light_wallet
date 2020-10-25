@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/models/firebase/guardian.dart';
+import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -16,8 +17,9 @@ class ImGuardianForTab extends StatelessWidget {
     var myGuardians = guardians.where((Guardian e) => e.type == GuardianType.imGuardian).toList();
     var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
-    return buildGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, () {
-      // TODO: Not sure what we do here
+    return buildGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, (MemberModel user, GuardianStatus status) {
+          print(user.account);
+          print(status.name.toString());
     });
   }
 }

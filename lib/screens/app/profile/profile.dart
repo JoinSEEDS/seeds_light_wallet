@@ -385,7 +385,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _guardiansView() {
-    if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
+    if (true) {//FirebaseRemoteConfigService().featureFlagGuardiansEnabled
       return Padding(
         padding: const EdgeInsets.only(top: 50.0),
         child: FlatButton(
