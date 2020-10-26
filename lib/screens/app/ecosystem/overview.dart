@@ -9,7 +9,6 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/app/wallet/transfer_form.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:shimmer/shimmer.dart';
