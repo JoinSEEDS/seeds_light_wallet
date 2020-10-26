@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/models/firebase/guardian.dart';
-import 'package:seeds/models/firebase/guardian_type.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/guardians/im_guardian_for_tab.dart';
 import 'package:seeds/screens/app/guardians/my_guardians_tab.dart';
 
@@ -13,6 +14,10 @@ class GuardianTabs extends StatelessWidget {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
+          floatingActionButton: FloatingActionButton.extended(
+            label: Text("Add More Guardians"),
+            onPressed: () {},
+          ),
           appBar: AppBar(
             bottom: TabBar(
               tabs: [
@@ -52,14 +57,22 @@ class GuardianTabs extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   Iterable<Guardian> guardians =
-                      snapshot.data.docs.map((DocumentSnapshot e) => Guardian.fromMap(e.data()));
+                      snapshot.data.docs.map((DocumentSnapshot e) => Guardian.fromMap(e.data())).toList();
 
-                  return TabBarView(
-                    children: [
-                      MyGuardiansTab(guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList()),
-                      ImGuardianForTab(guardians.where((Guardian e) => e.type == GuardianType.imGuardian).toList()),
-                    ],
-                  );
+                  return FutureBuilder<List<MemberModel>>(
+                      future: HttpService().getMembersByIds(guardians.map((e) => e.uid).toList()),
+                      builder: (context, AsyncSnapshot<List<MemberModel>> snapshot) {
+                        if (snapshot.hasData) {
+                          return TabBarView(
+                            children: [
+                              MyGuardiansTab(guardians, snapshot.data),
+                              ImGuardianForTab(guardians, snapshot.data),
+                            ],
+                          );
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      });
                 } else {
                   return Center(child: CircularProgressIndicator());
                 }

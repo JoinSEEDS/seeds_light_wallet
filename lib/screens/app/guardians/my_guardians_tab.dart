@@ -1,34 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/models/firebase/guardian.dart';
+import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/guardians/guardian_users_list.dart';
 
-class MyGuardiansTab extends StatefulWidget {
+class MyGuardiansTab extends StatelessWidget {
   final List<Guardian> guardians;
+  final List<MemberModel> allMembers;
 
-  MyGuardiansTab(this.guardians);
+  MyGuardiansTab(this.guardians, this.allMembers);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _MyGuardiansState();
-  }
-}
-
-class _MyGuardiansState extends State<MyGuardiansTab> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<MemberModel>>(
-        future: HttpService().getMembersByIds(widget.guardians.map((e) => e.uid).toList()),
-        builder: (context, memberModels) {
-          if (memberModels.hasData) {
-            return buildGuardiansListView(memberModels, SettingsNotifier.of(context).accountName, widget.guardians, () {
-              // TODO: Not sure what we do here
-            });
-          } else {
-            return SizedBox.shrink();
-          }
-        });
+    var myGuardians = guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
+    var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
+
+    return buildGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, () {
+      // TODO: Not sure what we do here
+    });
   }
 }
