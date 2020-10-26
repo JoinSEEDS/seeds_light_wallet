@@ -36,9 +36,6 @@ extension TelosSigningManager on SigningRequestManager {
 
       var actions = resolveActions(abis, auth);
 
-      //print("actions: "+actions.toString());
-      //print("actions[0]: "+actions[0].toJson().toString());
-
       return actions;
     }
 }
