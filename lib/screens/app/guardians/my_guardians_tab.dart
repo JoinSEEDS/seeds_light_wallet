@@ -17,9 +17,30 @@ class MyGuardiansTab extends StatelessWidget {
     var myGuardians = guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
     var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
-    return buildGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, (MemberModel user, GuardianStatus status) {
-      print(user.account);
-      print(status.name.toString());
-    });
+    _onTileTapped(MemberModel user, GuardianStatus status) {
+      List<Widget> action = <Widget>[];
+
+      if (status == GuardianStatus.alreadyGuardian) {
+        action = [
+          FlatButton(
+            child: const Text('Dismiss'),
+            onPressed: () {},
+          ),
+          FlatButton(
+            child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
+            onPressed: () {},
+          )
+        ];
+
+        showDialog(
+            context: context,
+            child: AlertDialog(
+              content: Text("Guardian ${user.nickname}"),
+              actions: action,
+            ));
+      }
+    }
+
+    return buildGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped);
   }
 }
