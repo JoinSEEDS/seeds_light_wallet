@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as pathUtils;
@@ -14,6 +14,7 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
@@ -387,14 +388,22 @@ class _ProfileState extends State<Profile> {
     if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
       return Padding(
         padding: const EdgeInsets.only(top: 50.0),
-        child: RaisedButton(
+        child: FlatButton(
           color: Colors.white,
           child: Text(
-            'Guardians'.i18n,
+            'Key Guardians'.i18n,
             style: TextStyle(color: Colors.blue),
           ),
-          onPressed: () => {
-            toast("Work In Progress")
+          onPressed: () async {
+            QuerySnapshot guardians =
+                await FirebaseDatabaseService().getGuardiansCount(SettingsNotifier.of(context).accountName);
+
+            //User has Already seen guardians feature or has been invited to be a guardian
+            if (guardians.size > 0) {
+              NavigationService.of(context).navigateTo(Routes.guardianTabs);
+            } else {
+              NavigationService.of(context).navigateTo(Routes.guardianInstructions);
+            }
           },
         ),
       );
