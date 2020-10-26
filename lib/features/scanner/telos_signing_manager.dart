@@ -14,9 +14,6 @@ class SeedsESR {
     this.actions = await manager.fetchActions(account: account);
   }
 
-  Action firstAction() {
-    return actions[0];
-  }
 }
 
 extension TelosSigningManager on SigningRequestManager {

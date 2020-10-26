@@ -84,11 +84,11 @@ class _ScanState extends State<Scan> {
   }
 
   bool canProcess(SeedsESR esr) {
-    return esr.actions[0].account.isNotEmpty && esr.actions[0].name.isNotEmpty;
+    return esr.actions.first.account.isNotEmpty && esr.actions.first.name.isNotEmpty;
   }
 
   void processSigningRequest(SeedsESR esr) async {
-    var action = esr.actions[0];
+    var action = esr.actions.first;
     try {
 
       if (action.account.isNotEmpty && action.name.isNotEmpty) {

@@ -10,13 +10,13 @@ void main() {
 
       await request.resolve(account: "bukabukabuka");
 
-      print("1 actions[0]: "+request.firstAction().toJson().toString());
+      print("1 action: "+request.actions.first.toJson().toString());
 
-      var action = request.firstAction();
+      var action = request.actions.first;
       var data = Map<String, dynamic>.from(action.data);
 
-      expect(request.firstAction().account, 'eosio');
-      expect(request.firstAction().name, 'voteproducer');
+      expect(request.actions.first.account, 'eosio');
+      expect(request.actions.first.name, 'voteproducer');
       expect(data['voter'], 'bukabukabuka');
       expect(data['proxy'], 'eosnationftw');
       expect(data['producers'], []);
@@ -29,13 +29,13 @@ void main() {
 
       await request.resolve(account: "bukabukabuka");
 
-      print("2 actions[0]: "+request.firstAction().toJson().toString());
+      print("2 action: "+request.actions.first.toJson().toString());
 
-      var action = request.firstAction();
+      var action = request.actions.first;
       var data = Map<String, dynamic>.from(action.data);
 
-      expect(request.firstAction().account, 'token.seeds');
-      expect(request.firstAction().name, 'transfer');
+      expect(request.actions.first.account, 'token.seeds');
+      expect(request.actions.first.name, 'transfer');
       expect(data['from'], 'bukabukabuka');
       expect(data['to'], 'igorberlenko');
       expect(data['quantity'], '7.0000 SEEDS');
@@ -49,13 +49,13 @@ void main() {
       await request.resolve(account: "illumination");
 
       //print("actions: "+actions.toString());
-      print("3 actions[0]: "+request.firstAction().toJson().toString());
+      print("3 action: "+request.actions.first.toJson().toString());
 
-      var action = request.firstAction();
+      var action = request.actions.first;
       var data = Map<String, dynamic>.from(action.data);
 
-      expect(request.firstAction().account, 'token.seeds');
-      expect(request.firstAction().name, 'transfer');
+      expect(request.actions.first.account, 'token.seeds');
+      expect(request.actions.first.name, 'transfer');
       expect(data['from'], 'illumination');
       expect(data['to'], 'localscaling');
       expect(data['quantity'], '5.0000 SEEDS');
