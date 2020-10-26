@@ -1,12 +1,11 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 
-import 'package:dartesr/eosio_signing_request.dart';
 import 'package:seeds/i18n/scan.i18n.dart';
 
 enum Steps { init, scan, processing, success, error }
@@ -44,14 +43,13 @@ class _ScanState extends State<Scan> {
             this.qrcode = scanResult.rawContent;
           });
 
-          print("QR Code: " + scanResult.rawContent);
+          // QUESTION: Why do we not check for other URL types like deep link for invite here?
           var esr;
+          //print("Scanning QR Code: " + scanResult.rawContent);
           try {
-            esr = await EosioSigningRequest.factory(
-              EosService.of(context, listen: false).client,
-              scanResult.rawContent,
-              SettingsNotifier.of(context, listen: false).accountName,
-            );
+            esr = SeedsESR(uri: scanResult.rawContent);
+            await esr.resolve(account: SettingsNotifier.of(context, listen: false).accountName);
+
           } catch (e) {
             print("can't parse ESR " + e.toString());
             print("ignoring...");
@@ -85,24 +83,26 @@ class _ScanState extends State<Scan> {
     }
   }
 
-  bool canProcess(EosioSigningRequest esr) {
-    return esr.action.account.isNotEmpty && esr.action.name.isNotEmpty;
+  bool canProcess(SeedsESR esr) {
+    return esr.actions[0].account.isNotEmpty && esr.actions[0].name.isNotEmpty;
   }
 
-  void processSigningRequest(EosioSigningRequest esr) async {
+  void processSigningRequest(SeedsESR esr) async {
+    var action = esr.actions[0];
     try {
-      if (esr.action.account.isNotEmpty && esr.action.name.isNotEmpty) {
+
+      if (action.account.isNotEmpty && action.name.isNotEmpty) {
         setState(() {
           this.step = Steps.success;
         });
 
-        Map<String, dynamic> data = Map<String, dynamic>.from(esr.action.data);
+        Map<String, dynamic> data = Map<String, dynamic>.from(action.data);
 
         NavigationService.of(context).navigateTo(
             Routes.customTransaction,
             CustomTransactionArguments(
-              account: esr.action.account,
-              name: esr.action.name,
+              account: action.account,
+              name: action.name,
               data: data,
             ), true);
       } else {
