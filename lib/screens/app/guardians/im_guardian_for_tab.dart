@@ -18,21 +18,23 @@ class ImGuardianForTab extends StatelessWidget {
     var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
     _onTileTapped(MemberModel user, GuardianStatus status) {
-      List<Widget> action = <Widget>[];
-
       if (status == GuardianStatus.alreadyGuardian) {
-        action = [
-          FlatButton(
-            child: const Text('Cancel'),
-            onPressed: () {},
-          ),
-          FlatButton(
-            child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
-            onPressed: () {},
-          )
-        ];
-
-        showDialog(context: context, child: AlertDialog(content: Text("Guardian ${user.nickname}"), actions: action));
+        showDialog(
+            context: context,
+            child: AlertDialog(content: Text("Guardian ${user.nickname}"), actions: [
+              FlatButton(
+                child: const Text('Cancel'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
+                onPressed: () {
+                  //TODO
+                },
+              )
+            ]));
       }
     }
 
