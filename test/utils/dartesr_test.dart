@@ -48,7 +48,6 @@ void main() {
 
       await request.resolve(account: "illumination");
 
-      //print("actions: "+actions.toString());
       print("3 action: "+request.actions.first.toJson().toString());
 
       var action = request.actions.first;
@@ -63,16 +62,18 @@ void main() {
     });
     
     test('login signing', () async {
-      // final client =
-      //     EOSClient('https://telos.caleos.io', 'v1', privateKeys: []);
+      
+      var esr = 'esr:AgACAwACO2h0dHBzOi8vY2IuYW5jaG9yLmxpbmsvODE3NzNjYWUtYjUzZS00YTdmLTg2ZjctNzJmOTQzZjhiYTk3AQRsaW5rKgAIAAAA06oHAAKLu05xjZ9d38TXa0W9f_WH76gGXk4wxIzEw31kEpVMQg';
 
-      // final esr = await EosioSigningRequest.factory(
-      //   client, 
-      //   'esr:AgACAwACO2h0dHBzOi8vY2IuYW5jaG9yLmxpbmsvODE3NzNjYWUtYjUzZS00YTdmLTg2ZjctNzJmOTQzZjhiYTk3AQRsaW5rKgAIAAAA06oHAAKLu05xjZ9d38TXa0W9f_WH76gGXk4wxIzEw31kEpVMQg',
-      //   'illumination',
-      // );
+      var request = SeedsESR(uri: esr);
 
-      // expect(esr.action.name, 'identity');
+      await request.resolve(account: "illumination");
+
+      print("identity action: "+request.actions.first.toJson().toString());
+
+      var action = request.actions.first;
+      
+      expect(action.name, 'identity');
     });
   });
 }
