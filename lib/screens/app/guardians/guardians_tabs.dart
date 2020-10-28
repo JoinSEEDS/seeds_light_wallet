@@ -6,6 +6,7 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/guardians/im_guardian_for_tab.dart';
 import 'package:seeds/screens/app/guardians/my_guardians_tab.dart';
 
