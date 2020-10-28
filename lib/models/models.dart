@@ -1,4 +1,14 @@
+import 'package:hive/hive.dart';
+
 import '../utils/double_extension.dart';
+
+class ProductModel extends HiveObject {
+  final String name;
+  final String picture;
+  final double price;
+
+  ProductModel({this.name, this.picture, this.price});
+}
 
 class InviteModel {
   final int inviteId;
@@ -82,7 +92,8 @@ class TransactionModel {
   final String timestamp;
   final String transactionId;
 
-  TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp, this.transactionId);
+  TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp,
+      this.transactionId);
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
@@ -113,7 +124,8 @@ class BalanceModel {
   final double numericQuantity;
   final bool error;
 
-  BalanceModel(this.quantity, this.error) : numericQuantity = _parseQuantityString(quantity);
+  BalanceModel(this.quantity, this.error)
+      : numericQuantity = _parseQuantityString(quantity);
 
   factory BalanceModel.fromJson(List<dynamic> json) {
     if (json != null && json.isNotEmpty) {
@@ -124,7 +136,7 @@ class BalanceModel {
   }
 
   static double _parseQuantityString(String quantityString) {
-    if(quantityString == null) {
+    if (quantityString == null) {
       return 0;
     }
     return double.parse(quantityString.split(" ")[0]);
@@ -143,21 +155,21 @@ class RateModel {
   final double seedsPerUSD;
   final bool error;
 
-  RateModel(
-    this.seedsPerUSD,
-    this.error
-  );
+  RateModel(this.seedsPerUSD, this.error);
 
   factory RateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String), false);
+      return RateModel(
+          _parseQuantityString(
+              json["rows"][0]["current_seeds_per_usd"] as String),
+          false);
     } else {
       return RateModel(0, true);
     }
   }
 
   static double _parseQuantityString(String quantityString) {
-    if(quantityString == null) {
+    if (quantityString == null) {
       return 0;
     }
     return double.parse(quantityString.split(" ")[0]);
@@ -168,7 +180,7 @@ class RateModel {
   }
 
   String usdString(double seedsAmount) {
-    return convert(seedsAmount).fiatFormatted + " USD"; 
+    return convert(seedsAmount).fiatFormatted + " USD";
   }
 
   @override
@@ -450,23 +462,11 @@ class ProposalModel {
 }
 
 const proposalTypes = {
-  // NOTE: 
-  // The keys here need to have i18n entries 
+  // NOTE:
+  // The keys here need to have i18n entries
   // in the ecosystem.i18n.dart file
-  'Staged': {
-    'stage': 'staged',
-    'status': 'open'
-  },
-  'Open': {
-    'stage': 'active',
-    'status': 'open'
-  },
-  'Passed': {
-    'stage': 'done',
-    'status': 'passed'
-  },
-  'Failed': {
-    'stage': 'done',
-    'status': 'rejected'
-  },
+  'Staged': {'stage': 'staged', 'status': 'open'},
+  'Open': {'stage': 'active', 'status': 'open'},
+  'Passed': {'stage': 'done', 'status': 'passed'},
+  'Failed': {'stage': 'done', 'status': 'rejected'},
 };
