@@ -11,9 +11,9 @@ extension GuardianTypeExtension on GuardianType {
 
 GuardianType fromTypeName(String name) {
   switch (name) {
-    case "alreadyGuardian":
+    case "myGuardian":
       return GuardianType.myGuardian;
-    case "requestedMe":
+    case "imGuardian":
       return GuardianType.imGuardian;
     default:
       return GuardianType.myGuardian;

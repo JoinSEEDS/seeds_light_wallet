@@ -22,7 +22,7 @@ class GuardianTabs extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data.size < _MAX_GUARDIANS_ALLOWED) {
                   return FloatingActionButton.extended(
-                    label: Text("Add More Guardians"),
+                    label: Text("Add Guardians"),
                     onPressed: () {
                       NavigationService.of(context).navigateTo(Routes.selectGuardians);
                     },
