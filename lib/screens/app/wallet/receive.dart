@@ -92,7 +92,14 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                   fontFamily: "worksans", fontWeight: FontWeight.w400),
             ),
           ),
-          trailing: Text(products[index].price.toString()),
+          trailing: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                showEditProduct(context, index);
+              },
+            ),
+          ),
           onTap: () {
             widget.onTap(products[index]);
             Navigator.of(context).pop();
@@ -139,12 +146,60 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     );
 
     box.add(product);
+  }
 
-    nameController.clear();
-    priceController.clear();
+  void editProduct(int index) {
+    final product = ProductModel(
+      name: nameController.text,
+      price: double.parse(priceController.text),
+      picture: '',
+    );
+
+    box.putAt(index, product);
+  }
+
+  void showEditProduct(BuildContext context, int index) {
+    nameController.text = products[index].name;
+    priceController.text = products[index].price.toString();
+
+    Scaffold.of(context).showBottomSheet(
+      (context) => Container(
+        color: Colors.white,
+        padding: EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 15,
+        ),
+        child: Wrap(
+          runSpacing: 10.0,
+          children: <Widget>[
+            MainTextField(
+              labelText: 'Name',
+              controller: nameController,
+            ),
+            MainTextField(
+              labelText: 'Price',
+              controller: priceController,
+              endText: 'SEEDS',
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
+            ),
+            MainButton(
+              title: 'Edit Product',
+              onPressed: () {
+                editProduct(index);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void showNewProduct(BuildContext context) {
+    nameController.clear();
+    priceController.clear();
+
     Scaffold.of(context).showBottomSheet(
       (context) => Container(
         color: Colors.white,
