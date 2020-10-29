@@ -69,10 +69,21 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         ),
       ),
       floatingActionButton: Builder(
-        builder: (context) => FloatingActionButton(
-          onPressed: () => showNewProduct(context),
-          child: Icon(Icons.add),
-        ),
+        builder: (context) => bottomSheetController == null
+            ? FloatingActionButton(
+                backgroundColor: AppColors.blue,
+                onPressed: () => showNewProduct(context),
+                child: Icon(Icons.add),
+              )
+            : FloatingActionButton(
+                backgroundColor: AppColors.blue,
+                onPressed: () {
+                  bottomSheetController.close();
+                  bottomSheetController = null;
+                  setState(() {});
+                },
+                child: Icon(Icons.close),
+              ),
       ),
       body: ListView.builder(
         shrinkWrap: true,
@@ -187,7 +198,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               child: Text("Approve"),
               onPressed: () {
                 deleteProduct(index);
-                Navigator.of(context).pop();
               },
             ),
           ],
@@ -196,11 +206,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     );
   }
 
+  PersistentBottomSheetController bottomSheetController;
+
   void showEditProduct(BuildContext context, int index) {
     nameController.text = products[index].name;
     priceController.text = products[index].price.toString();
 
-    Scaffold.of(context).showBottomSheet(
+    bottomSheetController = Scaffold.of(context).showBottomSheet(
       (context) => Container(
         color: Colors.white,
         padding: EdgeInsets.symmetric(
@@ -225,20 +237,24 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               title: 'Edit Product',
               onPressed: () {
                 editProduct(index);
-                Navigator.pop(context);
+                bottomSheetController.close();
+                bottomSheetController = null;
+                setState(() {});
               },
             ),
           ],
         ),
       ),
     );
+
+    setState(() {});
   }
 
   void showNewProduct(BuildContext context) {
     nameController.clear();
     priceController.clear();
 
-    Scaffold.of(context).showBottomSheet(
+    bottomSheetController = Scaffold.of(context).showBottomSheet(
       (context) => Container(
         color: Colors.white,
         padding: EdgeInsets.symmetric(
@@ -263,13 +279,17 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               title: 'Add Product',
               onPressed: () {
                 createNewProduct();
-                Navigator.pop(context);
+                bottomSheetController.close();
+                bottomSheetController = null;
+                setState(() {});
               },
             ),
           ],
         ),
       ),
     );
+
+    setState(() {});
   }
 }
 
