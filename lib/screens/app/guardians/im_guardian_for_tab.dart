@@ -22,7 +22,7 @@ class ImGuardianForTab extends StatelessWidget {
       if (status == GuardianStatus.alreadyGuardian) {
         showDialog(
             context: context,
-            child: AlertDialog(content: Text("Guardian ${user.nickname}"), actions: [
+            child: AlertDialog(content: Text("I am Guardian for ${user.nickname}"), actions: [
               FlatButton(
                 child: const Text('Cancel'),
                 onPressed: () {
@@ -30,11 +30,10 @@ class ImGuardianForTab extends StatelessWidget {
                 },
               ),
               FlatButton(
-                child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
+                child: const Text('Remove Guardianship', style: TextStyle(color: Colors.red)),
                 onPressed: () {
-                  FirebaseDatabaseService().removeImGuardianFor(currentUserId: SettingsNotifier
-                      .of(context)
-                      .accountName, friendId: user.account);
+                  FirebaseDatabaseService().removeImGuardianFor(
+                      currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
                   Navigator.pop(context);
                 },
               )
@@ -42,6 +41,15 @@ class ImGuardianForTab extends StatelessWidget {
       }
     }
 
-    return buildGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped);
+    if (myMembers.isEmpty) {
+      return Center(
+          child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Text(
+            "No users have added you to become their guardian yet. Once they do, you will see their request here."),
+      ));
+    } else {
+      return buildGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped);
+    }
   }
 }

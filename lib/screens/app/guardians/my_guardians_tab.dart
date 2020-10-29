@@ -46,26 +46,33 @@ class MyGuardiansTab extends StatelessWidget {
       }
     }
 
-    List<Widget> items = [];
-    if (myGuardians.where((element) => element.status == GuardianStatus.alreadyGuardian).length < 3) {
-      items.add(Container(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: Text(
-              "IMPORTANT: You need a minimum of 3 Guardians to secure your backup key",
-              style: TextStyle(color: Colors.red, fontSize: 16),
+    if (myMembers.isEmpty) {
+      return Center(
+          child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Text("You have added no user to become your guardian yet. Once you do, the request will show here."),
+      ));
+    } else {
+      List<Widget> items = [];
+      if (myGuardians.where((element) => element.status == GuardianStatus.alreadyGuardian).length < 3) {
+        items.add(Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: Text(
+                "IMPORTANT: You need a minimum of 3 Guardians to secure your backup key",
+                style: TextStyle(color: Colors.red, fontSize: 16),
+              ),
             ),
           ),
-        ),
-      ));
+        ));
+      }
+      items.add(Expanded(
+          child: buildMyGuardiansListView(
+              myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped)));
+
+      return Column(children: items);
     }
-
-    items.add(Expanded(
-        child:
-            buildMyGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped)));
-
-    return Column(children: items);
   }
 }
