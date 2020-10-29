@@ -9,6 +9,7 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/widgets/seeds_button.dart';
+import 'package:seeds/utils/double_extension.dart';
 
 class Receive extends StatefulWidget {
   Receive({Key key}) : super(key: key);
@@ -77,7 +78,20 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         shrinkWrap: true,
         itemCount: products.length,
         itemBuilder: (ctx, index) => ListTile(
-          title: Text(products[index].name),
+          title: Material(
+            child: Text(
+              products[index].name,
+              style: TextStyle(
+                  fontFamily: "worksans", fontWeight: FontWeight.w500),
+            ),
+          ),
+          subtitle: Material(
+            child: Text(
+              products[index].price.seedsFormatted + " SEEDS",
+              style: TextStyle(
+                  fontFamily: "worksans", fontWeight: FontWeight.w400),
+            ),
+          ),
           trailing: Text(products[index].price.toString()),
           onTap: () {
             widget.onTap(products[index]);
