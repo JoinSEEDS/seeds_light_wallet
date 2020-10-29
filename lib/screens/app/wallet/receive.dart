@@ -93,11 +93,22 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
             ),
           ),
           trailing: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                showEditProduct(context, index);
-              },
+            builder: (context) => Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    showEditProduct(context, index);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    showDeleteProduct(context, index);
+                  },
+                ),
+              ],
             ),
           ),
           onTap: () {
@@ -156,6 +167,33 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     );
 
     box.putAt(index, product);
+  }
+
+  void deleteProduct(int index) {
+    box.deleteAt(index);
+  }
+
+  Future<void> showDeleteProduct(BuildContext context, int index) {
+    final product = products[index];
+
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Delete ${product.name} ?"),
+          actions: [
+            FlatButton(
+              child: Text("Approve"),
+              onPressed: () {
+                deleteProduct(index);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void showEditProduct(BuildContext context, int index) {
