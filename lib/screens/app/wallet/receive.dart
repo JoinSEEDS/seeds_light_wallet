@@ -43,21 +43,54 @@ class _ReceiveState extends State<Receive> {
   }
 }
 
-class ReceiveForm extends StatefulWidget {
+class ProductsCatalog extends StatefulWidget {
+  final Function onTap;
+  ProductsCatalog(this.onTap);
+
   @override
-  _ReceiveFormState createState() => _ReceiveFormState();
+  _ProductsCatalogState createState() => _ProductsCatalogState();
 }
 
-class _ReceiveFormState extends State<ReceiveForm> {
-  final formKey = GlobalKey<FormState>();
-  final controller = TextEditingController(text: '');
-  String invoiceAmount = '0.00 SEEDS';
-  double invoiceAmountDouble = 0;
+class _ProductsCatalogState extends State<ProductsCatalog> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          'Your Products',
+          style: TextStyle(color: Colors.black87),
+        ),
+      ),
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton(
+          onPressed: () => showNewProduct(context),
+          child: Icon(Icons.add),
+        ),
+      ),
+      body: ListView.builder(
+        shrinkWrap: true,
+        itemCount: products.length,
+        itemBuilder: (ctx, index) => ListTile(
+          title: Text(products[index].name),
+          trailing: Text(products[index].price.toString()),
+          onTap: () {
+            widget.onTap(products[index]);
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+    );
+  }
 
   Box<ProductModel> box;
 
   List<ProductModel> products = List();
-  List<ProductModel> cart = List();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -84,17 +117,6 @@ class _ReceiveFormState extends State<ReceiveForm> {
     });
   }
 
-  void addProductToCart(int index) {
-    final product = products[index];
-
-    setState(() {
-      cart.add(product);
-      invoiceAmountDouble += product.price;
-      invoiceAmount = invoiceAmountDouble.toString();
-      controller.text = invoiceAmount;
-    });
-  }
-
   void createNewProduct() {
     final product = ProductModel(
       name: nameController.text,
@@ -108,7 +130,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
     priceController.clear();
   }
 
-  void showNewProduct() {
+  void showNewProduct(BuildContext context) {
     Scaffold.of(context).showBottomSheet(
       (context) => Container(
         color: Colors.white,
@@ -142,8 +164,39 @@ class _ReceiveFormState extends State<ReceiveForm> {
       ),
     );
   }
+}
+
+class ReceiveForm extends StatefulWidget {
+  @override
+  _ReceiveFormState createState() => _ReceiveFormState();
+}
+
+class _ReceiveFormState extends State<ReceiveForm> {
+  final formKey = GlobalKey<FormState>();
+  final controller = TextEditingController(text: '');
+  String invoiceAmount = '0.00 SEEDS';
+  double invoiceAmountDouble = 0;
+
+  List<ProductModel> cart = List();
+
+  void addProductToCart(ProductModel product) {
+    setState(() {
+      cart.add(product);
+      invoiceAmountDouble += product.price;
+      invoiceAmount = invoiceAmountDouble.toString();
+      controller.text = invoiceAmount;
+    });
+  }
 
   void showMerchantCatalog() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ProductsCatalog(addProductToCart),
+        maintainState: true,
+        fullscreenDialog: true,
+      ),
+    );
+
     Scaffold.of(context).showBottomSheet(
       (context) => Container(
         color: Colors.white,
@@ -156,25 +209,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                SeedsButton(
-                  "New Product",
-                  onPressed: showNewProduct,
-                  width: 150,
-                ),
-              ],
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: products.length,
-              itemBuilder: (ctx, index) => ListTile(
-                title: Text(products[index].name),
-                trailing: Text(products[index].price.toString()),
-                onTap: () {
-                  addProductToCart(index);
-                  Navigator.of(context).pop();
-                },
-              ),
+              children: <Widget>[],
             ),
           ],
         ),
