@@ -27,7 +27,6 @@ import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/screens/app/app.dart';
-import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
@@ -146,18 +145,6 @@ class MainScreen extends StatelessWidget {
     return Consumer<AuthNotifier>(
       builder: (ctx, auth, _) {
         NavigationService navigationService = NavigationService.of(context);
-
-        return ToolboxApp(
-          child: SeedsMaterialApp(
-            home: Receive(),
-            navigatorKey: navigationService.appNavigatorKey,
-            onGenerateRoute: navigationService.onGenerateRoute,
-          ),
-          noItemsFoundWidget: Padding(
-            padding: const EdgeInsets.all(32),
-            child: SvgPicture.asset(R.noItemFound),
-          ),
-        );
 
         if (auth.status == AuthStatus.emptyAccount) {
           return SeedsMaterialApp(

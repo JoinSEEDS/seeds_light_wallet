@@ -8,7 +8,6 @@ import 'package:seeds/utils/extensions/SafeHive.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
-import 'package:seeds/widgets/seeds_button.dart';
 import 'package:seeds/utils/double_extension.dart';
 
 class Receive extends StatefulWidget {
@@ -53,90 +52,14 @@ class ProductsCatalog extends StatefulWidget {
 }
 
 class _ProductsCatalogState extends State<ProductsCatalog> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          'Your Products',
-          style: TextStyle(color: Colors.black87),
-        ),
-      ),
-      floatingActionButton: Builder(
-        builder: (context) => bottomSheetController == null
-            ? FloatingActionButton(
-                backgroundColor: AppColors.blue,
-                onPressed: () => showNewProduct(context),
-                child: Icon(Icons.add),
-              )
-            : FloatingActionButton(
-                backgroundColor: AppColors.blue,
-                onPressed: () {
-                  bottomSheetController.close();
-                  bottomSheetController = null;
-                  setState(() {});
-                },
-                child: Icon(Icons.close),
-              ),
-      ),
-      body: ListView.builder(
-        shrinkWrap: true,
-        itemCount: products.length,
-        itemBuilder: (ctx, index) => ListTile(
-          title: Material(
-            child: Text(
-              products[index].name,
-              style: TextStyle(
-                  fontFamily: "worksans", fontWeight: FontWeight.w500),
-            ),
-          ),
-          subtitle: Material(
-            child: Text(
-              products[index].price.seedsFormatted + " SEEDS",
-              style: TextStyle(
-                  fontFamily: "worksans", fontWeight: FontWeight.w400),
-            ),
-          ),
-          trailing: Builder(
-            builder: (context) => Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    showEditProduct(context, index);
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    showDeleteProduct(context, index);
-                  },
-                ),
-              ],
-            ),
-          ),
-          onTap: () {
-            widget.onTap(products[index]);
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-    );
-  }
-
   Box<ProductModel> box;
-
-  List<ProductModel> products = List();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
+
+  PersistentBottomSheetController bottomSheetController;
+
+  List<ProductModel> products = List();
 
   @override
   void initState() {
@@ -206,8 +129,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
       },
     );
   }
-
-  PersistentBottomSheetController bottomSheetController;
 
   void showEditProduct(BuildContext context, int index) {
     nameController.text = products[index].name;
@@ -292,6 +213,84 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
     setState(() {});
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          'Your Products'.i18n,
+          style: TextStyle(color: Colors.black87),
+        ),
+      ),
+      floatingActionButton: Builder(
+        builder: (context) => bottomSheetController == null
+            ? FloatingActionButton(
+                backgroundColor: AppColors.blue,
+                onPressed: () => showNewProduct(context),
+                child: Icon(Icons.add),
+              )
+            : FloatingActionButton(
+                backgroundColor: AppColors.blue,
+                onPressed: () {
+                  bottomSheetController.close();
+                  bottomSheetController = null;
+                  setState(() {});
+                },
+                child: Icon(Icons.close),
+              ),
+      ),
+      body: ListView.builder(
+        shrinkWrap: true,
+        itemCount: products.length,
+        itemBuilder: (ctx, index) => ListTile(
+          title: Material(
+            child: Text(
+              products[index].name,
+              style: TextStyle(
+                  fontFamily: "worksans", fontWeight: FontWeight.w500),
+            ),
+          ),
+          subtitle: Material(
+            child: Text(
+              products[index].price.seedsFormatted + " SEEDS",
+              style: TextStyle(
+                  fontFamily: "worksans", fontWeight: FontWeight.w400),
+            ),
+          ),
+          trailing: Builder(
+            builder: (context) => Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    showEditProduct(context, index);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    showDeleteProduct(context, index);
+                  },
+                ),
+              ],
+            ),
+          ),
+          onTap: () {
+            widget.onTap(products[index]);
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+    );
+  }
 }
 
 class ReceiveForm extends StatefulWidget {
@@ -352,6 +351,22 @@ class _ReceiveFormState extends State<ReceiveForm> {
       invoiceAmountDouble = receiveAmount;
       invoiceAmount = receiveAmount.toStringAsFixed(4);
     });
+  }
+
+  Widget maybeDonationOrDiscount() {
+    final cartTotalPrice = cart
+        .map((product) => product.price)
+        .reduce((value, element) => value + element);
+
+    final difference = cartTotalPrice - invoiceAmountDouble;
+
+    if (difference > 0) {
+      return Text("- $difference " + "(Discount)".i18n);
+    } else if (difference < 0) {
+      return Text("+ ${difference.abs()} " + "(Donation)".i18n);
+    } else {
+      return Container();
+    }
   }
 
   @override
@@ -418,7 +433,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 33, 0, 0),
             child: MainButton(
-                title: "Next",
+                title: "Next".i18n,
                 active: invoiceAmountDouble != 0,
                 onPressed: () {
                   FocusScope.of(context).unfocus();
@@ -429,21 +444,5 @@ class _ReceiveFormState extends State<ReceiveForm> {
         ],
       ),
     );
-  }
-
-  Widget maybeDonationOrDiscount() {
-    final cartTotalPrice = cart
-        .map((product) => product.price)
-        .reduce((value, element) => value + element);
-
-    final difference = cartTotalPrice - invoiceAmountDouble;
-
-    if (difference > 0) {
-      return Text("- $difference (Discount)");
-    } else if (difference < 0) {
-      return Text("+ ${difference.abs()} (Donation)");
-    } else {
-      return Container();
-    }
   }
 }
