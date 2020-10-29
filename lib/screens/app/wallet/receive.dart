@@ -198,6 +198,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               child: Text("Approve"),
               onPressed: () {
                 deleteProduct(index);
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -361,7 +362,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
         children: <Widget>[
           MainTextField(
             suffixIcon: IconButton(
-              icon: Icon(Icons.add_shopping_cart),
+              icon: Icon(Icons.add_shopping_cart, color: AppColors.blue),
               onPressed: () {
                 FocusScope.of(context).requestFocus(FocusNode());
                 showMerchantCatalog();
@@ -399,14 +400,21 @@ class _ReceiveFormState extends State<ReceiveForm> {
               }
             },
           ),
-          Container(
-            child: ListView(
-              shrinkWrap: true,
-              children: cart
-                  .map((product) => Text("${product.name} - ${product.price}"))
-                  .toList(),
-            ),
-          ),
+          cart.length > 0
+              ? Container(
+                  padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      ...cart
+                          .map((product) =>
+                              Text("+ ${product.price} (${product.name})"))
+                          .toList(),
+                      maybeDonationOrDiscount()
+                    ],
+                  ),
+                )
+              : Container(),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 33, 0, 0),
             child: MainButton(
@@ -421,5 +429,21 @@ class _ReceiveFormState extends State<ReceiveForm> {
         ],
       ),
     );
+  }
+
+  Widget maybeDonationOrDiscount() {
+    final cartTotalPrice = cart
+        .map((product) => product.price)
+        .reduce((value, element) => value + element);
+
+    final difference = cartTotalPrice - invoiceAmountDouble;
+
+    if (difference > 0) {
+      return Text("- $difference (Discount)");
+    } else if (difference < 0) {
+      return Text("+ ${difference.abs()} (Donation)");
+    } else {
+      return Container();
+    }
   }
 }
