@@ -54,7 +54,7 @@ Widget trailingWidget(GuardianStatus status, MemberModel user, String currentUse
           TextButton(
               child: Text("Accept", style: TextStyle(color: Colors.blue)),
               onPressed: () {
-                FirebaseDatabaseService().acceptGuardianRequest(
+                FirebaseDatabaseService().acceptGuardianRequestedMe(
                   currentUserId: currentUserId,
                   friendId: user.account,
                 );
@@ -62,7 +62,7 @@ Widget trailingWidget(GuardianStatus status, MemberModel user, String currentUse
           TextButton(
               child: Text("Decline", style: TextStyle(color: Colors.red)),
               onPressed: () {
-                FirebaseDatabaseService().cancelGuardianRequest(
+                FirebaseDatabaseService().declineGuardianRequestedMe(
                   currentUserId: currentUserId,
                   friendId: user.account,
                 );

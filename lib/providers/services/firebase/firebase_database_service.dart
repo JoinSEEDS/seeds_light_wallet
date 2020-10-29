@@ -33,40 +33,16 @@ class FirebaseDatabaseService {
     return _usersCollection.doc(userId).set(data, SetOptions(merge: true));
   }
 
-  Future<void> sendGuardiansInvite(String currentUserId, List<MemberModel> usersToInvite) {
-    var batch = FirebaseFirestore.instance.batch();
-
-    usersToInvite.forEach((guardian) {
-      Map<String, Object> data = {
-        UID_KEY: guardian.account,
-        TYPE_KEY: GuardianType.myGuardian.name,
-        GUARDIANS_STATUS_KEY: GuardianStatus.requestSent.name,
-        GUARDIANS_DATE_CREATED_KEY: FieldValue.serverTimestamp(),
-        GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
-      };
-
-      Map<String, Object> dataOther = {
-        UID_KEY: currentUserId,
-        TYPE_KEY: GuardianType.imGuardian.name,
-        GUARDIANS_STATUS_KEY: GuardianStatus.requestedMe.name,
-        GUARDIANS_DATE_CREATED_KEY: FieldValue.serverTimestamp(),
-        GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
-      };
-
-      DocumentReference otherUserRef = _usersCollection.doc(guardian.account);
-      DocumentReference currentUserRef =
-          _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(guardian.account);
-      DocumentReference otherUserGuardianRef = otherUserRef.collection(GUARDIANS_COLLECTION_KEY).doc(currentUserId);
-
-      // This empty is needed in case the user does not exist in the database yet. Create him.
-      batch.set(otherUserRef, {}, SetOptions(merge: true));
-      batch.set(currentUserRef, data, SetOptions(merge: true));
-      batch.set(otherUserGuardianRef, dataOther, SetOptions(merge: true));
-    });
-
-    return batch.commit();
+  // Manage guardian Ids
+  String _createGuardianId({String currentUserId, String otherUserId}) {
+    return currentUserId + "-" + otherUserId;
   }
 
+  String _createImGuardianForId({String currentUserId, String otherUserId}) {
+    return otherUserId + "-" + currentUserId;
+  }
+
+  // Getters
   Stream<QuerySnapshot> getAllUserGuardians(String uid) {
     return _usersCollection.doc(uid).collection(GUARDIANS_COLLECTION_KEY).snapshots();
   }
@@ -91,15 +67,83 @@ class FirebaseDatabaseService {
         .snapshots();
   }
 
+  // Actions on My Guardians
+  Future<void> sendGuardiansInvite(String currentUserId, List<MemberModel> usersToInvite) {
+    var batch = FirebaseFirestore.instance.batch();
+
+    usersToInvite.forEach((guardian) {
+      Map<String, Object> data = {
+        UID_KEY: guardian.account,
+        TYPE_KEY: GuardianType.myGuardian.name,
+        GUARDIANS_STATUS_KEY: GuardianStatus.requestSent.name,
+        GUARDIANS_DATE_CREATED_KEY: FieldValue.serverTimestamp(),
+        GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
+      };
+
+      Map<String, Object> dataOther = {
+        UID_KEY: currentUserId,
+        TYPE_KEY: GuardianType.imGuardian.name,
+        GUARDIANS_STATUS_KEY: GuardianStatus.requestedMe.name,
+        GUARDIANS_DATE_CREATED_KEY: FieldValue.serverTimestamp(),
+        GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
+      };
+
+      DocumentReference otherUserRef = _usersCollection.doc(guardian.account);
+
+      DocumentReference currentUserRef = _usersCollection
+          .doc(currentUserId)
+          .collection(GUARDIANS_COLLECTION_KEY)
+          .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: guardian.account));
+
+      DocumentReference otherUserGuardianRef = otherUserRef
+          .collection(GUARDIANS_COLLECTION_KEY)
+          .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: guardian.account));
+
+      // This empty is needed in case the user does not exist in the database yet. Create him.
+      batch.set(otherUserRef, {}, SetOptions(merge: true));
+      batch.set(currentUserRef, data, SetOptions(merge: true));
+      batch.set(otherUserGuardianRef, dataOther, SetOptions(merge: true));
+    });
+
+    return batch.commit();
+  }
+
   Future<void> cancelGuardianRequest({String currentUserId, String friendId}) {
-    return _deleteGuardianFromUsers(currentUserId: currentUserId, friendId: friendId);
+    return _deleteMyGuardian(currentUserId: currentUserId, friendId: friendId);
   }
 
-  Future<void> removeGuardianGuardian({String currentUserId, String friendId}) {
-    return _deleteGuardianFromUsers(currentUserId: currentUserId, friendId: friendId);
+  Future<void> removeMyGuardian({String currentUserId, String friendId}) {
+    return _deleteMyGuardian(currentUserId: currentUserId, friendId: friendId);
   }
 
-  Future<void> acceptGuardianRequest({String currentUserId, String friendId}) {
+  Future<void> _deleteMyGuardian({String currentUserId, String friendId}) {
+    var batch = FirebaseFirestore.instance.batch();
+
+    var currentUserDocRef = _usersCollection
+        .doc(currentUserId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: friendId));
+    var otherUserDocRef = _usersCollection
+        .doc(friendId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: friendId));
+
+    batch.delete(currentUserDocRef);
+    batch.delete(otherUserDocRef);
+
+    return batch.commit();
+  }
+
+  // Actions on I am Guardian for
+  Future<void> removeImGuardianFor({String currentUserId, String friendId}) {
+    return _deleteImGuardianFor(currentUserId: currentUserId, friendId: friendId);
+  }
+
+  Future<void> declineGuardianRequestedMe({String currentUserId, String friendId}) {
+    return _deleteImGuardianFor(currentUserId: currentUserId, friendId: friendId);
+  }
+
+  Future<void> acceptGuardianRequestedMe({String currentUserId, String friendId}) {
     var batch = FirebaseFirestore.instance.batch();
 
     Map<String, Object> data = {
@@ -107,23 +151,35 @@ class FirebaseDatabaseService {
       GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
     };
 
-    var docRef = _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(friendId);
-    var docRefOther = _usersCollection.doc(friendId).collection(GUARDIANS_COLLECTION_KEY).doc(currentUserId);
+    var currentUserDocRef = _usersCollection
+        .doc(currentUserId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+    var otherUserDocRef = _usersCollection
+        .doc(friendId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
 
-    batch.set(docRef, data, SetOptions(merge: true));
-    batch.set(docRefOther, data, SetOptions(merge: true));
+    batch.set(currentUserDocRef, data, SetOptions(merge: true));
+    batch.set(otherUserDocRef, data, SetOptions(merge: true));
 
     return batch.commit();
   }
 
-  Future<void> _deleteGuardianFromUsers({String currentUserId, String friendId}) {
+  Future<void> _deleteImGuardianFor({String currentUserId, String friendId}) {
     var batch = FirebaseFirestore.instance.batch();
 
-    var docRef = _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).doc(friendId);
-    var docRefOther = _usersCollection.doc(friendId).collection(GUARDIANS_COLLECTION_KEY).doc(currentUserId);
+    var currentUserDocRef = _usersCollection
+        .doc(currentUserId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+    var otherUserDocRef = _usersCollection
+        .doc(friendId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
 
-    batch.delete(docRef);
-    batch.delete(docRefOther);
+    batch.delete(currentUserDocRef);
+    batch.delete(otherUserDocRef);
 
     return batch.commit();
   }

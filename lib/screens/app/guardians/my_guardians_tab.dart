@@ -4,6 +4,7 @@ import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/screens/app/guardians/my_guardian_users_list.dart';
 
 const MIN_GUARDIANS_COMPLETED = 3;
@@ -35,7 +36,9 @@ class MyGuardiansTab extends StatelessWidget {
                 FlatButton(
                   child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
                   onPressed: () {
-                    //TODO Next
+                    FirebaseDatabaseService().removeMyGuardian(
+                        currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                    Navigator.pop(context);
                   },
                 )
               ],
@@ -59,11 +62,9 @@ class MyGuardiansTab extends StatelessWidget {
       ));
     }
 
-    items.add(
-      Expanded(
-          child: buildMyGuardiansListView(
-              myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped)),
-    );
+    items.add(Expanded(
+        child:
+            buildMyGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped)));
 
     return Column(children: items);
   }

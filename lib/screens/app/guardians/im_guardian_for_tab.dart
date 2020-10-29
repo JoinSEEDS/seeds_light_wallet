@@ -4,6 +4,7 @@ import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/screens/app/guardians/guardian_users_list.dart';
 
 class ImGuardianForTab extends StatelessWidget {
@@ -31,7 +32,10 @@ class ImGuardianForTab extends StatelessWidget {
               FlatButton(
                 child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
                 onPressed: () {
-                  //TODO
+                  FirebaseDatabaseService().removeImGuardianFor(currentUserId: SettingsNotifier
+                      .of(context)
+                      .accountName, friendId: user.account);
+                  Navigator.pop(context);
                 },
               )
             ]));
