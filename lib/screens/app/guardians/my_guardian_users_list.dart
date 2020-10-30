@@ -21,7 +21,7 @@ ListView buildMyGuardiansListView(
         return guardianUserTile(
             user: memberModels.firstWhere((element) => element.account == guardian.uid),
             currentUserId: currentUserId,
-            status: guardian.status,
+            guardian: guardian,
             tileOnTap: tileOnTap);
       },
       separatorBuilder: (context, index) {

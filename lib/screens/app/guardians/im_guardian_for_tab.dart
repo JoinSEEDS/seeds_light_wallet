@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
-import 'package:seeds/screens/app/guardians/guardian_users_list.dart';
+
+import 'guardian_user_tile.dart';
 
 class ImGuardianForTab extends StatelessWidget {
   final List<Guardian> guardians;
@@ -19,8 +19,8 @@ class ImGuardianForTab extends StatelessWidget {
     var myGuardians = guardians.where((Guardian e) => e.type == GuardianType.imGuardian).toList();
     var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
-    _onTileTapped(MemberModel user, GuardianStatus status) {
-      if (status == GuardianStatus.alreadyGuardian) {
+    _onTileTapped(MemberModel user, Guardian guardian) {
+      if (guardian.status == GuardianStatus.alreadyGuardian) {
         showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {
@@ -47,7 +47,7 @@ class ImGuardianForTab extends StatelessWidget {
                     SizedBox(height: 20),
                     FlatButton.icon(
                       onPressed: () {
-                        showRemoveGuardianshipConfirmationDialog(user, context);
+                        showStartRecoveryConfirmationDialog(user, context);
                       },
                       label: Text("Start Key Recovery"),
                       icon: Icon(Icons.vpn_key_sharp, color: Colors.grey),
@@ -76,7 +76,15 @@ class ImGuardianForTab extends StatelessWidget {
             "No users have added you to become their guardian yet. Once they do, you will see their request here."),
       ));
     } else {
-      return buildGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped);
+      return ListView(
+        children: myMembers
+            .map((e) => guardianUserTile(
+                user: e,
+                currentUserId: SettingsNotifier.of(context).accountName,
+                guardian: myGuardians.firstWhere((element) => element.uid == e.account),
+                tileOnTap: _onTileTapped))
+            .toList(),
+      );
     }
   }
 
@@ -96,8 +104,9 @@ class ImGuardianForTab extends StatelessWidget {
               FlatButton(
                 child: Text("Yes: Start Key Recovery", style: TextStyle(color: Colors.red)),
                 onPressed: () {
-                  // FirebaseDatabaseService().removeImGuardianFor(
-                  //     currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                  FirebaseDatabaseService().startRecoveryForUser(
+                      currentUserId: SettingsNotifier.of(context).accountName, account: user.account);
+                  Navigator.pop(context);
                   Navigator.pop(context);
                 },
               )
@@ -123,8 +132,9 @@ class ImGuardianForTab extends StatelessWidget {
                   style: TextStyle(color: Colors.red),
                 ),
                 onPressed: () {
-                  // FirebaseDatabaseService().removeImGuardianFor(
-                  //     currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                  FirebaseDatabaseService().removeImGuardianFor(
+                      currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                  Navigator.pop(context);
                   Navigator.pop(context);
                 },
               )

@@ -184,5 +184,16 @@ class FirebaseDatabaseService {
     return batch.commit();
   }
 
-  void startRecoveryForUser(String account) {}
+  Future<void> startRecoveryForUser({String currentUserId, String account}) {
+    Map<String, Object> data = {
+      APPROVED_BY_KEY: currentUserId,
+      RECOVERY_APPROVED_DATE_KEY: FieldValue.serverTimestamp(),
+    };
+
+    return _usersCollection
+        .doc(account)
+        .collection(RECOVERY_COLLECTION_KEY)
+        .doc(currentUserId)
+        .set(data, SetOptions(merge: true));
+  }
 }
