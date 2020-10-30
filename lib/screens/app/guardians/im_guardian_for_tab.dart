@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
@@ -22,22 +23,40 @@ class ImGuardianForTab extends StatelessWidget {
       if (status == GuardianStatus.alreadyGuardian) {
         showDialog(
             context: context,
-            child: AlertDialog(content: Text("I am Guardian for ${user.nickname}"), actions: [
-              FlatButton(
-                child: const Text('Cancel'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              FlatButton(
-                child: const Text('Remove Guardianship', style: TextStyle(color: Colors.red)),
-                onPressed: () {
-                  FirebaseDatabaseService().removeImGuardianFor(
-                      currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
-                  Navigator.pop(context);
-                },
-              )
-            ]));
+            child: AlertDialog(
+                content: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("I am Guardian for ${user.nickname}", style: TextStyle(color: Colors.black)),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24),
+                      child: RaisedButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.vpn_key_outlined, color: Colors.white),
+                        label: Text("Start Key Recovery", style: TextStyle(color: Colors.white)),
+                        color: AppColors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+                actions: [
+                  FlatButton(
+                    child: const Text('Dismiss'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  FlatButton(
+                    child: const Text('Remove Guardianship', style: TextStyle(color: Colors.red)),
+                    onPressed: () {
+                      FirebaseDatabaseService().removeImGuardianFor(
+                          currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                      Navigator.pop(context);
+                    },
+                  )
+                ]));
       }
     }
 
