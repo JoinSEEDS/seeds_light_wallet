@@ -323,25 +323,6 @@ class _ReceiveFormState extends State<ReceiveForm> {
         fullscreenDialog: true,
       ),
     );
-
-    Scaffold.of(context).showBottomSheet(
-      (context) => Container(
-        color: Colors.white,
-        padding: EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 15,
-        ),
-        child: Wrap(
-          runSpacing: 10.0,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[],
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   void generateInvoice(String amount) async {
