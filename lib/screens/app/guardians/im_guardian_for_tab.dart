@@ -21,42 +21,50 @@ class ImGuardianForTab extends StatelessWidget {
 
     _onTileTapped(MemberModel user, GuardianStatus status) {
       if (status == GuardianStatus.alreadyGuardian) {
-        showDialog(
-            context: context,
-            child: AlertDialog(
-                content: Column(
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16.0, bottom: 16),
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("I am Guardian for ${user.nickname}", style: TextStyle(color: Colors.black)),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 24),
-                      child: RaisedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(Icons.vpn_key_outlined, color: Colors.white),
-                        label: Text("Start Key Recovery", style: TextStyle(color: Colors.white)),
-                        color: AppColors.blue,
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        child: SizedBox(height: 2, width: 40),
+                        color: Colors.black,
                       ),
+                    ),
+                    SizedBox(height: 20),
+                    Center(
+                        child: Text(
+                      "I am Guardian for ${user.nickname}",
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    )),
+                    SizedBox(height: 20),
+                    FlatButton.icon(
+                      onPressed: () {
+                        showRemoveGuardianshipConfirmationDialog(user, context);
+                      },
+                      label: Text("Start Key Recovery"),
+                      icon: Icon(Icons.vpn_key_sharp, color: Colors.grey),
+                    ),
+                    FlatButton.icon(
+                      onPressed: () {
+                        showRemoveGuardianshipConfirmationDialog(user, context);
+                      },
+                      label: Text("Remove Guardianship"),
+                      icon: Icon(Icons.delete, color: Colors.grey),
                     ),
                   ],
                 ),
-                actions: [
-                  FlatButton(
-                    child: const Text('Dismiss'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  FlatButton(
-                    child: const Text('Remove Guardianship', style: TextStyle(color: Colors.red)),
-                    onPressed: () {
-                      FirebaseDatabaseService().removeImGuardianFor(
-                          currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
-                      Navigator.pop(context);
-                    },
-                  )
-                ]));
+              ),
+            );
+          },
+        );
       }
     }
 
@@ -70,5 +78,56 @@ class ImGuardianForTab extends StatelessWidget {
     } else {
       return buildGuardiansListView(myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped);
     }
+  }
+
+  void showStartRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
+    showDialog(
+        context: context,
+        child: AlertDialog(
+            content: Text("Are you sure you want to start key recovery process for ${user.nickname}?",
+                style: TextStyle(color: Colors.black)),
+            actions: [
+              FlatButton(
+                child: const Text('No: Dismiss'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text("Yes: Start Key Recovery", style: TextStyle(color: Colors.red)),
+                onPressed: () {
+                  // FirebaseDatabaseService().removeImGuardianFor(
+                  //     currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                  Navigator.pop(context);
+                },
+              )
+            ]));
+  }
+
+  void showRemoveGuardianshipConfirmationDialog(MemberModel user, BuildContext context) {
+    showDialog(
+        context: context,
+        child: AlertDialog(
+            content: Text("Are you sure you want to stop being ${user.nickname}'s guardian?",
+                style: TextStyle(color: Colors.black)),
+            actions: [
+              FlatButton(
+                child: const Text('No: Dismiss'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: const Text(
+                  "Yes: Remove Guardianship",
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () {
+                  // FirebaseDatabaseService().removeImGuardianFor(
+                  //     currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                  Navigator.pop(context);
+                },
+              )
+            ]));
   }
 }

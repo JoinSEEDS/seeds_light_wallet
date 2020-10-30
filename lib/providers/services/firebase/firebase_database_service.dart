@@ -183,4 +183,6 @@ class FirebaseDatabaseService {
 
     return batch.commit();
   }
+
+  void startRecoveryForUser(String account) {}
 }
