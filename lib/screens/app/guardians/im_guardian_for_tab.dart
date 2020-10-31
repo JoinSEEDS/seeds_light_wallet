@@ -20,51 +20,11 @@ class ImGuardianForTab extends StatelessWidget {
     var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
     _onTileTapped(MemberModel user, Guardian guardian) {
-      if (guardian.status == GuardianStatus.alreadyGuardian) {
-        showModalBottomSheet<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0, bottom: 16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Center(
-                      child: Container(
-                        child: SizedBox(height: 2, width: 40),
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Center(
-                        child: Text(
-                      "I am Guardian for ${user.nickname}",
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                    )),
-                    SizedBox(height: 20),
-                    FlatButton.icon(
-                      onPressed: () {
-                        showStartRecoveryConfirmationDialog(user, context);
-                      },
-                      label: Text("Start Key Recovery"),
-                      icon: Icon(Icons.vpn_key_sharp, color: Colors.grey),
-                    ),
-                    FlatButton.icon(
-                      onPressed: () {
-                        showRemoveGuardianshipConfirmationDialog(user, context);
-                      },
-                      label: Text("Remove Guardianship"),
-                      icon: Icon(Icons.delete, color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
+      if (guardian.recoveryApproved != null) {
+      } else {
+        if (guardian.status == GuardianStatus.alreadyGuardian) {
+          showGuardianshipOptionsBottomSheet(context, user);
+        }
       }
     }
 
@@ -88,6 +48,53 @@ class ImGuardianForTab extends StatelessWidget {
     }
   }
 
+  void showGuardianshipOptionsBottomSheet(BuildContext context, MemberModel user) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16.0, bottom: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Center(
+                  child: Container(
+                    child: SizedBox(height: 2, width: 40),
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Center(
+                    child: Text(
+                  "I am Guardian for ${user.nickname}",
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                )),
+                SizedBox(height: 20),
+                FlatButton.icon(
+                  onPressed: () {
+                    showStartRecoveryConfirmationDialog(user, context);
+                  },
+                  label: Text("Start Key Recovery"),
+                  icon: Icon(Icons.vpn_key_sharp, color: Colors.grey),
+                ),
+                FlatButton.icon(
+                  onPressed: () {
+                    showRemoveGuardianshipConfirmationDialog(user, context);
+                  },
+                  label: Text("Remove Guardianship"),
+                  icon: Icon(Icons.delete, color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void showStartRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
     showDialog(
         context: context,
@@ -105,7 +112,7 @@ class ImGuardianForTab extends StatelessWidget {
                 child: Text("Yes: Start Key Recovery", style: TextStyle(color: Colors.red)),
                 onPressed: () {
                   FirebaseDatabaseService().startRecoveryForUser(
-                      currentUserId: SettingsNotifier.of(context).accountName, account: user.account);
+                      currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },

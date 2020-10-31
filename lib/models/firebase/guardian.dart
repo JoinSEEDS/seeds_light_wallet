@@ -9,6 +9,7 @@ class Guardian {
   final GuardianType type;
   final Timestamp dateCreated;
   final Timestamp lastUpdated;
+  final Timestamp recoveryApproved;
 
   Guardian.fromMap(Map<String, dynamic> data)
       : this(
@@ -17,7 +18,8 @@ class Guardian {
           type: fromTypeName(data[TYPE_KEY]),
           dateCreated: data[GUARDIANS_DATE_CREATED_KEY],
           lastUpdated: data[GUARDIANS_DATE_UPDATED_KEY],
+          recoveryApproved: data[RECOVERY_APPROVED_DATE_KEY],
         );
 
-  Guardian({this.uid, this.status, this.type, this.dateCreated, this.lastUpdated});
+  Guardian({this.uid, this.status, this.type, this.dateCreated, this.lastUpdated, this.recoveryApproved});
 }

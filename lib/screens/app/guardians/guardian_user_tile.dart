@@ -8,7 +8,7 @@ import 'package:seeds/widgets/transaction_avatar.dart';
 
 Widget guardianUserTile({MemberModel user, Guardian guardian, String currentUserId, Function tileOnTap}) {
   return ListTile(
-      trailing: trailingWidget(guardian.status, user, currentUserId),
+      trailing: trailingWidget(guardian, user, currentUserId),
       leading: Hero(
         child: TransactionAvatar(
           size: 60,
@@ -51,8 +51,8 @@ Widget otherTrailingWidget(Guardian guardian, MemberModel user, String currentUs
 
 }
 
-Widget trailingWidget(GuardianStatus status, MemberModel user, String currentUserId) {
-  switch (status) {
+Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId) {
+  switch (guardian.status) {
     case GuardianStatus.requestedMe:
       return Wrap(
         children: [
@@ -83,6 +83,14 @@ Widget trailingWidget(GuardianStatus status, MemberModel user, String currentUse
               friendId: user.account,
             );
           });
+    case GuardianStatus.alreadyGuardian: {
+      if(guardian.recoveryApproved != null) {
+         return Text("Recovery Started", style: TextStyle(color: Colors.red),);
+      } else {
+        return SizedBox.shrink();
+      }
+      break;
+    }
     default:
       return SizedBox.shrink();
   }

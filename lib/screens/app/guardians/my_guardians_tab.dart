@@ -20,29 +20,33 @@ class MyGuardiansTab extends StatelessWidget {
     var myGuardians = guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
     var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
-    _onTileTapped(MemberModel user, GuardianStatus status) {
-      if (status == GuardianStatus.alreadyGuardian) {
-        showDialog(
-            context: context,
-            child: AlertDialog(
-              content: Text("Guardian ${user.nickname}"),
-              actions: [
-                FlatButton(
-                  child: const Text('Dismiss'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                FlatButton(
-                  child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
-                  onPressed: () {
-                    FirebaseDatabaseService().removeMyGuardian(
-                        currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ));
+    _onTileTapped(MemberModel user, Guardian guardian) {
+      if (guardian.recoveryApproved != null) {
+        showGuardianshipOptionsBottomSheet(context, user);
+      } else {
+        if (guardian.status == GuardianStatus.alreadyGuardian) {
+          showDialog(
+              context: context,
+              child: AlertDialog(
+                content: Text("Guardian ${user.nickname}"),
+                actions: [
+                  FlatButton(
+                    child: const Text('Dismiss'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  FlatButton(
+                    child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
+                    onPressed: () {
+                      FirebaseDatabaseService().removeMyGuardian(
+                          currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              ));
+        }
       }
     }
 
@@ -74,5 +78,75 @@ class MyGuardiansTab extends StatelessWidget {
 
       return Column(children: items);
     }
+  }
+
+  void showGuardianshipOptionsBottomSheet(BuildContext context, MemberModel user) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16.0, bottom: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Center(
+                  child: Container(
+                    child: SizedBox(height: 2, width: 40),
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                  child: Center(
+                      child: Text(
+                    "A motion to Recover your Key has been initiated by ${user.nickname}",
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  )),
+                ),
+                SizedBox(height: 20),
+                FlatButton.icon(
+                  onPressed: () {
+                    showStopRecoveryConfirmationDialog(user, context);
+                  },
+                  label: Text(
+                    "Stop this Recovery",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  icon: Icon(Icons.cancel_rounded, color: Colors.blue),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showStopRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
+    showDialog(
+        context: context,
+        child: AlertDialog(
+            content: Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
+            actions: [
+              FlatButton(
+                child: const Text('No: Dismiss'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text("Yes: Stop Key Recovery"),
+                onPressed: () {
+                  FirebaseDatabaseService()
+                      .stopRecoveryForUser(currentUserId: SettingsNotifier.of(context).accountName);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+              )
+            ]));
   }
 }

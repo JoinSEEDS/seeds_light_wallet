@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
@@ -184,16 +185,53 @@ class FirebaseDatabaseService {
     return batch.commit();
   }
 
-  Future<void> startRecoveryForUser({String currentUserId, String account}) {
+  Future<void> startRecoveryForUser({String currentUserId, String friendId}) {
     Map<String, Object> data = {
-      APPROVED_BY_KEY: currentUserId,
       RECOVERY_APPROVED_DATE_KEY: FieldValue.serverTimestamp(),
     };
 
-    return _usersCollection
-        .doc(account)
-        .collection(RECOVERY_COLLECTION_KEY)
+    var batch = FirebaseFirestore.instance.batch();
+
+    var currentUserDocRef = _usersCollection
         .doc(currentUserId)
-        .set(data, SetOptions(merge: true));
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+    var otherUserDocRef = _usersCollection
+        .doc(friendId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+
+    batch.set(currentUserDocRef, data, SetOptions(merge: true));
+    batch.set(otherUserDocRef, data, SetOptions(merge: true));
+
+    return batch.commit();
+  }
+
+  // This methods finds all the myGuardians for the current user and removes the RECOVERY_APPROVED_DATE_KEY for each one of them.
+  // Then it goes over to each user and removes the field from the users collection as well.
+  Future<void> stopRecoveryForUser({String currentUserId}) async {
+    Map<String, Object> data = {
+      RECOVERY_APPROVED_DATE_KEY: FieldValue.delete(),
+    };
+
+    var batch = FirebaseFirestore.instance.batch();
+
+    QuerySnapshot guardiansCollection =
+        await _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).get();
+
+    Iterable<QueryDocumentSnapshot> myGuardians = guardiansCollection.docs
+        .where((QueryDocumentSnapshot element) => Guardian.fromMap(element.data()).type == GuardianType.myGuardian);
+
+    myGuardians.forEach((QueryDocumentSnapshot guardian) {
+      batch.set(
+          _usersCollection
+              .doc(Guardian.fromMap(guardian.data()).uid)
+              .collection(GUARDIANS_COLLECTION_KEY)
+              .doc(guardian.id),
+          data,
+          SetOptions(merge: true));
+      batch.set(guardian.reference, data, SetOptions(merge: true));
+    });
+    return batch.commit();
   }
 }
