@@ -45,7 +45,7 @@ Widget buildSeparator(List<Guardian> guardians, int index) {
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
-          child: Center(child: Text("Your Guardians")),
+          child: Center(child: Text("My Guardians")),
         ),
       );
     } else {

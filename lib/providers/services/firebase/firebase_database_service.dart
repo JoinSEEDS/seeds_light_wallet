@@ -207,9 +207,9 @@ class FirebaseDatabaseService {
     return batch.commit();
   }
 
-  // This methods finds all the myGuardians for the current user and removes the RECOVERY_APPROVED_DATE_KEY for each one of them.
+  // This methods finds all the myGuardians for the {userId} and removes the RECOVERY_APPROVED_DATE_KEY for each one of them.
   // Then it goes over to each user and removes the field from the users collection as well.
-  Future<void> stopRecoveryForUser({String currentUserId}) async {
+  Future<void> stopRecoveryForUser({String userId}) async {
     Map<String, Object> data = {
       RECOVERY_APPROVED_DATE_KEY: FieldValue.delete(),
     };
@@ -217,7 +217,7 @@ class FirebaseDatabaseService {
     var batch = FirebaseFirestore.instance.batch();
 
     QuerySnapshot guardiansCollection =
-        await _usersCollection.doc(currentUserId).collection(GUARDIANS_COLLECTION_KEY).get();
+        await _usersCollection.doc(userId).collection(GUARDIANS_COLLECTION_KEY).get();
 
     Iterable<QueryDocumentSnapshot> myGuardians = guardiansCollection.docs
         .where((QueryDocumentSnapshot element) => Guardian.fromMap(element.data()).type == GuardianType.myGuardian);

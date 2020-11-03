@@ -22,7 +22,7 @@ class MyGuardiansTab extends StatelessWidget {
 
     _onTileTapped(MemberModel user, Guardian guardian) {
       if (guardian.recoveryApproved != null) {
-        showGuardianshipOptionsBottomSheet(context, user);
+        showRecoveryStartedBottomSheet(context, user);
       } else {
         if (guardian.status == GuardianStatus.alreadyGuardian) {
           showDialog(
@@ -80,7 +80,7 @@ class MyGuardiansTab extends StatelessWidget {
     }
   }
 
-  void showGuardianshipOptionsBottomSheet(BuildContext context, MemberModel user) {
+  void showRecoveryStartedBottomSheet(BuildContext context, MemberModel user) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -142,7 +142,7 @@ class MyGuardiansTab extends StatelessWidget {
                 child: Text("Yes: Stop Key Recovery"),
                 onPressed: () {
                   FirebaseDatabaseService()
-                      .stopRecoveryForUser(currentUserId: SettingsNotifier.of(context).accountName);
+                      .stopRecoveryForUser(userId: SettingsNotifier.of(context).accountName);
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },
