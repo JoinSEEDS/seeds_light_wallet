@@ -47,17 +47,13 @@ Widget guardianUserTile({MemberModel user, Guardian guardian, String currentUser
       });
 }
 
-Widget otherTrailingWidget(Guardian guardian, MemberModel user, String currentUserId) {
-
-}
-
 Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId) {
   switch (guardian.status) {
     case GuardianStatus.requestedMe:
       return Wrap(
         children: [
           TextButton(
-              child: Text("Accept", style: TextStyle(color: Colors.blue)),
+              child: Text("Accept", style: TextStyle(color: Colors.blue, fontSize: 12)),
               onPressed: () {
                 FirebaseDatabaseService().acceptGuardianRequestedMe(
                   currentUserId: currentUserId,
@@ -65,7 +61,7 @@ Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId)
                 );
               }),
           TextButton(
-              child: Text("Decline", style: TextStyle(color: Colors.red)),
+              child: Text("Decline", style: TextStyle(color: Colors.red, fontSize: 12)),
               onPressed: () {
                 FirebaseDatabaseService().declineGuardianRequestedMe(
                   currentUserId: currentUserId,
@@ -76,7 +72,7 @@ Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId)
       );
     case GuardianStatus.requestSent:
       return TextButton(
-          child: Text("Cancel Request", style: TextStyle(color: Colors.red)),
+          child: Text("Cancel Request", style: TextStyle(color: Colors.red, fontSize: 12)),
           onPressed: () {
             FirebaseDatabaseService().cancelGuardianRequest(
               currentUserId: currentUserId,
@@ -85,7 +81,7 @@ Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId)
           });
     case GuardianStatus.alreadyGuardian: {
       if(guardian.recoveryApproved != null) {
-         return Text("Recovery Started", style: TextStyle(color: Colors.red),);
+         return Text("Recovery Started", style: TextStyle(color: Colors.red, fontSize: 12),);
       } else {
         return SizedBox.shrink();
       }

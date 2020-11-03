@@ -25,27 +25,7 @@ class MyGuardiansTab extends StatelessWidget {
         showRecoveryStartedBottomSheet(context, user);
       } else {
         if (guardian.status == GuardianStatus.alreadyGuardian) {
-          showDialog(
-              context: context,
-              child: AlertDialog(
-                content: Text("Guardian ${user.nickname}"),
-                actions: [
-                  FlatButton(
-                    child: const Text('Dismiss'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  FlatButton(
-                    child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
-                    onPressed: () {
-                      FirebaseDatabaseService().removeMyGuardian(
-                          currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
-                      Navigator.pop(context);
-                    },
-                  )
-                ],
-              ));
+          showGuardianOptionsDIalog(context, user);
         }
       }
     }
@@ -78,6 +58,30 @@ class MyGuardiansTab extends StatelessWidget {
 
       return Column(children: items);
     }
+  }
+
+  void showGuardianOptionsDIalog(BuildContext context, MemberModel user) {
+     showDialog(
+        context: context,
+        child: AlertDialog(
+          content: Text("Guardian ${user.nickname}"),
+          actions: [
+            FlatButton(
+              child: const Text('Dismiss'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
+              onPressed: () {
+                FirebaseDatabaseService().removeMyGuardian(
+                    currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                Navigator.pop(context);
+              },
+            )
+          ],
+        ));
   }
 
   void showRecoveryStartedBottomSheet(BuildContext context, MemberModel user) {

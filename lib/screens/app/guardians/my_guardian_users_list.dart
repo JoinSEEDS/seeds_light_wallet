@@ -51,7 +51,7 @@ Widget buildSeparator(List<Guardian> guardians, int index) {
     } else {
       return requested;
     }
-  } else if (index > guardians.length - 2) {
+  } else if (index > guardians.length - 1) {
     return SizedBox.shrink();
   } else {
     var guardian = guardians[index - 1];
