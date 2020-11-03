@@ -32,19 +32,16 @@ class ImGuardianForTab extends StatelessWidget {
     if (myMembers.isEmpty) {
       return Center(
           child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Text(
-                "No users have added you to become their guardian yet. Once they do, you will see their request here."),
-          ));
+        padding: const EdgeInsets.all(32.0),
+        child: Text(
+            "No users have added you to become their guardian yet. Once they do, you will see their request here."),
+      ));
     } else {
       return ListView(
         children: myMembers
-            .map((e) =>
-            guardianUserTile(
+            .map((e) => guardianUserTile(
                 user: e,
-                currentUserId: SettingsNotifier
-                    .of(context)
-                    .accountName,
+                currentUserId: SettingsNotifier.of(context).accountName,
                 guardian: myGuardians.firstWhere((element) => element.uid == e.account),
                 tileOnTap: _onTileTapped))
             .toList(),
@@ -73,9 +70,9 @@ class ImGuardianForTab extends StatelessWidget {
                 SizedBox(height: 20),
                 Center(
                     child: Text(
-                      "I am Guardian for ${user.nickname}",
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                    )),
+                  "I am Guardian for ${user.nickname}",
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                )),
                 SizedBox(height: 20),
                 FlatButton.icon(
                   onPressed: () {
@@ -88,8 +85,11 @@ class ImGuardianForTab extends StatelessWidget {
                   onPressed: () {
                     showRemoveGuardianshipConfirmationDialog(user, context);
                   },
-                  label: Text("Remove Guardianship"),
-                  icon: Icon(Icons.delete, color: Colors.grey),
+                  label: Text(
+                    "Remove Guardianship",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  icon: Icon(Icons.delete, color: Colors.red),
                 ),
               ],
             ),
@@ -122,9 +122,9 @@ class ImGuardianForTab extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                   child: Center(
                       child: Text(
-                        "A motion to Recover ${user.nickname}'s Key has been initiated",
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                      )),
+                    "A motion to Recover ${user.nickname}'s Key has been initiated",
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  )),
                 ),
                 SizedBox(height: 20),
                 FlatButton.icon(
@@ -133,9 +133,9 @@ class ImGuardianForTab extends StatelessWidget {
                   },
                   label: Text(
                     "Stop this Recovery",
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: Colors.red),
                   ),
-                  icon: Icon(Icons.cancel_rounded, color: Colors.blue),
+                  icon: Icon(Icons.cancel_rounded, color: Colors.red),
                 ),
               ],
             ),
@@ -185,9 +185,7 @@ class ImGuardianForTab extends StatelessWidget {
                 child: Text("Yes: Start Key Recovery", style: TextStyle(color: Colors.red)),
                 onPressed: () {
                   FirebaseDatabaseService().startRecoveryForUser(
-                      currentUserId: SettingsNotifier
-                          .of(context)
-                          .accountName, friendId: user.account);
+                      currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },
@@ -215,9 +213,7 @@ class ImGuardianForTab extends StatelessWidget {
                 ),
                 onPressed: () {
                   FirebaseDatabaseService().removeImGuardianFor(
-                      currentUserId: SettingsNotifier
-                          .of(context)
-                          .accountName, friendId: user.account);
+                      currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },
