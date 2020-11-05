@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -5,13 +7,16 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/shared/shimmer_tile.dart';
 import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
 
-const _MIN_SELECTED_ALLOWED = 3;
+const _MAX_GUARDIANS_ALLOWED = 5;
+
 class SelectGuardians extends StatefulWidget {
   SelectGuardians();
 
@@ -104,63 +109,71 @@ class _SelectGuardiansState extends State<SelectGuardians> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0, bottom: 8, top: 8),
-                  child: Text(
-                    "Select up to 5 Guardians to invite",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: selectedUsers.length == 0
-                      ? Container()
-                      : Wrap(
-                          // scrollDirection: Axis.horizontal,
-                          children: selectedUsers
-                              .toList()
-                              .reversed
-                              .map((e) => Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: ActionChip(
-                                      label: Text(e.nickname),
-                                      avatar: Icon(Icons.highlight_off),
-                                      onPressed: () {
-                                        setState(() {
-                                          selectedUsers.remove(e);
-                                        });
-                                      },
-                                    ),
-                                  ))
-                              .toList(),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseDatabaseService().getMyGuardians(SettingsNotifier.of(context).accountName),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0, bottom: 8, top: 8),
+                          child: Text(
+                            "Select up to ${_MAX_GUARDIANS_ALLOWED - snapshot.data.size} Guardians to invite",
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ),
-                ),
-                Expanded(child: _usersList(context)),
-                MainButton(
-                  active: selectedUsers.length >= _MIN_SELECTED_ALLOWED,
-                  margin: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 16),
-                  title: 'Next'.i18n,
-                  onPressed: () => {
-                    if (selectedUsers.length >= _MIN_SELECTED_ALLOWED)
-                      {
-                        NavigationService.of(context).navigateTo(Routes.inviteGuardians, selectedUsers),
-                      }
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: selectedUsers.length == 0
+                              ? Container()
+                              : Wrap(
+                                  // scrollDirection: Axis.horizontal,
+                                  children: selectedUsers
+                                      .toList()
+                                      .reversed
+                                      .map((e) => Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: ActionChip(
+                                              label: Text(e.nickname),
+                                              avatar: Icon(Icons.highlight_off),
+                                              onPressed: () {
+                                                setState(() {
+                                                  selectedUsers.remove(e);
+                                                });
+                                              },
+                                            ),
+                                          ))
+                                      .toList(),
+                                ),
+                        ),
+                        Expanded(child: _usersList(context, snapshot.data.docs)),
+                        MainButton(
+                          active: selectedUsers.length > 0,
+                          margin: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 16),
+                          title: 'Next'.i18n,
+                          onPressed: () => {
+                            if (selectedUsers.length > 0)
+                              {
+                                NavigationService.of(context).navigateTo(Routes.inviteGuardians, selectedUsers),
+                              }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return SizedBox.shrink();
+            }
+          }),
     );
   }
 
@@ -174,7 +187,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
     _searchFocusNode = new FocusNode();
   }
 
-  Widget _usersList(context) {
+  Widget _usersList(BuildContext context, List<QueryDocumentSnapshot> alreadyGuardians) {
     return Consumer<MembersNotifier>(builder: (ctx, model, _) {
       return (model.visibleMembers.isEmpty && showSearch == true)
           ? Padding(
@@ -208,13 +221,17 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                     final MemberModel user = model.visibleMembers[index];
                     return userTile(
                         user: user,
-                        selected: selectedUsers.contains(user),
+                        selected: _selected(user, alreadyGuardians),
                         onTap: () async {
-                          if (selectedUsers.length >= 5) {
-                            errorToast("Max 5 guardians. Tap next to proceed".i18n);
+                          if (selectedUsers.length + alreadyGuardians.length >= _MAX_GUARDIANS_ALLOWED) {
+                            errorToast(
+                                "Max ${_MAX_GUARDIANS_ALLOWED - alreadyGuardians.length} guardians. Tap next to proceed"
+                                    .i18n);
                           } else {
                             setState(() {
-                              selectedUsers.add(user);
+                              if (!_selected(user, alreadyGuardians)) {
+                                selectedUsers.add(user);
+                              }
                             });
                           }
                         });
@@ -223,5 +240,11 @@ class _SelectGuardiansState extends State<SelectGuardians> {
               ),
             );
     });
+  }
+
+  // Checks if an element is already selected or already a guardian
+  bool _selected(MemberModel user, List<QueryDocumentSnapshot> alreadyGuardians) {
+    return selectedUsers.contains(user) ||
+        alreadyGuardians.firstWhere((element) => element.id == user.account, orElse: () => null) != null;
   }
 }

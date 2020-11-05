@@ -5,8 +5,11 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/guardians/im_guardian_for_tab.dart';
 import 'package:seeds/screens/app/guardians/my_guardians_tab.dart';
+
+const _MAX_GUARDIANS_ALLOWED = 5;
 
 class GuardianTabs extends StatelessWidget {
   @override
@@ -14,10 +17,20 @@ class GuardianTabs extends StatelessWidget {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          floatingActionButton: FloatingActionButton.extended(
-            label: Text("Add More Guardians"),
-            onPressed: () {},
-          ),
+          floatingActionButton: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseDatabaseService().getMyGuardians(SettingsNotifier.of(context).accountName),
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data.size < _MAX_GUARDIANS_ALLOWED) {
+                  return FloatingActionButton.extended(
+                    label: Text("Add Guardians"),
+                    onPressed: () {
+                      NavigationService.of(context).navigateTo(Routes.selectGuardians);
+                    },
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
+              }),
           appBar: AppBar(
             bottom: TabBar(
               tabs: [

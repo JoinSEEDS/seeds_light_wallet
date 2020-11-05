@@ -5,7 +5,7 @@ import 'package:seeds/models/models.dart';
 import 'guardian_user_tile.dart';
 
 ListView buildGuardiansListView(
-    List<MemberModel> memberModels, String currentUserId, List<Guardian> guardians, GestureTapCallback tileOnTap) {
+    List<MemberModel> memberModels, String currentUserId, List<Guardian> guardians, Function tileOnTap) {
   return ListView(
     children: memberModels
         .map((e) => guardianUserTile(
