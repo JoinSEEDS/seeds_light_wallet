@@ -21,11 +21,11 @@ class MyGuardiansTab extends StatelessWidget {
     var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
     _onTileTapped(MemberModel user, Guardian guardian) {
-      if (guardian.recoveryApproved != null) {
+      if (guardian.recoveryStartedDate != null) {
         showRecoveryStartedBottomSheet(context, user);
       } else {
         if (guardian.status == GuardianStatus.alreadyGuardian) {
-          showGuardianOptionsDIalog(context, user);
+          showGuardianOptionsDialog(context, user);
         }
       }
     }
@@ -60,7 +60,7 @@ class MyGuardiansTab extends StatelessWidget {
     }
   }
 
-  void showGuardianOptionsDIalog(BuildContext context, MemberModel user) {
+  void showGuardianOptionsDialog(BuildContext context, MemberModel user) {
      showDialog(
         context: context,
         child: AlertDialog(

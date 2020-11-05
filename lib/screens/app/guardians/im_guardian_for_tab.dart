@@ -5,6 +5,7 @@ import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
+import 'package:seeds/screens/app/guardians/my_guardians_tab.dart';
 
 import 'guardian_user_tile.dart';
 
@@ -16,12 +17,17 @@ class ImGuardianForTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var myGuardians = guardians.where((Guardian e) => e.type == GuardianType.imGuardian).toList();
-    var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
+    List<Guardian> myGuardians = guardians.where((Guardian e) => e.type == GuardianType.imGuardian).toList();
+    List<MemberModel> myMembers =
+        allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
     _onTileTapped(MemberModel user, Guardian guardian) {
-      if (guardian.recoveryApproved != null) {
-        showRecoveryStartedBottomSheet(context, user);
+      if (guardian.recoveryStartedDate != null) {
+        if (guardian.recoveryApprovedDate != null) {
+          showRecoveryStartedBottomSheet(context, user);
+        } else {
+          showRecoveryStartedActionRequiredBottomSheet(context, user);
+        }
       } else {
         if (guardian.status == GuardianStatus.alreadyGuardian) {
           showGuardianshipOptionsBottomSheet(context, user);
@@ -75,8 +81,16 @@ class ImGuardianForTab extends StatelessWidget {
                 )),
                 SizedBox(height: 20),
                 FlatButton.icon(
-                  onPressed: () {
-                    showStartRecoveryConfirmationDialog(user, context);
+                  onPressed: () async {
+                    print("List<QuerySnapshot> result");
+                    var result =
+                        await FirebaseDatabaseService().getMyAlreadyApprovedGuardiansForUserFuture(user.account);
+
+                    if (result.docs.length >= MIN_GUARDIANS_COMPLETED) {
+                      showStartRecoveryConfirmationDialog(user, context);
+                    } else {
+                      showNowEnoughGuardiansInfoDialog(user, context);
+                    }
                   },
                   label: Text("Start Key Recovery"),
                   icon: Icon(Icons.vpn_key_sharp, color: Colors.grey),
@@ -145,6 +159,64 @@ class ImGuardianForTab extends StatelessWidget {
     );
   }
 
+  void showRecoveryStartedActionRequiredBottomSheet(BuildContext context, MemberModel user) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16.0, bottom: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Center(
+                  child: Container(
+                    child: SizedBox(height: 2, width: 40),
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                  child: Center(
+                      child: Text(
+                    "A motion to Recover ${user.nickname}'s Key has been initiated",
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  )),
+                ),
+                SizedBox(height: 20),
+                FlatButton.icon(
+                  onPressed: () {
+                    FirebaseDatabaseService().approveRecoveryForUser(
+                        friendId: user.account, currentUserId: SettingsNotifier.of(context).accountName);
+                    Navigator.pop(context);
+                  },
+                  label: Text(
+                    "Approve this recovery",
+                    style: TextStyle(color: Colors.green),
+                  ),
+                  icon: Icon(Icons.check_circle, color: Colors.green),
+                ),
+                FlatButton.icon(
+                  onPressed: () {
+                    showStopRecoveryConfirmationDialog(user, context);
+                  },
+                  label: Text(
+                    "Stop this Recovery",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  icon: Icon(Icons.cancel_rounded, color: Colors.red),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void showStopRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
     showDialog(
         context: context,
@@ -168,6 +240,23 @@ class ImGuardianForTab extends StatelessWidget {
             ]));
   }
 
+  void showNowEnoughGuardiansInfoDialog(MemberModel user, BuildContext context) {
+    showDialog(
+        context: context,
+        child: AlertDialog(
+            content: Text(
+                "User ${user.nickname} does not have the minimum required guardians. User must have at least 3 confirmed guardians",
+                style: TextStyle(color: Colors.black)),
+            actions: [
+              FlatButton(
+                child: const Text('Dismiss'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ]));
+  }
+
   void showStartRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
     showDialog(
         context: context,
@@ -185,7 +274,7 @@ class ImGuardianForTab extends StatelessWidget {
                 child: Text("Yes: Start Key Recovery", style: TextStyle(color: Colors.red)),
                 onPressed: () {
                   FirebaseDatabaseService().startRecoveryForUser(
-                      currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                      userId: user.account, currentUserId: SettingsNotifier.of(context).accountName);
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },

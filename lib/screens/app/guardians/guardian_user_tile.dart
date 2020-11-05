@@ -1,14 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
+import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
 Widget guardianUserTile({MemberModel user, Guardian guardian, String currentUserId, Function tileOnTap}) {
   return ListTile(
-      trailing: trailingWidget(guardian, user, currentUserId),
+      trailing: trailingWidget(guardian, user, currentUserId, tileOnTap),
       leading: Hero(
         child: TransactionAvatar(
           size: 60,
@@ -47,7 +49,7 @@ Widget guardianUserTile({MemberModel user, Guardian guardian, String currentUser
       });
 }
 
-Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId) {
+Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId, Function tileOnTap) {
   switch (guardian.status) {
     case GuardianStatus.requestedMe:
       return Wrap(
@@ -80,8 +82,23 @@ Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId)
             );
           });
     case GuardianStatus.alreadyGuardian: {
-      if(guardian.recoveryApproved != null) {
-         return Text("Recovery Started", style: TextStyle(color: Colors.red, fontSize: 12),);
+      if(guardian.recoveryStartedDate != null) {
+
+        switch(guardian.type) {
+          case GuardianType.myGuardian:
+            //TODO: CHeck who is already signed
+            return Text("Recovery Started", style: TextStyle(color: Colors.red, fontSize: 12),);
+          case GuardianType.imGuardian:
+            if (guardian.recoveryApprovedDate != null) {
+                return Text("Recovery Started", style: TextStyle(color: Colors.red, fontSize: 12),);
+              } else {
+                return RaisedButton(onPressed: () { tileOnTap(user, guardian); },
+                    child: Text("Action Required", style: TextStyle(color: Colors.red, fontSize: 12),));
+              }
+            break;
+          default:
+            return SizedBox.shrink();
+        }
       } else {
         return SizedBox.shrink();
       }

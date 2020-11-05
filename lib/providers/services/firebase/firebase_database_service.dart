@@ -52,6 +52,24 @@ class FirebaseDatabaseService {
     return _usersCollection.doc(uid).collection(GUARDIANS_COLLECTION_KEY).get();
   }
 
+  Stream<QuerySnapshot> getMyAlreadyApprovedGuardiansForUser(String uid) {
+    return _usersCollection
+        .doc(uid)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
+        .where(GUARDIANS_STATUS_KEY, isEqualTo: GuardianStatus.alreadyGuardian.name)
+        .snapshots();
+  }
+
+  Future<QuerySnapshot> getMyAlreadyApprovedGuardiansForUserFuture(String uid) {
+    return _usersCollection
+        .doc(uid)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
+        .where(GUARDIANS_STATUS_KEY, isEqualTo: GuardianStatus.alreadyGuardian.name)
+        .get();
+  }
+
   Stream<QuerySnapshot> getMyGuardians(String uid) {
     return _usersCollection
         .doc(uid)
@@ -185,17 +203,18 @@ class FirebaseDatabaseService {
     return batch.commit();
   }
 
-  Future<void> startRecoveryForUser({String currentUserId, String friendId}) {
+  Future<void> approveRecoveryForUser({String currentUserId, String friendId}) async {
+    var batch = FirebaseFirestore.instance.batch();
+
     Map<String, Object> data = {
       RECOVERY_APPROVED_DATE_KEY: FieldValue.serverTimestamp(),
     };
-
-    var batch = FirebaseFirestore.instance.batch();
 
     var currentUserDocRef = _usersCollection
         .doc(currentUserId)
         .collection(GUARDIANS_COLLECTION_KEY)
         .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+
     var otherUserDocRef = _usersCollection
         .doc(friendId)
         .collection(GUARDIANS_COLLECTION_KEY)
@@ -207,22 +226,56 @@ class FirebaseDatabaseService {
     return batch.commit();
   }
 
+
+  // This methods finds all the myGuardians for the {userId} and add the RECOVERY_APPROVED_DATE_KEY for each one of them.
+  // Then it goes over to each user and adds the field from the users collection as well.
+  Future<void> startRecoveryForUser({String currentUserId, String userId}) async {
+    var batch = FirebaseFirestore.instance.batch();
+
+    QuerySnapshot myGuardians = await _usersCollection
+        .doc(userId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
+        .get();
+
+    myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
+      Map<String, Object> data = {
+        RECOVERY_STARTED_DATE_KEY: FieldValue.serverTimestamp(),
+      };
+
+      if (Guardian.fromMap(guardian.data()).uid == currentUserId) {
+        data.addAll({RECOVERY_APPROVED_DATE_KEY: FieldValue.serverTimestamp()});
+      }
+
+      batch.set(
+          _usersCollection
+              .doc(Guardian.fromMap(guardian.data()).uid)
+              .collection(GUARDIANS_COLLECTION_KEY)
+              .doc(guardian.id),
+          data,
+          SetOptions(merge: true));
+      batch.set(guardian.reference, data, SetOptions(merge: true));
+    });
+    return batch.commit();
+  }
+
   // This methods finds all the myGuardians for the {userId} and removes the RECOVERY_APPROVED_DATE_KEY for each one of them.
   // Then it goes over to each user and removes the field from the users collection as well.
   Future<void> stopRecoveryForUser({String userId}) async {
     Map<String, Object> data = {
+      RECOVERY_STARTED_DATE_KEY: FieldValue.delete(),
       RECOVERY_APPROVED_DATE_KEY: FieldValue.delete(),
     };
 
     var batch = FirebaseFirestore.instance.batch();
 
-    QuerySnapshot guardiansCollection =
-        await _usersCollection.doc(userId).collection(GUARDIANS_COLLECTION_KEY).get();
+    QuerySnapshot myGuardians = await _usersCollection
+        .doc(userId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
+        .get();
 
-    Iterable<QueryDocumentSnapshot> myGuardians = guardiansCollection.docs
-        .where((QueryDocumentSnapshot element) => Guardian.fromMap(element.data()).type == GuardianType.myGuardian);
-
-    myGuardians.forEach((QueryDocumentSnapshot guardian) {
+    myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
       batch.set(
           _usersCollection
               .doc(Guardian.fromMap(guardian.data()).uid)
