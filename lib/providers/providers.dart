@@ -122,8 +122,9 @@ final providers = [
   ),
   ProxyProvider3<BiometricsService, AuthNotifier, SettingsNotifier, AuthBloc>(
     create: (_) => AuthBloc(),
-    update: (_, service, authNotifier, settingsNotifier, authBloc) =>
-      authBloc..update(service, authNotifier, settingsNotifier), // AuthNotifier seems broken, shouldn't need to be updated so often
+    update: (_, service, authNotifier, settingsNotifier, authBloc) => authBloc
+      ..update(service, authNotifier,
+          settingsNotifier), // AuthNotifier seems broken, shouldn't need to be updated so often
     // dispose:
   ),
   ProxyProvider<SettingsNotifier, BackupService>(
@@ -132,17 +133,20 @@ final providers = [
   ),
   ProxyProvider<HttpService, AccountGeneratorService>(
     create: (_) => AccountGeneratorService(),
-    update: (_, httpService, accountGeneratorService) => accountGeneratorService..update(httpService),
+    update: (_, httpService, accountGeneratorService) =>
+        accountGeneratorService..update(httpService),
   ),
   ProxyProvider<AccountGeneratorService, CreateAccountBloc>(
     create: (_) => CreateAccountBloc(),
-    update: (_, accountGeneratorService, createAccountBloc) => createAccountBloc..update(accountGeneratorService),
+    update: (_, accountGeneratorService, createAccountBloc) =>
+        createAccountBloc..update(accountGeneratorService),
   ),
   Provider(
     create: (_) => PermissionService(),
   ),
   ProxyProvider<LinksService, ScannerService>(
     create: (_) => ScannerService(),
-    update: (_, linksService, scannerService) => scannerService..update(linksService),
+    update: (_, linksService, scannerService) =>
+        scannerService..update(linksService),
   ),
 ];

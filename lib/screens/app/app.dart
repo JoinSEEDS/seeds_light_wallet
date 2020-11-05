@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
+import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 
@@ -88,6 +93,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     });
 
     WidgetsBinding.instance.addObserver(this);
+
+    processSigningRequests();
   }
 
   @override
@@ -110,6 +117,30 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case AppLifecycleState.detached:
         break;
     }
+  }
+
+  void processSigningRequests() {
+    Provider.of<LinksService>(context, listen: false)
+        .listenSigningRequests((final link) async {
+      var request = SeedsESR(uri: link);
+
+      await request.resolve(
+        account: SettingsNotifier.of(context, listen: false).accountName,
+      );
+
+      var action = request.actions.first;
+      var data = Map<String, dynamic>.from(action.data);
+
+      NavigationService.of(context).navigateTo(
+        Routes.customTransaction,
+        CustomTransactionArguments(
+          account: action.account,
+          name: action.name,
+          data: data,
+        ),
+        true,
+      );
+    });
   }
 
   @override
