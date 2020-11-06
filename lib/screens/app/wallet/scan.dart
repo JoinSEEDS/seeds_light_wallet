@@ -45,7 +45,7 @@ class _ScanState extends State<Scan> {
 
           // QUESTION: Why do we not check for other URL types like deep link for invite here?
           var esr;
-          //print("Scanning QR Code: " + scanResult.rawContent);
+          print("Scanning QR Code: " + scanResult.rawContent);
           try {
             esr = SeedsESR(uri: scanResult.rawContent);
             await esr.resolve(account: SettingsNotifier.of(context, listen: false).accountName);
