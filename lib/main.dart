@@ -16,6 +16,7 @@ import 'package:seeds/features/biometrics/biometrics_verification.dart';
 import 'package:seeds/models/VoteResultAdapter.dart';
 import 'package:seeds/models/member_adapter.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/models/product_adapter.dart';
 import 'package:seeds/models/transaction_adapter.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -66,6 +67,7 @@ main(List<String> args) async {
   Hive.registerAdapter<MemberModel>(MemberAdapter());
   Hive.registerAdapter<VoteResult>(VoteResultAdapter());
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
+  Hive.registerAdapter<ProductModel>(ProductAdapter());
   await Firebase.initializeApp();
   FirebaseRemoteConfigService().initialise();
   PushNotificationService().initialise();
