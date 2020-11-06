@@ -16,8 +16,6 @@ class LinksService {
     try {
       final initialLink = await getInitialLink();
 
-      print("INITIAL LINK");
-
       callback(initialLink);
     } catch (err) {}
 
