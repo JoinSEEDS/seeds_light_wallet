@@ -7,7 +7,6 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
