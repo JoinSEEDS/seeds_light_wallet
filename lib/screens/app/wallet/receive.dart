@@ -84,6 +84,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   void createNewProduct() {
+    // TODO: check unique name
     final product = ProductModel(
       name: nameController.text,
       price: double.parse(priceController.text),
@@ -305,13 +306,45 @@ class _ReceiveFormState extends State<ReceiveForm> {
   double invoiceAmountDouble = 0;
 
   List<ProductModel> cart = List();
+  Map<String, int> cartQuantity = Map();
+
+  void changeTotalPrice(double amount) {
+    invoiceAmountDouble += amount;
+    invoiceAmount = invoiceAmountDouble.toString();
+    controller.text = invoiceAmount;
+  }
+
+  void removeProductFromCart(ProductModel product) {
+    setState(() {
+      cartQuantity[product.name]--;
+
+      if (cartQuantity[product.name] == 0) {
+        cart.removeWhere((element) => element.name == product.name);
+        cartQuantity[product.name] = null;
+      }
+
+      changeTotalPrice(-product.price);
+    });
+  }
+
+  void removePriceDifference() {
+    final difference = donationOrDiscountAmount();
+
+    setState(() {
+      changeTotalPrice(difference);
+    });
+  }
 
   void addProductToCart(ProductModel product) {
     setState(() {
-      cart.add(product);
-      invoiceAmountDouble += product.price;
-      invoiceAmount = invoiceAmountDouble.toString();
-      controller.text = invoiceAmount;
+      if (cartQuantity[product.name] == null) {
+        cart.add(product);
+        cartQuantity[product.name] = 1;
+      } else {
+        cartQuantity[product.name]++;
+      }
+
+      changeTotalPrice(product.price);
     });
   }
 
@@ -334,93 +367,241 @@ class _ReceiveFormState extends State<ReceiveForm> {
     });
   }
 
-  Widget maybeDonationOrDiscount() {
+  double donationOrDiscountAmount() {
     final cartTotalPrice = cart
-        .map((product) => product.price)
+        .map((product) => product.price * cartQuantity[product.name])
         .reduce((value, element) => value + element);
 
     final difference = cartTotalPrice - invoiceAmountDouble;
 
-    if (difference > 0) {
-      return Text("- $difference " + "(Discount)".i18n);
-    } else if (difference < 0) {
-      return Text("+ ${difference.abs()} " + "(Donation)".i18n);
-    } else {
-      return Container();
-    }
+    return difference;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: Column(
-        children: <Widget>[
-          MainTextField(
-            suffixIcon: IconButton(
-              icon: Icon(Icons.add_shopping_cart, color: AppColors.blue),
-              onPressed: () {
-                FocusScope.of(context).requestFocus(FocusNode());
-                showMerchantCatalog();
+    return SingleChildScrollView(
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: <Widget>[
+            MainTextField(
+              suffixIcon: IconButton(
+                icon: Icon(Icons.add_shopping_cart, color: AppColors.blue),
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  showMerchantCatalog();
+                },
+              ),
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              controller: controller,
+              labelText: 'Receive (SEEDS)'.i18n,
+              autofocus: true,
+              validator: (String amount) {
+                String error;
+
+                double receiveAmount = double.tryParse(amount);
+
+                if (amount == null || amount.isEmpty) {
+                  error = null;
+                } else if (receiveAmount == 0.0) {
+                  error = "Amount cannot be 0.".i18n;
+                } else if (receiveAmount < 0.0001) {
+                  error = "Amount must be > 0.0001".i18n;
+                } else if (receiveAmount == null) {
+                  error = "Receive amount is not valid".i18n;
+                }
+
+                return error;
+              },
+              onChanged: (String amount) {
+                if (formKey.currentState.validate()) {
+                  generateInvoice(amount);
+                } else {
+                  setState(() {
+                    invoiceAmountDouble = 0;
+                  });
+                }
               },
             ),
-            keyboardType:
-                TextInputType.numberWithOptions(signed: false, decimal: true),
-            controller: controller,
-            labelText: 'Receive (SEEDS)'.i18n,
-            autofocus: true,
-            validator: (String amount) {
-              String error;
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 33, 0, 0),
+              child: MainButton(
+                  title: "Next".i18n,
+                  active: invoiceAmountDouble != 0,
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    NavigationService.of(context)
+                        .navigateTo(Routes.receiveQR, invoiceAmountDouble);
+                  }),
+            ),
+            cart.length > 0 ? buildCart() : Container(),
+          ],
+        ),
+      ),
+    );
+  }
 
-              double receiveAmount = double.tryParse(amount);
-
-              if (amount == null || amount.isEmpty) {
-                error = null;
-              } else if (receiveAmount == 0.0) {
-                error = "Amount cannot be 0.".i18n;
-              } else if (receiveAmount < 0.0001) {
-                error = "Amount must be > 0.0001".i18n;
-              } else if (receiveAmount == null) {
-                error = "Receive amount is not valid".i18n;
-              }
-
-              return error;
-            },
-            onChanged: (String amount) {
-              if (formKey.currentState.validate()) {
-                generateInvoice(amount);
-              } else {
-                setState(() {
-                  invoiceAmountDouble = 0;
-                });
-              }
-            },
-          ),
-          cart.length > 0
-              ? Container(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
-                  child: ListView(
-                    shrinkWrap: true,
+  Widget buildCart() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: GridView(
+        physics: ScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 200.0,
+          mainAxisSpacing: 10.0,
+          crossAxisSpacing: 10.0,
+        ),
+        shrinkWrap: true,
+        children: [
+          ...cart
+              .map(
+                (product) => GridTile(
+                  footer: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ...cart
-                          .map((product) =>
-                              Text("+ ${product.price} (${product.name})"))
-                          .toList(),
-                      maybeDonationOrDiscount()
+                      SizedBox(
+                        width: 40,
+                        child: FlatButton(
+                          padding: EdgeInsets.zero,
+                          color: AppColors.red,
+                          child: Icon(
+                            Icons.remove,
+                            size: 21,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            removeProductFromCart(product);
+                          },
+                        ),
+                      ),
+                      Text(cartQuantity[product.name].toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      SizedBox(
+                        width: 40,
+                        child: FlatButton(
+                          padding: EdgeInsets.zero,
+                          color: AppColors.green,
+                          child: Icon(
+                            Icons.add,
+                            size: 21,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            addProductToCart(product);
+                          },
+                        ),
+                      ),
                     ],
                   ),
-                )
-              : Container(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 33, 0, 0),
-            child: MainButton(
-                title: "Next".i18n,
-                active: invoiceAmountDouble != 0,
-                onPressed: () {
-                  FocusScope.of(context).unfocus();
-                  NavigationService.of(context)
-                      .navigateTo(Routes.receiveQR, invoiceAmountDouble);
-                }),
+                  child: buildCartItem(product),
+                ),
+              )
+              .toList(),
+          buildDonationOrDiscountItem(),
+        ],
+      ),
+    );
+  }
+
+  Widget buildDonationOrDiscountItem() {
+    double difference = donationOrDiscountAmount();
+
+    if (difference == 0) {
+      return Container();
+    } else {
+      final name = difference > 0 ? "Discount" : "Donation";
+      final price = difference.abs();
+
+      return Container(
+        child: GridTile(
+          footer: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 40,
+                child: FlatButton(
+                  padding: EdgeInsets.zero,
+                  color: AppColors.blue,
+                  child: Icon(
+                    Icons.cancel_outlined,
+                    size: 21,
+                    color: Colors.white,
+                  ),
+                  onPressed: removePriceDifference,
+                ),
+              ),
+            ],
+          ),
+          child: buildCartItem(
+            ProductModel(
+              name: name,
+              price: price,
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget buildCartItem(product) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            blurRadius: 15,
+            color: Color(0xffE7EAF0),
+            offset: Offset(6, 10),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.only(
+        top: 25,
+        bottom: 15,
+        left: 25,
+        right: 15,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                product.name,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 5),
+              Row(
+                children: [
+                  Text(
+                    product.price.toString(),
+                    style: TextStyle(
+                      fontSize: 21,
+                      color: AppColors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    "SEEDS",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
