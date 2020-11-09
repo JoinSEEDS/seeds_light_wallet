@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
@@ -83,10 +82,8 @@ Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId,
           });
     case GuardianStatus.alreadyGuardian: {
       if(guardian.recoveryStartedDate != null) {
-
         switch(guardian.type) {
           case GuardianType.myGuardian:
-            //TODO: CHeck who is already signed
             return Text("Recovery Started", style: TextStyle(color: Colors.red, fontSize: 12),);
           case GuardianType.imGuardian:
             if (guardian.recoveryApprovedDate != null) {
