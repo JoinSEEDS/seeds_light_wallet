@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 1.2.1+23
+version: 1.3.0+24
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -53,15 +53,17 @@ dependencies:
   hive: ^1.4.4
   rxdart: ^0.24.0
   permission_handler: ^5.0.1
-  carousel_slider: ^2.3.1
   barcode_scan: ^3.0.1
   qr_flutter: ^3.2.0
   eosdart_ecc:  ^0.4.3
-  eosdart: ^0.4.6
+  eosdart: 
+    git: git://github.com/JoinSEEDS/eosdart.git
   dart_esr: 
     git:
       url: https://github.com/JoinSEEDS/dart-esr.git
-
+  uni_links: ^0.4.0
+  carousel_slider: ^2.3.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
