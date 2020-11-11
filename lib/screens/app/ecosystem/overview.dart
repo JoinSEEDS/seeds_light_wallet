@@ -41,7 +41,8 @@ class _OverviewState extends State<Overview> {
 
   void onGet() {
     String userAccount = SettingsNotifier.of(context).accountName;
-    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount", forceSafariVC: false, forceWebView: false);
+    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount",
+        forceSafariVC: false, forceWebView: false);
   }
 
   void onVote() {
@@ -54,6 +55,10 @@ class _OverviewState extends State<Overview> {
 
   void onPlant() {
     NavigationService.of(context).navigateTo(Routes.plantSeeds);
+  }
+
+  void onDHO() {
+    NavigationService.of(context).navigateTo(Routes.dho);
   }
 
   Widget buildCategory(
@@ -196,6 +201,13 @@ class _OverviewState extends State<Overview> {
                     onGet,
                   ),
                 ),
+                buildCategory(
+                    'Browse DHO',
+                    'Explore Decentralized Human Organization',
+                    'assets/images/harvest.svg',
+                    '',
+                    '',
+                    onDHO),
               ],
             )),
       ),
