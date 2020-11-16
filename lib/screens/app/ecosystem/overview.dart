@@ -170,8 +170,8 @@ class _OverviewState extends State<Overview> {
                     'Tap to participate'.i18n,
                     'assets/images/governance.svg',
                     'Trust Tokens'.i18n,
-                    (model?.balance?.amount != null)
-                        ? model?.balance?.amount.toString()
+                    (model?.campaignBalance?.amount != null)
+                        ? model?.campaignBalance?.amount.toString()
                         : "-",
                     onVote,
                   ),

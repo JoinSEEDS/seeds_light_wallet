@@ -349,8 +349,16 @@ class HttpService {
     }
   }
 
-  Future<VoiceModel> getVoice() async {
-    print("[http] get voice");
+  Future<VoiceModel> getCampaignVoice() async {
+    return getVoice("funds.seeds");
+  }
+
+  Future<VoiceModel> getAllianceVoice() async {
+    return getVoice("alliance");
+  }
+
+  Future<VoiceModel> getVoice(String scope) async {
+    print("[http] get voice $scope");
 
     if (mockResponse == true) {
       return HttpMockResponse.voice;
@@ -359,7 +367,7 @@ class HttpService {
     final String voiceURL = '$baseURL/v1/chain/get_table_rows';
 
     String request =
-        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"voice","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"funds.seeds","scope":$scope,"table":"voice","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(voiceURL, headers: headers, body: request);

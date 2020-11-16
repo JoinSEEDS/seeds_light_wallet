@@ -33,7 +33,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<HttpService>(context).getVoice().then((val) {
+    Provider.of<HttpService>(context).getCampaignVoice().then((val) {
       setState(() {
         voice = val;
       });
