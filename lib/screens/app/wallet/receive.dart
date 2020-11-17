@@ -109,6 +109,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     setState(() {
       localImagePath = localImage.path;
     });
+
+    bottomSheetController.setState(() {});
   }
 
   void createNewProduct() {
@@ -161,6 +163,34 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     );
   }
 
+  Widget buildPictureWidget() {
+    return Container(
+        height: 40,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: localImagePath.isNotEmpty
+                ? [
+                    CircleAvatar(
+                      backgroundImage: FileImage(File(localImagePath)),
+                      radius: 20,
+                    ),
+                    SizedBox(width: 10),
+                    Text("Change Picture"),
+                  ]
+                : [
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.black,
+                        size: 15,
+                      ),
+                      radius: 15,
+                    ),
+                    Text("Add Picture"),
+                  ]));
+  }
+
   void showEditProduct(BuildContext context, int index) {
     nameController.text = products[index].name;
     priceController.text = products[index].price.toString();
@@ -189,21 +219,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               strokeWidth: 1,
               child: GestureDetector(
                 onTap: chooseProductPicture,
-                child: Container(
-                  height: 40,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      localImagePath.isNotEmpty
-                          ? CircleAvatar(
-                              backgroundImage: FileImage(File(localImagePath)),
-                              radius: 20,
-                            )
-                          : Container(),
-                      Text("Tap to choose picture from gallery"),
-                    ],
-                  ),
-                ),
+                child: buildPictureWidget(),
               ),
             ),
             MainTextField(
@@ -237,6 +253,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   void showNewProduct(BuildContext context) {
     nameController.clear();
     priceController.clear();
+    localImagePath = "";
 
     bottomSheetController = Scaffold.of(context).showBottomSheet(
       (context) => Container(
@@ -262,21 +279,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               strokeWidth: 1,
               child: GestureDetector(
                 onTap: chooseProductPicture,
-                child: Container(
-                  height: 40,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      localImagePath.isNotEmpty
-                          ? CircleAvatar(
-                              backgroundImage: FileImage(File(localImagePath)),
-                              radius: 20,
-                            )
-                          : Container(),
-                      Text("Tap to choose picture from gallery"),
-                    ],
-                  ),
-                ),
+                child: buildPictureWidget(),
               ),
             ),
             MainTextField(
