@@ -224,13 +224,13 @@ class ImGuardianForTab extends StatelessWidget {
             content: Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
             actions: [
               FlatButton(
-                child: const Text('No: Dismiss'),
+                child: const Text('Cancel'),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
               FlatButton(
-                child: Text("Yes: Stop Key Recovery"),
+                child: Text("Stop Key Recovery"),
                 onPressed: () {
                   FirebaseDatabaseService().stopRecoveryForUser(userId: user.account);
                   Navigator.pop(context);
