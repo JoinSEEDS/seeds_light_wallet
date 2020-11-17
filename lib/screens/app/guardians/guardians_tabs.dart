@@ -73,7 +73,7 @@ class GuardianTabs extends StatelessWidget {
                       snapshot.data.docs.map((DocumentSnapshot e) => Guardian.fromMap(e.data())).toList();
 
                   return FutureBuilder<List<MemberModel>>(
-                      future: HttpService().getMembersByIds(guardians.map((e) => e.uid).toList()),
+                      future: HttpService().getMembersByIds(guardians.map((e) => e.uid).toSet().toList()),
                       builder: (context, AsyncSnapshot<List<MemberModel>> snapshot) {
                         if (snapshot.hasData) {
                           return TabBarView(
