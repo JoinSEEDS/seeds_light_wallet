@@ -15,6 +15,5 @@ class Config {
   static final privacyPolicyUrl =
       "https://www.joinseeds.com/seeds-app-privacy-policy.html";
   static final explorer = "https://telos.bloks.io";
-  static final dhoExplorer =
-      "http://10.0.2.2:8080"; // https://dho.hypha.earth (localhost)
+  static final dhoExplorer = "https://dho.hypha.earth"; //  http://10.0.2.2:8080
 }
