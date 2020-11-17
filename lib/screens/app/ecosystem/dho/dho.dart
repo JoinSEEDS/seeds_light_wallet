@@ -6,12 +6,9 @@ import 'package:flutter/material.dart' hide Action;
 import 'package:rubber/rubber.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
-import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/splash_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:eosdart/eosdart.dart' show Action;
@@ -209,11 +206,11 @@ class _WalletViewState extends State<WalletView> {
 }
 
 class DHOWebView extends StatefulWidget {
-  Function onTransactionComplete;
-  Function onLoginMessage;
-  Function onLoginComplete;
-  Function onTransactionMessage;
-  Function confirmTransaction;
+  final Function onTransactionComplete;
+  final Function onLoginMessage;
+  final Function onLoginComplete;
+  final Function onTransactionMessage;
+  final Function confirmTransaction;
 
   DHOWebView({
     this.onLoginMessage,

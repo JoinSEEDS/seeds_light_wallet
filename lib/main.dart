@@ -147,10 +147,6 @@ class MainScreen extends StatelessWidget {
       builder: (ctx, auth, _) {
         NavigationService navigationService = NavigationService.of(context);
 
-        // return SeedsMaterialApp(
-        //   home: DHO(),
-        // );
-
         if (auth.status == AuthStatus.emptyAccount) {
           return SeedsMaterialApp(
             home: Onboarding(),

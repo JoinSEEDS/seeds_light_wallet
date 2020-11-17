@@ -14,8 +14,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@mipmap/app_icon"
         android:label="SEEDS Wallet"
-        android:usesCleartextTraffic="true"
         >
+        <!-- android:usesCleartextTraffic="true" -->
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
