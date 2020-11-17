@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/ecosystem.i18n.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/dho_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
@@ -36,6 +37,7 @@ class _OverviewState extends State<Overview> {
       VoiceNotifier.of(context).fetchBalance(),
       PlantedNotifier.of(context).fetchBalance(),
       TelosBalanceNotifier.of(context).fetchBalance(),
+      DhoNotifier.of(context).refresh(),
     ]);
   }
 
@@ -201,13 +203,15 @@ class _OverviewState extends State<Overview> {
                     onGet,
                   ),
                 ),
-                buildCategory(
-                    'Browse DHO',
-                    'Explore Decentralized Human Organization',
-                    'assets/images/harvest.svg',
-                    '',
-                    '',
-                    onDHO),
+                Consumer<DhoNotifier>(
+                  builder: (ctx, model, _) => model.isDhoMember ? buildCategory(
+                      'Hypha DHO',
+                      'Explore Decentralized Human Organization',
+                      'assets/images/harvest.svg',
+                      '',
+                      '',
+                      onDHO) : Container(),
+                ),
               ],
             )),
       ),
