@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:rubber/rubber.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -9,6 +10,7 @@ import 'package:seeds/constants/config.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:eosdart/eosdart.dart' show Action;
@@ -242,14 +244,19 @@ class _DHOWebViewState extends State<DHOWebView> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 5)).then((_) {
-      widget.confirmTransaction([
-        Action()
-          ..name = 'transfer'
-          ..account = 'eosio.token'
-          ..data = {'from': 'igorberlenko'}
-      ]);
-    });
+    // Future.delayed(Duration(seconds: 5)).then((_) {
+    //   widget.confirmTransaction([
+    //     Action()
+    //       ..name = 'transfer'
+    //       ..account = 'eosio.token'
+    //       ..data = {
+    //         'from': 'sevenflash42',
+    //         'to': 'igorberlenko',
+    //         'quantity': '10.0000 SEEDS',
+    //         'memo': '',
+    //       }
+    //   ]);
+    // });
   }
 
   WebView buildWebView() {
@@ -301,7 +308,7 @@ class _DHOWebViewState extends State<DHOWebView> {
   }
 }
 
-class TransactionSheet extends StatelessWidget {
+class TransactionSheet extends StatefulWidget {
   const TransactionSheet({
     Key key,
     @required this.onTransactionAccepted,
@@ -314,63 +321,87 @@ class TransactionSheet extends StatelessWidget {
   final List<Action> actions;
 
   @override
+  _TransactionSheetState createState() => _TransactionSheetState();
+}
+
+class _TransactionSheetState extends State<TransactionSheet> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.orange,
-      padding: EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: 15,
-      ),
+      color: AppColors.blue,
       child: Column(
-        children: <Widget>[
-          SizedBox(height: 8),
-          ...actions.map(
-            (action) {
-              var data = Map<String, dynamic>.from(action.data);
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          ListView(
+            shrinkWrap: true,
+            children: widget.actions.map(
+              (action) {
+                var data = Map<String, dynamic>.from(action.data);
 
-              return Column(
-                children: <Widget>[
-                  ...data.entries
-                      .map(
-                        (e) => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              e.key,
-                              style: TextStyle(
-                                fontFamily: "heebo",
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                              ),
+                return Theme(
+                  data: ThemeData(
+                    accentColor: Colors.white,
+                    unselectedWidgetColor: Colors.white,
+                  ),
+                  child: ExpansionTile(
+                    childrenPadding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 0,
+                    ),
+                    title: Text(
+                      "${action.account} -> ${action.name}",
+                      style: TextStyle(
+                        fontFamily: "heebo",
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                    children: [
+                      ...data.entries
+                          .map(
+                            (e) => Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  e.key,
+                                  style: TextStyle(
+                                    fontFamily: "heebo",
+                                    fontSize: 8,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  e.value.toString(),
+                                  style: TextStyle(
+                                    fontFamily: "heebo",
+                                    fontSize: 8,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              e.value.toString(),
-                              style: TextStyle(
-                                fontFamily: "heebo",
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                      .toList(),
-                  Divider(),
-                ],
-              );
-            },
+                          )
+                          .toList(),
+                      Divider(),
+                    ],
+                  ),
+                );
+              },
+            ).toList(),
           ),
-          SizedBox(height: 8),
-          MainButton(
-              margin: EdgeInsets.only(top: 25),
-              title: 'Accept'.i18n,
-              onPressed: onTransactionAccepted),
-          MainButton(
-              margin: EdgeInsets.only(top: 25),
-              title: 'Reject'.i18n,
-              onPressed: onTransactionRejected),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SeedsButton('Accept',
+                  onPressed: widget.onTransactionAccepted,
+                  color: AppColors.green),
+              SeedsButton('Reject',
+                  onPressed: widget.onTransactionRejected,
+                  color: AppColors.red),
+            ],
+          ),
         ],
       ),
     );
