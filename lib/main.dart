@@ -27,7 +27,6 @@ import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/screens/app/app.dart';
-import 'package:seeds/screens/app/ecosystem/dho/dho.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
