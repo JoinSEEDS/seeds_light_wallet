@@ -29,6 +29,10 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    return ChooseTokenSheet();
+
     return RefreshIndicator(
       child: SingleChildScrollView(
         child: Container(
@@ -36,7 +40,53 @@ class _DashboardState extends State<Dashboard> {
             child: Column(
               children: <Widget>[
                 buildNotification(),
-                buildHeader(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    buildHeader(),
+                    // alternatively show slider cards with all available tokens
+                    // show the same background color as modal and allow to click at all rectangle
+                    Expanded(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.swap_calls,
+                          color: AppColors.blue,
+                        ),
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(25),
+                                topRight: Radius.circular(25),
+                              ),
+                            ),
+                            builder: (BuildContext context) {
+                              // show separate card for each token
+                              return ChooseTokenSheet();
+                            },
+                          );
+
+                          // showModalBottomSheet(
+                          //   (context) => Container(
+                          //     width: MediaQuery.of(context).size.width,
+                          //     height: 250,
+                          //     color: Colors.black,
+                          //     child: Column(
+                          //       children: [
+                          //         // show all tokens you have on balance and allow to create your own
+                          //         // actually even better just show personal token as existing and allow to
+                          //         Text('Your Tokens')
+                          //       ],
+                          //     ),
+                          //   ),
+                          // );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
                 buildTransactions(),
               ],
             )),
@@ -69,7 +119,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget buildHeader() {
-    final double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width * 0.84;
     final height = MediaQuery.of(context).size.height;
     final double textScaleFactor = width >= 320 ? 1.0 : 0.8;
 
@@ -115,10 +165,11 @@ class _DashboardState extends State<Dashboard> {
                             return Text(
                               model.balance.error
                                   ? 'Pull to update'.i18n
-                                  : rateModel.rate == null 
-                                    ? "" : rateModel.rate.error
-                                      ? "Exchange rate load error".i18n
-                                      : '${rateModel.rate?.usdString(model.balance.numericQuantity)}',
+                                  : rateModel.rate == null
+                                      ? ""
+                                      : rateModel.rate.error
+                                          ? "Exchange rate load error".i18n
+                                          : '${rateModel.rate?.usdString(model.balance.numericQuantity)}',
                               style: TextStyle(
                                   color: Colors.white70,
                                   fontSize: 12,
@@ -419,6 +470,66 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ChooseTokenSheet extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: AppColors.gradient),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+          height: 60,
+          padding: EdgeInsets.only(top: 20, left: 20),
+          child: Text(
+            "Available Tokens",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+        ),
+        Consumer<TokensNotifier>(
+          builder: (ctx, tokens, _) {
+            
+          },
+        ),
+        ListView(
+          shrinkWrap: true,
+          children: [
+            ListTile(
+              title: Text(
+                'Igor Berlenko',
+              ),
+              subtitle: Text('your personal token'),
+              trailing: Text('10 IGOR'),
+            ),
+            Divider(),
+            ListTile(
+              title: Text(
+                'system.seeds',
+              ),
+              subtitle: Text('base cryptocurrency'),
+              trailing: Text('10 SEEDS'),
+            ),
+            Divider(),
+            ListTile(
+              title: Text(
+                'parqspaceind',
+              ),
+              subtitle: Text('token created by PARQ Space'),
+              trailing: Text('10 Q'),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
