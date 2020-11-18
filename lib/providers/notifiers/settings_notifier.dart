@@ -118,7 +118,6 @@ class SettingsNotifier extends ChangeNotifier {
     }).whenComplete(() => notifyListeners());
   }
 
-  // TODO: @Deprecated("Temporary while people still have the previous app version. Remove after 2020-06-31")
   String _migrateFromPrefs(String key) {
     String value = _preferences.get(key);
     if (value != null) {
