@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SettingsNotifier extends ChangeNotifier {
-
   static const ACCOUNT_NAME = "accountName";
   static const PRIVATE_KEY = "privateKey";
   static const PASSCODE = "passcode";
@@ -14,6 +13,7 @@ class SettingsNotifier extends ChangeNotifier {
   static const PRIVATE_KEY_BACKED_UP = "private_key_backed_up";
   static const BACKUP_LATEST_REMINDER = "backup_latest_reminder";
   static const BACKUP_REMINDER_COUNT = "backup_reminder_count";
+  static const TOKEN_SYMBOL = "token_symbol";
 
   String _privateKey;
   String _passcode;
@@ -31,8 +31,14 @@ class SettingsNotifier extends ChangeNotifier {
   get privateKeyBackedUp => _privateKeyBackedUp;
   get backupLatestReminder => _backupLatestReminder;
   get backupReminderCount => _backupReminderCount;
+  get tokenSymbol => _preferences != null
+      ? (_preferences.getString(TOKEN_SYMBOL) ?? "SEEDS")
+      : "SEEDS";
 
-  set nodeEndpoint(String value) => _preferences?.setString(NODE_ENDPOINT, value);
+  set tokenSymbol(String value) => _preferences?.setString(TOKEN_SYMBOL, value);
+
+  set nodeEndpoint(String value) =>
+      _preferences?.setString(NODE_ENDPOINT, value);
 
   set accountName(String value) => _preferences?.setString(ACCOUNT_NAME, value);
 
@@ -75,49 +81,47 @@ class SettingsNotifier extends ChangeNotifier {
   void init() async {
     _preferences = await SharedPreferences.getInstance();
     _secureStorage = FlutterSecureStorage();
-    _secureStorage.readAll()
-      .then((values) {
-        _privateKey = values[PRIVATE_KEY];
-        if(_privateKey == null) {
-          _privateKey = _migrateFromPrefs(PRIVATE_KEY);
-        }
+    _secureStorage.readAll().then((values) {
+      _privateKey = values[PRIVATE_KEY];
+      if (_privateKey == null) {
+        _privateKey = _migrateFromPrefs(PRIVATE_KEY);
+      }
 
-        _passcode = values[PASSCODE];
-        if(_passcode == null) {
-          _passcode = _migrateFromPrefs(PASSCODE);
-        }
+      _passcode = values[PASSCODE];
+      if (_passcode == null) {
+        _passcode = _migrateFromPrefs(PASSCODE);
+      }
 
-        if(values.containsKey(PASSCODE_ACTIVE)) {
-          _passcodeActive = values[PASSCODE_ACTIVE] == "true";
-        } else {
-          _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
-        }
+      if (values.containsKey(PASSCODE_ACTIVE)) {
+        _passcodeActive = values[PASSCODE_ACTIVE] == "true";
+      } else {
+        _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
+      }
 
-        if(values.containsKey(PRIVATE_KEY_BACKED_UP)) {
-          _privateKeyBackedUp = values[PRIVATE_KEY_BACKED_UP] == "true";
-        } else {
-          _privateKeyBackedUp = false;
-        }
+      if (values.containsKey(PRIVATE_KEY_BACKED_UP)) {
+        _privateKeyBackedUp = values[PRIVATE_KEY_BACKED_UP] == "true";
+      } else {
+        _privateKeyBackedUp = false;
+      }
 
-        if(values.containsKey(BACKUP_LATEST_REMINDER)) {
-          _backupLatestReminder = int.parse(values[BACKUP_LATEST_REMINDER]);
-        } else {
-          _backupLatestReminder = 0;
-        }
+      if (values.containsKey(BACKUP_LATEST_REMINDER)) {
+        _backupLatestReminder = int.parse(values[BACKUP_LATEST_REMINDER]);
+      } else {
+        _backupLatestReminder = 0;
+      }
 
-        if(values.containsKey(BACKUP_REMINDER_COUNT)) {
-          _backupReminderCount = int.parse(values[BACKUP_REMINDER_COUNT]);
-        } else {
-          _backupReminderCount = 0;
-        }
-      })
-      .whenComplete(() => notifyListeners());
+      if (values.containsKey(BACKUP_REMINDER_COUNT)) {
+        _backupReminderCount = int.parse(values[BACKUP_REMINDER_COUNT]);
+      } else {
+        _backupReminderCount = 0;
+      }
+    }).whenComplete(() => notifyListeners());
   }
 
   // TODO: @Deprecated("Temporary while people still have the previous app version. Remove after 2020-06-31")
   String _migrateFromPrefs(String key) {
     String value = _preferences.get(key);
-    if(value != null) {
+    if (value != null) {
       _secureStorage.write(key: key, value: value);
       _preferences?.remove(key);
       debugPrint("Converted $key to secure storage");
@@ -138,9 +142,14 @@ class SettingsNotifier extends ChangeNotifier {
 
   void savePasscodeActive(bool value) {
     this.passcodeActive = value;
-    if(!passcodeActive) {
+    if (!passcodeActive) {
       this.passcode = null;
     }
+    notifyListeners();
+  }
+
+  void saveTokenSymbol(String tokenSymbol) {
+    this.tokenSymbol = tokenSymbol;
     notifyListeners();
   }
 
@@ -177,6 +186,7 @@ class SettingsNotifier extends ChangeNotifier {
     _backupLatestReminder = 0;
     _secureStorage.delete(key: BACKUP_REMINDER_COUNT);
     _backupReminderCount = 0;
+    _preferences?.remove(TOKEN_SYMBOL);
     notifyListeners();
   }
 

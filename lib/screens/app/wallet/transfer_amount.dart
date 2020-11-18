@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 
 class TransferAmount extends StatefulWidget {
   final String amountValue;
@@ -19,6 +20,8 @@ class _TransferAmountState extends State<TransferAmount> {
       decimalSeparator: '.', thousandSeparator: ',', precision: 4);
 
   bool _buttonEnabled = false;
+
+  String get tokenSymbol => SettingsNotifier.of(context).tokenSymbol;
 
   @override
   void initState() {
@@ -81,7 +84,7 @@ class _TransferAmountState extends State<TransferAmount> {
                       Flexible(
                         fit: FlexFit.tight,
                         child: Text(
-                          'SEEDS',
+                          tokenSymbol,
                           style: TextStyle(fontFamily: "sfprotext"),
                         ),
                       ),

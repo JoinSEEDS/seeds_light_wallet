@@ -8,19 +8,29 @@ import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 
-class HttpService {
+class HttpService extends ChangeNotifier {
   String baseURL = Config.defaultEndpoint;
   String hyphaURL = Config.hyphaEndpoint;
   String userAccount;
+  String tokenSymbol;
   bool mockResponse;
 
-  void update({String accountName, String nodeEndpoint, bool enableMockResponse = false}) {
-    nodeEndpoint = nodeEndpoint;
+  get tokenContract => tokenSymbol == "SEEDS" ? "token.seeds" : "seedsdiadems";
+
+  void update(
+      {String chosenTokenSymbol,
+      String accountName,
+      bool enableMockResponse = false}) {
     userAccount = accountName;
     mockResponse = enableMockResponse;
+    if (tokenSymbol != chosenTokenSymbol) {
+      tokenSymbol = chosenTokenSymbol;
+      notifyListeners();
+    }
   }
 
-  static HttpService of(BuildContext context, {bool listen = false}) => Provider.of(context, listen: listen);
+  static HttpService of(BuildContext context, {bool listen = false}) =>
+      Provider.of(context, listen: listen);
 
   Future<ProfileModel> getProfile() async {
     print("[http] get profile");
@@ -57,7 +67,8 @@ class HttpService {
       return HttpMockResponse.keyAccounts;
     }
 
-    final String keyAccountsURL = "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
+    final String keyAccountsURL =
+        "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
 
     Response res = await get(keyAccountsURL);
 
@@ -99,7 +110,8 @@ class HttpService {
 
       List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members = allAccounts.map((item) => MemberModel.fromJson(item)).toList();
+      List<MemberModel> members =
+          allAccounts.map((item) => MemberModel.fromJson(item)).toList();
 
       return members;
     } else {
@@ -130,7 +142,8 @@ class HttpService {
 
       List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members = allAccounts.map((item) => MemberModel.fromJson(item)).toList();
+      List<MemberModel> members =
+          allAccounts.map((item) => MemberModel.fromJson(item)).toList();
 
       return members;
     } else {
@@ -192,7 +205,8 @@ class HttpService {
 
     // Waif for all futures to complete
     List<Response> res = await Future.wait(futures);
-    Iterable<Response> filtered = res.where((element) => element.statusCode == 200);
+    Iterable<Response> filtered =
+        res.where((element) => element.statusCode == 200);
 
     List<MemberModel> users = List<MemberModel>();
     filtered.forEach((element) {
@@ -224,12 +238,23 @@ class HttpService {
       Map<String, dynamic> body = res.parseJson();
 
       List<dynamic> transfers = body["actions"].where((dynamic item) {
-        return item["act"]["account"] == "token.seeds" &&
+        bool isTransfer = item["act"]["account"] == tokenContract &&
             item["act"]["data"] != null &&
-            item["act"]["data"]["from"] != null;
+            item["act"]["data"]["from"] != null &&
+            item["act"]["data"]["quantity"] != null;
+
+        if (isTransfer) {
+          bool isCorrectSymbol =
+              item["act"]["data"]["quantity"].contains(tokenSymbol);
+
+          return isCorrectSymbol;
+        }
+
+        return false;
       }).toList();
 
-      List<TransactionModel> transactions = transfers.map((item) => TransactionModel.fromJson(item)).toList();
+      List<TransactionModel> transactions =
+          transfers.map((item) => TransactionModel.fromJson(item)).toList();
 
       return transactions;
     } else {
@@ -248,7 +273,10 @@ class HttpService {
 
     final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
 
-    String request = '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
+    String request =
+        '{"code":"$tokenContract","account":"$userAccount","symbol":"$tokenSymbol"}';
+    print(request);
+
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(balanceURL, headers: headers, body: request);
@@ -256,13 +284,15 @@ class HttpService {
     if (res.statusCode == 200) {
       List<dynamic> body = res.parseJson();
 
-      BalanceModel balance = BalanceModel.fromJson(body);
-
-      return balance;
+      if (body != null && body.isNotEmpty) {
+        return BalanceModel.fromJson(body);
+      } else {
+        return BalanceModel("0.0000 $tokenSymbol", false);
+      }
     } else {
       print("Cannot fetch balance...");
 
-      return BalanceModel("0.0000 SEEDS", true);
+      return BalanceModel("0.0000 $tokenSymbol", true);
     }
   }
 
@@ -275,7 +305,8 @@ class HttpService {
 
     final String rateURL = '$baseURL/v1/chain/get_table_rows';
 
-    String request = '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
+    String request =
+        '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
 
     Map<String, String> headers = {"Content-type": "application/json"};
 
@@ -301,7 +332,8 @@ class HttpService {
 
     final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
 
-    String request = '{"code":"eosio.token","account":"$userAccount","symbol":"TLOS"}';
+    String request =
+        '{"code":"eosio.token","account":"$userAccount","symbol":"TLOS"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(balanceURL, headers: headers, body: request);
@@ -465,7 +497,9 @@ class HttpService {
     print("[http] get proposals: stage = [$stage]");
 
     if (mockResponse == true) {
-      return HttpMockResponse.proposals.where((proposal) => proposal.stage == stage).toList();
+      return HttpMockResponse.proposals
+          .where((proposal) => proposal.stage == stage)
+          .toList();
     }
 
     final String proposalsURL = '$baseURL/v1/chain/get_table_rows';
@@ -483,7 +517,8 @@ class HttpService {
         return item["stage"] == stage && item["status"] == status;
       }).toList();
 
-      List<ProposalModel> proposals = activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
+      List<ProposalModel> proposals =
+          activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
 
       return proposals;
     } else {
@@ -549,7 +584,8 @@ class HttpService {
       Map<String, dynamic> body = jsonDecode(res.body);
 
       if (body["rows"].length > 0) {
-        List<InviteModel> invites = body["rows"].map((item) => InviteModel.fromJson(item)).toList();
+        List<InviteModel> invites =
+            body["rows"].map((item) => InviteModel.fromJson(item)).toList();
 
         return invites;
       } else {

@@ -9,6 +9,7 @@ String chainId =
     "4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11";
 
 class EosService {
+  String tokenSymbol;
   String privateKey;
   String accountName;
   String baseURL = Config.defaultEndpoint;
@@ -20,11 +21,13 @@ class EosService {
       Provider.of(context, listen: listen);
 
   void update({
+    chosenTokenSymbol,
     userPrivateKey,
     userAccountName,
     nodeEndpoint,
     bool enableMockTransactions = false,
   }) {
+    tokenSymbol = chosenTokenSymbol;
     privateKey = userPrivateKey;
     accountName = userAccountName;
     baseURL = nodeEndpoint;
@@ -269,6 +272,31 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
+  Future<dynamic> transferToken({String beneficiary, double amount}) async {
+    print("[eos] transfer $tokenSymbol to $beneficiary ($amount)");
+
+    if (mockEnabled) return HttpMockResponse.transactionResult;
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "seedsdiadems"
+        ..name = "transfer"
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = {
+          "from": accountName,
+          "to": beneficiary,
+          "quantity": "${amount.toStringAsFixed(4)} $tokenSymbol",
+          "memo": "",
+        }
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
   Future<dynamic> voteProposal({int id, int amount}) async {
     print("[eos] vote proposal $id ($amount)");
 
@@ -320,7 +348,7 @@ class EosService {
     var data = {
       'from': ESR.ESRConstants.PlaceholderName,
       'to': accountName,
-      'quantity': '${amount.toStringAsFixed(4)} SEEDS',
+      'quantity': '${amount.toStringAsFixed(4)} $tokenSymbol',
       'memo': ''
     };
 
@@ -330,7 +358,8 @@ class EosService {
       ..authorization = auth
       ..data = data;
 
-    var args = ESR.SigningRequestCreateArguments(action: action, chainId: chainId);
+    var args =
+        ESR.SigningRequestCreateArguments(action: action, chainId: chainId);
 
     var request = await ESR.SigningRequestManager.create(args,
         options: ESR.defaultSigningRequestEncodingOptions(

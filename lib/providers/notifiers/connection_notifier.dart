@@ -31,6 +31,8 @@ class ConnectionNotifier extends ChangeNotifier {
   }
 
   void discoverEndpoints() async {
+    return;
+
     List<Future> checks = List<Future>();
 
     for (var endpoint in availableEndpoints) {
@@ -44,7 +46,6 @@ class ConnectionNotifier extends ChangeNotifier {
     currentEndpoint = responses[0].url;
     currentEndpointPing = responses[0].ping;
     notifyListeners();
-
   }
 
   Future<Endpoint> checkEndpoint(String endpoint) async {

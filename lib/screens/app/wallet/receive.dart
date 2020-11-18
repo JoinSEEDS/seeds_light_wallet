@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide Action;
 import 'package:hive/hive.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/extensions/SafeHive.dart';
@@ -60,6 +61,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   PersistentBottomSheetController bottomSheetController;
 
   List<ProductModel> products = List();
+
+  get tokenSymbol => SettingsNotifier.of(context).tokenSymbol;
 
   @override
   void initState() {
@@ -151,7 +154,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
             MainTextField(
               labelText: 'Price',
               controller: priceController,
-              endText: 'SEEDS',
+              endText: tokenSymbol,
               keyboardType:
                   TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
@@ -193,7 +196,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
             MainTextField(
               labelText: 'Price',
               controller: priceController,
-              endText: 'SEEDS',
+              endText: tokenSymbol,
               keyboardType:
                   TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
@@ -259,7 +262,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           ),
           subtitle: Material(
             child: Text(
-              products[index].price.seedsFormatted + " SEEDS",
+              products[index].price.seedsFormatted + " $tokenSymbol",
               style: TextStyle(
                   fontFamily: "worksans", fontWeight: FontWeight.w400),
             ),
@@ -301,10 +304,12 @@ class ReceiveForm extends StatefulWidget {
 class _ReceiveFormState extends State<ReceiveForm> {
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '');
-  String invoiceAmount = '0.00 SEEDS';
+  String invoiceAmount = '0.00';
   double invoiceAmountDouble = 0;
 
   List<ProductModel> cart = List();
+
+  get tokenSymbol => SettingsNotifier.of(context).tokenSymbol;
 
   void addProductToCart(ProductModel product) {
     setState(() {
@@ -367,7 +372,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
             keyboardType:
                 TextInputType.numberWithOptions(signed: false, decimal: true),
             controller: controller,
-            labelText: 'Receive (SEEDS)'.i18n,
+            labelText: 'Receive ($tokenSymbol)'.i18n,
             autofocus: true,
             validator: (String amount) {
               String error;

@@ -93,7 +93,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addObserver(this);
 
-    processSigningRequests();
+    // processSigningRequests();
   }
 
   @override

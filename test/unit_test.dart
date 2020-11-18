@@ -8,8 +8,10 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   test('hash from secret', () async {
-    String input = 'efb35624d5623b1973f5379d6a5c1c5d05e24f0027e5d18f6d0628a2814d3226';
-    String expectedOutput = '8dd7882c9509452f2cd769ffed67b17af2435f4c36f342f1b1924fc406d37063';
+    String input =
+        'efb35624d5623b1973f5379d6a5c1c5d05e24f0027e5d18f6d0628a2814d3226';
+    String expectedOutput =
+        '8dd7882c9509452f2cd769ffed67b17af2435f4c36f342f1b1924fc406d37063';
 
     String output = hashFromSecret(input);
 
@@ -18,7 +20,8 @@ void main() {
 
   test('secret from mnemonic', () async {
     String input = "senator-gender-pole-campus-electronics";
-    String expectedOutput = "acc8468f23dbd4dadb54d20556a454338d0d9fa0fd758137d9f0bb5953e32690";
+    String expectedOutput =
+        "acc8468f23dbd4dadb54d20556a454338d0d9fa0fd758137d9f0bb5953e32690";
 
     String output = secretFromMnemonic(input);
 
@@ -29,7 +32,6 @@ void main() {
       ..update(
         accountName: 'testingseeds',
         enableMockResponse: true,
-        nodeEndpoint: 'https://telos.caleos.io',
       );
 
     final invites = await service.getInvites();

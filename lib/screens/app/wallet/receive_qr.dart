@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' hide Action;
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import '../../../utils/double_extension.dart';
@@ -18,6 +19,8 @@ class ReceiveQRState extends State<ReceiveQR> {
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '');
   String invoiceImage = '';
+
+  get tokenSymbol => SettingsNotifier.of(context).tokenSymbol;
 
   @override
   void initState() {
@@ -60,13 +63,11 @@ class ReceiveQRState extends State<ReceiveQR> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  QrImage(
-                    data: invoiceImage,
-                    foregroundColor: Colors.black87
-                  ),
+                  QrImage(data: invoiceImage, foregroundColor: Colors.black87),
                   Text(
-                    "Pay %s SEEDS to %s"
-                        .i18n.fill([widget.amount.seedsFormatted, acctName]),
+                    "Pay %s $tokenSymbol to %s"
+                        .i18n
+                        .fill([widget.amount.seedsFormatted, acctName]),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black87,

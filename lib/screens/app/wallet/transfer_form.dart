@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
@@ -43,6 +44,8 @@ class _TransferFormState extends State<TransferForm>
   final StreamController<String> _messageNotifier =
       StreamController<String>.broadcast();
 
+  get tokenSymbol => SettingsNotifier.of(context).tokenSymbol;
+
   @override
   void initState() {
     super.initState();
@@ -55,7 +58,7 @@ class _TransferFormState extends State<TransferForm>
 
     try {
       var response =
-          await Provider.of<EosService>(context, listen: false).transferSeeds(
+          await Provider.of<EosService>(context, listen: false).transferToken(
         beneficiary: widget.arguments.accountName,
         amount: double.parse(controller.text),
       );
@@ -184,65 +187,69 @@ class _TransferFormState extends State<TransferForm>
 
   @override
   Widget build(BuildContext context) {
-    String balance = BalanceNotifier.of(context).balance.quantity;
-    return Stack(
-      children: <Widget>[
-        Scaffold(
-          resizeToAvoidBottomPadding: false,
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () => Navigator.of(context).pop(),
+    return Consumer<BalanceNotifier>(builder: (ctx, model, child) {
+      var balance = model?.balance?.quantity ??
+          '1.0000 ${SettingsNotifier.of(context).tokenSymbol}';
+      return Stack(
+        children: <Widget>[
+          Scaffold(
+            resizeToAvoidBottomPadding: false,
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
             ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-          backgroundColor: Colors.white,
-          body: Container(
-            margin: EdgeInsets.only(left: 17, right: 17),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  buildProfile(),
-                  buildBalance(balance),
-                  MainTextField(
-                    keyboardType: TextInputType.numberWithOptions(
-                        signed: false, decimal: true),
-                    controller: controller,
-                    labelText: 'Transfer amount'.i18n,
-                    endText: 'SEEDS',
-                    autofocus: true,
-                    validator: (val) {
-                      String error;
-                      double availableBalance =
-                          double.tryParse(balance.replaceFirst(' SEEDS', ''));
-                      double transferAmount = double.tryParse(val);
+            backgroundColor: Colors.white,
+            body: Container(
+              margin: EdgeInsets.only(left: 17, right: 17),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    buildProfile(),
+                    buildBalance(balance),
+                    MainTextField(
+                      keyboardType: TextInputType.numberWithOptions(
+                          signed: false, decimal: true),
+                      controller: controller,
+                      labelText: 'Transfer amount'.i18n,
+                      endText: tokenSymbol,
+                      autofocus: true,
+                      validator: (val) {
+                        String error;
+                        double availableBalance = double.tryParse(
+                            balance.replaceFirst(' $tokenSymbol', ''));
+                        double transferAmount = double.tryParse(val);
 
-                      if (transferAmount == 0.0) {
-                        error = "Transfer amount cannot be 0.".i18n;
-                      } else if (transferAmount == null ||
-                          availableBalance == null) {
-                        error = "Transfer amount is not valid.".i18n;
-                      } else if (transferAmount > availableBalance) {
-                        error =
-                            "Transfer amount cannot be greater than availabe balance.".i18n;
-                      }
-                      return error;
-                    },
-                  ),
-                  MainButton(
-                    margin: EdgeInsets.only(top: 25),
-                    title: 'Send'.i18n,
-                    onPressed: onSend,
-                  )
-                ],
+                        if (transferAmount == 0.0) {
+                          error = "Transfer amount cannot be 0.".i18n;
+                        } else if (transferAmount == null ||
+                            availableBalance == null) {
+                          error = "Transfer amount is not valid.".i18n;
+                        } else if (transferAmount > availableBalance) {
+                          error =
+                              "Transfer amount cannot be greater than availabe balance."
+                                  .i18n;
+                        }
+                        return error;
+                      },
+                    ),
+                    MainButton(
+                      margin: EdgeInsets.only(top: 25),
+                      title: 'Send'.i18n,
+                      onPressed: onSend,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        showPageLoader ? _buildPageLoader() : Container(),
-      ],
-    );
+          showPageLoader ? _buildPageLoader() : Container(),
+        ],
+      );
+    });
   }
 }

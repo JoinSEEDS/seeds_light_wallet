@@ -27,11 +27,13 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  get tokenSymbol => SettingsNotifier.of(context).tokenSymbol;
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return ChooseTokenSheet();
+    // return ChooseTokenSheet();
 
     return RefreshIndicator(
       child: SingleChildScrollView(
@@ -39,7 +41,7 @@ class _DashboardState extends State<Dashboard> {
             padding: EdgeInsets.fromLTRB(17, 0, 17, 17),
             child: Column(
               children: <Widget>[
-                buildNotification(),
+                // buildNotification(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -95,11 +97,11 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    refreshData();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   refreshData();
+  // }
 
   Future<void> refreshData() async {
     await Future.wait(<Future<dynamic>>[
@@ -154,12 +156,19 @@ class _DashboardState extends State<Dashboard> {
                           Text(
                             model.balance.error
                                 ? 'Network error'.i18n
-                                : '${model.balance?.quantity?.seedsFormatted} SEEDS',
+                                : '${model.balance?.quantity?.seedsFormatted} $tokenSymbol',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,
                                 fontWeight: FontWeight.w700),
                           ),
+                          // Text(
+                          //   "${(model.balance.numericQuantity / 15000).toStringAsFixed(2)} USD",
+                          //   style: TextStyle(
+                          //       color: Colors.white70,
+                          //       fontSize: 12,
+                          //       fontWeight: FontWeight.w300),
+                          // ),
                           Consumer<RateNotifier>(
                               builder: (context, rateModel, child) {
                             return Text(
@@ -459,7 +468,7 @@ class _DashboardState extends State<Dashboard> {
                             children: <Widget>[
                               Container(
                                 height: 16,
-                                width: 320,
+                                width: 300,
                                 color: Colors.white,
                                 margin: EdgeInsets.only(left: 10, right: 10),
                               ),
@@ -496,37 +505,57 @@ class ChooseTokenSheet extends StatelessWidget {
             ),
           ),
         ),
-        Consumer<TokensNotifier>(
-          builder: (ctx, tokens, _) {
-            
-          },
-        ),
         ListView(
           shrinkWrap: true,
           children: [
+            // ListTile(
+            //   title: Text(
+            //     'IGOR',
+            //   ),
+            //   subtitle: Text('issued by igorberlenko'),
+            //   leading: Text('10.0000'),
+            // ),
+            // Divider(),
             ListTile(
               title: Text(
-                'Igor Berlenko',
+                'SEEDS token',
               ),
-              subtitle: Text('your personal token'),
-              trailing: Text('10 IGOR'),
+              subtitle: Text('issued by system.seeds'),
+              onTap: () {
+                SettingsNotifier.of(context).saveTokenSymbol("SEEDS");
+              },
             ),
             Divider(),
             ListTile(
               title: Text(
-                'system.seeds',
+                'BALI token',
               ),
-              subtitle: Text('base cryptocurrency'),
-              trailing: Text('10 SEEDS'),
+              subtitle: Text('issued by balisupports'),
+              onTap: () {
+                SettingsNotifier.of(context).saveTokenSymbol("BALI");
+              },
             ),
-            Divider(),
-            ListTile(
-              title: Text(
-                'parqspaceind',
-              ),
-              subtitle: Text('token created by PARQ Space'),
-              trailing: Text('10 Q'),
-            ),
+            // ListTile(
+            //   title: Text(
+            //     'Q token',
+            //   ),
+            //   subtitle: Text('issued by parqspaceind'),
+            //   onTap: () {
+            //     SettingsNotifier.of(context).saveTokenSymbol("Q");
+            //     TransactionsNotifier.of(context).fetchTransactionsCache();
+            //     TransactionsNotifier.of(context).refreshTransactions();
+            //     BalanceNotifier.of(context).fetchBalance();
+            //     RateNotifier.of(context).fetchRate();
+            //   },
+            // ),
+            // Divider(),
+            // ListTile(
+            //   title: Text(
+            //     'BaliSEEDS',
+            //   ),
+            //   subtitle: Text('issued by seedbaliseed'),
+            //   leading: Text('10'),
+            // ),
           ],
         ),
       ],

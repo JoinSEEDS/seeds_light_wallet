@@ -62,12 +62,12 @@ final providers = [
         enableMockLink: false,
       ),
   ),
-  ProxyProvider<SettingsNotifier, HttpService>(
+  ChangeNotifierProxyProvider<SettingsNotifier, HttpService>(
     create: (_) => HttpService(),
     update: (_, settings, http) => http
       ..update(
+        chosenTokenSymbol: settings.tokenSymbol,
         accountName: settings.accountName,
-        nodeEndpoint: settings.nodeEndpoint,
         enableMockResponse: false,
       ),
   ),
@@ -75,6 +75,7 @@ final providers = [
     create: (context) => EosService(),
     update: (context, settings, eos) => eos
       ..update(
+        chosenTokenSymbol: settings.tokenSymbol,
         userPrivateKey: settings.privateKey,
         userAccountName: settings.accountName,
         nodeEndpoint: settings.nodeEndpoint,
@@ -87,7 +88,8 @@ final providers = [
   ),
   ChangeNotifierProxyProvider<HttpService, TransactionsNotifier>(
     create: (context) => TransactionsNotifier(),
-    update: (context, http, transactions) => transactions..update(http: http),
+    update: (context, http, transactions) =>
+        transactions..update(chosenTokenSymbol: http.tokenSymbol, http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, TelosBalanceNotifier>(
     create: (context) => TelosBalanceNotifier(),
@@ -95,11 +97,13 @@ final providers = [
   ),
   ChangeNotifierProxyProvider<HttpService, BalanceNotifier>(
     create: (context) => BalanceNotifier(),
-    update: (context, http, balance) => balance..update(http: http),
+    update: (context, http, balance) =>
+        balance..update(http: http, tokenSymbol: http.tokenSymbol),
   ),
   ChangeNotifierProxyProvider<HttpService, RateNotifier>(
     create: (context) => RateNotifier(),
-    update: (context, http, rate) => rate..update(http: http),
+    update: (context, http, rate) =>
+        rate..update(http: http, tokenSymbol: http.tokenSymbol),
   ),
   ChangeNotifierProxyProvider<HttpService, VotedNotifier>(
     create: (context) => VotedNotifier(),

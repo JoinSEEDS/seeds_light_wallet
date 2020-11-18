@@ -9,6 +9,7 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/wallet/transfer_form.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:shimmer/shimmer.dart';
@@ -41,7 +42,8 @@ class _OverviewState extends State<Overview> {
 
   void onGet() {
     String userAccount = SettingsNotifier.of(context).accountName;
-    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount", forceSafariVC: false, forceWebView: false);
+    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount",
+        forceSafariVC: false, forceWebView: false);
   }
 
   void onVote() {
@@ -54,6 +56,17 @@ class _OverviewState extends State<Overview> {
 
   void onPlant() {
     NavigationService.of(context).navigateTo(Routes.plantSeeds);
+  }
+
+  void onDonate() {
+    NavigationService.of(context).navigateTo(
+      Routes.transferForm,
+      TransferFormArguments(
+        "balisupport.org",
+        "balisupports",
+        "https://balisupport.org/wp-content/uploads/2020/04/Asset-12@3x-1-300x296.png",
+      ),
+    );
   }
 
   Widget buildCategory(
@@ -194,6 +207,16 @@ class _OverviewState extends State<Overview> {
                     'Available Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
                     onGet,
+                  ),
+                ),
+                Consumer<BalanceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Donate'.i18n,
+                    'Tap to make donation'.i18n,
+                    'assets/images/harvest.svg',
+                    'Available BaliSEEDS'.i18n,
+                    model?.balance?.quantity?.seedsFormatted,
+                    onDonate,
                   ),
                 ),
               ],
