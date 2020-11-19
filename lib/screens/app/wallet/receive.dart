@@ -68,8 +68,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
   List<ProductModel> products = List();
 
-  get tokenSymbol => SettingsNotifier.of(context).tokenSymbol;
-
   String localImagePath = '';
 
   @override
@@ -231,7 +229,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
             MainTextField(
               labelText: 'Price',
               controller: priceController,
-              endText: tokenSymbol,
+              endText: SettingsNotifier.of(context).tokenSymbol,
               keyboardType:
                   TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
@@ -291,7 +289,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
             MainTextField(
               labelText: 'Price',
               controller: priceController,
-              endText: tokenSymbol,
+              endText: SettingsNotifier.of(context).tokenSymbol,
               keyboardType:
                   TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
@@ -378,7 +376,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           ),
           subtitle: Material(
             child: Text(
-              products[index].price.seedsFormatted + " $tokenSymbol",
+              products[index].price.seedsFormatted +
+                  " ${SettingsNotifier.of(context).tokenSymbol}",
               style: TextStyle(
                   fontFamily: "worksans", fontWeight: FontWeight.w400),
             ),
@@ -513,7 +512,8 @@ class _ReceiveFormState extends State<ReceiveForm> {
               keyboardType:
                   TextInputType.numberWithOptions(signed: false, decimal: true),
               controller: controller,
-              labelText: 'Receive (SEEDS)'.i18n,
+              labelText:
+                  'Receive (${SettingsNotifier.of(context).tokenSymbol})'.i18n,
               autofocus: true,
               validator: (String amount) {
                 String error;
