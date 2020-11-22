@@ -99,7 +99,7 @@ Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId,
       } else {
         return SizedBox.shrink();
       }
-      break;
+      break; // ignore: dead_code
     }
     default:
       return SizedBox.shrink();
