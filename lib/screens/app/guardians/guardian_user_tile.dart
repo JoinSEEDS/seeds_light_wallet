@@ -48,7 +48,6 @@ Widget guardianUserTile({MemberModel user, Guardian guardian, String currentUser
       });
 }
 
-//ignore: dead_code
 Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId, Function tileOnTap) {
   switch (guardian.status) {
     case GuardianStatus.requestedMe:
@@ -100,7 +99,7 @@ Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId,
       } else {
         return SizedBox.shrink();
       }
-      break;
+      break; // ignore: dead_code
     }
     default:
       return SizedBox.shrink();
