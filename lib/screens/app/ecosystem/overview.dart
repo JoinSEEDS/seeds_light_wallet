@@ -170,9 +170,7 @@ class _OverviewState extends State<Overview> {
                     'Tap to participate'.i18n,
                     'assets/images/governance.svg',
                     'Trust Tokens'.i18n,
-                    (model?.campaignBalance?.amount != null)
-                        ? model?.campaignBalance?.amount.toString()
-                        : "-",
+                    valueString(model?.campaignBalance?.amount) + "/" + valueString(model?.allianceBalance?.amount),
                     onVote,
                   ),
                 ),
@@ -200,5 +198,9 @@ class _OverviewState extends State<Overview> {
             )),
       ),
     );
+  }
+
+  String valueString(int amount) {
+    return amount == null ? "-" : "$amount";
   }
 }
