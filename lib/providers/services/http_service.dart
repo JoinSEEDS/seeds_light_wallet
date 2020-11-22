@@ -343,7 +343,7 @@ class HttpService {
 
       return exchangeConfig;
     } else {
-      print('Cannot fetch members...');
+      print('Cannot fetch exchange config...');
 
       return ExchangeModel();
     }
@@ -367,7 +367,7 @@ class HttpService {
     final String voiceURL = '$baseURL/v1/chain/get_table_rows';
 
     String request =
-        '{"json":true,"code":"funds.seeds","scope":$scope,"table":"voice","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"funds.seeds","scope":"$scope","table":"voice","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(voiceURL, headers: headers, body: request);
@@ -379,7 +379,7 @@ class HttpService {
 
       return voice;
     } else {
-      print('Cannot fetch members...');
+      print('Cannot fetch voice...');
 
       return VoiceModel(0);
     }
@@ -407,7 +407,7 @@ class HttpService {
 
       return balance;
     } else {
-      print('Cannot fetch members...');
+      print('Cannot fetch planted...');
 
       return PlantedModel("0.0000 SEEDS");
     }
