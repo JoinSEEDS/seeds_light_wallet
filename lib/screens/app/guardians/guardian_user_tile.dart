@@ -48,6 +48,7 @@ Widget guardianUserTile({MemberModel user, Guardian guardian, String currentUser
       });
 }
 
+//ignore: dead_code
 Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId, Function tileOnTap) {
   switch (guardian.status) {
     case GuardianStatus.requestedMe:
