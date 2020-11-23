@@ -41,7 +41,8 @@ class _OverviewState extends State<Overview> {
 
   void onGet() {
     String userAccount = SettingsNotifier.of(context).accountName;
-    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount", forceSafariVC: false, forceWebView: false);
+    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount",
+        forceSafariVC: false, forceWebView: false);
   }
 
   void onVote() {
@@ -54,6 +55,10 @@ class _OverviewState extends State<Overview> {
 
   void onPlant() {
     NavigationService.of(context).navigateTo(Routes.plantSeeds);
+  }
+
+  void onExplore() {
+    NavigationService.of(context).navigateTo(Routes.exploreData);
   }
 
   Widget buildCategory(
@@ -194,6 +199,16 @@ class _OverviewState extends State<Overview> {
                     'Available Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
                     onGet,
+                  ),
+                ),
+                Consumer<BalanceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Explore Data'.i18n,
+                    'Tap to explore data tables'.i18n,
+                    'assets/images/harvest.svg',
+                    'Smart Contracts'.i18n,
+                    '18 Deployed',
+                    onExplore,
                   ),
                 ),
               ],

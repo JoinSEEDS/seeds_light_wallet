@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/app/ecosystem/explore_data/explore_data.dart';
 import 'package:seeds/screens/app/ecosystem/harvest/plant_seeds.dart';
 import 'package:seeds/screens/app/ecosystem/invites/create_invite.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
@@ -58,6 +59,7 @@ class Routes {
   static final inviteGuardians = "InviteGuardians";
   static final inviteGuardiansSent = "InviteGuardiansSent";
   static final guardianTabs = "GuardianTabs";
+  static final exploreData = "ExploreData";
 }
 
 class NavigationService {
@@ -111,6 +113,7 @@ class NavigationService {
     Routes.inviteGuardians: (args) => InviteGuardians(args),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),
     Routes.guardianTabs: (_) => GuardianTabs(),
+    Routes.exploreData: (_) => ExploreData(),
   };
 
   final ecosystemRoutes = {
