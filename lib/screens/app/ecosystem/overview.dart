@@ -44,6 +44,10 @@ class _OverviewState extends State<Overview> {
     UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount", forceSafariVC: false, forceWebView: false);
   }
 
+  void onBracelet() {
+    NavigationService.of(context).navigateTo(Routes.bracelet);
+  }
+
   void onVote() {
     NavigationService.of(context).navigateTo(Routes.proposals);
   }
@@ -192,6 +196,16 @@ class _OverviewState extends State<Overview> {
                     'Available Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
                     onGet,
+                  ),
+                ),
+                Consumer<BalanceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                    'Seeds Bracelet'.i18n,
+                    'Tap to manage your bracelet'.i18n,
+                    'assets/images/harvest.svg',
+                    'Bracelet Balance'.i18n,
+                    "300.5 SEEDS",
+                    onBracelet,
                   ),
                 ),
               ],

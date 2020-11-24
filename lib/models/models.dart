@@ -214,6 +214,28 @@ class PlantedModel {
   int get hashCode => super.hashCode;
 }
 
+class BraceletModel {
+  final String balance;
+
+  BraceletModel(this.balance);
+
+  factory BraceletModel.fromJson(Map<String, dynamic> json) {
+    if (json != null && json["rows"].isNotEmpty) {
+      return BraceletModel(json["rows"][0]["balance"] as String); // TODO get bracelet account working
+    } else {
+      return BraceletModel("0.0000 SEEDS");
+    }
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BraceletModel && balance == other.balance;
+
+  @override
+  int get hashCode => super.hashCode;
+}
+
 class HarvestModel {
   final String planted;
   final String reward;

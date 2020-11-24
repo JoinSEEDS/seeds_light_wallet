@@ -125,6 +125,33 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
+  Future<dynamic> addToBracelet({double amount}) async {
+    print("[eos] add seeds to bracelet ($amount)");
+
+    if (mockEnabled) {
+      return HttpMockResponse.transactionResult;
+    }
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "token.seeds"
+        ..name = "transfer"
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = {
+          "from": accountName,
+          "to": "harvst.seeds",
+          "quantity": "${amount.toStringAsFixed(4)} SEEDS",
+          "memo": "",
+        }
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
   Future<dynamic> createInvite({double quantity, String inviteHash}) async {
     print("[eos] create invite $inviteHash ($quantity)");
 
