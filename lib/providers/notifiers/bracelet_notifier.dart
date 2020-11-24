@@ -17,7 +17,7 @@ class BraceletNotifier extends ChangeNotifier {
   }
 
   Future<void> fetchBalance() {
-    return _http.getPlanted().then((result) {
+    return _http.getPlanted().then((result) {// TODO change to bracelet
       balance = result;
       notifyListeners();
     });

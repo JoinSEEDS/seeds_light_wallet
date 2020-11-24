@@ -38,21 +38,12 @@ class _BraceletState extends State<Bracelet> {
     super.dispose();
   }
 
-  void onSubmit() async {
-    setState(() {
-      transactionSubmitted = true;
-    });
+  void onTopUp() async {
+    print("on top up");
+  }
 
-    try {
-      String transactionId = await plantSeeds();
-
-      _statusNotifier.add(true);
-      _messageNotifier
-          .add("Transaction hash: %s".i18n.fill(["$transactionId"]));
-    } catch (err) {
-      _statusNotifier.add(false);
-      _messageNotifier.add(err.toString());
-    }
+  void onRefund() async {
+    print("on refund");
   }
 
   Widget buildProgressOverlay() {
@@ -101,12 +92,12 @@ class _BraceletState extends State<Bracelet> {
               MainButton(
                 margin: EdgeInsets.only(top: 25),
                 title: 'Top up Bracelet',
-                onPressed: onSubmit,
+                onPressed: onTopUp,
               ),
               MainButton(
                 margin: EdgeInsets.only(top: 25),
                 title: 'Refund',
-                onPressed: onSubmit,
+                onPressed: onRefund,
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
@@ -134,13 +125,6 @@ class _BraceletState extends State<Bracelet> {
         ),
       ),
     );
-  }
-
-  Future<String> plantSeeds() async {
-    var response = await EosService.of(context, listen: false).plantSeeds(
-      amount: double.parse(plantController.text),
-    );
-    return response["transaction_id"];
   }
 
   void onPinSwitch(bool value) {
