@@ -9,6 +9,7 @@ import 'package:seeds/features/scanner/scanner_service.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
+import 'package:seeds/providers/notifiers/dho_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
@@ -96,6 +97,10 @@ final providers = [
   ChangeNotifierProxyProvider<HttpService, BalanceNotifier>(
     create: (context) => BalanceNotifier(),
     update: (context, http, balance) => balance..update(http: http),
+  ),
+  ChangeNotifierProxyProvider<HttpService, DhoNotifier>(
+    create: (context) => DhoNotifier(),
+    update: (context, http, notifier) => notifier..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, RateNotifier>(
     create: (context) => RateNotifier(),
