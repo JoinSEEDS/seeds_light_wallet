@@ -5,7 +5,8 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
 class VoiceNotifier extends ChangeNotifier {
-  VoiceModel balance;
+  VoiceModel campaignBalance;
+  VoiceModel allianceBalance;
 
   HttpService _http;
 
@@ -17,8 +18,9 @@ class VoiceNotifier extends ChangeNotifier {
   }
 
   Future<void> fetchBalance() {
-    return _http.getVoice().then((result) {
-      balance = result;
+    return Future.wait([_http.getCampaignVoice(), _http.getAllianceVoice()]).then((result) {
+      campaignBalance = result[0];
+      allianceBalance = result[1];
       notifyListeners();
     });
   }

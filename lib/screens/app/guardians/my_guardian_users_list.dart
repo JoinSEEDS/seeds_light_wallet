@@ -21,7 +21,7 @@ ListView buildMyGuardiansListView(
         return guardianUserTile(
             user: memberModels.firstWhere((element) => element.account == guardian.uid),
             currentUserId: currentUserId,
-            status: guardian.status,
+            guardian: guardian,
             tileOnTap: tileOnTap);
       },
       separatorBuilder: (context, index) {
@@ -45,13 +45,13 @@ Widget buildSeparator(List<Guardian> guardians, int index) {
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
-          child: Center(child: Text("Your Guardians")),
+          child: Center(child: Text("My Guardians")),
         ),
       );
     } else {
       return requested;
     }
-  } else if (index > guardians.length - 2) {
+  } else if (index > guardians.length - 1) {
     return SizedBox.shrink();
   } else {
     var guardian = guardians[index - 1];

@@ -291,25 +291,22 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> sendTransaction(
-      {String account, String name, Map<String, dynamic> data}) async {
-    print("[eos] send transaction ($account | $name)");
+  Future<dynamic> sendTransaction(List<Action> actions) async {
+    print("[eos] send transaction");
 
     if (mockEnabled) {
       return HttpMockResponse.transactionResult;
     }
 
-    Transaction transaction = buildFreeTransaction([
-      Action()
-        ..account = account
-        ..name = name
-        ..authorization = [
-          Authorization()
-            ..actor = accountName
-            ..permission = "active"
-        ]
-        ..data = data
-    ]);
+    actions.forEach((action) => {
+          action.authorization = [
+            Authorization()
+              ..actor = accountName
+              ..permission = "active"
+          ]
+        });
+
+    Transaction transaction = buildFreeTransaction(actions);
 
     return client.pushTransaction(transaction, broadcast: true);
   }
@@ -330,7 +327,8 @@ class EosService {
       ..authorization = auth
       ..data = data;
 
-    var args = ESR.SigningRequestCreateArguments(action: action, chainId: chainId);
+    var args =
+        ESR.SigningRequestCreateArguments(action: action, chainId: chainId);
 
     var request = await ESR.SigningRequestManager.create(args,
         options: ESR.defaultSigningRequestEncodingOptions(

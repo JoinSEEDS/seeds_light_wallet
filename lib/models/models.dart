@@ -346,6 +346,12 @@ class ProfileModel {
   }
 }
 
+enum ProposalType {
+  alliance, 
+  campaign, 
+  hypha
+}
+
 class ProposalModel {
   final int id;
   final String creator;
@@ -365,6 +371,9 @@ class ProposalModel {
   final String stage;
   final String fund;
   final int creationDate;
+  ProposalType get type {
+    return fund == "allies.seeds" ? ProposalType.alliance : fund == "hypha.seeds" ? ProposalType.hypha : ProposalType.campaign;
+  }
 
   ProposalModel({
     this.id,

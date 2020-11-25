@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/ecosystem.i18n.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/dho_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
@@ -36,12 +37,14 @@ class _OverviewState extends State<Overview> {
       VoiceNotifier.of(context).fetchBalance(),
       PlantedNotifier.of(context).fetchBalance(),
       TelosBalanceNotifier.of(context).fetchBalance(),
+      DhoNotifier.of(context).refresh(),
     ]);
   }
 
   void onGet() {
     String userAccount = SettingsNotifier.of(context).accountName;
-    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount", forceSafariVC: false, forceWebView: false);
+    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount",
+        forceSafariVC: false, forceWebView: false);
   }
 
   void onVote() {
@@ -54,6 +57,10 @@ class _OverviewState extends State<Overview> {
 
   void onPlant() {
     NavigationService.of(context).navigateTo(Routes.plantSeeds);
+  }
+
+  void onDHO() {
+    NavigationService.of(context).navigateTo(Routes.dho);
   }
 
   Widget buildCategory(
@@ -170,9 +177,7 @@ class _OverviewState extends State<Overview> {
                     'Tap to participate'.i18n,
                     'assets/images/governance.svg',
                     'Trust Tokens'.i18n,
-                    (model?.balance?.amount != null)
-                        ? model?.balance?.amount.toString()
-                        : "-",
+                    valueString(model?.campaignBalance?.amount) + "/" + valueString(model?.allianceBalance?.amount),
                     onVote,
                   ),
                 ),
@@ -196,9 +201,22 @@ class _OverviewState extends State<Overview> {
                     onGet,
                   ),
                 ),
+                Consumer<DhoNotifier>(
+                  builder: (ctx, model, _) => model.isDhoMember ? buildCategory(
+                      'Hypha DHO',
+                      'Explore Decentralized Human Organization',
+                      'assets/images/harvest.svg',
+                      '',
+                      '',
+                      onDHO) : Container(),
+                ),
               ],
             )),
       ),
     );
+  }
+
+  String valueString(int amount) {
+    return amount == null ? "-" : "$amount";
   }
 }
