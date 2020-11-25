@@ -33,11 +33,14 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<HttpService>(context).getVoice().then((val) {
-      setState(() {
-        voice = val;
+    var future = widget.proposal.type == ProposalType.alliance ? 
+      Provider.of<HttpService>(context).getAllianceVoice() :
+      Provider.of<HttpService>(context).getCampaignVoice();
+      future.then((value) => {        
+        setState(() {
+          voice = value;
+        })
       });
-    });
     super.didChangeDependencies();
   }
 
@@ -125,7 +128,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
             ),
             SizedBox(height: 8),
             Text(
-              'Funded by: %s '.i18n.fill(["${proposal.fund}"]),
+              'Type: %s '.i18n.fill([proposal.type == ProposalType.alliance ? "Alliance".i18n : "Campaign".i18n]),
               style: textTheme.subtitle1,
             ),
             SizedBox(height: 8),
@@ -195,7 +198,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                     Text(
                       snapshot.hasData && snapshot.data.voted
                           ? 'Voted'.i18n
-                          : 'Voting'.i18n,
+                          : ('Voting'.i18n + " - " + (proposal.type == ProposalType.alliance ? "Alliance".i18n : "Campaign".i18n)),
                       style: textTheme.headline6,
                     ),
                     snapshot.hasData && snapshot.data.voted
