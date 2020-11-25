@@ -66,6 +66,8 @@ dependencies:
   flutter_inappwebview: ^4.0.0+4
   webview_flutter: ^1.0.7
   rubber: ^0.4.0
+  path_provider: ^1.6.24
+  dotted_border: ^1.0.6
   
 dev_dependencies:
   flutter_test:
@@ -122,6 +124,7 @@ flutter:
     - assets/images/success_circle.png
     - assets/images/logout.svg
     - assets/images/qr-code.svg
+    - assets/images/seeds.png
     # assets end
 
   fonts:
