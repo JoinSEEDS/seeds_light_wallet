@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/models/models.dart';
 
 class TransferAmount extends StatefulWidget {
   final String amountValue;
@@ -23,7 +24,7 @@ class _TransferAmountState extends State<TransferAmount> {
   @override
   void initState() {
     super.initState();
-    amountController.updateValue(double.parse(widget.amountValue));
+    amountController.updateValue(NumberParser.parseInput(widget.amountValue));
   }
 
   _checkAmount(double amount) {
@@ -118,7 +119,7 @@ class _TransferAmountState extends State<TransferAmount> {
                               fontSize: 50,
                             ),
                             onChanged: (text) {
-                              _checkAmount(double.parse(text));
+                              _checkAmount(NumberParser.parseInput(text));
                             }),
                       ),
                     ],

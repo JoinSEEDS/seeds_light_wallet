@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -57,9 +58,12 @@ class _TransferFormState extends State<TransferForm>
       var response =
           await Provider.of<EosService>(context, listen: false).transferSeeds(
         beneficiary: widget.arguments.accountName,
-        amount: double.parse(controller.text),
+        amount: NumberParser.parseInput(controller.text),
       );
-
+    setState(() {
+      showPageLoader = false;
+    });
+    return;
       String trxid = response["transaction_id"];
 
       _statusNotifier.add(true);
@@ -216,8 +220,8 @@ class _TransferFormState extends State<TransferForm>
                     validator: (val) {
                       String error;
                       double availableBalance =
-                          double.tryParse(balance.replaceFirst(' SEEDS', ''));
-                      double transferAmount = double.tryParse(val);
+                          NumberParser.parseAsset(balance);
+                      double transferAmount = NumberParser.parseInput(val);
 
                       if (transferAmount == 0.0) {
                         error = "Transfer amount cannot be 0.".i18n;

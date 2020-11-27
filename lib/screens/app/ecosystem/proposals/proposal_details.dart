@@ -100,7 +100,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
     final textTheme = Theme.of(context).textTheme;
 
     double quantity =
-        double.tryParse(proposal.quantity.replaceAll(RegExp(r' SEEDS'), '')) ??
+        NumberParser.parseAsset(proposal.quantity) ??
             0.0;
 
     NumberFormat format =

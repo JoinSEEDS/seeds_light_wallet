@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 import '../utils/double_extension.dart';
 
@@ -136,10 +137,7 @@ class BalanceModel {
   }
 
   static double _parseQuantityString(String quantityString) {
-    if (quantityString == null) {
-      return 0;
-    }
-    return double.parse(quantityString.split(" ")[0]);
+    return NumberParser.parseAsset(quantityString);
   }
 
   @override
@@ -169,10 +167,7 @@ class RateModel {
   }
 
   static double _parseQuantityString(String quantityString) {
-    if (quantityString == null) {
-      return 0;
-    }
-    return double.parse(quantityString.split(" ")[0]);
+    return NumberParser.parseAsset(quantityString);
   }
 
   double convert(double seedsAmount) {
@@ -479,3 +474,22 @@ const proposalTypes = {
   'Passed': {'stage': 'done', 'status': 'passed'},
   'Failed': {'stage': 'done', 'status': 'rejected'},
 };
+
+extension NumberParser on double {
+  
+  static double parseAsset(String quantity) {
+    if (quantity == null) {
+      return 0;
+    }
+    return double.tryParse(quantity.split(" ")[0]);
+  }
+
+  static double parseInput(String text) {
+    try {
+      print("locale "+NumberFormat().locale);
+      return NumberFormat().parse(text);
+    } catch (err) {
+      return null;
+    }
+  }
+}

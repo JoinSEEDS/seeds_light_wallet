@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -57,7 +58,7 @@ class _TransactionFormState extends State<TransactionForm> {
     var eos = Provider.of<EosService>(context, listen: false);
 
     try {
-      double amount = double.parse(controller.text);
+      double amount = NumberParser.parseInput(controller.text);
 
       var response;
 

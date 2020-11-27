@@ -118,7 +118,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
     final product = ProductModel(
       name: nameController.text,
-      price: double.parse(priceController.text),
+      price: NumberParser.parseInput(priceController.text),
       picture: localImagePath,
     );
 
@@ -128,7 +128,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   void editProduct(int index) {
     final product = ProductModel(
       name: nameController.text,
-      price: double.parse(priceController.text),
+      price: NumberParser.parseInput(priceController.text),
       picture: localImagePath,
     );
 
@@ -474,7 +474,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
   }
 
   void generateInvoice(String amount) async {
-    double receiveAmount = double.tryParse(amount) ?? 0;
+    double receiveAmount = NumberParser.parseInput(amount) ?? 0;
 
     setState(() {
       invoiceAmountDouble = receiveAmount;
@@ -515,7 +515,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
               validator: (String amount) {
                 String error;
 
-                double receiveAmount = double.tryParse(amount);
+                double receiveAmount = NumberParser.parseInput(amount);
 
                 if (amount == null || amount.isEmpty) {
                   error = null;

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/available_balance.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
@@ -108,7 +109,7 @@ class _PlantSeedState extends State<PlantSeeds> {
 
   Future<String> plantSeeds() async {
     var response = await EosService.of(context, listen: false).plantSeeds(
-      amount: double.parse(plantController.text),
+      amount: NumberParser.parseInput(plantController.text),
     );
     return response["transaction_id"];
   }

@@ -30,6 +30,9 @@ class _TransferState extends State<Transfer> {
 
   @override
   Widget build(BuildContext context) {
+        final Locale appLocale = Localizations.localeOf(context);
+   print("APP LOCALE"+appLocale.toString());
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
