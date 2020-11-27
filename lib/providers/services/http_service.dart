@@ -321,6 +321,31 @@ class HttpService {
     }
   }
 
+  Future<bool> isDHOMember() async {
+    print("[http] is DHO member");
+
+    if (mockResponse == true) {
+      return true;
+    }
+
+    final String daoURL = "$baseURL/v1/chain/get_table_rows";
+
+    String request = '{"json": true, "code": "dao.hypha","scope": "dao.hypha","table": "members","table_key": "","lower_bound": "$userAccount","upper_bound": "$userAccount","limit": 1,}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(daoURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+      print("result "+body.toString());
+      return body["rows"].length > 0;
+    } else {
+      print("Cannot fetch dho members...");
+
+      return false;
+    }
+  }
+
   Future<ExchangeModel> getExchangeConfig() async {
     print("[http] get exchange config");
 
@@ -343,14 +368,22 @@ class HttpService {
 
       return exchangeConfig;
     } else {
-      print('Cannot fetch members...');
+      print('Cannot fetch exchange config...');
 
       return ExchangeModel();
     }
   }
 
-  Future<VoiceModel> getVoice() async {
-    print("[http] get voice");
+  Future<VoiceModel> getCampaignVoice() async {
+    return getVoice("funds.seeds");
+  }
+
+  Future<VoiceModel> getAllianceVoice() async {
+    return getVoice("alliance");
+  }
+
+  Future<VoiceModel> getVoice(String scope) async {
+    print("[http] get voice $scope");
 
     if (mockResponse == true) {
       return HttpMockResponse.voice;
@@ -359,7 +392,7 @@ class HttpService {
     final String voiceURL = '$baseURL/v1/chain/get_table_rows';
 
     String request =
-        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"voice","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"funds.seeds","scope":"$scope","table":"voice","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(voiceURL, headers: headers, body: request);
@@ -371,7 +404,7 @@ class HttpService {
 
       return voice;
     } else {
-      print('Cannot fetch members...');
+      print('Cannot fetch voice...');
 
       return VoiceModel(0);
     }
@@ -399,7 +432,7 @@ class HttpService {
 
       return balance;
     } else {
-      print('Cannot fetch members...');
+      print('Cannot fetch planted...');
 
       return PlantedModel("0.0000 SEEDS");
     }

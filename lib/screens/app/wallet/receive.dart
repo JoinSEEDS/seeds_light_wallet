@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/eos_service.dart';
@@ -10,7 +14,7 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/utils/double_extension.dart';
-import 'package:seeds/providers/notifiers/rate_notiffier.dart';
+import 'package:path/path.dart';
 
 class Receive extends StatefulWidget {
   Receive({Key key}) : super(key: key);
@@ -63,6 +67,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
   List<ProductModel> products = List();
 
+  String localImagePath = '';
+
   @override
   void initState() {
     loadProducts();
@@ -85,11 +91,35 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     });
   }
 
+  void chooseProductPicture() async {
+    final PickedFile image =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+
+    if (image == null) return;
+
+    File localImage = File(image.path);
+
+    final String path = (await getApplicationDocumentsDirectory()).path;
+    final fileName = basename(image.path);
+    final fileExtension = extension(image.path);
+
+    localImage = await localImage.copy("$path/$fileName$fileExtension");
+
+    setState(() {
+      localImagePath = localImage.path;
+    });
+
+    bottomSheetController.setState(() {});
+  }
+
   void createNewProduct() {
+    if (products.indexWhere((element) => element.name == nameController.text) !=
+        -1) return;
+
     final product = ProductModel(
       name: nameController.text,
       price: double.parse(priceController.text),
-      picture: '',
+      picture: localImagePath,
     );
 
     box.add(product);
@@ -99,7 +129,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     final product = ProductModel(
       name: nameController.text,
       price: double.parse(priceController.text),
-      picture: '',
+      picture: localImagePath,
     );
 
     box.putAt(index, product);
@@ -132,20 +162,65 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     );
   }
 
+  Widget buildPictureWidget() {
+    return Container(
+        height: 40,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: localImagePath.isNotEmpty
+                ? [
+                    CircleAvatar(
+                      backgroundImage: FileImage(File(localImagePath)),
+                      radius: 20,
+                    ),
+                    SizedBox(width: 10),
+                    Text("Change Picture"),
+                  ]
+                : [
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.black,
+                        size: 15,
+                      ),
+                      radius: 15,
+                    ),
+                    Text("Add Picture"),
+                  ]));
+  }
+
   void showEditProduct(BuildContext context, int index) {
     nameController.text = products[index].name;
     priceController.text = products[index].price.toString();
 
     bottomSheetController = Scaffold.of(context).showBottomSheet(
       (context) => Container(
-        color: Colors.white,
         padding: EdgeInsets.symmetric(
           vertical: 10,
           horizontal: 15,
         ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              blurRadius: 8,
+              color: AppColors.blue,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
         child: Wrap(
           runSpacing: 10.0,
           children: <Widget>[
+            DottedBorder(
+              color: AppColors.grey,
+              strokeWidth: 1,
+              child: GestureDetector(
+                onTap: chooseProductPicture,
+                child: buildPictureWidget(),
+              ),
+            ),
             MainTextField(
               labelText: 'Name',
               controller: nameController,
@@ -154,7 +229,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               labelText: 'Price',
               controller: priceController,
               endText: 'SEEDS',
-              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
             MainButton(
               title: 'Edit Product',
@@ -176,17 +252,35 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   void showNewProduct(BuildContext context) {
     nameController.clear();
     priceController.clear();
+    localImagePath = "";
 
     bottomSheetController = Scaffold.of(context).showBottomSheet(
       (context) => Container(
-        color: Colors.white,
         padding: EdgeInsets.symmetric(
           vertical: 10,
           horizontal: 15,
         ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              blurRadius: 8,
+              color: AppColors.blue,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
         child: Wrap(
           runSpacing: 10.0,
           children: <Widget>[
+            DottedBorder(
+              color: AppColors.grey,
+              strokeWidth: 1,
+              child: GestureDetector(
+                onTap: chooseProductPicture,
+                child: buildPictureWidget(),
+              ),
+            ),
             MainTextField(
               labelText: 'Name',
               controller: nameController,
@@ -195,7 +289,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               labelText: 'Price',
               controller: priceController,
               endText: 'SEEDS',
-              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
             MainButton(
               title: 'Add Product',
@@ -250,16 +345,39 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         shrinkWrap: true,
         itemCount: products.length,
         itemBuilder: (ctx, index) => ListTile(
+          leading: CircleAvatar(
+            backgroundImage: products[index].picture.isNotEmpty
+                ? FileImage(File(products[index].picture))
+                : null,
+            child: products[index].picture.isEmpty
+                ? Container(
+                    color: AppColors.getColorByString(products[index].name),
+                    child: Center(
+                      child: Text(
+                        products[index].name.characters.first,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  )
+                : null,
+            radius: 20,
+          ),
           title: Material(
             child: Text(
               products[index].name,
-              style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  fontFamily: "worksans", fontWeight: FontWeight.w500),
             ),
           ),
           subtitle: Material(
             child: Text(
               products[index].price.seedsFormatted + " SEEDS",
-              style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  fontFamily: "worksans", fontWeight: FontWeight.w400),
             ),
           ),
           trailing: Builder(
@@ -303,17 +421,49 @@ class _ReceiveFormState extends State<ReceiveForm> {
   double invoiceAmountDouble = 0;
 
   List<ProductModel> cart = List();
+  Map<String, int> cartQuantity = Map();
 
-  void addProductToCart(ProductModel product) {
+  void changeTotalPrice(double amount) {
+    invoiceAmountDouble += amount;
+    invoiceAmount = invoiceAmountDouble.toString();
+    controller.text = invoiceAmount;
+  }
+
+  void removeProductFromCart(ProductModel product) {
     setState(() {
-      cart.add(product);
-      invoiceAmountDouble += product.price;
-      invoiceAmount = invoiceAmountDouble.toString();
-      controller.text = invoiceAmount;
+      cartQuantity[product.name]--;
+
+      if (cartQuantity[product.name] == 0) {
+        cart.removeWhere((element) => element.name == product.name);
+        cartQuantity[product.name] = null;
+      }
+
+      changeTotalPrice(-product.price);
     });
   }
 
-  void showMerchantCatalog() {
+  void removePriceDifference() {
+    final difference = donationOrDiscountAmount();
+
+    setState(() {
+      changeTotalPrice(difference);
+    });
+  }
+
+  void addProductToCart(ProductModel product) {
+    setState(() {
+      if (cartQuantity[product.name] == null) {
+        cart.add(product);
+        cartQuantity[product.name] = 1;
+      } else {
+        cartQuantity[product.name]++;
+      }
+
+      changeTotalPrice(product.price);
+    });
+  }
+
+  void showMerchantCatalog(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => ProductsCatalog(addProductToCart),
@@ -332,101 +482,285 @@ class _ReceiveFormState extends State<ReceiveForm> {
     });
   }
 
-  Widget maybeDonationOrDiscount() {
-    final cartTotalPrice = cart.map((product) => product.price).reduce((value, element) => value + element);
+  double donationOrDiscountAmount() {
+    final cartTotalPrice = cart
+        .map((product) => product.price * cartQuantity[product.name])
+        .reduce((value, element) => value + element);
 
     final difference = cartTotalPrice - invoiceAmountDouble;
 
-    if (difference > 0) {
-      return Text("- $difference " + "(Discount)".i18n);
-    } else if (difference < 0) {
-      return Text("+ ${difference.abs()} " + "(Donation)".i18n);
-    } else {
-      return Container();
-    }
+    return difference;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: Column(
-        children: <Widget>[
-          MainTextField(
-            suffixIcon: IconButton(
-              icon: Icon(Icons.add_shopping_cart, color: AppColors.blue),
-              onPressed: () {
-                FocusScope.of(context).requestFocus(FocusNode());
-                showMerchantCatalog();
+    return SingleChildScrollView(
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: <Widget>[
+            MainTextField(
+              suffixIcon: IconButton(
+                icon: Icon(Icons.add_shopping_cart, color: AppColors.blue),
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  showMerchantCatalog(context);
+                },
+              ),
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              controller: controller,
+              labelText: 'Receive (SEEDS)'.i18n,
+              autofocus: true,
+              validator: (String amount) {
+                String error;
+
+                double receiveAmount = double.tryParse(amount);
+
+                if (amount == null || amount.isEmpty) {
+                  error = null;
+                } else if (receiveAmount == 0.0) {
+                  error = "Amount cannot be 0.".i18n;
+                } else if (receiveAmount < 0.0001) {
+                  error = "Amount must be > 0.0001".i18n;
+                } else if (receiveAmount == null) {
+                  error = "Receive amount is not valid".i18n;
+                }
+
+                return error;
+              },
+              onChanged: (String amount) {
+                if (formKey.currentState.validate()) {
+                  generateInvoice(amount);
+                } else {
+                  setState(() {
+                    invoiceAmountDouble = 0;
+                  });
+                }
               },
             ),
-            keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-            controller: controller,
-            labelText: 'Receive (SEEDS)'.i18n,
-            autofocus: true,
-            validator: (String amount) {
-              String error;
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 33, 0, 0),
+              child: MainButton(
+                  title: "Next".i18n,
+                  active: invoiceAmountDouble != 0,
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    NavigationService.of(context)
+                        .navigateTo(Routes.receiveQR, invoiceAmountDouble);
+                  }),
+            ),
+            cart.length > 0 ? buildCart() : Container(),
+          ],
+        ),
+      ),
+    );
+  }
 
-              double receiveAmount = double.tryParse(amount);
-
-              if (amount == null || amount.isEmpty) {
-                error = null;
-              } else if (receiveAmount == 0.0) {
-                error = "Amount cannot be 0.".i18n;
-              } else if (receiveAmount < 0.0001) {
-                error = "Amount must be > 0.0001".i18n;
-              } else if (receiveAmount == null) {
-                error = "Receive amount is not valid".i18n;
-              }
-
-              return error;
-            },
-            onChanged: (String amount) {
-              if (formKey.currentState.validate()) {
-                generateInvoice(amount);
-              } else {
-                setState(() {
-                  invoiceAmountDouble = 0;
-                });
-              }
-            },
-          ),
-          Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                  padding: EdgeInsets.fromLTRB(17, 5, 0, 0),
-                  child: Consumer<RateNotifier>(
-                    builder: (context, rateModel, child) {
-                      return Text(
-                        '${rateModel.rate?.usdString(invoiceAmountDouble)}',
-                        style: TextStyle(color: Colors.blue),
-                      );
-                    },
-                  ))),
-          cart.length > 0
-              ? Container(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
-                  child: ListView(
-                    shrinkWrap: true,
+  Widget buildCart() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: GridView(
+        physics: ScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 200.0,
+          mainAxisSpacing: 10.0,
+          crossAxisSpacing: 10.0,
+        ),
+        shrinkWrap: true,
+        children: [
+          ...cart
+              .map(
+                (product) => GridTile(
+                  header: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        product.picture.isNotEmpty
+                            ? CircleAvatar(
+                                backgroundImage:
+                                    FileImage(File(product.picture)),
+                                radius: 20,
+                              )
+                            : Container(),
+                        Row(
+                          children: [
+                            Text(
+                              product.price.toString(),
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Image.asset(
+                              'assets/images/seeds.png',
+                              height: 20,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.getColorByString(product.name),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          blurRadius: 15,
+                          color: AppColors.getColorByString(product.name),
+                          offset: Offset(6, 10),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        product.name.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  footer: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ...cart.map((product) => Text("+ ${product.price} (${product.name})")).toList(),
-                      maybeDonationOrDiscount()
+                      SizedBox(
+                        width: 48,
+                        height: 48,
+                        child: FlatButton(
+                          padding: EdgeInsets.zero,
+                          color: AppColors.red,
+                          child: Icon(
+                            Icons.remove,
+                            size: 21,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            removeProductFromCart(product);
+                          },
+                        ),
+                      ),
+                      Text(
+                        cartQuantity[product.name].toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 48,
+                        height: 48,
+                        child: FlatButton(
+                          padding: EdgeInsets.zero,
+                          color: AppColors.green,
+                          child: Icon(
+                            Icons.add,
+                            size: 21,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            addProductToCart(product);
+                          },
+                        ),
+                      ),
                     ],
                   ),
-                )
-              : Container(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 33, 0, 0),
-            child: MainButton(
-                title: "Next".i18n,
-                active: invoiceAmountDouble != 0,
-                onPressed: () {
-                  FocusScope.of(context).unfocus();
-                  NavigationService.of(context).navigateTo(Routes.receiveQR, invoiceAmountDouble);
-                }),
-          ),
+                ),
+              )
+              .toList(),
+          buildDonationOrDiscountItem(),
         ],
       ),
     );
+  }
+
+  Widget buildDonationOrDiscountItem() {
+    double difference = donationOrDiscountAmount();
+
+    if (difference == 0) {
+      return Container();
+    } else {
+      final name = difference > 0 ? "Discount" : "Donation";
+      final price = difference.abs();
+
+      return GridTile(
+        header: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CircleAvatar(
+                backgroundColor: AppColors.blue,
+                child: Icon(difference > 0 ? Icons.remove : Icons.add,
+                    color: Colors.white),
+                radius: 20,
+              ),
+              Row(
+                children: [
+                  Text(
+                    price.toString(),
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Image.asset(
+                    'assets/images/seeds.png',
+                    height: 20,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.getColorByString(name),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                blurRadius: 15,
+                color: AppColors.getColorByString(name),
+                offset: Offset(6, 10),
+              ),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              name,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+        footer: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 48,
+              height: 48,
+              child: FlatButton(
+                padding: EdgeInsets.zero,
+                color: AppColors.blue,
+                child: Icon(
+                  Icons.cancel_outlined,
+                  size: 21,
+                  color: Colors.white,
+                ),
+                onPressed: removePriceDifference,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
