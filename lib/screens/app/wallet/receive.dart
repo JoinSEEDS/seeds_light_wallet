@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide Action;
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/eos_service.dart';
@@ -9,6 +10,7 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 
 class Receive extends StatefulWidget {
   Receive({Key key}) : super(key: key);
@@ -152,8 +154,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               labelText: 'Price',
               controller: priceController,
               endText: 'SEEDS',
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
             MainButton(
               title: 'Edit Product',
@@ -194,8 +195,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               labelText: 'Price',
               controller: priceController,
               endText: 'SEEDS',
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
             MainButton(
               title: 'Add Product',
@@ -253,15 +253,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           title: Material(
             child: Text(
               products[index].name,
-              style: TextStyle(
-                  fontFamily: "worksans", fontWeight: FontWeight.w500),
+              style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
             ),
           ),
           subtitle: Material(
             child: Text(
               products[index].price.seedsFormatted + " SEEDS",
-              style: TextStyle(
-                  fontFamily: "worksans", fontWeight: FontWeight.w400),
+              style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
             ),
           ),
           trailing: Builder(
@@ -335,9 +333,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
   }
 
   Widget maybeDonationOrDiscount() {
-    final cartTotalPrice = cart
-        .map((product) => product.price)
-        .reduce((value, element) => value + element);
+    final cartTotalPrice = cart.map((product) => product.price).reduce((value, element) => value + element);
 
     final difference = cartTotalPrice - invoiceAmountDouble;
 
@@ -364,8 +360,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                 showMerchantCatalog();
               },
             ),
-            keyboardType:
-                TextInputType.numberWithOptions(signed: false, decimal: true),
+            keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
             controller: controller,
             labelText: 'Receive (SEEDS)'.i18n,
             autofocus: true,
@@ -396,16 +391,25 @@ class _ReceiveFormState extends State<ReceiveForm> {
               }
             },
           ),
+          Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                  padding: EdgeInsets.fromLTRB(17, 5, 0, 0),
+                  child: Consumer<RateNotifier>(
+                    builder: (context, rateModel, child) {
+                      return Text(
+                        '${rateModel.rate?.usdString(invoiceAmountDouble)}',
+                        style: TextStyle(color: Colors.blue),
+                      );
+                    },
+                  ))),
           cart.length > 0
               ? Container(
                   padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      ...cart
-                          .map((product) =>
-                              Text("+ ${product.price} (${product.name})"))
-                          .toList(),
+                      ...cart.map((product) => Text("+ ${product.price} (${product.name})")).toList(),
                       maybeDonationOrDiscount()
                     ],
                   ),
@@ -418,8 +422,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                 active: invoiceAmountDouble != 0,
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  NavigationService.of(context)
-                      .navigateTo(Routes.receiveQR, invoiceAmountDouble);
+                  NavigationService.of(context).navigateTo(Routes.receiveQR, invoiceAmountDouble);
                 }),
           ),
         ],
