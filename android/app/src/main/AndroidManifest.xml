@@ -74,7 +74,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
+        <activity android:name="com.djgeo.majascan.g_scanner.QrCodeScannerActivity"/>
+
 
         <meta-data
             android:name="flutterEmbedding"
