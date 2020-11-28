@@ -1,7 +1,6 @@
+import 'package:barcode_scan_fix/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:majascan/majascan.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -36,18 +35,8 @@ class _ScanState extends State<Scan> {
 
     try {
       while (shouldKeepScanning) {
-        print("scan...");
-        String scanResult = await MajaScan.startScan(
-          title: "QRcode scanner", 
-          barColor: AppColors.red, 
-          titleColor: AppColors.green, 
-          qRCornerColor: AppColors.lightGreen,
-          qRScannerColor: AppColors.purple,
-          flashlightEnable: true, 
-          scanAreaScale: 0.7 /// value 0.0 to 1.0
-        );
-        print("end scan...");
 
+        String scanResult = await BarcodeScanner.scan();
         setState(() {
           this.step = Steps.processing;
           this.qrcode = scanResult;
@@ -69,10 +58,7 @@ class _ScanState extends State<Scan> {
         }
       }
     } on PlatformException catch (e) {
-
-      print("platform exception $e");
-
-      if (e.code == MajaScan.CameraAccessDenied) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
           this.qrcode = "";
           this.step = Steps.error;
@@ -85,17 +71,9 @@ class _ScanState extends State<Scan> {
           this.error = 'Unknown error: $e';
         });
       }
-    } on FormatException catch (fe) {
-            print("format exception $fe");
-
+    } on FormatException {
       // back button / cancel
-        setState(() {
-          this.step = Steps.error;
-          this.qrcode = "";
-          this.error = 'Canceled';
-        });
-
-      Navigator.of(context).pop();
+      shouldKeepScanning = false;
       Navigator.of(context).pop();
       //setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {

@@ -1,5 +1,4 @@
-import 'package:majascan/majascan.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:barcode_scan_fix/barcode_scan.dart';
 import 'package:seeds/providers/services/links_service.dart';
 
 enum ScanStatus {
@@ -25,15 +24,7 @@ class ScannerService {
   }
   
   Future<String> start() {
-    return MajaScan.startScan(
-      title: "QRcode scanner", 
-      barColor: AppColors.red, 
-      titleColor: AppColors.green, 
-      qRCornerColor: AppColors.lightGreen,
-      qRScannerColor: AppColors.purple,
-      flashlightEnable: true, 
-      scanAreaScale: 0.7 /// value 0.0 to 1.0
-    );
+    return BarcodeScanner.scan();
   }
 
   ScanStatus statusFromResult(String result) {
