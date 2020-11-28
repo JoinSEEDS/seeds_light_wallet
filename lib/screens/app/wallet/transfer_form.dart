@@ -36,8 +36,7 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
   bool showPageLoader = false;
   String transactionId = "";
   final _formKey = GlobalKey<FormState>();
-  String valUSD;
-  double doubleValUSD = 0;
+  double valueInUSD = 0;
 
   final StreamController<bool> _statusNotifier = StreamController<bool>.broadcast();
 
@@ -88,11 +87,11 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
 
   _setUSD(controller) {
     setState(() {
-      if (controller == null || controller.isEmpty)
-        doubleValUSD = 0;
-      else
-        doubleValUSD = double.parse(controller);
-    });
+      if (controller == null || controller.isEmpty) {
+        valueInUSD = 0;
+      }else {
+        valueInUSD = double.parse(controller);
+      }});
   }
 
   Widget buildProfile() {
@@ -230,11 +229,11 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
                   Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                          padding: EdgeInsets.fromLTRB(17, 5, 0, 0),
+                          padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
                           child: Consumer<RateNotifier>(
                             builder: (context, rateModel, child) {
                               return Text(
-                                '${rateModel.rate?.usdString(doubleValUSD)}',
+                                '${rateModel.rate?.usdString(valueInUSD)}',
                                 style: TextStyle(color: Colors.blue),
                               );
                             },

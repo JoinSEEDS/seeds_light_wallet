@@ -544,7 +544,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
             Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                    padding: EdgeInsets.fromLTRB(17, 5, 0, 0),
+                    padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
                     child: Consumer<RateNotifier>(
                       builder: (context, rateModel, child) {
                         return Text(
