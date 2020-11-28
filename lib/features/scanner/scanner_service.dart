@@ -1,4 +1,4 @@
-import 'package:barcode_scan/barcode_scan.dart';
+import 'package:barcode_scan_fix/barcode_scan.dart';
 import 'package:seeds/providers/services/links_service.dart';
 
 enum ScanStatus {
@@ -23,22 +23,12 @@ class ScannerService {
     this._linksService = linksService;
   }
   
-  Future<ScanResult> start() {
+  Future<String> start() {
     return BarcodeScanner.scan();
   }
 
-  ScanStatus statusFromResult(ScanResult result) {
-    switch(result.type) {
-      case ResultType.Barcode:
-        return ScanStatus.successful;
-
-      case ResultType.Cancelled:
-        return ScanStatus.cancelled;
-
-      case ResultType.Error:
-      default:
-        return ScanStatus.failed;
-    }
+  ScanStatus statusFromResult(String result) {
+    return ScanStatus.successful;
   }
 
   ScanContentType contentTypeOf(String content) {

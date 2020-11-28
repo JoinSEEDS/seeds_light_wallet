@@ -1,4 +1,4 @@
-import 'package:barcode_scan/barcode_scan.dart';
+import 'package:barcode_scan_fix/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
@@ -9,6 +9,7 @@ import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/i18n/scan.i18n.dart';
 
 enum Steps { init, scan, processing, success, error }
+enum ProcessESRResult { success, fail }
 
 class Scan extends StatefulWidget {
   @override
@@ -29,68 +30,69 @@ class _ScanState extends State<Scan> {
     setState(() {
       this.step = Steps.scan;
     });
+
+    bool shouldKeepScanning = true;
+
     try {
-      bool shouldKeepScanning = true;
       while (shouldKeepScanning) {
-        ScanResult scanResult = await BarcodeScanner.scan();
-        if (scanResult.type == ResultType.Cancelled) {
+
+        String scanResult = await BarcodeScanner.scan();
+        setState(() {
+          this.step = Steps.processing;
+          this.qrcode = scanResult;
+        });
+
+        var esr;
+        print("Scanning QR Code: " + scanResult);
+        try {
+          esr = SeedsESR(uri: scanResult);
+          await esr.resolve(account: SettingsNotifier.of(context, listen: false).accountName);
+        } catch (e) {
+          print("can't parse ESR " + e.toString());
+          print("ignoring...");
+        }
+        if (esr != null && canProcess(esr)) {
           shouldKeepScanning = false;
-          Navigator.of(context).pop();
+          processSigningRequest(esr);
           break;
-        } else {
-          setState(() {
-            this.step = Steps.processing;
-            this.qrcode = scanResult.rawContent;
-          });
-
-          // QUESTION: Why do we not check for other URL types like deep link for invite here?
-          var esr;
-          print("Scanning QR Code: " + scanResult.rawContent);
-          try {
-            esr = SeedsESR(uri: scanResult.rawContent);
-            await esr.resolve(account: SettingsNotifier.of(context, listen: false).accountName);
-
-          } catch (e) {
-            print("can't parse ESR " + e.toString());
-            print("ignoring...");
-          }
-          if (esr != null && canProcess(esr)) {
-            shouldKeepScanning = false;
-            processSigningRequest(esr);
-            break;
-          }
         }
       }
     } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.cameraAccessDenied) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
-          this.error = 'Please enable camera access to scan QR codes!'.i18n;
+          this.qrcode = "";
           this.step = Steps.error;
+          this.error = 'Please enable camera access to scan QR codes!'.i18n;
         });
       } else {
         setState(() {
-          this.error = 'Unknown error: $e';
           this.step = Steps.error;
+          this.qrcode = "";
+          this.error = 'Unknown error: $e';
         });
       }
-    } on FormatException catch (e) {
-      print("format exception: " + e.toString());
+    } on FormatException {
+      // back button / cancel
+      shouldKeepScanning = false;
+      Navigator.of(context).pop();
+      //setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {
       setState(() {
-        this.error = 'Scan unknown error: $e';
         this.step = Steps.error;
+        this.qrcode = "";
+        this.error = 'Unknown error: $e';
       });
     }
   }
 
   bool canProcess(SeedsESR esr) {
-    return esr.actions.first.account.isNotEmpty && esr.actions.first.name.isNotEmpty;
+    return esr.actions.first.account.isNotEmpty &&
+        esr.actions.first.name.isNotEmpty;
   }
 
   void processSigningRequest(SeedsESR esr) async {
     var action = esr.actions.first;
     try {
-
       if (action.account.isNotEmpty && action.name.isNotEmpty) {
         setState(() {
           this.step = Steps.success;
@@ -104,7 +106,8 @@ class _ScanState extends State<Scan> {
               account: action.account,
               name: action.name,
               data: data,
-            ), true);
+            ),
+            true);
       } else {
         print("unable to read QR, continuing");
         scan();

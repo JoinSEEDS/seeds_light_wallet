@@ -1,5 +1,4 @@
 
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/features/scanner/scanner_service.dart';
@@ -17,7 +16,7 @@ class ScannerBloc {
   ScannerService _scannerService;
   PermissionService _permissionService;
   final _available = BehaviorSubject<ScannerAvailable>();
-  final _scanResult = BehaviorSubject<ScanResult>();
+  final _scanResult = BehaviorSubject<String>();
   final _status = BehaviorSubject<ScanStatus>();
   final _execute = PublishSubject<ScannerCmd>();
   final _inviteCode = BehaviorSubject<String>();
@@ -26,7 +25,7 @@ class ScannerBloc {
   Stream<ScannerAvailable> get available => _available.stream;
   Stream<ScannedData> get data => _scanResult.stream
     .where((result) => _scannerService.statusFromResult(result) == ScanStatus.successful)
-    .map((result) => ScannedData(result.rawContent, _scannerService.contentTypeOf(result.rawContent)));
+    .map((result) => ScannedData(result, _scannerService.contentTypeOf(result)));
   Stream<ScanStatus> get status => _scanResult.stream.map(_scannerService.statusFromResult);
   Stream<String> get inviteCode => _inviteCode.stream;
   Stream<String> get esrData => _esrData.stream;
