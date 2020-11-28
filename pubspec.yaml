@@ -35,11 +35,11 @@ dependencies:
   expandable: ^4.1.2
   flutter_svg: ^0.18.1
   flutter_fluid_slider: ^1.0.2
-  firebase_dynamic_links: ^0.6.0
-  firebase_messaging: ^7.0.0
-  firebase_storage: ^4.0.0
-  cloud_firestore: ^0.14.0+2
-  firebase_remote_config: ^0.4.0+1
+  firebase_dynamic_links: ^0.6.2
+  firebase_messaging: ^7.0.3
+  firebase_storage: ^5.1.0
+  cloud_firestore: ^0.14.3+1
+  firebase_remote_config: ^0.4.2
   liquid_pull_to_refresh: ^1.1.1
   shimmer: ^1.0.1
   random_words: ^1.0.2
