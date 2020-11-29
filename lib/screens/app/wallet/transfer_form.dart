@@ -233,7 +233,11 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
                           child: Consumer<RateNotifier>(
                             builder: (context, rateModel, child) {
                               return Text(
-                                '${rateModel.rate?.usdString(valueInUSD)}',
+                                rateModel.rate == null
+                                    ? ""
+                                    : rateModel.rate.error
+                                        ? "Exchange rate load error".i18n
+                                        : '${rateModel.rate?.usdString(valueInUSD)}',
                                 style: TextStyle(color: Colors.blue),
                               );
                             },

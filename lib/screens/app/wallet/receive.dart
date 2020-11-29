@@ -548,7 +548,11 @@ class _ReceiveFormState extends State<ReceiveForm> {
                     child: Consumer<RateNotifier>(
                       builder: (context, rateModel, child) {
                         return Text(
-                          '${rateModel.rate?.usdString(invoiceAmountDouble)}',
+                          rateModel.rate == null
+                              ? ""
+                              : rateModel.rate.error
+                                  ? "Exchange rate load error".i18n
+                                   :'${rateModel.rate?.usdString(invoiceAmountDouble)}',
                           style: TextStyle(color: Colors.blue),
                         );
                       },
