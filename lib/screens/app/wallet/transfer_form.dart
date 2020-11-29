@@ -237,7 +237,7 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
                                     ? ""
                                     : rateModel.rate.error
                                         ? "Exchange rate load error".i18n
-                                        : '${rateModel.rate?.usdString(valueInUSD)}',
+                                        : '${rateModel.rate.usdString(valueInUSD)}',
                                 style: TextStyle(color: Colors.blue),
                               );
                             },

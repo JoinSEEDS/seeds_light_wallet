@@ -552,7 +552,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                               ? ""
                               : rateModel.rate.error
                                   ? "Exchange rate load error".i18n
-                                   :'${rateModel.rate?.usdString(invoiceAmountDouble)}',
+                                   :'${rateModel.rate.usdString(invoiceAmountDouble)}',
                           style: TextStyle(color: Colors.blue),
                         );
                       },
