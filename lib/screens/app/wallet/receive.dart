@@ -5,8 +5,10 @@ import 'package:flutter/material.dart' hide Action;
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/extensions/SafeHive.dart';
@@ -539,6 +541,22 @@ class _ReceiveFormState extends State<ReceiveForm> {
                 }
               },
             ),
+            Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
+                    child: Consumer<RateNotifier>(
+                      builder: (context, rateModel, child) {
+                        return Text(
+                          rateModel.rate == null
+                              ? ""
+                              : rateModel.rate.error
+                                  ? "Exchange rate load error".i18n
+                                   :'${rateModel.rate.usdString(invoiceAmountDouble)}',
+                          style: TextStyle(color: Colors.blue),
+                        );
+                      },
+                    ))),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 33, 0, 0),
               child: MainButton(

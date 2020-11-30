@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
@@ -31,17 +32,15 @@ class TransferForm extends StatefulWidget {
   _TransferFormState createState() => _TransferFormState();
 }
 
-class _TransferFormState extends State<TransferForm>
-    with SingleTickerProviderStateMixin {
+class _TransferFormState extends State<TransferForm> with SingleTickerProviderStateMixin {
   bool showPageLoader = false;
   String transactionId = "";
   final _formKey = GlobalKey<FormState>();
+  double valueInUSD = 0;
 
-  final StreamController<bool> _statusNotifier =
-      StreamController<bool>.broadcast();
+  final StreamController<bool> _statusNotifier = StreamController<bool>.broadcast();
 
-  final StreamController<String> _messageNotifier =
-      StreamController<String>.broadcast();
+  final StreamController<String> _messageNotifier = StreamController<String>.broadcast();
 
   @override
   void initState() {
@@ -54,8 +53,7 @@ class _TransferFormState extends State<TransferForm>
     });
 
     try {
-      var response =
-          await Provider.of<EosService>(context, listen: false).transferSeeds(
+      var response = await Provider.of<EosService>(context, listen: false).transferSeeds(
         beneficiary: widget.arguments.accountName,
         amount: double.parse(controller.text),
       );
@@ -87,6 +85,15 @@ class _TransferFormState extends State<TransferForm>
     }
   }
 
+  _setUSD(controller) {
+    setState(() {
+      if (controller == null || controller.isEmpty) {
+        valueInUSD = 0;
+      }else {
+        valueInUSD = double.parse(controller);
+      }});
+  }
+
   Widget buildProfile() {
     final width = MediaQuery.of(context).size.width;
     return Column(
@@ -107,8 +114,7 @@ class _TransferFormState extends State<TransferForm>
                       ),
                     ),
                     child: Hero(
-                      child: CachedNetworkImage(
-                          imageUrl: widget.arguments.avatar, fit: BoxFit.cover),
+                      child: CachedNetworkImage(imageUrl: widget.arguments.avatar, fit: BoxFit.cover),
                       tag: "avatar#${widget.arguments.accountName}",
                     ),
                   )
@@ -116,10 +122,7 @@ class _TransferFormState extends State<TransferForm>
                     alignment: Alignment.center,
                     child: Text(
                       widget.arguments.fullName.substring(0, 2).toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600),
+                      style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
                     ),
                   ),
           ),
@@ -165,18 +168,12 @@ class _TransferFormState extends State<TransferForm>
           children: <Widget>[
             Text(
               'Available balance'.i18n,
-              style: TextStyle(
-                  color: AppColors.blue,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300),
+              style: TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.w300),
             ),
             Padding(padding: EdgeInsets.only(top: 3)),
             Text(
               '$balance',
-              style: TextStyle(
-                  color: AppColors.blue,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
+              style: TextStyle(color: AppColors.blue, fontSize: 20, fontWeight: FontWeight.w700),
             ),
           ],
         ));
@@ -207,30 +204,44 @@ class _TransferFormState extends State<TransferForm>
                   buildProfile(),
                   buildBalance(balance),
                   MainTextField(
-                    keyboardType: TextInputType.numberWithOptions(
-                        signed: false, decimal: true),
-                    controller: controller,
-                    labelText: 'Transfer amount'.i18n,
-                    endText: 'SEEDS',
-                    autofocus: true,
-                    validator: (val) {
-                      String error;
-                      double availableBalance =
-                          double.tryParse(balance.replaceFirst(' SEEDS', ''));
-                      double transferAmount = double.tryParse(val);
+                      keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+                      controller: controller,
+                      labelText: 'Transfer amount'.i18n,
+                      endText: 'SEEDS',
+                      autofocus: true,
+                      validator: (val) {
+                        String error;
+                        double availableBalance = double.tryParse(balance.replaceFirst(' SEEDS', ''));
+                        double transferAmount = double.tryParse(val);
 
-                      if (transferAmount == 0.0) {
-                        error = "Transfer amount cannot be 0.".i18n;
-                      } else if (transferAmount == null ||
-                          availableBalance == null) {
-                        error = "Transfer amount is not valid.".i18n;
-                      } else if (transferAmount > availableBalance) {
-                        error =
-                            "Transfer amount cannot be greater than availabe balance.".i18n;
-                      }
-                      return error;
-                    },
-                  ),
+                        if (transferAmount == 0.0) {
+                          error = "Transfer amount cannot be 0.".i18n;
+                        } else if (transferAmount == null || availableBalance == null) {
+                          error = "Transfer amount is not valid.".i18n;
+                        } else if (transferAmount > availableBalance) {
+                          error = "Transfer amount cannot be greater than availabe balance.".i18n;
+                        }
+                        return error;
+                      },
+                      onChanged: (controller) {
+                        _setUSD(controller);
+                      }),
+                  Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                          padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
+                          child: Consumer<RateNotifier>(
+                            builder: (context, rateModel, child) {
+                              return Text(
+                                rateModel.rate == null
+                                    ? ""
+                                    : rateModel.rate.error
+                                        ? "Exchange rate load error".i18n
+                                        : '${rateModel.rate.usdString(valueInUSD)}',
+                                style: TextStyle(color: Colors.blue),
+                              );
+                            },
+                          ))),
                   MainButton(
                     margin: EdgeInsets.only(top: 25),
                     title: 'Send'.i18n,
