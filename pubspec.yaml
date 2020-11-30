@@ -53,7 +53,6 @@ dependencies:
   hive: ^1.4.4
   rxdart: ^0.24.0
   permission_handler: ^5.0.1
-  barcode_scan: ^3.0.1
   qr_flutter: ^3.2.0
   eosdart_ecc:  ^0.4.3
   eosdart: 
@@ -68,6 +67,10 @@ dependencies:
   rubber: ^0.4.0
   path_provider: ^1.6.24
   dotted_border: ^1.0.6
+  qr_code_scanner:
+    git:
+      url: git://github.com/triply-at/qr_code_scanner.git
+      ref: master
   
 dev_dependencies:
   flutter_test:
