@@ -63,6 +63,10 @@ class _OverviewState extends State<Overview> {
     NavigationService.of(context).navigateTo(Routes.dho);
   }
 
+  void onGuardians() {
+    NavigationService.of(context).navigateTo(Routes.guardians);
+  }
+
   Widget buildCategory(
     String title,
     String subtitle,
@@ -177,7 +181,9 @@ class _OverviewState extends State<Overview> {
                     'Tap to participate'.i18n,
                     'assets/images/governance.svg',
                     'Trust Tokens'.i18n,
-                    valueString(model?.campaignBalance?.amount) + "/" + valueString(model?.allianceBalance?.amount),
+                    valueString(model?.campaignBalance?.amount) +
+                        "/" +
+                        valueString(model?.allianceBalance?.amount),
                     onVote,
                   ),
                 ),
@@ -201,14 +207,23 @@ class _OverviewState extends State<Overview> {
                     onGet,
                   ),
                 ),
+                buildCategory(
+                    'Guardians',
+                    'Protect your account sharing trust with friends',
+                    'assets/images/harvest.svg',
+                    '',
+                    '',
+                    onGuardians),
                 Consumer<DhoNotifier>(
-                  builder: (ctx, model, _) => model.isDhoMember ? buildCategory(
-                      'Hypha DHO',
-                      'Explore Decentralized Human Organization',
-                      'assets/images/harvest.svg',
-                      '',
-                      '',
-                      onDHO) : Container(),
+                  builder: (ctx, model, _) => model.isDhoMember
+                      ? buildCategory(
+                          'Hypha DHO',
+                          'Explore Decentralized Human Organization',
+                          'assets/images/harvest.svg',
+                          '',
+                          '',
+                          onDHO)
+                      : Container(),
                 ),
               ],
             )),
