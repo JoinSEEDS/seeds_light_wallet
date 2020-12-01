@@ -43,8 +43,8 @@ void main() {
     final service = HttpService()..update(enableMockResponse: true);
 
     final members = await service.getMembers();
-    final transactions = await service.getTransactions();
-    final balance = await service.getBalance();
+    final transactions = await service.getTransactions("token.seeds", "SEEDS");
+    final balance = await service.getBalance("token.seeds", "SEEDS");
     final voice = await service.getVoice();
     final proposals = await service.getProposals("active", "passed");
     final invites = await service.getInvites();
@@ -52,7 +52,7 @@ void main() {
     final harvest = await service.getHarvest();
     final score = await service.getScore();
     final exchange = await service.getExchangeConfig();
-    final telosBalance = await service.getTelosBalance();
+    final telosBalance = await service.getBalance("eosio.token", "TLOS");
 
     expect(members, HttpMockResponse.members);
     expect(transactions, HttpMockResponse.transactions);

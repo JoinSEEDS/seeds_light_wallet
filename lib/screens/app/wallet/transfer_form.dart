@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/notifiers/tokens_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
@@ -61,6 +62,8 @@ class _TransferFormState extends State<TransferForm>
           await Provider.of<EosService>(context, listen: false).transferToken(
         beneficiary: widget.arguments.accountName,
         amount: double.parse(controller.text),
+        contractName: TokensNotifier.of(context).contractName,
+        tokenSymbol: TokensNotifier.of(context).tokenSymbol,
       );
 
       String trxid = response["transaction_id"];

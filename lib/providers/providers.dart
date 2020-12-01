@@ -1,5 +1,6 @@
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/constants/config.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/features/account/create_account_bloc.dart';
 import 'package:seeds/features/backup/backup_service.dart';
@@ -14,7 +15,7 @@ import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
+import 'package:seeds/providers/notifiers/tokens_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
@@ -62,48 +63,67 @@ final providers = [
         enableMockLink: false,
       ),
   ),
-  ChangeNotifierProxyProvider<SettingsNotifier, HttpService>(
+  ProxyProvider<SettingsNotifier, HttpService>(
     create: (_) => HttpService(),
     update: (_, settings, http) => http
       ..update(
-        chosenTokenSymbol: settings.tokenSymbol,
         accountName: settings.accountName,
-        enableMockResponse: false,
+        enableMockResponse: Config.enableHttpMock,
       ),
   ),
   ProxyProvider<SettingsNotifier, EosService>(
     create: (context) => EosService(),
     update: (context, settings, eos) => eos
       ..update(
-        chosenTokenSymbol: settings.tokenSymbol,
         userPrivateKey: settings.privateKey,
         userAccountName: settings.accountName,
         nodeEndpoint: settings.nodeEndpoint,
-        enableMockTransactions: false,
+        enableMockTransactions: Config.enableHttpMock,
       ),
   ),
   ChangeNotifierProxyProvider<HttpService, MembersNotifier>(
     create: (context) => MembersNotifier(),
     update: (context, http, members) => members..update(http: http),
   ),
-  ChangeNotifierProxyProvider<HttpService, TransactionsNotifier>(
+  ChangeNotifierProxyProvider2<HttpService, SettingsNotifier, TokensNotifier>(
+    create: (context) => TokensNotifier(
+      tokenSymbol: 'SEEDS',
+      tokenContract: 'token.seeds',
+    ),
+    update: (context, http, settings, tokens) => tokens
+      ..update(
+        http: http,
+        tokenSymbol: settings.tokenSymbol,
+        tokenContract: settings.tokenContract,
+      ),
+  ),
+  ChangeNotifierProxyProvider2<HttpService, TokensNotifier,
+      TransactionsNotifier>(
     create: (context) => TransactionsNotifier(),
-    update: (context, http, transactions) =>
-        transactions..update(chosenTokenSymbol: http.tokenSymbol, http: http),
+    update: (context, http, tokens, transactions) => transactions
+      ..update(
+        tokenSymbol: tokens.tokenSymbol,
+        tokenContract: tokens.tokenContract,
+        http: http,
+      ),
   ),
-  ChangeNotifierProxyProvider<HttpService, TelosBalanceNotifier>(
-    create: (context) => TelosBalanceNotifier(),
-    update: (context, http, balance) => balance..update(http: http),
-  ),
-  ChangeNotifierProxyProvider<HttpService, BalanceNotifier>(
+  ChangeNotifierProxyProvider2<HttpService, TokensNotifier, BalanceNotifier>(
     create: (context) => BalanceNotifier(),
-    update: (context, http, balance) =>
-        balance..update(http: http, tokenSymbol: http.tokenSymbol),
+    update: (context, http, tokens, balance) => balance
+      ..update(
+        http: http,
+        tokenSymbol: tokens.tokenSymbol,
+        tokenContract: tokens.tokenContract,
+      ),
   ),
-  ChangeNotifierProxyProvider<HttpService, RateNotifier>(
+  ChangeNotifierProxyProvider2<HttpService, TokensNotifier, RateNotifier>(
     create: (context) => RateNotifier(),
-    update: (context, http, rate) =>
-        rate..update(http: http, tokenSymbol: http.tokenSymbol),
+    update: (context, http, tokens, rate) => rate
+      ..update(
+        http: http,
+        tokenSymbol: tokens.tokenSymbol,
+        tokenContract: tokens.tokenContract,
+      ),
   ),
   ChangeNotifierProxyProvider<HttpService, VotedNotifier>(
     create: (context) => VotedNotifier(),

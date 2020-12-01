@@ -11,14 +11,21 @@ class TransactionsNotifier extends ChangeNotifier {
 
   HttpService _http;
   String tokenSymbol;
+  String tokenContract;
 
   static of(BuildContext context, {bool listen = false}) =>
       Provider.of<TransactionsNotifier>(context, listen: listen);
 
-  void update({String chosenTokenSymbol, HttpService http, AuthNotifier auth}) {
+  void update(
+      {String tokenSymbol,
+      String tokenContract,
+      HttpService http,
+      AuthNotifier auth}) {
     _http = http;
-    if (tokenSymbol != chosenTokenSymbol) {
-      tokenSymbol = chosenTokenSymbol;
+    if (this.tokenSymbol != tokenSymbol ||
+        this.tokenContract != tokenContract) {
+      this.tokenSymbol = tokenSymbol;
+      this.tokenContract = tokenContract;
       fetchTransactionsCache();
       refreshTransactions();
     }
@@ -26,7 +33,7 @@ class TransactionsNotifier extends ChangeNotifier {
 
   Future fetchTransactionsCache() async {
     Box cacheTransactions = await SafeHive.safeOpenBox<TransactionModel>(
-        "transactions.$tokenSymbol");
+        "transactions.${this.tokenSymbol}");
     if (cacheTransactions != null && cacheTransactions.isNotEmpty) {
       transactions = cacheTransactions.values.toList();
       notifyListeners();
@@ -35,9 +42,10 @@ class TransactionsNotifier extends ChangeNotifier {
 
   Future refreshTransactions() async {
     Box cacheTransactions = await SafeHive.safeOpenBox<TransactionModel>(
-        "transactions.$tokenSymbol");
+        "transactions.${this.tokenSymbol}");
 
-    List<TransactionModel> actualTransactions = await _http.getTransactions();
+    List<TransactionModel> actualTransactions =
+        await _http.getTransactions(this.tokenContract, this.tokenSymbol);
 
     if (actualTransactions.length > 0) {
       await cacheTransactions.clear();

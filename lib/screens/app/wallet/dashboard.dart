@@ -7,6 +7,7 @@ import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/notifiers/tokens_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/string_extension.dart';
@@ -483,7 +484,18 @@ class _DashboardState extends State<Dashboard> {
   }
 }
 
-class ChooseTokenSheet extends StatelessWidget {
+class ChooseTokenSheet extends StatefulWidget {
+  @override
+  _ChooseTokenSheetState createState() => _ChooseTokenSheetState();
+}
+
+class _ChooseTokenSheetState extends State<ChooseTokenSheet> {
+  @override
+  void initState() {
+    TokensNotifier.of(context).fetchTokens();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -505,58 +517,29 @@ class ChooseTokenSheet extends StatelessWidget {
             ),
           ),
         ),
-        ListView(
-          shrinkWrap: true,
-          children: [
-            // ListTile(
-            //   title: Text(
-            //     'IGOR',
-            //   ),
-            //   subtitle: Text('issued by igorberlenko'),
-            //   leading: Text('10.0000'),
-            // ),
-            // Divider(),
-            ListTile(
-              title: Text(
-                'SEEDS token',
-              ),
-              subtitle: Text('issued by system.seeds'),
-              onTap: () {
-                SettingsNotifier.of(context).saveTokenSymbol("SEEDS");
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Text(
-                'BALI token',
-              ),
-              subtitle: Text('issued by balisupports'),
-              onTap: () {
-                SettingsNotifier.of(context).saveTokenSymbol("BALI");
-              },
-            ),
-            // ListTile(
-            //   title: Text(
-            //     'Q token',
-            //   ),
-            //   subtitle: Text('issued by parqspaceind'),
-            //   onTap: () {
-            //     SettingsNotifier.of(context).saveTokenSymbol("Q");
-            //     TransactionsNotifier.of(context).fetchTransactionsCache();
-            //     TransactionsNotifier.of(context).refreshTransactions();
-            //     BalanceNotifier.of(context).fetchBalance();
-            //     RateNotifier.of(context).fetchRate();
-            //   },
-            // ),
-            // Divider(),
-            // ListTile(
-            //   title: Text(
-            //     'BaliSEEDS',
-            //   ),
-            //   subtitle: Text('issued by seedbaliseed'),
-            //   leading: Text('10'),
-            // ),
-          ],
+        Consumer<TokensNotifier>(
+          builder: (context, tokensNotifier, child) {
+            final tokens = tokensNotifier.tokens;
+
+            return tokens.length > 0
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: tokens.length,
+                    itemBuilder: (context, index) => ListTile(
+                        title: Text('${tokens[index].symbol} token'),
+                        subtitle: Text('issued by ${tokens[index].issuer}'),
+                        trailing: Text('${tokens[index].balance ?? ''}'),
+                        onTap: () {
+                          SettingsNotifier.of(context).saveCurrentToken(
+                            tokenContract: tokens[index].contract,
+                            tokenSymbol: tokens[index].symbol,
+                          );
+                        }),
+                  )
+                : Center(
+                    child: LinearProgressIndicator(),
+                  );
+          },
         ),
       ],
     );

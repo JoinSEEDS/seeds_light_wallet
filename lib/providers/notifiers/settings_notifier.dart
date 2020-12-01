@@ -14,6 +14,7 @@ class SettingsNotifier extends ChangeNotifier {
   static const BACKUP_LATEST_REMINDER = "backup_latest_reminder";
   static const BACKUP_REMINDER_COUNT = "backup_reminder_count";
   static const TOKEN_SYMBOL = "token_symbol";
+  static const TOKEN_CONTRACT = "token_contract";
 
   String _privateKey;
   String _passcode;
@@ -31,11 +32,13 @@ class SettingsNotifier extends ChangeNotifier {
   get privateKeyBackedUp => _privateKeyBackedUp;
   get backupLatestReminder => _backupLatestReminder;
   get backupReminderCount => _backupReminderCount;
-  get tokenSymbol => _preferences != null
-      ? (_preferences.getString(TOKEN_SYMBOL) ?? "SEEDS")
-      : "SEEDS";
+  get tokenSymbol => _preferences?.getString(TOKEN_SYMBOL);
+  get tokenContract => _preferences?.getString(TOKEN_CONTRACT);
 
   set tokenSymbol(String value) => _preferences?.setString(TOKEN_SYMBOL, value);
+
+  set tokenContract(String value) =>
+      _preferences?.setString(TOKEN_CONTRACT, value);
 
   set nodeEndpoint(String value) =>
       _preferences?.setString(NODE_ENDPOINT, value);
@@ -147,8 +150,10 @@ class SettingsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveTokenSymbol(String tokenSymbol) {
+  void saveCurrentToken(
+      {@required String tokenContract, @required String tokenSymbol}) {
     this.tokenSymbol = tokenSymbol;
+    this.tokenContract = tokenContract;
     notifyListeners();
   }
 

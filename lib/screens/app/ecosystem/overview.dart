@@ -6,7 +6,6 @@ import 'package:seeds/i18n/ecosystem.i18n.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/transfer_form.dart';
@@ -36,7 +35,6 @@ class _OverviewState extends State<Overview> {
       BalanceNotifier.of(context).fetchBalance(),
       VoiceNotifier.of(context).fetchBalance(),
       PlantedNotifier.of(context).fetchBalance(),
-      TelosBalanceNotifier.of(context).fetchBalance(),
     ]);
   }
 

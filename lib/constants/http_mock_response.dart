@@ -1,6 +1,16 @@
 import 'package:seeds/models/models.dart';
 
 class HttpMockResponse {
+  static final tokens = [
+    TokenModel(
+      contract: 'token.seeds',
+      symbol: 'SEEDS',
+      issuer: 'system.seeds',
+    ),
+    TokenModel(contract: 'eosio.token', symbol: 'TLOS', issuer: 'eosio'),
+    TokenModel(
+        contract: 'seedsdiadems', symbol: 'BALI', issuer: 'balisupports'),
+  ];
   static final members = [
     MemberModel(
       account: "sevenflash42",

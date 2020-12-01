@@ -21,13 +21,11 @@ class EosService {
       Provider.of(context, listen: listen);
 
   void update({
-    chosenTokenSymbol,
     userPrivateKey,
     userAccountName,
     nodeEndpoint,
     bool enableMockTransactions = false,
   }) {
-    tokenSymbol = chosenTokenSymbol;
     privateKey = userPrivateKey;
     accountName = userAccountName;
     baseURL = nodeEndpoint;
@@ -272,14 +270,18 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferToken({String beneficiary, double amount}) async {
+  Future<dynamic> transferToken(
+      {String beneficiary,
+      double amount,
+      String contractName,
+      String tokenSymbol}) async {
     print("[eos] transfer $tokenSymbol to $beneficiary ($amount)");
 
     if (mockEnabled) return HttpMockResponse.transactionResult;
 
     Transaction transaction = buildFreeTransaction([
       Action()
-        ..account = "seedsdiadems"
+        ..account = contractName
         ..name = "transfer"
         ..authorization = [
           Authorization()
@@ -342,7 +344,8 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<String> generateInvoice(double amount) async {
+  Future<String> generateInvoice(
+      {double amount, String contractName, String tokenSymbol}) async {
     var auth = [ESR.ESRConstants.PlaceholderAuth];
 
     var data = {

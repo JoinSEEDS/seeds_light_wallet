@@ -8,25 +8,15 @@ import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 
-class HttpService extends ChangeNotifier {
+class HttpService {
   String baseURL = Config.defaultEndpoint;
   String hyphaURL = Config.hyphaEndpoint;
   String userAccount;
-  String tokenSymbol;
   bool mockResponse;
 
-  get tokenContract => tokenSymbol == "SEEDS" ? "token.seeds" : "seedsdiadems";
-
-  void update(
-      {String chosenTokenSymbol,
-      String accountName,
-      bool enableMockResponse = false}) {
+  void update({String accountName, bool enableMockResponse = false}) {
     userAccount = accountName;
     mockResponse = enableMockResponse;
-    if (tokenSymbol != chosenTokenSymbol) {
-      tokenSymbol = chosenTokenSymbol;
-      notifyListeners();
-    }
   }
 
   static HttpService of(BuildContext context, {bool listen = false}) =>
@@ -222,7 +212,76 @@ class HttpService extends ChangeNotifier {
     return users;
   }
 
-  Future<List<TransactionModel>> getTransactions() async {
+  Future<List<TokenModel>> getTokenDetails(List<TokenModel> tokens) async {
+    List<TokenModel> tokensWithDetails;
+
+    for (var i = 0; i < tokens.length; i++) {
+      tokensWithDetails.add(tokens[i]);
+    }
+
+    return tokensWithDetails;
+  }
+
+  Future<List<TokenModel>> getUserTokens() async {
+    print("[http] get user tokens");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.tokens;
+    }
+
+    final String tokensURL = "$baseURL/v1/chain/get_table_rows";
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    List<TokenModel> tokens = [];
+
+    for (var i = 0; i < Config.tokenContracts.length; i++) {
+      String contract = Config.tokenContracts[i];
+
+      String request =
+          '{"json":true,"code":"$contract","scope":"$userAccount","table":"accounts","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"","limit":"100","reverse":false,"show_payer":false}';
+
+      Response response =
+          await post(tokensURL, headers: headers, body: request);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> body = response.parseJson();
+
+        List<dynamic> result = body["rows"].toList();
+
+        for (var j = 0; j < result.length; j++) {
+          var balance = result[j]["balance"];
+          var symbol = balance.split(' ')[1];
+
+          String detailsRequest =
+              '{"json":true,"code":"$contract","scope":"$symbol","table":"stat","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"","limit":"100","reverse":false,"show_payer":false}';
+
+          Response detailsResponse =
+              await post(tokensURL, headers: headers, body: detailsRequest);
+
+          if (detailsResponse.statusCode == 200) {
+            Map<String, dynamic> details =
+                detailsResponse.parseJson()["rows"][0];
+
+            tokens.add(
+              TokenModel(
+                contract: contract,
+                symbol: symbol,
+                issuer: details["issuer"],
+                supply: details["supply"],
+                maxSupply: details["max_supply"],
+                balance: balance,
+              ),
+            );
+          }
+        }
+      }
+    }
+
+    return tokens;
+  }
+
+  Future<List<TransactionModel>> getTransactions(
+      String tokenContract, String tokenSymbol) async {
     print("[http] get transactions");
 
     if (mockResponse == true) {
@@ -264,7 +323,8 @@ class HttpService extends ChangeNotifier {
     }
   }
 
-  Future<BalanceModel> getBalance() async {
+  Future<BalanceModel> getBalance(
+      String tokenContract, String tokenSymbol) async {
     print("[http] get seeds balance");
 
     if (mockResponse == true) {
@@ -296,7 +356,7 @@ class HttpService extends ChangeNotifier {
     }
   }
 
-  Future<RateModel> getUSDRate() async {
+  Future<RateModel> getUSDRate(String tokenContract, String tokenSymbol) async {
     print("[http] get seeds rate USD");
 
     if (mockResponse == true) {
@@ -320,36 +380,6 @@ class HttpService extends ChangeNotifier {
       print("Cannot fetch balance..." + res.body.toString());
 
       return RateModel(0, true);
-    }
-  }
-
-  Future<BalanceModel> getTelosBalance() async {
-    print("[http] get telos balance");
-
-    if (mockResponse == true) {
-      return HttpMockResponse.telosBalance;
-    }
-
-    final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
-
-    String request =
-        '{"code":"eosio.token","account":"$userAccount","symbol":"TLOS"}';
-    Map<String, String> headers = {"Content-type": "application/json"};
-
-    Response res = await post(balanceURL, headers: headers, body: request);
-
-    if (res.statusCode == 200) {
-      List<dynamic> body = res.parseJson();
-
-      if (body != null && body.isNotEmpty) {
-        return BalanceModel.fromJson(body);
-      } else {
-        return BalanceModel("0.0000 TLOS", false);
-      }
-    } else {
-      print("Cannot fetch balance...");
-
-      return BalanceModel("0.0000 TLOS", true);
     }
   }
 

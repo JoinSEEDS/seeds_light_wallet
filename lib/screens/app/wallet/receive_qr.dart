@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide Action;
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/notifiers/tokens_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import '../../../utils/double_extension.dart';
@@ -31,8 +32,11 @@ class ReceiveQRState extends State<ReceiveQR> {
   void generateInvoice() async {
     double receiveAmount = widget.amount;
 
-    var uri = await EosService.of(context, listen: false)
-        .generateInvoice(receiveAmount);
+    var uri = await EosService.of(context, listen: false).generateInvoice(
+      amount: receiveAmount,
+      contractName: TokensNotifier.of(context).currentTokenContract,
+      tokenSymbol: TokensNotifier.of(context).currentTokenSymbol,
+    );
 
     setState(() {
       invoiceImage = uri;

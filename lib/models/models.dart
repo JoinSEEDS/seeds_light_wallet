@@ -2,6 +2,24 @@ import 'package:hive/hive.dart';
 
 import '../utils/double_extension.dart';
 
+class TokenModel {
+  final String symbol;
+  final String issuer;
+  final String contract;
+  final String supply;
+  final String maxSupply;
+  final String balance;
+
+  TokenModel({
+    this.symbol,
+    this.issuer,
+    this.contract,
+    this.supply,
+    this.maxSupply,
+    this.balance,
+  });
+}
+
 class ProductModel extends HiveObject {
   final String name;
   final String picture;
