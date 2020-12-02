@@ -75,7 +75,7 @@ class LinksService {
     return dynamicUrl;
   }
 
-  Future<Uri> unpackDynamicLink(String link) => FirebaseDynamicLinks.instance
+  Future<PendingDynamicLinkData> unpackDynamicLink(String link) => FirebaseDynamicLinks.instance
       .getDynamicLink(Uri.parse(link))
-      .then((PendingDynamicLinkData dynamicLink) => dynamicLink.link);
+      .then((PendingDynamicLinkData dynamicLink) => dynamicLink);
 }

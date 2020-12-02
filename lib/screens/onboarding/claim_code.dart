@@ -6,6 +6,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/claim_code.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
+import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/screens/app/wallet/scan.dart';
 import 'package:seeds/utils/invites.dart';
 import 'package:seeds/widgets/clipboard_text_field.dart';
@@ -126,11 +127,9 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
                 MaterialPageRoute(builder: (context) => Scan(true)),
               );
 
-              PendingDynamicLinkData unpackedLink = await FirebaseDynamicLinks.instance
-                  .getDynamicLink(Uri.parse(result))
-                  .then((PendingDynamicLinkData dynamicLink) => dynamicLink);
+              PendingDynamicLinkData unpackedLink = await LinksService().unpackDynamicLink(result);
 
-              if(unpackedLink == null) {
+              if (unpackedLink == null) {
                 setState(() {
                   status = ClaimCodeStatus.foundNoInvite;
                 });
