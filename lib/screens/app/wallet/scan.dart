@@ -8,8 +8,12 @@ import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 enum Steps { scan, processing, success, error }
 
 class Scan extends StatefulWidget {
+  final shouldSendResultsBack;
+
   @override
   _ScanState createState() => new _ScanState();
+
+  Scan(this.shouldSendResultsBack);
 }
 
 class _ScanState extends State<Scan> {
@@ -65,52 +69,57 @@ class _ScanState extends State<Scan> {
   }
 
   void _showToast(BuildContext context, String message) {
-    _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          content: Text(message),
-          duration: Duration(seconds: 3),
-        ));
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(message),
+      duration: Duration(seconds: 3),
+    ));
   }
 
   Future<void> _onQRViewCreated(QRViewController controller) async {
     this.controller = controller;
 
-    controller.scannedDataStream.listen((String scanResult) async {
-      if (_handledQrCode) {
-        return;
-      }
+    controller.scannedDataStream.listen(
+      (String scanResult) async {
+        if (_handledQrCode) {
+          return;
+        }
 
-      _handledQrCode = true;
+        _handledQrCode = true;
 
-      if (scanResult == null) {
-        Navigator.of(context).pop();
-      } else {
-        setState(() {
-          this.step = Steps.processing;
-          this.qrcode = scanResult;
-        });
-
-        // QUESTION: Why do we not check for other URL types like deep link for invite here?
-        var esr;
-        print("Scanning QR Code: " + scanResult);
-        try {
-          esr = SeedsESR(uri: scanResult);
-          await esr.resolve(account: SettingsNotifier.of(context, listen: false).accountName);
-        } catch (e) {
-          print("can't parse ESR " + e.toString());
-          print("ignoring... show toast");
-          _showToast(context, "Invalid QR code");
-
+        if (scanResult == null) {
+          Navigator.of(context).pop();
+        } else {
           setState(() {
-            _handledQrCode = false;
-            this.step = Steps.scan;
+            this.step = Steps.processing;
+            this.qrcode = scanResult;
           });
+
+          if (widget.shouldSendResultsBack) {
+            Navigator.pop(context, scanResult);
+          } else {
+            // QUESTION: Why do we not check for other URL types like deep link for invite here?
+            var esr;
+            print("Scanning QR Code: " + scanResult);
+            try {
+              esr = SeedsESR(uri: scanResult);
+              await esr.resolve(account: SettingsNotifier.of(context, listen: false).accountName);
+            } catch (e) {
+              print("can't parse ESR " + e.toString());
+              print("ignoring... show toast");
+              _showToast(context, "Invalid QR code");
+
+              setState(() {
+                _handledQrCode = false;
+                this.step = Steps.scan;
+              });
+            }
+            if (esr != null && canProcess(esr)) {
+              processSigningRequest(esr);
+            }
+          }
         }
-        if (esr != null && canProcess(esr)) {
-          processSigningRequest(esr);
-        }
-      }
-    });
+      },
+    );
   }
 
   @override
