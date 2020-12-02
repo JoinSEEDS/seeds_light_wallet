@@ -5,7 +5,6 @@ import 'package:seeds/features/account/create_account_bloc.dart';
 import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
 import 'package:seeds/features/biometrics/biometrics_service.dart';
-import 'package:seeds/features/scanner/scanner_service.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
@@ -148,10 +147,5 @@ final providers = [
   ),
   Provider(
     create: (_) => PermissionService(),
-  ),
-  ProxyProvider<LinksService, ScannerService>(
-    create: (_) => ScannerService(),
-    update: (_, linksService, scannerService) =>
-        scannerService..update(linksService),
   ),
 ];
