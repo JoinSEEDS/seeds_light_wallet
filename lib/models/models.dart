@@ -176,7 +176,7 @@ class RateModel {
   }
 
   double convert(double seedsAmount) {
-    return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
+    return seedsPerUSD == null ? 0 : seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
   }
 
   String usdString(double seedsAmount) {

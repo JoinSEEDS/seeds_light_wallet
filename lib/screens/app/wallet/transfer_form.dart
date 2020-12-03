@@ -12,7 +12,6 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 class TransferFormArguments {
@@ -32,15 +31,19 @@ class TransferForm extends StatefulWidget {
   _TransferFormState createState() => _TransferFormState();
 }
 
-class _TransferFormState extends State<TransferForm> with SingleTickerProviderStateMixin {
+class _TransferFormState extends State<TransferForm>
+    with SingleTickerProviderStateMixin {
   bool showPageLoader = false;
   String transactionId = "";
   final _formKey = GlobalKey<FormState>();
-  double valueInUSD = 0;
+  double valueInTextField = 0;
+  String amountValue = "";
 
-  final StreamController<bool> _statusNotifier = StreamController<bool>.broadcast();
+  final StreamController<bool> _statusNotifier =
+      StreamController<bool>.broadcast();
 
-  final StreamController<String> _messageNotifier = StreamController<String>.broadcast();
+  final StreamController<String> _messageNotifier =
+      StreamController<String>.broadcast();
 
   @override
   void initState() {
@@ -53,9 +56,10 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
     });
 
     try {
-      var response = await Provider.of<EosService>(context, listen: false).transferSeeds(
+      var response =
+          await Provider.of<EosService>(context, listen: false).transferSeeds(
         beneficiary: widget.arguments.accountName,
-        amount: double.parse(controller.text),
+        amount: double.parse(amountValue),
       );
 
       String trxid = response["transaction_id"];
@@ -76,22 +80,11 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
     );
   }
 
-  final controller = TextEditingController(text: '');
-
   void onSend() {
     if (_formKey.currentState.validate()) {
       FocusScope.of(context).unfocus();
       processTransaction();
     }
-  }
-
-  _setUSD(controller) {
-    setState(() {
-      if (controller == null || controller.isEmpty) {
-        valueInUSD = 0;
-      }else {
-        valueInUSD = double.parse(controller);
-      }});
   }
 
   Widget buildProfile() {
@@ -114,7 +107,8 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
                       ),
                     ),
                     child: Hero(
-                      child: CachedNetworkImage(imageUrl: widget.arguments.avatar, fit: BoxFit.cover),
+                      child: CachedNetworkImage(
+                          imageUrl: widget.arguments.avatar, fit: BoxFit.cover),
                       tag: "avatar#${widget.arguments.accountName}",
                     ),
                   )
@@ -122,7 +116,10 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
                     alignment: Alignment.center,
                     child: Text(
                       widget.arguments.fullName.substring(0, 2).toUpperCase(),
-                      style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
           ),
@@ -168,12 +165,18 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
           children: <Widget>[
             Text(
               'Available balance'.i18n,
-              style: TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.w300),
+              style: TextStyle(
+                  color: AppColors.blue,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w300),
             ),
             Padding(padding: EdgeInsets.only(top: 3)),
             Text(
               '$balance',
-              style: TextStyle(color: AppColors.blue, fontSize: 20, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                  color: AppColors.blue,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700),
             ),
           ],
         ));
@@ -203,45 +206,7 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
                 children: <Widget>[
                   buildProfile(),
                   buildBalance(balance),
-                  MainTextField(
-                      keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-                      controller: controller,
-                      labelText: 'Transfer amount'.i18n,
-                      endText: 'SEEDS',
-                      autofocus: true,
-                      validator: (val) {
-                        String error;
-                        double availableBalance = double.tryParse(balance.replaceFirst(' SEEDS', ''));
-                        double transferAmount = double.tryParse(val);
-
-                        if (transferAmount == 0.0) {
-                          error = "Transfer amount cannot be 0.".i18n;
-                        } else if (transferAmount == null || availableBalance == null) {
-                          error = "Transfer amount is not valid.".i18n;
-                        } else if (transferAmount > availableBalance) {
-                          error = "Transfer amount cannot be greater than availabe balance.".i18n;
-                        }
-                        return error;
-                      },
-                      onChanged: (controller) {
-                        _setUSD(controller);
-                      }),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                          padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
-                          child: Consumer<RateNotifier>(
-                            builder: (context, rateModel, child) {
-                              return Text(
-                                rateModel.rate == null
-                                    ? ""
-                                    : rateModel.rate.error
-                                        ? "Exchange rate load error".i18n
-                                        : '${rateModel.rate.usdString(valueInUSD)}',
-                                style: TextStyle(color: Colors.blue),
-                              );
-                            },
-                          ))),
+                  AmountField(onChanged: (val) => {amountValue = val}),
                   MainButton(
                     margin: EdgeInsets.only(top: 25),
                     title: 'Send'.i18n,
@@ -255,5 +220,118 @@ class _TransferFormState extends State<TransferForm> with SingleTickerProviderSt
         showPageLoader ? _buildPageLoader() : Container(),
       ],
     );
+  }
+}
+
+enum InputMode { fiat, seeds }
+
+class AmountField extends StatefulWidget {
+  const AmountField({Key key, this.onChanged}) : super(key: key);
+
+  final Function onChanged;
+  @override
+  _AmountFieldState createState() => _AmountFieldState();
+}
+
+class _AmountFieldState extends State<AmountField> {
+  final controller = TextEditingController(text: '');
+  double valueInTextField;
+  InputMode inputMode = InputMode.seeds;
+
+  @override
+  Widget build(BuildContext context) {
+    String balance = BalanceNotifier.of(context).balance.quantity;
+
+    return Column(
+      children: [
+        Stack(alignment: Alignment.centerRight, children: [
+          TextFormField(
+            keyboardType:
+                TextInputType.numberWithOptions(signed: false, decimal: true),
+            controller: controller,
+            autofocus: true,
+            validator: (val) {
+              String error;
+              double availableBalance =
+                  double.tryParse(balance.replaceFirst(' SEEDS', ''));
+              double transferAmount = double.tryParse(val);
+
+              if (transferAmount == 0.0) {
+                error = "Transfer amount cannot be 0.".i18n;
+              } else if (transferAmount == null || availableBalance == null) {
+                error = "Transfer amount is not valid.".i18n;
+              } else if (transferAmount > availableBalance) {
+                error =
+                    "Transfer amount cannot be greater than availabe balance."
+                        .i18n;
+              }
+              return error;
+            },
+            onChanged: (value) {
+              widget.onChanged(value);
+              setState(() {
+                valueInTextField = value != null ? double.parse(value) : 0;
+              });
+            },
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(13),
+                  borderSide: BorderSide(color: Colors.amberAccent)),
+              errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(13),
+                  borderSide: BorderSide(color: Colors.redAccent)),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(13),
+                  borderSide: BorderSide(color: AppColors.borderGrey)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(13),
+                  borderSide: BorderSide(color: AppColors.borderGrey)),
+              contentPadding: EdgeInsets.only(left: 15, right: 15),
+              hintStyle: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          OutlineButton(
+            onPressed: () {
+              _toggleInput();
+                          },
+                          //margin: EdgeInsets.only(right: 15),
+                          child: Text(
+                            'SEEDS',
+                            style: TextStyle(color: AppColors.grey, fontSize: 16),
+                          ),
+                        )
+                      ]),
+                      Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                              padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
+                              child: Consumer<RateNotifier>(
+                                builder: (context, rateModel, child) {
+                                  return Text(
+                                    rateModel.rate == null
+                                        ? ""
+                                        : valueInTextField == null
+                                            ? ""
+                                            : rateModel.rate.error
+                                                ? "Exchange rate load error".i18n
+                                                : '${rateModel.rate.usdString(valueInTextField)}',
+                                    style: TextStyle(color: Colors.blue),
+                                  );
+                                },
+                              ))),
+                    ],
+                  );
+                }
+              
+  void _toggleInput() {
+    if (inputMode == InputMode.seeds) {
+      inputMode = InputMode.fiat;
+    } else {
+      inputMode = InputMode.seeds;
+    }
   }
 }
