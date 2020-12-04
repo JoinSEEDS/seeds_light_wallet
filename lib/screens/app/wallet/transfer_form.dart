@@ -37,7 +37,6 @@ class _TransferFormState extends State<TransferForm>
   bool showPageLoader = false;
   String transactionId = "";
   final _formKey = GlobalKey<FormState>();
-  double valueInTextField = 0;
   String amountValue = "";
 
   final StreamController<bool> _statusNotifier =
@@ -236,7 +235,8 @@ class AmountField extends StatefulWidget {
 
 class _AmountFieldState extends State<AmountField> {
   final controller = TextEditingController(text: '');
-  double valueInTextField;
+  double seedsValue = 0;
+  double fiatValue = 0;
   InputMode inputMode = InputMode.seeds;
 
   @override
@@ -271,7 +271,13 @@ class _AmountFieldState extends State<AmountField> {
             onChanged: (value) {
               widget.onChanged(value);
               setState(() {
-                valueInTextField = value != null ? double.parse(value) : 0;
+                if (inputMode == InputMode.fiat) {
+                  fiatValue = value != null ? double.parse(value) : 0;
+                  seedsValue = RateNotifier.of(context).toSeeds(fiatValue, SettingsNotifier.of(context).selectedFiatCurrency);
+                } else {
+                  seedsValue = value != null ? double.parse(value) : 0;
+                  fiatValue = RateNotifier.of(context).seedsTo(seedsValue, SettingsNotifier.of(context).selectedFiatCurrency);
+                }
               });
             },
             decoration: InputDecoration(
@@ -298,37 +304,42 @@ class _AmountFieldState extends State<AmountField> {
           OutlineButton(
             onPressed: () {
               _toggleInput();
-                          },
-                          //margin: EdgeInsets.only(right: 15),
-                          child: Text(
-                            'SEEDS',
-                            style: TextStyle(color: AppColors.grey, fontSize: 16),
-                          ),
-                        )
-                      ]),
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                              padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
-                              child: Consumer<RateNotifier>(
-                                builder: (context, rateNotifier, child) {
-                                  return Text(
-                                    valueInTextField == null
-                                        ? ""
-                                        : rateNotifier.amountToString(valueInTextField, SettingsNotifier.of(context).selectedFiatCurrency),
-                                    style: TextStyle(color: Colors.blue),
-                                  );
-                                },
-                              ))),
-                    ],
-                  );
-                }
-              
+            },
+            //margin: EdgeInsets.only(right: 15),
+            child: Text(
+              inputMode == InputMode.seeds ? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
+              style: TextStyle(color: AppColors.grey, fontSize: 16),
+            ),
+          )
+        ]),
+        Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
+                child: Consumer<RateNotifier>(
+                  builder: (context, rateNotifier, child) {
+                    return Text(
+                      seedsValue == null
+                          ? ""
+                          : rateNotifier.amountToString(
+                              inputMode == InputMode.fiat ? fiatValue : seedsValue,
+                              SettingsNotifier.of(context).selectedFiatCurrency, 
+                              asSeeds: inputMode == InputMode.fiat),
+                      style: TextStyle(color: Colors.blue),
+                    );
+                  },
+                ))),
+      ],
+    );
+  }
+
   void _toggleInput() {
-    if (inputMode == InputMode.seeds) {
-      inputMode = InputMode.fiat;
-    } else {
-      inputMode = InputMode.seeds;
-    }
+    setState(() {
+      if (inputMode == InputMode.seeds) {
+        inputMode = InputMode.fiat;
+      } else {
+        inputMode = InputMode.seeds;
+      }
+    });
   }
 }

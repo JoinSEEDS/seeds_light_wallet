@@ -50,14 +50,19 @@ class RateNotifier extends ChangeNotifier {
     return seedsTo(seedsAmount, currencySymbol).fiatFormatted + " " + currencySymbol;
   }
 
-  String amountToString(double seedsAmount, String currency) {
+  String seedsString(double currencyAmount, String currencySymbol) {
+    return toSeeds(currencyAmount, currencySymbol).seedsFormatted + " SEEDS";
+  }
+
+  String amountToString(double amount, String currency, {bool asSeeds = false}) {
     if (rate == null || fiatRate == null) {
       return "";
     } else {
       if (rate.error) {
         return "Exchange rate load error".i18n;
       }
-      return currencyString(seedsAmount, currency);
+      return asSeeds ? seedsString(amount, currency) : currencyString(amount, currency);
     }
   }
+
 }
