@@ -292,10 +292,13 @@ class FirebaseDatabaseService {
 
      Map<String, Object> data = {
        "productName": product.name,
-       "imageUrl": product.picture,
        "productPrice": product.price,
        "createdDate": FieldValue.serverTimestamp(),
      };
+
+     if(product.picture != null && product.picture.isNotEmpty) {
+       data.addAll({"imageUrl": product.picture});
+     }
 
     return _usersCollection.doc(userAccount).collection(PRODUCTS_COLLECTION_KEY).add(data);
   }

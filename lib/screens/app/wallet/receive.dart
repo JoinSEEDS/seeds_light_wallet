@@ -122,7 +122,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     if (products.indexWhere((element) => element.name == nameController.text) != -1) return;
 
     String downloadUrl;
-    if (localImagePath != null) {
+    if (localImagePath != null && localImagePath.isNotEmpty) {
       setState(() {
         savingLoader.currentState.loading();
       });
@@ -130,6 +130,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
       TaskSnapshot image =
           await FirebaseDataStoreService().uploadPic(File(localImagePath), userAccount);
       downloadUrl = await image.ref.getDownloadURL();
+      localImagePath = '';
     }
 
     final product = ProductModel(
@@ -143,7 +144,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     bottomSheetController.close();
     bottomSheetController = null;
     setState(() {});
-    // box.add(product);
   }
 
   void editProduct(int index) {
