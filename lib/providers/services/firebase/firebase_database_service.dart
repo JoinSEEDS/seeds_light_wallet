@@ -287,4 +287,16 @@ class FirebaseDatabaseService {
     });
     return batch.commit();
   }
+
+   Future<DocumentReference> createProduct(ProductModel product, String userAccount) {
+
+     Map<String, Object> data = {
+       "productName": product.name,
+       "imageUrl": product.picture,
+       "productPrice": product.price,
+       "createdDate": FieldValue.serverTimestamp(),
+     };
+
+    return _usersCollection.doc(userAccount).collection(PRODUCTS_COLLECTION_KEY).add(data);
+  }
 }

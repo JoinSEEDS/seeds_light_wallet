@@ -1,5 +1,6 @@
 const String FIREBASE_MESSAGE_TOKENS_KEY = "firebaseMessageTokens";
 
+const String PRODUCTS_COLLECTION_KEY = "products";
 const String GUARDIANS_COLLECTION_KEY = "guardians";
 const String GUARDIANS_STATUS_KEY = "status";
 const String GUARDIANS_DATE_CREATED_KEY = "dateCreated";

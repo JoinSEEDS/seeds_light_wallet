@@ -1,22 +1,25 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_datastore_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/utils/extensions/SafeHive.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
-import 'package:seeds/i18n/wallet.i18n.dart';
-import 'package:seeds/utils/double_extension.dart';
-import 'package:path/path.dart';
 
 class Receive extends StatefulWidget {
   Receive({Key key}) : super(key: key);
@@ -53,6 +56,7 @@ class _ReceiveState extends State<Receive> {
 
 class ProductsCatalog extends StatefulWidget {
   final Function onTap;
+
   ProductsCatalog(this.onTap);
 
   @override
@@ -64,6 +68,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
+  var savingLoader = GlobalKey<MainButtonState>();
 
   PersistentBottomSheetController bottomSheetController;
 
@@ -94,8 +99,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   void chooseProductPicture() async {
-    final PickedFile image =
-        await ImagePicker().getImage(source: ImageSource.gallery);
+    final PickedFile image = await ImagePicker().getImage(source: ImageSource.gallery, imageQuality: 20);
 
     if (image == null) return;
 
@@ -114,17 +118,32 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     bottomSheetController.setState(() {});
   }
 
-  void createNewProduct() {
-    if (products.indexWhere((element) => element.name == nameController.text) !=
-        -1) return;
+  Future<void> createNewProduct(String userAccount) async {
+    if (products.indexWhere((element) => element.name == nameController.text) != -1) return;
+
+    String downloadUrl;
+    if (localImagePath != null) {
+      setState(() {
+        savingLoader.currentState.loading();
+      });
+
+      TaskSnapshot image =
+          await FirebaseDataStoreService().uploadPic(File(localImagePath), userAccount);
+      downloadUrl = await image.ref.getDownloadURL();
+    }
 
     final product = ProductModel(
       name: nameController.text,
       price: double.parse(priceController.text),
-      picture: localImagePath,
+      picture: downloadUrl,
     );
 
-    box.add(product);
+    await FirebaseDatabaseService().createProduct(product, userAccount);
+
+    bottomSheetController.close();
+    bottomSheetController = null;
+    setState(() {});
+    // box.add(product);
   }
 
   void editProduct(int index) {
@@ -231,10 +250,10 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               labelText: 'Price',
               controller: priceController,
               endText: 'SEEDS',
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
             MainButton(
+              key: savingLoader,
               title: 'Edit Product',
               onPressed: () {
                 editProduct(index);
@@ -251,7 +270,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     setState(() {});
   }
 
-  void showNewProduct(BuildContext context) {
+  void showNewProduct(BuildContext context, String accountName) {
     nameController.clear();
     priceController.clear();
     localImagePath = "";
@@ -291,16 +310,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               labelText: 'Price',
               controller: priceController,
               endText: 'SEEDS',
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
             MainButton(
+              key: savingLoader,
               title: 'Add Product',
               onPressed: () {
-                createNewProduct();
-                bottomSheetController.close();
-                bottomSheetController = null;
-                setState(() {});
+                createNewProduct(accountName);
               },
             ),
           ],
@@ -313,6 +329,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
   @override
   Widget build(BuildContext context) {
+    var accountName = EosService.of(context,listen: false).accountName;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -330,7 +347,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         builder: (context) => bottomSheetController == null
             ? FloatingActionButton(
                 backgroundColor: AppColors.blue,
-                onPressed: () => showNewProduct(context),
+                onPressed: () => showNewProduct(context, accountName),
                 child: Icon(Icons.add),
               )
             : FloatingActionButton(
@@ -348,9 +365,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         itemCount: products.length,
         itemBuilder: (ctx, index) => ListTile(
           leading: CircleAvatar(
-            backgroundImage: products[index].picture.isNotEmpty
-                ? FileImage(File(products[index].picture))
-                : null,
+            backgroundImage: products[index].picture.isNotEmpty ? FileImage(File(products[index].picture)) : null,
             child: products[index].picture.isEmpty
                 ? Container(
                     color: AppColors.getColorByString(products[index].name),
@@ -371,15 +386,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           title: Material(
             child: Text(
               products[index].name,
-              style: TextStyle(
-                  fontFamily: "worksans", fontWeight: FontWeight.w500),
+              style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
             ),
           ),
           subtitle: Material(
             child: Text(
               products[index].price.seedsFormatted + " SEEDS",
-              style: TextStyle(
-                  fontFamily: "worksans", fontWeight: FontWeight.w400),
+              style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
             ),
           ),
           trailing: Builder(
@@ -485,9 +498,8 @@ class _ReceiveFormState extends State<ReceiveForm> {
   }
 
   double donationOrDiscountAmount() {
-    final cartTotalPrice = cart
-        .map((product) => product.price * cartQuantity[product.name])
-        .reduce((value, element) => value + element);
+    final cartTotalPrice =
+        cart.map((product) => product.price * cartQuantity[product.name]).reduce((value, element) => value + element);
 
     final difference = cartTotalPrice - invoiceAmountDouble;
 
@@ -509,8 +521,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                   showMerchantCatalog(context);
                 },
               ),
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
               controller: controller,
               labelText: 'Receive (SEEDS)'.i18n,
               autofocus: true,
@@ -552,7 +563,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                               ? ""
                               : rateModel.rate.error
                                   ? "Exchange rate load error".i18n
-                                   :'${rateModel.rate.usdString(invoiceAmountDouble)}',
+                                  : '${rateModel.rate.usdString(invoiceAmountDouble)}',
                           style: TextStyle(color: Colors.blue),
                         );
                       },
@@ -564,8 +575,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                   active: invoiceAmountDouble != 0,
                   onPressed: () {
                     FocusScope.of(context).unfocus();
-                    NavigationService.of(context)
-                        .navigateTo(Routes.receiveQR, invoiceAmountDouble);
+                    NavigationService.of(context).navigateTo(Routes.receiveQR, invoiceAmountDouble);
                   }),
             ),
             cart.length > 0 ? buildCart() : Container(),
@@ -597,8 +607,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                       children: [
                         product.picture.isNotEmpty
                             ? CircleAvatar(
-                                backgroundImage:
-                                    FileImage(File(product.picture)),
+                                backgroundImage: FileImage(File(product.picture)),
                                 radius: 20,
                               )
                             : Container(),
@@ -714,8 +723,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
             children: [
               CircleAvatar(
                 backgroundColor: AppColors.blue,
-                child: Icon(difference > 0 ? Icons.remove : Icons.add,
-                    color: Colors.white),
+                child: Icon(difference > 0 ? Icons.remove : Icons.add, color: Colors.white),
                 radius: 20,
               ),
               Row(
