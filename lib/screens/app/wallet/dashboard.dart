@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/backup/backup_service.dart';
@@ -27,6 +28,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -49,6 +51,11 @@ class _DashboardState extends State<Dashboard> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     refreshData();
+    if (SettingsNotifier.of(context).selectedFiatCurrency == null) {
+      Locale locale = Localizations.localeOf(context);
+      var format = NumberFormat.simpleCurrency(locale: locale.toString());
+      SettingsNotifier.of(context).saveSelectedFiatCurrency(format.currencyName);
+    }
   }
 
   Future<void> refreshData() async {
@@ -111,14 +118,11 @@ class _DashboardState extends State<Dashboard> {
                                 fontWeight: FontWeight.w700),
                           ),
                           Consumer<RateNotifier>(
-                              builder: (context, rateModel, child) {
+                              builder: (context, rateNotifier, child) {
                             return Text(
                               model.balance.error
                                   ? 'Pull to update'.i18n
-                                  : rateModel.rate == null 
-                                    ? "" : rateModel.rate.error
-                                      ? "Exchange rate load error".i18n
-                                      : '${rateModel.rate?.usdString(model.balance.numericQuantity)}',
+                                  : rateNotifier.amountToString(model.balance.numericQuantity, SettingsNotifier.of(context).selectedFiatCurrency),
                               style: TextStyle(
                                   color: Colors.white70,
                                   fontSize: 12,
@@ -364,7 +368,7 @@ class _DashboardState extends State<Dashboard> {
                 children: <Widget>[
                   Container(
                     height: 16,
-                    width: 320,
+                    width: 313,
                     color: Colors.white,
                     margin: EdgeInsets.only(left: 10, right: 10),
                   ),
@@ -408,7 +412,7 @@ class _DashboardState extends State<Dashboard> {
                             children: <Widget>[
                               Container(
                                 height: 16,
-                                width: 320,
+                                //width: 320,
                                 color: Colors.white,
                                 margin: EdgeInsets.only(left: 10, right: 10),
                               ),

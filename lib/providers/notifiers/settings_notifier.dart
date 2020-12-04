@@ -14,6 +14,7 @@ class SettingsNotifier extends ChangeNotifier {
   static const PRIVATE_KEY_BACKED_UP = "private_key_backed_up";
   static const BACKUP_LATEST_REMINDER = "backup_latest_reminder";
   static const BACKUP_REMINDER_COUNT = "backup_reminder_count";
+  static const SELECTED_FIAT_CURRENCY = "selected_fiat_currency";
 
   String _privateKey;
   String _passcode;
@@ -31,6 +32,7 @@ class SettingsNotifier extends ChangeNotifier {
   get privateKeyBackedUp => _privateKeyBackedUp;
   get backupLatestReminder => _backupLatestReminder;
   get backupReminderCount => _backupReminderCount;
+  get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY);
 
   set nodeEndpoint(String value) => _preferences?.setString(NODE_ENDPOINT, value);
 
@@ -64,6 +66,10 @@ class SettingsNotifier extends ChangeNotifier {
   set backupReminderCount(int value) {
     _secureStorage.write(key: BACKUP_REMINDER_COUNT, value: value.toString());
     _backupReminderCount = value;
+  }
+
+  set selectedFiatCurrency(String value) {
+    _preferences.setString(SELECTED_FIAT_CURRENCY, value);
   }
 
   SharedPreferences _preferences;
@@ -154,6 +160,11 @@ class SettingsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void saveSelectedFiatCurrency(String value) {
+    this.selectedFiatCurrency = value;
+    notifyListeners();
+  }
+
   void updateBackupLater() {
     this.backupLatestReminder = DateTime.now().millisecondsSinceEpoch;
     this.backupReminderCount++;
@@ -183,4 +194,5 @@ class SettingsNotifier extends ChangeNotifier {
     _preferences?.setString(NODE_ENDPOINT, nodeEndpoint);
     notifyListeners();
   }
+
 }

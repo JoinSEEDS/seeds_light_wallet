@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/extensions/SafeHive.dart';
@@ -546,13 +547,10 @@ class _ReceiveFormState extends State<ReceiveForm> {
                 child: Padding(
                     padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
                     child: Consumer<RateNotifier>(
-                      builder: (context, rateModel, child) {
+                      builder: (context, rateNotifier, child) {
                         return Text(
-                          rateModel.rate == null
-                              ? ""
-                              : rateModel.rate.error
-                                  ? "Exchange rate load error".i18n
-                                   :'${rateModel.rate.usdString(invoiceAmountDouble)}',
+                          rateNotifier
+                            .amountToString(invoiceAmountDouble, SettingsNotifier.of(context).selectedFiatCurrency), 
                           style: TextStyle(color: Colors.blue),
                         );
                       },
