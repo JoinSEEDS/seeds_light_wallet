@@ -53,7 +53,6 @@ class _ReceiveState extends State<Receive> {
 
 class ProductsCatalog extends StatefulWidget {
   final Function onTap;
-
   ProductsCatalog(this.onTap);
 
   @override
@@ -95,7 +94,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   void chooseProductPicture() async {
-    final PickedFile image = await ImagePicker().getImage(source: ImageSource.gallery);
+    final PickedFile image =
+        await ImagePicker().getImage(source: ImageSource.gallery);
 
     if (image == null) return;
 
@@ -115,7 +115,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   void createNewProduct() {
-    if (products.indexWhere((element) => element.name == nameController.text) != -1) return;
+    if (products.indexWhere((element) => element.name == nameController.text) !=
+        -1) return;
 
     final product = ProductModel(
       name: nameController.text,
@@ -230,7 +231,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               labelText: 'Price',
               controller: priceController,
               endText: 'SEEDS',
-              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
             MainButton(
               title: 'Edit Product',
@@ -289,7 +291,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               labelText: 'Price',
               controller: priceController,
               endText: 'SEEDS',
-              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
             MainButton(
               title: 'Add Product',
@@ -345,7 +348,9 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         itemCount: products.length,
         itemBuilder: (ctx, index) => ListTile(
           leading: CircleAvatar(
-            backgroundImage: products[index].picture.isNotEmpty ? FileImage(File(products[index].picture)) : null,
+            backgroundImage: products[index].picture.isNotEmpty
+                ? FileImage(File(products[index].picture))
+                : null,
             child: products[index].picture.isEmpty
                 ? Container(
                     color: AppColors.getColorByString(products[index].name),
@@ -366,13 +371,15 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           title: Material(
             child: Text(
               products[index].name,
-              style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  fontFamily: "worksans", fontWeight: FontWeight.w500),
             ),
           ),
           subtitle: Material(
             child: Text(
               products[index].price.seedsFormatted + " SEEDS",
-              style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  fontFamily: "worksans", fontWeight: FontWeight.w400),
             ),
           ),
           trailing: Builder(
@@ -478,8 +485,9 @@ class _ReceiveFormState extends State<ReceiveForm> {
   }
 
   double donationOrDiscountAmount() {
-    final cartTotalPrice =
-        cart.map((product) => product.price * cartQuantity[product.name]).reduce((value, element) => value + element);
+    final cartTotalPrice = cart
+        .map((product) => product.price * cartQuantity[product.name])
+        .reduce((value, element) => value + element);
 
     final difference = cartTotalPrice - invoiceAmountDouble;
 
@@ -501,7 +509,8 @@ class _ReceiveFormState extends State<ReceiveForm> {
                   showMerchantCatalog(context);
                 },
               ),
-              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
               controller: controller,
               labelText: 'Receive (SEEDS)'.i18n,
               autofocus: true,
@@ -543,7 +552,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                               ? ""
                               : rateModel.rate.error
                                   ? "Exchange rate load error".i18n
-                                  : '${rateModel.rate.usdString(invoiceAmountDouble)}',
+                                   :'${rateModel.rate.usdString(invoiceAmountDouble)}',
                           style: TextStyle(color: Colors.blue),
                         );
                       },
@@ -555,7 +564,8 @@ class _ReceiveFormState extends State<ReceiveForm> {
                   active: invoiceAmountDouble != 0,
                   onPressed: () {
                     FocusScope.of(context).unfocus();
-                    NavigationService.of(context).navigateTo(Routes.receiveQR, invoiceAmountDouble);
+                    NavigationService.of(context)
+                        .navigateTo(Routes.receiveQR, invoiceAmountDouble);
                   }),
             ),
             cart.length > 0 ? buildCart() : Container(),
@@ -587,7 +597,8 @@ class _ReceiveFormState extends State<ReceiveForm> {
                       children: [
                         product.picture.isNotEmpty
                             ? CircleAvatar(
-                                backgroundImage: FileImage(File(product.picture)),
+                                backgroundImage:
+                                    FileImage(File(product.picture)),
                                 radius: 20,
                               )
                             : Container(),
@@ -703,7 +714,8 @@ class _ReceiveFormState extends State<ReceiveForm> {
             children: [
               CircleAvatar(
                 backgroundColor: AppColors.blue,
-                child: Icon(difference > 0 ? Icons.remove : Icons.add, color: Colors.white),
+                child: Icon(difference > 0 ? Icons.remove : Icons.add,
+                    color: Colors.white),
                 radius: 20,
               ),
               Row(
