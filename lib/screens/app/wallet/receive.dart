@@ -516,8 +516,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
               autofocus: true,
               validator: (String amount) {
                 String error;
-
-                double receiveAmount = double.tryParse(amount);
+                double receiveAmount = double.tryParse(amount.replaceAll(RegExp(r','), '.'));
 
                 if (amount == null || amount.isEmpty) {
                   error = null;
@@ -533,7 +532,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
               },
               onChanged: (String amount) {
                 if (formKey.currentState.validate()) {
-                  generateInvoice(amount);
+                  generateInvoice(amount.replaceAll(RegExp(r','), '.'));
                 } else {
                   setState(() {
                     invoiceAmountDouble = 0;
