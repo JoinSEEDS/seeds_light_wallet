@@ -299,9 +299,6 @@ class _AmountFieldState extends State<AmountField> {
           Padding(
             padding: const EdgeInsets.only(right: 15),
             child: OutlineButton(
-              // shape: OutlineInputBorder( // TODO: needs design
-              //     borderRadius: BorderRadius.circular(13),
-              //     borderSide: BorderSide(color: AppColors.borderGrey)),
               onPressed: () {
                 _toggleInput();
               },

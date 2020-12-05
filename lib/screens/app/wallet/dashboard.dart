@@ -417,7 +417,6 @@ class _DashboardState extends State<Dashboard> {
                             children: <Widget>[
                               Container(
                                 height: 16,
-                                //width: 320,
                                 color: Colors.white,
                                 margin: EdgeInsets.only(left: 10, right: 10),
                               ),
