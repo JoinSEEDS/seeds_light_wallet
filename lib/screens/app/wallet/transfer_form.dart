@@ -274,15 +274,6 @@ class _AmountFieldState extends State<AmountField> {
                 this.inputString = value;
               });
               widget.onChanged(_getSeedsValue(value));
-              // setState(() {
-              //   if (inputMode == InputMode.fiat) {
-              //     fiatValue = value != null ? double.parse(value) : 0;
-              //     seedsValue = RateNotifier.of(context).toSeeds(fiatValue, SettingsNotifier.of(context).selectedFiatCurrency);
-              //   } else {
-              //     seedsValue = value != null ? double.parse(value) : 0;
-              //     fiatValue = RateNotifier.of(context).seedsTo(seedsValue, SettingsNotifier.of(context).selectedFiatCurrency);
-              //   }
-              // });
             },
             decoration: InputDecoration(
               filled: true,
@@ -305,14 +296,19 @@ class _AmountFieldState extends State<AmountField> {
               ),
             ),
           ),
-          OutlineButton(
-            onPressed: () {
-              _toggleInput();
-            },
-            //margin: EdgeInsets.only(right: 15),
-            child: Text(
-              inputMode == InputMode.seeds ? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
-              style: TextStyle(color: AppColors.grey, fontSize: 16),
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: OutlineButton(
+              // shape: OutlineInputBorder( // TODO: needs design
+              //     borderRadius: BorderRadius.circular(13),
+              //     borderSide: BorderSide(color: AppColors.borderGrey)),
+              onPressed: () {
+                _toggleInput();
+              },
+              child: Text(
+                inputMode == InputMode.seeds ? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
+                style: TextStyle(color: AppColors.grey, fontSize: 16),
+              ),
             ),
           )
         ]),

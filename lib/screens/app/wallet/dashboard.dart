@@ -28,7 +28,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -54,7 +53,8 @@ class _DashboardState extends State<Dashboard> {
     if (SettingsNotifier.of(context).selectedFiatCurrency == null) {
       Locale locale = Localizations.localeOf(context);
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
-      SettingsNotifier.of(context).saveSelectedFiatCurrency(format.currencyName);
+      SettingsNotifier.of(context)
+          .saveSelectedFiatCurrency(format.currencyName);
     }
   }
 
@@ -117,17 +117,22 @@ class _DashboardState extends State<Dashboard> {
                                 fontSize: 25,
                                 fontWeight: FontWeight.w700),
                           ),
-                          Consumer<RateNotifier>(
+                          Consumer<SettingsNotifier>(
+                            builder: (context, settingsNotifier, child) {
+                            return Consumer<RateNotifier>(
                               builder: (context, rateNotifier, child) {
-                            return Text(
+                              return Text(
                               model.balance.error
                                   ? 'Pull to update'.i18n
-                                  : rateNotifier.amountToString(model.balance.numericQuantity, SettingsNotifier.of(context).selectedFiatCurrency),
+                                  : rateNotifier.amountToString(
+                                      model.balance.numericQuantity,
+                                      settingsNotifier.selectedFiatCurrency),
                               style: TextStyle(
                                   color: Colors.white70,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w300),
                             );
+                          });
                           })
                         ],
                       )
