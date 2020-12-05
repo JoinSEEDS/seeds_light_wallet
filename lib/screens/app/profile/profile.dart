@@ -218,17 +218,14 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 50.0),
-                child: FlatButton(
-                  color: Colors.white,
-                  child: Text(
-                    'Terms & Conditions'.i18n,
-                    style: TextStyle(color: Colors.blue),
-                  ),
-                  onPressed: () =>
-                      UrlLauncher.launch(Config.termsAndConditionsUrl),
+              FlatButton(
+                color: Colors.white,
+                child: Text(
+                  'Terms & Conditions'.i18n,
+                  style: TextStyle(color: Colors.blue),
                 ),
+                onPressed: () =>
+                    UrlLauncher.launch(Config.termsAndConditionsUrl),
               ),
               FlatButton(
                 color: Colors.white,

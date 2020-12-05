@@ -37,7 +37,7 @@ class _TransferFormState extends State<TransferForm>
   bool showPageLoader = false;
   String transactionId = "";
   final _formKey = GlobalKey<FormState>();
-  String amountValue = "";
+  double seedsValue = 0;
 
   final StreamController<bool> _statusNotifier =
       StreamController<bool>.broadcast();
@@ -55,12 +55,12 @@ class _TransferFormState extends State<TransferForm>
       showPageLoader = true;
     });
 
+    print("Seeds valu to send: "+seedsValue.toString());
     try {
-      var response =
-          await Provider.of<EosService>(context, listen: false).transferSeeds(
-        beneficiary: widget.arguments.accountName,
-        amount: double.parse(amountValue),
-      );
+      var response = await Provider.of<EosService>(context, listen: false).transferSeeds(
+          beneficiary: widget.arguments.accountName,
+          amount: seedsValue,
+        );
 
       String trxid = response["transaction_id"];
 
@@ -206,7 +206,7 @@ class _TransferFormState extends State<TransferForm>
                 children: <Widget>[
                   buildProfile(),
                   buildBalance(balance),
-                  AmountField(onChanged: (val) => {amountValue = val}),
+                  AmountField(onChanged: (val) => {seedsValue = val}),
                   MainButton(
                     margin: EdgeInsets.only(top: 25),
                     title: 'Send'.i18n,
@@ -235,6 +235,7 @@ class AmountField extends StatefulWidget {
 
 class _AmountFieldState extends State<AmountField> {
   final controller = TextEditingController(text: '');
+  String inputString = "";
   double seedsValue = 0;
   double fiatValue = 0;
   InputMode inputMode = InputMode.seeds;
@@ -269,16 +270,19 @@ class _AmountFieldState extends State<AmountField> {
               return error;
             },
             onChanged: (value) {
-              widget.onChanged(value);
               setState(() {
-                if (inputMode == InputMode.fiat) {
-                  fiatValue = value != null ? double.parse(value) : 0;
-                  seedsValue = RateNotifier.of(context).toSeeds(fiatValue, SettingsNotifier.of(context).selectedFiatCurrency);
-                } else {
-                  seedsValue = value != null ? double.parse(value) : 0;
-                  fiatValue = RateNotifier.of(context).seedsTo(seedsValue, SettingsNotifier.of(context).selectedFiatCurrency);
-                }
+                this.inputString = value;
               });
+              widget.onChanged(_getSeedsValue(value));
+              // setState(() {
+              //   if (inputMode == InputMode.fiat) {
+              //     fiatValue = value != null ? double.parse(value) : 0;
+              //     seedsValue = RateNotifier.of(context).toSeeds(fiatValue, SettingsNotifier.of(context).selectedFiatCurrency);
+              //   } else {
+              //     seedsValue = value != null ? double.parse(value) : 0;
+              //     fiatValue = RateNotifier.of(context).seedsTo(seedsValue, SettingsNotifier.of(context).selectedFiatCurrency);
+              //   }
+              // });
             },
             decoration: InputDecoration(
               filled: true,
@@ -319,18 +323,40 @@ class _AmountFieldState extends State<AmountField> {
                 child: Consumer<RateNotifier>(
                   builder: (context, rateNotifier, child) {
                     return Text(
-                      seedsValue == null
+                      inputString == null
                           ? ""
-                          : rateNotifier.amountToString(
-                              inputMode == InputMode.fiat ? fiatValue : seedsValue,
-                              SettingsNotifier.of(context).selectedFiatCurrency, 
-                              asSeeds: inputMode == InputMode.fiat),
+                          : _getOtherString(),
                       style: TextStyle(color: Colors.blue),
                     );
                   },
                 ))),
       ],
     );
+  }
+
+  String _getOtherString() {
+    double fieldValue = inputString != null ? double.tryParse(inputString) : 0;
+    if (fieldValue == null) {
+      return "";
+    } else if (fieldValue == 0) {
+      return "0";
+    }
+    return RateNotifier.of(context).amountToString(
+                              fieldValue,
+                              SettingsNotifier.of(context).selectedFiatCurrency, 
+                              asSeeds: inputMode == InputMode.fiat);
+  }
+
+  double _getSeedsValue(String value) {
+    double fieldValue = value != null ? double.tryParse(value) : 0;
+    if (fieldValue == null || fieldValue == 0) {
+      return 0;
+    } 
+    if (inputMode == InputMode.seeds) {
+      return fieldValue;
+    } else {
+      return RateNotifier.of(context).toSeeds(fieldValue, SettingsNotifier.of(context).selectedFiatCurrency);
+    }
   }
 
   void _toggleInput() {
@@ -340,6 +366,7 @@ class _AmountFieldState extends State<AmountField> {
       } else {
         inputMode = InputMode.seeds;
       }
+      widget.onChanged(_getSeedsValue(inputString));
     });
   }
 }
