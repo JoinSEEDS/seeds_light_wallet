@@ -6,8 +6,9 @@ class ProductModel extends HiveObject {
   final String name;
   final String picture;
   final double price;
+  final String id;
 
-  ProductModel({this.name, this.picture, this.price});
+  ProductModel({this.name, this.picture, this.price, this.id});
 }
 
 class InviteModel {
