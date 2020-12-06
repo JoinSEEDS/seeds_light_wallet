@@ -309,6 +309,14 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
             MainTextField(
               labelText: 'Name',
               controller: nameController,
+              validator: (String name) {
+                 String error;
+
+                 if(name.isEmpty || name ==""){
+                   error = 'name cannot be empty';
+                 }
+                 return error;
+              }
             ),
             MainTextField(
               labelText: 'Price',
@@ -382,7 +390,11 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                             color: AppColors.getColorByString(products[index].name),
                             child: Center(
                               child: Text(
-                                products[index].name.characters.first,
+                                products[index].name == null
+                                ? ""
+                                  :products[index].name == ""
+                                    ? ""
+                                     :products[index].name.characters.first,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
@@ -396,7 +408,11 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                   ),
                   title: Material(
                     child: Text(
-                      products[index].name,
+                      products[index].name == null
+                         ? ""
+                          : products[index].name == ""
+                           ? ""
+                             :products[index].name,
                       style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -742,7 +758,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
               Row(
                 children: [
                   Text(
-                    price.toString(),
+                    price.toStringAsFixed(4),
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
