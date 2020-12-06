@@ -327,6 +327,7 @@ class _AmountFieldState extends State<AmountField> {
     );
   }
 
+  // shows the other currency below the input field - either fiat or Seeds.
   String _getOtherString() {
     double fieldValue = inputString != null ? double.tryParse(inputString) : 0;
     if (fieldValue == null) {
