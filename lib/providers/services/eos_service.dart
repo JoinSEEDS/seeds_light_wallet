@@ -291,6 +291,83 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
+  Future<dynamic> setupGuardianPermission() async {
+    print("[eos] setup guardian permission");
+
+    if (mockEnabled) return HttpMockResponse.transactionResult;
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "eosio"
+        ..name = "updateauth"
+        ..authorization = [Authorization()..actor = accountName]
+    ]);
+  }
+
+  Future<dynamic> initGuardians(List<String> guardians) async {
+    print("[eos] init guardians");
+
+    if (mockEnabled) return HttpMockResponse.transactionResult;
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "guard.seeds"
+        ..name = "init"
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = {"user_account": accountName, "guardian_accounts": guardians}
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  Future<dynamic> recoverAccount(String userAccount, String publicKey) async {
+    print("[eos] recover account $userAccount");
+
+    if (mockEnabled) return HttpMockResponse.transactionResult;
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "guard.seeds"
+        ..name = "recover"
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = {
+          "guardian_account": accountName,
+          "user_account": userAccount,
+          "new_public_key": publicKey,
+        }
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  Future<dynamic> cancelRecovery() async {
+    print("[eos] cancel recovery $accountName");
+
+    if (mockEnabled) return HttpMockResponse.transactionResult;
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "guard.seeds"
+        ..name = "cancel"
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = {"user_account": accountName}
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
   Future<dynamic> sendTransaction(List<Action> actions) async {
     print("[eos] send transaction");
 
