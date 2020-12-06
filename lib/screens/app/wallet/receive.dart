@@ -11,6 +11,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_datastore_service.dart';
@@ -578,13 +579,10 @@ class _ReceiveFormState extends State<ReceiveForm> {
                 child: Padding(
                     padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
                     child: Consumer<RateNotifier>(
-                      builder: (context, rateModel, child) {
+                      builder: (context, rateNotifier, child) {
                         return Text(
-                          rateModel.rate == null
-                              ? ""
-                              : rateModel.rate.error
-                                  ? "Exchange rate load error".i18n
-                                  : '${rateModel.rate.usdString(invoiceAmountDouble)}',
+                          rateNotifier
+                            .amountToString(invoiceAmountDouble, SettingsNotifier.of(context).selectedFiatCurrency), 
                           style: TextStyle(color: Colors.blue),
                         );
                       },
