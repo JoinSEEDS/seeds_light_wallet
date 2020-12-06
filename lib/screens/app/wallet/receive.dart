@@ -732,7 +732,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
       return Container();
     } else {
       final name = difference > 0 ? "Discount" : "Donation";
-      final price = difference.abs();
+      final price = difference;
 
       return GridTile(
         header: Container(
@@ -748,7 +748,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
               Row(
                 children: [
                   Text(
-                    price.toStringAsFixed(4),
+                    price.seedsFormatted,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
