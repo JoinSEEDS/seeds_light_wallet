@@ -1,23 +1,24 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart' hide Action;
-import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_datastore_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/utils/extensions/SafeHive.dart';
+import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
-import 'package:seeds/i18n/wallet.i18n.dart';
-import 'package:seeds/utils/double_extension.dart';
-import 'package:path/path.dart';
 
 class Receive extends StatefulWidget {
   Receive({Key key}) : super(key: key);
@@ -54,6 +55,7 @@ class _ReceiveState extends State<Receive> {
 
 class ProductsCatalog extends StatefulWidget {
   final Function onTap;
+
   ProductsCatalog(this.onTap);
 
   @override
@@ -61,10 +63,11 @@ class ProductsCatalog extends StatefulWidget {
 }
 
 class _ProductsCatalogState extends State<ProductsCatalog> {
-  Box<ProductModel> box;
+
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
+  var savingLoader = GlobalKey<MainButtonState>();
 
   PersistentBottomSheetController bottomSheetController;
 
@@ -74,29 +77,11 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
   @override
   void initState() {
-    loadProducts();
-
     super.initState();
   }
 
-  void loadProducts() async {
-    box = await SafeHive.safeOpenBox<ProductModel>("products");
-
-    setState(() {
-      products.addAll(box.values);
-    });
-
-    box.watch().listen((event) {
-      setState(() {
-        products.clear();
-        products.addAll(box.values);
-      });
-    });
-  }
-
   void chooseProductPicture() async {
-    final PickedFile image =
-        await ImagePicker().getImage(source: ImageSource.gallery);
+    final PickedFile image = await ImagePicker().getImage(source: ImageSource.gallery, imageQuality: 20);
 
     if (image == null) return;
 
@@ -115,47 +100,73 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     bottomSheetController.setState(() {});
   }
 
-  void createNewProduct() {
-    if (products.indexWhere((element) => element.name == nameController.text) !=
-        -1) return;
+  Future<void> createNewProduct(String userAccount) async {
+    if (products.indexWhere((element) => element.name == nameController.text) != -1) return;
+
+    String downloadUrl;
+    setState(() {
+      savingLoader.currentState.loading();
+    });
+
+    if (localImagePath != null && localImagePath.isNotEmpty) {
+      TaskSnapshot image = await FirebaseDataStoreService().uploadPic(File(localImagePath), userAccount);
+      downloadUrl = await image.ref.getDownloadURL();
+      localImagePath = '';
+    }
 
     final product = ProductModel(
       name: nameController.text,
       price: double.parse(priceController.text),
-      picture: localImagePath,
+      picture: downloadUrl,
     );
 
-    box.add(product);
+    FirebaseDatabaseService().createProduct(product, userAccount).then((value) => closeBottomSheet());
   }
 
-  void editProduct(int index) {
+  Future<void> editProduct(ProductModel productModel, String userAccount) async {
+    String downloadUrl;
+    setState(() {
+      savingLoader.currentState.loading();
+    });
+
+    if (localImagePath != null && localImagePath.isNotEmpty) {
+      TaskSnapshot image = await FirebaseDataStoreService().uploadPic(File(localImagePath), userAccount);
+      downloadUrl = await image.ref.getDownloadURL();
+      localImagePath = '';
+    }
+
     final product = ProductModel(
-      name: nameController.text,
-      price: double.parse(priceController.text),
-      picture: localImagePath,
-    );
+        name: nameController.text,
+        price: double.parse(priceController.text),
+        picture: downloadUrl,
+        id: productModel.id);
 
-    box.putAt(index, product);
+    FirebaseDatabaseService().updateProduct(product, userAccount).then((value) => closeBottomSheet());
   }
 
-  void deleteProduct(int index) {
-    box.deleteAt(index);
+  void closeBottomSheet() {
+    bottomSheetController.close();
+    bottomSheetController = null;
+    setState(() {});
   }
 
-  Future<void> showDeleteProduct(BuildContext context, int index) {
-    final product = products[index];
+  void deleteProduct(ProductModel productModel, String userAccount) {
+    FirebaseDatabaseService().deleteProduct(productModel, userAccount);
+  }
+
+  Future<void> showDeleteProduct(BuildContext context, ProductModel productModel, String userAccount) {
 
     return showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Delete ${product.name} ?"),
+          title: Text("Delete ${productModel.name} ?"),
           actions: [
             FlatButton(
-              child: Text("Approve"),
+              child: Text("Delete"),
               onPressed: () {
-                deleteProduct(index);
+                deleteProduct(productModel, userAccount);
                 Navigator.of(context).pop();
               },
             ),
@@ -165,37 +176,52 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     );
   }
 
-  Widget buildPictureWidget() {
+  Widget buildPictureWidget(String imageUrl) {
+    var children;
+    if (localImagePath.isNotEmpty) {
+      children = [
+        CircleAvatar(
+          backgroundImage: FileImage(File(localImagePath)),
+          radius: 20,
+        ),
+        SizedBox(width: 10),
+        Text("Change Picture"),
+      ];
+    } else if (imageUrl != null && imageUrl.isNotEmpty) {
+      children = [
+        CircleAvatar(
+          backgroundImage: NetworkImage(imageUrl),
+          radius: 20,
+        ),
+        SizedBox(width: 10),
+        Text("Change Picture"),
+      ];
+    } else {
+      children = [
+        CircleAvatar(
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.add,
+            color: Colors.black,
+            size: 15,
+          ),
+          radius: 15,
+        ),
+        Text("Add Picture"),
+      ];
+    }
+
     return Container(
         height: 40,
         child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: localImagePath.isNotEmpty
-                ? [
-                    CircleAvatar(
-                      backgroundImage: FileImage(File(localImagePath)),
-                      radius: 20,
-                    ),
-                    SizedBox(width: 10),
-                    Text("Change Picture"),
-                  ]
-                : [
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.black,
-                        size: 15,
-                      ),
-                      radius: 15,
-                    ),
-                    Text("Add Picture"),
-                  ]));
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: children,
+        ));
   }
 
-  void showEditProduct(BuildContext context, int index) {
-    nameController.text = products[index].name;
-    priceController.text = products[index].price.toString();
+  void showEditProduct(BuildContext context, ProductModel productModel, String userAccount) {
+    nameController.text = productModel.name;
+    priceController.text = productModel.price.toString();
 
     bottomSheetController = Scaffold.of(context).showBottomSheet(
       (context) => Container(
@@ -221,7 +247,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               strokeWidth: 1,
               child: GestureDetector(
                 onTap: chooseProductPicture,
-                child: buildPictureWidget(),
+                child: buildPictureWidget(productModel.picture),
               ),
             ),
             MainTextField(
@@ -232,16 +258,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               labelText: 'Price',
               controller: priceController,
               endText: 'SEEDS',
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
             MainButton(
+              key: savingLoader,
               title: 'Edit Product',
               onPressed: () {
-                editProduct(index);
-                bottomSheetController.close();
-                bottomSheetController = null;
-                setState(() {});
+                editProduct(productModel, userAccount);
               },
             ),
           ],
@@ -252,7 +275,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     setState(() {});
   }
 
-  void showNewProduct(BuildContext context) {
+  void showNewProduct(BuildContext context, String accountName) {
     nameController.clear();
     priceController.clear();
     localImagePath = "";
@@ -281,7 +304,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               strokeWidth: 1,
               child: GestureDetector(
                 onTap: chooseProductPicture,
-                child: buildPictureWidget(),
+                child: buildPictureWidget(null),
               ),
             ),
             MainTextField(
@@ -292,16 +315,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               labelText: 'Price',
               controller: priceController,
               endText: 'SEEDS',
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
             ),
             MainButton(
+              key: savingLoader,
               title: 'Add Product',
               onPressed: () {
-                createNewProduct();
-                bottomSheetController.close();
-                bottomSheetController = null;
-                setState(() {});
+                createNewProduct(accountName);
               },
             ),
           ],
@@ -314,6 +334,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
   @override
   Widget build(BuildContext context) {
+    var accountName = EosService.of(context, listen: false).accountName;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -331,7 +352,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         builder: (context) => bottomSheetController == null
             ? FloatingActionButton(
                 backgroundColor: AppColors.blue,
-                onPressed: () => showNewProduct(context),
+                onPressed: () => showNewProduct(context, accountName),
                 child: Icon(Icons.add),
               )
             : FloatingActionButton(
@@ -344,70 +365,75 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                 child: Icon(Icons.close),
               ),
       ),
-      body: ListView.builder(
-        shrinkWrap: true,
-        itemCount: products.length,
-        itemBuilder: (ctx, index) => ListTile(
-          leading: CircleAvatar(
-            backgroundImage: products[index].picture.isNotEmpty
-                ? FileImage(File(products[index].picture))
-                : null,
-            child: products[index].picture.isEmpty
-                ? Container(
-                    color: AppColors.getColorByString(products[index].name),
-                    child: Center(
-                      child: Text(
-                        products[index].name.characters.first,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+      body: StreamBuilder<List<ProductModel>>(
+          stream: FirebaseDatabaseService().getProductsForUser(accountName),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return SizedBox.shrink();
+            } else {
+              var products = snapshot.data;
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: products.length,
+                itemBuilder: (ctx, index) => ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: products[index].picture.isNotEmpty ? NetworkImage(products[index].picture) : null,
+                    child: products[index].picture.isEmpty
+                        ? Container(
+                            color: AppColors.getColorByString(products[index].name),
+                            child: Center(
+                              child: Text(
+                                products[index].name.characters.first,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          )
+                        : null,
+                    radius: 20,
+                  ),
+                  title: Material(
+                    child: Text(
+                      products[index].name,
+                      style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
                     ),
-                  )
-                : null,
-            radius: 20,
-          ),
-          title: Material(
-            child: Text(
-              products[index].name,
-              style: TextStyle(
-                  fontFamily: "worksans", fontWeight: FontWeight.w500),
-            ),
-          ),
-          subtitle: Material(
-            child: Text(
-              products[index].price.seedsFormatted + " SEEDS",
-              style: TextStyle(
-                  fontFamily: "worksans", fontWeight: FontWeight.w400),
-            ),
-          ),
-          trailing: Builder(
-            builder: (context) => Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    showEditProduct(context, index);
+                  ),
+                  subtitle: Material(
+                    child: Text(
+                      products[index].price.seedsFormatted + " SEEDS",
+                      style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  trailing: Builder(
+                    builder: (context) => Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            showEditProduct(context, products[index], accountName);
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            showDeleteProduct(context, products[index], accountName);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    widget.onTap(products[index]);
+                    Navigator.of(context).pop();
                   },
                 ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    showDeleteProduct(context, index);
-                  },
-                ),
-              ],
-            ),
-          ),
-          onTap: () {
-            widget.onTap(products[index]);
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
+              );
+            }
+          }),
     );
   }
 }
@@ -486,9 +512,8 @@ class _ReceiveFormState extends State<ReceiveForm> {
   }
 
   double donationOrDiscountAmount() {
-    final cartTotalPrice = cart
-        .map((product) => product.price * cartQuantity[product.name])
-        .reduce((value, element) => value + element);
+    final cartTotalPrice =
+        cart.map((product) => product.price * cartQuantity[product.name]).reduce((value, element) => value + element);
 
     final difference = cartTotalPrice - invoiceAmountDouble;
 
@@ -510,8 +535,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                   showMerchantCatalog(context);
                 },
               ),
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
               controller: controller,
               labelText: 'Receive (SEEDS)'.i18n,
               autofocus: true,
@@ -562,8 +586,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                   active: invoiceAmountDouble != 0,
                   onPressed: () {
                     FocusScope.of(context).unfocus();
-                    NavigationService.of(context)
-                        .navigateTo(Routes.receiveQR, invoiceAmountDouble);
+                    NavigationService.of(context).navigateTo(Routes.receiveQR, invoiceAmountDouble);
                   }),
             ),
             cart.length > 0 ? buildCart() : Container(),
@@ -595,8 +618,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                       children: [
                         product.picture.isNotEmpty
                             ? CircleAvatar(
-                                backgroundImage:
-                                    FileImage(File(product.picture)),
+                                backgroundImage: FileImage(File(product.picture)),
                                 radius: 20,
                               )
                             : Container(),
@@ -712,8 +734,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
             children: [
               CircleAvatar(
                 backgroundColor: AppColors.blue,
-                child: Icon(difference > 0 ? Icons.remove : Icons.add,
-                    color: Colors.white),
+                child: Icon(difference > 0 ? Icons.remove : Icons.add, color: Colors.white),
                 radius: 20,
               ),
               Row(
