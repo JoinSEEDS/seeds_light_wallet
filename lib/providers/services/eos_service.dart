@@ -291,17 +291,36 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> setupGuardianPermission() async {
+  Future<dynamic> setupGuardianPermission(int threshold, String actorRole, List<Permission> currentPermissions) async {
     print("[eos] setup guardian permission");
 
     if (mockEnabled) return HttpMockResponse.transactionResult;
+
+    final { accounts, keys } = currentPermissions;
 
     Transaction transaction = buildFreeTransaction([
       Action()
         ..account = "eosio"
         ..name = "updateauth"
         ..authorization = [Authorization()..actor = accountName]
+        ..data = {
+          "threshold": threshold,
+          "waits": [],
+          "accounts": [
+            ...accounts,
+            {
+              permission: {
+                actor,
+                permission: actorRole
+              },
+              weight: 1
+            }
+          ],
+          keys: keys
+        }
     ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
   }
 
   Future<dynamic> initGuardians(List<String> guardians) async {

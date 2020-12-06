@@ -50,6 +50,31 @@ class HttpService {
     }
   }
 
+  Future<List<Permission>> getAccountPermissions() async {
+    print("[http] get account permissions");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.accountPermissions;
+    }
+
+    final String accountPermissionsURL = "$baseURL/v1/chain/get_account";
+
+    String request = '{
+      "account_name": $accountName
+    }';
+
+    Response res = await post(accountPermissionsURL);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      List<Permission> = body.rows.map((row) => Permission.fromJson(row)).toList();
+    } else {
+      print('Cannot fetch account permissions...);
+      return List[];
+    }
+  } 
+
   Future<List<String>> getKeyAccounts(String publicKey) async {
     print("[http] get key accounts");
 
