@@ -309,14 +309,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
             MainTextField(
               labelText: 'Name',
               controller: nameController,
-              validator: (String name) {
-                 String error;
-
-                 if(name.isEmpty || name ==""){
-                   error = 'name cannot be empty';
-                 }
-                 return error;
-              }
             ),
             MainTextField(
               labelText: 'Price',
