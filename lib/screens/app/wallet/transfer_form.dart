@@ -14,6 +14,7 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/widgets/main_text_field.dart';
 
 class TransferFormArguments {
   final String fullName;
@@ -38,6 +39,8 @@ class _TransferFormState extends State<TransferForm>
   String transactionId = "";
   final _formKey = GlobalKey<FormState>();
   double seedsValue = 0;
+  final TextEditingController memoController = TextEditingController();
+  String memo = "";
 
   final StreamController<bool> _statusNotifier =
       StreamController<bool>.broadcast();
@@ -52,6 +55,7 @@ class _TransferFormState extends State<TransferForm>
 
   void processTransaction() async {
     setState(() {
+      memo = memoController.text;
       showPageLoader = true;
     });
 
@@ -60,6 +64,7 @@ class _TransferFormState extends State<TransferForm>
       var response = await Provider.of<EosService>(context, listen: false).transferSeeds(
           beneficiary: widget.arguments.accountName,
           amount: seedsValue,
+          memo: memo,
         );
 
       String trxid = response["transaction_id"];
@@ -207,6 +212,12 @@ class _TransferFormState extends State<TransferForm>
                   buildProfile(),
                   buildBalance(balance),
                   AmountField(onChanged: (val) => {seedsValue = val}),
+                  MainTextField(
+                      controller: memoController,
+                      labelText: 'Memo (optional)',
+                       autofocus: true,
+                       hintText: "What's it for?",
+                  ),
                   MainButton(
                     margin: EdgeInsets.only(top: 25),
                     title: 'Send'.i18n,
