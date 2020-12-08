@@ -59,21 +59,24 @@ class HttpService {
 
     final String accountPermissionsURL = "$baseURL/v1/chain/get_account";
 
-    String request = '{
-      "account_name": $accountName
-    }';
+    String request = '{ "account_name": $userAccount}';
+    Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response res = await post(accountPermissionsURL);
+    Response res =
+        await post(accountPermissionsURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
 
-      List<Permission> = body.rows.map((row) => Permission.fromJson(row)).toList();
+      List<Permission> permissions =
+          body["rows"].map((item) => Permission.fromJson(item)).toList();
+
+      return permissions;
     } else {
-      print('Cannot fetch account permissions...);
-      return List[];
+      print('Cannot fetch account permissions...');
+      return List<Permission>();
     }
-  } 
+  }
 
   Future<List<String>> getKeyAccounts(String publicKey) async {
     print("[http] get key accounts");

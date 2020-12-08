@@ -1,6 +1,24 @@
+import 'package:eosdart/eosdart.dart';
 import 'package:seeds/models/models.dart';
 
 class HttpMockResponse {
+  static final requiredAuth = RequiredAuth()
+    ..threshold = 1
+    ..waits = []
+    ..accounts = []
+    ..keys = [];
+
+  static final accountPermissions = [
+    Permission()
+      ..permName = "active"
+      ..parent = "owner"
+      ..requiredAuth = requiredAuth,
+    Permission()
+      ..permName = "owner"
+      ..parent = ""
+      ..requiredAuth = requiredAuth
+  ];
+
   static final members = [
     MemberModel(
       account: "sevenflash42",
