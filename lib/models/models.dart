@@ -1,13 +1,12 @@
 import 'package:hive/hive.dart';
 
-import '../utils/double_extension.dart';
-
 class ProductModel extends HiveObject {
   final String name;
   final String picture;
   final double price;
+  final String id;
 
-  ProductModel({this.name, this.picture, this.price});
+  ProductModel({this.name, this.picture, this.price, this.id});
 }
 
 class InviteModel {
@@ -151,6 +150,39 @@ class BalanceModel {
   int get hashCode => super.hashCode;
 }
 
+class FiatRateModel {
+  final Map<String, double> ratesPerUSD;
+  final bool error;
+
+  List<String> get currencies {
+    var list = List<String>.from(ratesPerUSD.keys);
+    list.sort();
+    return list;
+  }
+
+  FiatRateModel(this.ratesPerUSD, {this.error = false});
+  
+  factory FiatRateModel.fromJson(Map<String, dynamic> json) {
+    if (json != null && json.isNotEmpty) {
+      return FiatRateModel(new Map<String, double>.from(json["rates"]));
+    } else {
+      return FiatRateModel(null, error: true);
+    }
+  }
+
+  double usdTo(double usdValue, String currency) {
+    double rate = ratesPerUSD[currency];
+    assert(rate != null);
+    return usdValue * rate;
+  }
+
+  double toUSD(double currencyValue, String currency) {
+    double rate = ratesPerUSD[currency];
+    assert(rate != null);
+    return rate > 0 ? currencyValue / rate : 0;
+  }
+
+}
 class RateModel {
   final double seedsPerUSD;
   final bool error;
@@ -175,12 +207,12 @@ class RateModel {
     return double.parse(quantityString.split(" ")[0]);
   }
 
-  double convert(double seedsAmount) {
-    return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
+  double toUSD(double seedsAmount) {
+    return seedsPerUSD == null ? 0 : seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
   }
 
-  String usdString(double seedsAmount) {
-    return convert(seedsAmount).fiatFormatted + " USD";
+  double toSeeds(double usdAmount) {
+    return seedsPerUSD == null ? 0 : seedsPerUSD > 0 ? usdAmount * seedsPerUSD : 0;
   }
 
   @override
