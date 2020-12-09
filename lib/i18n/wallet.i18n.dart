@@ -30,6 +30,9 @@ static var _t = Translations.byLocale("en_us") +
          'Network error': 'Error de red',
          'Pull to update': 'Tire para actualizar',
          'Exchange rate load error': 'Error de red',
+
+         'Memo (optional)': 'Memo (opcional)',
+         "What's it for?": "Para que es?"
       }
     };
 

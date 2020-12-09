@@ -214,9 +214,10 @@ class _TransferFormState extends State<TransferForm>
                   AmountField(onChanged: (val) => {seedsValue = val}),
                   MainTextField(
                       controller: memoController,
-                      labelText: 'Memo (optional)',
+                      labelText: 'Memo (optional)'.i18n,
                        autofocus: true,
-                       hintText: "What's it for?",
+                       autocorrect: true,
+                       hintText: "What's it for?".i18n,
                   ),
                   MainButton(
                     margin: EdgeInsets.only(top: 25),
