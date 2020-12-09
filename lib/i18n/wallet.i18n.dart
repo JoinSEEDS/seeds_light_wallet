@@ -32,7 +32,7 @@ static var _t = Translations.byLocale("en_us") +
          'Exchange rate load error': 'Error de red',
 
          'Add Product': 'Agregar Producto',
-         'Price needs to be a number': 'Precio Tiene que ser un numero',
+         'Price needs to be a number': 'Precio tiene que ser un numero',
          'Price field is empty': 'Ingrese un numero',
          'Price': 'Precio',
          'Name cannot be empty': 'Ingrese un nombre',
@@ -40,7 +40,7 @@ static var _t = Translations.byLocale("en_us") +
          'Edit Product': 'Editar Producto',
          'Add Picture': 'Agregar Foto',
          'Change Picture': 'Cambiar Foto',
-         'Delete': 'Borrar',
+         'Delete': 'Eliminar',
 
       }
     };
