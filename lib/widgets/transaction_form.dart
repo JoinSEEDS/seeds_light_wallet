@@ -51,7 +51,7 @@ class _TransactionFormState extends State<TransactionForm> {
 
   final controller = TextEditingController(text: '0.00');
   //unit test
- // final memoController = TextEditingController();
+  final memoController = TextEditingController();
 
   void onSend() async {
     setState(() {
@@ -69,15 +69,13 @@ class _TransactionFormState extends State<TransactionForm> {
         response = await eos.transferSeeds(
           beneficiary: widget.beneficiary,
           amount: amount,
-          //unit test
-          //memo: memoController.text,
+          memo: memoController.text,
         );
       } else if (widget.type == TransactionType.telosTranfser) {
         response = await eos.transferTelos(
           beneficiary: widget.beneficiary,
           amount: amount,
-          //unit test
-         // memo: memoController.text,
+          memo: memoController.text,
         );
       }
 
@@ -116,10 +114,19 @@ class _TransactionFormState extends State<TransactionForm> {
           children: <Widget>[
             _buildSummary(),
             _buildInputField(),
+            _buildMemoField(),
             _buildButton(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildMemoField() {
+    return MainTextField(
+      controller: memoController,
+      labelText: 'Memo (Opcional)'.i18n,
+      endText: widget.type == TransactionType.seedsTransfer ? 'SEEDS' : 'TLOS',
     );
   }
 

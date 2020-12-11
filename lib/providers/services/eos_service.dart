@@ -243,7 +243,7 @@ class EosService {
   }
 
   Future<dynamic> transferSeeds({String beneficiary, double amount, String memo}) async {
-    print("[eos] transfer seeds to $beneficiary ($amount) " + memo);
+    print("[eos] transfer seeds to $beneficiary ($amount) " + "Memo:" + memo);
 
     if (mockEnabled) {
       return HttpMockResponse.transactionResult;
