@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/models/Currencies.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -118,6 +119,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
       name: nameController.text,
       price: double.parse(priceController.text),
       picture: downloadUrl,
+      currency: Currency.SEEDS
     );
 
     FirebaseDatabaseService().createProduct(product, userAccount).then((value) => closeBottomSheet());
@@ -403,7 +405,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                   ),
                   subtitle: Material(
                     child: Text(
-                      products[index].price.seedsFormatted + " SEEDS",
+                      getProductPrice(products[index]),
                       style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
                     ),
                   ),
@@ -435,6 +437,10 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
             }
           }),
     );
+  }
+
+  String getProductPrice(ProductModel product) {
+    return "${product.price.seedsFormatted} ${product.currency.name}";
   }
 }
 
