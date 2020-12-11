@@ -18,6 +18,7 @@ class TransactionForm extends StatefulWidget {
   final TransactionType type;
   final String balance;
   final String label;
+  //final String memo;
 
   TransactionForm({
     this.image,
@@ -26,6 +27,7 @@ class TransactionForm extends StatefulWidget {
     this.type,
     this.balance,
     this.label,
+   // this.memo
   });
 
   @override
@@ -48,6 +50,8 @@ class _TransactionFormState extends State<TransactionForm> {
   }
 
   final controller = TextEditingController(text: '0.00');
+  //unit test
+ // final memoController = TextEditingController();
 
   void onSend() async {
     setState(() {
@@ -65,11 +69,15 @@ class _TransactionFormState extends State<TransactionForm> {
         response = await eos.transferSeeds(
           beneficiary: widget.beneficiary,
           amount: amount,
+          //unit test
+          //memo: memoController.text,
         );
       } else if (widget.type == TransactionType.telosTranfser) {
         response = await eos.transferTelos(
           beneficiary: widget.beneficiary,
           amount: amount,
+          //unit test
+         // memo: memoController.text,
         );
       }
 
