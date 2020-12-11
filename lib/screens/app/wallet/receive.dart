@@ -141,7 +141,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         name: nameController.text,
         price: double.parse(priceController.text),
         picture: downloadUrl,
-        id: productModel.id);
+        id: productModel.id,
+        currency: Currency.SEEDS);
 
     FirebaseDatabaseService().updateProduct(product, userAccount).then((value) => closeBottomSheet());
   }
