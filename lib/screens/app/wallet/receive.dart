@@ -64,8 +64,11 @@ class ProductsCatalog extends StatefulWidget {
 
 class _ProductsCatalogState extends State<ProductsCatalog> {
 
-
+  final editKey = GlobalKey<FormState>();
+  final priceKey = GlobalKey<FormState>();
+  final nameKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
+  String productName = "";
   final TextEditingController priceController = TextEditingController();
   var savingLoader = GlobalKey<MainButtonState>();
 
@@ -161,10 +164,10 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Delete ${productModel.name} ?"),
+          title: Text('Delete'.i18n + " ${productModel.name} ?"),
           actions: [
             FlatButton(
-              child: Text("Delete"),
+              child: Text("Delete".i18n),
               onPressed: () {
                 deleteProduct(productModel, userAccount);
                 Navigator.of(context).pop();
@@ -185,7 +188,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           radius: 20,
         ),
         SizedBox(width: 10),
-        Text("Change Picture"),
+        Text("Change Picture".i18n),
       ];
     } else if (imageUrl != null && imageUrl.isNotEmpty) {
       children = [
@@ -194,7 +197,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           radius: 20,
         ),
         SizedBox(width: 10),
-        Text("Change Picture"),
+        Text('Change Picture'.i18n),
       ];
     } else {
       children = [
@@ -207,7 +210,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           ),
           radius: 15,
         ),
-        Text("Add Picture"),
+        Text('Add Picture'.i18n),
       ];
     }
 
@@ -224,50 +227,83 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     priceController.text = productModel.price.toString();
 
     bottomSheetController = Scaffold.of(context).showBottomSheet(
-      (context) => Container(
-        padding: EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 15,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              blurRadius: 8,
-              color: AppColors.blue,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Wrap(
-          runSpacing: 10.0,
-          children: <Widget>[
-            DottedBorder(
-              color: AppColors.grey,
-              strokeWidth: 1,
-              child: GestureDetector(
-                onTap: chooseProductPicture,
-                child: buildPictureWidget(productModel.picture),
+      (context) => Form(
+        key: editKey,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 15,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                blurRadius: 8,
+                color: AppColors.blue,
+                offset: Offset(0, 4),
               ),
-            ),
-            MainTextField(
-              labelText: 'Name',
-              controller: nameController,
-            ),
-            MainTextField(
-              labelText: 'Price',
-              controller: priceController,
-              endText: 'SEEDS',
-              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-            ),
-            MainButton(
-              key: savingLoader,
-              title: 'Edit Product',
-              onPressed: () {
-                editProduct(productModel, userAccount);
-              },
-            ),
-          ],
+            ],
+          ),
+          child: Wrap(
+            runSpacing: 10.0,
+            children: <Widget>[
+              DottedBorder(
+                color: AppColors.grey,
+                strokeWidth: 1,
+                child: GestureDetector(
+                  onTap: chooseProductPicture,
+                  child: buildPictureWidget(productModel.picture),
+                ),
+              ),
+              MainTextField(
+                  labelText: 'Name'.i18n,
+                  controller: nameController,
+                  validator: (String name) {
+                    String error;
+
+                    if (name == null || name.isEmpty) {
+                      error = 'Name cannot be empty'.i18n;
+                    }
+                    return error;
+                  },
+                  onChanged: (name) {
+                    editKey.currentState.validate();
+                  }),
+              MainTextField(
+                labelText: 'Price'.i18n,
+                controller: priceController,
+                endText: 'SEEDS',
+                keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+                validator: (String amount) {
+                  String error;
+
+                  double receiveAmount = double.tryParse(amount);
+
+                  if (amount == null) {
+                    error = null;
+                  } else if (amount.isEmpty) {
+                    error = 'Price field is empty'.i18n;
+                  } else if (receiveAmount == null) {
+                    error = 'Price needs to be a number'.i18n;
+                  }
+
+                  return error;
+                },
+                onChanged: (amount) {
+                  editKey.currentState.validate();
+                },
+              ),
+              MainButton(
+                key: savingLoader,
+                title: 'Edit Product'.i18n,
+                onPressed: () {
+                  if (editKey.currentState.validate()) {
+                    editProduct(productModel, userAccount);
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -307,21 +343,57 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                 child: buildPictureWidget(null),
               ),
             ),
-            MainTextField(
-              labelText: 'Name',
-              controller: nameController,
+            Form(
+              key: nameKey,
+              child: MainTextField(
+                  labelText: 'Name'.i18n,
+                  controller: nameController,
+                  validator: (String name) {
+                    String error;
+
+                    if (name == null || name.isEmpty) {
+                      error = 'Name cannot be empty'.i18n;
+                    }
+                    return error;
+                  },
+                  onChanged: (name) {
+                    nameKey.currentState.validate();
+                  }),
             ),
-            MainTextField(
-              labelText: 'Price',
-              controller: priceController,
-              endText: 'SEEDS',
-              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+            Form(
+              key: priceKey,
+              child: MainTextField(
+                labelText: 'Price'.i18n,
+                controller: priceController,
+                endText: 'SEEDS',
+                keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+                validator: (String amount) {
+                  String error;
+
+                  double receiveAmount = double.tryParse(amount);
+
+                  if (amount == null) {
+                    error = null;
+                  } else if (amount.isEmpty) {
+                    error = 'Price field is empty'.i18n;
+                  } else if (receiveAmount == null) {
+                    error = 'Price needs to be a number'.i18n;
+                  }
+
+                  return error;
+                },
+                onChanged: (amount) {
+                  priceKey.currentState.validate();
+                },
+              ),
             ),
             MainButton(
               key: savingLoader,
-              title: 'Add Product',
+              title: 'Add Product'.i18n,
               onPressed: () {
-                createNewProduct(accountName);
+                if (nameKey.currentState.validate() && priceKey.currentState.validate()) {
+                  createNewProduct(accountName);
+                }
               },
             ),
           ],
@@ -383,7 +455,9 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                             color: AppColors.getColorByString(products[index].name),
                             child: Center(
                               child: Text(
-                                products[index].name.characters.first,
+                                products[index].name == null
+                                ? ""
+                                    :products[index].name.characters.first,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
@@ -397,7 +471,9 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                   ),
                   title: Material(
                     child: Text(
-                      products[index].name,
+                      products[index].name == null
+                         ? ""
+                          :products[index].name,
                       style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -724,7 +800,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
       return Container();
     } else {
       final name = difference > 0 ? "Discount" : "Donation";
-      final price = difference.abs();
+      final price = difference;
 
       return GridTile(
         header: Container(
@@ -740,7 +816,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
               Row(
                 children: [
                   Text(
-                    price.toString(),
+                    price.seedsFormatted,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
