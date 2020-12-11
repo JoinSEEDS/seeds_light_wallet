@@ -63,7 +63,6 @@ class ProductsCatalog extends StatefulWidget {
 }
 
 class _ProductsCatalogState extends State<ProductsCatalog> {
-
   final editKey = GlobalKey<FormState>();
   final priceKey = GlobalKey<FormState>();
   final nameKey = GlobalKey<FormState>();
@@ -158,7 +157,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   Future<void> showDeleteProduct(BuildContext context, ProductModel productModel, String userAccount) {
-
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -455,9 +453,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                             color: AppColors.getColorByString(products[index].name),
                             child: Center(
                               child: Text(
-                                products[index].name == null
-                                ? ""
-                                    :products[index].name.characters.first,
+                                products[index].name == null ? "" : products[index].name.characters.first,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
@@ -471,9 +467,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                   ),
                   title: Material(
                     child: Text(
-                      products[index].name == null
-                         ? ""
-                          :products[index].name,
+                      products[index].name == null ? "" : products[index].name,
                       style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -649,8 +643,8 @@ class _ReceiveFormState extends State<ReceiveForm> {
                     child: Consumer<RateNotifier>(
                       builder: (context, rateNotifier, child) {
                         return Text(
-                          rateNotifier
-                            .amountToString(invoiceAmountDouble, SettingsNotifier.of(context).selectedFiatCurrency), 
+                          rateNotifier.amountToString(
+                              invoiceAmountDouble, SettingsNotifier.of(context).selectedFiatCurrency),
                           style: TextStyle(color: Colors.blue),
                         );
                       },
@@ -684,110 +678,110 @@ class _ReceiveFormState extends State<ReceiveForm> {
         ),
         shrinkWrap: true,
         children: [
-          ...cart
-              .map(
-                (product) => GridTile(
-                  header: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        product.picture.isNotEmpty
-                            ? CircleAvatar(
-                                backgroundImage: NetworkImage(product.picture),
-                                radius: 20,
-                              )
-                            : Container(),
-                        Row(
-                          children: [
-                            Text(
-                              product.price.toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Image.asset(
-                              'assets/images/seeds.png',
-                              height: 20,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.getColorByString(product.name),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          blurRadius: 15,
-                          color: AppColors.getColorByString(product.name),
-                          offset: Offset(6, 10),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        product.name.toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                  footer: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 48,
-                        height: 48,
-                        child: FlatButton(
-                          padding: EdgeInsets.zero,
-                          color: AppColors.red,
-                          child: Icon(
-                            Icons.remove,
-                            size: 21,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            removeProductFromCart(product);
-                          },
-                        ),
-                      ),
-                      Text(
-                        cartQuantity[product.name].toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 28,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 48,
-                        height: 48,
-                        child: FlatButton(
-                          padding: EdgeInsets.zero,
-                          color: AppColors.green,
-                          child: Icon(
-                            Icons.add,
-                            size: 21,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            addProductToCart(product);
-                          },
-                        ),
-                      ),
-                    ],
+          ...cart.map((product) => buildProductCard(product)).toList(),
+          buildDonationOrDiscountItem(),
+        ],
+      ),
+    );
+  }
+
+  GridTile buildProductCard(ProductModel product) {
+    return GridTile(
+      header: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            product.picture.isNotEmpty
+                ? CircleAvatar(
+                    backgroundImage: NetworkImage(product.picture),
+                    radius: 20,
+                  )
+                : Container(),
+            Row(
+              children: [
+                Text(
+                  product.price.toString(),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
-              .toList(),
-          buildDonationOrDiscountItem(),
+                Image.asset(
+                  'assets/images/seeds.png',
+                  height: 20,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.getColorByString(product.name),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              blurRadius: 15,
+              color: AppColors.getColorByString(product.name),
+              offset: Offset(6, 10),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            product.name.toString(),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+      footer: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: 48,
+            height: 48,
+            child: FlatButton(
+              padding: EdgeInsets.zero,
+              color: AppColors.red,
+              child: Icon(
+                Icons.remove,
+                size: 21,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                removeProductFromCart(product);
+              },
+            ),
+          ),
+          Text(
+            cartQuantity[product.name].toString(),
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 28,
+            ),
+          ),
+          SizedBox(
+            width: 48,
+            height: 48,
+            child: FlatButton(
+              padding: EdgeInsets.zero,
+              color: AppColors.green,
+              child: Icon(
+                Icons.add,
+                size: 21,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                addProductToCart(product);
+              },
+            ),
+          ),
         ],
       ),
     );
