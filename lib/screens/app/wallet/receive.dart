@@ -19,6 +19,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
+import 'package:seeds/utils/userInputNumberFormatter.dart';
 
 class Receive extends StatefulWidget {
   Receive({Key key}) : super(key: key);
@@ -539,6 +540,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
               controller: controller,
               labelText: 'Receive (SEEDS)'.i18n,
               autofocus: true,
+              inputFormatters: [UserInputNumberFormatter(),],
               validator: (String amount) {
                 String error;
 
