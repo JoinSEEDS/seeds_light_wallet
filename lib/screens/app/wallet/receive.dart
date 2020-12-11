@@ -694,7 +694,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
                       children: [
                         product.picture.isNotEmpty
                             ? CircleAvatar(
-                                backgroundImage: FileImage(File(product.picture)),
+                                backgroundImage: NetworkImage(product.picture),
                                 radius: 20,
                               )
                             : Container(),
