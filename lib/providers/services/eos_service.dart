@@ -326,7 +326,11 @@ class EosService {
             ..actor = accountName
             ..permission = "active"
         ]
-        ..data = {"user_account": accountName, "guardian_accounts": guardians}
+        ..data = {
+          "user_account": accountName,
+          "guardian_accounts": guardians,
+          "time_delay_sec": Duration(days: 1).inSeconds,
+        }
     ]);
 
     return client.pushTransaction(transaction, broadcast: true);
@@ -371,6 +375,26 @@ class EosService {
             ..permission = "active"
         ]
         ..data = {"user_account": accountName}
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  Future<dynamic> claimRecoveredAccount(String userAccount) async {
+    print("[eos] claim recovered account $userAccount");
+
+    if (mockEnabled) return HttpMockResponse.transactionResult;
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "guard.seeds"
+        ..name = "claim"
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = {"user_account": userAccount}
     ]);
 
     return client.pushTransaction(transaction, broadcast: true);
