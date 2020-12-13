@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
-import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
@@ -15,6 +14,7 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TransferFormArguments {
   final String fullName;
@@ -172,13 +172,20 @@ class _TransferFormState extends State<TransferForm>
                   fontWeight: FontWeight.w300),
             ),
             Padding(padding: EdgeInsets.only(top: 3)),
-            Text(
-              '$balance',
-              style: TextStyle(
-                  color: AppColors.blue,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            ),
+            balance == ''
+                ? Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.grey[100],
+                    child: Container(
+                      width: 80.0,
+                      height: 10,
+                      color: Colors.white,
+                    ),
+                  )
+                : Text(
+                    '$balance',
+                    style: TextStyle(color: AppColors.blue, fontSize: 20, fontWeight: FontWeight.w700),
+                  ),
           ],
         ));
   }
@@ -268,9 +275,7 @@ class _AmountFieldState extends State<AmountField> {
                   double.tryParse(balance.replaceFirst(' SEEDS', ''));
               double transferAmount = double.tryParse(val);
 
-              if(balance == ''){
-                error = 'No internet connection';
-              } else if (transferAmount == 0.0) {
+               if (transferAmount == 0.0) {
                 error = "Transfer amount cannot be 0.".i18n;
               } else if (transferAmount == null || availableBalance == null) {
                 error = "Transfer amount is not valid.".i18n;
