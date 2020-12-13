@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
@@ -184,7 +185,12 @@ class _TransferFormState extends State<TransferForm>
 
   @override
   Widget build(BuildContext context) {
-    String balance = BalanceNotifier.of(context).balance.quantity;
+
+    String balance;
+
+    BalanceNotifier.of(context).balance == null? balance = ''
+        : balance = BalanceNotifier.of(context).balance.quantity;
+
     return Stack(
       children: <Widget>[
         Scaffold(
@@ -242,7 +248,11 @@ class _AmountFieldState extends State<AmountField> {
 
   @override
   Widget build(BuildContext context) {
-    String balance = BalanceNotifier.of(context).balance.quantity;
+
+    String balance;
+
+    BalanceNotifier.of(context).balance == null? balance = ''
+    : balance = BalanceNotifier.of(context).balance.quantity;
 
     return Column(
       children: [
@@ -258,7 +268,9 @@ class _AmountFieldState extends State<AmountField> {
                   double.tryParse(balance.replaceFirst(' SEEDS', ''));
               double transferAmount = double.tryParse(val);
 
-              if (transferAmount == 0.0) {
+              if(balance == ''){
+                error = 'No internet connection';
+              } else if (transferAmount == 0.0) {
                 error = "Transfer amount cannot be 0.".i18n;
               } else if (transferAmount == null || availableBalance == null) {
                 error = "Transfer amount is not valid.".i18n;
