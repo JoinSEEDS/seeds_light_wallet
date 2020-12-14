@@ -107,7 +107,7 @@ class NavigationService {
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
     Routes.customTransaction: (args) => CustomTransaction(args),
-    Routes.scanQRCode: (_) => Scan(),
+    Routes.scanQRCode: (_) => Scan(false),
     Routes.receive: (_) => Receive(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
     Routes.guardianInstructions: (_) => GuardianInstructions(),

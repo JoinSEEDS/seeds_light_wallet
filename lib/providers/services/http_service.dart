@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -319,6 +320,21 @@ class HttpService {
       return RateModel(0, true);
     }
   }
+
+  Future<FiatRateModel> getFiatRates() async {
+    print("[http] get fiat rates");
+
+    Response res = await get("https://api.exchangeratesapi.io/latest?base=USD");
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+      return FiatRateModel.fromJson(body);
+    } else {
+      print("Cannot fetch rates..." + res.body.toString());
+      return FiatRateModel(null, error: true);
+    }
+  }
+
 
   Future<BalanceModel> getTelosBalance() async {
     print("[http] get telos balance");
