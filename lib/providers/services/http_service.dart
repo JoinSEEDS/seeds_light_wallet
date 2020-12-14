@@ -59,19 +59,17 @@ class HttpService {
       return Future.value(HttpMockResponse.accountPermissions);
     }
 
-    final String accountPermissionsURL = "$baseURL/v1/chain/get_account";
+    final String url = "$baseURL/v1/chain/get_account";
+    final String body = '{ "account_name": "$userAccount" }';
+    Map<String, String> headers = { "Content-type": "application/json" };
 
-    String request = '{ "account_name": $userAccount}';
-    Map<String, String> headers = {"Content-type": "application/json"};
-
-    Response res =
-        await post(accountPermissionsURL, headers: headers, body: request);
+    Response res = await post(url, headers: headers, body: body);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
 
       List<Permission> permissions =
-          body["rows"].map((item) => Permission.fromJson(item)).toList();
+          List<Permission>.from(body["permissions"].map((item) => Permission.fromJson(item)).toList());
 
       return permissions;
     } else {
