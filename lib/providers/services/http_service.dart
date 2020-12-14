@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:eosdart/eosdart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +56,7 @@ class HttpService {
     print("[http] get account permissions");
 
     if (mockResponse == true) {
-      return HttpMockResponse.accountPermissions;
+      return Future.value(HttpMockResponse.accountPermissions);
     }
 
     final String accountPermissionsURL = "$baseURL/v1/chain/get_account";
