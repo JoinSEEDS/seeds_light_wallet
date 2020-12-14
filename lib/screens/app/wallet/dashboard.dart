@@ -9,6 +9,8 @@ import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
+import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/empty_button.dart';
@@ -71,8 +73,51 @@ class _DashboardState extends State<Dashboard> {
     NavigationService.of(context).navigateTo(Routes.transfer);
   }
 
-  void onReceive() {
+  void onReceive() async {
+    // test code for set up / remove permissions
+    //var perm = await HttpService.of(context).getAccountPermissions();
+    //print("perm: "+perm.toString());
+    //await removeGuardPermission();
+    //await setupGuardPermission();
+    //var perm2 = await HttpService.of(context).getAccountPermissions();
+    //print("perm after: "+perm2.toString());
+    
     NavigationService.of(context).navigateTo(Routes.receive);
+  }
+
+  Future<void> setupGuardPermission() async {
+
+    final currentPermissions =
+        await HttpService.of(context).getAccountPermissions();
+
+    final ownerPermission =
+        currentPermissions.firstWhere((item) => item.permName == "owner");
+
+    ownerPermission.requiredAuth.accounts.add({
+      "weight": ownerPermission.requiredAuth.threshold,
+      "permission": {"actor": "guard.seeds", "permission": "eosio.code"}
+    });
+
+    await EosService.of(context, listen: false).updatePermission(ownerPermission);
+  }
+
+  Future<void> removeGuardPermission() async {
+    final currentPermissions =
+        await HttpService.of(context).getAccountPermissions();
+
+    final ownerPermission =
+        currentPermissions.firstWhere((item) => item.permName == "owner");
+
+    List<dynamic> newAccounts = [];
+    for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts) {
+      if (acct["permission"]["actor"] == "guard.seeds") {
+        //print("found guardian permission");
+      } else {
+        newAccounts.add(acct);
+      }
+    }
+    ownerPermission.requiredAuth.accounts = newAccounts;
+    await EosService.of(context, listen: false).updatePermission(ownerPermission);
   }
 
   Widget buildHeader() {
