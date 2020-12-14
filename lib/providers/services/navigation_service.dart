@@ -60,7 +60,6 @@ class Routes {
   static final inviteGuardiansSent = "InviteGuardiansSent";
   static final guardianTabs = "GuardianTabs";
   static final dho = "DHO";
-  static final guardians = "Guardians";
 }
 
 class NavigationService {
