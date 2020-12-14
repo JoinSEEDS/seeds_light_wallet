@@ -545,12 +545,13 @@ class _ReceiveFormState extends State<ReceiveForm> {
                 String error;
                 double receiveAmount;
 
-                if(double.tryParse(amount) == null) {
-                   if(amount.isEmpty){
-                     error = null;
-                   }else{error = 'Please enter a valid number';}
-                }
-                else{
+                if (double.tryParse(amount) == null) {
+                  if (amount.isEmpty) {
+                    error = null;
+                  } else {
+                    error = 'Please enter a valid number';
+                  }
+                } else {
                   receiveAmount = double.parse(amount);
 
                   if (amount == null || amount.isEmpty) {
@@ -562,7 +563,6 @@ class _ReceiveFormState extends State<ReceiveForm> {
                   } else if (receiveAmount == null) {
                     error = "Receive amount is not valid".i18n;
                   }
-
                 }
 
                 return error;
