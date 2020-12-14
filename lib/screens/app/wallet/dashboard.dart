@@ -85,6 +85,7 @@ class _DashboardState extends State<Dashboard> {
     NavigationService.of(context).navigateTo(Routes.receive);
   }
 
+  // TODO: Where can we put these so they're accessible to all widgets that may need these functions?
   Future<void> setupGuardPermission() async {
 
     final currentPermissions =
@@ -101,6 +102,7 @@ class _DashboardState extends State<Dashboard> {
     await EosService.of(context, listen: false).updatePermission(ownerPermission);
   }
 
+  // TODO: Where can we put these so they're accessible to all widgets that may need these functions?
   Future<void> removeGuardPermission() async {
     final currentPermissions =
         await HttpService.of(context).getAccountPermissions();
