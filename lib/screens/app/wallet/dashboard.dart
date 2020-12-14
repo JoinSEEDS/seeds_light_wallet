@@ -74,52 +74,16 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void onReceive() async {
-    // test code for set up / remove permissions
-    //var perm = await HttpService.of(context).getAccountPermissions();
+    // TESTING - showcase code for set up / remove permissions - remove
+    //var perm = await EosService.of(context, listen: false).getAccountPermissions();
     //print("perm: "+perm.toString());
-    //await removeGuardPermission();
-    //await setupGuardPermission();
-    //var perm2 = await HttpService.of(context).getAccountPermissions();
+    //await EosService.of(context, listen: false).removeGuardianPermission();
+    //await EosService.of(context, listen: false).setGuardianPermission();
+    //var perm2 = await EosService.of(context, listen: false).getAccountPermissions();
     //print("perm after: "+perm2.toString());
+    // delete this.
     
     NavigationService.of(context).navigateTo(Routes.receive);
-  }
-
-  // TODO: Where can we put these so they're accessible to all widgets that may need these functions?
-  Future<void> setupGuardPermission() async {
-
-    final currentPermissions =
-        await HttpService.of(context).getAccountPermissions();
-
-    final ownerPermission =
-        currentPermissions.firstWhere((item) => item.permName == "owner");
-
-    ownerPermission.requiredAuth.accounts.add({
-      "weight": ownerPermission.requiredAuth.threshold,
-      "permission": {"actor": "guard.seeds", "permission": "eosio.code"}
-    });
-
-    await EosService.of(context, listen: false).updatePermission(ownerPermission);
-  }
-
-  // TODO: Where can we put these so they're accessible to all widgets that may need these functions?
-  Future<void> removeGuardPermission() async {
-    final currentPermissions =
-        await HttpService.of(context).getAccountPermissions();
-
-    final ownerPermission =
-        currentPermissions.firstWhere((item) => item.permName == "owner");
-
-    List<dynamic> newAccounts = [];
-    for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts) {
-      if (acct["permission"]["actor"] == "guard.seeds") {
-        //print("found guardian permission");
-      } else {
-        newAccounts.add(acct);
-      }
-    }
-    ownerPermission.requiredAuth.accounts = newAccounts;
-    await EosService.of(context, listen: false).updatePermission(ownerPermission);
   }
 
   Widget buildHeader() {

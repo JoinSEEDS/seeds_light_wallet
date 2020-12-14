@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:eosdart/eosdart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +8,7 @@ import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
+import 'package:seeds/utils/extensions/response_extension.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
@@ -49,32 +49,6 @@ class HttpService {
       print('Cannot fetch profile...');
 
       return ProfileModel();
-    }
-  }
-
-  Future<List<Permission>> getAccountPermissions() async {
-    print("[http] get account permissions");
-
-    if (mockResponse == true) {
-      return Future.value(HttpMockResponse.accountPermissions);
-    }
-
-    final String url = "$baseURL/v1/chain/get_account";
-    final String body = '{ "account_name": "$userAccount" }';
-    Map<String, String> headers = { "Content-type": "application/json" };
-
-    Response res = await post(url, headers: headers, body: body);
-
-    if (res.statusCode == 200) {
-      Map<String, dynamic> body = res.parseJson();
-
-      List<Permission> permissions =
-          List<Permission>.from(body["permissions"].map((item) => Permission.fromJson(item)).toList());
-
-      return permissions;
-    } else {
-      print('Cannot fetch account permissions...');
-      return List<Permission>();
     }
   }
 
@@ -694,12 +668,6 @@ class HttpService {
       print('Cannot fetch votes...${res.toString()}');
       return VoteResult(0, false, error: true);
     }
-  }
-}
-
-extension ResponseExtension on Response {
-  dynamic parseJson() {
-    return json.decode(utf8.decode(this.bodyBytes));
   }
 }
 

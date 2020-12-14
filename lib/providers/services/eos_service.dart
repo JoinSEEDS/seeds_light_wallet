@@ -1,9 +1,11 @@
 import 'package:eosdart/eosdart.dart';
 import 'package:flutter/widgets.dart' show BuildContext;
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:dart_esr/dart_esr.dart' as ESR;
+import 'package:seeds/utils/extensions/response_extension.dart';
 
 String chainId =
     "4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11";
@@ -436,6 +438,65 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
     Transaction transaction = buildFreeTransaction(actions);
 
     return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  Future<List<Permission>> getAccountPermissions() async {
+    print("[http] get account permissions");
+
+    if (mockEnabled) {
+      return Future.value(HttpMockResponse.accountPermissions);
+    }
+
+    final String url = "$baseURL/v1/chain/get_account";
+    final String body = '{ "account_name": "$accountName" }';
+    Map<String, String> headers = { "Content-type": "application/json" };
+
+    Response res = await post(url, headers: headers, body: body);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      List<Permission> permissions =
+          List<Permission>.from(body["permissions"].map((item) => Permission.fromJson(item)).toList());
+
+      return permissions;
+    } else {
+      print('Cannot fetch account permissions...');
+      return List<Permission>();
+    }
+  }
+
+  Future<void> setGuardianPermission() async {
+
+    final currentPermissions = await getAccountPermissions();
+
+    final ownerPermission =
+        currentPermissions.firstWhere((item) => item.permName == "owner");
+
+    ownerPermission.requiredAuth.accounts.add({
+      "weight": ownerPermission.requiredAuth.threshold,
+      "permission": {"actor": "guard.seeds", "permission": "eosio.code"}
+    });
+
+    await updatePermission(ownerPermission);
+  }
+
+  Future<void> removeGuardianPermission() async {
+    final currentPermissions = await getAccountPermissions();
+
+    final ownerPermission =
+        currentPermissions.firstWhere((item) => item.permName == "owner");
+
+    List<dynamic> newAccounts = [];
+    for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts) {
+      if (acct["permission"]["actor"] == "guard.seeds") {
+        //print("found guardian permission");
+      } else {
+        newAccounts.add(acct);
+      }
+    }
+    ownerPermission.requiredAuth.accounts = newAccounts;
+    await updatePermission(ownerPermission);
   }
 
   Future<String> generateInvoice(double amount) async {
