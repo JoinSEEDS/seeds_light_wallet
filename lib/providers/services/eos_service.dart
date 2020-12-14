@@ -291,21 +291,38 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
+// method to properly convert RequiredAuth to JSON - the library doesn't work
+Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
+    <String, dynamic>{
+      'threshold': instance.threshold,
+      'keys': List<dynamic>.from(instance.keys.map((e) => e.toJson())),
+      'accounts': instance.accounts,
+      'waits': instance.waits
+    };
+
   Future<dynamic> updatePermission(Permission permission) async {
     print("[eos] update permission ${permission.permName}");
 
     if (mockEnabled) return HttpMockResponse.transactionResult;
 
+    var permissionsMap = requiredAuthToJson(permission.requiredAuth);
+
+    print("converted JSPN: ${permissionsMap.toString()}");
+
     Transaction transaction = buildFreeTransaction([
       Action()
         ..account = "eosio"
         ..name = "updateauth"
-        ..authorization = [Authorization()..actor = accountName]
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "owner"
+        ]
         ..data = {
           "account": accountName,
           "permission": permission.permName,
           "parent": permission.parent,
-          "auth": permission.requiredAuth.toString()
+          "auth": permissionsMap
         }
     ]);
 
@@ -348,7 +365,7 @@ class EosService {
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = "active"
+            ..permission = "owner"
         ]
         ..data = {
           "guardian_account": accountName,
@@ -372,7 +389,7 @@ class EosService {
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = "active"
+            ..permission = "owner"
         ]
         ..data = {"user_account": accountName}
     ]);
