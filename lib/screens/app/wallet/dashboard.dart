@@ -9,8 +9,8 @@ import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
-import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/providers/services/http_service.dart';
+// import 'package:seeds/providers/services/eos_service.dart';// the unused imports are for the sample code.
+// import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/empty_button.dart';
