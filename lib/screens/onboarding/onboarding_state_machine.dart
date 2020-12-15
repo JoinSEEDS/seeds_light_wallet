@@ -29,6 +29,7 @@ enum Events {
   importAccountCanceled,
   chosenImportAccount,
   chosenClaimInvite,
+  chosenRecoverAccount,
   accountCreated,
   accountImported,
   createAccountRequested,
@@ -36,7 +37,15 @@ enum Events {
   importAccountRequested,
   createAccountFailed,
   importAccountFailed,
-  claimInviteRequested
+  claimInviteRequested,
+  foundRecoveryFlag,
+  recoverCanceled,
+  recoverAccountRequested,
+  recoveryStartSuccess,
+  recoveryStartFailed,
+  foundValidRecovery,
+  cancelRecoveryProcess,
+  claimRecoveredAccount
 }
 
 enum States {
@@ -51,6 +60,12 @@ enum States {
   creatingAccount,
   importingAccount,
   finishOnboarding,
+  initRecoveryProcess,
+  checkRecoveryProcess,
+  startRecovery,
+  continueRecovery,
+  recoverAccount,
+  continueRecoveryProcess
 }
 
 class OnboardingStateMachine {
@@ -153,6 +168,56 @@ class OnboardingStateMachine {
           event: Events.foundInviteLink,
           targetState: States.processingInviteLink,
         ),
+        _Transition(
+          event: Events.chosenRecoverAccount,
+          targetState: States.initRecoveryProcess,
+        ),
+        _Transition(
+          event: Events.foundRecoveryFlag,
+          targetState: States.checkRecoveryProcess,
+        ),
+      ],
+    ),
+    States.initRecoveryProcess:
+        _State(name: States.initRecoveryProcess, transitions: [
+      _Transition(
+        event: Events.recoverCanceled,
+        targetState: States.onboardingMethodChoice,
+      ),
+      _Transition(
+        event: Events.recoverAccountRequested,
+        targetState: States.startRecovery,
+      ),
+    ]),
+    States.startRecovery: _State(
+      name: States.recoverAccount,
+      transitions: [
+        _Transition(
+            event: Events.recoveryStartSuccess,
+            targetState: States.onboardingMethodChoice),
+        _Transition(
+            event: Events.recoveryStartFailed,
+            targetState: States.onboardingMethodChoice),
+      ],
+    ),
+    States.checkRecoveryProcess: _State(
+      name: States.checkRecoveryProcess,
+      transitions: [
+        _Transition(
+          event: Events.foundValidRecovery,
+          targetState: States.continueRecovery,
+        ),
+      ],
+    ),
+    States.continueRecoveryProcess: _State(
+      name: States.continueRecoveryProcess,
+      transitions: [
+        _Transition(
+            event: Events.cancelRecoveryProcess,
+            targetState: States.onboardingMethodChoice),
+        _Transition(
+            event: Events.claimRecoveredAccount,
+            targetState: States.onboardingMethodChoice),
       ],
     ),
     States.importAccount: _State(
@@ -200,7 +265,7 @@ class OnboardingStateMachine {
     var targetTransition =
         states[currentState].transitions.firstWhere((t) => t.event == event);
 
-      print("event: $event  ---> ${targetTransition.targetState}");
+    print("event: $event  ---> ${targetTransition.targetState}");
 
     if (targetTransition != null) {
       currentState = targetTransition.targetState;

@@ -110,7 +110,6 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void createAccountRequested() async {
-
     EOSPrivateKey privateKeyRaw = EOSPrivateKey.fromRandom();
     EOSPublicKey publicKey = privateKeyRaw.toEOSPublicKey();
 
@@ -184,6 +183,37 @@ class _JoinProcessState extends State<JoinProcess> {
     Function backCallback;
 
     switch (machine.currentState) {
+      case States.initRecoveryProcess:
+        currentScreen = InitRecovery(
+          onSubmit: (accountName) =>
+              machine.transition(Events.recoverAccountRequested),
+        );
+        break;
+      case States.startRecovery:
+        currentScreen = NotionLoader(
+          notion: "Starting recovery process...".i18n,
+        );
+        break;
+      case States.continueRecovery:
+        currentScreen = NotionLoader(
+          notion: "Continue recovery process...".i18n,
+        );
+        break;
+      case States.recoverAccount:
+        currentScreen = NotionLoader(
+          notion: "Recover account started...".i18n,
+        );
+        break;
+      case States.checkRecoveryProcess:
+        currentScreen = NotionLoader(
+          notion: "Recovery process analyzing...".i18n,
+        );
+        break;
+      case States.continueRecoveryProcess:
+        currentScreen = NotionLoader(
+          notion: "Continue recovery process...".i18n,
+        );
+        break;
       case States.checkingInviteLink:
         currentScreen = NotionLoader(
           notion: "Initialize new wallet...".i18n,
@@ -236,7 +266,8 @@ class _JoinProcessState extends State<JoinProcess> {
             },
           ),
         );
-        backCallback = () => machine.transition(Events.createAccountAccountNameBack);
+        backCallback =
+            () => machine.transition(Events.createAccountAccountNameBack);
         break;
       case States.creatingAccount:
         currentScreen = NotionLoader(
@@ -266,10 +297,25 @@ class _JoinProcessState extends State<JoinProcess> {
         currentScreen = ShowOnboardingChoice(
           onInvite: () => machine.transition(Events.chosenClaimInvite),
           onImport: () => machine.transition(Events.chosenImportAccount),
+          onRecover: () => machine.transition(Events.chosenRecoverAccount),
         );
         break;
     }
 
     return OverlayPopup(body: currentScreen, backCallback: backCallback);
+  }
+}
+
+class InitRecovery extends StatefulWidget {
+  @override
+  _InitRecoveryState createState() => _InitRecoveryState();
+
+  InitRecovery({Function onSubmit});
+}
+
+class _InitRecoveryState extends State<InitRecovery> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

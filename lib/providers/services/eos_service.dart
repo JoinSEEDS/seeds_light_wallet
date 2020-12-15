@@ -447,4 +447,30 @@ class EosService {
 
     return request.encode();
   }
+
+  Future<String> generateRecoveryRequest(
+      String accountName, String publicKey) async {
+    var auth = [ESR.ESRConstants.PlaceholderAuth];
+
+    var data = {
+      'guardian_account': ESR.ESRConstants.PlaceholderName,
+      'user_account': accountName,
+      'new_public_key': publicKey,
+    };
+
+    var action = ESR.Action()
+      ..account = 'guard.seeds'
+      ..name = 'recover'
+      ..authorization = auth
+      ..data = data;
+
+    var args =
+        ESR.SigningRequestCreateArguments(action: action, chainId: chainId);
+
+    var request = await ESR.SigningRequestManager.create(args,
+        options: ESR.defaultSigningRequestEncodingOptions(
+            nodeUrl: Config.hyphaEndpoint));
+
+    return request.encode();
+  }
 }
