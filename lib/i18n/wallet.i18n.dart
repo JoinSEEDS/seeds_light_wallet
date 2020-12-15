@@ -41,6 +41,10 @@ static var _t = Translations.byLocale("en_us") +
          'Add Picture': 'Agregar Foto',
          'Change Picture': 'Cambiar Foto',
          'Delete': 'Eliminar',
+        
+         'Memo (optional)': 'Memo (opcional)',
+         "What's it for?": "Para que es?"
+
 
       }
     };
