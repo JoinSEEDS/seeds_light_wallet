@@ -217,8 +217,8 @@ class EosService {
     return appClient.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferTelos({String beneficiary, double amount}) async {
-    print("[eos] transfer telos to $beneficiary ($amount)");
+  Future<dynamic> transferTelos({String beneficiary, double amount,memo}) async {
+    print("[eos] transfer telos to $beneficiary ($amount) memo: $memo");
 
     if (mockEnabled) {
       return HttpMockResponse.transactionResult;
@@ -237,15 +237,15 @@ class EosService {
           "from": accountName,
           "to": beneficiary,
           "quantity": "${amount.toStringAsFixed(4)} TLOS",
-          "memo": "",
+          "memo": memo,
         }
     ]);
 
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferSeeds({String beneficiary, double amount}) async {
-    print("[eos] transfer seeds to $beneficiary ($amount)");
+  Future<dynamic> transferSeeds({String beneficiary, double amount, String memo}) async {
+    print("[eos] transfer seeds to $beneficiary ($amount) memo: $memo");
 
     if (mockEnabled) {
       return HttpMockResponse.transactionResult;
@@ -264,7 +264,7 @@ class EosService {
           "from": accountName,
           "to": beneficiary,
           "quantity": "${amount.toStringAsFixed(4)} SEEDS",
-          "memo": "",
+          "memo": memo,
         }
     ]);
 
