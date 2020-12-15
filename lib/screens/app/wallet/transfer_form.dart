@@ -14,6 +14,7 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 
 class TransferFormArguments {
@@ -176,20 +177,32 @@ class _TransferFormState extends State<TransferForm>
                   fontWeight: FontWeight.w300),
             ),
             Padding(padding: EdgeInsets.only(top: 3)),
-            Text(
-              '$balance',
-              style: TextStyle(
-                  color: AppColors.blue,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            ),
+            balance == ''
+                ? Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.grey[100],
+                    child: Container(
+                      width: 80.0,
+                      height: 10,
+                      color: Colors.white,
+                    ),
+                  )
+                : Text(
+                    '$balance',
+                    style: TextStyle(color: AppColors.blue, fontSize: 20, fontWeight: FontWeight.w700),
+                  ),
           ],
         ));
   }
 
   @override
   Widget build(BuildContext context) {
-    String balance = BalanceNotifier.of(context).balance.quantity;
+
+    String balance;
+
+    BalanceNotifier.of(context).balance == null? balance = ''
+        : balance = BalanceNotifier.of(context).balance.quantity;
+
     return Stack(
       children: <Widget>[
         Scaffold(
@@ -254,7 +267,11 @@ class _AmountFieldState extends State<AmountField> {
 
   @override
   Widget build(BuildContext context) {
-    String balance = BalanceNotifier.of(context).balance.quantity;
+
+    String balance;
+
+    BalanceNotifier.of(context).balance == null? balance = ''
+    : balance = BalanceNotifier.of(context).balance.quantity;
 
     return Column(
       children: [
@@ -270,7 +287,7 @@ class _AmountFieldState extends State<AmountField> {
                   double.tryParse(balance.replaceFirst(' SEEDS', ''));
               double transferAmount = double.tryParse(val);
 
-              if (transferAmount == 0.0) {
+               if (transferAmount == 0.0) {
                 error = "Transfer amount cannot be 0.".i18n;
               } else if (transferAmount == null || availableBalance == null) {
                 error = "Transfer amount is not valid.".i18n;
