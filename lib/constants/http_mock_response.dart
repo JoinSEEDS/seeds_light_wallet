@@ -1,6 +1,24 @@
+import 'package:eosdart/eosdart.dart';
 import 'package:seeds/models/models.dart';
 
 class HttpMockResponse {
+  static final requiredAuth = RequiredAuth()
+    ..threshold = 1
+    ..waits = []
+    ..accounts = []
+    ..keys = [];
+
+  static final accountPermissions = [
+    Permission()
+      ..permName = "active"
+      ..parent = "owner"
+      ..requiredAuth = requiredAuth,
+    Permission()
+      ..permName = "owner"
+      ..parent = ""
+      ..requiredAuth = requiredAuth
+  ];
+
   static final members = [
     MemberModel(
       account: "sevenflash42",
@@ -45,8 +63,20 @@ class HttpMockResponse {
   ];
 
   static final transactions = [
-    TransactionModel("join.seeds", "sevenflash42", "15.0000 SEEDS", "memo", "2020-02-05T17:24:28.500", "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
-    TransactionModel("sevenflash42", "testingseeds", "5.0000 SEEDS", "", "2020-02-05T17:24:28.500", "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
+    TransactionModel(
+        "join.seeds",
+        "sevenflash42",
+        "15.0000 SEEDS",
+        "",
+        "2020-02-05T17:24:28.500",
+        "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
+    TransactionModel(
+        "sevenflash42",
+        "testingseeds",
+        "5.0000 SEEDS",
+        "",
+        "2020-02-05T17:24:28.500",
+        "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
   ];
 
   static final balance = BalanceModel("10.0000 SEEDS", false);
@@ -137,15 +167,16 @@ class HttpMockResponse {
 
   static final profile = ProfileModel(
     account: "illumination",
-    status:	"citizen",
+    status: "citizen",
     type: "individual",
     nickname: "Nikolaus",
-    image: "https://seeds-service.s3.amazonaws.com/development/e46ea503-b743-44b0-901a-4fe07e4d781f/87b2c661-7af6-4b82-9cbe-0a352b5b248c-1920.jpg",
+    image:
+        "https://seeds-service.s3.amazonaws.com/development/e46ea503-b743-44b0-901a-4fe07e4d781f/87b2c661-7af6-4b82-9cbe-0a352b5b248c-1920.jpg",
     story: "Seeds Team",
-    roles: '["#light #support #askmeanything"]',	
-    skills: "[]",	
-    interests: "[]",	
-    reputation:	0,
-    timestamp:	1577382580,
+    roles: '["#light #support #askmeanything"]',
+    skills: "[]",
+    interests: "[]",
+    reputation: 0,
+    timestamp: 1577382580,
   );
 }
