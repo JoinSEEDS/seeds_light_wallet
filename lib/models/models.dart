@@ -1,12 +1,14 @@
 import 'package:hive/hive.dart';
+import 'package:seeds/models/Currencies.dart';
 
 class ProductModel extends HiveObject {
   final String name;
   final String picture;
   final double price;
   final String id;
+  final Currency currency;
 
-  ProductModel({this.name, this.picture, this.price, this.id});
+  ProductModel({this.name, this.picture, this.price, this.id, this.currency});
 }
 
 class InviteModel {

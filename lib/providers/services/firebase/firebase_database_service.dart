@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:seeds/models/Currencies.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
@@ -292,6 +293,7 @@ class FirebaseDatabaseService {
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
       PRODUCT_CREATED_DATE_KEY: FieldValue.serverTimestamp(),
+      PRODUCT_CURRENCY_KEY: product.currency.name
     };
 
     if (product.picture != null && product.picture.isNotEmpty) {
@@ -305,6 +307,7 @@ class FirebaseDatabaseService {
     Map<String, Object> data = {
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
+      PRODUCT_CURRENCY_KEY: product.currency,
       PRODUCT_UPDATED_DATE_KEY: FieldValue.serverTimestamp(),
     };
 
@@ -324,13 +327,18 @@ class FirebaseDatabaseService {
   }
 
   Stream<List<ProductModel>> getProductsForUser(String accountName) {
-    return _usersCollection.doc(accountName).collection(PRODUCTS_COLLECTION_KEY).orderBy(PRODUCT_CREATED_DATE_KEY).snapshots().asyncMap((event) => event
-        .docs
-        .map((QueryDocumentSnapshot data) => ProductModel(
-            name: data.data()[PRODUCT_NAME_KEY],
-            picture: data.data()[PRODUCT_IMAGE_URL_KEY] != null ? data.data()[PRODUCT_IMAGE_URL_KEY] : "",
-            price: data.data()[PRODUCT_PRICE_KEY],
-            id: data.id))
-        .toList());
+    return _usersCollection
+        .doc(accountName)
+        .collection(PRODUCTS_COLLECTION_KEY)
+        .orderBy(PRODUCT_CREATED_DATE_KEY)
+        .snapshots()
+        .asyncMap((event) => event.docs
+            .map((QueryDocumentSnapshot data) => ProductModel(
+                name: data.data()[PRODUCT_NAME_KEY],
+                picture: data.data()[PRODUCT_IMAGE_URL_KEY] != null ? data.data()[PRODUCT_IMAGE_URL_KEY] : "",
+                price: data.data()[PRODUCT_PRICE_KEY],
+                id: data.id,
+                currency: fromCurrencyName(data.data()[PRODUCT_CURRENCY_KEY])))
+            .toList());
   }
 }
