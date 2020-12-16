@@ -151,9 +151,6 @@ class MainScreen extends StatelessWidget {
             onGenerateRoute: navigationService.onGenerateRoute,
           );
         } else if (auth.status == AuthStatus.unlocked) {
-          String userAccount = SettingsNotifier.of(context).accountName;
-          FirebaseDatabaseService().setFirebaseMessageToken(userAccount);
-
           return ToolboxApp(
             child: SeedsMaterialApp(
               home: App(),
