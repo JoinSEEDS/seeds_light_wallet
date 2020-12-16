@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:eosdart/eosdart.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/eos/eos_service.dart';
 import 'package:seeds/widgets/broadcast_transaction_overlay.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/transaction_details.dart';

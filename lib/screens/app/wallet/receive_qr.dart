@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart' hide Action;
-import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/eos/eos_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import '../../../utils/double_extension.dart';
 import 'package:qr_flutter/qr_flutter.dart';

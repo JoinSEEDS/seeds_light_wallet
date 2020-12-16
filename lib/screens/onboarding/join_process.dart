@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/eos/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';

@@ -7,7 +7,7 @@ import 'package:rubber/rubber.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/eos/eos_service.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:eosdart/eosdart.dart' show Action;

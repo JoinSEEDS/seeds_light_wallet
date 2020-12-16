@@ -1,14 +1,11 @@
+import 'package:dart_esr/dart_esr.dart' as ESR;
 import 'package:eosdart/eosdart.dart';
 import 'package:flutter/widgets.dart' show BuildContext;
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
-import 'package:dart_esr/dart_esr.dart' as ESR;
-import 'package:seeds/utils/extensions/response_extension.dart';
 
-String chainId =
-    "4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11";
+String chainId = "4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11";
 
 class EosService {
   String privateKey;
@@ -18,8 +15,7 @@ class EosService {
   EOSClient client;
   bool mockEnabled;
 
-  static EosService of(BuildContext context, {bool listen = true}) =>
-      Provider.of(context, listen: listen);
+  static EosService of(BuildContext context, {bool listen = true}) => Provider.of(context, listen: listen);
 
   void update({
     userPrivateKey,
@@ -32,8 +28,7 @@ class EosService {
     baseURL = nodeEndpoint;
     mockEnabled = enableMockTransactions;
     if (privateKey != null && privateKey.isNotEmpty) {
-      client =
-          EOSClient(baseURL, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
+      client = EOSClient(baseURL, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
     }
   }
 
@@ -174,11 +169,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> acceptInvite(
-      {String accountName,
-      String publicKey,
-      String inviteSecret,
-      String nickname}) async {
+  Future<dynamic> acceptInvite({String accountName, String publicKey, String inviteSecret, String nickname}) async {
     print("[eos] accept invite");
 
     if (mockEnabled) {
@@ -188,8 +179,7 @@ class EosService {
     String applicationPrivateKey = Config.onboardingPrivateKey;
     String applicationAccount = Config.onboardingAccountName;
 
-    EOSClient appClient =
-        EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey]);
+    EOSClient appClient = EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey]);
 
     Map data = {
       "account": accountName,
@@ -217,7 +207,7 @@ class EosService {
     return appClient.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferTelos({String beneficiary, double amount,memo}) async {
+  Future<dynamic> transferTelos({String beneficiary, double amount, memo}) async {
     print("[eos] transfer telos to $beneficiary ($amount) memo: $memo");
 
     if (mockEnabled) {
@@ -293,133 +283,6 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-// method to properly convert RequiredAuth to JSON - the library doesn't work
-Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
-    <String, dynamic>{
-      'threshold': instance.threshold,
-      'keys': List<dynamic>.from(instance.keys.map((e) => e.toJson())),
-      'accounts': instance.accounts,
-      'waits': instance.waits
-    };
-
-  Future<dynamic> updatePermission(Permission permission) async {
-    print("[eos] update permission ${permission.permName}");
-
-    if (mockEnabled) return HttpMockResponse.transactionResult;
-
-    var permissionsMap = requiredAuthToJson(permission.requiredAuth);
-
-    print("converted JSPN: ${permissionsMap.toString()}");
-
-    Transaction transaction = buildFreeTransaction([
-      Action()
-        ..account = "eosio"
-        ..name = "updateauth"
-        ..authorization = [
-          Authorization()
-            ..actor = accountName
-            ..permission = "owner"
-        ]
-        ..data = {
-          "account": accountName,
-          "permission": permission.permName,
-          "parent": permission.parent,
-          "auth": permissionsMap
-        }
-    ]);
-
-    return client.pushTransaction(transaction, broadcast: true);
-  }
-
-  Future<dynamic> initGuardians(List<String> guardians) async {
-    print("[eos] init guardians");
-
-    if (mockEnabled) return HttpMockResponse.transactionResult;
-
-    Transaction transaction = buildFreeTransaction([
-      Action()
-        ..account = "guard.seeds"
-        ..name = "init"
-        ..authorization = [
-          Authorization()
-            ..actor = accountName
-            ..permission = "active"
-        ]
-        ..data = {
-          "user_account": accountName,
-          "guardian_accounts": guardians,
-          "time_delay_sec": Duration(days: 1).inSeconds,
-        }
-    ]);
-
-    return client.pushTransaction(transaction, broadcast: true);
-  }
-
-  Future<dynamic> recoverAccount(String userAccount, String publicKey) async {
-    print("[eos] recover account $userAccount");
-
-    if (mockEnabled) return HttpMockResponse.transactionResult;
-
-    Transaction transaction = buildFreeTransaction([
-      Action()
-        ..account = "guard.seeds"
-        ..name = "recover"
-        ..authorization = [
-          Authorization()
-            ..actor = accountName
-            ..permission = "owner"
-        ]
-        ..data = {
-          "guardian_account": accountName,
-          "user_account": userAccount,
-          "new_public_key": publicKey,
-        }
-    ]);
-
-    return client.pushTransaction(transaction, broadcast: true);
-  }
-
-  Future<dynamic> cancelRecovery() async {
-    print("[eos] cancel recovery $accountName");
-
-    if (mockEnabled) return HttpMockResponse.transactionResult;
-
-    Transaction transaction = buildFreeTransaction([
-      Action()
-        ..account = "guard.seeds"
-        ..name = "cancel"
-        ..authorization = [
-          Authorization()
-            ..actor = accountName
-            ..permission = "owner"
-        ]
-        ..data = {"user_account": accountName}
-    ]);
-
-    return client.pushTransaction(transaction, broadcast: true);
-  }
-
-  Future<dynamic> claimRecoveredAccount(String userAccount) async {
-    print("[eos] claim recovered account $userAccount");
-    String applicationAccount = Config.onboardingAccountName;
-
-    if (mockEnabled) return HttpMockResponse.transactionResult;
-    List<Authorization> auth = [
-      Authorization()
-        ..actor = applicationAccount
-        ..permission = "application"
-    ];
-    Transaction transaction = buildFreeTransaction([
-      Action()
-        ..account = "guard.seeds"
-        ..name = "claim"
-        ..authorization = auth
-        ..data = {"user_account": userAccount}
-    ]);
-
-    return client.pushTransaction(transaction, broadcast: true);
-  }
-
   Future<dynamic> sendTransaction(List<Action> actions) async {
     print("[eos] send transaction");
 
@@ -440,65 +303,6 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<List<Permission>> getAccountPermissions() async {
-    print("[http] get account permissions");
-
-    if (mockEnabled) {
-      return Future.value(HttpMockResponse.accountPermissions);
-    }
-
-    final String url = "$baseURL/v1/chain/get_account";
-    final String body = '{ "account_name": "$accountName" }';
-    Map<String, String> headers = { "Content-type": "application/json" };
-
-    Response res = await post(url, headers: headers, body: body);
-
-    if (res.statusCode == 200) {
-      Map<String, dynamic> body = res.parseJson();
-
-      List<Permission> permissions =
-          List<Permission>.from(body["permissions"].map((item) => Permission.fromJson(item)).toList());
-
-      return permissions;
-    } else {
-      print('Cannot fetch account permissions...');
-      return List<Permission>();
-    }
-  }
-
-  Future<void> setGuardianPermission() async {
-
-    final currentPermissions = await getAccountPermissions();
-
-    final ownerPermission =
-        currentPermissions.firstWhere((item) => item.permName == "owner");
-
-    ownerPermission.requiredAuth.accounts.add({
-      "weight": ownerPermission.requiredAuth.threshold,
-      "permission": {"actor": "guard.seeds", "permission": "eosio.code"}
-    });
-
-    await updatePermission(ownerPermission);
-  }
-
-  Future<void> removeGuardianPermission() async {
-    final currentPermissions = await getAccountPermissions();
-
-    final ownerPermission =
-        currentPermissions.firstWhere((item) => item.permName == "owner");
-
-    List<dynamic> newAccounts = [];
-    for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts) {
-      if (acct["permission"]["actor"] == "guard.seeds") {
-        //print("found guardian permission");
-      } else {
-        newAccounts.add(acct);
-      }
-    }
-    ownerPermission.requiredAuth.accounts = newAccounts;
-    await updatePermission(ownerPermission);
-  }
-
   Future<String> generateInvoice(double amount) async {
     var auth = [ESR.ESRConstants.PlaceholderAuth];
 
@@ -515,8 +319,7 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
       ..authorization = auth
       ..data = data;
 
-    var args =
-        ESR.SigningRequestCreateArguments(action: action, chainId: chainId);
+    var args = ESR.SigningRequestCreateArguments(action: action, chainId: chainId);
 
     var request = await ESR.SigningRequestManager.create(args,
         options: ESR.defaultSigningRequestEncodingOptions(

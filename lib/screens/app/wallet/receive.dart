@@ -13,7 +13,7 @@ import 'package:seeds/models/Currencies.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/eos/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_datastore_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
