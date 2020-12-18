@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_toolbox/flutter_toolbox.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
@@ -9,7 +11,6 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/screens/app/guardians/my_guardian_users_list.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/seeds_button.dart';
 
 const MIN_GUARDIANS_COMPLETED = 3;
 
@@ -74,20 +75,22 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                 if (isGuardiansInitialized.data) {
                   return SizedBox.shrink();
                 } else {
-                  return MainButton(
-                    title: "Activate",
-                    key: activateGuardiansLoader,
-                    onPressed: () async {
-                      setState(() {
-                        activateGuardiansLoader.currentState.loading();
-                      });
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: MainButton(
+                      title: "Activate My Guardians",
+                      key: activateGuardiansLoader,
+                      onPressed: () {
+                        setState(() {
+                          activateGuardiansLoader.currentState.loading();
+                        });
 
-                      await initGuardians(service, accountName);
-
-                      setState(() {
-                        activateGuardiansLoader.currentState.done();
-                      });
-                    },
+                        GuardianServices()
+                            .initGuardians(service, accountName)
+                            .catchError((onError) => print("Error " + onError.toString()))
+                            .then((value) => onInitGuardianResponse(value));
+                      },
+                    ),
                   );
                 }
               } else {
@@ -124,7 +127,8 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                   removeGuardianLoader.currentState.loading();
                 });
 
-                await removeGuardian(EosService.of(context), SettingsNotifier.of(context).accountName, user.account);
+                await GuardianServices()
+                    .removeGuardian(EosService.of(context), SettingsNotifier.of(context).accountName, user.account);
 
                 setState(() {
                   removeGuardianLoader.currentState.done();
@@ -173,7 +177,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                     "Stop this Recovery",
                     style: TextStyle(color: Colors.blue),
                   ),
-                  icon: Icon(Icons.cancel_rounded, color: Colors.blue),
+                  icon: Icon(Icons.cancel_rounded, color: AppColors.blue),
                 ),
               ],
             ),
@@ -204,5 +208,20 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                 },
               )
             ]));
+  }
+
+  onInitGuardianResponse(value) {
+    // There was an error
+    if (value == null) {
+      print("onInitGuardianResponse " + null);
+      errorToast('Oops, Something went wrong');
+    } else {
+      print("onInitGuardianResponse " + value.toString());
+      successToast('Success, Guardians are now Active');
+    }
+
+    setState(() {
+      activateGuardiansLoader.currentState.done();
+    });
   }
 }
