@@ -213,7 +213,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   onInitGuardianResponse(value) {
     // There was an error
     if (value == null) {
-      print("onInitGuardianResponse " + null);
+      print("onInitGuardianResponse null");
       errorToast('Oops, Something went wrong');
     } else {
       print("onInitGuardianResponse " + value.toString());
