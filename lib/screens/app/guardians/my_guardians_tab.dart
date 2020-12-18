@@ -4,21 +4,32 @@ import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
+import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/screens/app/guardians/my_guardian_users_list.dart';
+import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/widgets/seeds_button.dart';
 
 const MIN_GUARDIANS_COMPLETED = 3;
 
-class MyGuardiansTab extends StatelessWidget {
+class MyGuardiansTab extends StatefulWidget {
   final List<Guardian> guardians;
   final List<MemberModel> allMembers;
 
   MyGuardiansTab(this.guardians, this.allMembers);
 
   @override
+  _MyGuardiansTabState createState() => _MyGuardiansTabState();
+}
+
+class _MyGuardiansTabState extends State<MyGuardiansTab> {
+  final savingLoader = GlobalKey<MainButtonState>();
+
+  @override
   Widget build(BuildContext context) {
-    var myGuardians = guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
-    var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
+    var myGuardians = widget.guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
+    var myMembers = widget.allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
     _onTileTapped(MemberModel user, Guardian guardian) {
       if (guardian.recoveryStartedDate != null) {
@@ -51,7 +62,27 @@ class MyGuardiansTab extends StatelessWidget {
             ),
           ),
         ));
+      } else {
+        items.add(StreamBuilder<bool>(
+            stream: FirebaseDatabaseService().getUser(SettingsNotifier.of(context).accountName),
+            builder: (context, isGuardiansInitialized) {
+              if (isGuardiansInitialized.hasData) {
+                if (isGuardiansInitialized.data) {
+                  return SizedBox.shrink();
+                } else {
+                  return SeedsButton(
+                    "Activate",
+                    onPressed: () {
+                      initGuardians(EosService.of(context), SettingsNotifier.of(context).accountName);
+                    },
+                  );
+                }
+              } else {
+                return SizedBox.shrink();
+              }
+            }));
       }
+
       items.add(Expanded(
           child: buildMyGuardiansListView(
               myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped)));
@@ -61,7 +92,7 @@ class MyGuardiansTab extends StatelessWidget {
   }
 
   void showGuardianOptionsDialog(BuildContext context, MemberModel user) {
-     showDialog(
+    showDialog(
         context: context,
         child: AlertDialog(
           content: Text("Guardian ${user.nickname}"),
@@ -72,11 +103,20 @@ class MyGuardiansTab extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            FlatButton(
-              child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
-              onPressed: () {
-                FirebaseDatabaseService().removeMyGuardian(
-                    currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+            MainButton(
+              title: 'Remove Guardian',
+              key: savingLoader,
+              onPressed: () async {
+                setState(() {
+                  savingLoader.currentState.loading();
+                });
+
+                await removeGuardian(EosService.of(context), SettingsNotifier.of(context).accountName, user.account);
+
+                setState(() {
+                  savingLoader.currentState.loading();
+                });
+
                 Navigator.pop(context);
               },
             )
@@ -145,8 +185,7 @@ class MyGuardiansTab extends StatelessWidget {
               FlatButton(
                 child: Text("Yes: Stop Key Recovery"),
                 onPressed: () {
-                  FirebaseDatabaseService()
-                      .stopRecoveryForUser(userId: SettingsNotifier.of(context).accountName);
+                  FirebaseDatabaseService().stopRecoveryForUser(userId: SettingsNotifier.of(context).accountName);
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },
