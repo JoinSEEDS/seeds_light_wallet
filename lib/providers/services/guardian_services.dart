@@ -9,7 +9,7 @@ initGuardians(EosService eosService, String userAccount) async {
 
   if (guardiansQuery.docs.length >= 3) {
     print("initGuardians guardiansQuery.docs.length IS >= 3");
-    var guardians = guardiansQuery.docs.map((e) => e[UID_KEY]).toList();
+    var guardians = guardiansQuery.docs.map((e) => e[UID_KEY].toString()).toList();
     var setPermissionResult = await eosService.setGuardianPermission();
 
     // setPermissionResult success

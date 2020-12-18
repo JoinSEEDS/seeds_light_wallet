@@ -24,7 +24,8 @@ class MyGuardiansTab extends StatefulWidget {
 }
 
 class _MyGuardiansTabState extends State<MyGuardiansTab> {
-  final savingLoader = GlobalKey<MainButtonState>();
+  final removeGuardianLoader = GlobalKey<MainButtonState>();
+  final activateGuardiansLoader = GlobalKey<MainButtonState>();
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +64,29 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
           ),
         ));
       } else {
+        var service = EosService.of(context);
+        var accountName = SettingsNotifier.of(context).accountName;
+
         items.add(StreamBuilder<bool>(
-            stream: FirebaseDatabaseService().getUser(SettingsNotifier.of(context).accountName),
+            stream: FirebaseDatabaseService().getUser(accountName),
             builder: (context, isGuardiansInitialized) {
               if (isGuardiansInitialized.hasData) {
                 if (isGuardiansInitialized.data) {
                   return SizedBox.shrink();
                 } else {
-                  return SeedsButton(
-                    "Activate",
-                    onPressed: () {
-                      initGuardians(EosService.of(context), SettingsNotifier.of(context).accountName);
+                  return MainButton(
+                    title: "Activate",
+                    key: activateGuardiansLoader,
+                    onPressed: () async {
+                      setState(() {
+                        activateGuardiansLoader.currentState.loading();
+                      });
+
+                      await initGuardians(service, accountName);
+
+                      setState(() {
+                        activateGuardiansLoader.currentState.done();
+                      });
                     },
                   );
                 }
@@ -105,16 +118,16 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
             ),
             MainButton(
               title: 'Remove Guardian',
-              key: savingLoader,
+              key: removeGuardianLoader,
               onPressed: () async {
                 setState(() {
-                  savingLoader.currentState.loading();
+                  removeGuardianLoader.currentState.loading();
                 });
 
                 await removeGuardian(EosService.of(context), SettingsNotifier.of(context).accountName, user.account);
 
                 setState(() {
-                  savingLoader.currentState.loading();
+                  removeGuardianLoader.currentState.done();
                 });
 
                 Navigator.pop(context);
