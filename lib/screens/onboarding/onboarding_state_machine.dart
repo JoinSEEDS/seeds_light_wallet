@@ -45,7 +45,7 @@ enum Events {
   recoveryStartFailed,
   foundValidRecovery,
   cancelRecoveryProcess,
-  claimRecoveredAccount
+  claimRecoveredAccount,
 }
 
 enum States {
@@ -65,7 +65,8 @@ enum States {
   startRecovery,
   continueRecovery,
   recoverAccount,
-  continueRecoveryProcess
+  continueRecoveryProcess,
+  canceledRecoveryProcess,
 }
 
 class OnboardingStateMachine {
@@ -85,6 +86,10 @@ class OnboardingStateMachine {
         _Transition(
           event: Events.foundNoLink,
           targetState: States.onboardingMethodChoice,
+        ),
+        _Transition(
+          event: Events.foundRecoveryFlag,
+          targetState: States.continueRecovery,
         ),
       ],
     ),
@@ -170,28 +175,28 @@ class OnboardingStateMachine {
         ),
         _Transition(
           event: Events.chosenRecoverAccount,
-          targetState: States.initRecoveryProcess,
+          targetState: States.startRecovery,
         ),
         _Transition(
           event: Events.foundRecoveryFlag,
-          targetState: States.checkRecoveryProcess,
+          targetState: States.continueRecovery,
         ),
       ],
     ),
-    States.initRecoveryProcess:
-        _State(name: States.initRecoveryProcess, transitions: [
-      _Transition(
-        event: Events.recoverCanceled,
-        targetState: States.onboardingMethodChoice,
-      ),
-      _Transition(
-        event: Events.recoverAccountRequested,
-        targetState: States.startRecovery,
-      ),
-    ]),
     States.startRecovery: _State(
-      name: States.recoverAccount,
+      name: States.startRecovery,
       transitions: [
+        _Transition(
+            event: Events.cancelRecoveryProcess,
+            targetState: States.onboardingMethodChoice),
+        _Transition(
+          event: Events.recoverCanceled,
+          targetState: States.onboardingMethodChoice,
+        ),
+        _Transition(
+          event: Events.recoverAccountRequested,
+          targetState: States.onboardingMethodChoice,
+        ),
         _Transition(
             event: Events.recoveryStartSuccess,
             targetState: States.onboardingMethodChoice),
@@ -209,12 +214,12 @@ class OnboardingStateMachine {
         ),
       ],
     ),
-    States.continueRecoveryProcess: _State(
-      name: States.continueRecoveryProcess,
+    States.continueRecovery: _State(
+      name: States.continueRecovery,
       transitions: [
         _Transition(
             event: Events.cancelRecoveryProcess,
-            targetState: States.onboardingMethodChoice),
+            targetState: States.canceledRecoveryProcess),
         _Transition(
             event: Events.claimRecoveredAccount,
             targetState: States.onboardingMethodChoice),

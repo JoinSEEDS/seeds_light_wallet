@@ -7,10 +7,12 @@ import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';
+import 'package:seeds/screens/onboarding/continue_recovery.dart';
 import 'package:seeds/screens/onboarding/create_account.dart';
 import 'package:seeds/screens/onboarding/create_account_account_name.dart';
 import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/onboarding_state_machine.dart';
+import 'package:seeds/screens/onboarding/request_recovery.dart';
 import 'package:seeds/screens/onboarding/show_onboarding_choice.dart';
 import 'package:seeds/utils/invites.dart';
 import 'package:seeds/widgets/notion_loader.dart';
@@ -61,6 +63,18 @@ class _JoinProcessState extends State<JoinProcess> {
         }
       });
 
+      if (transition["event"] == Events.claimRecoveredAccount) {
+        finishRecoveryProcess();
+      }
+
+      if (transition["event"] == Events.cancelRecoveryProcess) {
+        disableRecoveryMode();
+      }
+
+      if (transition["event"] == Events.recoverAccountRequested) {
+        enableRecoveryMode();
+      }
+
       if (transition["event"] == Events.foundInviteLink) {
         validateInvite(transition["data"]["inviteMnemonic"]);
       }
@@ -87,7 +101,37 @@ class _JoinProcessState extends State<JoinProcess> {
       }
     });
     listenInviteLink();
+    checkRecoveryMode();
     super.initState();
+  }
+
+  void finishRecoveryProcess() {
+    SettingsNotifier.of(context).finishRecoveryProcess();
+  }
+
+  void enableRecoveryMode() {
+    final recoveryPrivateKey = EOSPrivateKey.fromRandom();
+    final recoveryPublicKey = recoveryPrivateKey.toEOSPublicKey();
+
+    SettingsNotifier.of(context).enableRecoveryMode(
+      accountName: accountName,
+      privateKey: recoveryPrivateKey.toString(),
+    );
+  }
+
+  void disableRecoveryMode() {
+    SettingsNotifier.of(context).cancelRecoveryProcess();
+  }
+
+  void checkRecoveryMode() async {
+    await Future.delayed(Duration(milliseconds: 500), () {});
+
+    if (SettingsNotifier.of(context).inRecoveryMode == true) {
+      machine.transition(Events.foundRecoveryFlag, data: {
+        "accountName": SettingsNotifier.of(context).accountName,
+        "privateKey": SettingsNotifier.of(context).privateKey,
+      });
+    }
   }
 
   void secureAccountWithPasscode() async {
@@ -168,7 +212,9 @@ class _JoinProcessState extends State<JoinProcess> {
     if (result != null) {
       machine.transition(Events.foundInviteLink, data: result);
     } else {
-      machine.transition(Events.foundNoLink);
+      if (machine.currentState == States.checkingInviteLink) {
+        machine.transition(Events.foundNoLink);
+      }
 
       Provider.of<LinksService>(context, listen: false)
           .onDynamicLink((queryParams) {
@@ -183,21 +229,25 @@ class _JoinProcessState extends State<JoinProcess> {
     Function backCallback;
 
     switch (machine.currentState) {
-      case States.initRecoveryProcess:
-        currentScreen = InitRecovery(
-          onSubmit: (accountName) =>
-              machine.transition(Events.recoverAccountRequested),
-        );
-        break;
       case States.startRecovery:
-        currentScreen = NotionLoader(
-          notion: "Starting recovery process...".i18n,
+        currentScreen = RequestRecovery(
+          onRequestRecovery: (String accountName) =>
+              machine.transition(Events.recoverAccountRequested, data: {
+            "accountName": accountName,
+          }),
         );
+        backCallback = () => machine.transition(Events.cancelRecoveryProcess);
+        break;
+      case States.canceledRecoveryProcess:
+        currentScreen = NotionLoader(notion: "Cancel recovery process...");
         break;
       case States.continueRecovery:
-        currentScreen = NotionLoader(
-          notion: "Continue recovery process...".i18n,
+        currentScreen = ContinueRecovery(
+          accountName: accountName,
+          privateKey: privateKey,
+          onClaimed: () => machine.transition(Events.claimRecoveredAccount),
         );
+        backCallback = () => machine.transition(Events.cancelRecoveryProcess);
         break;
       case States.recoverAccount:
         currentScreen = NotionLoader(

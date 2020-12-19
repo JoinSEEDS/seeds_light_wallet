@@ -56,6 +56,58 @@ class InviteModel {
   int get hashCode => super.hashCode;
 }
 
+class UserRecoversModel {
+  final String account;
+  final List<String> guardians;
+  final String publicKey;
+  final int completeTimestamp;
+  final bool exists;
+
+  UserRecoversModel(
+      {this.account,
+      this.guardians,
+      this.publicKey,
+      this.completeTimestamp,
+      this.exists});
+
+  factory UserRecoversModel.fromTableRows(List<dynamic> rows) {
+    if (rows.isNotEmpty && rows[0]["account"].isNotEmpty) {
+      return UserRecoversModel(
+        exists: true,
+        account: rows[0]["account"],
+        guardians: rows[0]["guardians"],
+        publicKey: rows[0]["public key"],
+        completeTimestamp: rows[0]["complete timestamp"],
+      );
+    } else {
+      return UserRecoversModel(exists: false);
+    }
+  }
+}
+
+class UserGuardiansModel {
+  final String account;
+  final List<String> guardians;
+  final int timeDelaySec;
+  final bool exists;
+
+  UserGuardiansModel(
+      {this.account, this.guardians, this.timeDelaySec, this.exists});
+
+  factory UserGuardiansModel.fromTableRows(List<dynamic> rows) {
+    if (rows.isNotEmpty && rows[0]["account"].isNotEmpty) {
+      return UserGuardiansModel(
+        exists: true,
+        account: rows[0]["account"],
+        guardians: rows[0]["guardians"] as List,
+        timeDelaySec: rows[0]["time_delay_sec"],
+      );
+    } else {
+      return UserGuardiansModel(exists: false);
+    }
+  }
+}
+
 class MemberModel {
   final String account;
   final String nickname;
@@ -161,7 +213,7 @@ class FiatRateModel {
   }
 
   FiatRateModel(this.ratesPerUSD, {this.error = false});
-  
+
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
       return FiatRateModel(new Map<String, double>.from(json["rates"]));
@@ -181,8 +233,8 @@ class FiatRateModel {
     assert(rate != null);
     return rate > 0 ? currencyValue / rate : 0;
   }
-
 }
+
 class RateModel {
   final double seedsPerUSD;
   final bool error;
@@ -208,11 +260,19 @@ class RateModel {
   }
 
   double toUSD(double seedsAmount) {
-    return seedsPerUSD == null ? 0 : seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
+    return seedsPerUSD == null
+        ? 0
+        : seedsPerUSD > 0
+            ? seedsAmount / seedsPerUSD
+            : 0;
   }
 
   double toSeeds(double usdAmount) {
-    return seedsPerUSD == null ? 0 : seedsPerUSD > 0 ? usdAmount * seedsPerUSD : 0;
+    return seedsPerUSD == null
+        ? 0
+        : seedsPerUSD > 0
+            ? usdAmount * seedsPerUSD
+            : 0;
   }
 
   @override
@@ -378,11 +438,7 @@ class ProfileModel {
   }
 }
 
-enum ProposalType {
-  alliance, 
-  campaign, 
-  hypha
-}
+enum ProposalType { alliance, campaign, hypha }
 
 class ProposalModel {
   final int id;
@@ -404,7 +460,11 @@ class ProposalModel {
   final String fund;
   final int creationDate;
   ProposalType get type {
-    return fund == "allies.seeds" ? ProposalType.alliance : fund == "hypha.seeds" ? ProposalType.hypha : ProposalType.campaign;
+    return fund == "allies.seeds"
+        ? ProposalType.alliance
+        : fund == "hypha.seeds"
+            ? ProposalType.hypha
+            : ProposalType.campaign;
   }
 
   ProposalModel({

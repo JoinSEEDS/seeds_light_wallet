@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
+import 'package:seeds/widgets/account_name_field.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/i18n/create_account.i18n.dart';
 
 class CreateAccountAccountName extends StatefulWidget {
@@ -75,7 +75,7 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
               _accountNameController.text = availableName;
             }
             var currentText = _accountNameController.text;
-            var errorString = accountGeneratorService.validator(currentText);
+            var errorString = validator(currentText);
             var valid = errorString == null;
             var definitelyAvailableOnChain =
                 !isLoading && availableName == currentText;
@@ -100,61 +100,25 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Stack(children: [
-                      MainTextField(
-                        labelText: 'SEEDS Username'.i18n,
-                        autocorrect: false,
-                        textStyle: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "worksans"),
-                        controller: _accountNameController,
-                        maxLength: 12,
-                        inputFormatters: [LowerCaseTextFormatter(),],
-                        focusNode: accountNameFocus,
-                        validator: accountGeneratorService.validator,
-                        counterStyle: TextStyle(
-                            color: valid ? Colors.green : Colors.black45,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "worksans"),
-                        onChanged: (value) {
-                          if (_accountName != value) {
-                            setState(() {
-                              _accountName = value;
-                            });
-                          }
-                        },
-                        errorText: errorString,
-                        suffixIcon: isLoading
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                      width: 24,
-                                      height: 24,
-                                      child: CircularProgressIndicator()),
-                                ],
-                              )
-                            : definitelyAvailableOnChain
-                                ? Icon(
-                                    Icons.check_circle,
-                                    color: Colors.greenAccent,
-                                    size: 24.0,
-                                  )
-                                : accountNameIsTaken
-                                    ? Icon(
-                                        Icons.remove_circle,
-                                        color: Colors.redAccent,
-                                        size: 24.0,
-                                      )
-                                    : Container(
-                                        width: 1,
-                                        color: Colors.transparent,
-                                      ),
-                      ),
-                    ]),
+                    AccountNameField(
+                      status: isLoading
+                          ? AccountNameStatus.loading
+                          : definitelyAvailableOnChain
+                              ? AccountNameStatus.acceptable
+                              : accountNameIsTaken
+                                  ? AccountNameStatus.unacceptable
+                                  : AccountNameStatus.initial,
+                      focusNode: accountNameFocus,
+                      controller: _accountNameController,
+                      onChanged: (value) {
+                        if (_accountName != value) {
+                          setState(() {
+                            _accountName = value;
+                          });
+                        }
+                      },
+                      errorText: errorString,
+                    ),
                     //buildAlternativesBox(context, accountNameIsTaken, currentText),
                     Padding(
                         padding: const EdgeInsets.only(top: 12.0),
@@ -256,16 +220,6 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class LowerCaseTextFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    return TextEditingValue(
-      text: newValue.text?.toLowerCase(),
-      selection: newValue.selection,
     );
   }
 }

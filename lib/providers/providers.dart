@@ -49,6 +49,7 @@ final providers = [
               privateKey: settings.privateKey,
               passcode: settings.passcode,
               passcodeActive: settings.passcodeActive,
+              inRecoveryMode: settings.inRecoveryMode,
             );
         } else {
           return auth;

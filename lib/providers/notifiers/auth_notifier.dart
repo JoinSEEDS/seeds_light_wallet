@@ -7,6 +7,7 @@ enum AuthStatus {
   emptyPasscode,
   locked,
   unlocked,
+  recoveryMode,
 }
 
 class AuthNotifier extends ChangeNotifier {
@@ -15,13 +16,20 @@ class AuthNotifier extends ChangeNotifier {
   String _accountName;
   String _privateKey;
   String _passcode;
+  bool _inRecoveryMode;
   bool _passcodeActive;
   bool _locked = true;
 
   static AuthNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<AuthNotifier>(context, listen: listen);
 
-  void update({accountName, privateKey, passcode, bool passcodeActive}) async {
+  void update({
+    accountName,
+    privateKey,
+    passcode,
+    bool passcodeActive,
+    bool inRecoveryMode,
+  }) async {
     if (accountName != _accountName ||
         privateKey != _privateKey ||
         passcode != passcode) {
@@ -31,6 +39,7 @@ class AuthNotifier extends ChangeNotifier {
     _privateKey = privateKey;
     _passcode = passcode;
     _passcodeActive = passcodeActive;
+    _inRecoveryMode = inRecoveryMode;
 
     updateStatus();
   }
@@ -46,12 +55,16 @@ class AuthNotifier extends ChangeNotifier {
       status = AuthStatus.emptyPasscode;
     }
 
-    if(status == AuthStatus.emptyPasscode && !_passcodeActive) {
+    if (status == AuthStatus.emptyPasscode && !_passcodeActive) {
       status = AuthStatus.locked;
     }
 
     if (_accountName == null || _privateKey == null) {
       status = AuthStatus.emptyAccount;
+    }
+
+    if (_inRecoveryMode == true) {
+      status = AuthStatus.recoveryMode;
     }
 
     notifyListeners();
@@ -75,5 +88,4 @@ class AuthNotifier extends ChangeNotifier {
   void disablePasscode() {
     _passcodeActive = false;
   }
-
 }

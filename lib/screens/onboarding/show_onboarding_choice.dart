@@ -22,7 +22,7 @@ class ShowOnboardingChoice extends StatelessWidget {
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 15),
           ),
         ),
         Icon(Icons.arrow_downward, color: AppColors.blue, size: 25),
@@ -30,6 +30,7 @@ class ShowOnboardingChoice extends StatelessWidget {
           margin: EdgeInsets.only(left: 33, right: 33, top: 10),
           title: title,
           onPressed: onPressed,
+          height: 40,
         ),
       ],
     );
@@ -57,13 +58,13 @@ class ShowOnboardingChoice extends StatelessWidget {
                     ..onTap = () => safeLaunch(
                         'https://www.joinseeds.com/letmein?client=seedslight'),
                 ),
-                TextSpan(
-                  text: "\n\n" + "Membership based on Web of Trust".i18n,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                  ),
-                ),
+                // TextSpan(
+                //   text: "\n\n" + "Membership based on Web of Trust".i18n,
+                //   style: TextStyle(
+                //     color: Colors.black,
+                //     fontSize: 14,
+                //   ),
+                // ),
                 TextSpan(
                   text: '\n\n' +
                       "By signing up, you agree to our terms and privacy policy"
@@ -123,6 +124,14 @@ class ShowOnboardingChoice extends StatelessWidget {
           height: 10,
         ),
         buildGroup(
+          'If you forget your private key\nclick here'.i18n,
+          'Recover account'.i18n,
+          onRecover,
+        ),
+        Container(
+          height: 10,
+        ),
+        buildGroup(
           'If you have an invite\nclick here'.i18n,
           "Claim invite code".i18n,
           onInvite,
@@ -130,12 +139,7 @@ class ShowOnboardingChoice extends StatelessWidget {
         Container(
           height: 10,
         ),
-        buildGroup(
-          'If you forget your private key\nclick here'.i18n,
-          'Recover account'.i18n,
-          onRecover,
-        ),
-        buildBottom()
+        // buildBottom()
       ],
     );
   }
