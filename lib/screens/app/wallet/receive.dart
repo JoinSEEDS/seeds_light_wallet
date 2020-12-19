@@ -19,7 +19,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
-import 'package:seeds/utils/userInputNumberFormatter.dart';
+import 'package:seeds/utils/user_input_number_formatter.dart';
 
 class Receive extends StatefulWidget {
   Receive({Key key}) : super(key: key);
