@@ -370,6 +370,13 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
     final ownerPermission =
         currentPermissions.firstWhere((item) => item.permName == "owner");
 
+    for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts) {
+      if (acct["permission"]["actor"] == "guard.seeds") {
+        print("permission already set, doing nothing");
+        return;
+      } 
+    }
+
     ownerPermission.requiredAuth.accounts.add({
       "weight": ownerPermission.requiredAuth.threshold,
       "permission": {"actor": "guard.seeds", "permission": "eosio.code"}
@@ -409,7 +416,7 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
   /// Will fail when it's already set up - in that case, call cancelGuardians first.
   /// 
   Future<dynamic> initGuardians(List<String> guardians) async {
-    print("[eos] init guardians");
+    print("[eos] init guardians: " + guardians.toString());
 
     if (mockEnabled) return HttpMockResponse.transactionResult;
 
