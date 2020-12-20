@@ -11,6 +11,7 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
+import 'package:seeds/utils/user_input_number_formatter.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
@@ -252,6 +253,7 @@ class _AmountFieldState extends State<AmountField> {
                 TextInputType.numberWithOptions(signed: false, decimal: true),
             controller: controller,
             autofocus: true,
+            inputFormatters: [UserInputNumberFormatter(),],
             validator: (val) {
               String error;
               double availableBalance =
