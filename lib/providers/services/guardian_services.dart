@@ -18,19 +18,10 @@ class GuardianServices {
       var guardians = guardiansQuery.docs.map((e) => e[UID_KEY].toString()).toList();
       print(guardians[0].toString());
 
-      var setPermissionResult = await eosService.setGuardianPermission();
-
-      // setPermissionResult success
-      if (_isTransactionSuccess(setPermissionResult)) {
-        print("setPermissionResult success");
-        var initResult = await eosService.initGuardians(guardians);
-        // initResult success
-        if (_isTransactionSuccess(initResult)) {
-          print("initResult success");
-          FirebaseDatabaseService().setGuardiansInitialized(userAccount);
-          return initResult;
-        }
-      }
+      print("guardiansQuery.docs.length >= 3 is true");
+      return await eosService.setGuardianPermission().then((value) => eosService
+          .initGuardians(guardians)
+          .then((value) => FirebaseDatabaseService().setGuardiansInitialized(userAccount)));
     }
   }
 

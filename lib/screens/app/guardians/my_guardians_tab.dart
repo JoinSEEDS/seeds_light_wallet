@@ -87,8 +87,8 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
 
                         GuardianServices()
                             .initGuardians(service, accountName)
-                            .catchError((onError) => print("Error " + onError.toString()))
-                            .then((value) => onInitGuardianResponse(value));
+                            .then((value) => onInitGuardianResponse(value))
+                            .catchError((onError) => onInitGuardianError(onError));
                       },
                     ),
                   );
@@ -213,14 +213,17 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   }
 
   onInitGuardianResponse(value) {
-    // There was an error
-    if (value == null) {
-      print("onInitGuardianResponse null");
-      errorToast('Oops, Something went wrong');
-    } else {
-      print("onInitGuardianResponse " + value.toString());
-      successToast('Success, Guardians are now Active');
-    }
+    print("onInitGuardianResponse " + value.toString());
+    successToast('Success, Guardians are now Active');
+
+    setState(() {
+      activateGuardiansLoader.currentState.done();
+    });
+  }
+
+  onInitGuardianError(onError) {
+    print("Error " + onError.toString());
+    errorToast('Oops, Something went wrong');
 
     setState(() {
       activateGuardiansLoader.currentState.done();
