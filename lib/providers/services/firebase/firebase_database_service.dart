@@ -368,7 +368,7 @@ class FirebaseDatabaseService {
     return _usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
   }
 
-  Stream<bool> getUser(String userAccount) {
+  Stream<bool> isGuardiansInitialized(String userAccount) {
     return _usersCollection
         .doc(userAccount)
         .snapshots()

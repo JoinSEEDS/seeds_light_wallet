@@ -69,7 +69,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
         var accountName = SettingsNotifier.of(context).accountName;
 
         items.add(StreamBuilder<bool>(
-            stream: FirebaseDatabaseService().getUser(accountName),
+            stream: FirebaseDatabaseService().isGuardiansInitialized(accountName),
             builder: (context, isGuardiansInitialized) {
               if (isGuardiansInitialized.hasData) {
                 if (isGuardiansInitialized.data) {
@@ -127,8 +127,10 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                   removeGuardianLoader.currentState.loading();
                 });
 
-                await GuardianServices()
-                    .removeGuardian(EosService.of(context), SettingsNotifier.of(context).accountName, user.account);
+                await FirebaseDatabaseService().removeMyGuardian(currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+
+                // GuardianServices()
+                //     .removeGuardian(EosService.of(context), SettingsNotifier.of(context).accountName, user.account);
 
                 setState(() {
                   removeGuardianLoader.currentState.done();
