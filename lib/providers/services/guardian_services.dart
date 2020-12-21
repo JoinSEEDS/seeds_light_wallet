@@ -28,17 +28,17 @@ class GuardianServices {
   /// User wants to remove one of his guardians.
   Future removeGuardian(EosService eosService, String userAccount, String friendId) async {
     print("removeGuardian started");
-    return eosService.cancelGuardians().then((value) => onCancelGuardiansSuccess(eosService, userAccount, friendId));
+    return eosService.cancelGuardians().then((value) => _onCancelGuardiansSuccess(eosService, userAccount, friendId));
   }
 
-  onCancelGuardiansSuccess(EosService eosService, String userAccount, String friendId) async {
+  _onCancelGuardiansSuccess(EosService eosService, String userAccount, String friendId) async {
     QuerySnapshot guardiansQuery = await FirebaseDatabaseService().getMyGuardians(userAccount).first;
     print("cancelResult success");
 
     if (guardiansQuery.docs.length > 3) {
       print("guardiansQuery.docs.length IS > 3");
       var guardians = guardiansQuery.docs.map((e) => e[UID_KEY]).toList();
-      return await eosService.initGuardians(guardians).then((value) => onInitGuardiansSuccess(userAccount, friendId));
+      return await eosService.initGuardians(guardians).then((value) => _onInitGuardiansSuccess(userAccount, friendId));
     } else {
       print("guardiansQuery.docs.length IS NOT > 3");
       // Case where user does not have enough guardians
@@ -47,7 +47,7 @@ class GuardianServices {
     }
   }
 
-  onInitGuardiansSuccess(String userAccount, String friendId) {
+  _onInitGuardiansSuccess(String userAccount, String friendId) {
     print("initResult success");
     FirebaseDatabaseService().removeMyGuardian(currentUserId: userAccount, friendId: friendId);
     FirebaseDatabaseService().setGuardiansInitializedUpdated(userAccount);
