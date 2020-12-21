@@ -1,24 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_toolbox/flutter_toolbox.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
+import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/screens/app/guardians/my_guardian_users_list.dart';
+import 'package:seeds/widgets/main_button.dart';
 
 const MIN_GUARDIANS_COMPLETED = 3;
 
-class MyGuardiansTab extends StatelessWidget {
+class MyGuardiansTab extends StatefulWidget {
   final List<Guardian> guardians;
   final List<MemberModel> allMembers;
 
   MyGuardiansTab(this.guardians, this.allMembers);
 
   @override
+  _MyGuardiansTabState createState() => _MyGuardiansTabState();
+}
+
+class _MyGuardiansTabState extends State<MyGuardiansTab> {
+  final removeGuardianLoader = GlobalKey<MainButtonState>();
+  final activateGuardiansLoader = GlobalKey<MainButtonState>();
+
+  @override
   Widget build(BuildContext context) {
-    var myGuardians = guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
-    var myMembers = allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
+    var myGuardians = widget.guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
+    var myMembers = widget.allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
     _onTileTapped(MemberModel user, Guardian guardian) {
       if (guardian.recoveryStartedDate != null) {
@@ -51,7 +64,41 @@ class MyGuardiansTab extends StatelessWidget {
             ),
           ),
         ));
+      } else {
+        var service = EosService.of(context);
+        var accountName = SettingsNotifier.of(context).accountName;
+
+        items.add(StreamBuilder<bool>(
+            stream: FirebaseDatabaseService().getUser(accountName),
+            builder: (context, isGuardiansInitialized) {
+              if (isGuardiansInitialized.hasData) {
+                if (isGuardiansInitialized.data) {
+                  return SizedBox.shrink();
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: MainButton(
+                      title: "Activate My Guardians",
+                      key: activateGuardiansLoader,
+                      onPressed: () {
+                        setState(() {
+                          activateGuardiansLoader.currentState.loading();
+                        });
+
+                        GuardianServices()
+                            .initGuardians(service, accountName)
+                            .catchError((onError) => print("Error " + onError.toString()))
+                            .then((value) => onInitGuardianResponse(value));
+                      },
+                    ),
+                  );
+                }
+              } else {
+                return SizedBox.shrink();
+              }
+            }));
       }
+
       items.add(Expanded(
           child: buildMyGuardiansListView(
               myMembers, SettingsNotifier.of(context).accountName, myGuardians, _onTileTapped)));
@@ -61,7 +108,7 @@ class MyGuardiansTab extends StatelessWidget {
   }
 
   void showGuardianOptionsDialog(BuildContext context, MemberModel user) {
-     showDialog(
+    showDialog(
         context: context,
         child: AlertDialog(
           content: Text("Guardian ${user.nickname}"),
@@ -72,11 +119,21 @@ class MyGuardiansTab extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            FlatButton(
-              child: const Text('Remove Guardian', style: TextStyle(color: Colors.red)),
-              onPressed: () {
-                FirebaseDatabaseService().removeMyGuardian(
-                    currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+            MainButton(
+              title: 'Remove Guardian',
+              key: removeGuardianLoader,
+              onPressed: () async {
+                setState(() {
+                  removeGuardianLoader.currentState.loading();
+                });
+
+                await GuardianServices()
+                    .removeGuardian(EosService.of(context), SettingsNotifier.of(context).accountName, user.account);
+
+                setState(() {
+                  removeGuardianLoader.currentState.done();
+                });
+
                 Navigator.pop(context);
               },
             )
@@ -120,7 +177,7 @@ class MyGuardiansTab extends StatelessWidget {
                     "Stop this Recovery",
                     style: TextStyle(color: Colors.blue),
                   ),
-                  icon: Icon(Icons.cancel_rounded, color: Colors.blue),
+                  icon: Icon(Icons.cancel_rounded, color: AppColors.blue),
                 ),
               ],
             ),
@@ -145,12 +202,26 @@ class MyGuardiansTab extends StatelessWidget {
               FlatButton(
                 child: Text("Yes: Stop Key Recovery"),
                 onPressed: () {
-                  FirebaseDatabaseService()
-                      .stopRecoveryForUser(userId: SettingsNotifier.of(context).accountName);
+                  FirebaseDatabaseService().stopRecoveryForUser(userId: SettingsNotifier.of(context).accountName);
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },
               )
             ]));
+  }
+
+  onInitGuardianResponse(value) {
+    // There was an error
+    if (value == null) {
+      print("onInitGuardianResponse null");
+      errorToast('Oops, Something went wrong');
+    } else {
+      print("onInitGuardianResponse " + value.toString());
+      successToast('Success, Guardians are now Active');
+    }
+
+    setState(() {
+      activateGuardiansLoader.currentState.done();
+    });
   }
 }

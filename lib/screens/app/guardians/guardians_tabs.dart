@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -22,6 +23,7 @@ class GuardianTabs extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data.size < _MAX_GUARDIANS_ALLOWED) {
                   return FloatingActionButton.extended(
+                    backgroundColor: AppColors.blue,
                     label: Text("Add Guardians"),
                     onPressed: () {
                       NavigationService.of(context).navigateTo(Routes.selectGuardians);
