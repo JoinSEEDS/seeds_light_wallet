@@ -10,6 +10,7 @@ import 'package:path/path.dart' as pathUtils;
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
+import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
@@ -24,7 +25,6 @@ import 'package:seeds/widgets/main_text_field.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:uuid/uuid.dart';
-import 'package:seeds/i18n/profile.i18n.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -100,15 +100,11 @@ class _ProfileState extends State<Profile> {
                                         fit: BoxFit.cover,
                                         errorWidget: (context, url, error) {
                                           return Container(
-                                            color: AppColors.getColorByString(
-                                                model?.profile?.nickname ?? ''),
+                                            color: AppColors.getColorByString(model?.profile?.nickname ?? ''),
                                             child: Center(
                                               child: Text(
-                                                (model?.profile?.nickname !=
-                                                        null)
-                                                    ? model?.profile?.nickname
-                                                        ?.substring(0, 2)
-                                                        ?.toUpperCase()
+                                                (model?.profile?.nickname != null)
+                                                    ? model?.profile?.nickname?.substring(0, 2)?.toUpperCase()
                                                     : '?',
                                                 style: TextStyle(
                                                   color: Colors.white,
@@ -138,8 +134,7 @@ class _ProfileState extends State<Profile> {
                                 size: 16.0,
                                 color: Colors.black,
                               ),
-                              onPressed: () =>
-                                  _editProfilePicBottomSheet(context),
+                              onPressed: () => _editProfilePicBottomSheet(context),
                             ),
                           ),
                         )
@@ -174,8 +169,7 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               Padding(
-                  padding:
-                      const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0),
+                  padding: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0),
                   child: Form(
                     key: _formKey,
                     child: MainTextField(
@@ -192,14 +186,12 @@ class _ProfileState extends State<Profile> {
                         }),
                   )),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0),
+                padding: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0),
                 child: MainButton(
                   key: savingLoader,
                   title: 'Save'.i18n,
                   onPressed: () => {
-                    if (_formKey.currentState.validate())
-                      {_saveProfile(model.profile)}
+                    if (_formKey.currentState.validate()) {_saveProfile(model.profile)}
                   },
                 ),
               ),
@@ -210,8 +202,7 @@ class _ProfileState extends State<Profile> {
                   child: FlatButton(
                     color: Colors.white,
                     child: Text(
-                      'Selected Currency:'.i18n +
-                          settingsNotifier.selectedFiatCurrency,
+                      'Selected Currency:'.i18n + settingsNotifier.selectedFiatCurrency,
                       style: TextStyle(color: Colors.blue),
                     ),
                     onPressed: _chooseCurrencyBottomSheet,
@@ -224,8 +215,7 @@ class _ProfileState extends State<Profile> {
                   'Terms & Conditions'.i18n,
                   style: TextStyle(color: Colors.blue),
                 ),
-                onPressed: () =>
-                    UrlLauncher.launch(Config.termsAndConditionsUrl),
+                onPressed: () => UrlLauncher.launch(Config.termsAndConditionsUrl),
               ),
               FlatButton(
                 color: Colors.white,
@@ -241,8 +231,7 @@ class _ProfileState extends State<Profile> {
                   'Export private key'.i18n,
                   style: TextStyle(color: Colors.red),
                 ),
-                onPressed: () =>
-                    Share.share(SettingsNotifier.of(context).privateKey),
+                onPressed: () => Share.share(SettingsNotifier.of(context).privateKey),
               ),
               FlatButton(
                 color: Colors.white,
@@ -250,8 +239,7 @@ class _ProfileState extends State<Profile> {
                   'Logout'.i18n,
                   style: TextStyle(color: Colors.red),
                 ),
-                onPressed: () =>
-                    NavigationService.of(context).navigateTo(Routes.logout),
+                onPressed: () => NavigationService.of(context).navigateTo(Routes.logout),
               )
             ],
           ),
@@ -272,8 +260,7 @@ class _ProfileState extends State<Profile> {
             itemBuilder: (ctx, index) => ListTile(
               title: Text(currencies[index]),
               onTap: () {
-                SettingsNotifier.of(context)
-                    .saveSelectedFiatCurrency(currencies[index]);
+                SettingsNotifier.of(context).saveSelectedFiatCurrency(currencies[index]);
                 Navigator.of(context).pop();
               },
             ),
@@ -422,19 +409,16 @@ class _ProfileState extends State<Profile> {
 
   _uploadFile(ProfileModel profile) async {
     String extensionName = pathUtils.extension(_profileImage.path);
-    String path =
-        "ProfileImage/" + profile.account + '/' + Uuid().v4() + extensionName;
+    String path = "ProfileImage/" + profile.account + '/' + Uuid().v4() + extensionName;
     Reference reference = FirebaseStorage.instance.ref().child(path);
-    String fileType =
-        extensionName.isNotEmpty ? extensionName.substring(1) : '*';
-    await reference.putFile(
-        _profileImage, SettableMetadata(contentType: "image/$fileType"));
+    String fileType = extensionName.isNotEmpty ? extensionName.substring(1) : '*';
+    await reference.putFile(_profileImage, SettableMetadata(contentType: "image/$fileType"));
     var url = await reference.getDownloadURL();
     return url;
   }
 
   Widget _guardiansView() {
-    if (true) { //FirebaseRemoteConfigService().featureFlagGuardiansEnabled
+    if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
       return Padding(
         padding: const EdgeInsets.only(top: 50.0),
         child: FlatButton(
@@ -444,15 +428,14 @@ class _ProfileState extends State<Profile> {
             style: TextStyle(color: Colors.blue),
           ),
           onPressed: () async {
-            QuerySnapshot guardians = await FirebaseDatabaseService()
-                .getGuardiansCount(SettingsNotifier.of(context).accountName);
+            QuerySnapshot guardians =
+                await FirebaseDatabaseService().getGuardiansCount(SettingsNotifier.of(context).accountName);
 
             //User has Already seen guardians feature or has been invited to be a guardian
             if (guardians.size > 0) {
               NavigationService.of(context).navigateTo(Routes.guardianTabs);
             } else {
-              NavigationService.of(context)
-                  .navigateTo(Routes.guardianInstructions);
+              NavigationService.of(context).navigateTo(Routes.guardianInstructions);
             }
           },
         ),
