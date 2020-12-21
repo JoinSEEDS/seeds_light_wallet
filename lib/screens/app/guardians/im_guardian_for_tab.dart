@@ -49,7 +49,7 @@ class ImGuardianForTab extends StatelessWidget {
                 user: e,
                 currentUserId: SettingsNotifier.of(context).accountName,
                 guardian: myGuardians.firstWhere((element) => element.uid == e.account),
-                tileOnTap: _onTileTapped))
+                tileOnTap: (){}))
             .toList(),
       );
     }
