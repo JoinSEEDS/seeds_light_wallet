@@ -26,35 +26,30 @@ class GuardianServices {
   }
 
   /// User wants to remove one of his guardians.
-  removeGuardian(EosService eosService, String userAccount, String friendId) async {
+  Future removeGuardian(EosService eosService, String userAccount, String friendId) async {
     print("removeGuardian started");
+    return eosService.cancelGuardians().then((value) => onCancelGuardiansSuccess(eosService, userAccount, friendId));
+  }
+
+  onCancelGuardiansSuccess(EosService eosService, String userAccount, String friendId) async {
     QuerySnapshot guardiansQuery = await FirebaseDatabaseService().getMyGuardians(userAccount).first;
-    var cancelResult = await eosService.cancelGuardians();
+    print("cancelResult success");
 
-    // Cancel success
-    if (_isTransactionSuccess(cancelResult)) {
-      print("cancelResult success");
-      if (guardiansQuery.docs.length > 3) {
-        print("guardiansQuery.docs.length IS > 3");
-        var guardians = guardiansQuery.docs.map((e) => e[UID_KEY]).toList();
-        var initResult = await eosService.initGuardians(guardians);
-
-        // Init success
-        if (_isTransactionSuccess(initResult)) {
-          print("initResult success");
-          FirebaseDatabaseService().removeMyGuardian(currentUserId: userAccount, friendId: friendId);
-          FirebaseDatabaseService().setGuardiansInitializedUpdated(userAccount);
-        }
-      } else {
-        print("guardiansQuery.docs.length IS NOT > 3");
-        // Case where user does not have enough guardians
-        FirebaseDatabaseService().removeMyGuardian(currentUserId: userAccount, friendId: friendId);
-        FirebaseDatabaseService().removeGuardiansInitialized(userAccount);
-      }
+    if (guardiansQuery.docs.length > 3) {
+      print("guardiansQuery.docs.length IS > 3");
+      var guardians = guardiansQuery.docs.map((e) => e[UID_KEY]).toList();
+      return await eosService.initGuardians(guardians).then((value) => onInitGuardiansSuccess(userAccount, friendId));
+    } else {
+      print("guardiansQuery.docs.length IS NOT > 3");
+      // Case where user does not have enough guardians
+      FirebaseDatabaseService().removeMyGuardian(currentUserId: userAccount, friendId: friendId);
+      return await FirebaseDatabaseService().removeGuardiansInitialized(userAccount);
     }
   }
 
-  _isTransactionSuccess(dynamic result) {
-    return result != null && result["transaction_id"] != null;
+  onInitGuardiansSuccess(String userAccount, String friendId) {
+    print("initResult success");
+    FirebaseDatabaseService().removeMyGuardian(currentUserId: userAccount, friendId: friendId);
+    FirebaseDatabaseService().setGuardiansInitializedUpdated(userAccount);
   }
 }

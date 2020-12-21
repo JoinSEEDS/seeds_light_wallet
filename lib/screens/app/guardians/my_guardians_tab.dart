@@ -33,12 +33,15 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     var myGuardians = widget.guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
     var myMembers = widget.allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
+    var service = EosService.of(context);
+    var accountName = SettingsNotifier.of(context).accountName;
+
     _onTileTapped(MemberModel user, Guardian guardian) {
       if (guardian.recoveryStartedDate != null) {
         showRecoveryStartedBottomSheet(context, user);
       } else {
         if (guardian.status == GuardianStatus.alreadyGuardian) {
-          showGuardianOptionsDialog(context, user);
+          showGuardianOptionsDialog(service, user, accountName);
         }
       }
     }
@@ -65,9 +68,6 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
           ),
         ));
       } else {
-        var service = EosService.of(context);
-        var accountName = SettingsNotifier.of(context).accountName;
-
         items.add(StreamBuilder<bool>(
             stream: FirebaseDatabaseService().isGuardiansInitialized(accountName),
             builder: (context, isGuardiansInitialized) {
@@ -107,7 +107,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     }
   }
 
-  void showGuardianOptionsDialog(BuildContext context, MemberModel user) {
+  void showGuardianOptionsDialog(EosService service, MemberModel user, String accountName) {
     showDialog(
         context: context,
         child: AlertDialog(
@@ -127,14 +127,10 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                   removeGuardianLoader.currentState.loading();
                 });
 
-                await FirebaseDatabaseService().removeMyGuardian(currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
-
-                // GuardianServices()
-                //     .removeGuardian(EosService.of(context), SettingsNotifier.of(context).accountName, user.account);
-
-                setState(() {
-                  removeGuardianLoader.currentState.done();
-                });
+                await GuardianServices()
+                    .removeGuardian(service, accountName, user.account)
+                    .then((value) => onRemoveGuardianSuccess())
+                    .catchError((onError) => onRemoveGuardianError(onError));
 
                 Navigator.pop(context);
               },
@@ -213,20 +209,38 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   }
 
   onInitGuardianResponse(value) {
-    print("onInitGuardianResponse " + value.toString());
-    successToast('Success, Guardians are now Active');
+    try {
+      print("onInitGuardianResponse " + value.toString());
+      successToast('Success, Guardians are now Active');
+    } catch (e) {
+      // no-op
+    }
+  }
+
+  onInitGuardianError(onError) {
+    print("onInitGuardianError Error " + onError.toString());
+    errorToast('Oops, Something went wrong');
 
     setState(() {
       activateGuardiansLoader.currentState.done();
     });
   }
 
-  onInitGuardianError(onError) {
-    print("Error " + onError.toString());
+  onRemoveGuardianSuccess() {
+    try {
+      print("onRemoveGuardianSuccess ");
+      successToast('Success, Guardian Removed');
+    } catch (e) {
+      // no-op
+    }
+  }
+
+  onRemoveGuardianError(onError) {
+    print("onRemoveGuardianError Error " + onError.toString());
     errorToast('Oops, Something went wrong');
 
     setState(() {
-      activateGuardiansLoader.currentState.done();
+      removeGuardianLoader.currentState.done();
     });
   }
 }
