@@ -67,7 +67,7 @@ class _GuardiansState extends State<Guardians> {
   }
 
   void cancelRecovery() {
-    EosService.of(context).cancelRecovery();
+     EosService.of(context).cancelGuardians();
   }
 
   void initGuardians() {

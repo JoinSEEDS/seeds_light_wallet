@@ -43,7 +43,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
           int confirmedGuardians;
           int requiredGuardians;
 
-          String recoveryLink;
+          //String recoveryLink;
 
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
