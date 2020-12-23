@@ -43,8 +43,6 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
           int confirmedGuardians;
           int requiredGuardians;
 
-          String recoveryLink;
-
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             recovers = snapshot.data[0];
@@ -72,10 +70,6 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
           }
 
           switch (status) {
-            case RecoveryStatus.loading:
-              return NotionLoader(
-                notion: "Analyzing recovery progress... $accountName",
-              );
             case RecoveryStatus.waitingConfirmations:
               return Container(
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 17),
@@ -170,6 +164,10 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                     ),
                   ],
                 ),
+              );
+            default:
+              return NotionLoader(
+                notion: "Analyzing recovery progress... $accountName",
               );
           }
         });

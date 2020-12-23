@@ -111,7 +111,6 @@ class _JoinProcessState extends State<JoinProcess> {
 
   void enableRecoveryMode() {
     final recoveryPrivateKey = EOSPrivateKey.fromRandom();
-    final recoveryPublicKey = recoveryPrivateKey.toEOSPublicKey();
 
     SettingsNotifier.of(context).enableRecoveryMode(
       accountName: accountName,
