@@ -9,6 +9,7 @@ import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
+import 'package:seeds/utils/extensions/response_extension.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
@@ -769,12 +770,6 @@ class HttpService {
       print('Cannot fetch votes...${res.toString()}');
       return VoteResult(0, false, error: true);
     }
-  }
-}
-
-extension ResponseExtension on Response {
-  dynamic parseJson() {
-    return json.decode(utf8.decode(this.bodyBytes));
   }
 }
 

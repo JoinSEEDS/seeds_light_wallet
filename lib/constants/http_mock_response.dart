@@ -68,6 +68,23 @@ class HttpMockResponse {
       ..requiredAuth = requiredAuth
   ];
 
+  static final requiredAuth = RequiredAuth()
+    ..threshold = 1
+    ..waits = []
+    ..accounts = []
+    ..keys = [];
+
+  static final accountPermissions = [
+    Permission()
+      ..permName = "active"
+      ..parent = "owner"
+      ..requiredAuth = requiredAuth,
+    Permission()
+      ..permName = "owner"
+      ..parent = ""
+      ..requiredAuth = requiredAuth
+  ];
+
   static final members = [
     MemberModel(
       account: "sevenflash42",

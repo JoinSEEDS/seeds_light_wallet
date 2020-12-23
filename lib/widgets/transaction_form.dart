@@ -65,11 +65,13 @@ class _TransactionFormState extends State<TransactionForm> {
         response = await eos.transferSeeds(
           beneficiary: widget.beneficiary,
           amount: amount,
+          memo: '',
         );
       } else if (widget.type == TransactionType.telosTranfser) {
         response = await eos.transferTelos(
           beneficiary: widget.beneficiary,
           amount: amount,
+          memo: '',
         );
       }
 

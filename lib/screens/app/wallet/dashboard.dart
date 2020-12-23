@@ -9,6 +9,8 @@ import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
+// import 'package:seeds/providers/services/eos_service.dart';// the unused imports are for the sample code.
+// import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/empty_button.dart';
@@ -71,7 +73,16 @@ class _DashboardState extends State<Dashboard> {
     NavigationService.of(context).navigateTo(Routes.transfer);
   }
 
-  void onReceive() {
+  void onReceive() async {
+    // TESTING - showcase code for set up / remove permissions - remove
+    //var perm = await EosService.of(context, listen: false).getAccountPermissions();
+    //print("perm: "+perm.toString());
+    //await EosService.of(context, listen: false).removeGuardianPermission();
+    //await EosService.of(context, listen: false).setGuardianPermission();
+    //var perm2 = await EosService.of(context, listen: false).getAccountPermissions();
+    //print("perm after: "+perm2.toString());
+    // delete this.
+    
     NavigationService.of(context).navigateTo(Routes.receive);
   }
 
