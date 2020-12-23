@@ -21,6 +21,8 @@ class ImGuardianForTab extends StatelessWidget {
     List<MemberModel> myMembers =
         allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
+    //TODO: This is unused for now, This will be used in the near future.
+    // ignore: unused_element
     _onTileTapped(MemberModel user, Guardian guardian) {
       if (guardian.recoveryStartedDate != null) {
         if (guardian.recoveryApprovedDate != null) {
@@ -49,7 +51,7 @@ class ImGuardianForTab extends StatelessWidget {
                 user: e,
                 currentUserId: SettingsNotifier.of(context).accountName,
                 guardian: myGuardians.firstWhere((element) => element.uid == e.account),
-                tileOnTap: _onTileTapped))
+                tileOnTap: () {}))
             .toList(),
       );
     }

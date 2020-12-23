@@ -341,4 +341,37 @@ class FirebaseDatabaseService {
                 currency: fromCurrencyName(data.data()[PRODUCT_CURRENCY_KEY])))
             .toList());
   }
+
+  /// Use only when we have successfully saved guardians to the user contract by calling eosService.initGuardians
+  Future<void> setGuardiansInitialized(String userAccount) {
+    Map<String, Object> data = {
+      GUARDIAN_CONTRACT_INITIALIZED: true,
+      GUARDIAN_CONTRACT_INITIALIZED_DATE: FieldValue.serverTimestamp(),
+    };
+    return _usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
+  }
+
+  /// Use only when we have successfully saved guardians to the user contract by calling eosService.initGuardians
+  Future<void> setGuardiansInitializedUpdated(String userAccount) {
+    Map<String, Object> data = {
+      GUARDIAN_CONTRACT_INITIALIZED: true,
+      GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
+    };
+    return _usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
+  }
+
+  Future<void> removeGuardiansInitialized(String userAccount) {
+    Map<String, Object> data = {
+      GUARDIAN_CONTRACT_INITIALIZED: false,
+      GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
+    };
+    return _usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
+  }
+
+  Stream<bool> isGuardiansInitialized(String userAccount) {
+    return _usersCollection
+        .doc(userAccount)
+        .snapshots()
+        .map((user) => user.data()[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
+  }
 }

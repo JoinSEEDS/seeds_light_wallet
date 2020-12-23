@@ -363,7 +363,7 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
   /// Before the guardian contract can act on a recovery request, the users account needs to 
   /// allow the guardian contract to change the keys.
   /// 
-  Future<void> setGuardianPermission() async {
+  Future<dynamic> setGuardianPermission() async {
 
     final currentPermissions = await getAccountPermissions();
 
@@ -382,7 +382,7 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
       "permission": {"actor": "guard.seeds", "permission": "eosio.code"}
     });
 
-    await updatePermission(ownerPermission);
+    return await updatePermission(ownerPermission);
   }
 
   /// Remove guardian contract permission
