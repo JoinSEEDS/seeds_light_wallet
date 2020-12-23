@@ -98,13 +98,20 @@ class UserGuardiansModel {
 
   factory UserGuardiansModel.fromTableRows(List<dynamic> rows) {
     if (rows.isNotEmpty && rows[0]["account"].isNotEmpty) {
-      return UserGuardiansModel(
-        exists: true,
-        account: rows[0]["account"],
-        guardians: rows[0]["guardians"] as List,
-        timeDelaySec: rows[0]["time_delay_sec"],
-      );
+      try {
+        bool exists = true;
+        String account = rows[0]["account"];
+        List<String> guardians = List<String>.from(rows[0]["guardians"]);
+        int timeDelaySec = rows[0]["time_delay_sec"];
+
+        var result = UserGuardiansModel(exists: exists, account: account, guardians: guardians,timeDelaySec: timeDelaySec);
+        return result;
+      } catch (error) {
+        print("error: " + error.toString());
+        return UserGuardiansModel(exists: false);
+      }
     } else {
+      print("no valid data...");
       return UserGuardiansModel(exists: false);
     }
   }

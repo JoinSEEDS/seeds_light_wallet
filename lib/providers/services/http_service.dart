@@ -75,7 +75,7 @@ class HttpService {
     }
 
     List<dynamic> rows = await getTableRows(
-        code: "guard.seeds", scope: "guard.seeds", table: "guards");
+        code: "guard.seeds", scope: "guard.seeds", table: "guards", value: accountName);
 
     final guardians = UserGuardiansModel.fromTableRows(rows);
 
