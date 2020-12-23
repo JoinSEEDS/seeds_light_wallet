@@ -55,8 +55,6 @@ class HttpService {
   Future<UserRecoversModel> getAccountRecovery(String accountName) async {
     print("[http] get account recovery");
 
-    return HttpMockResponse.userRecoversClaimReady;
-
     if (mockResponse == true) {
       return HttpMockResponse.userRecoversClaimReady;
     }
@@ -71,8 +69,6 @@ class HttpService {
 
   Future<UserGuardiansModel> getAccountGuardians(String accountName) async {
     print("[http] get account guardians");
-
-    return HttpMockResponse.userGuardians;
 
     if (mockResponse == true) {
       return HttpMockResponse.userGuardians;

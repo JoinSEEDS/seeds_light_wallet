@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/widgets/account_name_field.dart';

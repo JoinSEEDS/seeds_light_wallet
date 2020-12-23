@@ -217,7 +217,8 @@ class EosService {
     return appClient.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferTelos({String beneficiary, double amount,memo}) async {
+  Future<dynamic> transferTelos(
+      {String beneficiary, double amount, memo}) async {
     print("[eos] transfer telos to $beneficiary ($amount) memo: $memo");
 
     if (mockEnabled) {
@@ -244,7 +245,8 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferSeeds({String beneficiary, double amount, String memo}) async {
+  Future<dynamic> transferSeeds(
+      {String beneficiary, double amount, String memo}) async {
     print("[eos] transfer seeds to $beneficiary ($amount) memo: $memo");
 
     if (mockEnabled) {
@@ -294,13 +296,13 @@ class EosService {
   }
 
 // method to properly convert RequiredAuth to JSON - the library doesn't work
-Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
-    <String, dynamic>{
-      'threshold': instance.threshold,
-      'keys': List<dynamic>.from(instance.keys.map((e) => e.toJson())),
-      'accounts': instance.accounts,
-      'waits': instance.waits
-    };
+  Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
+      <String, dynamic>{
+        'threshold': instance.threshold,
+        'keys': List<dynamic>.from(instance.keys.map((e) => e.toJson())),
+        'accounts': instance.accounts,
+        'waits': instance.waits
+      };
 
   Future<dynamic> updatePermission(Permission permission) async {
     print("[eos] update permission ${permission.permName}");
@@ -340,15 +342,16 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
 
     final String url = "$baseURL/v1/chain/get_account";
     final String body = '{ "account_name": "$accountName" }';
-    Map<String, String> headers = { "Content-type": "application/json" };
+    Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(url, headers: headers, body: body);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
 
-      List<Permission> permissions =
-          List<Permission>.from(body["permissions"].map((item) => Permission.fromJson(item)).toList());
+      List<Permission> permissions = List<Permission>.from(body["permissions"]
+          .map((item) => Permission.fromJson(item))
+          .toList());
 
       return permissions;
     } else {
@@ -357,14 +360,13 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
     }
   }
 
-  /// Step 1 in the guardian set up - call this to allow the guard.seeds contract to 
+  /// Step 1 in the guardian set up - call this to allow the guard.seeds contract to
   /// change the key.
-  /// 
-  /// Before the guardian contract can act on a recovery request, the users account needs to 
+  ///
+  /// Before the guardian contract can act on a recovery request, the users account needs to
   /// allow the guardian contract to change the keys.
-  /// 
+  ///
   Future<dynamic> setGuardianPermission() async {
-
     final currentPermissions = await getAccountPermissions();
 
     final ownerPermission =
@@ -374,7 +376,7 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
       if (acct["permission"]["actor"] == "guard.seeds") {
         print("permission already set, doing nothing");
         return;
-      } 
+      }
     }
 
     ownerPermission.requiredAuth.accounts.add({
@@ -386,11 +388,11 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
   }
 
   /// Remove guardian contract permission
-  /// 
+  ///
   /// Call this to remove the permission to change keys from guard.seeds contract.
-  /// 
+  ///
   /// Call when user turns off recovery to leave the account clean.
-  /// 
+  ///
   Future<void> removeGuardianPermission() async {
     final currentPermissions = await getAccountPermissions();
 
@@ -410,11 +412,11 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
   }
 
   /// Step 2 setting up guardians - set the guardians for an account
-  /// 
-  /// guardians - list of Seeds account names that are the guardians - 3, 4, or 5 elements. 
-  /// 
+  ///
+  /// guardians - list of Seeds account names that are the guardians - 3, 4, or 5 elements.
+  ///
   /// Will fail when it's already set up - in that case, call cancelGuardians first.
-  /// 
+  ///
   Future<dynamic> initGuardians(List<String> guardians) async {
     print("[eos] init guardians: " + guardians.toString());
 
@@ -440,12 +442,12 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
   }
 
   /// Recover an account via the key guardian system
-  /// 
+  ///
   /// userAcount - the account to recovery, iE current user is a guardian for userAccount
   /// publicKey - the new public key on the account once the recovery is complete
-  /// 
+  ///
   /// When 2 or 3 of the guardians call this function, the account can be recovered with claim
-  /// 
+  ///
   Future<dynamic> recoverAccount(String userAccount, String publicKey) async {
     print("[eos] recover account $userAccount");
 
@@ -470,10 +472,10 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  /// Cancel guardians. 
-  /// 
+  /// Cancel guardians.
+  ///
   /// This cancels any recovery currently in process, and removes all guardians
-  ///  
+  ///
   Future<dynamic> cancelGuardians() async {
     print("[eos] cancel recovery $accountName");
 
@@ -496,11 +498,11 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
 
   /// Claim recovered account for user - this switches the new public key live at the end of the
   /// recovery process.
-  /// 
-  /// This can be called without logging in - the assumption is that the user lost their key, 
-  /// asked for recovery, was recovered, waited 24 hours for the time lock - and then calls this 
+  ///
+  /// This can be called without logging in - the assumption is that the user lost their key,
+  /// asked for recovery, was recovered, waited 24 hours for the time lock - and then calls this
   /// method to regain access.
-  /// 
+  ///
   Future<dynamic> claimRecoveredAccount(String userAccount) async {
     print("[eos] claim recovered account $userAccount");
     String applicationAccount = Config.onboardingAccountName;
@@ -517,75 +519,6 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
         ..name = "claim"
         ..authorization = auth
         ..data = {"user_account": userAccount}
-    ]);
-
-    return client.pushTransaction(transaction, broadcast: true);
-  }
-
-  Future<dynamic> updatePermission(Permission permission) async {
-    print("[eos] update permission ${permission.permName}");
-
-    if (mockEnabled) return HttpMockResponse.transactionResult;
-
-    Transaction transaction = buildFreeTransaction([
-      Action()
-        ..account = "eosio"
-        ..name = "updateauth"
-        ..authorization = [Authorization()..actor = accountName]
-        ..data = {
-          "account": accountName,
-          "permission": permission.permName,
-          "parent": permission.parent,
-          "auth": permission.requiredAuth.toString()
-        }
-    ]);
-
-    return client.pushTransaction(transaction, broadcast: true);
-  }
-
-  Future<dynamic> initGuardians(List<String> guardians) async {
-    print("[eos] init guardians");
-
-    if (mockEnabled) return HttpMockResponse.transactionResult;
-
-    Transaction transaction = buildFreeTransaction([
-      Action()
-        ..account = "guard.seeds"
-        ..name = "init"
-        ..authorization = [
-          Authorization()
-            ..actor = accountName
-            ..permission = "active"
-        ]
-        ..data = {
-          "user_account": accountName,
-          "guardian_accounts": guardians,
-          "time_delay_sec": Duration(days: 1).inSeconds,
-        }
-    ]);
-
-    return client.pushTransaction(transaction, broadcast: true);
-  }
-
-  Future<dynamic> recoverAccount(String userAccount, String publicKey) async {
-    print("[eos] recover account $userAccount");
-
-    if (mockEnabled) return HttpMockResponse.transactionResult;
-
-    Transaction transaction = buildFreeTransaction([
-      Action()
-        ..account = "guard.seeds"
-        ..name = "recover"
-        ..authorization = [
-          Authorization()
-            ..actor = accountName
-            ..permission = "active"
-        ]
-        ..data = {
-          "guardian_account": accountName,
-          "user_account": userAccount,
-          "new_public_key": publicKey,
-        }
     ]);
 
     return client.pushTransaction(transaction, broadcast: true);
@@ -606,27 +539,6 @@ Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) =>
             ..permission = "active"
         ]
         ..data = {"user_account": accountName}
-    ]);
-
-    return client.pushTransaction(transaction, broadcast: true);
-  }
-
-  Future<dynamic> claimRecoveredAccount(String userAccount) async {
-    print("[eos] claim recovered account $userAccount");
-    String applicationAccount = Config.onboardingAccountName;
-
-    if (mockEnabled) return HttpMockResponse.transactionResult;
-    List<Authorization> auth = [
-      Authorization()
-        ..actor = applicationAccount
-        ..permission = "application"
-    ];
-    Transaction transaction = buildFreeTransaction([
-      Action()
-        ..account = "guard.seeds"
-        ..name = "claim"
-        ..authorization = auth
-        ..data = {"user_account": userAccount}
     ]);
 
     return client.pushTransaction(transaction, broadcast: true);

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/screens/onboarding/create_account_account_name.dart';
 import 'package:seeds/widgets/account_name_field.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/main_text_field.dart';
 
 class RequestRecovery extends StatefulWidget {
   final Function onRequestRecovery;

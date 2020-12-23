@@ -60,7 +60,6 @@ enum States {
   creatingAccount,
   importingAccount,
   finishOnboarding,
-  initRecoveryProcess,
   checkRecoveryProcess,
   startRecovery,
   continueRecovery,
