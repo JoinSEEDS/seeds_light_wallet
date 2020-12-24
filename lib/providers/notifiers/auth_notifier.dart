@@ -42,7 +42,7 @@ class AuthNotifier extends ChangeNotifier {
       status = AuthStatus.locked;
     }
 
-    if (_passcode == null && _passcodeActive) {
+    if ((_passcode == null || _passcodeActive == null) && _passcodeActive) {
       status = AuthStatus.emptyPasscode;
     }
 
