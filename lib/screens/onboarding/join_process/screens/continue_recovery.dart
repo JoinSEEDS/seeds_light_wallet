@@ -40,31 +40,31 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
           UserRecoversModel recovers;
           UserGuardiansModel guardians;
 
-          int confirmedGuardians;
-          int requiredGuardians;
+          int confirmedGuardians = 0;
+          int requiredGuardians = 0;
 
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             recovers = snapshot.data[0];
             guardians = snapshot.data[1];
 
-            if (recovers.exists == true) {
+            if (guardians.exists == true &&
+                guardians.guardians?.isNotEmpty == true) {
               status = RecoveryStatus.waitingConfirmations;
             }
 
-            if (recovers.guardians.isNotEmpty &&
-                guardians.guardians.isNotEmpty) {
-              requiredGuardians = guardians.guardians.length;
+            if (recovers.exists == true &&
+                recovers.guardians?.isNotEmpty == true) {
               confirmedGuardians = recovers.guardians.length;
+            }
 
-              if ((requiredGuardians == 3 && confirmedGuardians >= 2) ||
-                  (requiredGuardians > 3 && confirmedGuardians >= 3)) {
-                status = RecoveryStatus.waitingTimelock;
+            if ((requiredGuardians == 3 && confirmedGuardians >= 2) ||
+                (requiredGuardians > 3 && confirmedGuardians >= 3)) {
+              status = RecoveryStatus.waitingTimelock;
 
-                if (recovers.completeTimestamp + guardians.timeDelaySec <=
-                    DateTime.now().millisecondsSinceEpoch / 1000) {
-                  status = RecoveryStatus.claimReady;
-                }
+              if (recovers.completeTimestamp + guardians.timeDelaySec <=
+                  DateTime.now().millisecondsSinceEpoch / 1000) {
+                status = RecoveryStatus.claimReady;
               }
             }
           }
