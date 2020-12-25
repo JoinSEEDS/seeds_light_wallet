@@ -125,6 +125,7 @@ class _JoinProcessOverlayState extends State<JoinProcessOverlay>
             privateKey: state.privateKey,
             onClaimed: () =>
                 context.read<OnboardingBloc>().add(ClaimRecoveredAccount()),
+            onBack: () => context.read<OnboardingBloc>().add(BackPressed()),
           );
         default:
           return NotionLoader(
