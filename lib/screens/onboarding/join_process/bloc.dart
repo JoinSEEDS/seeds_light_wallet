@@ -27,8 +27,6 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     if (result != null) {
       this.add(FoundInviteLink()..inviteMnemonic = result.inviteMnemonic);
     } else {
-      this.add(FoundNoLink());
-
       links.onDynamicLink((queryParams) {
         this.add(
             FoundInviteLink()..inviteMnemonic = queryParams.inviteMnemonic);
