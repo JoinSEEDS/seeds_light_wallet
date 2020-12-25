@@ -104,7 +104,9 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
           return this.add(CreateAccountFailed());
         }
 
-        this.add(AccountCreated());
+        this.add(
+          AccountCreated()..privateKey = privateKeyRaw.toString(),
+        );
       } catch (err) {
         this.add(CreateAccountFailed());
       }
