@@ -12,15 +12,17 @@ enum RecoveryStatus {
   loading,
   waitingConfirmations,
   waitingTimelock,
-  claimReady
+  claimReady,
+  noGuardiansFound
 }
 
 class ContinueRecovery extends StatefulWidget {
   final String accountName;
   final String privateKey;
   final Function onClaimed;
+  final Function onBack;
 
-  ContinueRecovery({this.accountName, this.privateKey, this.onClaimed});
+  ContinueRecovery({this.accountName, this.privateKey, this.onClaimed, this.onBack});
 
   @override
   _ContinueRecoveryState createState() => _ContinueRecoveryState();
@@ -40,7 +42,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
           UserRecoversModel recovers;
           UserGuardiansModel guardians;
 
-          int confirmedGuardians;
+          int confirmedGuardians = 0;
           int requiredGuardians;
 
           if (snapshot.connectionState == ConnectionState.done &&
@@ -48,26 +50,32 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
             recovers = snapshot.data[0];
             guardians = snapshot.data[1];
 
-            if (recovers.exists == true) {
+            print("recovers: ${recovers.exists}");
+            print("guardians: ${guardians.exists}");
+
+            if (!guardians.exists) {
+              status = RecoveryStatus.noGuardiansFound;
+            } else {
               status = RecoveryStatus.waitingConfirmations;
-            }
-
-            if (recovers.guardians.isNotEmpty &&
-                guardians.guardians.isNotEmpty) {
               requiredGuardians = guardians.guardians.length;
-              confirmedGuardians = recovers.guardians.length;
+              if (!recovers.exists) {
+                confirmedGuardians = 0;
+              } else {
+                confirmedGuardians = recovers.guardians.length;
 
-              if ((requiredGuardians == 3 && confirmedGuardians >= 2) ||
-                  (requiredGuardians > 3 && confirmedGuardians >= 3)) {
-                status = RecoveryStatus.waitingTimelock;
+                if ((requiredGuardians == 3 && confirmedGuardians >= 2) ||
+                    (requiredGuardians > 3 && confirmedGuardians >= 3)) {
+                  status = RecoveryStatus.waitingTimelock;
 
-                if (recovers.completeTimestamp + guardians.timeDelaySec <=
-                    DateTime.now().millisecondsSinceEpoch / 1000) {
-                  status = RecoveryStatus.claimReady;
+                  if (recovers.completeTimestamp + guardians.timeDelaySec <=
+                      DateTime.now().millisecondsSinceEpoch / 1000) {
+                    status = RecoveryStatus.claimReady;
+                  }
                 }
               }
             }
           }
+              status = RecoveryStatus.noGuardiansFound;
 
           switch (status) {
             case RecoveryStatus.waitingConfirmations:
@@ -165,6 +173,28 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                   ],
                 ),
               );
+            case RecoveryStatus.noGuardiansFound:
+              return Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
+                child: Column(
+                  children: [
+                    Text("No guardians found for $accountName",
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "worksans")),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: MainButton(
+                        title: "Back",
+                        onPressed: widget.onBack,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+
             default:
               return NotionLoader(
                 notion: "Analyzing recovery progress... $accountName",

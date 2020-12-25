@@ -245,6 +245,7 @@ class _JoinProcessState extends State<JoinProcess> {
           accountName: accountName,
           privateKey: privateKey,
           onClaimed: () => machine.transition(Events.claimRecoveredAccount),
+          onBack: () => machine.transition(Events.cancelRecoveryProcess),
         );
         backCallback = () => machine.transition(Events.cancelRecoveryProcess);
         break;
