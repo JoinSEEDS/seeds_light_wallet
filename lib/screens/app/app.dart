@@ -121,6 +121,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   void processSigningRequests() {
     Provider.of<LinksService>(context, listen: false)
         .listenSigningRequests((final link) async {
+      
+      if (link == null) {
+        return;
+      }
+      
       var request = SeedsESR(uri: link);
 
       await request.resolve(
