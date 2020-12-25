@@ -26,7 +26,7 @@ import 'package:seeds/screens/app/wallet/scan.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer_amount.dart';
 import 'package:seeds/screens/app/wallet/transfer_form.dart';
-import 'package:seeds/screens/onboarding/join_process.dart';
+import 'package:seeds/screens/onboarding/join_process/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 

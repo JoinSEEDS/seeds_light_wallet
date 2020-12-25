@@ -71,6 +71,7 @@ dependencies:
     git:
       url: git://github.com/triply-at/qr_code_scanner.git
       ref: master
+  flutter_bloc: ^6.1.1
   
 dev_dependencies:
   flutter_test:

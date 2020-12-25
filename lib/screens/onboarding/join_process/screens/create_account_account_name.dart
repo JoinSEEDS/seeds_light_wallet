@@ -17,8 +17,6 @@ class CreateAccountAccountName extends StatefulWidget {
       _CreateAccountAccountNameState();
 }
 
-Future<bool> isExistingAccount(String accountName) => Future.sync(() => false);
-
 class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
   final formKey = GlobalKey<FormState>();
 
