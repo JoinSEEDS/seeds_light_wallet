@@ -51,6 +51,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
             if (guardians.exists == true &&
                 guardians.guardians?.isNotEmpty == true) {
               status = RecoveryStatus.waitingConfirmations;
+              requiredGuardians = guardians.guardians.length;
             }
 
             if (recovers.exists == true &&
