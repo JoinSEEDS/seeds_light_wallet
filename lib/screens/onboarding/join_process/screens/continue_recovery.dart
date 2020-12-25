@@ -91,14 +91,16 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                         fontFamily: "worksans",
                       ),
                     ),
-                    ...recovers.guardians
-                        .map((guardian) => Text(guardian,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "worksans",
-                            )))
-                        .toList(),
+                    if (recovers.guardians != null &&
+                        recovers.guardians.length > 0)
+                      ...recovers.guardians
+                          .map((guardian) => Text(guardian,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "worksans",
+                              )))
+                          .toList(),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: ShareRecoveryLink(

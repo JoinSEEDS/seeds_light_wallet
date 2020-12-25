@@ -77,7 +77,7 @@ class UserRecoversModel {
       return UserRecoversModel(
         exists: true,
         account: rows[0]["account"],
-        guardians: rows[0]["guardians"],
+        guardians: rows[0]["guardians"] ?? [],
         publicKey: rows[0]["public key"],
         completeTimestamp: rows[0]["complete timestamp"],
       );
@@ -104,7 +104,11 @@ class UserGuardiansModel {
         List<String> guardians = List<String>.from(rows[0]["guardians"]);
         int timeDelaySec = rows[0]["time_delay_sec"];
 
-        var result = UserGuardiansModel(exists: exists, account: account, guardians: guardians,timeDelaySec: timeDelaySec);
+        var result = UserGuardiansModel(
+            exists: exists,
+            account: account,
+            guardians: guardians,
+            timeDelaySec: timeDelaySec);
         return result;
       } catch (error) {
         print("error: " + error.toString());
