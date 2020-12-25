@@ -14,7 +14,7 @@ class _JoinProcessState extends State<JoinProcess> {
         links: Provider.of<LinksService>(context, listen: false),
         http: Provider.of<HttpService>(context, listen: false),
         eos: Provider.of<EosService>(context, listen: false),
-      ),
+      )..init(),
       child: JoinProcessOverlay(),
     );
   }

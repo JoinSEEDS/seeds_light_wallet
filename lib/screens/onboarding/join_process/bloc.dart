@@ -157,8 +157,6 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
       finishRecoveryProcess();
     } else if (event is ContinueRecoveryCanceled) {
       disableRecoveryMode();
-    } else if (event is OnboardingInit) {
-      init();
     }
   }
 
@@ -167,8 +165,6 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
 
     if (event is FoundInviteLink) {
       yield state.nextStep(Step.processingInviteLink);
-    } else if (event is FoundNoLink) {
-      yield state.nextStep(Step.onboardingMethodChoice);
     } else if (event is FoundInviteDetails) {
       yield state.nextStep(Step.inviteConfirmation);
     } else if (event is FoundNoInvite) {
@@ -229,14 +225,15 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     } else if (event is CreateAccountFailed) {
       yield state.nextStep(Step.onboardingMethodChoice);
     } else if (event is StartRecoveryRequested) {
-      yield state.nextStep(Step.recoveryStarting);
+      yield state.nextStep(
+        Step.recoveryStarting,
+        accountName: event.accountName,
+      );
     } else if (event is ContinueRecoveryCanceled) {
       yield state.nextStep(Step.recoveryCanceling);
     } else if (event is ClaimRecoveredAccount) {
       yield state.nextStep(Step.recoveryClaiming);
     } else if (event is ClaimFailed) {
-      yield state.nextStep(Step.onboardingMethodChoice);
-    } else if (event is OnboardingInit) {
       yield state.nextStep(Step.onboardingMethodChoice);
     } else if (event is BackPressed) {
       yield state.nextStep(Step.onboardingMethodChoice);

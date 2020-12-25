@@ -9,7 +9,7 @@ class OnboardingState {
     this.inviteCode,
     this.inviteSecret,
     this.inviterAccount,
-    this.loaderNotion,
+    this.loaderNotion = "Please wait, loading...",
   });
 
   final Step step;
