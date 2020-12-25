@@ -70,12 +70,12 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     settings.finishRecoveryProcess();
   }
 
-  void enableRecoveryMode() {
+  void enableRecoveryMode(String accountName) {
     Future.delayed(Duration.zero).then((_) {
       final recoveryPrivateKey = EOSPrivateKey.fromRandom();
 
       settings.enableRecoveryMode(
-        accountName: state.accountName,
+        accountName: accountName,
         privateKey: recoveryPrivateKey.toString(),
       );
     });
@@ -150,7 +150,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     } else if (event is AccountImported) {
       secureAccountWithPasscode();
     } else if (event is StartRecoveryRequested) {
-      enableRecoveryMode();
+      enableRecoveryMode(event.accountName);
     } else if (event is ClaimRecoveredAccount) {
       finishRecoveryProcess();
     } else if (event is ContinueRecoveryCanceled) {
@@ -224,8 +224,9 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
       yield state.nextStep(Step.onboardingMethodChoice);
     } else if (event is StartRecoveryRequested) {
       yield state.nextStep(
-        Step.recoveryStarting,
+        Step.continueRecovery,
         accountName: event.accountName,
+        loaderNotion: "Starting recovery %s...".i18n.fill([event.accountName]),
       );
     } else if (event is ContinueRecoveryCanceled) {
       yield state.nextStep(Step.recoveryCanceling);
