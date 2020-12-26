@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/models/models.dart';
@@ -22,8 +24,7 @@ class ContinueRecovery extends StatefulWidget {
   final Function onClaimed;
   final Function onBack;
 
-  ContinueRecovery(
-      this.onClaimed, this.onBack);
+  ContinueRecovery(this.onClaimed, this.onBack);
 
   @override
   _ContinueRecoveryState createState() => _ContinueRecoveryState();
@@ -123,6 +124,11 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                 ),
               );
             case RecoveryStatus.waitingTimelock:
+              var seconds = (recovers.completeTimestamp +
+                      guardians.timeDelaySec -
+                      DateTime.now().millisecondsSinceEpoch / 1000)
+                  .round();
+
               return Container(
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 17),
                 child: Column(
@@ -133,13 +139,14 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                             fontWeight: FontWeight.w400,
                             fontFamily: "worksans")),
                     Text(
-                      "Need to wait another ${(recovers.completeTimestamp + guardians.timeDelaySec - DateTime.now().millisecondsSinceEpoch / 1000).round()} seconds",
+                      "Recover your account in",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         fontFamily: "worksans",
                       ),
                     ),
+                    CountdownClock(seconds),
                     Padding(
                       padding: EdgeInsets.only(top: 10),
                       child: SecondButton(
@@ -281,5 +288,49 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
         .generateRecoveryRequest(accountName, publicKey);
 
     return link;
+  }
+}
+
+class CountdownClock extends StatefulWidget {
+  var seconds = 0;
+
+  CountdownClock(this.seconds);
+
+  @override
+  CountdownClockState createState() => CountdownClockState();
+}
+
+class CountdownClockState extends State<CountdownClock> {
+  Timer _timer;
+
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (widget.seconds == 0) {
+          setState(() {
+            _timer.cancel();
+          });
+        } else {
+          setState(() {
+            widget.seconds--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_timer == null) {
+      startTimer();
+    }
+    Duration duration = Duration(seconds: widget.seconds);
+    String waitString =
+        "${duration.inHours}:${duration.inMinutes.remainder(60)}:${(duration.inSeconds.remainder(60))}";
+    return Text("$waitString",
+        style: TextStyle(
+            fontSize: 24, fontWeight: FontWeight.w600, fontFamily: "worksans"));
   }
 }
