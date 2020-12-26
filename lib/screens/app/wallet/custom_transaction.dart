@@ -92,9 +92,9 @@ class _CustomTransactionState extends State<CustomTransaction> {
           child: Column(
             children: <Widget>[
               TransactionDetails(
-                image: SvgPicture.asset(
-                  "icon",
-                  color: Colors.black,
+                image: Image.asset(
+                  'assets/images/seeds.png',
+                  height: 33,
                 ),
                 title: name,
                 beneficiary: account,
