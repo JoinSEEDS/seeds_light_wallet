@@ -77,7 +77,7 @@ class UserRecoversModel {
       return UserRecoversModel(
         exists: true,
         account: rows[0]["account"],
-        guardians: rows[0]["guardians"],
+        guardians: List<String>.from(rows[0]["guardians"]),
         publicKey: rows[0]["public key"],
         completeTimestamp: rows[0]["complete timestamp"],
       );
