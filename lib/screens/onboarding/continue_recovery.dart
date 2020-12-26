@@ -1,12 +1,14 @@
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/notion_loader.dart';
 import 'package:seeds/widgets/second_button.dart';
 import 'package:share/share.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 
 enum RecoveryStatus {
   loading,
@@ -17,12 +19,11 @@ enum RecoveryStatus {
 }
 
 class ContinueRecovery extends StatefulWidget {
-  final String accountName;
-  final String privateKey;
   final Function onClaimed;
   final Function onBack;
 
-  ContinueRecovery({this.accountName, this.privateKey, this.onClaimed, this.onBack});
+  ContinueRecovery(
+      this.onClaimed, this.onBack);
 
   @override
   _ContinueRecoveryState createState() => _ContinueRecoveryState();
@@ -31,13 +32,14 @@ class ContinueRecovery extends StatefulWidget {
 class _ContinueRecoveryState extends State<ContinueRecovery> {
   @override
   Widget build(BuildContext context) {
-    String accountName = widget.accountName;
-    String privateKey = widget.privateKey;
+    String accountName = SettingsNotifier.of(context).accountName;
 
     return FutureBuilder(
         future: findRecovery(accountName),
         builder: (context, snapshot) {
           var status = RecoveryStatus.loading;
+
+
 
           UserRecoversModel recovers;
           UserGuardiansModel guardians;
@@ -75,7 +77,6 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               }
             }
           }
-              status = RecoveryStatus.noGuardiansFound;
 
           switch (status) {
             case RecoveryStatus.waitingConfirmations:
@@ -99,7 +100,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                         fontFamily: "worksans",
                       ),
                     ),
-                    ...recovers.guardians
+                    ...(recovers.guardians ?? [])
                         .map((guardian) => Text(guardian,
                             style: TextStyle(
                               fontSize: 16,
@@ -109,10 +110,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                         .toList(),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: ShareRecoveryLink(
-                        accountName: accountName,
-                        privateKey: privateKey,
-                      ),
+                      child: ShareRecoveryLink(),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 10),
@@ -187,7 +185,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: MainButton(
-                        title: "Back",
+                        title: "Cancel",
                         onPressed: widget.onBack,
                       ),
                     ),
@@ -203,6 +201,33 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
         });
   }
 
+  Future<void> showCancelDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Cancel Recovery?'.i18n),
+          actions: [
+            FlatButton(
+              child: Text("Yes".i18n),
+              onPressed: () {
+                Navigator.pop(context);
+                widget.onBack();
+              },
+            ),
+            FlatButton(
+              child: Text("No".i18n),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<List<dynamic>> findRecovery(String accountName) {
     return Future.wait([
       HttpService.of(context).getAccountRecovery(accountName),
@@ -212,10 +237,8 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
 }
 
 class ShareRecoveryLink extends StatefulWidget {
-  final String accountName;
-  final String privateKey;
 
-  ShareRecoveryLink({this.accountName, this.privateKey});
+  ShareRecoveryLink();
 
   @override
   _ShareRecoveryLinkState createState() => _ShareRecoveryLinkState();
@@ -245,11 +268,17 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
   }
 
   Future<String> generateRecoveryLink() async {
+
+    String accountName = SettingsNotifier.of(context).accountName;
+    String pKey = SettingsNotifier.of(context).privateKey;
+
+    print("GR acct $accountName $pKey");
+
     String publicKey =
-        EOSPrivateKey.fromString(widget.privateKey).toEOSPublicKey().toString();
+        EOSPrivateKey.fromString(pKey).toEOSPublicKey().toString();
 
     String link = await EosService.of(context, listen: false)
-        .generateRecoveryRequest(widget.accountName, publicKey);
+        .generateRecoveryRequest(accountName, publicKey);
 
     return link;
   }

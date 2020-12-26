@@ -110,6 +110,7 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void enableRecoveryMode() {
+    print("enable recovery");
     final recoveryPrivateKey = EOSPrivateKey.fromRandom();
 
     SettingsNotifier.of(context).enableRecoveryMode(
@@ -119,6 +120,7 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void disableRecoveryMode() {
+    print("disable recovery");
     SettingsNotifier.of(context).cancelRecoveryProcess();
   }
 
@@ -126,10 +128,18 @@ class _JoinProcessState extends State<JoinProcess> {
     await Future.delayed(Duration(milliseconds: 500), () {});
 
     if (SettingsNotifier.of(context).inRecoveryMode == true) {
-      machine.transition(Events.foundRecoveryFlag, data: {
-        "accountName": SettingsNotifier.of(context).accountName,
-        "privateKey": SettingsNotifier.of(context).privateKey,
-      });
+
+      var accountName = SettingsNotifier.of(context).accountName;
+      var pKey = SettingsNotifier.of(context).privateKey;
+
+      if (pKey != null && accountName != null) {
+        machine.transition(Events.foundRecoveryFlag, data: {
+          "accountName": accountName,
+          "privateKey": pKey,
+        });
+      } else {
+        print("Error - recovery mode is enabled but provate key is missing $pKey for account $accountName");
+      }
     }
   }
 
@@ -242,10 +252,8 @@ class _JoinProcessState extends State<JoinProcess> {
         break;
       case States.continueRecovery:
         currentScreen = ContinueRecovery(
-          accountName: accountName,
-          privateKey: privateKey,
-          onClaimed: () => machine.transition(Events.claimRecoveredAccount),
-          onBack: () => machine.transition(Events.cancelRecoveryProcess),
+          () => machine.transition(Events.claimRecoveredAccount),
+          () => machine.transition(Events.cancelRecoveryProcess),
         );
         backCallback = () => machine.transition(Events.cancelRecoveryProcess);
         break;
