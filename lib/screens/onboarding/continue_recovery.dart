@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
@@ -300,8 +301,15 @@ class CountdownClock extends StatefulWidget {
   CountdownClockState createState() => CountdownClockState();
 }
 
+
 class CountdownClockState extends State<CountdownClock> {
   Timer _timer;
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -328,9 +336,16 @@ class CountdownClockState extends State<CountdownClock> {
     }
     Duration duration = Duration(seconds: widget.seconds);
     String waitString =
-        "${duration.inHours}:${duration.inMinutes.remainder(60)}:${(duration.inSeconds.remainder(60))}";
+        "${duration.inHours}:${duration.inMinutes.remainder(60).twoDigits()}:${(duration.inSeconds.remainder(60).twoDigits())}";
     return Text("$waitString",
         style: TextStyle(
             fontSize: 24, fontWeight: FontWeight.w600, fontFamily: "worksans"));
+  }
+}
+
+extension TwoDigitInt on num {
+  static var format = NumberFormat("00");
+  String twoDigits() {
+    return format.format(this);
   }
 }
