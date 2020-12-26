@@ -79,7 +79,7 @@ class UserRecoversModel {
         account: rows[0]["account"],
         guardians: List<String>.from(rows[0]["guardians"]),
         publicKey: rows[0]["public key"],
-        completeTimestamp: rows[0]["complete timestamp"],
+        completeTimestamp: rows[0]["complete_timestamp"],
       );
     } else {
       return UserRecoversModel(exists: false);
