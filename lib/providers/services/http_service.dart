@@ -55,31 +55,44 @@ class HttpService {
   Future<UserRecoversModel> getAccountRecovery(String accountName) async {
     print("[http] get account recovery");
 
-    if (mockResponse == true) {
-      return HttpMockResponse.userRecoversClaimReady;
+    try {
+      if (mockResponse == true) {
+        return HttpMockResponse.userRecoversClaimReady;
+      }
+
+      List<dynamic> rows = await getTableRows(
+          code: "guard.seeds", scope: "guard.seeds", table: "recovers");
+
+      final recovery = UserRecoversModel.fromTableRows(rows);
+
+      return recovery;
+
+    } catch (error) {
+      print("Error fetching recovers: ${error.toString()}");
+      return null;
     }
-
-    List<dynamic> rows = await getTableRows(
-        code: "guard.seeds", scope: "guard.seeds", table: "recovers");
-
-    final recovery = UserRecoversModel.fromTableRows(rows);
-
-    return recovery;
   }
 
   Future<UserGuardiansModel> getAccountGuardians(String accountName) async {
-    print("[http] get account guardians");
 
-    if (mockResponse == true) {
-      return HttpMockResponse.userGuardians;
+    print("[http] get account guardians");
+    try {
+      if (mockResponse == true) {
+        return HttpMockResponse.userGuardians;
+      }
+
+      List<dynamic> rows = await getTableRows(
+          code: "guard.seeds", scope: "guard.seeds", table: "guards", value: accountName);
+
+      final guardians = UserGuardiansModel.fromTableRows(rows);
+
+      return guardians;
+
+    } catch(error) {
+      print("Error fetching account guardians: ${error.toString()}");
+      return null;
     }
 
-    List<dynamic> rows = await getTableRows(
-        code: "guard.seeds", scope: "guard.seeds", table: "guards", value: accountName);
-
-    final guardians = UserGuardiansModel.fromTableRows(rows);
-
-    return guardians;
   }
 
   Future<ProfileModel> getProfile() async {
