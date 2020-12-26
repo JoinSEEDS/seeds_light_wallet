@@ -1,6 +1,7 @@
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -16,11 +17,9 @@ enum RecoveryStatus {
 }
 
 class ContinueRecovery extends StatefulWidget {
-  final String accountName;
-  final String privateKey;
   final Function onClaimed;
 
-  ContinueRecovery({this.accountName, this.privateKey, this.onClaimed});
+  ContinueRecovery({this.onClaimed});
 
   @override
   _ContinueRecoveryState createState() => _ContinueRecoveryState();
@@ -29,8 +28,7 @@ class ContinueRecovery extends StatefulWidget {
 class _ContinueRecoveryState extends State<ContinueRecovery> {
   @override
   Widget build(BuildContext context) {
-    String accountName = widget.accountName;
-    String privateKey = widget.privateKey;
+    String accountName = SettingsNotifier.of(context).accountName;
 
     return FutureBuilder(
         future: findRecovery(accountName),
@@ -104,10 +102,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                           .toList(),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: ShareRecoveryLink(
-                        accountName: accountName,
-                        privateKey: privateKey,
-                      ),
+                      child: ShareRecoveryLink(),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 10),
@@ -185,10 +180,8 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
 }
 
 class ShareRecoveryLink extends StatefulWidget {
-  final String accountName;
-  final String privateKey;
 
-  ShareRecoveryLink({this.accountName, this.privateKey});
+  ShareRecoveryLink();
 
   @override
   _ShareRecoveryLinkState createState() => _ShareRecoveryLinkState();
@@ -218,11 +211,15 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
   }
 
   Future<String> generateRecoveryLink() async {
+
+    var privateKey = SettingsNotifier.of(context).privateKey;
+    var accountName = SettingsNotifier.of(context).accountName;
+
     String publicKey =
-        EOSPrivateKey.fromString(widget.privateKey).toEOSPublicKey().toString();
+        EOSPrivateKey.fromString(privateKey).toEOSPublicKey().toString();
 
     String link = await EosService.of(context, listen: false)
-        .generateRecoveryRequest(widget.accountName, publicKey);
+        .generateRecoveryRequest(accountName, publicKey);
 
     return link;
   }

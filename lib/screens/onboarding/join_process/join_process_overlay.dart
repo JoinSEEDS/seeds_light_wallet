@@ -121,8 +121,6 @@ class _JoinProcessOverlayState extends State<JoinProcessOverlay>
           );
         case Step.continueRecovery:
           return ContinueRecovery(
-            accountName: state.accountName,
-            privateKey: state.privateKey,
             onClaimed: () =>
                 context.read<OnboardingBloc>().add(ClaimRecoveredAccount()),
           );
