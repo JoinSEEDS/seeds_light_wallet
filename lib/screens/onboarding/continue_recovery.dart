@@ -48,6 +48,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
 
           int confirmedGuardians = 0;
           int requiredGuardians;
+          int timeLockSeconds = 0;
 
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
@@ -67,11 +68,13 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               } else {
                 confirmedGuardians = recovers.guardians.length;
 
+                timeLockSeconds = recovers.completeTimestamp + guardians.timeDelaySec;
+
                 if ((requiredGuardians == 3 && confirmedGuardians >= 2) ||
                     (requiredGuardians > 3 && confirmedGuardians >= 3)) {
                   status = RecoveryStatus.waitingTimelock;
 
-                  if (recovers.completeTimestamp + guardians.timeDelaySec <=
+                  if (timeLockSeconds <=
                       DateTime.now().millisecondsSinceEpoch / 1000) {
                     status = RecoveryStatus.claimReady;
                   }
@@ -143,7 +146,10 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                         fontFamily: "worksans",
                       ),
                     ),
-                    CountdownClock(recovers.completeTimestamp + guardians.timeDelaySec),
+                    CountdownClock(
+                      timeLockSeconds,
+                      ()=> setState(() {})
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: 10),
                       child: SecondButton(
@@ -289,12 +295,13 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
 }
 
 class CountdownClock extends StatefulWidget {
-  var toTime = 0;
-  CountdownClock(this.toTime);
+  final int toTime;
+  final Function onDone;
+
+  CountdownClock(this.toTime, this.onDone);
   
   @override
   CountdownClockState createState() => CountdownClockState();
-
 
 }
 
@@ -326,7 +333,9 @@ class CountdownClockState extends State<CountdownClock> {
         if (s <= 0) {
           setState(() {
             _timer.cancel();
+            seconds = s;
           });
+          widget.onDone();
         } else {
           setState(() {
             seconds = s;
