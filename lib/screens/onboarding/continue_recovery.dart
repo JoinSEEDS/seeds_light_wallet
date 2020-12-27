@@ -219,12 +219,6 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                   fontSize: 24,
                   fontWeight: FontWeight.w400,
                   fontFamily: "worksans")),
-                                      
-                  Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: ShareRecoveryLink(),
-                    ),
-
           Padding(
             padding: const EdgeInsets.only(top: 24),
             child: MainButton(
