@@ -73,10 +73,10 @@ class _BroadcastTransactionOverlayState
 
   @override
   void dispose() {
-    super.dispose();
     animationController?.dispose();
     statusSubscription?.cancel();
     messageSubscription?.cancel();
+    super.dispose();
   }
 
   Widget closeButton() => MainButton(
