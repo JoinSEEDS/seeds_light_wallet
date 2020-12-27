@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
@@ -32,16 +34,29 @@ class ContinueRecovery extends StatefulWidget {
 }
 
 class _ContinueRecoveryState extends State<ContinueRecovery> {
+
+  bool recovering = false;
+  bool canClaim = false;
+  bool doneSuccess = false;
+
   @override
   Widget build(BuildContext context) {
     String accountName = SettingsNotifier.of(context).accountName;
+
+    if (recovering) {
+      return NotionLoader(
+        notion: "Recovering account...",
+      );
+    } else if (canClaim) {
+      return claimReadyComponent(accountName);
+    } else if (doneSuccess) {
+      return successComponent(accountName);
+    }
 
     return FutureBuilder(
         future: findRecovery(accountName),
         builder: (context, snapshot) {
           var status = RecoveryStatus.loading;
-
-
 
           UserRecoversModel recovers;
           UserGuardiansModel guardians;
@@ -66,8 +81,8 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               if (!recovers.exists) {
                 confirmedGuardians = 0;
               } else {
-                confirmedGuardians = recovers.guardians.length;
 
+                confirmedGuardians = recovers.guardians.length;
                 timeLockSeconds = recovers.completeTimestamp + guardians.timeDelaySec;
 
                 if ((requiredGuardians == 3 && confirmedGuardians >= 2) ||
@@ -127,8 +142,8 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                   ],
                 ),
               );
-            case RecoveryStatus.waitingTimelock:
 
+            case RecoveryStatus.waitingTimelock:
               return Container(
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 17),
                 child: Column(
@@ -161,26 +176,8 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                 ),
               );
             case RecoveryStatus.claimReady:
-              return Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
-                child: Column(
-                  children: [
-                    Text("Account recovered $accountName",
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "worksans")),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: MainButton(
-                        title: "Claim account",
-                        onPressed: widget.onClaimed,
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              return claimReadyComponent(accountName);
+
             case RecoveryStatus.noGuardiansFound:
               return Container(
                 padding:
@@ -209,6 +206,64 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               );
           }
         });
+  }
+
+  Container claimReadyComponent(String accountName) {
+    return Container(
+      padding:
+          const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
+      child: Column(
+        children: [
+          Text("Account recovered $accountName",
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "worksans")),
+                                      
+                  Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: ShareRecoveryLink(),
+                    ),
+
+          Padding(
+            padding: const EdgeInsets.only(top: 24),
+            child: MainButton(
+              title: "Claim account",
+              onPressed: onClaimButtonPressed,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container successComponent(String accountName) {
+    return Container(
+      padding:
+          const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
+      child: Column(
+        children: [
+          Text("Your account has been recovered",
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "worksans")),
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: SvgPicture.asset('assets/images/success.svg',
+                            color: Colors.greenAccent
+                          ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24),
+            child: MainButton(
+              title: "Next",
+              onPressed: widget.onClaimed
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> showCancelDialog(BuildContext context) {
@@ -243,6 +298,51 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
       HttpService.of(context).getAccountRecovery(accountName),
       HttpService.of(context).getAccountGuardians(accountName)
     ]);
+  }
+
+  void onClaimButtonPressed() async {
+    print("recovering...");
+
+    setState(() {
+      recovering = true;
+      canClaim = true;
+    });
+    
+    String accountName = SettingsNotifier.of(context, listen: false).accountName;
+    
+    try {
+      await EosService.of(context, listen: false).claimRecoveredAccount(accountName);
+      setState(() {
+        recovering = false;
+      });
+      widget.onClaimed();
+
+    } catch(error) {
+      print("Error restoring account ${error.toString()}");
+      setState(() {
+        recovering = false;
+      });
+      final snackBar = SnackBar(
+        content: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(
+                Icons.close,
+                color: Colors.red,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                'An error occured, please try again.'.i18n,
+                maxLines: null,
+              ),
+            ),
+          ],
+        ),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
   }
 }
 
@@ -286,6 +386,8 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
 
     String publicKey =
         EOSPrivateKey.fromString(pKey).toEOSPublicKey().toString();
+
+    print("oublic $publicKey");
 
     String link = await EosService.of(context, listen: false)
         .generateRecoveryRequest(accountName, publicKey);
