@@ -505,23 +505,28 @@ class EosService {
   ///
   Future<dynamic> claimRecoveredAccount(String userAccount) async {
     print("[eos] claim recovered account $userAccount");
-    String applicationAccount = Config.onboardingAccountName;
 
     if (mockEnabled) return HttpMockResponse.transactionResult;
-    List<Authorization> auth = [
-      Authorization()
-        ..actor = applicationAccount
-        ..permission = "application"
-    ];
-    Transaction transaction = buildFreeTransaction([
+
+    String applicationPrivateKey = Config.onboardingPrivateKey;
+
+    EOSClient appClient =
+        EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey]);
+
+    Transaction transaction = Transaction()
+      ..actions = [
       Action()
         ..account = "guard.seeds"
         ..name = "claim"
-        ..authorization = auth
+        ..authorization = [
+          Authorization()
+            ..actor = "guard.seeds"
+            ..permission = "application"
+        ] 
         ..data = {"user_account": userAccount}
-    ]);
+    ];
 
-    return client.pushTransaction(transaction, broadcast: true);
+    return appClient.pushTransaction(transaction, broadcast: true);
   }
 
   Future<dynamic> cancelRecovery() async {
