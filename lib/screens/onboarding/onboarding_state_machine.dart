@@ -63,7 +63,7 @@ enum States {
   checkRecoveryProcess,
   startRecovery,
   continueRecovery,
-  recoverAccount,
+  recoverAccountState,
   continueRecoveryProcess,
   canceledRecoveryProcess,
 }
@@ -221,7 +221,7 @@ class OnboardingStateMachine {
             targetState: States.onboardingMethodChoice),
         _Transition(
             event: Events.claimRecoveredAccount,
-            targetState: States.onboardingMethodChoice),
+            targetState: States.recoverAccountState),
       ],
     ),
     States.importAccount: _State(

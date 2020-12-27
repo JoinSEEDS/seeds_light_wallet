@@ -257,7 +257,7 @@ class _JoinProcessState extends State<JoinProcess> {
         );
         backCallback = () => machine.transition(Events.cancelRecoveryProcess);
         break;
-      case States.recoverAccount:
+      case States.recoverAccountState:
         currentScreen = NotionLoader(
           notion: "Recover account started...".i18n,
         );
