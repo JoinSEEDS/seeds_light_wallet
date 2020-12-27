@@ -18,10 +18,8 @@ import 'package:seeds/models/member_adapter.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/models/transaction_adapter.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/providers/providers.dart';
-import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/services/firebase/push_notification_service.dart';
@@ -155,9 +153,6 @@ class MainScreen extends StatelessWidget {
             onGenerateRoute: navigationService.onGenerateRoute,
           );
         } else if (auth.status == AuthStatus.unlocked) {
-          String userAccount = SettingsNotifier.of(context).accountName;
-          FirebaseDatabaseService().setFirebaseMessageToken(userAccount);
-
           return ToolboxApp(
             child: SeedsMaterialApp(
               home: App(),

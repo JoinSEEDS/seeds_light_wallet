@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';
@@ -98,6 +99,7 @@ class _JoinProcessState extends State<JoinProcess> {
       if (transition["event"] == Events.accountCreated ||
           transition["event"] == Events.accountImported) {
         secureAccountWithPasscode();
+        saveAccountToFirebase();
       }
     });
     listenInviteLink();
@@ -149,6 +151,11 @@ class _JoinProcessState extends State<JoinProcess> {
       accountName,
       privateKey.toString(),
     );
+  }
+
+  void saveAccountToFirebase() async {
+    await Future.delayed(Duration(milliseconds: 1500), () {});
+    FirebaseDatabaseService().setFirebaseMessageToken(accountName);
   }
 
   void importAccount() async {
