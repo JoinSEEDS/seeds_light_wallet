@@ -47,10 +47,10 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
       return NotionLoader(
         notion: "Recovering account...",
       );
-    } else if (canClaim) {
-      return claimReadyComponent(accountName);
     } else if (doneSuccess) {
       return successComponent(accountName);
+    } else if (canClaim) {
+      return claimReadyComponent(accountName);
     }
 
     return FutureBuilder(
@@ -310,6 +310,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
       
       setState(() {
         recovering = false;
+        canClaim = false;
         doneSuccess = true;
       });
     
