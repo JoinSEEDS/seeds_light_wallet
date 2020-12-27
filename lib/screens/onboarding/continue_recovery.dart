@@ -305,17 +305,21 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
     String accountName = SettingsNotifier.of(context, listen: false).accountName;
     
     try {
+
       await EosService.of(context, listen: false).claimRecoveredAccount(accountName);
+      
       setState(() {
         recovering = false;
+        doneSuccess = true;
       });
-      widget.onClaimed();
-
+    
     } catch(error) {
       print("Error restoring account ${error.toString()}");
+      
       setState(() {
         recovering = false;
       });
+      
       final snackBar = SnackBar(
         content: Row(
           children: <Widget>[
