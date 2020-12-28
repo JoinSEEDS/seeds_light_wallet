@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eosdart/src/models/account.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';

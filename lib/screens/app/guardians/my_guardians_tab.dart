@@ -29,6 +29,16 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   final activateGuardiansLoader = GlobalKey<MainButtonState>();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (true) {
+        _showFirstTimeUserDialog();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     var myGuardians = widget.guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
     var myMembers = widget.allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
@@ -38,10 +48,10 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
 
     _onTileTapped(MemberModel user, Guardian guardian) {
       if (guardian.recoveryStartedDate != null) {
-        showRecoveryStartedBottomSheet(context, user);
+        _showRecoveryStartedBottomSheet(context, user);
       } else {
         if (guardian.status == GuardianStatus.alreadyGuardian) {
-          showGuardianOptionsDialog(service, user, accountName);
+          _showGuardianOptionsDialog(service, user, accountName);
         }
       }
     }
@@ -107,7 +117,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     }
   }
 
-  void showGuardianOptionsDialog(EosService service, MemberModel user, String accountName) {
+  void _showGuardianOptionsDialog(EosService service, MemberModel user, String accountName) {
     showDialog(
         context: context,
         child: AlertDialog(
@@ -139,7 +149,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
         ));
   }
 
-  void showRecoveryStartedBottomSheet(BuildContext context, MemberModel user) {
+  void _showRecoveryStartedBottomSheet(BuildContext context, MemberModel user) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -169,7 +179,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                 SizedBox(height: 20),
                 FlatButton.icon(
                   onPressed: () {
-                    showStopRecoveryConfirmationDialog(user, context);
+                    _showStopRecoveryConfirmationDialog(user, context);
                   },
                   label: Text(
                     "Stop this Recovery",
@@ -185,7 +195,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     );
   }
 
-  void showStopRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
+  void _showStopRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
     showDialog(
         context: context,
         child: AlertDialog(
@@ -206,6 +216,34 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                 },
               )
             ]));
+  }
+
+  Future<void> _showFirstTimeUserDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('This is a demo alert dialog.'),
+                Text('Would you like to approve of this message?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   onInitGuardianResponse(value) {
