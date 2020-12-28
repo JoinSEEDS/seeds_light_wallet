@@ -85,35 +85,33 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     settings.cancelRecoveryProcess();
   }
 
-  void createAccountRequested() async {
-    Future.delayed(Duration.zero).then((_) async {
-      EOSPrivateKey privateKeyRaw = EOSPrivateKey.fromRandom();
-      EOSPublicKey publicKey = privateKeyRaw.toEOSPublicKey();
+  void createAccountRequested({ accountName, inviteSecret, nickname }) async {
+    EOSPrivateKey privateKeyRaw = EOSPrivateKey.fromRandom();
+    EOSPublicKey publicKey = privateKeyRaw.toEOSPublicKey();
 
-      try {
-        var response = await eos.acceptInvite(
-          accountName: state.accountName,
-          publicKey: publicKey.toString(),
-          inviteSecret: state.inviteSecret,
-          nickname: state.nickname,
-        );
+    try {
+      var response = await eos.acceptInvite(
+        accountName: accountName,
+        publicKey: publicKey.toString(),
+        inviteSecret: inviteSecret,
+        nickname: nickname,
+      );
 
-        if (response == null || response["transaction_id"] == null) {
-          return this.add(CreateAccountFailed());
-        }
-
-        this.add(
-          AccountCreated()..privateKey = privateKeyRaw.toString(),
-        );
-      } catch (err) {
-        this.add(CreateAccountFailed());
+      if (response == null || response["transaction_id"] == null) {
+        return this.add(CreateAccountFailed());
       }
-    });
+
+      this.add(
+        AccountCreated()..privateKey = privateKeyRaw.toString(),
+      );
+    } catch (err) {
+      this.add(CreateAccountFailed());
+    }
   }
 
-  void secureAccountWithPasscode() {
+  void secureAccountWithPasscode({ accountName, privateKey }) {
     waiting().then((_) {
-      settings.saveAccount(state.accountName, state.privateKey.toString());
+      settings.saveAccount(accountName, privateKey.toString());
     });
   }
 
@@ -144,11 +142,18 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     } else if (event is ImportAccountRequested) {
       importAccount();
     } else if (event is CreateAccountRequestedFinal) {
-      createAccountRequested();
+      createAccountRequested(
+        accountName: event.accountName,
+        inviteSecret: event.inviteSecret,
+        nickname: event.nickname,
+      );
     } else if (event is AccountCreated) {
       secureAccountWithPasscode();
     } else if (event is AccountImported) {
-      secureAccountWithPasscode();
+      secureAccountWithPasscode(
+        accountName: event.accountName,
+        privateKey: event.privateKey,
+      );
     } else if (event is StartRecoveryRequested) {
       enableRecoveryMode(event.accountName);
     } else if (event is ClaimRecoveredAccount) {
