@@ -10,6 +10,7 @@ import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/screens/app/guardians/my_guardian_users_list.dart';
+import 'package:seeds/screens/app/guardians/my_guardians_tutorial.dart';
 import 'package:seeds/widgets/main_button.dart';
 
 const MIN_GUARDIANS_COMPLETED = 3;
@@ -33,7 +34,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (true) {
-        _showFirstTimeUserDialog();
+        showFirstTimeUserDialog(context);
       }
     });
   }
@@ -218,34 +219,6 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
             ]));
   }
 
-  Future<void> _showFirstTimeUserDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('AlertDialog Title'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   onInitGuardianResponse(value) {
     try {
       print("onInitGuardianResponse " + value.toString());
@@ -281,4 +254,12 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
       removeGuardianLoader.currentState.done();
     });
   }
+}
+
+enum TutorialState {
+  first,
+  second,
+  third,
+  fourth,
+  done,
 }
