@@ -33,7 +33,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (true) {
+      if (!(SettingsNotifier.of(context).guardianTutorialShown == true)) {
         showFirstTimeUserDialog(context);
       }
     });

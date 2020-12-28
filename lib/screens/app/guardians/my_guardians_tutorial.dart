@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 
-Future<void> showFirstTimeUserDialog(BuildContext context) async {
+Future<void> showFirstTimeUserDialog(BuildContext buildContext) async {
   return showDialog<void>(
-    context: context,
+    context: buildContext,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
       var tutorialState = TutorialState.first;
@@ -30,6 +31,7 @@ Future<void> showFirstTimeUserDialog(BuildContext context) async {
               onPressed: () {
                 if (tutorialState == TutorialState.fourth) {
                   Navigator.pop(context);
+                  SettingsNotifier.of(buildContext).saveGuardianTutorialShown(true);
                   NavigationService.of(context).navigateTo(Routes.selectGuardians);
                 } else {
                   setState(() {
