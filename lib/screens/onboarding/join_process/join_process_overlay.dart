@@ -121,6 +121,7 @@ class _JoinProcessOverlayState extends State<JoinProcessOverlay>
           );
         case Step.continueRecovery:
           return ContinueRecovery(
+            onCancel: () => context.read<OnboardingBloc>().add(ContinueRecoveryCanceled()),
             onClaimed: () =>
                 context.read<OnboardingBloc>().add(ClaimRecoveredAccount()),
           );
@@ -137,7 +138,7 @@ class _JoinProcessOverlayState extends State<JoinProcessOverlay>
       tag: 'header',
       child: Container(
         padding: EdgeInsets.only(left: 7, bottom: 20),
-        child: Row(
+        child: state.step == Step.continueRecovery ? Container() : Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[

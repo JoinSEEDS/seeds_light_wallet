@@ -111,6 +111,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                         onPressed: () => setState(() {}),
                       ),
                     ),
+                    buildCancelButton(),
                   ],
                 ),
               );
@@ -139,6 +140,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                         onPressed: () => setState(() {}),
                       ),
                     ),
+                    buildCancelButton(),
                   ],
                 ),
               );
@@ -169,6 +171,35 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               );
           }
         });
+  }
+
+  Widget buildCancelbutton() {
+    return Padding(
+      padding: EdgeInsets.only(top: 10),
+      child: SecondButton(
+        title: "Cancel",
+        onPressed: () {
+          showDialog(
+            context: context,
+            child: AlertDialog(
+                content: Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
+                actions: [
+                  FlatButton(
+                    child: const Text('Cancel'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Stop Key Recovery"),
+                    onPressed: () {
+                      widget.onCancel();
+                    },
+                  )
+              ]));                          
+        },
+      ),
+    );    
   }
 
   Future<List<dynamic>> findRecovery(String accountName) {
