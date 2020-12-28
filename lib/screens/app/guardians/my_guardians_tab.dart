@@ -255,11 +255,3 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     });
   }
 }
-
-enum TutorialState {
-  first,
-  second,
-  third,
-  fourth,
-  done,
-}

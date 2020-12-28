@@ -9,7 +9,7 @@ Future<void> showFirstTimeUserDialog(BuildContext buildContext) async {
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
       var tutorialState = TutorialState.first;
-      var doneButtonText = "Next";
+      var actionButtonText = "Next";
 
       return StatefulBuilder(builder: (context, setState) {
         return AlertDialog(
@@ -27,7 +27,7 @@ Future<void> showFirstTimeUserDialog(BuildContext buildContext) async {
           actions: <Widget>[
             MainButton(
               margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8),
-              title: doneButtonText,
+              title: actionButtonText,
               onPressed: () {
                 if (tutorialState == TutorialState.fourth) {
                   Navigator.pop(context);
@@ -36,7 +36,7 @@ Future<void> showFirstTimeUserDialog(BuildContext buildContext) async {
                 } else {
                   setState(() {
                     if (tutorialState == TutorialState.third) {
-                      doneButtonText = "Select Guardians";
+                      actionButtonText = "Select Guardians";
                     }
                     tutorialState = getNextState(tutorialState);
                   });
