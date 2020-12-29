@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart' hide Action;
+import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -69,13 +70,14 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   final editKey = GlobalKey<FormState>();
   final priceKey = GlobalKey<FormState>();
   final nameKey = GlobalKey<FormState>();
-  final TextEditingController nameController = TextEditingController();
-  String productName = "";
-  final TextEditingController priceController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   var savingLoader = GlobalKey<MainButtonState>();
-
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  String productName = "";
+  double seedsValue = 0;
+  Currency currency;
   PersistentBottomSheetController bottomSheetController;
-
   List<ProductModel> products = List();
 
   String localImagePath = '';
@@ -121,9 +123,9 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
     final product = ProductModel(
       name: nameController.text,
-      price: double.parse(priceController.text),
+      price: seedsValue,
       picture: downloadUrl,
-      currency: Currency.SEEDS
+      currency: currency,
     );
 
     FirebaseDatabaseService().createProduct(product, userAccount).then((value) => closeBottomSheet());
@@ -143,10 +145,10 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
     final product = ProductModel(
         name: nameController.text,
-        price: double.parse(priceController.text),
+        price: seedsValue,
         picture: downloadUrl,
         id: productModel.id,
-        currency: Currency.SEEDS);
+        currency: currency);
 
     FirebaseDatabaseService().updateProduct(product, userAccount).then((value) => closeBottomSheet());
   }
@@ -229,6 +231,14 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   void showEditProduct(BuildContext context, ProductModel productModel, String userAccount) {
     nameController.text = productModel.name;
     priceController.text = productModel.price.toString();
+    currency = productModel.currency;
+    // productModel.currency.name == 'SEEDS'? setState(() {currency = InputMode.seeds;})  : setState(() {
+    //   currency = InputMode.fiat;
+    // });
+
+    print(productModel.currency.name);
+    print(currency);
+    //print(currencyController.text + 'Controller');
 
     bottomSheetController = Scaffold.of(context).showBottomSheet(
       (context) => Form(
@@ -273,30 +283,14 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                   onChanged: (name) {
                     editKey.currentState.validate();
                   }),
-              MainTextField(
-                labelText: 'Price'.i18n,
-                controller: priceController,
-                endText: 'SEEDS',
-                keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-                validator: (String amount) {
-                  String error;
-
-                  double receiveAmount = double.tryParse(amount);
-
-                  if (amount == null) {
-                    error = null;
-                  } else if (amount.isEmpty) {
-                    error = 'Price field is empty'.i18n;
-                  } else if (receiveAmount == null) {
-                    error = 'Price needs to be a number'.i18n;
-                  }
-
-                  return error;
-                },
-                onChanged: (amount) {
-                  editKey.currentState.validate();
-                },
-              ),
+              AmountFieldOnEdit(
+                  currentCurrency: currency,
+                  priceController: priceController,
+                  onChanged: (amount, input, validate) => {
+                        validate ? editKey.currentState.validate() : null,
+                        seedsValue = amount,
+                        currency = input,
+                      }),
               MainButton(
                 key: savingLoader,
                 title: 'Edit Product'.i18n,
@@ -321,7 +315,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     localImagePath = "";
 
     bottomSheetController = Scaffold.of(context).showBottomSheet(
-      (context) => Container(
+          (context) => Container(
         padding: EdgeInsets.symmetric(
           vertical: 10,
           horizontal: 15,
@@ -336,71 +330,51 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
             ),
           ],
         ),
-        child: Wrap(
-          runSpacing: 10.0,
-          children: <Widget>[
-            DottedBorder(
-              color: AppColors.grey,
-              strokeWidth: 1,
-              child: GestureDetector(
-                onTap: chooseProductPicture,
-                child: buildPictureWidget(null),
+        child: Form(
+          key: _formKey,
+          child: Wrap(
+            runSpacing: 10.0,
+            children: <Widget>[
+              DottedBorder(
+                color: AppColors.grey,
+                strokeWidth: 1,
+                child: GestureDetector(
+                  onTap: chooseProductPicture,
+                  child: buildPictureWidget(null),
+                ),
               ),
-            ),
-            Form(
-              key: nameKey,
-              child: MainTextField(
-                  labelText: 'Name'.i18n,
-                  controller: nameController,
-                  validator: (String name) {
-                    String error;
+              Form(
+                key: nameKey,
+                child: MainTextField(
+                    labelText: 'Name'.i18n,
+                    controller: nameController,
+                    validator: (String name) {
+                      String error;
 
-                    if (name == null || name.isEmpty) {
-                      error = 'Name cannot be empty'.i18n;
-                    }
-                    return error;
-                  },
-                  onChanged: (name) {
-                    nameKey.currentState.validate();
-                  }),
-            ),
-            Form(
-              key: priceKey,
-              child: MainTextField(
-                labelText: 'Price'.i18n,
-                controller: priceController,
-                endText: 'SEEDS',
-                keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-                validator: (String amount) {
-                  String error;
-
-                  double receiveAmount = double.tryParse(amount);
-
-                  if (amount == null) {
-                    error = null;
-                  } else if (amount.isEmpty) {
-                    error = 'Price field is empty'.i18n;
-                  } else if (receiveAmount == null) {
-                    error = 'Price needs to be a number'.i18n;
+                      if (name == null || name.isEmpty) {
+                        error = 'Name cannot be empty'.i18n;
+                      }
+                      return error;
+                    },
+                    onChanged: (name) {
+                      nameKey.currentState.validate();
+                    }),
+              ),
+              AmountField(onChanged: (amount,currencyInput,validate) => { validate?_formKey.currentState.validate() : "",
+                seedsValue = amount, currency = currencyInput,
+                }),
+              MainButton(
+                key: savingLoader,
+                title: 'Add Product'.i18n,
+                onPressed: () {
+                  nameKey.currentState.validate();
+                  if (_formKey.currentState.validate() && nameKey.currentState.validate()) {
+                    createNewProduct(accountName);
                   }
-
-                  return error;
-                },
-                onChanged: (amount) {
-                  priceKey.currentState.validate();
                 },
               ),
-            ),
-            MainButton(
-              key: savingLoader,
-              title: 'Add Product'.i18n,
-              onPressed: () {
-                if (nameKey.currentState.validate() && priceKey.currentState.validate()) {
-                  createNewProduct(accountName);
-                }
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -494,6 +468,9 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         IconButton(
                           icon: Icon(Icons.edit),
                           onPressed: () {
+
+                            setState(() {});
+
                             showEditProduct(context, products[index], accountName);
                           },
                         ),
@@ -891,5 +868,193 @@ class _ReceiveFormState extends State<ReceiveForm> {
         ),
       );
     }
+  }
+}
+
+class AmountFieldOnEdit extends StatefulWidget {
+  AmountFieldOnEdit({Key key, this.onChanged, this.priceController, this.currentCurrency}) : super(key: key);
+
+  final TextEditingController priceController;
+  final Function onChanged;
+  Currency currentCurrency;
+
+
+  @override
+  _AmountFieldOnEditState createState() =>
+      _AmountFieldOnEditState(double.tryParse(priceController.text));
+}
+
+class _AmountFieldOnEditState extends State<AmountFieldOnEdit> {
+  _AmountFieldOnEditState(this.price);
+
+  bool validate = false;
+  double price;
+  TextEditingController priceController;
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MainTextField(
+          labelText: 'Price'.i18n,
+          suffixIcon: Container(
+            height: 35,
+            margin: EdgeInsets.only(top: 8, bottom: 8, right: 16),
+            child: OutlineButton(
+              onPressed: () {
+                _toggleInput();
+              },
+              child: Text(
+                widget.currentCurrency == Currency.SEEDS? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
+                style: TextStyle(color: AppColors.grey, fontSize: 16),
+              ),
+            ),
+          ),
+          keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+          controller: widget.priceController,
+          autofocus: true,
+          inputFormatters: [
+            UserInputNumberFormatter(),
+          ],
+          validator: (String amount) {
+            String error;
+
+            double receiveAmount = double.tryParse(amount);
+
+            if (amount == null) {
+              error = null;
+            } else if (amount.isEmpty) {
+              error = 'Price field is empty'.i18n;
+            } else if (receiveAmount == null) {
+              error = 'Price needs to be a number'.i18n;
+            }
+
+            return error;
+          },
+          onChanged: (amount) {
+            if (double.tryParse(amount) != null) {
+              setState(() {
+                price = double.tryParse(amount);
+                validate = true;
+              });
+              widget.onChanged(price, widget.currentCurrency, validate);
+            } else {
+              setState(() {
+                price = 0;
+                validate = true;
+              });
+              widget.onChanged(0, widget.currentCurrency, validate);
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  void _toggleInput() {
+    setState(() {
+
+      if (widget.currentCurrency == Currency.SEEDS) {
+        widget.currentCurrency = Currency.FIAT;
+        validate = false;
+        widget.onChanged(price, widget.currentCurrency, validate);
+      } else {
+        widget.currentCurrency = Currency.SEEDS;
+        validate = false;
+        widget.onChanged(price, widget.currentCurrency, validate);
+      }
+    });
+  }
+}
+
+class AmountField extends StatefulWidget {
+  const AmountField({Key key, this.onChanged}) : super(key: key);
+
+  final Function onChanged;
+
+  @override
+  _AmountFieldState createState() => _AmountFieldState();
+}
+
+class _AmountFieldState extends State<AmountField> {
+  final TextEditingController priceController = TextEditingController();
+  double seedsValue = 0;
+  Currency currency = Currency.SEEDS;
+  bool validate = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MainTextField(
+          labelText: 'Price'.i18n,
+          suffixIcon: Container(
+            height: 35,
+            margin: EdgeInsets.only(top: 8, bottom: 8, right: 16),
+            child: OutlineButton(
+              onPressed: () {
+                _toggleInput();
+              },
+              child: Text(
+                currency == Currency.SEEDS ? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
+                style: TextStyle(color: AppColors.grey, fontSize: 16),
+              ),
+            ),
+          ),
+          keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+          controller: priceController,
+          autofocus: true,
+          inputFormatters: [
+            UserInputNumberFormatter(),
+          ],
+          validator: (String amount) {
+            String error;
+
+            double receiveAmount = double.tryParse(amount);
+
+            if (amount == null) {
+              error = null;
+            } else if (amount.isEmpty) {
+              error = 'Price field is empty'.i18n;
+            } else if (receiveAmount == null) {
+              error = 'Price needs to be a number'.i18n;
+            }
+
+            return error;
+          },
+          onChanged: (amount) {
+            if (double.tryParse(amount) != null) {
+              setState(() {
+                seedsValue = double.tryParse(amount);
+                validate = true;
+              });
+              widget.onChanged(double.tryParse(amount), currency, validate);
+            } else {
+              setState(() {
+                seedsValue = 0;
+                validate = true;
+              });
+              widget.onChanged(0, currency, validate);
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  void _toggleInput() {
+    setState(() {
+      if (currency == Currency.SEEDS) {
+        currency = Currency.FIAT;
+        validate = false;
+        widget.onChanged(seedsValue, currency, validate);
+      } else {
+        currency = Currency.SEEDS;
+        validate = false;
+        widget.onChanged(seedsValue, currency, validate);
+      }
+    });
   }
 }

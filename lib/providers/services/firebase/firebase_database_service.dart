@@ -307,7 +307,7 @@ class FirebaseDatabaseService {
     Map<String, Object> data = {
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
-      PRODUCT_CURRENCY_KEY: product.currency,
+      PRODUCT_CURRENCY_KEY: product.currency.name,
       PRODUCT_UPDATED_DATE_KEY: FieldValue.serverTimestamp(),
     };
 
