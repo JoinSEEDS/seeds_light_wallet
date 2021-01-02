@@ -30,7 +30,7 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
         vsync: this,
         halfBoundValue: AnimationControllerValue(percentage: 0.25),
         upperBoundValue: AnimationControllerValue(percentage: 0.5),
-        lowerBoundValue: AnimationControllerValue(pixel: 50),
+        lowerBoundValue: AnimationControllerValue(pixel: 53),
         duration: Duration(milliseconds: 400));
 
     super.initState();
@@ -41,51 +41,54 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          status == Status.Loading
-              ? Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.white,
-                    valueColor: AlwaysStoppedAnimation(AppColors.blue),
-                  ),
-                )
-              : Container(),
-          RubberBottomSheet(
-            animationController: bottomSheetController,
-            lowerLayer: DHOWebView(
-              confirmTransaction: confirmTransaction,
-              onTransactionMessage: () {
-                setState(() {
-                  status = Status.Sign;
-                });
-              },
-              onLoginMessage: () {
-                setState(() {
-                  status = Status.Login;
-                });
-              },
-              onTransactionComplete: () {
-                setState(() {
-                  status = Status.Connected;
-                });
-              },
-              onLoginComplete: () {
-                Future.delayed(Duration(seconds: 1)).then((_) {
+      backgroundColor: AppColors.blue,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            status == Status.Loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                      valueColor: AlwaysStoppedAnimation(AppColors.blue),
+                    ),
+                  )
+                : Container(),
+            RubberBottomSheet(
+              animationController: bottomSheetController,
+              lowerLayer: DHOWebView(
+                confirmTransaction: confirmTransaction,
+                onTransactionMessage: () {
+                  setState(() {
+                    status = Status.Sign;
+                  });
+                },
+                onLoginMessage: () {
+                  setState(() {
+                    status = Status.Login;
+                  });
+                },
+                onTransactionComplete: () {
                   setState(() {
                     status = Status.Connected;
                   });
-                });
-              },
+                },
+                onLoginComplete: () {
+                  Future.delayed(Duration(seconds: 1)).then((_) {
+                    setState(() {
+                      status = Status.Connected;
+                    });
+                  });
+                },
+              ),
+              upperLayer: WalletView(
+                status: status,
+                actions: actions,
+                onTransactionAccepted: transactionAccepted,
+                onTransactionRejected: transactionRejected,
+              ),
             ),
-            upperLayer: WalletView(
-              status: status,
-              actions: actions,
-              onTransactionAccepted: transactionAccepted,
-              onTransactionRejected: transactionRejected,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -94,6 +97,8 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
 
   void transactionAccepted() async {
     try {
+      bottomSheetController.collapse();
+
       var response =
           await EosService.of(context, listen: false).sendTransaction(actions);
 
@@ -106,6 +111,7 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
   }
 
   void transactionRejected() {
+    bottomSheetController.collapse();
     completer.completeError("Transaction rejected by user");
     // completer.completeError(err);
   }
@@ -170,7 +176,9 @@ class _WalletViewState extends State<WalletView> {
             children: [
               IconButton(
                 icon: Icon(Icons.close, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
