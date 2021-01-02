@@ -12,6 +12,7 @@ import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/screens/app/guardians/my_guardian_users_list.dart';
 import 'package:seeds/screens/app/guardians/my_guardians_tutorial.dart';
 import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/widgets/transaction_avatar.dart';
 
 const MIN_GUARDIANS_COMPLETED = 3;
 
@@ -52,7 +53,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
         _showRecoveryStartedBottomSheet(context, user);
       } else {
         if (guardian.status == GuardianStatus.alreadyGuardian) {
-          _showGuardianOptionsDialog(service, user, accountName);
+          _showRemoveGuardianDialog(service, user, accountName);
         }
       }
     }
@@ -118,36 +119,61 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     }
   }
 
-  void _showGuardianOptionsDialog(EosService service, MemberModel user, String accountName) {
+  void _showRemoveGuardianDialog(EosService service, MemberModel user, String accountName) {
     showDialog(
-        context: context,
-        child: AlertDialog(
-          content: Text("Guardian ${user.nickname}"),
-          actions: [
-            FlatButton(
-              child: const Text('Dismiss'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+      context: context,
+      child: AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Are you sure you want to remove ",
             ),
-            MainButton(
-              title: 'Remove Guardian',
-              key: removeGuardianLoader,
-              onPressed: () async {
-                setState(() {
-                  removeGuardianLoader.currentState.loading();
-                });
-
-                await GuardianServices()
-                    .removeGuardian(service, accountName, user.account)
-                    .then((value) => onRemoveGuardianSuccess())
-                    .catchError((onError) => onRemoveGuardianError(onError));
-
-                Navigator.pop(context);
-              },
-            )
+            SizedBox(height: 16),
+            ListTile(
+              leading: TransactionAvatar(
+                size: 60,
+                image: user.image,
+                account: user.account,
+                nickname: user.nickname,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.blue,
+                ),
+              ),
+              title: Text("${user.nickname}", style: TextStyle(color: Colors.black),),
+              subtitle: Text("${user.account}"),
+            ),
+            SizedBox(height: 16),
+            Text("As your Guardian?"),
           ],
-        ));
+        ),
+        actions: [
+          FlatButton(
+            child: const Text('Dismiss'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          MainButton(
+            title: 'Remove Guardian',
+            key: removeGuardianLoader,
+            onPressed: () async {
+              setState(() {
+                removeGuardianLoader.currentState.loading();
+              });
+
+              await GuardianServices()
+                  .removeGuardian(service, accountName, user.account)
+                  .then((value) => onRemoveGuardianSuccess())
+                  .catchError((onError) => onRemoveGuardianError(onError));
+
+              Navigator.pop(context);
+            },
+          )
+        ],
+      ),
+    );
   }
 
   void _showRecoveryStartedBottomSheet(BuildContext context, MemberModel user) {
