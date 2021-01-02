@@ -56,43 +56,56 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
     return FutureBuilder(
         future: findRecovery(accountName),
         builder: (context, snapshot) {
-          var status = RecoveryStatus.loading;
+          var status = RecoveryStatus.loading; // Default state: Loading
 
-          UserRecoversModel recovers;
-          UserGuardiansModel guardians;
+          UserRecoversModel recoversModel;
+          UserGuardiansModel guardiansModel;
 
-          int confirmedGuardians = 0;
-          int requiredGuardians;
+          int confirmedGuardianSignatures = 0;
+          int guardians;
           int timeLockSeconds = 0;
 
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
-            recovers = snapshot.data[0];
-            guardians = snapshot.data[1];
+            recoversModel = snapshot.data[0];
+            guardiansModel = snapshot.data[1];
 
-            print("recovers: ${recovers.exists}");
-            print("guardians: ${guardians.exists}");
+            print("recovers: ${recoversModel.exists}");
+            print("guardians: ${guardiansModel.exists}");
 
-            if (!guardians.exists) {
+            if (!guardiansModel.exists) {
+              // This user doesn't have guardians
               status = RecoveryStatus.noGuardiansFound;
             } else {
+              // If the user has guardians, the default state is waiting for confirmations
               status = RecoveryStatus.waitingConfirmations;
-              requiredGuardians = guardians.guardians.length;
-              if (!recovers.exists) {
-                confirmedGuardians = 0;
+
+              // Total number of guardians - this decides how many signatures we need.
+              guardians = guardiansModel.guardians.length;
+
+              if (!recoversModel.exists) {
+                // Recovery has not started yet. 
+                // The first signature puts a recovery model in the table. No model ==> no signatures.
+                confirmedGuardianSignatures = 0;
+
               } else {
+                // Recovery has started - check if we have enough signatures
+                // Note: All these values are enforced by the contract
+                confirmedGuardianSignatures = recoversModel.guardians.length;
 
-                confirmedGuardians = recovers.guardians.length;
-                timeLockSeconds = recovers.completeTimestamp + guardians.timeDelaySec;
+                // check how long we have to wait before we can claim (24h delay is standard)
+                timeLockSeconds = recoversModel.completeTimestamp + guardiansModel.timeDelaySec;
 
-                if ((requiredGuardians == 3 && confirmedGuardians >= 2) ||
-                    (requiredGuardians > 3 && confirmedGuardians >= 3)) {
+                // for 3 signers, we need 2/3 signatures. For 4 or 5 signers, we need 3+ signatures.
+                if ((guardians == 3 && confirmedGuardianSignatures >= 2) ||
+                    (guardians > 3 && confirmedGuardianSignatures >= 3)) {
+                  
                   status = RecoveryStatus.waitingTimelock;
 
-                  if (timeLockSeconds <=
-                      DateTime.now().millisecondsSinceEpoch / 1000) {
+                  if (timeLockSeconds <= DateTime.now().millisecondsSinceEpoch / 1000) {
                     status = RecoveryStatus.claimReady;
                   }
+                  
                 }
               }
             }
@@ -113,14 +126,14 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                       ),
                     ),
                     Text(
-                      " $confirmedGuardians of $requiredGuardians guardians signed: ",
+                      " $confirmedGuardianSignatures of $guardians guardians signed: ",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
                         fontFamily: "worksans",
                       ),
                     ),
-                    ...(recovers.guardians ?? [])
+                    ...(recoversModel.guardians ?? [])
                         .map((guardian) => Text(guardian,
                             style: TextStyle(
                               fontSize: 16,

@@ -58,13 +58,6 @@ class ShowOnboardingChoice extends StatelessWidget {
                     ..onTap = () => safeLaunch(
                         'https://www.joinseeds.com/letmein?client=seedslight'),
                 ),
-                // TextSpan(
-                //   text: "\n\n" + "Membership based on Web of Trust".i18n,
-                //   style: TextStyle(
-                //     color: Colors.black,
-                //     fontSize: 14,
-                //   ),
-                // ),
                 TextSpan(
                   text: '\n\n' +
                       "By signing up, you agree to our terms and privacy policy"
