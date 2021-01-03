@@ -374,4 +374,25 @@ class FirebaseDatabaseService {
         .snapshots()
         .map((user) => user.data()[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
   }
+
+  Stream<bool> hasGuardianNotificationPending(String userAccount) {
+    bool _findNotification(QuerySnapshot event) {
+      var guardianNotification =
+          event.docs.firstWhere((QueryDocumentSnapshot element) => element.id == GUARDIAN_NOTIFICATION_KEY, orElse: () {
+        return null;
+      });
+
+      if (guardianNotification == null) {
+        return false;
+      } else {
+        return guardianNotification[GUARDIAN_NOTIFICATION_KEY];
+      }
+    }
+
+    return _usersCollection
+        .doc(userAccount)
+        .collection(PENDING_NOTIFICATIONS_KEY)
+        .snapshots()
+        .map((event) => _findNotification(event));
+  }
 }
