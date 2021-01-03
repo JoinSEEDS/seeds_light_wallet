@@ -1,6 +1,10 @@
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
+
+const guardianInviteReceived = "guardianInviteReceived";
 
 class PushNotificationService {
   PushNotificationService._();
@@ -13,7 +17,7 @@ class PushNotificationService {
   bool _initialized = false;
   String token;
 
-  Future initialise() async {
+  Future initialise(BuildContext context) async {
     if (!_initialized) {
       if (Platform.isIOS) {
         _firebaseMessaging.onIosSettingsRegistered.listen((data) {
@@ -32,10 +36,7 @@ class PushNotificationService {
         },
         onResume: (Map<String, dynamic> message) async {
           print("onResume: $message");
-
-          final dynamic data = message['data'] ?? message;
-          print("onResume: data");
-          print("onResume: $data");
+          backgroundMessageHandler(message, context);
         },
       );
 
@@ -50,4 +51,31 @@ class PushNotificationService {
       _initialized = true;
     }
   }
+}
+
+Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message, BuildContext context) async {
+  print("backgroundMessageHandler");
+  if (message.containsKey('data')) {
+    // Handle data message
+    final Map<dynamic, dynamic> data = message['data'];
+    print("onResume: data");
+    print("onResume: $data");
+
+    var notificationTypeId = data["notification_type_id"];
+    print("onResume notificationTypeId: $notificationTypeId");
+
+    if (notificationTypeId == guardianInviteReceived) {
+      //Navigate to Guardians Screen
+      NavigationService.of(context).navigateTo(Routes.guardianTabs);
+    }
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+    print("onResume: notification");
+    print("onResume: $notification");
+  }
+
+  print("onResume: Do other work");
 }
