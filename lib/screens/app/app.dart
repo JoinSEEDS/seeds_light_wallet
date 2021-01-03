@@ -121,6 +121,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   void processSigningRequests() {
     Provider.of<LinksService>(context, listen: false)
         .listenSigningRequests((final link) async {
+      
+      if (link == null) {
+        return;
+      }
+      
       var request = SeedsESR(uri: link);
 
       await request.resolve(
@@ -130,15 +135,36 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       var action = request.actions.first;
       var data = Map<String, dynamic>.from(action.data);
 
-      NavigationService.of(context).navigateTo(
-        Routes.customTransaction,
-        CustomTransactionArguments(
-          account: action.account,
-          name: action.name,
-          data: data,
-        ),
-        true,
-      );
+      Navigator.of(context).push(PageRouteBuilder(
+          opaque: false,
+          fullscreenDialog: true,
+          transitionsBuilder: (
+              BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+              Widget child,
+          ) {            
+            var tween = Tween(begin: const Offset(0.0, 1.0), end: Offset.zero);
+            var curvedAnimation = CurvedAnimation(
+              parent: animation,
+              curve: Curves.bounceInOut,
+            );
+
+            return SlideTransition(
+              position: tween.animate(curvedAnimation),
+              child: child, // child is the value returned by pageBuilder
+            );
+          },
+
+          pageBuilder: (BuildContext context, _, __) =>
+              CustomTransaction(CustomTransactionArguments(
+                account: action.account,
+                name: action.name,
+                data: data,
+              )
+            )
+          ),
+        );
     });
   }
 
