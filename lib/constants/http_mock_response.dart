@@ -2,6 +2,55 @@ import 'package:eosdart/eosdart.dart';
 import 'package:seeds/models/models.dart';
 
 class HttpMockResponse {
+  static final publicKey =
+      "EOS76C8fzn4cGavGuGsPUBxDC4FFESTyiEg6ZKxeMm5csGL6QATsL";
+
+  static final userRecoversClaimReady = UserRecoversModel(
+    exists: true,
+    account: "igorberlenko",
+    guardians: ["testingseed1", "testingseed2"],
+    publicKey: publicKey,
+    completeTimestamp:
+        (DateTime.now().millisecondsSinceEpoch / 1000).round() - 86400,
+  );
+
+  static final userRecoversTimelockWaiting = UserRecoversModel(
+      exists: true,
+      account: "igorberlenko",
+      guardians: ["testingseed1", "testingseed2"],
+      publicKey: publicKey,
+      completeTimestamp:
+          (DateTime.now().millisecondsSinceEpoch / 1000).round() - 86350);
+
+  static final userRecoversConfirming = UserRecoversModel(
+    exists: true,
+    account: "igorberlenko",
+    guardians: ["testingseed1"],
+    publicKey: publicKey,
+    completeTimestamp: 0,
+  );
+
+  static final userNoRecovers = UserRecoversModel(
+    exists: false,
+    account: "",
+    guardians: [],
+    publicKey: "",
+  );
+
+  static final userGuardians = UserGuardiansModel(
+    exists: true,
+    account: "igorberlenko",
+    guardians: ["testingseed1", "testingseed2", "testingseed3"],
+    timeDelaySec: 86400,
+  );
+
+  static final userNoGuardians = UserGuardiansModel(
+    exists: false,
+    account: "",
+    guardians: [],
+    timeDelaySec: 0,
+  );
+
   static final requiredAuth = RequiredAuth()
     ..threshold = 1
     ..waits = []

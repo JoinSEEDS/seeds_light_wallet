@@ -198,7 +198,7 @@ class _ProfileState extends State<Profile> {
               _guardiansView(),
               Consumer<SettingsNotifier>(
                 builder: (context, settingsNotifier, child) => Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
+                  padding: const EdgeInsets.only(top: 0.0),
                   child: FlatButton(
                     color: Colors.white,
                     child: Text(

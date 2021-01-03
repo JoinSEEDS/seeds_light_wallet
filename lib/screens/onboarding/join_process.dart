@@ -8,10 +8,12 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';
+import 'package:seeds/screens/onboarding/continue_recovery.dart';
 import 'package:seeds/screens/onboarding/create_account.dart';
 import 'package:seeds/screens/onboarding/create_account_account_name.dart';
 import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/onboarding_state_machine.dart';
+import 'package:seeds/screens/onboarding/request_recovery.dart';
 import 'package:seeds/screens/onboarding/show_onboarding_choice.dart';
 import 'package:seeds/utils/invites.dart';
 import 'package:seeds/widgets/notion_loader.dart';
@@ -62,6 +64,18 @@ class _JoinProcessState extends State<JoinProcess> {
         }
       });
 
+      if (transition["event"] == Events.claimRecoveredAccount) {
+        finishRecoveryProcess();
+      }
+
+      if (transition["event"] == Events.cancelRecoveryProcess) {
+        disableRecoveryMode();
+      }
+
+      if (transition["event"] == Events.recoverAccountRequested) {
+        enableRecoveryMode();
+      }
+
       if (transition["event"] == Events.foundInviteLink) {
         validateInvite(transition["data"]["inviteMnemonic"]);
       }
@@ -89,7 +103,46 @@ class _JoinProcessState extends State<JoinProcess> {
       }
     });
     listenInviteLink();
+    checkRecoveryMode();
     super.initState();
+  }
+
+  void finishRecoveryProcess() {
+    SettingsNotifier.of(context).finishRecoveryProcess();
+  }
+
+  void enableRecoveryMode() {
+    print("enable recovery");
+    final recoveryPrivateKey = EOSPrivateKey.fromRandom();
+
+    SettingsNotifier.of(context).enableRecoveryMode(
+      accountName: accountName,
+      privateKey: recoveryPrivateKey.toString(),
+    );
+  }
+
+  void disableRecoveryMode() {
+    print("disable recovery");
+    SettingsNotifier.of(context).cancelRecoveryProcess();
+  }
+
+  void checkRecoveryMode() async {
+    await Future.delayed(Duration(milliseconds: 500), () {});
+
+    if (SettingsNotifier.of(context).inRecoveryMode == true) {
+
+      var accountName = SettingsNotifier.of(context).accountName;
+      var pKey = SettingsNotifier.of(context).privateKey;
+
+      if (pKey != null && accountName != null) {
+        machine.transition(Events.foundRecoveryFlag, data: {
+          "accountName": accountName,
+          "privateKey": pKey,
+        });
+      } else {
+        print("Error - recovery mode is enabled but provate key is missing $pKey for account $accountName");
+      }
+    }
   }
 
   void secureAccountWithPasscode() async {
@@ -117,7 +170,6 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void createAccountRequested() async {
-
     EOSPrivateKey privateKeyRaw = EOSPrivateKey.fromRandom();
     EOSPublicKey publicKey = privateKeyRaw.toEOSPublicKey();
 
@@ -176,7 +228,9 @@ class _JoinProcessState extends State<JoinProcess> {
     if (result != null) {
       machine.transition(Events.foundInviteLink, data: result);
     } else {
-      machine.transition(Events.foundNoLink);
+      if (machine.currentState == States.checkingInviteLink) {
+        machine.transition(Events.foundNoLink);
+      }
 
       Provider.of<LinksService>(context, listen: false)
           .onDynamicLink((queryParams) {
@@ -191,6 +245,40 @@ class _JoinProcessState extends State<JoinProcess> {
     Function backCallback;
 
     switch (machine.currentState) {
+      case States.startRecovery:
+        currentScreen = RequestRecovery(
+          onRequestRecovery: (String accountName) =>
+              machine.transition(Events.recoverAccountRequested, data: {
+            "accountName": accountName,
+          }),
+        );
+        backCallback = () => machine.transition(Events.cancelRecoveryProcess);
+        break;
+      case States.canceledRecoveryProcess:
+        currentScreen = NotionLoader(notion: "Cancel recovery process...");
+        break;
+      case States.continueRecovery:
+        currentScreen = ContinueRecovery(
+          () => machine.transition(Events.claimRecoveredAccount),
+          () => machine.transition(Events.cancelRecoveryProcess),
+        );
+        backCallback = () => machine.transition(Events.cancelRecoveryProcess);
+        break;
+      case States.recoverAccountState:
+        currentScreen = NotionLoader(
+          notion: "Recover account started...".i18n,
+        );
+        break;
+      case States.checkRecoveryProcess:
+        currentScreen = NotionLoader(
+          notion: "Recovery process analyzing...".i18n,
+        );
+        break;
+      case States.continueRecoveryProcess:
+        currentScreen = NotionLoader(
+          notion: "Continue recovery process...".i18n,
+        );
+        break;
       case States.checkingInviteLink:
         currentScreen = NotionLoader(
           notion: "Initialize new wallet...".i18n,
@@ -243,7 +331,8 @@ class _JoinProcessState extends State<JoinProcess> {
             },
           ),
         );
-        backCallback = () => machine.transition(Events.createAccountAccountNameBack);
+        backCallback =
+            () => machine.transition(Events.createAccountAccountNameBack);
         break;
       case States.creatingAccount:
         currentScreen = NotionLoader(
@@ -273,10 +362,25 @@ class _JoinProcessState extends State<JoinProcess> {
         currentScreen = ShowOnboardingChoice(
           onInvite: () => machine.transition(Events.chosenClaimInvite),
           onImport: () => machine.transition(Events.chosenImportAccount),
+          onRecover: () => machine.transition(Events.chosenRecoverAccount),
         );
         break;
     }
 
     return OverlayPopup(body: currentScreen, backCallback: backCallback);
+  }
+}
+
+class InitRecovery extends StatefulWidget {
+  @override
+  _InitRecoveryState createState() => _InitRecoveryState();
+
+  InitRecovery({Function onSubmit});
+}
+
+class _InitRecoveryState extends State<InitRecovery> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

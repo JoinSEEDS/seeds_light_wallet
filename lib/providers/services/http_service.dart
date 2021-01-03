@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:eosdart/eosdart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -16,13 +17,83 @@ class HttpService {
   String userAccount;
   bool mockResponse;
 
-  void update({String accountName, String nodeEndpoint, bool enableMockResponse = false}) {
+  void update(
+      {String accountName,
+      String nodeEndpoint,
+      bool enableMockResponse = false}) {
     nodeEndpoint = nodeEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
 
-  static HttpService of(BuildContext context, {bool listen = false}) => Provider.of(context, listen: listen);
+  static HttpService of(BuildContext context, {bool listen = false}) =>
+      Provider.of(context, listen: listen);
+
+  Future<List<dynamic>> getTableRows(
+      {String code, String scope, String table, String value}) async {
+    final String requestURL = "$baseURL/v1/chain/get_table_rows";
+
+    String request = value == null
+        ? '{"json": true, "code": "$code", "scope": "$scope", "table": "$table"}'
+        : '{"json": true, "code": "$code", "scope": "$scope", "table": "$table", "lower_bound": " $value", "upper_bound": " $value", "index_position": 1, "key_type": "i64", "limit": 1, "reverse": false}';
+
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(requestURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      final body = res.parseJson() as Map<String, dynamic>;
+
+      return body["rows"] as List<dynamic>;
+    } else {
+      print('Cannot fetch table rows... $code $scope $table $value');
+
+      return [];
+    }
+  }
+
+  Future<UserRecoversModel> getAccountRecovery(String accountName) async {
+    print("[http] get account recovery");
+
+    try {
+      if (mockResponse == true) {
+        return HttpMockResponse.userRecoversClaimReady;
+      }
+
+      List<dynamic> rows = await getTableRows(
+          code: "guard.seeds", scope: "guard.seeds", table: "recovers");
+
+      final recovery = UserRecoversModel.fromTableRows(rows);
+
+      return recovery;
+
+    } catch (error) {
+      print("Error fetching recovers: ${error.toString()}");
+      return null;
+    }
+  }
+
+  Future<UserGuardiansModel> getAccountGuardians(String accountName) async {
+
+    print("[http] get account guardians");
+    try {
+      if (mockResponse == true) {
+        return HttpMockResponse.userGuardians;
+      }
+
+      List<dynamic> rows = await getTableRows(
+          code: "guard.seeds", scope: "guard.seeds", table: "guards", value: accountName);
+
+      final guardians = UserGuardiansModel.fromTableRows(rows);
+
+      return guardians;
+
+    } catch(error) {
+      print("Error fetching account guardians: ${error.toString()}");
+      return null;
+    }
+
+  }
 
   Future<ProfileModel> getProfile() async {
     print("[http] get profile");
@@ -52,6 +123,34 @@ class HttpService {
     }
   }
 
+  Future<List<Permission>> getAccountPermissions() async {
+    print("[http] get account permissions");
+
+    if (mockResponse == true) {
+      return Future.value(HttpMockResponse.accountPermissions);
+    }
+
+    final String accountPermissionsURL = "$baseURL/v1/chain/get_account";
+
+    String request = '{ "account_name": $userAccount}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res =
+        await post(accountPermissionsURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      List<Permission> permissions =
+          body["rows"].map((item) => Permission.fromJson(item)).toList();
+
+      return permissions;
+    } else {
+      print('Cannot fetch account permissions...');
+      return List<Permission>();
+    }
+  }
+
   Future<List<String>> getKeyAccounts(String publicKey) async {
     print("[http] get key accounts");
 
@@ -59,7 +158,8 @@ class HttpService {
       return HttpMockResponse.keyAccounts;
     }
 
-    final String keyAccountsURL = "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
+    final String keyAccountsURL =
+        "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
 
     Response res = await get(keyAccountsURL);
 
@@ -101,7 +201,8 @@ class HttpService {
 
       List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members = allAccounts.map((item) => MemberModel.fromJson(item)).toList();
+      List<MemberModel> members =
+          allAccounts.map((item) => MemberModel.fromJson(item)).toList();
 
       return members;
     } else {
@@ -132,7 +233,8 @@ class HttpService {
 
       List<dynamic> allAccounts = body["rows"].toList();
 
-      List<MemberModel> members = allAccounts.map((item) => MemberModel.fromJson(item)).toList();
+      List<MemberModel> members =
+          allAccounts.map((item) => MemberModel.fromJson(item)).toList();
 
       return members;
     } else {
@@ -194,7 +296,8 @@ class HttpService {
 
     // Waif for all futures to complete
     List<Response> res = await Future.wait(futures);
-    Iterable<Response> filtered = res.where((element) => element.statusCode == 200);
+    Iterable<Response> filtered =
+        res.where((element) => element.statusCode == 200);
 
     List<MemberModel> users = List<MemberModel>();
     filtered.forEach((element) {
@@ -231,7 +334,8 @@ class HttpService {
             item["act"]["data"]["from"] != null;
       }).toList();
 
-      List<TransactionModel> transactions = transfers.map((item) => TransactionModel.fromJson(item)).toList();
+      List<TransactionModel> transactions =
+          transfers.map((item) => TransactionModel.fromJson(item)).toList();
 
       return transactions;
     } else {
@@ -250,7 +354,8 @@ class HttpService {
 
     final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
 
-    String request = '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
+    String request =
+        '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(balanceURL, headers: headers, body: request);
@@ -277,7 +382,8 @@ class HttpService {
 
     final String rateURL = '$baseURL/v1/chain/get_table_rows';
 
-    String request = '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
+    String request =
+        '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
 
     Map<String, String> headers = {"Content-type": "application/json"};
 
@@ -308,7 +414,6 @@ class HttpService {
     }
   }
 
-
   Future<BalanceModel> getTelosBalance() async {
     print("[http] get telos balance");
 
@@ -318,7 +423,8 @@ class HttpService {
 
     final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
 
-    String request = '{"code":"eosio.token","account":"$userAccount","symbol":"TLOS"}';
+    String request =
+        '{"code":"eosio.token","account":"$userAccount","symbol":"TLOS"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(balanceURL, headers: headers, body: request);
@@ -347,14 +453,15 @@ class HttpService {
 
     final String daoURL = "$baseURL/v1/chain/get_table_rows";
 
-    String request = '{"json": true, "code": "dao.hypha","scope": "dao.hypha","table": "members","table_key": "","lower_bound": "$userAccount","upper_bound": "$userAccount","limit": 1,}';
+    String request =
+        '{"json": true, "code": "dao.hypha","scope": "dao.hypha","table": "members","table_key": "","lower_bound": "$userAccount","upper_bound": "$userAccount","limit": 1,}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(daoURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
-      print("result "+body.toString());
+      print("result " + body.toString());
       return body["rows"].length > 0;
     } else {
       print("Cannot fetch dho members...");
@@ -515,7 +622,9 @@ class HttpService {
     print("[http] get proposals: stage = [$stage]");
 
     if (mockResponse == true) {
-      return HttpMockResponse.proposals.where((proposal) => proposal.stage == stage).toList();
+      return HttpMockResponse.proposals
+          .where((proposal) => proposal.stage == stage)
+          .toList();
     }
 
     final String proposalsURL = '$baseURL/v1/chain/get_table_rows';
@@ -533,7 +642,8 @@ class HttpService {
         return item["stage"] == stage && item["status"] == status;
       }).toList();
 
-      List<ProposalModel> proposals = activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
+      List<ProposalModel> proposals =
+          activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
 
       return proposals;
     } else {
@@ -599,7 +709,8 @@ class HttpService {
       Map<String, dynamic> body = jsonDecode(res.body);
 
       if (body["rows"].length > 0) {
-        List<InviteModel> invites = body["rows"].map((item) => InviteModel.fromJson(item)).toList();
+        List<InviteModel> invites =
+            body["rows"].map((item) => InviteModel.fromJson(item)).toList();
 
         return invites;
       } else {
