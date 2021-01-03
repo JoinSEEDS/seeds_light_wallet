@@ -7,6 +7,7 @@ const String GUARDIANS_DATE_UPDATED_KEY = "dateUpdated";
 const String GUARDIAN_CONTRACT_INITIALIZED = "guardianContractInitialized";
 const String GUARDIAN_CONTRACT_INITIALIZED_DATE = "guardianContractInitializedDate";
 const String GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE = "guardianContractInitializedUpdateDate";
+const String GUARDIAN_NOTIFICATION_KEY = "guardianNotification";
 const String UID_KEY = "uid";
 const String TYPE_KEY = "type";
 const String RECOVERY_COLLECTION_KEY = "recovery";
@@ -20,3 +21,5 @@ const String PRODUCT_IMAGE_URL_KEY = "imageUrl";
 const String PRODUCT_CREATED_DATE_KEY = "createdDate";
 const String PRODUCT_UPDATED_DATE_KEY = "updatedDate";
 const String PRODUCT_CURRENCY_KEY = "productCurrency";
+
+const String PENDING_NOTIFICATIONS_KEY = "pendingNotifications";
