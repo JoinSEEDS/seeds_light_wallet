@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 
 const guardianInviteReceived = "guardianInviteReceived";
