@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -16,7 +15,6 @@ import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
@@ -427,16 +425,8 @@ class _ProfileState extends State<Profile> {
             'Key Guardians'.i18n,
             style: TextStyle(color: Colors.blue),
           ),
-          onPressed: () async {
-            QuerySnapshot guardians =
-                await FirebaseDatabaseService().getGuardiansCount(SettingsNotifier.of(context).accountName);
-
-            //User has Already seen guardians feature or has been invited to be a guardian
-            if (guardians.size > 0) {
-              NavigationService.of(context).navigateTo(Routes.guardianTabs);
-            } else {
-              NavigationService.of(context).navigateTo(Routes.guardianInstructions);
-            }
+          onPressed: () {
+            NavigationService.of(context).navigateTo(Routes.guardianTabs);
           },
         ),
       );

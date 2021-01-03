@@ -15,6 +15,7 @@ class SettingsNotifier extends ChangeNotifier {
   static const BACKUP_REMINDER_COUNT = "backup_reminder_count";
   static const SELECTED_FIAT_CURRENCY = "selected_fiat_currency";
   static const IN_RECOVERY_MODE = "in_recovery_mode";
+  static const GUARDIAN_TUTORIAL_SHOWN = "guardian_tutorial_shown";
 
   String _privateKey;
   String _passcode;
@@ -34,6 +35,7 @@ class SettingsNotifier extends ChangeNotifier {
   get backupReminderCount => _backupReminderCount;
   get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY);
   get inRecoveryMode => _preferences?.getBool(IN_RECOVERY_MODE);
+  get guardianTutorialShown => _preferences?.getBool(GUARDIAN_TUTORIAL_SHOWN);
 
   set nodeEndpoint(String value) =>
       _preferences?.setString(NODE_ENDPOINT, value);
@@ -75,6 +77,10 @@ class SettingsNotifier extends ChangeNotifier {
 
   set selectedFiatCurrency(String value) {
     _preferences.setString(SELECTED_FIAT_CURRENCY, value);
+  }
+
+  set guardianTutorialShown(bool shown) {
+    _preferences.setBool(GUARDIAN_TUTORIAL_SHOWN, shown);
   }
 
   SharedPreferences _preferences;
@@ -184,6 +190,11 @@ class SettingsNotifier extends ChangeNotifier {
 
   void saveSelectedFiatCurrency(String value) {
     this.selectedFiatCurrency = value;
+    notifyListeners();
+  }
+
+  void saveGuardianTutorialShown(bool value) {
+    this.guardianTutorialShown = value;
     notifyListeners();
   }
 

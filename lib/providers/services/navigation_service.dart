@@ -11,7 +11,6 @@ import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
 import 'package:seeds/screens/app/ecosystem/overview.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
-import 'package:seeds/screens/app/guardians/guardian_instructions.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite_sent.dart';
 import 'package:seeds/screens/app/guardians/guardians_tabs.dart';
@@ -55,7 +54,6 @@ class Routes {
   static final scanQRCode = "ScanQRCode";
   static final receive = 'Receive';
   static final receiveQR = 'ReceiveQR';
-  static final guardianInstructions = "GuardianInstructions";
   static final selectGuardians = "SelectGuardians";
   static final inviteGuardians = "InviteGuardians";
   static final inviteGuardiansSent = "InviteGuardiansSent";
@@ -110,7 +108,6 @@ class NavigationService {
     Routes.scanQRCode: (_) => Scan(false),
     Routes.receive: (_) => Receive(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
-    Routes.guardianInstructions: (_) => GuardianInstructions(),
     Routes.selectGuardians: (_) => SelectGuardians(),
     Routes.inviteGuardians: (args) => InviteGuardians(args),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),
