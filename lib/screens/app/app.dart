@@ -14,6 +14,7 @@ import 'package:seeds/screens/app/profile/profile.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
+import 'package:seeds/widgets/pending_notification.dart';
 
 class NavigationTab {
   final String title;
@@ -252,35 +253,38 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   Widget buildNavigation() {
-    return BottomNavigationBar(
-      currentIndex: index,
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            changePageNotifier.add("Explore");
-            break;
-          case 1:
-            changePageNotifier.add("Wallet");
-            break;
-          case 2:
-            changePageNotifier.add("Profile");
-            break;
-        }
-      },
-      showUnselectedLabels: true,
-      fixedColor: Colors.white,
-      unselectedItemColor: AppColors.grey,
-      type: BottomNavigationBarType.fixed,
-      selectedLabelStyle: TextStyle(fontSize: 12),
-      unselectedLabelStyle: TextStyle(color: Colors.grey.withOpacity(0.7)),
-      elevation: 9,
-      selectedFontSize: 12,
-      unselectedFontSize: 12,
-      items: navigationTabs
-          .map(
-            (tab) => buildIcon(tab.title, tab.icon, tab.index),
-          )
-          .toList(),
-    );
+    return Stack(children: <Widget>[
+      BottomNavigationBar(
+        currentIndex: index,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              changePageNotifier.add("Explore");
+              break;
+            case 1:
+              changePageNotifier.add("Wallet");
+              break;
+            case 2:
+              changePageNotifier.add("Profile");
+              break;
+          }
+        },
+        showUnselectedLabels: true,
+        fixedColor: Colors.white,
+        unselectedItemColor: AppColors.grey,
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: TextStyle(fontSize: 12),
+        unselectedLabelStyle: TextStyle(color: Colors.grey.withOpacity(0.7)),
+        elevation: 9,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
+        items: navigationTabs
+            .map(
+              (tab) => buildIcon(tab.title, tab.icon, tab.index),
+            )
+            .toList(),
+      ),
+      Positioned(bottom: 30, right: 30, top: -26, child: guardianNotification())
+    ]);
   }
 }

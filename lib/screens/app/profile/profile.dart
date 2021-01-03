@@ -20,6 +20,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
+import 'package:seeds/widgets/pending_notification.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:uuid/uuid.dart';
@@ -416,15 +417,21 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _guardiansView() {
-    if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
+    //FirebaseRemoteConfigService().featureFlagGuardiansEnabled
+    if (true) {
       return Padding(
-        padding: const EdgeInsets.only(top: 50.0),
+        padding: EdgeInsets.only(top: 50.0),
         child: FlatButton(
           color: Colors.white,
-          child: Text(
-            'Key Guardians'.i18n,
-            style: TextStyle(color: Colors.blue),
-          ),
+          child: Stack(overflow: Overflow.visible,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Key Guardians'.i18n,
+                  style: TextStyle(color: Colors.blue),
+                ),
+                Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification())
+              ]),
           onPressed: () {
             NavigationService.of(context).navigateTo(Routes.guardianTabs);
           },
