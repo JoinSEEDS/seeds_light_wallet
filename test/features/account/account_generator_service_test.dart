@@ -6,7 +6,6 @@ import 'package:seeds/providers/services/http_service.dart';
 class MockHttpService extends Mock implements HttpService {}
 
 void main() {
-
   HttpService httpService = MockHttpService();
   AccountGeneratorService _service;
 
@@ -15,37 +14,34 @@ void main() {
   });
 
   group('Validate account name', () {
-
     test('Valid account name', () async {
-      final result = _service.validate("abcdefgzhijk");
+      final result = validate("abcdefgzhijk");
 
       expect(result.valid, true);
     });
 
     test('Valid account name', () async {
-      final result = _service.validate("abcdEFGzhijk");
+      final result = validate("abcdEFGzhijk");
 
       expect(result.valid, false);
       expect(result.message, "Name can be lowercase only");
     });
 
     test('Numeric only account name is valid', () async {
-      final result = _service.validate("123451234512");
+      final result = validate("123451234512");
 
       expect(result.valid, true);
     });
 
     test('Account name too short', () async {
-      final result = _service.validate("abcdefgzhij");
+      final result = validate("abcdefgzhij");
 
       expect(result.valid, false);
       expect(result.message, "Name should have 12 symbols");
     });
-
   });
 
   group('Convert suggestion to valid account name', () {
-
     test('Input is complete account name', () async {
       final result = _service.convert("abc123abc123");
 
@@ -77,7 +73,8 @@ void main() {
     });
 
     test('Return name if it is available', () async {
-      when(httpService.isAccountNameAvailable('abc123abc123')).thenAnswer((_) async => true);
+      when(httpService.isAccountNameAvailable('abc123abc123'))
+          .thenAnswer((_) async => true);
 
       final result = await _service.findAvailable("abc123abc123");
 
@@ -85,8 +82,10 @@ void main() {
     });
 
     test('Modify name if it is not available', () async {
-      when(httpService.isAccountNameAvailable('abcdefabcdef')).thenAnswer((_) async => false);
-      when(httpService.isAccountNameAvailable('abcdefabcde1')).thenAnswer((_) async => true);
+      when(httpService.isAccountNameAvailable('abcdefabcdef'))
+          .thenAnswer((_) async => false);
+      when(httpService.isAccountNameAvailable('abcdefabcde1'))
+          .thenAnswer((_) async => true);
 
       final result = await _service.findAvailable("abcdefabcdef");
 
@@ -94,28 +93,35 @@ void main() {
     });
 
     test('Generate with exclude', () async {
-      when(httpService.isAccountNameAvailable('abc123abc123')).thenAnswer((_) async => true);
+      when(httpService.isAccountNameAvailable('abc123abc123'))
+          .thenAnswer((_) async => true);
 
-      final result = await _service.findAvailable("abc123abc121", exclude: [ "abc123abc121", "abc123abc122" ]);
+      final result = await _service.findAvailable("abc123abc121",
+          exclude: ["abc123abc121", "abc123abc122"]);
 
       expect(result.available, "abc123abc123");
     });
 
     test('Generate with no more to try', () async {
-      when(httpService.isAccountNameAvailable('555555555551')).thenAnswer((_) async => false);
+      when(httpService.isAccountNameAvailable('555555555551'))
+          .thenAnswer((_) async => false);
 
       try {
-        await _service.findAvailable("555555555551", exclude: ["555555555551", "555555555552"], recursionAttempts: 1);
+        await _service.findAvailable("555555555551",
+            exclude: ["555555555551", "555555555552"], recursionAttempts: 1);
         fail("Expected exception");
-      } catch(error) {
+      } catch (error) {
         expect(error, "Couldn't find a valid account name");
       }
     });
 
     test('Generate a list of two account names', () async {
-      when(httpService.isAccountNameAvailable('abcdefabcdef')).thenAnswer((_) async => false);
-      when(httpService.isAccountNameAvailable('abcdefabcde1')).thenAnswer((_) async => true);
-      when(httpService.isAccountNameAvailable('abcdefabcde2')).thenAnswer((_) async => true);
+      when(httpService.isAccountNameAvailable('abcdefabcdef'))
+          .thenAnswer((_) async => false);
+      when(httpService.isAccountNameAvailable('abcdefabcde1'))
+          .thenAnswer((_) async => true);
+      when(httpService.isAccountNameAvailable('abcdefabcde2'))
+          .thenAnswer((_) async => true);
 
       final result = await _service.generateList("abcdefabcdef", count: 2);
 
@@ -123,11 +129,9 @@ void main() {
       expect(result[0], "abcdefabcde1");
       expect(result[1], "abcdefabcde2");
     });
-
   });
 
   group('Helpful "private" methods', () {
-
     test('Modify account name', () async {
       final result = _service.modifyAccountName("abc123abcdef", 1);
 
@@ -181,7 +185,5 @@ void main() {
 
       expect(result, 1111);
     });
-
   });
-
 }

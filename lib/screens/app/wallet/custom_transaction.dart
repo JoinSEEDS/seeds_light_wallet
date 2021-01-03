@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:eosdart/eosdart.dart';
 import 'package:flutter/material.dart' hide Action;
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/broadcast_transaction_overlay.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -24,6 +23,7 @@ class CustomTransaction extends StatefulWidget {
 
   @override
   _CustomTransactionState createState() => _CustomTransactionState();
+  
 }
 
 class _CustomTransactionState extends State<CustomTransaction> {
@@ -64,7 +64,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
       statusStream: _statusNotifier.stream,
       messageStream: _messageNotifier.stream,
       onClose: () {
-        Navigator.of(context).pop();
+        Navigator.of(context).maybePop();
       },
     );
   }
@@ -92,9 +92,9 @@ class _CustomTransactionState extends State<CustomTransaction> {
           child: Column(
             children: <Widget>[
               TransactionDetails(
-                image: SvgPicture.asset(
-                  "icon",
-                  color: Colors.black,
+                image: Image.asset(
+                  'assets/images/seeds.png',
+                  height: 33,
                 ),
                 title: name,
                 beneficiary: account,

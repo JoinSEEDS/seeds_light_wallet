@@ -180,7 +180,11 @@ class _ShareScreenState extends State<ShareScreen> {
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
-                  child: QrImage(data: widget.inviteLink, size: 256,foregroundColor: Colors.black87,),
+                  child: QrImage(
+                    data: widget.inviteLink,
+                    size: 256,
+                    foregroundColor: Colors.black87,
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.all(20),
@@ -218,16 +222,11 @@ class _ShareScreenState extends State<ShareScreen> {
                     Share.share(widget.inviteSecret);
                   },
                 ),
-                (true)
-                    ? SecondButton(
-                        margin: const EdgeInsets.only(bottom: 40, top: 10),
-                        title: 'Done'.i18n,
-                        onPressed: () => Navigator.of(context).maybePop(),
-                      )
-                    : Container(
-                        margin: const EdgeInsets.only(bottom: 40, top: 10),
-                        height: 55.0,
-                      )
+                SecondButton(
+                  margin: const EdgeInsets.only(bottom: 40, top: 10),
+                  title: 'Done'.i18n,
+                  onPressed: () => Navigator.of(context).maybePop(),
+                )
               ],
             )
           ],

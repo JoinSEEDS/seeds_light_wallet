@@ -24,6 +24,7 @@ import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
@@ -142,9 +143,12 @@ class MainScreen extends StatelessWidget {
         NavigationService navigationService = NavigationService.of(context);
         PushNotificationService().initialise(context);
 
-        if (auth.status == AuthStatus.emptyAccount) {
+        if (auth.status == AuthStatus.emptyAccount ||
+            auth.status == AuthStatus.recoveryMode) {
           return SeedsMaterialApp(
-            home: Onboarding(),
+            home: auth.status == AuthStatus.emptyAccount
+                ? Onboarding()
+                : JoinProcess(),
             navigatorKey: navigationService.onboardingNavigatorKey,
             onGenerateRoute: navigationService.onGenerateRoute,
           );

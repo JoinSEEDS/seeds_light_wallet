@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SettingsNotifier extends ChangeNotifier {
-
   static const ACCOUNT_NAME = "accountName";
   static const PRIVATE_KEY = "privateKey";
   static const PASSCODE = "passcode";
@@ -15,6 +14,7 @@ class SettingsNotifier extends ChangeNotifier {
   static const BACKUP_LATEST_REMINDER = "backup_latest_reminder";
   static const BACKUP_REMINDER_COUNT = "backup_reminder_count";
   static const SELECTED_FIAT_CURRENCY = "selected_fiat_currency";
+  static const IN_RECOVERY_MODE = "in_recovery_mode";
   static const GUARDIAN_TUTORIAL_SHOWN = "guardian_tutorial_shown";
 
   String _privateKey;
@@ -34,9 +34,14 @@ class SettingsNotifier extends ChangeNotifier {
   get backupLatestReminder => _backupLatestReminder;
   get backupReminderCount => _backupReminderCount;
   get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY);
+  get inRecoveryMode => _preferences?.getBool(IN_RECOVERY_MODE);
   get guardianTutorialShown => _preferences?.getBool(GUARDIAN_TUTORIAL_SHOWN);
 
-  set nodeEndpoint(String value) => _preferences?.setString(NODE_ENDPOINT, value);
+  set nodeEndpoint(String value) =>
+      _preferences?.setString(NODE_ENDPOINT, value);
+
+  set inRecoveryMode(bool value) =>
+      _preferences?.setBool(IN_RECOVERY_MODE, value);
 
   set accountName(String value) => _preferences?.setString(ACCOUNT_NAME, value);
 
@@ -87,48 +92,46 @@ class SettingsNotifier extends ChangeNotifier {
   void init() async {
     _preferences = await SharedPreferences.getInstance();
     _secureStorage = FlutterSecureStorage();
-    _secureStorage.readAll()
-      .then((values) {
-        _privateKey = values[PRIVATE_KEY];
-        if(_privateKey == null) {
-          _privateKey = _migrateFromPrefs(PRIVATE_KEY);
-        }
+    _secureStorage.readAll().then((values) {
+      _privateKey = values[PRIVATE_KEY];
+      if (_privateKey == null) {
+        _privateKey = _migrateFromPrefs(PRIVATE_KEY);
+      }
 
-        _passcode = values[PASSCODE];
-        if(_passcode == null) {
-          _passcode = _migrateFromPrefs(PASSCODE);
-        }
+      _passcode = values[PASSCODE];
+      if (_passcode == null) {
+        _passcode = _migrateFromPrefs(PASSCODE);
+      }
 
-        if(values.containsKey(PASSCODE_ACTIVE)) {
-          _passcodeActive = values[PASSCODE_ACTIVE] == "true";
-        } else {
-          _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
-        }
+      if (values.containsKey(PASSCODE_ACTIVE)) {
+        _passcodeActive = values[PASSCODE_ACTIVE] == "true";
+      } else {
+        _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
+      }
 
-        if(values.containsKey(PRIVATE_KEY_BACKED_UP)) {
-          _privateKeyBackedUp = values[PRIVATE_KEY_BACKED_UP] == "true";
-        } else {
-          _privateKeyBackedUp = false;
-        }
+      if (values.containsKey(PRIVATE_KEY_BACKED_UP)) {
+        _privateKeyBackedUp = values[PRIVATE_KEY_BACKED_UP] == "true";
+      } else {
+        _privateKeyBackedUp = false;
+      }
 
-        if(values.containsKey(BACKUP_LATEST_REMINDER)) {
-          _backupLatestReminder = int.parse(values[BACKUP_LATEST_REMINDER]);
-        } else {
-          _backupLatestReminder = 0;
-        }
+      if (values.containsKey(BACKUP_LATEST_REMINDER)) {
+        _backupLatestReminder = int.parse(values[BACKUP_LATEST_REMINDER]);
+      } else {
+        _backupLatestReminder = 0;
+      }
 
-        if(values.containsKey(BACKUP_REMINDER_COUNT)) {
-          _backupReminderCount = int.parse(values[BACKUP_REMINDER_COUNT]);
-        } else {
-          _backupReminderCount = 0;
-        }
-      })
-      .whenComplete(() => notifyListeners());
+      if (values.containsKey(BACKUP_REMINDER_COUNT)) {
+        _backupReminderCount = int.parse(values[BACKUP_REMINDER_COUNT]);
+      } else {
+        _backupReminderCount = 0;
+      }
+    }).whenComplete(() => notifyListeners());
   }
 
   String _migrateFromPrefs(String key) {
     String value = _preferences.get(key);
-    if(value != null) {
+    if (value != null) {
       _secureStorage.write(key: key, value: value);
       _preferences?.remove(key);
       debugPrint("Converted $key to secure storage");
@@ -142,6 +145,25 @@ class SettingsNotifier extends ChangeNotifier {
     }
   }
 
+  void enableRecoveryMode({String accountName, String privateKey}) {
+    this.inRecoveryMode = true;
+    this.accountName = accountName;
+    this.privateKey = privateKey;
+    notifyListeners();
+  }
+
+  void finishRecoveryProcess() {
+    this.inRecoveryMode = false;
+    notifyListeners();
+  }
+
+  void cancelRecoveryProcess() {
+    this.inRecoveryMode = false;
+    this.accountName = null;
+    this.privateKey = null;
+    notifyListeners();
+  }
+
   void savePasscode(String passcode) {
     this.passcode = passcode;
     notifyListeners();
@@ -149,7 +171,7 @@ class SettingsNotifier extends ChangeNotifier {
 
   void savePasscodeActive(bool value) {
     this.passcodeActive = value;
-    if(!passcodeActive) {
+    if (!passcodeActive) {
       this.passcode = null;
     }
     notifyListeners();
@@ -205,5 +227,4 @@ class SettingsNotifier extends ChangeNotifier {
     _preferences?.setString(NODE_ENDPOINT, nodeEndpoint);
     notifyListeners();
   }
-
 }
