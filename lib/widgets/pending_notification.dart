@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-guardianNotification() {
-  if (true) {
+guardianNotification(bool showGuardianNotification) {
+  if (showGuardianNotification) {
     return Container(
         width: 16,
         height: 16,

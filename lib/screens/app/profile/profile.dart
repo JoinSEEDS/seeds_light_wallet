@@ -15,6 +15,7 @@ import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
@@ -194,7 +195,17 @@ class _ProfileState extends State<Profile> {
                   },
                 ),
               ),
-              _guardiansView(),
+
+              StreamBuilder<bool>(
+                  stream: FirebaseDatabaseService()
+                      .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
+                  builder: (context, AsyncSnapshot<bool> snapshot) {
+                    if (snapshot != null && snapshot.hasData) {
+                      return _guardiansView(snapshot.data);
+                    } else {
+                      return _guardiansView(false);
+                    }
+                  }),
               Consumer<SettingsNotifier>(
                 builder: (context, settingsNotifier, child) => Padding(
                   padding: const EdgeInsets.only(top: 0.0),
@@ -416,9 +427,8 @@ class _ProfileState extends State<Profile> {
     return url;
   }
 
-  Widget _guardiansView() {
-    //FirebaseRemoteConfigService().featureFlagGuardiansEnabled
-    if (true) {
+  Widget _guardiansView(bool showGuardianNotification) {
+    if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
       return Padding(
         padding: EdgeInsets.only(top: 50.0),
         child: FlatButton(
@@ -430,7 +440,7 @@ class _ProfileState extends State<Profile> {
                   'Key Guardians'.i18n,
                   style: TextStyle(color: Colors.blue),
                 ),
-                Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification())
+                Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification(showGuardianNotification))
               ]),
           onPressed: () {
             NavigationService.of(context).navigateTo(Routes.guardianTabs);

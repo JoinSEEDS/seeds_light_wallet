@@ -279,7 +279,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             )
             .toList(),
       ),
-      Positioned(bottom: 30, right: 30, top: -26, child: guardianNotification())
+      Positioned(bottom: 30, right: 30, top: -26, child: guardianNotification(showGuardianNotification))
     ]);
   }
 }
