@@ -77,7 +77,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   String productName = "";
   double seedsValue = 0;
   Currency currency;
-  PersistentBottomSheetController bottomSheetController;
   List<ProductModel> products = List();
 
   String localImagePath = '';
@@ -103,8 +102,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     setState(() {
       localImagePath = localImage.path;
     });
-
-    bottomSheetController.setState(() {});
   }
 
   Future<void> createNewProduct(String userAccount, BuildContext context) async {
@@ -411,21 +408,12 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         ),
       ),
       floatingActionButton: Builder(
-        builder: (context) => bottomSheetController == null
-            ? FloatingActionButton(
+        builder: (context) =>
+             FloatingActionButton(
                 backgroundColor: AppColors.blue,
                 onPressed: () => showNewProduct(context, accountName),
                 child: Icon(Icons.add),
               )
-            : FloatingActionButton(
-                backgroundColor: AppColors.blue,
-                onPressed: () {
-                  bottomSheetController.close();
-                  bottomSheetController = null;
-                  setState(() {});
-                },
-                child: Icon(Icons.close),
-              ),
       ),
       body: StreamBuilder<List<ProductModel>>(
           stream: FirebaseDatabaseService().getProductsForUser(accountName),
