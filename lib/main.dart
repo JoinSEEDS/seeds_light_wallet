@@ -24,6 +24,7 @@ import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/screens/app/app.dart';
+import 'package:seeds/screens/app/ecosystem/tables_explorer/tables_explorer.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/passcode.dart';
@@ -60,6 +61,9 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
 
 main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  return TempApp();
+
   var appDir = await getApplicationDocumentsDirectory();
   Hive.init(appDir.path);
   Hive.registerAdapter<MemberModel>(MemberAdapter());
@@ -115,6 +119,22 @@ class SeedsMaterialApp extends MaterialApp {
             home: I18n(child: home),
             navigatorKey: navigatorKey,
             onGenerateRoute: onGenerateRoute);
+}
+
+class TempApp extends StatefulWidget {
+  @override
+  _TempAppState createState() => _TempAppState();
+}
+
+class _TempAppState extends State<TempApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: TablesExplorer(),
+      ),
+    );
+  }
 }
 
 class SeedsApp extends StatefulWidget {
