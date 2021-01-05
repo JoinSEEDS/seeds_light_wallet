@@ -70,7 +70,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   final editKey = GlobalKey<FormState>();
   final priceKey = GlobalKey<FormState>();
   final nameKey = GlobalKey<FormState>();
-  final _formKey = GlobalKey<FormState>();
   var savingLoader = GlobalKey<MainButtonState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -329,7 +328,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                 ],
               ),
               child: Form(
-                key: _formKey,
+                key: priceKey,
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     vertical: 10,
@@ -367,7 +366,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           currentCurrency: currency,
                           priceController: priceController,
                           onChanged: (amount, currencyInput, validate) => {
-                                validate ? _formKey.currentState.validate() : "",
+                                validate ? priceKey.currentState.validate() : "",
                                 seedsValue = amount,
                                 currency = currencyInput,
                               }),
@@ -376,7 +375,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         title: 'Add Product'.i18n,
                         onPressed: () {
                           nameKey.currentState.validate();
-                          if (_formKey.currentState.validate() && nameKey.currentState.validate()) {
+                          if (priceKey.currentState.validate() && nameKey.currentState.validate()) {
                             createNewProduct(accountName, context);
                           }
                         },
