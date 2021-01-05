@@ -107,7 +107,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     bottomSheetController.setState(() {});
   }
 
-  Future<void> createNewProduct(String userAccount) async {
+  Future<void> createNewProduct(String userAccount, BuildContext context) async {
     if (products.indexWhere((element) => element.name == nameController.text) != -1) return;
 
     String downloadUrl;
@@ -128,10 +128,10 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
       currency: currency,
     );
 
-    FirebaseDatabaseService().createProduct(product, userAccount).then((value) => closeBottomSheet());
+    FirebaseDatabaseService().createProduct(product, userAccount).then((value) => closeBottomSheet(context));
   }
 
-  Future<void> editProduct(ProductModel productModel, String userAccount) async {
+  Future<void> editProduct(ProductModel productModel, String userAccount , BuildContext context) async {
     String downloadUrl;
     setState(() {
       savingLoader.currentState.loading();
@@ -150,12 +150,11 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         id: productModel.id,
         currency: currency);
 
-    FirebaseDatabaseService().updateProduct(product, userAccount).then((value) => closeBottomSheet());
+    FirebaseDatabaseService().updateProduct(product, userAccount).then((value) => closeBottomSheet(context));
   }
 
-  void closeBottomSheet() {
-    bottomSheetController.close();
-    bottomSheetController = null;
+  void closeBottomSheet(BuildContext context) {
+    Navigator.pop(context);
     setState(() {});
   }
 
@@ -232,153 +231,166 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     nameController.text = productModel.name;
     priceController.text = productModel.price.toString();
     currency = productModel.currency;
-    // productModel.currency.name == 'SEEDS'? setState(() {currency = InputMode.seeds;})  : setState(() {
-    //   currency = InputMode.fiat;
-    // });
 
-    print(productModel.currency.name);
-    print(currency);
-    //print(currencyController.text + 'Controller');
-
-    bottomSheetController = Scaffold.of(context).showBottomSheet(
-      (context) => Form(
-        key: editKey,
+    showModalBottomSheet<void>(isScrollControlled: true,context: context, builder: (BuildContext context) {
+      return SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal: 15,
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                blurRadius: 8,
-                color: AppColors.blue,
-                offset: Offset(0, 4),
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Form(
+            key: editKey,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 15,
               ),
-            ],
-          ),
-          child: Wrap(
-            runSpacing: 10.0,
-            children: <Widget>[
-              DottedBorder(
-                color: AppColors.grey,
-                strokeWidth: 1,
-                child: GestureDetector(
-                  onTap: chooseProductPicture,
-                  child: buildPictureWidget(productModel.picture),
-                ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    blurRadius: 8,
+                    color: AppColors.blue,
+                    offset: Offset(0, 4),
+                  ),
+                ],
               ),
-              MainTextField(
-                  labelText: 'Name'.i18n,
-                  controller: nameController,
-                  validator: (String name) {
-                    String error;
+              child: Wrap(
+                runSpacing: 10.0,
+                children: <Widget>[
+                  DottedBorder(
+                    color: AppColors.grey,
+                    strokeWidth: 1,
+                    child: GestureDetector(
+                      onTap: chooseProductPicture,
+                      child: buildPictureWidget(productModel.picture),
+                    ),
+                  ),
+                  MainTextField(
+                      labelText: 'Name'.i18n,
+                      controller: nameController,
+                      validator: (String name) {
+                        String error;
 
-                    if (name == null || name.isEmpty) {
-                      error = 'Name cannot be empty'.i18n;
-                    }
-                    return error;
-                  },
-                  onChanged: (name) {
-                    editKey.currentState.validate();
-                  }),
-              AmountFieldOnEdit(
-                  currentCurrency: currency,
-                  priceController: priceController,
-                  onChanged: (amount, input, validate) => {
+                        if (name == null || name.isEmpty) {
+                          error = 'Name cannot be empty'.i18n;
+                        }
+                        return error;
+                      },
+                      onChanged: (name) {
+                        editKey.currentState.validate();
+                      }),
+                  AmountField(
+                      currentCurrency: currency,
+                      priceController: priceController,
+                      onChanged: (amount, input, validate) => {
                         validate ? editKey.currentState.validate() : null,
                         seedsValue = amount,
                         currency = input,
                       }),
-              MainButton(
-                key: savingLoader,
-                title: 'Edit Product'.i18n,
-                onPressed: () {
-                  if (editKey.currentState.validate()) {
-                    editProduct(productModel, userAccount);
-                  }
-                },
+                  MainButton(
+                    key: savingLoader,
+                    title: 'Edit Product'.i18n,
+                    onPressed: () {
+                      if (editKey.currentState.validate()) {
+                        editProduct(productModel, userAccount, context);
+                      }
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
 
     setState(() {});
   }
+
+
 
   void showNewProduct(BuildContext context, String accountName) {
     nameController.clear();
     priceController.clear();
     localImagePath = "";
+    currency = Currency.SEEDS;
 
-    bottomSheetController = Scaffold.of(context).showBottomSheet(
-          (context) => Container(
-        padding: EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 15,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              blurRadius: 8,
-              color: AppColors.blue,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Form(
-          key: _formKey,
-          child: Wrap(
-            runSpacing: 10.0,
-            children: <Widget>[
-              DottedBorder(
-                color: AppColors.grey,
-                strokeWidth: 1,
-                child: GestureDetector(
-                  onTap: chooseProductPicture,
-                  child: buildPictureWidget(null),
+    showModalBottomSheet<void>(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    blurRadius: 8,
+                    color: AppColors.blue,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Form(
+                key: _formKey,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 15,
+                  ),
+                  child: Wrap(
+                    runSpacing: 10.0,
+                    children: <Widget>[
+                      DottedBorder(
+                        color: AppColors.grey,
+                        strokeWidth: 1,
+                        child: GestureDetector(
+                          onTap: chooseProductPicture,
+                          child: buildPictureWidget(null),
+                        ),
+                      ),
+                      Form(
+                        key: nameKey,
+                        child: MainTextField(
+                            labelText: 'Name'.i18n,
+                            controller: nameController,
+                            validator: (String name) {
+                              String error;
+
+                              if (name == null || name.isEmpty) {
+                                error = 'Name cannot be empty'.i18n;
+                              }
+                              return error;
+                            },
+                            onChanged: (name) {
+                              nameKey.currentState.validate();
+                            }),
+                      ),
+                      AmountField(
+                          currentCurrency: currency,
+                          priceController: priceController,
+                          onChanged: (amount, currencyInput, validate) => {
+                                validate ? _formKey.currentState.validate() : "",
+                                seedsValue = amount,
+                                currency = currencyInput,
+                              }),
+                      MainButton(
+                        key: savingLoader,
+                        title: 'Add Product'.i18n,
+                        onPressed: () {
+                          nameKey.currentState.validate();
+                          if (_formKey.currentState.validate() && nameKey.currentState.validate()) {
+                            createNewProduct(accountName, context);
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Form(
-                key: nameKey,
-                child: MainTextField(
-                    labelText: 'Name'.i18n,
-                    controller: nameController,
-                    validator: (String name) {
-                      String error;
-
-                      if (name == null || name.isEmpty) {
-                        error = 'Name cannot be empty'.i18n;
-                      }
-                      return error;
-                    },
-                    onChanged: (name) {
-                      nameKey.currentState.validate();
-                    }),
-              ),
-              AmountField(onChanged: (amount,currencyInput,validate) => { validate?_formKey.currentState.validate() : "",
-                seedsValue = amount, currency = currencyInput,
-                }),
-              MainButton(
-                key: savingLoader,
-                title: 'Add Product'.i18n,
-                onPressed: () {
-                  nameKey.currentState.validate();
-                  if (_formKey.currentState.validate() && nameKey.currentState.validate()) {
-                    createNewProduct(accountName);
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-
+            ),
+          );
+        });
     setState(() {});
   }
 
@@ -871,27 +883,24 @@ class _ReceiveFormState extends State<ReceiveForm> {
   }
 }
 
-class AmountFieldOnEdit extends StatefulWidget {
-  AmountFieldOnEdit({Key key, this.onChanged, this.priceController, this.currentCurrency}) : super(key: key);
+class AmountField extends StatefulWidget {
+  const AmountField({Key key, this.onChanged, this.priceController, this.currentCurrency}) : super(key: key);
 
   final TextEditingController priceController;
   final Function onChanged;
-  Currency currentCurrency;
-
+  final Currency currentCurrency;
 
   @override
-  _AmountFieldOnEditState createState() =>
-      _AmountFieldOnEditState(double.tryParse(priceController.text));
+  _AmountFieldState createState() =>
+      _AmountFieldState(double.tryParse(priceController.text), currentCurrency);
 }
 
-class _AmountFieldOnEditState extends State<AmountFieldOnEdit> {
-  _AmountFieldOnEditState(this.price);
+class _AmountFieldState extends State<AmountField> {
+  _AmountFieldState(this.price, this.currentCurrency);
 
   bool validate = false;
   double price;
-  TextEditingController priceController;
-
-
+  Currency currentCurrency;
 
   @override
   Widget build(BuildContext context) {
@@ -907,7 +916,7 @@ class _AmountFieldOnEditState extends State<AmountFieldOnEdit> {
                 _toggleInput();
               },
               child: Text(
-                widget.currentCurrency == Currency.SEEDS? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
+                currentCurrency == Currency.SEEDS? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
                 style: TextStyle(color: AppColors.grey, fontSize: 16),
               ),
             ),
@@ -939,13 +948,13 @@ class _AmountFieldOnEditState extends State<AmountFieldOnEdit> {
                 price = double.tryParse(amount);
                 validate = true;
               });
-              widget.onChanged(price, widget.currentCurrency, validate);
+              widget.onChanged(price, currentCurrency, validate);
             } else {
               setState(() {
                 price = 0;
                 validate = true;
               });
-              widget.onChanged(0, widget.currentCurrency, validate);
+              widget.onChanged(0, currentCurrency, validate);
             }
           },
         ),
@@ -956,105 +965,19 @@ class _AmountFieldOnEditState extends State<AmountFieldOnEdit> {
   void _toggleInput() {
     setState(() {
 
-      if (widget.currentCurrency == Currency.SEEDS) {
-        widget.currentCurrency = Currency.FIAT;
+      if (currentCurrency == Currency.SEEDS) {
+        currentCurrency = Currency.FIAT;
         validate = false;
-        widget.onChanged(price, widget.currentCurrency, validate);
+        widget.onChanged(price, currentCurrency, validate);
       } else {
-        widget.currentCurrency = Currency.SEEDS;
+        currentCurrency = Currency.SEEDS;
         validate = false;
-        widget.onChanged(price, widget.currentCurrency, validate);
+        widget.onChanged(price, currentCurrency, validate);
       }
     });
   }
 }
 
-class AmountField extends StatefulWidget {
-  const AmountField({Key key, this.onChanged}) : super(key: key);
 
-  final Function onChanged;
 
-  @override
-  _AmountFieldState createState() => _AmountFieldState();
-}
 
-class _AmountFieldState extends State<AmountField> {
-  final TextEditingController priceController = TextEditingController();
-  double seedsValue = 0;
-  Currency currency = Currency.SEEDS;
-  bool validate = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        MainTextField(
-          labelText: 'Price'.i18n,
-          suffixIcon: Container(
-            height: 35,
-            margin: EdgeInsets.only(top: 8, bottom: 8, right: 16),
-            child: OutlineButton(
-              onPressed: () {
-                _toggleInput();
-              },
-              child: Text(
-                currency == Currency.SEEDS ? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
-                style: TextStyle(color: AppColors.grey, fontSize: 16),
-              ),
-            ),
-          ),
-          keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-          controller: priceController,
-          autofocus: true,
-          inputFormatters: [
-            UserInputNumberFormatter(),
-          ],
-          validator: (String amount) {
-            String error;
-
-            double receiveAmount = double.tryParse(amount);
-
-            if (amount == null) {
-              error = null;
-            } else if (amount.isEmpty) {
-              error = 'Price field is empty'.i18n;
-            } else if (receiveAmount == null) {
-              error = 'Price needs to be a number'.i18n;
-            }
-
-            return error;
-          },
-          onChanged: (amount) {
-            if (double.tryParse(amount) != null) {
-              setState(() {
-                seedsValue = double.tryParse(amount);
-                validate = true;
-              });
-              widget.onChanged(double.tryParse(amount), currency, validate);
-            } else {
-              setState(() {
-                seedsValue = 0;
-                validate = true;
-              });
-              widget.onChanged(0, currency, validate);
-            }
-          },
-        ),
-      ],
-    );
-  }
-
-  void _toggleInput() {
-    setState(() {
-      if (currency == Currency.SEEDS) {
-        currency = Currency.FIAT;
-        validate = false;
-        widget.onChanged(seedsValue, currency, validate);
-      } else {
-        currency = Currency.SEEDS;
-        validate = false;
-        widget.onChanged(seedsValue, currency, validate);
-      }
-    });
-  }
-}
