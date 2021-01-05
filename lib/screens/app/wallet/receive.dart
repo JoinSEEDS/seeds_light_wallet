@@ -232,6 +232,16 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     showModalBottomSheet<void>(isScrollControlled: true,context: context, builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                blurRadius: 16,
+                color: AppColors.blue,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Form(
             key: editKey,
@@ -239,16 +249,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
               padding: EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 15,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    blurRadius: 8,
-                    color: AppColors.blue,
-                    offset: Offset(0, 4),
-                  ),
-                ],
               ),
               child: Wrap(
                 runSpacing: 10.0,
@@ -322,7 +322,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                 color: Colors.white,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                    blurRadius: 8,
+                    blurRadius: 16,
                     color: AppColors.blue,
                     offset: Offset(0, 4),
                   ),
