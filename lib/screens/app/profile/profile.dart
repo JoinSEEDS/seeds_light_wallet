@@ -195,7 +195,6 @@ class _ProfileState extends State<Profile> {
                   },
                 ),
               ),
-
               StreamBuilder<bool>(
                   stream: FirebaseDatabaseService()
                       .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
@@ -428,7 +427,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _guardiansView(bool showGuardianNotification) {
-    if (true || FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
+    if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
       return Padding(
         padding: EdgeInsets.only(top: 50.0),
         child: FlatButton(
@@ -443,7 +442,7 @@ class _ProfileState extends State<Profile> {
                 Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification(showGuardianNotification))
               ]),
           onPressed: () {
-            if(showGuardianNotification) {
+            if (showGuardianNotification) {
               FirebaseDatabaseService().removeGuardianNotification(SettingsNotifier.of(context).accountName);
             }
             NavigationService.of(context).navigateTo(Routes.guardianTabs);
