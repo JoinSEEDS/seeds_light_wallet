@@ -54,15 +54,10 @@ class PushNotificationService {
 }
 
 Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message, BuildContext context) async {
-  print("backgroundMessageHandler");
   if (message.containsKey('data')) {
     // Handle data message
-    final Map<dynamic, dynamic> data = message['data'];
-    print("onResume: data");
-    print("onResume: $data");
-
+    final Map<dynamic, dynamic> data = message['data'];    
     var notificationTypeId = data["notification_type_id"];
-    print("onResume notificationTypeId: $notificationTypeId");
 
     if (notificationTypeId == guardianInviteReceived) {
       //Navigate to Guardians Screen
@@ -73,9 +68,5 @@ Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message, BuildCont
   if (message.containsKey('notification')) {
     // Handle notification message
     final dynamic notification = message['notification'];
-    print("onResume: notification");
-    print("onResume: $notification");
   }
-
-  print("onResume: Do other work");
 }
