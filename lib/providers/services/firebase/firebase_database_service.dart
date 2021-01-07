@@ -395,4 +395,16 @@ class FirebaseDatabaseService {
         .snapshots()
         .map((event) => _findNotification(event));
   }
+
+  removeGuardianNotification(String userAccount) {
+    Map<String, Object> data = {
+      GUARDIAN_NOTIFICATION_KEY: false
+    };
+
+    return _usersCollection
+        .doc(userAccount)
+        .collection(PENDING_NOTIFICATIONS_KEY)
+        .doc(GUARDIAN_NOTIFICATION_KEY)
+        .set(data);
+  }
 }
