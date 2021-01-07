@@ -66,7 +66,6 @@ Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message, BuildCont
   }
 
   if (message.containsKey('notification')) {
-    // Handle notification message
-    final dynamic notification = message['notification'];
+    // Handle notification message. Not needed right now. But we will use this soon.
   }
 }
