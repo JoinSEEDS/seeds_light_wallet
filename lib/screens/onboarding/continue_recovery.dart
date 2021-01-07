@@ -24,16 +24,15 @@ enum RecoveryStatus {
 
 class ContinueRecovery extends StatefulWidget {
   final Function onClaimed;
-  final Function onBack;
+  final Function onCancel;
 
-  ContinueRecovery(this.onClaimed, this.onBack);
+  ContinueRecovery({this.onClaimed, this.onCancel});
 
   @override
   _ContinueRecoveryState createState() => _ContinueRecoveryState();
 }
 
 class _ContinueRecoveryState extends State<ContinueRecovery> {
-
   bool recovering = false;
   bool canClaim = false;
   bool doneSuccess = false;
@@ -83,192 +82,178 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               guardians = guardiansModel.guardians.length;
 
               if (!recoversModel.exists) {
-                // Recovery has not started yet. 
+                // Recovery has not started yet.
                 // The first signature puts a recovery model in the table. No model ==> no signatures.
                 confirmedGuardianSignatures = 0;
-
               } else {
                 // Recovery has started - check if we have enough signatures
                 // Note: All these values are enforced by the contract
                 confirmedGuardianSignatures = recoversModel.guardians.length;
 
                 // check how long we have to wait before we can claim (24h delay is standard)
-                timeLockSeconds = recoversModel.completeTimestamp + guardiansModel.timeDelaySec;
+                timeLockSeconds = recoversModel.completeTimestamp +
+                    guardiansModel.timeDelaySec;
 
                 // for 3 signers, we need 2/3 signatures. For 4 or 5 signers, we need 3+ signatures.
                 if ((guardians == 3 && confirmedGuardianSignatures >= 2) ||
                     (guardians > 3 && confirmedGuardianSignatures >= 3)) {
-                  
                   status = RecoveryStatus.waitingTimelock;
 
-                  if (timeLockSeconds <= DateTime.now().millisecondsSinceEpoch / 1000) {
+                  if (timeLockSeconds <=
+                      DateTime.now().millisecondsSinceEpoch / 1000) {
                     status = RecoveryStatus.claimReady;
                   }
-                  
                 }
               }
             }
           }
 
+          var currentWidget;
+
           switch (status) {
             case RecoveryStatus.waitingConfirmations:
-              return Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 17),
-                child: Column(
-                  children: [
-                    Text(
-                      "Waiting For Confirmations",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "worksans",
-                      ),
+              currentWidget = Column(
+                children: [
+                  Text(
+                    "Waiting For Confirmations",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "worksans",
                     ),
-                    Text(
-                      " $confirmedGuardianSignatures of $guardians guardians signed: ",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "worksans",
-                      ),
+                  ),
+                  Text(
+                    " $confirmedGuardianSignatures of $guardians guardians signed: ",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "worksans",
                     ),
-                    ...(recoversModel.guardians ?? [])
-                        .map((guardian) => Text(guardian,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "worksans",
-                            )))
-                        .toList(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: ShareRecoveryLink(),
+                  ),
+                  ...(recoversModel.guardians ?? [])
+                      .map((guardian) => Text(guardian,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "worksans",
+                          )))
+                      .toList(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: ShareRecoveryLink(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: SecondButton(
+                      title: "Refresh",
+                      onPressed: () => setState(() {}),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: SecondButton(
-                        title: "Refresh",
-                        onPressed: () => setState(() {}),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               );
+              break;
 
             case RecoveryStatus.waitingTimelock:
-              return Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 17),
-                child: Column(
-                  children: [
-                    Text("Waiting for time lock",
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "worksans")),
-                    Text(
-                      "Recover your account in",
+              currentWidget = Column(
+                children: [
+                  Text("Waiting for time lock",
                       style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "worksans",
-                      ),
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "worksans")),
+                  Text(
+                    "Recover your account in",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "worksans",
                     ),
-                    CountdownClock(
-                      timeLockSeconds,
-                      ()=> setState(() {})
+                  ),
+                  CountdownClock(timeLockSeconds, () => setState(() {})),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: SecondButton(
+                      title: "Refresh",
+                      onPressed: () => setState(() {}),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: SecondButton(
-                        title: "Refresh",
-                        onPressed: () => setState(() {}),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               );
+              break;
+
             case RecoveryStatus.claimReady:
-              return claimReadyComponent(accountName);
+              currentWidget = claimReadyComponent(accountName);
+              break;
 
             case RecoveryStatus.noGuardiansFound:
-              return Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
-                child: Column(
-                  children: [
-                    Text("No guardians found for $accountName",
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "worksans")),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: MainButton(
-                        title: "Cancel",
-                        onPressed: widget.onBack,
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              currentWidget = Text("No guardians found for $accountName",
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "worksans"));
+              break;
 
             default:
-              return NotionLoader(
+              currentWidget = NotionLoader(
                 notion: "Analyzing recovery progress... $accountName",
               );
           }
+
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
+            child: Column(
+              children: [
+                currentWidget,
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: SecondButton(
+                    title: "Cancel",
+                    onPressed: () => showCancelDialog(context),
+                  ),
+                ),
+              ],
+            ),
+          );
         });
   }
 
-  Container claimReadyComponent(String accountName) {
-    return Container(
-      padding:
-          const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
-      child: Column(
-        children: [
-          Text("Account recovered $accountName",
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "worksans")),
-          Padding(
-            padding: const EdgeInsets.only(top: 24),
-            child: MainButton(
-              title: "Claim account",
-              onPressed: onClaimButtonPressed,
-            ),
+  Widget claimReadyComponent(String accountName) {
+    return Column(
+      children: [
+        Text("Account recovered $accountName",
+            style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+                fontFamily: "worksans")),
+        Padding(
+          padding: const EdgeInsets.only(top: 24),
+          child: MainButton(
+            title: "Claim account",
+            onPressed: onClaimButtonPressed,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  Container successComponent(String accountName) {
-    return Container(
-      padding:
-          const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
-      child: Column(
-        children: [
-          Text("Your account has been recovered",
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "worksans")),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: SvgPicture.asset('assets/images/success.svg',
-                            color: Colors.greenAccent
-                          ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 24),
-            child: MainButton(
-              title: "Next",
-              onPressed: widget.onClaimed
-            ),
-          ),
-        ],
-      ),
+  Widget successComponent(String accountName) {
+    return Column(
+      children: [
+        Text("Your account has been recovered",
+            style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+                fontFamily: "worksans")),
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: SvgPicture.asset('assets/images/success.svg',
+              color: Colors.greenAccent),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 24),
+          child: MainButton(title: "Next", onPressed: widget.onClaimed),
+        ),
+      ],
     );
   }
 
@@ -284,7 +269,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               child: Text("Yes".i18n),
               onPressed: () {
                 Navigator.pop(context);
-                widget.onBack();
+                widget.onCancel();
               },
             ),
             FlatButton(
@@ -313,26 +298,26 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
       recovering = true;
       canClaim = true;
     });
-    
-    String accountName = SettingsNotifier.of(context, listen: false).accountName;
-    
-    try {
 
-      await EosService.of(context, listen: false).claimRecoveredAccount(accountName);
-      
+    String accountName =
+        SettingsNotifier.of(context, listen: false).accountName;
+
+    try {
+      await EosService.of(context, listen: false)
+          .claimRecoveredAccount(accountName);
+
       setState(() {
         recovering = false;
         canClaim = false;
         doneSuccess = true;
       });
-    
-    } catch(error) {
+    } catch (error) {
       print("Error restoring account ${error.toString()}");
-      
+
       setState(() {
         recovering = false;
       });
-      
+
       final snackBar = SnackBar(
         content: Row(
           children: <Widget>[
@@ -358,7 +343,6 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
 }
 
 class ShareRecoveryLink extends StatefulWidget {
-
   ShareRecoveryLink();
 
   @override
@@ -389,7 +373,6 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
   }
 
   Future<String> generateRecoveryLink() async {
-
     String accountName = SettingsNotifier.of(context).accountName;
     String pKey = SettingsNotifier.of(context).privateKey;
 
@@ -412,12 +395,10 @@ class CountdownClock extends StatefulWidget {
   final Function onDone;
 
   CountdownClock(this.toTime, this.onDone);
-  
+
   @override
   CountdownClockState createState() => CountdownClockState();
-
 }
-
 
 class CountdownClockState extends State<CountdownClock> {
   Timer _timer;
@@ -430,9 +411,10 @@ class CountdownClockState extends State<CountdownClock> {
   }
 
   int secondsRemaining() {
-    return (widget.toTime - DateTime.now().millisecondsSinceEpoch / 1000).round();
+    return (widget.toTime - DateTime.now().millisecondsSinceEpoch / 1000)
+        .round();
   }
-  
+
   void startTimer() {
     setState(() {
       seconds = secondsRemaining();
