@@ -258,7 +258,7 @@ class _DashboardState extends State<Dashboard> {
         ),
         builder: (BuildContext context) {
           return Container(
-            height: 300,
+            height: 350,
             child: TransactionDialog(
               transaction: transaction,
               member: member,
