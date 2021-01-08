@@ -575,9 +575,8 @@ const proposalTypes = {
   // NOTE:
   // The keys here need to have i18n entries
   // in the ecosystem.i18n.dart file
-  'Staged': {'stage': 'staged', 'status': 'open'},
   'Open': {'stage': 'active', 'status': 'open'},
-  'Eval': {'stage': 'active', 'status': 'evaluate', 'reverse': 'true'},
+  'Evaluate': {'stage': 'active', 'status': 'evaluate', 'reverse': 'true'},
   'Passed': {'stage': 'done', 'status': 'passed', 'reverse': 'true'},
   'Failed': {'stage': 'done', 'status': 'rejected', 'reverse': 'true'},
 };
