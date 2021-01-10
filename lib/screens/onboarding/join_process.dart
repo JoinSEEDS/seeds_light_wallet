@@ -130,7 +130,6 @@ class _JoinProcessState extends State<JoinProcess> {
     await Future.delayed(Duration(milliseconds: 500), () {});
 
     if (SettingsNotifier.of(context).inRecoveryMode == true) {
-
       var accountName = SettingsNotifier.of(context).accountName;
       var pKey = SettingsNotifier.of(context).privateKey;
 
@@ -140,7 +139,8 @@ class _JoinProcessState extends State<JoinProcess> {
           "privateKey": pKey,
         });
       } else {
-        print("Error - recovery mode is enabled but provate key is missing $pKey for account $accountName");
+        print(
+            "Error - recovery mode is enabled but provate key is missing $pKey for account $accountName");
       }
     }
   }
@@ -252,17 +252,16 @@ class _JoinProcessState extends State<JoinProcess> {
             "accountName": accountName,
           }),
         );
-        backCallback = () => machine.transition(Events.cancelRecoveryProcess);
+        backCallback = () => machine.transition(Events.recoverCanceled);
         break;
       case States.canceledRecoveryProcess:
         currentScreen = NotionLoader(notion: "Cancel recovery process...");
         break;
       case States.continueRecovery:
         currentScreen = ContinueRecovery(
-          () => machine.transition(Events.claimRecoveredAccount),
-          () => machine.transition(Events.cancelRecoveryProcess),
+          onClaimed: () => machine.transition(Events.claimRecoveredAccount),
+          onCancel: () => machine.transition(Events.cancelRecoveryProcess),
         );
-        backCallback = () => machine.transition(Events.cancelRecoveryProcess);
         break;
       case States.recoverAccountState:
         currentScreen = NotionLoader(

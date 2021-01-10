@@ -74,15 +74,6 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void onReceive() async {
-    // TESTING - showcase code for set up / remove permissions - remove
-    //var perm = await EosService.of(context, listen: false).getAccountPermissions();
-    //print("perm: "+perm.toString());
-    //await EosService.of(context, listen: false).removeGuardianPermission();
-    //await EosService.of(context, listen: false).setGuardianPermission();
-    //var perm2 = await EosService.of(context, listen: false).getAccountPermissions();
-    //print("perm after: "+perm2.toString());
-    // delete this.
-    
     NavigationService.of(context).navigateTo(Routes.receive);
   }
 

@@ -67,7 +67,6 @@ main(List<String> args) async {
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   await Firebase.initializeApp();
   FirebaseRemoteConfigService().initialise();
-  PushNotificationService().initialise();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
@@ -142,6 +141,7 @@ class MainScreen extends StatelessWidget {
     return Consumer<AuthNotifier>(
       builder: (ctx, auth, _) {
         NavigationService navigationService = NavigationService.of(context);
+        PushNotificationService().initialise(context);
 
         if (auth.status == AuthStatus.emptyAccount ||
             auth.status == AuthStatus.recoveryMode) {
