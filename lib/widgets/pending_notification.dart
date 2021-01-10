@@ -3,13 +3,7 @@ import 'package:flutter/material.dart';
 
 guardianNotification(bool showGuardianNotification) {
   if (showGuardianNotification) {
-    return Container(
-        width: 16,
-        height: 16,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.red,
-        ));
+    return Icon(Icons.brightness_1, size: 18.0, color: Colors.redAccent);
   } else {
     return Container();
   }

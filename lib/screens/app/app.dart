@@ -212,22 +212,33 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     );
   }
 
-  BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex) {
+  BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex, bool profileNotification) {
     final width = MediaQuery.of(context).size.width * 0.21;
     return BottomNavigationBarItem(
-        icon: Container(
-          width: width,
-          decoration: tabIndex == index
-              ? BoxDecoration(
-                  gradient: LinearGradient(colors: AppColors.gradient),
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)))
-              : BoxDecoration(),
-          padding: EdgeInsets.only(top: 7, left: 3, right: 3),
-          child: SvgPicture.asset(
-            icon,
-            color: tabIndex == index ? Colors.white : AppColors.grey,
+        icon: Stack(children: <Widget>[
+          Container(
+            width: width,
+            decoration: tabIndex == index
+                ? BoxDecoration(
+                    gradient: LinearGradient(colors: AppColors.gradient),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)))
+                : BoxDecoration(),
+            padding: EdgeInsets.only(top: 7, left: 3, right: 3),
+            child: SvgPicture.asset(
+              icon,
+              color: tabIndex == index ? Colors.white : AppColors.grey,
+            ),
           ),
-        ),
+          title == "Profile"
+              ? profileNotification
+                  ? Positioned(
+                      child: guardianNotification(profileNotification),
+                      right: 6,
+                      top: 2,
+                    )
+                  : Text("")
+              : Text("")
+        ]),
         // Note - wait for redesign of app to change this.
         // ignore: deprecated_member_use
         title: Container(
@@ -248,38 +259,35 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Widget buildNavigation(bool showGuardianNotification) {
     print("showGuardianNotification" + showGuardianNotification.toString());
 
-    return Stack(children: <Widget>[
-      BottomNavigationBar(
-        currentIndex: index,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              changePageNotifier.add("Explore");
-              break;
-            case 1:
-              changePageNotifier.add("Wallet");
-              break;
-            case 2:
-              changePageNotifier.add("Profile");
-              break;
-          }
-        },
-        showUnselectedLabels: true,
-        fixedColor: Colors.white,
-        unselectedItemColor: AppColors.grey,
-        type: BottomNavigationBarType.fixed,
-        selectedLabelStyle: TextStyle(fontSize: 12),
-        unselectedLabelStyle: TextStyle(color: Colors.grey.withOpacity(0.7)),
-        elevation: 9,
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
-        items: navigationTabs
-            .map(
-              (tab) => buildIcon(tab.title, tab.icon, tab.index),
-            )
-            .toList(),
-      ),
-      Positioned(bottom: 30, right: 30, top: -26, child: guardianNotification(showGuardianNotification))
-    ]);
+    return BottomNavigationBar(
+      currentIndex: index,
+      onTap: (index) {
+        switch (index) {
+          case 0:
+            changePageNotifier.add("Explore");
+            break;
+          case 1:
+            changePageNotifier.add("Wallet");
+            break;
+          case 2:
+            changePageNotifier.add("Profile");
+            break;
+        }
+      },
+      showUnselectedLabels: true,
+      fixedColor: Colors.white,
+      unselectedItemColor: AppColors.grey,
+      type: BottomNavigationBarType.fixed,
+      selectedLabelStyle: TextStyle(fontSize: 12),
+      unselectedLabelStyle: TextStyle(color: Colors.grey.withOpacity(0.7)),
+      elevation: 9,
+      selectedFontSize: 12,
+      unselectedFontSize: 12,
+      items: navigationTabs
+          .map(
+            (tab) => buildIcon(tab.title, tab.icon, tab.index, showGuardianNotification),
+          )
+          .toList(),
+    );
   }
 }
