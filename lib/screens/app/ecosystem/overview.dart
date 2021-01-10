@@ -74,6 +74,7 @@ class _OverviewState extends State<Overview> {
     String balanceTitle,
     String balanceValue,
     Function onTap,
+    bool subtitleType
   ) {
     return MainCard(
       onPressed: onTap,
@@ -105,15 +106,21 @@ class _OverviewState extends State<Overview> {
                       fontSize: 16,
                     ),
                   ),
-                  Padding(
+                  Container(
+                    width:  subtitleType?(MediaQuery.of(context).size.width)*0.7: (MediaQuery.of(context).size.width)*0.4,
                     padding: const EdgeInsets.only(top: 4.0),
-                    child: Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 12,
+                    child: Row(children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          subtitle,
+                          maxLines: 3,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                    ),
+                    ]),
                   )
                 ],
               ),
@@ -158,6 +165,10 @@ class _OverviewState extends State<Overview> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool longText = true;
+    bool smallText = false;
+
     return RefreshIndicator(
       onRefresh: refreshData,
       child: SingleChildScrollView(
@@ -172,7 +183,7 @@ class _OverviewState extends State<Overview> {
                     'assets/images/community.svg',
                     'Available Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
-                    onInvite,
+                    onInvite, smallText
                   ),
                 ),
                 Consumer<VoiceNotifier>(
@@ -184,7 +195,7 @@ class _OverviewState extends State<Overview> {
                     valueString(model?.campaignBalance?.amount) +
                         "/" +
                         valueString(model?.allianceBalance?.amount),
-                    onVote,
+                    onVote,  smallText
                   ),
                 ),
                 Consumer<PlantedNotifier>(
@@ -194,7 +205,7 @@ class _OverviewState extends State<Overview> {
                     'assets/images/harvest.svg',
                     'Planted Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
-                    onPlant,
+                    onPlant, smallText
                   ),
                 ),
                 Consumer<BalanceNotifier>(
@@ -204,7 +215,7 @@ class _OverviewState extends State<Overview> {
                     'assets/images/harvest.svg',
                     'Available Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
-                    onGet,
+                    onGet, smallText
                   ),
                 ),
                 buildCategory(
@@ -213,7 +224,7 @@ class _OverviewState extends State<Overview> {
                     'assets/images/harvest.svg',
                     '',
                     '',
-                    onGuardians),
+                    onGuardians, longText),
                 Consumer<DhoNotifier>(
                   builder: (ctx, model, _) => model.isDhoMember
                       ? buildCategory(
@@ -222,7 +233,7 @@ class _OverviewState extends State<Overview> {
                           'assets/images/harvest.svg',
                           '',
                           '',
-                          onDHO)
+                          onDHO, longText)
                       : Container(),
                 ),
               ],
