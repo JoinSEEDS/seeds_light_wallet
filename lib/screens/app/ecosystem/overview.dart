@@ -9,6 +9,7 @@ import 'package:seeds/providers/notifiers/planted_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
+import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/main_card.dart';
@@ -218,13 +219,14 @@ class _OverviewState extends State<Overview> {
                     onGet, smallText
                   ),
                 ),
+                FirebaseRemoteConfigService().featureFlagGuardiansEnabled?
                 buildCategory(
                     'Guardians',
                     'Protect your account sharing trust with friends',
                     'assets/images/harvest.svg',
                     '',
                     '',
-                    onGuardians, longText),
+                    onGuardians, longText) : Container(),
                 Consumer<DhoNotifier>(
                   builder: (ctx, model, _) => model.isDhoMember
                       ? buildCategory(
