@@ -131,6 +131,7 @@ flutter:
     - assets/images/guardians/guardian_tutorial_2.png
     - assets/images/guardians/guardian_tutorial_3.png
     - assets/images/guardians/guardian_tutorial_4.png
+    - assets/images/guardians/guardian_shield.png
     # assets end
 
   fonts:
