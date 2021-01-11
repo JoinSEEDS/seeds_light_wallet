@@ -236,8 +236,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                       right: 6,
                       top: 2,
                     )
-                  : Text("")
-              : Text("")
+                  : SizedBox.shrink()
+              : SizedBox.shrink()
         ]),
         // Note - wait for redesign of app to change this.
         // ignore: deprecated_member_use

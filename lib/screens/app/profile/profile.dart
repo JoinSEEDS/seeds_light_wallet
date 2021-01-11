@@ -433,7 +433,6 @@ class _ProfileState extends State<Profile> {
         child: FlatButton(
           color: Colors.white,
           child: Stack(overflow: Overflow.visible,
-              // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
                   'Key Guardians'.i18n,
