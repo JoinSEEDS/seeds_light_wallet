@@ -16,7 +16,7 @@ class ProposalsState extends State<Proposals> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: proposalTypes.length,
-      initialIndex: 1,
+      initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -43,7 +43,7 @@ class ProposalsState extends State<Proposals> {
             Expanded(
               child: TabBarView(
                 children: proposalTypes.values
-                    .map((data) => ProposalsList(type: data['stage'], status: data['status']))
+                    .map((data) => ProposalsList(type: data['stage'], status: data['status'], reverse: data['reverse'] == 'true'))
                     .toList(),
               ),
             )
@@ -57,8 +57,9 @@ class ProposalsState extends State<Proposals> {
 class ProposalsList extends StatefulWidget {
   final String type;
   final String status;
+  final bool reverse;
 
-  const ProposalsList({Key key, @required this.type, @required this.status}) : super(key: key);
+  const ProposalsList({Key key, @required this.type, @required this.status, @required this.reverse}) : super(key: key);
 
   @override
   _ProposalsListState createState() => _ProposalsListState();
@@ -75,7 +76,7 @@ class _ProposalsListState extends State<ProposalsList>
 
     return PaginatedListView<ProposalModel>(
       pageFuture: (int pageIndex) =>
-          HttpService.of(context).getProposals(widget.type, widget.status),
+          HttpService.of(context).getProposals(widget.type, widget.status, widget.reverse),
       pageSize: 1000,
       showRefreshIndicator: true,
       itemBuilder: (BuildContext context, ProposalModel proposal, int index) {

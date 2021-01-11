@@ -618,7 +618,7 @@ class HttpService {
     }
   }
 
-  Future<List<ProposalModel>> getProposals(String stage, String status) async {
+  Future<List<ProposalModel>> getProposals(String stage, String status, bool reverse) async {
     print("[http] get proposals: stage = [$stage]");
 
     if (mockResponse == true) {
@@ -645,7 +645,8 @@ class HttpService {
       List<ProposalModel> proposals =
           activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
 
-      return proposals;
+      return reverse ? List<ProposalModel>.from(proposals.reversed) : proposals;
+
     } else {
       print('Cannot fetch proposals...');
 
