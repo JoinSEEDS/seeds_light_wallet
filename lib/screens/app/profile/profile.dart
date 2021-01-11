@@ -56,8 +56,6 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Consumer<ProfileNotifier>(
       builder: (ctx, model, _) {
-        //  var model = ProfileNotifier.of(context).profile;
-
         return Scaffold(
           body: ListView(
             children: <Widget>[
