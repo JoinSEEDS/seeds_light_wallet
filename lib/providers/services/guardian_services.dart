@@ -28,7 +28,18 @@ class GuardianServices {
   /// User wants to remove one of his guardians.
   Future removeGuardian(EosService eosService, String userAccount, String friendId) async {
     print("removeGuardian started");
-    return eosService.cancelGuardians().then((value) => _onCancelGuardiansSuccess(eosService, userAccount, friendId));
+    return eosService.cancelGuardiansSafe().then((value) => _onCancelGuardiansSuccess(eosService, userAccount, friendId));
+  }
+
+  /// User wants to stop a hack recovery attempt
+  Future stopActiveRecovery(EosService eosService, String userAccount) async {
+    print("cancelActiveRecovery started");
+    return eosService.cancelGuardiansSafe().then((value) => _onStopRecoverySuccess(eosService, userAccount));
+  }
+
+  _onStopRecoverySuccess(EosService eosService, String userAccount) async {
+    print("_onStopRecoverySuccess");
+    return await FirebaseDatabaseService().removeGuardiansInitialized(userAccount);
   }
 
   _onCancelGuardiansSuccess(EosService eosService, String userAccount, String friendId) async {
