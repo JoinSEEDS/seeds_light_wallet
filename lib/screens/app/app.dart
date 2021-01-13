@@ -15,6 +15,7 @@ import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/screens/app/profile/profile.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
+import 'package:seeds/widgets/pending_notification.dart';
 
 class NavigationTab {
   final String title;
@@ -211,22 +212,33 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     );
   }
 
-  BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex) {
+  BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex, bool profileNotification) {
     final width = MediaQuery.of(context).size.width * 0.21;
     return BottomNavigationBarItem(
-        icon: Container(
-          width: width,
-          decoration: tabIndex == index
-              ? BoxDecoration(
-                  gradient: LinearGradient(colors: AppColors.gradient),
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)))
-              : BoxDecoration(),
-          padding: EdgeInsets.only(top: 7, left: 3, right: 3),
-          child: SvgPicture.asset(
-            icon,
-            color: tabIndex == index ? Colors.white : AppColors.grey,
+        icon: Stack(children: <Widget>[
+          Container(
+            width: width,
+            decoration: tabIndex == index
+                ? BoxDecoration(
+                    gradient: LinearGradient(colors: AppColors.gradient),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)))
+                : BoxDecoration(),
+            padding: EdgeInsets.only(top: 7, left: 3, right: 3),
+            child: SvgPicture.asset(
+              icon,
+              color: tabIndex == index ? Colors.white : AppColors.grey,
+            ),
           ),
-        ),
+          title == "Profile"
+              ? profileNotification
+                  ? Positioned(
+                      child: guardianNotification(profileNotification),
+                      right: 6,
+                      top: 2,
+                    )
+                  : SizedBox.shrink()
+              : SizedBox.shrink()
+        ]),
         // Note - wait for redesign of app to change this.
         // ignore: deprecated_member_use
         title: Container(
@@ -273,7 +285,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       unselectedFontSize: 12,
       items: navigationTabs
           .map(
-            (tab) => buildIcon(tab.title, tab.icon, tab.index),
+            (tab) => buildIcon(tab.title, tab.icon, tab.index, showGuardianNotification),
           )
           .toList(),
     );
