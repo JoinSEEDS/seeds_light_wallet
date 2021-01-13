@@ -22,7 +22,7 @@ Widget buildPasscodeScreen({
     passwordDigits: 4,
     title: title,
     cancelLocalizedText: "",
-    deleteLocalizedText: "Delete".i18n,
+    deleteLocalizedText: 'Delete'.i18n,
     backgroundColor: AppColors.blue,
     shouldTriggerVerification: shouldTriggerVerification,
     passwordEnteredCallback: passwordEnteredCallback,
@@ -64,39 +64,47 @@ class LockWallet extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthBloc bloc = Provider.of(context);
 
-    return buildPasscodeScreen(
-      title: "Choose Passcode".i18n,
-      shouldTriggerVerification: _verificationNotifier.stream,
-      passwordEnteredCallback: (passcode) {
-        _verificationNotifier.add(true);
-        SettingsNotifier.of(context).savePasscode(passcode);
-      },
-      isValidCallback: () {},
-      cancelCallback: () {},
-      bottomWidget: Padding(
-        padding: const EdgeInsets.only(top: 32),
-        child: MaterialButton(
-          child: Container(
-            padding: const EdgeInsets.only(left: 17, right: 17, top: 12, bottom: 12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              border: Border.all(
-                color: Colors.white,
+    int disableBoxHight = 50;
+
+    return SingleChildScrollView(
+      child: Container(
+        height: MediaQuery.of(context).size.height + disableBoxHight,
+        width: double.infinity,
+        child: buildPasscodeScreen(
+          title: "Choose Passcode".i18n,
+          shouldTriggerVerification: _verificationNotifier.stream,
+          passwordEnteredCallback: (passcode) {
+            _verificationNotifier.add(true);
+            SettingsNotifier.of(context).savePasscode(passcode);
+          },
+          isValidCallback: () {},
+          cancelCallback: () {},
+          bottomWidget: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: MaterialButton(
+              child: Container(
+                padding: const EdgeInsets.only(left: 17, right: 17, top: 12, bottom: 12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(
+                    color: Colors.white,
+                  ),
+                ),
+                child: Text(
+                  "Disable Passcode".i18n,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w300
+                  ),
+                ),
               ),
-            ),
-            child: Text(
-              "Disable Passcode".i18n,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-                fontWeight: FontWeight.w300
-              ),
+              onPressed: () {
+                bloc.execute(DisablePasswordCmd());
+              },
             ),
           ),
-          onPressed: () {
-            bloc.execute(DisablePasswordCmd());
-          },
         ),
       ),
     );

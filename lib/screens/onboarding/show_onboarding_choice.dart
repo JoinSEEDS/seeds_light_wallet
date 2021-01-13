@@ -110,6 +110,9 @@ class ShowOnboardingChoice extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
+          Container(
+            height: 20,
+          ),
           buildGroup(
             'If you have an account\nclick here'.i18n,
             'Import private key'.i18n,
