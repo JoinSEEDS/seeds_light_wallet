@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seeds/models/Currencies.dart';
+import 'package:seeds/models/firebase/firebase_user.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
@@ -15,6 +16,13 @@ class FirebaseDatabaseService {
   static final FirebaseDatabaseService _instance = FirebaseDatabaseService._();
 
   final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users');
+
+  Stream<FirebaseUser> getUserData(String accountName) {
+    return _usersCollection
+        .doc(accountName)
+        .snapshots()
+        .map((DocumentSnapshot userData) => FirebaseUser.fromMap(userData.data(), accountName));
+  }
 
   Future<void> setFirebaseMessageToken(String userId) {
     // Users can have multiple tokens. Ex: Multiple devices.
@@ -364,6 +372,7 @@ class FirebaseDatabaseService {
     Map<String, Object> data = {
       GUARDIAN_CONTRACT_INITIALIZED: false,
       GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
+      GUARDIAN_RECOVERY_STARTED_KEY: null,
     };
     return _usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
   }
@@ -394,5 +403,17 @@ class FirebaseDatabaseService {
         .collection(PENDING_NOTIFICATIONS_KEY)
         .snapshots()
         .map((event) => _findNotification(event));
+  }
+
+  removeGuardianNotification(String userAccount) {
+    Map<String, Object> data = {
+      GUARDIAN_NOTIFICATION_KEY: false
+    };
+
+    return _usersCollection
+        .doc(userAccount)
+        .collection(PENDING_NOTIFICATIONS_KEY)
+        .doc(GUARDIAN_NOTIFICATION_KEY)
+        .set(data);
   }
 }

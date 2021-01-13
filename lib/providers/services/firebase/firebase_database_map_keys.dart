@@ -8,6 +8,7 @@ const String GUARDIAN_CONTRACT_INITIALIZED = "guardianContractInitialized";
 const String GUARDIAN_CONTRACT_INITIALIZED_DATE = "guardianContractInitializedDate";
 const String GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE = "guardianContractInitializedUpdateDate";
 const String GUARDIAN_NOTIFICATION_KEY = "guardianNotification";
+const String GUARDIAN_RECOVERY_STARTED_KEY = "guardianRecoveryStarted";
 const String UID_KEY = "uid";
 const String TYPE_KEY = "type";
 const String RECOVERY_COLLECTION_KEY = "recovery";
