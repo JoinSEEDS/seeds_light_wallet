@@ -75,7 +75,6 @@ class _OverviewState extends State<Overview> {
     String balanceTitle,
     String balanceValue,
     Function onTap,
-    bool subtitleType
   ) {
     return MainCard(
       onPressed: onTap,
@@ -108,20 +107,14 @@ class _OverviewState extends State<Overview> {
                     ),
                   ),
                   Container(
-                    width:  subtitleType?(MediaQuery.of(context).size.width)*0.7: (MediaQuery.of(context).size.width)*0.4,
                     padding: const EdgeInsets.only(top: 4.0),
-                    child: Row(children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          subtitle,
-                          maxLines: 3,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 12,
-                          ),
-                        ),
+                    child: Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 12,
                       ),
-                    ]),
+                    ),
                   )
                 ],
               ),
@@ -167,9 +160,6 @@ class _OverviewState extends State<Overview> {
   @override
   Widget build(BuildContext context) {
 
-    bool longText = true;
-    bool smallText = false;
-
     return RefreshIndicator(
       onRefresh: refreshData,
       child: SingleChildScrollView(
@@ -184,7 +174,7 @@ class _OverviewState extends State<Overview> {
                     'assets/images/community.svg',
                     'Available Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
-                    onInvite, smallText
+                    onInvite
                   ),
                 ),
                 Consumer<VoiceNotifier>(
@@ -196,7 +186,7 @@ class _OverviewState extends State<Overview> {
                     valueString(model?.campaignBalance?.amount) +
                         "/" +
                         valueString(model?.allianceBalance?.amount),
-                    onVote,  smallText
+                    onVote
                   ),
                 ),
                 Consumer<PlantedNotifier>(
@@ -206,7 +196,7 @@ class _OverviewState extends State<Overview> {
                     'assets/images/harvest.svg',
                     'Planted Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
-                    onPlant, smallText
+                    onPlant
                   ),
                 ),
                 Consumer<BalanceNotifier>(
@@ -216,17 +206,9 @@ class _OverviewState extends State<Overview> {
                     'assets/images/harvest.svg',
                     'Available Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
-                    onGet, smallText
+                    onGet
                   ),
                 ),
-                FirebaseRemoteConfigService().featureFlagGuardiansEnabled?
-                buildCategory(
-                    'Guardians',
-                    'Protect your account sharing trust with friends',
-                    'assets/images/harvest.svg',
-                    '',
-                    '',
-                    onGuardians, longText) : Container(),
                 Consumer<DhoNotifier>(
                   builder: (ctx, model, _) => model.isDhoMember
                       ? buildCategory(
@@ -235,7 +217,7 @@ class _OverviewState extends State<Overview> {
                           'assets/images/harvest.svg',
                           '',
                           '',
-                          onDHO, longText)
+                          onDHO)
                       : Container(),
                 ),
               ],

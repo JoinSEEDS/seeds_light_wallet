@@ -114,12 +114,13 @@ class ShowOnboardingChoice extends StatelessWidget {
           'Import private key'.i18n,
           onImport,
         ),
-        FirebaseRemoteConfigService().featureFlagGuardiansEnabled?
-        buildGroup(
-          'If you forget your private key\nclick here'.i18n,
-          'Recover account'.i18n,
-          onRecover,
-        ): Container(),
+        FirebaseRemoteConfigService().featureFlagGuardiansEnabled
+            ? buildGroup(
+                'If you forget your private key\nclick here'.i18n,
+                'Recover account'.i18n,
+                onRecover,
+              )
+            : SizedBox.shrink(),
         buildGroup(
           'If you have an invite\nclick here'.i18n,
           "Claim invite code".i18n,
