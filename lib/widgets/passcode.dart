@@ -64,11 +64,11 @@ class LockWallet extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthBloc bloc = Provider.of(context);
 
-    int disableBoxHight = 50;
+    int disableBoxHeight = 50;
 
     return SingleChildScrollView(
       child: Container(
-        height: MediaQuery.of(context).size.height + disableBoxHight,
+        height: MediaQuery.of(context).size.height + disableBoxHeight,
         width: double.infinity,
         child: buildPasscodeScreen(
           title: "Choose Passcode".i18n,
