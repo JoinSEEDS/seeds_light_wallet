@@ -329,14 +329,14 @@ class _DashboardState extends State<Dashboard> {
     TransactionType type,
   }) {
     showModalBottomSheet(
-        isScrollControlled: true,
+       isScrollControlled: true,
         context: context,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
         ),
         builder: (BuildContext context) {
           return Container(
-            height: 350,
+            height: MediaQuery.of(context).size.height * 0.5,
             child: TransactionDialog(
               transaction: transaction,
               member: member,
