@@ -521,7 +521,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
     controller.text = invoiceAmount;
   }
 
-  void removeProductFromCart(ProductModel product) {
+  void removeProductFromCart(ProductModel product, RateNotifier rateNotifier) {
     setState(() {
       cartQuantity[product.name]--;
 
@@ -530,7 +530,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
         cartQuantity[product.name] = null;
       }
 
-      changeTotalPrice(-product.price);
+      changeTotalPrice(-product.seedsPrice(rateNotifier));
     });
   }
 
@@ -542,7 +542,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
     });
   }
 
-  void addProductToCart(ProductModel product) {
+  void addProductToCart(ProductModel product, RateNotifier rateNotifier) {
     setState(() {
       if (cartQuantity[product.name] == null) {
         cart.add(product);
@@ -551,7 +551,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
         cartQuantity[product.name]++;
       }
 
-      changeTotalPrice(product.price);
+      changeTotalPrice(product.seedsPrice(rateNotifier));
     });
   }
 
@@ -668,123 +668,127 @@ class _ReceiveFormState extends State<ReceiveForm> {
   }
 
   Widget buildCart() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: GridView(
-        physics: ScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200.0,
-          mainAxisSpacing: 10.0,
-          crossAxisSpacing: 10.0,
-        ),
-        shrinkWrap: true,
-        children: [
-          ...cart
-              .map(
-                (product) => GridTile(
-                  header: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    child: Row(
+    return Consumer<RateNotifier>(
+      builder:(context, rateNotifier, child) {
+        return Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: GridView(
+          physics: ScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200.0,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
+          ),
+          shrinkWrap: true,
+          children: [
+            ...cart
+                .map(
+                  (product) => GridTile(
+                    header: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          product.picture.isNotEmpty
+                              ? CircleAvatar(
+                                  backgroundImage: NetworkImage(product.picture),
+                                  radius: 20,
+                                )
+                              : Container(),
+                          Row(
+                            children: [
+                              Text(
+                                product.price.toString(),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Image.asset(
+                                'assets/images/seeds.png',
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.getColorByString(product.name),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            blurRadius: 15,
+                            color: AppColors.getColorByString(product.name),
+                            offset: Offset(6, 10),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          product.name.toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                    footer: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        product.picture.isNotEmpty
-                            ? CircleAvatar(
-                                backgroundImage: NetworkImage(product.picture),
-                                radius: 20,
-                              )
-                            : Container(),
-                        Row(
-                          children: [
-                            Text(
-                              product.price.toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        SizedBox(
+                          width: 48,
+                          height: 48,
+                          child: FlatButton(
+                            padding: EdgeInsets.zero,
+                            color: AppColors.red,
+                            child: Icon(
+                              Icons.remove,
+                              size: 21,
+                              color: Colors.white,
                             ),
-                            Image.asset(
-                              'assets/images/seeds.png',
-                              height: 20,
+                            onPressed: () {
+                              removeProductFromCart(product, rateNotifier);
+                            },
+                          ),
+                        ),
+                        Text(
+                          cartQuantity[product.name].toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 28,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 48,
+                          height: 48,
+                          child: FlatButton(
+                            padding: EdgeInsets.zero,
+                            color: AppColors.green,
+                            child: Icon(
+                              Icons.add,
+                              size: 21,
+                              color: Colors.white,
                             ),
-                          ],
+                            onPressed: () {
+                              addProductToCart(product, rateNotifier);
+                            },
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.getColorByString(product.name),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          blurRadius: 15,
-                          color: AppColors.getColorByString(product.name),
-                          offset: Offset(6, 10),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        product.name.toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                  footer: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 48,
-                        height: 48,
-                        child: FlatButton(
-                          padding: EdgeInsets.zero,
-                          color: AppColors.red,
-                          child: Icon(
-                            Icons.remove,
-                            size: 21,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            removeProductFromCart(product);
-                          },
-                        ),
-                      ),
-                      Text(
-                        cartQuantity[product.name].toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 28,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 48,
-                        height: 48,
-                        child: FlatButton(
-                          padding: EdgeInsets.zero,
-                          color: AppColors.green,
-                          child: Icon(
-                            Icons.add,
-                            size: 21,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            addProductToCart(product);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-              .toList(),
-          buildDonationOrDiscountItem(),
-        ],
-      ),
+                )
+                .toList(),
+            buildDonationOrDiscountItem(),
+          ],
+        ),
+      );
+      },
     );
   }
 

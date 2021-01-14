@@ -1,5 +1,10 @@
 import 'package:hive/hive.dart';
 
+abstract class CurrencyConverter {
+  double seedsTo(double seedsValue, String currencySymbol);
+  double toSeeds(double currencyValue, String currencySymbol);
+}
+
 class ProductModel extends HiveObject {
   final String name;
   final String picture;
@@ -8,6 +13,10 @@ class ProductModel extends HiveObject {
   final String currency;
 
   ProductModel({this.name, this.picture, this.price, this.id, this.currency});
+
+  double seedsPrice(CurrencyConverter converter) {
+    return currency == "SEEDS" ? price : converter.toSeeds(price, currency);
+  }
 }
 
 class InviteModel {

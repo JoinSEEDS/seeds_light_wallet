@@ -8,7 +8,7 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 
 const String SEEDS = "SEEDS";
 
-class RateNotifier extends ChangeNotifier {
+class RateNotifier extends ChangeNotifier with CurrencyConverter {
   RateModel rate;
   FiatRateModel fiatRate;
   DateTime lastUpdated = DateTime.now().subtract(Duration(hours: 1));
