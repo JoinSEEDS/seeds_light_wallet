@@ -527,6 +527,8 @@ class _ReceiveFormState extends State<ReceiveForm> {
     final products =
         await FirebaseDatabaseService().getProductsForUser(accountName).first;
 
+    cart.clear();
+
     products.forEach((product) {
       cart.add(product);
       cartQuantity[product.name] = 0;
