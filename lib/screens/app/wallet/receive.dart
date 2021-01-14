@@ -10,7 +10,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
-import 'package:seeds/models/Currencies.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -75,7 +74,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   final TextEditingController priceController = TextEditingController();
   String productName = "";
   double seedsValue = 0;
-  Currency currency;
+  String currency;
   List<ProductModel> products = List();
 
   String localImagePath = '';
@@ -308,7 +307,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     nameController.clear();
     priceController.clear();
     localImagePath = "";
-    currency = Currency.SEEDS;
+    currency = "SEEDS";
 
     showModalBottomSheet<void>(
         isScrollControlled: true,
@@ -494,7 +493,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   String getProductPrice(ProductModel product) {
-    return "${product.price.seedsFormatted} ${product.currency.name}";
+    return "${product.price.seedsFormatted} ${product.currency}";
   }
 }
 
@@ -875,7 +874,7 @@ class AmountField extends StatefulWidget {
 
   final TextEditingController priceController;
   final Function onChanged;
-  final Currency currentCurrency;
+  final String currentCurrency;
 
   @override
   _AmountFieldState createState() =>
@@ -887,10 +886,11 @@ class _AmountFieldState extends State<AmountField> {
 
   bool validate = false;
   double price;
-  Currency currentCurrency;
+  String currentCurrency;
 
   @override
   Widget build(BuildContext context) {
+    String fiatCurrency =  SettingsNotifier.of(context).selectedFiatCurrency;
     return Column(
       children: [
         MainTextField(
@@ -900,10 +900,10 @@ class _AmountFieldState extends State<AmountField> {
             margin: EdgeInsets.only(top: 8, bottom: 8, right: 16),
             child: OutlineButton(
               onPressed: () {
-                _toggleInput();
+                _toggleInput(fiatCurrency);
               },
               child: Text(
-                currentCurrency == Currency.SEEDS? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
+                currentCurrency == SEEDS ? 'SEEDS' : fiatCurrency,
                 style: TextStyle(color: AppColors.grey, fontSize: 16),
               ),
             ),
@@ -949,15 +949,15 @@ class _AmountFieldState extends State<AmountField> {
     );
   }
 
-  void _toggleInput() {
+  void _toggleInput(String fiat) {
     setState(() {
 
-      if (currentCurrency == Currency.SEEDS) {
-        currentCurrency = Currency.FIAT;
+      if (currentCurrency == SEEDS) {
+        currentCurrency = fiat;
         validate = false;
         widget.onChanged(price, currentCurrency, validate);
       } else {
-        currentCurrency = Currency.SEEDS;
+        currentCurrency = SEEDS;
         validate = false;
         widget.onChanged(price, currentCurrency, validate);
       }

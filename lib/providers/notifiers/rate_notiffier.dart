@@ -6,6 +6,8 @@ import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
+const String SEEDS = "SEEDS";
+
 class RateNotifier extends ChangeNotifier {
   RateModel rate;
   FiatRateModel fiatRate;

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:seeds/models/Currencies.dart';
 import 'package:seeds/models/firebase/firebase_user.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
@@ -301,7 +300,7 @@ class FirebaseDatabaseService {
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
       PRODUCT_CREATED_DATE_KEY: FieldValue.serverTimestamp(),
-      PRODUCT_CURRENCY_KEY: product.currency.name
+      PRODUCT_CURRENCY_KEY: product.currency
     };
 
     if (product.picture != null && product.picture.isNotEmpty) {
@@ -315,7 +314,7 @@ class FirebaseDatabaseService {
     Map<String, Object> data = {
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
-      PRODUCT_CURRENCY_KEY: product.currency.name,
+      PRODUCT_CURRENCY_KEY: product.currency,
       PRODUCT_UPDATED_DATE_KEY: FieldValue.serverTimestamp(),
     };
 
@@ -346,7 +345,7 @@ class FirebaseDatabaseService {
                 picture: data.data()[PRODUCT_IMAGE_URL_KEY] != null ? data.data()[PRODUCT_IMAGE_URL_KEY] : "",
                 price: data.data()[PRODUCT_PRICE_KEY],
                 id: data.id,
-                currency: fromCurrencyName(data.data()[PRODUCT_CURRENCY_KEY])))
+                currency: data.data()[PRODUCT_CURRENCY_KEY]))
             .toList());
   }
 
