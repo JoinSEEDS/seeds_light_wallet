@@ -16,7 +16,6 @@ extension DoubleExtension on double {
   String get seedsFormatted {
     if (this != null) {
       var number = this;
-      number = 0.0042;
       var showDecimals = this < 1000000;
       var seedsFormatter = showDecimals ? 
         number < 0.01 ? NumberFormat("#.####") : NumberFormat("#,###,###,###,###.##") 
