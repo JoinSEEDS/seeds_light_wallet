@@ -63,10 +63,6 @@ class _OverviewState extends State<Overview> {
     NavigationService.of(context).navigateTo(Routes.dho);
   }
 
-  void onGuardians() {
-    NavigationService.of(context).navigateTo(Routes.guardians);
-  }
-
   Widget buildCategory(
     String title,
     String subtitle,
