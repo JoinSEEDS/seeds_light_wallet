@@ -116,7 +116,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     FirebaseDatabaseService().deleteProduct(productModel, userAccount);
   }
 
-  Future<void> showDeleteProduct(BuildContext context, ProductModel productModel, String userAccount) {
+  Future<void> showDeleteProductConfirmationDialog(BuildContext context, ProductModel productModel, String userAccount) {
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -262,7 +262,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     setState(() {});
   }
 
-  void showNewProduct(BuildContext context, String accountName) {
+  void showCreateNewProduct(BuildContext context, String accountName) {
     nameController.clear();
     priceController.clear();
     localImagePath = "";
@@ -367,7 +367,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
       floatingActionButton: Builder(
           builder: (context) => FloatingActionButton(
                 backgroundColor: AppColors.blue,
-                onPressed: () => showNewProduct(context, accountName),
+                onPressed: () => showCreateNewProduct(context, accountName),
                 child: Icon(Icons.add),
               )),
       body: StreamBuilder<List<ProductModel>>(
@@ -427,7 +427,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () {
-                            showDeleteProduct(context, products[index], accountName);
+                            showDeleteProductConfirmationDialog(context, products[index], accountName);
                           },
                         ),
                       ],
