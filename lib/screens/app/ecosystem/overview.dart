@@ -154,6 +154,7 @@ class _OverviewState extends State<Overview> {
 
   @override
   Widget build(BuildContext context) {
+
     return RefreshIndicator(
       onRefresh: refreshData,
       child: SingleChildScrollView(
@@ -168,7 +169,7 @@ class _OverviewState extends State<Overview> {
                     'assets/images/community.svg',
                     'Available Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
-                    onInvite,
+                    onInvite
                   ),
                 ),
                 Consumer<VoiceNotifier>(
@@ -180,7 +181,7 @@ class _OverviewState extends State<Overview> {
                     valueString(model?.campaignBalance?.amount) +
                         "/" +
                         valueString(model?.allianceBalance?.amount),
-                    onVote,
+                    onVote
                   ),
                 ),
                 Consumer<PlantedNotifier>(
@@ -190,7 +191,7 @@ class _OverviewState extends State<Overview> {
                     'assets/images/harvest.svg',
                     'Planted Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
-                    onPlant,
+                    onPlant
                   ),
                 ),
                 Consumer<BalanceNotifier>(
@@ -200,7 +201,7 @@ class _OverviewState extends State<Overview> {
                     'assets/images/harvest.svg',
                     'Available Seeds'.i18n,
                     model?.balance?.quantity?.seedsFormatted,
-                    onGet,
+                    onGet
                   ),
                 ),
                 Consumer<DhoNotifier>(

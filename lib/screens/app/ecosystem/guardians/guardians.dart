@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
 // loading only once - refresh manually - because only here the state can be changed
@@ -37,9 +38,7 @@ class _GuardiansState extends State<Guardians> {
             child: Text('Init Guardians'),
             onPressed: () => initGuardians(),
           ),
-          OutlineButton(
-              child: Text('Recover Account'),
-              onPressed: () => recoverAccount()),
+          OutlineButton(child: Text('Recover Account'), onPressed: () => recoverAccount()),
           OutlineButton(
             child: Text('Cancel Recovery'),
             onPressed: () => cancelRecovery(),
@@ -63,7 +62,9 @@ class _GuardiansState extends State<Guardians> {
     String userAccount = HttpMockResponse.members[4].account;
     String publicKey = "";
 
-    EosService.of(context).recoverAccount(userAccount, publicKey);
+    EosService.of(context)
+        .recoverAccount(userAccount, publicKey)
+        .then((value) => FirebaseDatabaseService().setGuardianRecoveryStarted(userAccount));
   }
 
   void cancelRecovery() {
@@ -81,11 +82,9 @@ class _GuardiansState extends State<Guardians> {
   }
 
   void setupPermission() async {
-    final currentPermissions =
-        await HttpService.of(context).getAccountPermissions();
+    final currentPermissions = await HttpService.of(context).getAccountPermissions();
 
-    final ownerPermission =
-        currentPermissions.firstWhere((item) => item.permName == "owner");
+    final ownerPermission = currentPermissions.firstWhere((item) => item.permName == "owner");
 
     ownerPermission.requiredAuth.accounts.add({
       "weight": ownerPermission.requiredAuth.threshold,
