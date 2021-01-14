@@ -239,27 +239,23 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     priceController.text = productModel.price.toString();
     currency = productModel.currency;
 
-    showModalBottomSheet<void>(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return SingleChildScrollView(
-            child: Container(
-              decoration: BoxDecoration(
+    showModalBottomSheet<void>(isScrollControlled: true,context: context, builder: (BuildContext context) {
+      return SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
                     blurRadius: 16,
                     color: AppColors.blue,
                     offset: Offset(0, 4),
-                  ),
-                ],
               ),
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Form(
-                key: editKey,
-                child: Container(
+            ],
+          ),
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Form(
+            key: editKey,
+            child: Container(
                   padding: EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 15,
@@ -290,15 +286,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                             editKey.currentState.validate();
                           }),
                       AmountField(
-                          currentCurrency: currency,
-                          priceController: priceController,
-                          onChanged: (amount, input, validate) => {
-                                validate
-                                    ? editKey.currentState.validate()
-                                    : null,
-                                seedsValue = amount,
-                                currency = input,
-                              }),
+                      currentCurrency: currency,
+                      priceController: priceController,
+                      onChanged: (amount, input, validate) => {
+                        validate ? editKey.currentState.validate() : null,
+                        seedsValue = amount,
+                        currency = input,
+                      }),
                       MainButton(
                         key: savingLoader,
                         title: 'Edit Product'.i18n,
@@ -558,6 +552,26 @@ class _ReceiveFormState extends State<ReceiveForm> {
   List<ProductModel> cart = List();
   Map<String, int> cartQuantity = Map();
 
+  @override
+  void didChangeDependencies() {
+    loadProducts();
+    super.didChangeDependencies();
+  }
+
+  void loadProducts() async {
+    final accountName = EosService.of(this.context).accountName;
+
+    final products =
+        await FirebaseDatabaseService().getProductsForUser(accountName).first;
+
+    products.forEach((product) {
+      cart.add(product);
+      cartQuantity[product.name] = 0;
+    });
+
+    setState(() {});
+  }
+
   void changeTotalPrice(double amount) {
     invoiceAmountDouble += amount;
     invoiceAmount = invoiceAmountDouble.toString();
@@ -567,11 +581,6 @@ class _ReceiveFormState extends State<ReceiveForm> {
   void removeProductFromCart(ProductModel product) {
     setState(() {
       cartQuantity[product.name]--;
-
-      if (cartQuantity[product.name] == 0) {
-        cart.removeWhere((element) => element.name == product.name);
-        cartQuantity[product.name] = null;
-      }
 
       changeTotalPrice(-product.price);
     });
@@ -787,22 +796,24 @@ class _ReceiveFormState extends State<ReceiveForm> {
                   footer: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: 48,
-                        height: 48,
-                        child: FlatButton(
-                          padding: EdgeInsets.zero,
-                          color: AppColors.red,
-                          child: Icon(
-                            Icons.remove,
-                            size: 21,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            removeProductFromCart(product);
-                          },
-                        ),
-                      ),
+                      cartQuantity[product.name] > 0
+                          ? SizedBox(
+                              width: 48,
+                              height: 48,
+                              child: FlatButton(
+                                padding: EdgeInsets.zero,
+                                color: AppColors.red,
+                                child: Icon(
+                                  Icons.remove,
+                                  size: 21,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  removeProductFromCart(product);
+                                },
+                              ),
+                            )
+                          : SizedBox(width: 48, height: 48),
                       Text(
                         cartQuantity[product.name].toString(),
                         style: TextStyle(
