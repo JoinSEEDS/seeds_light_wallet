@@ -226,6 +226,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     nameController.text = productModel.name;
     priceController.text = productModel.price.toString();
     currency = productModel.currency;
+    var fiatCurrency = currency != SEEDS ? currency : SettingsNotifier.of(context).selectedFiatCurrency;
+
 
     showModalBottomSheet<void>(isScrollControlled: true,context: context, builder: (BuildContext context) {
       return SingleChildScrollView(
@@ -275,6 +277,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                       }),
                   AmountField(
                       currentCurrency: currency,
+                      fiatCurrency: fiatCurrency,
                       priceController: priceController,
                       onChanged: (amount, input, validate) => {
                         validate ? editKey.currentState.validate() : null,
@@ -283,7 +286,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                       }),
                   MainButton(
                     key: savingLoader,
-                    title: 'Edit Product'.i18n,
+                    title: 'Done'.i18n,
                     onPressed: () {
                       if (editKey.currentState.validate()) {
                         editProduct(productModel, userAccount, context);
@@ -363,6 +366,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                       ),
                       AmountField(
                           currentCurrency: currency,
+                          fiatCurrency: SettingsNotifier.of(context).selectedFiatCurrency,
                           priceController: priceController,
                           onChanged: (amount, currencyInput, validate) => {
                                 validate ? priceKey.currentState.validate() : "",
@@ -870,11 +874,12 @@ class _ReceiveFormState extends State<ReceiveForm> {
 }
 
 class AmountField extends StatefulWidget {
-  const AmountField({Key key, this.onChanged, this.priceController, this.currentCurrency}) : super(key: key);
+  const AmountField({Key key, this.onChanged, this.priceController, this.currentCurrency, this.fiatCurrency}) : super(key: key);
 
   final TextEditingController priceController;
   final Function onChanged;
   final String currentCurrency;
+  final String fiatCurrency;
 
   @override
   _AmountFieldState createState() =>
@@ -890,7 +895,6 @@ class _AmountFieldState extends State<AmountField> {
 
   @override
   Widget build(BuildContext context) {
-    String fiatCurrency =  SettingsNotifier.of(context).selectedFiatCurrency;
     return Column(
       children: [
         MainTextField(
@@ -900,10 +904,10 @@ class _AmountFieldState extends State<AmountField> {
             margin: EdgeInsets.only(top: 8, bottom: 8, right: 16),
             child: OutlineButton(
               onPressed: () {
-                _toggleInput(fiatCurrency);
+                _toggleInput(widget.fiatCurrency);
               },
               child: Text(
-                currentCurrency == SEEDS ? 'SEEDS' : fiatCurrency,
+                currentCurrency == SEEDS ? 'SEEDS' : widget.fiatCurrency,
                 style: TextStyle(color: AppColors.grey, fontSize: 16),
               ),
             ),
