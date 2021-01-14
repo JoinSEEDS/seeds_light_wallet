@@ -22,5 +22,6 @@ const String PRODUCT_IMAGE_URL_KEY = "imageUrl";
 const String PRODUCT_CREATED_DATE_KEY = "createdDate";
 const String PRODUCT_UPDATED_DATE_KEY = "updatedDate";
 const String PRODUCT_CURRENCY_KEY = "productCurrency";
+const String PRODUCT_POSITION_KEY = "position";
 
 const String PENDING_NOTIFICATIONS_KEY = "pendingNotifications";
