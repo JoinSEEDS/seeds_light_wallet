@@ -980,7 +980,6 @@ class _AmountFieldState extends State<AmountField> {
           keyboardType:
               TextInputType.numberWithOptions(signed: false, decimal: true),
           controller: widget.priceController,
-          autofocus: true,
           inputFormatters: [
             UserInputNumberFormatter(),
           ],
