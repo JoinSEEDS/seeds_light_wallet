@@ -63,10 +63,6 @@ class _OverviewState extends State<Overview> {
     NavigationService.of(context).navigateTo(Routes.dho);
   }
 
-  void onGuardians() {
-    NavigationService.of(context).navigateTo(Routes.guardians);
-  }
-
   Widget buildCategory(
     String title,
     String subtitle,
@@ -207,13 +203,6 @@ class _OverviewState extends State<Overview> {
                     onGet,
                   ),
                 ),
-                buildCategory(
-                    'Guardians',
-                    'Protect your account sharing trust with friends',
-                    'assets/images/harvest.svg',
-                    '',
-                    '',
-                    onGuardians),
                 Consumer<DhoNotifier>(
                   builder: (ctx, model, _) => model.isDhoMember
                       ? buildCategory(
