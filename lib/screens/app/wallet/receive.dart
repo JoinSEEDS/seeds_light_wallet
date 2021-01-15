@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart' hide Action;
@@ -14,6 +15,7 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_datastore_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -56,16 +58,13 @@ class _ReceiveState extends State<Receive> {
 }
 
 class ProductsCatalog extends StatefulWidget {
-  final Function onTap;
-
-  ProductsCatalog(this.onTap);
+  ProductsCatalog();
 
   @override
   _ProductsCatalogState createState() => _ProductsCatalogState();
 }
 
 class _ProductsCatalogState extends State<ProductsCatalog> {
-
   final editKey = GlobalKey<FormState>();
   final priceKey = GlobalKey<FormState>();
   final nameKey = GlobalKey<FormState>();
@@ -75,7 +74,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   String productName = "";
   double seedsValue = 0;
   String currency;
-  List<ProductModel> products = List();
 
   String localImagePath = '';
 
@@ -85,7 +83,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   void chooseProductPicture() async {
-    final PickedFile image = await ImagePicker().getImage(source: ImageSource.gallery, imageQuality: 20);
+    final PickedFile image = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 20);
 
     if (image == null) return;
 
@@ -102,8 +101,11 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     });
   }
 
-  Future<void> createNewProduct(String userAccount, BuildContext context) async {
-    if (products.indexWhere((element) => element.name == nameController.text) != -1) return;
+  Future<void> createNewProduct(
+      String userAccount, BuildContext context) async {
+    if (products.indexWhere(
+            (element) => element.data()['name'] == nameController.text) !=
+        -1) return;
 
     String downloadUrl;
     setState(() {
@@ -111,7 +113,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     });
 
     if (localImagePath != null && localImagePath.isNotEmpty) {
-      TaskSnapshot image = await FirebaseDataStoreService().uploadPic(File(localImagePath), userAccount);
+      TaskSnapshot image = await FirebaseDataStoreService()
+          .uploadPic(File(localImagePath), userAccount);
       downloadUrl = await image.ref.getDownloadURL();
       localImagePath = '';
     }
@@ -121,19 +124,24 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
       price: seedsValue,
       picture: downloadUrl,
       currency: currency,
+      position: products.length,
     );
 
-    FirebaseDatabaseService().createProduct(product, userAccount).then((value) => closeBottomSheet(context));
+    FirebaseDatabaseService()
+        .createProduct(product, userAccount)
+        .then((value) => closeBottomSheet(context));
   }
 
-  Future<void> editProduct(ProductModel productModel, String userAccount , BuildContext context) async {
+  Future<void> editProduct(ProductModel productModel, String userAccount,
+      BuildContext context) async {
     String downloadUrl;
     setState(() {
       savingLoader.currentState.loading();
     });
 
     if (localImagePath != null && localImagePath.isNotEmpty) {
-      TaskSnapshot image = await FirebaseDataStoreService().uploadPic(File(localImagePath), userAccount);
+      TaskSnapshot image = await FirebaseDataStoreService()
+          .uploadPic(File(localImagePath), userAccount);
       downloadUrl = await image.ref.getDownloadURL();
       localImagePath = '';
     }
@@ -145,7 +153,9 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         id: productModel.id,
         currency: currency);
 
-    FirebaseDatabaseService().updateProduct(product, userAccount).then((value) => closeBottomSheet(context));
+    FirebaseDatabaseService()
+        .updateProduct(product, userAccount)
+        .then((value) => closeBottomSheet(context));
   }
 
   void closeBottomSheet(BuildContext context) {
@@ -157,8 +167,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     FirebaseDatabaseService().deleteProduct(productModel, userAccount);
   }
 
-  Future<void> showDeleteProduct(BuildContext context, ProductModel productModel, String userAccount) {
-
+  Future<void> showDeleteProduct(
+      BuildContext context, ProductModel productModel, String userAccount) {
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -222,30 +232,36 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         ));
   }
 
-  void showEditProduct(BuildContext context, ProductModel productModel, String userAccount) {
+  void showEditProduct(
+      BuildContext context, ProductModel productModel, String userAccount) {
     nameController.text = productModel.name;
     priceController.text = productModel.price.toString();
     currency = productModel.currency;
-    var fiatCurrency = currency != SEEDS ? currency : SettingsNotifier.of(context).selectedFiatCurrency;
+    var fiatCurrency = currency != SEEDS
+        ? currency
+        : SettingsNotifier.of(context).selectedFiatCurrency;
 
-
-    showModalBottomSheet<void>(isScrollControlled: true,context: context, builder: (BuildContext context) {
-      return SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
+    showModalBottomSheet<void>(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            child: Container(
+              decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
                     blurRadius: 16,
                     color: AppColors.blue,
                     offset: Offset(0, 4),
+                  ),
+                ],
               ),
-            ],
-          ),
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Form(
-            key: editKey,
-            child: Container(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Form(
+                key: editKey,
+                child: Container(
                   padding: EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 15,
@@ -276,14 +292,16 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                             editKey.currentState.validate();
                           }),
                       AmountField(
-                      currentCurrency: currency,
-                      fiatCurrency: fiatCurrency,
-                      priceController: priceController,
-                      onChanged: (amount, input, validate) => {
-                        validate ? editKey.currentState.validate() : null,
-                        seedsValue = amount,
-                        currency = input,
-                      }),
+                          currentCurrency: currency,
+                          fiatCurrency: fiatCurrency,
+                          priceController: priceController,
+                          onChanged: (amount, input, validate) => {
+                                validate
+                                    ? editKey.currentState.validate()
+                                    : null,
+                                seedsValue = amount,
+                                currency = input,
+                              }),
                       MainButton(
                         key: savingLoader,
                         title: 'Done'.i18n,
@@ -304,8 +322,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     setState(() {});
   }
 
-
-
   void showNewProduct(BuildContext context, String accountName) {
     nameController.clear();
     priceController.clear();
@@ -318,7 +334,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         builder: (BuildContext context) {
           return SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: <BoxShadow>[
@@ -366,10 +383,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                       ),
                       AmountField(
                           currentCurrency: currency,
-                          fiatCurrency: SettingsNotifier.of(context).selectedFiatCurrency,
+                          fiatCurrency:
+                              SettingsNotifier.of(context).selectedFiatCurrency,
                           priceController: priceController,
                           onChanged: (amount, currencyInput, validate) => {
-                                validate ? priceKey.currentState.validate() : "",
+                                validate
+                                    ? priceKey.currentState.validate()
+                                    : "",
                                 seedsValue = amount,
                                 currency = currencyInput,
                               }),
@@ -378,7 +398,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         title: 'Add Product'.i18n,
                         onPressed: () {
                           nameKey.currentState.validate();
-                          if (priceKey.currentState.validate() && nameKey.currentState.validate()) {
+                          if (priceKey.currentState.validate() &&
+                              nameKey.currentState.validate()) {
                             createNewProduct(accountName, context);
                           }
                         },
@@ -392,6 +413,9 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         });
     setState(() {});
   }
+
+  List<DocumentSnapshot> products;
+  Future reordering;
 
   @override
   Widget build(BuildContext context) {
@@ -410,89 +434,90 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         ),
       ),
       floatingActionButton: Builder(
-        builder: (context) =>
-             FloatingActionButton(
+          builder: (context) => FloatingActionButton(
                 backgroundColor: AppColors.blue,
                 onPressed: () => showNewProduct(context, accountName),
                 child: Icon(Icons.add),
-              )
-      ),
-      body: StreamBuilder<List<ProductModel>>(
-          stream: FirebaseDatabaseService().getProductsForUser(accountName),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return SizedBox.shrink();
-            } else {
-              var products = snapshot.data;
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: products.length,
-                itemBuilder: (ctx, index) => ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: products[index].picture.isNotEmpty ? NetworkImage(products[index].picture) : null,
-                    child: products[index].picture.isEmpty
-                        ? Container(
-                            color: AppColors.getColorByString(products[index].name),
-                            child: Center(
-                              child: Text(
-                                products[index].name == null
-                                ? ""
-                                    :products[index].name.characters.first,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w600,
-                                ),
+              )),
+      body: FutureBuilder(
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.none ||
+            snapshot.connectionState == ConnectionState.done) {
+          return StreamBuilder<QuerySnapshot>(
+              stream: FirebaseDatabaseService()
+                  .getOrderedProductsForUser(accountName),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return SizedBox.shrink();
+                } else {
+                  products = snapshot.data.docs;
+                  return ReorderableListView(
+                    onReorder: (oldIndex, newIndex) {
+                      if (oldIndex < newIndex) newIndex -= 1;
+                      products.insert(newIndex, products.removeAt(oldIndex));
+                      final futures = <Future>[];
+                      for (int i = 0; i < products.length; i++) {
+                        futures.add(products[i].reference.update({
+                          PRODUCT_POSITION_KEY: i,
+                        }));
+                      }
+                      setState(() {
+                        reordering = Future.wait(futures);
+                      });
+                    },
+                    children: products.map((data) {
+                      var product = ProductModel.fromSnapshot(data);
+                      return ListTile(
+                        key: Key(data.id),
+                        leading: buildCircleAvatar(product),
+                        title: Material(
+                          child: Text(
+                            product.name == null ? "" : product.name,
+                            style: TextStyle(
+                                fontFamily: "worksans",
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        subtitle: Material(
+                          child: Text(
+                            getProductPrice(product),
+                            style: TextStyle(
+                                fontFamily: "worksans",
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        trailing: Builder(
+                          builder: (context) => Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () {
+                                  setState(() {});
+
+                                  showEditProduct(
+                                      context, product, accountName);
+                                },
                               ),
-                            ),
-                          )
-                        : null,
-                    radius: 20,
-                  ),
-                  title: Material(
-                    child: Text(
-                      products[index].name == null
-                         ? ""
-                          :products[index].name,
-                      style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  subtitle: Material(
-                    child: Text(
-                      getProductPrice(products[index]),
-                      style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  trailing: Builder(
-                    builder: (context) => Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-
-                            setState(() {});
-
-                            showEditProduct(context, products[index], accountName);
-                          },
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  showDeleteProduct(
+                                      context, product, accountName);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {
-                            showDeleteProduct(context, products[index], accountName);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    widget.onTap(products[index]);
-                    Navigator.of(context).pop();
-                  },
-                ),
-              );
-            }
-          }),
+                      );
+                    }).toList(),
+                  );
+                }
+              });
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      }),
     );
   }
 
@@ -501,28 +526,101 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 }
 
+CircleAvatar buildCircleAvatar(ProductModel product, {double size = 20}) {
+  return CircleAvatar(
+    backgroundImage:
+        product.picture.isNotEmpty ? NetworkImage(product.picture) : null,
+    child: product.picture.isEmpty
+        ? Container(
+            color: AppColors.getColorByString(product.name),
+            child: Center(
+              child: Text(
+                product.name == null ? "" : product.name.characters.first,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          )
+        : null,
+    radius: size,
+  );
+}
+
 class ReceiveForm extends StatefulWidget {
   @override
   _ReceiveFormState createState() => _ReceiveFormState();
 }
 
 class LineItem {
-  int quantity;
   ProductModel product;
+  int quantity;
+
+  LineItem({this.product, this.quantity});
+
+  double seedsPrice(CurrencyConverter converter) {
+    return quantity * product.seedsPrice(converter);   
+  }
 }
 
-class CartModel  {
-  List<LineItem> lineItems;
-  double donation;
+class CartModel {
+  var lineItems = List<LineItem>();
+  double donationDiscount = 0; // 0 - 1, negative for discount
+  double customAmount = 0;
+
+  CurrencyConverter currencyConverter;
+
+  LineItem itemFor(ProductModel product) {
+    return lineItems.firstWhere((e) => e.product.name == product.name, orElse: () => null);
+  }
+
+  int quantityFor(ProductModel product) {
+    return itemFor(product)?.quantity ?? 0;
+  }
+
+  void add(ProductModel product, int quantity) {
+    var item = itemFor(product);
+    if (item != null) {
+      item.quantity += quantity;
+      if (item.quantity <= 0) {
+        lineItems.remove(item);
+      }
+    } else {
+      if (quantity > 0)
+        lineItems.add(LineItem(product: product, quantity: quantity));
+    }
+  }
+
+  void clear() {
+    lineItems.clear();
+  }
+
+  bool isEmpty() {
+    return lineItems.isEmpty;
+  }
+
+  double total() {
+    if (lineItems.isEmpty) {
+      return customAmount;
+    } else {
+      double total = 0;
+      lineItems.forEach((item) {
+        total =
+            total + item.seedsPrice(currencyConverter);
+      });
+      return total + total * donationDiscount;
+    }
+  }
 }
 
 class _ReceiveFormState extends State<ReceiveForm> {
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '');
-  String invoiceAmount = '0.00 SEEDS';
-  double invoiceAmountDouble = 0;
 
   final cart = CartModel();
+  final products = List<ProductModel>();
 
   @override
   void didChangeDependencies() {
@@ -533,57 +631,42 @@ class _ReceiveFormState extends State<ReceiveForm> {
   void loadProducts() async {
     final accountName = EosService.of(this.context).accountName;
 
-    final products =
+    final fbProducts =
         await FirebaseDatabaseService().getProductsForUser(accountName).first;
 
-    cart.clear();
+    products.clear();
 
-    products.forEach((product) {
-      cart.add(product);
-      cartQuantity[product.name] = 0;
+    fbProducts.forEach((product) {
+      products.add(product);
     });
 
     setState(() {});
   }
 
-  void changeTotalPrice(double amount) {
-    invoiceAmountDouble += amount;
-    invoiceAmount = invoiceAmountDouble.toString();
-    controller.text = invoiceAmount;
-  }
-
   void removeProductFromCart(ProductModel product, RateNotifier rateNotifier) {
+    cart.currencyConverter = rateNotifier;
     setState(() {
-      cartQuantity[product.name]--;
-      changeTotalPrice(-product.seedsPrice(rateNotifier));
+      cart.add(product, -1);
     });
   }
 
   void removePriceDifference() {
-    final difference = donationOrDiscountAmount();
-
     setState(() {
-      changeTotalPrice(difference);
+      cart.donationDiscount = 0;
     });
   }
 
   void addProductToCart(ProductModel product, RateNotifier rateNotifier) {
+    cart.currencyConverter = rateNotifier;
     setState(() {
-      if (cartQuantity[product.name] == null) {
-        cart.add(product);
-        cartQuantity[product.name] = 1;
-      } else {
-        cartQuantity[product.name]++;
-      }
-
-      changeTotalPrice(product.seedsPrice(rateNotifier));
+      cart.add(product, 1);
     });
   }
 
   void showMerchantCatalog(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => ProductsCatalog(addProductToCart),
+        builder: (_) => ProductsCatalog(),
         maintainState: true,
         fullscreenDialog: true,
       ),
@@ -591,31 +674,27 @@ class _ReceiveFormState extends State<ReceiveForm> {
   }
 
   void generateInvoice(String amount) async {
-    double receiveAmount = double.tryParse(amount) ?? 0;
+    //double receiveAmount = double.tryParse(amount) ?? 0;
 
     setState(() {
-      invoiceAmountDouble = receiveAmount;
-      invoiceAmount = receiveAmount.toStringAsFixed(4);
+      // invoiceAmountDouble = receiveAmount;
+      // invoiceAmount = receiveAmount.toStringAsFixed(4);
     });
-  }
-
-  double donationOrDiscountAmount() {
-    final cartTotalPrice =
-        cart.map((product) => product.price * cartQuantity[product.name]).reduce((value, element) => value + element);
-
-    final difference = cartTotalPrice - invoiceAmountDouble;
-
-    return difference;
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!cart.isEmpty()) {
+      controller.text = cart.total().seedsFormatted;
+    }
+
     return SingleChildScrollView(
       child: Form(
         key: formKey,
         child: Column(
           children: <Widget>[
             MainTextField(
+              focusNode: FocusNode(),
               suffixIcon: IconButton(
                 icon: Icon(Icons.add_shopping_cart, color: AppColors.blue),
                 onPressed: () {
@@ -623,11 +702,14 @@ class _ReceiveFormState extends State<ReceiveForm> {
                   showMerchantCatalog(context);
                 },
               ),
-              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
               controller: controller,
               labelText: 'Receive (SEEDS)'.i18n,
-              autofocus: true,
-              inputFormatters: [UserInputNumberFormatter(),],
+              autofocus: false,
+              inputFormatters: [
+                UserInputNumberFormatter(),
+              ],
               validator: (String amount) {
                 String error;
                 double receiveAmount;
@@ -654,10 +736,12 @@ class _ReceiveFormState extends State<ReceiveForm> {
               },
               onChanged: (String amount) {
                 if (formKey.currentState.validate()) {
-                  generateInvoice(amount);
+                  setState(() {
+                    cart.customAmount = double.tryParse(amount);
+                  });
                 } else {
                   setState(() {
-                    invoiceAmountDouble = 0;
+                    cart.customAmount = 0;
                   });
                 }
               },
@@ -665,160 +749,213 @@ class _ReceiveFormState extends State<ReceiveForm> {
             Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                    padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
+                    padding: EdgeInsets.fromLTRB(16, 4, 0, 0),
                     child: Consumer<RateNotifier>(
                       builder: (context, rateNotifier, child) {
                         return Text(
-                          rateNotifier
-                            .amountToString(invoiceAmountDouble, SettingsNotifier.of(context).selectedFiatCurrency), 
+                          rateNotifier.amountToString(
+                              cart.total(),
+                              SettingsNotifier.of(context)
+                                  .selectedFiatCurrency),
                           style: TextStyle(color: Colors.blue),
                         );
                       },
                     ))),
+            cart.isEmpty()
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                    child: Consumer<RateNotifier>(
+                        builder: (context, rateNotifier, child) => Column(
+                            children: List<Widget>.of(
+                                cart.lineItems.map((e) => Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                  child: Row(children: [
+                                        buildCircleAvatar(e.product, size: 14),
+                                        SizedBox(width:10),
+                                        e.quantity > 1 ? Text("${e.quantity} x ",
+                                          style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "worksans")) : Container(),
+                                        //SizedBox(width: 10),
+                                        Text(e.product.name,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "worksans")),
+                                        Spacer(),
+                                        // Text(
+                                        //     e.quantity > 1
+                                        //         ? e.quantity.toString()
+                                        //         : "",
+                                        //     style: TextStyle(
+                                        //         fontSize: 14,
+                                        //         fontWeight: FontWeight.w400,
+                                        //         fontFamily: "worksans")),
+                                        // SizedBox(width: 10),
+                                        Text(
+                                            e.seedsPrice(rateNotifier)
+                                                .seedsFormatted,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "worksans")),
+                                      ]),
+                                ))))),
+                  ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 33, 0, 0),
               child: MainButton(
                   title: "Next".i18n,
-                  active: invoiceAmountDouble != 0,
+                  active: cart.total() != 0,
                   onPressed: () {
                     FocusScope.of(context).unfocus();
-                    NavigationService.of(context).navigateTo(Routes.receiveQR, invoiceAmountDouble);
+                    NavigationService.of(context)
+                        .navigateTo(Routes.receiveQR, cart.total());
                   }),
             ),
-            cart.length > 0 ? buildCart() : Container(),
+            products.length > 0 ? buildProductsList() : Container(),
           ],
         ),
       ),
     );
   }
 
-  Widget buildCart() {
+  Widget buildProductsList() {
     return Consumer<RateNotifier>(
-      builder:(context, rateNotifier, child) {
+      builder: (context, rateNotifier, child) {
         return Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: GridView(
-          physics: ScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200.0,
-            mainAxisSpacing: 10.0,
-            crossAxisSpacing: 10.0,
-          ),
-          shrinkWrap: true,
-          children: [
-            ...cart
-                .map(
-                  (product) => GridTile(
-                    header: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      child: Row(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 24),
+          child: GridView(
+            physics: ScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200.0,
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 10.0,
+            ),
+            shrinkWrap: true,
+            children: [
+              ...products
+                  .map(
+                    (product) => GridTile(
+                      header: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            product.picture.isNotEmpty
+                                ? CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(product.picture),
+                                    radius: 20,
+                                  )
+                                : Container(),
+                            Row(
+                              children: [
+                                Text(
+                                  product.price.toString(),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Image.asset(
+                                  'assets/images/seeds.png',
+                                  height: 20,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.getColorByString(product.name),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              blurRadius: 15,
+                              color: AppColors.getColorByString(product.name),
+                              offset: Offset(6, 10),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            product.name.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      footer: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          product.picture.isNotEmpty
-                              ? CircleAvatar(
-                                  backgroundImage: NetworkImage(product.picture),
-                                  radius: 20,
-                                )
-                              : Container(),
-                          Row(
-                            children: [
-                              Text(
-                                product.price.toString(),
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          SizedBox(
+                            width: 48,
+                            height: 48,
+                            child: FlatButton(
+                              padding: EdgeInsets.zero,
+                              color: AppColors.red,
+                              child: Icon(
+                                Icons.remove,
+                                size: 21,
+                                color: Colors.white,
                               ),
-                              Image.asset(
-                                'assets/images/seeds.png',
-                                height: 20,
+                              onPressed: () {
+                                removeProductFromCart(product, rateNotifier);
+                              },
+                            ),
+                          ),
+                          Text(
+                            productQuantity(product),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 48,
+                            height: 48,
+                            child: FlatButton(
+                              padding: EdgeInsets.zero,
+                              color: AppColors.green,
+                              child: Icon(
+                                Icons.add,
+                                size: 21,
+                                color: Colors.white,
                               ),
-                            ],
+                              onPressed: () {
+                                addProductToCart(product, rateNotifier);
+                              },
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.getColorByString(product.name),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            blurRadius: 15,
-                            color: AppColors.getColorByString(product.name),
-                            offset: Offset(6, 10),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          product.name.toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                    footer: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 48,
-                          height: 48,
-                          child: FlatButton(
-                            padding: EdgeInsets.zero,
-                            color: AppColors.red,
-                            child: Icon(
-                              Icons.remove,
-                              size: 21,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              removeProductFromCart(product, rateNotifier);
-                            },
-                          ),
-                        ),
-                        Text(
-                          cartQuantity[product.name].toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 28,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 48,
-                          height: 48,
-                          child: FlatButton(
-                            padding: EdgeInsets.zero,
-                            color: AppColors.green,
-                            child: Icon(
-                              Icons.add,
-                              size: 21,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              addProductToCart(product, rateNotifier);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-                .toList(),
-            buildDonationOrDiscountItem(),
-          ],
-        ),
-      );
+                  )
+                  .toList(),
+              //buildDonationOrDiscountItem(),
+            ],
+          ),
+        );
       },
     );
   }
 
+  String productQuantity(ProductModel product) {
+    int quantity = cart.quantityFor(product);
+    return quantity > 0 ? "$quantity" : "";
+  } 
+
   Widget buildDonationOrDiscountItem() {
-    double difference = donationOrDiscountAmount();
+    double difference = cart.donationDiscount;
 
     if (difference == 0) {
       return Container();
@@ -834,7 +971,8 @@ class _ReceiveFormState extends State<ReceiveForm> {
             children: [
               CircleAvatar(
                 backgroundColor: AppColors.blue,
-                child: Icon(difference > 0 ? Icons.remove : Icons.add, color: Colors.white),
+                child: Icon(difference > 0 ? Icons.remove : Icons.add,
+                    color: Colors.white),
                 radius: 20,
               ),
               Row(
@@ -903,7 +1041,13 @@ class _ReceiveFormState extends State<ReceiveForm> {
 }
 
 class AmountField extends StatefulWidget {
-  const AmountField({Key key, this.onChanged, this.priceController, this.currentCurrency, this.fiatCurrency}) : super(key: key);
+  const AmountField(
+      {Key key,
+      this.onChanged,
+      this.priceController,
+      this.currentCurrency,
+      this.fiatCurrency})
+      : super(key: key);
 
   final TextEditingController priceController;
   final Function onChanged;
@@ -941,9 +1085,9 @@ class _AmountFieldState extends State<AmountField> {
               ),
             ),
           ),
-          keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+          keyboardType:
+              TextInputType.numberWithOptions(signed: false, decimal: true),
           controller: widget.priceController,
-          autofocus: true,
           inputFormatters: [
             UserInputNumberFormatter(),
           ],
@@ -984,7 +1128,6 @@ class _AmountFieldState extends State<AmountField> {
 
   void _toggleInput(String fiat) {
     setState(() {
-
       if (currentCurrency == SEEDS) {
         currentCurrency = fiat;
         validate = false;
@@ -997,7 +1140,3 @@ class _AmountFieldState extends State<AmountField> {
     });
   }
 }
-
-
-
-
