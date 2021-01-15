@@ -12,7 +12,6 @@ import 'package:seeds/screens/app/ecosystem/overview.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
 import 'package:seeds/screens/app/ecosystem/tables/tables.dart';
-import 'package:seeds/screens/app/guardians/guardian_instructions.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite_sent.dart';
 import 'package:seeds/screens/app/guardians/guardians_tabs.dart';
