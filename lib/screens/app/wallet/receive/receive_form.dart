@@ -6,6 +6,8 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/receive/product_catalog.dart';
 import 'package:seeds/utils/double_extension.dart';
@@ -27,6 +29,25 @@ class _ReceiveFormState extends State<ReceiveForm> {
   List<ProductModel> cart = List();
   Map<String, int> cartQuantity = Map();
 
+  @override
+  void didChangeDependencies() {
+    loadProducts();
+    super.didChangeDependencies();
+  }
+
+  void loadProducts() async {
+    final accountName = EosService.of(this.context).accountName;
+
+    final products = await FirebaseDatabaseService().getProductsForUser(accountName).first;
+
+    products.forEach((product) {
+      cart.add(product);
+      cartQuantity[product.name] = 0;
+    });
+
+    setState(() {});
+  }
+
   void changeTotalPrice(double amount) {
     invoiceAmountDouble += amount;
     invoiceAmount = invoiceAmountDouble.toString();
@@ -36,11 +57,6 @@ class _ReceiveFormState extends State<ReceiveForm> {
   void removeProductFromCart(ProductModel product) {
     setState(() {
       cartQuantity[product.name]--;
-
-      if (cartQuantity[product.name] == 0) {
-        cart.removeWhere((element) => element.name == product.name);
-        cartQuantity[product.name] = null;
-      }
 
       changeTotalPrice(-product.price);
     });
@@ -251,22 +267,24 @@ class _ReceiveFormState extends State<ReceiveForm> {
                   footer: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: 48,
-                        height: 48,
-                        child: FlatButton(
-                          padding: EdgeInsets.zero,
-                          color: AppColors.red,
-                          child: Icon(
-                            Icons.remove,
-                            size: 21,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            removeProductFromCart(product);
-                          },
-                        ),
-                      ),
+                      cartQuantity[product.name] > 0
+                          ? SizedBox(
+                              width: 48,
+                              height: 48,
+                              child: FlatButton(
+                                padding: EdgeInsets.zero,
+                                color: AppColors.red,
+                                child: Icon(
+                                  Icons.remove,
+                                  size: 21,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  removeProductFromCart(product);
+                                },
+                              ),
+                            )
+                          : SizedBox(width: 48, height: 48),
                       Text(
                         cartQuantity[product.name].toString(),
                         style: TextStyle(

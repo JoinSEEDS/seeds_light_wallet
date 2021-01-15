@@ -29,6 +29,7 @@ class ProductsCatalog extends StatefulWidget {
 }
 
 class _ProductsCatalogState extends State<ProductsCatalog> {
+
   final editKey = GlobalKey<FormState>();
   final priceKey = GlobalKey<FormState>();
   final nameKey = GlobalKey<FormState>();
@@ -89,7 +90,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     FirebaseDatabaseService().createProduct(product, userAccount).then((value) => closeBottomSheet(context));
   }
 
-  Future<void> editProduct(ProductModel productModel, String userAccount, BuildContext context) async {
+  Future<void> editProduct(ProductModel productModel, String userAccount , BuildContext context) async {
     String downloadUrl;
     setState(() {
       savingLoader.currentState.loading();
@@ -102,7 +103,11 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     }
 
     final product = ProductModel(
-        name: nameController.text, price: seedsValue, picture: downloadUrl, id: productModel.id, currency: currency);
+        name: nameController.text,
+        price: seedsValue,
+        picture: downloadUrl,
+        id: productModel.id,
+        currency: currency);
 
     FirebaseDatabaseService().updateProduct(product, userAccount).then((value) => closeBottomSheet(context));
   }
@@ -116,7 +121,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     FirebaseDatabaseService().deleteProduct(productModel, userAccount);
   }
 
-  Future<void> showDeleteProductConfirmationDialog(BuildContext context, ProductModel productModel, String userAccount) {
+  Future<void> showDeleteProduct(BuildContext context, ProductModel productModel, String userAccount) {
+
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -185,84 +191,83 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     priceController.text = productModel.price.toString();
     currency = productModel.currency;
 
-    showModalBottomSheet<void>(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return SingleChildScrollView(
+    showModalBottomSheet<void>(isScrollControlled: true,context: context, builder: (BuildContext context) {
+      return SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                blurRadius: 16,
+                color: AppColors.blue,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Form(
+            key: editKey,
             child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    blurRadius: 16,
-                    color: AppColors.blue,
-                    offset: Offset(0, 4),
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 15,
+              ),
+              child: Wrap(
+                runSpacing: 10.0,
+                children: <Widget>[
+                  DottedBorder(
+                    color: AppColors.grey,
+                    strokeWidth: 1,
+                    child: GestureDetector(
+                      onTap: chooseProductPicture,
+                      child: buildPictureWidget(productModel.picture),
+                    ),
+                  ),
+                  MainTextField(
+                      labelText: 'Name'.i18n,
+                      controller: nameController,
+                      validator: (String name) {
+                        String error;
+
+                        if (name == null || name.isEmpty) {
+                          error = 'Name cannot be empty'.i18n;
+                        }
+                        return error;
+                      },
+                      onChanged: (name) {
+                        editKey.currentState.validate();
+                      }),
+                  AmountField(
+                      currentCurrency: currency,
+                      priceController: priceController,
+                      onChanged: (amount, input, validate) => {
+                        validate ? editKey.currentState.validate() : null,
+                        seedsValue = amount,
+                        currency = input,
+                      }),
+                  MainButton(
+                    key: savingLoader,
+                    title: 'Edit Product'.i18n,
+                    onPressed: () {
+                      if (editKey.currentState.validate()) {
+                        editProduct(productModel, userAccount, context);
+                      }
+                    },
                   ),
                 ],
               ),
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Form(
-                key: editKey,
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 15,
-                  ),
-                  child: Wrap(
-                    runSpacing: 10.0,
-                    children: <Widget>[
-                      DottedBorder(
-                        color: AppColors.grey,
-                        strokeWidth: 1,
-                        child: GestureDetector(
-                          onTap: chooseProductPicture,
-                          child: buildPictureWidget(productModel.picture),
-                        ),
-                      ),
-                      MainTextField(
-                          labelText: 'Name'.i18n,
-                          controller: nameController,
-                          validator: (String name) {
-                            String error;
-
-                            if (name == null || name.isEmpty) {
-                              error = 'Name cannot be empty'.i18n;
-                            }
-                            return error;
-                          },
-                          onChanged: (name) {
-                            editKey.currentState.validate();
-                          }),
-                      AmountFieldReceive(
-                          currentCurrency: currency,
-                          priceController: priceController,
-                          onChanged: (amount, input, validate) => {
-                                validate ? editKey.currentState.validate() : null,
-                                seedsValue = amount,
-                                currency = input,
-                              }),
-                      MainButton(
-                        key: savingLoader,
-                        title: 'Edit Product'.i18n,
-                        onPressed: () {
-                          if (editKey.currentState.validate()) {
-                            editProduct(productModel, userAccount, context);
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ),
-          );
-        });
+          ),
+        ),
+      );
+    });
 
     setState(() {});
   }
 
-  void showCreateNewProduct(BuildContext context, String accountName) {
+
+
+  void showNewProduct(BuildContext context, String accountName) {
     nameController.clear();
     priceController.clear();
     localImagePath = "";
@@ -320,14 +325,14 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                               nameKey.currentState.validate();
                             }),
                       ),
-                      AmountFieldReceive(
+                      AmountField(
                           currentCurrency: currency,
                           priceController: priceController,
                           onChanged: (amount, currencyInput, validate) => {
-                                validate ? priceKey.currentState.validate() : "",
-                                seedsValue = amount,
-                                currency = currencyInput,
-                              }),
+                            validate ? priceKey.currentState.validate() : "",
+                            seedsValue = amount,
+                            currency = currencyInput,
+                          }),
                       MainButton(
                         key: savingLoader,
                         title: 'Add Product'.i18n,
@@ -365,11 +370,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         ),
       ),
       floatingActionButton: Builder(
-          builder: (context) => FloatingActionButton(
+          builder: (context) =>
+              FloatingActionButton(
                 backgroundColor: AppColors.blue,
-                onPressed: () => showCreateNewProduct(context, accountName),
+                onPressed: () => showNewProduct(context, accountName),
                 child: Icon(Icons.add),
-              )),
+              )
+      ),
       body: StreamBuilder<List<ProductModel>>(
           stream: FirebaseDatabaseService().getProductsForUser(accountName),
           builder: (context, snapshot) {
@@ -385,24 +392,28 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                     backgroundImage: products[index].picture.isNotEmpty ? NetworkImage(products[index].picture) : null,
                     child: products[index].picture.isEmpty
                         ? Container(
-                            color: AppColors.getColorByString(products[index].name),
-                            child: Center(
-                              child: Text(
-                                products[index].name == null ? "" : products[index].name.characters.first,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          )
+                      color: AppColors.getColorByString(products[index].name),
+                      child: Center(
+                        child: Text(
+                          products[index].name == null
+                              ? ""
+                              :products[index].name.characters.first,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    )
                         : null,
                     radius: 20,
                   ),
                   title: Material(
                     child: Text(
-                      products[index].name == null ? "" : products[index].name,
+                      products[index].name == null
+                          ? ""
+                          :products[index].name,
                       style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -419,6 +430,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         IconButton(
                           icon: Icon(Icons.edit),
                           onPressed: () {
+
                             setState(() {});
 
                             showEditProduct(context, products[index], accountName);
@@ -427,7 +439,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () {
-                            showDeleteProductConfirmationDialog(context, products[index], accountName);
+                            showDeleteProduct(context, products[index], accountName);
                           },
                         ),
                       ],

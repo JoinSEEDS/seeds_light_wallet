@@ -7,19 +7,20 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/utils/user_input_number_formatter.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 
-class AmountFieldReceive extends StatefulWidget {
-  const AmountFieldReceive({Key key, this.onChanged, this.priceController, this.currentCurrency}) : super(key: key);
+class AmountField extends StatefulWidget {
+  const AmountField({Key key, this.onChanged, this.priceController, this.currentCurrency}) : super(key: key);
 
   final TextEditingController priceController;
   final Function onChanged;
   final Currency currentCurrency;
 
   @override
-  _AmountFieldReceiveState createState() => _AmountFieldReceiveState(double.tryParse(priceController.text), currentCurrency);
+  _AmountFieldState createState() =>
+      _AmountFieldState(double.tryParse(priceController.text), currentCurrency);
 }
 
-class _AmountFieldReceiveState extends State<AmountFieldReceive> {
-  _AmountFieldReceiveState(this.price, this.currentCurrency);
+class _AmountFieldState extends State<AmountField> {
+  _AmountFieldState(this.price, this.currentCurrency);
 
   bool validate = false;
   double price;
@@ -39,7 +40,7 @@ class _AmountFieldReceiveState extends State<AmountFieldReceive> {
                 _toggleInput();
               },
               child: Text(
-                currentCurrency == Currency.SEEDS ? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
+                currentCurrency == Currency.SEEDS? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
                 style: TextStyle(color: AppColors.grey, fontSize: 16),
               ),
             ),
@@ -87,6 +88,7 @@ class _AmountFieldReceiveState extends State<AmountFieldReceive> {
 
   void _toggleInput() {
     setState(() {
+
       if (currentCurrency == Currency.SEEDS) {
         currentCurrency = Currency.FIAT;
         validate = false;
