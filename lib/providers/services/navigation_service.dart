@@ -21,12 +21,12 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
-import 'package:seeds/screens/app/wallet/receive.dart';
-import 'package:seeds/screens/app/wallet/receive_qr.dart';
+import 'package:seeds/screens/app/wallet/receive/receive.dart';
+import 'package:seeds/screens/app/wallet/receive/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/scan.dart';
-import 'package:seeds/screens/app/wallet/transfer.dart';
-import 'package:seeds/screens/app/wallet/transfer_amount.dart';
-import 'package:seeds/screens/app/wallet/transfer_form.dart';
+import 'package:seeds/screens/app/wallet/transfer/transfer.dart';
+import 'package:seeds/screens/app/wallet/transfer/transfer_amount.dart';
+import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/widgets/page_not_found.dart';
@@ -56,7 +56,6 @@ class Routes {
   static final scanQRCode = "ScanQRCode";
   static final receive = 'Receive';
   static final receiveQR = 'ReceiveQR';
-  static final guardianInstructions = "GuardianInstructions";
   static final selectGuardians = "SelectGuardians";
   static final inviteGuardians = "InviteGuardians";
   static final inviteGuardiansSent = "InviteGuardiansSent";
@@ -112,7 +111,6 @@ class NavigationService {
     Routes.scanQRCode: (_) => Scan(false),
     Routes.receive: (_) => Receive(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
-    Routes.guardianInstructions: (_) => GuardianInstructions(),
     Routes.selectGuardians: (_) => SelectGuardians(),
     Routes.inviteGuardians: (args) => InviteGuardians(args),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seeds/models/Currencies.dart';
+import 'package:seeds/models/firebase/firebase_user.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
@@ -15,6 +16,13 @@ class FirebaseDatabaseService {
   static final FirebaseDatabaseService _instance = FirebaseDatabaseService._();
 
   final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users');
+
+  Stream<FirebaseUser> getUserData(String accountName) {
+    return _usersCollection
+        .doc(accountName)
+        .snapshots()
+        .map((DocumentSnapshot userData) => FirebaseUser.fromMap(userData.data(), accountName));
+  }
 
   Future<void> setFirebaseMessageToken(String userId) {
     // Users can have multiple tokens. Ex: Multiple devices.
@@ -307,7 +315,7 @@ class FirebaseDatabaseService {
     Map<String, Object> data = {
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
-      PRODUCT_CURRENCY_KEY: product.currency,
+      PRODUCT_CURRENCY_KEY: product.currency.name,
       PRODUCT_UPDATED_DATE_KEY: FieldValue.serverTimestamp(),
     };
 
@@ -364,6 +372,7 @@ class FirebaseDatabaseService {
     Map<String, Object> data = {
       GUARDIAN_CONTRACT_INITIALIZED: false,
       GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
+      GUARDIAN_RECOVERY_STARTED_KEY: null,
     };
     return _usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
   }
@@ -373,5 +382,43 @@ class FirebaseDatabaseService {
         .doc(userAccount)
         .snapshots()
         .map((user) => user.data()[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
+  }
+
+  Stream<bool> hasGuardianNotificationPending(String userAccount) {
+    bool _findNotification(QuerySnapshot event) {
+      var guardianNotification =
+          event.docs.firstWhere((QueryDocumentSnapshot element) => element.id == GUARDIAN_NOTIFICATION_KEY, orElse: () {
+        return null;
+      });
+
+      if (guardianNotification == null) {
+        return false;
+      } else {
+        return guardianNotification[GUARDIAN_NOTIFICATION_KEY];
+      }
+    }
+
+    return _usersCollection
+        .doc(userAccount)
+        .collection(PENDING_NOTIFICATIONS_KEY)
+        .snapshots()
+        .map((event) => _findNotification(event));
+  }
+
+  removeGuardianNotification(String userAccount) {
+    Map<String, Object> data = {GUARDIAN_NOTIFICATION_KEY: false};
+
+    return _usersCollection
+        .doc(userAccount)
+        .collection(PENDING_NOTIFICATIONS_KEY)
+        .doc(GUARDIAN_NOTIFICATION_KEY)
+        .set(data);
+  }
+
+  setGuardianRecoveryStarted(String userAccount) {
+    Map<String, Object> data = {
+      GUARDIAN_RECOVERY_STARTED_KEY: FieldValue.serverTimestamp(),
+    };
+    return _usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
   }
 }

@@ -22,9 +22,8 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final proposal = widget.proposal;
-
-    final creationDateFormatted = timeago.format(
-        DateTime.fromMillisecondsSinceEpoch(proposal.creationDate * 1000));
+    var createdAt = DateTime.fromMillisecondsSinceEpoch(proposal.creationDate * 1000);
+    String creationDateFormatted = createdAt.formatRelative();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -225,5 +224,15 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
         ),
       ),
     );
+  }
+}
+
+extension RelativeTimeFormat on DateTime {
+  String formatRelative() {
+    if (DateTime.now().difference(this) > Duration(days: 7)) {
+      return DateFormat.yMd().format(this);
+    } else {
+      return timeago.format(this);
+    }
   }
 }

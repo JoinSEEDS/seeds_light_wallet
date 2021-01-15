@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -22,6 +21,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
+import 'package:seeds/widgets/pending_notification.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:uuid/uuid.dart';
@@ -56,8 +56,6 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Consumer<ProfileNotifier>(
       builder: (ctx, model, _) {
-        //  var model = ProfileNotifier.of(context).profile;
-
         return Scaffold(
           body: ListView(
             children: <Widget>[
@@ -195,7 +193,16 @@ class _ProfileState extends State<Profile> {
                   },
                 ),
               ),
-              _guardiansView(),
+              StreamBuilder<bool>(
+                  stream: FirebaseDatabaseService()
+                      .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
+                  builder: (context, AsyncSnapshot<bool> snapshot) {
+                    if (snapshot != null && snapshot.hasData) {
+                      return _guardiansView(snapshot.data);
+                    } else {
+                      return _guardiansView(false);
+                    }
+                  }),
               Consumer<SettingsNotifier>(
                 builder: (context, settingsNotifier, child) => Padding(
                   padding: const EdgeInsets.only(top: 0.0),
@@ -417,26 +424,25 @@ class _ProfileState extends State<Profile> {
     return url;
   }
 
-  Widget _guardiansView() {
+  Widget _guardiansView(bool showGuardianNotification) {
     if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
       return Padding(
-        padding: const EdgeInsets.only(top: 50.0),
+        padding: EdgeInsets.only(top: 50.0),
         child: FlatButton(
           color: Colors.white,
-          child: Text(
-            'Key Guardians'.i18n,
-            style: TextStyle(color: Colors.blue),
-          ),
-          onPressed: () async {
-            QuerySnapshot guardians =
-                await FirebaseDatabaseService().getGuardiansCount(SettingsNotifier.of(context).accountName);
-
-            //User has Already seen guardians feature or has been invited to be a guardian
-            if (guardians.size > 0) {
-              NavigationService.of(context).navigateTo(Routes.guardianTabs);
-            } else {
-              NavigationService.of(context).navigateTo(Routes.guardianInstructions);
+          child: Stack(overflow: Overflow.visible,
+              children: <Widget>[
+                Text(
+                  'Key Guardians'.i18n,
+                  style: TextStyle(color: Colors.blue),
+                ),
+                Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification(showGuardianNotification))
+              ]),
+          onPressed: () {
+            if (showGuardianNotification) {
+              FirebaseDatabaseService().removeGuardianNotification(SettingsNotifier.of(context).accountName);
             }
+            NavigationService.of(context).navigateTo(Routes.guardianTabs);
           },
         ),
       );

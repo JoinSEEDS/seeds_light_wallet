@@ -493,7 +493,25 @@ class EosService {
         ..data = {"user_account": accountName}
     ]);
 
-    return client.pushTransaction(transaction, broadcast: true);
+    return await client.pushTransaction(transaction, broadcast: true);    
+  }
+
+  /// Cancel guardians.
+  ///
+  /// Safe fallthrough - does not fail when user doesn't have guardians.
+  ///
+  /// This cancels any recovery currently in process, and removes all guardians
+  ///
+  Future<dynamic> cancelGuardiansSafe() async {
+    try {
+      return await cancelGuardians(); 
+    } catch (error) {
+      if (error.toString().contains("does not have guards")) {
+        return;
+      } else {
+        throw error;
+      }
+    }
   }
 
   /// Claim recovered account for user - this switches the new public key live at the end of the

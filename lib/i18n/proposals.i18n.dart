@@ -8,6 +8,7 @@ static var _t = Translations.byLocale("en_us") +
         
         "Proposals": "Propuestas",
         'Staged': "Planeadas",
+        'Evaluate': "Evaluar",
         "Open": "Abiertas",
         'Passed': "Aprobadas",
         'Failed': "Fallidas",

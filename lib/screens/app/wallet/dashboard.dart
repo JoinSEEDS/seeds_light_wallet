@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/backup/backup_service.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
+import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/guardian_services.dart';
+
 // import 'package:seeds/providers/services/eos_service.dart';// the unused imports are for the sample code.
 // import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/empty_button.dart';
+import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:seeds/i18n/wallet.i18n.dart';
 
 enum TransactionType { income, outcome }
 
@@ -30,6 +36,96 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  var savingLoader = GlobalKey<MainButtonState>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      DashboardUseCases()
+          .shouldShowCancelGuardianAlertMessage(SettingsNotifier.of(context).accountName)
+          .listen((bool showAlertDialog) {
+        if (showAlertDialog) {
+          showAccountUnderRecoveryDialog(context);
+        }
+      });
+    });
+  }
+
+  Future<void> showAccountUnderRecoveryDialog(BuildContext buildContext) async {
+    var service = EosService.of(buildContext, listen: false);
+    var accountName = SettingsNotifier.of(buildContext, listen: false).accountName;
+
+    return showDialog<void>(
+      context: buildContext,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  FadeInImage.assetNetwork(
+                      placeholder: "assets/images/guardians/guardian_shield.png",
+                      image: "assets/images/guardians/guardian_shield.png"),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8, top: 24, bottom: 8),
+                    child: Text(
+                      "Recovery Mode Initiated",
+                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: new TextSpan(
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(text: 'Someone has initiated the '),
+                          TextSpan(text: 'Recovery ', style: new TextStyle(fontWeight: FontWeight.bold)),
+                          TextSpan(
+                              text:
+                                  'process for your account. If you did not request to recover your account please select cancel recovery.  '),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              MainButton(
+                key: savingLoader,
+                margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8),
+                title: "Cancel Recovery",
+                onPressed: () async {
+                  savingLoader.currentState.loading();
+                  GuardianServices()
+                      .stopActiveRecovery(service, accountName)
+                      .then((value) => Navigator.pop(context))
+                      .catchError((onError) => onStopRecoveryError(onError));
+                },
+              ),
+            ],
+          );
+        });
+      },
+    );
+  }
+
+  onStopRecoveryError(onError) {
+    print("onStopRecoveryError Error " + onError.toString());
+    errorToast('Oops, Something went wrong');
+
+    setState(() {
+      savingLoader.currentState.done();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -55,8 +151,7 @@ class _DashboardState extends State<Dashboard> {
     if (SettingsNotifier.of(context).selectedFiatCurrency == null) {
       Locale locale = Localizations.localeOf(context);
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
-      SettingsNotifier.of(context)
-          .saveSelectedFiatCurrency(format.currencyName);
+      SettingsNotifier.of(context).saveSelectedFiatCurrency(format.currencyName);
     }
   }
 
@@ -74,15 +169,6 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void onReceive() async {
-    // TESTING - showcase code for set up / remove permissions - remove
-    //var perm = await EosService.of(context, listen: false).getAccountPermissions();
-    //print("perm: "+perm.toString());
-    //await EosService.of(context, listen: false).removeGuardianPermission();
-    //await EosService.of(context, listen: false).setGuardianPermission();
-    //var perm2 = await EosService.of(context, listen: false).getAccountPermissions();
-    //print("perm after: "+perm2.toString());
-    // delete this.
-    
     NavigationService.of(context).navigateTo(Routes.receive);
   }
 
@@ -110,10 +196,7 @@ class _DashboardState extends State<Dashboard> {
             children: <Widget>[
               Text(
                 'Available balance'.i18n,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300),
+                style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w300),
               ),
               Consumer<BalanceNotifier>(builder: (context, model, child) {
                 return (model != null && model.balance != null)
@@ -123,27 +206,18 @@ class _DashboardState extends State<Dashboard> {
                             model.balance.error
                                 ? 'Network error'.i18n
                                 : '${model.balance?.quantity?.seedsFormatted} SEEDS',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w700),
+                            style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
                           ),
-                          Consumer<SettingsNotifier>(
-                            builder: (context, settingsNotifier, child) {
-                            return Consumer<RateNotifier>(
-                              builder: (context, rateNotifier, child) {
+                          Consumer<SettingsNotifier>(builder: (context, settingsNotifier, child) {
+                            return Consumer<RateNotifier>(builder: (context, rateNotifier, child) {
                               return Text(
-                              model.balance.error
-                                  ? 'Pull to update'.i18n
-                                  : rateNotifier.amountToString(
-                                      model.balance.numericQuantity,
-                                      settingsNotifier.selectedFiatCurrency),
-                              style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w300),
-                            );
-                          });
+                                model.balance.error
+                                    ? 'Pull to update'.i18n
+                                    : rateNotifier.amountToString(
+                                        model.balance.numericQuantity, settingsNotifier.selectedFiatCurrency),
+                                style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w300),
+                              );
+                            });
                           })
                         ],
                       )
@@ -193,8 +267,7 @@ class _DashboardState extends State<Dashboard> {
       return Consumer<BalanceNotifier>(builder: (context, model, child) {
         if (model != null &&
             model.balance != null &&
-            model.balance.numericQuantity >=
-                BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
+            model.balance.numericQuantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
           return Container(
             width: width,
             child: MainCard(
@@ -209,10 +282,7 @@ class _DashboardState extends State<Dashboard> {
                   children: <Widget>[
                     Text(
                       'Your private key has not been backed up!'.i18n,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300),
+                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w300),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
@@ -262,8 +332,7 @@ class _DashboardState extends State<Dashboard> {
         context: context,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
         ),
         builder: (BuildContext context) {
           return TransactionDialog(
@@ -277,20 +346,15 @@ class _DashboardState extends State<Dashboard> {
   Widget buildTransaction(TransactionModel model) {
     String userAccount = SettingsNotifier.of(context).accountName;
 
-    TransactionType type = model.to == userAccount
-        ? TransactionType.income
-        : TransactionType.outcome;
+    TransactionType type = model.to == userAccount ? TransactionType.income : TransactionType.outcome;
 
-    String participantAccountName =
-        type == TransactionType.income ? model.from : model.to;
+    String participantAccountName = type == TransactionType.income ? model.from : model.to;
 
     return FutureBuilder(
-      future:
-          MembersNotifier.of(context).getAccountDetails(participantAccountName),
+      future: MembersNotifier.of(context).getAccountDetails(participantAccountName),
       builder: (ctx, member) => member.hasData
           ? InkWell(
-              onTap: () => onTransaction(
-                  transaction: model, member: member.data, type: type),
+              onTap: () => onTransaction(transaction: model, member: member.data, type: type),
               child: Column(
                 children: [
                   Divider(height: 22),
@@ -303,12 +367,8 @@ class _DashboardState extends State<Dashboard> {
                             Container(
                               margin: EdgeInsets.only(left: 12, right: 10),
                               child: Icon(
-                                type == TransactionType.income
-                                    ? Icons.arrow_downward
-                                    : Icons.arrow_upward,
-                                color: type == TransactionType.income
-                                    ? AppColors.green
-                                    : AppColors.red,
+                                type == TransactionType.income ? Icons.arrow_downward : Icons.arrow_upward,
+                                color: type == TransactionType.income ? AppColors.green : AppColors.red,
                               ),
                             ),
                             TransactionAvatar(
@@ -323,31 +383,23 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             Flexible(
                                 child: Container(
-                                    margin:
-                                        EdgeInsets.only(left: 10, right: 10),
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            child: Text(
-                                              member.data.nickname,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 15),
-                                            ),
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              member.data.account,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                  color: AppColors.grey,
-                                                  fontSize: 13),
-                                            ),
-                                          ),
-                                        ])))
+                                    margin: EdgeInsets.only(left: 10, right: 10),
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                      Container(
+                                        child: Text(
+                                          member.data.nickname,
+                                          maxLines: 1,
+                                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          member.data.account,
+                                          maxLines: 1,
+                                          style: TextStyle(color: AppColors.grey, fontSize: 13),
+                                        ),
+                                      ),
+                                    ])))
                           ],
                         )),
                         Container(
@@ -357,16 +409,12 @@ class _DashboardState extends State<Dashboard> {
                                 Text(
                                   type == TransactionType.income ? '+ ' : '-',
                                   style: TextStyle(
-                                      color: type == TransactionType.income
-                                          ? AppColors.green
-                                          : AppColors.red,
+                                      color: type == TransactionType.income ? AppColors.green : AppColors.red,
                                       fontSize: 16),
                                 ),
                                 Text(
                                   model.quantity,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15),
+                                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
                                 )
                               ],
                             ))
@@ -411,29 +459,28 @@ class _DashboardState extends State<Dashboard> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 )),
             Consumer<TransactionsNotifier>(
-              builder: (context, model, child) =>
-                  model != null && model.transactions != null
-                      ? Column(
-                          children: <Widget>[
-                            ...model.transactions.map((trx) {
-                              return buildTransaction(trx);
-                            }).toList()
-                          ],
-                        )
-                      : Shimmer.fromColors(
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[100],
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                height: 16,
-                                color: Colors.white,
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                              ),
-                            ],
+              builder: (context, model, child) => model != null && model.transactions != null
+                  ? Column(
+                      children: <Widget>[
+                        ...model.transactions.map((trx) {
+                          return buildTransaction(trx);
+                        }).toList()
+                      ],
+                    )
+                  : Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            height: 16,
+                            color: Colors.white,
+                            margin: EdgeInsets.only(left: 10, right: 10),
                           ),
-                        ),
+                        ],
+                      ),
+                    ),
             ),
           ],
         ),

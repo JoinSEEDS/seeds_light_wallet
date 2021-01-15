@@ -61,13 +61,14 @@ class _TransferFormState extends State<TransferForm>
       showPageLoader = true;
     });
 
-    print("Seeds valu to send: "+seedsValue.toString());
+    print("Seeds valu to send: " + seedsValue.toString());
     try {
-      var response = await Provider.of<EosService>(context, listen: false).transferSeeds(
-          beneficiary: widget.arguments.accountName,
-          amount: seedsValue,
-          memo: memo,
-        );
+      var response =
+          await Provider.of<EosService>(context, listen: false).transferSeeds(
+        beneficiary: widget.arguments.accountName,
+        amount: seedsValue,
+        memo: memo,
+      );
 
       String trxid = response["transaction_id"];
 
@@ -89,7 +90,7 @@ class _TransferFormState extends State<TransferForm>
 
   void onSend() {
     if (_formKey.currentState.validate()) {
-      FocusScope.of(context).unfocus();
+      dismissKeyboard();
       processTransaction();
     }
   }
@@ -190,7 +191,10 @@ class _TransferFormState extends State<TransferForm>
                   )
                 : Text(
                     '$balance',
-                    style: TextStyle(color: AppColors.blue, fontSize: 20, fontWeight: FontWeight.w700),
+                    style: TextStyle(
+                        color: AppColors.blue,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700),
                   ),
           ],
         ));
@@ -198,53 +202,65 @@ class _TransferFormState extends State<TransferForm>
 
   @override
   Widget build(BuildContext context) {
-
     String balance;
-
-    BalanceNotifier.of(context).balance == null? balance = ''
+    BalanceNotifier.of(context).balance == null
+        ? balance = ''
         : balance = BalanceNotifier.of(context).balance.quantity;
 
-    return Stack(
-      children: <Widget>[
-        Scaffold(
-          resizeToAvoidBottomPadding: false,
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () => Navigator.of(context).pop(),
+    return GestureDetector(
+      onTap: () {
+        dismissKeyboard();
+      },
+      child: Stack(
+        children: <Widget>[
+          Scaffold(
+            resizeToAvoidBottomPadding: true,
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              toolbarOpacity: 1,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
             ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-          backgroundColor: Colors.white,
-          body: Container(
-            margin: EdgeInsets.only(left: 17, right: 17),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  buildProfile(),
-                  buildBalance(balance),
-                  AmountField(onChanged: (val) => {seedsValue = val}),
-                  MainTextField(
-                      controller: memoController,
-                      labelText: 'Memo (optional)'.i18n,
-                       autofocus: true,
-                       autocorrect: true,
-                       hintText: "What's it for?".i18n,
+            backgroundColor: Colors.white,
+            body: Container(
+              margin: EdgeInsets.only(left: 17, right: 17),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      // let profile intrude slightly into the app bar
+                      SizedBox(
+                          height: MediaQuery.of(context).padding.top + 22,
+                          width: 1),
+                      buildProfile(),
+                      buildBalance(balance),
+                      AmountField(onChanged: (val) => {seedsValue = val}),
+                      MainTextField(
+                          controller: memoController,
+                          labelText: "",
+                          autofocus: true,
+                          autocorrect: false,
+                          hintText: "Memo (optional)".i18n,
+                          textStyle: TextStyle(fontSize: 12)),
+                      MainButton(
+                        margin: EdgeInsets.only(top: 25),
+                        title: 'Send'.i18n,
+                        onPressed: onSend,
+                      )
+                    ],
                   ),
-                  MainButton(
-                    margin: EdgeInsets.only(top: 25),
-                    title: 'Send'.i18n,
-                    onPressed: onSend,
-                  )
-                ],
+                ),
               ),
             ),
           ),
-        ),
-        showPageLoader ? _buildPageLoader() : Container(),
-      ],
+          showPageLoader ? _buildPageLoader() : Container(),
+        ],
+      ),
     );
   }
 }
@@ -268,11 +284,11 @@ class _AmountFieldState extends State<AmountField> {
 
   @override
   Widget build(BuildContext context) {
-
     String balance;
 
-    BalanceNotifier.of(context).balance == null? balance = ''
-    : balance = BalanceNotifier.of(context).balance.quantity;
+    BalanceNotifier.of(context).balance == null
+        ? balance = ''
+        : balance = BalanceNotifier.of(context).balance.quantity;
 
     return Column(
       children: [
@@ -282,14 +298,16 @@ class _AmountFieldState extends State<AmountField> {
                 TextInputType.numberWithOptions(signed: false, decimal: true),
             controller: controller,
             autofocus: true,
-            inputFormatters: [UserInputNumberFormatter(),],
+            inputFormatters: [
+              UserInputNumberFormatter(),
+            ],
             validator: (val) {
               String error;
               double availableBalance =
                   double.tryParse(balance.replaceFirst(' SEEDS', ''));
               double transferAmount = double.tryParse(val);
 
-               if (transferAmount == 0.0) {
+              if (transferAmount == 0.0) {
                 error = "Transfer amount cannot be 0.".i18n;
               } else if (transferAmount == null || availableBalance == null) {
                 error = "Transfer amount is not valid.".i18n;
@@ -334,7 +352,9 @@ class _AmountFieldState extends State<AmountField> {
                 _toggleInput();
               },
               child: Text(
-                inputMode == InputMode.seeds ? 'SEEDS' : SettingsNotifier.of(context).selectedFiatCurrency,
+                inputMode == InputMode.seeds
+                    ? 'SEEDS'
+                    : SettingsNotifier.of(context).selectedFiatCurrency,
                 style: TextStyle(color: AppColors.grey, fontSize: 16),
               ),
             ),
@@ -347,9 +367,7 @@ class _AmountFieldState extends State<AmountField> {
                 child: Consumer<RateNotifier>(
                   builder: (context, rateNotifier, child) {
                     return Text(
-                      inputString == null
-                          ? ""
-                          : _getOtherString(),
+                      inputString == null ? "" : _getOtherString(),
                       style: TextStyle(color: Colors.blue),
                     );
                   },
@@ -367,20 +385,20 @@ class _AmountFieldState extends State<AmountField> {
       return "0";
     }
     return RateNotifier.of(context).amountToString(
-                              fieldValue,
-                              SettingsNotifier.of(context).selectedFiatCurrency, 
-                              asSeeds: inputMode == InputMode.fiat);
+        fieldValue, SettingsNotifier.of(context).selectedFiatCurrency,
+        asSeeds: inputMode == InputMode.fiat);
   }
 
   double _getSeedsValue(String value) {
     double fieldValue = value != null ? double.tryParse(value) : 0;
     if (fieldValue == null || fieldValue == 0) {
       return 0;
-    } 
+    }
     if (inputMode == InputMode.seeds) {
       return fieldValue;
     } else {
-      return RateNotifier.of(context).toSeeds(fieldValue, SettingsNotifier.of(context).selectedFiatCurrency);
+      return RateNotifier.of(context).toSeeds(
+          fieldValue, SettingsNotifier.of(context).selectedFiatCurrency);
     }
   }
 
@@ -393,5 +411,14 @@ class _AmountFieldState extends State<AmountField> {
       }
       widget.onChanged(_getSeedsValue(inputString));
     });
+  }
+}
+
+extension DismissKeyboardState on State {
+  void dismissKeyboard() {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
   }
 }
