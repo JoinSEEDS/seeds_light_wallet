@@ -57,7 +57,6 @@ class _TablesState extends State<Tables> {
                 setState(() {
                   chosenTable = value;
                 });
-                fetchTable();
               },
               items: contractTables
                   .map<DropdownMenuItem<TableModel>>((TableModel value) {
