@@ -506,14 +506,23 @@ class ReceiveForm extends StatefulWidget {
   _ReceiveFormState createState() => _ReceiveFormState();
 }
 
+class LineItem {
+  int quantity;
+  ProductModel product;
+}
+
+class CartModel  {
+  List<LineItem> lineItems;
+  double donation;
+}
+
 class _ReceiveFormState extends State<ReceiveForm> {
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '');
   String invoiceAmount = '0.00 SEEDS';
   double invoiceAmountDouble = 0;
 
-  List<ProductModel> cart = List();
-  Map<String, int> cartQuantity = Map();
+  final cart = CartModel();
 
   @override
   void didChangeDependencies() {
