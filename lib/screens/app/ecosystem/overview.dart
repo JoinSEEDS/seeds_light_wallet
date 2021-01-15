@@ -67,6 +67,10 @@ class _OverviewState extends State<Overview> {
     NavigationService.of(context).navigateTo(Routes.guardians);
   }
 
+  void onTables() {
+    NavigationService.of(context).navigateTo(Routes.tables);
+  }
+
   Widget buildCategory(
     String title,
     String subtitle,
@@ -214,6 +218,14 @@ class _OverviewState extends State<Overview> {
                     '',
                     '',
                     onGuardians),
+                buildCategory(
+                  'Explore Data',
+                  'View tables from smart contracts',
+                  'assets/images/harvest.svg',
+                  '',
+                  '',
+                  onTables,
+                ),
                 Consumer<DhoNotifier>(
                   builder: (ctx, model, _) => model.isDhoMember
                       ? buildCategory(
