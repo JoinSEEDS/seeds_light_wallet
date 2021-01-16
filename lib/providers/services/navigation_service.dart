@@ -11,6 +11,7 @@ import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
 import 'package:seeds/screens/app/ecosystem/overview.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
+import 'package:seeds/screens/app/ecosystem/transactions/transactions.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite_sent.dart';
 import 'package:seeds/screens/app/guardians/guardians_tabs.dart';
@@ -60,6 +61,7 @@ class Routes {
   static final guardianTabs = "GuardianTabs";
   static final dho = "DHO";
   static final guardians = "Guardians";
+  static final transactions = "Transactions";
 }
 
 class NavigationService {
@@ -114,6 +116,7 @@ class NavigationService {
     Routes.guardianTabs: (_) => GuardianTabs(),
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
+    Routes.transactions: (_) => Transactions(),
   };
 
   final ecosystemRoutes = {

@@ -63,6 +63,10 @@ class _OverviewState extends State<Overview> {
     NavigationService.of(context).navigateTo(Routes.dho);
   }
 
+  void onTransaction() {
+    NavigationService.of(context).navigateTo(Routes.transactions);
+  }
+
   Widget buildCategory(
     String title,
     String subtitle,
@@ -154,7 +158,6 @@ class _OverviewState extends State<Overview> {
 
   @override
   Widget build(BuildContext context) {
-
     return RefreshIndicator(
       onRefresh: refreshData,
       child: SingleChildScrollView(
@@ -164,45 +167,41 @@ class _OverviewState extends State<Overview> {
               children: <Widget>[
                 Consumer<BalanceNotifier>(
                   builder: (ctx, model, _) => buildCategory(
-                    'Invite'.i18n,
-                    'Tap to send an invite'.i18n,
-                    'assets/images/community.svg',
-                    'Available Seeds'.i18n,
-                    model?.balance?.quantity?.seedsFormatted,
-                    onInvite
-                  ),
+                      'Invite'.i18n,
+                      'Tap to send an invite'.i18n,
+                      'assets/images/community.svg',
+                      'Available Seeds'.i18n,
+                      model?.balance?.quantity?.seedsFormatted,
+                      onInvite),
                 ),
                 Consumer<VoiceNotifier>(
                   builder: (ctx, model, _) => buildCategory(
-                    'Vote'.i18n,
-                    'Tap to participate'.i18n,
-                    'assets/images/governance.svg',
-                    'Trust Tokens'.i18n,
-                    valueString(model?.campaignBalance?.amount) +
-                        "/" +
-                        valueString(model?.allianceBalance?.amount),
-                    onVote
-                  ),
+                      'Vote'.i18n,
+                      'Tap to participate'.i18n,
+                      'assets/images/governance.svg',
+                      'Trust Tokens'.i18n,
+                      valueString(model?.campaignBalance?.amount) +
+                          "/" +
+                          valueString(model?.allianceBalance?.amount),
+                      onVote),
                 ),
                 Consumer<PlantedNotifier>(
                   builder: (ctx, model, _) => buildCategory(
-                    'Plant'.i18n,
-                    'Tap to plant Seeds'.i18n,
-                    'assets/images/harvest.svg',
-                    'Planted Seeds'.i18n,
-                    model?.balance?.quantity?.seedsFormatted,
-                    onPlant
-                  ),
+                      'Plant'.i18n,
+                      'Tap to plant Seeds'.i18n,
+                      'assets/images/harvest.svg',
+                      'Planted Seeds'.i18n,
+                      model?.balance?.quantity?.seedsFormatted,
+                      onPlant),
                 ),
                 Consumer<BalanceNotifier>(
                   builder: (ctx, model, _) => buildCategory(
-                    'Get Seeds'.i18n,
-                    'Tap to get Seeds'.i18n,
-                    'assets/images/harvest.svg',
-                    'Available Seeds'.i18n,
-                    model?.balance?.quantity?.seedsFormatted,
-                    onGet
-                  ),
+                      'Get Seeds'.i18n,
+                      'Tap to get Seeds'.i18n,
+                      'assets/images/harvest.svg',
+                      'Available Seeds'.i18n,
+                      model?.balance?.quantity?.seedsFormatted,
+                      onGet),
                 ),
                 Consumer<DhoNotifier>(
                   builder: (ctx, model, _) => model.isDhoMember
@@ -214,6 +213,14 @@ class _OverviewState extends State<Overview> {
                           '',
                           onDHO)
                       : Container(),
+                ),
+                buildCategory(
+                  'Transactions Builder',
+                  'Build and broadcast custom transactions to smart contracts',
+                  'assets/images/harvest.svg',
+                  '',
+                  '',
+                  onTransaction,
                 ),
               ],
             )),

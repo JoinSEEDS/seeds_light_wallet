@@ -37,6 +37,11 @@ class EosService {
     }
   }
 
+  Future<Abi> getContractAbi(String accountName) async {
+    var response = await client.getRawAbi(accountName);
+    return response.abi;
+  }
+
   Transaction buildFreeTransaction(List<Action> actions) {
     List<Authorization> freeAuth = [
       Authorization()
@@ -493,7 +498,7 @@ class EosService {
         ..data = {"user_account": accountName}
     ]);
 
-    return await client.pushTransaction(transaction, broadcast: true);    
+    return await client.pushTransaction(transaction, broadcast: true);
   }
 
   /// Cancel guardians.
@@ -504,7 +509,7 @@ class EosService {
   ///
   Future<dynamic> cancelGuardiansSafe() async {
     try {
-      return await cancelGuardians(); 
+      return await cancelGuardians();
     } catch (error) {
       if (error.toString().contains("does not have guards")) {
         return;
@@ -533,16 +538,16 @@ class EosService {
 
     Transaction transaction = Transaction()
       ..actions = [
-      Action()
-        ..account = "guard.seeds"
-        ..name = "claim"
-        ..authorization = [
-          Authorization()
-            ..actor = "guard.seeds"
-            ..permission = "application"
-        ] 
-        ..data = {"user_account": userAccount}
-    ];
+        Action()
+          ..account = "guard.seeds"
+          ..name = "claim"
+          ..authorization = [
+            Authorization()
+              ..actor = "guard.seeds"
+              ..permission = "application"
+          ]
+          ..data = {"user_account": userAccount}
+      ];
 
     return appClient.pushTransaction(transaction, broadcast: true);
   }

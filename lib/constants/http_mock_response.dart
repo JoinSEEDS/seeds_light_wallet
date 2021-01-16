@@ -2,8 +2,13 @@ import 'package:eosdart/eosdart.dart';
 import 'package:seeds/models/models.dart';
 
 class HttpMockResponse {
+  static final accountName = "testingseeds";
+
+  static final privateKey =
+      "5KR5UQUjUKNuvMf8dS1HpgJsNEQDzdVh9mPoq9sfbRF7n8puDcm";
+
   static final publicKey =
-      "EOS76C8fzn4cGavGuGsPUBxDC4FFESTyiEg6ZKxeMm5csGL6QATsL";
+      "EOS4xG5eTG2JMiFZpf9G4sxae7VEmqsCzwLQptVBvXs7bsgZBsKkY";
 
   static final userRecoversClaimReady = UserRecoversModel(
     exists: true,
