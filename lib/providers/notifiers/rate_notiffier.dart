@@ -39,13 +39,14 @@ class RateNotifier extends ChangeNotifier with CurrencyConverter {
   }
 
   double seedsTo(double seedsValue, String currencySymbol) {
-    var usdValue = rate.toUSD(seedsValue);
-    return fiatRate.usdTo(usdValue, currencySymbol);
+    var usdValue = rate?.toUSD(seedsValue) ?? 0;
+    return fiatRate?.usdTo(usdValue, currencySymbol) ?? 0;
     
   }
+
   double toSeeds(double currencyValue, String currencySymbol) {
-    var usdValue = fiatRate.toUSD(currencyValue, currencySymbol);
-    return rate.toSeeds(usdValue);
+    var usdValue = fiatRate?.toUSD(currencyValue, currencySymbol) ?? 0;
+    return rate?.toSeeds(usdValue) ?? 0;
   }
 
   String currencyString(double seedsAmount, String currencySymbol) {
@@ -60,7 +61,7 @@ class RateNotifier extends ChangeNotifier with CurrencyConverter {
     if (rate == null || fiatRate == null) {
       return "";
     } else {
-      if (rate.error) {
+      if (rate?.error ?? false) {
         return "Exchange rate load error".i18n;
       }
       return asSeeds ? seedsString(amount, currency) : currencyString(amount, currency);
