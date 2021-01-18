@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide Action;
 import 'package:seeds/providers/services/eos_service.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import '../../../utils/double_extension.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -65,7 +66,7 @@ class ReceiveQRState extends State<ReceiveQR> {
                     foregroundColor: Colors.black87
                   ),
                   Text(
-                    "Pay %s SEEDS to %s"
+                    "%s SEEDS to %s"
                         .i18n.fill([widget.amount.seedsFormatted, acctName]),
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -76,8 +77,7 @@ class ReceiveQRState extends State<ReceiveQR> {
                   MainButton(
                       title: "Done".i18n,
                       onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
+                        Navigator.of(context).popUntil(NavigationService.predicateForName("/"));
                       }),
                 ],
               )
@@ -85,4 +85,5 @@ class ReceiveQRState extends State<ReceiveQR> {
       ),
     );
   }
+
 }
