@@ -6,13 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
-import 'package:seeds/providers/notifiers/rate_notiffier.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
-import 'package:seeds/screens/app/wallet/receive.dart';
-import 'package:seeds/utils/user_input_number_formatter.dart';
+import 'package:seeds/screens/app/wallet/amount_field.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
@@ -244,7 +241,6 @@ class _TransferFormState extends State<TransferForm>
                       MainTextField(
                           controller: memoController,
                           labelText: "",
-                          autofocus: true,
                           autocorrect: false,
                           hintText: "Memo (optional)".i18n,
                           textStyle: TextStyle(fontSize: 12)),

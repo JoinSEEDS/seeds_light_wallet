@@ -13,8 +13,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/products_catalog.dart';
 import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/main_text_field.dart';
-import 'package:seeds/utils/user_input_number_formatter.dart';
+import 'package:seeds/widgets/receive_form.dart';
 
 class Receive extends StatefulWidget {
   Receive({Key key}) : super(key: key);
@@ -64,7 +63,7 @@ class _ReceiveState extends State<Receive> {
             backgroundColor: Colors.white,
             body: Container(
               margin: EdgeInsets.only(left: 15, right: 15),
-              child: ReceiveForm(cart, () => setState(() {})),
+              child: ProductListForm(cart, () => setState(() {})),
             ),
             bottomNavigationBar: BottomAppBar(
               child: Container(
@@ -128,24 +127,24 @@ class _ReceiveState extends State<Receive> {
   }
 }
 
-class ReceiveForm extends StatefulWidget {
+class ProductListForm extends StatefulWidget {
   final CartModel cart;
   final Function onChange;
 
-  ReceiveForm(this.cart, this.onChange);
+  ProductListForm(this.cart, this.onChange);
 
   @override
-  _ReceiveFormState createState() => _ReceiveFormState(cart);
+  _ProductListFormState createState() => _ProductListFormState(cart);
 }
 
-class _ReceiveFormState extends State<ReceiveForm> {
+class _ProductListFormState extends State<ProductListForm> {
   final CartModel cart;
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '');
 
   final products = List<ProductModel>();
 
-  _ReceiveFormState(this.cart);
+  _ProductListFormState(this.cart);
 
   @override
   void didChangeDependencies() {
@@ -203,114 +202,23 @@ class _ReceiveFormState extends State<ReceiveForm> {
         child: Column(
           children: <Widget>[
             products.length == 0
-                ? buildEntryField()
+                ? ReceiveForm(() => {setState(() {})})
                 : FlatButton(
-                color: Colors.white,
-                height: 33,
-                child: Text(
-                  'Custom Amount'.i18n,
-                  style: TextStyle(color: Colors.blue),
-                ),
-                onPressed: () {
-                    NavigationService.of(context)
+                    color: Colors.white,
+                    height: 33,
+                    child: Text(
+                      'Custom Amount'.i18n,
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    onPressed: () {
+                      NavigationService.of(context)
                           .navigateTo(Routes.receiveCustom);
                     },
-              ),
-              products.length > 0
-                ? buildProductsList()
-                : Column(
-                  children: [
-                    MainButton(
-                        title: "Next".i18n,
-                        active: cart.total > 0,
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          NavigationService.of(context)
-                              .navigateTo(Routes.receiveConfirmation, cart);
-                        }),
-                    
-                        
-                  ],
-                ),
+                  ),
+            products.length > 0 ? buildProductsList() : Container()
           ],
         ),
       ),
-    );
-  }
-
-  Widget buildEntryField() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: Column(
-        children: [
-        MainTextField(
-          //focusNode: FocusNode(),
-          keyboardType:
-              TextInputType.numberWithOptions(signed: false, decimal: true),
-          controller: controller,
-          labelText: 'Receive (SEEDS)'.i18n,
-          autofocus: false,
-          inputFormatters: [
-            UserInputNumberFormatter(),
-          ],
-          validator: (String amount) {
-            String error;
-            double receiveAmount;
-
-            if (!cart.isEmpty) {
-              return null;
-            }
-
-            if (amount == null || amount == "") {
-              return "Amount cannot be empty".i18n;
-            }
-
-            if (double.tryParse(amount) == null) {
-              if (amount.isEmpty) {
-                error = null;
-              } else {
-                error = "Receive amount is not valid".i18n;
-              }
-            } else {
-              receiveAmount = double.parse(amount);
-
-              if (amount == null || amount.isEmpty) {
-                error = null;
-              } else if (receiveAmount == 0.0) {
-                error = "Amount cannot be 0.".i18n;
-              } else if (receiveAmount < 0.0001) {
-                error = "Amount must be > 0.0001".i18n;
-              }
-            }
-
-            return error;
-          },
-          onChanged: (String amount) {
-            if (formKey.currentState.validate()) {
-              setState(() {
-                cart.customAmount = double.tryParse(amount);
-              });
-            } else {
-              setState(() {
-                cart.customAmount = 0;
-              });
-            }
-          },
-        ),
-        Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 4, 0, 0),
-                child: Consumer<RateNotifier>(
-                  builder: (context, rateNotifier, child) {
-                    return Text(
-                      rateNotifier.amountToString(cart.total,
-                          SettingsNotifier.of(context).selectedFiatCurrency),
-                      style: TextStyle(color: Colors.blue),
-                    );
-                  },
-                )))
-      ]),
     );
   }
 
@@ -529,106 +437,5 @@ class _ReceiveFormState extends State<ReceiveForm> {
         ),
       );
     }
-  }
-}
-
-class AmountField extends StatefulWidget {
-  const AmountField(
-      {Key key,
-      this.onChanged,
-      this.priceController,
-      this.currentCurrency,
-      this.fiatCurrency})
-      : super(key: key);
-
-  final TextEditingController priceController;
-  final Function onChanged;
-  final String currentCurrency;
-  final String fiatCurrency;
-
-  @override
-  _AmountFieldState createState() =>
-      _AmountFieldState(double.tryParse(priceController.text), currentCurrency);
-}
-
-class _AmountFieldState extends State<AmountField> {
-  _AmountFieldState(this.price, this.currentCurrency);
-
-  bool validate = false;
-  double price;
-  String currentCurrency;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        MainTextField(
-          labelText: 'Price'.i18n,
-          suffixIcon: Container(
-            height: 35,
-            margin: EdgeInsets.only(top: 8, bottom: 8, right: 16),
-            child: OutlineButton(
-              onPressed: () {
-                _toggleInput(widget.fiatCurrency);
-              },
-              child: Text(
-                currentCurrency == SEEDS ? 'SEEDS' : widget.fiatCurrency,
-                style: TextStyle(color: AppColors.grey, fontSize: 16),
-              ),
-            ),
-          ),
-          keyboardType:
-              TextInputType.numberWithOptions(signed: false, decimal: true),
-          controller: widget.priceController,
-          inputFormatters: [
-            UserInputNumberFormatter(),
-          ],
-          validator: (String amount) {
-            String error;
-
-            double receiveAmount = double.tryParse(amount);
-
-            if (amount == null) {
-              error = null;
-            } else if (amount.isEmpty) {
-              error = 'Price field is empty'.i18n;
-            } else if (receiveAmount == null) {
-              error = 'Price needs to be a number'.i18n;
-            }
-
-            return error;
-          },
-          onChanged: (amount) {
-            if (double.tryParse(amount) != null) {
-              setState(() {
-                price = double.tryParse(amount);
-                validate = true;
-              });
-              widget.onChanged(price, currentCurrency, validate);
-            } else {
-              setState(() {
-                price = 0;
-                validate = true;
-              });
-              widget.onChanged(0, currentCurrency, validate);
-            }
-          },
-        ),
-      ],
-    );
-  }
-
-  void _toggleInput(String fiat) {
-    setState(() {
-      if (currentCurrency == SEEDS) {
-        currentCurrency = fiat;
-        validate = false;
-        widget.onChanged(price, currentCurrency, validate);
-      } else {
-        currentCurrency = SEEDS;
-        validate = false;
-        widget.onChanged(price, currentCurrency, validate);
-      }
-    });
   }
 }
