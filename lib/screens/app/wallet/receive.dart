@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -142,34 +143,9 @@ class _ProductListFormState extends State<ProductListForm> {
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '');
 
-  final products = List<ProductModel>();
+  List<ProductModel> products = List<ProductModel>();
 
   _ProductListFormState(this.cart);
-
-  @override
-  void didChangeDependencies() {
-    loadProducts();
-    super.didChangeDependencies();
-  }
-
-  void loadProducts() async {
-    // kinda don't need load productS? TODO
-    final accountName = EosService.of(this.context).accountName;
-
-    final fbProducts = await FirebaseDatabaseService()
-        .getOrderedProductsForUser(accountName)
-        .first;
-
-    products.clear();
-
-    fbProducts.docs.forEach((data) {
-      var product = ProductModel.fromSnapshot(data);
-      products.add(product);
-    });
-
-    setState(() {});
-    widget.onChange();
-  }
 
   void removeProductFromCart(ProductModel product, RateNotifier rateNotifier) {
     cart.currencyConverter = rateNotifier;
@@ -196,30 +172,43 @@ class _ProductListFormState extends State<ProductListForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: <Widget>[
-            products.length == 0
-                ? ReceiveForm(() => {setState(() {})})
-                : FlatButton(
-                    color: Colors.white,
-                    height: 33,
-                    child: Text(
-                      'Custom Amount'.i18n,
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                    onPressed: () {
-                      NavigationService.of(context)
-                          .navigateTo(Routes.receiveCustom);
-                    },
-                  ),
-            products.length > 0 ? buildProductsList() : Container()
-          ],
-        ),
-      ),
-    );
+    final accountName = EosService.of(this.context).accountName;
+
+    return StreamBuilder<QuerySnapshot>(
+        stream:
+            FirebaseDatabaseService().getOrderedProductsForUser(accountName),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return SizedBox.shrink();
+          } else {
+            products = List<ProductModel>.of(
+                snapshot.data.docs.map((p) => ProductModel.fromSnapshot(p)));
+            return SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: <Widget>[
+                    products.length == 0
+                        ? ReceiveForm(() => {setState(() {})})
+                        : FlatButton(
+                            color: Colors.white,
+                            height: 33,
+                            child: Text(
+                              'Custom Amount'.i18n,
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                            onPressed: () {
+                              NavigationService.of(context)
+                                  .navigateTo(Routes.receiveCustom);
+                            },
+                          ),
+                    products.length > 0 ? buildProductsList() : Container()
+                  ],
+                ),
+              ),
+            );
+          }
+        });
   }
 
   Widget buildProductsList() {
