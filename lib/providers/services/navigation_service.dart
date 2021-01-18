@@ -19,7 +19,9 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
+import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive.dart';
+import 'package:seeds/screens/app/wallet/receive_custom.dart';
 import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/scan.dart';
 import 'package:seeds/screens/app/wallet/transfer.dart';
@@ -53,6 +55,8 @@ class Routes {
   static final customTransaction = "CustomTransation";
   static final scanQRCode = "ScanQRCode";
   static final receive = 'Receive';
+  static final receiveConfirmation = 'ReceiveConfirmation';
+  static final receiveCustom = 'ReceiveCustom';
   static final receiveQR = 'ReceiveQR';
   static final selectGuardians = "SelectGuardians";
   static final inviteGuardians = "InviteGuardians";
@@ -107,6 +111,8 @@ class NavigationService {
     Routes.customTransaction: (args) => CustomTransaction(args),
     Routes.scanQRCode: (_) => Scan(false),
     Routes.receive: (_) => Receive(),
+    Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
+    Routes.receiveCustom: (_) => ReceiveCustom(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
     Routes.selectGuardians: (_) => SelectGuardians(),
     Routes.inviteGuardians: (args) => InviteGuardians(args),
@@ -150,13 +156,15 @@ class NavigationService {
       await Future.delayed(Duration(milliseconds: 100));
     }
 
-    if (replace == true) {
+    if (replace) {
       return navigatorKey.currentState
           .pushReplacementNamed(routeName, arguments: arguments);
     } else {
       return navigatorKey.currentState
           .pushNamed(routeName, arguments: arguments);
     }
+
+
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -165,22 +173,27 @@ class NavigationService {
 
     if (appRoutes[routeName] != null) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => appRoutes[routeName](arguments),
       );
     } else if (onboardingRoutes[routeName] != null) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => onboardingRoutes[routeName](arguments),
       );
     } else if (ecosystemRoutes[routeName] != null) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (_) => ecosystemRoutes[routeName](arguments),
       );
     } else if (walletRoutes[routeName] != null) {
       return MaterialPageRoute(
+        settings: settings,
         builder: (_) => walletRoutes[routeName](arguments),
       );
     } else {
       return MaterialPageRoute(
+        settings: settings,
         builder: (context) => PageNotFound(
           routeName: settings.name,
           args: settings.arguments,
@@ -188,4 +201,18 @@ class NavigationService {
       );
     }
   }
+
+  static RoutePredicate predicateForName(String name) {
+    return (Route<dynamic> route) {
+      //print("Route: ${route.settings.name}" + " modal: ${route is ModalRoute} handlepop: ${route.willHandlePopInternally}");
+      if (route.settings.name == "/" && name != "/") {
+        print("pop error: Route name not found: "+name);
+      }
+      return 
+        !route.willHandlePopInternally 
+        && route is ModalRoute
+        && route.settings.name == name || route.settings.name == "/";
+    };
+  }
+
 }
