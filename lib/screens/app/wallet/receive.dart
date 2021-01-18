@@ -1,24 +1,16 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:flutter/rendering.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/models/cart_model.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
-import 'package:seeds/providers/services/firebase/firebase_datastore_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/screens/app/wallet/products_catalog.dart';
 import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
@@ -32,635 +24,97 @@ class Receive extends StatefulWidget {
 }
 
 class _ReceiveState extends State<Receive> {
+  CartModel cart = CartModel();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: true,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          EosService.of(context).accountName ?? '',
-          style: TextStyle(color: Colors.black87),
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: Container(
-        margin: EdgeInsets.only(left: 15, right: 15),
-        child: ReceiveForm(),
-      ),
-    );
-  }
-}
-
-class ProductsCatalog extends StatefulWidget {
-  ProductsCatalog();
-
-  @override
-  _ProductsCatalogState createState() => _ProductsCatalogState();
-}
-
-class _ProductsCatalogState extends State<ProductsCatalog> {
-  final editKey = GlobalKey<FormState>();
-  final priceKey = GlobalKey<FormState>();
-  final nameKey = GlobalKey<FormState>();
-  var savingLoader = GlobalKey<MainButtonState>();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-  String productName = "";
-  double seedsValue = 0;
-  String currency;
-
-  String localImagePath = '';
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void chooseProductPicture() async {
-    final PickedFile image = await ImagePicker()
-        .getImage(source: ImageSource.gallery, imageQuality: 20);
-
-    if (image == null) return;
-
-    File localImage = File(image.path);
-
-    final String path = (await getApplicationDocumentsDirectory()).path;
-    final fileName = basename(image.path);
-    final fileExtension = extension(image.path);
-
-    localImage = await localImage.copy("$path/$fileName$fileExtension");
-
-    setState(() {
-      localImagePath = localImage.path;
-    });
-  }
-
-  Future<void> createNewProduct(
-      String userAccount, BuildContext context) async {
-    if (products.indexWhere(
-            (element) => element.data()['name'] == nameController.text) !=
-        -1) return;
-
-    String downloadUrl;
-    setState(() {
-      savingLoader.currentState.loading();
-    });
-
-    if (localImagePath != null && localImagePath.isNotEmpty) {
-      TaskSnapshot image = await FirebaseDataStoreService()
-          .uploadPic(File(localImagePath), userAccount);
-      downloadUrl = await image.ref.getDownloadURL();
-      localImagePath = '';
-    }
-
-    final product = ProductModel(
-      name: nameController.text,
-      price: seedsValue,
-      picture: downloadUrl,
-      currency: currency,
-      position: products.length,
-    );
-
-    FirebaseDatabaseService()
-        .createProduct(product, userAccount)
-        .then((value) => closeBottomSheet(context));
-  }
-
-  Future<void> editProduct(ProductModel productModel, String userAccount,
-      BuildContext context) async {
-    String downloadUrl;
-    setState(() {
-      savingLoader.currentState.loading();
-    });
-
-    if (localImagePath != null && localImagePath.isNotEmpty) {
-      TaskSnapshot image = await FirebaseDataStoreService()
-          .uploadPic(File(localImagePath), userAccount);
-      downloadUrl = await image.ref.getDownloadURL();
-      localImagePath = '';
-    }
-
-    final product = ProductModel(
-        name: nameController.text,
-        price: seedsValue,
-        picture: downloadUrl,
-        id: productModel.id,
-        currency: currency);
-
-    FirebaseDatabaseService()
-        .updateProduct(product, userAccount)
-        .then((value) => closeBottomSheet(context));
-  }
-
-  void closeBottomSheet(BuildContext context) {
-    Navigator.pop(context);
-    setState(() {});
-  }
-
-  void deleteProduct(ProductModel productModel, String userAccount) {
-    FirebaseDatabaseService().deleteProduct(productModel, userAccount);
-  }
-
-  Future<void> showDeleteProduct(
-      BuildContext context, ProductModel productModel, String userAccount) {
-    return showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete'.i18n + " ${productModel.name} ?"),
-          actions: [
-            FlatButton(
-              child: Text("Delete".i18n),
-              onPressed: () {
-                deleteProduct(productModel, userAccount);
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
+    var fiat = SettingsNotifier.of(context).selectedFiatCurrency;
+    var rate = RateNotifier.of(context);
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
       },
-    );
-  }
-
-  Widget buildPictureWidget(String imageUrl) {
-    var children;
-    if (localImagePath.isNotEmpty) {
-      children = [
-        CircleAvatar(
-          backgroundImage: FileImage(File(localImagePath)),
-          radius: 20,
-        ),
-        SizedBox(width: 10),
-        Text("Change Picture".i18n),
-      ];
-    } else if (imageUrl != null && imageUrl.isNotEmpty) {
-      children = [
-        CircleAvatar(
-          backgroundImage: NetworkImage(imageUrl),
-          radius: 20,
-        ),
-        SizedBox(width: 10),
-        Text('Change Picture'.i18n),
-      ];
-    } else {
-      children = [
-        CircleAvatar(
-          backgroundColor: Colors.white,
-          child: Icon(
-            Icons.add,
-            color: Colors.black,
-            size: 15,
-          ),
-          radius: 15,
-        ),
-        Text('Add Picture'.i18n),
-      ];
-    }
-
-    return Container(
-        height: 40,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: children,
-        ));
-  }
-
-  void showEditProduct(
-      BuildContext context, ProductModel productModel, String userAccount) {
-    nameController.text = productModel.name;
-    priceController.text = productModel.price.toString();
-    currency = productModel.currency;
-    var fiatCurrency = currency != SEEDS
-        ? currency
-        : SettingsNotifier.of(context).selectedFiatCurrency;
-
-    showModalBottomSheet<void>(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return SingleChildScrollView(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    blurRadius: 16,
-                    color: AppColors.blue,
-                    offset: Offset(0, 4),
-                  ),
-                ],
+      child: SafeArea(
+        child: Scaffold(
+            resizeToAvoidBottomPadding: true,
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.of(context).pop(),
               ),
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Form(
-                key: editKey,
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 15,
-                  ),
-                  child: Wrap(
-                    runSpacing: 10.0,
-                    children: <Widget>[
-                      DottedBorder(
-                        color: AppColors.grey,
-                        strokeWidth: 1,
-                        child: GestureDetector(
-                          onTap: chooseProductPicture,
-                          child: buildPictureWidget(productModel.picture),
-                        ),
-                      ),
-                      MainTextField(
-                          labelText: 'Name'.i18n,
-                          controller: nameController,
-                          validator: (String name) {
-                            String error;
-
-                            if (name == null || name.isEmpty) {
-                              error = 'Name cannot be empty'.i18n;
-                            }
-                            return error;
-                          },
-                          onChanged: (name) {
-                            editKey.currentState.validate();
-                          }),
-                      AmountField(
-                          currentCurrency: currency,
-                          fiatCurrency: fiatCurrency,
-                          priceController: priceController,
-                          onChanged: (amount, input, validate) => {
-                                validate
-                                    ? editKey.currentState.validate()
-                                    : null,
-                                seedsValue = amount,
-                                currency = input,
-                              }),
-                      MainButton(
-                        key: savingLoader,
-                        title: 'Done'.i18n,
-                        onPressed: () {
-                          if (editKey.currentState.validate()) {
-                            editProduct(productModel, userAccount, context);
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                EosService.of(context).accountName ?? '',
+                style: TextStyle(color: Colors.black87),
               ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    showMerchantCatalog(context);
+                  },
+                )
+              ],
             ),
-          );
-        });
-
-    setState(() {});
-  }
-
-  void showNewProduct(BuildContext context, String accountName) {
-    nameController.clear();
-    priceController.clear();
-    localImagePath = "";
-    currency = "SEEDS";
-
-    showModalBottomSheet<void>(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) {
-          return SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    blurRadius: 16,
-                    color: AppColors.blue,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Form(
-                key: priceKey,
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 15,
-                  ),
-                  child: Wrap(
-                    runSpacing: 10.0,
-                    children: <Widget>[
-                      DottedBorder(
-                        color: AppColors.grey,
-                        strokeWidth: 1,
-                        child: GestureDetector(
-                          onTap: chooseProductPicture,
-                          child: buildPictureWidget(null),
-                        ),
-                      ),
-                      Form(
-                        key: nameKey,
-                        child: MainTextField(
-                            labelText: 'Name'.i18n,
-                            controller: nameController,
-                            validator: (String name) {
-                              String error;
-
-                              if (name == null || name.isEmpty) {
-                                error = 'Name cannot be empty'.i18n;
-                              }
-                              return error;
-                            },
-                            onChanged: (name) {
-                              nameKey.currentState.validate();
-                            }),
-                      ),
-                      AmountField(
-                          currentCurrency: currency,
-                          fiatCurrency:
-                              SettingsNotifier.of(context).selectedFiatCurrency,
-                          priceController: priceController,
-                          onChanged: (amount, currencyInput, validate) => {
-                                validate
-                                    ? priceKey.currentState.validate()
-                                    : "",
-                                seedsValue = amount,
-                                currency = currencyInput,
-                              }),
-                      MainButton(
-                        key: savingLoader,
-                        title: 'Add Product'.i18n,
-                        onPressed: () {
-                          nameKey.currentState.validate();
-                          if (priceKey.currentState.validate() &&
-                              nameKey.currentState.validate()) {
-                            createNewProduct(accountName, context);
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            backgroundColor: Colors.white,
+            body: Container(
+              margin: EdgeInsets.only(left: 15, right: 15),
+              child: ReceiveForm(cart, () => setState(() {})),
             ),
-          );
-        });
-    setState(() {});
-  }
-
-  List<DocumentSnapshot> products;
-  Future reordering;
-
-  @override
-  Widget build(BuildContext context) {
-    var accountName = EosService.of(context, listen: false).accountName;
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          'Your Products'.i18n,
-          style: TextStyle(color: Colors.black87),
-        ),
-      ),
-      floatingActionButton: Builder(
-          builder: (context) => FloatingActionButton(
-                backgroundColor: AppColors.blue,
-                onPressed: () => showNewProduct(context, accountName),
-                child: Icon(Icons.add),
-              )),
-      body: FutureBuilder(
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.none ||
-            snapshot.connectionState == ConnectionState.done) {
-          return StreamBuilder<QuerySnapshot>(
-              stream: FirebaseDatabaseService()
-                  .getOrderedProductsForUser(accountName),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return SizedBox.shrink();
-                } else {
-                  products = snapshot.data.docs;
-                  return ReorderableListView(
-                    onReorder: (oldIndex, newIndex) {
-                      if (oldIndex < newIndex) newIndex -= 1;
-                      products.insert(newIndex, products.removeAt(oldIndex));
-                      final futures = <Future>[];
-                      for (int i = 0; i < products.length; i++) {
-                        futures.add(products[i].reference.update({
-                          PRODUCT_POSITION_KEY: i,
-                        }));
-                      }
-                      setState(() {
-                        reordering = Future.wait(futures);
-                      });
-                    },
-                    children: products.map((data) {
-                      var product = ProductModel.fromSnapshot(data);
-                      return ListTile(
-                        key: Key(data.id),
-                        leading: buildCircleAvatar(product),
-                        title: Material(
-                          child: Text(
-                            product.name == null ? "" : product.name,
-                            style: TextStyle(
-                                fontFamily: "worksans",
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        subtitle: Material(
-                          child: Text(
-                            getProductPrice(product),
-                            style: TextStyle(
-                                fontFamily: "worksans",
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                        trailing: Builder(
-                          builder: (context) => Row(
+            bottomNavigationBar: BottomAppBar(
+              child: Container(
+                  margin:
+                      EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("${cart.itemCount} Items",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "worksans")),
+                          Spacer(),
+                          Column(
                             mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {
-                                  setState(() {});
-
-                                  showEditProduct(
-                                      context, product, accountName);
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.delete),
-                                onPressed: () {
-                                  showDeleteProduct(
-                                      context, product, accountName);
-                                },
-                              ),
+                              Text("${cart.total.seedsFormatted} SEEDS",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "worksans")),
+                              Text("${rate.currencyString(cart.total, fiat)}",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: AppColors.blue,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "worksans")),
                             ],
                           ),
-                        ),
-                      );
-                    }).toList(),
-                  );
-                }
-              });
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      }),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      MainButton(
+                          title: "Next".i18n,
+                          active: !cart.isEmpty,
+                          onPressed: () {
+                            FocusScope.of(context).unfocus();
+                            NavigationService.of(context)
+                                .navigateTo(Routes.receiveConfirmation, cart);
+                          }),
+                    ],
+                  )),
+            )),
+      ),
     );
-  }
-
-  String getProductPrice(ProductModel product) {
-    return "${product.price.seedsFormatted} ${product.currency}";
-  }
-}
-
-CircleAvatar buildCircleAvatar(ProductModel product, {double size = 20}) {
-  return CircleAvatar(
-    backgroundImage:
-        product.picture.isNotEmpty ? NetworkImage(product.picture) : null,
-    child: product.picture.isEmpty
-        ? Container(
-            color: AppColors.getColorByString(product.name),
-            child: Center(
-              child: Text(
-                product.name == null ? "" : product.name.characters.first,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          )
-        : null,
-    radius: size,
-  );
-}
-
-class ReceiveForm extends StatefulWidget {
-  @override
-  _ReceiveFormState createState() => _ReceiveFormState();
-}
-
-class LineItem {
-  ProductModel product;
-  int quantity;
-
-  LineItem({this.product, this.quantity});
-
-  double seedsPrice(CurrencyConverter converter) {
-    return quantity * product.seedsPrice(converter);   
-  }
-}
-
-class CartModel {
-  var lineItems = List<LineItem>();
-  double donationDiscount = 0; // 0 - 1, negative for discount
-  double customAmount = 0;
-
-  CurrencyConverter currencyConverter;
-
-  LineItem itemFor(ProductModel product) {
-    return lineItems.firstWhere((e) => e.product.name == product.name, orElse: () => null);
-  }
-
-  int quantityFor(ProductModel product) {
-    return itemFor(product)?.quantity ?? 0;
-  }
-
-  void add(ProductModel product, int quantity) {
-    var item = itemFor(product);
-    if (item != null) {
-      item.quantity += quantity;
-      if (item.quantity <= 0) {
-        lineItems.remove(item);
-      }
-    } else {
-      if (quantity > 0)
-        lineItems.add(LineItem(product: product, quantity: quantity));
-    }
-  }
-
-  void clear() {
-    lineItems.clear();
-  }
-
-  bool isEmpty() {
-    return lineItems.isEmpty;
-  }
-
-  double total() {
-    if (lineItems.isEmpty) {
-      return customAmount;
-    } else {
-      double total = 0;
-      lineItems.forEach((item) {
-        total =
-            total + item.seedsPrice(currencyConverter);
-      });
-      return total + total * donationDiscount;
-    }
-  }
-}
-
-class _ReceiveFormState extends State<ReceiveForm> {
-  final formKey = GlobalKey<FormState>();
-  final controller = TextEditingController(text: '');
-
-  final cart = CartModel();
-  final products = List<ProductModel>();
-
-  @override
-  void didChangeDependencies() {
-    loadProducts();
-    super.didChangeDependencies();
-  }
-
-  void loadProducts() async {
-    final accountName = EosService.of(this.context).accountName;
-
-    final fbProducts =
-        await FirebaseDatabaseService().getProductsForUser(accountName).first;
-
-    products.clear();
-
-    fbProducts.forEach((product) {
-      products.add(product);
-    });
-
-    setState(() {});
-  }
-
-  void removeProductFromCart(ProductModel product, RateNotifier rateNotifier) {
-    cart.currencyConverter = rateNotifier;
-    setState(() {
-      cart.add(product, -1);
-    });
-  }
-
-  void removePriceDifference() {
-    setState(() {
-      cart.donationDiscount = 0;
-    });
-  }
-
-  void addProductToCart(ProductModel product, RateNotifier rateNotifier) {
-    cart.currencyConverter = rateNotifier;
-    setState(() {
-      cart.add(product, 1);
-    });
   }
 
   void showMerchantCatalog(BuildContext context) {
@@ -672,153 +126,191 @@ class _ReceiveFormState extends State<ReceiveForm> {
       ),
     );
   }
+}
 
-  void generateInvoice(String amount) async {
-    //double receiveAmount = double.tryParse(amount) ?? 0;
+class ReceiveForm extends StatefulWidget {
+  final CartModel cart;
+  final Function onChange;
 
-    setState(() {
-      // invoiceAmountDouble = receiveAmount;
-      // invoiceAmount = receiveAmount.toStringAsFixed(4);
+  ReceiveForm(this.cart, this.onChange);
+
+  @override
+  _ReceiveFormState createState() => _ReceiveFormState(cart);
+}
+
+class _ReceiveFormState extends State<ReceiveForm> {
+  final CartModel cart;
+  final formKey = GlobalKey<FormState>();
+  final controller = TextEditingController(text: '');
+
+  final products = List<ProductModel>();
+
+  _ReceiveFormState(this.cart);
+
+  @override
+  void didChangeDependencies() {
+    loadProducts();
+    super.didChangeDependencies();
+  }
+
+  void loadProducts() async {
+    // kinda don't need load productS? TODO
+    final accountName = EosService.of(this.context).accountName;
+
+    final fbProducts = await FirebaseDatabaseService()
+        .getOrderedProductsForUser(accountName)
+        .first;
+
+    products.clear();
+
+    fbProducts.docs.forEach((data) {
+      var product = ProductModel.fromSnapshot(data);
+      products.add(product);
     });
+
+    setState(() {});
+    widget.onChange();
+  }
+
+  void removeProductFromCart(ProductModel product, RateNotifier rateNotifier) {
+    cart.currencyConverter = rateNotifier;
+    setState(() {
+      cart.remove(product, deleteOnZero: true);
+    });
+    widget.onChange();
+  }
+
+  void removePriceDifference() {
+    setState(() {
+      cart.donationDiscount = 0;
+    });
+    widget.onChange();
+  }
+
+  void addProductToCart(ProductModel product, RateNotifier rateNotifier) {
+    cart.currencyConverter = rateNotifier;
+    setState(() {
+      cart.add(product);
+    });
+    widget.onChange();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!cart.isEmpty()) {
-      controller.text = cart.total().seedsFormatted;
-    }
-
     return SingleChildScrollView(
       child: Form(
         key: formKey,
         child: Column(
           children: <Widget>[
-            MainTextField(
-              focusNode: FocusNode(),
-              suffixIcon: IconButton(
-                icon: Icon(Icons.add_shopping_cart, color: AppColors.blue),
+            products.length == 0
+                ? buildEntryField()
+                : FlatButton(
+                color: Colors.white,
+                height: 33,
+                child: Text(
+                  'Custom Amount'.i18n,
+                  style: TextStyle(color: Colors.blue),
+                ),
                 onPressed: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  showMerchantCatalog(context);
-                },
-              ),
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
-              controller: controller,
-              labelText: 'Receive (SEEDS)'.i18n,
-              autofocus: false,
-              inputFormatters: [
-                UserInputNumberFormatter(),
-              ],
-              validator: (String amount) {
-                String error;
-                double receiveAmount;
-
-                if (double.tryParse(amount) == null) {
-                  if (amount.isEmpty) {
-                    error = null;
-                  } else {
-                    error = "Receive amount is not valid".i18n;
-                  }
-                } else {
-                  receiveAmount = double.parse(amount);
-
-                  if (amount == null || amount.isEmpty) {
-                    error = null;
-                  } else if (receiveAmount == 0.0) {
-                    error = "Amount cannot be 0.".i18n;
-                  } else if (receiveAmount < 0.0001) {
-                    error = "Amount must be > 0.0001".i18n;
-                  }
-                }
-
-                return error;
-              },
-              onChanged: (String amount) {
-                if (formKey.currentState.validate()) {
-                  setState(() {
-                    cart.customAmount = double.tryParse(amount);
-                  });
-                } else {
-                  setState(() {
-                    cart.customAmount = 0;
-                  });
-                }
-              },
-            ),
-            Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(16, 4, 0, 0),
-                    child: Consumer<RateNotifier>(
-                      builder: (context, rateNotifier, child) {
-                        return Text(
-                          rateNotifier.amountToString(
-                              cart.total(),
-                              SettingsNotifier.of(context)
-                                  .selectedFiatCurrency),
-                          style: TextStyle(color: Colors.blue),
-                        );
-                      },
-                    ))),
-            cart.isEmpty()
-                ? Container()
-                : Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                    child: Consumer<RateNotifier>(
-                        builder: (context, rateNotifier, child) => Column(
-                            children: List<Widget>.of(
-                                cart.lineItems.map((e) => Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                  child: Row(children: [
-                                        buildCircleAvatar(e.product, size: 14),
-                                        SizedBox(width:10),
-                                        e.quantity > 1 ? Text("${e.quantity} x ",
-                                          style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "worksans")) : Container(),
-                                        //SizedBox(width: 10),
-                                        Text(e.product.name,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "worksans")),
-                                        Spacer(),
-                                        // Text(
-                                        //     e.quantity > 1
-                                        //         ? e.quantity.toString()
-                                        //         : "",
-                                        //     style: TextStyle(
-                                        //         fontSize: 14,
-                                        //         fontWeight: FontWeight.w400,
-                                        //         fontFamily: "worksans")),
-                                        // SizedBox(width: 10),
-                                        Text(
-                                            e.seedsPrice(rateNotifier)
-                                                .seedsFormatted,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "worksans")),
-                                      ]),
-                                ))))),
-                  ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 33, 0, 0),
-              child: MainButton(
-                  title: "Next".i18n,
-                  active: cart.total() != 0,
-                  onPressed: () {
-                    FocusScope.of(context).unfocus();
                     NavigationService.of(context)
-                        .navigateTo(Routes.receiveQR, cart.total());
-                  }),
-            ),
-            products.length > 0 ? buildProductsList() : Container(),
+                          .navigateTo(Routes.receiveCustom);
+                    },
+              ),
+              products.length > 0
+                ? buildProductsList()
+                : Column(
+                  children: [
+                    MainButton(
+                        title: "Next".i18n,
+                        active: cart.total > 0,
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          NavigationService.of(context)
+                              .navigateTo(Routes.receiveConfirmation, cart);
+                        }),
+                    
+                        
+                  ],
+                ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildEntryField() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Column(
+        children: [
+        MainTextField(
+          //focusNode: FocusNode(),
+          keyboardType:
+              TextInputType.numberWithOptions(signed: false, decimal: true),
+          controller: controller,
+          labelText: 'Receive (SEEDS)'.i18n,
+          autofocus: false,
+          inputFormatters: [
+            UserInputNumberFormatter(),
+          ],
+          validator: (String amount) {
+            String error;
+            double receiveAmount;
+
+            if (!cart.isEmpty) {
+              return null;
+            }
+
+            if (amount == null || amount == "") {
+              return "Amount cannot be empty".i18n;
+            }
+
+            if (double.tryParse(amount) == null) {
+              if (amount.isEmpty) {
+                error = null;
+              } else {
+                error = "Receive amount is not valid".i18n;
+              }
+            } else {
+              receiveAmount = double.parse(amount);
+
+              if (amount == null || amount.isEmpty) {
+                error = null;
+              } else if (receiveAmount == 0.0) {
+                error = "Amount cannot be 0.".i18n;
+              } else if (receiveAmount < 0.0001) {
+                error = "Amount must be > 0.0001".i18n;
+              }
+            }
+
+            return error;
+          },
+          onChanged: (String amount) {
+            if (formKey.currentState.validate()) {
+              setState(() {
+                cart.customAmount = double.tryParse(amount);
+              });
+            } else {
+              setState(() {
+                cart.customAmount = 0;
+              });
+            }
+          },
+        ),
+        Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 4, 0, 0),
+                child: Consumer<RateNotifier>(
+                  builder: (context, rateNotifier, child) {
+                    return Text(
+                      rateNotifier.amountToString(cart.total,
+                          SettingsNotifier.of(context).selectedFiatCurrency),
+                      style: TextStyle(color: Colors.blue),
+                    );
+                  },
+                )))
+      ]),
     );
   }
 
@@ -952,7 +444,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
   String productQuantity(ProductModel product) {
     int quantity = cart.quantityFor(product);
     return quantity > 0 ? "$quantity" : "";
-  } 
+  }
 
   Widget buildDonationOrDiscountItem() {
     double difference = cart.donationDiscount;
