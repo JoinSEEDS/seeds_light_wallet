@@ -2,6 +2,25 @@ import 'package:eosdart/eosdart.dart';
 import 'package:seeds/models/models.dart';
 
 class HttpMockResponse {
+  static final bool hasActiveSwap = true;
+
+  static final peerBuyOrders = [
+    PeerOrder(),
+    PeerOrder(),
+    PeerOrder(),
+  ];
+
+  static final peerSellOrders = [
+    PeerOrder(),
+    PeerOrder(),
+    PeerOrder(),
+  ];
+
+  static final accountName = "testingseeds";
+
+  static final privateKey =
+      "5KR5UQUjUKNuvMf8dS1HpgJsNEQDzdVh9mPoq9sfbRF7n8puDcm";
+
   static final publicKey =
       "EOS76C8fzn4cGavGuGsPUBxDC4FFESTyiEg6ZKxeMm5csGL6QATsL";
 
