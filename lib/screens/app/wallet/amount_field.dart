@@ -11,23 +11,31 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 enum InputMode { fiat, seeds }
 
 class AmountField extends StatefulWidget {
-  const AmountField({Key key, this.onChanged}) : super(key: key);
+  const AmountField({Key key, this.onChanged, this.currentCurrency, this.fiatCurrency, this.priceController}) : super(key: key);
 
   final Function onChanged;
+  final String currentCurrency;
+  final String fiatCurrency;
+  final TextEditingController priceController;
+
   @override
-  _AmountFieldState createState() => _AmountFieldState();
+  _AmountFieldState createState() => _AmountFieldState(currentCurrency == null || currentCurrency == SEEDS ? InputMode.seeds : InputMode.fiat);
 }
 
 class _AmountFieldState extends State<AmountField> {
-  final controller = TextEditingController(text: '');
+  TextEditingController controller = TextEditingController(text: '');
   String inputString = "";
   double seedsValue = 0;
   double fiatValue = 0;
-  InputMode inputMode = InputMode.seeds;
+  InputMode inputMode;
+
+  _AmountFieldState(this.inputMode);
 
   @override
   Widget build(BuildContext context) {
     String balance;
+    controller = widget.priceController ?? controller;
+    String fiat = widget.fiatCurrency ?? SettingsNotifier.of(context).selectedFiatCurrency;
 
     BalanceNotifier.of(context).balance == null
         ? balance = ''
@@ -97,7 +105,7 @@ class _AmountFieldState extends State<AmountField> {
               child: Text(
                 inputMode == InputMode.seeds
                     ? 'SEEDS'
-                    : SettingsNotifier.of(context).selectedFiatCurrency,
+                    : fiat,
                 style: TextStyle(color: AppColors.grey, fontSize: 16),
               ),
             ),
