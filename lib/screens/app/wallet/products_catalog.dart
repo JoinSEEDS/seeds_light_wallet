@@ -350,7 +350,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                               SettingsNotifier.of(context).selectedFiatCurrency,
                           priceController: priceController,
                           validateAmount: false,
-                          onChanged: (amount, currencyInput) => {
+                          onChanged: (amount, fieldAmount, currencyInput) => {
                               //priceKey.currentState.validate()
                                 priceValue = amount,
                                 currency = currencyInput,
