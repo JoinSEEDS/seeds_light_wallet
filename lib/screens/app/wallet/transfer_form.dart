@@ -237,7 +237,9 @@ class _TransferFormState extends State<TransferForm>
                           width: 1),
                       buildProfile(),
                       buildBalance(balance),
-                      AmountField(onChanged: (val) => {seedsValue = val}),
+                      AmountField(
+                        onChanged: (seedsVal, fieldVal, currency) => {seedsValue = seedsVal}
+                      ),
                       MainTextField(
                           controller: memoController,
                           labelText: "",

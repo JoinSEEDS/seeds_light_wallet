@@ -49,7 +49,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
       child: Column(
         children: [
         AmountField(
-          onChanged: (val) => { 
+          onChanged: (val, fieldVal, currency) => { 
             setState((){ 
               receiveAmount = val;
             })

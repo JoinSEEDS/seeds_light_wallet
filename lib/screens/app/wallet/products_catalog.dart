@@ -37,7 +37,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   String productName = "";
-  double seedsValue = 0;
+  double priceValue = 0;
   String currency;
 
   String localImagePath = '';
@@ -86,7 +86,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
     final product = ProductModel(
       name: nameController.text,
-      price: seedsValue,
+      price: priceValue,
       picture: downloadUrl,
       currency: currency,
       position: products.length,
@@ -113,7 +113,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
     final product = ProductModel(
         name: nameController.text,
-        price: seedsValue,
+        price: priceValue,
         picture: downloadUrl,
         id: productModel.id,
         currency: currency);
@@ -197,8 +197,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         ));
   }
 
-  void showEditProduct(
-      BuildContext context, ProductModel productModel, String userAccount) {
+  void showEditProduct(BuildContext context, ProductModel productModel, String userAccount) {
     nameController.text = productModel.name;
     priceController.text = productModel.price.toString();
     currency = productModel.currency;
@@ -260,12 +259,11 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           currentCurrency: currency,
                           fiatCurrency: fiatCurrency,
                           priceController: priceController,
-                          onChanged: (amount, input, validate) => {
-                                validate
-                                    ? editKey.currentState.validate()
-                                    : null,
-                                seedsValue = amount,
-                                currency = input,
+                          validateAmount: false,
+                          onChanged: (seedsAmount, fieldAmount, selectedCurrency) => {
+                              //editKey.currentState.validate()
+                                priceValue = fieldAmount,
+                                currency = selectedCurrency,
                               }),
                       MainButton(
                         key: savingLoader,
@@ -351,11 +349,10 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           fiatCurrency:
                               SettingsNotifier.of(context).selectedFiatCurrency,
                           priceController: priceController,
-                          onChanged: (amount, currencyInput, validate) => {
-                                validate
-                                    ? priceKey.currentState.validate()
-                                    : "",
-                                seedsValue = amount,
+                          validateAmount: false,
+                          onChanged: (amount, currencyInput) => {
+                              //priceKey.currentState.validate()
+                                priceValue = amount,
                                 currency = currencyInput,
                               }),
                       MainButton(

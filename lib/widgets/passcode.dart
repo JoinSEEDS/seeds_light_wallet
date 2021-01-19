@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -29,6 +30,7 @@ Widget buildPasscodeScreen({
     isValidCallback: isValidCallback,
     cancelCallback: cancelCallback,
     bottomWidget: bottomWidget,
+    circleUIConfig: CircleUIConfig(circleSize: 15),
   );
 }
 

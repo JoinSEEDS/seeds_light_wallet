@@ -11,12 +11,13 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 enum InputMode { fiat, seeds }
 
 class AmountField extends StatefulWidget {
-  const AmountField({Key key, this.onChanged, this.currentCurrency, this.fiatCurrency, this.priceController}) : super(key: key);
+  const AmountField({Key key, this.onChanged, this.currentCurrency, this.fiatCurrency, this.priceController, this.validateAmount}) : super(key: key);
 
   final Function onChanged;
   final String currentCurrency;
   final String fiatCurrency;
   final TextEditingController priceController;
+  final bool validateAmount;
 
   @override
   _AmountFieldState createState() => _AmountFieldState(currentCurrency == null || currentCurrency == SEEDS ? InputMode.seeds : InputMode.fiat);
@@ -28,14 +29,18 @@ class _AmountFieldState extends State<AmountField> {
   double seedsValue = 0;
   double fiatValue = 0;
   InputMode inputMode;
+  String get _fiatCurrency => widget.fiatCurrency ?? SettingsNotifier.of(context).selectedFiatCurrency;
+  String get _selectedCurrency => inputMode == InputMode.fiat ? _fiatCurrency : SEEDS;
 
   _AmountFieldState(this.inputMode);
+
 
   @override
   Widget build(BuildContext context) {
     String balance;
     controller = widget.priceController ?? controller;
-    String fiat = widget.fiatCurrency ?? SettingsNotifier.of(context).selectedFiatCurrency;
+    String fiat = _fiatCurrency;
+    bool validate = widget.validateAmount ?? true;
 
     BalanceNotifier.of(context).balance == null
         ? balance = ''
@@ -53,6 +58,9 @@ class _AmountFieldState extends State<AmountField> {
               UserInputNumberFormatter(),
             ],
             validator: (val) {
+              if (!validate) {
+                return null;
+              }
               String error;
               double availableBalance =
                   double.tryParse(balance.replaceFirst(' SEEDS', ''));
@@ -73,7 +81,7 @@ class _AmountFieldState extends State<AmountField> {
               setState(() {
                 this.inputString = value;
               });
-              widget.onChanged(_getSeedsValue(value));
+              widget.onChanged(_getSeedsValue(value), _getFieldValue(value), _selectedCurrency);
             },
             decoration: InputDecoration(
               filled: true,
@@ -140,6 +148,14 @@ class _AmountFieldState extends State<AmountField> {
         asSeeds: inputMode == InputMode.fiat);
   }
 
+  double _getFieldValue(String value) {
+    double fieldValue = value != null ? double.tryParse(value) : 0;
+    if (fieldValue == null || fieldValue == 0) {
+      return 0;
+    }
+    return fieldValue;
+  }
+
   double _getSeedsValue(String value) {
     double fieldValue = value != null ? double.tryParse(value) : 0;
     if (fieldValue == null || fieldValue == 0) {
@@ -160,7 +176,7 @@ class _AmountFieldState extends State<AmountField> {
       } else {
         inputMode = InputMode.seeds;
       }
-      widget.onChanged(_getSeedsValue(inputString));
+      widget.onChanged(_getSeedsValue(inputString), _getFieldValue(inputString), _selectedCurrency);
     });
   }
 }
