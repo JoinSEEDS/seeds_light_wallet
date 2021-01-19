@@ -14,7 +14,7 @@ import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_datastore_service.dart';
-import 'package:seeds/screens/app/wallet/amount_field.dart';
+import 'package:seeds/widgets/amount_field.dart';
 import 'package:seeds/widgets/circle_avatar_factory.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:path/path.dart';
