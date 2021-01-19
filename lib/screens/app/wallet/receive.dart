@@ -25,96 +25,112 @@ class Receive extends StatefulWidget {
 
 class _ReceiveState extends State<Receive> {
   CartModel cart = CartModel();
+  List<ProductModel> products = List<ProductModel>();
 
   @override
   Widget build(BuildContext context) {
+    final accountName = EosService.of(this.context).accountName;
+
     var fiat = SettingsNotifier.of(context).selectedFiatCurrency;
     var rate = RateNotifier.of(context);
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: SafeArea(
-        child: Scaffold(
-            resizeToAvoidBottomPadding: true,
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              title: Text(
-                EosService.of(context).accountName ?? '',
-                style: TextStyle(color: Colors.black87),
-              ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    FocusScope.of(context).unfocus();
-                    showMerchantCatalog(context);
-                  },
-                )
-              ],
-            ),
-            backgroundColor: Colors.white,
-            body: Container(
-              margin: EdgeInsets.only(left: 15, right: 15),
-              child: ProductListForm(cart, () => setState(() {})),
-            ),
-            bottomNavigationBar: BottomAppBar(
-              child: Container(
-                  margin:
-                      EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("${cart.itemCount} Items",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "worksans")),
-                          Spacer(),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text("${cart.total.seedsFormatted} SEEDS",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "worksans")),
-                              Text("${rate.currencyString(cart.total, fiat)}",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.blue,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "worksans")),
-                            ],
-                          ),
-                        ],
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SafeArea(
+          child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseDatabaseService()
+                  .getOrderedProductsForUser(accountName),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return SizedBox.shrink();
+                } else {
+                  products = List<ProductModel>.of(snapshot.data.docs
+                      .map((p) => ProductModel.fromSnapshot(p)));
+                  return Scaffold(
+                    resizeToAvoidBottomPadding: true,
+                    appBar: AppBar(
+                      leading: IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.black),
+                        onPressed: () => Navigator.of(context).pop(),
                       ),
-                      SizedBox(height: 10),
-                      MainButton(
-                          title: "Next".i18n,
-                          active: !cart.isEmpty,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      title: Text(
+                        EosService.of(context).accountName ?? '',
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      actions: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.black,
+                          ),
                           onPressed: () {
                             FocusScope.of(context).unfocus();
-                            NavigationService.of(context)
-                                .navigateTo(Routes.receiveConfirmation, cart);
-                          }),
-                    ],
-                  )),
-            )),
-      ),
-    );
+                            showMerchantCatalog(context);
+                          },
+                        )
+                      ],
+                    ),
+                    backgroundColor: Colors.white,
+                    body: Container(
+                      margin: EdgeInsets.only(left: 15, right: 15),
+                      child: ProductListForm(
+                          cart, products, () => setState(() {})),
+                    ),
+                    bottomNavigationBar: products.length == 0 ? SizedBox(height: 1) : BottomAppBar(
+                      child: Container(
+                          margin: EdgeInsets.only(
+                              left: 15, right: 15, bottom: 15, top: 10),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("${cart.itemCount} Items",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "worksans")),
+                                  Spacer(),
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text("${cart.total.seedsFormatted} SEEDS",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: "worksans")),
+                                      Text(
+                                          "${rate.currencyString(cart.total, fiat)}",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: AppColors.blue,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: "worksans")),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              MainButton(
+                                  title: "Next".i18n,
+                                  active: !cart.isEmpty,
+                                  onPressed: () {
+                                    FocusScope.of(context).unfocus();
+                                    NavigationService.of(context).navigateTo(
+                                        Routes.receiveConfirmation, cart);
+                                  }),
+                            ],
+                          )),
+                    ),
+                  );
+                }
+              }),
+        ));
   }
 
   void showMerchantCatalog(BuildContext context) {
@@ -131,8 +147,9 @@ class _ReceiveState extends State<Receive> {
 class ProductListForm extends StatefulWidget {
   final CartModel cart;
   final Function onChange;
+  final List<ProductModel> products;
 
-  ProductListForm(this.cart, this.onChange);
+  ProductListForm(this.cart, this.products, this.onChange);
 
   @override
   _ProductListFormState createState() => _ProductListFormState(cart);
@@ -142,8 +159,6 @@ class _ProductListFormState extends State<ProductListForm> {
   final CartModel cart;
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '');
-
-  List<ProductModel> products = List<ProductModel>();
 
   _ProductListFormState(this.cart);
 
@@ -172,43 +187,30 @@ class _ProductListFormState extends State<ProductListForm> {
 
   @override
   Widget build(BuildContext context) {
-    final accountName = EosService.of(this.context).accountName;
-
-    return StreamBuilder<QuerySnapshot>(
-        stream:
-            FirebaseDatabaseService().getOrderedProductsForUser(accountName),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return SizedBox.shrink();
-          } else {
-            products = List<ProductModel>.of(
-                snapshot.data.docs.map((p) => ProductModel.fromSnapshot(p)));
-            return SingleChildScrollView(
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: <Widget>[
-                    products.length == 0
-                        ? ReceiveForm(() => {setState(() {})})
-                        : FlatButton(
-                            color: Colors.white,
-                            height: 33,
-                            child: Text(
-                              'Custom Amount'.i18n,
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                            onPressed: () {
-                              NavigationService.of(context)
-                                  .navigateTo(Routes.receiveCustom);
-                            },
-                          ),
-                    products.length > 0 ? buildProductsList() : Container()
-                  ],
-                ),
-              ),
-            );
-          }
-        });
+    return SingleChildScrollView(
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: <Widget>[
+            widget.products.length == 0
+                ? ReceiveForm(() => {setState(() {})})
+                : FlatButton(
+                    color: Colors.white,
+                    height: 33,
+                    child: Text(
+                      'Custom Amount'.i18n,
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    onPressed: () {
+                      NavigationService.of(context)
+                          .navigateTo(Routes.receiveCustom);
+                    },
+                  ),
+            widget.products.length > 0 ? buildProductsList() : Container()
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildProductsList() {
@@ -225,7 +227,7 @@ class _ProductListFormState extends State<ProductListForm> {
             ),
             shrinkWrap: true,
             children: [
-              ...products
+              ...widget.products
                   .map(
                     (product) => GridTile(
                       header: Container(
