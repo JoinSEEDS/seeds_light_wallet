@@ -233,107 +233,7 @@ class _ProductListFormState extends State<ProductListForm> {
             children: [
               ...widget.products
                   .map(
-                    (product) => GridTile(
-                      header: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            product.picture.isNotEmpty
-                                ? CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(product.picture),
-                                    radius: 20,
-                                  )
-                                : Container(),
-                            Row(
-                              children: [
-                                Text(
-                                  product.price.toString(),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Image.asset(
-                                  'assets/images/seeds.png',
-                                  height: 20,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.getColorByString(product.name),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              blurRadius: 15,
-                              color: AppColors.getColorByString(product.name),
-                              offset: Offset(6, 10),
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            product.name.toString(),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                      footer: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 48,
-                            height: 48,
-                            child: FlatButton(
-                              padding: EdgeInsets.zero,
-                              color: AppColors.red,
-                              child: Icon(
-                                Icons.remove,
-                                size: 21,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                removeProductFromCart(product, rateNotifier);
-                              },
-                            ),
-                          ),
-                          Text(
-                            productQuantity(product),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 48,
-                            height: 48,
-                            child: FlatButton(
-                              padding: EdgeInsets.zero,
-                              color: AppColors.green,
-                              child: Icon(
-                                Icons.add,
-                                size: 21,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                addProductToCart(product, rateNotifier);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    (product) => buildGridTile(product, rateNotifier),
                   )
                   .toList(),
               //buildDonationOrDiscountItem(),
@@ -341,6 +241,123 @@ class _ProductListFormState extends State<ProductListForm> {
           ),
         );
       },
+    );
+  }
+
+  GridTile buildGridTile(ProductModel product, RateNotifier rateNotifier) {
+    return GridTile(
+      header: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            product.picture.isNotEmpty
+                ? CircleAvatar(
+                    backgroundImage: NetworkImage(product.picture),
+                    radius: 20,
+                  )
+                : Container(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      product.seedsPrice(rateNotifier).fiatFormatted,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Image.asset(
+                      'assets/images/seeds.png',
+                      height: 20,
+                    ),
+                  ],
+                ),
+                product.currency == SEEDS ? Container() : Text(
+                      product.price.fiatFormatted + " " + product.currency,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.getColorByString(product.name),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              blurRadius: 15,
+              color: AppColors.getColorByString(product.name),
+              offset: Offset(6, 10),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            product.name.toString(),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+      footer: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: 48,
+            height: 48,
+            child: FlatButton(
+              padding: EdgeInsets.zero,
+              color: AppColors.red,
+              child: Icon(
+                Icons.remove,
+                size: 21,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                removeProductFromCart(product, rateNotifier);
+              },
+            ),
+          ),
+          Text(
+            productQuantity(product),
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 28,
+            ),
+          ),
+          SizedBox(
+            width: 48,
+            height: 48,
+            child: FlatButton(
+              padding: EdgeInsets.zero,
+              color: AppColors.green,
+              child: Icon(
+                Icons.add,
+                size: 21,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                addProductToCart(product, rateNotifier);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
