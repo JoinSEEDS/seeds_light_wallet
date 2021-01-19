@@ -11,7 +11,15 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 enum InputMode { fiat, seeds }
 
 class AmountField extends StatefulWidget {
-  const AmountField({Key key, this.onChanged, this.currentCurrency, this.fiatCurrency, this.priceController, this.validateAmount, this.autoFocus}) : super(key: key);
+  const AmountField(
+      {Key key,
+      this.onChanged,
+      this.currentCurrency,
+      this.fiatCurrency,
+      this.priceController,
+      this.validateAmount,
+      this.autoFocus})
+      : super(key: key);
 
   final Function onChanged;
   final String currentCurrency;
@@ -21,7 +29,10 @@ class AmountField extends StatefulWidget {
   final bool autoFocus;
 
   @override
-  _AmountFieldState createState() => _AmountFieldState(currentCurrency == null || currentCurrency == SEEDS ? InputMode.seeds : InputMode.fiat);
+  _AmountFieldState createState() =>
+      _AmountFieldState(currentCurrency == null || currentCurrency == SEEDS
+          ? InputMode.seeds
+          : InputMode.fiat);
 }
 
 class _AmountFieldState extends State<AmountField> {
@@ -30,12 +41,13 @@ class _AmountFieldState extends State<AmountField> {
   double seedsValue = 0;
   double fiatValue = 0;
   InputMode inputMode;
-  String get _fiatCurrency => widget.fiatCurrency ?? SettingsNotifier.of(context).selectedFiatCurrency;
-  String get _selectedCurrency => inputMode == InputMode.fiat ? _fiatCurrency : SEEDS;
+  String get _fiatCurrency =>
+      widget.fiatCurrency ?? SettingsNotifier.of(context).selectedFiatCurrency;
+  String get _selectedCurrency =>
+      inputMode == InputMode.fiat ? _fiatCurrency : SEEDS;
   bool get autoFocus => widget.autoFocus ?? true;
 
   _AmountFieldState(this.inputMode);
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +62,7 @@ class _AmountFieldState extends State<AmountField> {
 
     return Column(
       children: [
-        Stack(alignment: Alignment.centerRight, children: [
+        Stack(alignment: Alignment.topRight, children: [
           TextFormField(
             keyboardType:
                 TextInputType.numberWithOptions(signed: false, decimal: true),
@@ -83,7 +95,8 @@ class _AmountFieldState extends State<AmountField> {
               setState(() {
                 this.inputString = value;
               });
-              widget.onChanged(_getSeedsValue(value), _getFieldValue(value), _selectedCurrency);
+              widget.onChanged(_getSeedsValue(value), _getFieldValue(value),
+                  _selectedCurrency);
             },
             decoration: InputDecoration(
               filled: true,
@@ -113,9 +126,7 @@ class _AmountFieldState extends State<AmountField> {
                 _toggleInput();
               },
               child: Text(
-                inputMode == InputMode.seeds
-                    ? 'SEEDS'
-                    : fiat,
+                inputMode == InputMode.seeds ? 'SEEDS' : fiat,
                 style: TextStyle(color: AppColors.grey, fontSize: 16),
               ),
             ),
@@ -178,7 +189,8 @@ class _AmountFieldState extends State<AmountField> {
       } else {
         inputMode = InputMode.seeds;
       }
-      widget.onChanged(_getSeedsValue(inputString), _getFieldValue(inputString), _selectedCurrency);
+      widget.onChanged(_getSeedsValue(inputString), _getFieldValue(inputString),
+          _selectedCurrency);
     });
   }
 }
