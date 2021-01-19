@@ -57,7 +57,7 @@ class _ReceiveState extends State<Receive> {
                       backgroundColor: Colors.transparent,
                       elevation: 0,
                       title: Text(
-                        EosService.of(context).accountName ?? '',
+                        'Receive'.i18n,
                         style: TextStyle(color: Colors.black87),
                       ),
                       actions: <Widget>[
