@@ -79,58 +79,62 @@ class _ReceiveState extends State<Receive> {
                       child: ProductListForm(
                           cart, products, () => setState(() {})),
                     ),
-                    bottomNavigationBar: products.length == 0 ? SizedBox(height: 1) : BottomAppBar(
-                      child: Container(
-                          margin: EdgeInsets.only(
-                              left: 15, right: 15, bottom: 15, top: 10),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("${cart.itemCount} Items",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: "worksans")),
-                                  Spacer(),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text("${cart.total.seedsFormatted} SEEDS",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              fontFamily: "worksans")),
-                                      Text(
-                                          "${rate.currencyString(cart.total, fiat)}",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: AppColors.blue,
-                                              fontWeight: FontWeight.w400,
-                                              fontFamily: "worksans")),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              MainButton(
-                                  title: "Next".i18n,
-                                  active: !cart.isEmpty,
-                                  onPressed: () {
-                                    FocusScope.of(context).unfocus();
-                                    NavigationService.of(context).navigateTo(
-                                        Routes.receiveConfirmation, cart);
-                                  }),
-                            ],
-                          )),
-                    ),
+                    bottomNavigationBar: products.length == 0
+                        ? SizedBox(height: 1)
+                        : buildBottomAppBar(rate, fiat, context),
                   );
                 }
               }),
         ));
+  }
+
+  BottomAppBar buildBottomAppBar(rate, fiat, BuildContext context) {
+    return BottomAppBar(
+      child: Container(
+          margin: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("${cart.itemCount} Items",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "worksans")),
+                  Spacer(),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text("${cart.total.seedsFormatted} SEEDS",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "worksans")),
+                      Text("${rate.currencyString(cart.total, fiat)}",
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.blue,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "worksans")),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              MainButton(
+                  title: "Next".i18n,
+                  active: !cart.isEmpty,
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    NavigationService.of(context)
+                        .navigateTo(Routes.receiveConfirmation, cart);
+                  }),
+            ],
+          )),
+    );
   }
 
   void showMerchantCatalog(BuildContext context) {
