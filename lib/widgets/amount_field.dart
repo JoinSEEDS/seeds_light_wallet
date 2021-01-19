@@ -11,13 +11,14 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 enum InputMode { fiat, seeds }
 
 class AmountField extends StatefulWidget {
-  const AmountField({Key key, this.onChanged, this.currentCurrency, this.fiatCurrency, this.priceController, this.validateAmount}) : super(key: key);
+  const AmountField({Key key, this.onChanged, this.currentCurrency, this.fiatCurrency, this.priceController, this.validateAmount, this.autoFocus}) : super(key: key);
 
   final Function onChanged;
   final String currentCurrency;
   final String fiatCurrency;
   final TextEditingController priceController;
   final bool validateAmount;
+  final bool autoFocus;
 
   @override
   _AmountFieldState createState() => _AmountFieldState(currentCurrency == null || currentCurrency == SEEDS ? InputMode.seeds : InputMode.fiat);
@@ -31,6 +32,7 @@ class _AmountFieldState extends State<AmountField> {
   InputMode inputMode;
   String get _fiatCurrency => widget.fiatCurrency ?? SettingsNotifier.of(context).selectedFiatCurrency;
   String get _selectedCurrency => inputMode == InputMode.fiat ? _fiatCurrency : SEEDS;
+  bool get autoFocus => widget.autoFocus ?? true;
 
   _AmountFieldState(this.inputMode);
 
@@ -53,7 +55,7 @@ class _AmountFieldState extends State<AmountField> {
             keyboardType:
                 TextInputType.numberWithOptions(signed: false, decimal: true),
             controller: controller,
-            autofocus: true,
+            autofocus: autoFocus,
             inputFormatters: [
               UserInputNumberFormatter(),
             ],
