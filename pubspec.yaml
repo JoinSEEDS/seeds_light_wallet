@@ -102,7 +102,6 @@ flutter:
     - assets/images/icon_school-bell.png
     - assets/images/app_icon.png
     - assets/images/app_icon_transparent.png
-    - assets/images/launcher_icon.png
     - assets/images/loading.png
     - assets/images/no_item_found.svg
     - assets/images/onboarding1.png
