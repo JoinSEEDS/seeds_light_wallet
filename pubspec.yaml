@@ -104,8 +104,6 @@ flutter:
     - assets/images/app_icon_transparent.png
     - assets/images/launcher_icon.png
     - assets/images/loading.png
-    - assets/images/logo_title_blue.png
-    - assets/images/logo_title_white.png
     - assets/images/no_item_found.svg
     - assets/images/onboarding1.png
     - assets/images/onboarding2.png
