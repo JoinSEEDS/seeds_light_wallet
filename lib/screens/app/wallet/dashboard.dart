@@ -329,16 +329,19 @@ class _DashboardState extends State<Dashboard> {
     TransactionType type,
   }) {
     showModalBottomSheet(
+       isScrollControlled: true,
         context: context,
-        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
         ),
         builder: (BuildContext context) {
-          return TransactionDialog(
-            transaction: transaction,
-            member: member,
-            transactionType: type,
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: TransactionDialog(
+              transaction: transaction,
+              member: member,
+              transactionType: type,
+            ),
           );
         });
   }
@@ -432,7 +435,6 @@ class _DashboardState extends State<Dashboard> {
                 children: <Widget>[
                   Container(
                     height: 16,
-                    width: 313,
                     color: Colors.white,
                     margin: EdgeInsets.only(left: 10, right: 10),
                   ),

@@ -106,31 +106,42 @@ class ShowOnboardingChoice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        buildGroup(
-          'If you have an account\nclick here'.i18n,
-          'Import private key'.i18n,
-          onImport,
-        ),
-        FirebaseRemoteConfigService().featureFlagGuardiansEnabled
-            ? buildGroup(
-                'If you forget your private key\nclick here'.i18n,
-                'Recover account'.i18n,
-                onRecover,
-              )
-            : SizedBox.shrink(),
-        buildGroup(
-          'If you have an invite\nclick here'.i18n,
-          "Claim invite code".i18n,
-          onInvite,
-        ),
-        Container(
-          height: 10,
-        ),
-        // buildBottom()
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Container(
+            height: 20,
+          ),
+          buildGroup(
+            'If you have an account\nclick here'.i18n,
+            'Import private key'.i18n,
+            onImport,
+          ),
+          Container(
+            height: 10,
+          ),
+          FirebaseRemoteConfigService().featureFlagGuardiansEnabled
+              ? buildGroup(
+                  'If you forget your private key\nclick here'.i18n,
+                  'Recover account'.i18n,
+                  onRecover,
+                )
+              : SizedBox.shrink(),
+          Container(
+            height: 10,
+          ),
+          buildGroup(
+            'If you have an invite\nclick here'.i18n,
+            "Claim invite code".i18n,
+            onInvite,
+          ),
+          Container(
+            height: 10,
+          ),
+          // buildBottom()
+        ],
+      ),
     );
   }
 }
