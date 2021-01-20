@@ -27,6 +27,7 @@ import 'package:seeds/screens/app/wallet/transfer/transfer_amount.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
+import 'package:seeds/screens/onboarding_redesign/splash_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -35,6 +36,7 @@ class Routes {
   static final transferAmount = "TransferAmount";
   static final onboarding = "Onboarding";
   static final joinProcess = "JoinProcess";
+  static final splashScreen = "SplashScreen";
   static final importAccount = "ImportAccount";
   static final createAccount = "CreateAccount";
   static final showInvite = "ShowInvite";
@@ -83,6 +85,7 @@ class NavigationService {
   final onboardingRoutes = {
     Routes.onboarding: (_) => Onboarding(),
     Routes.joinProcess: (_) => JoinProcess(),
+    Routes.splashScreen: (_) => SplashScreen(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),
     // Routes.showInvite: (args) => ShowInvite(args),

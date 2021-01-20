@@ -127,6 +127,7 @@ flutter:
     - assets/images/logout.svg
     - assets/images/qr-code.svg
     - assets/images/seeds.png
+    - assets/images/seeds_light_wallet_logo.png
     - assets/images/guardians/guardian_tutorial_1.png
     - assets/images/guardians/guardian_tutorial_2.png
     - assets/images/guardians/guardian_tutorial_3.png
