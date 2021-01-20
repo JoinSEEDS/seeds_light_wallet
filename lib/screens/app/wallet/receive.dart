@@ -61,10 +61,9 @@ class _ReceiveState extends State<Receive> {
                         style: TextStyle(color: Colors.black87),
                       ),
                       actions: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.black,
+                        TextButton(
+                          child: Text(
+                            "Edit",
                           ),
                           onPressed: () {
                             FocusScope.of(context).unfocus();
