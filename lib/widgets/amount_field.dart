@@ -7,6 +7,7 @@ import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/utils/user_input_number_formatter.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/utils/double_extension.dart';
 
 enum InputMode { fiat, seeds }
 
@@ -16,7 +17,7 @@ class AmountField extends StatefulWidget {
       this.onChanged,
       this.currentCurrency,
       this.fiatCurrency,
-      this.priceController,
+      this.initialValue,
       this.validateAmount,
       this.autoFocus})
       : super(key: key);
@@ -24,7 +25,7 @@ class AmountField extends StatefulWidget {
   final Function onChanged;
   final String currentCurrency;
   final String fiatCurrency;
-  final TextEditingController priceController;
+  final double initialValue;
   final bool validateAmount;
   final bool autoFocus;
 
@@ -32,12 +33,14 @@ class AmountField extends StatefulWidget {
   _AmountFieldState createState() =>
       _AmountFieldState(currentCurrency == null || currentCurrency == SEEDS
           ? InputMode.seeds
-          : InputMode.fiat);
+          : InputMode.fiat,
+          inputString: initialValue?.fiatFormatted ?? "",
+          );
 }
 
 class _AmountFieldState extends State<AmountField> {
-  TextEditingController controller = TextEditingController(text: '');
-  String inputString = "";
+  //TextEditingController controller = TextEditingController(text: '');
+  String inputString;
   double seedsValue = 0;
   double fiatValue = 0;
   InputMode inputMode;
@@ -47,12 +50,11 @@ class _AmountFieldState extends State<AmountField> {
       inputMode == InputMode.fiat ? _fiatCurrency : SEEDS;
   bool get autoFocus => widget.autoFocus ?? true;
 
-  _AmountFieldState(this.inputMode);
+  _AmountFieldState(this.inputMode, {this.inputString});
 
   @override
   Widget build(BuildContext context) {
     String balance;
-    controller = widget.priceController ?? controller;
     String fiat = _fiatCurrency;
     bool validate = widget.validateAmount ?? true;
 
@@ -66,7 +68,7 @@ class _AmountFieldState extends State<AmountField> {
           TextFormField(
             keyboardType:
                 TextInputType.numberWithOptions(signed: false, decimal: true),
-            controller: controller,
+            initialValue: inputString,
             autofocus: autoFocus,
             inputFormatters: [
               UserInputNumberFormatter(),

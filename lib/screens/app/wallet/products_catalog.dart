@@ -34,13 +34,11 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   final priceKey = GlobalKey<FormState>();
   final nameKey = GlobalKey<FormState>();
   var savingLoader = GlobalKey<MainButtonState>();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-  String productName = "";
-  double priceValue = 0;
-  String currency;
 
-  String localImagePath = '';
+  String editProductName = "";
+  double editPriceValue = 0;
+  String editCurrency = SEEDS;
+  String editLocalImagePath = '';
 
   @override
   void initState() {
@@ -62,33 +60,37 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     localImage = await localImage.copy("$path/$fileName$fileExtension");
 
     setState(() {
-      localImagePath = localImage.path;
+      editLocalImagePath = localImage.path;
     });
   }
 
-  Future<void> createNewProduct(
-      String userAccount, BuildContext context) async {
-    if (products.indexWhere(
-            (element) => element.data()['name'] == nameController.text) !=
-        -1) return;
+  bool productNameExists(String name) {
+    return (products.indexWhere(
+            (element) => element.data()['name'] == editProductName) !=
+        -1);
+  }
+
+  Future<void> createNewProduct(String userAccount, BuildContext context) async {
+    if (productNameExists(editProductName)) return;
 
     String downloadUrl;
+
     setState(() {
       savingLoader.currentState.loading();
     });
 
-    if (localImagePath != null && localImagePath.isNotEmpty) {
+    if (editLocalImagePath != null && editLocalImagePath.isNotEmpty) {
       TaskSnapshot image = await FirebaseDataStoreService()
-          .uploadPic(File(localImagePath), userAccount);
+          .uploadPic(File(editLocalImagePath), userAccount);
       downloadUrl = await image.ref.getDownloadURL();
-      localImagePath = '';
+      editLocalImagePath = '';
     }
 
     final product = ProductModel(
-      name: nameController.text,
-      price: priceValue,
+      name: editProductName,
+      price: editPriceValue,
       picture: downloadUrl,
-      currency: currency,
+      currency: editCurrency,
       position: products.length,
     );
 
@@ -97,26 +99,27 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         .then((value) => closeBottomSheet(context));
   }
 
-  Future<void> editProduct(ProductModel productModel, String userAccount,
-      BuildContext context) async {
+  Future<void> editProduct(ProductModel productModel, String userAccount, BuildContext context) async {
+      
     String downloadUrl;
+    
     setState(() {
       savingLoader.currentState.loading();
     });
 
-    if (localImagePath != null && localImagePath.isNotEmpty) {
+    if (editLocalImagePath != null && editLocalImagePath.isNotEmpty) {
       TaskSnapshot image = await FirebaseDataStoreService()
-          .uploadPic(File(localImagePath), userAccount);
+          .uploadPic(File(editLocalImagePath), userAccount);
       downloadUrl = await image.ref.getDownloadURL();
-      localImagePath = '';
+      editLocalImagePath = '';
     }
 
     final product = ProductModel(
-        name: nameController.text,
-        price: priceValue,
+        name: editProductName,
+        price: editPriceValue,
         picture: downloadUrl,
         id: productModel.id,
-        currency: currency);
+        currency: editCurrency);
 
     FirebaseDatabaseService()
         .updateProduct(product, userAccount)
@@ -156,10 +159,10 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
 
   Widget buildPictureWidget(String imageUrl) {
     var children;
-    if (localImagePath.isNotEmpty) {
+    if (editLocalImagePath.isNotEmpty) {
       children = [
         CircleAvatar(
-          backgroundImage: FileImage(File(localImagePath)),
+          backgroundImage: FileImage(File(editLocalImagePath)),
           radius: 20,
         ),
         SizedBox(width: 10),
@@ -198,11 +201,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   void showEditProduct(BuildContext context, ProductModel productModel, String userAccount) {
-    nameController.text = productModel.name;
-    priceController.text = productModel.price.toString();
-    currency = productModel.currency;
-    var fiatCurrency = currency != SEEDS
-        ? currency
+    editCurrency = productModel.currency;
+    editProductName = productModel.name;
+    editPriceValue = productModel.price;
+    editLocalImagePath = "";
+
+    var fiatCurrency = editCurrency != SEEDS
+        ? editCurrency
         : SettingsNotifier.of(context).selectedFiatCurrency;
 
     showModalBottomSheet<void>(
@@ -243,7 +248,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                       ),
                       MainTextField(
                           labelText: 'Name'.i18n,
-                          controller: nameController,
+                          initialValue: productModel.name,
                           validator: (String name) {
                             String error;
 
@@ -254,17 +259,17 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           },
                           onChanged: (name) {
                             editKey.currentState.validate();
+                            editProductName = name;
                           }),
                       AmountField(
-                          currentCurrency: currency,
+                          currentCurrency: editCurrency,
                           fiatCurrency: fiatCurrency,
-                          priceController: priceController,
+                          initialValue: productModel.price,
                           validateAmount: false,
                           autoFocus: false,
                           onChanged: (seedsAmount, fieldAmount, selectedCurrency) => {
-                              //editKey.currentState.validate()
-                                priceValue = fieldAmount,
-                                currency = selectedCurrency,
+                                editPriceValue = fieldAmount,
+                                editCurrency = selectedCurrency,
                               }),
                       MainButton(
                         key: savingLoader,
@@ -287,10 +292,10 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   void showNewProduct(BuildContext context, String accountName) {
-    nameController.clear();
-    priceController.clear();
-    localImagePath = "";
-    currency = "SEEDS";
+    editCurrency = SEEDS;
+    editProductName = "";
+    editPriceValue = 0;
+    editLocalImagePath = "";
 
     showModalBottomSheet<void>(
         isScrollControlled: true,
@@ -332,7 +337,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         key: nameKey,
                         child: MainTextField(
                             labelText: 'Name'.i18n,
-                            controller: nameController,
+                            initialValue: "",
                             validator: (String name) {
                               String error;
 
@@ -343,19 +348,18 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                             },
                             onChanged: (name) {
                               nameKey.currentState.validate();
+                              editProductName = name;
                             }),
                       ),
                       AmountField(
-                          currentCurrency: currency,
+                          currentCurrency: editCurrency,
                           fiatCurrency:
                               SettingsNotifier.of(context).selectedFiatCurrency,
-                          priceController: priceController,
                           validateAmount: false,
                           autoFocus: false,
                           onChanged: (amount, fieldAmount, currencyInput) => {
-                              //priceKey.currentState.validate()
-                                priceValue = amount,
-                                currency = currencyInput,
+                                editPriceValue = fieldAmount,
+                                editCurrency = currencyInput,
                               }),
                       MainButton(
                         key: savingLoader,
