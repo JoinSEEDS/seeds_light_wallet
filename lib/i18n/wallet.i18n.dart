@@ -43,9 +43,12 @@ static var _t = Translations.byLocale("en_us") +
          'Delete': 'Eliminar',
         
          'Memo (optional)': 'Memo (opcional)',
-         "What's it for?": "Para que es?"
+         "What's it for?": "Para que es?",
 
-
+        "Your Products": "Tus Productos",
+        "Next": "siguiente",
+        "Custom Amount": "Monto personalizado",
+        "Total": "Total"
       }
     };
 
