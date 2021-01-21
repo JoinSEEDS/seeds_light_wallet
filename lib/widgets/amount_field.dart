@@ -18,7 +18,7 @@ class AmountField extends StatefulWidget {
       this.currentCurrency,
       this.fiatCurrency,
       this.initialValue,
-      this.validateAmount,
+      this.validateBalance,
       this.autoFocus,
       this.hintText})
       : super(key: key);
@@ -27,7 +27,7 @@ class AmountField extends StatefulWidget {
   final String currentCurrency;
   final String fiatCurrency;
   final double initialValue;
-  final bool validateAmount;
+  final bool validateBalance;
   final bool autoFocus;
   final String hintText;
 
@@ -57,7 +57,7 @@ class _AmountFieldState extends State<AmountField> {
   Widget build(BuildContext context) {
     String balance;
     String fiat = _fiatCurrency;
-    bool validate = widget.validateAmount ?? true;
+    bool validateBalance = widget.validateBalance ?? true;
 
     BalanceNotifier.of(context).balance == null
         ? balance = ''
@@ -75,22 +75,28 @@ class _AmountFieldState extends State<AmountField> {
               UserInputNumberFormatter(),
             ],
             validator: (val) {
-              if (!validate) {
-                return null;
-              }
               String error;
-              double availableBalance =
-                  double.tryParse(balance.replaceFirst(' SEEDS', ''));
+
               double transferAmount = double.tryParse(val);
 
               if (transferAmount == 0.0) {
-                error = "Transfer amount cannot be 0.".i18n;
-              } else if (transferAmount == null || availableBalance == null) {
-                error = "Transfer amount is not valid.".i18n;
-              } else if (transferAmount > availableBalance) {
-                error =
-                    "Transfer amount cannot be greater than availabe balance."
-                        .i18n;
+                error = "Amount cannot be 0.".i18n;
+              } else if (transferAmount < 0.0) {
+                error = "Amount cannot be negative.".i18n;
+              } else if (transferAmount == null) {
+                error = "Amount is not valid.".i18n;
+              } 
+
+              if (validateBalance) {
+                double availableBalance = double.tryParse(balance.replaceFirst(' SEEDS', ''));
+
+                if (availableBalance == null) {
+                  //error = "No balance.".i18n; // allow try send if we can't fetch balance for whatever reason
+                } else if (transferAmount > availableBalance) {
+                  error =
+                      "Amount cannot be greater than availabe balance."
+                          .i18n;
+                }
               }
               return error;
             },

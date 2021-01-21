@@ -264,7 +264,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           currentCurrency: editCurrency,
                           fiatCurrency: fiatCurrency,
                           initialValue: productModel.price,
-                          validateAmount: false,
+                          validateBalance: false,
                           autoFocus: false,
                           hintText: "Price",
                           onChanged: (seedsAmount, fieldAmount, selectedCurrency) => {
@@ -354,7 +354,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           currentCurrency: editCurrency,
                           fiatCurrency:
                               SettingsNotifier.of(context).selectedFiatCurrency,
-                          validateAmount: false,
+                          validateBalance: false,
                           autoFocus: false,
                           hintText: "Price",
                           onChanged: (amount, fieldAmount, currencyInput) => {
