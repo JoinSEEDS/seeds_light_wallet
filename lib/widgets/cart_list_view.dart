@@ -23,6 +23,8 @@ class _CartListViewState extends State<CartListView> {
   @override
   Widget build(BuildContext context) {
     var fiat = SettingsNotifier.of(context).selectedFiatCurrency;
+    double smallDeviceFactor = MediaQuery.of(context).size.width <= 500 ? 0.5 : 1;
+
     return Consumer<RateNotifier>(
         builder: (context, rateNotifier, child) => Column(
           children: [
@@ -34,7 +36,7 @@ class _CartListViewState extends State<CartListView> {
                         CircleAvatarFactory.buildProductAvatar(e.product, size: 20),
                         SizedBox(width: 10),
                         SizedBox(
-                          width: 100,
+                          width: 100 * smallDeviceFactor,
                           child: Text(e.product.name,
                               style: TextStyle(
                                   fontSize: 14,
