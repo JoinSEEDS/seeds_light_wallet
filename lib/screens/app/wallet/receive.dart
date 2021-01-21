@@ -50,6 +50,7 @@ class _ReceiveState extends State<Receive> {
                   return Scaffold(
                     resizeToAvoidBottomPadding: true,
                     appBar: AppBar(
+                      centerTitle: true,
                       leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () => Navigator.of(context).pop(),
@@ -58,7 +59,6 @@ class _ReceiveState extends State<Receive> {
                       elevation: 0,
                       title: Text(
                         'Receive'.i18n,
-                        textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black87,
                         ),
