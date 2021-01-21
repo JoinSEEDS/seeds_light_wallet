@@ -251,15 +251,14 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           initialValue: productModel.name,
                           validator: (String name) {
                             String error;
-
-                            if (name == null || name.isEmpty) {
-                              error = 'Name cannot be empty'.i18n;
+                            if (editProductName == null || editProductName == "") {
+                              error = 'Name cannot be empty x'.i18n;
                             }
                             return error;
                           },
                           onChanged: (name) {
-                            editKey.currentState.validate();
                             editProductName = name;
+                            editKey.currentState.validate();
                           }),
                       AmountField(
                           currentCurrency: editCurrency,
@@ -267,6 +266,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           initialValue: productModel.price,
                           validateAmount: false,
                           autoFocus: false,
+                          hintText: "Price",
                           onChanged: (seedsAmount, fieldAmount, selectedCurrency) => {
                                 editPriceValue = fieldAmount,
                                 editCurrency = selectedCurrency,
@@ -340,15 +340,14 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                             initialValue: "",
                             validator: (String name) {
                               String error;
-
-                              if (name == null || name.isEmpty) {
+                              if (editProductName == null || editProductName.isEmpty) {
                                 error = 'Name cannot be empty'.i18n;
                               }
                               return error;
                             },
                             onChanged: (name) {
-                              nameKey.currentState.validate();
                               editProductName = name;
+                              nameKey.currentState.validate();
                             }),
                       ),
                       AmountField(
@@ -357,6 +356,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                               SettingsNotifier.of(context).selectedFiatCurrency,
                           validateAmount: false,
                           autoFocus: false,
+                          hintText: "Price",
                           onChanged: (amount, fieldAmount, currencyInput) => {
                                 editPriceValue = fieldAmount,
                                 editCurrency = currencyInput,

@@ -19,7 +19,8 @@ class AmountField extends StatefulWidget {
       this.fiatCurrency,
       this.initialValue,
       this.validateAmount,
-      this.autoFocus})
+      this.autoFocus,
+      this.hintText})
       : super(key: key);
 
   final Function onChanged;
@@ -28,6 +29,7 @@ class AmountField extends StatefulWidget {
   final double initialValue;
   final bool validateAmount;
   final bool autoFocus;
+  final String hintText;
 
   @override
   _AmountFieldState createState() =>
@@ -39,7 +41,6 @@ class AmountField extends StatefulWidget {
 }
 
 class _AmountFieldState extends State<AmountField> {
-  //TextEditingController controller = TextEditingController(text: '');
   String inputString;
   double seedsValue = 0;
   double fiatValue = 0;
@@ -101,6 +102,7 @@ class _AmountFieldState extends State<AmountField> {
                   _selectedCurrency);
             },
             decoration: InputDecoration(
+              hintText: widget.hintText,
               filled: true,
               fillColor: Colors.white,
               focusedErrorBorder: OutlineInputBorder(
