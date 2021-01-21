@@ -58,7 +58,10 @@ class _ReceiveState extends State<Receive> {
                       elevation: 0,
                       title: Text(
                         'Receive'.i18n,
-                        style: TextStyle(color: Colors.black87),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black87,
+                        ),
                       ),
                       actions: <Widget>[
                         TextButton(
