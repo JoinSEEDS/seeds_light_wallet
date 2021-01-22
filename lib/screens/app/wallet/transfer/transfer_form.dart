@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -13,8 +14,8 @@ import 'package:seeds/widgets/amount_field.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:seeds/widgets/main_text_field.dart';
+import 'package:seeds/utils/string_extension.dart';
 
 class TransferFormArguments {
   final String fullName;
@@ -159,10 +160,8 @@ class _TransferFormState extends State<TransferForm>
 
   @override
   Widget build(BuildContext context) {
-    String balance;
-    BalanceNotifier.of(context).balance == null
-        ? balance = ''
-        : balance = BalanceNotifier.of(context).balance.quantity;
+    BalanceModel model = BalanceNotifier.of(context).balance;
+    String balance = model?.formattedQuantity;
 
     return GestureDetector(
       onTap: () {

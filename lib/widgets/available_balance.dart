@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
+import 'package:seeds/utils/string_extension.dart';
 
 class AvailableBalance extends StatelessWidget {
   @override
@@ -11,7 +12,7 @@ class AvailableBalance extends StatelessWidget {
 
     return Consumer<BalanceNotifier>(
       builder: (ctx, model, child) {
-        var quantity = model?.balance?.quantity ?? '0.0000 SEEDS';
+        var quantity = (model?.balance?.quantity?.seedsFormatted ?? '0.00') + " SEEDS";
 
         return Container(
           width: width,
