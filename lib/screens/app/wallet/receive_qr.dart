@@ -81,7 +81,7 @@ class ReceiveQRState extends State<ReceiveQR> {
                       }),
                 ],
               )
-            : Container(),
+            : Center(child: CircularProgressIndicator()),
       ),
     );
   }
