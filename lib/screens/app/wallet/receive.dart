@@ -37,56 +37,69 @@ class _ReceiveState extends State<Receive> {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: SafeArea(
-          child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseDatabaseService()
-                  .getOrderedProductsForUser(accountName),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return SizedBox.shrink();
-                } else {
-                  products = List<ProductModel>.of(snapshot.data.docs
-                      .map((p) => ProductModel.fromSnapshot(p)));
-                  return Scaffold(
-                    resizeToAvoidBottomPadding: true,
-                    appBar: AppBar(
-                      centerTitle: true,
-                      leading: IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.black),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      title: Text(
-                        'Receive'.i18n,
-                        style: TextStyle(
-                          color: Colors.black87,
+        child: Container(
+          color: Colors.white,
+          child: SafeArea(
+            top: false,
+            child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseDatabaseService()
+                    .getOrderedProductsForUser(accountName),
+                builder: (context, snapshot) {
+                  // if (!snapshot.hasData) {
+                  //   return SizedBox.shrink();
+                  // } else {
+                    products = snapshot.hasData ? List<ProductModel>.of(snapshot.data.docs
+                        .map((p) => ProductModel.fromSnapshot(p))) : List<ProductModel>();
+                    return Scaffold(
+                      resizeToAvoidBottomPadding: true,
+                      appBar: AppBar(
+                        centerTitle: true,
+                        leading: IconButton(
+                          icon: Icon(Icons.arrow_back, color: Colors.black),
+                          onPressed: () => Navigator.of(context).pop(),
                         ),
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          child: Text(
-                            "Edit",
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                        title: Text(
+                          'Receive'.i18n,
+                          style: TextStyle(
+                            color: Colors.black87,
                           ),
-                          onPressed: () {
-                            FocusScope.of(context).unfocus();
-                            showMerchantCatalog(context);
-                          },
-                        )
-                      ],
-                    ),
-                    backgroundColor: Colors.white,
-                    body: Container(
-                      margin: EdgeInsets.only(left: 15, right: 15),
-                      child: ProductListForm(
-                          cart, products, () => setState(() {})),
-                    ),
-                    bottomNavigationBar: products.length == 0
-                        ? SizedBox(height: 1)
-                        : buildBottomAppBar(rate, fiat, context),
-                  );
-                }
-              }),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text(
+                              "Edit",
+                            ),
+                            onPressed: () {
+                              FocusScope.of(context).unfocus();
+                              showMerchantCatalog(context);
+                            },
+                          )
+                        ],
+                      ),
+                      backgroundColor: Colors.white,
+                      body: Container(
+                        margin: EdgeInsets.only(left: 15, right: 15),
+                        child: snapshot.hasData 
+                          ? ProductListForm(
+                            cart, 
+                            products, 
+                            () => setState(() {}))
+                          : Center(
+                            child: CircularProgressIndicator(
+                                //backgroundColor: Colors.white,
+                              ),
+                          ),
+                      ),
+                      bottomNavigationBar: products.length == 0
+                          ? SizedBox(height: 1)
+                          : buildBottomAppBar(rate, fiat, context),
+                    );
+                  }
+               // }
+                ),
+          ),
         ));
   }
 
