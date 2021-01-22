@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:seeds/models/Currencies.dart';
 import 'package:seeds/models/firebase/firebase_user.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
@@ -296,26 +295,31 @@ class FirebaseDatabaseService {
     return batch.commit();
   }
 
-  Future<DocumentReference> createProduct(ProductModel product, String userAccount) {
+  Future<DocumentReference> createProduct(
+      ProductModel product, String userAccount) {
     Map<String, Object> data = {
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
       PRODUCT_CREATED_DATE_KEY: FieldValue.serverTimestamp(),
-      PRODUCT_CURRENCY_KEY: product.currency.name
+      PRODUCT_CURRENCY_KEY: product.currency,
+      PRODUCT_POSITION_KEY: product.position,
     };
 
     if (product.picture != null && product.picture.isNotEmpty) {
       data.addAll({PRODUCT_IMAGE_URL_KEY: product.picture});
     }
 
-    return _usersCollection.doc(userAccount).collection(PRODUCTS_COLLECTION_KEY).add(data);
+    return _usersCollection
+        .doc(userAccount)
+        .collection(PRODUCTS_COLLECTION_KEY)
+        .add(data);
   }
 
   Future<void> updateProduct(ProductModel product, String userAccount) {
     Map<String, Object> data = {
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
-      PRODUCT_CURRENCY_KEY: product.currency.name,
+      PRODUCT_CURRENCY_KEY: product.currency,
       PRODUCT_UPDATED_DATE_KEY: FieldValue.serverTimestamp(),
     };
 
@@ -331,7 +335,19 @@ class FirebaseDatabaseService {
   }
 
   Future<void> deleteProduct(ProductModel product, String userAccount) {
-    return _usersCollection.doc(userAccount).collection(PRODUCTS_COLLECTION_KEY).doc(product.id).delete();
+    return _usersCollection
+        .doc(userAccount)
+        .collection(PRODUCTS_COLLECTION_KEY)
+        .doc(product.id)
+        .delete();
+  }
+
+  Stream<QuerySnapshot> getOrderedProductsForUser(String accountName) {
+    return _usersCollection
+        .doc(accountName)
+        .collection(PRODUCTS_COLLECTION_KEY)
+        .orderBy(PRODUCT_POSITION_KEY, descending: false)
+        .snapshots();
   }
 
   Stream<List<ProductModel>> getProductsForUser(String accountName) {
@@ -341,12 +357,8 @@ class FirebaseDatabaseService {
         .orderBy(PRODUCT_CREATED_DATE_KEY)
         .snapshots()
         .asyncMap((event) => event.docs
-            .map((QueryDocumentSnapshot data) => ProductModel(
-                name: data.data()[PRODUCT_NAME_KEY],
-                picture: data.data()[PRODUCT_IMAGE_URL_KEY] != null ? data.data()[PRODUCT_IMAGE_URL_KEY] : "",
-                price: data.data()[PRODUCT_PRICE_KEY],
-                id: data.id,
-                currency: fromCurrencyName(data.data()[PRODUCT_CURRENCY_KEY])))
+            .map(
+                (QueryDocumentSnapshot data) => ProductModel.fromSnapshot(data))
             .toList());
   }
 

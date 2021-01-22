@@ -1,14 +1,38 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
-import 'package:seeds/models/Currencies.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
+
+abstract class CurrencyConverter {
+  double seedsTo(double seedsValue, String currencySymbol);
+  double toSeeds(double currencyValue, String currencySymbol);
+}
 
 class ProductModel extends HiveObject {
   final String name;
   final String picture;
   final double price;
   final String id;
-  final Currency currency;
+  final String currency;
+  final int position;
 
-  ProductModel({this.name, this.picture, this.price, this.id, this.currency});
+  ProductModel({this.name, this.picture, this.price, this.id, this.currency, this.position});
+
+  double seedsPrice(CurrencyConverter converter) {
+    return currency == "SEEDS" ? price : converter.toSeeds(price, currency);
+    }
+
+  factory ProductModel.fromSnapshot(QueryDocumentSnapshot data) {
+    return ProductModel(
+      name: data.data()[PRODUCT_NAME_KEY],
+      picture: data.data()[PRODUCT_IMAGE_URL_KEY] != null
+          ? data.data()[PRODUCT_IMAGE_URL_KEY]
+          : "",
+      price: data.data()[PRODUCT_PRICE_KEY],
+      id: data.id,
+      currency: data.data()[PRODUCT_CURRENCY_KEY],
+      position: data.data()[PRODUCT_POSITION_KEY] ?? 0,
+    );
+  } 
 }
 
 class InviteModel {
@@ -104,7 +128,11 @@ class UserGuardiansModel {
         List<String> guardians = List<String>.from(rows[0]["guardians"]);
         int timeDelaySec = rows[0]["time_delay_sec"];
 
-        var result = UserGuardiansModel(exists: exists, account: account, guardians: guardians,timeDelaySec: timeDelaySec);
+        var result = UserGuardiansModel(
+            exists: exists,
+            account: account,
+            guardians: guardians,
+            timeDelaySec: timeDelaySec);
         return result;
       } catch (error) {
         print("error: " + error.toString());

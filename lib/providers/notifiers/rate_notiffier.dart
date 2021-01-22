@@ -6,7 +6,9 @@ import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
-class RateNotifier extends ChangeNotifier {
+const String SEEDS = "SEEDS";
+
+class RateNotifier extends ChangeNotifier with CurrencyConverter {
   RateModel rate;
   FiatRateModel fiatRate;
   DateTime lastUpdated = DateTime.now().subtract(Duration(hours: 1));
@@ -37,13 +39,14 @@ class RateNotifier extends ChangeNotifier {
   }
 
   double seedsTo(double seedsValue, String currencySymbol) {
-    var usdValue = rate.toUSD(seedsValue);
-    return fiatRate.usdTo(usdValue, currencySymbol);
+    var usdValue = rate?.toUSD(seedsValue) ?? 0;
+    return fiatRate?.usdTo(usdValue, currencySymbol) ?? 0;
     
   }
+
   double toSeeds(double currencyValue, String currencySymbol) {
-    var usdValue = fiatRate.toUSD(currencyValue, currencySymbol);
-    return rate.toSeeds(usdValue);
+    var usdValue = fiatRate?.toUSD(currencyValue, currencySymbol) ?? 0;
+    return rate?.toSeeds(usdValue) ?? 0;
   }
 
   String currencyString(double seedsAmount, String currencySymbol) {
@@ -58,7 +61,7 @@ class RateNotifier extends ChangeNotifier {
     if (rate == null || fiatRate == null) {
       return "";
     } else {
-      if (rate.error) {
+      if (rate?.error ?? false) {
         return "Exchange rate load error".i18n;
       }
       return asSeeds ? seedsString(amount, currency) : currencyString(amount, currency);
