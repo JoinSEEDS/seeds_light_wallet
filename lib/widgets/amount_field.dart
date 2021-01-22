@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/utils/user_input_number_formatter.dart';
@@ -56,13 +55,8 @@ class _AmountFieldState extends State<AmountField> {
 
   @override
   Widget build(BuildContext context) {
-    String balance;
     String fiat = _fiatCurrency;
     double width = MediaQuery.of(context).size.width - 76;
-
-    BalanceNotifier.of(context).balance == null
-        ? balance = ''
-        : balance = BalanceNotifier.of(context).balance.quantity;
 
     return Column(
       children: [
@@ -92,7 +86,7 @@ class _AmountFieldState extends State<AmountField> {
 
               if (validateBalance) {
                 double availableBalance =
-                    double.tryParse(balance.replaceFirst(' SEEDS', ''));
+                    double.tryParse(widget.availableBalance.replaceFirst(' SEEDS', ''));
 
                 if (availableBalance == null) {
                   //error = "No balance.".i18n; // allow try send if we can't fetch balance for whatever reason
