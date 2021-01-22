@@ -76,11 +76,15 @@ class _CartListViewState extends State<CartListView> {
                           },
                         ),
                         Spacer(),
-                        Text( (e.seedsPrice(rateNotifier) * e.quantity).seedsFormatted,
+                        SizedBox(
+                          width: 100,
+                          child: Text( (e.seedsPrice(rateNotifier) * e.quantity).seedsFormatted,
+                            textAlign: TextAlign.right,
                             style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "worksans")),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "worksans")),
+                        ),
                       ]
                       ),
                     ))
