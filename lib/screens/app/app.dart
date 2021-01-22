@@ -257,8 +257,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   Widget buildNavigation(bool showGuardianNotification) {
-    print("showGuardianNotification" + showGuardianNotification.toString());
-
     return BottomNavigationBar(
       currentIndex: index,
       onTap: (index) {
