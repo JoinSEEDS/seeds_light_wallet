@@ -15,7 +15,6 @@ import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/widgets/main_text_field.dart';
-import 'package:seeds/utils/string_extension.dart';
 
 class TransferFormArguments {
   final String fullName;
