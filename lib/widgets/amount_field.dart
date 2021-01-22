@@ -18,26 +18,26 @@ class AmountField extends StatefulWidget {
       this.currentCurrency,
       this.fiatCurrency,
       this.initialValue,
-      this.validateBalance,
+      this.availableBalance,
       this.autoFocus,
       this.hintText})
       : super(key: key);
 
   final Function onChanged;
+  final String availableBalance;
   final String currentCurrency;
   final String fiatCurrency;
   final double initialValue;
-  final bool validateBalance;
   final bool autoFocus;
   final String hintText;
 
   @override
-  _AmountFieldState createState() =>
-      _AmountFieldState(currentCurrency == null || currentCurrency == SEEDS
-          ? InputMode.seeds
-          : InputMode.fiat,
-          inputString: initialValue?.fiatFormatted ?? "",
-          );
+  _AmountFieldState createState() => _AmountFieldState(
+        currentCurrency == null || currentCurrency == SEEDS
+            ? InputMode.seeds
+            : InputMode.fiat,
+        inputString: initialValue?.fiatFormatted ?? "",
+      );
 }
 
 class _AmountFieldState extends State<AmountField> {
@@ -50,6 +50,7 @@ class _AmountFieldState extends State<AmountField> {
   String get _selectedCurrency =>
       inputMode == InputMode.fiat ? _fiatCurrency : SEEDS;
   bool get autoFocus => widget.autoFocus ?? true;
+  bool get validateBalance => widget.availableBalance != null;
 
   _AmountFieldState(this.inputMode, {this.inputString});
 
@@ -57,7 +58,7 @@ class _AmountFieldState extends State<AmountField> {
   Widget build(BuildContext context) {
     String balance;
     String fiat = _fiatCurrency;
-    bool validateBalance = widget.validateBalance ?? true;
+    double width = MediaQuery.of(context).size.width - 76;
 
     BalanceNotifier.of(context).balance == null
         ? balance = ''
@@ -77,27 +78,27 @@ class _AmountFieldState extends State<AmountField> {
             ],
             validator: (val) {
               String error;
-
+              if (val == "") {
+                return null;
+              }
               double transferAmount = double.tryParse(val);
-              if (transferAmount == null) return null;
-              
-              if (transferAmount == 0.0) {
+              if (transferAmount == null) {
+                return "Invalid Amount".i18n;
+              } if (transferAmount == 0.0) {
                 error = "Amount cannot be 0.".i18n;
               } else if (transferAmount < 0.0) {
                 error = "Amount cannot be negative.".i18n;
-              } else if (transferAmount == null) {
-                error = "Amount is not valid.".i18n;
               } 
 
               if (validateBalance) {
-                double availableBalance = double.tryParse(balance.replaceFirst(' SEEDS', ''));
+                double availableBalance =
+                    double.tryParse(balance.replaceFirst(' SEEDS', ''));
 
                 if (availableBalance == null) {
                   //error = "No balance.".i18n; // allow try send if we can't fetch balance for whatever reason
-                } else if (transferAmount > availableBalance) {
+                } else if (_getSeedsValue(val) > availableBalance) {
                   error =
-                      "Amount cannot be greater than availabe balance."
-                          .i18n;
+                      "Amount cannot be greater than availabe balance.".i18n;
                 }
               }
               return error;
@@ -144,18 +145,43 @@ class _AmountFieldState extends State<AmountField> {
             ),
           )
         ]),
-        Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 5, 0, 0),
-                child: Consumer<RateNotifier>(
-                  builder: (context, rateNotifier, child) {
-                    return Text(
-                      inputString == null ? "" : _getOtherString(),
+        Padding(
+          padding: const EdgeInsets.only(top: 5, left: 16, right: 16),
+          child: Consumer<RateNotifier>(
+            builder: (context, rateNotifier, child) {
+              var currencyText = inputString == null ? "" : _getOtherString();
+              var availableText =(widget.availableBalance != null &&
+                          widget.availableBalance != '') ? widget.availableBalance + " " + "available".i18n : "";
+              double total = currencyText.length.toDouble() + availableText.length.toDouble();
+              double leftRatio = total == 0 ? 1 : currencyText.length / total;
+              double rightRatio = total == 0 ? 0 : availableText.length / total;
+              
+              return Row(
+                children: [
+                  SizedBox(
+                    width: width * leftRatio,
+                    child: Text(
+                      currencyText,
                       style: TextStyle(color: Colors.blue),
-                    );
-                  },
-                ))),
+                    ),
+                  ),
+                  Spacer(),
+                  (availableText != '')
+                      ? SizedBox(
+                          width: width * rightRatio,
+                          child: Text(
+                            availableText,
+                            textAlign: TextAlign.right,
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                        )
+                      : Container()
+                ],
+              );
+            },
+          ),
+        ),
       ],
     );
   }
