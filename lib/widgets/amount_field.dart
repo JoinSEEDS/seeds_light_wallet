@@ -67,6 +67,7 @@ class _AmountFieldState extends State<AmountField> {
       children: [
         Stack(alignment: Alignment.topRight, children: [
           TextFormField(
+            autovalidateMode: AutovalidateMode.always,
             keyboardType:
                 TextInputType.numberWithOptions(signed: false, decimal: true),
             initialValue: inputString,
@@ -78,7 +79,8 @@ class _AmountFieldState extends State<AmountField> {
               String error;
 
               double transferAmount = double.tryParse(val);
-
+              if (transferAmount == null) return null;
+              
               if (transferAmount == 0.0) {
                 error = "Amount cannot be 0.".i18n;
               } else if (transferAmount < 0.0) {
