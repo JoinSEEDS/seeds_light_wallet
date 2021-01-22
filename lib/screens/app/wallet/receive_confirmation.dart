@@ -33,28 +33,31 @@ class _ReceiveConfirmationState extends State<ReceiveConfirmation> {
         ),
       ),
       backgroundColor: Colors.white,
+      bottomNavigationBar: Padding(
+                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                child: MainButton(
+                    title: "Next".i18n,
+                    active: widget.cart.total != 0,
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                      NavigationService.of(context)
+                          .navigateTo(Routes.receiveQR, widget.cart.total);
+                    }),
+              ),
       body: Container(
         margin: EdgeInsets.only(left: 15, right: 15),
-        child: Column(
-          children: [
-            Container(
-              child: CartListView(
-                cart: widget.cart,
-                onChange: () => setState(() {}),
+        child: SingleChildScrollView(
+                  child: Column(
+            children: [
+              Container(
+                child: CartListView(
+                  cart: widget.cart,
+                  onChange: () => setState(() {}),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-              child: MainButton(
-                  title: "Next".i18n,
-                  active: widget.cart.total != 0,
-                  onPressed: () {
-                    FocusScope.of(context).unfocus();
-                    NavigationService.of(context)
-                        .navigateTo(Routes.receiveQR, widget.cart.total);
-                  }),
-            ),
-          ],
+              
+            ],
+          ),
         ),
       ),
     );
