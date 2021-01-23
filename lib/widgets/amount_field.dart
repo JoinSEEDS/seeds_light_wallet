@@ -44,6 +44,7 @@ class _AmountFieldState extends State<AmountField> {
   double seedsValue = 0;
   double fiatValue = 0;
   InputMode inputMode;
+
   String get _fiatCurrency =>
       widget.fiatCurrency ?? SettingsNotifier.of(context).selectedFiatCurrency;
   String get _selectedCurrency =>
@@ -62,7 +63,7 @@ class _AmountFieldState extends State<AmountField> {
       children: [
         Stack(alignment: Alignment.topRight, children: [
           TextFormField(
-            autovalidateMode: AutovalidateMode.always,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             keyboardType:
                 TextInputType.numberWithOptions(signed: false, decimal: true),
             initialValue: inputString,
@@ -72,9 +73,7 @@ class _AmountFieldState extends State<AmountField> {
             ],
             validator: (val) {
               String error;
-              if (val == "") {
-                return null;
-              }
+
               double transferAmount = double.tryParse(val);
               if (transferAmount == null) {
                 return "Invalid Amount".i18n;
