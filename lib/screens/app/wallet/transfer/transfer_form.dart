@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -13,7 +14,6 @@ import 'package:seeds/widgets/amount_field.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 
 class TransferFormArguments {
@@ -156,54 +156,11 @@ class _TransferFormState extends State<TransferForm>
     );
   }
 
-  Widget buildBalance(balance) {
-    final width = MediaQuery.of(context).size.width;
-
-    return Container(
-        width: width,
-        margin: EdgeInsets.only(bottom: 20, top: 20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.blue.withOpacity(0.3)),
-        ),
-        padding: EdgeInsets.all(7),
-        child: Column(
-          children: <Widget>[
-            Text(
-              'Available balance'.i18n,
-              style: TextStyle(
-                  color: AppColors.blue,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300),
-            ),
-            Padding(padding: EdgeInsets.only(top: 3)),
-            balance == ''
-                ? Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.grey[100],
-                    child: Container(
-                      width: 80.0,
-                      height: 10,
-                      color: Colors.white,
-                    ),
-                  )
-                : Text(
-                    '$balance',
-                    style: TextStyle(
-                        color: AppColors.blue,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
-                  ),
-          ],
-        ));
-  }
 
   @override
   Widget build(BuildContext context) {
-    String balance;
-    BalanceNotifier.of(context).balance == null
-        ? balance = ''
-        : balance = BalanceNotifier.of(context).balance.quantity;
+    BalanceModel model = BalanceNotifier.of(context).balance;
+    String balance = model?.formattedQuantity;
 
     return GestureDetector(
       onTap: () {
@@ -231,23 +188,25 @@ class _TransferFormState extends State<TransferForm>
                   key: _formKey,
                   child: Column(
                     children: <Widget>[
-                      // let profile intrude slightly into the app bar
                       SizedBox(
                           height: MediaQuery.of(context).padding.top + 22,
                           width: 1),
                       buildProfile(),
-                      buildBalance(balance),
-                      AmountField(
-                        onChanged: (seedsVal, fieldVal, currency) => {seedsValue = seedsVal}
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        child: AmountField(
+                          availableBalance: balance,
+                          onChanged: (seedsVal, fieldVal, currency) => {seedsValue = seedsVal}
+                        ),
                       ),
                       MainTextField(
                           controller: memoController,
-                          labelText: "",
+                          labelText: null,
                           autocorrect: false,
                           hintText: "Memo (optional)".i18n,
                           textStyle: TextStyle(fontSize: 12)),
                       MainButton(
-                        margin: EdgeInsets.only(top: 25),
+                        margin: EdgeInsets.only(top: 20),
                         title: 'Send'.i18n,
                         onPressed: onSend,
                       )

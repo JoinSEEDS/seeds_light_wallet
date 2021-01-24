@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
+import 'package:seeds/utils/double_extension.dart';
 
 abstract class CurrencyConverter {
   double seedsTo(double seedsValue, String currencySymbol);
@@ -211,6 +212,7 @@ class BalanceModel {
   final String quantity;
   final double numericQuantity;
   final bool error;
+  String get formattedQuantity => numericQuantity == null ? "" : numericQuantity.seedsFormatted + " SEEDS";
 
   BalanceModel(this.quantity, this.error)
       : numericQuantity = _parseQuantityString(quantity);

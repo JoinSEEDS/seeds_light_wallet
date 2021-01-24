@@ -264,7 +264,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           currentCurrency: editCurrency,
                           fiatCurrency: fiatCurrency,
                           initialValue: productModel.price,
-                          validateBalance: false,
                           autoFocus: false,
                           hintText: "Price",
                           onChanged: (seedsAmount, fieldAmount, selectedCurrency) => {
@@ -315,65 +314,63 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                   ),
                 ],
               ),
-              child: Form(
-                key: priceKey,
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 15,
-                  ),
-                  child: Wrap(
-                    runSpacing: 10.0,
-                    children: <Widget>[
-                      DottedBorder(
-                        color: AppColors.grey,
-                        strokeWidth: 1,
-                        child: GestureDetector(
-                          onTap: chooseProductPicture,
-                          child: buildPictureWidget(null),
-                        ),
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 15,
+                ),
+                child: Wrap(
+                  runSpacing: 10.0,
+                  children: <Widget>[
+                    DottedBorder(
+                      color: AppColors.grey,
+                      strokeWidth: 1,
+                      child: GestureDetector(
+                        onTap: chooseProductPicture,
+                        child: buildPictureWidget(null),
                       ),
-                      Form(
-                        key: nameKey,
-                        child: MainTextField(
-                            labelText: 'Name'.i18n,
-                            initialValue: "",
-                            validator: (String name) {
-                              String error;
-                              if (editProductName == null || editProductName.isEmpty) {
-                                error = 'Name cannot be empty'.i18n;
-                              }
-                              return error;
-                            },
-                            onChanged: (name) {
-                              editProductName = name;
-                              nameKey.currentState.validate();
-                            }),
-                      ),
-                      AmountField(
+                    ),
+                    Form(
+                      key: nameKey,
+                      child: MainTextField(
+                          labelText: 'Name'.i18n,
+                          initialValue: "",
+                          validator: (String name) {
+                            String error;
+                            if (editProductName == null || editProductName.isEmpty) {
+                              error = 'Name cannot be empty'.i18n;
+                            }
+                            return error;
+                          },
+                          onChanged: (name) {
+                            editProductName = name;
+                            nameKey.currentState.validate();
+                          }),
+                    ),
+                    Form(
+                      key: priceKey,
+                          child: AmountField(
                           currentCurrency: editCurrency,
                           fiatCurrency:
                               SettingsNotifier.of(context).selectedFiatCurrency,
-                          validateBalance: false,
                           autoFocus: false,
                           hintText: "Price",
-                          onChanged: (amount, fieldAmount, currencyInput) => {
-                                editPriceValue = fieldAmount,
-                                editCurrency = currencyInput,
+                          onChanged: (amount, fieldAmount, currencyInput) {
+                                editPriceValue = fieldAmount;
+                                editCurrency = currencyInput;
                               }),
-                      MainButton(
-                        key: savingLoader,
-                        title: 'Add Product'.i18n,
-                        onPressed: () {
-                          nameKey.currentState.validate();
-                          if (priceKey.currentState.validate() &&
-                              nameKey.currentState.validate()) {
-                            createNewProduct(accountName, context);
-                          }
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                    MainButton(
+                      key: savingLoader,
+                      title: 'Add Product'.i18n,
+                      onPressed: () {
+                        if (priceKey.currentState.validate() &&
+                            nameKey.currentState.validate()) {
+                          createNewProduct(accountName, context);
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
