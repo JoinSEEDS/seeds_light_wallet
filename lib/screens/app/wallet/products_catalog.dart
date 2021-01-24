@@ -356,7 +356,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           autoFocus: false,
                           hintText: "Price",
                           onChanged: (amount, fieldAmount, currencyInput) {
-                                priceKey.currentState.validate();
                                 editPriceValue = fieldAmount;
                                 editCurrency = currencyInput;
                               }),
