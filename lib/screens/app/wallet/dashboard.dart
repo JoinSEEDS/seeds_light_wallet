@@ -410,13 +410,13 @@ class _DashboardState extends State<Dashboard> {
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  type == TransactionType.income ? '+ ' : '-',
+                                  type == TransactionType.income ? '+' : '-',
                                   style: TextStyle(
                                       color: type == TransactionType.income ? AppColors.green : AppColors.red,
                                       fontSize: 16),
                                 ),
                                 Text(
-                                  model.quantity,
+                                  model.quantity.seedsFormatted + " SEEDS",
                                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
                                 )
                               ],
