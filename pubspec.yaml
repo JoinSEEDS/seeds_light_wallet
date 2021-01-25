@@ -85,11 +85,11 @@ flutter:
     - assets/images/app_icon.png
     - assets/images/app_icon_transparent.png
     - assets/images/loading.png
-    - assets/images/onboarding1.png
-    - assets/images/onboarding2.png
-    - assets/images/onboarding3.png
-    - assets/images/onboarding4.png
-    - assets/images/onboarding5.png
+    - assets/images/onboarding/onboarding1.png
+    - assets/images/onboarding/onboarding2.png
+    - assets/images/onboarding/onboarding3.png
+    - assets/images/onboarding/onboarding4.png
+    - assets/images/onboarding/onboarding5.png
     - assets/images/governance.svg
     - assets/images/community.svg
     - assets/images/harvest.svg
