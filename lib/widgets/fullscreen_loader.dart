@@ -184,10 +184,10 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 24.0, top: 24.0),
-                        child: SvgPicture.asset(
+                        child: Icon(
                           (showSuccess == true)
-                              ? 'assets/images/success.svg'
-                              : 'assets/images/error.svg',
+                              ? Icons.check_circle
+                              : Icons.error,
                           color: (showSuccess == true)
                               ? AppColors.blue
                               : AppColors.red,

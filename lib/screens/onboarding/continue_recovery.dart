@@ -246,8 +246,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                 fontFamily: "worksans")),
         Padding(
           padding: const EdgeInsets.all(24),
-          child: SvgPicture.asset('assets/images/success.svg',
-              color: Colors.greenAccent),
+          child: Icon(Icons.check_circle, color: Colors.greenAccent,),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 24),
