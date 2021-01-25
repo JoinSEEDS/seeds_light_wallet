@@ -92,7 +92,7 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
         hintText: widget.hintText != null ? widget.hintText.i18n : widget.defaultHintText,
       ),
       style: TextStyle(
-        fontFamily: "sfprotext",
+        fontFamily: "worksans",
       ),
     );
   }
