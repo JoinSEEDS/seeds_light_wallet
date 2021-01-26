@@ -81,39 +81,23 @@ flutter:
   assets:
     # assets begin
     # assets/images/*
-    - assets/images/error.svg
     - assets/images/ecosystem.svg
-    - assets/images/ecosystem1.png
-    - assets/images/ecosystem2.png
-    - assets/images/ecosystem3.png
-    - assets/images/ecosystem4.png
-    - assets/images/ecosystem5.png
-    - assets/images/ecosystem_icon.png
-    - assets/images/failure.png
-    - assets/images/icon_school-bell.png
     - assets/images/app_icon.png
     - assets/images/app_icon_transparent.png
     - assets/images/loading.png
-    - assets/images/no_item_found.svg
-    - assets/images/onboarding1.png
-    - assets/images/onboarding2.png
-    - assets/images/onboarding3.png
-    - assets/images/onboarding4.png
-    - assets/images/onboarding5.png
-    - assets/images/profile.svg
-    - assets/images/share.svg
+    - assets/images/onboarding/onboarding1.png
+    - assets/images/onboarding/onboarding2.png
+    - assets/images/onboarding/onboarding3.png
+    - assets/images/onboarding/onboarding4.png
+    - assets/images/onboarding/onboarding5.png
     - assets/images/governance.svg
     - assets/images/community.svg
     - assets/images/harvest.svg
     - assets/images/exchange.svg
-    - assets/images/lending.svg
     - assets/images/ecosystem.svg
     - assets/images/wallet.svg
     - assets/images/profile.svg
-    - assets/images/success.svg
-    - assets/images/success_circle.png
     - assets/images/logout.svg
-    - assets/images/qr-code.svg
     - assets/images/seeds.png
     - assets/images/seeds_light_wallet_logo.png
     - assets/images/guardians/guardian_tutorial_1.png
@@ -133,19 +117,6 @@ flutter:
     # w700 Bold
     # w800 Extra-bold
     # w900 Black, the most thick
-    - family: sfprotext
-      fonts:
-        - asset: assets/fonts/sfprotext/SF-Pro-Text-Regular.otf
-          weight: 300
-        - asset: assets/fonts/sfprotext/SF-Pro-Text-Medium.otf
-          weight: 500
-        - asset: assets/fonts/sfprotext/SF-Pro-Text-Bold.otf
-          weight: 600
-        - asset: assets/fonts/sfprotext/SF-Pro-Text-Semibold.otf
-          weight: 700
-    - family: vistolsans
-      fonts:
-        - asset: assets/fonts/vistolsanslight/VistolSans-Light.otf
     - family: worksans
       fonts:
         - asset: assets/fonts/worksans/WorkSans-Thin.ttf

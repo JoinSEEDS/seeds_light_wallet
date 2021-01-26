@@ -72,7 +72,7 @@ class TransactionDialogState extends State<TransactionDialog> {
     ]);
   }
 
-  Widget buildButton(String title, String asset, Function onTap) {
+  Widget buildButton(Function onTap) {
     return InkWell(
         onTap: onTap,
         child: Column(children: [
@@ -86,10 +86,10 @@ class TransactionDialogState extends State<TransactionDialog> {
                 shape: BoxShape.circle,
                 gradient: LinearGradient(colors: AppColors.gradient)),
             padding: EdgeInsets.all(18),
-            child: SvgPicture.asset(asset),
+            child: Icon(Icons.ios_share),
           ),
           Text(
-            title,
+            "",
             textAlign: TextAlign.center,
             style: TextStyle(color: AppColors.blue, fontSize: 15),
           )
@@ -147,7 +147,7 @@ class TransactionDialogState extends State<TransactionDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            buildButton('', 'assets/images/share.svg', onShare),
+            buildButton(onShare),
           ],
         ),
         Padding(padding: EdgeInsets.only())
