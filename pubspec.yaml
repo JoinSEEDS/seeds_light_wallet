@@ -117,19 +117,6 @@ flutter:
     # w700 Bold
     # w800 Extra-bold
     # w900 Black, the most thick
-    - family: sfprotext
-      fonts:
-        - asset: assets/fonts/sfprotext/SF-Pro-Text-Regular.otf
-          weight: 300
-        - asset: assets/fonts/sfprotext/SF-Pro-Text-Medium.otf
-          weight: 500
-        - asset: assets/fonts/sfprotext/SF-Pro-Text-Bold.otf
-          weight: 600
-        - asset: assets/fonts/sfprotext/SF-Pro-Text-Semibold.otf
-          weight: 700
-    - family: vistolsans
-      fonts:
-        - asset: assets/fonts/vistolsanslight/VistolSans-Light.otf
     - family: worksans
       fonts:
         - asset: assets/fonts/worksans/WorkSans-Thin.ttf
