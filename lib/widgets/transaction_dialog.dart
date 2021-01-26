@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
@@ -43,8 +42,7 @@ class TransactionDialogState extends State<TransactionDialog> {
         height: 70, //width * 0.2,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: AppColors.gradient),
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))),
       ),
       Container(
         width: width,
@@ -82,9 +80,7 @@ class TransactionDialogState extends State<TransactionDialog> {
             height: 65,
             //width * 0.13,
             margin: EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(colors: AppColors.gradient)),
+            decoration: BoxDecoration(shape: BoxShape.circle, gradient: LinearGradient(colors: AppColors.gradient)),
             padding: EdgeInsets.all(18),
             child: Icon(Icons.ios_share),
           ),
@@ -130,9 +126,7 @@ class TransactionDialogState extends State<TransactionDialog> {
                 Text(
                   type == TransactionType.income ? '+ ' : '-',
                   style: TextStyle(
-                    color: type == TransactionType.income
-                        ? AppColors.green
-                        : AppColors.red,
+                    color: type == TransactionType.income ? AppColors.green : AppColors.red,
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
                   ),
