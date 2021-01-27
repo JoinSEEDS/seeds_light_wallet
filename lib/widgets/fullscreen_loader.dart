@@ -3,11 +3,10 @@ import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/generated/r.dart';
-import 'package:seeds/utils/error_builder.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
+import 'package:seeds/utils/error_builder.dart';
 
 import 'main_button.dart';
 
@@ -52,8 +51,7 @@ class FullscreenLoader extends StatefulWidget {
   _FullscreenLoaderState createState() => _FullscreenLoaderState();
 }
 
-class _FullscreenLoaderState extends State<FullscreenLoader>
-    with SingleTickerProviderStateMixin {
+class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerProviderStateMixin {
   AnimationController animationController;
 
   StreamSubscription<bool> statusSubscription;
@@ -142,8 +140,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
             AnimatedBuilder(
               animation: animationController,
               builder: (context, child) {
-                double scale =
-                    math.sin(math.pi * animationController.value) + 0.8;
+                double scale = math.sin(math.pi * animationController.value) + 0.8;
                 return Align(
                   alignment: Alignment.center,
                   child: Transform.scale(
@@ -175,22 +172,16 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                             ? (widget.successTitle == null ? widget._successTitle : widget.successTitle)
                             : (widget.failureTitle == null ? widget._failureTitle : widget.failureTitle),
                         style: TextStyle(
-                          color: (showSuccess == true)
-                              ? AppColors.blue
-                              : AppColors.red,
+                          color: (showSuccess == true) ? AppColors.blue : AppColors.red,
                           fontWeight: FontWeight.w600,
                           fontSize: 25,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 24.0, top: 24.0),
-                        child: SvgPicture.asset(
-                          (showSuccess == true)
-                              ? 'assets/images/success.svg'
-                              : 'assets/images/error.svg',
-                          color: (showSuccess == true)
-                              ? AppColors.blue
-                              : AppColors.red,
+                        child: Icon(
+                          (showSuccess == true) ? Icons.check_circle : Icons.error,
+                          color: (showSuccess == true) ? AppColors.blue : AppColors.red,
                         ),
                       ),
                       Container(
@@ -216,11 +207,9 @@ class _FullscreenLoaderState extends State<FullscreenLoader>
                             ? (widget.successButtonText == null ? widget._successButtonText : widget.successButtonText)
                             : (widget.failureButtonText == null ? widget._failureButtonText : widget.failureButtonText),
                         onPressed: () {
-                          if (showSuccess &&
-                              widget.successButtonCallback != null) {
+                          if (showSuccess && widget.successButtonCallback != null) {
                             widget.successButtonCallback();
-                          } else if (showFailure &&
-                              widget.failureButtonCallback != null) {
+                          } else if (showFailure && widget.failureButtonCallback != null) {
                             widget.failureButtonCallback();
                           } else {
                             Navigator.of(context).maybePop();

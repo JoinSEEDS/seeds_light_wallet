@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
@@ -43,8 +42,7 @@ class TransactionDialogState extends State<TransactionDialog> {
         height: 70, //width * 0.2,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: AppColors.gradient),
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))),
       ),
       Container(
         width: width,
@@ -72,7 +70,7 @@ class TransactionDialogState extends State<TransactionDialog> {
     ]);
   }
 
-  Widget buildButton(String title, String asset, Function onTap) {
+  Widget buildButton(Function onTap) {
     return InkWell(
         onTap: onTap,
         child: Column(children: [
@@ -82,14 +80,12 @@ class TransactionDialogState extends State<TransactionDialog> {
             height: 65,
             //width * 0.13,
             margin: EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(colors: AppColors.gradient)),
+            decoration: BoxDecoration(shape: BoxShape.circle, gradient: LinearGradient(colors: AppColors.gradient)),
             padding: EdgeInsets.all(18),
-            child: SvgPicture.asset(asset),
+            child: Icon(Icons.ios_share),
           ),
           Text(
-            title,
+            "",
             textAlign: TextAlign.center,
             style: TextStyle(color: AppColors.blue, fontSize: 15),
           )
@@ -130,9 +126,7 @@ class TransactionDialogState extends State<TransactionDialog> {
                 Text(
                   type == TransactionType.income ? '+ ' : '-',
                   style: TextStyle(
-                    color: type == TransactionType.income
-                        ? AppColors.green
-                        : AppColors.red,
+                    color: type == TransactionType.income ? AppColors.green : AppColors.red,
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
                   ),
@@ -147,7 +141,7 @@ class TransactionDialogState extends State<TransactionDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            buildButton('', 'assets/images/share.svg', onShare),
+            buildButton(onShare),
           ],
         ),
         Padding(padding: EdgeInsets.only())

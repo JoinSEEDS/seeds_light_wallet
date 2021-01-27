@@ -15,7 +15,7 @@ class Welcome extends StatelessWidget {
       [
         OnboardingViewModel(
           bubble: Icons.done,
-          mainImage: 'assets/images/onboarding4.png',
+          mainImage: 'assets/images/onboarding/onboarding4.png',
           body: 'Your wallet almost ready - choose passcode to finish setup'.i18n,
           title: 'Welcome, %s'.i18n.fill(["$accountName"]),
         ),
