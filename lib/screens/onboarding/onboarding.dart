@@ -10,7 +10,7 @@ class Onboarding extends StatelessWidget {
   final List<PageViewModel> featurePages = [
     OnboardingViewModel.rich(
       bubble: null,
-      mainImage: 'assets/images/onboarding1.png',
+      mainImage: 'assets/images/onboarding/onboarding1.png',
       body: [
         TextSpan(
           text: "Make payments globally without any fees. Earn rewards when you support 'regenerative' organisations and people.".i18n,
@@ -21,7 +21,7 @@ class Onboarding extends StatelessWidget {
     ),
     OnboardingViewModel.rich(
       bubble: null,
-      mainImage: 'assets/images/onboarding2.png',
+      mainImage: 'assets/images/onboarding/onboarding2.png',
       body: [
         //TextSpan(text: 'Heal our planet, grow the community and get rewarded for it.'),
         TextSpan(
@@ -33,7 +33,7 @@ class Onboarding extends StatelessWidget {
     ),
     OnboardingViewModel.rich(
       bubble: null,
-      mainImage: 'assets/images/onboarding3.png',
+      mainImage: 'assets/images/onboarding/onboarding3.png',
       body: [
         TextSpan(
           text: 'Unite with a global movement of organisations and people to regenerate our planet and heal our economy.'.i18n, 

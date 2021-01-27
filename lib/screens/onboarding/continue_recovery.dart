@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
@@ -12,15 +12,8 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/notion_loader.dart';
 import 'package:seeds/widgets/second_button.dart';
 import 'package:share/share.dart';
-import 'package:seeds/i18n/wallet.i18n.dart';
 
-enum RecoveryStatus {
-  loading,
-  waitingConfirmations,
-  waitingTimelock,
-  claimReady,
-  noGuardiansFound
-}
+enum RecoveryStatus { loading, waitingConfirmations, waitingTimelock, claimReady, noGuardiansFound }
 
 class ContinueRecovery extends StatefulWidget {
   final Function onClaimed;
@@ -63,8 +56,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
           int guardians;
           int timeLockSeconds = 0;
 
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
             recoversModel = snapshot.data[0];
             guardiansModel = snapshot.data[1];
 
@@ -91,16 +83,14 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                 confirmedGuardianSignatures = recoversModel.guardians.length;
 
                 // check how long we have to wait before we can claim (24h delay is standard)
-                timeLockSeconds = recoversModel.completeTimestamp +
-                    guardiansModel.timeDelaySec;
+                timeLockSeconds = recoversModel.completeTimestamp + guardiansModel.timeDelaySec;
 
                 // for 3 signers, we need 2/3 signatures. For 4 or 5 signers, we need 3+ signatures.
                 if ((guardians == 3 && confirmedGuardianSignatures >= 2) ||
                     (guardians > 3 && confirmedGuardianSignatures >= 3)) {
                   status = RecoveryStatus.waitingTimelock;
 
-                  if (timeLockSeconds <=
-                      DateTime.now().millisecondsSinceEpoch / 1000) {
+                  if (timeLockSeconds <= DateTime.now().millisecondsSinceEpoch / 1000) {
                     status = RecoveryStatus.claimReady;
                   }
                 }
@@ -157,10 +147,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               currentWidget = Column(
                 children: [
                   Text("Waiting for time lock",
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "worksans")),
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
                   Text(
                     "Recover your account in",
                     style: TextStyle(
@@ -187,10 +174,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
 
             case RecoveryStatus.noGuardiansFound:
               currentWidget = Text("No guardians found for $accountName",
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "worksans"));
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans"));
               break;
 
             default:
@@ -221,10 +205,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
     return Column(
       children: [
         Text("Account recovered $accountName",
-            style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w400,
-                fontFamily: "worksans")),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
         Padding(
           padding: const EdgeInsets.only(top: 24),
           child: MainButton(
@@ -240,14 +221,13 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
     return Column(
       children: [
         Text("Your account has been recovered",
-            style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w400,
-                fontFamily: "worksans")),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
         Padding(
           padding: const EdgeInsets.all(24),
-          child: SvgPicture.asset('assets/images/success.svg',
-              color: Colors.greenAccent),
+          child: Icon(
+            Icons.check_circle,
+            color: Colors.greenAccent,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 24),
@@ -299,12 +279,10 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
       canClaim = true;
     });
 
-    String accountName =
-        SettingsNotifier.of(context, listen: false).accountName;
+    String accountName = SettingsNotifier.of(context, listen: false).accountName;
 
     try {
-      await EosService.of(context, listen: false)
-          .claimRecoveredAccount(accountName);
+      await EosService.of(context, listen: false).claimRecoveredAccount(accountName);
 
       setState(() {
         recovering = false;
@@ -364,9 +342,8 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
             },
           ),
           secondChild: Text("Creating link..."),
-          crossFadeState: snapshot.connectionState == ConnectionState.done
-              ? CrossFadeState.showFirst
-              : CrossFadeState.showSecond,
+          crossFadeState:
+              snapshot.connectionState == ConnectionState.done ? CrossFadeState.showFirst : CrossFadeState.showSecond,
         );
       },
     );
@@ -378,13 +355,11 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
 
     print("GR acct $accountName $pKey");
 
-    String publicKey =
-        EOSPrivateKey.fromString(pKey).toEOSPublicKey().toString();
+    String publicKey = EOSPrivateKey.fromString(pKey).toEOSPublicKey().toString();
 
     print("oublic $publicKey");
 
-    String link = await EosService.of(context, listen: false)
-        .generateRecoveryRequest(accountName, publicKey);
+    String link = await EosService.of(context, listen: false).generateRecoveryRequest(accountName, publicKey);
 
     return link;
   }
@@ -411,8 +386,7 @@ class CountdownClockState extends State<CountdownClock> {
   }
 
   int secondsRemaining() {
-    return (widget.toTime - DateTime.now().millisecondsSinceEpoch / 1000)
-        .round();
+    return (widget.toTime - DateTime.now().millisecondsSinceEpoch / 1000).round();
   }
 
   void startTimer() {
@@ -448,14 +422,13 @@ class CountdownClockState extends State<CountdownClock> {
     Duration duration = Duration(seconds: seconds);
     String waitString =
         "${duration.inHours}:${duration.inMinutes.remainder(60).twoDigits()}:${(duration.inSeconds.remainder(60).twoDigits())}";
-    return Text("$waitString",
-        style: TextStyle(
-            fontSize: 24, fontWeight: FontWeight.w600, fontFamily: "worksans"));
+    return Text("$waitString", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, fontFamily: "worksans"));
   }
 }
 
 extension TwoDigitInt on num {
   static var format = NumberFormat("00");
+
   String twoDigits() {
     return format.format(this);
   }

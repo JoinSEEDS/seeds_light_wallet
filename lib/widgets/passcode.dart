@@ -5,25 +5,25 @@ import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/features/biometrics/auth_commands.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
+import 'package:seeds/features/biometrics/auth_commands.dart';
+import 'package:seeds/i18n/widgets.i18n.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/i18n/widgets.i18n.dart';
 
 Widget buildPasscodeScreen({
-  shouldTriggerVerification,
-  passwordEnteredCallback,
-  isValidCallback,
-  cancelCallback,
-  title,
+  Stream<bool> shouldTriggerVerification,
+  PasswordEnteredCallback passwordEnteredCallback,
+  IsValidCallback isValidCallback,
+  CancelCallback cancelCallback,
+  Widget title,
   Widget bottomWidget,
 }) {
   return PasscodeScreen(
+    cancelButton: SizedBox.shrink(),
+    deleteButton: Text("Delete".i18n, style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w300)),
     passwordDigits: 4,
     title: title,
-    cancelLocalizedText: "",
-    deleteLocalizedText: 'Delete'.i18n,
     backgroundColor: AppColors.blue,
     shouldTriggerVerification: shouldTriggerVerification,
     passwordEnteredCallback: passwordEnteredCallback,
@@ -35,13 +35,15 @@ Widget buildPasscodeScreen({
 }
 
 class UnlockWallet extends StatelessWidget {
-  final StreamController<bool> _verificationNotifier =
-      StreamController<bool>.broadcast();
+  final StreamController<bool> _verificationNotifier = StreamController<bool>.broadcast();
 
   @override
   Widget build(BuildContext context) {
     return buildPasscodeScreen(
-      title: "Enter Passcode".i18n,
+      title: Text(
+        "Enter Passcode".i18n,
+        style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w300),
+      ),
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) async {
         if (passcode == SettingsNotifier.of(context).passcode) {
@@ -59,8 +61,7 @@ class UnlockWallet extends StatelessWidget {
 }
 
 class LockWallet extends StatelessWidget {
-  final StreamController<bool> _verificationNotifier =
-      StreamController<bool>.broadcast();
+  final StreamController<bool> _verificationNotifier = StreamController<bool>.broadcast();
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,8 @@ class LockWallet extends StatelessWidget {
         height: MediaQuery.of(context).size.height + disableBoxHeight,
         width: double.infinity,
         child: buildPasscodeScreen(
-          title: "Choose Passcode".i18n,
+          title: Text("Choose Passcode".i18n,
+              style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w300)),
           shouldTriggerVerification: _verificationNotifier.stream,
           passwordEnteredCallback: (passcode) {
             _verificationNotifier.add(true);
@@ -95,11 +97,7 @@ class LockWallet extends StatelessWidget {
                 child: Text(
                   "Disable Passcode".i18n,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w300
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w300),
                 ),
               ),
               onPressed: () {

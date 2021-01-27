@@ -26,7 +26,7 @@ class ShowInvite extends StatelessWidget {
         [
           OnboardingViewModel(
             bubble: Icons.done,
-            mainImage: 'assets/images/onboarding5.png',
+            mainImage: 'assets/images/onboarding/onboarding5.png',
             body: 'Accept your invite to create a new account and join SEEDS'.i18n,
             title: 'You are invited by %s'.i18n.fill(["$inviterAccountName"]),
           ),

@@ -184,10 +184,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   Widget buildAppBar(BuildContext _context) {
-    var svgPicture = SvgPicture.asset(
-      'assets/images/qr-code.svg',
-      color: Colors.black,
-    );
     return AppBar(
       title: Text(
         navigationTabs[index].title,
@@ -195,7 +191,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       ),
       centerTitle: true,
       actions: <Widget>[
-        IconButton(icon: svgPicture, onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+        IconButton(icon: Icon(Icons.qr_code_scanner), onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
       ],
       backgroundColor: Colors.transparent,
       elevation: 0.0,
