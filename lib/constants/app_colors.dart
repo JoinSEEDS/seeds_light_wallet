@@ -16,6 +16,14 @@ const Color primary = MaterialColor(_primaryValue, {
 });
 
 class AppColors {
+  // NEW COLORS, ASK GERY BEFORE ADDING A NEW COLOR
+  static const neonGreen = Color(0xFF2EE53F);
+  static const neonRed = Color(0xFFFF2919);
+  static const white = Color(0xFFFFFFFF);
+  static const black = Color(0xFF000000);
+  static const softGreen = Color(0xFFC2F2C6);
+
+  // DEPRECATED COLORS. DO NOT USE THESE COLORS ANYMORE
   static const purple = Color(0xFF5719FF);
 
   static const lightBlue = Color.fromRGBO(61, 179, 158, 1);
@@ -24,7 +32,7 @@ class AppColors {
   static const black50 = Color.fromRGBO(0, 0, 0, 0.5);
 
   static const lightGreen = Colors.lightGreen;
-  
+
   static const green = Color(0xFF59B293);
   static const grey = Color(0xFF6C6C6C);
 
