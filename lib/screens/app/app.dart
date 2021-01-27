@@ -164,22 +164,20 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        backgroundColor: Color(0xFAFAFAFA),
-        appBar: buildAppBar(context),
-        body: buildPageView(),
-        bottomNavigationBar: StreamBuilder<bool>(
-            stream: FirebaseDatabaseService()
-                .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
-            builder: (context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot != null && snapshot.hasData) {
-                return buildNavigation(snapshot.data);
-              } else {
-                return buildNavigation(false);
-              }
-            }),
-      ),
+    return Scaffold(
+      backgroundColor: Color(0xFAFAFAFA),
+      appBar: buildAppBar(context),
+      body: buildPageView(),
+      bottomNavigationBar: StreamBuilder<bool>(
+          stream: FirebaseDatabaseService()
+              .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
+          builder: (context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot != null && snapshot.hasData) {
+              return buildNavigation(snapshot.data);
+            } else {
+              return buildNavigation(false);
+            }
+          }),
     );
   }
 
