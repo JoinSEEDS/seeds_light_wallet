@@ -21,7 +21,7 @@ class HttpService {
       {String accountName,
       String nodeEndpoint,
       bool enableMockResponse = false}) {
-    nodeEndpoint = nodeEndpoint;
+    baseURL = nodeEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
