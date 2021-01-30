@@ -42,6 +42,7 @@ class ConnectionNotifier extends ChangeNotifier {
     responses.sort((a, b) => a.ping - b.ping);
 
     currentEndpoint = responses[0].url;
+    print("setting endpoint to ${responses[0].url}");
     currentEndpointPing = responses[0].ping;
     notifyListeners();
 
@@ -59,7 +60,7 @@ class ConnectionNotifier extends ChangeNotifier {
         return Endpoint(endpoint, infinitePing);
       }
     } catch (err) {
-      print("error pinging: " + err);
+      print("error pinging: ${err.toString()}");
       return Endpoint(endpoint, doubleInfinitePing);
     }
   }
