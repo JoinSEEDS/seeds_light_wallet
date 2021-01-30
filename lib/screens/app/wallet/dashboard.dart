@@ -126,6 +126,7 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
+  //will fix here
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -136,7 +137,9 @@ class _DashboardState extends State<Dashboard> {
               children: <Widget>[
                 buildNotification(),
                 buildHeader(),
+                buildSendReceiveButton(),
                 buildTransactions(),
+
               ],
             )),
       ),
@@ -487,6 +490,81 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildSendReceiveButton() {
+    final double width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final double textScaleFactor = width >= 320 ? 1.0 : 0.8;
+
+    return Padding(
+      padding: EdgeInsets.only(left: 4, right: 4 ,top: 20),
+      child: (Row(children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(right: 10),
+          height: height / 16,
+          width: width * 0.43,
+          decoration: BoxDecoration(
+              color: Colors.green,
+              //border: Border.all(color:  Colors.red),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(40),
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(4),
+                topLeft: Radius.circular(4),
+              )
+              //Radius.circular(20)
+              ),
+          child: Center(
+            child: Wrap(children: <Widget>[
+              Icon(Icons.arrow_upward , color: Colors.white,),
+              Container(
+                 padding: EdgeInsets.only(left: 4),
+                 margin: EdgeInsets.only(top: 4),
+                 child: Text( "Send", style: TextStyle(color: Colors.white)),),
+            ]),
+          ),
+        ),
+        Text("    "),
+        Container(
+          padding: EdgeInsets.only(right: 10),
+          height: height / 16,
+          width: width * 0.43,
+          decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.only(topLeft:Radius.circular(40) , bottomRight: Radius.circular(40))
+          ),
+          child: Center(
+            child: Wrap(children: <Widget>[
+              Icon(Icons.arrow_downward , color: Colors.white,),
+              Container(
+                padding: EdgeInsets.only(left: 4),
+                margin: EdgeInsets.only(top: 4),
+                child: Text( "Receive", style: TextStyle(color: Colors.white)),),
+            ]),
+          ),
+        ),
+        // Expanded(
+        //   child: EmptyButton(
+        //     width: width * 0.33,
+        //     title: 'Send'.i18n,
+        //     color: Colors.black,
+        //     onPressed: onTransfer,
+        //     textScaleFactor: textScaleFactor,
+        //   ),
+        // ),
+        // Text("      "),
+        // Expanded(
+        //   child: EmptyButton(
+        //     width: width * 0.33,
+        //     title: 'Receive'.i18n,
+        //     color: Colors.black,
+        //     onPressed: onReceive,
+        //     textScaleFactor: textScaleFactor,
+        //   ),
+        // ),
+      ])),
     );
   }
 }
