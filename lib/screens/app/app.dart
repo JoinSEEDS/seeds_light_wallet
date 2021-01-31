@@ -38,15 +38,15 @@ bool connected = true;
 class _AppState extends State<App> with WidgetsBindingObserver {
   final navigationTabs = [
     NavigationTab(
-      title: "Explore".i18n,
-      icon: 'assets/images/ecosystem.svg',
-      screenBuilder: () => Ecosystem(),
-      index: 0,
-    ),
-    NavigationTab(
       title: "Wallet".i18n,
       icon: 'assets/images/wallet.svg',
       screenBuilder: () => Wallet(),
+      index: 0,
+    ),
+    NavigationTab(
+      title: "Explore".i18n,
+      icon: 'assets/images/ecosystem.svg',
+      screenBuilder: () => Ecosystem(),
       index: 1,
     ),
     NavigationTab(
@@ -59,8 +59,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   final StreamController<String> changePageNotifier = StreamController<String>.broadcast();
 
-  int index = 1;
-  PageController pageController = PageController(initialPage: 1, keepPage: true);
+  int index = 0;
+  PageController pageController = PageController(initialPage: 0, keepPage: true);
 
   @override
   void initState() {
@@ -70,10 +70,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       int pageIndex;
 
       switch (page) {
-        case "Explore":
+        case "Wallet":
           pageIndex = 0;
           break;
-        case "Wallet":
+        case "Explore":
           pageIndex = 1;
           break;
         case "Profile":
@@ -256,10 +256,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       onTap: (index) {
         switch (index) {
           case 0:
-            changePageNotifier.add("Explore");
+            changePageNotifier.add("Wallet");
             break;
           case 1:
-            changePageNotifier.add("Wallet");
+            changePageNotifier.add("Explore");
             break;
           case 2:
             changePageNotifier.add("Profile");
