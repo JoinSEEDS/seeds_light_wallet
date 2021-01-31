@@ -66,7 +66,6 @@ class HttpService {
       final recovery = UserRecoversModel.fromTableRows(rows);
 
       return recovery;
-
     } catch (error) {
       print("Error fetching recovers: ${error.toString()}");
       return null;
@@ -74,7 +73,6 @@ class HttpService {
   }
 
   Future<UserGuardiansModel> getAccountGuardians(String accountName) async {
-
     print("[http] get account guardians");
     try {
       if (mockResponse == true) {
@@ -82,17 +80,18 @@ class HttpService {
       }
 
       List<dynamic> rows = await getTableRows(
-          code: "guard.seeds", scope: "guard.seeds", table: "guards", value: accountName);
+          code: "guard.seeds",
+          scope: "guard.seeds",
+          table: "guards",
+          value: accountName);
 
       final guardians = UserGuardiansModel.fromTableRows(rows);
 
       return guardians;
-
-    } catch(error) {
+    } catch (error) {
       print("Error fetching account guardians: ${error.toString()}");
       return null;
     }
-
   }
 
   Future<ProfileModel> getProfile() async {
@@ -148,6 +147,40 @@ class HttpService {
     } else {
       print('Cannot fetch account permissions...');
       return List<Permission>();
+    }
+  }
+
+  Future<List<String>> getKeyAccountsMongo(String publicKey) async {
+    var headers = {'Content-Type': 'application/json'};
+    var body =
+        '''
+        {
+          "collection": "pub_keys",
+          "query": {
+            "public_key": "$publicKey"\n    
+          },
+          "limit": 100
+        }
+        ''';
+
+    Response res = await post(Uri.parse('https://mongo-api.hypha.earth/find'), headers: headers, body: body);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      print("result: $body");
+      var items = List<Map<String, dynamic>>.from(body["items"]).where((item) => item["permission"] == "active" || item["permission"] == "owner");
+      List<String> result = items
+          .map<String>((item) => item["account"])
+          .toSet()
+          .toList();
+
+      result.sort();
+
+      return result;
+    } else {
+      print("Error fetching accounts: ${res.reasonPhrase}");
+      return [];
     }
   }
 
@@ -618,7 +651,8 @@ class HttpService {
     }
   }
 
-  Future<List<ProposalModel>> getProposals(String stage, String status, bool reverse) async {
+  Future<List<ProposalModel>> getProposals(
+      String stage, String status, bool reverse) async {
     print("[http] get proposals: stage = [$stage]");
 
     if (mockResponse == true) {
@@ -646,7 +680,6 @@ class HttpService {
           activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
 
       return reverse ? List<ProposalModel>.from(proposals.reversed) : proposals;
-
     } else {
       print('Cannot fetch proposals...');
 
