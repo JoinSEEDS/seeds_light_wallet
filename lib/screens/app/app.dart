@@ -207,47 +207,37 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex, bool profileNotification) {
-    final width = MediaQuery.of(context).size.width * 0.21;
     return BottomNavigationBarItem(
-        icon: Stack(children: <Widget>[
-          Container(
-            width: width,
-            decoration: tabIndex == index
-                ? BoxDecoration(
-                    gradient: LinearGradient(colors: AppColors.gradient),
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)))
-                : BoxDecoration(),
-            padding: EdgeInsets.only(top: 7, left: 3, right: 3),
-            child: SvgPicture.asset(
+        icon: Padding(
+          padding: EdgeInsets.only(bottom: 2),
+          child: Stack(overflow: Overflow.visible, children: <Widget>[
+            SvgPicture.asset(
               icon,
-              color: tabIndex == index ? Colors.white : AppColors.grey,
+              color: tabIndex == index ? Colors.black : AppColors.grey,
             ),
-          ),
-          title == "Profile"
-              ? profileNotification
-                  ? Positioned(
-                      child: guardianNotification(profileNotification),
-                      right: 6,
-                      top: 2,
-                    )
-                  : SizedBox.shrink()
-              : SizedBox.shrink()
-        ]),
+            title == "Profile"
+                ? profileNotification
+                    ? Positioned(
+                        child: guardianNotification(profileNotification),
+                        right: 6,
+                        top: 2,
+                      )
+                    : SizedBox.shrink()
+                : SizedBox.shrink()
+          ]),
+        ),
         // Note - wait for redesign of app to change this.
         // ignore: deprecated_member_use
-        title: Container(
-            width: width,
-            alignment: Alignment.center,
-            decoration: tabIndex == index
-                ? BoxDecoration(
-                    gradient: LinearGradient(colors: AppColors.gradient),
-                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(8), bottomLeft: Radius.circular(8)))
-                : BoxDecoration(),
-            padding: EdgeInsets.only(bottom: 5, top: 2, left: 3, right: 3),
-            child: Text(
-              title,
-              style: TextStyle(color: tabIndex == index ? Colors.white : AppColors.grey, fontSize: 12),
-            )));
+        title: tabIndex == index
+            ? Icon(
+                Icons.circle,
+                size: 6,
+              )
+            : Icon(
+                Icons.circle,
+                size: 6,
+                color: Colors.white,
+              ));
   }
 
   Widget buildNavigation(bool showGuardianNotification) {
