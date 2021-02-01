@@ -61,6 +61,6 @@ class CartModel {
 
   int get itemCount => lineItems.fold(0, (p, e) => p + e.quantity);
 
-  double get total => lineItems.isEmpty ? customAmount : lineItems.fold(0, (p, e) => p + e.seedsPrice(currencyConverter) * e.quantity);
+  double get total => lineItems.isEmpty ? customAmount : lineItems.fold(0, (p, e) => p + e.seedsPrice(currencyConverter));
 
 }
