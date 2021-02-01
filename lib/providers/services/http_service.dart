@@ -453,7 +453,6 @@ class HttpService {
 
     final String daoURL = "$baseURL/v1/chain/get_table_rows";
 
-    String request =
     String request = '''
     {
       "json": true,
