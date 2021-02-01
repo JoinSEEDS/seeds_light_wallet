@@ -1,29 +1,21 @@
 import 'package:flutter/material.dart';
 
-const _primaryValue = 0xff2B4835;
+const _primaryValue = 0xff34cba5;
 
 const Color primary = MaterialColor(_primaryValue, {
-  50: Color(0xffeaedeb),
-  100: Color(0xffd5dad7),
-  200: Color(0xffaab6ae),
-  300: Color(0xff809186),
-  400: Color(0xff556d5d),
+  50: Color(0xffebfaf6),
+  100: Color(0xffd6f5ed),
+  200: Color(0xffaeeadb),
+  300: Color(0xff85e0c9),
+  400: Color(0xff5dd5b7),
   500: Color(_primaryValue),
-  600: Color(0xff274130),
-  700: Color(0xff223a2a),
-  800: Color(0xff1e3225),
-  900: Color(0xff1a2b20)
+  600: Color(0xff2aa284),
+  700: Color(0xff1f7a63),
+  800: Color(0xff155142),
+  900: Color(0xff0a2921)
 });
 
 class AppColors {
-  // NEW COLORS, ASK GERY BEFORE ADDING A NEW COLOR
-  static const neonGreen = Color(0xFF2EE53F);
-  static const neonRed = Color(0xFFFF2919);
-  static const white = Color(0xFFFFFFFF);
-  static const black = Color(0xFF000000);
-  static const softGreen = Color(0xFFC2F2C6);
-
-  // DEPRECATED COLORS. DO NOT USE THESE COLORS ANYMORE
   static const purple = Color(0xFF5719FF);
 
   static const lightBlue = Color.fromRGBO(61, 179, 158, 1);
@@ -32,6 +24,9 @@ class AppColors {
   static const black50 = Color.fromRGBO(0, 0, 0, 0.5);
 
   static const lightGreen = Colors.lightGreen;
+
+  // static const green = Color(0xFF2eb592);
+  // static const grey = Color(0xFF9d9d9d);
 
   static const green = Color(0xFF59B293);
   static const grey = Color(0xFF6C6C6C);
