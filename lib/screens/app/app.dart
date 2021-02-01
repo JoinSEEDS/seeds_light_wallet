@@ -187,7 +187,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     return AppBar(
       title: Text(
         navigationTabs[index].title,
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Colors.black87),
       ),
       centerTitle: true,
       actions: <Widget>[
