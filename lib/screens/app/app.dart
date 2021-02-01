@@ -39,19 +39,19 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   final navigationTabs = [
     NavigationTab(
       title: "Wallet".i18n,
-      icon: 'assets/images/navigationbar/wallet.svg',
+      icon: 'assets/images/navigation_bar/wallet.svg',
       screenBuilder: () => Wallet(),
       index: 0,
     ),
     NavigationTab(
       title: "Explore".i18n,
-      icon: 'assets/images/navigationbar/explore.svg',
+      icon: 'assets/images/navigation_bar/explore.svg',
       screenBuilder: () => Ecosystem(),
       index: 1,
     ),
     NavigationTab(
       title: "Profile".i18n,
-      icon: 'assets/images/navigationbar/user_profile.svg',
+      icon: 'assets/images/navigation_bar/user_profile.svg',
       screenBuilder: () => Profile(),
       index: 2,
     ),
