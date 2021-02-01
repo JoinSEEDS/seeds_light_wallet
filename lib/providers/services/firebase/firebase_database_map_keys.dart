@@ -25,3 +25,5 @@ const String PRODUCT_CURRENCY_KEY = "productCurrency";
 const String PRODUCT_POSITION_KEY = "position";
 
 const String PENDING_NOTIFICATIONS_KEY = "pendingNotifications";
+
+const String USER_PHONE_NUMBER_KEY = "phoneNumber";
