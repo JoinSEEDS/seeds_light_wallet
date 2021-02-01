@@ -33,6 +33,14 @@ class FirebaseDatabaseService {
     return _usersCollection.doc(userId).set(data, SetOptions(merge: true));
   }
 
+  Future<void> saveUserPhoneNumber(String userId, phoneNumber) {
+    Map<String, Object> data = {
+      USER_PHONE_NUMBER_KEY: phoneNumber,
+    };
+
+    return _usersCollection.doc(userId).set(data, SetOptions(merge: true));
+  }
+
   Future<void> removeFirebaseMessageToken(String userId) {
     List<String> tokens = [PushNotificationService().token];
     Map<String, Object> data = {

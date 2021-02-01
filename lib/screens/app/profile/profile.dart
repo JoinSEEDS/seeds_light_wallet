@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/models/firebase/firebase_user.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
@@ -33,6 +34,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
   File _profileImage;
   var savingLoader = GlobalKey<MainButtonState>();
   final picker = ImagePicker();
@@ -40,13 +42,22 @@ class _ProfileState extends State<Profile> {
   @override
   initState() {
     var cachedProfile = ProfileNotifier.of(context).profile;
-    if (cachedProfile != null) _nameController.text = cachedProfile.nickname;
+    FirebaseDatabaseService().getUserData(SettingsNotifier.of(context).accountName).listen((FirebaseUser userData) {
+      if (userData.phoneNumber != null) {
+        _phoneController.text = userData.phoneNumber;
+      }
+    });
+
+    if (cachedProfile != null) {
+      _nameController.text = cachedProfile.nickname;
+    }
 
     Future.delayed(Duration.zero).then((_) {
       ProfileNotifier.of(context).fetchProfile().then((profile) {
         _nameController.text = profile.nickname;
       });
     });
+
     super.initState();
   }
 
@@ -170,18 +181,37 @@ class _ProfileState extends State<Profile> {
                   padding: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0),
                   child: Form(
                     key: _formKey,
-                    child: MainTextField(
-                        labelText: "Full Name".i18n,
-                        hintText: 'Enter your name'.i18n,
-                        autocorrect: false,
-                        controller: _nameController,
-                        validator: (String val) {
-                          String error;
-                          if (val.isEmpty) {
-                            error = "Name cannot be empty".i18n;
-                          }
-                          return error;
-                        }),
+                    child: Column(
+                      children: [
+                        MainTextField(
+                            labelText: "Full Name".i18n,
+                            hintText: 'Enter your name'.i18n,
+                            autocorrect: false,
+                            controller: _nameController,
+                            validator: (String val) {
+                              String error;
+                              if (val.isEmpty) {
+                                error = "Name cannot be empty".i18n;
+                              }
+                              return error;
+                            }),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: MainTextField(
+                              labelText: "Phone Number",
+                              hintText: 'Enter your phone number',
+                              autocorrect: false,
+                              controller: _phoneController,
+                              validator: (String val) {
+                                String error;
+                                if (val.isEmpty) {
+                                  error = "Phone number cannot be empty";
+                                }
+                                return error;
+                              }),
+                        ),
+                      ],
+                    ),
                   )),
               Padding(
                 padding: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0),
@@ -364,6 +394,8 @@ class _ProfileState extends State<Profile> {
         interests: '',
       );
 
+      FirebaseDatabaseService().saveUserPhoneNumber(profile.nickname, _phoneController.text);
+
       final snackBar = SnackBar(
         content: Row(
           children: <Widget>[
@@ -430,14 +462,13 @@ class _ProfileState extends State<Profile> {
         padding: EdgeInsets.only(top: 50.0),
         child: FlatButton(
           color: Colors.white,
-          child: Stack(overflow: Overflow.visible,
-              children: <Widget>[
-                Text(
-                  'Key Guardians'.i18n,
-                  style: TextStyle(color: Colors.blue),
-                ),
-                Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification(showGuardianNotification))
-              ]),
+          child: Stack(overflow: Overflow.visible, children: <Widget>[
+            Text(
+              'Key Guardians'.i18n,
+              style: TextStyle(color: Colors.blue),
+            ),
+            Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification(showGuardianNotification))
+          ]),
           onPressed: () {
             if (showGuardianNotification) {
               FirebaseDatabaseService().removeGuardianNotification(SettingsNotifier.of(context).accountName);
