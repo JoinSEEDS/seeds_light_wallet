@@ -494,14 +494,19 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget buildSendReceiveButton() {
+
     final double width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     final double textScaleFactor = width >= 320 ? 1.0 : 0.8;
-    final double widthFactor = width / 2.3;
-    final double heightFactor = height / 16.9;
+    // 2.37 comes from original screen width 375 / 158 original button width.(Provided on figma file)
+    final double widthFactor = width / 2.37;
+    // 0.304 comes form original button height 48 / 158 original button width.
+    final double heightFactor = (widthFactor * 0.304);
+    final double heightRadiusFactor = heightFactor / 1.37;
+    final double widthRadiusFactor = widthFactor / 45.14;
+
 
     return Padding(
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: 20 , right: 4, left: 4 ),
       child: (Row(children: <Widget>[
         GestureDetector(
           onTap: onTransfer,
@@ -512,10 +517,10 @@ class _DashboardState extends State<Dashboard> {
             decoration: BoxDecoration(
                 color: Colors.green,
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(40),
-                  bottomLeft: Radius.circular(40),
-                  bottomRight: Radius.circular(4),
-                  topLeft: Radius.circular(4),
+                  topRight: Radius.circular(heightRadiusFactor),
+                  bottomLeft: Radius.circular(heightRadiusFactor),
+                  bottomRight: Radius.circular(widthRadiusFactor),
+                  topLeft: Radius.circular(widthRadiusFactor),
                 )),
             child: Center(
               child: Wrap(children: <Widget>[
@@ -540,12 +545,12 @@ class _DashboardState extends State<Dashboard> {
             height: heightFactor,
             width: widthFactor,
             decoration: BoxDecoration(
-                color: AppColors.lightGreen,
+                color: Colors.green,
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(4),
-                  bottomLeft: Radius.circular(4),
-                  bottomRight: Radius.circular(40),
-                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(widthRadiusFactor),
+                  bottomLeft: Radius.circular(widthRadiusFactor ),
+                  bottomRight: Radius.circular(heightRadiusFactor),
+                  topLeft: Radius.circular(heightRadiusFactor),
                 )),
             child: Center(
               child: Wrap(children: <Widget>[
