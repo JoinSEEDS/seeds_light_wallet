@@ -529,8 +529,7 @@ class _DashboardState extends State<Dashboard> {
                   color: Colors.white,
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 4),
-                  margin: EdgeInsets.only(top: 4),
+                  padding: EdgeInsets.only(left: 4 , top: 4),
                   child: Text('Send'.i18n, style: TextStyle(color: Colors.white), textScaleFactor: textScaleFactor),
                 ),
               ]),
@@ -559,8 +558,7 @@ class _DashboardState extends State<Dashboard> {
                   color: Colors.white,
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 4),
-                  margin: EdgeInsets.only(top: 4),
+                  padding: EdgeInsets.only(left: 4,top: 4),
                   child: Text('Receive'.i18n, style: TextStyle(color: Colors.white), textScaleFactor: textScaleFactor),
                 ),
               ]),
