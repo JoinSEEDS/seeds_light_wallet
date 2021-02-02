@@ -164,22 +164,20 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        backgroundColor: Color(0xFAFAFAFA),
-        appBar: buildAppBar(context),
-        body: buildPageView(),
-        bottomNavigationBar: StreamBuilder<bool>(
-            stream: FirebaseDatabaseService()
-                .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
-            builder: (context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot != null && snapshot.hasData) {
-                return buildNavigation(snapshot.data);
-              } else {
-                return buildNavigation(false);
-              }
-            }),
-      ),
+    return Scaffold(
+      backgroundColor: Color(0xFAFAFAFA),
+      appBar: buildAppBar(context),
+      body: buildPageView(),
+      bottomNavigationBar: StreamBuilder<bool>(
+          stream: FirebaseDatabaseService()
+              .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
+          builder: (context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot != null && snapshot.hasData) {
+              return buildNavigation(snapshot.data);
+            } else {
+              return buildNavigation(false);
+            }
+          }),
     );
   }
 
@@ -187,11 +185,16 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     return AppBar(
       title: Text(
         navigationTabs[index].title,
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Colors.black87),
       ),
       centerTitle: true,
       actions: <Widget>[
-        IconButton(icon: Icon(Icons.qr_code_scanner), onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+        Padding(
+          padding: const EdgeInsets.only(right:17),
+          child: IconButton(
+            icon: Icon(Icons.qr_code_scanner, color: Colors.black, size: 33,),   
+            onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+        ),
       ],
       backgroundColor: Colors.transparent,
       elevation: 0.0,

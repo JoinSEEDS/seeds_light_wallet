@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 1.4.0+28
+version: 1.4.2+32
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -118,6 +118,8 @@ flutter:
     # w700 Bold
     # w800 Extra-bold
     # w900 Black, the most thick
+
+      #DEPRECATED - DO NOT USE (worksans)
     - family: worksans
       fonts:
         - asset: assets/fonts/worksans/WorkSans-Thin.ttf
@@ -137,4 +139,25 @@ flutter:
         - asset: assets/fonts/worksans/WorkSans-ExtraBold.ttf
           weight: 800
         - asset: assets/fonts/worksans/WorkSans-Black.ttf
+          weight: 900
+
+    - family: SFProDisplay
+      fonts:
+        - asset: assets/fonts/SFProDisplay/SFProDisplay-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/SFProDisplay/SFProDisplay-UltraLight.ttf
+          weight: 200
+        - asset: assets/fonts/SFProDisplay/SFProDisplay-Light.ttf
+          weight: 300
+        - asset: assets/fonts/SFProDisplay/SFProDisplay-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SFProDisplay/SFProDisplay-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/SFProDisplay/SFProDisplay-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/SFProDisplay/SFProDisplay-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/SFProDisplay/SFProDisplay-Heavy.ttf
+          weight: 800
+        - asset: assets/fonts/SFProDisplay/SFProDisplay-Black.ttf
           weight: 900
