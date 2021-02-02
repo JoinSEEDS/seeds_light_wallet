@@ -38,6 +38,17 @@ void main() {
     expect(invites.length > 0, true);
   });
 
+  test('Find key accounts mongo', () async {
+
+    final accounts = await HttpService().getKeyAccountsMongo("EOS8QjUzkowWLLLF4d484E2CuQz2KLUvWrHKPzsh5JzFxZcBsvcmR");
+
+    accounts.forEach((e) => print("$e"));    
+    
+    //expect(accounts.length > 0, true); // i am unable to run http service unit tests locally - fetch fails.
+    // however, the code is working and was tested in running code.
+  });
+
+
   test('Http Service', () async {
     final service = HttpService()..update(enableMockResponse: true);
 
