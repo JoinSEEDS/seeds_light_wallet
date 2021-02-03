@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-const _primaryValue = 0xff2B4835;
-
-const Color primary = MaterialColor(_primaryValue, {
-  50: Color(0xffeaedeb),
-  100: Color(0xffd5dad7),
-  200: Color(0xffaab6ae),
-  300: Color(0xff809186),
-  400: Color(0xff556d5d),
-  500: Color(_primaryValue),
-  600: Color(0xff274130),
-  700: Color(0xff223a2a),
-  800: Color(0xff1e3225),
-  900: Color(0xff1a2b20)
-});
-
 class AppColors {
   // NEW COLORS, ASK GERY BEFORE ADDING A NEW COLOR
+  static const _primaryValue = 0xff2B4835;
+
+  static const Color primary = MaterialColor(_primaryValue, {
+    50: Color(0xffeaedeb),
+    100: Color(0xffd5dad7),
+    200: Color(0xffaab6ae),
+    300: Color(0xff809186),
+    400: Color(0xff556d5d),
+    500: Color(_primaryValue),
+    600: Color(0xff274130),
+    700: Color(0xff223a2a),
+    800: Color(0xff1e3225),
+    900: Color(0xff1a2b20)
+  });
+
   static const neonGreen = Color(0xFF2EE53F);
   static const neonRed = Color(0xFFFF2919);
   static const white = Color(0xFFFFFFFF);
