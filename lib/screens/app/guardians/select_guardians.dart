@@ -225,7 +225,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                         onTap: () async {
                           if (selectedUsers.length + alreadyGuardians.length >= _MAX_GUARDIANS_ALLOWED) {
                             errorToast(
-                                "Max ${_MAX_GUARDIANS_ALLOWED - alreadyGuardians.length} guardians. Tap next to proceed"
+                                "Max ${_MAX_GUARDIANS_ALLOWED - alreadyGuardians.length} more Guardians."
                                     .i18n);
                           } else {
                             setState(() {

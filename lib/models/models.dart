@@ -194,6 +194,18 @@ class TransactionModel {
       json["trx_id"],
     );
   }
+  
+  factory TransactionModel.fromJsonMongo(Map<String, dynamic> json) {
+    return TransactionModel(
+      json["act"]["data"]["from"],
+      json["act"]["data"]["to"],
+      json["act"]["data"]["quantity"],
+      json["act"]["data"]["memo"],
+      json["block_time"],
+      json["trx_id"],
+      //json["block_num"], // can add this later - neat but changes cache structure
+    );
+  }
 
   @override
   bool operator ==(Object other) =>
