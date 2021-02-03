@@ -183,21 +183,19 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   Widget buildAppBar(BuildContext _context) {
     return AppBar(
-      title: Text(
-        navigationTabs[index].title,
-        style: TextStyle(color: Colors.black87),
-      ),
+      title: Text(navigationTabs[index].title),
       centerTitle: true,
       actions: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(right:17),
+          padding: const EdgeInsets.only(right: 17),
           child: IconButton(
-            icon: Icon(Icons.qr_code_scanner, color: Colors.black, size: 33,),   
-            onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+              icon: Icon(
+                Icons.qr_code_scanner,
+                size: 28,
+              ),
+              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
         ),
       ],
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
     );
   }
 
@@ -262,14 +260,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         }
       },
       showUnselectedLabels: true,
-      fixedColor: Colors.white,
-      unselectedItemColor: AppColors.grey,
       type: BottomNavigationBarType.fixed,
-      selectedLabelStyle: TextStyle(fontSize: 12),
-      unselectedLabelStyle: TextStyle(color: Colors.grey.withOpacity(0.7)),
-      elevation: 9,
-      selectedFontSize: 12,
-      unselectedFontSize: 12,
       items: navigationTabs
           .map(
             (tab) => buildIcon(tab.title, tab.icon, tab.index, showGuardianNotification),
