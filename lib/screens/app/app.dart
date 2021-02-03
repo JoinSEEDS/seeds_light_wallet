@@ -165,7 +165,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFAFAFAFA),
       appBar: buildAppBar(context),
       body: buildPageView(),
       bottomNavigationBar: StreamBuilder<bool>(
@@ -196,7 +195,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
         ),
       ],
-      backgroundColor: Colors.transparent,
       elevation: 0.0,
     );
   }
