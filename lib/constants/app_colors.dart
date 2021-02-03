@@ -17,11 +17,16 @@ class AppColors {
     900: Color(0xff1a2b20)
   });
 
-  static const neonGreen = Color(0xFF2EE53F);
+  static const springGreen = Color(0xFF2FF141);
+  static const jungle = Color(0xFF286932);
+  static const fern = Color(0xFF238C32);
+  static const canopy = Color(0xFF1EAF32);
+  static const seasFoam = Color(0xFF53FF9C);
+  static const pollen = Color(0xFFC7F100);
+  static const sand = Color(0xFFE9EdD9);
   static const neonRed = Color(0xFFFF2919);
   static const white = Color(0xFFFFFFFF);
   static const black = Color(0xFF000000);
-  static const softGreen = Color(0xFFC2F2C6);
 
   // DEPRECATED COLORS. DO NOT USE THESE COLORS ANYMORE
   static const purple = Color(0xFF5719FF);
