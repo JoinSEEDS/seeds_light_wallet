@@ -245,7 +245,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   Widget buildNavigation(bool showGuardianNotification) {
     return BottomNavigationBar(
-      selectedIconTheme: ,
       currentIndex: index,
       onTap: (index) {
         switch (index) {
