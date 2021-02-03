@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:path/path.dart' as pathUtils;
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -35,16 +36,19 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final picker = ImagePicker();
+  PhoneNumber number = PhoneNumber(isoCode: 'US');
+
   File _profileImage;
   var savingLoader = GlobalKey<MainButtonState>();
-  final picker = ImagePicker();
 
   @override
   initState() {
     var cachedProfile = ProfileNotifier.of(context).profile;
     FirebaseDatabaseService().getUserData(SettingsNotifier.of(context).accountName).listen((FirebaseUser userData) {
       if (userData.phoneNumber != null) {
-        _phoneController.text = userData.phoneNumber;
+        getPhoneNumber(userData.phoneNumber);
       }
     });
 
@@ -60,8 +64,6 @@ class _ProfileState extends State<Profile> {
 
     super.initState();
   }
-
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -197,18 +199,30 @@ class _ProfileState extends State<Profile> {
                             }),
                         Padding(
                           padding: const EdgeInsets.only(top: 16),
-                          child: MainTextField(
-                              labelText: "Phone Number",
-                              hintText: 'Enter your phone number',
-                              autocorrect: false,
-                              controller: _phoneController,
-                              validator: (String val) {
-                                String error;
-                                if (val.isEmpty) {
-                                  error = "Phone number cannot be empty";
-                                }
-                                return error;
-                              }),
+                          child: InternationalPhoneNumberInput(
+                            onInputChanged: (PhoneNumber number) {
+                              print(number.phoneNumber);
+                            },
+                            onInputValidated: (bool value) {
+                              print(value);
+                            },
+                            selectorConfig: SelectorConfig(
+                              selectorType: PhoneInputSelectorType.DIALOG,
+                            ),
+                            ignoreBlank: false,
+                            autoValidateMode: AutovalidateMode.onUserInteraction,
+                            selectorTextStyle: TextStyle(color: Colors.black),
+                            initialValue: number,
+                            textFieldController: _phoneController,
+                            formatInput: true,
+                            keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                            inputBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
+                            onSaved: (PhoneNumber number) {
+                              print(number);
+                              FirebaseDatabaseService()
+                                  .saveUserPhoneNumber(SettingsNotifier.of(context).accountName, number.phoneNumber);
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -283,6 +297,21 @@ class _ProfileState extends State<Profile> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _phoneController?.dispose();
+    _nameController?.dispose();
+    super.dispose();
+  }
+
+  void getPhoneNumber(String phoneNumber) async {
+    PhoneNumber number = await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber);
+
+    setState(() {
+      this.number = number;
+    });
   }
 
   void _chooseCurrencyBottomSheet() {
@@ -378,6 +407,8 @@ class _ProfileState extends State<Profile> {
 
   void _saveProfile(ProfileModel profile) async {
     savingLoader.currentState.loading();
+
+    _formKey.currentState.save();
     var attachmentUrl;
     if (_profileImage != null) {
       attachmentUrl = await _uploadFile(profile);
@@ -393,8 +424,6 @@ class _ProfileState extends State<Profile> {
         skills: '',
         interests: '',
       );
-
-      FirebaseDatabaseService().saveUserPhoneNumber(profile.nickname, _phoneController.text);
 
       final snackBar = SnackBar(
         content: Row(
