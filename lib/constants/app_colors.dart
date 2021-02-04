@@ -2,28 +2,26 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // NEW COLORS, ASK GERY BEFORE ADDING A NEW COLOR
-  static const _primaryValue = 0xff2B4835;
+  static const _primaryValue = 0xFF0F2617;
 
   static const Color primary = MaterialColor(_primaryValue, {
-    50: Color(0xffeaedeb),
-    100: Color(0xffd5dad7),
-    200: Color(0xffaab6ae),
-    300: Color(0xff809186),
-    400: Color(0xff556d5d),
+    50: Color(0xff7b887f),
+    100: Color(0xff6f7d74),
+    200: Color(0xff57675d),
+    300: Color(0xff3f5145),
+    400: Color(0xff273c2e),
     500: Color(_primaryValue),
-    600: Color(0xff274130),
-    700: Color(0xff223a2a),
-    800: Color(0xff1e3225),
-    900: Color(0xff1a2b20)
+    600: Color(0xff0d2215),
+    700: Color(0xff0c1e12),
+    800: Color(0xff0a1b10),
+    900: Color(0xff09170e)
   });
 
-  static const springGreen = Color(0xFF2FF141);
-  static const jungle = Color(0xFF286932);
+  static const springGreen = Color(0xFF1F992A);
+  static const jungle = Color(0xFF2B4835);
+  static const sand = Color(0xFFFDFFF2);
   static const fern = Color(0xFF238C32);
   static const canopy = Color(0xFF1EAF32);
-  static const seasFoam = Color(0xFF53FF9C);
-  static const pollen = Color(0xFFC7F100);
-  static const sand = Color(0xFFE9EdD9);
   static const neonRed = Color(0xFFFF2919);
   static const white = Color(0xFFFFFFFF);
   static const black = Color(0xFF000000);
