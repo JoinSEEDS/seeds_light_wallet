@@ -19,6 +19,8 @@ import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/widgets/dashboard_widgets/receive_button.dart';
+import 'package:seeds/widgets/dashboard_widgets/send_button.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
@@ -132,12 +134,14 @@ class _DashboardState extends State<Dashboard> {
     return RefreshIndicator(
       child: SingleChildScrollView(
         child: Container(
-            padding: EdgeInsets.fromLTRB(17, 0, 17, 17),
+            padding: EdgeInsets.only(right: 20, left: 20),
             child: Column(
               children: <Widget>[
                 buildNotification(),
                 buildHeader(),
+                SizedBox(height: 20),
                 buildSendReceiveButton(),
+                SizedBox(height: 20),
                 buildTransactions(),
 
               ],
@@ -494,78 +498,10 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget buildSendReceiveButton() {
-
-    final double width = MediaQuery.of(context).size.width;
-    final double textScaleFactor = width >= 320 ? 1.0 : 0.8;
-    // 2.37 comes from original screen width 375 / 158 original button width.(Provided on figma file)
-    final double widthFactor = width / 2.37;
-    // 0.304 comes form original button height 48 / 158 original button width.
-    final double heightFactor = (widthFactor * 0.304);
-    final double heightRadiusFactor = heightFactor / 1.37;
-    final double widthRadiusFactor = widthFactor / 45.14;
-
-
-    return Padding(
-      padding: EdgeInsets.only(top: 20 , right: 4, left: 4 ),
-      child: (Row(children: <Widget>[
-        GestureDetector(
-          onTap: onTransfer,
-          child: Container(
-            padding: EdgeInsets.only(right: 10),
-            height: heightFactor,
-            width: widthFactor,
-            decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(heightRadiusFactor),
-                  bottomLeft: Radius.circular(heightRadiusFactor),
-                  bottomRight: Radius.circular(widthRadiusFactor),
-                  topLeft: Radius.circular(widthRadiusFactor),
-                )),
-            child: Center(
-              child: Wrap(children: <Widget>[
-                Icon(
-                  Icons.arrow_upward,
-                  color: Colors.white,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 4 , top: 4),
-                  child: Text('Send'.i18n, style: TextStyle(color: Colors.white), textScaleFactor: textScaleFactor),
-                ),
-              ]),
-            ),
-          ),
-        ),
-        Expanded(child: Container()),
-        GestureDetector(
-          onTap: onReceive,
-          child: Container(
-            padding: EdgeInsets.only(right: 10),
-            height: heightFactor,
-            width: widthFactor,
-            decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(widthRadiusFactor),
-                  bottomLeft: Radius.circular(widthRadiusFactor ),
-                  bottomRight: Radius.circular(heightRadiusFactor),
-                  topLeft: Radius.circular(heightRadiusFactor),
-                )),
-            child: Center(
-              child: Wrap(children: <Widget>[
-                Icon(
-                  Icons.arrow_downward,
-                  color: Colors.white,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 4,top: 4),
-                  child: Text('Receive'.i18n, style: TextStyle(color: Colors.white), textScaleFactor: textScaleFactor),
-                ),
-              ]),
-            ),
-          ),
-        ),
-      ])),
-    );
+    return (Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Expanded(child: ReceiveButton(onPress: onTransfer)),
+      SizedBox(width: 20),
+      Expanded(child: SendButton(onPress: onReceive)),
+    ]));
   }
 }
