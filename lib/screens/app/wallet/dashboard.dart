@@ -22,6 +22,7 @@ import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
+import 'package:seeds/widgets/read_times_tamp.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:shimmer/shimmer.dart';
@@ -346,6 +347,7 @@ class _DashboardState extends State<Dashboard> {
         });
   }
 
+  //Fix Here
   Widget buildTransaction(TransactionModel model) {
     String userAccount = SettingsNotifier.of(context).accountName;
 
@@ -367,13 +369,6 @@ class _DashboardState extends State<Dashboard> {
                         Flexible(
                             child: Row(
                           children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 12, right: 10),
-                              child: Icon(
-                                type == TransactionType.income ? Icons.arrow_downward : Icons.arrow_upward,
-                                color: type == TransactionType.income ? AppColors.green : AppColors.red,
-                              ),
-                            ),
                             TransactionAvatar(
                               size: 40,
                               account: member.data.account,
@@ -388,16 +383,17 @@ class _DashboardState extends State<Dashboard> {
                                 child: Container(
                                     margin: EdgeInsets.only(left: 10, right: 10),
                                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
                                       Container(
                                         child: Text(
                                           member.data.nickname,
                                           maxLines: 1,
-                                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15,color: Colors.black),
                                         ),
                                       ),
                                       Container(
-                                        child: Text(
-                                          member.data.account,
+                                        child: Text(readTimestamp(model.timestamp),
+                                          //model.timestamp,
                                           maxLines: 1,
                                           style: TextStyle(color: AppColors.grey, fontSize: 13),
                                         ),
@@ -406,21 +402,26 @@ class _DashboardState extends State<Dashboard> {
                           ],
                         )),
                         Container(
-                            margin: EdgeInsets.only(left: 10, right: 15),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  type == TransactionType.income ? '+' : '-',
-                                  style: TextStyle(
-                                      color: type == TransactionType.income ? AppColors.green : AppColors.red,
-                                      fontSize: 16),
-                                ),
-                                Text(
-                                  model.quantity.seedsFormatted + " SEEDS",
-                                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
-                                )
-                              ],
-                            ))
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Container(
+                                  margin: EdgeInsets.only(left: 10, right: 15),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        model.quantity.seedsFormatted,
+                                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15,color: Colors.black),
+                                      ),
+                                      Icon(
+                                        type == TransactionType.income ? Icons.arrow_upward : Icons.arrow_downward,
+                                      ),
+                                    ],
+                                  )),
+                              Container(
+                                child: Text(" SEEDS", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15,color: Colors.black),
+                                          )
+                              ),
+                            ])),
                       ],
                     ),
                   ),
@@ -444,48 +445,44 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
+  //Fix Here
   Widget buildTransactions() {
-    final width = MediaQuery.of(context).size.width;
-    return Container(
-      width: width,
-      margin: EdgeInsets.only(bottom: 7, top: 15),
-      child: MainCard(
-        padding: EdgeInsets.only(top: 15, bottom: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-                padding: EdgeInsets.only(bottom: 3, left: 15, right: 15),
-                child: Text(
-                  'Latest transactions'.i18n,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                )),
-            Consumer<TransactionsNotifier>(
-              builder: (context, model, child) => model != null && model.transactions != null
-                  ? Column(
+    return MainCard(
+      padding: EdgeInsets.only(top: 15, bottom: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+              padding: EdgeInsets.only(bottom: 3, left: 15, right: 15),
+              child: Text(
+                'Latest transactions'.i18n,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
+              )),
+          Consumer<TransactionsNotifier>(
+            builder: (context, model, child) => model != null && model.transactions != null
+                ? Column(
+                    children: <Widget>[
+                      ...model.transactions.map((trx) {
+                        return buildTransaction(trx);
+                      }).toList()
+                    ],
+                  )
+                : Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.grey[100],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        ...model.transactions.map((trx) {
-                          return buildTransaction(trx);
-                        }).toList()
+                        Container(
+                          height: 16,
+                          color: Colors.black,
+                          margin: EdgeInsets.only(left: 10, right: 10),
+                        ),
                       ],
-                    )
-                  : Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            height: 16,
-                            color: Colors.white,
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                          ),
-                        ],
-                      ),
                     ),
-            ),
-          ],
-        ),
+                  ),
+          ),
+        ],
       ),
     );
   }

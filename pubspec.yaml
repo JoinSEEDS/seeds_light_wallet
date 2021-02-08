@@ -22,7 +22,7 @@ dependencies:
   shared_preferences: ^0.5.6+1
   flutter_secure_storage: ^3.3.2
   local_auth: ^0.6.2+3
-  timeago: ^2.0.26
+  timeago: ^2.0.29
   cached_network_image: ^2.0.0
   intro_views_flutter:
     git: git://github.com/n13/IntroViews-Flutter
