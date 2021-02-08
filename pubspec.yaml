@@ -99,6 +99,7 @@ flutter:
     - assets/images/wallet.svg
     - assets/images/profile.svg
     - assets/images/logout.svg
+    - assets/images/lotus.svg
     - assets/images/seeds.png
     - assets/images/seeds_light_wallet_logo.png
     - assets/images/guardians/guardian_tutorial_1.png
