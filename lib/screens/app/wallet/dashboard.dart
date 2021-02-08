@@ -498,9 +498,9 @@ class _DashboardState extends State<Dashboard> {
 
   Widget buildSendReceiveButton() {
     return (Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-      Expanded(child: ReceiveButton(onPress: onTransfer)),
+      Expanded(child: SendButton(onPress: onTransfer)),
       SizedBox(width: 20),
-      Expanded(child: SendButton(onPress: onReceive)),
+      Expanded(child: ReceiveButton(onPress: onReceive)),
     ]));
   }
 }

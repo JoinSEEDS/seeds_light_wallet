@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
-class SendButton extends StatelessWidget {
-  SendButton({@required this.onPress});
+class ReceiveButton extends StatelessWidget {
+  ReceiveButton({@required this.onPress});
 
   final GestureTapCallback onPress;
 
