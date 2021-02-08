@@ -211,36 +211,29 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex, bool profileNotification) {
     return BottomNavigationBarItem(
-        icon: Padding(
-          padding: EdgeInsets.only(bottom: 2),
-          child: Stack(overflow: Overflow.visible, children: <Widget>[
-            SvgPicture.asset(
-              icon,
-              color: tabIndex == index ? Colors.black : AppColors.grey,
-            ),
-            title == "Profile"
-                ? profileNotification
-                    ? Positioned(
-                        child: guardianNotification(profileNotification),
-                        right: 6,
-                        top: 2,
-                      )
-                    : SizedBox.shrink()
-                : SizedBox.shrink()
-          ]),
+      activeIcon: SvgPicture.asset(
+        icon,
+        color: AppColors.white,
+      ),
+      icon: Stack(overflow: Overflow.visible, children: <Widget>[
+        SvgPicture.asset(
+          icon,
+          color: AppColors.grey,
         ),
-        // Note - wait for redesign of app to change this.
-        // ignore: deprecated_member_use
-        title: tabIndex == index
-            ? Icon(
-                Icons.circle,
-                size: 6,
-              )
-            : Icon(
-                Icons.circle,
-                size: 6,
-                color: Colors.white,
-              ));
+        title == "Profile"
+            ? profileNotification
+                ? Positioned(
+                    child: guardianNotification(profileNotification),
+                    right: 6,
+                    top: 2,
+                  )
+                : SizedBox.shrink()
+            : SizedBox.shrink()
+      ]),
+      // Note - wait for redesign of app to change this.
+      // ignore: deprecated_member_use
+      title: Text(title),
+    );
   }
 
   Widget buildNavigation(bool showGuardianNotification) {
@@ -259,8 +252,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             break;
         }
       },
-      showUnselectedLabels: true,
-      type: BottomNavigationBarType.fixed,
+      backgroundColor: AppColors.primary,
+      selectedItemColor: AppColors.white,
+      unselectedItemColor: AppColors.grey,
       items: navigationTabs
           .map(
             (tab) => buildIcon(tab.title, tab.icon, tab.index, showGuardianNotification),
