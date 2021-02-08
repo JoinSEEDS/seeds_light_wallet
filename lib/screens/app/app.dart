@@ -57,12 +57,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     ),
   ];
 
-  final StreamController<String> changePageNotifier =
-      StreamController<String>.broadcast();
+  final StreamController<String> changePageNotifier = StreamController<String>.broadcast();
 
   int index = 1;
-  PageController pageController =
-      PageController(initialPage: 1, keepPage: true);
+  PageController pageController = PageController(initialPage: 1, keepPage: true);
 
   @override
   void initState() {
@@ -112,8 +110,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case AppLifecycleState.paused:
         break;
       case AppLifecycleState.resumed:
-        Provider.of<ConnectionNotifier>(context, listen: false)
-            .discoverEndpoints();
+        Provider.of<ConnectionNotifier>(context, listen: false).discoverEndpoints();
         break;
       case AppLifecycleState.detached:
         break;
@@ -121,8 +118,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   void processSigningRequests() {
-    Provider.of<LinksService>(context, listen: false)
-        .listenSigningRequests((final link) async {
+    Provider.of<LinksService>(context, listen: false).listenSigningRequests((final link) async {
       if (link == null) {
         return;
       }
@@ -146,8 +142,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               Animation<double> secondaryAnimation,
               Widget child,
             ) {
-              var tween =
-                  Tween(begin: const Offset(0.0, 1.0), end: Offset.zero);
+              var tween = Tween(begin: const Offset(0.0, 1.0), end: Offset.zero);
               var curvedAnimation = CurvedAnimation(
                 parent: animation,
                 curve: Curves.bounceInOut,
@@ -158,8 +153,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 child: child, // child is the value returned by pageBuilder
               );
             },
-            pageBuilder: (BuildContext context, _, __) =>
-                CustomTransaction(CustomTransactionArguments(
+            pageBuilder: (BuildContext context, _, __) => CustomTransaction(CustomTransactionArguments(
                   account: action.account,
                   name: action.name,
                   data: data,
@@ -175,8 +169,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       appBar: buildAppBar(context),
       body: buildPageView(),
       bottomNavigationBar: StreamBuilder<bool>(
-          stream: FirebaseDatabaseService().hasGuardianNotificationPending(
-              SettingsNotifier.of(context, listen: false).accountName),
+          stream: FirebaseDatabaseService()
+              .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
           builder: (context, AsyncSnapshot<bool> snapshot) {
             if (snapshot != null && snapshot.hasData) {
               return buildNavigation(snapshot.data);
@@ -203,8 +197,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 color: Colors.black,
                 size: 33,
               ),
-              onPressed: () =>
-                  NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
         ),
       ],
       backgroundColor: Colors.transparent,
@@ -222,8 +215,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     );
   }
 
-  BottomNavigationBarItem buildIcon(
-      String title, String icon, int tabIndex, bool profileNotification) {
+  BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex, bool profileNotification) {
     final width = MediaQuery.of(context).size.width * 0.21;
     return BottomNavigationBarItem(
         icon: Stack(children: <Widget>[
@@ -232,9 +224,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             decoration: tabIndex == index
                 ? BoxDecoration(
                     gradient: LinearGradient(colors: AppColors.gradient),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        topRight: Radius.circular(8)))
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)))
                 : BoxDecoration(),
             padding: EdgeInsets.only(top: 7, left: 3, right: 3),
             child: SvgPicture.asset(
@@ -260,16 +250,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             decoration: tabIndex == index
                 ? BoxDecoration(
                     gradient: LinearGradient(colors: AppColors.gradient),
-                    borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(8),
-                        bottomLeft: Radius.circular(8)))
+                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(8), bottomLeft: Radius.circular(8)))
                 : BoxDecoration(),
             padding: EdgeInsets.only(bottom: 5, top: 2, left: 3, right: 3),
             child: Text(
               title,
-              style: TextStyle(
-                  color: tabIndex == index ? Colors.white : AppColors.grey,
-                  fontSize: 12),
+              style: TextStyle(color: tabIndex == index ? Colors.white : AppColors.grey, fontSize: 12),
             )));
   }
 
@@ -300,8 +286,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       unselectedFontSize: 12,
       items: navigationTabs
           .map(
-            (tab) => buildIcon(
-                tab.title, tab.icon, tab.index, showGuardianNotification),
+            (tab) => buildIcon(tab.title, tab.icon, tab.index, showGuardianNotification),
           )
           .toList(),
     );
