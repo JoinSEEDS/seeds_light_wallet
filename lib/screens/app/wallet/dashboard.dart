@@ -142,7 +142,6 @@ class _DashboardState extends State<Dashboard> {
                 buildSendReceiveButton(),
                 SizedBox(height: 20),
                 buildTransactions(),
-
               ],
             )),
       ),
@@ -335,7 +334,7 @@ class _DashboardState extends State<Dashboard> {
     TransactionType type,
   }) {
     showModalBottomSheet(
-       isScrollControlled: true,
+        isScrollControlled: true,
         context: context,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
