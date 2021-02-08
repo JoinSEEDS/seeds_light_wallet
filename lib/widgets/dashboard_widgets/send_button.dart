@@ -6,16 +6,14 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 class SendButton extends StatelessWidget {
   SendButton({@required this.onPress});
 
-  final GestureTapCallback onPress;
+  final VoidCallback onPress;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return FlatButton(
-      padding: EdgeInsets.only(top: 16, bottom: 16),
+      padding: EdgeInsets.only(top: 14, bottom: 14),
       onPressed: onPress,
       color: AppColors.springGreen,
-      textColor: AppColors.white,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
         topLeft: Radius.circular(4),
@@ -25,9 +23,7 @@ class SendButton extends StatelessWidget {
       )),
       child: Center(
         child: Wrap(children: <Widget>[
-          Icon(
-            Icons.arrow_upward,
-          ),
+          Icon(Icons.arrow_upward, color: AppColors.white),
           Container(
             padding: EdgeInsets.only(left: 4, top: 4),
             child: Text('Send'.i18n, style: Theme.of(context).textTheme.button),
