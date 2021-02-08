@@ -165,7 +165,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFAFAFAFA),
       appBar: buildAppBar(context),
       body: buildPageView(),
       bottomNavigationBar: StreamBuilder<bool>(
@@ -187,13 +186,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       centerTitle: true,
       actions: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(right: 17),
+          padding: const EdgeInsets.only(right: 16),
           child: IconButton(
-              icon: Icon(
-                Icons.qr_code_scanner,
-
-                size: 28,
-              ),
+              icon: Icon(Icons.qr_code_scanner, size: 28),
               onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
         ),
       ],
@@ -210,17 +205,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     );
   }
 
-  BottomNavigationBarItem buildIcon(String title, String icon, int tabIndex, bool profileNotification) {
+  BottomNavigationBarItem buildIcon(String title, String icon, bool isSelected, bool profileNotification) {
     return BottomNavigationBarItem(
-      activeIcon: SvgPicture.asset(
-        icon,
-        color: AppColors.white,
-      ),
       icon: Stack(overflow: Overflow.visible, children: <Widget>[
-        SvgPicture.asset(
-          icon,
-          color: AppColors.grey,
-        ),
+        SvgPicture.asset(icon, height: 24, width: 24),
         title == "Profile"
             ? profileNotification
                 ? Positioned(
@@ -233,7 +221,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       ]),
       // Note - wait for redesign of app to change this.
       // ignore: deprecated_member_use
-      title: Text(title),
+      title: isSelected
+          ? Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Text(title, style: Theme.of(context).textTheme.caption),
+            )
+          : SizedBox.shrink(),
     );
   }
 
@@ -258,7 +251,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       unselectedItemColor: AppColors.grey,
       items: navigationTabs
           .map(
-            (tab) => buildIcon(tab.title, tab.icon, tab.index, showGuardianNotification),
+            (tab) => buildIcon(tab.title, tab.icon, tab.index == index, showGuardianNotification),
           )
           .toList(),
     );
