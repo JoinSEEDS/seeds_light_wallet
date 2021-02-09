@@ -12,10 +12,10 @@ class SeedsAppTheme {
 
   static ThemeData get darkTheme {
     return ThemeData(
-      primaryColor: AppColors.primary,
-      fontFamily: 'SFProDisplay',
-      textTheme: SeedsTextTheme.darkTheme,
-    );
+        primaryColor: AppColors.primary,
+        fontFamily: 'SFProDisplay',
+        textTheme: SeedsTextTheme.darkTheme,
+        brightness: Brightness.dark);
   }
 }
 

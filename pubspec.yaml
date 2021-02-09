@@ -107,6 +107,12 @@ flutter:
     - assets/images/guardians/guardian_tutorial_3.png
     - assets/images/guardians/guardian_tutorial_4.png
     - assets/images/guardians/guardian_shield.png
+    - assets/images/navigation_bar/explore.svg
+    - assets/images/navigation_bar/wallet.svg
+    - assets/images/navigation_bar/user_profile.svg
+    - assets/images/navigation_bar/explore_selected.svg
+    - assets/images/navigation_bar/wallet_selected.svg
+    - assets/images/navigation_bar/user_profile_selected.svg
     # assets end
 
   fonts:
