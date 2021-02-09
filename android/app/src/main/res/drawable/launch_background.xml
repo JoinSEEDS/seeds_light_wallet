@@ -7,6 +7,12 @@
     <item>
         <bitmap
             android:gravity="center"
+            android:src="@drawable/splash_screen_flower" />
+    </item>
+
+    <item>
+        <bitmap
+            android:gravity="center"
             android:src="@drawable/seeds_light_wallet_logo" />
     </item>
 </layer-list>
