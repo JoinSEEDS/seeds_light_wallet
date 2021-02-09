@@ -12,7 +12,7 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
-import 'package:seeds/screens/app/profile/profile.dart';
+import 'package:seeds/screens/app/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/widgets/pending_notification.dart';
@@ -52,7 +52,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     NavigationTab(
       title: "Profile".i18n,
       icon: 'assets/images/profile.svg',
-      screenBuilder: () => Profile(),
+      screenBuilder: () => ProfileScreen(),
       index: 2,
     ),
   ];
@@ -190,10 +190,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       centerTitle: true,
       actions: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(right:17),
+          padding: const EdgeInsets.only(right: 17),
           child: IconButton(
-            icon: Icon(Icons.qr_code_scanner, color: Colors.black, size: 33,),   
-            onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+              icon: Icon(
+                Icons.qr_code_scanner,
+                color: Colors.black,
+                size: 33,
+              ),
+              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
         ),
       ],
       backgroundColor: Colors.transparent,
