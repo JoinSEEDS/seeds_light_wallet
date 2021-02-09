@@ -245,8 +245,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         }
       },
       backgroundColor: AppColors.primary,
-      selectedItemColor: AppColors.white,
-      unselectedItemColor: AppColors.grey,
       items: navigationTabs
           .map(
             (tab) => buildIcon(tab.title, tab.icon, tab.index == index, showGuardianNotification),
