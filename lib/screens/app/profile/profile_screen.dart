@@ -1,31 +1,32 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/screens/app/profile/profile_bloc.dart';
+import 'package:seeds/screens/app/profile/profile_repository.dart';
 
 const List<String> skillsAndInterest = ['Weaver', 'Facilitador', 'SharingXP'];
 
 /// PROFILE SCREEN
-class ProfileScreen extends StatefulWidget {
-  @override
-  _ProfileScreenState createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
+class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.primary,
-      body: ListView(
-        children: <Widget>[
-          const _ProfileHeader(),
-          const Divider(color: AppColors.jungle, thickness: 2),
-          const _ProfileMiddle(),
-          const Divider(color: AppColors.jungle, thickness: 2),
-          const _ProfileBottom(),
-        ],
+    return BlocProvider(
+      create: (context) => ProfileBloc(profileRepository: ProfileRepository())..add(LoadProfile()),
+      child: Scaffold(
+        backgroundColor: AppColors.primary,
+        body: ListView(
+          children: <Widget>[
+            const _ProfileHeader(),
+            const Divider(color: AppColors.jungle, thickness: 2),
+            const _ProfileMiddle(),
+            const Divider(color: AppColors.jungle, thickness: 2),
+            const _ProfileBottom(),
+          ],
+        ),
       ),
     );
   }
@@ -37,161 +38,165 @@ class _ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Row(
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             children: [
-              Column(
+              Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Container(
-                      width: 100.0,
-                      height: 100.0,
-                      child:
-                          //  (_profileImage != null)
-                          //     ? Image.file(
-                          //         _profileImage,
-                          //         fit: BoxFit.cover,
-                          //       )
-                          //     :
-                          CachedNetworkImage(
-                        imageUrl: '',
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) {
-                          return Container(
-                            color: AppColors.getColorByString(''),
-                            child: Center(
-                              child: Text(
-                                ('Raul' != null)
-                                    ? 'Raul'?.substring(0, 2)?.toUpperCase()
-                                    : '?',
-                                style: Theme.of(context).textTheme.headline5,
-                              ),
-                            ),
-                          );
-                        },
+                  Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: Container(
+                          width: 100.0,
+                          height: 100.0,
+                          child: state.profile?.image == null
+                              ? Container()
+                              : CachedNetworkImage(
+                                  imageUrl: state.profile?.image ?? '',
+                                  fit: BoxFit.cover,
+                                  // Show a nice loading as placeholder
+                                  // placeholder: (_, url) =>
+                                  //     Image.asset('assets/images/loading_image_placeholder.gif', fit: BoxFit.cover),
+                                  errorWidget: (context, url, error) {
+                                    return Container(
+                                      color: AppColors.getColorByString(state.profile?.nickname ?? ''),
+                                      child: Center(
+                                        child: Text(
+                                          (state.profile?.nickname != null)
+                                              ? state.profile?.nickname?.substring(0, 2)?.toUpperCase()
+                                              : '?',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          state.profile?.account ?? '',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        Text(
+                          state.profile?.status ?? '',
+                          style: Theme.of(context).textTheme.headline7LowEmphasis,
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Row(
                   children: [
-                    Text(
-                      'Raul Urtecho',
-                      style: Theme.of(context).textTheme.headline6,
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(color: AppColors.jungle, width: 2),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Contribution Score'.i18n,
+                                style: Theme.of(context).textTheme.subtitle2,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${state.profile?.reputation ?? '00'}/100',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.headline7LowEmphasis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Text(
-                      'Resident',
-                      style: Theme.of(context).textTheme.headline7LowEmphasis,
-                    )
+                    Expanded(
+                        child: Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              'Badges Earned'.i18n,
+                              style: Theme.of(context).textTheme.subtitle2,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Stack(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.circle,
+                                    size: 36,
+                                    color: Colors.transparent,
+                                  ),
+                                  Icon(
+                                    Icons.circle,
+                                    size: 36,
+                                    color: Colors.transparent,
+                                  ),
+                                ],
+                              ),
+                              Positioned(
+                                width: 36,
+                                child: Icon(
+                                  Icons.circle_notifications,
+                                  size: 36,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              Positioned(
+                                width: 72,
+                                child: Icon(
+                                  Icons.account_circle_rounded,
+                                  size: 36,
+                                  color: Colors.orange,
+                                ),
+                              ),
+                              Positioned(
+                                width: 108,
+                                child: Icon(
+                                  Icons.add_circle,
+                                  size: 36,
+                                  color: Colors.grey,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ))
                   ],
                 ),
               )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        right: BorderSide(color: AppColors.jungle, width: 2),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Contribution Score'.i18n,
-                            style: Theme.of(context).textTheme.subtitle2,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            '83/100',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline7LowEmphasis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                    child: Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          'Badges Earned'.i18n,
-                          style: Theme.of(context).textTheme.subtitle2,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.circle,
-                                size: 36,
-                                color: Colors.transparent,
-                              ),
-                              Icon(
-                                Icons.circle,
-                                size: 36,
-                                color: Colors.transparent,
-                              ),
-                            ],
-                          ),
-                          Positioned(
-                            width: 36,
-                            child: Icon(
-                              Icons.circle_notifications,
-                              size: 36,
-                              color: Colors.blue,
-                            ),
-                          ),
-                          Positioned(
-                            width: 72,
-                            child: Icon(
-                              Icons.account_circle_rounded,
-                              size: 36,
-                              color: Colors.orange,
-                            ),
-                          ),
-                          Positioned(
-                            width: 108,
-                            child: Icon(
-                              Icons.add_circle,
-                              size: 36,
-                              color: Colors.grey,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ))
-              ],
-            ),
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -207,8 +212,7 @@ class _ProfileMiddle extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading:
-                Icon(Icons.location_on_outlined, color: AppColors.springGreen),
+            leading: Icon(Icons.location_on_outlined, color: AppColors.springGreen),
             title: Text(
               'Bioregion'.i18n,
               style: Theme.of(context).textTheme.subtitle2HighEmphasis,
@@ -223,8 +227,7 @@ class _ProfileMiddle extends StatelessWidget {
           ),
           Divider(color: AppColors.jungle),
           ListTile(
-            leading:
-                Icon(Icons.attach_money_sharp, color: AppColors.springGreen),
+            leading: Icon(Icons.attach_money_sharp, color: AppColors.springGreen),
             title: Text(
               'Currency'.i18n,
               style: Theme.of(context).textTheme.subtitle2HighEmphasis,
@@ -311,9 +314,7 @@ class _ProfileBottom extends StatelessWidget {
                           children: [
                             Text(
                               'You are on the way from'.i18n,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2HighEmphasis,
+                              style: Theme.of(context).textTheme.subtitle2HighEmphasis,
                             ),
                           ],
                         ),
@@ -321,8 +322,7 @@ class _ProfileBottom extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child:
                               // If the text is longer than the condition use 2 rows instead of one
-                              ('Resident'.i18n.length > 8 &&
-                                      'Citizen'.i18n.length > 7)
+                              ('Resident'.i18n.length > 8 && 'Citizen'.i18n.length > 7)
                                   ? Column(
                                       children: [
                                         Row(
@@ -332,13 +332,10 @@ class _ProfileBottom extends StatelessWidget {
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline6
-                                                  .copyWith(
-                                                      color: AppColors.canopy),
+                                                  .copyWith(color: AppColors.canopy),
                                             ),
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5.0),
+                                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
                                               child: Container(
                                                 width: 32,
                                                 height: 32,
@@ -352,9 +349,7 @@ class _ProfileBottom extends StatelessWidget {
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .subtitle1
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .primary),
+                                                        .copyWith(color: AppColors.primary),
                                                   ),
                                                 ),
                                               ),
@@ -362,8 +357,7 @@ class _ProfileBottom extends StatelessWidget {
                                           ],
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
+                                          padding: const EdgeInsets.only(top: 8.0),
                                           child: Row(
                                             children: [
                                               Text(
@@ -371,9 +365,7 @@ class _ProfileBottom extends StatelessWidget {
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline6
-                                                    .copyWith(
-                                                        color:
-                                                            AppColors.canopy),
+                                                    .copyWith(color: AppColors.canopy),
                                               ),
                                             ],
                                           ),
@@ -384,15 +376,11 @@ class _ProfileBottom extends StatelessWidget {
                                       children: [
                                         Text(
                                           'Resident'.i18n,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6
-                                              .copyWith(
-                                                  color: AppColors.canopy),
+                                          style:
+                                              Theme.of(context).textTheme.headline6.copyWith(color: AppColors.canopy),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 5.0),
+                                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
                                           child: Container(
                                             width: 32,
                                             height: 32,
@@ -406,9 +394,7 @@ class _ProfileBottom extends StatelessWidget {
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .subtitle1
-                                                    .copyWith(
-                                                        color:
-                                                            AppColors.primary),
+                                                    .copyWith(color: AppColors.primary),
                                               ),
                                             ),
                                           ),
@@ -416,11 +402,8 @@ class _ProfileBottom extends StatelessWidget {
                                         Flexible(
                                           child: Text(
                                             'Citizen'.i18n,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline6
-                                                .copyWith(
-                                                    color: AppColors.canopy),
+                                            style:
+                                                Theme.of(context).textTheme.headline6.copyWith(color: AppColors.canopy),
                                           ),
                                         ),
                                       ],
@@ -462,8 +445,7 @@ class _ProfileBottom extends StatelessWidget {
                   'Settings'.i18n,
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
-                trailing:
-                    Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
+                trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
               ),
             ),
           ),
@@ -475,14 +457,12 @@ class _ProfileBottom extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.0),
               ),
               child: ListTile(
-                leading:
-                    Icon(Icons.verified_user_outlined, color: Colors.white),
+                leading: Icon(Icons.verified_user_outlined, color: Colors.white),
                 title: Text(
                   'Security'.i18n,
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
-                trailing:
-                    Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
+                trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
               ),
             ),
           ),
@@ -499,8 +479,7 @@ class _ProfileBottom extends StatelessWidget {
                   'Support'.i18n,
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
-                trailing:
-                    Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
+                trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
               ),
             ),
           ),
