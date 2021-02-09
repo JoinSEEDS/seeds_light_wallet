@@ -20,10 +20,11 @@ import 'package:seeds/widgets/pending_notification.dart';
 class NavigationTab {
   final String title;
   final String icon;
+  final String iconSelected;
   final Function screenBuilder;
   final int index;
 
-  NavigationTab({this.title, this.icon, this.screenBuilder, this.index});
+  NavigationTab({this.title, this.icon, this.iconSelected, this.screenBuilder, this.index});
 }
 
 class App extends StatefulWidget {
@@ -40,18 +41,21 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     NavigationTab(
       title: "Wallet".i18n,
       icon: 'assets/images/navigation_bar/wallet.svg',
+      iconSelected: 'assets/images/navigation_bar/wallet_selected.svg',
       screenBuilder: () => Wallet(),
       index: 0,
     ),
     NavigationTab(
       title: "Explore".i18n,
       icon: 'assets/images/navigation_bar/explore.svg',
+      iconSelected: 'assets/images/navigation_bar/explore_selected.svg',
       screenBuilder: () => Ecosystem(),
       index: 1,
     ),
     NavigationTab(
       title: "Profile".i18n,
       icon: 'assets/images/navigation_bar/user_profile.svg',
+      iconSelected: 'assets/images/navigation_bar/user_profile_selected.svg',
       screenBuilder: () => ProfileScreen(),
       index: 2,
     ),
@@ -205,8 +209,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     );
   }
 
-  BottomNavigationBarItem buildIcon(String title, String icon, bool isSelected, bool profileNotification) {
+  BottomNavigationBarItem buildIcon(
+      String title, String icon, String selectedIcon, bool isSelected, bool profileNotification) {
     return BottomNavigationBarItem(
+      activeIcon: SvgPicture.asset(selectedIcon, height: 24, width: 24),
       icon: Stack(overflow: Overflow.visible, children: <Widget>[
         SvgPicture.asset(icon, height: 24, width: 24),
         title == "Profile"
@@ -221,7 +227,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       ]),
       title: isSelected
           ? Padding(
-              padding: const EdgeInsets.all(2.0),
+              padding: const EdgeInsets.only(top: 4),
               child: Text(title, style: Theme.of(context).textTheme.caption),
             )
           : SizedBox.shrink(),
@@ -247,7 +253,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       backgroundColor: AppColors.primary,
       items: navigationTabs
           .map(
-            (tab) => buildIcon(tab.title, tab.icon, tab.index == index, showGuardianNotification),
+            (tab) => buildIcon(tab.title, tab.icon, tab.iconSelected, tab.index == index, showGuardianNotification),
           )
           .toList(),
     );
