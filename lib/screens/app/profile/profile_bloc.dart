@@ -1,8 +1,9 @@
-import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/screens/app/profile/get_profile_use_case.dart';
 import 'package:seeds/screens/app/profile/profile_repository.dart';
 
 /// --- EVENTS
@@ -18,7 +19,7 @@ class LoadProfile extends ProfileEvent {
 }
 
 /// --- STATES
-enum PageState { initial, loading, failure }
+enum PageState { initial, loading, failure, success }
 
 class ProfileState extends Equatable {
   final PageState pageState;
@@ -52,9 +53,9 @@ class ProfileState extends Equatable {
 
   factory ProfileState.initial() {
     return ProfileState(
-      pageState: PageState.loading,
-      profile: ProfileModel(),
-      errorMessage: '',
+      pageState: PageState.initial,
+      profile: null,
+      errorMessage: null,
     );
   }
 }
@@ -71,20 +72,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is LoadProfile) {
-      try {
-        final profile = await _profileRepository.getProfile();
-        if (profile != null) {
-          yield state.copyWith(
-            pageState: PageState.initial,
-            profile: profile,
-          );
-        }
-      } catch (error) {
-        yield state.copyWith(
-          pageState: PageState.failure,
-          errorMessage: error.message,
-        );
-      }
+      yield state.copyWith(pageState: PageState.initial);
+
+      Result result = await GetProfileUseCase(profileRepository: _profileRepository).run("raul11111111");
+      yield ProfileStateMapper().mapToState(state, result);
+    }
+  }
+}
+
+abstract class StateMapper<T, State> {
+  State mapToState(State state, Result<T> result);
+}
+
+class ProfileStateMapper extends StateMapper<ProfileModel, ProfileState> {
+  @override
+  ProfileState mapToState(ProfileState currentState, Result result) {
+    if (result.isError) {
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError.error.toString());
+    } else {
+      return currentState.copyWith(pageState: PageState.success, profile: result.asValue.value);
     }
   }
 }
