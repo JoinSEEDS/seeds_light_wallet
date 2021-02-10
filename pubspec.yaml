@@ -12,6 +12,8 @@ analyzer:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_bloc: ^6.1.2
+  equatable: ^1.2.6
   intl: ^0.16.0
   flutter_localizations:
     sdk: flutter
