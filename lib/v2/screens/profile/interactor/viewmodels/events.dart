@@ -10,6 +10,10 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class LoadProfile extends ProfileEvent {
+  final String userName;
+
   @override
   String toString() => 'LoadProfile';
+
+  LoadProfile({@required this.userName});
 }

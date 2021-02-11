@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
-import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -19,6 +18,7 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
+import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/pending_notification.dart';
@@ -430,14 +430,13 @@ class _ProfileState extends State<Profile> {
         padding: EdgeInsets.only(top: 50.0),
         child: FlatButton(
           color: Colors.white,
-          child: Stack(overflow: Overflow.visible,
-              children: <Widget>[
-                Text(
-                  'Key Guardians'.i18n,
-                  style: TextStyle(color: Colors.blue),
-                ),
-                Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification(showGuardianNotification))
-              ]),
+          child: Stack(overflow: Overflow.visible, children: <Widget>[
+            Text(
+              'Key Guardians'.i18n,
+              style: TextStyle(color: Colors.blue),
+            ),
+            Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification(showGuardianNotification))
+          ]),
           onPressed: () {
             if (showGuardianNotification) {
               FirebaseDatabaseService().removeGuardianNotification(SettingsNotifier.of(context).accountName);

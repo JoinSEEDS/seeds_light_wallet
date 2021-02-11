@@ -5,7 +5,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/v2/screens/profile/interactor/profile_bloc.dart';
-import 'package:seeds/v2/screens/profile/interactor/profile_state.dart';
+import 'package:seeds/v2/screens/profile/interactor/viewmodels/profile_state.dart';
 
 /// PROFILE HEADER
 class ProfileHeader extends StatelessWidget {
