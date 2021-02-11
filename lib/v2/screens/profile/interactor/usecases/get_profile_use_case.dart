@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/screens/app/profile/profile_repository.dart';
+import 'package:seeds/v2/repositories/remote/profile_repository.dart';
 
 export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';
