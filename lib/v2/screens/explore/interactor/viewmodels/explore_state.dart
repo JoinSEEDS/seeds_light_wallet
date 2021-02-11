@@ -6,19 +6,19 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class ExploreState extends Equatable {
   final PageState pageState;
-  final ProfileModel profile;
+  final String availableSeeds;
   final String errorMessage;
 
   ExploreState({
     @required this.pageState,
-    this.profile,
+    this.availableSeeds,
     this.errorMessage,
   });
 
   @override
   List<Object> get props => [
         pageState,
-        profile,
+    availableSeeds,
         errorMessage,
       ];
 
@@ -29,7 +29,7 @@ class ExploreState extends Equatable {
   }) {
     return ExploreState(
       pageState: pageState ?? this.pageState,
-      profile: profile ?? this.profile,
+      availableSeeds: profile ?? this.availableSeeds,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
@@ -37,7 +37,7 @@ class ExploreState extends Equatable {
   factory ExploreState.initial() {
     return ExploreState(
       pageState: PageState.initial,
-      profile: null,
+      availableSeeds: null,
       errorMessage: null,
     );
   }
