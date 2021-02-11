@@ -1,5 +1,6 @@
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 class HttpMockResponse {
@@ -116,11 +117,11 @@ class HttpMockResponse {
         "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
   ];
 
-  static final balance = BalanceModel("10.0000 SEEDS", false);
+  static final balance = BalanceModel("10.0000 SEEDS");
 
   static final rate = RateModel(0.011, false);
 
-  static final telosBalance = BalanceModel("10.0000 TLOS", false);
+  static final telosBalance = BalanceModel("10.0000 TLOS");
 
   static final voice = VoiceModel(77);
 

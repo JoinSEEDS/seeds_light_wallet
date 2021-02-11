@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/constants/config.dart';
 
 export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';
 
 abstract class NetworkRepository {
-  final String profileURL = 'https://mainnet.telosusa.io/v1/chain/get_table_rows';
+  String baseURL = Config.defaultEndpoint;
+  String hyphaURL = Config.hyphaEndpoint;
   Map<String, String> headers = {"Content-type": "application/json"};
 
   Result mapSuccess(http.Response response, Function modelMapper) {
@@ -15,6 +17,7 @@ abstract class NetworkRepository {
     switch (response.statusCode) {
       case 200:
         {
+          print("Model Class: " + modelMapper.toString());
           var body = json.decode(response.body);
           return ValueResult(modelMapper(body));
         }
