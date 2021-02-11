@@ -1,7 +1,7 @@
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/models/models.dart';
-import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
+import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 
 class HttpMockResponse {
   static final publicKey = "EOS76C8fzn4cGavGuGsPUBxDC4FFESTyiEg6ZKxeMm5csGL6QATsL";
