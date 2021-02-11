@@ -19,6 +19,7 @@ class AppColors {
 
   static const springGreen = Color(0xFF1F992A);
   static const jungle = Color(0xFF2B4835);
+  static const greenfield = Color(0xFF1D3726);
   static const sand = Color(0xFFFDFFF2);
   static const fern = Color(0xFF238C32);
   static const canopy = Color(0xFF1EAF32);
