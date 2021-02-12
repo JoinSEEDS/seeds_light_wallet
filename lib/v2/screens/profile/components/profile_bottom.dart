@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 
 /// PROFILE BOTTOM
 class ProfileBottom extends StatelessWidget {
@@ -165,18 +166,21 @@ class ProfileBottom extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.jungle,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: ListTile(
-                leading: Icon(Icons.settings_outlined, color: Colors.white),
-                title: Text(
-                  'Settings'.i18n,
-                  style: Theme.of(context).textTheme.subtitle2,
+            child: InkWell(
+              onTap: () => NavigationService.of(context).navigateTo(Routes.settings),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.greenfield,
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
+                child: ListTile(
+                  leading: Icon(Icons.settings_outlined, color: Colors.white),
+                  title: Text(
+                    'Settings'.i18n,
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
+                ),
               ),
             ),
           ),
@@ -184,7 +188,7 @@ class ProfileBottom extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.jungle,
+                color: AppColors.greenfield,
                 borderRadius: BorderRadius.circular(12.0),
               ),
               child: ListTile(
@@ -201,7 +205,7 @@ class ProfileBottom extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 26.0),
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.jungle,
+                color: AppColors.greenfield,
                 borderRadius: BorderRadius.circular(12.0),
               ),
               child: ListTile(
