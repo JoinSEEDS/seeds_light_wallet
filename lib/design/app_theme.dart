@@ -23,8 +23,9 @@ class SeedsTextTheme {
   static TextTheme get lightTheme {
     return Typography.material2018().black;
   }
-
-  static TextTheme get darkTheme {
-    return Typography.material2018().white;
+ 
+  static TextTheme get darkTheme { 
+    // ignoring themes for this build since this breaks everything.... all default text needs to be dark
+    return Typography.material2018().black;
   }
 }
