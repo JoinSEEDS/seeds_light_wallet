@@ -189,7 +189,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       ),
       centerTitle: true,
       actions: <Widget>[
-        IconButton(icon: Icon(Icons.qr_code_scanner), onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+        Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: IconButton(
+            icon: Icon(
+              Icons.qr_code_scanner, 
+              color: AppColors.grey), 
+            onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+        ),
       ],
       backgroundColor: Colors.transparent,
       elevation: 0.0,
