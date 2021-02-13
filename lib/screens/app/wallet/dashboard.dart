@@ -132,19 +132,19 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      child: SingleChildScrollView(
-        child: Container(
-            padding: EdgeInsets.only(right: 20, left: 20),
-            child: Column(
-              children: <Widget>[
-                buildNotification(),
-                buildHeader(),
-                SizedBox(height: 20),
-                buildSendReceiveButton(),
-                SizedBox(height: 20),
-                buildTransactions(),
-              ],
-            )),
+      child: Scaffold(
+        backgroundColor: AppColors.primary,
+        body: ListView(
+          children: <Widget>[
+            buildNotification(),
+            buildHeader(),
+            SizedBox(height: 20),
+            buildSendReceiveButton(),
+            SizedBox(height: 20),
+            //fixing this
+            buildTransactions(),
+          ],
+        ),
       ),
       onRefresh: refreshData,
     );
