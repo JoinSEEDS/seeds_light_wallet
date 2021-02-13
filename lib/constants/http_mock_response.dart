@@ -1,17 +1,16 @@
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 class HttpMockResponse {
-  static final publicKey =
-      "EOS76C8fzn4cGavGuGsPUBxDC4FFESTyiEg6ZKxeMm5csGL6QATsL";
+  static final publicKey = "EOS76C8fzn4cGavGuGsPUBxDC4FFESTyiEg6ZKxeMm5csGL6QATsL";
 
   static final userRecoversClaimReady = UserRecoversModel(
     exists: true,
     account: "igorberlenko",
     guardians: ["testingseed1", "testingseed2"],
     publicKey: publicKey,
-    completeTimestamp:
-        (DateTime.now().millisecondsSinceEpoch / 1000).round() - 86400,
+    completeTimestamp: (DateTime.now().millisecondsSinceEpoch / 1000).round() - 86400,
   );
 
   static final userRecoversTimelockWaiting = UserRecoversModel(
@@ -19,8 +18,7 @@ class HttpMockResponse {
       account: "igorberlenko",
       guardians: ["testingseed1", "testingseed2"],
       publicKey: publicKey,
-      completeTimestamp:
-          (DateTime.now().millisecondsSinceEpoch / 1000).round() - 86350);
+      completeTimestamp: (DateTime.now().millisecondsSinceEpoch / 1000).round() - 86350);
 
   static final userRecoversConfirming = UserRecoversModel(
     exists: true,
@@ -112,19 +110,9 @@ class HttpMockResponse {
   ];
 
   static final transactions = [
-    TransactionModel(
-        "join.seeds",
-        "sevenflash42",
-        "15.0000 SEEDS",
-        "",
-        "2020-02-05T17:24:28.500",
+    TransactionModel("join.seeds", "sevenflash42", "15.0000 SEEDS", "", "2020-02-05T17:24:28.500",
         "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
-    TransactionModel(
-        "sevenflash42",
-        "testingseeds",
-        "5.0000 SEEDS",
-        "",
-        "2020-02-05T17:24:28.500",
+    TransactionModel("sevenflash42", "testingseeds", "5.0000 SEEDS", "", "2020-02-05T17:24:28.500",
         "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55"),
   ];
 
@@ -155,8 +143,7 @@ class HttpMockResponse {
           "description description description description description description description description description description description description description description description description description ",
       image:
           "https://seeds-service.s3.amazonaws.com/development/a26a6d72-dd50-4c40-8504-00930b97961b/5bc29df1-1f72-4868-b900-3d177678ef77-1920.jpg",
-      url:
-          "https://ipfs.globalupload.io/QmVGQyjnRM77hAK4SfaVTVu45Lb7QoFpJRLeoYwA1XijyS",
+      url: "https://ipfs.globalupload.io/QmVGQyjnRM77hAK4SfaVTVu45Lb7QoFpJRLeoYwA1XijyS",
       status: "status",
       stage: "active",
       fund: "fund",
@@ -190,8 +177,7 @@ class HttpMockResponse {
   static final keyAccounts = ["sevenflash42", "testingseeds"];
 
   static final transactionResult = {
-    "transaction_id":
-        "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"
+    "transaction_id": "7bea4994d089a5afae4b5715500618b141cbbd62190811da0deb0b4142a3fa33"
   };
 
   static final harvest = HarvestModel(

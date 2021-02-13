@@ -19,6 +19,8 @@ import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/widgets/dashboard_widgets/receive_button.dart';
+import 'package:seeds/widgets/dashboard_widgets/send_button.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
@@ -132,11 +134,14 @@ class _DashboardState extends State<Dashboard> {
     return RefreshIndicator(
       child: SingleChildScrollView(
         child: Container(
-            padding: EdgeInsets.fromLTRB(17, 0, 17, 17),
+            padding: EdgeInsets.only(right: 20, left: 20),
             child: Column(
               children: <Widget>[
                 buildNotification(),
                 buildHeader(),
+                SizedBox(height: 20),
+                buildSendReceiveButton(),
+                SizedBox(height: 20),
                 buildTransactions(),
               ],
             )),
@@ -330,7 +335,7 @@ class _DashboardState extends State<Dashboard> {
     TransactionType type,
   }) {
     showModalBottomSheet(
-       isScrollControlled: true,
+        isScrollControlled: true,
         context: context,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
@@ -485,5 +490,13 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
     );
+  }
+
+  Widget buildSendReceiveButton() {
+    return (Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Expanded(child: SendButton(onPress: onTransfer)),
+      SizedBox(width: 20),
+      Expanded(child: ReceiveButton(onPress: onReceive)),
+    ]));
   }
 }
