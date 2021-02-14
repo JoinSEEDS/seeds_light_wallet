@@ -193,8 +193,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           padding: const EdgeInsets.only(right: 10.0),
           child: IconButton(
             icon: Icon(
-              Icons.qr_code_scanner, 
-              color: AppColors.grey), 
+              Icons.qr_code_scanner,
+              color: AppColors.black),
             onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
         ),
       ],

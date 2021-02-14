@@ -113,7 +113,6 @@ class SeedsMaterialApp extends MaterialApp {
             //debugShowCheckedModeBanner: false,
             //debugShowMaterialGrid: true,
             home: I18n(child: home),
-            theme: SeedsAppTheme.darkTheme,
             navigatorKey: navigatorKey,
             onGenerateRoute: onGenerateRoute);
 }

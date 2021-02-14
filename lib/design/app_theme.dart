@@ -26,6 +26,6 @@ class SeedsTextTheme {
  
   static TextTheme get darkTheme { 
     // ignoring themes for this build since this breaks everything.... all default text needs to be dark
-    return Typography.material2018().black;
+    return Typography.material2018().white;
   }
 }
