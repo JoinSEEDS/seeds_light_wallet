@@ -10,6 +10,7 @@ import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/utils/extensions/response_extension.dart';
+import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 class HttpService {
@@ -427,7 +428,7 @@ class HttpService {
     } else {
       print("Cannot fetch balance...");
 
-      return BalanceModel("0.0000 SEEDS", true);
+      return BalanceModel("0.0000 SEEDS");
     }
   }
 
@@ -491,12 +492,12 @@ class HttpService {
       if (body != null && body.isNotEmpty) {
         return BalanceModel.fromJson(body);
       } else {
-        return BalanceModel("0.0000 TLOS", false);
+        return BalanceModel("0.0000 TLOS");
       }
     } else {
       print("Cannot fetch balance...");
 
-      return BalanceModel("0.0000 TLOS", true);
+      return BalanceModel("0.0000 TLOS");
     }
   }
 

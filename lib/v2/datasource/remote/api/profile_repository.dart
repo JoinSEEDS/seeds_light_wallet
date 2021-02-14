@@ -7,9 +7,12 @@ export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';
 
 class ProfileRepository extends NetworkRepository {
-  Future<Result> getProfile(String accountName) {
+  Future<Result> getProfile(String userAccount) {
+    print("[http] get seeds getProfile");
+
+    final String profileURL = 'https://mainnet.telosusa.io/v1/chain/get_table_rows';
     String request =
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
+        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
 
     return http
         .post(profileURL, headers: headers, body: request)
