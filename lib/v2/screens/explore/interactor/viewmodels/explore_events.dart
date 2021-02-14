@@ -13,7 +13,7 @@ class LoadExplore extends ExploreEvent {
   final String userName;
 
   @override
-  String toString() => 'LoadExplore';
+  String toString() => 'LoadExplore: { userName: $userName }';
 
   LoadExplore({@required this.userName});
 }

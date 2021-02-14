@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/v2/screens/explore/interactor/explore_bloc.dart';
-import 'package:seeds/v2/screens/explore/interactor/viewmodels/events.dart';
+import 'package:seeds/v2/screens/explore/interactor/viewmodels/explore_events.dart';
 
 /// Explore SCREEN
 class ExploreScreen extends StatelessWidget {
