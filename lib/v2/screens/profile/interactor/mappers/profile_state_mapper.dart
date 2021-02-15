@@ -6,7 +6,7 @@ import 'package:seeds/v2/screens/profile/interactor/viewmodels/profile_state.dar
 
 class ProfileStateMapper extends StateMapper<ProfileModel, ProfileState> {
   @override
-  ProfileState mapToState(ProfileState currentState, Result result) {
+  ProfileState mapResultToState(ProfileState currentState, Result result) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError.error.toString());
     } else {

@@ -17,7 +17,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(pageState: PageState.initial);
 
       Result result = await GetProfileUseCase().run(event.userName);
-      yield ProfileStateMapper().mapToState(state, result);
+      yield ProfileStateMapper().mapResultToState(state, result);
     }
   }
 }
