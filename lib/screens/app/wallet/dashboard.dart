@@ -142,7 +142,7 @@ class _DashboardState extends State<Dashboard> {
             buildSendReceiveButton(),
             SizedBox(height: 20),
             //fixing this
-            buildTransactions(),
+            walletBottom(),
           ],
         ),
       ),
@@ -365,72 +365,51 @@ class _DashboardState extends State<Dashboard> {
       builder: (ctx, member) => member.hasData
           ? InkWell(
               onTap: () => onTransaction(transaction: model, member: member.data, type: type),
-              child: Column(
-                children: [
-                  Divider(height: 22),
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                            child: Row(
-                          children: <Widget>[
-                            TransactionAvatar(
-                              size: 40,
-                              account: member.data.account,
-                              nickname: member.data.nickname,
-                              image: member.data.image,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.blue,
-                              ),
-                            ),
-                            Flexible(
-                                child: Container(
-                                    margin: EdgeInsets.only(left: 10, right: 10),
-                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-                                      Container(
-                                        child: Text(
-                                          member.data.nickname,
-                                          maxLines: 1,
-                                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15,color: Colors.black),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(readTimestamp(model.timestamp),
-                                          //model.timestamp,
-                                          maxLines: 1,
-                                          style: TextStyle(color: AppColors.grey, fontSize: 13),
-                                        ),
-                                      ),
-                                    ])))
-                          ],
-                        )),
-                        Container(
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Container(
-                                  margin: EdgeInsets.only(left: 10, right: 15),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        model.quantity.seedsFormatted,
-                                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15,color: Colors.black),
-                                      ),
-                                      Icon(
-                                        type == TransactionType.income ? Icons.arrow_upward : Icons.arrow_downward,
-                                      ),
-                                    ],
-                                  )),
-                              Container(
-                                child: Text(" SEEDS", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15,color: Colors.black),
-                                          )
-                              ),
-                            ])),
-                      ],
+              child: Container(
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    TransactionAvatar(
+                      size: 60,
+                      account: member.data.account,
+                      nickname: member.data.nickname,
+                      image: member.data.image,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.blue,
+                      ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Expanded(child: Text(member.data.nickname,style: Theme.of(context).textTheme.button)),
+                                SizedBox(width: 20),
+                                Text(model.quantity.seedsFormatted, style: Theme.of(context).textTheme.button),
+                                //displayTranscationAmount(model),
+                                Icon(
+                                  type == TransactionType.income ? Icons.arrow_upward : Icons.arrow_downward,
+                                  size: 22,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: <Widget>[
+                                Expanded(child: displayTransactionTimeCard(model)),
+                                diplayTranscationType()
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           : Shimmer.fromColors(
@@ -452,51 +431,83 @@ class _DashboardState extends State<Dashboard> {
 
   //Fix Here
   Widget buildTransactions() {
-    return MainCard(
-      padding: EdgeInsets.only(top: 15, bottom: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-              padding: EdgeInsets.only(bottom: 3, left: 15, right: 15),
-              child: Text(
-                'Latest transactions'.i18n,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
-              )),
-          Consumer<TransactionsNotifier>(
-            builder: (context, model, child) => model != null && model.transactions != null
-                ? Column(
+    return Column(
+      //crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Consumer<TransactionsNotifier>(
+          builder: (context, model, child) => model != null && model.transactions != null
+              ? Column(
+                  children: <Widget>[
+                    ...model.transactions.map((trx) {
+                      return buildTransaction(trx);
+                    }).toList()
+                  ],
+                )
+              : Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      ...model.transactions.map((trx) {
-                        return buildTransaction(trx);
-                      }).toList()
+                      Container(
+                        height: 16,
+                        color: Colors.black,
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                      ),
                     ],
-                  )
-                : Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.grey[100],
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          height: 16,
-                          color: Colors.black,
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                        ),
-                      ],
-                    ),
                   ),
-          ),
-        ],
-      ),
+                ),
+        ),
+      ],
     );
   }
 
   Widget buildSendReceiveButton() {
-    return (Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-      Expanded(child: SendButton(onPress: onTransfer)),
-      SizedBox(width: 20),
-      Expanded(child: ReceiveButton(onPress: onReceive)),
-    ]));
+    return Container(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: (Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+        Expanded(child: SendButton(onPress: onTransfer)),
+        SizedBox(width: 20),
+        Expanded(child: ReceiveButton(onPress: onReceive)),
+      ])),
+    );
   }
+
+
+  Widget walletBottom() {
+    return Container(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        children: <Widget>[transactionHeader(), buildTransactions()],
+      ),
+    );
+  }
+
+  Widget transactionHeader() {
+    return Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
+      Expanded(child: Text('Latest Transactions', style: Theme.of(context).textTheme.button)),
+      Text(
+        'View All',
+        style: TextStyle(color: AppColors.canopy),
+      )
+    ]);
+  }
+
+  Widget displayTransactionUserName(member){
+    return Text(member.data.nickname,style: Theme.of(context).textTheme.button);
+  }
+
+  Widget displayTransactionTimeCard(model){
+     return Text(readTimestamp(model.timestamp), style: Theme.of(context).textTheme.subtitle2);
+  }
+
+  Widget displayTranscationAmount(model){
+        return Text(model.quantity.seedsFormatted, style: Theme.of(context).textTheme.button);
+  }
+
+
+  Widget diplayTranscationType(){
+          return Text('SEEDS',style: Theme.of(context).textTheme.subtitle2);
+  }
+
 }
