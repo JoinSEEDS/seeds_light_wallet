@@ -220,39 +220,6 @@ class TransactionModel {
   int get hashCode => super.hashCode;
 }
 
-class BalanceModel {
-  final String quantity;
-  final double numericQuantity;
-  final bool error;
-  String get formattedQuantity => numericQuantity == null ? "" : numericQuantity.seedsFormatted + " SEEDS";
-
-  BalanceModel(this.quantity, this.error)
-      : numericQuantity = _parseQuantityString(quantity);
-
-  factory BalanceModel.fromJson(List<dynamic> json) {
-    if (json != null && json.isNotEmpty) {
-      return BalanceModel(json[0] as String, false);
-    } else {
-      return BalanceModel("0.0000 SEEDS", true);
-    }
-  }
-
-  static double _parseQuantityString(String quantityString) {
-    if (quantityString == null) {
-      return 0;
-    }
-    return double.parse(quantityString.split(" ")[0]);
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is BalanceModel && quantity == other.quantity;
-
-  @override
-  int get hashCode => super.hashCode;
-}
-
 class FiatRateModel {
   final Map<String, double> ratesPerUSD;
   final bool error;

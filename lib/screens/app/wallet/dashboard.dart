@@ -209,7 +209,7 @@ class _DashboardState extends State<Dashboard> {
                     ? Column(
                         children: <Widget>[
                           Text(
-                            model.balance.error
+                            model.balance == null
                                 ? 'Network error'.i18n
                                 : '${model.balance?.quantity?.seedsFormatted} SEEDS',
                             style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
@@ -217,7 +217,7 @@ class _DashboardState extends State<Dashboard> {
                           Consumer<SettingsNotifier>(builder: (context, settingsNotifier, child) {
                             return Consumer<RateNotifier>(builder: (context, rateNotifier, child) {
                               return Text(
-                                model.balance.error
+                                model.balance == null
                                     ? 'Pull to update'.i18n
                                     : rateNotifier.amountToString(
                                         model.balance.numericQuantity, settingsNotifier.selectedFiatCurrency),
