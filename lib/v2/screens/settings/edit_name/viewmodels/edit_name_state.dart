@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
+/// STATE
 class EditNameState extends Equatable {
   final PageState pageState;
   final String name;
