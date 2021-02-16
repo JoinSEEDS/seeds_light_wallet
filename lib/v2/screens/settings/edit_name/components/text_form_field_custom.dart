@@ -54,6 +54,7 @@ class TextFormFieldCustom extends StatelessWidget {
         maxLines: maxLines,
         enabled: enabled,
         validator: validator,
+        style: Theme.of(context).textTheme.subtitle1,
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),

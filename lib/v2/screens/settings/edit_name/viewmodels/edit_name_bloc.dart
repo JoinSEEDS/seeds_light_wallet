@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:seeds/v2/screens/settings/edit_name/viewmodels/edit_name_event.dart';
-import 'package:seeds/v2/screens/settings/edit_name/viewmodels/edit_name_state.dart';
+import 'package:seeds/v2/screens/settings/edit_name/viewmodels/bloc.dart';
 
 /// --- BLOC
 class EditNameBloc extends Bloc<EditNameEvent, EditNameState> {

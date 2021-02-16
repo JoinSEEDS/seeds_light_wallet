@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/v2/screens/settings/edit_name/components/flat_button_long.dart';
 import 'package:seeds/v2/screens/settings/edit_name/components/text_form_field_custom.dart';
-import 'package:seeds/v2/screens/settings/edit_name/interactor/edit_name_bloc.dart';
-import 'package:seeds/v2/screens/settings/edit_name/viewmodels/edit_name_event.dart';
+import 'package:seeds/v2/screens/settings/edit_name/viewmodels/bloc.dart';
 
 class EditNameScreen extends StatefulWidget {
   const EditNameScreen({Key key}) : super(key: key);

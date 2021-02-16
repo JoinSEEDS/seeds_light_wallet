@@ -75,13 +75,13 @@ class SettingsCard extends StatelessWidget {
                           children: [
                             Text(
                               title,
-                              style: Theme.of(context).textTheme.subtitle1,
+                              style: Theme.of(context).textTheme.button,
                             ),
                             Text(
                               titleValue,
                               style: titleValueColor != null
                                   ? Theme.of(context).textTheme.subtitle1.copyWith(color: titleValueColor)
-                                  : Theme.of(context).textTheme.subtitle1,
+                                  : Theme.of(context).textTheme.button,
                             ),
                           ],
                         ),
