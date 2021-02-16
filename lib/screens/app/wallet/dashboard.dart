@@ -132,7 +132,6 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       child: Scaffold(
-        backgroundColor: AppColors.primary,
         body: ListView(
           children: <Widget>[
             buildNotification(),
