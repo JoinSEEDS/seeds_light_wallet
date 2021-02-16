@@ -7,7 +7,9 @@ class SeedsAppTheme {
         primaryColor: AppColors.primary,
         fontFamily: 'SFProDisplay',
         textTheme: SeedsTextTheme.lightTheme,
-        brightness: Brightness.light);
+        brightness: Brightness.light,
+        canvasColor: AppColors.primary
+    );
   }
 
   static ThemeData get darkTheme {
