@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /// A wigget wrapper of TextFormField customized
-///
 class TextFormFieldCustom extends StatelessWidget {
   final bool autofocus;
   final FocusNode focusNode;
