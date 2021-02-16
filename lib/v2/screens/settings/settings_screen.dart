@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/settings.i18n.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/screens/settings/components/settings_card.dart';
 
 const List<String> skillsAndInterest = ['Weaver', 'Facilitador', 'SharingXP'];
@@ -21,6 +22,7 @@ class SettingsScreen extends StatelessWidget {
             title: 'Display Name'.i18n,
             titleValue: 'Raul Urtecho',
             descriptionText: 'Set your Display Name so that others can recognize your account.'.i18n,
+            route: Routes.editName,
           ),
           SettingsCard(
             icon: Icons.location_on_outlined,

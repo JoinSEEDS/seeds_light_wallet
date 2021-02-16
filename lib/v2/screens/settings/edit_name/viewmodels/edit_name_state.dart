@@ -1,42 +1,41 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
-class ProfileState extends Equatable {
+class EditNameState extends Equatable {
   final PageState pageState;
-  final ProfileModel profile;
+  final String name;
   final String errorMessage;
 
-  ProfileState({
+  EditNameState({
     @required this.pageState,
-    this.profile,
+    this.name,
     this.errorMessage,
   });
 
   @override
   List<Object> get props => [
         pageState,
-        profile,
+        name,
         errorMessage,
       ];
 
-  ProfileState copyWith({
+  EditNameState copyWith({
     PageState pageState,
-    ProfileModel profile,
+    String name,
     String errorMessage,
   }) {
-    return ProfileState(
+    return EditNameState(
       pageState: pageState ?? this.pageState,
-      profile: profile ?? this.profile,
+      name: name ?? this.name,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
-  factory ProfileState.initial() {
-    return ProfileState(
+  factory EditNameState.initial() {
+    return EditNameState(
       pageState: PageState.initial,
-      profile: null,
+      name: null,
       errorMessage: null,
     );
   }

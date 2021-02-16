@@ -17,6 +17,7 @@ import 'package:seeds/screens/app/guardians/guardians_tabs.dart';
 import 'package:seeds/screens/app/guardians/select_guardians.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
+import 'package:seeds/v2/screens/settings/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/settings/settings_screen.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
@@ -64,6 +65,7 @@ class Routes {
   static final dho = "DHO";
   static final guardians = "Guardians";
   static final settings = "Settings";
+  static final editName = "EditName";
 }
 
 class NavigationService {
@@ -116,6 +118,7 @@ class NavigationService {
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
     Routes.settings: (_) => SettingsScreen(),
+    Routes.editName: (_) => EditNameScreen(),
   };
 
   final ecosystemRoutes = {
