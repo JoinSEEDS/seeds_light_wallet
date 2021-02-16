@@ -21,11 +21,10 @@ import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/dashboard_widgets/send_button.dart';
+import 'package:seeds/widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
-import 'package:seeds/widgets/read_times_tamp.dart';
-import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -141,7 +140,6 @@ class _DashboardState extends State<Dashboard> {
             SizedBox(height: 20),
             buildSendReceiveButton(),
             SizedBox(height: 20),
-            //fixing this
             walletBottom(),
           ],
         ),
@@ -352,7 +350,6 @@ class _DashboardState extends State<Dashboard> {
         });
   }
 
-  //Fix Here
   Widget buildTransaction(TransactionModel model) {
     String userAccount = SettingsNotifier.of(context).accountName;
 
@@ -363,54 +360,18 @@ class _DashboardState extends State<Dashboard> {
     return FutureBuilder(
       future: MembersNotifier.of(context).getAccountDetails(participantAccountName),
       builder: (ctx, member) => member.hasData
-          ? InkWell(
-              onTap: () => onTransaction(transaction: model, member: member.data, type: type),
-              child: Container(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
-                child: Row(
-                  children: <Widget>[
-                    TransactionAvatar(
-                      size: 60,
-                      account: member.data.account,
-                      nickname: member.data.nickname,
-                      image: member.data.image,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.blue,
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Expanded(child: Text(member.data.nickname,style: Theme.of(context).textTheme.button)),
-                                SizedBox(width: 20),
-                                Text(model.quantity.seedsFormatted, style: Theme.of(context).textTheme.button),
-                                //displayTranscationAmount(model),
-                                Icon(
-                                  type == TransactionType.income ? Icons.arrow_upward : Icons.arrow_downward,
-                                  size: 22,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              children: <Widget>[
-                                Expanded(child: displayTransactionTimeCard(model)),
-                                diplayTranscationType()
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+          ? TransactionInfoCard(
+              callback: () {
+                onTransaction(transaction: model, member: member.data, type: type);
+              },
+              transactionProfileAccount: member.data.account,
+              transactionProfileNickname: member.data.nickname,
+              transactionProfileImage: member.data.image,
+              transactionTimestamp: model.timestamp,
+              transactionAmount: model.quantity,
+              transactionTypeIcon: type == TransactionType.income
+                  ? 'assets/images/wallet/arrow_up.svg'
+                  : 'assets/images/wallet/arrow_down.svg',
             )
           : Shimmer.fromColors(
               baseColor: Colors.grey[300],
@@ -429,10 +390,8 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  //Fix Here
   Widget buildTransactions() {
     return Column(
-      //crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Consumer<TransactionsNotifier>(
           builder: (context, model, child) => model != null && model.transactions != null
@@ -473,41 +432,22 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-
   Widget walletBottom() {
-    return Container(
-      padding: EdgeInsets.only(left: 20, right: 20),
-      child: Column(
-        children: <Widget>[transactionHeader(), buildTransactions()],
-      ),
+    return Column(
+      children: <Widget>[transactionHeader(), buildTransactions()],
     );
   }
 
   Widget transactionHeader() {
-    return Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
-      Expanded(child: Text('Latest Transactions', style: Theme.of(context).textTheme.button)),
-      Text(
-        'View All',
-        style: TextStyle(color: AppColors.canopy),
-      )
-    ]);
+    return Container(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
+        Expanded(child: Text('Latest Transactions'.i18n, style: Theme.of(context).textTheme.button)),
+        Text(
+          'View All'.i18n,
+          style: TextStyle(color: AppColors.canopy),
+        )
+      ]),
+    );
   }
-
-  Widget displayTransactionUserName(member){
-    return Text(member.data.nickname,style: Theme.of(context).textTheme.button);
-  }
-
-  Widget displayTransactionTimeCard(model){
-     return Text(readTimestamp(model.timestamp), style: Theme.of(context).textTheme.subtitle2);
-  }
-
-  Widget displayTranscationAmount(model){
-        return Text(model.quantity.seedsFormatted, style: Theme.of(context).textTheme.button);
-  }
-
-
-  Widget diplayTranscationType(){
-          return Text('SEEDS',style: Theme.of(context).textTheme.subtitle2);
-  }
-
 }
