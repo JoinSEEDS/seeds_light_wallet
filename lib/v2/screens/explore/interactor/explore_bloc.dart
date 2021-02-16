@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/domain-shared/state_mapper.dart';
 import 'package:seeds/v2/screens/explore/interactor/mappers/explore_state_mapper.dart';
 import 'package:seeds/v2/screens/explore/interactor/usecases/get_explore_page_data_use_case.dart';
 import 'package:seeds/v2/screens/explore/interactor/viewmodels/explore_events.dart';
@@ -18,6 +17,8 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       yield state.copyWith(pageState: PageState.loading);
 
       List<Result> results = await GetExploreUseCase().run(event.userName);
+
+      print("mapEventToState results " + results.toString());
       yield ExploreStateMapper().mapResultsToState(state, results);
     }
   }
