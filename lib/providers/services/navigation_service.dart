@@ -29,6 +29,7 @@ import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
+import 'package:seeds/v2/screens/settings/edit_name/interactor/set_currency/set_currency_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -64,20 +65,17 @@ class Routes {
   static final guardianTabs = "GuardianTabs";
   static final dho = "DHO";
   static final guardians = "Guardians";
+  static final setCurrency = "SetCurrency";
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> onboardingNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> onboardingNavigatorKey = new GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> appNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> appNavigatorKey = new GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> walletNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> walletNavigatorKey = new GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> ecosystemNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> ecosystemNavigatorKey = new GlobalKey<NavigatorState>();
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
@@ -119,6 +117,7 @@ class NavigationService {
     Routes.guardianTabs: (_) => GuardianTabs(),
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
+    Routes.setCurrency: (_) => SetCurrencyScreen(),
   };
 
   final ecosystemRoutes = {
@@ -133,8 +132,7 @@ class NavigationService {
     streamRouteListener = listener;
   }
 
-  Future<dynamic> navigateTo(String routeName,
-      [Object arguments, bool replace = false]) async {
+  Future<dynamic> navigateTo(String routeName, [Object arguments, bool replace = false]) async {
     var navigatorKey;
 
     if (streamRouteListener != null) {
@@ -156,14 +154,10 @@ class NavigationService {
     }
 
     if (replace) {
-      return navigatorKey.currentState
-          .pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorKey.currentState
-          .pushNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
     }
-
-
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -205,13 +199,10 @@ class NavigationService {
     return (Route<dynamic> route) {
       //print("Route: ${route.settings.name}" + " modal: ${route is ModalRoute} handlepop: ${route.willHandlePopInternally}");
       if (route.settings.name == "/" && name != "/") {
-        print("pop error: Route name not found: "+name);
+        print("pop error: Route name not found: " + name);
       }
-      return 
-        !route.willHandlePopInternally 
-        && route is ModalRoute
-        && route.settings.name == name || route.settings.name == "/";
+      return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
+          route.settings.name == "/";
     };
   }
-
 }

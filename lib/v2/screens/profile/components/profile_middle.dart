@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 
 const List<String> skillsAndInterest = ['Weaver', 'Facilitador', 'SharingXP'];
 
@@ -41,7 +42,7 @@ class ProfileMiddle extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle1HighEmphasis,
             ),
             onTap: () {
-              //_chooseCurrencyBottomSheet
+              NavigationService.of(context).navigateTo(Routes.setCurrency);
             },
           ),
           Divider(color: AppColors.jungle),
