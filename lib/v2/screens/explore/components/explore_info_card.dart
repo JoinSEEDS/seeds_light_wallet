@@ -24,7 +24,7 @@ class ExploreInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(12.0),
-      onTap: () {},
+      onTap: callback,
       child: Ink(
         decoration: BoxDecoration(
           color: AppColors.jungle,
