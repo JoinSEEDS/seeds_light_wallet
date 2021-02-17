@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/screens/profile/components/profile_bottom.dart';
 import 'package:seeds/v2/screens/profile/components/profile_header.dart';
 import 'package:seeds/v2/screens/profile/components/profile_middle.dart';
@@ -18,9 +19,9 @@ class ProfileScreen extends StatelessWidget {
         body: ListView(
           children: <Widget>[
             const ProfileHeader(),
-            const Divider(color: AppColors.jungle, thickness: 2),
+            const DividerJungle(thickness: 2),
             const ProfileMiddle(),
-            const Divider(color: AppColors.jungle, thickness: 2),
+            const DividerJungle(thickness: 2),
             const ProfileBottom(),
           ],
         ),

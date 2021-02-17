@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/v2/screens/settings/edit_name/components/flat_button_long.dart';
-import 'package:seeds/v2/screens/settings/edit_name/components/text_form_field_custom.dart';
+import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/screens/settings/edit_name/viewmodels/bloc.dart';
+import 'package:seeds/i18n/edit_name.i18n.dart';
 
 class EditNameScreen extends StatefulWidget {
   const EditNameScreen({Key key}) : super(key: key);
@@ -19,9 +19,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
   @override
   void initState() {
     super.initState();
-    _editNameBloc = EditNameBloc(
-        // profileRepository: RepositoryProvider.of<ProfileRepository>(context),
-        );
+    _editNameBloc = EditNameBloc();
     _nameController.text = 'Raul';
     _nameController.addListener(_onNameChanged);
   }
@@ -30,29 +28,22 @@ class _EditNameScreenState extends State<EditNameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
-      appBar: AppBar(title: Text('Edit Display Name'), elevation: 0.0),
+      appBar: AppBar(title: Text('Edit Display Name'.i18n), elevation: 0.0),
       body: Form(
         key: _formKeyPassword,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              TextFormFieldCustom(
+              TextFormField(
                 controller: _nameController,
+                style: Theme.of(context).textTheme.button,
                 onFieldSubmitted: (_) => _onSubmitted(),
-                // maxLength: state.password.maxLengthRequired,
-                // hintText: state.password.placeHolder,
-                // labelText: state.password.label,
-                labelText: 'Display name',
-                hintText: '',
-                // validator: (_) {
-                //   return state.password.isValid == true ? null : state.password.error;
-                // },
               ),
               Spacer(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: FlatButtonLong(title: 'Save Changes', onPressed: () {}),
+                child: FlatButtonLong(title: 'Save Changes'.i18n, onPressed: _onSubmitted()),
               )
             ],
           ),

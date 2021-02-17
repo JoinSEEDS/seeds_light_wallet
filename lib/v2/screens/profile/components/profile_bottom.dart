@@ -164,61 +164,50 @@ class ProfileBottom extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: InkWell(
-              onTap: () => NavigationService.of(context).navigateTo(Routes.settings),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.greenfield,
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: ListTile(
-                  leading: Icon(Icons.settings_outlined, color: Colors.white),
-                  title: Text(
-                    'Settings'.i18n,
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                  trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.greenfield,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: ListTile(
-                leading: Icon(Icons.verified_user_outlined, color: Colors.white),
-                title: Text(
-                  'Security'.i18n,
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 26.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.greenfield,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: ListTile(
-                leading: Icon(Icons.support, color: Colors.white),
-                title: Text(
-                  'Support'.i18n,
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
-              ),
-            ),
-          ),
+          const SizedBox(height: 16.0),
+          _CardListTile(leadingIcon: Icons.settings_outlined, title: 'Settings'.i18n, route: Routes.settings),
+          const SizedBox(height: 8.0),
+          _CardListTile(leadingIcon: Icons.verified_user_outlined, title: 'Security'.i18n, route: ''),
+          const SizedBox(height: 8.0),
+          _CardListTile(leadingIcon: Icons.support, title: 'Support'.i18n, route: ''),
+          const SizedBox(height: 26.0),
         ],
+      ),
+    );
+  }
+}
+
+/// CARD LIST TILE
+class _CardListTile extends StatelessWidget {
+  final IconData leadingIcon;
+  final String title;
+  final String route;
+
+  const _CardListTile({
+    Key key,
+    @required this.leadingIcon,
+    @required this.title,
+    @required this.route,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12.0),
+      onTap: () => NavigationService.of(context).navigateTo(route),
+      child: Ink(
+        decoration: BoxDecoration(
+          color: AppColors.greenfield,
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        child: ListTile(
+          leading: Icon(leadingIcon, color: Colors.white),
+          title: Text(
+            title,
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+          trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
+        ),
       ),
     );
   }

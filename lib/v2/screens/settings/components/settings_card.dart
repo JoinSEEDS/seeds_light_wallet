@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/components/divider_jungle.dart';
 
 /// SETTINGS CARD
 class SettingsCard extends StatelessWidget {
@@ -86,7 +87,7 @@ class SettingsCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Divider(color: AppColors.jungle, thickness: 1, height: 1),
+                      const DividerJungle(),
                       descriptionWidget != null
                           ? Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8.0),
