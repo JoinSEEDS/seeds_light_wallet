@@ -17,9 +17,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       Result result = await GetProfileUseCase().run(event.userName);
 
-
-
-
       yield ProfileStateMapper().mapResultToState(state, result);
     }
   }

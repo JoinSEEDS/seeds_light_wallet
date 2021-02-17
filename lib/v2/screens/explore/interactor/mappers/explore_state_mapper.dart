@@ -22,9 +22,9 @@ class ExploreStateMapper extends ResultsToStateMapper<ExploreState> {
 
       return currentState.copyWith(
         pageState: PageState.success,
-        // availableSeeds: balanceModel?.roundedQuantity,
-        // allianceVoice: allianceVoice?.amount.toString(),
-        // campaignVoice: campaignVoice?.amount.toString(),
+        availableSeeds: balanceModel?.roundedQuantity,
+        allianceVoice: allianceVoice?.amount.toString(),
+        campaignVoice: campaignVoice?.amount.toString(),
       );
     }
   }

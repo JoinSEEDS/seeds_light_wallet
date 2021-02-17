@@ -96,7 +96,7 @@ class ExploreScreen extends StatelessWidget {
                     ],
                   );
                 default:
-                  return Container();
+                  return SizedBox.shrink();
               }
             },
           ),

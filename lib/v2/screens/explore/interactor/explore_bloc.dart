@@ -18,7 +18,6 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
       List<Result> results = await GetExploreUseCase().run(event.userName);
 
-      print("mapEventToState results " + results.toString());
       yield ExploreStateMapper().mapResultsToState(state, results);
     }
   }
