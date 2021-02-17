@@ -15,9 +15,7 @@ class SeedsAppTheme {
         primaryColor: AppColors.primary,
         fontFamily: 'SFProDisplay',
         textTheme: SeedsTextTheme.darkTheme,
-        brightness: Brightness.dark,
-        canvasColor: AppColors.primary
-    );
+        brightness: Brightness.dark,);
 
   }
 }
