@@ -30,6 +30,7 @@ import 'package:seeds/screens/app/wallet/transfer/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
+import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -48,6 +49,7 @@ class Routes {
   static final proposals = "Proposals";
   static final proposalDetailsPage = "ProposalDetailsPage";
   static final overview = "Overview";
+  static final explore = "Explore";
   static final dashboard = "Dashboard";
   static final logout = "Logout";
   static final imageViewer = 'ImageViewer';
@@ -122,7 +124,7 @@ class NavigationService {
   };
 
   final ecosystemRoutes = {
-    Routes.overview: (_) => Overview(),
+    Routes.explore: (_) => ExploreScreen(),
   };
 
   final walletRoutes = {

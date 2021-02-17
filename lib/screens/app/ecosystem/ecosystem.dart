@@ -6,7 +6,7 @@ class Ecosystem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: NavigationService.of(context).ecosystemNavigatorKey,
-      initialRoute: Routes.overview,
+      initialRoute: Routes.explore,
       onGenerateRoute: NavigationService.of(context).onGenerateRoute,
     );
   }
