@@ -26,7 +26,7 @@ class ExploreScreen extends StatelessWidget {
             builder: (context, ExploreState state) {
               switch (state.pageState) {
                 case PageState.initial:
-                  return Container();
+                  return SizedBox.shrink();
                 case PageState.loading:
                   return Container(child: Center(child: Text("Loading...", style: Theme.of(context).textTheme.headline3,)));
                 case PageState.failure:
