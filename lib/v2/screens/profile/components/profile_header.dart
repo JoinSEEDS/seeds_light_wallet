@@ -29,7 +29,7 @@ class ProfileHeader extends StatelessWidget {
                           width: 100.0,
                           height: 100.0,
                           child: state.profile?.image == null
-                              ? Container()
+                              ? SizedBox.shrink()
                               : CachedNetworkImage(
                                   imageUrl: state.profile?.image ?? '',
                                   fit: BoxFit.cover,
