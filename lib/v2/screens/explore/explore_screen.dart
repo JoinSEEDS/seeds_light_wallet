@@ -38,6 +38,7 @@ class ExploreScreen extends StatelessWidget {
                         callback: () {},
                         title: "Invite",
                         amount: state.availableSeeds,
+                        isErrorState: state.availableSeeds == null ,
                         icon: SvgPicture.asset(
                           "assets/images/explore/person_send_invite.svg",
                           color: AppColors.white,
@@ -52,7 +53,7 @@ class ExploreScreen extends StatelessWidget {
                             child: ExploreInfoCard(
                               callback: () {},
                               title: "Plant",
-                              amount: "245",
+                              amount: "10",
                               icon: SvgPicture.asset("assets/images/explore/plant_seed.svg"),
                               amountLabel: "Planted Seeds",
                             ),

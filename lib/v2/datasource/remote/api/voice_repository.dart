@@ -7,7 +7,7 @@ export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';
 
 class VoiceRepository extends NetworkRepository {
-  Future<Result<VoiceModelCampaign>> getCampaignVoice(String userAccount) async {
+  Future<Result> getCampaignVoice(String userAccount) async {
     print("[http] get seeds getCampaignVoice $userAccount");
     final String voiceURL = '$baseURL/v1/chain/get_table_rows';
 
@@ -17,12 +17,12 @@ class VoiceRepository extends NetworkRepository {
     return http
         .post(voiceURL, headers: headers, body: request)
         .then((http.Response response) => mapSuccess(response, (dynamic body) {
-              return VoiceModelCampaign.fromJson(body["rows"][0]);
+              return VoiceModelCampaign.fromJson(body);
             }))
         .catchError((error) => mapError(error));
   }
 
-  Future<Result<VoiceModelAlliance>> getAllianceVoice(String userAccount) async {
+  Future<Result> getAllianceVoice(String userAccount) async {
     print("[http] get seeds getAllianceVoice $userAccount");
     final String voiceURL = '$baseURL/v1/chain/get_table_rows';
 
@@ -32,7 +32,7 @@ class VoiceRepository extends NetworkRepository {
     return http
         .post(voiceURL, headers: headers, body: request)
         .then((http.Response response) => mapSuccess(response, (dynamic body) {
-              return VoiceModelCampaign.fromJson(body["rows"][0]);
+              return VoiceModelCampaign.fromJson(body);
             }))
         .catchError((error) => mapError(error));
   }

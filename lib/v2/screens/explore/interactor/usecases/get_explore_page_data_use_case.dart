@@ -13,8 +13,8 @@ class GetExploreUseCase {
   Future<List<Result>> run(String userAccount) {
     var futures = [
       _balanceRepository.getBalance(userAccount),
-      // _voiceRepository.getAllianceVoice(userAccount),
-      // _voiceRepository.getCampaignVoice(userAccount)
+      _voiceRepository.getAllianceVoice(userAccount),
+      _voiceRepository.getCampaignVoice(userAccount)
     ];
     return Future.wait(futures);
   }

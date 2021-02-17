@@ -1,4 +1,6 @@
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
+import 'package:seeds/v2/datasource/remote/model/voice_model_alliance.dart';
+import 'package:seeds/v2/datasource/remote/model/voice_model_campaign.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/results_to_state_mapper.dart';
 import 'package:seeds/v2/screens/explore/interactor/viewmodels/explore_state.dart';
@@ -10,27 +12,19 @@ class ExploreStateMapper extends ResultsToStateMapper<ExploreState> {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Page");
     } else {
-      print("ExploreStateMapper mapResultsToState ");
+      print("ExploreStateMapper mapResultsToState length=" + results.length.toString());
       results.retainWhere((Result element) => element.isValue);
-      print("ExploreStateMapper mapResultsToState lenght" + results.length.toString());
+      List values = results.map((Result element) => element.asValue.value).toList();
 
-      BalanceModel balanceModel =
-          results.firstWhere((Result element) => element.asValue.value is BalanceModel, orElse: null).asValue.value;
-      print("ExploreStateMapper mapResultsToState balanceModel" + balanceModel.toString());
-      // VoiceModelAlliance allianceVoice = results
-      //     .firstWhere((Result element) => element.asValue.value is VoiceModelAlliance, orElse: null)
-      //     .asValue
-      //     .value;
-      // VoiceModelCampaign campaignVoice = results
-      //     .firstWhere((Result element) => element.asValue.value is VoiceModelCampaign, orElse: null)
-      //     .asValue
-      //     .value;
+      var balanceModel = values.firstWhere((element) => element is BalanceModel, orElse: () => null);
+      var allianceVoice = values.firstWhere((element) => element is VoiceModelAlliance, orElse: () => null);
+      var campaignVoice = values.firstWhere((element) => element is VoiceModelCampaign, orElse: () => null);
 
       return currentState.copyWith(
         pageState: PageState.success,
-        availableSeeds: balanceModel.roundedQuantity,
-        // allianceVoice: allianceVoice ?? allianceVoice.amount,
-        // campaignVoice: campaignVoice ?? campaignVoice.amount,
+        // availableSeeds: balanceModel?.roundedQuantity,
+        // allianceVoice: allianceVoice?.amount.toString(),
+        // campaignVoice: campaignVoice?.amount.toString(),
       );
     }
   }

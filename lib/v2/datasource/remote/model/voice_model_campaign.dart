@@ -4,7 +4,11 @@ class VoiceModelCampaign {
   VoiceModelCampaign(this.amount);
 
   factory VoiceModelCampaign.fromJson(Map<String, dynamic> json) {
-    return VoiceModelCampaign(json["rows"][0]["balance"] as int);
+    if (json != null && json["rows"].isNotEmpty) {
+      return VoiceModelCampaign(json["rows"][0]["balance"] as int);
+    } else {
+      return VoiceModelCampaign(0);
+    }
   }
 
   @override
