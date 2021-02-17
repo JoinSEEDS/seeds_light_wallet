@@ -235,27 +235,29 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   Widget buildNavigation(bool showGuardianNotification) {
-    return BottomNavigationBar(
-      currentIndex: index,
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            changePageNotifier.add("Wallet");
-            break;
-          case 1:
-            changePageNotifier.add("Explore");
-            break;
-          case 2:
-            changePageNotifier.add("Profile");
-            break;
-        }
-      },
-      backgroundColor: AppColors.primary,
-      items: navigationTabs
-          .map(
-            (tab) => buildIcon(tab.title, tab.icon, tab.iconSelected, tab.index == index, showGuardianNotification),
-          )
-          .toList(),
+    return Container(
+      decoration: BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
+      child: BottomNavigationBar(
+        currentIndex: index,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              changePageNotifier.add("Wallet");
+              break;
+            case 1:
+              changePageNotifier.add("Explore");
+              break;
+            case 2:
+              changePageNotifier.add("Profile");
+              break;
+          }
+        },
+        items: navigationTabs
+            .map(
+              (tab) => buildIcon(tab.title, tab.icon, tab.iconSelected, tab.index == index, showGuardianNotification),
+            )
+            .toList(),
+      ),
     );
   }
 }
