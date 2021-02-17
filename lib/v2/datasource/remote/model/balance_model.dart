@@ -5,7 +5,7 @@ class BalanceModel {
   final double numericQuantity;
 
   String get formattedQuantity => numericQuantity == null ? "" : numericQuantity.seedsFormatted + " SEEDS";
-  String get roundedQuantity => numericQuantity == null ? "" : numericQuantity.seedsFormatted;
+  String get roundedQuantity => numericQuantity == null ? "" : numericQuantity.seedsFormatted.toString();
 
   BalanceModel(this.quantity) : numericQuantity = _parseQuantityString(quantity);
 
