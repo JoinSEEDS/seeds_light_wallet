@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 class ExploreInfoCard extends StatelessWidget {
   final String title;
@@ -23,12 +24,12 @@ class ExploreInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(12.0),
+      borderRadius: BorderRadius.circular(defaultCardBorderRadious),
       onTap: callback,
       child: Ink(
         decoration: BoxDecoration(
           color: AppColors.jungle,
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(defaultCardBorderRadious),
         ),
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -42,7 +43,8 @@ class ExploreInfoCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 24),
-            Text((isErrorState != null && isErrorState) ? "Error Loading Data" : amount, style: Theme.of(context).textTheme.headline8),
+            Text((isErrorState != null && isErrorState) ? "Error Loading Data" : amount,
+                style: Theme.of(context).textTheme.headline8),
             SizedBox(height: 4),
             Text(amountLabel, style: Theme.of(context).textTheme.subtitle3),
           ],
