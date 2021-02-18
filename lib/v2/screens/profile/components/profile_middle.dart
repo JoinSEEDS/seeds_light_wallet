@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/v2/components/divider_jungle.dart';
 
+// TODO: this is not a list in the ProfileModel should I create a getter that returns a combined skills and interest list of Strings ??
 const List<String> skillsAndInterest = ['Weaver', 'Facilitador', 'SharingXP'];
 
 /// PROFILE MIDDLE
@@ -29,7 +31,7 @@ class ProfileMiddle extends StatelessWidget {
               //_chooseCurrencyBottomSheet
             },
           ),
-          Divider(color: AppColors.jungle),
+          const DividerJungle(),
           ListTile(
             leading: Icon(Icons.attach_money_sharp, color: AppColors.springGreen),
             title: Text(
@@ -44,7 +46,7 @@ class ProfileMiddle extends StatelessWidget {
               //_chooseCurrencyBottomSheet
             },
           ),
-          Divider(color: AppColors.jungle),
+          const DividerJungle(),
           ListTile(
             leading: Icon(
               Icons.favorite_border,
@@ -62,7 +64,7 @@ class ProfileMiddle extends StatelessWidget {
               runSpacing: 0, // gap between lines
               children: skillsAndInterest
                   .map((i) => Chip(
-                        backgroundColor: AppColors.jungle,
+                        backgroundColor: AppColors.greenfield,
                         label: Text(
                           i,
                           style: Theme.of(context).textTheme.subtitle2,

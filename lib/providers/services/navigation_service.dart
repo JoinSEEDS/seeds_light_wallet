@@ -17,6 +17,8 @@ import 'package:seeds/screens/app/guardians/guardians_tabs.dart';
 import 'package:seeds/screens/app/guardians/select_guardians.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
+import 'package:seeds/v2/screens/settings/edit_name/edit_name_screen.dart';
+import 'package:seeds/v2/screens/settings/settings_screen.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
@@ -64,20 +66,18 @@ class Routes {
   static final guardianTabs = "GuardianTabs";
   static final dho = "DHO";
   static final guardians = "Guardians";
+  static final settings = "Settings";
+  static final editName = "EditName";
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> onboardingNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> onboardingNavigatorKey = new GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> appNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> appNavigatorKey = new GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> walletNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> walletNavigatorKey = new GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> ecosystemNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> ecosystemNavigatorKey = new GlobalKey<NavigatorState>();
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
@@ -119,6 +119,8 @@ class NavigationService {
     Routes.guardianTabs: (_) => GuardianTabs(),
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
+    Routes.settings: (_) => SettingsScreen(),
+    Routes.editName: (_) => EditNameScreen(),
   };
 
   final ecosystemRoutes = {
@@ -133,8 +135,7 @@ class NavigationService {
     streamRouteListener = listener;
   }
 
-  Future<dynamic> navigateTo(String routeName,
-      [Object arguments, bool replace = false]) async {
+  Future<dynamic> navigateTo(String routeName, [Object arguments, bool replace = false]) async {
     var navigatorKey;
 
     if (streamRouteListener != null) {
@@ -156,14 +157,10 @@ class NavigationService {
     }
 
     if (replace) {
-      return navigatorKey.currentState
-          .pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorKey.currentState
-          .pushNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
     }
-
-
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -205,13 +202,10 @@ class NavigationService {
     return (Route<dynamic> route) {
       //print("Route: ${route.settings.name}" + " modal: ${route is ModalRoute} handlepop: ${route.willHandlePopInternally}");
       if (route.settings.name == "/" && name != "/") {
-        print("pop error: Route name not found: "+name);
+        print("pop error: Route name not found: " + name);
       }
-      return 
-        !route.willHandlePopInternally 
-        && route is ModalRoute
-        && route.settings.name == name || route.settings.name == "/";
+      return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
+          route.settings.name == "/";
     };
   }
-
 }
