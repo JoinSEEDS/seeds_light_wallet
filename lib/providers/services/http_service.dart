@@ -11,6 +11,7 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/utils/extensions/response_extension.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
+import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 class HttpService {
