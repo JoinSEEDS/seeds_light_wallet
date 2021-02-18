@@ -11,7 +11,7 @@ class ExploreState extends Equatable {
   final String errorMessage;
   final String plantedSeeds;
 
-  ExploreState({
+  const ExploreState({
     @required this.pageState,
     this.availableSeeds,
     this.errorMessage,
@@ -42,7 +42,7 @@ class ExploreState extends Equatable {
   }
 
   factory ExploreState.initial() {
-    return ExploreState(
+    return const ExploreState(
       pageState: PageState.initial,
       availableSeeds: null,
       campaignVoice: null,

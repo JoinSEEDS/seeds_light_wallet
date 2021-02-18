@@ -8,7 +8,7 @@ export 'package:async/src/result/result.dart';
 
 class VoiceRepository extends NetworkRepository {
   Future<Result> getCampaignVoice(String userAccount) async {
-    print("[http] get seeds getCampaignVoice $userAccount");
+    print('[http] get seeds getCampaignVoice $userAccount');
     final String voiceURL = '$baseURL/v1/chain/get_table_rows';
 
     String request =
@@ -23,7 +23,7 @@ class VoiceRepository extends NetworkRepository {
   }
 
   Future<Result> getAllianceVoice(String userAccount) async {
-    print("[http] get seeds getAllianceVoice $userAccount");
+    print('[http] get seeds getAllianceVoice $userAccount');
     final String voiceURL = '$baseURL/v1/chain/get_table_rows';
 
     String request =

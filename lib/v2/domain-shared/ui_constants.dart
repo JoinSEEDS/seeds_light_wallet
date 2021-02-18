@@ -1,1 +1,1 @@
-const double defaultCardBorderRadious = 12.0;
+const double defaultCardBorderRadius = 12.0;

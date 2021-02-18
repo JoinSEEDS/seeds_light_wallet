@@ -8,7 +8,7 @@ export 'package:async/src/result/result.dart';
 
 class PlantedRepository extends NetworkRepository {
   Future<Result> getPlanted(String userAccount) {
-    print("[http] get seeds getPlanted $userAccount");
+    print('[http] get seeds getPlanted $userAccount');
 
     final String plantedURL = '$baseURL/v1/chain/get_table_rows';
     String request =

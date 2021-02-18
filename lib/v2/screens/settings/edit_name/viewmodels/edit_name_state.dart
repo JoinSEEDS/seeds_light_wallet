@@ -8,7 +8,7 @@ class EditNameState extends Equatable {
   final String name;
   final String errorMessage;
 
-  EditNameState({
+  const EditNameState({
     @required this.pageState,
     this.name,
     this.errorMessage,
@@ -34,7 +34,7 @@ class EditNameState extends Equatable {
   }
 
   factory EditNameState.initial() {
-    return EditNameState(
+    return const EditNameState(
       pageState: PageState.initial,
       name: null,
       errorMessage: null,

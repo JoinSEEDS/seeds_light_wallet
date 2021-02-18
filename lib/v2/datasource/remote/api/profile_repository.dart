@@ -8,16 +8,16 @@ export 'package:async/src/result/result.dart';
 
 class ProfileRepository extends NetworkRepository {
   Future<Result> getProfile(String userAccount) {
-    print("[http] get seeds getProfile $userAccount");
+    print('[http] get seeds getProfile $userAccount');
 
-    final String profileURL = 'https://mainnet.telosusa.io/v1/chain/get_table_rows';
+    const String profileURL = 'https://mainnet.telosusa.io/v1/chain/get_table_rows';
     String request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
 
     return http
         .post(profileURL, headers: headers, body: request)
         .then((http.Response response) => mapSuccess(response, (dynamic body) {
-              return ProfileModel.fromJson(body["rows"][0]);
+              return ProfileModel.fromJson(body['rows'][0]);
             }))
         .catchError((error) => mapError(error));
   }
