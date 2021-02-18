@@ -17,6 +17,9 @@ import 'package:seeds/screens/app/guardians/guardians_tabs.dart';
 import 'package:seeds/screens/app/guardians/select_guardians.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
+import 'package:seeds/v2/screens/settings/edit_name/edit_name_screen.dart';
+import 'package:seeds/v2/screens/settings/set_currency/set_currency_screen.dart';
+import 'package:seeds/v2/screens/settings/settings_screen.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
@@ -29,7 +32,6 @@ import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
-import 'package:seeds/v2/screens/settings/edit_name/interactor/set_currency/set_currency_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -65,6 +67,8 @@ class Routes {
   static final guardianTabs = "GuardianTabs";
   static final dho = "DHO";
   static final guardians = "Guardians";
+  static final settings = "Settings";
+  static final editName = "EditName";
   static final setCurrency = "SetCurrency";
 }
 
@@ -117,6 +121,8 @@ class NavigationService {
     Routes.guardianTabs: (_) => GuardianTabs(),
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
+    Routes.settings: (_) => SettingsScreen(),
+    Routes.editName: (_) => EditNameScreen(),
     Routes.setCurrency: (_) => SetCurrencyScreen(),
   };
 

@@ -8,7 +8,7 @@ export 'package:async/src/result/result.dart';
 
 class ProfileRepository extends NetworkRepository {
   Future<Result> getProfile(String userAccount) {
-    print("[http] get seeds getProfile");
+    print("[http] get seeds getProfile $userAccount");
 
     final String profileURL = 'https://mainnet.telosusa.io/v1/chain/get_table_rows';
     String request =

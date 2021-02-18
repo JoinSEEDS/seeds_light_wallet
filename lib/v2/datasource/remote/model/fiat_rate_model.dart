@@ -2,12 +2,6 @@ class FiatRateModel {
   final Map<String, double> ratesPerUSD;
   final bool error;
 
-  List<String> get currencies {
-    var list = List<String>.from(ratesPerUSD.keys);
-    list.sort();
-    return list;
-  }
-
   FiatRateModel(this.ratesPerUSD, {this.error = false});
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
