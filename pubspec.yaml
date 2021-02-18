@@ -61,6 +61,7 @@ dependencies:
   rubber: ^0.4.0
   path_provider: ^1.6.24
   dotted_border: ^1.0.6
+  pedantic: ^1.9.2
   qr_code_scanner:
     git:
       url: git://github.com/triply-at/qr_code_scanner.git
