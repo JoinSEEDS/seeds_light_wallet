@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -28,9 +26,16 @@ class ExploreScreen extends StatelessWidget {
                 case PageState.initial:
                   return SizedBox.shrink();
                 case PageState.loading:
-                  return Container(child: Center(child: Text("Loading...", style: Theme.of(context).textTheme.headline3,)));
+                  return Container(
+                      child: Center(
+                          child: Text(
+                    "Loading...",
+                    style: Theme.of(context).textTheme.headline3,
+                  )));
                 case PageState.failure:
-                  return Container(child: Center(child: Text("Error: " + state.errorMessage, style: Theme.of(context).textTheme.subtitle3)));
+                  return Container(
+                      child: Center(
+                          child: Text("Error: " + state.errorMessage, style: Theme.of(context).textTheme.subtitle3)));
                 case PageState.success:
                   return ListView(
                     children: <Widget>[
@@ -38,7 +43,7 @@ class ExploreScreen extends StatelessWidget {
                         callback: () {},
                         title: "Invite",
                         amount: state.availableSeeds,
-                        isErrorState: state.availableSeeds == null ,
+                        isErrorState: state.availableSeeds == null,
                         icon: SvgPicture.asset(
                           "assets/images/explore/person_send_invite.svg",
                           color: AppColors.white,
@@ -53,7 +58,8 @@ class ExploreScreen extends StatelessWidget {
                             child: ExploreInfoCard(
                               callback: () {},
                               title: "Plant",
-                              amount: "10",
+                              amount: state.plantedSeeds,
+                              isErrorState: state.plantedSeeds == null,
                               icon: SvgPicture.asset("assets/images/explore/plant_seed.svg"),
                               amountLabel: "Planted Seeds",
                             ),

@@ -1,5 +1,6 @@
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/models/models.dart';
+import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 
@@ -125,7 +126,7 @@ class HttpMockResponse {
 
   static final voice = VoiceModel(77);
 
-  static final planted = PlantedModel("5.0000 SEEDS");
+  static final planted = PlantedModel(5.0000);
 
   static final proposals = [
     ProposalModel(
