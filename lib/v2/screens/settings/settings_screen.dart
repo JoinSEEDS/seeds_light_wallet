@@ -4,6 +4,7 @@ import 'package:seeds/i18n/settings.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/screens/settings/components/settings_card.dart';
 
+// TODO: this is not a list in the ProfileModel should I create a getter that returns a combined skills and interest list of Strings ??
 const List<String> skillsAndInterest = ['Weaver', 'Facilitador', 'SharingXP'];
 
 class SettingsScreen extends StatelessWidget {
@@ -12,7 +13,6 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
       appBar: AppBar(title: Text('Settings'.i18n), elevation: 0.0),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -40,8 +40,6 @@ class SettingsScreen extends StatelessWidget {
           SettingsCard(
             icon: Icons.favorite_border,
             title: 'Skills & Interest'.i18n,
-            titleValue: 'Edit'.i18n,
-            titleValueColor: AppColors.springGreen,
             descriptionWidget: Align(
               alignment: Alignment.centerLeft,
               child: Wrap(

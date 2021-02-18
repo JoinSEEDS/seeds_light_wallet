@@ -4,6 +4,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/screens/profile/components/card_list_tile.dart';
 
 /// PROFILE BOTTOM
 class ProfileBottom extends StatelessWidget {
@@ -165,49 +166,13 @@ class ProfileBottom extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16.0),
-          _CardListTile(leadingIcon: Icons.settings_outlined, title: 'Settings'.i18n, route: Routes.settings),
+          CardListTile(leadingIcon: Icons.settings_outlined, title: 'Settings'.i18n, route: Routes.settings),
           const SizedBox(height: 8.0),
-          _CardListTile(leadingIcon: Icons.verified_user_outlined, title: 'Security'.i18n, route: ''),
+          CardListTile(leadingIcon: Icons.verified_user_outlined, title: 'Security'.i18n, route: ''),
           const SizedBox(height: 8.0),
-          _CardListTile(leadingIcon: Icons.support, title: 'Support'.i18n, route: ''),
+          CardListTile(leadingIcon: Icons.support, title: 'Support'.i18n, route: ''),
           const SizedBox(height: 26.0),
         ],
-      ),
-    );
-  }
-}
-
-/// CARD LIST TILE
-class _CardListTile extends StatelessWidget {
-  final IconData leadingIcon;
-  final String title;
-  final String route;
-
-  const _CardListTile({
-    Key key,
-    @required this.leadingIcon,
-    @required this.title,
-    @required this.route,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(12.0),
-      onTap: () => NavigationService.of(context).navigateTo(route),
-      child: Ink(
-        decoration: BoxDecoration(
-          color: AppColors.greenfield,
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: ListTile(
-          leading: Icon(leadingIcon, color: Colors.white),
-          title: Text(
-            title,
-            style: Theme.of(context).textTheme.subtitle2,
-          ),
-          trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
-        ),
       ),
     );
   }

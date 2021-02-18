@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/screens/profile/components/profile_bottom.dart';
 import 'package:seeds/v2/screens/profile/components/profile_header.dart';
@@ -15,7 +14,6 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProfileBloc()..add(LoadProfile(userName: "raul11111111")),
       child: Scaffold(
-        backgroundColor: AppColors.primary,
         body: ListView(
           children: <Widget>[
             const ProfileHeader(),

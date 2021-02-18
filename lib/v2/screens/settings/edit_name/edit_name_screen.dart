@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/screens/settings/edit_name/viewmodels/bloc.dart';
 import 'package:seeds/i18n/edit_name.i18n.dart';
@@ -27,7 +26,6 @@ class _EditNameScreenState extends State<EditNameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
       appBar: AppBar(title: Text('Edit Display Name'.i18n), elevation: 0.0),
       body: Form(
         key: _formKeyPassword,

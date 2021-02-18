@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 /// SETTINGS CARD
 class SettingsCard extends StatelessWidget {
@@ -13,9 +14,6 @@ class SettingsCard extends StatelessWidget {
 
   /// The text value next to the title
   final String titleValue;
-
-  /// To set a different color to titleValue
-  final Color titleValueColor;
 
   /// The descrption text in the second row
   final String descriptionText;
@@ -30,8 +28,7 @@ class SettingsCard extends StatelessWidget {
     Key key,
     @required this.icon,
     @required this.title,
-    @required this.titleValue,
-    this.titleValueColor,
+    this.titleValue = '',
     this.descriptionText = '',
     this.descriptionWidget,
     this.route,
@@ -49,7 +46,7 @@ class SettingsCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: AppColors.greenfield,
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(defaultCardBorderRadious),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,9 +77,7 @@ class SettingsCard extends StatelessWidget {
                             ),
                             Text(
                               titleValue,
-                              style: titleValueColor != null
-                                  ? Theme.of(context).textTheme.subtitle1.copyWith(color: titleValueColor)
-                                  : Theme.of(context).textTheme.button,
+                              style: Theme.of(context).textTheme.button,
                             ),
                           ],
                         ),

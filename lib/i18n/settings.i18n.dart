@@ -15,7 +15,6 @@ extension Localization on String {
           "Setting your local currency lets you easily switch between your local and preferred currency.":
               "Configurar su moneda local le permite cambiar fácilmente entre su moneda local y preferida.",
           "Skills & Interest": "Habilidades e interés",
-          "Edit": "Editar"
         }
       };
 
