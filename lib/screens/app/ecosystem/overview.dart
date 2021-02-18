@@ -190,7 +190,7 @@ class _OverviewState extends State<Overview> {
                     'Tap to plant Seeds'.i18n,
                     'assets/images/harvest.svg',
                     'Planted Seeds'.i18n,
-                    model?.balance?.quantity?.seedsFormatted,
+                    model?.balance?.quantity?.toString(),
                     onPlant
                   ),
                 ),

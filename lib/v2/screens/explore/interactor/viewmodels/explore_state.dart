@@ -9,6 +9,7 @@ class ExploreState extends Equatable {
   final String allianceVoice;
   final String campaignVoice;
   final String errorMessage;
+  final String plantedSeeds;
 
   ExploreState({
     @required this.pageState,
@@ -16,6 +17,7 @@ class ExploreState extends Equatable {
     this.errorMessage,
     this.allianceVoice,
     this.campaignVoice,
+    this.plantedSeeds,
   });
 
   @override
@@ -27,6 +29,7 @@ class ExploreState extends Equatable {
     String allianceVoice,
     String campaignVoice,
     String errorMessage,
+    String plantedSeeds,
   }) {
     return ExploreState(
       pageState: pageState ?? this.pageState,
@@ -34,6 +37,7 @@ class ExploreState extends Equatable {
       allianceVoice: allianceVoice ?? this.allianceVoice,
       campaignVoice: campaignVoice ?? this.campaignVoice,
       errorMessage: errorMessage ?? this.errorMessage,
+      plantedSeeds: plantedSeeds ?? this.plantedSeeds,
     );
   }
 
@@ -44,6 +48,7 @@ class ExploreState extends Equatable {
       campaignVoice: null,
       allianceVoice: null,
       errorMessage: null,
+      plantedSeeds: null,
     );
   }
 }

@@ -632,7 +632,7 @@ class HttpService {
     } else {
       print('Cannot fetch planted...');
 
-      return PlantedModel("0.0000 SEEDS");
+      return PlantedModel(0);
     }
   }
 

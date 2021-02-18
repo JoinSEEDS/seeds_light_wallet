@@ -10,13 +10,13 @@ class PlantedRepository extends NetworkRepository {
   Future<Result> getPlanted(String userAccount) {
     print("[http] get seeds getPlanted $userAccount");
 
+    final String plantedURL = '$baseURL/v1/chain/get_table_rows';
     String request =
         '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
 
     return http
-        .post(request, headers: headers, body: request)
+        .post(plantedURL, headers: headers, body: request)
         .then((http.Response response) => mapSuccess(response, (dynamic body) {
-              print("getBalance Response success" + body.toString());
               return PlantedModel.fromJson(body);
             }))
         .catchError((error) => mapError(error));

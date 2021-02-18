@@ -1,20 +1,20 @@
 class PlantedModel {
-  final String quantity;
+  final double quantity;
 
   PlantedModel(this.quantity);
 
   factory PlantedModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json["rows"].isNotEmpty) {
-      return PlantedModel(json["rows"][0]["planted"] as String);
+      var split = (json["rows"][0]["planted"] as String).split(" ");
+      var amount = double.parse(split.first);
+      return PlantedModel(amount);
     } else {
-      return PlantedModel("0.0000 SEEDS");
+      return PlantedModel(0);
     }
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is PlantedModel && quantity == other.quantity;
+  bool operator ==(Object other) => identical(this, other) || other is PlantedModel && quantity == other.quantity;
 
   @override
   int get hashCode => super.hashCode;
