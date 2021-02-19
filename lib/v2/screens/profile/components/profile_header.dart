@@ -29,7 +29,7 @@ class ProfileHeader extends StatelessWidget {
                           width: 100.0,
                           height: 100.0,
                           child: state.profile?.image == null
-                              ? SizedBox.shrink()
+                              ? const SizedBox.shrink()
                               : CachedNetworkImage(
                                   imageUrl: state.profile?.image ?? '',
                                   fit: BoxFit.cover,
@@ -98,7 +98,7 @@ class ProfileHeader extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                '${state.profile?.reputation ?? '00'}/100',
+                                '${state.profile?.reputation ?? '00'}/99',
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.headline7LowEmphasis,
                               ),
