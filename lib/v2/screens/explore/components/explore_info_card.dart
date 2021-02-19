@@ -24,12 +24,12 @@ class ExploreInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(defaultCardBorderRadious),
+      borderRadius: BorderRadius.circular(defaultCardBorderRadius),
       onTap: callback,
       child: Ink(
         decoration: BoxDecoration(
           color: AppColors.jungle,
-          borderRadius: BorderRadius.circular(defaultCardBorderRadious),
+          borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         ),
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -39,13 +39,13 @@ class ExploreInfoCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(child: Text(title, style: Theme.of(context).textTheme.headline8)),
-                icon != null ? icon : SizedBox.shrink(),
+                icon ?? const SizedBox.shrink(),
               ],
             ),
-            SizedBox(height: 24),
-            Text((isErrorState != null && isErrorState) ? "Error Loading Data" : amount,
+            const SizedBox(height: 24),
+            Text((isErrorState != null && isErrorState) ? 'Error Loading Data' : amount,
                 style: Theme.of(context).textTheme.headline8),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(amountLabel, style: Theme.of(context).textTheme.subtitle3),
           ],
         ),

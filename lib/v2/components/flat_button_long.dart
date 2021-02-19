@@ -1,5 +1,5 @@
-import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 
@@ -19,14 +19,11 @@ class FlatButtonLong extends StatelessWidget {
         disabledTextColor: Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
-          side: BorderSide(color: AppColors.jungle),
+          side: const BorderSide(color: AppColors.jungle),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.subtitle2HighEmphasis,
-          ),
+          child: Text(title, style: Theme.of(context).textTheme.subtitle2HighEmphasis),
         ),
         onPressed: onPressed,
       ),

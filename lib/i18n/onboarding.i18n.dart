@@ -2,9 +2,9 @@ import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
 
-static var _t = Translations.byLocale("en_us") +
+static final _t = Translations.byLocale('en_us') +
     {
-      "es_es": {
+      'es_es': {
         
         // TRANSLATION NOTE: These are automatic translations by Google Translate - please replace
 

@@ -8,7 +8,7 @@ class ProfileState extends Equatable {
   final ProfileModel profile;
   final String errorMessage;
 
-  ProfileState({
+  const ProfileState({
     @required this.pageState,
     this.profile,
     this.errorMessage,
@@ -34,7 +34,7 @@ class ProfileState extends Equatable {
   }
 
   factory ProfileState.initial() {
-    return ProfileState(
+    return const ProfileState(
       pageState: PageState.initial,
       profile: null,
       errorMessage: null,

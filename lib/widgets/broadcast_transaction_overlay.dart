@@ -34,7 +34,7 @@ class _BroadcastTransactionOverlayState
   StreamSubscription<bool> statusSubscription;
   StreamSubscription<String> messageSubscription;
 
-  String message = "";
+  String message = '';
 
   Steps step = Steps.progress;
 
@@ -62,11 +62,11 @@ class _BroadcastTransactionOverlayState
   void _statusListener(status) async {
     if (status == true) {
       setState(() {
-        this.step = Steps.success;
+        step = Steps.success;
       });
     } else {
       setState(() {
-        this.step = Steps.failure;
+        step = Steps.failure;
       });
     }
   }
@@ -80,7 +80,7 @@ class _BroadcastTransactionOverlayState
   }
 
   Widget closeButton() => MainButton(
-        title: "Continue",
+        title: 'Continue',
         onPressed: () {
           if (widget.onClose != null) {
             widget.onClose();
@@ -91,9 +91,9 @@ class _BroadcastTransactionOverlayState
       );
 
   Widget detailsButton() => SecondButton(
-        title: "Show in Explorer",
+        title: 'Show in Explorer',
         onPressed: () async {
-          String url = '${Config.explorer}/transaction/$message';
+          var url = '${Config.explorer}/transaction/$message';
 
           if (await canLaunch(url)) {
             await launch(url);
@@ -118,7 +118,7 @@ class _BroadcastTransactionOverlayState
               ),
             ),
           ),
-          if (this.step == Steps.progress)
+          if (step == Steps.progress)
             Align(
               alignment: Alignment.center,
               child: RotationTransition(
@@ -132,7 +132,7 @@ class _BroadcastTransactionOverlayState
                 ),
               ),
             ),
-          if (this.step == Steps.failure)
+          if (step == Steps.failure)
             Container(
               margin: EdgeInsets.only(left: 32, right: 32),
               child: Column(
@@ -141,7 +141,7 @@ class _BroadcastTransactionOverlayState
                   Column(
                     children: <Widget>[
                       Text(
-                        "Transaction failed",
+                        'Transaction failed',
                         style: TextStyle(
                           color: AppColors.red,
                           fontWeight: FontWeight.w600,
@@ -175,7 +175,7 @@ class _BroadcastTransactionOverlayState
                 ],
               ),
             ),
-          if (this.step == Steps.success)
+          if (step == Steps.success)
             Container(
               margin: EdgeInsets.only(left: 32, right: 32),
               child: Column(
@@ -184,7 +184,7 @@ class _BroadcastTransactionOverlayState
                   Column(
                     children: <Widget>[
                       Text(
-                        "Transaction success",
+                        'Transaction success',
                         style: TextStyle(
                           color: AppColors.blue,
                           fontWeight: FontWeight.w600,

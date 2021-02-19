@@ -31,7 +31,7 @@ class ConnectionNotifier extends ChangeNotifier {
   }
 
   void discoverEndpoints() async {
-    List<Future> checks = List<Future>();
+    var checks = <Future>[];
 
     for (var endpoint in availableEndpoints) {
       checks.add(checkEndpoint(endpoint));
@@ -42,7 +42,7 @@ class ConnectionNotifier extends ChangeNotifier {
     responses.sort((a, b) => a.ping - b.ping);
 
     currentEndpoint = responses[0].url;
-    print("setting endpoint to ${responses[0].url}");
+    print('setting endpoint to ${responses[0].url}');
     currentEndpointPing = responses[0].ping;
     notifyListeners();
 
@@ -51,16 +51,16 @@ class ConnectionNotifier extends ChangeNotifier {
   Future<Endpoint> checkEndpoint(String endpoint) async {
     try {
       var ping = Stopwatch()..start();
-      Response res = await get("$endpoint/v2/health");
+      var res = await get('$endpoint/v2/health');
       ping.stop();
       if (res.statusCode == 200) {
-        int endpointPing = ping.elapsedMilliseconds;
+        var endpointPing = ping.elapsedMilliseconds;
         return Endpoint(endpoint, endpointPing);
       } else {
         return Endpoint(endpoint, infinitePing);
       }
     } catch (err) {
-      print("error pinging: ${err.toString()}");
+      print('error pinging: ${err.toString()}');
       return Endpoint(endpoint, doubleInfinitePing);
     }
   }

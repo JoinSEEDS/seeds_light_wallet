@@ -24,27 +24,27 @@ class _SeedsButtonState extends State<SeedsButton> {
   Widget build(BuildContext context) {
     return Container(
       key: UniqueKey(),
-      width: this.widget.width,
-      child: this.widget.showProgress && this.pressed ? ProgressBar() : FlatButton(
-        onPressed: this.widget.enabled ? () {
+      width: widget.width,
+      child: widget.showProgress && pressed ? ProgressBar() : FlatButton(
+        onPressed: widget.enabled ? () {
           setState(() {
             pressed = true;
           });
 
-          if (this.widget.onPressed != null) {
-            this.widget.onPressed();
+          if (widget.onPressed != null) {
+            widget.onPressed();
           }
         } : null,
         child: Text(
-          this.widget.title,
+          widget.title,
           style: TextStyle(
-            fontFamily: "worksans",
+            fontFamily: 'worksans',
             color: Colors.white,
             fontWeight: FontWeight.w300,
             fontSize: 17,
           ),
         ),
-        color: this.widget.color,
+        color: widget.color,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       ),

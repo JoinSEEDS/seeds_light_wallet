@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:seeds/models/models.dart';
 
 class MemberAdapter extends TypeAdapter<MemberModel> {
+  @override
   final typeId = 1;
 
   @override

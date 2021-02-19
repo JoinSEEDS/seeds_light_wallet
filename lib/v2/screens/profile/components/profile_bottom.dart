@@ -17,7 +17,7 @@ class ProfileBottom extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.jungle,
               borderRadius: BorderRadius.all(Radius.circular(12)),
             ),
@@ -26,12 +26,12 @@ class ProfileBottom extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(12.0),
                       bottomLeft: Radius.circular(12.0),
                     ),
                     child: SvgPicture.asset(
-                      "assets/images/lotus.svg",
+                      'assets/images/lotus.svg',
                       alignment: Alignment.centerLeft,
                       color: AppColors.canopy,
                     ),
@@ -72,7 +72,7 @@ class ProfileBottom extends StatelessWidget {
                                               child: Container(
                                                 width: 32,
                                                 height: 32,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: Colors.white,
                                                 ),
@@ -117,7 +117,7 @@ class ProfileBottom extends StatelessWidget {
                                           child: Container(
                                             width: 32,
                                             height: 32,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                               color: Colors.white,
                                             ),
@@ -149,7 +149,7 @@ class ProfileBottom extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               color: AppColors.springGreen,
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               onPressed: () {},
                               child: Text(
                                 'View your progress'.i18n,

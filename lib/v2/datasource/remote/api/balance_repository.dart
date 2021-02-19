@@ -7,17 +7,18 @@ export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';
 
 class BalanceRepository extends NetworkRepository {
-  Future<Result> getBalance(String userAccount) {
-    print("[http] get seeds getBalance $userAccount");
+  Future<Result<dynamic>> getBalance(String userAccount) {
+    print('[http] get seeds getBalance $userAccount');
 
-    String request = '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
-    final String balanceURL = "$baseURL/v1/chain/get_currency_balance";
+    // ignore: omit_local_variable_types
+    final String request = '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
+    final balanceURL = '$baseURL/v1/chain/get_currency_balance';
 
     return http
         .post(balanceURL, headers: headers, body: request)
         .then((http.Response response) => mapSuccess(response, (dynamic body) {
               return BalanceModel.fromJson(body);
             }))
-        .catchError((error) => mapError(error));
+        .catchError((dynamic error) => mapError(error));
   }
 }

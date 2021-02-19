@@ -30,6 +30,7 @@ class _ConnectionStatusState extends State<ConnectionStatus> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Consumer<ConnectionNotifier>(
       child: Flexible(

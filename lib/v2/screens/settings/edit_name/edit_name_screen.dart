@@ -38,7 +38,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
                 style: Theme.of(context).textTheme.button,
                 onFieldSubmitted: (_) => _onSubmitted(),
               ),
-              Spacer(),
+              const Spacer(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: FlatButtonLong(title: 'Save Changes'.i18n, onPressed: _onSubmitted()),
@@ -66,5 +66,6 @@ class _EditNameScreenState extends State<EditNameScreen> {
     // } else {
     //   // _editNameBloc.add(ActivateAutoValidate());
     // }
+
   }
 }

@@ -10,7 +10,7 @@ class VoiceNotifier extends ChangeNotifier {
 
   HttpService _http;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static VoiceNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<VoiceNotifier>(context, listen: listen);
 
   void update({ HttpService http }) {

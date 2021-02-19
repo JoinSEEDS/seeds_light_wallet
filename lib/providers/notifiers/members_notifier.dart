@@ -12,7 +12,7 @@ class MembersNotifier extends ChangeNotifier {
   List<MemberModel> allMembers = [];
   List<MemberModel> visibleMembers = [];
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static MembersNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<MembersNotifier>(context, listen: listen);
 
   String filterName = '';
@@ -29,22 +29,22 @@ class MembersNotifier extends ChangeNotifier {
       }).toList();
     } else {
       visibleMembers = allMembers.where((MemberModel member) {
-        return member.image != "" &&
-            member.nickname != "" &&
-            member.account != "";
+        return member.image != '' &&
+            member.nickname != '' &&
+            member.account != '';
       }).toList();
     }
   }
 
   Future<MemberModel> getAccountDetails(String accountName) async {
-    Box<MemberModel> box = await SafeHive.safeOpenBox("members");
+    var box = await SafeHive.safeOpenBox('members');
 
     if (isSystemAccount(accountName)) {
       return getSystemAccount(accountName);
     }
 
     if (!box.containsKey(accountName)) {
-      MemberModel member = await _http.getMember(accountName);
+      var member = await _http.getMember(accountName);
 
       if (member != null) {
         await box.put(accountName, member);
@@ -53,8 +53,8 @@ class MembersNotifier extends ChangeNotifier {
           accountName,
           MemberModel(
             account: accountName,
-            nickname: "Telos Account",
-            image: "",
+            nickname: 'Telos Account',
+            image: '',
           ),
         );
       }
@@ -64,7 +64,7 @@ class MembersNotifier extends ChangeNotifier {
   }
 
   Future<void> fetchMembersCache() async {
-    Box cacheMembers = await SafeHive.safeOpenBox<MemberModel>("members");
+    Box cacheMembers = await SafeHive.safeOpenBox<MemberModel>('members');
 
     if (cacheMembers != null && cacheMembers.isNotEmpty) {
       allMembers = cacheMembers.values.toList();
@@ -74,7 +74,7 @@ class MembersNotifier extends ChangeNotifier {
   }
 
   Future<void> addMembers(List<MemberModel> members) async {
-    Box cacheMembers = await SafeHive.safeOpenBox<MemberModel>("members");
+    Box cacheMembers = await SafeHive.safeOpenBox<MemberModel>('members');
     members.forEach((actualMember) {
       var memberKey = actualMember.account;
 
@@ -86,7 +86,7 @@ class MembersNotifier extends ChangeNotifier {
           MemberModel(
             nickname: actualMember.nickname.isNotEmpty
                 ? actualMember.nickname
-                : "Seeds Account",
+                : 'Seeds Account',
             account: actualMember.account,
             image: actualMember.image,
           ),

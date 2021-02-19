@@ -29,7 +29,7 @@ class ProfileHeader extends StatelessWidget {
                           width: 100.0,
                           height: 100.0,
                           child: state.profile?.image == null
-                              ? SizedBox.shrink()
+                              ? const SizedBox.shrink()
                               : CachedNetworkImage(
                                   imageUrl: state.profile?.image ?? '',
                                   fit: BoxFit.cover,
@@ -44,7 +44,7 @@ class ProfileHeader extends StatelessWidget {
                                           (state.profile?.nickname != null)
                                               ? state.profile?.nickname?.substring(0, 2)?.toUpperCase()
                                               : '?',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 24,
                                             fontWeight: FontWeight.w600,
@@ -83,7 +83,7 @@ class ProfileHeader extends StatelessWidget {
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             right: BorderSide(color: AppColors.jungle, width: 2),
                           ),
@@ -124,19 +124,19 @@ class ProfileHeader extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.circle,
                                     size: 36,
                                     color: Colors.transparent,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.circle,
                                     size: 36,
                                     color: Colors.transparent,
                                   ),
                                 ],
                               ),
-                              Positioned(
+                              const Positioned(
                                 width: 36,
                                 child: Icon(
                                   Icons.circle_notifications,
@@ -144,7 +144,7 @@ class ProfileHeader extends StatelessWidget {
                                   color: Colors.blue,
                                 ),
                               ),
-                              Positioned(
+                              const Positioned(
                                 width: 72,
                                 child: Icon(
                                   Icons.account_circle_rounded,
@@ -152,7 +152,7 @@ class ProfileHeader extends StatelessWidget {
                                   color: Colors.orange,
                                 ),
                               ),
-                              Positioned(
+                              const Positioned(
                                 width: 108,
                                 child: Icon(
                                   Icons.add_circle,

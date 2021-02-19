@@ -35,7 +35,7 @@ class AmountField extends StatefulWidget {
         currentCurrency == null || currentCurrency == SEEDS
             ? InputMode.seeds
             : InputMode.fiat,
-        inputString: initialValue?.fiatFormatted ?? "",
+        inputString: initialValue?.fiatFormatted ?? '',
       );
 }
 
@@ -56,8 +56,8 @@ class _AmountFieldState extends State<AmountField> {
 
   @override
   Widget build(BuildContext context) {
-    String fiat = _fiatCurrency;
-    double width = MediaQuery.of(context).size.width - 76;
+    var fiat = _fiatCurrency;
+    var width = MediaQuery.of(context).size.width - 76;
 
     return Column(
       children: [
@@ -74,31 +74,31 @@ class _AmountFieldState extends State<AmountField> {
             validator: (val) {
               String error;
 
-              double transferAmount = double.tryParse(val);
+              var transferAmount = double.tryParse(val);
               if (transferAmount == null) {
-                return "Invalid Amount".i18n;
+                return 'Invalid Amount'.i18n;
               } if (transferAmount == 0.0) {
-                error = "Amount cannot be 0.".i18n;
+                error = 'Amount cannot be 0.'.i18n;
               } else if (transferAmount < 0.0) {
-                error = "Amount cannot be negative.".i18n;
+                error = 'Amount cannot be negative.'.i18n;
               } 
 
               if (validateBalance) {
-                double availableBalance =
+                var availableBalance =
                     double.tryParse(widget.availableBalance.replaceFirst(' SEEDS', ''));
 
                 if (availableBalance == null) {
                   //error = "No balance.".i18n; // allow try send if we can't fetch balance for whatever reason
                 } else if (_getSeedsValue(val) > availableBalance) {
                   error =
-                      "Amount cannot be greater than availabe balance.".i18n;
+                      'Amount cannot be greater than availabe balance.'.i18n;
                 }
               }
               return error;
             },
             onChanged: (value) {
               setState(() {
-                this.inputString = value;
+                inputString = value;
               });
               widget.onChanged(_getSeedsValue(value), _getFieldValue(value),
                   _selectedCurrency);
@@ -142,12 +142,12 @@ class _AmountFieldState extends State<AmountField> {
           padding: const EdgeInsets.only(top: 5, left: 16, right: 16),
           child: Consumer<RateNotifier>(
             builder: (context, rateNotifier, child) {
-              var currencyText = inputString == null ? "" : _getOtherString();
+              var currencyText = inputString == null ? '' : _getOtherString();
               var availableText =(widget.availableBalance != null &&
-                          widget.availableBalance != '') ? widget.availableBalance + " " + "available".i18n : "";
-              double total = currencyText.length.toDouble() + availableText.length.toDouble();
-              double leftRatio = total == 0 ? 1 : currencyText.length / total;
-              double rightRatio = total == 0 ? 0 : availableText.length / total;
+                          widget.availableBalance != '') ? widget.availableBalance + ' ' + 'available'.i18n : '';
+              var total = currencyText.length.toDouble() + availableText.length.toDouble();
+              var leftRatio = total == 0 ? 1 : currencyText.length / total;
+              var rightRatio = total == 0 ? 0 : availableText.length / total;
               
               return Row(
                 children: [
@@ -181,11 +181,11 @@ class _AmountFieldState extends State<AmountField> {
 
   // shows the other currency below the input field - either fiat or Seeds.
   String _getOtherString() {
-    double fieldValue = inputString != null ? double.tryParse(inputString) : 0;
+    var fieldValue = inputString != null ? double.tryParse(inputString) : 0;
     if (fieldValue == null) {
-      return "";
+      return '';
     } else if (fieldValue == 0) {
-      return "0";
+      return '0';
     }
     return RateNotifier.of(context).amountToString(
         fieldValue, SettingsNotifier.of(context).selectedFiatCurrency,
@@ -193,7 +193,7 @@ class _AmountFieldState extends State<AmountField> {
   }
 
   double _getFieldValue(String value) {
-    double fieldValue = value != null ? double.tryParse(value) : 0;
+    var fieldValue = value != null ? double.tryParse(value) : 0;
     if (fieldValue == null || fieldValue == 0) {
       return 0;
     }
@@ -201,7 +201,7 @@ class _AmountFieldState extends State<AmountField> {
   }
 
   double _getSeedsValue(String value) {
-    double fieldValue = value != null ? double.tryParse(value) : 0;
+    var fieldValue = value != null ? double.tryParse(value) : 0;
     if (fieldValue == null || fieldValue == 0) {
       return 0;
     }

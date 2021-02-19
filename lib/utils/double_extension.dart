@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
-final fourDigitNumberFormat = NumberFormat("#,###,###,###,##0.0000");
-final twoDigitNumberFormat = NumberFormat("#,###,###,###,##0.00");
+final fourDigitNumberFormat = NumberFormat('#,###,###,###,##0.0000');
+final twoDigitNumberFormat = NumberFormat('#,###,###,###,##0.00');
 
 extension DoubleExtension on double {
   
@@ -19,7 +19,7 @@ extension DoubleExtension on double {
       if (this != 0 && (this > 0 ? this < 1 : this > -1) ) {
         return fourDigitNumberFormat.format(this);
       } else {
-        double number = (this * 100).toInt() / 100.0;
+        var number = (this * 100).toInt() / 100.0;
         return twoDigitNumberFormat.format(number);
       }
     } else {
