@@ -11,9 +11,9 @@ class ExploreStateMapper extends StateMapper {
 
   ExploreState mapResultsToState(ExploreState currentState, List<Result> results) {
     if (areAllResultsError(results)) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Page");
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
     } else {
-      print("ExploreStateMapper mapResultsToState length=" + results.length.toString());
+      print('ExploreStateMapper mapResultsToState length=' + results.length.toString());
       results.retainWhere((Result element) => element.isValue);
       List values = results.map((Result element) => element.asValue.value).toList();
 

@@ -19,12 +19,12 @@ class CardListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(defaultCardBorderRadious),
+      borderRadius: BorderRadius.circular(defaultCardBorderRadius),
       onTap: () => NavigationService.of(context).navigateTo(route),
       child: Ink(
         decoration: BoxDecoration(
           color: AppColors.greenfield,
-          borderRadius: BorderRadius.circular(defaultCardBorderRadious),
+          borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         ),
         child: ListTile(
           leading: Icon(leadingIcon),
@@ -32,7 +32,7 @@ class CardListTile extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.subtitle2,
           ),
-          trailing: Icon(Icons.arrow_forward_ios_sharp),
+          trailing: const Icon(Icons.arrow_forward_ios_sharp),
         ),
       ),
     );

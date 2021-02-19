@@ -46,7 +46,7 @@ class SettingsCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: AppColors.greenfield,
-            borderRadius: BorderRadius.circular(defaultCardBorderRadious),
+            borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,

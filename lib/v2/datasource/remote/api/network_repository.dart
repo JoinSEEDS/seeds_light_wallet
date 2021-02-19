@@ -10,14 +10,14 @@ export 'package:async/src/result/result.dart';
 abstract class NetworkRepository {
   String baseURL = Config.defaultEndpoint;
   String hyphaURL = Config.hyphaEndpoint;
-  Map<String, String> headers = {"Content-type": "application/json"};
+  Map<String, String> headers = {'Content-type': 'application/json'};
 
   Result mapSuccess(http.Response response, Function modelMapper) {
-    print("mapSuccess - statusCode: " + response.statusCode.toString());
+    print('mapSuccess - statusCode: ' + response.statusCode.toString());
     switch (response.statusCode) {
       case 200:
         {
-          print("Model Class: " + modelMapper.toString());
+          print('Model Class: ' + modelMapper.toString());
           var body = json.decode(response.body);
           return ValueResult(modelMapper(body));
         }
@@ -27,7 +27,7 @@ abstract class NetworkRepository {
   }
 
   Result mapError(error) {
-    print("mapError: " + error.toString());
+    print('mapError: ' + error.toString());
     return ErrorResult(error);
   }
 }

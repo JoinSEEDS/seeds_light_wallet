@@ -24,7 +24,7 @@ class ExploreScreen extends StatelessWidget {
             builder: (context, ExploreState state) {
               switch (state.pageState) {
                 case PageState.initial:
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 case PageState.loading:
                   return Container(
                       child: Center(
@@ -50,7 +50,7 @@ class ExploreScreen extends StatelessWidget {
                         ),
                         amountLabel: "Available Seeds",
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
@@ -64,7 +64,7 @@ class ExploreScreen extends StatelessWidget {
                               amountLabel: "Planted Seeds",
                             ),
                           ),
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: ExploreInfoCard(
                               callback: () {},
@@ -76,7 +76,7 @@ class ExploreScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
@@ -88,7 +88,7 @@ class ExploreScreen extends StatelessWidget {
                               amountLabel: "Seeds",
                             ),
                           ),
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: ExploreInfoCard(
                               callback: () {},
@@ -102,7 +102,7 @@ class ExploreScreen extends StatelessWidget {
                     ],
                   );
                 default:
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
               }
             },
           ),

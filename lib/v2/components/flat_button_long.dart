@@ -19,7 +19,7 @@ class FlatButtonLong extends StatelessWidget {
         disabledTextColor: Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
-          side: BorderSide(color: AppColors.jungle),
+          side: const BorderSide(color: AppColors.jungle),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),

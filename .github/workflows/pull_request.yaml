@@ -4,6 +4,20 @@ on:
     branches:
     - master
 jobs:
+#  workflow:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2 # (1)
+#      - name: Setup Flutter # (2)
+#        run: |
+#          git clone https://github.com/flutter/flutter.git --depth 1
+#          echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
+#      - name: Run Checks # (3)
+#        run: |
+#          flutter pub get
+#          flutter format lib/** --set-exit-if-changed
+#          flutter analyze --no-pub
+
   lint-and-test:
     runs-on: ubuntu-latest
     steps:
