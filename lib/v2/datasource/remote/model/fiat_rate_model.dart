@@ -1,14 +1,13 @@
 class FiatRateModel {
   final Map<String, double> ratesPerUSD;
-  final bool error;
 
-  FiatRateModel(this.ratesPerUSD, {this.error = false});
+  FiatRateModel(this.ratesPerUSD);
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return FiatRateModel(new Map<String, double>.from(json["rates"]));
+      return FiatRateModel(Map<String, double>.from(json["rates"]));
     } else {
-      return FiatRateModel(null, error: true);
+      return FiatRateModel(null);
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/settings/set_currency/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/i18n/set_currency.i18n.dart';
 
 class SetCurrencyScreen extends StatefulWidget {
@@ -35,16 +36,13 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: TextField(
+              child: TextFormFieldCustom(
                 controller: _queryController,
                 textCapitalization: TextCapitalization.characters,
-                decoration: InputDecoration(
-                  hintText: "Search..".i18n,
-                  hintStyle: Theme.of(context).textTheme.subtitle2,
-                  suffixIcon: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.search),
-                  ),
+                hintText: "Search..".i18n,
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.search),
                 ),
               ),
             ),

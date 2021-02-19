@@ -43,9 +43,7 @@ class ProfileMiddle extends StatelessWidget {
               'USD',
               style: Theme.of(context).textTheme.subtitle1HighEmphasis,
             ),
-            onTap: () {
-              NavigationService.of(context).navigateTo(Routes.setCurrency);
-            },
+            onTap: () {},
           ),
           const DividerJungle(),
           ListTile(
