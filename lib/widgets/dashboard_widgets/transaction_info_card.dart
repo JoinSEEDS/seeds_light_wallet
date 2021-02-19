@@ -11,23 +11,23 @@ import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 class TransactionInfoCard extends StatelessWidget {
-  final String ProfileAccount;
-  final String ProfileNickname;
-  final String ProfileImage;
-  final String Timestamp;
-  final String Amount;
-  final String TypeIcon;
+  final String profileAccount;
+  final String profileNickname;
+  final String profileImage;
+  final String timestamp;
+  final String amount;
+  final String typeIcon;
   final GestureTapCallback callback;
 
   const TransactionInfoCard({
     Key key,
-    @required this.Amount,
+    @required this.amount,
     @required this.callback,
-    @required this.ProfileAccount,
-    @required this.ProfileNickname,
-    @required this.ProfileImage,
-    @required this.Timestamp,
-    @required this.TypeIcon,
+    @required this.profileAccount,
+    @required this.profileNickname,
+    @required this.profileImage,
+    @required this.timestamp,
+    @required this.typeIcon,
   }) : super(key: key);
 
   @override
@@ -44,9 +44,9 @@ class TransactionInfoCard extends StatelessWidget {
             children: <Widget>[
               TransactionAvatar(
                 size: 60,
-                account: ProfileAccount,
-                nickname: ProfileNickname,
-                image: ProfileImage,
+                account: profileAccount,
+                nickname: profileNickname,
+                image: profileImage,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: AppColors.jungle,
@@ -62,22 +62,22 @@ class TransactionInfoCard extends StatelessWidget {
                         children: <Widget>[
                           Expanded(
                               child: Text(
-                            ProfileNickname,
+                            profileNickname,
                             style: Theme.of(context).textTheme.button,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           )),
                           const SizedBox(width: 40),
-                          Text(Amount.seedsFormatted, style: Theme.of(context).textTheme.button),
+                          Text(amount.seedsFormatted, style: Theme.of(context).textTheme.button),
                           const SizedBox(width: 4),
-                          SvgPicture.asset(TypeIcon, height: 16)
+                          SvgPicture.asset(typeIcon, height: 16)
                         ],
                       ),
                       const SizedBox(height: 10),
                       Row(
                         children: <Widget>[
                           Expanded(
-                              child: Text(readTimestamp(Timestamp),
+                              child: Text(timesTampToTimeAgo(timestamp),
                                   style: Theme.of(context).textTheme.subtitle2)),
                           Text('SEEDS'.i18n, style: Theme.of(context).textTheme.subtitle2)
                         ],

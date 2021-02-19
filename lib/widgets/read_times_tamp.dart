@@ -1,6 +1,12 @@
 import 'package:timeago/timeago.dart' as timeago;
 
-String readTimestamp(String timestamp) {
+// Link to timeago latest release
+//https://pub.dev/documentation/timeago/latest/
+
+//Link to timeago library
+//https://pub.dev/documentation/timeago/latest/timeago/timeago-library.html
+
+String timesTampToTimeAgo(String timestamp) {
 
   var covertTimesTamp = DateTime.parse(timestamp);
   covertTimesTamp = covertTimesTamp.toUtc();

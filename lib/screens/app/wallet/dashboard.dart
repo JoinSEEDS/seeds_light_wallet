@@ -363,12 +363,12 @@ class _DashboardState extends State<Dashboard> {
               callback: () {
                 onTransaction(transaction: model, member: member.data, type: type);
               },
-              ProfileAccount: member.data.account,
-              ProfileNickname: member.data.nickname,
-              ProfileImage: member.data.image,
-              Timestamp: model.timestamp,
-              Amount: model.quantity,
-              TypeIcon: type == TransactionType.income
+              profileAccount: member.data.account,
+              profileNickname: member.data.nickname,
+              profileImage: member.data.image,
+              timestamp: model.timestamp,
+              amount: model.quantity,
+              typeIcon: type == TransactionType.income
                   ? 'assets/images/wallet/arrow_up.svg'
                   : 'assets/images/wallet/arrow_down.svg',
             )
@@ -410,7 +410,7 @@ class _DashboardState extends State<Dashboard> {
                       Container(
                         height: 16,
                         color: Colors.black,
-                        margin: EdgeInsets.only(left: 10, right: 10),
+                        margin: const EdgeInsets.only(left: 10, right: 10),
                       ),
                     ],
                   ),
