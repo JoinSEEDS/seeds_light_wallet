@@ -47,8 +47,8 @@ class AppColors {
   static const gradient = [blue, blue];
 
   static Color getColorByString(String str) {
-    int hash = 0;
-    if (str == null || str.length == 0) return Colors.grey;
+    var hash = 0;
+    if (str == null || str.isEmpty) return Colors.grey;
     for (var i = 0; i < str.length; i++) {
       hash = str.codeUnitAt(i) + ((hash << 5) - hash);
       hash = hash & hash; // Convert to 32bit integer

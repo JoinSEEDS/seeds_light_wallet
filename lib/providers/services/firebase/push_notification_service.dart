@@ -4,7 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 
-const guardianInviteReceived = "guardianInviteReceived";
+const guardianInviteReceived = 'guardianInviteReceived';
 
 class PushNotificationService {
   PushNotificationService._();
@@ -21,7 +21,7 @@ class PushNotificationService {
     if (!_initialized) {
       if (Platform.isIOS) {
         _firebaseMessaging.onIosSettingsRegistered.listen((data) {
-          print("onIosSettingsRegistered data: $data");
+          print('onIosSettingsRegistered data: $data');
         });
 
         _firebaseMessaging.requestNotificationPermissions(IosNotificationSettings());
@@ -29,20 +29,20 @@ class PushNotificationService {
 
       _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-          print("onMessage: $message");
+          print('onMessage: $message');
         },
         onLaunch: (Map<String, dynamic> message) async {
-          print("onLaunch: $message");
+          print('onLaunch: $message');
         },
         onResume: (Map<String, dynamic> message) async {
-          print("onResume: $message");
-          backgroundMessageHandler(message, context);
+          print('onResume: $message');
+          await backgroundMessageHandler(message, context);
         },
       );
 
       // For testing purposes print the Firebase Messaging token
       token = await _firebaseMessaging.getToken();
-      print("FirebaseMessaging token: $token");
+      print('FirebaseMessaging token: $token');
 
       _firebaseMessaging.onTokenRefresh.listen((newToken) {
         token = newToken;
@@ -57,11 +57,11 @@ Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message, BuildCont
   if (message.containsKey('data')) {
     // Handle data message
     final Map<dynamic, dynamic> data = message['data'];    
-    var notificationTypeId = data["notification_type_id"];
+    var notificationTypeId = data['notification_type_id'];
 
     if (notificationTypeId == guardianInviteReceived) {
       //Navigate to Guardians Screen
-      NavigationService.of(context).navigateTo(Routes.guardianTabs);
+      await NavigationService.of(context).navigateTo(Routes.guardianTabs);
     }
   }
 

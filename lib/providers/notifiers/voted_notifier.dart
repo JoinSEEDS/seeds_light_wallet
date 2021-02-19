@@ -22,8 +22,8 @@ class VotedNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  Future<VoteResult> fetchVote({proposalId: int}) async {
-    Box box = await SafeHive.safeOpenBox<VoteResult>("votes.1.box");
+  Future<VoteResult> fetchVote({proposalId = int}) async {
+    Box box = await SafeHive.safeOpenBox<VoteResult>('votes.1.box');
     VoteResult result = box.get(proposalId);
     if (result == null) {
       result = await _http.getVote(proposalId: proposalId);

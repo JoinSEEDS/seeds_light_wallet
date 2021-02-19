@@ -22,6 +22,7 @@ class EmptyButton extends StatelessWidget {
     this.textScaleFactor = 1.0
   });
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: width,

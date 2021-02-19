@@ -18,7 +18,7 @@ class InvitesNotifier extends ChangeNotifier {
   }
 
   Future fetchInvites() async {
-    List<InviteModel> allInvites = await _http.getInvites();
+    var allInvites = await _http.getInvites();
 
     activeInvites = allInvites.where((invite) => invite.account.isEmpty).toList();
     invitedMembers = allInvites

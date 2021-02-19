@@ -13,11 +13,11 @@ class LineItem {
 }
 
 class CartModel {
-  var lineItems = List<LineItem>();
+  var lineItems = <LineItem>[];
   double donationDiscount = 0; // 0 - 1, negative for discount
   double customAmount = 0;
 
-  bool get isShowProducts => lineItems.length > 0;
+  bool get isShowProducts => lineItems.isNotEmpty;
   bool get isShowCustom => !isShowProducts;
 
   CurrencyConverter currencyConverter;
@@ -35,11 +35,11 @@ class CartModel {
     _add(product, 1);
   }
 
-  void remove(ProductModel product, {deleteOnZero: false}) {
+  void remove(ProductModel product, {deleteOnZero = false}) {
     _add(product, -1, deleteOnZero: deleteOnZero);
   }
   
-  void _add(ProductModel product, int quantity, {deleteOnZero: false}) {
+  void _add(ProductModel product, int quantity, {deleteOnZero = false}) {
     var item = itemFor(product);
     if (item != null) {
       item.quantity += quantity;
@@ -48,8 +48,9 @@ class CartModel {
         lineItems.remove(item);
       }
     } else {
-      if (quantity > 0)
+      if (quantity > 0) {
         lineItems.add(LineItem(product: product, quantity: quantity));
+      }
     }
   }
 

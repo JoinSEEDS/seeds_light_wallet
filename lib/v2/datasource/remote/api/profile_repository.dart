@@ -10,8 +10,8 @@ class ProfileRepository extends NetworkRepository {
   Future<Result> getProfile(String userAccount) {
     print('[http] get seeds getProfile $userAccount');
 
-    const String profileURL = 'https://mainnet.telosusa.io/v1/chain/get_table_rows';
-    String request =
+    const profileURL = 'https://mainnet.telosusa.io/v1/chain/get_table_rows';
+    var request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
 
     return http

@@ -16,7 +16,7 @@ class MainButton extends StatefulWidget {
     this.fontSize = 18,
     this.margin,
     this.onPressed,
-    this.active: true,
+    this.active = true,
   }): super(key: key);
 
   @override
@@ -26,6 +26,7 @@ class MainButton extends StatefulWidget {
 class MainButtonState extends State<MainButton> {
   bool isLoading = false;
 
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(

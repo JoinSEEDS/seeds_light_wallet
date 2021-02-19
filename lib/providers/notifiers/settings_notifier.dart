@@ -4,18 +4,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SettingsNotifier extends ChangeNotifier {
-  static const ACCOUNT_NAME = "accountName";
-  static const PRIVATE_KEY = "privateKey";
-  static const PASSCODE = "passcode";
-  static const PASSCODE_ACTIVE = "passcode_active";
+  static const ACCOUNT_NAME = 'accountName';
+  static const PRIVATE_KEY = 'privateKey';
+  static const PASSCODE = 'passcode';
+  static const PASSCODE_ACTIVE = 'passcode_active';
   static const PASSCODE_ACTIVE_DEFAULT = true;
-  static const NODE_ENDPOINT = "nodeEndpoint";
-  static const PRIVATE_KEY_BACKED_UP = "private_key_backed_up";
-  static const BACKUP_LATEST_REMINDER = "backup_latest_reminder";
-  static const BACKUP_REMINDER_COUNT = "backup_reminder_count";
-  static const SELECTED_FIAT_CURRENCY = "selected_fiat_currency";
-  static const IN_RECOVERY_MODE = "in_recovery_mode";
-  static const GUARDIAN_TUTORIAL_SHOWN = "guardian_tutorial_shown";
+  static const NODE_ENDPOINT = 'nodeEndpoint';
+  static const PRIVATE_KEY_BACKED_UP = 'private_key_backed_up';
+  static const BACKUP_LATEST_REMINDER = 'backup_latest_reminder';
+  static const BACKUP_REMINDER_COUNT = 'backup_reminder_count';
+  static const SELECTED_FIAT_CURRENCY = 'selected_fiat_currency';
+  static const IN_RECOVERY_MODE = 'in_recovery_mode';
+  static const GUARDIAN_TUTORIAL_SHOWN = 'guardian_tutorial_shown';
 
   String _privateKey;
   String _passcode;
@@ -92,25 +92,21 @@ class SettingsNotifier extends ChangeNotifier {
   void init() async {
     _preferences = await SharedPreferences.getInstance();
     _secureStorage = FlutterSecureStorage();
-    _secureStorage.readAll().then((values) {
+    await _secureStorage.readAll().then((values) {
       _privateKey = values[PRIVATE_KEY];
-      if (_privateKey == null) {
-        _privateKey = _migrateFromPrefs(PRIVATE_KEY);
-      }
+      _privateKey ??= _migrateFromPrefs(PRIVATE_KEY);
 
       _passcode = values[PASSCODE];
-      if (_passcode == null) {
-        _passcode = _migrateFromPrefs(PASSCODE);
-      }
+      _passcode ??= _migrateFromPrefs(PASSCODE);
 
       if (values.containsKey(PASSCODE_ACTIVE)) {
-        _passcodeActive = values[PASSCODE_ACTIVE] == "true";
+        _passcodeActive = values[PASSCODE_ACTIVE] == 'true';
       } else {
         _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
       }
 
       if (values.containsKey(PRIVATE_KEY_BACKED_UP)) {
-        _privateKeyBackedUp = values[PRIVATE_KEY_BACKED_UP] == "true";
+        _privateKeyBackedUp = values[PRIVATE_KEY_BACKED_UP] == 'true';
       } else {
         _privateKeyBackedUp = false;
       }
@@ -134,7 +130,7 @@ class SettingsNotifier extends ChangeNotifier {
     if (value != null) {
       _secureStorage.write(key: key, value: value);
       _preferences?.remove(key);
-      debugPrint("Converted $key to secure storage");
+      debugPrint('Converted $key to secure storage');
     }
     return value;
   }
@@ -146,21 +142,21 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   void enableRecoveryMode({String accountName, String privateKey}) {
-    this.inRecoveryMode = true;
+    inRecoveryMode = true;
     this.accountName = accountName;
     this.privateKey = privateKey;
     notifyListeners();
   }
 
   void finishRecoveryProcess() {
-    this.inRecoveryMode = false;
+    inRecoveryMode = false;
     notifyListeners();
   }
 
   void cancelRecoveryProcess() {
-    this.inRecoveryMode = false;
-    this.accountName = null;
-    this.privateKey = null;
+    inRecoveryMode = false;
+    accountName = null;
+    privateKey = null;
     notifyListeners();
   }
 
@@ -170,9 +166,9 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   void savePasscodeActive(bool value) {
-    this.passcodeActive = value;
+    passcodeActive = value;
     if (!passcodeActive) {
-      this.passcode = null;
+      passcode = null;
     }
     notifyListeners();
   }
@@ -184,23 +180,23 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   void savePrivateKeyBackedUp(bool value) {
-    this.privateKeyBackedUp = value;
+    privateKeyBackedUp = value;
     notifyListeners();
   }
 
   void saveSelectedFiatCurrency(String value) {
-    this.selectedFiatCurrency = value;
+    selectedFiatCurrency = value;
     notifyListeners();
   }
 
   void saveGuardianTutorialShown(bool value) {
-    this.guardianTutorialShown = value;
+    guardianTutorialShown = value;
     notifyListeners();
   }
 
   void updateBackupLater() {
-    this.backupLatestReminder = DateTime.now().millisecondsSinceEpoch;
-    this.backupReminderCount++;
+    backupLatestReminder = DateTime.now().millisecondsSinceEpoch;
+    backupReminderCount++;
     notifyListeners();
   }
 

@@ -34,50 +34,50 @@ import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
-  static final app = "App";
-  static final transferForm = "TransferForm";
-  static final onboarding = "Onboarding";
-  static final joinProcess = "JoinProcess";
-  static final importAccount = "ImportAccount";
-  static final createAccount = "CreateAccount";
-  static final showInvite = "ShowInvite";
-  static final claimCode = "ClaimCode";
-  static final welcome = "Welcome";
-  static final transfer = "Transfer";
-  static final invites = "Invites";
-  static final createInvite = "CreateInvite";
-  static final proposals = "Proposals";
-  static final proposalDetailsPage = "ProposalDetailsPage";
-  static final overview = "Overview";
-  static final explore = "Explore";
-  static final dashboard = "Dashboard";
-  static final logout = "Logout";
+  static final app = 'App';
+  static final transferForm = 'TransferForm';
+  static final onboarding = 'Onboarding';
+  static final joinProcess = 'JoinProcess';
+  static final importAccount = 'ImportAccount';
+  static final createAccount = 'CreateAccount';
+  static final showInvite = 'ShowInvite';
+  static final claimCode = 'ClaimCode';
+  static final welcome = 'Welcome';
+  static final transfer = 'Transfer';
+  static final invites = 'Invites';
+  static final createInvite = 'CreateInvite';
+  static final proposals = 'Proposals';
+  static final proposalDetailsPage = 'ProposalDetailsPage';
+  static final overview = 'Overview';
+  static final explore = 'Explore';
+  static final dashboard = 'Dashboard';
+  static final logout = 'Logout';
   static final imageViewer = 'ImageViewer';
-  static final plantSeeds = "plantSeeds";
-  static final customTransaction = "CustomTransation";
-  static final scanQRCode = "ScanQRCode";
+  static final plantSeeds = 'plantSeeds';
+  static final customTransaction = 'CustomTransation';
+  static final scanQRCode = 'ScanQRCode';
   static final receive = 'Receive';
   static final receiveConfirmation = 'ReceiveConfirmation';
   static final receiveCustom = 'ReceiveCustom';
   static final receiveQR = 'ReceiveQR';
-  static final selectGuardians = "SelectGuardians";
-  static final inviteGuardians = "InviteGuardians";
-  static final inviteGuardiansSent = "InviteGuardiansSent";
-  static final guardianTabs = "GuardianTabs";
-  static final dho = "DHO";
-  static final guardians = "Guardians";
-  static final settings = "Settings";
-  static final editName = "EditName";
+  static final selectGuardians = 'SelectGuardians';
+  static final inviteGuardians = 'InviteGuardians';
+  static final inviteGuardiansSent = 'InviteGuardiansSent';
+  static final guardianTabs = 'GuardianTabs';
+  static final dho = 'DHO';
+  static final guardians = 'Guardians';
+  static final settings = 'Settings';
+  static final editName = 'EditName';
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> onboardingNavigatorKey = new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> onboardingNavigatorKey = GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> appNavigatorKey = new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> walletNavigatorKey = new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> walletNavigatorKey = GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> ecosystemNavigatorKey = new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> ecosystemNavigatorKey = GlobalKey<NavigatorState>();
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
@@ -164,8 +164,8 @@ class NavigationService {
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    String routeName = settings.name;
-    Object arguments = settings.arguments;
+    var routeName = settings.name;
+    var arguments = settings.arguments;
 
     if (appRoutes[routeName] != null) {
       return MaterialPageRoute(
@@ -201,11 +201,11 @@ class NavigationService {
   static RoutePredicate predicateForName(String name) {
     return (Route<dynamic> route) {
       //print("Route: ${route.settings.name}" + " modal: ${route is ModalRoute} handlepop: ${route.willHandlePopInternally}");
-      if (route.settings.name == "/" && name != "/") {
-        print("pop error: Route name not found: " + name);
+      if (route.settings.name == '/' && name != '/') {
+        print('pop error: Route name not found: ' + name);
       }
       return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
-          route.settings.name == "/";
+          route.settings.name == '/';
     };
   }
 }

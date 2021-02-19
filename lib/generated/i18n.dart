@@ -54,7 +54,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
 
   @override
   Future<S> load(Locale locale) {
-    final String lang = getLang(locale);
+    final lang = getLang(locale);
     if (lang != null) {
       switch (lang) {
         case "en":
@@ -82,13 +82,13 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
       return fallback ?? supported.first;
     }
 
-    final Locale languageLocale = Locale(locale.languageCode, "");
+    final languageLocale = Locale(locale.languageCode, "");
     if (supported.contains(locale)) {
       return locale;
     } else if (supported.contains(languageLocale)) {
       return languageLocale;
     } else {
-      final Locale fallbackLocale = fallback ?? supported.first;
+      final fallbackLocale = fallback ?? supported.first;
       return fallbackLocale;
     }
   }
@@ -98,7 +98,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   ///
   bool _isSupported(Locale locale, bool withCountry) {
     if (locale != null) {
-      for (Locale supportedLocale in supportedLocales) {
+      for (var supportedLocale in supportedLocales) {
         // Language must always match both locales.
         if (supportedLocale.languageCode != locale.languageCode) {
           continue;

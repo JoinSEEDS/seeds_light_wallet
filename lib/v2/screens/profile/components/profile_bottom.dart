@@ -31,7 +31,7 @@ class ProfileBottom extends StatelessWidget {
                       bottomLeft: Radius.circular(12.0),
                     ),
                     child: SvgPicture.asset(
-                      "assets/images/lotus.svg",
+                      'assets/images/lotus.svg',
                       alignment: Alignment.centerLeft,
                       color: AppColors.canopy,
                     ),

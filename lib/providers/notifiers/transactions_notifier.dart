@@ -20,7 +20,7 @@ class TransactionsNotifier extends ChangeNotifier {
 
   Future fetchTransactionsCache() async {
     Box cacheTransactions =
-        await SafeHive.safeOpenBox<TransactionModel>("transactions");
+        await SafeHive.safeOpenBox<TransactionModel>('transactions');
     if (cacheTransactions != null && cacheTransactions.isNotEmpty) {
       transactions = cacheTransactions.values.toList();
       notifyListeners();
@@ -29,11 +29,11 @@ class TransactionsNotifier extends ChangeNotifier {
 
   Future refreshTransactions() async {
     Box cacheTransactions =
-        await SafeHive.safeOpenBox<TransactionModel>("transactions");
+        await SafeHive.safeOpenBox<TransactionModel>('transactions');
 
-    List<TransactionModel> actualTransactions = await _http.getTransactions();
+    var actualTransactions = await _http.getTransactions();
 
-    if (actualTransactions.length > 0) {
+    if (actualTransactions.isNotEmpty) {
       await cacheTransactions.clear();
       await cacheTransactions.addAll(actualTransactions);
     }

@@ -19,15 +19,13 @@ class ProductModel extends HiveObject {
   ProductModel({this.name, this.picture, this.price, this.id, this.currency, this.position});
 
   double seedsPrice(CurrencyConverter converter) {
-    return currency == "SEEDS" ? price : converter.toSeeds(price, currency);
+    return currency == 'SEEDS' ? price : converter.toSeeds(price, currency);
     }
 
   factory ProductModel.fromSnapshot(QueryDocumentSnapshot data) {
     return ProductModel(
       name: data.data()[PRODUCT_NAME_KEY],
-      picture: data.data()[PRODUCT_IMAGE_URL_KEY] != null
-          ? data.data()[PRODUCT_IMAGE_URL_KEY]
-          : "",
+      picture: data.data()[PRODUCT_IMAGE_URL_KEY] ?? "",
       price: data.data()[PRODUCT_PRICE_KEY],
       id: data.id,
       currency: data.data()[PRODUCT_CURRENCY_KEY],
@@ -57,13 +55,13 @@ class InviteModel {
 
   factory InviteModel.fromJson(Map<String, dynamic> json) {
     return InviteModel(
-      inviteId: json["invite_id"],
-      transferQuantity: json["transfer_quantity"],
-      sowQuantity: json["sow_quantity"],
-      sponsor: json["sponsor"],
-      account: json["account"],
-      inviteHash: json["invite_hash"],
-      inviteSecret: json["invite_secret"],
+      inviteId: json['invite_id'],
+      transferQuantity: json['transfer_quantity'],
+      sowQuantity: json['sow_quantity'],
+      sponsor: json['sponsor'],
+      account: json['account'],
+      inviteHash: json['invite_hash'],
+      inviteSecret: json['invite_secret'],
     );
   }
 
@@ -98,13 +96,13 @@ class UserRecoversModel {
       this.exists});
 
   factory UserRecoversModel.fromTableRows(List<dynamic> rows) {
-    if (rows.isNotEmpty && rows[0]["account"].isNotEmpty) {
+    if (rows.isNotEmpty && rows[0]['account'].isNotEmpty) {
       return UserRecoversModel(
         exists: true,
-        account: rows[0]["account"],
-        guardians: List<String>.from(rows[0]["guardians"]),
-        publicKey: rows[0]["public key"],
-        completeTimestamp: rows[0]["complete_timestamp"],
+        account: rows[0]['account'],
+        guardians: List<String>.from(rows[0]['guardians']),
+        publicKey: rows[0]['public key'],
+        completeTimestamp: rows[0]['complete_timestamp'],
       );
     } else {
       return UserRecoversModel(exists: false);
@@ -122,12 +120,12 @@ class UserGuardiansModel {
       {this.account, this.guardians, this.timeDelaySec, this.exists});
 
   factory UserGuardiansModel.fromTableRows(List<dynamic> rows) {
-    if (rows.isNotEmpty && rows[0]["account"].isNotEmpty) {
+    if (rows.isNotEmpty && rows[0]['account'].isNotEmpty) {
       try {
-        bool exists = true;
-        String account = rows[0]["account"];
-        List<String> guardians = List<String>.from(rows[0]["guardians"]);
-        int timeDelaySec = rows[0]["time_delay_sec"];
+        var exists = true;
+        String account = rows[0]['account'];
+        var guardians = List<String>.from(rows[0]['guardians']);
+        int timeDelaySec = rows[0]['time_delay_sec'];
 
         var result = UserGuardiansModel(
             exists: exists,
@@ -136,11 +134,11 @@ class UserGuardiansModel {
             timeDelaySec: timeDelaySec);
         return result;
       } catch (error) {
-        print("error: " + error.toString());
+        print('error: ' + error.toString());
         return UserGuardiansModel(exists: false);
       }
     } else {
-      print("no valid data...");
+      print('no valid data...');
       return UserGuardiansModel(exists: false);
     }
   }
@@ -155,9 +153,9 @@ class MemberModel {
 
   factory MemberModel.fromJson(Map<String, dynamic> json) {
     return MemberModel(
-      account: json["account"],
-      nickname: json["nickname"],
-      image: json["image"],
+      account: json['account'],
+      nickname: json['nickname'],
+      image: json['image'],
     );
   }
 
@@ -186,23 +184,23 @@ class TransactionModel {
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      json["act"]["data"]["from"],
-      json["act"]["data"]["to"],
-      json["act"]["data"]["quantity"],
-      json["act"]["data"]["memo"],
-      json["@timestamp"],
-      json["trx_id"],
+      json['act']['data']['from'],
+      json['act']['data']['to'],
+      json['act']['data']['quantity'],
+      json['act']['data']['memo'],
+      json['@timestamp'],
+      json['trx_id'],
     );
   }
   
   factory TransactionModel.fromJsonMongo(Map<String, dynamic> json) {
     return TransactionModel(
-      json["act"]["data"]["from"],
-      json["act"]["data"]["to"],
-      json["act"]["data"]["quantity"],
-      json["act"]["data"]["memo"],
-      json["block_time"],
-      json["trx_id"],
+      json['act']['data']['from'],
+      json['act']['data']['to'],
+      json['act']['data']['quantity'],
+      json['act']['data']['memo'],
+      json['block_time'],
+      json['trx_id'],
       //json["block_num"], // can add this later - neat but changes cache structure
     );
   }
@@ -234,20 +232,20 @@ class FiatRateModel {
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return FiatRateModel(new Map<String, double>.from(json["rates"]));
+      return FiatRateModel(Map<String, double>.from(json['rates']));
     } else {
       return FiatRateModel(null, error: true);
     }
   }
 
   double usdTo(double usdValue, String currency) {
-    double rate = ratesPerUSD[currency];
+    var rate = ratesPerUSD[currency];
     assert(rate != null);
     return usdValue * rate;
   }
 
   double toUSD(double currencyValue, String currency) {
-    double rate = ratesPerUSD[currency];
+    var rate = ratesPerUSD[currency];
     assert(rate != null);
     return rate > 0 ? currencyValue / rate : 0;
   }
@@ -263,7 +261,7 @@ class RateModel {
     if (json != null && json.isNotEmpty) {
       return RateModel(
           _parseQuantityString(
-              json["rows"][0]["current_seeds_per_usd"] as String),
+              json['rows'][0]['current_seeds_per_usd'] as String),
           false);
     } else {
       return RateModel(0, true);
@@ -274,7 +272,7 @@ class RateModel {
     if (quantityString == null) {
       return 0;
     }
-    return double.parse(quantityString.split(" ")[0]);
+    return double.parse(quantityString.split(' ')[0]);
   }
 
   double toUSD(double seedsAmount) {
@@ -310,8 +308,8 @@ class HarvestModel {
 
   factory HarvestModel.fromJson(Map<String, dynamic> json) {
     return HarvestModel(
-      planted: json["rows"][0]["planted"],
-      reward: json["rows"][0]["reward"],
+      planted: json['rows'][0]['planted'],
+      reward: json['rows'][0]['reward'],
     );
   }
 }
@@ -332,14 +330,14 @@ class ScoreModel {
   });
 
   factory ScoreModel.fromJson(Map<String, dynamic> json) {
-    Map<String, dynamic> item = json["rows"][0];
+    Map<String, dynamic> item = json['rows'][0];
 
     return ScoreModel(
-      plantedScore: item["planted_score"],
-      transactionsScore: item["transactions_score"],
-      reputationScore: item["reputation_score"],
-      communityBuildingScore: item["community_building_score"],
-      contributionScore: item["contribution_score"],
+      plantedScore: item['planted_score'],
+      transactionsScore: item['transactions_score'],
+      reputationScore: item['reputation_score'],
+      communityBuildingScore: item['community_building_score'],
+      contributionScore: item['contribution_score'],
     );
   }
 }
@@ -358,13 +356,13 @@ class ExchangeModel {
   });
 
   factory ExchangeModel.fromJson(Map<String, dynamic> json) {
-    var item = json["rows"][0];
+    var item = json['rows'][0];
 
     return ExchangeModel(
-      rate: item["rate"],
-      citizenLimit: item["citizen_limit"],
-      residentLimit: item["resident_limit"],
-      visitorLimit: item["visitor_limit"],
+      rate: item['rate'],
+      citizenLimit: item['citizen_limit'],
+      residentLimit: item['resident_limit'],
+      visitorLimit: item['visitor_limit'],
     );
   }
 }
@@ -375,8 +373,8 @@ class VoiceModel {
   VoiceModel(this.amount);
 
   factory VoiceModel.fromJson(Map<String, dynamic> json) {
-    if (json != null && json["rows"].isNotEmpty) {
-      return VoiceModel(json["rows"][0]["balance"] as int);
+    if (json != null && json['rows'].isNotEmpty) {
+      return VoiceModel(json['rows'][0]['balance'] as int);
     } else {
       return VoiceModel(0);
     }
@@ -412,9 +410,9 @@ class ProposalModel {
   final String fund;
   final int creationDate;
   ProposalType get type {
-    return fund == "allies.seeds"
+    return fund == 'allies.seeds'
         ? ProposalType.alliance
-        : fund == "hypha.seeds"
+        : fund == 'hypha.seeds'
             ? ProposalType.hypha
             : ProposalType.campaign;
   }
@@ -442,24 +440,24 @@ class ProposalModel {
 
   factory ProposalModel.fromJson(Map<String, dynamic> json) {
     return ProposalModel(
-      id: json["id"],
-      creator: json["creator"],
-      recipient: json["recipient"],
-      quantity: json["quantity"],
-      staked: json["staked"],
-      executed: json["executed"],
-      total: json["total"],
-      favour: json["favour"],
-      against: json["against"],
-      title: json["title"],
-      summary: json["summary"],
-      description: json["description"],
-      image: json["image"],
-      url: json["url"],
-      status: json["status"],
-      stage: json["stage"],
-      fund: json["fund"],
-      creationDate: json["creation_date"],
+      id: json['id'],
+      creator: json['creator'],
+      recipient: json['recipient'],
+      quantity: json['quantity'],
+      staked: json['staked'],
+      executed: json['executed'],
+      total: json['total'],
+      favour: json['favour'],
+      against: json['against'],
+      title: json['title'],
+      summary: json['summary'],
+      description: json['description'],
+      image: json['image'],
+      url: json['url'],
+      status: json['status'],
+      stage: json['stage'],
+      fund: json['fund'],
+      creationDate: json['creation_date'],
     );
   }
 
