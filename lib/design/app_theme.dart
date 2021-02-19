@@ -35,20 +35,20 @@ class SeedsTextTheme {
     return Typography.material2018()
         .englishLike
         .copyWith(
-      headline3:
-      Typography.material2018().englishLike.headline3.copyWith(fontSize: 42, fontWeight: FontWeight.w600),
-      headline4:
-      Typography.material2018().englishLike.headline4.copyWith(fontSize: 36, fontWeight: FontWeight.w500),
-      headline5:
-      Typography.material2018().englishLike.headline5.copyWith(fontSize: 28, fontWeight: FontWeight.w600),
-      headline6:
-      Typography.material2018().englishLike.headline6.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
-      subtitle1:
-      Typography.material2018().englishLike.subtitle1.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
-      subtitle2:
-      Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
-      button: Typography.material2018().englishLike.button.copyWith(fontSize: 16),
-    )
+          headline3:
+              Typography.material2018().englishLike.headline3.copyWith(fontSize: 42, fontWeight: FontWeight.w600),
+          headline4:
+              Typography.material2018().englishLike.headline4.copyWith(fontSize: 36, fontWeight: FontWeight.w500),
+          headline5:
+              Typography.material2018().englishLike.headline5.copyWith(fontSize: 28, fontWeight: FontWeight.w600),
+          headline6:
+              Typography.material2018().englishLike.headline6.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
+          subtitle1:
+              Typography.material2018().englishLike.subtitle1.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
+          subtitle2:
+              Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
+          button: Typography.material2018().englishLike.button.copyWith(fontSize: 16),
+        )
         .apply(displayColor: Colors.black, bodyColor: Colors.black);
   }
 
@@ -56,20 +56,20 @@ class SeedsTextTheme {
     return Typography.material2018()
         .englishLike
         .copyWith(
-      headline3:
-      Typography.material2018().englishLike.headline3.copyWith(fontSize: 42, fontWeight: FontWeight.w600),
-      headline4:
-      Typography.material2018().englishLike.headline4.copyWith(fontSize: 36, fontWeight: FontWeight.w500),
-      headline5:
-      Typography.material2018().englishLike.headline5.copyWith(fontSize: 28, fontWeight: FontWeight.w600),
-      headline6:
-      Typography.material2018().englishLike.headline6.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
-      subtitle1:
-      Typography.material2018().englishLike.subtitle1.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
-      subtitle2:
-      Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
-      button: Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
-    )
+          headline3:
+              Typography.material2018().englishLike.headline3.copyWith(fontSize: 42, fontWeight: FontWeight.w600),
+          headline4:
+              Typography.material2018().englishLike.headline4.copyWith(fontSize: 36, fontWeight: FontWeight.w500),
+          headline5:
+              Typography.material2018().englishLike.headline5.copyWith(fontSize: 28, fontWeight: FontWeight.w600),
+          headline6:
+              Typography.material2018().englishLike.headline6.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
+          subtitle1:
+              Typography.material2018().englishLike.subtitle1.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
+          subtitle2:
+              Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
+          button: Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
+        )
         .apply(displayColor: Colors.white, bodyColor: Colors.white);
   }
 }
