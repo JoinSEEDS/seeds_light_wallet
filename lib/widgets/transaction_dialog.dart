@@ -26,7 +26,7 @@ class TransactionDialogState extends State<TransactionDialog> {
 
   void onShare() {
     final transactionId = widget.transaction.transactionId;
-    final transactionLink = "https://telos.bloks.io/transaction/$transactionId";
+    final transactionLink = 'https://telos.bloks.io/transaction/$transactionId';
 
     Share.share(transactionLink);
   }
@@ -34,7 +34,7 @@ class TransactionDialogState extends State<TransactionDialog> {
   Widget buildHeader() {
     final width = MediaQuery.of(context).size.width;
 
-    var df = DateFormat("EEE dd MMM y kk:mm:ss");
+    var df = DateFormat('EEE dd MMM y kk:mm:ss');
     final time = df.format(DateTime.tryParse(widget.transaction.timestamp));
 
     return Stack(children: [
@@ -85,7 +85,7 @@ class TransactionDialogState extends State<TransactionDialog> {
             child: Icon(Icons.ios_share),
           ),
           Text(
-            "",
+            '',
             textAlign: TextAlign.center,
             style: TextStyle(color: AppColors.blue, fontSize: 15),
           )

@@ -33,7 +33,7 @@ class ProfileMiddle extends StatelessWidget {
           ),
           const DividerJungle(),
           ListTile(
-            leading: Icon(Icons.attach_money_sharp, color: AppColors.springGreen),
+            leading: const Icon(Icons.attach_money_sharp, color: AppColors.springGreen),
             title: Text(
               'Currency'.i18n,
               style: Theme.of(context).textTheme.subtitle2HighEmphasis,
@@ -48,7 +48,7 @@ class ProfileMiddle extends StatelessWidget {
           ),
           const DividerJungle(),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.favorite_border,
               color: AppColors.springGreen,
             ),

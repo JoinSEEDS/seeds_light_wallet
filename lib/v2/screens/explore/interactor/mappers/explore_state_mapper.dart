@@ -15,7 +15,7 @@ class ExploreStateMapper extends StateMapper {
     } else {
       print('ExploreStateMapper mapResultsToState length=' + results.length.toString());
       results.retainWhere((Result element) => element.isValue);
-      List values = results.map((Result element) => element.asValue.value).toList();
+      var values = results.map((Result element) => element.asValue.value).toList();
 
       BalanceModel balanceModel = values.firstWhere((element) => element is BalanceModel, orElse: () => null);
       VoiceModelAlliance allianceVoice =

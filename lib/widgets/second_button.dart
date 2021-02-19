@@ -18,6 +18,7 @@ class SecondButton extends StatelessWidget {
     this.color = AppColors.blue,
   });
 
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Container(

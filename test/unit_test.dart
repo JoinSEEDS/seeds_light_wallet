@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/utils/invites.dart';
 import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/utils/invites.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -35,19 +35,17 @@ void main() {
 
     final invites = await service.getInvites();
 
-    expect(invites.length > 0, true);
+    expect(invites.isNotEmpty, true);
   });
 
   test('Find key accounts mongo', () async {
-
     final accounts = await HttpService().getKeyAccountsMongo("EOS8QjUzkowWLLLF4d484E2CuQz2KLUvWrHKPzsh5JzFxZcBsvcmR");
 
-    accounts.forEach((e) => print("$e"));    
-    
+    accounts.forEach((e) => print("$e"));
+
     //expect(accounts.length > 0, true); // i am unable to run http service unit tests locally - fetch fails.
     // however, the code is working and was tested in running code.
   });
-
 
   test('Http Service', () async {
     final service = HttpService()..update(enableMockResponse: true);
@@ -99,18 +97,16 @@ void main() {
 
   test('Number formatting', () async {
     expect(0.0.seedsFormatted, "0.00");
-    
+
     expect(0.0001.seedsFormatted, "0.0001");
     expect((-0.0001).seedsFormatted, "-0.0001");
     expect(1.0.seedsFormatted, "1.00");
     expect((-1.0).seedsFormatted, "-1.00");
 
-    expect((3.0).seedsFormatted, "3.00");
+    expect(3.0.seedsFormatted, "3.00");
     expect((-3.0).seedsFormatted, "-3.00");
 
-    expect((144.0).seedsFormatted, "144.00");
-    expect((7777777.0).seedsFormatted, "7,777,777.00");
-
+    expect(144.0.seedsFormatted, "144.00");
+    expect(7777777.0.seedsFormatted, "7,777,777.00");
   });
-
 }

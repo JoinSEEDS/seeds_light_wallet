@@ -8,7 +8,7 @@ class DhoNotifier extends ChangeNotifier {
 
   HttpService _http;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static DhoNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<DhoNotifier>(context, listen: listen);
 
   void update({HttpService http}) {

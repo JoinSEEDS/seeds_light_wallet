@@ -4,9 +4,6 @@ import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/constants/config.dart';
 
-export 'package:async/src/result/error.dart';
-export 'package:async/src/result/result.dart';
-
 abstract class NetworkRepository {
   String baseURL = Config.defaultEndpoint;
   String hyphaURL = Config.hyphaEndpoint;

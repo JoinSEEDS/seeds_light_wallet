@@ -2,11 +2,11 @@ import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
 
-static var _t = Translations.byLocale("en_us") +
+static final _t = Translations.byLocale('en_us') +
     {
-      "es_es": {
-        'Not enough funds': "No hay fondos suficientes",
-        'Unexpected error. Please try again with a different value.': "Error inesperado. Por favor intenta de nuevo con un valor diferente.",
+      'es_es': {
+        'Not enough funds': 'No hay fondos suficientes',
+        'Unexpected error. Please try again with a different value.': 'Error inesperado. Por favor intenta de nuevo con un valor diferente.',
       }
     };
 

@@ -15,15 +15,15 @@ class VoteResult {
 class VotedNotifier extends ChangeNotifier {
   HttpService _http;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static VotedNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<VotedNotifier>(context, listen: listen);
  
   void update({HttpService http}) {
     _http = http;
   }
 
-  Future<VoteResult> fetchVote({proposalId: int}) async {
-    Box box = await SafeHive.safeOpenBox<VoteResult>("votes.1.box");
+  Future<VoteResult> fetchVote({proposalId = int}) async {
+    Box box = await SafeHive.safeOpenBox<VoteResult>('votes.1.box');
     VoteResult result = box.get(proposalId);
     if (result == null) {
       result = await _http.getVote(proposalId: proposalId);
