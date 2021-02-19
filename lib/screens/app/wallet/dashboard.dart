@@ -136,9 +136,9 @@ class _DashboardState extends State<Dashboard> {
           children: <Widget>[
             buildNotification(),
             buildHeader(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             buildSendReceiveButton(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             walletBottom(),
           ],
         ),
@@ -363,12 +363,12 @@ class _DashboardState extends State<Dashboard> {
               callback: () {
                 onTransaction(transaction: model, member: member.data, type: type);
               },
-              transactionProfileAccount: member.data.account,
-              transactionProfileNickname: member.data.nickname,
-              transactionProfileImage: member.data.image,
-              transactionTimestamp: model.timestamp,
-              transactionAmount: model.quantity,
-              transactionTypeIcon: type == TransactionType.income
+              ProfileAccount: member.data.account,
+              ProfileNickname: member.data.nickname,
+              ProfileImage: member.data.image,
+              Timestamp: model.timestamp,
+              Amount: model.quantity,
+              TypeIcon: type == TransactionType.income
                   ? 'assets/images/wallet/arrow_up.svg'
                   : 'assets/images/wallet/arrow_down.svg',
             )
@@ -381,7 +381,7 @@ class _DashboardState extends State<Dashboard> {
                   Container(
                     height: 16,
                     color: Colors.white,
-                    margin: EdgeInsets.only(left: 10, right: 10),
+                    margin: const EdgeInsets.only(left: 10, right: 10),
                   ),
                 ],
               ),
@@ -422,12 +422,12 @@ class _DashboardState extends State<Dashboard> {
 
   Widget buildSendReceiveButton() {
     return Container(
-      padding: EdgeInsets.only(left: 20, right: 20),
-      child: (Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
         Expanded(child: SendButton(onPress: onTransfer)),
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         Expanded(child: ReceiveButton(onPress: onReceive)),
-      ])),
+      ]),
     );
   }
 
@@ -439,12 +439,12 @@ class _DashboardState extends State<Dashboard> {
 
   Widget transactionHeader() {
     return Container(
-      padding: EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
-        Expanded(child: Text('Latest Transactions'.i18n, style: Theme.of(context).textTheme.button)),
+        Expanded(child: Text('Transactions History'.i18n, style: Theme.of(context).textTheme.subtitle1)),
         Text(
           'View All'.i18n,
-          style: TextStyle(color: AppColors.canopy),
+          style: const TextStyle(color: AppColors.canopy),
         )
       ]),
     );
