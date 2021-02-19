@@ -82,9 +82,9 @@ class _OverlayPopupState extends State<OverlayPopup>
                         InkWell(
                           onTap: () => widget.backCallback(),
                           child: Text(
-                            "Back".i18n,
+                            'Back'.i18n,
                             style: TextStyle(
-                                fontFamily: "worksans",
+                                fontFamily: 'worksans',
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -104,7 +104,7 @@ class _OverlayPopupState extends State<OverlayPopup>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,

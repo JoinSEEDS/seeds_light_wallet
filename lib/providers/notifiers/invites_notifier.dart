@@ -10,7 +10,7 @@ class InvitesNotifier extends ChangeNotifier {
   List<String> invitedMembers;
   Map<String, String> inviteSecrets;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static InvitesNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<InvitesNotifier>(context, listen: listen);
 
   void init({HttpService http}) {
@@ -18,7 +18,7 @@ class InvitesNotifier extends ChangeNotifier {
   }
 
   Future fetchInvites() async {
-    List<InviteModel> allInvites = await _http.getInvites();
+    var allInvites = await _http.getInvites();
 
     activeInvites = allInvites.where((invite) => invite.account.isEmpty).toList();
     invitedMembers = allInvites

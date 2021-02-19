@@ -21,7 +21,7 @@ Widget buildPasscodeScreen(
     BuildContext context}) {
   return PasscodeScreen(
     cancelButton: SizedBox.shrink(),
-    deleteButton: Text("Delete".i18n, style: Theme.of(context).textTheme.subtitle2),
+    deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
     passwordDigits: 4,
     title: title,
     backgroundColor: AppColors.primary,
@@ -40,7 +40,7 @@ class UnlockWallet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return buildPasscodeScreen(
-        title: Text("Enter Passcode".i18n),
+        title: Text('Enter Passcode'.i18n),
         shouldTriggerVerification: _verificationNotifier.stream,
         passwordEnteredCallback: (passcode) async {
           if (passcode == SettingsNotifier.of(context).passcode) {
@@ -62,14 +62,14 @@ class LockWallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthBloc bloc = Provider.of(context);
+    var bloc = Provider.of(context);
 
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
         child: buildPasscodeScreen(
-            title: Text("Choose Passcode".i18n, style: Theme.of(context).textTheme.subtitle2),
+            title: Text('Choose Passcode'.i18n, style: Theme.of(context).textTheme.subtitle2),
             shouldTriggerVerification: _verificationNotifier.stream,
             passwordEnteredCallback: (passcode) {
               _verificationNotifier.add(true);
@@ -99,7 +99,7 @@ class LockWalletBottomWidget extends StatelessWidget {
       child: OutlineButton(
         borderSide: BorderSide(color: AppColors.white),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-        child: Text("Disable Passcode".i18n, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
+        child: Text('Disable Passcode'.i18n, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
         onPressed: () {
           bloc.execute(DisablePasswordCmd());
         },

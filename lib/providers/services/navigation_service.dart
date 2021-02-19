@@ -8,7 +8,6 @@ import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
 import 'package:seeds/screens/app/ecosystem/harvest/plant_seeds.dart';
 import 'package:seeds/screens/app/ecosystem/invites/create_invite.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
-import 'package:seeds/screens/app/ecosystem/overview.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite.dart';
@@ -19,8 +18,8 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
-import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive.dart';
+import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
 import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/scan.dart';
@@ -29,55 +28,55 @@ import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
+import 'package:seeds/v2/screens/settings/edit_name/edit_name_screen.dart';
+import 'package:seeds/v2/screens/settings/settings_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
-  static final app = "App";
-  static final transferForm = "TransferForm";
-  static final onboarding = "Onboarding";
-  static final joinProcess = "JoinProcess";
-  static final importAccount = "ImportAccount";
-  static final createAccount = "CreateAccount";
-  static final showInvite = "ShowInvite";
-  static final claimCode = "ClaimCode";
-  static final welcome = "Welcome";
-  static final transfer = "Transfer";
-  static final invites = "Invites";
-  static final createInvite = "CreateInvite";
-  static final proposals = "Proposals";
-  static final proposalDetailsPage = "ProposalDetailsPage";
-  static final overview = "Overview";
-  static final explore = "Explore";
-  static final dashboard = "Dashboard";
-  static final logout = "Logout";
+  static final app = 'App';
+  static final transferForm = 'TransferForm';
+  static final onboarding = 'Onboarding';
+  static final joinProcess = 'JoinProcess';
+  static final importAccount = 'ImportAccount';
+  static final createAccount = 'CreateAccount';
+  static final showInvite = 'ShowInvite';
+  static final claimCode = 'ClaimCode';
+  static final welcome = 'Welcome';
+  static final transfer = 'Transfer';
+  static final invites = 'Invites';
+  static final createInvite = 'CreateInvite';
+  static final proposals = 'Proposals';
+  static final proposalDetailsPage = 'ProposalDetailsPage';
+  static final overview = 'Overview';
+  static final explore = 'Explore';
+  static final dashboard = 'Dashboard';
+  static final logout = 'Logout';
   static final imageViewer = 'ImageViewer';
-  static final plantSeeds = "plantSeeds";
-  static final customTransaction = "CustomTransation";
-  static final scanQRCode = "ScanQRCode";
+  static final plantSeeds = 'plantSeeds';
+  static final customTransaction = 'CustomTransation';
+  static final scanQRCode = 'ScanQRCode';
   static final receive = 'Receive';
   static final receiveConfirmation = 'ReceiveConfirmation';
   static final receiveCustom = 'ReceiveCustom';
   static final receiveQR = 'ReceiveQR';
-  static final selectGuardians = "SelectGuardians";
-  static final inviteGuardians = "InviteGuardians";
-  static final inviteGuardiansSent = "InviteGuardiansSent";
-  static final guardianTabs = "GuardianTabs";
-  static final dho = "DHO";
-  static final guardians = "Guardians";
+  static final selectGuardians = 'SelectGuardians';
+  static final inviteGuardians = 'InviteGuardians';
+  static final inviteGuardiansSent = 'InviteGuardiansSent';
+  static final guardianTabs = 'GuardianTabs';
+  static final dho = 'DHO';
+  static final guardians = 'Guardians';
+  static final settings = 'Settings';
+  static final editName = 'EditName';
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> onboardingNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> onboardingNavigatorKey = GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> appNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> walletNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> walletNavigatorKey = GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> ecosystemNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> ecosystemNavigatorKey = GlobalKey<NavigatorState>();
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
@@ -119,6 +118,8 @@ class NavigationService {
     Routes.guardianTabs: (_) => GuardianTabs(),
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
+    Routes.settings: (_) => const SettingsScreen(),
+    Routes.editName: (_) => const EditNameScreen(),
   };
 
   final ecosystemRoutes = {
@@ -133,8 +134,7 @@ class NavigationService {
     streamRouteListener = listener;
   }
 
-  Future<dynamic> navigateTo(String routeName,
-      [Object arguments, bool replace = false]) async {
+  Future<dynamic> navigateTo(String routeName, [Object arguments, bool replace = false]) async {
     var navigatorKey;
 
     if (streamRouteListener != null) {
@@ -152,23 +152,19 @@ class NavigationService {
     }
 
     if (navigatorKey.currentState == null) {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
 
     if (replace) {
-      return navigatorKey.currentState
-          .pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorKey.currentState
-          .pushNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
     }
-
-
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    String routeName = settings.name;
-    Object arguments = settings.arguments;
+    var routeName = settings.name;
+    var arguments = settings.arguments;
 
     if (appRoutes[routeName] != null) {
       return MaterialPageRoute(
@@ -204,14 +200,11 @@ class NavigationService {
   static RoutePredicate predicateForName(String name) {
     return (Route<dynamic> route) {
       //print("Route: ${route.settings.name}" + " modal: ${route is ModalRoute} handlepop: ${route.willHandlePopInternally}");
-      if (route.settings.name == "/" && name != "/") {
-        print("pop error: Route name not found: "+name);
+      if (route.settings.name == '/' && name != '/') {
+        print('pop error: Route name not found: ' + name);
       }
-      return 
-        !route.willHandlePopInternally 
-        && route is ModalRoute
-        && route.settings.name == name || route.settings.name == "/";
+      return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
+          route.settings.name == '/';
     };
   }
-
 }

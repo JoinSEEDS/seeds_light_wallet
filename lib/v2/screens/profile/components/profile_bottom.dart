@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/screens/profile/components/card_list_tile.dart';
 
 /// PROFILE BOTTOM
 class ProfileBottom extends StatelessWidget {
@@ -15,7 +17,7 @@ class ProfileBottom extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.jungle,
               borderRadius: BorderRadius.all(Radius.circular(12)),
             ),
@@ -24,12 +26,12 @@ class ProfileBottom extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(12.0),
                       bottomLeft: Radius.circular(12.0),
                     ),
                     child: SvgPicture.asset(
-                      "assets/images/lotus.svg",
+                      'assets/images/lotus.svg',
                       alignment: Alignment.centerLeft,
                       color: AppColors.canopy,
                     ),
@@ -70,7 +72,7 @@ class ProfileBottom extends StatelessWidget {
                                               child: Container(
                                                 width: 32,
                                                 height: 32,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: Colors.white,
                                                 ),
@@ -115,7 +117,7 @@ class ProfileBottom extends StatelessWidget {
                                           child: Container(
                                             width: 32,
                                             height: 32,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                               color: Colors.white,
                                             ),
@@ -147,7 +149,7 @@ class ProfileBottom extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               color: AppColors.springGreen,
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               onPressed: () {},
                               child: Text(
                                 'View your progress'.i18n,
@@ -163,57 +165,13 @@ class ProfileBottom extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.jungle,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: ListTile(
-                leading: Icon(Icons.settings_outlined, color: Colors.white),
-                title: Text(
-                  'Settings'.i18n,
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.jungle,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: ListTile(
-                leading: Icon(Icons.verified_user_outlined, color: Colors.white),
-                title: Text(
-                  'Security'.i18n,
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 26.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.jungle,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: ListTile(
-                leading: Icon(Icons.support, color: Colors.white),
-                title: Text(
-                  'Support'.i18n,
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                trailing: Icon(Icons.arrow_forward_ios_sharp, color: Colors.white),
-              ),
-            ),
-          ),
+          const SizedBox(height: 16.0),
+          CardListTile(leadingIcon: Icons.settings_outlined, title: 'Settings'.i18n, route: Routes.settings),
+          const SizedBox(height: 8.0),
+          CardListTile(leadingIcon: Icons.verified_user_outlined, title: 'Security'.i18n, route: ''),
+          const SizedBox(height: 8.0),
+          CardListTile(leadingIcon: Icons.support, title: 'Support'.i18n, route: ''),
+          const SizedBox(height: 26.0),
         ],
       ),
     );
