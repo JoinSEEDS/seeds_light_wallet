@@ -11,11 +11,11 @@ const String SEEDS = 'SEEDS';
 class RateNotifier extends ChangeNotifier with CurrencyConverter {
   RateModel rate;
   FiatRateModel fiatRate;
-  DateTime lastUpdated = DateTime.now().subtract(Duration(hours: 1));
+  DateTime lastUpdated = DateTime.now().subtract(const Duration(hours: 1));
 
   HttpService _http;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static RateNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<RateNotifier>(context, listen: listen);
 
   void update({HttpService http}) {
@@ -23,7 +23,7 @@ class RateNotifier extends ChangeNotifier with CurrencyConverter {
   }
 
   Future<void> fetchRate() {
-    if (DateTime.now().isAfter(lastUpdated.add(Duration(hours: 1)))) {
+    if (DateTime.now().isAfter(lastUpdated.add(const Duration(hours: 1)))) {
       return Future.wait(
       [
         _http.getUSDRate(),

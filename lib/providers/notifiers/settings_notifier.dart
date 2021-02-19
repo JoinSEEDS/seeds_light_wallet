@@ -24,18 +24,18 @@ class SettingsNotifier extends ChangeNotifier {
   int _backupLatestReminder;
   int _backupReminderCount;
 
-  get isInitialized => _preferences != null;
-  get accountName => _preferences?.getString(ACCOUNT_NAME);
-  get privateKey => _privateKey;
-  get passcode => _passcode;
-  get passcodeActive => _passcodeActive;
-  get nodeEndpoint => _preferences?.getString(NODE_ENDPOINT);
-  get privateKeyBackedUp => _privateKeyBackedUp;
-  get backupLatestReminder => _backupLatestReminder;
-  get backupReminderCount => _backupReminderCount;
-  get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY);
-  get inRecoveryMode => _preferences?.getBool(IN_RECOVERY_MODE);
-  get guardianTutorialShown => _preferences?.getBool(GUARDIAN_TUTORIAL_SHOWN);
+  bool get isInitialized => _preferences != null;
+  String get accountName => _preferences?.getString(ACCOUNT_NAME);
+  String get privateKey => _privateKey;
+  String get passcode => _passcode;
+  bool get passcodeActive => _passcodeActive;
+  String get nodeEndpoint => _preferences?.getString(NODE_ENDPOINT);
+  bool get privateKeyBackedUp => _privateKeyBackedUp;
+  int get backupLatestReminder => _backupLatestReminder;
+  int get backupReminderCount => _backupReminderCount;
+  String get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY);
+  bool get inRecoveryMode => _preferences?.getBool(IN_RECOVERY_MODE);
+  bool get guardianTutorialShown => _preferences?.getBool(GUARDIAN_TUTORIAL_SHOWN);
 
   set nodeEndpoint(String value) =>
       _preferences?.setString(NODE_ENDPOINT, value);
@@ -91,7 +91,7 @@ class SettingsNotifier extends ChangeNotifier {
 
   void init() async {
     _preferences = await SharedPreferences.getInstance();
-    _secureStorage = FlutterSecureStorage();
+    _secureStorage = const FlutterSecureStorage();
     await _secureStorage.readAll().then((values) {
       _privateKey = values[PRIVATE_KEY];
       _privateKey ??= _migrateFromPrefs(PRIVATE_KEY);

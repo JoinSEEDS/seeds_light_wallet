@@ -118,8 +118,8 @@ class NavigationService {
     Routes.guardianTabs: (_) => GuardianTabs(),
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
-    Routes.settings: (_) => SettingsScreen(),
-    Routes.editName: (_) => EditNameScreen(),
+    Routes.settings: (_) => const SettingsScreen(),
+    Routes.editName: (_) => const EditNameScreen(),
   };
 
   final ecosystemRoutes = {
@@ -152,7 +152,7 @@ class NavigationService {
     }
 
     if (navigatorKey.currentState == null) {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
 
     if (replace) {

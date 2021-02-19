@@ -11,7 +11,7 @@ class TransactionsNotifier extends ChangeNotifier {
 
   HttpService _http;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static TransactionsNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<TransactionsNotifier>(context, listen: listen);
 
   void update({HttpService http, AuthNotifier auth}) {

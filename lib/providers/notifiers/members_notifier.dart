@@ -12,7 +12,7 @@ class MembersNotifier extends ChangeNotifier {
   List<MemberModel> allMembers = [];
   List<MemberModel> visibleMembers = [];
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static MembersNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<MembersNotifier>(context, listen: listen);
 
   String filterName = '';

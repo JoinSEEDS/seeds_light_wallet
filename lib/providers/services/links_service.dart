@@ -25,7 +25,7 @@ class LinksService {
   }
 
   Future<dynamic> processInitialLink() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     if (_enableMockLink) {
       return {'inviteMnemonic': 'first-second-third-fourth-fifth'};
     }

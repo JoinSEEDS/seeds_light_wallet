@@ -24,7 +24,7 @@ class PushNotificationService {
           print('onIosSettingsRegistered data: $data');
         });
 
-        _firebaseMessaging.requestNotificationPermissions(IosNotificationSettings());
+        _firebaseMessaging.requestNotificationPermissions(const IosNotificationSettings());
       }
 
       _firebaseMessaging.configure(

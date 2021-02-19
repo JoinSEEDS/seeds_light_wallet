@@ -38,12 +38,12 @@ class GuardianServices {
     return eosService.cancelGuardiansSafe().then((value) => _onStopRecoverySuccess(eosService, userAccount));
   }
 
-  _onStopRecoverySuccess(EosService eosService, String userAccount) async {
+  Future<void> _onStopRecoverySuccess(EosService eosService, String userAccount) async {
     print('_onStopRecoverySuccess');
     return await FirebaseDatabaseService().removeGuardiansInitialized(userAccount);
   }
 
-  _onCancelGuardiansSuccess(EosService eosService, String userAccount, String friendId) async {
+  Future<void> _onCancelGuardiansSuccess(EosService eosService, String userAccount, String friendId) async {
     var guardiansQuery = await FirebaseDatabaseService().getMyGuardians(userAccount).first;
     print('cancelResult success');
 
@@ -59,6 +59,7 @@ class GuardianServices {
     }
   }
 
+  // ignore: always_declare_return_types
   _onInitGuardiansSuccess(String userAccount, String friendId) {
     print('initResult success');
     FirebaseDatabaseService().removeMyGuardian(currentUserId: userAccount, friendId: friendId);

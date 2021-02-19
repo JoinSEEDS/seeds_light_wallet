@@ -8,7 +8,7 @@ class ProfileNotifier extends ChangeNotifier {
 
   ProfileModel profile;
 
-  static of(BuildContext context, {bool listen = false}) => Provider.of<ProfileNotifier>(context, listen: listen);
+  static ProfileNotifier of(BuildContext context, {bool listen = false}) => Provider.of<ProfileNotifier>(context, listen: listen);
 
   void update({HttpService http}) {
     _http = http;

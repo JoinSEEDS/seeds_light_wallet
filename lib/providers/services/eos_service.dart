@@ -132,7 +132,7 @@ class EosService {
 
     if (mockEnabled) {
       return Future.delayed(
-        Duration(seconds: 1),
+        const Duration(seconds: 1),
         () => HttpMockResponse.transactionResult,
       );
     }
@@ -423,7 +423,7 @@ class EosService {
         ..data = {
           'user_account': accountName,
           'guardian_accounts': guardians,
-          'time_delay_sec': Duration(days: 1).inSeconds,
+          'time_delay_sec': const Duration(days: 1).inSeconds,
         }
     ]);
 

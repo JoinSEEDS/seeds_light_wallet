@@ -15,7 +15,7 @@ class VoteResult {
 class VotedNotifier extends ChangeNotifier {
   HttpService _http;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static VotedNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<VotedNotifier>(context, listen: listen);
  
   void update({HttpService http}) {

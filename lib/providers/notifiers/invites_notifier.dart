@@ -10,7 +10,7 @@ class InvitesNotifier extends ChangeNotifier {
   List<String> invitedMembers;
   Map<String, String> inviteSecrets;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static InvitesNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<InvitesNotifier>(context, listen: listen);
 
   void init({HttpService http}) {

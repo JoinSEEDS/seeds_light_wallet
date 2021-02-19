@@ -417,7 +417,7 @@ class FirebaseDatabaseService {
         .map((event) => _findNotification(event));
   }
 
-  removeGuardianNotification(String userAccount) {
+  Future<void> removeGuardianNotification(String userAccount) {
     var data = <String, Object>{GUARDIAN_NOTIFICATION_KEY: false};
 
     return _usersCollection
@@ -427,7 +427,7 @@ class FirebaseDatabaseService {
         .set(data);
   }
 
-  setGuardianRecoveryStarted(String userAccount) {
+  Future<void> setGuardianRecoveryStarted(String userAccount) {
     var data = <String, Object>{
       GUARDIAN_RECOVERY_STARTED_KEY: FieldValue.serverTimestamp(),
     };
