@@ -38,7 +38,7 @@ linter:
     # these rules are documented on and in the same order as
     # the Dart Lint rules page to make maintenance easier
     # https://github.com/dart-lang/linter/blob/master/example/all.yaml
-    always_declare_return_types: true
+    always_declare_return_types: false
     always_put_control_body_on_new_line: true
     # - always_put_required_named_parameters_first # we prefer having parameters in the same order as fields https://github.com/flutter/flutter/issues/10219
     always_require_non_null_named_parameters: true
@@ -134,9 +134,9 @@ linter:
     # - prefer_asserts_with_message # not required by flutter style
 #    - prefer_collection_literals
 #    - prefer_conditional_assignment
-    prefer_const_constructors: true
+    prefer_const_constructors: false
     prefer_const_constructors_in_immutables: true
-    prefer_const_declarations: true
+    prefer_const_declarations: false
     prefer_const_literals_to_create_immutables: false
     # - prefer_constructors_over_static_methods # far too many false positives
 #    - prefer_contains

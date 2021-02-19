@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
-export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';
 
 class ProfileRepository extends NetworkRepository {

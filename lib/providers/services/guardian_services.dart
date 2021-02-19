@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
@@ -28,7 +27,9 @@ class GuardianServices {
   /// User wants to remove one of his guardians.
   Future removeGuardian(EosService eosService, String userAccount, String friendId) async {
     print('removeGuardian started');
-    return eosService.cancelGuardiansSafe().then((value) => _onCancelGuardiansSuccess(eosService, userAccount, friendId));
+    return eosService
+        .cancelGuardiansSafe()
+        .then((value) => _onCancelGuardiansSuccess(eosService, userAccount, friendId));
   }
 
   /// User wants to stop a hack recovery attempt

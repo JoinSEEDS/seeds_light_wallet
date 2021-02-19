@@ -1,6 +1,6 @@
+import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
-import 'package:seeds/v2/datasource/remote/model/voice_model_alliance.dart';
 import 'package:seeds/v2/datasource/remote/model/voice_model_campaign.dart';
 
 export 'package:async/src/result/error.dart';

@@ -76,8 +76,7 @@ class HttpService {
         return HttpMockResponse.userGuardians;
       }
 
-      var rows =
-          await getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'guards', value: accountName);
+      var rows = await getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'guards', value: accountName);
 
       final guardians = UserGuardiansModel.fromTableRows(rows);
 
@@ -795,7 +794,9 @@ class HttpService {
 
   /// returns true if the account name doesn't exist
   Future<bool> isAccountNameAvailable(String accountName) async {
-    if (mockResponse == true) return true;
+    if (mockResponse == true) {
+      return true;
+    }
 
     final keyAccountsURL = '$baseURL/v1/chain/get_account';
 

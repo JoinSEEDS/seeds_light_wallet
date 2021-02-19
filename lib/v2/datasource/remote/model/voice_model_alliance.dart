@@ -12,8 +12,7 @@ class VoiceModelAlliance {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is VoiceModelAlliance && amount == other.amount;
+  bool operator ==(Object other) => identical(this, other) || other is VoiceModelAlliance && amount == other.amount;
 
   @override
   int get hashCode => super.hashCode;

@@ -17,7 +17,9 @@ class LinksService {
       final initialLink = await getInitialLink();
 
       callback(initialLink);
-    } catch (err) {}
+    } catch (err) {
+      print(err.toString());
+    }
 
     getLinksStream().listen(callback);
   }
@@ -28,8 +30,7 @@ class LinksService {
       return {'inviteMnemonic': 'first-second-third-fourth-fifth'};
     }
 
-    final data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
+    final data = await FirebaseDynamicLinks.instance.getInitialLink();
 
     final deepLink = data?.link;
     if (deepLink != null) {
@@ -43,12 +44,10 @@ class LinksService {
   }
 
   void onDynamicLink(Function callback) {
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData data) async {
+    FirebaseDynamicLinks.instance.onLink(onSuccess: (PendingDynamicLinkData data) async {
       final deepLink = data?.link;
 
-      var queryParams =
-          Uri.splitQueryString(deepLink.toString());
+      var queryParams = Uri.splitQueryString(deepLink.toString());
 
       if (queryParams['inviteMnemonic'] != null) {
         callback(queryParams);
