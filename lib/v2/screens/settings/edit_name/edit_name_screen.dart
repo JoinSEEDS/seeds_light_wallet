@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/screens/settings/edit_name/viewmodels/bloc.dart';
 import 'package:seeds/i18n/edit_name.i18n.dart';
@@ -63,6 +65,14 @@ class _EditNameScreenState extends State<EditNameScreen> {
   dynamic _onSubmitted() {
     if (_formKeyPassword.currentState.validate()) {
       // _editNameBloc.add(SubmitName());
+      await Provider.of<EosService>(context, listen: false).updateProfile(
+        nickname: _nameController.text,
+        image: '',
+        story: '',
+        roles: '',
+        skills: '',
+        interests: '',
+      );
     } else {
       // _editNameBloc.add(ActivateAutoValidate());
     }
