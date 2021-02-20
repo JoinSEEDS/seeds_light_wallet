@@ -4,6 +4,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/profile/components/card_list_tile.dart';
 
 /// PROFILE BOTTOM
@@ -19,7 +20,7 @@ class ProfileBottom extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               color: AppColors.jungle,
-              borderRadius: BorderRadius.all(Radius.circular(12)),
+              borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
             ),
             child: Stack(
               children: [
@@ -32,7 +33,7 @@ class ProfileBottom extends StatelessWidget {
                         const SizedBox(height: 24.0),
                         ClipRRect(
                           borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(12.0),
+                            bottomRight: Radius.circular(defaultCardBorderRadius),
                           ),
                           child: SvgPicture.asset(
                             "assets/images/lotus.svg",
