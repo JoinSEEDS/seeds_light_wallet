@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
@@ -27,14 +28,15 @@ import 'package:seeds/providers/services/firebase/push_notification_service.dart
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
+import 'package:seeds/v2/domain-shared/bloc_observer.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 import 'package:sentry/sentry.dart' as Sentry;
 
 import 'generated/r.dart';
 
-final Sentry.SentryClient _sentry = Sentry.SentryClient(
-    dsn: 'https://ee2dd9f706974248b5b4a10850586d94@sentry.io/2239437');
+final Sentry.SentryClient _sentry =
+    Sentry.SentryClient(dsn: 'https://ee2dd9f706974248b5b4a10850586d94@sentry.io/2239437');
 
 bool get isInDebugMode {
   var inDebugMode = false;
@@ -68,8 +70,8 @@ main(List<String> args) async {
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   await Firebase.initializeApp();
   await FirebaseRemoteConfigService().initialise();
-  await SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+  Bloc.observer = SimpleBlocObserver();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
       runApp(SeedsApp());
     } else {
@@ -145,12 +147,9 @@ class MainScreen extends StatelessWidget {
         var navigationService = NavigationService.of(context);
         PushNotificationService().initialise(context);
 
-        if (auth.status == AuthStatus.emptyAccount ||
-            auth.status == AuthStatus.recoveryMode) {
+        if (auth.status == AuthStatus.emptyAccount || auth.status == AuthStatus.recoveryMode) {
           return SeedsMaterialApp(
-            home: auth.status == AuthStatus.emptyAccount
-                ? Onboarding()
-                : JoinProcess(),
+            home: auth.status == AuthStatus.emptyAccount ? Onboarding() : JoinProcess(),
             navigatorKey: navigationService.onboardingNavigatorKey,
             onGenerateRoute: navigationService.onGenerateRoute,
           );

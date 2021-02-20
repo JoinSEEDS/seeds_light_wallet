@@ -63,18 +63,18 @@ class _EditNameScreenState extends State<EditNameScreen> {
   }
 
   dynamic _onSubmitted() {
-    if (_formKeyPassword.currentState.validate()) {
-      // _editNameBloc.add(SubmitName());
-      await Provider.of<EosService>(context, listen: false).updateProfile(
-        nickname: _nameController.text,
-        image: '',
-        story: '',
-        roles: '',
-        skills: '',
-        interests: '',
-      );
-    } else {
-      // _editNameBloc.add(ActivateAutoValidate());
-    }
+    // if (_formKeyPassword.currentState.validate()) {
+    //   // _editNameBloc.add(SubmitName());
+    //   await Provider.of<EosService>(context, listen: false).updateProfile(
+    //     nickname: _nameController.text,
+    //     image: '',
+    //     story: '',
+    //     roles: '',
+    //     skills: '',
+    //     interests: '',
+    //   );
+    // } else {
+    //   // _editNameBloc.add(ActivateAutoValidate());
+    // }
   }
 }
