@@ -27,6 +27,7 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:seeds/design/app_theme.dart';
 
 enum TransactionType { income, outcome }
 
@@ -441,7 +442,7 @@ class _DashboardState extends State<Dashboard> {
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
-        Expanded(child: Text('Transactions History'.i18n, style: Theme.of(context).textTheme.subtitle1)),
+        Expanded(child: Text('Transactions History'.i18n, style: Theme.of(context).textTheme.headline7LowEmphasis)),
         Text(
           'View All'.i18n,
           style: const TextStyle(color: AppColors.canopy),
