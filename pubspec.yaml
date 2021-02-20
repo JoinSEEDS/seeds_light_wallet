@@ -275,6 +275,8 @@ flutter:
     - assets/currency/sgd.png
     - assets/currency/xaf.png
     - assets/currency/xof.png
+    - assets/images/wallet/arrow_up.svg
+    - assets/images/wallet/arrow_down.svg
     # assets end
 
   fonts:
