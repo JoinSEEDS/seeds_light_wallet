@@ -23,7 +23,7 @@ class _CartListViewState extends State<CartListView> {
   @override
   Widget build(BuildContext context) {
     var fiat = SettingsNotifier.of(context).selectedFiatCurrency;
-    bool smallDevice = MediaQuery.of(context).size.width <= 320;
+    var smallDevice = MediaQuery.of(context).size.width <= 320;
 
     return Consumer<RateNotifier>(
         builder: (context, rateNotifier, child) => Column(
@@ -40,7 +40,7 @@ class _CartListViewState extends State<CartListView> {
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
-                                  fontFamily: "worksans")),
+                                  fontFamily: 'worksans')),
                         ),
                         IconButton(
                           icon: Icon(
@@ -61,7 +61,7 @@ class _CartListViewState extends State<CartListView> {
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
-                                fontFamily: "worksans")),
+                                fontFamily: 'worksans')),
                         IconButton(
                           icon: Icon(
                             Icons.add_circle,
@@ -80,7 +80,7 @@ class _CartListViewState extends State<CartListView> {
                             style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
-                                  fontFamily: "worksans")),
+                                  fontFamily: 'worksans')),
                         ),
                       ]
                       ),
@@ -96,29 +96,29 @@ class _CartListViewState extends State<CartListView> {
                     Row(
                       children:
                       [ 
-                        Text("Total".i18n,
+                        Text('Total'.i18n,
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: "worksans")),
+                                fontFamily: 'worksans')),
                         Spacer(),
-                        Text(widget.cart.total.seedsFormatted + " SEEDS",
+                        Text(widget.cart.total.seedsFormatted + ' SEEDS',
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: "worksans")),
+                                fontFamily: 'worksans')),
                       ]
                     ),
                     Row(
                       children:
                       [ 
                         Spacer(),
-                        Text( rateNotifier.seedsTo(widget.cart.total, fiat).fiatFormatted + " $fiat",
+                        Text( rateNotifier.seedsTo(widget.cart.total, fiat).fiatFormatted + ' $fiat',
                             style: TextStyle(
                                 color: AppColors.blue,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w400,
-                                fontFamily: "worksans")),
+                                fontFamily: 'worksans')),
                       ]
                     )
           ],

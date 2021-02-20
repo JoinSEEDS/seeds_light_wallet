@@ -43,7 +43,7 @@ class ExploreInfoCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            Text((isErrorState != null && isErrorState) ? "Error Loading Data" : amount,
+            Text((isErrorState != null && isErrorState) ? 'Error Loading Data' : amount,
                 style: Theme.of(context).textTheme.headline8),
             const SizedBox(height: 4),
             Text(amountLabel, style: Theme.of(context).textTheme.subtitle3),

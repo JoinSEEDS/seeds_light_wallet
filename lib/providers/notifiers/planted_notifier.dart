@@ -9,7 +9,7 @@ class PlantedNotifier extends ChangeNotifier {
 
   HttpService _http;
 
-  static of(BuildContext context, {bool listen = false}) =>
+  static PlantedNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<PlantedNotifier>(context, listen: listen);
 
   void update({ HttpService http }) {

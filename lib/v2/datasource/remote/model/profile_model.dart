@@ -27,17 +27,17 @@ class ProfileModel {
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
-      account: json["account"],
-      status: json["status"],
-      type: json["type"],
-      nickname: json["nickname"],
-      image: json["image"],
-      story: json["story"],
-      roles: json["roles"],
-      skills: json["skills"],
-      interests: json["interests"],
-      reputation: json["reputation"],
-      timestamp: json["timestamp"],
+      account: json['account'],
+      status: json['status'],
+      type: json['type'],
+      nickname: json['nickname'],
+      image: json['image'],
+      story: json['story'],
+      roles: json['roles'],
+      skills: json['skills'],
+      interests: json['interests'],
+      reputation: json['reputation'],
+      timestamp: json['timestamp'],
     );
   }
 }

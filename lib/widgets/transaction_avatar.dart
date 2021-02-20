@@ -20,7 +20,7 @@ class TransactionAvatar extends StatelessWidget {
   }
 
   Widget _buildTransactionAvatar() {
-    if (image.startsWith("http")) {
+    if (image.startsWith('http')) {
       return ClipRRect(
           borderRadius: BorderRadius.circular(40),
           child: Container(
@@ -41,9 +41,9 @@ class TransactionAvatar extends StatelessWidget {
                 : null,
           ));
     } else {
-      String shortName = nickname.isNotEmpty &&
-              nickname != "Seeds Account" &&
-              nickname != "Telos Account"
+      var shortName = nickname.isNotEmpty &&
+              nickname != 'Seeds Account' &&
+              nickname != 'Telos Account'
           ? nickname.substring(0, 2).toUpperCase()
           : account.substring(0, 2).toUpperCase();
 

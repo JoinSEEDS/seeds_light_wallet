@@ -40,7 +40,7 @@ class _NotionLoaderState extends State<NotionLoader>
         AnimatedBuilder(
           animation: animationController,
           builder: (context, child) {
-            double scale = math.sin(math.pi * animationController.value) + 0.7;
+            var scale = math.sin(math.pi * animationController.value) + 0.7;
             return Align(
               alignment: Alignment.center,
               child: Transform.scale(
@@ -66,7 +66,7 @@ class _NotionLoaderState extends State<NotionLoader>
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w400,
-              fontFamily: "worksans",
+              fontFamily: 'worksans',
             ),
           ),
         ),
