@@ -19,13 +19,14 @@ import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/utils/string_extension.dart';
-import 'package:seeds/widgets/dashboard_widgets/receive_button.dart';
-import 'package:seeds/widgets/dashboard_widgets/send_button.dart';
-import 'package:seeds/widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
+import 'package:seeds/widgets/v2_widgets/app_bar.dart';
+import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
+import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
+import 'package:seeds/widgets/v2_widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:seeds/design/app_theme.dart';
 

@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/fiat_rate_model.dart';
 
+import 'balance_repository.dart';
+
 class RatesRepository extends NetworkRepository {
   Future<Result> getFiatRates({@required String query}) {
     print("[http] get fiat rates");

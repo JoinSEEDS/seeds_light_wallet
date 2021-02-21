@@ -7,15 +7,18 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
+import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
+import 'package:seeds/screens/app/profile/profile.dart';
 import 'package:seeds/v2/screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/widgets/pending_notification.dart';
+import 'package:seeds/widgets/transaction_avatar.dart';
 
 class NavigationTab {
   final String title;
@@ -184,19 +187,56 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     );
   }
 
+  //fix here
   Widget buildAppBar(BuildContext _context) {
     return AppBar(
-      title: Text(navigationTabs[index].title),
-      centerTitle: true,
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
+      //flexibleSpace: Container(height: 10,),
+      titleSpacing: 0,
+      excludeHeaderSemantics: true,
+      //backgroundColor: Colors.red,
+      leading: Container(
+         //iconSize: 20,
+         margin: const EdgeInsets.all(16),
+         //color: Colors.orange,
+         child: SvgPicture.asset('assets/images/app_bar/appbar_logo.svg',
+          ),
+      ),
+         // SvgPicture.asset('assets/images/app_bar/appbar_logo.svg', fit: BoxFit.scaleDown, height: 20, width: 20,)),
+      title: Container(
+          padding: const EdgeInsets.only(),
+          //color: Colors.brown,
+          child: Text(navigationTabs[index].title  ,style: Theme.of(context).textTheme.headline5,)),
+      actions: [
+        Container(
+          width: 50,
+          height: 20,
+          //color: Colors.blue,
           child: IconButton(
-              icon: Icon(Icons.qr_code_scanner, size: 28),
-              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+            //iconSize:40,
+            icon: SvgPicture.asset('assets/images/app_bar/scan_qr_code_logo_2.svg',height: 50,)
+            ),
         ),
+          //onPressed: () {
+            //scaffoldKey.currentState.showSnackBar(snackBar);
+          //},
+        Container(
+          padding: const EdgeInsets.only(right: 20, left: 10),
+          child: TransactionAvatar(
+            size: 46,
+            account: 'SettingsNotifier.of(context).accountName',
+            nickname: 'hh',
+            image:  '',
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.jungle,
+            ),
+          ),
+        ),
+
+
       ],
     );
+
   }
 
   Widget buildPageView() {
