@@ -29,26 +29,26 @@ class ExploreScreen extends StatelessWidget {
                   return Container(
                       child: Center(
                           child: Text(
-                    "Loading...",
+                    'Loading...',
                     style: Theme.of(context).textTheme.headline3,
                   )));
                 case PageState.failure:
                   return Container(
                       child: Center(
-                          child: Text("Error: " + state.errorMessage, style: Theme.of(context).textTheme.subtitle3)));
+                          child: Text('Error: ' + state.errorMessage, style: Theme.of(context).textTheme.subtitle3)));
                 case PageState.success:
                   return ListView(
                     children: <Widget>[
                       ExploreInfoCard(
                         callback: () {},
-                        title: "Invite",
+                        title: 'Invite',
                         amount: state.availableSeeds,
                         isErrorState: state.availableSeeds == null,
                         icon: SvgPicture.asset(
-                          "assets/images/explore/person_send_invite.svg",
+                          'assets/images/explore/person_send_invite.svg',
                           color: AppColors.white,
                         ),
-                        amountLabel: "Available Seeds",
+                        amountLabel: 'Available Seeds',
                       ),
                       const SizedBox(height: 20),
                       Row(
@@ -57,21 +57,21 @@ class ExploreScreen extends StatelessWidget {
                           Expanded(
                             child: ExploreInfoCard(
                               callback: () {},
-                              title: "Plant",
+                              title: 'Plant',
                               amount: state.plantedSeeds,
                               isErrorState: state.plantedSeeds == null,
-                              icon: SvgPicture.asset("assets/images/explore/plant_seed.svg"),
-                              amountLabel: "Planted Seeds",
+                              icon: SvgPicture.asset('assets/images/explore/plant_seed.svg'),
+                              amountLabel: 'Planted Seeds',
                             ),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
                             child: ExploreInfoCard(
                               callback: () {},
-                              title: "Vote",
-                              amount: "2",
-                              icon: SvgPicture.asset("assets/images/explore/thumb_up.svg"),
-                              amountLabel: "Trust Tokens",
+                              title: 'Vote',
+                              amount: '2',
+                              icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
+                              amountLabel: 'Trust Tokens',
                             ),
                           ),
                         ],
@@ -83,18 +83,18 @@ class ExploreScreen extends StatelessWidget {
                           Expanded(
                             child: ExploreInfoCard(
                               callback: () {},
-                              title: "Get Seeds",
-                              amount: "15",
-                              amountLabel: "Seeds",
+                              title: 'Get Seeds',
+                              amount: '15',
+                              amountLabel: 'Seeds',
                             ),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
                             child: ExploreInfoCard(
                               callback: () {},
-                              title: "Hypha DHO",
-                              amount: "5",
-                              amountLabel: "Hypha",
+                              title: 'Hypha DHO',
+                              amount: '5',
+                              amountLabel: 'Hypha',
                             ),
                           ),
                         ],

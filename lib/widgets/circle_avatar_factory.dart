@@ -15,7 +15,7 @@ static CircleAvatar buildProductAvatar(ProductModel product, {double size = 20})
             color: AppColors.getColorByString(product.name),
             child: Center(
               child: Text(
-                product.name == null ? "" : product.name.characters.first,
+                product.name == null ? '' : product.name.characters.first,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,

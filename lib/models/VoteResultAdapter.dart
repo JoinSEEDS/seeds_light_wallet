@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 
 class VoteResultAdapter extends TypeAdapter<VoteResult> {
+  @override
   final typeId = 3;
 
   @override

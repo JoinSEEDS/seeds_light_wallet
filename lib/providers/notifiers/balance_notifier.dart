@@ -9,7 +9,7 @@ class BalanceNotifier extends ChangeNotifier {
 
   HttpService _http;
 
-  static of(BuildContext context, {bool listen = false}) => Provider.of<BalanceNotifier>(context, listen: listen);
+  static BalanceNotifier of(BuildContext context, {bool listen = false}) => Provider.of<BalanceNotifier>(context, listen: listen);
 
   void update({HttpService http}) {
     _http = http;

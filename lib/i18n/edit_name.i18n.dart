@@ -1,11 +1,11 @@
 import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
-  static var _t = Translations.byLocale("en_us") +
+  static final _t = Translations.byLocale('en_us') +
       {
-        "es_es": {
-          "Edit Display Name": "Editar nombre a mostrar",
-          "Save Changes": "Guardar cambios",
+        'es_es': {
+          'Edit Display Name': 'Editar nombre a mostrar',
+          'Save Changes': 'Guardar cambios',
         }
       };
 

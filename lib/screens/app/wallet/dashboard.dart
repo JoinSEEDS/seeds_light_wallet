@@ -21,12 +21,13 @@ import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/dashboard_widgets/send_button.dart';
+import 'package:seeds/widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
-import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:seeds/design/app_theme.dart';
 
 enum TransactionType { income, outcome }
 
@@ -131,19 +132,17 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      child: SingleChildScrollView(
-        child: Container(
-            padding: EdgeInsets.only(right: 20, left: 20),
-            child: Column(
-              children: <Widget>[
-                buildNotification(),
-                buildHeader(),
-                SizedBox(height: 20),
-                buildSendReceiveButton(),
-                SizedBox(height: 20),
-                buildTransactions(),
-              ],
-            )),
+      child: Scaffold(
+        body: ListView(
+          children: <Widget>[
+            buildNotification(),
+            buildHeader(),
+            const SizedBox(height: 20),
+            buildSendReceiveButton(),
+            const SizedBox(height: 20),
+            walletBottom(),
+          ],
+        ),
       ),
       onRefresh: refreshData,
     );
@@ -361,76 +360,18 @@ class _DashboardState extends State<Dashboard> {
     return FutureBuilder(
       future: MembersNotifier.of(context).getAccountDetails(participantAccountName),
       builder: (ctx, member) => member.hasData
-          ? InkWell(
-              onTap: () => onTransaction(transaction: model, member: member.data, type: type),
-              child: Column(
-                children: [
-                  Divider(height: 22),
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                            child: Row(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 12, right: 10),
-                              child: Icon(
-                                type == TransactionType.income ? Icons.arrow_downward : Icons.arrow_upward,
-                                color: type == TransactionType.income ? AppColors.green : AppColors.red,
-                              ),
-                            ),
-                            TransactionAvatar(
-                              size: 40,
-                              account: member.data.account,
-                              nickname: member.data.nickname,
-                              image: member.data.image,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.blue,
-                              ),
-                            ),
-                            Flexible(
-                                child: Container(
-                                    margin: EdgeInsets.only(left: 10, right: 10),
-                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                      Container(
-                                        child: Text(
-                                          member.data.nickname,
-                                          maxLines: 1,
-                                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          member.data.account,
-                                          maxLines: 1,
-                                          style: TextStyle(color: AppColors.grey, fontSize: 13),
-                                        ),
-                                      ),
-                                    ])))
-                          ],
-                        )),
-                        Container(
-                            margin: EdgeInsets.only(left: 10, right: 15),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  type == TransactionType.income ? '+' : '-',
-                                  style: TextStyle(
-                                      color: type == TransactionType.income ? AppColors.green : AppColors.red,
-                                      fontSize: 16),
-                                ),
-                                Text(
-                                  model.quantity.seedsFormatted + " SEEDS",
-                                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
-                                )
-                              ],
-                            ))
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+          ? TransactionInfoCard(
+              callback: () {
+                onTransaction(transaction: model, member: member.data, type: type);
+              },
+              profileAccount: member.data.account,
+              profileNickname: member.data.nickname,
+              profileImage: member.data.image,
+              timestamp: model.timestamp,
+              amount: model.quantity,
+              typeIcon: type == TransactionType.income
+                  ? 'assets/images/wallet/arrow_up.svg'
+                  : 'assets/images/wallet/arrow_down.svg',
             )
           : Shimmer.fromColors(
               baseColor: Colors.grey[300],
@@ -441,7 +382,7 @@ class _DashboardState extends State<Dashboard> {
                   Container(
                     height: 16,
                     color: Colors.white,
-                    margin: EdgeInsets.only(left: 10, right: 10),
+                    margin: const EdgeInsets.only(left: 10, right: 10),
                   ),
                 ],
               ),
@@ -450,56 +391,63 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget buildTransactions() {
-    final width = MediaQuery.of(context).size.width;
-    return Container(
-      width: width,
-      margin: EdgeInsets.only(bottom: 7, top: 15),
-      child: MainCard(
-        padding: EdgeInsets.only(top: 15, bottom: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-                padding: EdgeInsets.only(bottom: 3, left: 15, right: 15),
-                child: Text(
-                  'Latest transactions'.i18n,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                )),
-            Consumer<TransactionsNotifier>(
-              builder: (context, model, child) => model != null && model.transactions != null
-                  ? Column(
-                      children: <Widget>[
-                        ...model.transactions.map((trx) {
-                          return buildTransaction(trx);
-                        }).toList()
-                      ],
-                    )
-                  : Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            height: 16,
-                            color: Colors.white,
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                          ),
-                        ],
+    return Column(
+      children: <Widget>[
+        Consumer<TransactionsNotifier>(
+          builder: (context, model, child) => model != null && model.transactions != null
+              ? Column(
+                  children: <Widget>[
+                    ...model.transactions.map((trx) {
+                      return buildTransaction(trx);
+                    }).toList()
+                  ],
+                )
+              : Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        height: 16,
+                        color: Colors.black,
+                        margin: const EdgeInsets.only(left: 10, right: 10),
                       ),
-                    ),
-            ),
-          ],
+                    ],
+                  ),
+                ),
         ),
-      ),
+      ],
     );
   }
 
   Widget buildSendReceiveButton() {
-    return (Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-      Expanded(child: SendButton(onPress: onTransfer)),
-      SizedBox(width: 20),
-      Expanded(child: ReceiveButton(onPress: onReceive)),
-    ]));
+    return Container(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+        Expanded(child: SendButton(onPress: onTransfer)),
+        const SizedBox(width: 20),
+        Expanded(child: ReceiveButton(onPress: onReceive)),
+      ]),
+    );
+  }
+
+  Widget walletBottom() {
+    return Column(
+      children: <Widget>[transactionHeader(), buildTransactions()],
+    );
+  }
+
+  Widget transactionHeader() {
+    return Container(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
+        Expanded(child: Text('Transactions History'.i18n, style: Theme.of(context).textTheme.headline7LowEmphasis)),
+        Text(
+          'View All'.i18n,
+          style: const TextStyle(color: AppColors.canopy),
+        )
+      ]),
+    );
   }
 }

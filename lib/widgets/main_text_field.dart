@@ -48,6 +48,7 @@ class MainTextField extends StatelessWidget {
     this.inputFormatters,
   });
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: margin,
@@ -74,7 +75,7 @@ class MainTextField extends StatelessWidget {
                 maxLength: maxLength,
                 validator: validator,
                 onChanged: (value) => onChanged(value),
-                autofocus: autofocus != null ? autofocus : false,
+                autofocus: autofocus ?? false,
                 focusNode: focusNode,
                 onEditingComplete: onEditingComplete,
                 textInputAction: textInputAction,

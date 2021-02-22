@@ -12,7 +12,7 @@ class BalanceRepository extends NetworkRepository {
 
     // ignore: omit_local_variable_types
     final String request = '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
-    final String balanceURL = '$baseURL/v1/chain/get_currency_balance';
+    final balanceURL = '$baseURL/v1/chain/get_currency_balance';
 
     return http
         .post(balanceURL, headers: headers, body: request)

@@ -57,7 +57,7 @@ class _TransactionFormState extends State<TransactionForm> {
     var eos = Provider.of<EosService>(context, listen: false);
 
     try {
-      double amount = double.parse(controller.text);
+      var amount = double.parse(controller.text);
 
       var response;
 
@@ -75,10 +75,10 @@ class _TransactionFormState extends State<TransactionForm> {
         );
       }
 
-      String transactionId = response["transaction_id"];
+      String transactionId = response['transaction_id'];
 
       _statusNotifier.add(true);
-      _messageNotifier.add("Transaction hash: %s".i18n.fill(["$transactionId"]));
+      _messageNotifier.add('Transaction hash: %s'.i18n.fill(['$transactionId']));
     } catch (err) {
       print(err.toString());
       _statusNotifier.add(false);
@@ -136,7 +136,7 @@ class _TransactionFormState extends State<TransactionForm> {
 
   Widget _buildSummary() {
     final width = MediaQuery.of(context).size.width;
-    final balance = "5.0000 SEEDS";
+    final balance = '5.0000 SEEDS';
 
     return Column(
       children: <Widget>[

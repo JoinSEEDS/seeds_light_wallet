@@ -9,7 +9,7 @@ class TelosBalanceNotifier extends ChangeNotifier {
 
   HttpService _http;
 
-  static of(BuildContext context, {bool listen = false}) => Provider.of<TelosBalanceNotifier>(context, listen: listen);
+  static TelosBalanceNotifier of(BuildContext context, {bool listen = false}) => Provider.of<TelosBalanceNotifier>(context, listen: listen);
 
   void update({HttpService http}) {
     _http = http;
