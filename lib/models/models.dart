@@ -180,9 +180,10 @@ class TransactionModel {
   final String memo;
   final String timestamp;
   final String transactionId;
+  final int blockNumber;
 
   TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp,
-      this.transactionId);
+      this.transactionId, this.blockNumber);
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
@@ -192,6 +193,7 @@ class TransactionModel {
       json["act"]["data"]["memo"],
       json["@timestamp"],
       json["trx_id"],
+      0
     );
   }
   
@@ -203,7 +205,7 @@ class TransactionModel {
       json["act"]["data"]["memo"],
       json["block_time"],
       json["trx_id"],
-      //json["block_num"], // can add this later - neat but changes cache structure
+      json["block_num"],
     );
   }
 
