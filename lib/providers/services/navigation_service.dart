@@ -19,6 +19,7 @@ import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard.dart';
+import 'package:seeds/screens/app/wallet/invoice_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
@@ -54,6 +55,7 @@ class Routes {
   static final scanQRCode = "ScanQRCode";
   static final receive = 'Receive';
   static final receiveConfirmation = 'ReceiveConfirmation';
+  static final invoiceConfirmation = 'InvoiceConfirmation';
   static final receiveCustom = 'ReceiveCustom';
   static final receiveQR = 'ReceiveQR';
   static final selectGuardians = "SelectGuardians";
@@ -111,6 +113,7 @@ class NavigationService {
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
     Routes.receiveCustom: (_) => ReceiveCustom(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
+    Routes.invoiceConfirmation: (args) => InvoiceConfirmation(invoice: args),
     Routes.selectGuardians: (_) => SelectGuardians(),
     Routes.inviteGuardians: (args) => InviteGuardians(args),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),

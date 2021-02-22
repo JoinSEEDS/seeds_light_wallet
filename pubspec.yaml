@@ -16,6 +16,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   i18n_extension: ^1.3.7
+  badges: ^1.1.6
   cupertino_icons: ^0.1.3
   flutter_toolbox: ^4.6.2
   http: ^0.12.0+4

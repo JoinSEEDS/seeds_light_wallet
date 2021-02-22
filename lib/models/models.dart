@@ -610,3 +610,46 @@ const proposalTypes = {
   'Passed': {'stage': 'done', 'status': 'passed', 'reverse': 'true'},
   'Failed': {'stage': 'done', 'status': 'rejected', 'reverse': 'true'},
 };
+
+class InvoiceItemModel {
+  final String name;
+  final int quantity;
+  final String pricePerItem;
+  double get totalAmount => double.parse(pricePerItem.split(" ")[0]) * quantity;
+  
+  InvoiceItemModel({this.name, this.quantity, this.pricePerItem});
+
+  factory InvoiceItemModel.fromJson(Map<String, dynamic> json) {
+    return InvoiceItemModel(
+      name: json["name"],
+      quantity: json["quantity"],
+      pricePerItem: json["pricePerItem"],
+    );
+  }
+
+}
+
+class InvoiceModel {
+  final String recipient;
+  final String memo;
+  final String amount;
+  final String fiatAmount;
+  final bool paid;
+  final List<InvoiceItemModel> items;
+
+  double get doubleAmount => double.parse(amount.split(" ")[0]);
+
+  InvoiceModel({this.recipient, this.memo, this.amount, this.fiatAmount, this.paid, this.items});
+
+  factory InvoiceModel.fromJson(Map<String, dynamic> json) {
+    return InvoiceModel(
+      recipient: json["recipient"],
+      memo: json["memo"],
+      amount: json["amount"],
+      fiatAmount: json["fiatAmount"],
+      paid: json["paid"],
+      items: List<InvoiceItemModel>.from(json["items"].map((json) => InvoiceItemModel.fromJson(json))),
+    );
+  }
+
+}

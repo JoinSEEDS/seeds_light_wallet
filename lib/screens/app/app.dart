@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:badges/badges.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
+import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
@@ -188,6 +191,31 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         style: TextStyle(color: Colors.black),
       ),
       centerTitle: true,
+      leading: Padding(
+        padding: const EdgeInsets.only(left:10),
+        child: FutureBuilder<QuerySnapshot>(
+          future: FirebaseDatabaseService().getInvoices(SettingsNotifier.of(context).accountName),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<InvoiceModel> invoices =
+                      snapshot.data.docs.map((DocumentSnapshot e) => InvoiceModel.fromJson(e.data())).toList();
+                return invoices.length == 0 ? Container() :
+                  Badge(
+                    badgeContent: Text(
+                        "${invoices.length}", 
+                        style: TextStyle(color: AppColors.white)
+                      ), 
+                      position: BadgePosition.topEnd(top: 2, end: 0),
+                      child: IconButton(
+                        icon: Icon(Icons.list, color: Colors.black, size: 33),
+                        onPressed: () => _showInvoiceBottomSheet(invoices),
+                    ),
+                  );
+            }
+            return Container();
+          }
+        )
+      ),
       actions: <Widget>[
         Padding(
           padding: const EdgeInsets.only(right: 10.0),
@@ -289,4 +317,24 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           .toList(),
     );
   }
+
+    void _showInvoiceBottomSheet(List<InvoiceModel> invoices) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+          return ListView.builder(
+            itemCount: invoices.length,
+            itemBuilder: (ctx, index) => ListTile(
+              title: Text("From: ".i18n + invoices[index].recipient),
+              trailing: Text(invoices[index].amount),
+              onTap: () {
+                NavigationService.of(context).navigateTo(Routes.invoiceConfirmation, invoices[index]);
+              },
+            ),
+          );
+      },
+    );
+  }
+
 }
+

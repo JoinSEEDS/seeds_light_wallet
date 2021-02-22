@@ -441,4 +441,13 @@ class FirebaseDatabaseService {
     };
     return _usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
   }
+
+  Future<QuerySnapshot> getInvoices(String uid) {
+    return _usersCollection
+        .doc(uid)
+        .collection(INVOICES_COLLECTION_KEY)
+        .where(INVOICES_PAID_KEY, isEqualTo: false)
+        .get();
+  }
+
 }
