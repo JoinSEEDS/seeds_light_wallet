@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
@@ -72,6 +73,13 @@ class _TransferFormState extends State<TransferForm>
 
       _statusNotifier.add(true);
       _messageNotifier.add("Transaction hash: %s".i18n.fill(["$trxid"]));
+
+      Timer(Duration(seconds: 1), () {
+         // can't reun this immediately, our servers need time to catch up
+        TransactionsNotifier.of(context).refreshTransactions();
+        print("Yeah, yeah yah");
+      });
+
     } catch (err) {
       print(err);
       _statusNotifier.add(false);
