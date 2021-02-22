@@ -72,6 +72,7 @@ class ProfileMiddle extends StatelessWidget {
                   .toList(),
             ),
           ),
+          const SizedBox(height: 16.0),
         ],
       ),
     );
