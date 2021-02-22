@@ -33,8 +33,8 @@ import 'package:sentry/sentry.dart' as Sentry;
 
 import 'generated/r.dart';
 
-final Sentry.SentryClient _sentry = Sentry.SentryClient(
-    dsn: 'https://ee2dd9f706974248b5b4a10850586d94@sentry.io/2239437');
+final Sentry.SentryClient _sentry =
+    Sentry.SentryClient(dsn: 'https://ee2dd9f706974248b5b4a10850586d94@sentry.io/2239437');
 
 bool get isInDebugMode {
   var inDebugMode = false;
@@ -68,8 +68,7 @@ main(List<String> args) async {
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   await Firebase.initializeApp();
   await FirebaseRemoteConfigService().initialise();
-  await SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
       runApp(SeedsApp());
     } else {
@@ -145,12 +144,9 @@ class MainScreen extends StatelessWidget {
         var navigationService = NavigationService.of(context);
         PushNotificationService().initialise(context);
 
-        if (auth.status == AuthStatus.emptyAccount ||
-            auth.status == AuthStatus.recoveryMode) {
+        if (auth.status == AuthStatus.emptyAccount || auth.status == AuthStatus.recoveryMode) {
           return SeedsMaterialApp(
-            home: auth.status == AuthStatus.emptyAccount
-                ? Onboarding()
-                : JoinProcess(),
+            home: auth.status == AuthStatus.emptyAccount ? Onboarding() : JoinProcess(),
             navigatorKey: navigationService.onboardingNavigatorKey,
             onGenerateRoute: navigationService.onGenerateRoute,
           );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/screens/settings/edit_name/viewmodels/bloc.dart';
 import 'package:seeds/i18n/edit_name.i18n.dart';
@@ -39,11 +38,17 @@ class _EditNameScreenState extends State<EditNameScreen> {
                 controller: _nameController,
                 style: Theme.of(context).textTheme.button,
                 onFieldSubmitted: (_) => _onSubmitted(),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
               ),
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: FlatButtonLong(title: 'Save Changes'.i18n, onPressed: _onSubmitted()),
+                child: FlatButtonLong(title: 'Save Changes'.i18n, onPressed: () => _onSubmitted()),
               )
             ],
           ),
@@ -64,15 +69,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
 
   dynamic _onSubmitted() {
     if (_formKeyPassword.currentState.validate()) {
-      // _editNameBloc.add(SubmitName());
-      await Provider.of<EosService>(context, listen: false).updateProfile(
-        nickname: _nameController.text,
-        image: '',
-        story: '',
-        roles: '',
-        skills: '',
-        interests: '',
-      );
+      _editNameBloc.add(const SubmitName());
     } else {
       // _editNameBloc.add(ActivateAutoValidate());
     }

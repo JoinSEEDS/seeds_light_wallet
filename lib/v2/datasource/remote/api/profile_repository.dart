@@ -20,36 +20,4 @@ class ProfileRepository extends NetworkRepository {
             }))
         .catchError((error) => mapError(error));
   }
-
-  // Future<dynamic> updateProfile({
-  //   String nickname,
-  //   String image,
-  //   String story,
-  //   String roles,
-  //   String skills,
-  //   String interests,
-  // }) async {
-  //   print("[eos] update profile");
-
-  //   Transaction transaction = buildFreeTransaction([
-  //     Action()
-  //       ..account = "accts.seeds"
-  //       ..name = "update"
-  //       ..authorization = [
-  //         Authorization()
-  //           ..actor = accountName
-  //           ..permission = "active"
-  //       ]
-  //       ..data = {
-  //         "user": accountName,
-  //         "type": "individual",
-  //         "nickname": nickname,
-  //         "image": image,
-  //         "story": story,
-  //         "roles": roles,
-  //         "skills": skills,
-  //         "interests": interests
-  //       }
-  //   ]);
-  // }
 }
