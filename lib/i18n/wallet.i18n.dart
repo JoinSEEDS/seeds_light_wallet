@@ -28,6 +28,7 @@ static final _t = Translations.byLocale('en_us') +
          'Backup': 'Copia de seguridad',
          'Later': 'Luego',
          'Latest transactions': 'Últimas transacciones',
+         'Transactions History': 'Historia de transacciones',
 
          'Network error': 'Error de red',
          'Pull to update': 'Tire para actualizar',

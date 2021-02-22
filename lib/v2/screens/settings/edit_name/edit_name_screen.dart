@@ -28,7 +28,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Display Name'.i18n), elevation: 0.0),
+      appBar: AppBar(title: Text('Edit Display Name'.i18n)),
       body: Form(
         key: _formKeyPassword,
         child: Padding(
@@ -62,17 +62,9 @@ class _EditNameScreenState extends State<EditNameScreen> {
     _editNameBloc.add(OnNameChanged(name: _nameController.text));
   }
 
-  dynamic _onSubmitted() {
+  _onSubmitted() {
     // if (_formKeyPassword.currentState.validate()) {
     //   // _editNameBloc.add(SubmitName());
-    //   await Provider.of<EosService>(context, listen: false).updateProfile(
-    //     nickname: _nameController.text,
-    //     image: '',
-    //     story: '',
-    //     roles: '',
-    //     skills: '',
-    //     interests: '',
-    //   );
     // } else {
     //   // _editNameBloc.add(ActivateAutoValidate());
     // }
