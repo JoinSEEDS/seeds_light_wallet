@@ -122,7 +122,7 @@ class NavigationService {
     Routes.guardians: (_) => Guardians(),
     Routes.settings: (_) => const SettingsScreen(),
     Routes.editName: (_) => const EditNameScreen(),
-    Routes.setCurrency: (_) => SetCurrencyScreen(),
+    Routes.setCurrency: (_) => const SetCurrencyScreen(),
   };
 
   final ecosystemRoutes = {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/i18n/edit_name.i18n.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/screens/settings/edit_name/viewmodels/bloc.dart';
-import 'package:seeds/i18n/edit_name.i18n.dart';
 
 class EditNameScreen extends StatefulWidget {
   const EditNameScreen({Key key}) : super(key: key);
@@ -41,7 +41,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: FlatButtonLong(title: 'Save Changes'.i18n, onPressed: _onSubmitted()),
+                child: FlatButtonLong(title: 'Save Changes'.i18n, onPressed: () => _onSubmitted()),
               )
             ],
           ),
@@ -60,12 +60,11 @@ class _EditNameScreenState extends State<EditNameScreen> {
     _editNameBloc.add(OnNameChanged(name: _nameController.text));
   }
 
-  _onSubmitted() {
+  void _onSubmitted() {
     // if (_formKeyPassword.currentState.validate()) {
     //   // _editNameBloc.add(SubmitName());
     // } else {
     //   // _editNameBloc.add(ActivateAutoValidate());
     // }
-
   }
 }

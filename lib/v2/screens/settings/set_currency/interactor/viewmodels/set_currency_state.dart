@@ -12,7 +12,7 @@ class SetCurrencyState extends Equatable {
   final List<String> currencyResult;
   final String errorMessage;
 
-  SetCurrencyState({
+  const SetCurrencyState({
     @required this.pageState,
     this.currentQuery,
     this.fiatRateModel,
@@ -46,7 +46,7 @@ class SetCurrencyState extends Equatable {
   }
 
   factory SetCurrencyState.initial() {
-    return SetCurrencyState(
+    return const SetCurrencyState(
       pageState: PageState.initial,
       currentQuery: null,
       fiatRateModel: null,

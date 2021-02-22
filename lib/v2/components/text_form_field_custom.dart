@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:seeds/constants/app_colors.dart';
 
 /// A wigdeg wrapper of TextFormField customized for general inputs
 ///
@@ -65,8 +66,8 @@ class TextFormFieldCustom extends StatelessWidget {
         validator: validator,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
-          enabledBorder: const OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.canopy, width: 1.0),
           ),
           counterText: "",
           hintText: hintText,
