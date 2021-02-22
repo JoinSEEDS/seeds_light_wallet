@@ -12,7 +12,6 @@ import 'package:hive/hive.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/features/biometrics/biometrics_verification.dart';
 import 'package:seeds/models/VoteResultAdapter.dart';
 import 'package:seeds/models/member_adapter.dart';
