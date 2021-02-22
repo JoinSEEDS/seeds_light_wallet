@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:seeds/models/models.dart';
 
+// Deprecated - we no longer use Hive with TransactionModel
+// TODO: Remove this class
 class TransactionAdapter extends TypeAdapter<TransactionModel> {
   final typeId = 2;
 
@@ -19,6 +21,8 @@ class TransactionAdapter extends TypeAdapter<TransactionModel> {
     fields.add(reader.readString());
     reader.readByte();
     fields.add(reader.readString());
+    reader.readByte();
+    fields.add(reader.readInt());
 
     return TransactionModel(
       fields[0],
@@ -27,6 +31,7 @@ class TransactionAdapter extends TypeAdapter<TransactionModel> {
       fields[3],
       fields[4],
       fields[5],
+      fields[6],
     );
   }
 
@@ -44,5 +49,7 @@ class TransactionAdapter extends TypeAdapter<TransactionModel> {
     writer.writeString(obj.timestamp);
     writer.writeByte(5);
     writer.writeString(obj.transactionId);
+    writer.writeByte(6);
+    writer.writeInt(obj.blockNumber);
   }
 }

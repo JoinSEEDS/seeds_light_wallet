@@ -187,36 +187,6 @@ class HttpService {
     }
   }
 
-  // Future<List<String>> getKeyAccounts(String publicKey) async {
-  //   print("[http] get key accounts");
-
-  //   if (mockResponse == true) {
-  //     return HttpMockResponse.keyAccounts;
-  //   }
-
-  //   final String keyAccountsURL =
-  //       "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
-
-  //   Response res = await get(keyAccountsURL);
-
-  //   if (res.statusCode == 200) {
-  //     Map<String, dynamic> body = res.parseJson();
-
-  //     List<String> keyAccounts = List<String>.from(body["account_names"]);
-
-  //     return keyAccounts;
-  //   } else if (res.statusCode == 400) {
-  //     print("invalid public key");
-  //     return [];
-  //   } else if (res.statusCode == 404) {
-  //     print("no accounts associated with public key");
-  //     return [];
-  //   } else {
-  //     print("unexpected error fetching accounts");
-  //     return [];
-  //   }
-  // }
-
   Future<List<MemberModel>> getMembers() async {
     print("[http] get members");
 
@@ -348,50 +318,19 @@ class HttpService {
 
     return users;
   }
-
-  // Future<List<TransactionModel>> getTransactions() async {
-  //   print("[http] get transactions");
-
-  //   if (mockResponse == true) {
-  //     return HttpMockResponse.transactions;
-  //   }
-
-  //   final String transactionsURL =
-  //       "$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
-
-  //   Response res = await get(transactionsURL);
-
-  //   if (res.statusCode == 200) {
-  //     Map<String, dynamic> body = res.parseJson();
-
-  //     List<dynamic> transfers = body["actions"].where((dynamic item) {
-  //       return item["act"]["account"] == "token.seeds" &&
-  //           item["act"]["data"] != null &&
-  //           item["act"]["data"]["from"] != null;
-  //     }).toList();
-
-  //     List<TransactionModel> transactions =
-  //         transfers.map((item) => TransactionModel.fromJson(item)).toList();
-
-  //     return transactions;
-  //   } else {
-  //     print("Cannot fetch transactions...");
-
-  //     return [];
-  //   }
-  // }
-  
   
   Future<List<TransactionModel>> getTransactionsMongo({int blockHeight = 0}) async {
+
+    print("[http] loading transactions from block $blockHeight");
+
     const url = "https://mongo-api.hypha.earth/find";
-    var blockNum = blockHeight;
 
     var params = '''{ 
       "collection":"action_traces",
       "query": { 
         "act.account": "token.seeds",
         "act.name":"transfer",
-        "block_num": {"\$gt": $blockNum },
+        "block_num": {"\$gt": $blockHeight },
         "\$or": [ { "act.data.from": "$userAccount" }, { "act.data.to":"$userAccount"} ]
       },
       "projection":{
@@ -414,15 +353,14 @@ class HttpService {
     
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
-
       List<dynamic> transfers = body["items"];
-
       List<TransactionModel> transactions = transfers
           .map((item) => TransactionModel.fromJsonMongo(item))
           .toList();
 
+      print("[http] loaded ${transactions.length} transactions");
+      
       return transactions;
-
     } else {
       print("Error fetching transactions..."+res.parseJson().toString());
       return [];

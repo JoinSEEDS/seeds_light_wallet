@@ -148,6 +148,8 @@ class _DashboardState extends State<Dashboard> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     refreshData();
+
+    // TODO: This is not in the right place, this should not happen on a widget tree?
     if (SettingsNotifier.of(context).selectedFiatCurrency == null) {
       Locale locale = Localizations.localeOf(context);
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
@@ -157,7 +159,6 @@ class _DashboardState extends State<Dashboard> {
 
   Future<void> refreshData() async {
     await Future.wait(<Future<dynamic>>[
-      TransactionsNotifier.of(context).fetchTransactionsCache(),
       TransactionsNotifier.of(context).refreshTransactions(),
       BalanceNotifier.of(context).fetchBalance(),
       RateNotifier.of(context).fetchRate(),

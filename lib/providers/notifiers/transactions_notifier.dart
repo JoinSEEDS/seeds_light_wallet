@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/utils/extensions/SafeHive.dart';
 
 class TransactionsNotifier extends ChangeNotifier {
   List<TransactionModel> transactions;
@@ -18,27 +16,24 @@ class TransactionsNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  Future fetchTransactionsCache() async {
-    Box cacheTransactions =
-        await SafeHive.safeOpenBox<TransactionModel>("transactions");
-    if (cacheTransactions != null && cacheTransactions.isNotEmpty) {
-      transactions = cacheTransactions.values.toList();
-      notifyListeners();
-    }
-  }
+  List<TransactionModel> transactionsCache = [];
 
   Future refreshTransactions() async {
-    Box cacheTransactions =
-        await SafeHive.safeOpenBox<TransactionModel>("transactions");
 
-    List<TransactionModel> actualTransactions = await _http.getTransactionsMongo();
-
-    if (actualTransactions.length > 0) {
-      await cacheTransactions.clear();
-      await cacheTransactions.addAll(actualTransactions);
+    int block = 0;
+    if (transactionsCache.length > 0) {
+      block = transactionsCache[0].blockNumber;
     }
 
-    transactions = cacheTransactions.values.toList();
+    List<TransactionModel> newTransactions = await _http.getTransactionsMongo(blockHeight: block);
+
+    transactions = newTransactions + transactionsCache;
+
+    if (transactions.length > 300) {
+      transactions.sublist(0, 300);
+    }
+
+    transactionsCache = transactions;
 
     notifyListeners();
   }
