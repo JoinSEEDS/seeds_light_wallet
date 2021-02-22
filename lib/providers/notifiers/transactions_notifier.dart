@@ -31,7 +31,7 @@ class TransactionsNotifier extends ChangeNotifier {
     Box cacheTransactions =
         await SafeHive.safeOpenBox<TransactionModel>("transactions");
 
-    List<TransactionModel> actualTransactions = await _http.getTransactions();
+    List<TransactionModel> actualTransactions = await _http.getTransactionsMongo();
 
     if (actualTransactions.length > 0) {
       await cacheTransactions.clear();

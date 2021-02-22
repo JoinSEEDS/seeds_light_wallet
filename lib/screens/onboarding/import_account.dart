@@ -64,7 +64,9 @@ class _ImportAccountState extends State<ImportAccount> {
       EOSPrivateKey eosPrivateKey = EOSPrivateKey.fromString(privateKey);
       EOSPublicKey eosPublicKey = eosPrivateKey.toEOSPublicKey();
       publicKey = eosPublicKey.toString();
-    } catch (_) {}
+    } catch (err) {
+      print("error converting key: {$err.toString()}");
+    }
 
     if (publicKey == "") {
       setState(() => status = ImportStatus.invaildPrivateKey);
