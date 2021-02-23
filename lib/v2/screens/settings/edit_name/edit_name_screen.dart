@@ -60,11 +60,5 @@ class _EditNameScreenState extends State<EditNameScreen> {
     _editNameBloc.add(OnNameChanged(name: _nameController.text));
   }
 
-  void _onSubmitted() {
-    // if (_formKeyPassword.currentState.validate()) {
-    //   // _editNameBloc.add(SubmitName());
-    // } else {
-    //   // _editNameBloc.add(ActivateAutoValidate());
-    // }
-  }
+  void _onSubmitted() {}
 }
