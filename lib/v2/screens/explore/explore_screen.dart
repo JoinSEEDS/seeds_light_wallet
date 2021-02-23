@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/loading_indicator.dart';
