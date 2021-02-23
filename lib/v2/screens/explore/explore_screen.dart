@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore/components/explore_info_card.dart';
@@ -29,9 +30,7 @@ class ExploreScreen extends StatelessWidget {
                 case PageState.loading:
                   return Container(child: const Center(child: SeedsLoadingIndicator()));
                 case PageState.failure:
-                  return Container(
-                      child: Center(
-                          child: Text('Error: ' + state.errorMessage, style: Theme.of(context).textTheme.subtitle3)));
+                  return const FullPageErrorIndicator();
                 case PageState.success:
                   return ListView(
                     children: <Widget>[
