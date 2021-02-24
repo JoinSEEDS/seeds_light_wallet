@@ -42,9 +42,7 @@ class ProfileMiddle extends StatelessWidget {
               'USD',
               style: Theme.of(context).textTheme.subtitle1HighEmphasis,
             ),
-            onTap: () {
-              //_chooseCurrencyBottomSheet
-            },
+            onTap: () {},
           ),
           const DividerJungle(),
           ListTile(
@@ -73,6 +71,7 @@ class ProfileMiddle extends StatelessWidget {
                   .toList(),
             ),
           ),
+          const SizedBox(height: 16.0),
         ],
       ),
     );

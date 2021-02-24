@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
@@ -27,6 +28,7 @@ import 'package:seeds/providers/services/firebase/push_notification_service.dart
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
+import 'package:seeds/v2/domain-shared/bloc_observer.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 import 'package:sentry/sentry.dart' as Sentry;
@@ -68,6 +70,7 @@ main(List<String> args) async {
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   await Firebase.initializeApp();
   await FirebaseRemoteConfigService().initialise();
+  Bloc.observer = SimpleBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
       runApp(SeedsApp());

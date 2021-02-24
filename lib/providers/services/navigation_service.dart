@@ -29,6 +29,7 @@ import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/settings/edit_name/edit_name_screen.dart';
+import 'package:seeds/v2/screens/settings/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/settings/settings_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
@@ -67,6 +68,7 @@ class Routes {
   static final guardians = 'Guardians';
   static final settings = 'Settings';
   static final editName = 'EditName';
+  static final setCurrency = "SetCurrency";
 }
 
 class NavigationService {
@@ -120,6 +122,7 @@ class NavigationService {
     Routes.guardians: (_) => Guardians(),
     Routes.settings: (_) => const SettingsScreen(),
     Routes.editName: (_) => const EditNameScreen(),
+    Routes.setCurrency: (_) => const SetCurrencyScreen(),
   };
 
   final ecosystemRoutes = {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:seeds/i18n/edit_name.i18n.dart';
+import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/screens/settings/edit_name/viewmodels/bloc.dart';
-import 'package:seeds/i18n/edit_name.i18n.dart';
 
 class EditNameScreen extends StatefulWidget {
   const EditNameScreen({Key key}) : super(key: key);
@@ -14,7 +14,7 @@ class EditNameScreen extends StatefulWidget {
 class _EditNameScreenState extends State<EditNameScreen> {
   EditNameBloc _editNameBloc;
   final _nameController = TextEditingController();
-  final _formKeyPassword = GlobalKey<FormState>();
+  final _formKeyName = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -27,9 +27,9 @@ class _EditNameScreenState extends State<EditNameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Display Name'.i18n), elevation: 0.0),
+      appBar: AppBar(title: Text('Edit Display Name'.i18n)),
       body: Form(
-        key: _formKeyPassword,
+        key: _formKeyName,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -67,11 +67,12 @@ class _EditNameScreenState extends State<EditNameScreen> {
     _editNameBloc.add(OnNameChanged(name: _nameController.text));
   }
 
-  dynamic _onSubmitted() {
-    if (_formKeyPassword.currentState.validate()) {
-      _editNameBloc.add(const SubmitName());
-    } else {
-      // _editNameBloc.add(ActivateAutoValidate());
-    }
+  void _onSubmitted() {
+    if (_formKeyName.currentState.validate()) {
+      _editNameBloc.add(SubmitName(
+          accountName: SettingsNotifier.of(context).accountName,
+          privateKey: SettingsNotifier.of(context).privateKey,
+          nodeEndpoint: SettingsNotifier.of(context).nodeEndpoint));
+    } else {}
   }
 }

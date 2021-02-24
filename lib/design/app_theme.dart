@@ -8,7 +8,8 @@ class SeedsAppTheme {
         fontFamily: 'SFProDisplay',
         textTheme: SeedsTextTheme.lightTheme,
         brightness: Brightness.light,
-        canvasColor: AppColors.primary);
+        canvasColor: AppColors.primary,
+        appBarTheme: AppBarTheme(elevation: 0.0));
   }
 
   static ThemeData get darkTheme {
@@ -17,7 +18,8 @@ class SeedsAppTheme {
         fontFamily: 'SFProDisplay',
         textTheme: SeedsTextTheme.darkTheme,
         brightness: Brightness.dark,
-        canvasColor: AppColors.primary);
+        canvasColor: AppColors.primary,
+        appBarTheme: AppBarTheme(elevation: 0.0));
   }
 }
 

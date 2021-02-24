@@ -7,7 +7,7 @@ export 'package:async/src/result/result.dart';
 class UpdateProfileUseCase {
   final EosRepository _eosRepository = EosRepository();
 
-  Future<Result> run({@required String name}) {
+  Future<Result> run({@required String name, String accountName, String privateKey, String nodeEndpoint}) {
     return _eosRepository.updateProfile(
       nickname: name,
       image: '',
@@ -15,6 +15,9 @@ class UpdateProfileUseCase {
       roles: '',
       skills: '',
       interests: '',
+      accountName: accountName,
+      privateKey: privateKey,
+      nodeEndpoint: nodeEndpoint,
     );
   }
 }

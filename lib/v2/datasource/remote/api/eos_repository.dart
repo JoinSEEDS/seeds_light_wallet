@@ -1,31 +1,13 @@
 import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/constants/config.dart';
+import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
+import 'package:seeds/v2/datasource/remote/model/update_profile_response.dart';
 
-class EosRepository {
-  String privateKey;
-  String accountName;
-  String baseURL = Config.defaultEndpoint;
+class EosRepository extends NetworkRepository {
   String cpuPrivateKey = Config.cpuPrivateKey;
-  EOSClient client;
-  bool mockEnabled;
 
-  void update({
-    userPrivateKey,
-    userAccountName,
-    nodeEndpoint,
-    bool enableMockTransactions = false,
-  }) {
-    privateKey = userPrivateKey;
-    accountName = userAccountName;
-    baseURL = nodeEndpoint;
-    mockEnabled = enableMockTransactions;
-    if (privateKey != null && privateKey.isNotEmpty) {
-      client = EOSClient(baseURL, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
-    }
-  }
-
-  Transaction buildFreeTransaction(List<Action> actions) {
+  Transaction buildFreeTransaction(List<Action> actions, String accountName) {
     var freeAuth = <Authorization>[
       Authorization()
         ..actor = 'harvst.seeds'
@@ -57,8 +39,12 @@ class EosRepository {
     String roles,
     String skills,
     String interests,
+    String accountName,
+    String privateKey,
+    String nodeEndpoint,
   }) async {
     print('[eos] update profile');
+
     var transaction = buildFreeTransaction([
       Action()
         ..account = 'accts.seeds'
@@ -78,8 +64,12 @@ class EosRepository {
           'skills': skills,
           'interests': interests
         }
-    ]);
-    client = EOSClient(baseURL, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
-    return client.pushTransaction(transaction, broadcast: true) as Result;
+    ], accountName);
+
+    var client = EOSClient(nodeEndpoint, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
+
+    return client.pushTransaction(transaction, broadcast: true).then((dynamic response) {
+      return ValueResult(UpdateProfileResponse.fromJson(Map<String, dynamic>.from(response)));
+    }).catchError((error) => mapError(error));
   }
 }

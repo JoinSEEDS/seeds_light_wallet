@@ -13,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Settings'.i18n), elevation: 0.0),
+      appBar: AppBar(title: Text('Settings'.i18n)),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
@@ -36,6 +36,7 @@ class SettingsScreen extends StatelessWidget {
             titleValue: 'USD',
             descriptionText:
                 'Setting your local currency lets you easily switch between your local and preferred currency.'.i18n,
+            route: Routes.setCurrency,
           ),
           SettingsCard(
             icon: Icons.favorite_border,

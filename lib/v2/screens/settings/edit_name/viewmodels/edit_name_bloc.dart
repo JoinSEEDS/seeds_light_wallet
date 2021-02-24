@@ -13,7 +13,12 @@ class EditNameBloc extends Bloc<EditNameEvent, EditNameState> {
       yield state.copyWith(name: event.name);
     }
     if (event is SubmitName) {
-      var result = await UpdateProfileUseCase().run(name: state.name);
+      var result = await UpdateProfileUseCase().run(
+        name: state.name,
+        accountName: event.accountName,
+        privateKey: event.privateKey,
+        nodeEndpoint: event.nodeEndpoint,
+      );
 
       yield UpdateProfileStateMapper().mapResultToState(state, result);
     }
