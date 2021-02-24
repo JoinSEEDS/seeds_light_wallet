@@ -13,10 +13,6 @@ class LinksService {
   }
 
   Future<void> listenSigningRequests(Function callback) async {
-    // var desktopUrl =
-    //     "esr:AgFGZ7IFxoOO9w_3mI9uglfovg4ShKL1lpkFSgGPdDsdEQMAAjtodHRwczovL2NiLmFuY2hvci5saW5rLzUyMGU3NTY3LTljNjQtNDRmOS1hNjc5LWRhYzQzYTNiOGI1ZAEEbGluayoAMI0KAAAAAAADt67p9r0zs-nH50QCamPG6mWkyV63tnOtsLwgzK9mtwI";
-    // callback(desktopUrl);
-
     try {
       final initialLink = await getInitialLink();
 
