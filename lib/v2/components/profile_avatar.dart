@@ -15,11 +15,12 @@ class ProfileAvatar extends StatelessWidget {
   final String account;
 
   const ProfileAvatar({
-    this.size = 100,
+    @required this.size,
     @required this.image,
     @required this.nickname,
     @required this.account,
-  })  : assert(image != null),
+  })  : assert(size != null),
+        assert(image != null),
         assert(nickname != null),
         assert(account != null);
 

@@ -23,6 +23,7 @@ class ProfileHeader extends StatelessWidget {
                   Column(
                     children: [
                       ProfileAvatar(
+                        size: 100,
                         image: state.profile.image,
                         nickname: state.profile.nickname,
                         account: state.profile.account,

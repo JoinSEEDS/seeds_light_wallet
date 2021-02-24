@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
+import 'package:seeds/v2/components/full_page_error_indicator.dart';
+import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/screens/profile/components/profile_bottom.dart';
 import 'package:seeds/v2/screens/profile/components/profile_header.dart';
 import 'package:seeds/v2/screens/profile/components/profile_middle.dart';
@@ -19,9 +21,9 @@ class ProfileScreen extends StatelessWidget {
             case PageState.initial:
               return const SizedBox.shrink();
             case PageState.loading:
-              return Container(child: const Center(child: CircularProgressIndicator()));
+              return const FullPageLoadingIndicator();
             case PageState.failure:
-              return Container(child: const Center(child: Text('Error:')));
+              return const FullPageErrorIndicator();
             case PageState.success:
               return ListView(
                 children: <Widget>[
