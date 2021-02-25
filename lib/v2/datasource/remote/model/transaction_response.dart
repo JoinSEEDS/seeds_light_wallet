@@ -1,14 +1,15 @@
 /// Response from EOS library when user profile is updated
-class UpdateProfileResponse {
+class TransactionResponse {
   Processed processed;
 
-  UpdateProfileResponse.fromJson(Map<String, dynamic> json) {
+  TransactionResponse.fromJson(Map<String, dynamic> json) {
     processed = json['processed'] != null ? Processed.fromJson(json['processed']) : null;
   }
 }
 
 class Processed {
   List<ActionTraces> actionTraces;
+  int errorCode;
 
   Processed.fromJson(Map<String, dynamic> json) {
     if (json['action_traces'] != null) {
@@ -17,16 +18,15 @@ class Processed {
         actionTraces.add(ActionTraces.fromJson(v));
       });
     }
+    errorCode = json['error_code'];
   }
 }
 
 class ActionTraces {
   Act act;
-  dynamic errorCode;
 
   ActionTraces.fromJson(Map<String, dynamic> json) {
     act = json['act'] != null ? Act.fromJson(json['act']) : null;
-    errorCode = json['error_code'];
   }
 }
 

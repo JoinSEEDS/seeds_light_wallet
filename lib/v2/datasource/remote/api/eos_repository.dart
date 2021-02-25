@@ -2,7 +2,7 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
-import 'package:seeds/v2/datasource/remote/model/update_profile_response.dart';
+import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
 
 class EosRepository extends NetworkRepository {
   String cpuPrivateKey = Config.cpuPrivateKey;
@@ -68,8 +68,11 @@ class EosRepository extends NetworkRepository {
 
     var client = EOSClient(nodeEndpoint, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
 
-    return client.pushTransaction(transaction, broadcast: true).then((dynamic response) {
-      return ValueResult(UpdateProfileResponse.fromJson(Map<String, dynamic>.from(response)));
-    }).catchError((error) => mapError(error));
+    return client
+        .pushTransaction(transaction, broadcast: true)
+        .then((dynamic response) => mapEosSuccess(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapError(error));
   }
 }
