@@ -1,11 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
-import 'package:seeds/v2/screens/profile/interactor/profile_bloc.dart';
-import 'package:seeds/v2/screens/profile/interactor/viewmodels/profile_state.dart';
+import 'package:seeds/v2/screens/profile/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/components/profile_avatar.dart';
 
 /// PROFILE HEADER
 class ProfileHeader extends StatelessWidget {
@@ -23,38 +22,11 @@ class ProfileHeader extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(50.0),
-                        child: Container(
-                          width: 100.0,
-                          height: 100.0,
-                          child: state.profile?.image == null
-                              ? const SizedBox.shrink()
-                              : CachedNetworkImage(
-                                  imageUrl: state.profile?.image ?? '',
-                                  fit: BoxFit.cover,
-                                  // Show a nice loading as placeholder
-                                  // placeholder: (_, url) =>
-                                  //     Image.asset('assets/images/loading_image_placeholder.gif', fit: BoxFit.cover),
-                                  errorWidget: (context, url, error) {
-                                    return Container(
-                                      color: AppColors.getColorByString(state.profile?.nickname ?? ''),
-                                      child: Center(
-                                        child: Text(
-                                          (state.profile?.nickname != null)
-                                              ? state.profile?.nickname?.substring(0, 2)?.toUpperCase()
-                                              : '?',
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                        ),
+                      ProfileAvatar(
+                        size: 100,
+                        image: state.profile.image,
+                        nickname: state.profile.nickname,
+                        account: state.profile.account,
                       ),
                     ],
                   ),
