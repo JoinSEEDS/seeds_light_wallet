@@ -28,6 +28,7 @@ import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
+import 'package:seeds/v2/screens/profile/support/support_screen.dart';
 import 'package:seeds/v2/screens/settings/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/settings/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/settings/settings_screen.dart';
@@ -66,6 +67,7 @@ class Routes {
   static final guardianTabs = 'GuardianTabs';
   static final dho = 'DHO';
   static final guardians = 'Guardians';
+  static final support = 'Support';
   static final settings = 'Settings';
   static final editName = 'EditName';
   static final setCurrency = "SetCurrency";
@@ -120,6 +122,7 @@ class NavigationService {
     Routes.guardianTabs: (_) => GuardianTabs(),
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
+    Routes.support: (_) => const SupportScreen(),
     Routes.settings: (_) => const SettingsScreen(),
     Routes.editName: (_) => const EditNameScreen(),
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
