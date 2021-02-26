@@ -1,10 +1,8 @@
 import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/constants/config.dart';
-import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
-import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
 
-class EosRepository extends NetworkRepository {
+abstract class EosRepository {
   String cpuPrivateKey = Config.cpuPrivateKey;
 
   Transaction buildFreeTransaction(List<Action> actions, String accountName) {
@@ -32,47 +30,28 @@ class EosRepository extends NetworkRepository {
     return transaction;
   }
 
-  Future<Result> updateProfile({
-    String nickname,
-    String image,
-    String story,
-    String roles,
-    String skills,
-    String interests,
-    String accountName,
-    String privateKey,
-    String nodeEndpoint,
-  }) async {
-    print('[eos] update profile');
+  EOSClient buildEosClient(String nodeEndpoint, String privateKey) =>
+      EOSClient(nodeEndpoint, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
 
-    var transaction = buildFreeTransaction([
-      Action()
-        ..account = 'accts.seeds'
-        ..name = 'update'
-        ..authorization = [
-          Authorization()
-            ..actor = accountName
-            ..permission = 'active'
-        ]
-        ..data = {
-          'user': accountName,
-          'type': 'individual',
-          'nickname': nickname,
-          'image': image,
-          'story': story,
-          'roles': roles,
-          'skills': skills,
-          'interests': interests
-        }
-    ], accountName);
-
-    var client = EOSClient(nodeEndpoint, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
-
-    return client
-        .pushTransaction(transaction, broadcast: true)
-        .then((dynamic response) => mapEosSuccess(response, (dynamic map) {
-              return TransactionResponse.fromJson(map);
-            }))
-        .catchError((error) => mapError(error));
+  Result mapSuccess(dynamic response, Function modelMapper) {
+    print('mapSuccess - transaction id: ${response['transaction_id']}');
+    if (response['transaction_id'] != null) {
+      print('Model Class: $modelMapper');
+      var map = Map<String, dynamic>.from(response);
+      return ValueResult(modelMapper(map));
+    } else {
+      return ErrorResult(EosError(response['processed']['error_code']));
+    }
   }
+
+  Result mapError(error) {
+    print('mapError: ' + error.toString());
+    return ErrorResult(error);
+  }
+}
+
+class EosError extends Error {
+  int errorCode;
+
+  EosError(this.errorCode);
 }
