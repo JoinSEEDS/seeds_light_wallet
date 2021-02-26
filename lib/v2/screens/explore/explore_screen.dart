@@ -19,21 +19,21 @@ class ExploreScreen extends StatelessWidget {
       create: (context) => ExploreBloc()..add(LoadExplore(userName: SettingsNotifier.of(context).accountName)),
       child: Scaffold(
         backgroundColor: AppColors.primary,
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: BlocBuilder<ExploreBloc, ExploreState>(
-            builder: (context, ExploreState state) {
-              switch (state.pageState) {
-                case PageState.initial:
-                  return const SizedBox.shrink();
-                case PageState.loading:
-                  return const FullPageLoadingIndicator();
-                case PageState.failure:
-                  return const FullPageErrorIndicator();
-                case PageState.success:
-                  return ListView(
-                    children: <Widget>[
-                      ExploreInfoCard(
+        body: BlocBuilder<ExploreBloc, ExploreState>(
+          builder: (context, ExploreState state) {
+            switch (state.pageState) {
+              case PageState.initial:
+                return const SizedBox.shrink();
+              case PageState.loading:
+                return const FullPageLoadingIndicator();
+              case PageState.failure:
+                return const FullPageErrorIndicator();
+              case PageState.success:
+                return ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+                      child: ExploreInfoCard(
                         callback: () {},
                         title: 'Invite',
                         amount: state.availableSeeds,
@@ -44,8 +44,11 @@ class ExploreScreen extends StatelessWidget {
                         ),
                         amountLabel: 'Available Seeds',
                       ),
-                      const SizedBox(height: 20),
-                      Row(
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Expanded(
@@ -63,22 +66,25 @@ class ExploreScreen extends StatelessWidget {
                             child: ExploreInfoCard(
                               callback: () {},
                               title: 'Vote',
-                              amount: '2',
+                              amount: 'TODO',
                               icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
                               amountLabel: 'Trust Tokens',
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
-                      Row(
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Expanded(
                             child: ExploreInfoCard(
                               callback: () {},
                               title: 'Get Seeds',
-                              amount: '15',
+                              amount: 'TODO',
                               amountLabel: 'Seeds',
                             ),
                           ),
@@ -87,19 +93,19 @@ class ExploreScreen extends StatelessWidget {
                             child: ExploreInfoCard(
                               callback: () {},
                               title: 'Hypha DHO',
-                              amount: '5',
+                              amount: 'TODO',
                               amountLabel: 'Hypha',
                             ),
                           ),
                         ],
-                      )
-                    ],
-                  );
-                default:
-                  return const SizedBox.shrink();
-              }
-            },
-          ),
+                      ),
+                    )
+                  ],
+                );
+              default:
+                return const SizedBox.shrink();
+            }
+          },
         ),
       ),
     );
