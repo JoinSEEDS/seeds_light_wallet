@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +20,11 @@ import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
+import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:seeds/widgets/v2_widgets/app_bar.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
@@ -134,6 +137,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       child: Scaffold(
+        appBar: buildAppBar(context),
         body: ListView(
           children: <Widget>[
             buildNotification(),
@@ -449,6 +453,43 @@ class _DashboardState extends State<Dashboard> {
           style: const TextStyle(color: AppColors.canopy),
         )
       ]),
+    );
+  }
+
+  Widget buildAppBar(BuildContext _context) {
+    return AppBar(
+      titleSpacing: 0,
+      leading: Container(
+        margin: const EdgeInsets.all(16),
+        child: SvgPicture.asset(
+          'assets/images/app_bar/appbar_logo.svg',
+        ),
+      ),
+      title: SvgPicture.asset('assets/images/app_bar/seeds_text.svg'),
+      actions: [
+        Container(
+          child: IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/app_bar/scan_qr_code_logo_2.svg',
+              height: 30,
+            ),
+            onPressed: () {},
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(right: 20, left: 14),
+          child: TransactionAvatar(
+            size: 40,
+            account: 'SettingsNotifier.of(context).accountName',
+            nickname: 'GG',
+            image: '',
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.jungle,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

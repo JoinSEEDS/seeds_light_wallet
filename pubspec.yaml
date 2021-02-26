@@ -282,6 +282,8 @@ flutter:
     - assets/images/wallet/arrow_down.svg
     - assets/images/app_bar/appbar_logo.svg
     - assets/images/app_bar/scan_qr_code_logo_2.svg
+    - assets/images/app_bar/seeds_text.svg
+    - assets/images/app_bar/seeds_text.png
     # assets end
 
   fonts:

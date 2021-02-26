@@ -172,7 +172,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
       body: buildPageView(),
       bottomNavigationBar: StreamBuilder<bool>(
           stream: FirebaseDatabaseService()
@@ -185,58 +184,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             }
           }),
     );
-  }
-
-  //fix here
-  Widget buildAppBar(BuildContext _context) {
-    return AppBar(
-      //flexibleSpace: Container(height: 10,),
-      titleSpacing: 0,
-      excludeHeaderSemantics: true,
-      //backgroundColor: Colors.red,
-      leading: Container(
-         //iconSize: 20,
-         margin: const EdgeInsets.all(16),
-         //color: Colors.orange,
-         child: SvgPicture.asset('assets/images/app_bar/appbar_logo.svg',
-          ),
-      ),
-         // SvgPicture.asset('assets/images/app_bar/appbar_logo.svg', fit: BoxFit.scaleDown, height: 20, width: 20,)),
-      title: Container(
-          padding: const EdgeInsets.only(),
-          //color: Colors.brown,
-          child: Text(navigationTabs[index].title  ,style: Theme.of(context).textTheme.headline5,)),
-      actions: [
-        Container(
-          width: 50,
-          height: 20,
-          //color: Colors.blue,
-          child: IconButton(
-            //iconSize:40,
-            icon: SvgPicture.asset('assets/images/app_bar/scan_qr_code_logo_2.svg',height: 50,)
-            ),
-        ),
-          //onPressed: () {
-            //scaffoldKey.currentState.showSnackBar(snackBar);
-          //},
-        Container(
-          padding: const EdgeInsets.only(right: 20, left: 10),
-          child: TransactionAvatar(
-            size: 46,
-            account: 'SettingsNotifier.of(context).accountName',
-            nickname: 'hh',
-            image:  '',
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.jungle,
-            ),
-          ),
-        ),
-
-
-      ],
-    );
-
   }
 
   Widget buildPageView() {
