@@ -4,6 +4,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/support.i18n.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({Key key}) : super(key: key);
@@ -18,7 +19,7 @@ class SupportScreen extends StatelessWidget {
           children: [
             InkWell(
               borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-              onTap: () {},
+              onTap: () async => await launch('https://discord.gg/pSWdqxTjvB'),
               child: Ink(
                 decoration: const BoxDecoration(
                   color: AppColors.jungle,
