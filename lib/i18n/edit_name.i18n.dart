@@ -6,6 +6,8 @@ extension Localization on String {
         'es_es': {
           'Edit Display Name': 'Editar nombre a mostrar',
           'Save Changes': 'Guardar cambios',
+          'Display name': 'Nombre a mostrar',
+          'Please enter a smaller name': 'Por favor ingrese un nombre mas corto.'
         }
       };
 

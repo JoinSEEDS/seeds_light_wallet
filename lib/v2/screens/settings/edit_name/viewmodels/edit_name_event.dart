@@ -20,3 +20,13 @@ class OnNameChanged extends EditNameEvent {
   @override
   String toString() => 'OnNameChanged { name: $name }';
 }
+
+class SubmitName extends EditNameEvent {
+  final String accountName;
+  final String privateKey;
+  final String nodeEndpoint;
+  const SubmitName({this.accountName, this.privateKey, this.nodeEndpoint});
+
+  @override
+  String toString() => 'SubmitName';
+}

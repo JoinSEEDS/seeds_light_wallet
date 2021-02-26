@@ -1,28 +1,25 @@
+import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/constants/config.dart';
 
 abstract class EosRepository {
-  String privateKey;
-  String accountName;
-  String baseURL = Config.defaultEndpoint;
   String cpuPrivateKey = Config.cpuPrivateKey;
-  EOSClient client;
 
-  Transaction buildFreeTransaction(List<Action> actions) {
-    List<Authorization> freeAuth = [
+  Transaction buildFreeTransaction(List<Action> actions, String accountName) {
+    var freeAuth = <Authorization>[
       Authorization()
-        ..actor = "harvst.seeds"
-        ..permission = "payforcpu",
+        ..actor = 'harvst.seeds'
+        ..permission = 'payforcpu',
       Authorization()
         ..actor = accountName
-        ..permission = "active"
+        ..permission = 'active'
     ];
 
-    Action freeAction = Action()
-      ..account = "harvst.seeds"
+    var freeAction = Action()
+      ..account = 'harvst.seeds'
       ..name = 'payforcpu'
       ..authorization = freeAuth
-      ..data = {"account": accountName};
+      ..data = {'account': accountName};
 
     var transaction = Transaction()
       ..actions = [
@@ -32,4 +29,29 @@ abstract class EosRepository {
 
     return transaction;
   }
+
+  EOSClient buildEosClient(String nodeEndpoint, String privateKey) =>
+      EOSClient(nodeEndpoint, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
+
+  Result mapSuccess(dynamic response, Function modelMapper) {
+    print('mapSuccess - transaction id: ${response['transaction_id']}');
+    if (response['transaction_id'] != null) {
+      print('Model Class: $modelMapper');
+      var map = Map<String, dynamic>.from(response);
+      return ValueResult(modelMapper(map));
+    } else {
+      return ErrorResult(EosError(response['processed']['error_code']));
+    }
+  }
+
+  Result mapError(error) {
+    print('mapError: ' + error.toString());
+    return ErrorResult(error);
+  }
+}
+
+class EosError extends Error {
+  int errorCode;
+
+  EosError(this.errorCode);
 }
