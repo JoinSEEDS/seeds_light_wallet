@@ -34,9 +34,3 @@ class NetworkError extends Error {
 
   NetworkError(this.statusCode);
 }
-
-class EosError extends Error {
-  int errorCode;
-
-  EosError(this.errorCode);
-}
