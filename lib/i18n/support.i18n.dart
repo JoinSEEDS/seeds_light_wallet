@@ -4,10 +4,11 @@ extension Localization on String {
   static final _t = Translations.byLocale('en_us') +
       {
         'es_es': {
-          'Edit Display Name': 'Editar nombre a mostrar',
-          'Save Changes': 'Guardar cambios',
-          'Display name': 'Nombre a mostrar',
-          'Please enter a smaller name': 'Por favor ingrese un nombre mas corto.'
+          'Support': 'Soporte',
+          'If you have any questions or concerns, Please find our':
+              'Si tiene alguna pregunta o inquietud, busque nuestro',
+          'Channel in': 'Canal en',
+          'here.': 'aqui.',
         }
       };
 

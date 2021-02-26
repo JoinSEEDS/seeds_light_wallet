@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:seeds/constants/app_colors.dart';
 
 /// A wigdeg wrapper of TextFormField customized for general inputs
 ///
@@ -33,10 +34,10 @@ class TextFormFieldCustom extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.controller,
     this.onChanged,
-    this.textCapitalization,
+    this.textCapitalization = TextCapitalization.none,
     this.inputFormatters,
     this.maxLength,
-    this.maxLines,
+    this.maxLines = 1,
     this.enabled,
     this.validator,
     this.suffixIcon,
@@ -65,8 +66,8 @@ class TextFormFieldCustom extends StatelessWidget {
         validator: validator,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
-          enabledBorder: const OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.canopy, width: 1.0),
           ),
           counterText: "",
           hintText: hintText,
@@ -77,11 +78,11 @@ class TextFormFieldCustom extends StatelessWidget {
             wordSpacing: 4.0,
           ),
           labelStyle: TextStyle(
-            color: disabledLabelColor == true ? Colors.grey : Theme.of(context).primaryColor,
+            color: disabledLabelColor == true ? Colors.grey : AppColors.white,
             letterSpacing: 1.3,
           ),
           hintStyle: Theme.of(context).textTheme.subtitle2,
-          contentPadding: const EdgeInsets.only(left: 15, bottom: 15, top: 15, right: 15),
+          contentPadding: const EdgeInsets.all(16.0),
           border: OutlineInputBorder(
             gapPadding: 0.0,
             borderRadius: BorderRadius.circular(8),

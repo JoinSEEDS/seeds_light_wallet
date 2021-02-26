@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 
 // TODO(raul): this is not a list in the ProfileModel should I create a getter that returns a combined skills and interest list of Strings ??
@@ -72,6 +71,7 @@ class ProfileMiddle extends StatelessWidget {
                   .toList(),
             ),
           ),
+          const SizedBox(height: 16.0),
         ],
       ),
     );

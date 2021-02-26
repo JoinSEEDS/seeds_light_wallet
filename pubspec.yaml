@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^6.1.2
   equatable: ^1.2.6
+  url_launcher: ^5.7.10
   intl: ^0.16.0
   flutter_localizations:
     sdk: flutter
@@ -103,6 +104,8 @@ flutter:
     - assets/images/profile.svg
     - assets/images/logout.svg
     - assets/images/lotus.svg
+    - assets/images/lotus_support_small.svg
+    - assets/images/lotus_support_big.svg
     - assets/images/seeds.png
     - assets/images/seeds_light_wallet_logo.png
     - assets/images/guardians/guardian_tutorial_1.png

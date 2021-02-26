@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/i18n/set_currency.i18n.dart';
+import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/settings/set_currency/interactor/viewmodels/bloc.dart';
-import 'package:seeds/v2/components/text_form_field_custom.dart';
-import 'package:seeds/i18n/set_currency.i18n.dart';
 
 class SetCurrencyScreen extends StatefulWidget {
   const SetCurrencyScreen({Key key}) : super(key: key);
@@ -42,7 +42,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                 hintText: "Search..".i18n,
                 suffixIcon: IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                 ),
               ),
             ),
@@ -63,7 +63,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                           leading: Image.asset('assets/currency/${state.currencyResult[index].toLowerCase()}.png'),
                           title: Text(state.currencyResult[index]),
                           onTap: () {
-                            // TODO: this is a shared pref value must be handled by a global bloc Example: _settingsBloc.add(OnSelectedFiatCurrency(currency: state.currencyResult[index]));
+                            // TODO(Raul): this is a shared pref value must be handled by a global bloc Example: _settingsBloc.add(OnSelectedFiatCurrency(currency: state.currencyResult[index]));
 
                             // SettingsNotifier.of(context).saveSelectedFiatCurrency(currencies[index]);
                             Navigator.of(context).pop();

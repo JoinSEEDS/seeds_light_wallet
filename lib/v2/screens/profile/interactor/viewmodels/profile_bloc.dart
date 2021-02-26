@@ -2,8 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/profile/interactor/mappers/profile_state_mapper.dart';
 import 'package:seeds/v2/screens/profile/interactor/usecases/get_profile_use_case.dart';
-import 'package:seeds/v2/screens/profile/interactor/viewmodels/events.dart';
-import 'package:seeds/v2/screens/profile/interactor/viewmodels/profile_state.dart';
+import 'package:seeds/v2/screens/profile/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
@@ -12,7 +11,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is LoadProfile) {
-      yield state.copyWith(pageState: PageState.initial);
+      yield state.copyWith(pageState: PageState.loading);
 
       var result = await GetProfileUseCase().run(event.userName);
 
