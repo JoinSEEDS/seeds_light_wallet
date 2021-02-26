@@ -10,7 +10,7 @@ class UpdateProfileStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError.error.toString());
     } else {
       final TransactionResponse res = result.asValue.value;
-      return currentState.copyWith(pageState: PageState.success, name: res.processed.actionTraces[1].act.data.nickname);
+      return currentState.copyWith(pageState: PageState.success, name: res.data.nickname);
     }
   }
 }

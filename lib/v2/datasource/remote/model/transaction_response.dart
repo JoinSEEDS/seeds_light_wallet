@@ -2,6 +2,8 @@
 class TransactionResponse {
   Processed processed;
 
+  Data get data => processed.actionTraces[1].act.data;
+
   TransactionResponse.fromJson(Map<String, dynamic> json) {
     processed = json['processed'] != null ? Processed.fromJson(json['processed']) : null;
   }
