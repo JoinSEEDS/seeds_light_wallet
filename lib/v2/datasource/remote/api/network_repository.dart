@@ -23,17 +23,6 @@ abstract class NetworkRepository {
     }
   }
 
-  Result mapEosSuccess(dynamic response, Function modelMapper) {
-    print('mapSuccess - transaction id: ${response['transaction_id']}');
-    if (response['transaction_id'] != null) {
-      print('Model Class: $modelMapper');
-      var map = Map<String, dynamic>.from(response);
-      return ValueResult(modelMapper(map));
-    } else {
-      return ErrorResult(EosError(response['processed']['error_code']));
-    }
-  }
-
   Result mapError(error) {
     print('mapError: ' + error.toString());
     return ErrorResult(error);
