@@ -7,7 +7,7 @@ export 'package:async/src/result/result.dart';
 class UpdateProfileUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
 
-  Future<Result> run({@required String name, String accountName, String privateKey, String nodeEndpoint}) {
+  Future<Result> run({@required String name}) {
     return _profileRepository.updateProfile(
       nickname: name,
       image: '',
@@ -15,9 +15,6 @@ class UpdateProfileUseCase {
       roles: '',
       skills: '',
       interests: '',
-      accountName: accountName,
-      privateKey: privateKey,
-      nodeEndpoint: nodeEndpoint,
     );
   }
 }

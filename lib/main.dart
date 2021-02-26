@@ -29,7 +29,7 @@ import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/domain-shared/bloc_observer.dart';
-import 'package:seeds/v2/datasource/setings_storage.dart';
+import 'package:seeds/v2/datasource/settings_storage.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 import 'package:sentry/sentry.dart' as Sentry;
