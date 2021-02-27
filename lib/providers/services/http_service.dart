@@ -150,10 +150,7 @@ class HttpService {
     }
   }
 
-  Future<List<String>> getKeyAccountsMongo(String publicKey) async {
-
-    print("searching for $publicKey");
-    
+  Future<List<String>> getKeyAccountsMongo(String publicKey) async {    
     var headers = {'Content-Type': 'application/json'};
     var body =
         '''
@@ -641,8 +638,7 @@ class HttpService {
     }
   }
 
-  Future<List<ProposalModel>> getProposals(
-      String stage, String status, bool reverse) async {
+  Future<List<ProposalModel>> getProposals(String stage, String status, bool reverse) async {
     print("[http] get proposals: stage = [$stage]");
 
     if (mockResponse == true) {
