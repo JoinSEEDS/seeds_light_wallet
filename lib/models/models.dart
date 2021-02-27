@@ -235,7 +235,7 @@ class BalanceModel {
     if (json != null && json.isNotEmpty) {
       return BalanceModel(json[0] as String, false);
     } else {
-      return BalanceModel("0.0000 SEEDS", true);
+      return BalanceModel("0.0000 SEEDS", false);
     }
   }
 
