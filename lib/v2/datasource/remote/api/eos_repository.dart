@@ -33,8 +33,8 @@ abstract class EosRepository {
   EOSClient buildEosClient(String nodeEndpoint, String privateKey) =>
       EOSClient(nodeEndpoint, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
 
-  Result mapEosSuccess(dynamic response, Function modelMapper) {
-    print('mapSuccess - transaction id: ${response['transaction_id']}');
+  Result mapEosResponse(dynamic response, Function modelMapper) {
+    print('mapHttpResponse - transaction id: ${response['transaction_id']}');
     if (response['transaction_id'] != null) {
       print('Model Class: $modelMapper');
       var map = Map<String, dynamic>.from(response);
@@ -45,7 +45,7 @@ abstract class EosRepository {
   }
 
   Result mapEosError(error) {
-    print('mapError: ' + error.toString());
+    print('mapHttpError: ' + error.toString());
     return ErrorResult(error);
   }
 }

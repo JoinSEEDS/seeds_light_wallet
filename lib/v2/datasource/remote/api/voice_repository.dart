@@ -16,10 +16,10 @@ class VoiceRepository extends NetworkRepository {
 
     return http
         .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapSuccess(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return VoiceModelCampaign.fromJson(body);
             }))
-        .catchError((error) => mapError(error));
+        .catchError((error) => mapHttpError(error));
   }
 
   Future<Result> getAllianceVoice(String userAccount) async {
@@ -31,9 +31,9 @@ class VoiceRepository extends NetworkRepository {
 
     return http
         .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapSuccess(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return VoiceModelCampaign.fromJson(body);
             }))
-        .catchError((error) => mapError(error));
+        .catchError((error) => mapHttpError(error));
   }
 }

@@ -9,8 +9,8 @@ abstract class NetworkRepository {
   String hyphaURL = Config.hyphaEndpoint;
   Map<String, String> headers = {'Content-type': 'application/json'};
 
-  Result mapSuccess(http.Response response, Function modelMapper) {
-    print('mapSuccess - statusCode: ' + response.statusCode.toString());
+  Result mapHttpResponse(http.Response response, Function modelMapper) {
+    print('mapHttpResponse - statusCode: ' + response.statusCode.toString());
     switch (response.statusCode) {
       case 200:
         {
@@ -23,8 +23,8 @@ abstract class NetworkRepository {
     }
   }
 
-  Result mapError(error) {
-    print('mapError: ' + error.toString());
+  Result mapHttpError(error) {
+    print('mapHttpError: ' + error.toString());
     return ErrorResult(error);
   }
 }
