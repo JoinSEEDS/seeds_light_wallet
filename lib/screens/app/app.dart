@@ -30,12 +30,7 @@ class NavigationTab {
   final Function screenBuilder;
   final int index;
 
-  NavigationTab(
-      {this.title,
-      this.icon,
-      this.iconSelected,
-      this.screenBuilder,
-      this.index});
+  NavigationTab({this.title, this.icon, this.iconSelected, this.screenBuilder, this.index});
 }
 
 class App extends StatefulWidget {
@@ -72,12 +67,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     ),
   ];
 
-  final StreamController<String> changePageNotifier =
-      StreamController<String>.broadcast();
+  final StreamController<String> changePageNotifier = StreamController<String>.broadcast();
 
   int index = 0;
-  PageController pageController =
-      PageController(initialPage: 0, keepPage: true);
+  PageController pageController = PageController(initialPage: 0, keepPage: true);
 
   @override
   void initState() {
@@ -127,8 +120,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case AppLifecycleState.paused:
         break;
       case AppLifecycleState.resumed:
-        Provider.of<ConnectionNotifier>(context, listen: false)
-            .discoverEndpoints();
+        Provider.of<ConnectionNotifier>(context, listen: false).discoverEndpoints();
         break;
       case AppLifecycleState.detached:
         break;
@@ -136,12 +128,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   void processIdentityRequest(request) async {
-    if (request.manager.data.req[1] == null ||
-        request.manager.data.req[1]["permission"] == null) {
-      request.manager.data.req[1]["permission"] = {
-        "actor": SettingsNotifier.of(context, listen: false).accountName,
-        "permission": "active"
-      };
+    var defaultPermission = {"actor": SettingsNotifier.of(context, listen: false).accountName, "permission": "active"};
+
+    bool doesNotHavePermission =
+        request.manager.data.req[1] == null || request.manager.data.req[1]["permission"] == null;
+
+    if (doesNotHavePermission) {
+      request.manager.data.req[1]["permission"] = defaultPermission;
     }
 
     var confirmed = await showDialog(
@@ -170,18 +163,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           ..actor = SettingsNotifier.of(context, listen: false).accountName
           ..permission = "active";
 
-        ResolvedSigningRequest resolved =
-            request.manager.resolve(abis, signer, null);
+        ResolvedSigningRequest resolved = request.manager.resolve(abis, signer, null);
 
-        var signBuf = Uint8List.fromList(List.from(ser.stringToHex(chainId))
-          ..addAll(resolved.serializedTransaction)
-          ..addAll(Uint8List(32)));
+        var signBuf = Uint8List.fromList(
+            List.from(ser.stringToHex(chainId))..addAll(resolved.serializedTransaction)..addAll(Uint8List(32)));
 
-        var walletPrivateKey =
-            SettingsNotifier.of(context, listen: false).privateKey;
+        var walletPrivateKey = SettingsNotifier.of(context, listen: false).privateKey;
 
-        var signature =
-            EOSPrivateKey.fromString(walletPrivateKey).sign(signBuf).toString();
+        var signature = EOSPrivateKey.fromString(walletPrivateKey).sign(signBuf).toString();
 
         var transactionId = resolved.getTransactionId().toLowerCase();
         var body = """{
@@ -235,8 +224,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               child: child, // child is the value returned by pageBuilder
             );
           },
-          pageBuilder: (BuildContext context, _, __) =>
-              CustomTransaction(CustomTransactionArguments(
+          pageBuilder: (BuildContext context, _, __) => CustomTransaction(CustomTransactionArguments(
                 account: action.account,
                 name: action.name,
                 data: data,
@@ -245,8 +233,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   void processSigningRequests() {
-    Provider.of<LinksService>(context, listen: false)
-        .listenSigningRequests((final link) async {
+    Provider.of<LinksService>(context, listen: false).listenSigningRequests((final link) async {
       if (link == null) {
         return;
       }
@@ -267,8 +254,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       appBar: buildAppBar(context),
       body: buildPageView(),
       bottomNavigationBar: StreamBuilder<bool>(
-          stream: FirebaseDatabaseService().hasGuardianNotificationPending(
-              SettingsNotifier.of(context, listen: false).accountName),
+          stream: FirebaseDatabaseService()
+              .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
           builder: (context, AsyncSnapshot<bool> snapshot) {
             if (snapshot != null && snapshot.hasData) {
               return buildNavigation(snapshot.data);
@@ -288,8 +275,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           padding: const EdgeInsets.only(right: 16),
           child: IconButton(
               icon: Icon(Icons.qr_code_scanner, size: 28),
-              onPressed: () =>
-                  NavigationService.of(context).navigateTo(Routes.scanQRCode)),
+              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
         ),
       ],
     );
@@ -305,8 +291,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     );
   }
 
-  BottomNavigationBarItem buildIcon(String title, String icon,
-      String selectedIcon, bool isSelected, bool profileNotification) {
+  BottomNavigationBarItem buildIcon(
+      String title, String icon, String selectedIcon, bool isSelected, bool profileNotification) {
     return BottomNavigationBarItem(
       activeIcon: SvgPicture.asset(selectedIcon, height: 24, width: 24),
       icon: Stack(overflow: Overflow.visible, children: <Widget>[
@@ -349,8 +335,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       backgroundColor: AppColors.primary,
       items: navigationTabs
           .map(
-            (tab) => buildIcon(tab.title, tab.icon, tab.iconSelected,
-                tab.index == index, showGuardianNotification),
+            (tab) => buildIcon(tab.title, tab.icon, tab.iconSelected, tab.index == index, showGuardianNotification),
           )
           .toList(),
     );
