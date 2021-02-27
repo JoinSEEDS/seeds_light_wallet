@@ -347,6 +347,23 @@ class _DashboardState extends State<Dashboard> {
         });
   }
 
+  Widget shimmerWidget() => Shimmer.fromColors(
+              baseColor: Colors.grey[300],
+              highlightColor: Colors.grey[100],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                      child: Container(
+                      height: 64,
+                      color: Colors.white,
+                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 4),
+                    ),
+                  ),
+                ],
+              ),
+            );
+
   Widget buildTransaction(TransactionModel model) {
     String userAccount = SettingsNotifier.of(context).accountName;
 
@@ -470,20 +487,12 @@ class _DashboardState extends State<Dashboard> {
                         }).toList()
                       ],
                     )
-                  : Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            height: 16,
-                            color: Colors.white,
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                          ),
-                        ],
-                      ),
-                    ),
+                  : Column(
+                    children: [
+                      ...List.from(List<int>.generate(5, (i) => i + 1).map((e) => shimmerWidget()))
+                    ]
+                    ,
+                  ),
             ),
           ],
         ),
