@@ -354,8 +354,6 @@ class HttpService {
       List<TransactionModel> transactions = transfers
           .map((item) => TransactionModel.fromJsonMongo(item))
           .toList();
-
-      print("[http] loaded ${transactions.length} transactions");
       
       return transactions;
     } else {

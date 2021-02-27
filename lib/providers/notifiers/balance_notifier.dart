@@ -22,4 +22,8 @@ class BalanceNotifier extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  void logout() {
+    balance = null;
+  }
 }

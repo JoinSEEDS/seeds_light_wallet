@@ -40,6 +40,7 @@ class TransactionsNotifier extends ChangeNotifier {
 
   void logout() {
     transactionsCache = [];
+    transactions = null;
   }
 
 }
