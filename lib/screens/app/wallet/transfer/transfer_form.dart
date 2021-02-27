@@ -77,7 +77,6 @@ class _TransferFormState extends State<TransferForm>
       Timer(Duration(seconds: 1), () {
          // can't reun this immediately, our servers need time to catch up
         TransactionsNotifier.of(context).refreshTransactions();
-        print("Yeah, yeah yah");
       });
 
     } catch (err) {
