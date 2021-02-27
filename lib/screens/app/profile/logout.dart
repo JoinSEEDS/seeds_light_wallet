@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/second_button.dart';
@@ -21,9 +22,9 @@ class _LogoutState extends State<Logout> {
   void onLogout() {
     String userAccount = SettingsNotifier.of(context).accountName;
     SettingsNotifier.of(context).removeAccount();
+    TransactionsNotifier.of(context).logout();
     FirebaseDatabaseService().removeFirebaseMessageToken(userAccount);
     Hive.deleteBoxFromDisk("members");
-    Hive.deleteBoxFromDisk("transactions");
   }
 
   @override

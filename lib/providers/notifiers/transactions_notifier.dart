@@ -37,4 +37,9 @@ class TransactionsNotifier extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void logout() {
+    transactionsCache = [];
+  }
+
 }
