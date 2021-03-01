@@ -71,9 +71,11 @@ class _ImportAccountState extends State<ImportAccount> {
       return;
     }
 
+    print("publicKey " + publicKey);
     List<String> keyAccounts =
         await Provider.of<HttpService>(context, listen: false)
             .getKeyAccountsMongo(publicKey);
+    print("keyAccounts " + keyAccounts.toString());
 
     if (keyAccounts == null || keyAccounts.length == 0) {
       setState(() => status = ImportStatus.noAccounts);
@@ -160,7 +162,7 @@ class _ImportAccountState extends State<ImportAccount> {
                       ),
                       child: DropdownButton(
                         underline: Container(height: 0),
-                        hint: Text("Account name".i18n),
+                        hint: Text("Account name".i18n, style: TextStyle(color: Colors.black),),
                         isExpanded: true,
                         value: chosenAccount,
                         onChanged: (val) {
@@ -171,7 +173,7 @@ class _ImportAccountState extends State<ImportAccount> {
                         items: availableAccounts.map((val) {
                           return new DropdownMenuItem<String>(
                             value: val,
-                            child: Text(val),
+                            child: Text(val, style: TextStyle(color: Colors.black)),
                           );
                         }).toList(),
                       ),

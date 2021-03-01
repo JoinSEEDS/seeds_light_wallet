@@ -5,25 +5,31 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class ImportKeyState extends Equatable {
   final PageState pageState;
+  final String errorMessage;
+  final List<String> accounts;
 
-  const ImportKeyState({
-    @required this.pageState,
-  });
+  const ImportKeyState({@required this.pageState, this.errorMessage, this.accounts});
 
   @override
   List<Object> get props => [pageState];
 
   ImportKeyState copyWith({
-    PageState pageState
+    PageState pageState,
+    String errorMessage,
+    List<String> accounts,
   }) {
     return ImportKeyState(
       pageState: pageState ?? this.pageState,
+      errorMessage: errorMessage ?? this.errorMessage,
+      accounts: accounts ?? this.accounts,
     );
   }
 
   factory ImportKeyState.initial() {
     return const ImportKeyState(
       pageState: PageState.initial,
+      errorMessage: null,
+      accounts: null,
     );
   }
 }

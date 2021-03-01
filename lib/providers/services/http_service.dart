@@ -142,6 +142,7 @@ class HttpService {
   }
 
   Future<List<String>> getKeyAccountsMongo(String publicKey) async {
+    print("publicKey " + publicKey);
     var headers = {'Content-Type': 'application/json'};
     var body = '''
         {
@@ -156,6 +157,8 @@ class HttpService {
     var res = await post(Uri.parse('https://mongo-api.hypha.earth/find'), headers: headers, body: body);
 
     if (res.statusCode == 200) {
+      print('publicKey: $publicKey');
+      print('result: $res');
       Map<String, dynamic> body = res.parseJson();
 
       print('result: $body');
