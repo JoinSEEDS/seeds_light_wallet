@@ -510,32 +510,15 @@ class HttpService {
 
     final daoURL = '$baseURL/v1/chain/get_table_rows';
 
-    var request = '''
-    {
-      "json": true,
-      "code": "dao.hypha",
-      "scope": "dao.hypha",
-      "table": "members",
-      "table_key": "",
-      "lower_bound": "$userAccount",
-      "upper_bound": "$userAccount",
-      "limit": 1,
-      "key_type": "",
-      "index_position": "",
-      "encode_type": "dec",
-      "reverse": false,
-      "show_payer": false
-    }
-    ''';
+    String request =
+        '{"json": true, "code": "trailservice","scope": "$userAccount","table": "voters"}';
+    Map<String, String> headers = {"Content-type": "application/json"};
 
-    var headers = <String, String>{'Content-type': 'application/json'};
-
-    var res = await post(daoURL, headers: headers, body: request);
+    Response res = await post(daoURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
-      print('result ' + body.toString());
-      return body['rows'].length > 0;
+      return body["rows"].length > 0;
     } else {
       print('Cannot fetch dho members...${res.reasonPhrase}');
 
