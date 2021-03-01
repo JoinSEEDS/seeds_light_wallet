@@ -32,6 +32,7 @@ import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/features/scanner/telos_signing_manager.dart';
 
 enum TransactionType { income, outcome }
 
@@ -477,18 +478,13 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.only(right: 20, left: 14),
-          child: TransactionAvatar(
-            size: 40,
-            account: 'SettingsNotifier.of(context).accountName',
-            nickname: 'GG',
-            image: '',
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.jungle,
-            ),
-          ),
-        ),
+            padding: const EdgeInsets.only(right: 20, left: 14),
+            child: const ProfileAvatar(
+              size: 40,
+              account: 'ff',
+              nickname: 'gg',
+              image: '',
+            )),
       ],
     );
   }
