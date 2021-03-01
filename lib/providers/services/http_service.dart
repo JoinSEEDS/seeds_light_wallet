@@ -472,7 +472,7 @@ class HttpService {
     final String daoURL = "$baseURL/v1/chain/get_table_rows";
 
     String request =
-        '{"json": true, "code": "dao.hypha","scope": "dao.hypha","table": "members","table_key": "","lower_bound": "$userAccount","upper_bound": "$userAccount","limit": 1,}';
+        '{"json": true, "code": "trailservice","scope": "$userAccount","table": "voters"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(daoURL, headers: headers, body: request);
@@ -483,7 +483,6 @@ class HttpService {
       return body["rows"].length > 0;
     } else {
       print("Cannot fetch dho members...");
-
       return false;
     }
   }
