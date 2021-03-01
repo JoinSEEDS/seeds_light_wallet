@@ -474,7 +474,7 @@ class _DashboardState extends State<Dashboard> {
               'assets/images/app_bar/scan_qr_code_logo_2.svg',
               height: 30,
             ),
-            onPressed: () {},
+             onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
           ),
         ),
         Container(
