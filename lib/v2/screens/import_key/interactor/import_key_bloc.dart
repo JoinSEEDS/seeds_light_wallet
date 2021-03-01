@@ -25,7 +25,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
         print("Error EOSPrivateKey.fromString");
       }
 
-      print("publicKey " + publicKey);
+      print("publicKey " + publicKey.toString());
 
       if(publicKey == null || publicKey.isEmpty) {
         yield state.copyWith(pageState: PageState.failure, errorMessage: "Private key is not valid");
