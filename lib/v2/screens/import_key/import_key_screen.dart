@@ -30,7 +30,6 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
     super.initState();
     _importKeyBloc = ImportKeyBloc();
     _keyController.text = '';
-    _keyController.addListener(_onKeyChanged);
   }
 
   @override
@@ -47,6 +46,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
         children: [
           Form(
             key: _formImportKey,
+            autovalidateMode: AutovalidateMode.disabled,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -125,12 +125,6 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
   void dispose() {
     _keyController.dispose();
     super.dispose();
-  }
-
-  void _onKeyChanged() {
-    if (_formImportKey.currentState.validate()) {
-      _importKeyBloc.add(FindAccountByKey(userKey: _keyController.text));
-    }
   }
 
   void _onSubmitted() {
