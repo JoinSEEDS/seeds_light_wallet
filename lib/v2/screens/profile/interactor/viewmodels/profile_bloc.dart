@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/profile_screens/profile/interactor/mappers/profile_state_mapper.dart';
-import 'package:seeds/v2/screens/profile_screens/profile/interactor/usecases/get_profile_use_case.dart';
-import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/profile/interactor/mappers/profile_state_mapper.dart';
+import 'package:seeds/v2/screens/profile/interactor/usecases/get_profile_use_case.dart';
+import 'package:seeds/v2/screens/profile/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {

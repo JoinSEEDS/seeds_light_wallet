@@ -1,7 +1,7 @@
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/v2/screens/profile_screens/settings/interactor/usecases/get_profile_use_case.dart';
-import 'package:seeds/v2/screens/profile_screens/settings/interactor/viewmodels/settings_state.dart';
+import 'package:seeds/v2/screens/settings/interactor/usecases/get_profile_use_case.dart';
+import 'package:seeds/v2/screens/settings/interactor/viewmodels/settings_state.dart';
 
 class ProfileStateMapper extends StateMapper {
   SettingsState mapResultToState(SettingsState currentState, Result result) {
