@@ -56,7 +56,7 @@ class Onboarding extends StatelessWidget {
               featurePages,
               onTapDoneButton: () async {
                 NavigationService.of(context)
-                    .navigateTo(Routes.login, null, true);
+                    .navigateTo(Routes.joinProcess, null, true);
               },
               doneButtonPersist: true,
               nextText: Text("NEXT".i18n),

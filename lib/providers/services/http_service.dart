@@ -142,7 +142,6 @@ class HttpService {
   }
 
   Future<List<String>> getKeyAccountsMongo(String publicKey) async {
-    print("publicKey " + publicKey);
     var headers = {'Content-Type': 'application/json'};
     var body = '''
         {
