@@ -157,11 +157,8 @@ class HttpService {
     var res = await post(Uri.parse('https://mongo-api.hypha.earth/find'), headers: headers, body: body);
 
     if (res.statusCode == 200) {
-      print('publicKey: $publicKey');
-      print('result: $res');
       Map<String, dynamic> body = res.parseJson();
 
-      print('result: $body');
       var items = List<Map<String, dynamic>>.from(body['items'])
           .where((item) => item['permission'] == 'active' || item['permission'] == 'owner');
       var result = items.map<String>((item) => item['account']).toSet().toList();
