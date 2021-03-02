@@ -158,6 +158,7 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
 
+      print('result: $body');
       var items = List<Map<String, dynamic>>.from(body['items'])
           .where((item) => item['permission'] == 'active' || item['permission'] == 'owner');
       var result = items.map<String>((item) => item['account']).toSet().toList();
