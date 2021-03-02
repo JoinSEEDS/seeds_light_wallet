@@ -9,7 +9,6 @@ export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';
 
 class ImportKeyUseCase {
-  // Create a repo to import key
   final KeyAccountsRepository _keyAccountsRepository = KeyAccountsRepository();
 
   Future<Result> run(String publicKey) {
