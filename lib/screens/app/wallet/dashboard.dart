@@ -463,15 +463,15 @@ class _DashboardState extends State<Dashboard> {
       leading: Container(
         margin: const EdgeInsets.all(16),
         child: SvgPicture.asset(
-          'assets/images/app_bar/appbar_logo.svg',
+          'assets/images/wallet/app_bar/appbar_logo.svg',
         ),
       ),
-      title: SvgPicture.asset('assets/images/app_bar/seeds_text.svg'),
+      title: SvgPicture.asset('assets/images/wallet/app_bar/seeds_text.svg'),
       actions: [
         Container(
           child: IconButton(
             icon: SvgPicture.asset(
-              'assets/images/app_bar/scan_qr_code_logo_2.svg',
+              'assets/images/wallet/app_bar/scan_qr_code_logo_2.svg',
               height: 30,
             ),
              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
