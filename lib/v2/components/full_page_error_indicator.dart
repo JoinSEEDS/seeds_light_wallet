@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/constants/app_colors.dart';
 
 class FullPageErrorIndicator extends StatelessWidget {
   final String errorMessage;
@@ -11,7 +12,7 @@ class FullPageErrorIndicator extends StatelessWidget {
       child: Center(
         child: Text(
           errorMessage ?? "Oops, Something Went Wrong",
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.neonRed),
         ),
       ),
     );
