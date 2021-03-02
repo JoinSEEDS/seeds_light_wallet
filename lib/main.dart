@@ -151,7 +151,7 @@ class MainScreen extends StatelessWidget {
 
         if (auth.status == AuthStatus.emptyAccount || auth.status == AuthStatus.recoveryMode) {
           return SeedsMaterialApp(
-            home: auth.status == AuthStatus.emptyAccount ? Onboarding() : SeedsMaterialApp(home: JoinProcess()),
+            home: auth.status == AuthStatus.emptyAccount ? Onboarding() : JoinProcess(),
             navigatorKey: navigationService.onboardingNavigatorKey,
             onGenerateRoute: navigationService.onGenerateRoute,
           );
