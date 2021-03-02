@@ -12,7 +12,7 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
-import 'package:seeds/v2/screens/profile/profile_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/widgets/pending_notification.dart';
