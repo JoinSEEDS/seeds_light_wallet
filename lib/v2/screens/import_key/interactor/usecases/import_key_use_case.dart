@@ -10,8 +10,19 @@ export 'package:async/src/result/result.dart';
 
 class ImportKeyUseCase {
   final KeyAccountsRepository _keyAccountsRepository = KeyAccountsRepository();
+  final ProfileRepository _profileRepository = ProfileRepository();
 
-  Future<Result> run(String publicKey) {
-    return _keyAccountsRepository.getKeyAccountsMongo(publicKey);
+  Future<List<Result>> run(String publicKey) async {
+    var accountsResponse = await _keyAccountsRepository.getKeyAccountsMongo(publicKey);
+    if (accountsResponse.isError) {
+      List<Result> items = [accountsResponse];
+      return items;
+    } else {
+      List<String> accounts = accountsResponse.asValue.value;
+
+      List<Future<Result>> futures = accounts.map((String account) => _profileRepository.getProfile(account)).toList();
+
+      return Future.wait(futures);
+    }
   }
 }

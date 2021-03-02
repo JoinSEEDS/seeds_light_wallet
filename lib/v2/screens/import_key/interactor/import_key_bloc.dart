@@ -29,7 +29,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
         yield state.copyWith(pageState: PageState.failure, errorMessage: "Private key is not valid");
       } else {
         var results = await ImportKeyUseCase().run(publicKey);
-        yield ImportKeyStateMapper().mapResultToState(state, results);
+        yield ImportKeyStateMapper().mapResultsToState(state, results);
       }
 
 
