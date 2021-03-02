@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/edit_name.i18n.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/v2/screens/settings/edit_name/viewmodels/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
@@ -92,10 +91,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
 
   void _onSubmitted() {
     if (_formKeyName.currentState.validate()) {
-      _editNameBloc.add(SubmitName(
-          accountName: SettingsNotifier.of(context).accountName,
-          privateKey: SettingsNotifier.of(context).privateKey,
-          nodeEndpoint: SettingsNotifier.of(context).nodeEndpoint));
+      _editNameBloc.add(SubmitName());
     }
   }
 }
