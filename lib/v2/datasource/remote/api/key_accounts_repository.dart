@@ -21,7 +21,7 @@ class KeyAccountsRepository extends NetworkRepository {
 
     return http
         .post(Uri.parse('https://mongo-api.hypha.earth/find'), headers: headers, body: body)
-        .then((http.Response response) => mapSuccess(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               print('result: $body');
 
               var items = List<Map<String, dynamic>>.from(body['items'])
@@ -32,6 +32,6 @@ class KeyAccountsRepository extends NetworkRepository {
 
               return result;
             }))
-        .catchError((dynamic error) => mapError(error));
+        .catchError((dynamic error) => mapHttpError(error));
   }
 }
