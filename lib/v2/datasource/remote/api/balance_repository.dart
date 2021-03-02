@@ -16,9 +16,9 @@ class BalanceRepository extends NetworkRepository {
 
     return http
         .post(balanceURL, headers: headers, body: request)
-        .then((http.Response response) => mapSuccess(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return BalanceModel.fromJson(body);
             }))
-        .catchError((dynamic error) => mapError(error));
+        .catchError((dynamic error) => mapHttpError(error));
   }
 }

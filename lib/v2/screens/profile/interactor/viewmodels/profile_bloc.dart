@@ -13,7 +13,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is LoadProfile) {
       yield state.copyWith(pageState: PageState.loading);
 
-      var result = await GetProfileUseCase().run(event.userName);
+      var result = await GetProfileUseCase().run();
 
       yield ProfileStateMapper().mapResultToState(state, result);
     }

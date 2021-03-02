@@ -5,23 +5,25 @@ import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
+import 'package:seeds/v2/datasource/settings_storage.dart';
 
 export 'package:async/src/result/result.dart';
 
 class ProfileRepository extends NetworkRepository with EosRepository {
-  Future<Result> getProfile(String userAccount) {
-    print('[http] get seeds getProfile $userAccount');
-
+  Future<Result> getProfile() {
+    final accountName = settingsStorage.accountName;
+    print('[http] get seeds getProfile $accountName');
+    // TODO(Raul): Remove this en-point with settingsStorage.nodeEndpoint idk why but when I do it throws an error https://github.com/JoinSEEDS/seeds_light_wallet/pull/552.
     const profileURL = 'https://mainnet.telosusa.io/v1/chain/get_table_rows';
     var request =
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
+        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
 
     return http
         .post(profileURL, headers: headers, body: request)
-        .then((http.Response response) => mapSuccess(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return ProfileModel.fromJson(body['rows'][0]);
             }))
-        .catchError((error) => mapError(error));
+        .catchError((error) => mapHttpError(error));
   }
 
   Future<Result> updateProfile({
@@ -31,10 +33,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     String roles,
     String skills,
     String interests,
-    String accountName,
-    String privateKey,
-    String nodeEndpoint,
   }) async {
+    final accountName = settingsStorage.accountName;
     print('[eos] update profile');
 
     var transaction = buildFreeTransaction([
@@ -58,13 +58,13 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         }
     ], accountName);
 
-    EOSClient client = buildEosClient(nodeEndpoint, privateKey);
+    EOSClient client = buildEosClient(settingsStorage.nodeEndpoint, settingsStorage.privateKey);
 
     return client
         .pushTransaction(transaction, broadcast: true)
-        .then((dynamic response) => mapSuccess(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
-        .catchError((error) => mapError(error));
+        .catchError((error) => mapEosError(error));
   }
 }

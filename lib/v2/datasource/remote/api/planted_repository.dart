@@ -16,9 +16,9 @@ class PlantedRepository extends NetworkRepository {
 
     return http
         .post(plantedURL, headers: headers, body: request)
-        .then((http.Response response) => mapSuccess(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return PlantedModel.fromJson(body);
             }))
-        .catchError((error) => mapError(error));
+        .catchError((error) => mapHttpError(error));
   }
 }
