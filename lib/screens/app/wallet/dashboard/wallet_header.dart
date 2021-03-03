@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:seeds/constants/app_colors.dart';
 
-import 'currency_card.dart';
+import '../../../../widgets/dashboard_widgets/currency_info_card.dart';
 
-class CarouselChangeReasonDemo extends StatefulWidget {
+class WalletHeader extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _CarouselChangeReasonDemoState();
+    return WalletHeaderState();
   }
 }
 
-class _CarouselChangeReasonDemoState extends State<CarouselChangeReasonDemo> with SingleTickerProviderStateMixin {
+class WalletHeaderState extends State<WalletHeader> {
   final CarouselController _controller = CarouselController();
   int _selectedIndex = 0;
 
@@ -38,29 +38,32 @@ class _CarouselChangeReasonDemoState extends State<CarouselChangeReasonDemo> wit
               const Padding(
                 padding: EdgeInsets.only(right: 10),
                 child: CurrencyInfoCard(
-                  backgroundImage: 'assets/images/wallet/seeds_info_card_background.jpg',
+                  cardWidth: 380,
+                  backgroundImage: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
                   title: "Seeds",
-                  logo: 'assets/images/wallet/seeds_info_card_logo.jpg',
+                  logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
                   balanceSubTitle: 'Wallet Balance',
                   balance: '1244.32',
                   fiatBalance: " \$6,423 USD",
                 ),
               ),
               const CurrencyInfoCard(
-                backgroundImage: 'assets/images/wallet/seeds_info_card_background.jpg',
-                title: "Seeds",
-                logo: 'assets/images/wallet/seeds_info_card_logo.jpg',
+                cardWidth: 380,
+                backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
+                title: "Hypha",
+                logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
                 balanceSubTitle: 'Wallet Balance',
-                balance: '1244.32',
-                fiatBalance: " \$6,423 USD",
+                balance: '68436.32',
+                fiatBalance: " \$9,236.45 USD",
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: CurrencyInfoCard(
-                  backgroundImage: 'assets/images/wallet/seeds_info_card_background.jpg',
-                  title: "Seeds",
-                  logo: 'assets/images/wallet/seeds_info_card_logo.jpg',
-                  balanceSubTitle: 'Wallet Balance',
+                  cardWidth: 380,
+                  backgroundImage: 'assets/images/wallet/currency_info_cards/planted_seeds/background.jpg',
+                  title: "Planted Seeds",
+                  logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
+                  balanceSubTitle: 'Planted Seeds',
                   balance: '1244.32',
                   fiatBalance: " \$6,423 USD",
                 ),
@@ -85,9 +88,8 @@ class _CarouselChangeReasonDemoState extends State<CarouselChangeReasonDemo> wit
             spacing: EdgeInsets.all(2.0),
             size: Size(10.0, 2.0),
             shape: Border(),
-            color: Colors.orange,
-            // Inactive color
-            activeColor: Colors.redAccent,
+            color: AppColors.jungle,
+            activeColor: AppColors.springGreen,
             activeSize: Size(18.0, 2.0),
             activeShape: Border(),
           ),

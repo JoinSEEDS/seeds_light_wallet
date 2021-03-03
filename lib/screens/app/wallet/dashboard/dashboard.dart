@@ -20,10 +20,10 @@ import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/utils/string_extension.dart';
-import 'package:seeds/widgets/dashboard_widgets/currency_card.dart';
+import 'package:seeds/widgets/dashboard_widgets/currency_info_card.dart';
 import 'package:seeds/widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/dashboard_widgets/send_button.dart';
-import 'package:seeds/widgets/dashboard_widgets/test_class.dart';
+import 'package:seeds/screens/app/wallet/dashboard/wallet_header.dart';
 import 'package:seeds/widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -372,6 +372,6 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget walletHeader() {
-    return CarouselChangeReasonDemo();
+    return WalletHeader();
   }
 }
