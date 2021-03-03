@@ -41,6 +41,37 @@ class AppColors {
   static const yellow = Color(0xFFFDFFF2);
 
   /// Gradients
+  static const gradientNeonGreen = RadialGradient(
+    colors: [
+      const canopy.withOpacity(0.50),
+      const canopy.withOpacity(1),
+    ],
+  );
+
+  static const gradientDarkGreen = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      const Color(0xFF408055),
+      const Color(0xFF264D33),
+    ],
+  );
+
+  static const gradientLightGreen = RadialGradient(
+    colors: [
+      const Color(0xFFE5FFEE),
+      const Color(0xFFCCFFDD),
+    ],
+  );
+
+  static const gradientBlue = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      const Color(0xFF00C7E0),
+      const Color(0xFF007694),
+    ],
+  );
 
   /// Status Colors
   static const red1 = Color(0xFFFF2919);
