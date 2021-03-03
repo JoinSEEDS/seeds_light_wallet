@@ -22,7 +22,7 @@ class SupportScreen extends StatelessWidget {
               onTap: () async => await launch('https://discord.gg/pSWdqxTjvB'),
               child: Ink(
                 decoration: const BoxDecoration(
-                  color: AppColors.jungle,
+                  color: AppColors.lightGreen2,
                   borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
                 ),
                 child: Stack(
