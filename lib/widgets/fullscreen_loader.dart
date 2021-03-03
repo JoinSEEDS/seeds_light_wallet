@@ -114,7 +114,6 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
   @override
   void dispose() {
     animationController?.dispose();
-    super.dispose();
     statusSubscription?.cancel();
     messageSubscription?.cancel();
     super.dispose();

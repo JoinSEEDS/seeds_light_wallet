@@ -49,7 +49,7 @@ class SeedsTextTheme {
               Typography.material2018().englishLike.subtitle1.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
           subtitle2:
               Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
-          button: Typography.material2018().englishLike.button.copyWith(fontSize: 16),
+          button: Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
         )
         .apply(displayColor: Colors.black, bodyColor: Colors.black);
   }
