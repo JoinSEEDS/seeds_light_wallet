@@ -6,8 +6,8 @@ import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/i18n/settings.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/v2/screens/settings/components/settings_card.dart';
-import 'package:seeds/v2/screens/settings/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/settings/components/settings_card.dart';
+import 'package:seeds/v2/screens/profile_screens/settings/interactor/viewmodels/bloc.dart';
 
 // TODO(raul): this is not a list in the ProfileModel should I create a getter that returns a combined skills and interest list of Strings ??
 const List<String> skillsAndInterest = ['Weaver', 'Facilitador', 'SharingXP'];
