@@ -355,6 +355,10 @@ class HttpService {
           .map((item) => TransactionModel.fromJsonMongo(item))
           .toList();
       
+      // unique transaction id - in very rare cases tx id are returned duplicates
+      final ids = transactions.map((e) => e.transactionId).toSet();
+      transactions.retainWhere((e) => ids.remove(e.transactionId));
+
       return transactions;
     } else {
       print("Error fetching transactions..."+res.parseJson().toString());
