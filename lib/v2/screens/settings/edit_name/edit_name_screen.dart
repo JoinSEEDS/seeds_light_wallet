@@ -24,12 +24,13 @@ class _EditNameScreenState extends State<EditNameScreen> {
   void initState() {
     super.initState();
     _editNameBloc = EditNameBloc();
-    _nameController.text = 'Raul';
     _nameController.addListener(_onNameChanged);
   }
 
   @override
   Widget build(BuildContext context) {
+    // TODO(raul): I do not like this way to retrive a value from navigation, https://github.com/JoinSEEDS/seeds_light_wallet/issues/500.
+    _nameController.text = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(title: Text('Edit Display Name'.i18n)),
       body: BlocProvider(
@@ -37,7 +38,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
         child: BlocConsumer<EditNameBloc, EditNameState>(
             listenWhen: (previous, current) =>
                 previous.pageState != PageState.success && current.pageState == PageState.success,
-            listener: (context, state) => Navigator.of(context).pop(),
+            listener: (context, state) => Navigator.of(context).pop(state.name),
             builder: (context, state) {
               switch (state.pageState) {
                 case PageState.initial:
