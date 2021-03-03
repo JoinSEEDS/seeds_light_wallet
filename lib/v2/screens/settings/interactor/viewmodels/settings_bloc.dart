@@ -3,7 +3,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 import 'package:seeds/v2/screens/settings/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/settings/interactor/usecases/get_profile_use_case.dart';
-import 'package:seeds/v2/screens/settings/interactor/mappers/profile_state_mapper.dart';
+import 'package:seeds/v2/screens/settings/interactor/mappers/settings_state_mapper.dart';
 
 /// --- BLOC
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
@@ -16,7 +16,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
       var result = await GetProfileUseCase().run();
 
-      yield ProfileStateMapper().mapResultToState(state, result);
+      yield SettingsStateMapper().mapResultToState(state, result);
     }
     if (event is OnNameChanged) {
       yield state.copyWith(profile: state.profile.copyWith(nickname: event.name));

@@ -3,7 +3,7 @@ import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/settings/interactor/usecases/get_profile_use_case.dart';
 import 'package:seeds/v2/screens/settings/interactor/viewmodels/settings_state.dart';
 
-class ProfileStateMapper extends StateMapper {
+class SettingsStateMapper extends StateMapper {
   SettingsState mapResultToState(SettingsState currentState, Result result) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError.error.toString());
