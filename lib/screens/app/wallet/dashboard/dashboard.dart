@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,6 @@ import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/utils/string_extension.dart';
-import 'package:seeds/widgets/dashboard_widgets/currency_info_card.dart';
 import 'package:seeds/widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/dashboard_widgets/send_button.dart';
 import 'package:seeds/screens/app/wallet/dashboard/wallet_header.dart';
@@ -141,7 +139,7 @@ class _DashboardState extends State<Dashboard> {
           children: <Widget>[
             buildNotification(),
             const SizedBox(height: 20),
-            walletHeader(),
+            WalletHeader(),
             const SizedBox(height: 20),
             buildSendReceiveButton(),
             const SizedBox(height: 20),
@@ -369,9 +367,5 @@ class _DashboardState extends State<Dashboard> {
         )
       ]),
     );
-  }
-
-  Widget walletHeader() {
-    return WalletHeader();
   }
 }
