@@ -34,14 +34,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
     return BlocProvider(
       create: (BuildContext context) => _importKeyBloc,
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
+        appBar: AppBar(),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -64,8 +57,6 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                           var clipboardText = clipboardData?.text ?? '';
                           _keyController.text = clipboardText;
                           _onSubmitted();
-
-                          FocusScope.of(context).requestFocus(FocusNode());
                         },
                       ),
                       controller: _keyController,
