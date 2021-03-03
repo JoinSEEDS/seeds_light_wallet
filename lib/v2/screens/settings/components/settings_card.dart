@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
@@ -21,8 +20,7 @@ class SettingsCard extends StatelessWidget {
   /// Use if the second row is a widget
   final Widget descriptionWidget;
 
-  /// Route to which the card navigates.
-  final String route;
+  final GestureTapCallback onTap;
 
   const SettingsCard({
     Key key,
@@ -31,7 +29,7 @@ class SettingsCard extends StatelessWidget {
     this.titleValue = '',
     this.descriptionText = '',
     this.descriptionWidget,
-    this.route,
+    this.onTap,
   })  : assert(icon != null),
         assert(title != null),
         assert(titleValue != null),
@@ -42,7 +40,7 @@ class SettingsCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
-        onTap: () => NavigationService.of(context).navigateTo(route),
+        onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
             color: AppColors.greenfield,
