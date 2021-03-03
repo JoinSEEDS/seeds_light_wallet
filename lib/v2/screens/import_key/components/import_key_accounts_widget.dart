@@ -12,19 +12,10 @@ import 'package:seeds/v2/screens/import_key/interactor/import_key_bloc.dart';
 import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_state.dart';
 
 class ImportKeyAccountsWidget extends StatelessWidget {
-  const ImportKeyAccountsWidget({
-    Key key,
-    @required ImportKeyBloc importKeyBloc,
-  })  : _importKeyBloc = importKeyBloc,
-        super(key: key);
-
-  final ImportKeyBloc _importKeyBloc;
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _importKeyBloc,
-      child: BlocBuilder<ImportKeyBloc, ImportKeyState>(builder: (context, ImportKeyState state) {
+    return BlocBuilder<ImportKeyBloc, ImportKeyState>(
+      builder: (context, ImportKeyState state) {
         switch (state.pageState) {
           case PageState.initial:
             return const SizedBox.shrink();
@@ -74,7 +65,7 @@ class ImportKeyAccountsWidget extends StatelessWidget {
           default:
             return const SizedBox.shrink();
         }
-      }),
+      },
     );
   }
 }
