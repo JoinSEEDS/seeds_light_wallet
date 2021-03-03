@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/edit_name.i18n.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/v2/screens/settings/edit_name/viewmodels/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
@@ -25,12 +24,13 @@ class _EditNameScreenState extends State<EditNameScreen> {
   void initState() {
     super.initState();
     _editNameBloc = EditNameBloc();
-    _nameController.text = 'Raul';
     _nameController.addListener(_onNameChanged);
   }
 
   @override
   Widget build(BuildContext context) {
+    // TODO(raul): I do not like this way to retrive a value from navigation, https://github.com/JoinSEEDS/seeds_light_wallet/issues/500.
+    _nameController.text = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(title: Text('Edit Display Name'.i18n)),
       body: BlocProvider(
@@ -38,7 +38,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
         child: BlocConsumer<EditNameBloc, EditNameState>(
             listenWhen: (previous, current) =>
                 previous.pageState != PageState.success && current.pageState == PageState.success,
-            listener: (context, state) => Navigator.of(context).pop(),
+            listener: (context, state) => Navigator.of(context).pop(state.name),
             builder: (context, state) {
               switch (state.pageState) {
                 case PageState.initial:
@@ -92,10 +92,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
 
   void _onSubmitted() {
     if (_formKeyName.currentState.validate()) {
-      _editNameBloc.add(SubmitName(
-          accountName: SettingsNotifier.of(context).accountName,
-          privateKey: SettingsNotifier.of(context).privateKey,
-          nodeEndpoint: SettingsNotifier.of(context).nodeEndpoint));
+      _editNameBloc.add(SubmitName());
     }
   }
 }

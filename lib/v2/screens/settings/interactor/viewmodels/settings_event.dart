@@ -3,13 +3,18 @@ import 'package:meta/meta.dart';
 
 /// --- EVENTS
 @immutable
-abstract class EditNameEvent extends Equatable {
-  const EditNameEvent();
+abstract class SettingsEvent extends Equatable {
+  const SettingsEvent();
   @override
   List<Object> get props => [];
 }
 
-class OnNameChanged extends EditNameEvent {
+class LoadProfile extends SettingsEvent {
+  @override
+  String toString() => 'LoadProfile';
+}
+
+class OnNameChanged extends SettingsEvent {
   final String name;
 
   const OnNameChanged({@required this.name});
@@ -19,9 +24,4 @@ class OnNameChanged extends EditNameEvent {
 
   @override
   String toString() => 'OnNameChanged { name: $name }';
-}
-
-class SubmitName extends EditNameEvent {
-  @override
-  String toString() => 'SubmitName';
 }

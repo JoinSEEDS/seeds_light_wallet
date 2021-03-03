@@ -28,6 +28,8 @@ import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
+import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
+import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/profile/support/support_screen.dart';
 import 'package:seeds/v2/screens/settings/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/settings/set_currency/set_currency_screen.dart';
@@ -39,7 +41,6 @@ class Routes {
   static final transferForm = 'TransferForm';
   static final onboarding = 'Onboarding';
   static final joinProcess = 'JoinProcess';
-  static final importAccount = 'ImportAccount';
   static final createAccount = 'CreateAccount';
   static final showInvite = 'ShowInvite';
   static final claimCode = 'ClaimCode';
@@ -71,6 +72,8 @@ class Routes {
   static final settings = 'Settings';
   static final editName = 'EditName';
   static final setCurrency = "SetCurrency";
+  static final login = "Login";
+  static final importKey = "ImportKey";
 }
 
 class NavigationService {
@@ -90,6 +93,8 @@ class NavigationService {
   final onboardingRoutes = {
     Routes.onboarding: (_) => Onboarding(),
     Routes.joinProcess: (_) => JoinProcess(),
+    Routes.login: (_) => LoginScreen(),
+    Routes.importKey: (_) => const ImportKeyScreen(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),
     // Routes.showInvite: (args) => ShowInvite(args),
@@ -125,7 +130,7 @@ class NavigationService {
     Routes.support: (_) => const SupportScreen(),
     Routes.settings: (_) => const SettingsScreen(),
     Routes.editName: (_) => const EditNameScreen(),
-    Routes.setCurrency: (_) => const SetCurrencyScreen(),
+    Routes.setCurrency: (_) => const SetCurrencyScreen()
   };
 
   final ecosystemRoutes = {

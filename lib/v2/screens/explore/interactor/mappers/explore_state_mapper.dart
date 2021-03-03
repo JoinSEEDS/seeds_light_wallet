@@ -8,7 +8,6 @@ import 'package:seeds/v2/screens/explore/interactor/viewmodels/explore_state.dar
 import 'package:seeds/v2/screens/profile/interactor/usecases/get_profile_use_case.dart';
 
 class ExploreStateMapper extends StateMapper {
-
   ExploreState mapResultsToState(ExploreState currentState, List<Result> results) {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
