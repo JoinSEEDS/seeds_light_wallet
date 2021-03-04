@@ -38,7 +38,7 @@ class AppColors {
   static const lightGreen1 = Color(0xFF283D2E);
   static const lightGreen2 = Color(0xFF2B4835);
 
-  static const yellow = Color(0xFFFDFFF2);
+  static const whiteYellow = Color(0xFFFDFFF2);
 
   /// Gradients
   static const gradientNeonGreen = RadialGradient(
@@ -78,7 +78,7 @@ class AppColors {
   static const red2 = Color(0xFFBD4545);
   static const lightRed = Color(0xFFFF2919).withOpacity(0.15);
 
-  static const otherYellow = Color(0xFFE59900);
+  static const orangeYellow = Color(0xFFE59900);
   static const tagGreen1 = Color(0xFF1E3326);
   static const tagBlue = Color(0xFF239BB2);
   static const lightYellow = Color(0xFFE59900).withOpacity(0.15);
