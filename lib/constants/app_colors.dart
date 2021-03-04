@@ -41,10 +41,10 @@ class AppColors {
   static const whiteYellow = Color(0xFFFDFFF2);
 
   /// Gradients
-  static const gradientNeonGreen = RadialGradient(
+  static final gradientNeonGreen = RadialGradient(
     colors: [
-      const canopy.withOpacity(0.50),
-      const canopy.withOpacity(1),
+      canopy.withOpacity(0.50),
+      canopy.withOpacity(1),
     ],
   );
 
@@ -52,15 +52,15 @@ class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      const Color(0xFF408055),
-      const Color(0xFF264D33),
+      Color(0xFF408055),
+      Color(0xFF264D33),
     ],
   );
 
   static const gradientLightGreen = RadialGradient(
     colors: [
-      const Color(0xFFE5FFEE),
-      const Color(0xFFCCFFDD),
+      Color(0xFFE5FFEE),
+      Color(0xFFCCFFDD),
     ],
   );
 
@@ -68,20 +68,20 @@ class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      const Color(0xFF00C7E0),
-      const Color(0xFF007694),
+      Color(0xFF00C7E0),
+      Color(0xFF007694),
     ],
   );
 
   /// Status Colors
   static const red1 = Color(0xFFFF2919);
   static const red2 = Color(0xFFBD4545);
-  static const lightRed = Color(0xFFFF2919).withOpacity(0.15);
+  static final lightRed = const Color(0xFFFF2919).withOpacity(0.15);
 
   static const orangeYellow = Color(0xFFE59900);
   static const tagGreen1 = Color(0xFF1E3326);
   static const tagBlue = Color(0xFF239BB2);
-  static const lightYellow = Color(0xFFE59900).withOpacity(0.15);
+  static final lightYellow = const Color(0xFFE59900).withOpacity(0.15);
   static const tagGreen2 = Color(0x113119);
   static const subtitle = Color(0xCC52CC);
 
@@ -106,7 +106,9 @@ class AppColors {
 
   static Color getColorByString(String str) {
     var hash = 0;
-    if (str == null || str.isEmpty) return Colors.grey;
+    if (str == null || str.isEmpty) {
+      return Colors.grey;
+    }
     for (var i = 0; i < str.length; i++) {
       hash = str.codeUnitAt(i) + ((hash << 5) - hash);
       hash = hash & hash; // Convert to 32bit integer
