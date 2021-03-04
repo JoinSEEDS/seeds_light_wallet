@@ -19,17 +19,17 @@ analyzer:
     # Please see https://github.com/flutter/flutter/pull/24528 for details.
     sdk_version_async_exported_from_core: ignore
   exclude:
-#    - flutter/** # Do not analyze the Flutter repository in the CI environment
-#    - lib/constants/**
-#    - lib/design/**
-#    - lib/features/**
-#    - lib/generated/**
-#    - lib/i18/**
-#    - lib/models/**
-#    - lib/screens/**
-#    - lib/utils/**
-#    - lib/widgets/**
-#    - lib/main.dart
+    - flutter/** # Do not analyze the Flutter repository in the CI environment
+    - lib/constants/**
+    - lib/design/**
+    - lib/features/**
+    - lib/generated/**
+    - lib/i18/**
+    - lib/models/**
+    - lib/screens/**
+    - lib/utils/**
+    - lib/widgets/**
+    - lib/main.dart
 
 linter:
   rules:
