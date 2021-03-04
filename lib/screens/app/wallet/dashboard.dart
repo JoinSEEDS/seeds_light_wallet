@@ -24,9 +24,7 @@ import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
-import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
-import 'package:seeds/widgets/v2_widgets/app_bar.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/transaction_info_card.dart';
@@ -463,16 +461,17 @@ class _DashboardState extends State<Dashboard> {
       leading: Container(
         margin: const EdgeInsets.all(16),
         child: SvgPicture.asset(
-          'assets/images/wallet/app_bar/appbar_logo.svg',
+          'assets/images/wallet/app_bar/appbar_icon.svg',
         ),
       ),
-      title: SvgPicture.asset('assets/images/wallet/app_bar/seeds_text.svg'),
+      title: SvgPicture.asset('assets/images/wallet/app_bar/appbar_seeds_text.svg'),
       actions: [
         Container(
           child: IconButton(
             icon: SvgPicture.asset(
-              'assets/images/wallet/app_bar/scan_qr_code_logo_2.svg',
+              'assets/images/wallet/app_bar/scan_qr_code_icon.svg',
               height: 30,
+              width: 2000,
             ),
              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
           ),
