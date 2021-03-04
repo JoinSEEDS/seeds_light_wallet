@@ -8,7 +8,6 @@ import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
 import 'package:seeds/screens/app/ecosystem/harvest/plant_seeds.dart';
 import 'package:seeds/screens/app/ecosystem/invites/create_invite.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
-import 'package:seeds/screens/app/ecosystem/overview.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite.dart';
@@ -67,17 +66,13 @@ class Routes {
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> onboardingNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> onboardingNavigatorKey = new GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> appNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> appNavigatorKey = new GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> walletNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> walletNavigatorKey = new GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> ecosystemNavigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> ecosystemNavigatorKey = new GlobalKey<NavigatorState>();
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
@@ -133,8 +128,7 @@ class NavigationService {
     streamRouteListener = listener;
   }
 
-  Future<dynamic> navigateTo(String routeName,
-      [Object arguments, bool replace = false]) async {
+  Future<dynamic> navigateTo(String routeName, [Object arguments, bool replace = false]) async {
     var navigatorKey;
 
     if (streamRouteListener != null) {
@@ -156,14 +150,10 @@ class NavigationService {
     }
 
     if (replace) {
-      return navigatorKey.currentState
-          .pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorKey.currentState
-          .pushNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
     }
-
-
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -205,13 +195,10 @@ class NavigationService {
     return (Route<dynamic> route) {
       //print("Route: ${route.settings.name}" + " modal: ${route is ModalRoute} handlepop: ${route.willHandlePopInternally}");
       if (route.settings.name == "/" && name != "/") {
-        print("pop error: Route name not found: "+name);
+        print("pop error: Route name not found: " + name);
       }
-      return 
-        !route.willHandlePopInternally 
-        && route is ModalRoute
-        && route.settings.name == name || route.settings.name == "/";
+      return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
+          route.settings.name == "/";
     };
   }
-
 }
