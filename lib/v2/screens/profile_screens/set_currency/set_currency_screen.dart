@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/set_currency.i18n.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/settings/set_currency/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/set_currency/interactor/viewmodels/bloc.dart';
 
 class SetCurrencyScreen extends StatefulWidget {
   const SetCurrencyScreen({Key key}) : super(key: key);
