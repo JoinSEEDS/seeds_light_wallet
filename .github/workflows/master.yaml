@@ -12,16 +12,19 @@ jobs:
         with:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
+      #   with:
+      #     channel: 'stable'
+      # - name: Upgrade flutter
+      #   run: |
+      #     flutter channel stable
+      #     flutter upgrade
+      # - name: Install packages
+      #   run: |
+      #     ls
+      #     flutter pub get
         with:
-          channel: 'stable'
-      - name: Upgrade flutter
-        run: |
-          flutter channel stable
-          flutter upgrade
-      - name: Install packages
-        run: |
-          ls
-          flutter pub get
+          flutter-version: '1.22.6'
+      - run: flutter pub get
       - name: Lint
         run: |
           flutter analyze
@@ -37,12 +40,15 @@ jobs:
         with:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
+      #   with:
+      #     channel: 'stable'
+      # - name: Upgrade flutter
+      #   run: |
+      #     flutter channel stable
+      #     flutter upgrade
         with:
-          channel: 'stable'
-      - name: Upgrade flutter
-        run: |
-          flutter channel stable
-          flutter upgrade
+          flutter-version: '1.22.6'
+      - run: flutter pub get
       - name: build iOS package
         run: |
           flutter build ios --release --no-codesign
@@ -55,12 +61,15 @@ jobs:
         with:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
+      #   with:
+      #     channel: 'stable'
+      # - name: Upgrade flutter
+      #   run: |
+      #     flutter channel stable
+      #     flutter upgrade
         with:
-          channel: 'stable'
-      - name: Upgrade flutter
-        run: |
-          flutter channel stable
-          flutter upgrade
+          flutter-version: '1.22.6'
+      - run: flutter pub get
       - name: Build apk package
         run: |
           flutter build apk --debug
