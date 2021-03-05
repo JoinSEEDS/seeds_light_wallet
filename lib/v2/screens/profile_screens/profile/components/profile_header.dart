@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
-import 'package:seeds/v2/screens/profile/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 
 /// PROFILE HEADER

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/edit_name.i18n.dart';
-import 'package:seeds/v2/screens/profile_screens/edit_name/viewmodels/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/screens/profile_screens/edit_name/interactor/viewmodels/bloc.dart';
 
 class EditNameScreen extends StatefulWidget {
   const EditNameScreen({Key key}) : super(key: key);

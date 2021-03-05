@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
-import 'package:seeds/v2/screens/profile/components/profile_bottom.dart';
-import 'package:seeds/v2/screens/profile/components/profile_header.dart';
-import 'package:seeds/v2/screens/profile/components/profile_middle.dart';
-import 'package:seeds/v2/screens/profile/interactor/viewmodels/bloc.dart';
+
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/components/profile_bottom.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/components/profile_header.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/components/profile_middle.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 /// PROFILE SCREEN
 class ProfileScreen extends StatelessWidget {
