@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/interactor/mappers/update_profile_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/interactor/usecases/update_profile_use_case.dart';
-import 'package:seeds/v2/screens/profile_screens/edit_name/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/edit_name/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC
 class EditNameBloc extends Bloc<EditNameEvent, EditNameState> {

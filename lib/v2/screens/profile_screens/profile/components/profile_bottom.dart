@@ -5,7 +5,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
-import 'package:seeds/v2/screens/profile/components/card_list_tile.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/components/card_list_tile.dart';
 
 /// PROFILE BOTTOM
 class ProfileBottom extends StatelessWidget {
