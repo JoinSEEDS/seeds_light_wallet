@@ -13,7 +13,7 @@ class SendButton extends StatelessWidget {
     return FlatButton(
       padding: EdgeInsets.only(top: 14, bottom: 14),
       onPressed: onPress,
-      color: AppColors.springGreen,
+      color: AppColors.green1,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
         topLeft: Radius.circular(4),

@@ -29,7 +29,7 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                             onTap: () => () {},
                             child: Ink(
                               decoration: BoxDecoration(
-                                color: AppColors.jungle,
+                                color: AppColors.lightGreen2,
                                 borderRadius: BorderRadius.circular(defaultCardBorderRadius),
                               ),
                               child: Padding(

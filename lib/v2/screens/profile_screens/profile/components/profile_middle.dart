@@ -18,7 +18,7 @@ class ProfileMiddle extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading: const Icon(Icons.location_on_outlined, color: AppColors.springGreen),
+            leading: const Icon(Icons.location_on_outlined, color: AppColors.green1),
             title: Text(
               'Bioregion'.i18n,
               style: Theme.of(context).textTheme.subtitle2HighEmphasis,
@@ -33,7 +33,7 @@ class ProfileMiddle extends StatelessWidget {
           ),
           const DividerJungle(),
           ListTile(
-            leading: const Icon(Icons.attach_money_sharp, color: AppColors.springGreen),
+            leading: const Icon(Icons.attach_money_sharp, color: AppColors.green1),
             title: Text(
               'Currency'.i18n,
               style: Theme.of(context).textTheme.subtitle2HighEmphasis,
@@ -48,7 +48,7 @@ class ProfileMiddle extends StatelessWidget {
           ListTile(
             leading: const Icon(
               Icons.favorite_border,
-              color: AppColors.springGreen,
+              color: AppColors.green1,
             ),
             title: Text(
               'Skills & Interest'.i18n,
@@ -62,7 +62,7 @@ class ProfileMiddle extends StatelessWidget {
               runSpacing: 0, // gap between lines
               children: skillsAndInterest
                   .map((i) => Chip(
-                        backgroundColor: AppColors.greenfield,
+                        backgroundColor: AppColors.darkGreen2,
                         label: Text(
                           i,
                           style: Theme.of(context).textTheme.subtitle2,

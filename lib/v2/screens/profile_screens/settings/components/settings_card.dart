@@ -43,7 +43,7 @@ class SettingsCard extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.greenfield,
+            color: AppColors.darkGreen2,
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(
