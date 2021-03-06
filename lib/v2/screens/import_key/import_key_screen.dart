@@ -101,6 +101,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
   }
 
   void _onSubmitted() {
+    FocusScope.of(context).unfocus();
     if (_formImportKey.currentState.validate()) {
       _importKeyBloc.add(FindAccountByKey(userKey: _keyController.text));
     }
