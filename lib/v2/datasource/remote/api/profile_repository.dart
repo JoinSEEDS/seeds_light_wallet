@@ -5,7 +5,7 @@ import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
-import 'package:seeds/v2/datasource/settings_storage.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 export 'package:async/src/result/result.dart';
 
