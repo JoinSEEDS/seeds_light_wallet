@@ -316,6 +316,45 @@ class HttpService {
     return users;
   }
   
+  Future<List<TransactionModel>> getTransactions() async {
+    print("[http] get transactions");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.transactions;
+    }
+
+    final String url = "$baseURL/v1/history/get_actions";
+
+    var params = '''{ 
+      "account_name": "$userAccount",
+      "pos": -1,
+      "offset": -20
+    }''';
+
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(url, headers: headers, body: params);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      List<dynamic> transfers = body["actions"].where((dynamic item) {
+        return item["act"]["account"] == "token.seeds" &&
+            item["act"]["data"] != null &&
+            item["act"]["data"]["from"] != null;
+      }).toList();
+
+      List<TransactionModel> transactions =
+          transfers.map((item) => TransactionModel.fromJson(item)).toList();
+
+      return transactions;
+    } else {
+      print("Cannot fetch transactions...");
+
+      return [];
+    }
+  }
+
   Future<List<TransactionModel>> getTransactionsMongo({int blockHeight = 0}) async {
 
     print("[http] loading transactions from block $blockHeight");
