@@ -12,9 +12,9 @@ class RatesRepository extends NetworkRepository {
 
     return http
         .get("https://api.exchangeratesapi.io/latest?base=$query")
-        .then((http.Response response) => mapSuccess(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return FiatRateModel.fromJson(body);
             }))
-        .catchError((error) => mapError(error));
+        .catchError((error) => mapHttpError(error));
   }
 }

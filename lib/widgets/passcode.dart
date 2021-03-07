@@ -62,7 +62,7 @@ class LockWallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var bloc = Provider.of(context);
+    var bloc = Provider.of<AuthBloc>(context);
 
     return SingleChildScrollView(
       child: Container(

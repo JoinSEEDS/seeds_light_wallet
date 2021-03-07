@@ -15,11 +15,11 @@ class FlatButtonLong extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: FlatButton(
-        color: AppColors.springGreen,
+        color: AppColors.green1,
         disabledTextColor: Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
-          side: const BorderSide(color: AppColors.jungle),
+          side: const BorderSide(color: AppColors.lightGreen2),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),

@@ -4,17 +4,17 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 class ReceiveButton extends StatelessWidget {
-  const ReceiveButton({@required this.onPress});
+  ReceiveButton({@required this.onPress});
 
   final VoidCallback onPress;
 
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      padding: const EdgeInsets.only(top: 14, bottom: 14),
+      padding: EdgeInsets.only(top: 14, bottom: 14),
       onPressed: onPress,
-      color: AppColors.springGreen,
-      shape: const RoundedRectangleBorder(
+      color: AppColors.green1,
+      shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
         topLeft: Radius.circular(50),
         topRight: Radius.circular(4),
@@ -23,9 +23,9 @@ class ReceiveButton extends StatelessWidget {
       )),
       child: Center(
         child: Wrap(children: <Widget>[
-          const Icon(Icons.arrow_downward, color: AppColors.white),
+          Icon(Icons.arrow_downward, color: AppColors.white),
           Container(
-            padding: const EdgeInsets.only(left: 4, top: 4),
+            padding: EdgeInsets.only(left: 4, top: 4),
             child: Text('Receive'.i18n, style: Theme.of(context).textTheme.button),
           ),
         ]),

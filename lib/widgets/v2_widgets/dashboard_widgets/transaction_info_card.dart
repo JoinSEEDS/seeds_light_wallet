@@ -47,7 +47,7 @@ class TransactionInfoCard extends StatelessWidget {
                 image: profileImage,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.jungle,
+                  color: AppColors.lightGreen2,
                 ),
               ),
               Expanded(
