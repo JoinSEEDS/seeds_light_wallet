@@ -280,6 +280,9 @@ flutter:
     - assets/currency/xof.png
     - assets/images/wallet/arrow_up.svg
     - assets/images/wallet/arrow_down.svg
+    - assets/images/wallet/app_bar/appbar_icon.svg
+    - assets/images/wallet/app_bar/scan_qr_code_icon.svg
+    - assets/images/wallet/app_bar/appbar_seeds_text.svg
     # assets end
 
   fonts:
