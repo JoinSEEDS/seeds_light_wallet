@@ -84,12 +84,12 @@ class WalletHeaderState extends State<WalletHeader> {
         DotsIndicator(
           dotsCount: 3,
           position: _selectedIndex.toDouble(),
-          decorator: const DotsDecorator(
+          decorator: DotsDecorator(
             spacing: EdgeInsets.all(2.0),
             size: Size(10.0, 2.0),
             shape: Border(),
-            color: AppColors.jungle,
-            activeColor: AppColors.springGreen,
+            color: AppColors.darkGreen2,
+            activeColor: AppColors.green1,
             activeSize: Size(18.0, 2.0),
             activeShape: Border(),
           ),
