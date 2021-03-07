@@ -13,8 +13,10 @@ class ProfileAvatar extends StatelessWidget {
   final String image;
   final String nickname;
   final String account;
+  final BoxDecoration decoration;
 
   const ProfileAvatar({
+    this.decoration,
     @required this.size,
     @required this.image,
     @required this.nickname,
@@ -47,7 +49,11 @@ class ProfileAvatar extends StatelessWidget {
           : account.substring(0, 2).toUpperCase();
 
       return Container(
-        color: AppColors.getColorByString(shortName),
+        decoration: decoration ??
+            BoxDecoration(
+              color: AppColors.getColorByString(shortName),
+              shape: BoxShape.circle,
+            ),
         alignment: Alignment.center,
         child: Text(shortName, style: Theme.of(context).textTheme.subtitle1HighEmphasis),
       );

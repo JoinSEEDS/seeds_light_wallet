@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -19,16 +20,17 @@ import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/utils/string_extension.dart';
-import 'package:seeds/widgets/dashboard_widgets/receive_button.dart';
-import 'package:seeds/widgets/dashboard_widgets/send_button.dart';
-import 'package:seeds/screens/app/wallet/dashboard/wallet_header.dart';
-import 'package:seeds/widgets/dashboard_widgets/transaction_info_card.dart';
+import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:seeds/widgets/transaction_dialog.dart';
+import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
+import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
+import 'package:seeds/widgets/v2_widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/features/scanner/telos_signing_manager.dart';
 
 enum TransactionType { income, outcome }
 
@@ -44,7 +46,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void initState() {
-
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       DashboardUseCases()
@@ -135,11 +136,11 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       child: Scaffold(
+        appBar: buildAppBar(context),
         body: ListView(
           children: <Widget>[
             buildNotification(),
-            const SizedBox(height: 20),
-            WalletHeader(),
+            buildHeader(),
             const SizedBox(height: 20),
             buildSendReceiveButton(),
             const SizedBox(height: 20),
@@ -177,6 +178,91 @@ class _DashboardState extends State<Dashboard> {
 
   void onReceive() async {
     NavigationService.of(context).navigateTo(Routes.receive);
+  }
+
+  Widget buildHeader() {
+    final double width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final double textScaleFactor = width >= 320 ? 1.0 : 0.8;
+
+    return Container(
+      width: width,
+      height: height * 0.25,
+      child: MainCard(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: AppColors.gradient,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: EdgeInsets.all(7),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text(
+                'Available balance'.i18n,
+                style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w300),
+              ),
+              Consumer<BalanceNotifier>(builder: (context, model, child) {
+                return (model != null && model.balance != null)
+                    ? Column(
+                        children: <Widget>[
+                          Text(
+                            model.balance == null
+                                ? 'Network error'.i18n
+                                : '${model.balance?.quantity?.seedsFormatted} SEEDS',
+                            style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
+                          ),
+                          Consumer<SettingsNotifier>(builder: (context, settingsNotifier, child) {
+                            return Consumer<RateNotifier>(builder: (context, rateNotifier, child) {
+                              return Text(
+                                model.balance == null
+                                    ? 'Pull to update'.i18n
+                                    : rateNotifier.amountToString(
+                                        model.balance.numericQuantity, settingsNotifier.selectedFiatCurrency),
+                                style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w300),
+                              );
+                            });
+                          })
+                        ],
+                      )
+                    : Shimmer.fromColors(
+                        baseColor: Colors.green[300],
+                        highlightColor: Colors.blue[300],
+                        child: Container(
+                          width: 200.0,
+                          height: 26,
+                          color: Colors.white,
+                        ),
+                      );
+              }),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  EmptyButton(
+                    width: width * 0.33,
+                    title: 'Send'.i18n,
+                    color: Colors.white,
+                    onPressed: onTransfer,
+                    textScaleFactor: textScaleFactor,
+                  ),
+                  EmptyButton(
+                    width: width * 0.33,
+                    title: 'Receive'.i18n,
+                    color: Colors.white,
+                    onPressed: onReceive,
+                    textScaleFactor: textScaleFactor,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget buildNotification() {
@@ -366,6 +452,39 @@ class _DashboardState extends State<Dashboard> {
           style: const TextStyle(color: AppColors.canopy),
         )
       ]),
+    );
+  }
+
+  Widget buildAppBar(BuildContext _context) {
+    return AppBar(
+      titleSpacing: 0,
+      leading: Container(
+        margin: const EdgeInsets.all(16),
+        child: SvgPicture.asset(
+          'assets/images/wallet/app_bar/appbar_icon.svg',
+        ),
+      ),
+      title: SvgPicture.asset('assets/images/wallet/app_bar/appbar_seeds_text.svg'),
+      actions: [
+        Container(
+          child: IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/wallet/app_bar/scan_qr_code_icon.svg',
+              height: 30,
+              width: 2000,
+            ),
+             onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
+          ),
+        ),
+        Container(
+            padding: const EdgeInsets.only(right: 20, left: 14),
+            child: const ProfileAvatar(
+              size: 40,
+              account: 'ff',
+              nickname: 'gg',
+              image: '',
+            )),
+      ],
     );
   }
 }

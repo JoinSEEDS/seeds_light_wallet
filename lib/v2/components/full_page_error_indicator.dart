@@ -12,7 +12,7 @@ class FullPageErrorIndicator extends StatelessWidget {
       child: Center(
         child: Text(
           errorMessage ?? "Oops, Something Went Wrong",
-          style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.neonRed),
+          style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.red1),
         ),
       ),
     );

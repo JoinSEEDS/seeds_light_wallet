@@ -28,7 +28,7 @@ class ExploreInfoCard extends StatelessWidget {
       onTap: callback,
       child: Ink(
         decoration: BoxDecoration(
-          color: AppColors.jungle,
+          color: AppColors.lightGreen2,
           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         ),
         padding: const EdgeInsets.all(16.0),

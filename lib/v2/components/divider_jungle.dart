@@ -9,6 +9,6 @@ class DividerJungle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(color: AppColors.jungle, thickness: thickness, height: height);
+    return Divider(color: AppColors.lightGreen2, thickness: thickness, height: height);
   }
 }

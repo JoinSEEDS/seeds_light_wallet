@@ -12,7 +12,7 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
-import 'package:seeds/v2/screens/profile/profile_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/widgets/pending_notification.dart';
@@ -169,7 +169,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
       body: buildPageView(),
       bottomNavigationBar: StreamBuilder<bool>(
           stream: FirebaseDatabaseService()
@@ -183,22 +182,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           }),
     );
   }
-
-  Widget buildAppBar(BuildContext _context) {
-    return AppBar(
-      title: Text(navigationTabs[index].title),
-      centerTitle: true,
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: IconButton(
-              icon: Icon(Icons.qr_code_scanner, size: 28),
-              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
-        ),
-      ],
-    );
-  }
-
   Widget buildPageView() {
     return PageView(
       controller: pageController,
