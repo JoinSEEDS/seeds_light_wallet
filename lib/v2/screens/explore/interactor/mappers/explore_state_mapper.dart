@@ -2,6 +2,7 @@ import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
 import 'package:seeds/v2/datasource/remote/model/voice_model_alliance.dart';
 import 'package:seeds/v2/datasource/remote/model/voice_model_campaign.dart';
+import 'package:seeds/v2/datasource/remote/model/hypha_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/explore/interactor/viewmodels/explore_state.dart';
@@ -22,6 +23,8 @@ class ExploreStateMapper extends StateMapper {
       VoiceModelCampaign campaignVoice =
           values.firstWhere((element) => element is VoiceModelCampaign, orElse: () => null);
       PlantedModel plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
+      HyphaModel hyphaVoice =
+      values.firstWhere((element) => element is HyphaModel, orElse: () => null);
 
       return currentState.copyWith(
         pageState: PageState.success,
@@ -29,6 +32,7 @@ class ExploreStateMapper extends StateMapper {
         allianceVoice: allianceVoice?.amount.toString(),
         campaignVoice: campaignVoice?.amount.toString(),
         plantedSeeds: plantedSeeds?.quantity.toString(),
+        hyphaVoice: hyphaVoice?.amount.toString(),
       );
     }
   }

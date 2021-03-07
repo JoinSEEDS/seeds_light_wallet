@@ -10,6 +10,7 @@ class ExploreState extends Equatable {
   final String campaignVoice;
   final String errorMessage;
   final String plantedSeeds;
+  final String hyphaVoice;
 
   const ExploreState({
     @required this.pageState,
@@ -18,10 +19,11 @@ class ExploreState extends Equatable {
     this.allianceVoice,
     this.campaignVoice,
     this.plantedSeeds,
+    this.hyphaVoice,
   });
 
   @override
-  List<Object> get props => [pageState, availableSeeds, errorMessage, allianceVoice, campaignVoice];
+  List<Object> get props => [pageState, availableSeeds, errorMessage, allianceVoice, campaignVoice , hyphaVoice];
 
   ExploreState copyWith({
     PageState pageState,
@@ -30,6 +32,7 @@ class ExploreState extends Equatable {
     String campaignVoice,
     String errorMessage,
     String plantedSeeds,
+    String hyphaVoice,
   }) {
     return ExploreState(
       pageState: pageState ?? this.pageState,
@@ -38,6 +41,7 @@ class ExploreState extends Equatable {
       campaignVoice: campaignVoice ?? this.campaignVoice,
       errorMessage: errorMessage ?? this.errorMessage,
       plantedSeeds: plantedSeeds ?? this.plantedSeeds,
+      hyphaVoice: hyphaVoice ?? this.hyphaVoice,
     );
   }
 
@@ -49,6 +53,7 @@ class ExploreState extends Equatable {
       allianceVoice: null,
       errorMessage: null,
       plantedSeeds: null,
+      hyphaVoice: null,
     );
   }
 }

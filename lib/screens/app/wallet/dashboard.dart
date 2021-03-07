@@ -10,7 +10,9 @@ import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
+import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/guardian_services.dart';
 
@@ -135,6 +137,8 @@ class _DashboardState extends State<Dashboard> {
       child: Scaffold(
         body: ListView(
           children: <Widget>[
+            showHypha(),
+            voice(),
             buildNotification(),
             buildHeader(),
             const SizedBox(height: 20),
@@ -258,6 +262,59 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget showHypha() {
+    return Container(
+      child: Consumer<BalanceNotifier>(builder: (context, model, child) {
+        return (model != null && model.balance != null)
+            ? Column(
+                children: <Widget>[
+                  Text(
+                    model.balance == null ? 'Network error'.i18n : '${model.balance?.quantity?.seedsFormatted} SEEDS',
+                    style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
+                  ),
+                  Consumer<SettingsNotifier>(builder: (context, settingsNotifier, child) {
+                    return Consumer<RateNotifier>(builder: (context, rateNotifier, child) {
+                      return Text(
+                        model.balance == null
+                            ? 'Pull to update'.i18n
+                            : rateNotifier.amountToString(
+                                model.balance.numericQuantity, settingsNotifier.selectedFiatCurrency),
+                        style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w300),
+                      );
+                    });
+                  }),
+                ],
+              )
+            : Text("Blo");
+      }),
+    );
+  }
+
+  Widget voice() {
+    return Container(
+      child: Consumer<TelosBalanceNotifier>(builder: (context, model, child) {
+        return (model != null && model.balance != null)
+            ? Column(
+          children: <Widget>[
+            Text(
+              model.balance == null ? 'Network error'.i18n : '${model.balance} alliance',
+              style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
+            ),
+            // Consumer<VoiceNotifier>(builder: (context, settingsNotifier, child) {
+            //   return Consumer<RateNotifier>(builder: (context, rateNotifier, child) {
+            //     return  Text(
+            //       model.campaignBalance == null ? 'Network error'.i18n : '${model.campaignBalance.amount.toString()} Campaing',
+            //       style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
+            //     );
+            //   });
+            // }),
+          ],
+        )
+            : Text("Blo");
+      }),
     );
   }
 

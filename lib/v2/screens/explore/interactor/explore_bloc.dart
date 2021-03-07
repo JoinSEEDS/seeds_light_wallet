@@ -14,7 +14,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     if (event is LoadExplore) {
       yield state.copyWith(pageState: PageState.loading);
 
-      var results = await GetExploreUseCase().run(event.userName);
+      var results = await GetExploreUseCase().run('gguijarro123');
 
       yield ExploreStateMapper().mapResultsToState(state, results);
     }

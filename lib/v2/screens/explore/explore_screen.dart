@@ -5,6 +5,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/components/votes-to-string.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore/components/explore_info_card.dart';
 import 'package:seeds/v2/screens/explore/interactor/explore_bloc.dart';
@@ -66,7 +67,7 @@ class ExploreScreen extends StatelessWidget {
                             child: ExploreInfoCard(
                               callback: () {},
                               title: 'Vote',
-                              amount: 'TODO',
+                              amount: votesToSting(state.allianceVoice, state.campaignVoice),
                               icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
                               amountLabel: 'Trust Tokens',
                             ),
@@ -93,7 +94,7 @@ class ExploreScreen extends StatelessWidget {
                             child: ExploreInfoCard(
                               callback: () {},
                               title: 'Hypha DHO',
-                              amount: 'TODO',
+                              amount: state.hyphaVoice,
                               amountLabel: 'Hypha',
                             ),
                           ),
