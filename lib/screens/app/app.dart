@@ -169,7 +169,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
       body: buildPageView(),
       bottomNavigationBar: StreamBuilder<bool>(
           stream: FirebaseDatabaseService()
@@ -183,22 +182,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           }),
     );
   }
-
-  Widget buildAppBar(BuildContext _context) {
-    return AppBar(
-      title: Text(navigationTabs[index].title),
-      centerTitle: true,
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: IconButton(
-              icon: Icon(Icons.qr_code_scanner, size: 28),
-              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
-        ),
-      ],
-    );
-  }
-
   Widget buildPageView() {
     return PageView(
       controller: pageController,
