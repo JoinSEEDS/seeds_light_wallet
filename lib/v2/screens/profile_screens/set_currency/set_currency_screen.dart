@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/set_currency.i18n.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
+import 'package:seeds/v2/datasource/local/models/currency.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/interactor/viewmodels/bloc.dart';
 
 class SetCurrencyScreen extends StatefulWidget {
@@ -58,15 +60,15 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                       break;
                     case PageState.success:
                       return ListView.builder(
-                        itemCount: state.currencyResult.length,
+                        itemCount: state.availableCurrencies.length,
                         itemBuilder: (ctx, index) => ListTile(
-                          leading: Image.asset('assets/currency/${state.currencyResult[index].toLowerCase()}.png'),
-                          title: Text(state.currencyResult[index]),
+                          leading: Text(countryCodeToEmoji(state.availableCurrencies[index]),
+                              style: Theme.of(context).textTheme.headline4),
+                          title: Text(state.availableCurrencies[index].code),
+                          subtitle: Text(state.availableCurrencies[index].name),
                           onTap: () {
-                            // TODO(Raul): this is a shared pref value must be handled by a global bloc Example: _settingsBloc.add(OnSelectedFiatCurrency(currency: state.currencyResult[index]));
-
-                            // SettingsNotifier.of(context).saveSelectedFiatCurrency(currencies[index]);
-                            Navigator.of(context).pop();
+                            settingsStorage.saveSelectedFiatCurrency(state.availableCurrencies[index].code);
+                            Navigator.of(context).pop(state.availableCurrencies[index].code);
                           },
                         ),
                       );
@@ -81,6 +83,19 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
         ),
       ),
     );
+  }
+
+  String countryCodeToEmoji(Currency currency) {
+    final String countryCode = currency.flag;
+    // 0x41 is Letter A
+    // 0x1F1E6 is Regional Indicator Symbol Letter A
+    // Example :
+    // firstLetter U => 20 + 0x1F1E6
+    // secondLetter S => 18 + 0x1F1E6
+    // See: https://en.wikipedia.org/wiki/Regional_Indicator_Symbol
+    final int firstLetter = countryCode.codeUnitAt(0) - 0x41 + 0x1F1E6;
+    final int secondLetter = countryCode.codeUnitAt(1) - 0x41 + 0x1F1E6;
+    return String.fromCharCode(firstLetter) + String.fromCharCode(secondLetter);
   }
 
   void _onQueryChanged() {

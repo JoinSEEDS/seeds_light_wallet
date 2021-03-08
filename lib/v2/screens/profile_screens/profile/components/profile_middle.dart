@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 
@@ -27,9 +28,7 @@ class ProfileMiddle extends StatelessWidget {
               'Bali',
               style: Theme.of(context).textTheme.subtitle1HighEmphasis,
             ),
-            onTap: () {
-              //_chooseCurrencyBottomSheet
-            },
+            onTap: () {},
           ),
           const DividerJungle(),
           ListTile(
@@ -39,7 +38,7 @@ class ProfileMiddle extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle2HighEmphasis,
             ),
             trailing: Text(
-              'USD',
+              settingsStorage.selectedFiatCurrency,
               style: Theme.of(context).textTheme.subtitle1HighEmphasis,
             ),
             onTap: () {},

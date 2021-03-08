@@ -16,7 +16,7 @@ class SetCurrencyBloc extends Bloc<SetCurrencyEvent, SetCurrencyState> {
         Result result = await GetFiatRatesUseCase().run(query: event.query);
         yield RateStateMapper().mapResultToState(state, result);
       } else {
-        yield state.copyWith(currencyResult: event.query != state.currentQuery ? [] : null);
+        yield state.copyWith(availableCurrencies: event.query != state.currentQuery ? [] : null);
       }
     }
   }
