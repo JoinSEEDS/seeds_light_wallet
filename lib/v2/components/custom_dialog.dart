@@ -25,7 +25,7 @@ class CustomDialog extends StatelessWidget {
   /// Require define rightButtonTitle
   final VoidCallback onRightButtonPressed;
 
-  /// Default title 'Close'
+  /// Default title empty
   final String closeButtonTitle;
 
   /// Default Navigator pop
@@ -39,7 +39,7 @@ class CustomDialog extends StatelessWidget {
     this.onLeftButtonPressed,
     this.rightButtonTitle = '',
     this.onRightButtonPressed,
-    this.closeButtonTitle = 'Close',
+    this.closeButtonTitle = '',
     this.onCloseButtonPressed,
   })  : assert(icon != null, children != null),
         super(key: key);
@@ -95,7 +95,7 @@ class CustomDialog extends StatelessWidget {
                       ],
                     ),
                   ),
-                if (leftButtonTitle.isEmpty && rightButtonTitle.isEmpty)
+                if (leftButtonTitle.isEmpty && rightButtonTitle.isEmpty && closeButtonTitle.isNotEmpty)
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FlatButtonLong(

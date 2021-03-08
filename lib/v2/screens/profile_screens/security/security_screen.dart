@@ -85,7 +85,7 @@ class SecurityScreen extends StatelessWidget {
                             return CustomSwitch(
                               value: state.isSecurePin,
                               onChanged: (_) {
-                                BlocProvider.of<SecurityBloc>(context).add(OnPinChanged());
+                                BlocProvider.of<SecurityBloc>(context).add(const OnPinChanged());
                               },
                             );
                           },
@@ -101,7 +101,7 @@ class SecurityScreen extends StatelessWidget {
                             return CustomSwitch(
                               value: state.isSecureBiometric,
                               onChanged: (_) {
-                                BlocProvider.of<SecurityBloc>(context).add(OnBiometricsChanged());
+                                BlocProvider.of<SecurityBloc>(context).add(const OnBiometricsChanged());
                               },
                             );
                           },

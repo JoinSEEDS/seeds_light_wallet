@@ -10,11 +10,13 @@ abstract class SecurityEvent extends Equatable {
 }
 
 class OnPinChanged extends SecurityEvent {
+  const OnPinChanged();
   @override
   String toString() => 'OnPinChanged';
 }
 
 class OnBiometricsChanged extends SecurityEvent {
+  const OnBiometricsChanged();
   @override
   String toString() => 'OnBiometricsChanged';
 }
