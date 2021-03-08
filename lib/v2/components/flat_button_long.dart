@@ -7,23 +7,27 @@ import 'package:seeds/design/app_theme.dart';
 class FlatButtonLong extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
+  final Color color;
 
-  const FlatButtonLong({Key key, @required this.title, @required this.onPressed}) : super(key: key);
+  const FlatButtonLong({Key key, @required this.title, @required this.onPressed, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var style = color != null
+        ? Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.springGreen)
+        : Theme.of(context).textTheme.subtitle2HighEmphasis;
     return SizedBox(
       width: double.infinity,
       child: FlatButton(
-        color: AppColors.springGreen,
+        color: color ?? AppColors.springGreen,
         disabledTextColor: Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
-          side: const BorderSide(color: AppColors.jungle),
+          side: const BorderSide(color: AppColors.springGreen),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Text(title, style: Theme.of(context).textTheme.subtitle2HighEmphasis),
+          child: Text(title, style: style),
         ),
         onPressed: onPressed,
       ),
