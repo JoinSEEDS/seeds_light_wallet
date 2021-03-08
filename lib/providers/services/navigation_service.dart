@@ -17,7 +17,7 @@ import 'package:seeds/screens/app/guardians/select_guardians.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
-import 'package:seeds/screens/app/wallet/dashboard.dart';
+import 'package:seeds/screens/app/wallet/dashboard/dashboard.dart';
 import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';

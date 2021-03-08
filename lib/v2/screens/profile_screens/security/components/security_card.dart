@@ -38,7 +38,7 @@ class SecurityCard extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.greenfield,
+            color: AppColors.lightGreen2,
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(

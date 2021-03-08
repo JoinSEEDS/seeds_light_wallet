@@ -19,7 +19,7 @@ class ProfileBottom extends StatelessWidget {
         children: [
           Container(
             decoration: const BoxDecoration(
-              color: AppColors.jungle,
+              color: AppColors.lightGreen2,
               borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
             ),
             child: Stack(
@@ -100,7 +100,7 @@ class ProfileBottom extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  color: AppColors.springGreen,
+                                  color: AppColors.green1,
                                   padding: const EdgeInsets.all(8.0),
                                   onPressed: () {},
                                   child: Text(

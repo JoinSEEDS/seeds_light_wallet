@@ -23,7 +23,7 @@ class CardListTile extends StatelessWidget {
       onTap: () => NavigationService.of(context).navigateTo(route),
       child: Ink(
         decoration: BoxDecoration(
-          color: AppColors.greenfield,
+          color: AppColors.darkGreen2,
           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         ),
         child: ListTile(

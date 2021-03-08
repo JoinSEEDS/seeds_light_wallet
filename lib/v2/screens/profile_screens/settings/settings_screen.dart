@@ -76,7 +76,7 @@ class SettingsScreen extends StatelessWidget {
                           runSpacing: 0, // gap between lines
                           children: skillsAndInterest
                               .map((i) => Chip(
-                                    backgroundColor: AppColors.jungle,
+                                    backgroundColor: AppColors.lightGreen2,
                                     label: Text(
                                       i,
                                       style: Theme.of(context).textTheme.subtitle2,

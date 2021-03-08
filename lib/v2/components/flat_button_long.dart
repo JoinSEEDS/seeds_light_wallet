@@ -14,16 +14,16 @@ class FlatButtonLong extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var style = color != null
-        ? Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.springGreen)
+        ? Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.green1)
         : Theme.of(context).textTheme.subtitle2HighEmphasis;
     return SizedBox(
       width: double.infinity,
       child: FlatButton(
-        color: color ?? AppColors.springGreen,
+        color: color ?? AppColors.green1,
         disabledTextColor: Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
-          side: const BorderSide(color: AppColors.springGreen),
+          side: const BorderSide(color: AppColors.green1),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),

@@ -30,7 +30,7 @@ class SecurityScreen extends StatelessWidget {
                   context: context,
                   barrierDismissible: false, // user must tap button
                   builder: (_) => CustomDialog(
-                    icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.springGreen),
+                    icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
                     children: [
                       Text(
                         'Touch ID/ Face ID'.i18n,
