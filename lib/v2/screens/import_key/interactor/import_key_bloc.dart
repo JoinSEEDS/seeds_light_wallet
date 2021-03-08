@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/import_key/interactor/mappers/import_key_state_mapper.dart';
 import 'package:seeds/v2/screens/import_key/interactor/usecases/check_private_key_use_case.dart';
@@ -30,8 +31,12 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
         yield ImportKeyStateMapper().mapResultsToState(state, results, event.userKey);
       }
     } else if (event is AccountSelected) {
+      // TODO(gguij002): Remove usage of _settingsNotifier and use settingsStorage. We need it for now to not break other areas
       _settingsNotifier.saveAccount(event.account, state.privateKey.toString());
       _settingsNotifier.privateKeyBackedUp = true;
+
+      settingsStorage.saveAccount(event.account, state.privateKey.toString());
+      settingsStorage.privateKeyBackedUp = true;
 
       await FirebaseDatabaseService().setFirebaseMessageToken(event.account);
 
