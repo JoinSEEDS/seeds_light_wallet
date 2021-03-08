@@ -18,7 +18,6 @@ class ExploreScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ExploreBloc()..add(LoadExplore(userName: SettingsNotifier.of(context).accountName)),
       child: Scaffold(
-        backgroundColor: AppColors.primary,
         body: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, ExploreState state) {
             switch (state.pageState) {

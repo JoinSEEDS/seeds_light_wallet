@@ -34,6 +34,7 @@ import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/settings/settings_screen.dart';
+import 'package:seeds/v2/screens/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -116,7 +117,7 @@ class NavigationService {
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
     Routes.customTransaction: (args) => CustomTransaction(args),
-    Routes.scanQRCode: (_) => Scan(false),
+    Routes.scanQRCode: (_) => SendScannerScreen(),
     Routes.receive: (_) => Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
     Routes.receiveCustom: (_) => ReceiveCustom(),
