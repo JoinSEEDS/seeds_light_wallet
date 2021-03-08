@@ -35,10 +35,9 @@ class WalletHeaderState extends State<WalletHeader> {
           child: CarouselSlider(
             carouselController: _controller,
             items: [
-              const Padding(
+               Padding(
                 padding: EdgeInsets.only(right: 10),
                 child: CurrencyInfoCard(
-                  cardWidth: 380,
                   backgroundImage: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
                   title: "Seeds",
                   logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
@@ -47,25 +46,24 @@ class WalletHeaderState extends State<WalletHeader> {
                   fiatBalance: " \$6,423 USD",
                 ),
               ),
-              const CurrencyInfoCard(
-                cardWidth: 380,
+               CurrencyInfoCard(
                 backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
                 title: "Hypha",
                 logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
                 balanceSubTitle: 'Wallet Balance',
                 balance: '68436.32',
                 fiatBalance: " \$9,236.45 USD",
-              ),
-              const Padding(
+               ),
+               Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: CurrencyInfoCard(
-                  cardWidth: 380,
                   backgroundImage: 'assets/images/wallet/currency_info_cards/planted_seeds/background.jpg',
                   title: "Planted Seeds",
                   logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
                   balanceSubTitle: 'Planted Seeds',
                   balance: '1244.32',
                   fiatBalance: " \$6,423 USD",
+                  textColor: AppColors.lightGreen2,
                 ),
               ),
             ],
@@ -84,7 +82,7 @@ class WalletHeaderState extends State<WalletHeader> {
         DotsIndicator(
           dotsCount: 3,
           position: _selectedIndex.toDouble(),
-          decorator: DotsDecorator(
+          decorator: const DotsDecorator(
             spacing: EdgeInsets.all(2.0),
             size: Size(10.0, 2.0),
             shape: Border(),
@@ -95,7 +93,6 @@ class WalletHeaderState extends State<WalletHeader> {
           ),
         )
       ],
-      // onTap: generateBorderRadius(0),
     );
   }
 }

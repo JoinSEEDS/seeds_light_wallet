@@ -11,6 +11,7 @@ class CurrencyInfoCard extends StatelessWidget {
   final String fiatBalance;
   final double cardWidth;
   final double cardHeight;
+  final Color textColor;
 
   const CurrencyInfoCard({
     Key key,
@@ -22,6 +23,7 @@ class CurrencyInfoCard extends StatelessWidget {
     @required this.fiatBalance,
     this.cardWidth,
     this.cardHeight,
+    this.textColor,
   }) : super(key: key);
 
   @override
@@ -34,7 +36,7 @@ class CurrencyInfoCard extends StatelessWidget {
             image: DecorationImage(image: AssetImage(backgroundImage), fit: BoxFit.fill)),
         child: Stack(children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(top:  20 ,right: 20, left: 20),
+            padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -43,7 +45,7 @@ class CurrencyInfoCard extends StatelessWidget {
                     Expanded(
                         child: Text(
                       title,
-                      style: Theme.of(context).textTheme.headline7,
+                      style: Theme.of(context).textTheme.headline7.copyWith(color: textColor),
                     )),
                     Container(
                         width: 42,
@@ -53,12 +55,18 @@ class CurrencyInfoCard extends StatelessWidget {
                             image: DecorationImage(image: AssetImage(logo), fit: BoxFit.fill))),
                   ],
                 ),
-                const SizedBox(height: 50,),
-                Text(balanceSubTitle, style: Theme.of(context).textTheme.subtitle2),
-                const SizedBox(height: 6,),
-                Text(balance, style: Theme.of(context).textTheme.headline5),
-                const SizedBox(height: 6,),
-                Text(fiatBalance, style: Theme.of(context).textTheme.subtitle2)
+                const SizedBox(
+                  height: 50,
+                ),
+                Text(balanceSubTitle, style: Theme.of(context).textTheme.subtitle2.copyWith(color: textColor)),
+                const SizedBox(
+                  height: 6,
+                ),
+                Text(balance, style: Theme.of(context).textTheme.headline5.copyWith(color: textColor)),
+                const SizedBox(
+                  height: 6,
+                ),
+                Text(fiatBalance, style: Theme.of(context).textTheme.subtitle2.copyWith(color: textColor))
               ],
             ),
           )
