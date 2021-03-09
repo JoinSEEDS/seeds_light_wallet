@@ -17,3 +17,12 @@ class FindAccountByKey extends ImportKeyEvent {
   @override
   String toString() => 'FindAccountByKey: { userKey: $userKey }';
 }
+
+class AccountSelected extends ImportKeyEvent {
+  final String account;
+
+  AccountSelected({@required this.account}) : assert(account != null);
+
+  @override
+  String toString() => 'AccountSelected: { account: $account }';
+}
