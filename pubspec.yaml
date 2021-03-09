@@ -46,6 +46,8 @@ dependencies:
   provider: ^4.0.5
   photo_view: ^0.9.1
   image_cropper: ^1.2.1
+  carousel_slider: ^3.0.0
+  dots_indicator: ^1.2.0
   sentry: ^3.0.1
   hive: ^1.4.4
   rxdart: ^0.24.0
@@ -280,6 +282,15 @@ flutter:
     - assets/currency/xof.png
     - assets/images/wallet/arrow_up.svg
     - assets/images/wallet/arrow_down.svg
+    - assets/images/wallet/app_bar/appbar_icon.svg
+    - assets/images/wallet/app_bar/scan_qr_code_icon.svg
+    - assets/images/wallet/app_bar/appbar_seeds_text.svg
+    - assets/images/wallet/currency_info_cards/seeds/logo.jpg
+    - assets/images/wallet/currency_info_cards/seeds/background.jpg
+    - assets/images/wallet/currency_info_cards/planted_seeds/background.jpg
+    - assets/images/wallet/currency_info_cards/planted_seeds/logo.jpg
+    - assets/images/wallet/currency_info_cards/hypha/background.jpg
+    - assets/images/wallet/currency_info_cards/hypha/logo.jpg
     # assets end
 
   fonts:
