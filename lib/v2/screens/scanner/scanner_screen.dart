@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/scanner/interactor/scanner_bloc.dart';
 import 'package:seeds/v2/screens/scanner/interactor/viewmodels/scanner_events.dart';
 import 'package:seeds/v2/screens/scanner/interactor/viewmodels/scanner_state.dart';
@@ -50,25 +49,36 @@ class _ScannerScreenState extends State<ScannerScreen> {
       create: (BuildContext context) => widget._scannerBloc,
       child: BlocBuilder<ScannerBloc, ScannerState>(builder: (context, ScannerState state) {
         return Center(
-          child: SizedBox(
-            height: 250,
-            width: 250,
-            child: Stack(
-              children: [
-                Container(
+          child: Stack(
+            children: [
+
+              Center(
+                child: Container(
+                  height: 300,
+                  width: 300,
                   child: QRView(
-                    overlay: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32)), side: BorderSide(color: Color(0xFF2A8068))),
                     key: qrKey,
                     onQRViewCreated: _onQRViewCreated,
                     showNativeAlertDialog: true,
                   ),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  child: buildStateView(state),
+              ),
+              Positioned(
+                left: 35,
+                bottom: 1,
+                child: Container(
+                  height: 315,
+                  width: 315,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(
+                        width: 10,
+                        color: Colors.red[500],
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
         );
       }),
