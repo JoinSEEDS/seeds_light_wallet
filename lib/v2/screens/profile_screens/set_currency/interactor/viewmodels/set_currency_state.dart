@@ -9,12 +9,14 @@ class SetCurrencyState extends Equatable {
   final PageState pageState;
   final String currentQuery;
   final List<Currency> availableCurrencies;
+  final List<Currency> queryCurrenciesResults;
   final String errorMessage;
 
   const SetCurrencyState({
     @required this.pageState,
     this.currentQuery,
     this.availableCurrencies,
+    this.queryCurrenciesResults,
     this.errorMessage,
   });
 
@@ -23,6 +25,7 @@ class SetCurrencyState extends Equatable {
         pageState,
         currentQuery,
         availableCurrencies,
+        queryCurrenciesResults,
         errorMessage,
       ];
 
@@ -30,12 +33,14 @@ class SetCurrencyState extends Equatable {
     PageState pageState,
     String currentQuery,
     List<Currency> availableCurrencies,
+    List<Currency> queryCurrenciesResults,
     String errorMessage,
   }) {
     return SetCurrencyState(
       pageState: pageState ?? this.pageState,
       currentQuery: currentQuery ?? this.currentQuery,
       availableCurrencies: availableCurrencies ?? this.availableCurrencies,
+      queryCurrenciesResults: queryCurrenciesResults ?? this.queryCurrenciesResults,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
@@ -45,6 +50,7 @@ class SetCurrencyState extends Equatable {
       pageState: PageState.initial,
       currentQuery: null,
       availableCurrencies: null,
+      queryCurrenciesResults: null,
       errorMessage: null,
     );
   }

@@ -60,15 +60,15 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                       break;
                     case PageState.success:
                       return ListView.builder(
-                        itemCount: state.availableCurrencies.length,
+                        itemCount: state.queryCurrenciesResults.length,
                         itemBuilder: (ctx, index) => ListTile(
-                          leading: Text(countryCodeToEmoji(state.availableCurrencies[index]),
+                          leading: Text(countryCodeToEmoji(state.queryCurrenciesResults[index]),
                               style: Theme.of(context).textTheme.headline4),
-                          title: Text(state.availableCurrencies[index].code),
-                          subtitle: Text(state.availableCurrencies[index].name),
+                          title: Text(state.queryCurrenciesResults[index].code),
+                          subtitle: Text(state.queryCurrenciesResults[index].name),
                           onTap: () {
-                            settingsStorage.saveSelectedFiatCurrency(state.availableCurrencies[index].code);
-                            Navigator.of(context).pop(state.availableCurrencies[index].code);
+                            settingsStorage.saveSelectedFiatCurrency(state.queryCurrenciesResults[index].code);
+                            Navigator.of(context).pop(state.queryCurrenciesResults[index].code);
                           },
                         ),
                       );
