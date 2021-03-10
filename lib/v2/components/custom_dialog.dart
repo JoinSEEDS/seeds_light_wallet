@@ -26,10 +26,10 @@ class CustomDialog extends StatelessWidget {
   final VoidCallback onRightButtonPressed;
 
   /// Default title empty
-  final String closeButtonTitle;
+  final String singleLargeButtonTitle;
 
   /// Default Navigator pop
-  final VoidCallback onCloseButtonPressed;
+  final VoidCallback onSingleLargeButtonPressed;
 
   const CustomDialog({
     Key key,
@@ -39,8 +39,8 @@ class CustomDialog extends StatelessWidget {
     this.onLeftButtonPressed,
     this.rightButtonTitle = '',
     this.onRightButtonPressed,
-    this.closeButtonTitle = '',
-    this.onCloseButtonPressed,
+    this.singleLargeButtonTitle = '',
+    this.onSingleLargeButtonPressed,
   })  : assert(icon != null, children != null),
         super(key: key);
 
@@ -54,14 +54,20 @@ class CustomDialog extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.only(
-                left: padding, top: avatarRadius + padding - 10, right: padding, bottom: padding + 10),
+                left: padding,
+                top: avatarRadius + padding - 10,
+                right: padding,
+                bottom: padding + 10),
             margin: const EdgeInsets.only(top: avatarRadius),
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(18.0),
                 boxShadow: const [
-                  BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
+                  BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(0, 10),
+                      blurRadius: 10),
                 ]),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -96,12 +102,15 @@ class CustomDialog extends StatelessWidget {
                       ],
                     ),
                   ),
-                if (leftButtonTitle.isEmpty && rightButtonTitle.isEmpty && closeButtonTitle.isNotEmpty)
+                if (leftButtonTitle.isEmpty &&
+                    rightButtonTitle.isEmpty &&
+                    singleLargeButtonTitle.isNotEmpty)
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FlatButtonLong(
-                      title: closeButtonTitle,
-                      onPressed: onCloseButtonPressed ?? () => Navigator.pop(context),
+                      title: singleLargeButtonTitle,
+                      onPressed: onSingleLargeButtonPressed ??
+                          () => Navigator.pop(context),
                     ),
                   ),
               ],
@@ -126,7 +135,8 @@ class CustomDialog extends StatelessWidget {
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(avatarRadius)),
+                  borderRadius:
+                      const BorderRadius.all(Radius.circular(avatarRadius)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: icon,
