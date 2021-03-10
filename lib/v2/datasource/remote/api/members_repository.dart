@@ -22,4 +22,26 @@ class MembersRepository extends NetworkRepository {
             }))
         .catchError((error) => mapHttpError(error));
   }
+
+  /// Filter must be greater than 2 or we return empty list of users.
+  Future<Result> getMembersWithFilter(String filter) {
+    print('[http] getMembersWithFilter $filter ');
+    assert(filter.length > 2);
+
+    var lowerBound = filter;
+    var upperBound = filter.padRight(12 - filter.length, 'z');
+
+    final membersURL = '$baseURL/v1/chain/get_table_rows';
+
+    var request =
+        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":"$lowerBound","upper_bound":"$upperBound","index_position":1,"key_type":"i64","limit":"100","reverse":false,"show_payer":false}';
+
+    return http
+        .post(membersURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              List<dynamic> allAccounts = body['rows'].toList();
+              return allAccounts.map((item) => MemberModel.fromJson(item)).toList();
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
 }
