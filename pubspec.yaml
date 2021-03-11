@@ -15,6 +15,7 @@ dependencies:
   flutter_bloc: ^6.1.2
   equatable: ^1.2.6
   url_launcher: ^5.7.10
+  step_progress_indicator: ^0.2.5+8
   intl: ^0.16.0
   flutter_localizations:
     sdk: flutter
@@ -124,6 +125,11 @@ flutter:
     - assets/images/explore/person_send_invite.svg
     - assets/images/explore/plant_seed.svg
     - assets/images/explore/thumb_up.svg
+    - assets/images/citizenship/reputation.svg
+    - assets/images/citizenship/community.svg
+    - assets/images/citizenship/planted.svg
+    - assets/images/citizenship/age.svg
+    - assets/images/citizenship/transaction.svg
     - assets/currency/aed.png
     - assets/currency/bdt.png
     - assets/currency/bzd.png
