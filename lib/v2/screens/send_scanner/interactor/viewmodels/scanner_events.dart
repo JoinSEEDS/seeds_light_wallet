@@ -17,7 +17,3 @@ class ShowError extends ScannerEvent {
   @override
   String toString() => 'ShowError: { error: $error }';
 }
-
-class ShowLoading extends ScannerEvent {}
-
-class Scan extends ScannerEvent {}
