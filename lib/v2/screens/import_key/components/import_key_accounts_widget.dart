@@ -9,13 +9,14 @@ import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/import_key/interactor/import_key_bloc.dart';
+import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_events.dart';
 import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_state.dart';
 
 class ImportKeyAccountsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ImportKeyBloc, ImportKeyState>(
-      builder: (context, ImportKeyState state) {
+      builder: (BuildContext context, ImportKeyState state) {
         switch (state.pageState) {
           case PageState.initial:
             return const SizedBox.shrink();
@@ -26,7 +27,9 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(16),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                            onTap: () => () {},
+                            onTap: () {
+                              context.read<ImportKeyBloc>().add(AccountSelected(account: profile.account));
+                            },
                             child: Ink(
                               decoration: BoxDecoration(
                                 color: AppColors.lightGreen2,

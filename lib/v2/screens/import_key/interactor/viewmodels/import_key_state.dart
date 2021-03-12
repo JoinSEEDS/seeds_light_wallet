@@ -7,9 +7,10 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 class ImportKeyState extends Equatable {
   final PageState pageState;
   final String errorMessage;
+  final String privateKey;
   final List<ProfileModel> accounts;
 
-  const ImportKeyState({@required this.pageState, this.errorMessage, this.accounts});
+  const ImportKeyState({@required this.pageState, this.errorMessage, this.accounts, this.privateKey});
 
   @override
   List<Object> get props => [pageState];
@@ -18,11 +19,13 @@ class ImportKeyState extends Equatable {
     PageState pageState,
     String errorMessage,
     List<ProfileModel> accounts,
+    String privateKey,
   }) {
     return ImportKeyState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage ?? this.errorMessage,
       accounts: accounts ?? this.accounts,
+      privateKey: privateKey ?? this.privateKey,
     );
   }
 
@@ -31,6 +34,7 @@ class ImportKeyState extends Equatable {
       pageState: PageState.initial,
       errorMessage: null,
       accounts: null,
+      privateKey: null,
     );
   }
 }

@@ -55,8 +55,7 @@ class Onboarding extends StatelessWidget {
             child: IntroViewsFlutter(
               featurePages,
               onTapDoneButton: () async {
-                NavigationService.of(context)
-                    .navigateTo(Routes.joinProcess, null, true);
+                NavigationService.of(context).navigateTo(Routes.login, null, true);
               },
               doneButtonPersist: true,
               nextText: Text("NEXT".i18n),
