@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:seeds/v2/components/scanner/interactor/scanner_bloc.dart';
+import 'package:seeds/v2/components/scanner/interactor/viewmodels/scanner_events.dart';
+import 'package:seeds/v2/components/scanner/interactor/viewmodels/scanner_state.dart';
 import 'package:seeds/v2/components/seeds_qr_code_scanner_widget.dart';
-import 'package:seeds/v2/screens/scanner/interactor/scanner_bloc.dart';
-import 'package:seeds/v2/screens/scanner/interactor/viewmodels/scanner_events.dart';
-import 'package:seeds/v2/screens/scanner/interactor/viewmodels/scanner_state.dart';
 
 /// Scanner SCREEN
 class ScannerScreen extends StatefulWidget {

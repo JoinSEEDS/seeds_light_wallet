@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:seeds/v2/screens/scanner/interactor/viewmodels/scanner_events.dart';
-import 'package:seeds/v2/screens/scanner/interactor/viewmodels/scanner_state.dart';
+import 'package:seeds/v2/components/scanner/interactor/viewmodels/scanner_events.dart';
+import 'package:seeds/v2/components/scanner/interactor/viewmodels/scanner_state.dart';
 
 /// --- BLOC
 class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
