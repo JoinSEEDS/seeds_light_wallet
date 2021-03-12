@@ -36,10 +36,11 @@ class SecurityCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
+        borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         onTap: onTap,
-        child: Container(
+        child: Ink(
           decoration: BoxDecoration(
-            color: AppColors.lightGreen2,
+            color: AppColors.darkGreen2,
             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           ),
           child: Row(
@@ -60,20 +61,26 @@ class SecurityCard extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 16.0, bottom: 10.0),
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                title,
-                                style: Theme.of(context).textTheme.button,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      title,
+                                      style: Theme.of(context).textTheme.button,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            if (titleWidget != null) titleWidget,
-                          ],
-                        ),
+                          ),
+                          if (titleWidget != null) titleWidget,
+                        ],
                       ),
                       const DividerJungle(),
                       Padding(
