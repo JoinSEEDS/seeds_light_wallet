@@ -262,6 +262,7 @@ class HttpService {
     }
   }
 
+  /// V2 is now getMemberByAccountName
   Future<MemberModel> getMember(String accountName) async {
     print('[http] get member');
 
@@ -294,6 +295,7 @@ class HttpService {
     }
   }
 
+  /// In V2 use future.wait on getMemberByAccountName call
   Future<List<MemberModel>> getMembersByIds(List<String> accountNames) async {
     print('[http] get getMembersByIds ' + accountNames.length.toString());
 
