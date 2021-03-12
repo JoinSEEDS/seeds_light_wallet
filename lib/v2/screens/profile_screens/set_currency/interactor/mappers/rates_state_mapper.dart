@@ -14,13 +14,11 @@ class RateStateMapper extends StateMapper {
       final allCurrencies = currencies.map((currency) => Currency.from(json: currency)).toList();
       // Get only system available currencies from allCurrencies
       var availables = allCurrencies.where((i) => loaded.contains(i.flag)).toList();
-      // Get only currencies match the user query
-      final queryResult = availables.where((i) => i.code.contains(currentState.currentQuery)).toList();
 
       return currentState.copyWith(
         pageState: PageState.success,
         availableCurrencies: availables,
-        queryCurrenciesResults: queryResult,
+        queryCurrenciesResults: availables,
       );
     }
   }

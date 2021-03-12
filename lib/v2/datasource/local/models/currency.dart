@@ -106,14 +106,27 @@ class Currency {
   final String symbol;
 
   ///The currency flag code
-  ///
-  /// To get flag unicode(Emoji) use [countryCodeToEmoji]
   final String flag;
 
   ///The currency number
   final String number;
 
   Currency({this.code, this.name, this.symbol, this.flag, this.number});
+
+  String get flagEmoji {
+    if (flag == null || flag.isEmpty) {
+      return '';
+    }
+    // 0x41 is Letter A
+    // 0x1F1E6 is Regional Indicator Symbol Letter A
+    // Example :
+    // firstLetter U => 20 + 0x1F1E6
+    // secondLetter S => 18 + 0x1F1E6
+    // See: https://en.wikipedia.org/wiki/Regional_Indicator_Symbol
+    final int firstLetter = flag.codeUnitAt(0) - 0x41 + 0x1F1E6;
+    final int secondLetter = flag.codeUnitAt(1) - 0x41 + 0x1F1E6;
+    return String.fromCharCode(firstLetter) + String.fromCharCode(secondLetter);
+  }
 
   Currency.from({Map<String, String> json})
       : code = json['code'],

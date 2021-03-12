@@ -10,6 +10,12 @@ abstract class SetCurrencyEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LoadCurrencies extends SetCurrencyEvent {
+  const LoadCurrencies();
+  @override
+  String toString() => 'LoadCurrencies';
+}
+
 class OnQueryChanged extends SetCurrencyEvent {
   final String query;
 

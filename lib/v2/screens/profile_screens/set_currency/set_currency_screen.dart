@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/set_currency.i18n.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
-import 'package:seeds/v2/datasource/local/models/currency.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/interactor/viewmodels/bloc.dart';
@@ -21,7 +20,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
   @override
   void initState() {
     super.initState();
-    _setCurrencyBloc = SetCurrencyBloc();
+    _setCurrencyBloc = SetCurrencyBloc()..add(const LoadCurrencies());
     _queryController.addListener(_onQueryChanged);
   }
 
@@ -62,7 +61,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                       return ListView.builder(
                         itemCount: state.queryCurrenciesResults.length,
                         itemBuilder: (ctx, index) => ListTile(
-                          leading: Text(countryCodeToEmoji(state.queryCurrenciesResults[index]),
+                          leading: Text(state.queryCurrenciesResults[index].flagEmoji,
                               style: Theme.of(context).textTheme.headline4),
                           title: Text(state.queryCurrenciesResults[index].code),
                           subtitle: Text(state.queryCurrenciesResults[index].name),
@@ -74,7 +73,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                       );
                       break;
                     default:
-                      return const SizedBox.shrink(); // An error view??
+                      return const SizedBox.shrink();
                   }
                 },
               ),
@@ -83,19 +82,6 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
         ),
       ),
     );
-  }
-
-  String countryCodeToEmoji(Currency currency) {
-    final String countryCode = currency.flag;
-    // 0x41 is Letter A
-    // 0x1F1E6 is Regional Indicator Symbol Letter A
-    // Example :
-    // firstLetter U => 20 + 0x1F1E6
-    // secondLetter S => 18 + 0x1F1E6
-    // See: https://en.wikipedia.org/wiki/Regional_Indicator_Symbol
-    final int firstLetter = countryCode.codeUnitAt(0) - 0x41 + 0x1F1E6;
-    final int secondLetter = countryCode.codeUnitAt(1) - 0x41 + 0x1F1E6;
-    return String.fromCharCode(firstLetter) + String.fromCharCode(secondLetter);
   }
 
   void _onQueryChanged() {
