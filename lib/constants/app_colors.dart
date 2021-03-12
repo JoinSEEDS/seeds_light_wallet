@@ -26,8 +26,11 @@ class AppColors {
   static const green2 = Color(0xFF238C32);
   static const green3 = Color(0xFF2EE53F);
 
+  /// User Primary Color
+  // static const darkGreen1 = Color(0xFF0F2617);
   static const darkGreen2 = Color(0xFF1D3726);
   static const darkGreen3 = Color(0xFF273C2E);
+  static const darkGreen4 = Color(0xFF0F1E14);
   static const canopy = Color(0xFF1EAF32);
 
   /// Lighter Shades
@@ -37,6 +40,9 @@ class AppColors {
 
   static const lightGreen1 = Color(0xFF283D2E);
   static const lightGreen2 = Color(0xFF2B4835);
+  static const lightGreen3 = Color(0xFF295431);
+  static const lightGreen4 = Color(0xFF12411C);
+  static const lightGreen5 = Color(0xFFE7F5DE);
 
   static const whiteYellow = Color(0xFFFDFFF2);
 
@@ -76,13 +82,13 @@ class AppColors {
   /// Status Colors
   static const red1 = Color(0xFFFF2919);
   static const red2 = Color(0xFFBD4545);
-  static final lightRed = const Color(0xFFFF2919).withOpacity(0.15);
+  static final deepRed = const Color(0xFFFF2919).withOpacity(0.15);
 
   static const orangeYellow = Color(0xFFE59900);
   static const tagGreen1 = Color(0xFF1E3326);
+  static const tagGreen2 = Color(0xFF113119);
   static const tagBlue = Color(0xFF239BB2);
-  static final lightYellow = const Color(0xFFE59900).withOpacity(0.15);
-  static const tagGreen2 = Color(0x113119);
+  static final muddyYellow = const Color(0xFFE59900).withOpacity(0.15);
   static const subtitle = Color(0xCC52CC);
 
   // DEPRECATED COLORS. DO NOT USE THESE COLORS ANYMORE
