@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:seeds/v2/screens/scanner/interactor/viewmodels/scanner_events.dart';
-import 'package:seeds/v2/screens/scanner/interactor/viewmodels/scanner_state.dart';
+import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/scanner_events.dart';
+import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/scanner_state.dart';
 
 /// --- BLOC
 class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
@@ -9,11 +10,7 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
   @override
   Stream<ScannerState> mapEventToState(ScannerEvent event) async* {
     if (event is ShowError) {
-      yield state.copyWith(pageState: PageState.error);
-    } else if (event is ShowLoading) {
-      yield state.copyWith(pageState: PageState.processing);
-    } else if (event is Scan) {
-      yield state.copyWith(pageState: PageState.scan);
+      yield state.copyWith(pageState: PageState.failure);
     }
   }
 }

@@ -94,7 +94,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       case PageState.processing:
         return const CircularProgressIndicator();
       case PageState.error:
-        return const SizedBox.shrink(); // Show Error ??
+        return const SizedBox.shrink();
       default:
         return const SizedBox.shrink();
     }
