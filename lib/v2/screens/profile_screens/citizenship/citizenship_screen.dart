@@ -5,7 +5,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:seeds/v2/screens/profile_screens/citizenship/components/citizenship_progress_item.dart';
+import 'package:seeds/v2/components/circular_progress_item.dart';
 import 'package:seeds/i18n/citizenship.18n.dart';
 
 /// CITIZENSHIP SCREEN
@@ -38,7 +38,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
       ..addListener(() {
         setState(() => _reputation = _reputationAnimation.value.toInt());
       });
-    _visitorsAnimation = Tween<double>(begin: 0, end: 1).animate(_controller)
+    _visitorsAnimation = Tween<double>(begin: 0, end: 100).animate(_controller)
       ..addListener(() {
         setState(() => _visitors = _visitorsAnimation.value.toInt());
       });
@@ -50,11 +50,11 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
       ..addListener(() {
         setState(() => _seeds = _seedsAnimation.value.toInt());
       });
-    _transactionsAnimation = Tween<double>(begin: 0, end: 3).animate(_controller)
+    _transactionsAnimation = Tween<double>(begin: 0, end: 300).animate(_controller)
       ..addListener(() {
         setState(() => _transactions = _transactionsAnimation.value.toInt());
       });
-    _friendsAnimation = Tween<double>(begin: 0, end: 1).animate(_controller)
+    _friendsAnimation = Tween<double>(begin: 0, end: 100).animate(_controller)
       ..addListener(() {
         setState(() => _friends = _friendsAnimation.value.toInt());
       });
@@ -72,123 +72,121 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    const ProfileAvatar(
-                      size: 100,
-                      image: '',
-                      nickname: 'raul',
-                      account: 'raul',
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      'Raul',
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      'Resident',
-                      style: Theme.of(context).textTheme.headline7LowEmphasis,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 8.0),
-            Container(
-              decoration: const BoxDecoration(
-                color: AppColors.lightGreen2,
-                borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  const ProfileAvatar(
+                    size: 100,
+                    image: '',
+                    nickname: 'raul',
+                    account: 'raul',
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Raul',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Resident',
+                    style: Theme.of(context).textTheme.headline7LowEmphasis,
+                  ),
+                ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Progress Timeline'.i18n, style: Theme.of(context).textTheme.buttonHighEmphasis),
-                        Text('$_timeLine%', style: Theme.of(context).textTheme.subtitle4),
-                      ],
-                    ),
-                    const SizedBox(height: 16.0),
-                    StepProgressIndicator(
-                      totalSteps: 100,
-                      currentStep: _timeLine,
-                      size: 4,
-                      padding: 0,
-                      selectedColor: AppColors.green1,
-                      unselectedColor: AppColors.primary,
-                      roundedEdges: const Radius.circular(10),
-                    ),
-                    const SizedBox(height: 8.0),
-                  ],
-                ),
+            ],
+          ),
+          const SizedBox(height: 16.0),
+          Container(
+            decoration: const BoxDecoration(
+              color: AppColors.lightGreen2,
+              borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Progress Timeline'.i18n, style: Theme.of(context).textTheme.buttonHighEmphasis),
+                      Text('$_timeLine%', style: Theme.of(context).textTheme.subtitle4),
+                    ],
+                  ),
+                  const SizedBox(height: 16.0),
+                  StepProgressIndicator(
+                    totalSteps: 100,
+                    currentStep: _timeLine,
+                    size: 4,
+                    padding: 0,
+                    selectedColor: AppColors.green1,
+                    unselectedColor: AppColors.primary,
+                    roundedEdges: const Radius.circular(10),
+                  ),
+                  const SizedBox(height: 8.0),
+                ],
               ),
             ),
-            const SizedBox(height: 26.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CitizenshipProgressItem(
-                  icon: SvgPicture.asset('assets/images/citizenship/reputation.svg'),
-                  totalStep: 83,
-                  currentStep: _reputation,
-                  title: 'Reputation Score'.i18n,
-                  rate: '83/$_reputation',
-                ),
-                CitizenshipProgressItem(
-                  icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
-                  totalStep: 1,
-                  currentStep: _visitors,
-                  title: 'Visitors Invited'.i18n,
-                  rate: '$_visitors/1',
-                ),
-                CitizenshipProgressItem(
-                  icon: SvgPicture.asset('assets/images/citizenship/age.svg'),
-                  totalStep: 291,
-                  currentStep: _age,
-                  title: 'Account Age'.i18n,
-                  rate: '291/$_age',
-                ),
-              ],
-            ),
-            const SizedBox(height: 35.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CitizenshipProgressItem(
-                  icon: SvgPicture.asset('assets/images/citizenship/planted.svg'),
-                  totalStep: 213,
-                  currentStep: _seeds,
-                  title: 'Planted Seeds'.i18n,
-                  rate: '213/$_seeds',
-                ),
-                CitizenshipProgressItem(
-                  icon: SvgPicture.asset('assets/images/citizenship/transaction.svg'),
-                  totalStep: 5,
-                  currentStep: _transactions,
-                  title: 'Transactions with Seeds'.i18n,
-                  rate: '$_transactions/5',
-                ),
-                CitizenshipProgressItem(
-                  icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
-                  totalStep: 3,
-                  currentStep: _friends,
-                  title: 'Friends Invited'.i18n,
-                  rate: '$_friends/3',
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 26.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CircularProgressItem(
+                icon: SvgPicture.asset('assets/images/citizenship/reputation.svg'),
+                totalStep: 83,
+                currentStep: _reputation,
+                title: 'Reputation Score'.i18n,
+                rate: '83/$_reputation',
+              ),
+              CircularProgressItem(
+                icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
+                totalStep: 100,
+                currentStep: _visitors,
+                title: 'Visitors Invited'.i18n,
+                rate: '${_visitors ~/ 100}/1',
+              ),
+              CircularProgressItem(
+                icon: SvgPicture.asset('assets/images/citizenship/age.svg'),
+                totalStep: 291,
+                currentStep: _age,
+                title: 'Account Age'.i18n,
+                rate: '291/$_age',
+              ),
+            ],
+          ),
+          const SizedBox(height: 35.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CircularProgressItem(
+                icon: SvgPicture.asset('assets/images/citizenship/planted.svg'),
+                totalStep: 213,
+                currentStep: _seeds,
+                title: 'Planted Seeds'.i18n,
+                rate: '213/$_seeds',
+              ),
+              CircularProgressItem(
+                icon: SvgPicture.asset('assets/images/citizenship/transaction.svg'),
+                totalStep: 500,
+                currentStep: _transactions,
+                title: 'Transactions with Seeds'.i18n,
+                rate: '${_transactions ~/ 100}/5',
+              ),
+              CircularProgressItem(
+                icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
+                totalStep: 300,
+                currentStep: _friends,
+                title: 'Friends Invited'.i18n,
+                rate: '${_friends ~/ 100}/3',
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
