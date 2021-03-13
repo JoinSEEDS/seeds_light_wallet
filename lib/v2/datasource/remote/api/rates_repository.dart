@@ -10,7 +10,7 @@ class RatesRepository extends NetworkRepository {
     print("[http] get fiat rates");
 
     return http
-        .get("https://api.exchangeratesapi.io/latest")
+        .get("https://api.exchangeratesapi.io/latest?base=USD")
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return FiatRateModel.fromJson(body);
             }))
