@@ -73,10 +73,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                           data: state.pageCommand.resultData.data,
                         ),
                         true);
-                    return Text(
-                      "Success",
-                      style: Theme.of(context).textTheme.caption,
-                    );
+                    return const SizedBox.shrink();
                   default:
                     return const SizedBox.shrink();
                 }

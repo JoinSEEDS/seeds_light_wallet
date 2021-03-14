@@ -14,7 +14,7 @@ class SendPageState extends Equatable {
   @override
   List<Object> get props => [pageState];
 
-  SendPageState copyWith({PageState pageState, String error, PageCommand pageCommand}) {
+  SendPageState copyWith({PageState pageState, String error, NavigateToCustomTransaction pageCommand}) {
     return SendPageState(
         pageState: pageState ?? this.pageState,
         error: error ?? this.error,
@@ -26,9 +26,7 @@ class SendPageState extends Equatable {
   }
 }
 
-class PageCommand {}
-
-class NavigateToCustomTransaction extends PageCommand {
+class NavigateToCustomTransaction {
   final ScanQrCodeResultData resultData;
 
   NavigateToCustomTransaction(this.resultData);
