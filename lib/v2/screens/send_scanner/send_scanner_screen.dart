@@ -35,7 +35,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
           children: [
             const SizedBox(height: 32),
             Text("Scan QR Code to Send", style: Theme.of(context).textTheme.button),
-            const SizedBox(height: 32),
+            const SizedBox(height: 82),
             _scannerScreen,
             BlocBuilder<SendPageBloc, SendPageState>(
               builder: (context, SendPageState state) {
