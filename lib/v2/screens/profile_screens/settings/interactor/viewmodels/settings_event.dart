@@ -10,6 +10,7 @@ abstract class SettingsEvent extends Equatable {
 }
 
 class LoadProfile extends SettingsEvent {
+  const LoadProfile();
   @override
   String toString() => 'LoadProfile';
 }
@@ -24,4 +25,10 @@ class OnNameChanged extends SettingsEvent {
 
   @override
   String toString() => 'OnNameChanged { name: $name }';
+}
+
+class OnCurrencyChanged extends SettingsEvent {
+  const OnCurrencyChanged();
+  @override
+  String toString() => 'OnCurrencyChanged';
 }

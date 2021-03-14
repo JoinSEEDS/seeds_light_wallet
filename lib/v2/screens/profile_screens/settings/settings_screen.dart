@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/i18n/settings.i18n.dart';
@@ -20,7 +21,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Settings'.i18n)),
       body: BlocProvider(
-        create: (context) => SettingsBloc()..add(LoadProfile()),
+        create: (context) => SettingsBloc()..add(const LoadProfile()),
         child: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
             switch (state.pageState) {
@@ -58,12 +59,15 @@ class SettingsScreen extends StatelessWidget {
                     SettingsCard(
                       icon: Icons.attach_money_sharp,
                       title: 'Currency'.i18n,
-                      titleValue: 'USD',
+                      titleValue: settingsStorage.selectedFiatCurrency,
                       descriptionText:
                           'Setting your local currency lets you easily switch between your local and preferred currency.'
                               .i18n,
-                      onTap: () {
-                        NavigationService.of(context).navigateTo(Routes.setCurrency);
+                      onTap: () async {
+                        final res = await NavigationService.of(context).navigateTo(Routes.setCurrency);
+                        if (res != null) {
+                          BlocProvider.of<SettingsBloc>(context).add(const OnCurrencyChanged());
+                        }
                       },
                     ),
                     SettingsCard(
