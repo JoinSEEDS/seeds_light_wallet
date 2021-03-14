@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/ScanQrCodeResultData.dart';
+import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/scan_qr_code_result_data.dart';
 
 class SendPageState extends Equatable {
   final PageState pageState;
   final String error;
-  final PageCommand pageCommand;
+  final NavigateToCustomTransaction pageCommand;
 
   const SendPageState({@required this.pageState, this.error, this.pageCommand});
 

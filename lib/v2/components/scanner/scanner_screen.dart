@@ -53,6 +53,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return BlocProvider(
       create: (BuildContext context) => widget._scannerBloc,
       child: BlocBuilder<ScannerBloc, ScannerState>(builder: (context, ScannerState state) {
+        if(state.pageState is Stop) {
+          controller.dispose();
+          const SizedBox.shrink();
+        }
+
         return Stack(
           alignment: Alignment.center,
           children: [
