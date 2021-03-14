@@ -21,5 +21,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event is OnNameChanged) {
       yield state.copyWith(profile: state.profile.copyWith(nickname: event.name));
     }
+    if (event is OnCurrencyChanged) {
+      // Just change the state to trigger repaint
+      yield state.copyWith(pageState: PageState.loading);
+      yield state.copyWith(pageState: PageState.success);
+    }
   }
 }

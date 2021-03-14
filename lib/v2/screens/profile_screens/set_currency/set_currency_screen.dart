@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/set_currency.i18n.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/interactor/viewmodels/bloc.dart';
 
 class SetCurrencyScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
   @override
   void initState() {
     super.initState();
-    _setCurrencyBloc = SetCurrencyBloc();
+    _setCurrencyBloc = SetCurrencyBloc()..add(const LoadCurrencies());
     _queryController.addListener(_onQueryChanged);
   }
 
@@ -58,21 +59,21 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                       break;
                     case PageState.success:
                       return ListView.builder(
-                        itemCount: state.currencyResult.length,
+                        itemCount: state.queryCurrenciesResults.length,
                         itemBuilder: (ctx, index) => ListTile(
-                          leading: Image.asset('assets/currency/${state.currencyResult[index].toLowerCase()}.png'),
-                          title: Text(state.currencyResult[index]),
+                          leading: Text(state.queryCurrenciesResults[index].flagEmoji,
+                              style: Theme.of(context).textTheme.headline4),
+                          title: Text(state.queryCurrenciesResults[index].code),
+                          subtitle: Text(state.queryCurrenciesResults[index].name),
                           onTap: () {
-                            // TODO(Raul): this is a shared pref value must be handled by a global bloc Example: _settingsBloc.add(OnSelectedFiatCurrency(currency: state.currencyResult[index]));
-
-                            // SettingsNotifier.of(context).saveSelectedFiatCurrency(currencies[index]);
-                            Navigator.of(context).pop();
+                            settingsStorage.saveSelectedFiatCurrency(state.queryCurrenciesResults[index].code);
+                            Navigator.of(context).pop(state.queryCurrenciesResults[index].code);
                           },
                         ),
                       );
                       break;
                     default:
-                      return const SizedBox.shrink(); // An error view??
+                      return const SizedBox.shrink();
                   }
                 },
               ),
