@@ -4,16 +4,25 @@ import 'package:meta/meta.dart';
 
 /// --- EVENTS
 @immutable
-abstract class ScannerEvent extends Equatable {
+abstract class SendPageEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class ShowError extends ScannerEvent {
+class ShowError extends SendPageEvent {
   final String error;
 
   ShowError({@required this.error}) : assert(error != null);
 
   @override
   String toString() => 'ShowError: { error: $error }';
+}
+
+class ExecuteScanResult extends SendPageEvent {
+  final String scanResult;
+
+  ExecuteScanResult({@required this.scanResult}) : assert(scanResult != null);
+
+  @override
+  String toString() => 'ExecuteScanResult: { scanResult: $scanResult }';
 }
