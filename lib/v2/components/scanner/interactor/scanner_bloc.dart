@@ -14,6 +14,8 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
       yield state.copyWith(pageState: PageState.processing);
     } else if (event is Scan) {
       yield state.copyWith(pageState: PageState.scan);
+    } else if(event is Stop) {
+      state.copyWith(pageState: PageState.stop);
     }
   }
 }

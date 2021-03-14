@@ -21,3 +21,5 @@ class ShowError extends ScannerEvent {
 class ShowLoading extends ScannerEvent {}
 
 class Scan extends ScannerEvent {}
+
+class Stop extends ScannerEvent {}

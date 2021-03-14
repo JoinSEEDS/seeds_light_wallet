@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/scanner/scanner_screen.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/v2/screens/send_scanner/interactor/scanner_bloc.dart';
 import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/scanner_events.dart';
 import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/scanner_state.dart';
@@ -62,6 +64,15 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                               color: AppColors.black, borderRadius: BorderRadius.all(Radius.circular(8)))),
                     );
                   case PageState.success:
+                    _scannerScreen.stop();
+                    // NavigationService.of(context).navigateTo(
+                    //     Routes.customTransaction,
+                    //     CustomTransactionArguments(
+                    //       account: state.pageCommand..,
+                    //       name: action.name,
+                    //       data: data,
+                    //     ),
+                    //     true);
                     return Text(
                       "Success",
                       style: Theme.of(context).textTheme.caption,

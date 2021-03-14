@@ -5,6 +5,7 @@ import 'package:seeds/v2/datasource/remote/api/balance_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/planted_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/voice_repository.dart';
+import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/ScanQrCodeResultData.dart';
 
 export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';
@@ -27,24 +28,19 @@ class QrCodeService {
 }
 
 Result processResolvedRequest(_SeedsESR esr) {
-  if (canProcess(esr)) {
-    var action = esr.actions.first;
-    if (action.account.isNotEmpty && action.name.isNotEmpty) {
-      Map<String, dynamic> data = Map<String, dynamic>.from(action.data);
-      print(" processResolvedRequest : Success QR code");
-      return ValueResult(data);
-    } else {
-      print("processResolvedRequest: unable to read QR, continuing");
-      return ErrorResult("Unable to read QR, continuing");
-    }
+  Action action = esr.actions.first;
+  if (_canProcess(action)) {
+    Map<String, dynamic> data = Map<String, dynamic>.from(action.data);
+    print(" processResolvedRequest : Success QR code");
+    return ValueResult(ScanQrCodeResultData(data: data, accountName: action.account, name: action.name));
   } else {
     print("processResolvedRequest: canProcess is false: ");
     return ErrorResult("Invalid QR code");
   }
 }
 
-bool canProcess(_SeedsESR esr) {
-  return esr.actions.first.account.isNotEmpty && esr.actions.first.name.isNotEmpty;
+bool _canProcess(Action action) {
+  return action.account.isNotEmpty && action.name.isNotEmpty;
 }
 
 class _SeedsESR {

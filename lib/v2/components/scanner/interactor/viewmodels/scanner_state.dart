@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-enum PageState { scan, processing, success, error }
+enum PageState { scan, processing, success, error, stop }
 
 class ScannerState extends Equatable {
   final PageState pageState;

@@ -25,6 +25,10 @@ class ScannerScreen extends StatefulWidget {
     _scannerBloc.add(ShowLoading());
   }
 
+  void stop() {
+    _scannerBloc.add(Stop());
+  }
+
   void resultCallBack(String scanResult) {
     resultCallback(scanResult);
   }
@@ -94,6 +98,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
       case PageState.processing:
         return const CircularProgressIndicator();
       case PageState.error:
+        return const SizedBox.shrink();
+      case PageState.stop:
         return const SizedBox.shrink();
       default:
         return const SizedBox.shrink();

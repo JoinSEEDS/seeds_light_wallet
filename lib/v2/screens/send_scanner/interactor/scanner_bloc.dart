@@ -16,12 +16,15 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
     if (event is ExecuteScanResult) {
       yield state.copyWith(pageState: PageState.loading);
 
-      var result = await ProcessScanResultUseCase().run(event.scanResult);
+      Result result = await ProcessScanResultUseCase().run(event.scanResult);
 
       if (result is ErrorResult) {
         yield state.copyWith(pageState: PageState.failure, error: result.error.toString());
       } else {
-        yield state.copyWith(pageState: PageState.success);
+        yield state.copyWith(
+          pageState: PageState.success,
+          pageCommand: NavigateToCustomTransaction(result.asValue.value),
+        );
       }
     }
   }
