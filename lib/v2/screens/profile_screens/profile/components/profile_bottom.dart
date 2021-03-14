@@ -102,7 +102,7 @@ class ProfileBottom extends StatelessWidget {
                                   ),
                                   color: AppColors.green1,
                                   padding: const EdgeInsets.all(8.0),
-                                  onPressed: () {},
+                                  onPressed: () => NavigationService.of(context).navigateTo(Routes.citizenship),
                                   child: Text(
                                     'View your progress'.i18n,
                                     style: Theme.of(context).textTheme.subtitle2,
