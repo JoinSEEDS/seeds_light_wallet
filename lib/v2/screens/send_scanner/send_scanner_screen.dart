@@ -22,7 +22,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
   @override
   void initState() {
     super.initState();
-    _scannerScreen = ScannerScreen(resultCallback: onResult);
+    _scannerScreen = ScannerScreen(resultCallBack: onResult);
   }
 
   @override

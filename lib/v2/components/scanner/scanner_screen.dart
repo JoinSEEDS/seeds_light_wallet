@@ -9,9 +9,9 @@ import 'package:seeds/v2/components/scanner/seeds_qr_code_scanner_widget.dart';
 /// Scanner SCREEN
 class ScannerScreen extends StatefulWidget {
   final ScannerBloc _scannerBloc = ScannerBloc();
-  final Function resultCallback;
+  final ValueSetter<String> resultCallBack;
 
-  ScannerScreen({Key key, this.resultCallback}) : super(key: key);
+  ScannerScreen({Key key, this.resultCallBack}) : super(key: key);
 
   void scan() {
     _scannerBloc.add(Scan());
@@ -23,10 +23,6 @@ class ScannerScreen extends StatefulWidget {
 
   void stop() {
     _scannerBloc.add(Stop());
-  }
-
-  void resultCallBack(String scanResult) {
-    resultCallback(scanResult);
   }
 
   @override
