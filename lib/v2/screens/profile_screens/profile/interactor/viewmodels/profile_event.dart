@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 /// --- EVENTS
 @immutable
 abstract class ProfileEvent extends Equatable {
+  const ProfileEvent();
   @override
   List<Object> get props => [];
 }
@@ -11,4 +12,22 @@ abstract class ProfileEvent extends Equatable {
 class LoadProfile extends ProfileEvent {
   @override
   String toString() => 'LoadProfile';
+}
+
+class OnNameChanged extends ProfileEvent {
+  final String name;
+
+  const OnNameChanged({@required this.name});
+
+  @override
+  List<Object> get props => [name];
+
+  @override
+  String toString() => 'OnNameChanged { name: $name }';
+}
+
+class OnCurrencyChanged extends ProfileEvent {
+  const OnCurrencyChanged();
+  @override
+  String toString() => 'OnCurrencyChanged';
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 
@@ -35,9 +36,25 @@ class ProfileHeader extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          state.profile?.account ?? '',
-                          style: Theme.of(context).textTheme.headline6,
+                        Row(
+                          children: [
+                            Text(
+                              state.profile?.account ?? '',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.edit_outlined),
+                              onPressed: () async {
+                                var res = await NavigationService.of(context).navigateTo(
+                                  Routes.editName,
+                                  state.profile.nickname,
+                                );
+                                if (res != null) {
+                                  BlocProvider.of<ProfileBloc>(context).add(OnNameChanged(name: res as String));
+                                }
+                              },
+                            ),
+                          ],
                         ),
                         Text(
                           state.profile?.status ?? '',
