@@ -12,10 +12,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is LoadProfile) {
       yield state.copyWith(pageState: PageState.loading);
-
       var result = await GetProfileUseCase().run();
-
       yield ProfileStateMapper().mapResultToState(state, result);
+    }
+    if (event is OnNameChanged) {
+      yield state.copyWith(profile: state.profile.copyWith(nickname: event.name));
+    }
+    if (event is OnCurrencyChanged) {
+      // Change the state to trigger repaint
+      yield state.copyWith(pageState: PageState.loading);
+      yield state.copyWith(pageState: PageState.success);
     }
   }
 }

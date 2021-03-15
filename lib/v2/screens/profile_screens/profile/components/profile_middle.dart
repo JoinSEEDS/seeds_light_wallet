@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 // TODO(raul): this is not a list in the ProfileModel should I create a getter that returns a combined skills and interest list of Strings ??
 const List<String> skillsAndInterest = ['Weaver', 'Facilitador', 'SharingXP'];
@@ -31,18 +34,25 @@ class ProfileMiddle extends StatelessWidget {
             onTap: () {},
           ),
           const DividerJungle(),
-          ListTile(
-            leading: const Icon(Icons.attach_money_sharp, color: AppColors.green1),
-            title: Text(
-              'Currency'.i18n,
-              style: Theme.of(context).textTheme.subtitle2HighEmphasis,
-            ),
-            trailing: Text(
-              settingsStorage.selectedFiatCurrency,
-              style: Theme.of(context).textTheme.subtitle1HighEmphasis,
-            ),
-            onTap: () {},
-          ),
+          BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
+            return ListTile(
+              leading: const Icon(Icons.attach_money_sharp, color: AppColors.green1),
+              title: Text(
+                'Currency'.i18n,
+                style: Theme.of(context).textTheme.subtitle2HighEmphasis,
+              ),
+              trailing: Text(
+                settingsStorage.selectedFiatCurrency,
+                style: Theme.of(context).textTheme.subtitle1HighEmphasis,
+              ),
+              onTap: () async {
+                final res = await NavigationService.of(context).navigateTo(Routes.setCurrency);
+                if (res != null) {
+                  BlocProvider.of<ProfileBloc>(context).add(const OnCurrencyChanged());
+                }
+              },
+            );
+          }),
           const DividerJungle(),
           ListTile(
             leading: const Icon(

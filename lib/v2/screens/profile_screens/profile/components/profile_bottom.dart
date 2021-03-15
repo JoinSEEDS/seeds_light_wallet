@@ -120,8 +120,6 @@ class ProfileBottom extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16.0),
-          CardListTile(leadingIcon: Icons.settings_outlined, title: 'Settings'.i18n, route: Routes.settings),
-          const SizedBox(height: 8.0),
           CardListTile(leadingIcon: Icons.verified_user_outlined, title: 'Security'.i18n, route: Routes.security),
           const SizedBox(height: 8.0),
           CardListTile(leadingIcon: Icons.support, title: 'Support'.i18n, route: Routes.support),

@@ -67,7 +67,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                           subtitle: Text(state.queryCurrenciesResults[index].name),
                           onTap: () {
                             settingsStorage.saveSelectedFiatCurrency(state.queryCurrenciesResults[index].code);
-                            Navigator.of(context).pop(state.queryCurrenciesResults[index].code);
+                            Navigator.of(context).pop(true);
                           },
                         ),
                       );
