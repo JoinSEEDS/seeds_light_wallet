@@ -11,7 +11,7 @@ class ScannerScreen extends StatefulWidget {
   final ScannerBloc _scannerBloc = ScannerBloc();
   final ValueSetter<String> resultCallBack;
 
-  ScannerScreen({Key key, this.resultCallBack}) : super(key: key);
+  ScannerScreen({Key key, @required this.resultCallBack}) : super(key: key);
 
   void scan() {
     _scannerBloc.add(Scan());
