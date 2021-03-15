@@ -7,6 +7,7 @@ import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:seeds/v2/components/circular_progress_item.dart';
 import 'package:seeds/i18n/citizenship.18n.dart';
+import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 /// CITIZENSHIP SCREEN
 class CitizenshipScreen extends StatefulWidget {
@@ -70,6 +71,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
 
   @override
   Widget build(BuildContext context) {
+    final ProfileModel profile = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
@@ -80,20 +82,20 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
             children: [
               Column(
                 children: [
-                  const ProfileAvatar(
+                  ProfileAvatar(
                     size: 100,
-                    image: '',
-                    nickname: 'raul',
-                    account: 'raul',
+                    image: profile.image,
+                    nickname: profile.nickname,
+                    account: profile.account,
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Raul',
+                    profile?.account ?? '',
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Resident',
+                    profile?.status ?? '',
                     style: Theme.of(context).textTheme.headline7LowEmphasis,
                   ),
                 ],
