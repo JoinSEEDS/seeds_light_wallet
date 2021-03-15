@@ -9,7 +9,7 @@ import 'package:seeds/v2/screens/send_scanner/interactor/send_scanner_bloc.dart'
 import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/scanner_events.dart';
 import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/send_scanner_state.dart';
 
-/// Scanner SCREEN
+/// SendScannerScreen SCREEN
 class SendScannerScreen extends StatefulWidget {
   @override
   _SendScannerScreenState createState() => _SendScannerScreenState();
