@@ -9,15 +9,6 @@ abstract class ScannerEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ShowError extends ScannerEvent {
-  final String error;
-
-  ShowError({@required this.error}) : assert(error != null);
-
-  @override
-  String toString() => 'ShowError: { error: $error }';
-}
-
 class ShowLoading extends ScannerEvent {}
 
 class Scan extends ScannerEvent {}
