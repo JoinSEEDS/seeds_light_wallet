@@ -68,7 +68,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
   }
 
   Future<void> _onQRViewCreated(QRViewController controller) async {
-    this._controller = controller;
+    _controller = controller;
 
     controller.scannedDataStream.listen(
       (String scanResult) async {
