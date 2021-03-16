@@ -10,17 +10,17 @@ class SeedsQRCodeScannerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width * 0.85;
     return Center(
       child: Container(
-        width: width * 0.9,
-        height: width * 0.9,
+        width: width,
+        height: width,
         child: Stack(
           children: <Widget>[
             Center(
               child: Container(
-                width: width * 0.9,
-                height: width * 0.9,
+                width: width,
+                height: width,
                 child: QRView(
                   key: qrKey,
                   onQRViewCreated: onQRViewCreated,
@@ -30,15 +30,15 @@ class SeedsQRCodeScannerWidget extends StatelessWidget {
             ),
             Center(
               child: Container(
-                width: width * 0.9,
-                height: width * 0.9,
+                width: width,
+                height: width,
                 decoration: ShapeDecoration(
                     shape: QrScannerOverlayShape(
                         borderLength: width * 0.2,
                         borderRadius: 30,
                         borderWidth: 8,
                         borderColor: AppColors.green1,
-                        cutOutSize: width * 0.9,
+                        cutOutSize: width,
                         overlayColor: AppColors.primary)),
               ),
             ),
