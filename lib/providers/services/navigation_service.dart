@@ -29,10 +29,10 @@ import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
-import 'package:seeds/v2/screens/profile_screens/settings/settings_screen.dart';
 import 'package:seeds/v2/screens/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
@@ -70,10 +70,10 @@ class Routes {
   static final dho = 'DHO';
   static final guardians = 'Guardians';
   static final support = 'Support';
-  static final settings = 'Settings';
   static final security = 'Security';
   static final editName = 'EditName';
   static final setCurrency = "SetCurrency";
+  static final citizenship = 'CitizenShip';
   static final login = "Login";
   static final importKey = "ImportKey";
 }
@@ -130,10 +130,10 @@ class NavigationService {
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
     Routes.support: (_) => const SupportScreen(),
-    Routes.settings: (_) => const SettingsScreen(),
     Routes.security: (_) => const SecurityScreen(),
     Routes.editName: (_) => const EditNameScreen(),
-    Routes.setCurrency: (_) => const SetCurrencyScreen()
+    Routes.setCurrency: (_) => const SetCurrencyScreen(),
+    Routes.citizenship: (_) => const CitizenshipScreen()
   };
 
   final ecosystemRoutes = {

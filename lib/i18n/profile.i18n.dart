@@ -15,8 +15,7 @@ extension Localization on String {
           'Choose Picture': 'Escoger foto',
           'Take a picture': 'Tomar foto',
           'Profile updated successfully.': 'Perfil actualizado con éxito',
-          'An error occured, please try again.':
-              'Ocurrió un error, por favor intentar de nuevo',
+          'An error occured, please try again.': 'Ocurrió un error, por favor intentar de nuevo',
           'Save private key in secure place - to be able to restore access to your wallet later':
               'Guarda la llave privada en un lugar seguro - para poder recuperar acceso a tu billetera luego',
           'Save private key': 'Guarda la llave privada',
@@ -32,7 +31,6 @@ extension Localization on String {
           'to': 'a',
           'Citizen': 'Ciudadano',
           'View your progress': 'Ver tu progreso',
-          'Settings': 'Configuraciones',
           'Security': 'Seguridad',
           'Support': 'Soporte'
         }
