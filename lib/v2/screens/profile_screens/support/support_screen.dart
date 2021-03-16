@@ -73,7 +73,7 @@ class SupportScreen extends StatelessWidget {
                           ),
                           Text(
                             'Seeds Light Wallet',
-                            style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.canopy),
+                            style: Theme.of(context).textTheme.headline8.copyWith(color: AppColors.canopy),
                           ),
                           const SizedBox(height: 8.0),
                           RichText(

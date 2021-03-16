@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_theme.dart';
 
 /// A wigdeg wrapper of TextFormField customized for general inputs
 ///
@@ -64,6 +65,7 @@ class TextFormFieldCustom extends StatelessWidget {
         maxLines: maxLines,
         enabled: enabled,
         validator: validator,
+        style: Theme.of(context).textTheme.subtitle2,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           focusedBorder: const OutlineInputBorder(
@@ -77,11 +79,11 @@ class TextFormFieldCustom extends StatelessWidget {
             color: Colors.red,
             wordSpacing: 4.0,
           ),
-          labelStyle: TextStyle(
-            color: disabledLabelColor == true ? Colors.grey : AppColors.white,
-            letterSpacing: 1.3,
-          ),
-          hintStyle: Theme.of(context).textTheme.subtitle2,
+          labelStyle: Theme.of(context).textTheme.subtitle3.copyWith(
+                color: disabledLabelColor == true ? Colors.grey : AppColors.white,
+                letterSpacing: 1.3,
+              ),
+          hintStyle: Theme.of(context).textTheme.button,
           contentPadding: const EdgeInsets.all(16.0),
           border: OutlineInputBorder(
             gapPadding: 0.0,

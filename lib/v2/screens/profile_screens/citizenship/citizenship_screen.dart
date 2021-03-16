@@ -78,25 +78,35 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                children: [
-                  const ProfileAvatar(
-                    size: 100,
-                    image: '',
-                    nickname: 'raul',
-                    account: 'raul',
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    'Raul',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    'Resident',
-                    style: Theme.of(context).textTheme.headline7LowEmphasis,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  children: [
+                    const ProfileAvatar(
+                      size: 100,
+                      image: '',
+                      nickname: 'raul',
+                      account: 'raul',
+                    ),
+                    const SizedBox(height: 8.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            'Raul',
+                            style: Theme.of(context).textTheme.button1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8.0),
+                    Text(
+                      'Resident',
+                      style: Theme.of(context).textTheme.button,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -113,8 +123,8 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Progress Timeline'.i18n, style: Theme.of(context).textTheme.buttonHighEmphasis),
-                      Text('$_timeLine%', style: Theme.of(context).textTheme.subtitle4),
+                      Text('Progress Timeline'.i18n, style: Theme.of(context).textTheme.button),
+                      Text('$_timeLine%', style: Theme.of(context).textTheme.subtitle2LowEmphasis),
                     ],
                   ),
                   const SizedBox(height: 16.0),
@@ -144,7 +154,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Reputation Score'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '83/$_reputation',
-                rateStyle: Theme.of(context).textTheme.buttonHighEmphasis,
+                rateStyle: Theme.of(context).textTheme.subtitle1,
               ),
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
@@ -154,7 +164,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Visitors Invited'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '${_visitors ~/ 100}/1',
-                rateStyle: Theme.of(context).textTheme.buttonHighEmphasis,
+                rateStyle: Theme.of(context).textTheme.subtitle1,
               ),
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/age.svg'),
@@ -164,7 +174,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Account Age'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '291/$_age',
-                rateStyle: Theme.of(context).textTheme.buttonHighEmphasis,
+                rateStyle: Theme.of(context).textTheme.subtitle1,
               ),
             ],
           ),
@@ -180,7 +190,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Planted Seeds'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '213/$_seeds',
-                rateStyle: Theme.of(context).textTheme.buttonHighEmphasis,
+                rateStyle: Theme.of(context).textTheme.subtitle1,
               ),
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/transaction.svg'),
@@ -190,7 +200,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Transactions with Seeds'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '${_transactions ~/ 100}/5',
-                rateStyle: Theme.of(context).textTheme.buttonHighEmphasis,
+                rateStyle: Theme.of(context).textTheme.subtitle1,
               ),
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
@@ -200,7 +210,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Friends Invited'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '${_friends ~/ 100}/3',
-                rateStyle: Theme.of(context).textTheme.buttonHighEmphasis,
+                rateStyle: Theme.of(context).textTheme.subtitle1,
               ),
             ],
           ),
