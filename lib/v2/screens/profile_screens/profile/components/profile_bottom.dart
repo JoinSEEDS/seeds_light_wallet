@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/components/card_list_tile.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 /// PROFILE BOTTOM
 class ProfileBottom extends StatelessWidget {
@@ -102,7 +104,8 @@ class ProfileBottom extends StatelessWidget {
                                   ),
                                   color: AppColors.green1,
                                   padding: const EdgeInsets.all(8.0),
-                                  onPressed: () => NavigationService.of(context).navigateTo(Routes.citizenship),
+                                  onPressed: () => NavigationService.of(context).navigateTo(
+                                      Routes.citizenship, BlocProvider.of<ProfileBloc>(context).state.profile),
                                   child: Text(
                                     'View your progress'.i18n,
                                     style: Theme.of(context).textTheme.subtitle2,
