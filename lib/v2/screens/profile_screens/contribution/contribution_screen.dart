@@ -11,6 +11,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmodels/bloc.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
+/// CONTRIBUTION SCREEN
 class ContributionScreen extends StatefulWidget {
   const ContributionScreen({Key key}) : super(key: key);
 
@@ -125,7 +126,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                     children: [
                       CircularProgressItem(
                         icon: SvgPicture.asset('assets/images/contribution/community.svg'),
-                        totalStep: 100,
+                        totalStep: 99,
                         currentStep: _community,
                         circleRadius: 40,
                         title: 'Community'.i18n,
@@ -135,7 +136,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                       ),
                       CircularProgressItem(
                         icon: SvgPicture.asset('assets/images/contribution/reputation.svg'),
-                        totalStep: 83,
+                        totalStep: 99,
                         currentStep: _reputation,
                         circleRadius: 40,
                         title: 'Reputation'.i18n,
@@ -151,7 +152,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                     children: [
                       CircularProgressItem(
                         icon: SvgPicture.asset('assets/images/contribution/planted.svg'),
-                        totalStep: 213,
+                        totalStep: 99,
                         currentStep: _seeds,
                         circleRadius: 40,
                         title: 'Planted'.i18n,
@@ -161,7 +162,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                       ),
                       CircularProgressItem(
                         icon: SvgPicture.asset('assets/images/contribution/transaction.svg'),
-                        totalStep: 500,
+                        totalStep: 99,
                         currentStep: _transactions,
                         circleRadius: 40,
                         title: 'Transactions'.i18n,
