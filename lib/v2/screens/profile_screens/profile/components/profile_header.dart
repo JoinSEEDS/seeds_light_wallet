@@ -77,22 +77,27 @@ class ProfileHeader extends StatelessWidget {
                             right: BorderSide(color: AppColors.lightGreen2, width: 2),
                           ),
                         ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Contribution Score'.i18n,
-                                style: Theme.of(context).textTheme.subtitle2,
+                        child: InkWell(
+                          onTap: () {
+                            NavigationService.of(context).navigateTo(Routes.contribution, state.profile);
+                          },
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Contribution Score'.i18n,
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                '${state.profile?.reputation ?? '00'}/99',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.headline7LowEmphasis,
+                              Expanded(
+                                child: Text(
+                                  '${state.profile?.reputation ?? '00'}/99',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.headline7LowEmphasis,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

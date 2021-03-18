@@ -43,7 +43,7 @@ class CircularProgressItem extends StatelessWidget {
               totalSteps: totalStep,
               currentStep: currentStep,
               stepSize: 2.5,
-              selectedColor: AppColors.primary,
+              selectedColor: AppColors.darkGreen2,
               unselectedColor: AppColors.green1,
               padding: 0,
               width: circleRadius * 2,
@@ -61,7 +61,7 @@ class CircularProgressItem extends StatelessWidget {
           children: [
             Flexible(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 100),
+                constraints: const BoxConstraints(maxWidth: 120),
                 child: Text(title, textAlign: TextAlign.center, maxLines: 2, style: titleStyle),
               ),
             ),

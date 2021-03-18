@@ -142,6 +142,10 @@ flutter:
     - assets/images/citizenship/planted.svg
     - assets/images/citizenship/age.svg
     - assets/images/citizenship/transaction.svg
+    - assets/images/contribution/reputation.svg
+    - assets/images/contribution/community.svg
+    - assets/images/contribution/planted.svg
+    - assets/images/contribution/transaction.svg
     # assets end
 
   fonts:
