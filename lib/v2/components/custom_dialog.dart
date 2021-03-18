@@ -54,20 +54,14 @@ class CustomDialog extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.only(
-                left: padding,
-                top: avatarRadius + padding - 10,
-                right: padding,
-                bottom: padding + 10),
+                left: padding, top: avatarRadius + padding - 10, right: padding, bottom: padding + 10),
             margin: const EdgeInsets.only(top: avatarRadius),
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(18.0),
                 boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(0, 10),
-                      blurRadius: 10),
+                  BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
                 ]),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -87,8 +81,7 @@ class CustomDialog extends StatelessWidget {
                             child: FlatButtonLong(
                               title: leftButtonTitle,
                               onPressed: onLeftButtonPressed,
-                              // FlatButtonLong was modified in #572
-                              // color: AppColors.white,
+                              color: AppColors.white,
                             ),
                           ),
                         const SizedBox(width: 10),
@@ -102,15 +95,12 @@ class CustomDialog extends StatelessWidget {
                       ],
                     ),
                   ),
-                if (leftButtonTitle.isEmpty &&
-                    rightButtonTitle.isEmpty &&
-                    singleLargeButtonTitle.isNotEmpty)
+                if (leftButtonTitle.isEmpty && rightButtonTitle.isEmpty && singleLargeButtonTitle.isNotEmpty)
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FlatButtonLong(
                       title: singleLargeButtonTitle,
-                      onPressed: onSingleLargeButtonPressed ??
-                          () => Navigator.pop(context),
+                      onPressed: onSingleLargeButtonPressed ?? () => Navigator.pop(context),
                     ),
                   ),
               ],
@@ -135,8 +125,7 @@ class CustomDialog extends StatelessWidget {
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(avatarRadius)),
+                  borderRadius: const BorderRadius.all(Radius.circular(avatarRadius)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: icon,
