@@ -8,12 +8,12 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
 
   @override
   Stream<ScannerState> mapEventToState(ScannerEvent event) async* {
-    if (event is ShowError) {
-      yield state.copyWith(pageState: PageState.error);
-    } else if (event is ShowLoading) {
+    if (event is ShowLoading) {
       yield state.copyWith(pageState: PageState.processing);
     } else if (event is Scan) {
       yield state.copyWith(pageState: PageState.scan);
+    } else if (event is Stop) {
+      state.copyWith(pageState: PageState.stop);
     }
   }
 }

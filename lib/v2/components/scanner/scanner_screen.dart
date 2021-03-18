@@ -9,24 +9,20 @@ import 'package:seeds/v2/components/scanner/seeds_qr_code_scanner_widget.dart';
 /// Scanner SCREEN
 class ScannerScreen extends StatefulWidget {
   final ScannerBloc _scannerBloc = ScannerBloc();
-  final Function resultCallback;
+  final ValueSetter<String> resultCallBack;
 
-  ScannerScreen({Key key, this.resultCallback}) : super(key: key);
+  ScannerScreen({Key key, @required this.resultCallBack}) : super(key: key);
 
   void scan() {
     _scannerBloc.add(Scan());
-  }
-
-  void showError(String errorMessage) {
-    _scannerBloc.add(ShowError(error: errorMessage));
   }
 
   void showLoading() {
     _scannerBloc.add(ShowLoading());
   }
 
-  void resultCallBack(String scanResult) {
-    resultCallback(scanResult);
+  void stop() {
+    _scannerBloc.add(Stop());
   }
 
   @override
@@ -34,9 +30,8 @@ class ScannerScreen extends StatefulWidget {
 }
 
 class _ScannerScreenState extends State<ScannerScreen> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController controller;
-
+  final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
+  QRViewController _controller;
   bool _handledQrCode = false;
 
   @override
@@ -49,12 +44,17 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return BlocProvider(
       create: (BuildContext context) => widget._scannerBloc,
       child: BlocBuilder<ScannerBloc, ScannerState>(builder: (context, ScannerState state) {
+        if (state.pageState is Stop) {
+          _controller.dispose();
+          const SizedBox.shrink();
+        }
+
         return Stack(
           alignment: Alignment.center,
           children: [
             SeedsQRCodeScannerWidget(
               onQRViewCreated: _onQRViewCreated,
-              qrKey: qrKey,
+              qrKey: _qrKey,
             ),
             Center(child: buildStateView(state))
           ],
@@ -64,21 +64,19 @@ class _ScannerScreenState extends State<ScannerScreen> {
   }
 
   Future<void> _onQRViewCreated(QRViewController controller) async {
-    this.controller = controller;
+    _controller = controller;
 
     controller.scannedDataStream.listen(
       (String scanResult) async {
-        if (_handledQrCode) {
+        if (_handledQrCode || scanResult == null) {
           return;
         }
+
         setState(() {
           _handledQrCode = true;
         });
 
-        if (scanResult == null) {
-        } else {
-          widget.resultCallBack(scanResult);
-        }
+        widget.resultCallBack(scanResult);
       },
     );
   }
@@ -93,7 +91,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
         return const SizedBox.shrink();
       case PageState.processing:
         return const CircularProgressIndicator();
-      case PageState.error:
+      case PageState.stop:
         return const SizedBox.shrink();
       default:
         return const SizedBox.shrink();

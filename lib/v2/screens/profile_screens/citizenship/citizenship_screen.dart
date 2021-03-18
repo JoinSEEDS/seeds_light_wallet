@@ -7,6 +7,7 @@ import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:seeds/v2/components/circular_progress_item.dart';
 import 'package:seeds/i18n/citizenship.18n.dart';
+import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 /// CITIZENSHIP SCREEN
 class CitizenshipScreen extends StatefulWidget {
@@ -70,6 +71,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
 
   @override
   Widget build(BuildContext context) {
+    final ProfileModel profile = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
@@ -78,35 +80,25 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    const ProfileAvatar(
-                      size: 100,
-                      image: '',
-                      nickname: 'raul',
-                      account: 'raul',
-                    ),
-                    const SizedBox(height: 8.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            'Raul',
-                            style: Theme.of(context).textTheme.button1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      'Resident',
-                      style: Theme.of(context).textTheme.button,
-                    ),
-                  ],
-                ),
+              Column(
+                children: [
+                  ProfileAvatar(
+                    size: 100,
+                    image: profile.image,
+                    nickname: profile.nickname,
+                    account: profile.account,
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    profile?.account ?? '',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    profile?.status ?? '',
+                    style: Theme.of(context).textTheme.headline7LowEmphasis,
+                  ),
+                ],
               ),
             ],
           ),
