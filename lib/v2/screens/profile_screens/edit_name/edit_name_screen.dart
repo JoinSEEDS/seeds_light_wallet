@@ -54,7 +54,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
                             onFieldSubmitted: (_) => _onSubmitted(),
                             validator: (value) {
                               if (value.length > 42) {
-                                return 'Please enter a smaller name, Max 42 characters'.i18n;
+                                return 'Please enter a smaller name, maximum 42 characters'.i18n;
                               }
                               return null;
                             },
