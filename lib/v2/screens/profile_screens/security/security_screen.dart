@@ -3,12 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/i18n/security.i18n.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
+import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/profile_screens/security/components/security_card.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
+import 'package:seeds/widgets/pending_notification.dart';
+import 'package:share/share.dart';
 
 class SecurityScreen extends StatelessWidget {
   const SecurityScreen({Key key}) : super(key: key);
@@ -67,14 +73,17 @@ class SecurityScreen extends StatelessWidget {
                         icon: const Icon(Icons.update),
                         title: 'Export Private Key'.i18n,
                         description: 'Export your private key so you can easily recover and access your account.'.i18n,
-                        onTap: () {},
+                        onTap: () => Share.share(settingsStorage.privateKey),
                       ),
-                      SecurityCard(
-                        icon: SvgPicture.asset('assets/images/key_guardians_icon.svg'),
-                        title: 'Key Guardians'.i18n,
-                        description:
-                            'Choose 3 - 5 friends and/or family members to help you recover your account in case.'.i18n,
-                        onTap: () {},
+                      StreamBuilder<bool>(
+                        stream: FirebaseDatabaseService().hasGuardianNotificationPending(settingsStorage.accountName),
+                        builder: (context, AsyncSnapshot<bool> snapshot) {
+                          if (snapshot != null && snapshot.hasData) {
+                            return _guardiansView(snapshot.data, context);
+                          } else {
+                            return _guardiansView(false, context);
+                          }
+                        },
                       ),
                       SecurityCard(
                         icon: const Icon(Icons.lock_outline),
@@ -124,5 +133,28 @@ class SecurityScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _guardiansView(bool showGuardianNotification, BuildContext context) {
+    if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
+      return Stack(
+        children: [
+          SecurityCard(
+            icon: SvgPicture.asset('assets/images/key_guardians_icon.svg'),
+            title: 'Key Guardians'.i18n,
+            description: 'Choose 3 - 5 friends and/or family members to help you recover your account in case.'.i18n,
+            onTap: () {
+              if (showGuardianNotification) {
+                FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
+              }
+              NavigationService.of(context).navigateTo(Routes.guardianTabs);
+            },
+          ),
+          Positioned(right: 0, top: 0, child: guardianNotification(showGuardianNotification))
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 }
