@@ -7,7 +7,7 @@ extension Localization on String {
           'Edit Display Name': 'Editar nombre a mostrar',
           'Save Changes': 'Guardar cambios',
           'Display name': 'Nombre a mostrar',
-          'Please enter a smaller name': 'Por favor ingrese un nombre mas corto.'
+          'Please enter a smaller name, maximum 42 characters': 'Ingrese un nombre más pequeño, máximo 42 caracteres',
         }
       };
 

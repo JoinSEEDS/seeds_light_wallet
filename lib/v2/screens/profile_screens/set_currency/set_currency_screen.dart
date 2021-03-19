@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/set_currency.i18n.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/interactor/viewmodels/bloc.dart';
 
@@ -63,8 +64,12 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                         itemBuilder: (ctx, index) => ListTile(
                           leading: Text(state.queryCurrenciesResults[index].flagEmoji,
                               style: Theme.of(context).textTheme.headline4),
-                          title: Text(state.queryCurrenciesResults[index].code),
-                          subtitle: Text(state.queryCurrenciesResults[index].name),
+                          title: Text(
+                            state.queryCurrenciesResults[index].code,
+                            style: Theme.of(context).textTheme.button,
+                          ),
+                          subtitle: Text(state.queryCurrenciesResults[index].name,
+                              style: Theme.of(context).textTheme.subtitle4),
                           onTap: () {
                             settingsStorage.saveSelectedFiatCurrency(state.queryCurrenciesResults[index].code);
                             Navigator.of(context).pop(true);

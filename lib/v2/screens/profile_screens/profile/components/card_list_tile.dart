@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/design/app_theme.dart';
 
 /// CARD LIST TILE
 class CardListTile extends StatelessWidget {
@@ -30,7 +31,7 @@ class CardListTile extends StatelessWidget {
           leading: Icon(leadingIcon),
           title: Text(
             title,
-            style: Theme.of(context).textTheme.subtitle2,
+            style: Theme.of(context).textTheme.buttonLowEmphasis,
           ),
           trailing: const Icon(Icons.arrow_forward_ios_sharp),
         ),

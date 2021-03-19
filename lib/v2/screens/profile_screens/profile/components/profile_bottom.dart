@@ -57,7 +57,7 @@ class ProfileBottom extends StatelessWidget {
                               children: [
                                 Text(
                                   'You are on the way from'.i18n,
-                                  style: Theme.of(context).textTheme.subtitle2HighEmphasis,
+                                  style: Theme.of(context).textTheme.subtitle2,
                                 ),
                               ],
                             ),
@@ -82,7 +82,7 @@ class ProfileBottom extends StatelessWidget {
                                         child: Text(
                                           'to'.i18n,
                                           style:
-                                              Theme.of(context).textTheme.subtitle1.copyWith(color: AppColors.primary),
+                                              Theme.of(context).textTheme.headline7.copyWith(color: AppColors.primary),
                                         ),
                                       ),
                                     ),
@@ -108,7 +108,7 @@ class ProfileBottom extends StatelessWidget {
                                       Routes.citizenship, BlocProvider.of<ProfileBloc>(context).state.profile),
                                   child: Text(
                                     'View your progress'.i18n,
-                                    style: Theme.of(context).textTheme.subtitle2,
+                                    style: Theme.of(context).textTheme.subtitle3,
                                   ),
                                 ),
                               ],
