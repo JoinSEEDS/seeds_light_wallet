@@ -34,6 +34,7 @@ import 'package:seeds/v2/screens/profile_screens/contribution/contribution_scree
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
+import 'package:seeds/v2/screens/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/v2/screens/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
@@ -58,7 +59,7 @@ class Routes {
   static final logout = 'Logout';
   static final imageViewer = 'ImageViewer';
   static final plantSeeds = 'plantSeeds';
-  static final customTransaction = 'CustomTransation';
+  static final sendConfirmationScreen = 'SendConfirmationScreen';
   static final scanQRCode = 'ScanQRCode';
   static final receive = 'Receive';
   static final receiveConfirmation = 'ReceiveConfirmation';
@@ -119,7 +120,7 @@ class NavigationService {
           arguments: args,
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
-    Routes.customTransaction: (args) => CustomTransaction(args),
+    Routes.sendConfirmationScreen: (args) => SendConfirmationScreen(arguments: args,),
     Routes.scanQRCode: (_) => SendScannerScreen(),
     Routes.receive: (_) => Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),

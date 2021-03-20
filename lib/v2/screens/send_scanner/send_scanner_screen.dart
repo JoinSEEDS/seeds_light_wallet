@@ -5,6 +5,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/v2/components/scanner/scanner_screen.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/v2/screens/send_scanner/interactor/send_scanner_bloc.dart';
 import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/scanner_events.dart';
 import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/send_scanner_state.dart';
@@ -64,10 +65,10 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                               color: AppColors.black, borderRadius: BorderRadius.all(Radius.circular(8)))),
                     );
                   case PageState.success:
-                    _scannerScreen.stop();
+                    // _scannerScreen.stop();
                     NavigationService.of(context).navigateTo(
-                        Routes.customTransaction,
-                        CustomTransactionArguments(
+                        Routes.sendConfirmationScreen,
+                        SendConfirmationArguments(
                           account: state.pageCommand.resultData.accountName,
                           name: state.pageCommand.resultData.name,
                           data: state.pageCommand.resultData.data,
