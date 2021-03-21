@@ -30,6 +30,7 @@ import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
+import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
@@ -91,7 +92,7 @@ class NavigationService {
   StreamController<String> streamRouteListener;
 
   final onboardingRoutes = {
-    Routes.onboarding: (_) => Onboarding(),
+    Routes.onboarding: (_) => OnboardingScreen(),
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
@@ -130,7 +131,8 @@ class NavigationService {
     Routes.support: (_) => const SupportScreen(),
     Routes.settings: (_) => const SettingsScreen(),
     Routes.editName: (_) => const EditNameScreen(),
-    Routes.setCurrency: (_) => const SetCurrencyScreen()
+    Routes.setCurrency: (_) => const SetCurrencyScreen(),
+   // Routes.onboarding: (_) => OnboardingScreen()
   };
 
   final ecosystemRoutes = {
@@ -158,7 +160,8 @@ class NavigationService {
       navigatorKey = walletNavigatorKey;
     } else if (ecosystemRoutes[routeName] != null) {
       navigatorKey = ecosystemNavigatorKey;
-    } else if (onboardingRoutes[routeName] != null) {
+    }
+    else if (onboardingRoutes[routeName] != null) {
       navigatorKey = onboardingNavigatorKey;
     }
 
@@ -182,12 +185,14 @@ class NavigationService {
         settings: settings,
         builder: (context) => appRoutes[routeName](arguments),
       );
-    } else if (onboardingRoutes[routeName] != null) {
+    }
+    else if (onboardingRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => onboardingRoutes[routeName](arguments),
       );
-    } else if (ecosystemRoutes[routeName] != null) {
+    }
+    else if (ecosystemRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
         builder: (_) => ecosystemRoutes[routeName](arguments),
