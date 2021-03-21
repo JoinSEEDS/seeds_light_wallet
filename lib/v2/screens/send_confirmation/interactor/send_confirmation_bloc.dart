@@ -20,15 +20,6 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
         name: event.arguments.name,
         account: event.arguments.account,
       );
-
-      print("Arguments" + event.arguments.toString());
-      print("Arguments" + event.arguments.data.toString());
-      print("Arguments" + event.arguments.account.toString());
-      print("Arguments" + event.arguments.name.toString());
-
-      // var results = await GetExploreUseCase().run(event.userName);
-
-      // yield SendConfirmationStateMapper().mapResultsToState(state, results);
     }
   }
 }
