@@ -35,7 +35,13 @@ class SendConfirmationScreen extends StatelessWidget {
                 return const FullPageErrorIndicator();
               case PageState.success:
                 return Scaffold(
-                  appBar: AppBar(),
+                  appBar: AppBar(
+                      leading: IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )),
                   body: Column(
                     children: [
                       Expanded(
