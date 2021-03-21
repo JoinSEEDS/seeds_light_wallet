@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
 
 /// A long flat widget button with rounded corners
 class FlatButtonLong extends StatelessWidget {
@@ -14,8 +13,8 @@ class FlatButtonLong extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var style = color != null
-        ? Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.green1)
-        : Theme.of(context).textTheme.subtitle2HighEmphasis;
+        ? Theme.of(context).textTheme.button.copyWith(color: AppColors.green1)
+        : Theme.of(context).textTheme.button;
     return SizedBox(
       width: double.infinity,
       child: FlatButton(

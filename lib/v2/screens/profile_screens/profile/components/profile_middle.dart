@@ -22,11 +22,11 @@ class ProfileMiddle extends StatelessWidget {
             leading: const Icon(Icons.location_on_outlined, color: AppColors.green1),
             title: Text(
               'Bioregion'.i18n,
-              style: Theme.of(context).textTheme.subtitle2HighEmphasis,
+              style: Theme.of(context).textTheme.button,
             ),
             trailing: Text(
               'Bali',
-              style: Theme.of(context).textTheme.subtitle1HighEmphasis,
+              style: Theme.of(context).textTheme.headline7,
             ),
             onTap: () {},
           ),
