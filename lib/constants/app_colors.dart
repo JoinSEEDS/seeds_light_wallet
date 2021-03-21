@@ -26,7 +26,7 @@ class AppColors {
   static const green2 = Color(0xFF238C32);
   static const green3 = Color(0xFF2EE53F);
 
-  /// User Primary Color
+  /// Use Primary Color
   // static const darkGreen1 = Color(0xFF0F2617);
   static const darkGreen2 = Color(0xFF1D3726);
   static const darkGreen3 = Color(0xFF273C2E);

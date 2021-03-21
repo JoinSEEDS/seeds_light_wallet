@@ -22,7 +22,6 @@ import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
 import 'package:seeds/screens/app/wallet/receive_qr.dart';
-import 'package:seeds/screens/app/wallet/scan.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
@@ -30,11 +29,13 @@ import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
-import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
-import 'package:seeds/v2/screens/profile_screens/settings/settings_screen.dart';
+import 'package:seeds/v2/screens/send_scanner/send_scanner_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -70,9 +71,11 @@ class Routes {
   static final dho = 'DHO';
   static final guardians = 'Guardians';
   static final support = 'Support';
-  static final settings = 'Settings';
+  static final security = 'Security';
   static final editName = 'EditName';
   static final setCurrency = "SetCurrency";
+  static final citizenship = 'CitizenShip';
+  static final contribution = 'Contribution';
   static final login = "Login";
   static final importKey = "ImportKey";
 }
@@ -92,7 +95,7 @@ class NavigationService {
   StreamController<String> streamRouteListener;
 
   final onboardingRoutes = {
-    Routes.onboarding: (_) => OnboardingScreen(),
+    Routes.onboarding: (_) => Onboarding(),
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
@@ -117,7 +120,7 @@ class NavigationService {
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
     Routes.customTransaction: (args) => CustomTransaction(args),
-    Routes.scanQRCode: (_) => Scan(false),
+    Routes.scanQRCode: (_) => SendScannerScreen(),
     Routes.receive: (_) => Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
     Routes.receiveCustom: (_) => ReceiveCustom(),
@@ -129,10 +132,11 @@ class NavigationService {
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
     Routes.support: (_) => const SupportScreen(),
-    Routes.settings: (_) => const SettingsScreen(),
+    Routes.security: (_) => const SecurityScreen(),
     Routes.editName: (_) => const EditNameScreen(),
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
-   // Routes.onboarding: (_) => OnboardingScreen()
+    Routes.citizenship: (_) => const CitizenshipScreen(),
+    Routes.contribution: (_) => const ContributionScreen(),
   };
 
   final ecosystemRoutes = {
@@ -160,8 +164,7 @@ class NavigationService {
       navigatorKey = walletNavigatorKey;
     } else if (ecosystemRoutes[routeName] != null) {
       navigatorKey = ecosystemNavigatorKey;
-    }
-    else if (onboardingRoutes[routeName] != null) {
+    } else if (onboardingRoutes[routeName] != null) {
       navigatorKey = onboardingNavigatorKey;
     }
 
@@ -185,14 +188,12 @@ class NavigationService {
         settings: settings,
         builder: (context) => appRoutes[routeName](arguments),
       );
-    }
-    else if (onboardingRoutes[routeName] != null) {
+    } else if (onboardingRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => onboardingRoutes[routeName](arguments),
       );
-    }
-    else if (ecosystemRoutes[routeName] != null) {
+    } else if (ecosystemRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
         builder: (_) => ecosystemRoutes[routeName](arguments),
