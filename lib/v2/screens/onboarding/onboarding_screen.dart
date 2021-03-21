@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/v2/screens/onboarding/components/pages/first_page.dart';
-import 'package:seeds/v2/screens/onboarding/components/pages/second_page.dart';
-import 'components/pages/third_page.dart';
+import 'package:seeds/v2/screens/onboarding/components/pages/onboarding_page_1.dart';
+import 'package:seeds/v2/screens/onboarding/components/pages/onboarding_page_2.dart';
+import 'components/pages/onboarding_page_3.dart';
 import 'package:seeds/i18n/onboarding.i18n.dart';
 
 class OnboardingScreen extends StatefulWidget {

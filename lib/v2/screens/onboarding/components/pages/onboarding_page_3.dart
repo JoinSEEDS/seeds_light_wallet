@@ -15,7 +15,7 @@ class ThirdPage extends StatelessWidget {
         right: -20,
         top: -90,
         child: Image.asset(
-          'assets/images/onboarding/big_light_right_leafe.png',
+          'assets/images/onboarding/leaves/pointing_right/big_light_leaf.png',
           color: AppColors.lightGreen3,
         ),
       ),
@@ -23,7 +23,7 @@ class ThirdPage extends StatelessWidget {
         right: -20,
         top: 160,
         child: Image.asset(
-          'assets/images/onboarding/leafe_pointing_left.png',
+          'assets/images/onboarding/leaves/pointing_left/small_light_leaf.png',
           color: AppColors.lightGreen3,
         ),
       ),
@@ -31,14 +31,14 @@ class ThirdPage extends StatelessWidget {
         right: 100,
         bottom: 90,
         child: Image.asset(
-          'assets/images/onboarding/leafe_pointing_left.png',
+          'assets/images/onboarding/leaves/pointing_left/small_light_leaf.png',
         ),
       ),
       bottomLeaf2: Positioned(
         left: 30,
         top: 20,
         child: Image.asset(
-          'assets/images/onboarding/medium_dark_left_leafe.png',
+          'assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.png',
         ),
       ),
     );

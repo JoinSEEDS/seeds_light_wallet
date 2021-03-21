@@ -14,14 +14,14 @@ class SecondPage extends StatelessWidget {
         left: 40,
         top: 40,
         child: Image.asset(
-          'assets/images/onboarding/medium_light_left_leafe.png',
+          'assets/images/onboarding/leaves/pointing_left/medium_light_leaf.png',
         ),
       ),
       bottomLeaf1: Positioned(
         bottom: 70,
         left: 50,
         child: Image.asset(
-          'assets/images/onboarding/small_light_right_leafe.png',
+          'assets/images/onboarding/leaves/pointing_right/small_light_leaf.png',
           color: AppColors.lightGreen1,
         ),
       ),
@@ -29,7 +29,7 @@ class SecondPage extends StatelessWidget {
         right: 60,
         top: 60,
         child: Image.asset(
-          'assets/images/onboarding/medium_dark_left_leafe.png',
+          'assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.png',
         ),
       ),
     );

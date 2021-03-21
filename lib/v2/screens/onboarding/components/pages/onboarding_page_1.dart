@@ -14,21 +14,21 @@ class FirstPage extends StatelessWidget {
         right: 80,
         top: -10,
         child: Image.asset(
-          'assets/images/onboarding/small_light_right_leafe.png',
+          'assets/images/onboarding/leaves/pointing_right/small_light_leaf.png',
         ),
       ),
       bottomLeaf1: Positioned(
         bottom: -20,
         left: -30,
         child: Image.asset(
-          'assets/images/onboarding/leafe_pointing_right.png',
+          'assets/images/onboarding/leaves/pointing_right/big_dark_leaf.png',
         ),
       ),
       bottomLeaf2: Positioned(
         right: 50,
         top: 20,
         child: Image.asset(
-          'assets/images/onboarding/leafe_pointing_left.png',
+          'assets/images/onboarding/leaves/pointing_left/small_light_leaf.png',
         ),
       ),
     );

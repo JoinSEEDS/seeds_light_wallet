@@ -98,12 +98,12 @@ flutter:
     - assets/images/onboarding/onboarding3.png
     - assets/images/onboarding/onboarding4.png
     - assets/images/onboarding/onboarding5.png
-    - assets/images/onboarding/leafe_pointing_right.png
-    - assets/images/onboarding/leafe_pointing_left.png
-    - assets/images/onboarding/small_light_right_leafe.png
-    - assets/images/onboarding/medium_light_left_leafe.png
-    - assets/images/onboarding/medium_dark_left_leafe.png
-    - assets/images/onboarding/big_light_right_leafe.png
+    - assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.png
+    - assets/images/onboarding/leaves/pointing_left/medium_light_leaf.png
+    - assets/images/onboarding/leaves/pointing_left/small_light_leaf.png
+    - assets/images/onboarding/leaves/pointing_right/big_dark_leaf.png
+    - assets/images/onboarding/leaves/pointing_right/big_light_leaf.png
+    - assets/images/onboarding/leaves/pointing_right/small_light_leaf.png
     - assets/images/governance.svg
     - assets/images/community.svg
     - assets/images/harvest.svg
