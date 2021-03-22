@@ -74,31 +74,28 @@ class SecurityScreen extends StatelessWidget {
                         description: 'Export your private key so you can easily recover and access your account.'.i18n,
                         onTap: () => Share.share(settingsStorage.privateKey),
                       ),
-                      StreamBuilder<bool>(
-                        stream: FirebaseDatabaseService().hasGuardianNotificationPending(settingsStorage.accountName),
-                        builder: (context, AsyncSnapshot<bool> snapshot) {
-                          if (snapshot != null && snapshot.hasData) {
-                            return Stack(
-                              children: [
-                                SecurityCard(
-                                  icon: SvgPicture.asset('assets/images/key_guardians_icon.svg'),
-                                  title: 'Key Guardians'.i18n,
-                                  description:
-                                      'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
-                                          .i18n,
-                                  onTap: () {
-                                    if (snapshot.data) {
-                                      FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
-                                    }
-                                    NavigationService.of(context).navigateTo(Routes.guardianTabs);
-                                  },
-                                ),
-                                Positioned(left: 4, top: 12, child: NotificationBadge(isVisible: snapshot.data))
-                              ],
-                            );
-                          } else {
-                            return const SizedBox.shrink();
-                          }
+                      BlocBuilder<SecurityBloc, SecurityState>(
+                        buildWhen: (previous, current) =>
+                            previous.hasNotification == false && current.hasNotification == true,
+                        builder: (context, state) {
+                          return Stack(
+                            children: [
+                              SecurityCard(
+                                icon: SvgPicture.asset('assets/images/key_guardians_icon.svg'),
+                                title: 'Key Guardians'.i18n,
+                                description:
+                                    'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
+                                        .i18n,
+                                onTap: () {
+                                  if (state.hasNotification) {
+                                    FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
+                                  }
+                                  NavigationService.of(context).navigateTo(Routes.guardianTabs);
+                                },
+                              ),
+                              if (state.hasNotification) const Positioned(left: 4, top: 10, child: NotificationBadge())
+                            ],
+                          );
                         },
                       ),
                       SecurityCard(

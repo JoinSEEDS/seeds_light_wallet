@@ -9,6 +9,13 @@ abstract class SecurityEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ShowNotificationBadge extends SecurityEvent {
+  final bool value;
+  const ShowNotificationBadge({@required this.value}) : assert(value != null);
+  @override
+  String toString() => 'ShowNotificationBadge { value: $value }';
+}
+
 class OnPinChanged extends SecurityEvent {
   const OnPinChanged();
   @override
