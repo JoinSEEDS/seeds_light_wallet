@@ -31,38 +31,44 @@ class ProfileHeader extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              state.profile?.account ?? '',
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.edit_outlined),
-                              onPressed: () async {
-                                var res = await NavigationService.of(context).navigateTo(
-                                  Routes.editName,
-                                  state.profile.nickname,
-                                );
-                                if (res != null) {
-                                  BlocProvider.of<ProfileBloc>(context).add(OnNameChanged(name: res as String));
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                        Text(
-                          state.profile?.status ?? '',
-                          style: Theme.of(context).textTheme.headline7LowEmphasis,
-                        )
-                      ],
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  state.profile?.account ?? '',
+                                  style: Theme.of(context).textTheme.button1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.edit_outlined),
+                                onPressed: () async {
+                                  var res = await NavigationService.of(context).navigateTo(
+                                    Routes.editName,
+                                    state.profile.nickname,
+                                  );
+                                  if (res != null) {
+                                    BlocProvider.of<ProfileBloc>(context).add(OnNameChanged(name: res as String));
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                          Text(
+                            state.profile?.status ?? '',
+                            style: Theme.of(context).textTheme.headline7LowEmphasis,
+                          )
+                        ],
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
               Padding(
@@ -109,7 +115,7 @@ class ProfileHeader extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Text(
                               'Badges Earned'.i18n,
-                              style: Theme.of(context).textTheme.subtitle2,
+                              style: Theme.of(context).textTheme.subtitle4,
                             ),
                           ),
                         ),
