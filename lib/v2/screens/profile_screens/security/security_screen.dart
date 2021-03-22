@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/i18n/security.i18n.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
@@ -88,7 +87,7 @@ class SecurityScreen extends StatelessWidget {
                                         .i18n,
                                 onTap: () {
                                   if (state.hasNotification) {
-                                    FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
+                                    BlocProvider.of<SecurityBloc>(context)..add(const OnRemoveGuardianNotification());
                                   }
                                   NavigationService.of(context).navigateTo(Routes.guardianTabs);
                                 },
@@ -106,8 +105,10 @@ class SecurityScreen extends StatelessWidget {
                           builder: (context, state) {
                             return Switch(
                               value: state.isSecurePin,
-                              onChanged: (_) {
-                                BlocProvider.of<SecurityBloc>(context).add(const OnPinChanged());
+                              onChanged: (value) {
+                                value
+                                    ? NavigationService.of(context).navigateTo(Routes.guardianTabs)
+                                    : BlocProvider.of<SecurityBloc>(context).add(const OnPinChanged());
                               },
                               activeTrackColor: AppColors.canopy,
                               activeColor: AppColors.white,
