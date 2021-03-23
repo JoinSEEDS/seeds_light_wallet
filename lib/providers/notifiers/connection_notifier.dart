@@ -6,6 +6,11 @@ class Endpoint {
   final String url;
   final int ping;
   const Endpoint(this.url, this.ping);
+
+  @override
+  String toString() {
+    return "Endpoint: $url ping: $ping ";
+  }
 }
 
 const infinitePing = 1000000;
@@ -16,14 +21,16 @@ class ConnectionNotifier extends ChangeNotifier {
 
   String currentEndpoint = Config.defaultEndpoint;
   int currentEndpointPing = 0;
+  List<Endpoint> ellEndpoints = [];
 
-  final availableEndpoints = [
+  var availableEndpoints = [
     Config.defaultEndpoint,
+    "https://api.telos.kitchen",
+    "https://node.hypha.earth",
     'https://mainnet.telosusa.io',
     'https://telos.eosphere.io',
     'https://telos.caleos.io',
     'https://api.eos.miami',
-    'https://hyperion.telosgermany.io',
   ];
 
   void init() {
@@ -41,26 +48,37 @@ class ConnectionNotifier extends ChangeNotifier {
 
     responses.sort((a, b) => a.ping - b.ping);
 
+
+    ellEndpoints = List<Endpoint>.from(responses);
+
     currentEndpoint = responses[0].url;
+
+    print("[ConnectionNotifier] using endpoint $currentEndpoint of ${ellEndpoints.toString()}");
+    
     currentEndpointPing = responses[0].ping;
+    
     notifyListeners();
 
   }
+  
+  void blacklistCurrentEndpoint() {
 
-  Future<Endpoint> checkEndpoint(String endpoint) async {
+  }
+
+  Future<Endpoint> checkEndpoint(String endpointURL) async {
     try {
       var ping = Stopwatch()..start();
-      Response res = await get("$endpoint/v2/health");
+      Response res = await get("$endpointURL/v1/chain/get_info");
       ping.stop();
       if (res.statusCode == 200) {
         int endpointPing = ping.elapsedMilliseconds;
-        return Endpoint(endpoint, endpointPing);
+        return Endpoint(endpointURL, endpointPing);
       } else {
-        return Endpoint(endpoint, infinitePing);
+        return Endpoint(endpointURL, infinitePing);
       }
     } catch (err) {
       print("error pinging: " + err);
-      return Endpoint(endpoint, doubleInfinitePing);
+      return Endpoint(endpointURL, doubleInfinitePing);
     }
   }
 }
