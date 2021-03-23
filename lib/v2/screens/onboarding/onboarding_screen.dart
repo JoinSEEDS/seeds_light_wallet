@@ -33,18 +33,17 @@ class OnboardingState extends State<OnboardingScreen> {
   void onPageChangeForward(int index, CarouselPageChangedReason changeReason) {
     if (index < 2) {
       setState(() {
-        _controller.jumpToPage(index + 1);
         _selectedIndex = index + 1;
+        _controller.jumpToPage(_selectedIndex);
       });
     }
   }
 
   void onPageChangeBackward(int index, CarouselPageChangedReason changeReason) {
-    if (index == 0) {
-    } else {
+    if (index != 0) {
       setState(() {
-        _controller.jumpToPage(index - 1);
         _selectedIndex = index - 1;
+        _controller.jumpToPage(_selectedIndex);
       });
     }
   }
