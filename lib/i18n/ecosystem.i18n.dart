@@ -22,7 +22,27 @@ static final _t = Translations.byLocale('en_us') +
         'Cancel': 'Cancelar',
         'Your invites': 'Tus invitaciones',
         'Build community - gain reputation': 'Construye comunidad - gana reputación',
+      },
+      "id_id": {
+        "Vote": "Pilih",
+        "Tap to participate": "klik untuk berpartisipasi",
+        "Trust Tokens": "Token Percaya",
+
+        "Invite": "Undang",
+        "Tap to send an invite": "Klik untuk mengirim undangan",
+        "Available Seeds": "Seeds tersedia",
+        
+        "Plant": "Menanam",
+        "Tap to plant Seeds": "Klik untuk menanam Seeds",
+        "Planted Seeds": "Seeds yang Ditanam",
+
+        "Sow: %s Transfer: %s": "Tabur: %s Mengirim: %s",
+        "Copy": "Salinan",
+        "Cancel": "Membatalkan",
+        "Your invites": "Undangan Anda",
+        "Build community - gain reputation": "Bangun komunitas - dapatkan reputasi",
       }
+
     };
 
   String get i18n => localize(this, _t);
