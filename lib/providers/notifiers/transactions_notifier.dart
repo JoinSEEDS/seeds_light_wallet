@@ -4,8 +4,11 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
+
 class TransactionsNotifier extends ChangeNotifier {
   List<TransactionModel> transactions;
+
+  static List<TransactionModel> transactionsCache = [];
 
   HttpService _http;
 
@@ -16,7 +19,6 @@ class TransactionsNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  List<TransactionModel> transactionsCache = [];
 
   Future refreshTransactions() async {
 
