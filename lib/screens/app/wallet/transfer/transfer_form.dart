@@ -53,6 +53,7 @@ class _TransferFormState extends State<TransferForm>
   void initState() {
     super.initState();
   }
+    print("xfwer form");
 
   void processTransaction() async {
     setState(() {
