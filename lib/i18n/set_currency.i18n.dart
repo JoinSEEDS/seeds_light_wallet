@@ -5,7 +5,11 @@ extension Localization on String {
       {
         "es_es": {
           "Select Currency": "Selecionar moneda",
-          'Search..': "Buscar..",
+          'Search ..': "Buscar..",
+        },
+        "id_id": {
+          "Select Currency": "Pilih Mata Uang",
+          'Search ..': "Cari ..",
         }
       };
 

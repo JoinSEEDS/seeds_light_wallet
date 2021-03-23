@@ -41,7 +41,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
               child: TextFormFieldCustom(
                 controller: _queryController,
                 textCapitalization: TextCapitalization.characters,
-                hintText: "Search..".i18n,
+                hintText: "Search ..".i18n,
                 suffixIcon: IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.search),
