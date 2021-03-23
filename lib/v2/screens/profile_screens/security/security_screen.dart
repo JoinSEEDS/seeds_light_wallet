@@ -106,9 +106,7 @@ class SecurityScreen extends StatelessWidget {
                             return Switch(
                               value: state.isSecurePin,
                               onChanged: (value) {
-                                value
-                                    ? NavigationService.of(context).navigateTo(Routes.guardianTabs)
-                                    : BlocProvider.of<SecurityBloc>(context).add(const OnPinChanged());
+                                BlocProvider.of<SecurityBloc>(context).add(const OnPinChanged());
                               },
                               activeTrackColor: AppColors.canopy,
                               activeColor: AppColors.white,
