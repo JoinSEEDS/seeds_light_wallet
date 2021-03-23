@@ -30,6 +30,7 @@ class EosService {
     privateKey = userPrivateKey;
     accountName = userAccountName;
     baseURL = nodeEndpoint;
+    print("EOS service new enpoint: $baseURL");
     mockEnabled = enableMockTransactions;
     if (privateKey != null && privateKey.isNotEmpty) {
       client =
