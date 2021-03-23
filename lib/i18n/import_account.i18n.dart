@@ -16,6 +16,19 @@ static final _t = Translations.byLocale('en_us') +
         'Given private key is not valid': 'La llave privada no es válida',
         'Account name': 'Nombre de cuenta',
         'Import account': 'Importar cuenta',
+      },
+      "id_id": {
+        "Private key": "Kunci Pribadi",
+        "Paste from clipboard": "Tempel",
+        
+        "If you already have Seeds account - enter active private key and account will be imported automatically": 
+        "Jika Anda sudah memiliki akun Seeds - masukkan kunci pribadi aktif dan akun akan diimpor secara otomatis",
+
+        "Looking for accounts...": "Mencari akun...",
+        "No accounts found associated with given key": "Tidak ada akun yang ditemukan terkait dengan kunci yang diberikan",
+        "Given private key is not valid": "Kunci pribadi yang diberikan tidak valid",
+        "Account name": "Nama akun",
+        'Import account': "Impor akun",
       }
     };
 

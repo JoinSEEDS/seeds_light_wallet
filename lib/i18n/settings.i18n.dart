@@ -15,6 +15,19 @@ extension Localization on String {
           'Setting your local currency lets you easily switch between your local and preferred currency.':
               'Configurar su moneda local le permite cambiar fácilmente entre su moneda local y preferida.',
           'Skills & Interest': 'Habilidades e interés',
+        },
+        'id_id': {
+          'Settings': 'Pengaturan',
+          'Display Name': 'Nama Tampilan',
+          'Set your Display Name so that others can recognize your account.':
+              'Setel Nama Tampilan Anda agar orang lain dapat mengenali akun Anda.',
+          'Bioregion': 'Bioregion',
+          'Join or create a bioregion to become active in your local community!':
+              'Bergabunglah atau buat bioregion untuk menjadi aktif di komunitas lokal Anda!',
+          'Currency': 'Mata Uang',
+          'Setting your local currency lets you easily switch between your local and preferred currency.':
+              'Menyetel mata uang lokal Anda memungkinkan Anda dengan mudah beralih antara mata uang lokal dan pilihan Anda.',
+          'Skills & Interest': 'Keterampilan & Minat',
         }
       };
 

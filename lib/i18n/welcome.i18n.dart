@@ -10,6 +10,13 @@ static final _t = Translations.byLocale('en_us') +
       'FINISH': 'FINALIZAR',
       
 
+      },
+      "id_id": {
+      'Your wallet almost ready - choose passcode to finish setup': "Dompet Anda hampir siap - pilih passkode untuk menyelesaikan persiapan",
+      'Welcome, %s': "Selamat Datang, %s",
+      "FINISH": "Selesai",
+      
+
       }
     };
 

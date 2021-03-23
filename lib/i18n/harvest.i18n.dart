@@ -9,6 +9,12 @@ static final _t = Translations.byLocale('en_us') +
         'Success!': 'Éxito!',
         'Plant Seeds': 'Plantar Seeds',
         'Plant amount': 'Monto a plantar',
+      },
+      "id_id": {
+        "Transaction hash: %s": "Pagar Transaksi",
+        "Success!": "Sukses!",
+        "Plant Seeds": "Menanam Seeds",
+        "Plant amount": "Jumlah tanaman",
       }
     };
 
