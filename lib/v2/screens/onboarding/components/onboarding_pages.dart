@@ -26,10 +26,9 @@ class OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     double height = MediaQuery.of(context).size.height;
 
-    return  SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
         children: [
           Container(
@@ -45,8 +44,8 @@ class OnboardingPage extends StatelessWidget {
                   overflow: Overflow.visible,
                   children: [
                     topLeaf1,
-                     topLeaf2?? const SizedBox.shrink(),
-                     Image.asset(
+                    topLeaf2 ?? const SizedBox.shrink(),
+                    Image.asset(
                       onboardingImage,
                     ),
                   ],
@@ -54,7 +53,9 @@ class OnboardingPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: topPadding,),
+          SizedBox(
+            height: topPadding,
+          ),
           Center(
             child: Container(
               height: 310,
@@ -70,7 +71,7 @@ class OnboardingPage extends StatelessWidget {
                         title.i18n,
                         style: Theme.of(context).textTheme.headline3,
                       ),
-                     const  SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Text(

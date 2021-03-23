@@ -51,7 +51,7 @@ class OnboardingState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    final double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
         body: Column(
@@ -110,7 +110,9 @@ class OnboardingState extends State<OnboardingScreen> {
                         "Join Now".i18n,
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
-                      onPressed: () {NavigationService.of(context).navigateTo(Routes.login, null, true);},
+                      onPressed: () {
+                        NavigationService.of(context).navigateTo(Routes.login, null, true);
+                      },
                     ))
                 : Container(
                     alignment: Alignment.centerRight,
