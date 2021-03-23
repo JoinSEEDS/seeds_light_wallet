@@ -57,7 +57,6 @@ class _TransferFormState extends State<TransferForm>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print("xfwer form");
     Provider.of<ConnectionNotifier>(context, listen: false).discoverEndpoints();
   }
 
