@@ -2,30 +2,53 @@ import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
 
-static var _t = Translations.byLocale("en_us") +
+static final _t = Translations.byLocale('en_us') +
     {
-      "es_es": {
+      'es_es': {
         
-        "Invites": "Invitaciones",
-        "Members invited by you:": "Miembros invitados por ti",
-        "Active invites:": "Invitaciones activas",
-        "%s (copy)": "%s (copia)", // copy tx hash
-        "Sow: %s": "Siembra: %s",
-        "Transfer: %s": "Transfiere: %s",
-        "No active invites": "No hay invitaciones activas",
-        "Create new invite": "Crear nueva invitación",
+        'Invites': 'Invitaciones',
+        'Members invited by you:': 'Miembros invitados por ti',
+        'Active invites:': 'Invitaciones activas',
+        '%s (copy)': '%s (copia)', // copy tx hash
+        'Sow: %s': 'Siembra: %s',
+        'Transfer: %s': 'Transfiere: %s',
+        'No active invites': 'No hay invitaciones activas',
+        'Create new invite': 'Crear nueva invitación',
 
-        "Transaction hash: %s": "Hash de transacción: %s",
-        "Show invite code": "Mostrar código de invitación",
-        "Invite friend": "Invitar amiga(o)",
-        "Invite amount (minimum: 5)": "Monto de invitación (mínimo: 5)",
-        "Create invite": "Crear invitación",
-        "GREAT": "GENIAL",
-        "Share this link with the person you want to invite!": "¡Comparte este enlace con la persona que quieres invitar!",
-        "Share Link": "Comparte enlace",
-        "Share Code": "Comparte código",
-        "Done": "Listo",
+        'Transaction hash: %s': 'Hash de transacción: %s',
+        'Show invite code': 'Mostrar código de invitación',
+        'Invite friend': 'Invitar amiga(o)',
+        'Invite amount (minimum: 5)': 'Monto de invitación (mínimo: 5)',
+        'Create invite': 'Crear invitación',
+        'GREAT': 'GENIAL',
+        'Share this link with the person you want to invite!': '¡Comparte este enlace con la persona que quieres invitar!',
+        'Share Link': 'Comparte enlace',
+        'Share Code': 'Comparte código',
+        'Done': 'Listo',
+      },
+      "id_id": {
+        
+        "Invites": "Undangan",
+        "Members invited by you:": "Anggota yang Anda undang",
+        "Active invites:": "Undangan aktif",
+        "%s (copy)": "%s (salinan)", // copy tx hash
+        "Sow: %s": "Tabur: %s",
+        "Transfer: %s": "transfer: %s",
+        "No active invites": "Tidak ada undangan aktif",
+        "Create new invite": "Buat undangan baru",
+
+        "Transaction hash: %s": "Pagar transaksi: %s",
+        "Show invite code": "Tunjukkan kode undangan",
+        "Invite friend": "Mengundang teman(o)",
+        "Invite amount (minimum: 5)": "Jumlah undangan (minimal: 5)",
+        "Create invite": "Buat undangan",
+        "GREAT": "BAGUS",
+        "Share this link with the person you want to invite!": "Bagikan tautan ini dengan orang yang ingin Anda undang!",
+        "Share Link": "Bagikan tautan",
+        "Share Code": "Bagikan kode",
+        "Done": "Selesai",
       }
+
     };
 
   String get i18n => localize(this, _t);
