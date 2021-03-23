@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
+import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -53,7 +54,13 @@ class _TransferFormState extends State<TransferForm>
   void initState() {
     super.initState();
   }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     print("xfwer form");
+    Provider.of<ConnectionNotifier>(context, listen: false).discoverEndpoints();
+  }
+
 
   void processTransaction() async {
     setState(() {
@@ -61,9 +68,8 @@ class _TransferFormState extends State<TransferForm>
       showPageLoader = true;
     });
 
-    print("Seeds valu to send: " + seedsValue.toString());
     try {
-      var response =
+      var response = 
           await Provider.of<EosService>(context, listen: false).transferSeeds(
         beneficiary: widget.arguments.accountName,
         amount: seedsValue,
@@ -81,7 +87,7 @@ class _TransferFormState extends State<TransferForm>
       });
 
     } catch (err) {
-      print(err);
+      print("error sending seeds ${err.toString()}");
       _statusNotifier.add(false);
       _messageNotifier.add(err.toString());
     }
