@@ -11,6 +11,14 @@ static final _t = Translations.byLocale('en_us') +
         'Enable Settings': 'Habilitar configuración',
         'Try Again': 'Intenta de nuevo',
         'Use Passcode': 'Utiliza el passcode'
+      },
+      "id_id": {
+        'Biometrics Disabled': 'Biometrik Nonaktif',
+        'Loading your SEEDS Wallet...': 'Memuat Dompet SEEDS Anda',
+        'Initializing Biometrics': 'Menginisialisasi Biometrik',
+        'Enable Settings': 'Aktifkan Pengaturan',
+        'Try Again': 'Coba Lagi',
+        'Use Passcode': 'Masukan Passkode'
       }
     };
   String get i18n => localize(this, _t);
