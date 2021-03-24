@@ -7,7 +7,9 @@ class SeedsAppTheme {
         primaryColor: AppColors.primary,
         fontFamily: 'SFProDisplay',
         textTheme: SeedsTextTheme.lightTheme,
-        brightness: Brightness.light);
+        brightness: Brightness.light,
+        canvasColor: AppColors.primary,
+        appBarTheme: AppBarTheme(elevation: 0.0));
   }
 
   static ThemeData get darkTheme {
@@ -15,7 +17,9 @@ class SeedsAppTheme {
         primaryColor: AppColors.primary,
         fontFamily: 'SFProDisplay',
         textTheme: SeedsTextTheme.darkTheme,
-        brightness: Brightness.dark);
+        brightness: Brightness.dark,
+        canvasColor: AppColors.primary,
+        appBarTheme: AppBarTheme(elevation: 0.0));
   }
 }
 
@@ -45,7 +49,7 @@ class SeedsTextTheme {
               Typography.material2018().englishLike.subtitle1.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
           subtitle2:
               Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
-          button: Typography.material2018().englishLike.button.copyWith(fontSize: 16),
+          button: Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
         )
         .apply(displayColor: Colors.black, bodyColor: Colors.black);
   }
@@ -66,7 +70,7 @@ class SeedsTextTheme {
               Typography.material2018().englishLike.subtitle1.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
           subtitle2:
               Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
-          button: Typography.material2018().englishLike.button.copyWith(fontSize: 16),
+          button: Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
         )
         .apply(displayColor: Colors.white, bodyColor: Colors.white);
   }
@@ -90,8 +94,34 @@ extension CustomStyles on TextTheme {
   TextStyle get subtitle2LowEmphasis =>
       Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w300);
 
+  TextStyle get subtitle2OpacityEmphasis => Typography.material2018()
+      .englishLike
+      .subtitle2
+      .copyWith(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white.withOpacity(0.5));
+
   TextStyle get subtitle3 =>
-      Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 12, fontWeight: FontWeight.w200);
+      Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 12, fontWeight: FontWeight.w400);
+
+  TextStyle get subtitle3OpacityEmphasis => Typography.material2018()
+      .englishLike
+      .subtitle2
+      .copyWith(fontSize: 13, fontWeight: FontWeight.w400, color: Colors.white.withOpacity(0.5));
+
+  TextStyle get subtitle4 =>
+      Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 13, fontWeight: FontWeight.w400);
+
+  TextStyle get buttonHighEmphasis => Typography.material2018()
+      .englishLike
+      .button
+      .copyWith(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 2);
+
+  TextStyle get buttonOpacityEmphasis => Typography.material2018()
+      .englishLike
+      .button
+      .copyWith(fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 2, color: Colors.white.withOpacity(0.5));
+
+  TextStyle get buttonLowEmphasis =>
+      Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w400);
 
   TextStyle get button1 =>
       Typography.material2018().englishLike.button.copyWith(fontSize: 25, fontWeight: FontWeight.w400);

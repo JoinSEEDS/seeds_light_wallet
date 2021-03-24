@@ -25,8 +25,8 @@ class FirebaseDatabaseService {
 
   Future<void> setFirebaseMessageToken(String userId) {
     // Users can have multiple tokens. Ex: Multiple devices.
-    List<String> tokens = [PushNotificationService().token];
-    Map<String, Object> data = {
+    var tokens = <String>[PushNotificationService().token];
+    var data = <String, Object>{
       FIREBASE_MESSAGE_TOKENS_KEY: FieldValue.arrayUnion(tokens),
     };
 
@@ -34,8 +34,8 @@ class FirebaseDatabaseService {
   }
 
   Future<void> removeFirebaseMessageToken(String userId) {
-    List<String> tokens = [PushNotificationService().token];
-    Map<String, Object> data = {
+    var tokens = <String>[PushNotificationService().token];
+    var data = <String, Object>{
       FIREBASE_MESSAGE_TOKENS_KEY: FieldValue.arrayRemove(tokens),
     };
 
@@ -44,11 +44,11 @@ class FirebaseDatabaseService {
 
   // Manage guardian Ids
   String _createGuardianId({String currentUserId, String otherUserId}) {
-    return currentUserId + "-" + otherUserId;
+    return currentUserId + '-' + otherUserId;
   }
 
   String _createImGuardianForId({String currentUserId, String otherUserId}) {
-    return otherUserId + "-" + currentUserId;
+    return otherUserId + '-' + currentUserId;
   }
 
   // Getters
@@ -99,7 +99,7 @@ class FirebaseDatabaseService {
     var batch = FirebaseFirestore.instance.batch();
 
     usersToInvite.forEach((guardian) {
-      Map<String, Object> data = {
+      var data = <String, Object>{
         UID_KEY: guardian.account,
         TYPE_KEY: GuardianType.myGuardian.name,
         GUARDIANS_STATUS_KEY: GuardianStatus.requestSent.name,
@@ -107,7 +107,7 @@ class FirebaseDatabaseService {
         GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
       };
 
-      Map<String, Object> dataOther = {
+      var dataOther = <String, Object>{
         UID_KEY: currentUserId,
         TYPE_KEY: GuardianType.imGuardian.name,
         GUARDIANS_STATUS_KEY: GuardianStatus.requestedMe.name,
@@ -115,14 +115,14 @@ class FirebaseDatabaseService {
         GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
       };
 
-      DocumentReference otherUserRef = _usersCollection.doc(guardian.account);
+      var otherUserRef = _usersCollection.doc(guardian.account);
 
-      DocumentReference currentUserRef = _usersCollection
+      var currentUserRef = _usersCollection
           .doc(currentUserId)
           .collection(GUARDIANS_COLLECTION_KEY)
           .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: guardian.account));
 
-      DocumentReference otherUserGuardianRef = otherUserRef
+      var otherUserGuardianRef = otherUserRef
           .collection(GUARDIANS_COLLECTION_KEY)
           .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: guardian.account));
 
@@ -173,7 +173,7 @@ class FirebaseDatabaseService {
   Future<void> acceptGuardianRequestedMe({String currentUserId, String friendId}) {
     var batch = FirebaseFirestore.instance.batch();
 
-    Map<String, Object> data = {
+    var data = <String, Object>{
       GUARDIANS_STATUS_KEY: GuardianStatus.alreadyGuardian.name,
       GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
     };
@@ -214,7 +214,7 @@ class FirebaseDatabaseService {
   Future<void> approveRecoveryForUser({String currentUserId, String friendId}) async {
     var batch = FirebaseFirestore.instance.batch();
 
-    Map<String, Object> data = {
+    var data = <String, Object>{
       RECOVERY_APPROVED_DATE_KEY: FieldValue.serverTimestamp(),
     };
 
@@ -239,14 +239,14 @@ class FirebaseDatabaseService {
   Future<void> startRecoveryForUser({String currentUserId, String userId}) async {
     var batch = FirebaseFirestore.instance.batch();
 
-    QuerySnapshot myGuardians = await _usersCollection
+    var myGuardians = await _usersCollection
         .doc(userId)
         .collection(GUARDIANS_COLLECTION_KEY)
         .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
         .get();
 
     myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
-      Map<String, Object> data = {
+      var data = <String, Object>{
         RECOVERY_STARTED_DATE_KEY: FieldValue.serverTimestamp(),
       };
 
@@ -269,14 +269,14 @@ class FirebaseDatabaseService {
   // This methods finds all the myGuardians for the {userId} and removes the RECOVERY_APPROVED_DATE_KEY for each one of them.
   // Then it goes over to each user and removes the field from the users collection as well.
   Future<void> stopRecoveryForUser({String userId}) async {
-    Map<String, Object> data = {
+    var data = <String, Object>{
       RECOVERY_STARTED_DATE_KEY: FieldValue.delete(),
       RECOVERY_APPROVED_DATE_KEY: FieldValue.delete(),
     };
 
     var batch = FirebaseFirestore.instance.batch();
 
-    QuerySnapshot myGuardians = await _usersCollection
+    var myGuardians = await _usersCollection
         .doc(userId)
         .collection(GUARDIANS_COLLECTION_KEY)
         .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
@@ -297,7 +297,7 @@ class FirebaseDatabaseService {
 
   Future<DocumentReference> createProduct(
       ProductModel product, String userAccount) {
-    Map<String, Object> data = {
+    var data = <String, Object>{
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
       PRODUCT_CREATED_DATE_KEY: FieldValue.serverTimestamp(),
@@ -316,7 +316,7 @@ class FirebaseDatabaseService {
   }
 
   Future<void> updateProduct(ProductModel product, String userAccount) {
-    Map<String, Object> data = {
+    var data = <String, Object>{
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
       PRODUCT_CURRENCY_KEY: product.currency,
@@ -364,7 +364,7 @@ class FirebaseDatabaseService {
 
   /// Use only when we have successfully saved guardians to the user contract by calling eosService.initGuardians
   Future<void> setGuardiansInitialized(String userAccount) {
-    Map<String, Object> data = {
+    var data = <String, Object>{
       GUARDIAN_CONTRACT_INITIALIZED: true,
       GUARDIAN_CONTRACT_INITIALIZED_DATE: FieldValue.serverTimestamp(),
     };
@@ -373,7 +373,7 @@ class FirebaseDatabaseService {
 
   /// Use only when we have successfully saved guardians to the user contract by calling eosService.initGuardians
   Future<void> setGuardiansInitializedUpdated(String userAccount) {
-    Map<String, Object> data = {
+    var data = <String, Object>{
       GUARDIAN_CONTRACT_INITIALIZED: true,
       GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
     };
@@ -381,7 +381,7 @@ class FirebaseDatabaseService {
   }
 
   Future<void> removeGuardiansInitialized(String userAccount) {
-    Map<String, Object> data = {
+    var data = <String, Object>{
       GUARDIAN_CONTRACT_INITIALIZED: false,
       GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
       GUARDIAN_RECOVERY_STARTED_KEY: null,
@@ -417,8 +417,8 @@ class FirebaseDatabaseService {
         .map((event) => _findNotification(event));
   }
 
-  removeGuardianNotification(String userAccount) {
-    Map<String, Object> data = {GUARDIAN_NOTIFICATION_KEY: false};
+  Future<void> removeGuardianNotification(String userAccount) {
+    var data = <String, Object>{GUARDIAN_NOTIFICATION_KEY: false};
 
     return _usersCollection
         .doc(userAccount)
@@ -427,8 +427,8 @@ class FirebaseDatabaseService {
         .set(data);
   }
 
-  setGuardianRecoveryStarted(String userAccount) {
-    Map<String, Object> data = {
+  Future<void> setGuardianRecoveryStarted(String userAccount) {
+    var data = <String, Object>{
       GUARDIAN_RECOVERY_STARTED_KEY: FieldValue.serverTimestamp(),
     };
     return _usersCollection.doc(userAccount).set(data, SetOptions(merge: false));

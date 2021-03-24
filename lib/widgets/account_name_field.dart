@@ -65,7 +65,7 @@ class AccountNameField extends StatelessWidget {
       labelText: 'SEEDS Username'.i18n,
       autocorrect: false,
       textStyle: TextStyle(
-          fontSize: 17, fontWeight: FontWeight.w400, fontFamily: "worksans"),
+          fontSize: 17, fontWeight: FontWeight.w400, fontFamily: 'worksans'),
       controller: controller,
       maxLength: 12,
       inputFormatters: [
@@ -77,7 +77,7 @@ class AccountNameField extends StatelessWidget {
           color: valid ? Colors.green : Colors.black45,
           fontSize: 12,
           fontWeight: FontWeight.bold,
-          fontFamily: "worksans"),
+          fontFamily: 'worksans'),
       onChanged: onChanged,
       errorText: errorText,
       suffixIcon: suffixIcon,

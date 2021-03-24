@@ -4,7 +4,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 
 class ClipboardTextField extends StatefulWidget {
-  final String defaultHintText =  "Paste from clipboard".i18n;
+  final String defaultHintText =  'Paste from clipboard'.i18n;
   final TextEditingController controller;
   final Function onChanged;
   final String labelText;
@@ -32,16 +32,19 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
   @override
   void initState() {
     widget.controller.addListener(() {
-      String val = widget.controller.text;
+      var val = widget.controller.text;
 
-      if (val == previousValue) return;
-      else previousValue = val;
+      if (val == previousValue) {
+        return;
+      } else {
+        previousValue = val;
+      }
 
-      if (val == "" && hasEmptyValue == false) {
+      if (val == '' && hasEmptyValue == false) {
         setState(() {
           hasEmptyValue = true;
         });
-      } else if (val != "" && hasEmptyValue == true) {
+      } else if (val != '' && hasEmptyValue == true) {
         setState(() {
           hasEmptyValue = false;
         });
@@ -55,8 +58,8 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
     return IconButton(
       icon: Icon(Icons.content_paste),
       onPressed: () async {
-        ClipboardData clipboardData = await Clipboard.getData('text/plain');
-        String clipboardText = clipboardData?.text ?? '';
+        var clipboardData = await Clipboard.getData('text/plain');
+        var clipboardText = clipboardData?.text ?? '';
         widget.controller.text = clipboardText;
 
         FocusScope.of(context).requestFocus(FocusNode());
@@ -92,7 +95,7 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
         hintText: widget.hintText != null ? widget.hintText.i18n : widget.defaultHintText,
       ),
       style: TextStyle(
-        fontFamily: "worksans",
+        fontFamily: 'worksans',
       ),
     );
   }

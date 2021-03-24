@@ -9,8 +9,8 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
-import 'package:seeds/v2/screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/widgets/pending_notification.dart';
 
 import 'process_dynamic_links.dart';
@@ -121,7 +121,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return ProcessDynamicLinks(
       child: Scaffold(
-        appBar: buildAppBar(context),
         body: buildPageView(),
         bottomNavigationBar: StreamBuilder<bool>(
             stream: FirebaseDatabaseService()
@@ -134,21 +133,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               }
             }),
       ),
-    );
-  }
-
-  Widget buildAppBar(BuildContext _context) {
-    return AppBar(
-      title: Text(navigationTabs[index].title),
-      centerTitle: true,
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: IconButton(
-              icon: Icon(Icons.qr_code_scanner, size: 28),
-              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode)),
-        ),
-      ],
     );
   }
 
@@ -188,27 +172,29 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   Widget buildNavigation(bool showGuardianNotification) {
-    return BottomNavigationBar(
-      currentIndex: index,
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            changePageNotifier.add("Wallet");
-            break;
-          case 1:
-            changePageNotifier.add("Explore");
-            break;
-          case 2:
-            changePageNotifier.add("Profile");
-            break;
-        }
-      },
-      backgroundColor: AppColors.primary,
-      items: navigationTabs
-          .map(
-            (tab) => buildIcon(tab.title, tab.icon, tab.iconSelected, tab.index == index, showGuardianNotification),
-          )
-          .toList(),
+    return Container(
+      decoration: BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
+      child: BottomNavigationBar(
+        currentIndex: index,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              changePageNotifier.add("Wallet");
+              break;
+            case 1:
+              changePageNotifier.add("Explore");
+              break;
+            case 2:
+              changePageNotifier.add("Profile");
+              break;
+          }
+        },
+        items: navigationTabs
+            .map(
+              (tab) => buildIcon(tab.title, tab.icon, tab.iconSelected, tab.index == index, showGuardianNotification),
+            )
+            .toList(),
+      ),
     );
   }
 }

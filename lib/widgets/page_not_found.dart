@@ -61,7 +61,7 @@ class PageNotFound extends StatelessWidget {
   }
 
   TableRow get _arguments {
-    return _buildRow('Arguments', args?.toString() ?? "N/A");
+    return _buildRow('Arguments', args?.toString() ?? 'N/A');
   }
 
   TableRow _buildRow(String column1, String column2) {

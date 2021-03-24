@@ -8,15 +8,15 @@ import 'package:random_words/random_words.dart';
 String generateMnemonic({ int words = 5, separator = '-' }) {
   var random = Random.secure();
 
-  int dictionaryWords = 2535;
+  var dictionaryWords = 2535;
 
   var randomDictionaryIndexes = List<int>.generate(
       words, (i) => random.nextInt(dictionaryWords));
 
-  List<String> randomDictionaryWords =
+  var randomDictionaryWords =
       randomDictionaryIndexes.map((index) => nouns[index]).toList();
 
-  String mnemonic = randomDictionaryWords.join('-');
+  var mnemonic = randomDictionaryWords.join('-');
 
   return mnemonic;
 }

@@ -30,7 +30,7 @@ class _ReceiveFormState extends State<ReceiveForm> {
           children: <Widget>[
                 buildEntryField(),
                 MainButton(
-                    title: "Next".i18n,
+                    title: 'Next'.i18n,
                     active: receiveAmount > 0,
                     onPressed: () {
                       FocusScope.of(context).unfocus();

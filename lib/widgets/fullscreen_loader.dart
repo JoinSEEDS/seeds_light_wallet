@@ -17,10 +17,10 @@ class FullscreenLoader extends StatefulWidget {
   final Duration successCallbackDelay;
   final Duration failureCallbackDelay;
 
-  final String _successTitle = "Transaction successful".i18n;
-  final String _failureTitle = "Transaction failed".i18n;
-  final String _successButtonText = "Done".i18n;
-  final String _failureButtonText = "Done".i18n;
+  final String _successTitle = 'Transaction successful'.i18n;
+  final String _failureTitle = 'Transaction failed'.i18n;
+  final String _successButtonText = 'Done'.i18n;
+  final String _failureButtonText = 'Done'.i18n;
 
   final String successTitle;
   final String failureTitle;
@@ -57,7 +57,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
   StreamSubscription<bool> statusSubscription;
   StreamSubscription<String> messageSubscription;
 
-  String message = "";
+  String message = '';
   bool showSpinner = true;
   bool showSuccess = false;
   bool showFailure = false;
@@ -79,10 +79,11 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
 
   void _messageListener(String resultMessage) {
     setState(() {
-      if (showFailure)
+      if (showFailure) {
         message = ErrorBuilder.getErrorMessageKey(resultMessage);
-      else
+      } else {
         message = resultMessage;
+      }
     });
   }
 
@@ -113,7 +114,6 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
   @override
   void dispose() {
     animationController?.dispose();
-    super.dispose();
     statusSubscription?.cancel();
     messageSubscription?.cancel();
     super.dispose();
@@ -140,7 +140,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
             AnimatedBuilder(
               animation: animationController,
               builder: (context, child) {
-                double scale = math.sin(math.pi * animationController.value) + 0.8;
+                var scale = math.sin(math.pi * animationController.value) + 0.8;
                 return Align(
                   alignment: Alignment.center,
                   child: Transform.scale(
@@ -169,8 +169,8 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
                     children: <Widget>[
                       Text(
                         (showSuccess == true)
-                            ? (widget.successTitle == null ? widget._successTitle : widget.successTitle)
-                            : (widget.failureTitle == null ? widget._failureTitle : widget.failureTitle),
+                            ? (widget.successTitle ?? widget._successTitle)
+                            : (widget.failureTitle ?? widget._failureTitle),
                         style: TextStyle(
                           color: (showSuccess == true) ? AppColors.blue : AppColors.red,
                           fontWeight: FontWeight.w600,
@@ -204,8 +204,8 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
                     children: <Widget>[
                       MainButton(
                         title: (showSuccess)
-                            ? (widget.successButtonText == null ? widget._successButtonText : widget.successButtonText)
-                            : (widget.failureButtonText == null ? widget._failureButtonText : widget.failureButtonText),
+                            ? (widget.successButtonText ?? widget._successButtonText)
+                            : (widget.failureButtonText ?? widget._failureButtonText),
                         onPressed: () {
                           if (showSuccess && widget.successButtonCallback != null) {
                             widget.successButtonCallback();
