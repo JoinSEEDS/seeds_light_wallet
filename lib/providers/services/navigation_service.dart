@@ -16,7 +16,6 @@ import 'package:seeds/screens/app/guardians/guardians_tabs.dart';
 import 'package:seeds/screens/app/guardians/select_guardians.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
-import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/dashboard/dashboard.dart';
 import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
@@ -31,11 +30,12 @@ import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
-import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
-import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
-import 'package:seeds/v2/screens/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
+import 'package:seeds/v2/screens/send_confirmation/send_confirmation_screen.dart';
+import 'package:seeds/v2/screens/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -58,7 +58,7 @@ class Routes {
   static final logout = 'Logout';
   static final imageViewer = 'ImageViewer';
   static final plantSeeds = 'plantSeeds';
-  static final customTransaction = 'CustomTransation';
+  static final sendConfirmationScreen = 'SendConfirmationScreen';
   static final scanQRCode = 'ScanQRCode';
   static final receive = 'Receive';
   static final receiveConfirmation = 'ReceiveConfirmation';
@@ -119,7 +119,7 @@ class NavigationService {
           arguments: args,
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
-    Routes.customTransaction: (args) => CustomTransaction(args),
+    Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => SendScannerScreen(),
     Routes.receive: (_) => Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),

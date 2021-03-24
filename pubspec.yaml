@@ -146,6 +146,7 @@ flutter:
     - assets/images/contribution/community.svg
     - assets/images/contribution/planted.svg
     - assets/images/contribution/transaction.svg
+    - assets/images/seeds_logo.svg
     # assets end
 
   fonts:
