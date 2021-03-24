@@ -441,4 +441,11 @@ class FirebaseDatabaseService {
     };
     return _usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
   }
+
+  Future<QuerySnapshot> getNodeEndpoints() {
+    return FirebaseFirestore.instance.collection(NODES_COLLECTION_KEY)
+        .limit(10)
+        .get();
+  }
+
 }
