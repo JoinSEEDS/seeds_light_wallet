@@ -32,7 +32,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
     // TODO(raul): I do not like this way to retrive a value from navigation, https://github.com/JoinSEEDS/seeds_light_wallet/issues/500.
     _nameController.text = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Display Name'.i18n)),
+      appBar: AppBar(title: Text('Edit Name'.i18n)),
       body: BlocProvider(
         create: (context) => _editNameBloc,
         child: BlocConsumer<EditNameBloc, EditNameState>(
@@ -49,12 +49,12 @@ class _EditNameScreenState extends State<EditNameScreen> {
                       child: Column(
                         children: [
                           TextFormFieldCustom(
-                            labelText: 'Display name'.i18n,
+                            labelText: 'Name'.i18n,
                             controller: _nameController,
                             onFieldSubmitted: (_) => _onSubmitted(),
                             validator: (value) {
                               if (value.length > 42) {
-                                return 'Please enter a smaller name, maximum 42 characters'.i18n;
+                                return 'Please enter a smaller name'.i18n;
                               }
                               return null;
                             },
