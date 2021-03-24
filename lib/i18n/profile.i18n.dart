@@ -23,7 +23,7 @@ extension Localization on String {
           // profile_v2
           'Contribution Score': 'Puntaje de contribución',
           'Badges Earned': 'Insignias ganadas',
-          'Bioregion': 'Bioregion',
+          'Region': 'Región',
           'Currency': 'Moneda',
           'Skills & Interest': 'Habilidades e interés',
           'You are on the way from': 'Estás en el camino de',
