@@ -96,7 +96,6 @@ class _InvoiceConfirmationState extends State<InvoiceConfirmation> {
             ),
           ],
         );
-        ;
       },
     );
   }
@@ -112,14 +111,12 @@ class _InvoiceConfirmationState extends State<InvoiceConfirmation> {
       showPageLoader = false;
     });
 
-    return;
-
     try {
       var response =
-          await Provider.of<EosService>(context, listen: false).transferSeeds(
-        beneficiary: widget.invoice.recipient,
-        amount: 0.0001, // widget.invoice.doubleAmount,
-        memo: widget.invoice.memo,
+        await Provider.of<EosService>(context, listen: false).transferSeeds(
+          beneficiary: widget.invoice.recipient,
+          amount: 0.0001, // widget.invoice.doubleAmount,
+          memo: widget.invoice.memo,
       );
 
       String trxid = response["transaction_id"];

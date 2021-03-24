@@ -29,4 +29,5 @@ const String PENDING_NOTIFICATIONS_KEY = "pendingNotifications";
 const String USER_PHONE_NUMBER_KEY = "phoneNumber";
 
 const String INVOICES_COLLECTION_KEY = "invoices";
+const String NODES_COLLECTION_KEY = "eosEndpoints";
 const String INVOICES_PAID_KEY = "paid";
