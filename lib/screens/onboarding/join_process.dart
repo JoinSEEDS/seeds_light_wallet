@@ -1,10 +1,10 @@
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/i18n/join_process.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
-import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';
@@ -16,9 +16,9 @@ import 'package:seeds/screens/onboarding/onboarding_state_machine.dart';
 import 'package:seeds/screens/onboarding/request_recovery.dart';
 import 'package:seeds/screens/onboarding/show_onboarding_choice.dart';
 import 'package:seeds/utils/invites.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_message_token_repository.dart';
 import 'package:seeds/widgets/notion_loader.dart';
 import 'package:seeds/widgets/overlay_popup.dart';
-import 'package:seeds/i18n/join_process.i18n.dart';
 
 class JoinProcess extends StatefulWidget {
   @override
@@ -96,8 +96,7 @@ class _JoinProcessState extends State<JoinProcess> {
         createAccountRequested();
       }
 
-      if (transition["event"] == Events.accountCreated ||
-          transition["event"] == Events.accountImported) {
+      if (transition["event"] == Events.accountCreated || transition["event"] == Events.accountImported) {
         secureAccountWithPasscode();
         saveAccountToFirebase();
       }
@@ -139,8 +138,7 @@ class _JoinProcessState extends State<JoinProcess> {
           "privateKey": pKey,
         });
       } else {
-        print(
-            "Error - recovery mode is enabled but provate key is missing $pKey for account $accountName");
+        print("Error - recovery mode is enabled but provate key is missing $pKey for account $accountName");
       }
     }
   }
@@ -155,7 +153,7 @@ class _JoinProcessState extends State<JoinProcess> {
 
   void saveAccountToFirebase() async {
     await Future.delayed(Duration(milliseconds: 1500), () {});
-    FirebaseDatabaseService().setFirebaseMessageToken(accountName);
+    FirebaseMessageTokenRepository().setFirebaseMessageToken(accountName);
   }
 
   void importAccount() async {
@@ -221,9 +219,7 @@ class _JoinProcessState extends State<JoinProcess> {
   void listenInviteLink() async {
     await Future.delayed(Duration(milliseconds: 500), () {});
 
-    final dynamic result =
-        await Provider.of<LinksService>(context, listen: false)
-            .processInitialLink();
+    final dynamic result = await Provider.of<LinksService>(context, listen: false).processInitialLink();
 
     if (result != null) {
       machine.transition(Events.foundInviteLink, data: result);
@@ -232,8 +228,7 @@ class _JoinProcessState extends State<JoinProcess> {
         machine.transition(Events.foundNoLink);
       }
 
-      Provider.of<LinksService>(context, listen: false)
-          .onDynamicLink((queryParams) {
+      Provider.of<LinksService>(context, listen: false).onDynamicLink((queryParams) {
         machine.transition(Events.foundInviteLink, data: queryParams);
       });
     }
@@ -247,8 +242,7 @@ class _JoinProcessState extends State<JoinProcess> {
     switch (machine.currentState) {
       case States.startRecovery:
         currentScreen = RequestRecovery(
-          onRequestRecovery: (String accountName) =>
-              machine.transition(Events.recoverAccountRequested, data: {
+          onRequestRecovery: (String accountName) => machine.transition(Events.recoverAccountRequested, data: {
             "accountName": accountName,
           }),
         );
@@ -330,8 +324,7 @@ class _JoinProcessState extends State<JoinProcess> {
             },
           ),
         );
-        backCallback =
-            () => machine.transition(Events.createAccountAccountNameBack);
+        backCallback = () => machine.transition(Events.createAccountAccountNameBack);
         break;
       case States.creatingAccount:
         currentScreen = NotionLoader(
