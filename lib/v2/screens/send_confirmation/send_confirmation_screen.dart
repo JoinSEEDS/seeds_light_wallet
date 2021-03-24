@@ -15,12 +15,12 @@ import 'package:seeds/v2/utils/cap_utils.dart';
 
 /// SendConfirmation SCREEN
 class SendConfirmationScreen extends StatelessWidget {
-  final SendConfirmationArguments arguments;
-
-  const SendConfirmationScreen({Key key, this.arguments}) : super(key: key);
+  const SendConfirmationScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final SendConfirmationArguments arguments = ModalRoute.of(context).settings.arguments;
+
     return BlocProvider(
       create: (context) => SendConfirmationBloc()..add(InitSendConfirmationWithArguments(arguments: arguments)),
       child: Scaffold(

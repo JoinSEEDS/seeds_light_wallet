@@ -119,9 +119,7 @@ class NavigationService {
           arguments: args,
         ),
     Routes.plantSeeds: (_) => PlantSeeds(),
-    Routes.sendConfirmationScreen: (args) => SendConfirmationScreen(
-          arguments: args,
-        ),
+    Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => SendScannerScreen(),
     Routes.receive: (_) => Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
