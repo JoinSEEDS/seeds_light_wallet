@@ -27,3 +27,5 @@ const String PRODUCT_POSITION_KEY = "position";
 const String PENDING_NOTIFICATIONS_KEY = "pendingNotifications";
 
 const String USER_PHONE_NUMBER_KEY = "phoneNumber";
+
+const String NODES_COLLECTION_KEY = "eosEndpoints";
