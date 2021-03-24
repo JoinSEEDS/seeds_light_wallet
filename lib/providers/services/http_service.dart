@@ -66,7 +66,6 @@ class HttpService {
       final recovery = UserRecoversModel.fromTableRows(rows);
 
       return recovery;
-
     } catch (error) {
       print("Error fetching recovers: ${error.toString()}");
       return null;
@@ -74,7 +73,6 @@ class HttpService {
   }
 
   Future<UserGuardiansModel> getAccountGuardians(String accountName) async {
-
     print("[http] get account guardians");
     try {
       if (mockResponse == true) {
@@ -82,17 +80,18 @@ class HttpService {
       }
 
       List<dynamic> rows = await getTableRows(
-          code: "guard.seeds", scope: "guard.seeds", table: "guards", value: accountName);
+          code: "guard.seeds",
+          scope: "guard.seeds",
+          table: "guards",
+          value: accountName);
 
       final guardians = UserGuardiansModel.fromTableRows(rows);
 
       return guardians;
-
-    } catch(error) {
+    } catch (error) {
       print("Error fetching account guardians: ${error.toString()}");
       return null;
     }
-
   }
 
   Future<ProfileModel> getProfile() async {
@@ -151,32 +150,36 @@ class HttpService {
     }
   }
 
-  Future<List<String>> getKeyAccounts(String publicKey) async {
-    print("[http] get key accounts");
+  Future<List<String>> getKeyAccountsMongo(String publicKey) async {    
+    var headers = {'Content-Type': 'application/json'};
+    var body =
+        '''
+        {
+          "collection": "pub_keys",
+          "query": {
+            "public_key": "$publicKey"
+          },
+          "limit": 100
+        }
+        ''';
 
-    if (mockResponse == true) {
-      return HttpMockResponse.keyAccounts;
-    }
-
-    final String keyAccountsURL =
-        "$baseURL/v2/state/get_key_accounts?public_key=$publicKey";
-
-    Response res = await get(keyAccountsURL);
+    Response res = await post(Uri.parse('https://mongo-api.hypha.earth/find'), headers: headers, body: body);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
 
-      List<String> keyAccounts = List<String>.from(body["account_names"]);
+      print("result: $body");
+      var items = List<Map<String, dynamic>>.from(body["items"]).where((item) => item["permission"] == "active" || item["permission"] == "owner");
+      List<String> result = items
+          .map<String>((item) => item["account"])
+          .toSet()
+          .toList();
 
-      return keyAccounts;
-    } else if (res.statusCode == 400) {
-      print("invalid public key");
-      return [];
-    } else if (res.statusCode == 404) {
-      print("no accounts associated with public key");
-      return [];
+      result.sort();
+
+      return result;
     } else {
-      print("unexpected error fetching accounts");
+      print("Error fetching accounts: ${res.reasonPhrase}");
       return [];
     }
   }
@@ -312,7 +315,7 @@ class HttpService {
 
     return users;
   }
-
+  
   Future<List<TransactionModel>> getTransactions() async {
     print("[http] get transactions");
 
@@ -320,10 +323,17 @@ class HttpService {
       return HttpMockResponse.transactions;
     }
 
-    final String transactionsURL =
-        "$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc";
+    final String url = "$baseURL/v1/history/get_actions";
 
-    Response res = await get(transactionsURL);
+    var params = '''{ 
+      "account_name": "$userAccount",
+      "pos": -1,
+      "offset": -20
+    }''';
+
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(url, headers: headers, body: params);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
@@ -344,6 +354,57 @@ class HttpService {
       return [];
     }
   }
+
+  Future<List<TransactionModel>> getTransactionsMongo({int blockHeight = 0}) async {
+
+    print("[http] loading transactions from block $blockHeight");
+
+    const url = "https://mongo-api.hypha.earth/find";
+
+    var params = '''{ 
+      "collection":"action_traces",
+      "query": { 
+        "act.account": "token.seeds",
+        "act.name":"transfer",
+        "block_num": {"\$gt": $blockHeight },
+        "\$or": [ { "act.data.from": "$userAccount" }, { "act.data.to":"$userAccount"} ]
+      },
+      "projection":{
+        "trx_id": true,
+        "block_num": true,
+        "block_time": true,
+        "act.data": true
+      },
+      "sort":{
+        "block_num": -1
+      },
+      "skip":0,
+      "limit": 100,
+      "reverse": true
+    }''';
+
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(url, headers: headers, body: params);
+    
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+      List<dynamic> transfers = body["items"];
+      List<TransactionModel> transactions = transfers
+          .map((item) => TransactionModel.fromJsonMongo(item))
+          .toList();
+      
+      // unique transaction id - in very rare cases tx id are returned duplicates
+      final ids = transactions.map((e) => e.transactionId).toSet();
+      transactions.retainWhere((e) => ids.remove(e.transactionId));
+
+      return transactions;
+    } else {
+      print("Error fetching transactions..."+res.parseJson().toString());
+      return [];
+    }
+  }
+
 
   Future<BalanceModel> getBalance() async {
     print("[http] get seeds balance");
@@ -454,7 +515,7 @@ class HttpService {
     final String daoURL = "$baseURL/v1/chain/get_table_rows";
 
     String request =
-        '{"json": true, "code": "dao.hypha","scope": "dao.hypha","table": "members","table_key": "","lower_bound": "$userAccount","upper_bound": "$userAccount","limit": 1,}';
+        '{"json": true, "code": "trailservice","scope": "$userAccount","table": "voters"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(daoURL, headers: headers, body: request);
@@ -465,7 +526,6 @@ class HttpService {
       return body["rows"].length > 0;
     } else {
       print("Cannot fetch dho members...");
-
       return false;
     }
   }
@@ -646,7 +706,6 @@ class HttpService {
           activeProposals.map((item) => ProposalModel.fromJson(item)).toList();
 
       return reverse ? List<ProposalModel>.from(proposals.reversed) : proposals;
-
     } else {
       print('Cannot fetch proposals...');
 

@@ -148,6 +148,8 @@ class _DashboardState extends State<Dashboard> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     refreshData();
+
+    // TODO: This is not in the right place, this should not happen on a widget tree?
     if (SettingsNotifier.of(context).selectedFiatCurrency == null) {
       Locale locale = Localizations.localeOf(context);
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
@@ -157,7 +159,6 @@ class _DashboardState extends State<Dashboard> {
 
   Future<void> refreshData() async {
     await Future.wait(<Future<dynamic>>[
-      TransactionsNotifier.of(context).fetchTransactionsCache(),
       TransactionsNotifier.of(context).refreshTransactions(),
       BalanceNotifier.of(context).fetchBalance(),
       RateNotifier.of(context).fetchRate(),
@@ -346,6 +347,23 @@ class _DashboardState extends State<Dashboard> {
         });
   }
 
+  Widget shimmerWidget() => Shimmer.fromColors(
+              baseColor: Colors.grey[300],
+              highlightColor: Colors.grey[100],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                      child: Container(
+                      height: 64,
+                      color: Colors.white,
+                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 4),
+                    ),
+                  ),
+                ],
+              ),
+            );
+
   Widget buildTransaction(TransactionModel model) {
     String userAccount = SettingsNotifier.of(context).accountName;
 
@@ -469,20 +487,12 @@ class _DashboardState extends State<Dashboard> {
                         }).toList()
                       ],
                     )
-                  : Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            height: 16,
-                            color: Colors.white,
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                          ),
-                        ],
-                      ),
-                    ),
+                  : Column(
+                    children: [
+                      ...List.from(List<int>.generate(5, (i) => i + 1).map((e) => shimmerWidget()))
+                    ]
+                    ,
+                  ),
             ),
           ],
         ),

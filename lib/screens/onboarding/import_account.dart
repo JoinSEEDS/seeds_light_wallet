@@ -64,7 +64,9 @@ class _ImportAccountState extends State<ImportAccount> {
       EOSPrivateKey eosPrivateKey = EOSPrivateKey.fromString(privateKey);
       EOSPublicKey eosPublicKey = eosPrivateKey.toEOSPublicKey();
       publicKey = eosPublicKey.toString();
-    } catch (_) {}
+    } catch (err) {
+      print("error converting key: {$err.toString()}");
+    }
 
     if (publicKey == "") {
       setState(() => status = ImportStatus.invaildPrivateKey);
@@ -73,7 +75,7 @@ class _ImportAccountState extends State<ImportAccount> {
 
     List<String> keyAccounts =
         await Provider.of<HttpService>(context, listen: false)
-            .getKeyAccounts(publicKey);
+            .getKeyAccountsMongo(publicKey);
 
     if (keyAccounts == null || keyAccounts.length == 0) {
       setState(() => status = ImportStatus.noAccounts);

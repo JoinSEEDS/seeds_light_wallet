@@ -2,10 +2,13 @@ import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
 
-static var _t = Translations.byLocale("en_us") +
+static final _t = Translations.byLocale('en_us') +
     {
-      "es_es": {
-         "Scan failed - go back to choose another method": "Escaneo falló - regresa a escoger otro método",
+      'es_es': {
+         'Scan failed - go back to choose another method': 'Escaneo falló - regresa a escoger otro método',
+      },
+      "id_id": {
+         "Scan failed - go back to choose another method": "Pemindaian gagal - kembali untuk memilih metode lain",
       }
     };
 
