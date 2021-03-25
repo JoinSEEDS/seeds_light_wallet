@@ -56,7 +56,7 @@ class PushNotificationService {
 Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message, BuildContext context) async {
   if (message.containsKey('data')) {
     // Handle data message
-    final Map<dynamic, dynamic> data = message['data'];    
+    final Map<dynamic, dynamic> data = message['data'];
     var notificationTypeId = data['notification_type_id'];
 
     if (notificationTypeId == guardianInviteReceived) {
