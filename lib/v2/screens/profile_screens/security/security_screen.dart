@@ -7,6 +7,7 @@ import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/pincode/passcode_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/components/security_card.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
 
@@ -84,8 +85,13 @@ class SecurityScreen extends StatelessWidget {
                           builder: (context, state) {
                             return Switch(
                               value: state.isSecurePin,
-                              onChanged: (_) {
-                                BlocProvider.of<SecurityBloc>(context).add(const OnPinChanged());
+                              onChanged: (_) async {
+                                final res = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const PasscodeScreen()),
+                                );
+                                print('respuesta security screen: $res');
+                                // BlocProvider.of<SecurityBloc>(context).add(const OnPinChanged());
                               },
                               activeTrackColor: AppColors.canopy,
                               activeColor: AppColors.white,
