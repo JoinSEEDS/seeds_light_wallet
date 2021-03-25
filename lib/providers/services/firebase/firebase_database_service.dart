@@ -5,7 +5,6 @@ import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
-import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 
 class FirebaseDatabaseService {
   FirebaseDatabaseService._();
