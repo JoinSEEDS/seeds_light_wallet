@@ -10,6 +10,14 @@ extension Localization on String {
           'Reputation': 'Reputación',
           'Planted': 'Plantadas',
           'Transactions': 'Transacciones',
+        },
+        'id_id': {
+          'Contribution Score': 'Kontribusi Nilai',
+          'Contribution': 'Kontribusi',
+          'Community': 'Komunitas',
+          'Reputation': 'Reputasi',
+          'Planted': 'Penanaman',
+          'Transactions': 'Transaksi',
         }
       };
 
