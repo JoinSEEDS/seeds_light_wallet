@@ -51,6 +51,11 @@ class SecurityScreen extends StatelessWidget {
                   ),
                 );
               },
+            ),
+            BlocListener<SecurityBloc, SecurityState>(
+              listenWhen: (previous, current) =>
+                  previous.navigateToGuardians == false && current.navigateToGuardians == true,
+              listener: (context, state) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
             )
           ],
           child: BlocBuilder<SecurityBloc, SecurityState>(
@@ -74,8 +79,7 @@ class SecurityScreen extends StatelessWidget {
                         onTap: () => Share.share(settingsStorage.privateKey),
                       ),
                       BlocBuilder<SecurityBloc, SecurityState>(
-                        buildWhen: (previous, current) =>
-                            previous.hasNotification == false && current.hasNotification == true,
+                        buildWhen: (previous, current) => previous.hasNotification != current.hasNotification,
                         builder: (context, state) {
                           return Stack(
                             children: [
@@ -85,12 +89,7 @@ class SecurityScreen extends StatelessWidget {
                                 description:
                                     'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
                                         .i18n,
-                                onTap: () {
-                                  if (state.hasNotification) {
-                                    BlocProvider.of<SecurityBloc>(context)..add(const OnRemoveGuardianNotification());
-                                  }
-                                  NavigationService.of(context).navigateTo(Routes.guardianTabs);
-                                },
+                                onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
                               ),
                               if (state.hasNotification) const Positioned(left: 4, top: 10, child: NotificationBadge())
                             ],

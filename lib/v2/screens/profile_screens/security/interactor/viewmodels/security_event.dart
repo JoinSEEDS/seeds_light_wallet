@@ -16,10 +16,10 @@ class ShowNotificationBadge extends SecurityEvent {
   String toString() => 'ShowNotificationBadge { value: $value }';
 }
 
-class OnRemoveGuardianNotification extends SecurityEvent {
-  const OnRemoveGuardianNotification();
+class OnGuardiansCardTapped extends SecurityEvent {
+  const OnGuardiansCardTapped();
   @override
-  String toString() => 'OnRemoveGuardianNotification';
+  String toString() => 'OnGuardiansCardTapped';
 }
 
 class OnPinChanged extends SecurityEvent {

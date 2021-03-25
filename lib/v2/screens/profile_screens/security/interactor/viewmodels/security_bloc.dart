@@ -21,8 +21,12 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     if (event is ShowNotificationBadge) {
       yield state.copyWith(hasNotification: event.value);
     }
-    if (event is OnRemoveGuardianNotification) {
-      await FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
+    if (event is OnGuardiansCardTapped) {
+      yield state.copyWith(navigateToGuardians: false); //reset
+      if (state.hasNotification) {
+        await FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
+      }
+      yield state.copyWith(navigateToGuardians: true);
     }
     if (event is OnPinChanged) {
       yield state.copyWith(isSecurePin: !state.isSecurePin);
