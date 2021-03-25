@@ -5,7 +5,6 @@ import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
-import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 
 class FirebaseDatabaseService {
   FirebaseDatabaseService._();
@@ -21,25 +20,6 @@ class FirebaseDatabaseService {
         .doc(accountName)
         .snapshots()
         .map((DocumentSnapshot userData) => FirebaseUser.fromMap(userData.data(), accountName));
-  }
-
-  Future<void> setFirebaseMessageToken(String userId) {
-    // Users can have multiple tokens. Ex: Multiple devices.
-    var tokens = <String>[PushNotificationService().token];
-    var data = <String, Object>{
-      FIREBASE_MESSAGE_TOKENS_KEY: FieldValue.arrayUnion(tokens),
-    };
-
-    return _usersCollection.doc(userId).set(data, SetOptions(merge: true));
-  }
-
-  Future<void> removeFirebaseMessageToken(String userId) {
-    var tokens = <String>[PushNotificationService().token];
-    var data = <String, Object>{
-      FIREBASE_MESSAGE_TOKENS_KEY: FieldValue.arrayRemove(tokens),
-    };
-
-    return _usersCollection.doc(userId).set(data, SetOptions(merge: true));
   }
 
   // Manage guardian Ids
