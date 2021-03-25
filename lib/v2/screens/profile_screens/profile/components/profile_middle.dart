@@ -21,7 +21,7 @@ class ProfileMiddle extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.location_on_outlined, color: AppColors.green1),
             title: Text(
-              'Bioregion'.i18n,
+              'Region'.i18n,
               style: Theme.of(context).textTheme.button,
             ),
             trailing: Text(

@@ -4,6 +4,7 @@ import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
+import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 enum Steps { scan, processing, success, error }
 
@@ -45,8 +46,8 @@ class _ScanState extends State<Scan> {
         Map<String, dynamic> data = Map<String, dynamic>.from(action.data);
 
         NavigationService.of(context).navigateTo(
-            Routes.customTransaction,
-            CustomTransactionArguments(
+            Routes.sendConfirmationScreen,
+            SendConfirmationArguments(
               account: action.account,
               name: action.name,
               data: data,

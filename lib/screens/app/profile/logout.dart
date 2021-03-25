@@ -4,11 +4,11 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/backup/backup_service.dart';
+import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_message_token_repository.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/second_button.dart';
-import 'package:seeds/i18n/profile.i18n.dart';
 
 class Logout extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _LogoutState extends State<Logout> {
   void onLogout() {
     String userAccount = SettingsNotifier.of(context).accountName;
     SettingsNotifier.of(context).removeAccount();
-    FirebaseDatabaseService().removeFirebaseMessageToken(userAccount);
+    FirebaseMessageTokenRepository().removeFirebaseMessageToken(userAccount);
     Hive.deleteBoxFromDisk("members");
     Hive.deleteBoxFromDisk("transactions");
   }
