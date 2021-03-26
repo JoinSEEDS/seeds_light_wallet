@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/components/edit_profile_pic_bottom_sheet/edit_profile_pic_bottom_sheet.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 
@@ -23,11 +26,22 @@ class ProfileHeader extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      ProfileAvatar(
-                        size: 100,
-                        image: state.profile.image,
-                        nickname: state.profile.nickname,
-                        account: state.profile.account,
+                      InkWell(
+                        onTap: () async {
+                          final file = await showModalBottomSheet(
+                            context: context,
+                            builder: (context) => const EditProfilePicBottomSheet(),
+                          );
+                          if (file != null) {
+                            BlocProvider.of<ProfileBloc>(context).add(OnUpdateProfileImage(file: file as File));
+                          }
+                        },
+                        child: ProfileAvatar(
+                          size: 100,
+                          image: state.profile.image,
+                          nickname: state.profile.nickname,
+                          account: state.profile.account,
+                        ),
                       ),
                     ],
                   ),
