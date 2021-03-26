@@ -12,6 +12,7 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
+import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
@@ -136,6 +137,20 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       var action = request.actions.first;
       var data = Map<String, dynamic>.from(action.data);
 
+      if (action.account == "token.seeds" &&
+          action.name == "transfer" &&
+          data['to'].isNotEmpty &&
+          data['quantity'] == 0.0) {
+        return NavigationService.of(context).navigateTo(
+          Routes.transferForm,
+          TransferFormArguments(
+            "Unknown",
+            data['to'],
+            "",
+          ),
+        );
+      }
+
       Navigator.of(context).push(
         PageRouteBuilder(
             opaque: false,
@@ -182,6 +197,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           }),
     );
   }
+
   Widget buildPageView() {
     return PageView(
       controller: pageController,
