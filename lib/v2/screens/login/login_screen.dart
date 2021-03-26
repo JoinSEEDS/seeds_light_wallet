@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("First time here?", style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.grey3)),
+                Text("First time here?", style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(
                   height: 10,
                 ),
@@ -46,7 +46,7 @@ class LoginScreen extends StatelessWidget {
                   height: 40,
                 ),
                 Text("Already have a Seeds Account?",
-                    style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.grey3)),
+                    style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(
                   height: 10,
                 ),
@@ -70,7 +70,7 @@ class LoginScreen extends StatelessWidget {
               GestureDetector(
                   onTap: () {},
                   child: Text(" Recover ".i18n,
-                      style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.green2))),
+                      style: Theme.of(context).textTheme.subtitle2)),
               Text("your account here".i18n, style: Theme.of(context).textTheme.subtitle2),
             ],
           ),
