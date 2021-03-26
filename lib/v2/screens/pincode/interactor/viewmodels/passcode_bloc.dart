@@ -18,9 +18,13 @@ class PasscodeBloc extends Bloc<PasscodeEvent, PasscodeState> {
     }
     if (event is OnVerifyPasscode) {
       yield state.copyWith(isValidPasscode: event.passcode == settingsNotifier.passcode);
-    }
-    if (event is OnValidPasscode) {
       authNotifier.unlockWallet();
+    }
+    // if (event is OnValidPasscode) {
+    //   authNotifier.unlockWallet();
+    // }
+    if (event is SavePasscode) {
+      settingsNotifier.savePasscode(event.passcode);
     }
   }
 }

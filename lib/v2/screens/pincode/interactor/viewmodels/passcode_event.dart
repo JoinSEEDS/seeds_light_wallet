@@ -27,3 +27,10 @@ class OnValidPasscode extends PasscodeEvent {
   @override
   String toString() => 'OnValidPasscode';
 }
+
+class SavePasscode extends PasscodeEvent {
+  final String passcode;
+  const SavePasscode({@required this.passcode}) : assert(passcode != null);
+  @override
+  String toString() => 'SavePasscode { passcode: $passcode }';
+}

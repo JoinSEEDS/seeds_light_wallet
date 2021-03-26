@@ -16,7 +16,7 @@ class PasscodeScreen extends StatelessWidget {
           PasscodeBloc(settingsNotifier: SettingsNotifier.of(context), authNotifier: AuthNotifier.of(context))
             ..add(const DefineView()),
       child: BlocBuilder<PasscodeBloc, PasscodeState>(
-        builder: (context, state) => state.isCreateView ? CreatePasscode() : VerifyPasscode(),
+        builder: (context, state) => state.isCreateView ? const CreatePasscode() : const VerifyPasscode(),
       ),
     );
   }

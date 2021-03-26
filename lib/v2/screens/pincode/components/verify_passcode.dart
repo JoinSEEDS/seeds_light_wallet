@@ -8,7 +8,14 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/passcode.i18n.dart';
 import 'package:seeds/v2/screens/pincode/interactor/viewmodels/bloc.dart';
 
-class VerifyPasscode extends StatelessWidget {
+class VerifyPasscode extends StatefulWidget {
+  const VerifyPasscode({Key key}) : super(key: key);
+
+  @override
+  _VerifyPasscodeState createState() => _VerifyPasscodeState();
+}
+
+class _VerifyPasscodeState extends State<VerifyPasscode> {
   final StreamController<bool> _verificationNotifier = StreamController<bool>.broadcast();
 
   @override
@@ -25,10 +32,16 @@ class VerifyPasscode extends StatelessWidget {
         shouldTriggerVerification: _verificationNotifier.stream,
         passwordEnteredCallback: (passcode) =>
             BlocProvider.of<PasscodeBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
-        isValidCallback: () => BlocProvider.of<PasscodeBloc>(context).add(const OnValidPasscode()),
+        // isValidCallback: () => BlocProvider.of<PasscodeBloc>(context).add(const OnValidPasscode()),
         bottomWidget: const SizedBox.shrink(),
         circleUIConfig: const CircleUIConfig(circleSize: 14),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _verificationNotifier.close();
+    super.dispose();
   }
 }
