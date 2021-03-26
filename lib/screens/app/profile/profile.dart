@@ -425,6 +425,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _guardiansView(bool showGuardianNotification) {
+    // featureFlagGuardiansEnabled will no used anymore here
     if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
       return Padding(
         padding: EdgeInsets.only(top: 50.0),
