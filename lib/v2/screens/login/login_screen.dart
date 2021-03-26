@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 /// Login SCREEN
@@ -19,38 +18,13 @@ class LoginScreen extends StatelessWidget {
             height: height * 0.4,
             decoration: const BoxDecoration(
                 image: DecorationImage(
+                    fit: BoxFit.fitWidth,
                     image: AssetImage(
-              "assets/images/login/background.png",
-            ))),
+                      "assets/images/login/background.png",
+                    ))),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                "assets/images/login/seeds_icon.svg",
-              ),
-              const SizedBox(
-                width: 12,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  SvgPicture.asset(
-                    "assets/images/login/text_seeds.svg",
-                  ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Text(
-                    "Light Wallet",
-                    style: Theme.of(context).textTheme.headline7LowEmphasis,
-                  )
-                ],
-              )
-            ],
+          SvgPicture.asset(
+            "assets/images/login/seeds_light_wallet_logo.svg",
           ),
           const SizedBox(
             height: 100,

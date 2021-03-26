@@ -17,8 +17,8 @@ static final _t = Translations.byLocale('en_us') +
           'First time here?': 'Primera vez aqui?',
           'Claim invite code': 'Reclamar codigo de invitacion',
           'Already have a Seeds Account?': 'Ya tienes una cuenta de Seeeds?',
-          'Import private key': 'Importar clave provada',
-          'Lost your key?': 'Perdistes tu llave?',
+          'Import private key': 'Importar clave privada',
+          'Lost your key?': 'Perdiste tu llave?',
           'Recover':'Recuperar',
           'your account here' : 'tu cuenta aqui',
 
