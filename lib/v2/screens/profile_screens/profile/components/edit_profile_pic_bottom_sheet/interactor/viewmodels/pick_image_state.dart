@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class PickImageState extends Equatable {
   final File file;
@@ -12,11 +11,7 @@ class PickImageState extends Equatable {
   @override
   List<Object> get props => [file, errorMessage];
 
-  PickImageState copyWith({
-    PageState pageState,
-    File file,
-    String errorMessage,
-  }) {
+  PickImageState copyWith({File file, String errorMessage}) {
     return PickImageState(
       file: file ?? this.file,
       errorMessage: errorMessage ?? this.errorMessage,
