@@ -11,10 +11,13 @@ class PasscodeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _securityBloc = ModalRoute.of(context).settings.arguments;
     return BlocProvider(
-      create: (context) =>
-          PasscodeBloc(settingsNotifier: SettingsNotifier.of(context), authNotifier: AuthNotifier.of(context))
-            ..add(const DefineView()),
+      create: (context) => PasscodeBloc(
+          settingsNotifier: SettingsNotifier.of(context),
+          authNotifier: AuthNotifier.of(context),
+          securityBloc: _securityBloc)
+        ..add(const DefineView()),
       child: BlocBuilder<PasscodeBloc, PasscodeState>(
         builder: (context, state) => state.isCreateView ? const CreatePasscode() : const VerifyPasscode(),
       ),

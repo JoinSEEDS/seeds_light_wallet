@@ -22,15 +22,15 @@ class OnVerifyPasscode extends PasscodeEvent {
   String toString() => 'OnVerifyPasscode { passcode: $passcode }';
 }
 
-class OnValidPasscode extends PasscodeEvent {
-  const OnValidPasscode();
+class OnValidVerifyPasscode extends PasscodeEvent {
+  const OnValidVerifyPasscode();
   @override
-  String toString() => 'OnValidPasscode';
+  String toString() => 'OnValidVerifyPasscode';
 }
 
-class SavePasscode extends PasscodeEvent {
+class OnSavePasscode extends PasscodeEvent {
   final String passcode;
-  const SavePasscode({@required this.passcode}) : assert(passcode != null);
+  const OnSavePasscode({@required this.passcode}) : assert(passcode != null);
   @override
-  String toString() => 'SavePasscode { passcode: $passcode }';
+  String toString() => 'OnSavePasscode { passcode: $passcode }';
 }

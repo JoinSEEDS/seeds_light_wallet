@@ -32,7 +32,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
         shouldTriggerVerification: _verificationNotifier.stream,
         passwordEnteredCallback: (passcode) =>
             BlocProvider.of<PasscodeBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
-        // isValidCallback: () => BlocProvider.of<PasscodeBloc>(context).add(const OnValidPasscode()),
+        isValidCallback: () => BlocProvider.of<PasscodeBloc>(context).add(const OnValidVerifyPasscode()),
         bottomWidget: const SizedBox.shrink(),
         circleUIConfig: const CircleUIConfig(circleSize: 14),
       ),

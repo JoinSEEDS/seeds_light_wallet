@@ -9,6 +9,12 @@ abstract class SecurityEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class SetUpInitialValues extends SecurityEvent {
+  const SetUpInitialValues();
+  @override
+  String toString() => 'SetUpInitialValues';
+}
+
 class OnPinChanged extends SecurityEvent {
   const OnPinChanged();
   @override
