@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import '../onboarding_pages.dart';
 
@@ -13,23 +14,23 @@ class SecondPage extends StatelessWidget {
       topLeaf1: Positioned(
         left: 40,
         top: 40,
-        child: Image.asset(
-          'assets/images/onboarding/leaves/pointing_left/medium_light_leaf.png',
+        child: SvgPicture.asset(
+          'assets/images/onboarding/leaves/pointing_left/medium_light_leaf.svg',
         ),
       ),
       bottomLeaf1: Positioned(
         bottom: 70,
         left: 50,
-        child: Image.asset(
-          'assets/images/onboarding/leaves/pointing_right/small_light_leaf.png',
+        child: SvgPicture.asset(
+          'assets/images/onboarding/leaves/pointing_right/small_light_leaf.svg',
           color: AppColors.lightGreen1,
         ),
       ),
       bottomLeaf2: Positioned(
         right: 60,
         top: 60,
-        child: Image.asset(
-          'assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.png',
+        child: SvgPicture.asset(
+          'assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.svg',
         ),
       ),
     );
