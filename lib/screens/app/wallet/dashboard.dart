@@ -434,7 +434,7 @@ class _DashboardState extends State<Dashboard> {
                                       fontSize: 16),
                                 ),
                                 Text(
-                                  model.quantity.seedsFormatted + " SEEDS",
+                                  model.quantity.seedsFormatted + " " + model.symbol,
                                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
                                 )
                               ],

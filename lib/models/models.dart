@@ -182,6 +182,8 @@ class TransactionModel {
   final String transactionId;
   final int blockNumber;
 
+  String get symbol { return quantity.split(" ")[1]; }
+
   TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp,
       this.transactionId, this.blockNumber);
 
