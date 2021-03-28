@@ -7,15 +7,11 @@ class FlatButtonLong extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
   final Color color;
-  final Color textColor;
 
-  const FlatButtonLong({Key key, @required this.title, @required this.onPressed, this.color, this.textColor}) : super(key: key);
+  const FlatButtonLong({Key key, @required this.title, @required this.onPressed, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var style = textColor != null
-        ? Theme.of(context).textTheme.button.copyWith(color: textColor)
-        : Theme.of(context).textTheme.button;
     return SizedBox(
       width: double.infinity,
       child: FlatButton(
@@ -27,7 +23,7 @@ class FlatButtonLong extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Text(title, style: style),
+          child: Text(title, style: Theme.of(context).textTheme.button),
         ),
         onPressed: onPressed,
       ),
