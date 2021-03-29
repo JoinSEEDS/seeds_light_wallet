@@ -20,10 +20,6 @@ class InitSendConfirmationWithArguments extends SendConfirmationEvent {
 }
 
 class SendTransactionEvent extends SendConfirmationEvent {
-
-  /// accountName is the current logged in user account.
-  SendTransactionEvent();
-
   @override
   String toString() => 'SendTransactionEvent: { SendTransactionEvent: }';
 }
