@@ -153,6 +153,8 @@ flutter:
     - assets/images/contribution/planted.svg
     - assets/images/contribution/transaction.svg
     - assets/images/seeds_logo.svg
+    - assets/images/login/background.png
+    - assets/images/login/seeds_light_wallet_logo.svg
     # assets end
 
   fonts:
