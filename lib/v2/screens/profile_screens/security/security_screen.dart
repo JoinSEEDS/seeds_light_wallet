@@ -114,7 +114,7 @@ class SecurityScreen extends StatelessWidget {
                           return Stack(
                             children: [
                               SecurityCard(
-                                icon: SvgPicture.asset('assets/images/key_guardians_icon.svg'),
+                                icon: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
                                 title: 'Key Guardians'.i18n,
                                 description:
                                     'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
