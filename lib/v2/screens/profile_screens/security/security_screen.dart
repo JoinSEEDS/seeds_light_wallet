@@ -27,6 +27,32 @@ class SecurityScreen extends StatelessWidget {
         child: MultiBlocListener(
           listeners: [
             BlocListener<SecurityBloc, SecurityState>(
+              listenWhen: (previous, current) => previous.isSecurePin == false && current.isSecurePin == true,
+              listener: (context, state) {
+                showDialog<void>(
+                  context: context,
+                  barrierDismissible: false, // user must tap button
+                  builder: (_) => CustomDialog(
+                    icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
+                    children: [
+                      Text(
+                        'Succesful'.i18n,
+                        style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.primary),
+                      ),
+                      const SizedBox(height: 30.0),
+                      Text(
+                        'Pincode created successfully.'.i18n,
+                        textAlign: TextAlign.justify,
+                        style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.primary),
+                      ),
+                      const SizedBox(height: 30.0),
+                    ],
+                    singleLargeButtonTitle: 'Close'.i18n,
+                  ),
+                );
+              },
+            ),
+            BlocListener<SecurityBloc, SecurityState>(
               listenWhen: (previous, current) =>
                   previous.isSecureBiometric == false && current.isSecureBiometric == true,
               listener: (context, state) {
@@ -75,7 +101,7 @@ class SecurityScreen extends StatelessWidget {
                         onTap: () {},
                       ),
                       SecurityCard(
-                        icon: SvgPicture.asset('assets/images/key_guardians_icon.svg'),
+                        icon: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
                         title: 'Key Guardians'.i18n,
                         description:
                             'Choose 3 - 5 friends and/or family members to help you recover your account in case.'.i18n,

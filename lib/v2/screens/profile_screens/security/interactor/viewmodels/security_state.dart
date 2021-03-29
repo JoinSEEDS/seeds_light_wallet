@@ -41,8 +41,8 @@ class SecurityState extends Equatable {
   factory SecurityState.initial() {
     return const SecurityState(
       pageState: PageState.initial,
-      isSecurePin: false,
-      isSecureBiometric: false,
+      isSecurePin: null,
+      isSecureBiometric: null,
       errorMessage: null,
     );
   }

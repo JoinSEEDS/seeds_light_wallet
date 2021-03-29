@@ -32,7 +32,7 @@ class _CreatePasscodeState extends State<CreatePasscode> {
       backgroundColor: AppColors.primary,
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) async {
-        BlocProvider.of<PasscodeBloc>(context).add(OnSavePasscode(passcode: passcode));
+        BlocProvider.of<PasscodeBloc>(context).add(OnCreatePasscode(passcode: passcode));
       },
       bottomWidget: Padding(
         padding: const EdgeInsets.only(top: 20),

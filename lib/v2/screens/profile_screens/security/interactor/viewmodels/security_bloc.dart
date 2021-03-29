@@ -17,6 +17,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       yield state.copyWith(
         pageState: PageState.success,
         isSecurePin: settingsNotifier.passcodeActive,
+        isSecureBiometric: true,
       );
     }
     if (event is OnPinChanged) {

@@ -6,12 +6,16 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 class PasscodeState extends Equatable {
   final PageState pageState;
   final bool isCreateView;
+  final bool isCreateMode;
+  final String newPasscode;
   final bool isValidPasscode;
   final String errorMessage;
 
   const PasscodeState({
     @required this.pageState,
     this.isCreateView,
+    this.isCreateMode,
+    this.newPasscode,
     this.isValidPasscode,
     this.errorMessage,
   });
@@ -20,6 +24,8 @@ class PasscodeState extends Equatable {
   List<Object> get props => [
         pageState,
         isCreateView,
+        isCreateMode,
+        newPasscode,
         isValidPasscode,
         errorMessage,
       ];
@@ -27,12 +33,16 @@ class PasscodeState extends Equatable {
   PasscodeState copyWith({
     PageState pageState,
     bool isCreateView,
+    bool isCreateMode,
+    String newPasscode,
     bool isValidPasscode,
     String errorMessage,
   }) {
     return PasscodeState(
       pageState: pageState ?? this.pageState,
       isCreateView: isCreateView ?? this.isCreateView,
+      isCreateMode: isCreateMode ?? this.isCreateMode,
+      newPasscode: newPasscode ?? this.newPasscode,
       isValidPasscode: isValidPasscode ?? this.isValidPasscode,
       errorMessage: errorMessage ?? this.errorMessage,
     );
@@ -40,9 +50,11 @@ class PasscodeState extends Equatable {
 
   factory PasscodeState.initial() {
     return const PasscodeState(
-      pageState: PageState.success,
-      isCreateView: false,
-      isValidPasscode: false,
+      pageState: PageState.initial,
+      isCreateView: null,
+      isCreateMode: null,
+      newPasscode: null,
+      isValidPasscode: null,
       errorMessage: null,
     );
   }
