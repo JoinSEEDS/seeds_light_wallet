@@ -473,6 +473,20 @@ class HttpService {
       return FiatRateModel(null, error: true);
     }
   }
+  
+  Future<FiatRateModel> getFiatRatesAlternate() async {
+    print("[http] get alternate fiat rates");
+
+    Response res = await get("http://data.fixer.io/api/latest?access_key=${Config.fixerApiKey}&symbols=CRC,GTQ,USD");
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+      return FiatRateModel.fromJsonFixer(body);
+    } else {
+      print("Cannot fetch alternate rates..." + res.body.toString());
+      return FiatRateModel(null, base: null, error: true);
+    }
+  }
 
   Future<BalanceModel> getTelosBalance() async {
     print('[http] get telos balance');

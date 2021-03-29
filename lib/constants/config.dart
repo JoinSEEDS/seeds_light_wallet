@@ -16,4 +16,5 @@ class Config {
       'https://www.joinseeds.com/seeds-app-privacy-policy.html';
   static final explorer = 'https://telos.bloks.io';
   static final dhoExplorer = 'https://dho.hypha.earth'; //  http://10.0.2.2:8080
+  static final fixerApiKey = "3b0819cba60943d4151af8de60ba5c10";
 }

@@ -16,4 +16,27 @@ class RatesRepository extends NetworkRepository {
             }))
         .catchError((error) => mapHttpError(error));
   }
+  
+  // TODO-NIK code below needs to be put in a future with a wait all
+
+  // TODO before we did all 3 calls in 1 - we should still do that... get USD tate, get both fiat rates all at the same time
+
+  // TODO Not sure how to do that in the new architecture
+
+  // See rate_notifier - all 3 calls in 1 future
+
+  //   Future<FiatRateModel> getFiatRatesAlternate() async {
+  //   print("[http] get alternate fiat rates");
+
+  //   Response res = await get("http://data.fixer.io/api/latest?access_key=${Config.fixerApiKey}&symbols=CRC,GTQ,USD");
+
+  //   if (res.statusCode == 200) {
+  //     Map<String, dynamic> body = res.parseJson();
+  //     return FiatRateModel.fromJsonFixer(body);
+  //   } else {
+  //     print("Cannot fetch alternate rates..." + res.body.toString());
+  //     return FiatRateModel(null, base: null, error: true);
+  //   }
+  // }
+
 }
