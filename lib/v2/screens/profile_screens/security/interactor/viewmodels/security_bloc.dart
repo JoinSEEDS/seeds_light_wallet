@@ -11,6 +11,7 @@ import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/
 
 /// --- BLOC
 class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
+  // TODO(raul): Remove usage of _settingsNotifier and AuthNotifier. We need them for now to not break other areas, https://github.com/JoinSEEDS/seeds_light_wallet/pull/620
   final SettingsNotifier settingsNotifier;
   final AuthNotifier authNotifier;
   StreamSubscription<bool> _hasGuardianNotificationPending;
