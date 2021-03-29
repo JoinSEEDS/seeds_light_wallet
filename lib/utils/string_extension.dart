@@ -10,5 +10,8 @@ extension StringExtension on String{
       return null;
     }
   }
+  
+  String get symbolFromAmount { return split(" ")[1]; }
+
 }
 

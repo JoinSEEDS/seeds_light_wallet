@@ -5,7 +5,6 @@ import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
-import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 
 class FirebaseDatabaseService {
   FirebaseDatabaseService._();
@@ -21,25 +20,6 @@ class FirebaseDatabaseService {
         .doc(accountName)
         .snapshots()
         .map((DocumentSnapshot userData) => FirebaseUser.fromMap(userData.data(), accountName));
-  }
-
-  Future<void> setFirebaseMessageToken(String userId) {
-    // Users can have multiple tokens. Ex: Multiple devices.
-    var tokens = <String>[PushNotificationService().token];
-    var data = <String, Object>{
-      FIREBASE_MESSAGE_TOKENS_KEY: FieldValue.arrayUnion(tokens),
-    };
-
-    return _usersCollection.doc(userId).set(data, SetOptions(merge: true));
-  }
-
-  Future<void> removeFirebaseMessageToken(String userId) {
-    var tokens = <String>[PushNotificationService().token];
-    var data = <String, Object>{
-      FIREBASE_MESSAGE_TOKENS_KEY: FieldValue.arrayRemove(tokens),
-    };
-
-    return _usersCollection.doc(userId).set(data, SetOptions(merge: true));
   }
 
   // Manage guardian Ids
@@ -295,8 +275,7 @@ class FirebaseDatabaseService {
     return batch.commit();
   }
 
-  Future<DocumentReference> createProduct(
-      ProductModel product, String userAccount) {
+  Future<DocumentReference> createProduct(ProductModel product, String userAccount) {
     var data = <String, Object>{
       PRODUCT_NAME_KEY: product.name,
       PRODUCT_PRICE_KEY: product.price,
@@ -309,10 +288,7 @@ class FirebaseDatabaseService {
       data.addAll({PRODUCT_IMAGE_URL_KEY: product.picture});
     }
 
-    return _usersCollection
-        .doc(userAccount)
-        .collection(PRODUCTS_COLLECTION_KEY)
-        .add(data);
+    return _usersCollection.doc(userAccount).collection(PRODUCTS_COLLECTION_KEY).add(data);
   }
 
   Future<void> updateProduct(ProductModel product, String userAccount) {
@@ -335,11 +311,7 @@ class FirebaseDatabaseService {
   }
 
   Future<void> deleteProduct(ProductModel product, String userAccount) {
-    return _usersCollection
-        .doc(userAccount)
-        .collection(PRODUCTS_COLLECTION_KEY)
-        .doc(product.id)
-        .delete();
+    return _usersCollection.doc(userAccount).collection(PRODUCTS_COLLECTION_KEY).doc(product.id).delete();
   }
 
   Stream<QuerySnapshot> getOrderedProductsForUser(String accountName) {
@@ -356,10 +328,7 @@ class FirebaseDatabaseService {
         .collection(PRODUCTS_COLLECTION_KEY)
         .orderBy(PRODUCT_CREATED_DATE_KEY)
         .snapshots()
-        .asyncMap((event) => event.docs
-            .map(
-                (QueryDocumentSnapshot data) => ProductModel.fromSnapshot(data))
-            .toList());
+        .asyncMap((event) => event.docs.map((QueryDocumentSnapshot data) => ProductModel.fromSnapshot(data)).toList());
   }
 
   /// Use only when we have successfully saved guardians to the user contract by calling eosService.initGuardians
