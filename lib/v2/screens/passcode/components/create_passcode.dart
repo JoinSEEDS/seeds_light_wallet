@@ -9,7 +9,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/biometrics/auth_commands.dart';
 import 'package:seeds/i18n/passcode.i18n.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
-import 'package:seeds/v2/screens/pincode/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/passcode/interactor/viewmodels/bloc.dart';
 
 class CreatePasscode extends StatefulWidget {
   const CreatePasscode({Key key}) : super(key: key);

@@ -28,7 +28,7 @@ import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
-import 'package:seeds/v2/screens/pincode/passcode_screen.dart';
+import 'package:seeds/v2/screens/passcode/passcode_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';

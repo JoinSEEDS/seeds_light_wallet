@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/pincode/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/passcode/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC
