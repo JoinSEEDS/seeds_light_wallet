@@ -13,9 +13,17 @@ abstract class SendConfirmationEvent extends Equatable {
 class InitSendConfirmationWithArguments extends SendConfirmationEvent {
   final SendConfirmationArguments arguments;
 
-  InitSendConfirmationWithArguments({@required this.arguments})
-      : assert(arguments != null);
+  InitSendConfirmationWithArguments({@required this.arguments}) : assert(arguments != null);
 
   @override
   String toString() => 'LoadSendConfirmation: { sendConfirmationArguments: $arguments }';
+}
+
+class SendTransactionEvent extends SendConfirmationEvent {
+
+  /// accountName is the current logged in user account.
+  SendTransactionEvent();
+
+  @override
+  String toString() => 'SendTransactionEvent: { SendTransactionEvent: }';
 }

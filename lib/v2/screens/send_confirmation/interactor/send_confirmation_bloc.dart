@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/send_confirmation/interactor/mappers/send_transaction_state_mapper.dart';
+import 'package:seeds/v2/screens/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
 import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_events.dart';
 import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_state.dart';
 import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_info_line_items.dart';
@@ -19,7 +21,14 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
             .toList(),
         name: event.arguments.name,
         account: event.arguments.account,
+        data: event.arguments.data
       );
+    } else if (event is SendTransactionEvent) {
+      yield state.copyWith(pageState: PageState.loading);
+
+      Result result = await SendTransactionUseCase().run(state.name, state.account, state.data);
+
+      yield SendTransactionStateMapper().mapResultToState(state, result);
     }
   }
 }

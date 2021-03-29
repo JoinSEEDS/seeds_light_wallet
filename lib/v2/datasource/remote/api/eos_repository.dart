@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/constants/config.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 abstract class EosRepository {
   String cpuPrivateKey = Config.cpuPrivateKey;
@@ -30,11 +31,11 @@ abstract class EosRepository {
     return transaction;
   }
 
-  EOSClient buildEosClient(String nodeEndpoint, String privateKey) =>
-      EOSClient(nodeEndpoint, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
+  EOSClient buildEosClient() =>
+      EOSClient(settingsStorage.nodeEndpoint, 'v1', privateKeys: [settingsStorage.privateKey, cpuPrivateKey]);
 
   Result mapEosResponse(dynamic response, Function modelMapper) {
-    print('mapHttpResponse - transaction id: ${response['transaction_id']}');
+    print('mapEosResponse - transaction id: ${response['transaction_id']}');
     if (response['transaction_id'] != null) {
       print('Model Class: $modelMapper');
       var map = Map<String, dynamic>.from(response);
@@ -45,7 +46,7 @@ abstract class EosRepository {
   }
 
   Result mapEosError(error) {
-    print('mapHttpError: ' + error.toString());
+    print('mapEosError: ' + error.toString());
     return ErrorResult(error);
   }
 }
