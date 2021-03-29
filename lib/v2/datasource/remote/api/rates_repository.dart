@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/constants/config.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/fiat_rate_model.dart';
 
@@ -16,12 +17,18 @@ class RatesRepository extends NetworkRepository {
             }))
         .catchError((error) => mapHttpError(error));
   }
-  
-  // TODO-NIK code below needs to be put in a future with a wait all
 
-  // TODO before we did all 3 calls in 1 - we should still do that... get USD tate, get both fiat rates all at the same time
+  Future<Result> getFiatRatesAlternate() {
+    print("[http] get fiat rates from fixer");
 
-  // TODO Not sure how to do that in the new architecture
+    return http
+        .get("http://data.fixer.io/api/latest?access_key=${Config.fixerApiKey}&symbols=CRC,GTQ,USD")
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              return FiatRateModel.fromJsonFixer(body);
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
 
   // See rate_notifier - all 3 calls in 1 future
 

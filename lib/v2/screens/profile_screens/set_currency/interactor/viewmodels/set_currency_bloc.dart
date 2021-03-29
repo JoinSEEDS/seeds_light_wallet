@@ -12,7 +12,7 @@ class SetCurrencyBloc extends Bloc<SetCurrencyEvent, SetCurrencyState> {
   Stream<SetCurrencyState> mapEventToState(SetCurrencyEvent event) async* {
     if (event is LoadCurrencies) {
       yield state.copyWith(pageState: PageState.loading);
-      Result result = await GetFiatRatesUseCase().run();
+      var result = await GetFiatRatesUseCase().run();
       yield RateStateMapper().mapResultToState(state, result);
     }
     if (event is OnQueryChanged) {
