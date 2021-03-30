@@ -42,7 +42,7 @@ class SecurityState extends Equatable {
       pageState: pageState ?? this.pageState,
       hasNotification: hasNotification ?? this.hasNotification,
       navigateToGuardians: navigateToGuardians,
-      isSecurePasscode: isSecurePasscode ?? this.isSecurePasscode,
+      isSecurePasscode: isSecurePasscode,
       isSecureBiometric: isSecureBiometric ?? this.isSecureBiometric,
       errorMessage: errorMessage ?? this.errorMessage,
     );
