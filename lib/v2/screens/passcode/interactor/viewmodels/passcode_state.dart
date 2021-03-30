@@ -48,12 +48,15 @@ class PasscodeState extends Equatable {
       isCreateMode: isCreateMode ?? this.isCreateMode,
       newPasscode: newPasscode ?? this.newPasscode,
       isValidPasscode: isValidPasscode ?? this.isValidPasscode,
-      showInfoSnack: showInfoSnack,
+      showInfoSnack: showInfoSnack ?? this.showInfoSnack,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
   factory PasscodeState.initial() {
-    return const PasscodeState(pageState: PageState.initial);
+    return const PasscodeState(
+      pageState: PageState.initial,
+      showInfoSnack: false,
+    );
   }
 }

@@ -30,15 +30,16 @@ class SecurityScreen extends StatelessWidget {
         child: MultiBlocListener(
           listeners: [
             BlocListener<SecurityBloc, SecurityState>(
-              listenWhen: (_, current) => current.navigateToGuardians,
-              listener: (context, _) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
+              listenWhen: (previous, current) =>
+                  previous.navigateToGuardians == false && current.navigateToGuardians == true,
+              listener: (context, state) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
             ),
             BlocListener<SecurityBloc, SecurityState>(
-              listenWhen: (_, current) => current.isSecurePasscode,
-              listener: (context, _) {
+              listenWhen: (previous, current) => previous.isSecurePasscode == false && current.isSecurePasscode == true,
+              listener: (context, state) {
                 showDialog<void>(
                   context: context,
-                  barrierDismissible: false,
+                  barrierDismissible: false, // user must tap button
                   builder: (_) => CustomDialog(
                     icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
                     children: [
@@ -65,7 +66,7 @@ class SecurityScreen extends StatelessWidget {
               listener: (context, state) {
                 showDialog<void>(
                   context: context,
-                  barrierDismissible: false,
+                  barrierDismissible: false, // user must tap button
                   builder: (_) => CustomDialog(
                     icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
                     children: [
