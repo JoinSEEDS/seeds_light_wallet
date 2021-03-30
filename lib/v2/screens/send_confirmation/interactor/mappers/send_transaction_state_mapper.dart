@@ -10,7 +10,9 @@ class SendTransactionStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, error: result.asError.error.toString());
     } else {
       return currentState.copyWith(
-          pageState: PageState.success, pageCommand: NavigateToTransactionSuccess(result.asValue.value.toString()));
+          pageState: PageState.success,
+          pageCommand: NavigateToTransactionSuccess(
+              result.asValue.value.toString(), currentState.account, currentState.name, currentState.data));
     }
   }
 }

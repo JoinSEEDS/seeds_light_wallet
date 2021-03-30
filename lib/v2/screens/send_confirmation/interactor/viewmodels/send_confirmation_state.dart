@@ -9,8 +9,8 @@ class SendConfirmationState extends Equatable {
   final PageState pageState;
   final String account;
   final String name;
-  final List<SendInfoLineItems> lineItems;
   final Map<String, dynamic> data;
+  final List<SendInfoLineItems> lineItems;
   final String error;
   final NavigateToTransactionSuccess pageCommand;
 

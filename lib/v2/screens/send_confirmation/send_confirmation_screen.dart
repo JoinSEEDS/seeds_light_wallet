@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/send_confirmation/components/transaction_details.dart';
 import 'package:seeds/v2/screens/send_confirmation/interactor/send_confirmation_bloc.dart';
 import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
@@ -28,7 +31,22 @@ class SendConfirmationScreen extends StatelessWidget {
         listenWhen: (context, SendConfirmationState state) => state.pageCommand != null,
         listener: (context, SendConfirmationState state) {
           if (state.pageCommand is NavigateToTransactionSuccess) {
-            Navigator.of(context).pop();
+            showDialog<void>(
+              context: context,
+              barrierDismissible: false, // user must tap button
+              builder: (_) => CustomDialog(
+                icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
+                children: [
+                  Text(
+                    state.pageCommand.data["quantity"].toString(),
+                    style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.primary),
+                  ),
+                  const SizedBox(height: 16.0),
+                ],
+                singleLargeButtonTitle: 'Close',
+              ),
+            );
+            // Navigator.of(context).pop();
           }
         },
         child: Scaffold(
@@ -95,7 +113,21 @@ class SendConfirmationScreen extends StatelessWidget {
                           child: FlatButtonLong(
                             title: 'Confirm and Send',
                             onPressed: () {
-                              BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent());
+                              showDialog<void>(
+                                context: context,
+                                barrierDismissible: false, // user must tap button
+                                builder: (_) => const SendTransactionSuccessDialog(
+                                  amount: "10 Seeds",
+                                  fromAccount: "theremotecub",
+                                  fromImage: "",
+                                  fromName: "Gery G",
+                                  toAccount: "leoaccount",
+                                  toImage: "",
+                                  toName: "Leo L",
+                                ),
+                              );
+
+                              // BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent());
                             },
                           ),
                         ),
