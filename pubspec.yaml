@@ -98,6 +98,12 @@ flutter:
     - assets/images/onboarding/onboarding3.png
     - assets/images/onboarding/onboarding4.png
     - assets/images/onboarding/onboarding5.png
+    - assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.svg
+    - assets/images/onboarding/leaves/pointing_left/medium_light_leaf.svg
+    - assets/images/onboarding/leaves/pointing_left/small_light_leaf.svg
+    - assets/images/onboarding/leaves/pointing_right/big_dark_leaf.svg
+    - assets/images/onboarding/leaves/pointing_right/big_light_leaf.svg
+    - assets/images/onboarding/leaves/pointing_right/small_light_leaf.svg
     - assets/images/governance.svg
     - assets/images/community.svg
     - assets/images/harvest.svg
@@ -148,6 +154,8 @@ flutter:
     - assets/images/contribution/planted.svg
     - assets/images/contribution/transaction.svg
     - assets/images/seeds_logo.svg
+    - assets/images/login/background.png
+    - assets/images/login/seeds_light_wallet_logo.svg
     # assets end
 
   fonts:

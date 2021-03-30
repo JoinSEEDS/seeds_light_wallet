@@ -58,9 +58,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         }
     ], accountName);
 
-    EOSClient client = buildEosClient(settingsStorage.nodeEndpoint, settingsStorage.privateKey);
-
-    return client
+    return buildEosClient()
         .pushTransaction(transaction, broadcast: true)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
