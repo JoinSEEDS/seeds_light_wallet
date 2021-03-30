@@ -48,6 +48,13 @@ class SendConfirmationScreen extends StatelessWidget {
         },
         child: Scaffold(
           key: _scaffoldKey,
+          appBar: AppBar(
+              leading: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )),
           body: BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
             builder: (context, SendConfirmationState state) {
               switch (state.pageState) {
@@ -58,65 +65,56 @@ class SendConfirmationScreen extends StatelessWidget {
                 case PageState.failure:
                   return const FullPageErrorIndicator();
                 case PageState.success:
-                  return Scaffold(
-                    appBar: AppBar(
-                        leading: IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )),
-                    body: Column(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            padding: const EdgeInsets.all(24),
-                            child: Column(
-                              children: <Widget>[
-                                TransactionDetails(
-                                  /// This needs to change to use the token icon. right now its hard coded to seeds
-                                  image: SvgPicture.asset("assets/images/seeds_logo.svg"),
-                                  title: state.name.inCaps,
-                                  beneficiary: state.account,
-                                ),
-                                const SizedBox(height: 42),
-                                Column(
-                                  children: <Widget>[
-                                    ...state.lineItems
-                                        .map(
-                                          (e) => Padding(
-                                            padding: const EdgeInsets.only(top: 16),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: <Widget>[
-                                                Text(
-                                                  e.label,
-                                                  style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                                                ),
-                                                Text(e.text.toString(), style: Theme.of(context).textTheme.subtitle2),
-                                              ],
-                                            ),
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            children: <Widget>[
+                              TransactionDetails(
+                                /// This needs to change to use the token icon. right now its hard coded to seeds
+                                image: SvgPicture.asset("assets/images/seeds_logo.svg"),
+                                title: state.name.inCaps,
+                                beneficiary: state.account,
+                              ),
+                              const SizedBox(height: 42),
+                              Column(
+                                children: <Widget>[
+                                  ...state.lineItems
+                                      .map(
+                                        (e) => Padding(
+                                          padding: const EdgeInsets.only(top: 16),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(
+                                                e.label,
+                                                style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                                              ),
+                                              Text(e.text.toString(), style: Theme.of(context).textTheme.subtitle2),
+                                            ],
                                           ),
-                                        )
-                                        .toList(),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: FlatButtonLong(
-                            title: 'Confirm and Send',
-                            onPressed: () {
-                              BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent());
-                            },
-                          ),
+                      ),
+                      const SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: FlatButtonLong(
+                          title: 'Confirm and Send',
+                          onPressed: () {
+                            BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent());
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 default:
                   return const SizedBox.shrink();

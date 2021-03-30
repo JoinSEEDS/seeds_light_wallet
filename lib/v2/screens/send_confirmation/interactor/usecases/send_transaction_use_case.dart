@@ -12,8 +12,12 @@ class SendTransactionUseCase {
 
   Future<Result> run(String toName, String account, Map<String, dynamic> data) {
     return _sendTransactionRepository.sendTransaction(toName, account, data, fromAccount).then((Result value) async {
-      List<Result> profiles = await getProfileData(data["to"], fromAccount);
-      return ValueResult(SendTransactionResponse(profiles, value));
+      if (value.isError) {
+        return value;
+      } else {
+        List<Result> profiles = await getProfileData(data["to"], fromAccount);
+        return ValueResult(SendTransactionResponse(profiles, value));
+      }
     }).catchError((onError) => () {
           return ErrorResult(onError);
         });
