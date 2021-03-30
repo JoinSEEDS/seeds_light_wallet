@@ -34,8 +34,7 @@ class SecurityScreen extends StatelessWidget {
               listener: (context, _) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
             ),
             BlocListener<SecurityBloc, SecurityState>(
-              listenWhen: (_, current) => current.isSecurePasscode != null,
-              // listenWhen: (previous, current) => previous.isSecurePasscode == false && current.isSecurePasscode == true,
+              listenWhen: (previous, current) => previous.isSecurePasscode == false && current.isSecurePasscode == true,
               listener: (context, _) {
                 showDialog<void>(
                   context: context,
