@@ -7,9 +7,29 @@ export 'package:async/src/result/result.dart';
 
 class SendTransactionUseCase {
   final SendTransactionRepository _sendTransactionRepository = SendTransactionRepository();
-  final accountName = settingsStorage.accountName;
+  final ProfileRepository _profileRepository = ProfileRepository();
+  final fromAccount = settingsStorage.accountName;
 
-  Future<Result> run(String name, String account, Map<String, dynamic> data) {
-    return _sendTransactionRepository.sendTransaction(name, account, data, accountName);
+  Future<Result> run(String toName, String account, Map<String, dynamic> data) {
+    return _sendTransactionRepository.sendTransaction(toName, account, data, fromAccount).then((Result value) async {
+      List<Result> profiles = await getProfileData(data["to"], fromAccount);
+      return ValueResult(SendTransactionResponse(profiles, value));
+    }).catchError((onError) => () {
+          return ErrorResult(onError);
+        });
   }
+
+  Future<List<Result>> getProfileData(String toAccount, fromAccount) async {
+    Future<Result> toAccountResult = _profileRepository.getProfile(toAccount);
+    Future<Result> fromAccountResult = _profileRepository.getProfile(fromAccount);
+
+    return await Future.wait([toAccountResult, fromAccountResult]);
+  }
+}
+
+class SendTransactionResponse {
+  final List<Result> profiles;
+  final Result transactionId;
+
+  SendTransactionResponse(this.profiles, this.transactionId);
 }

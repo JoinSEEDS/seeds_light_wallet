@@ -18,12 +18,10 @@ class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({
     this.decoration,
     @required this.size,
-    @required this.image,
-    @required this.nickname,
+    this.image,
+    this.nickname,
     @required this.account,
   })  : assert(size != null),
-        assert(image != null),
-        assert(nickname != null),
         assert(account != null);
 
   @override
@@ -39,12 +37,12 @@ class ProfileAvatar extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    if (image.startsWith('http')) {
+    if (image != null && image.startsWith('http')) {
       return CachedNetworkImage(imageUrl: image, fit: BoxFit.cover);
-    } else if (image.endsWith('.svg')) {
+    } else if (image != null && image.endsWith('.svg')) {
       return SvgPicture.asset(image, fit: BoxFit.scaleDown);
     } else {
-      var shortName = nickname.isNotEmpty && nickname != 'Seeds Account' && nickname != 'Telos Account'
+      var shortName = nickname != null && nickname.isNotEmpty && nickname != 'Seeds Account' && nickname != 'Telos Account'
           ? nickname.substring(0, 2).toUpperCase()
           : account.substring(0, 2).toUpperCase();
 

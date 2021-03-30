@@ -1,8 +1,30 @@
-class NavigateToTransactionSuccess {
-  final String transactionId;
-  final String account;
-  final String name;
-  final Map<String, dynamic> data;
+import 'package:flutter/material.dart';
 
-  NavigateToTransactionSuccess(this.transactionId, this.account, this.name, this.data);
+class ShowTransactionSuccess {
+  final String amount;
+  final String toImage;
+  final String toName;
+  final String toAccount;
+  final String fromImage;
+  final String fromName;
+  final String fromAccount;
+  final String transactionId;
+
+  ShowTransactionSuccess({
+    @required this.amount,
+    this.toImage,
+    this.toName,
+    @required this.toAccount,
+    this.fromImage,
+    this.fromName,
+    @required this.fromAccount,
+    @required this.transactionId,
+  });
+
+  ShowTransactionSuccess.withoutServerUserData({
+    String amount,
+    String toAccount,
+    String fromAccount,
+    String transactionId,
+  }) : this(amount: amount, toAccount: toAccount, fromAccount: fromAccount, transactionId: transactionId);
 }

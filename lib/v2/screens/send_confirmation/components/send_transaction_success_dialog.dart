@@ -14,17 +14,21 @@ class SendTransactionSuccessDialog extends StatelessWidget {
   final String fromImage;
   final String fromName;
   final String fromAccount;
+  final String transactionID;
+  final GlobalKey<ScaffoldState> globalKey;
 
-  const SendTransactionSuccessDialog({
-    Key key,
-    this.amount,
-    this.toImage,
-    this.toName,
-    this.toAccount,
-    this.fromImage,
-    this.fromName,
-    this.fromAccount,
-  }) : super(key: key);
+  const SendTransactionSuccessDialog(
+      {Key key,
+      this.amount,
+      this.toImage,
+      this.toName,
+      @required this.toAccount,
+      this.fromImage,
+      this.fromName,
+      @required this.fromAccount,
+      @required this.transactionID,
+      @required this.globalKey})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +48,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             nickname: toName,
           ),
           title: Text(
-            toName,
+            toName ?? toAccount,
             style: Theme.of(context).textTheme.button.copyWith(color: AppColors.primary),
           ),
           subtitle: Text(
@@ -70,7 +74,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             nickname: fromName,
           ),
           title: Text(
-            fromName,
+            fromName ?? fromAccount,
             style: Theme.of(context).textTheme.button.copyWith(color: AppColors.primary),
           ),
           subtitle: Text(
@@ -109,7 +113,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                "KDKKFKFJJDKKDKFJJFJKKDK",
+                transactionID,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.subtitle2LowEmphasis.copyWith(color: AppColors.primary),
               ),
@@ -118,9 +122,9 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 icon: const Icon(Icons.copy),
                 color: AppColors.primary,
                 onPressed: () {
-                  Clipboard.setData(const ClipboardData(text: 'KDKKFKFJJDKKDKFJJFJKKDK')).then(
+                  Clipboard.setData(ClipboardData(text: transactionID)).then(
                     (value) {
-                      Scaffold.of(context).showSnackBar(const SnackBar(
+                      globalKey.currentState.showSnackBar(const SnackBar(
                         content: Text("Copied"),
                         duration: Duration(seconds: 1),
                       ));
@@ -150,6 +154,10 @@ class SendTransactionSuccessDialog extends StatelessWidget {
           ],
         ),
       ],
+      onSingleLargeButtonPressed: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      },
       singleLargeButtonTitle: 'Close',
     );
   }

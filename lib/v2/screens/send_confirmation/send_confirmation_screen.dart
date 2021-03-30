@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
@@ -23,33 +21,33 @@ class SendConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     final SendConfirmationArguments arguments = ModalRoute.of(context).settings.arguments;
 
     return BlocProvider(
       create: (context) => SendConfirmationBloc()..add(InitSendConfirmationWithArguments(arguments: arguments)),
       child: BlocListener<SendConfirmationBloc, SendConfirmationState>(
         listenWhen: (context, SendConfirmationState state) => state.pageCommand != null,
-        listener: (context, SendConfirmationState state) {
-          if (state.pageCommand is NavigateToTransactionSuccess) {
+        listener: (BuildContext context, SendConfirmationState state) {
+          if (state.pageCommand is ShowTransactionSuccess) {
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button
-              builder: (_) => CustomDialog(
-                icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
-                children: [
-                  Text(
-                    state.pageCommand.data["quantity"].toString(),
-                    style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.primary),
-                  ),
-                  const SizedBox(height: 16.0),
-                ],
-                singleLargeButtonTitle: 'Close',
-              ),
+              builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
+                  amount: state.pageCommand.amount,
+                  fromAccount: state.pageCommand.fromAccount,
+                  fromImage: state.pageCommand.fromImage,
+                  fromName: state.pageCommand.fromName,
+                  toAccount: state.pageCommand.toAccount,
+                  toImage: state.pageCommand.toImage,
+                  toName: state.pageCommand.toName,
+                  transactionID: state.pageCommand.transactionId,
+                  globalKey: _scaffoldKey),
             );
-            // Navigator.of(context).pop();
           }
         },
         child: Scaffold(
+          key: _scaffoldKey,
           body: BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
             builder: (context, SendConfirmationState state) {
               switch (state.pageState) {
@@ -113,21 +111,7 @@ class SendConfirmationScreen extends StatelessWidget {
                           child: FlatButtonLong(
                             title: 'Confirm and Send',
                             onPressed: () {
-                              showDialog<void>(
-                                context: context,
-                                barrierDismissible: false, // user must tap button
-                                builder: (_) => const SendTransactionSuccessDialog(
-                                  amount: "10 Seeds",
-                                  fromAccount: "theremotecub",
-                                  fromImage: "",
-                                  fromName: "Gery G",
-                                  toAccount: "leoaccount",
-                                  toImage: "",
-                                  toName: "Leo L",
-                                ),
-                              );
-
-                              // BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent());
+                              BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent());
                             },
                           ),
                         ),
