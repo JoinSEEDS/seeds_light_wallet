@@ -9,6 +9,7 @@ class PasscodeState extends Equatable {
   final bool isCreateMode;
   final String newPasscode;
   final bool isValidPasscode;
+  final bool showInfoSnack;
   final String errorMessage;
 
   const PasscodeState({
@@ -17,6 +18,7 @@ class PasscodeState extends Equatable {
     this.isCreateMode,
     this.newPasscode,
     this.isValidPasscode,
+    this.showInfoSnack,
     this.errorMessage,
   });
 
@@ -27,6 +29,7 @@ class PasscodeState extends Equatable {
         isCreateMode,
         newPasscode,
         isValidPasscode,
+        showInfoSnack,
         errorMessage,
       ];
 
@@ -36,6 +39,7 @@ class PasscodeState extends Equatable {
     bool isCreateMode,
     String newPasscode,
     bool isValidPasscode,
+    bool showInfoSnack,
     String errorMessage,
   }) {
     return PasscodeState(
@@ -44,6 +48,7 @@ class PasscodeState extends Equatable {
       isCreateMode: isCreateMode ?? this.isCreateMode,
       newPasscode: newPasscode ?? this.newPasscode,
       isValidPasscode: isValidPasscode ?? this.isValidPasscode,
+      showInfoSnack: showInfoSnack ?? this.showInfoSnack,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
@@ -51,11 +56,7 @@ class PasscodeState extends Equatable {
   factory PasscodeState.initial() {
     return const PasscodeState(
       pageState: PageState.initial,
-      isCreateView: null,
-      isCreateMode: null,
-      newPasscode: null,
-      isValidPasscode: null,
-      errorMessage: null,
+      showInfoSnack: false,
     );
   }
 }

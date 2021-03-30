@@ -28,9 +28,15 @@ class PasscodeBloc extends Bloc<PasscodeEvent, PasscodeState> {
     }
     if (event is OnVerifyPasscode) {
       if (state.isCreateMode) {
-        yield state.copyWith(isValidPasscode: event.passcode == state.newPasscode);
+        yield state.copyWith(
+          isValidPasscode: event.passcode == state.newPasscode,
+          showInfoSnack: !(event.passcode == state.newPasscode),
+        );
       } else {
-        yield state.copyWith(isValidPasscode: event.passcode == settingsNotifier.passcode);
+        yield state.copyWith(
+          isValidPasscode: event.passcode == settingsNotifier.passcode,
+          showInfoSnack: !(event.passcode == settingsNotifier.passcode),
+        );
       }
     }
     if (event is OnValidVerifyPasscode) {
@@ -38,11 +44,16 @@ class PasscodeBloc extends Bloc<PasscodeEvent, PasscodeState> {
       if (state.isCreateMode) {
         settingsNotifier.savePasscode(state.newPasscode);
       } else {
-        authNotifier.unlockWallet();
+        if (securityBloc == null) {
+          authNotifier.unlockWallet();
+        }
       }
     }
     if (event is OnCreatePasscode) {
       yield state.copyWith(isCreateView: false, newPasscode: event.passcode);
+    }
+    if (event is ResetShowSnack) {
+      yield state.copyWith(showInfoSnack: false);
     }
   }
 }

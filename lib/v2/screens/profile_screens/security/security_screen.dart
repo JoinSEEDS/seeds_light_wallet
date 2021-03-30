@@ -40,13 +40,13 @@ class SecurityScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Succesful'.i18n,
-                        style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.primary),
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                       const SizedBox(height: 30.0),
                       Text(
                         'Pincode created successfully.'.i18n,
                         textAlign: TextAlign.justify,
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.primary),
+                        style: Theme.of(context).textTheme.subtitle2,
                       ),
                       const SizedBox(height: 30.0),
                     ],
@@ -67,14 +67,14 @@ class SecurityScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Touch ID/ Face ID'.i18n,
-                        style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.primary),
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                       const SizedBox(height: 16.0),
                       Text(
                         'When Touch ID/Face ID has been set up, any biometric saved in your device will be able to login into the Seeds Light Wallet. You will not be able to use this feature for transactions.'
                             .i18n,
                         textAlign: TextAlign.justify,
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.primary),
+                        style: Theme.of(context).textTheme.subtitle2,
                       ),
                     ],
                     singleLargeButtonTitle: 'Got it, thanks!'.i18n,

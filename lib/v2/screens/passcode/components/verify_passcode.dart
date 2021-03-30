@@ -20,21 +20,44 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PasscodeBloc, PasscodeState>(
-      listenWhen: (previous, current) => previous.isValidPasscode != current.isValidPasscode,
-      listener: (context, state) => _verificationNotifier.add(state.isValidPasscode),
-      child: PasscodeScreen(
-        cancelButton: const SizedBox.shrink(),
-        deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
-        passwordDigits: 4,
-        title: Text('Re-enter Pincode'.i18n, style: Theme.of(context).textTheme.subtitle2),
-        backgroundColor: AppColors.primary,
-        shouldTriggerVerification: _verificationNotifier.stream,
-        passwordEnteredCallback: (passcode) =>
-            BlocProvider.of<PasscodeBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
-        isValidCallback: () => BlocProvider.of<PasscodeBloc>(context).add(const OnValidVerifyPasscode()),
-        bottomWidget: const SizedBox.shrink(),
-        circleUIConfig: const CircleUIConfig(circleSize: 14),
+    return Scaffold(
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<PasscodeBloc, PasscodeState>(
+            listenWhen: (previous, current) => previous.isValidPasscode != current.isValidPasscode,
+            listener: (context, state) => _verificationNotifier.add(state.isValidPasscode),
+          ),
+          BlocListener<PasscodeBloc, PasscodeState>(
+            listenWhen: (previous, current) => previous.showInfoSnack == false && current.showInfoSnack == true,
+            listener: (context, state) {
+              BlocProvider.of<PasscodeBloc>(context).add(const ResetShowSnack());
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: AppColors.canopy,
+                  content: Text(
+                    'Pincode does not match',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+        child: PasscodeScreen(
+          cancelButton: const SizedBox.shrink(),
+          deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
+          passwordDigits: 4,
+          title: Text('Re-enter Pincode'.i18n, style: Theme.of(context).textTheme.subtitle2),
+          backgroundColor: AppColors.primary,
+          shouldTriggerVerification: _verificationNotifier.stream,
+          passwordEnteredCallback: (passcode) =>
+              BlocProvider.of<PasscodeBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
+          isValidCallback: () => BlocProvider.of<PasscodeBloc>(context).add(const OnValidVerifyPasscode()),
+          bottomWidget: const SizedBox.shrink(),
+          circleUIConfig: const CircleUIConfig(circleSize: 14),
+        ),
       ),
     );
   }

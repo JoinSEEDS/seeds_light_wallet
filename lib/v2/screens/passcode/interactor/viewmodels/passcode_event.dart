@@ -34,3 +34,9 @@ class OnCreatePasscode extends PasscodeEvent {
   @override
   String toString() => 'OnCreatePasscode { passcode: $passcode }';
 }
+
+class ResetShowSnack extends PasscodeEvent {
+  const ResetShowSnack();
+  @override
+  String toString() => 'ResetShowSnack';
+}
