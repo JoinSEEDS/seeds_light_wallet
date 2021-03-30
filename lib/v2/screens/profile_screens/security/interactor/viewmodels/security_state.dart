@@ -7,7 +7,7 @@ class SecurityState extends Equatable {
   final PageState pageState;
   final bool hasNotification;
   final bool navigateToGuardians;
-  final bool isSecurePin;
+  final bool isSecurePasscode;
   final bool isSecureBiometric;
   final String errorMessage;
 
@@ -15,7 +15,7 @@ class SecurityState extends Equatable {
     @required this.pageState,
     this.hasNotification,
     this.navigateToGuardians,
-    this.isSecurePin,
+    this.isSecurePasscode,
     this.isSecureBiometric,
     this.errorMessage,
   });
@@ -25,7 +25,7 @@ class SecurityState extends Equatable {
         pageState,
         hasNotification,
         navigateToGuardians,
-        isSecurePin,
+        isSecurePasscode,
         isSecureBiometric,
         errorMessage,
       ];
@@ -34,28 +34,21 @@ class SecurityState extends Equatable {
     PageState pageState,
     bool hasNotification,
     bool navigateToGuardians,
-    bool isSecurePin,
+    bool isSecurePasscode,
     bool isSecureBiometric,
     String errorMessage,
   }) {
     return SecurityState(
       pageState: pageState ?? this.pageState,
       hasNotification: hasNotification ?? this.hasNotification,
-      navigateToGuardians: navigateToGuardians ?? this.navigateToGuardians,
-      isSecurePin: isSecurePin ?? this.isSecurePin,
+      navigateToGuardians: navigateToGuardians,
+      isSecurePasscode: isSecurePasscode,
       isSecureBiometric: isSecureBiometric ?? this.isSecureBiometric,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
   factory SecurityState.initial() {
-    return const SecurityState(
-      pageState: PageState.success,
-      hasNotification: false,
-      navigateToGuardians: false,
-      isSecurePin: false,
-      isSecureBiometric: false,
-      errorMessage: null,
-    );
+    return const SecurityState(pageState: PageState.initial);
   }
 }
