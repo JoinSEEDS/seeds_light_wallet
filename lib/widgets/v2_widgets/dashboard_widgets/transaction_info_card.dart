@@ -77,7 +77,7 @@ class TransactionInfoCard extends StatelessWidget {
                           Expanded(
                               child: Text(timesTampToTimeAgo(timestamp),
                                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)),
-                          Text('SEEDS'.i18n, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                          Text(amount.symbolFromAmount, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                         ],
                       ),
                     ],
