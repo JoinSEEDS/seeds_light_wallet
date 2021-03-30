@@ -30,13 +30,14 @@ class SecurityScreen extends StatelessWidget {
         child: MultiBlocListener(
           listeners: [
             BlocListener<SecurityBloc, SecurityState>(
-              listenWhen: (previous, current) =>
-                  previous.navigateToGuardians == false && current.navigateToGuardians == true,
-              listener: (context, state) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
+              listenWhen: (_, current) => current.navigateToGuardians != null,
+              // listenWhen: (previous, current) =>
+              //     previous.navigateToGuardians == false && current.navigateToGuardians == true,
+              listener: (context, _) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
             ),
             BlocListener<SecurityBloc, SecurityState>(
               listenWhen: (previous, current) => previous.isSecurePasscode == false && current.isSecurePasscode == true,
-              listener: (context, state) {
+              listener: (context, _) {
                 showDialog<void>(
                   context: context,
                   barrierDismissible: false, // user must tap button

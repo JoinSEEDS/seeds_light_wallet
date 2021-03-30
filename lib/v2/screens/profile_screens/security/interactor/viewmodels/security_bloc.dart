@@ -35,7 +35,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       yield state.copyWith(hasNotification: event.value);
     }
     if (event is OnGuardiansCardTapped) {
-      yield state.copyWith(navigateToGuardians: false); //reset
+      yield state.copyWith(navigateToGuardians: null); //reset
       if (state.hasNotification) {
         await FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
       }

@@ -49,10 +49,6 @@ class SecurityState extends Equatable {
   }
 
   factory SecurityState.initial() {
-    return const SecurityState(
-      pageState: PageState.initial,
-      hasNotification: false,
-      navigateToGuardians: false,
-    );
+    return const SecurityState(pageState: PageState.initial);
   }
 }

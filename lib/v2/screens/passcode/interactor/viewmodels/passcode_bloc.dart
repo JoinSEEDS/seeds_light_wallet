@@ -30,12 +30,12 @@ class PasscodeBloc extends Bloc<PasscodeEvent, PasscodeState> {
       if (state.isCreateMode) {
         yield state.copyWith(
           isValidPasscode: event.passcode == state.newPasscode,
-          showInfoSnack: !(event.passcode == state.newPasscode),
+          showInfoSnack: event.passcode == state.newPasscode ? null : true,
         );
       } else {
         yield state.copyWith(
           isValidPasscode: event.passcode == settingsNotifier.passcode,
-          showInfoSnack: !(event.passcode == settingsNotifier.passcode),
+          showInfoSnack: event.passcode == settingsNotifier.passcode ? null : true,
         );
       }
     }
@@ -53,7 +53,7 @@ class PasscodeBloc extends Bloc<PasscodeEvent, PasscodeState> {
       yield state.copyWith(isCreateView: false, newPasscode: event.passcode);
     }
     if (event is ResetShowSnack) {
-      yield state.copyWith(showInfoSnack: false);
+      yield state.copyWith(showInfoSnack: null);
     }
   }
 }
