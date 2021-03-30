@@ -30,11 +30,15 @@ class SecurityScreen extends StatelessWidget {
         child: MultiBlocListener(
           listeners: [
             BlocListener<SecurityBloc, SecurityState>(
-              listenWhen: (previous, current) => previous.isSecurePin == false && current.isSecurePin == true,
-              listener: (context, state) {
+              listenWhen: (_, current) => current.navigateToGuardians,
+              listener: (context, _) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
+            ),
+            BlocListener<SecurityBloc, SecurityState>(
+              listenWhen: (_, current) => current.isSecurePasscode,
+              listener: (context, _) {
                 showDialog<void>(
                   context: context,
-                  barrierDismissible: false, // user must tap button
+                  barrierDismissible: false,
                   builder: (_) => CustomDialog(
                     icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
                     children: [
@@ -61,7 +65,7 @@ class SecurityScreen extends StatelessWidget {
               listener: (context, state) {
                 showDialog<void>(
                   context: context,
-                  barrierDismissible: false, // user must tap button
+                  barrierDismissible: false,
                   builder: (_) => CustomDialog(
                     icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
                     children: [
@@ -82,11 +86,6 @@ class SecurityScreen extends StatelessWidget {
                 );
               },
             ),
-            BlocListener<SecurityBloc, SecurityState>(
-              listenWhen: (previous, current) =>
-                  previous.navigateToGuardians == false && current.navigateToGuardians == true,
-              listener: (context, state) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
-            )
           ],
           child: BlocBuilder<SecurityBloc, SecurityState>(
             buildWhen: (previous, current) => previous.pageState != current.pageState,
@@ -130,10 +129,10 @@ class SecurityScreen extends StatelessWidget {
                         icon: const Icon(Icons.lock_outline),
                         title: 'Secure with Pin'.i18n,
                         titleWidget: BlocBuilder<SecurityBloc, SecurityState>(
-                          buildWhen: (previous, current) => previous.isSecurePin != current.isSecurePin,
+                          buildWhen: (previous, current) => previous.isSecurePasscode != current.isSecurePasscode,
                           builder: (context, state) {
                             return Switch(
-                              value: state.isSecurePin,
+                              value: state.isSecurePasscode,
                               onChanged: (_) {
                                 NavigationService.of(context).navigateTo(
                                   Routes.passcode,

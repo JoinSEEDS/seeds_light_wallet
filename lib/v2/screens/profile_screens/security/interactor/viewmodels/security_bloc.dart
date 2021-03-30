@@ -27,7 +27,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     if (event is SetUpInitialValues) {
       yield state.copyWith(
         pageState: PageState.success,
-        isSecurePin: settingsNotifier.passcodeActive,
+        isSecurePasscode: settingsNotifier.passcodeActive ? true : null,
         isSecureBiometric: true,
       );
     }
@@ -35,21 +35,21 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       yield state.copyWith(hasNotification: event.value);
     }
     if (event is OnGuardiansCardTapped) {
-      yield state.copyWith(navigateToGuardians: false); //reset
+      yield state.copyWith(navigateToGuardians: null); //reset
       if (state.hasNotification) {
         await FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
       }
       yield state.copyWith(navigateToGuardians: true);
     }
     if (event is OnPinChanged) {
-      if (state.isSecurePin) {
-        yield state.copyWith(isSecurePin: false);
+      if (state.isSecurePasscode) {
+        yield state.copyWith(isSecurePasscode: null);
         settingsNotifier.passcode = null;
         settingsNotifier.passcodeActive = false;
         authNotifier.disablePasscode();
         authNotifier.resetPasscode();
       } else {
-        yield state.copyWith(isSecurePin: true);
+        yield state.copyWith(isSecurePasscode: true);
         settingsNotifier.passcodeActive = true;
       }
     }

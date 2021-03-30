@@ -28,7 +28,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
             listener: (context, state) => _verificationNotifier.add(state.isValidPasscode),
           ),
           BlocListener<PasscodeBloc, PasscodeState>(
-            listenWhen: (previous, current) => previous.showInfoSnack == false && current.showInfoSnack == true,
+            listenWhen: (_, current) => current.showInfoSnack,
             listener: (context, state) {
               BlocProvider.of<PasscodeBloc>(context).add(const ResetShowSnack());
               Scaffold.of(context).showSnackBar(
