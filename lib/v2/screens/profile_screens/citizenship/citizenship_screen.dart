@@ -90,7 +90,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    profile?.account ?? '',
+                    profile?.nickname ?? '',
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   const SizedBox(height: 8.0),

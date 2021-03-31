@@ -56,7 +56,7 @@ class ProfileHeader extends StatelessWidget {
                             children: [
                               Flexible(
                                 child: Text(
-                                  state.profile?.account ?? '',
+                                  state.profile?.nickname ?? '',
                                   style: Theme.of(context).textTheme.button1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
