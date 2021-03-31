@@ -8,7 +8,7 @@ class ClipboardTextField extends StatefulWidget {
   final TextEditingController controller;
   final Function onChanged;
   final String labelText;
-  // final String hintText;
+  final String hintText;
 
   ClipboardTextField({
     this.controller,
