@@ -50,10 +50,8 @@ class ProfileHeader extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(Icons.edit_outlined),
                                 onPressed: () async {
-                                  var res = await NavigationService.of(context).navigateTo(
-                                    Routes.editName,
-                                    state.profile.nickname,
-                                  );
+                                  var res =
+                                      await NavigationService.of(context).navigateTo(Routes.editName, state.profile);
                                   if (res != null) {
                                     BlocProvider.of<ProfileBloc>(context).add(OnNameChanged(name: res as String));
                                   }
