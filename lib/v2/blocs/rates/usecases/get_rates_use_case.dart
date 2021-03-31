@@ -10,6 +10,7 @@ class GetRatesUseCase {
     var futures = [
       _ratesRepository.getUSDRate(),
       _ratesRepository.getFiatRates(),
+      _ratesRepository.getFiatRatesAlternate(),
     ];
     return Future.wait(futures);
   }

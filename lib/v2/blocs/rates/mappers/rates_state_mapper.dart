@@ -10,16 +10,14 @@ class RatesStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Cannot fetch balance...');
     } else {
       print('RatesStateMapper mapResultsToState length=${results.length}');
-      results.retainWhere((Result element) => element.isValue);
-      var values = results.map((Result element) => element.asValue.value).toList();
-      RateModel rate = values.firstWhere((element) => element is RateModel, orElse: () => null);
-      FiatRateModel fiatRate = values.firstWhere((element) => element is FiatRateModel, orElse: () => null);
+      results.retainWhere((Result i) => i.isValue);
+      var values = results.map((Result i) => i.asValue.value).toList();
+      RateModel rate = values.firstWhere((i) => i is RateModel, orElse: () => null);
+      List<FiatRateModel> fiatRates = values.whereType<FiatRateModel>().toList();
+      var fiatRate = fiatRates[0];
+      fiatRate.merge(fiatRates[1]);
 
-      return currentState.copyWith(
-        pageState: PageState.success,
-        rate: rate,
-        fiatRate: fiatRate,
-      );
+      return currentState.copyWith(rate: rate, fiatRate: fiatRate);
     }
   }
 }
