@@ -1,11 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:url_launcher/url_launcher.dart';
 import 'package:seeds/i18n/show_onboarding_choice.i18n.dart';
 
 class ShowOnboardingChoice extends StatelessWidget {
@@ -84,7 +83,7 @@ class ShowOnboardingChoice extends StatelessWidget {
                   ),
                 ),
                 onPressed: () =>
-                    UrlLauncher.launch(Config.termsAndConditionsUrl),
+                    launch(Config.termsAndConditionsUrl),
               ),
               FlatButton(
                 color: Colors.transparent,
@@ -95,7 +94,7 @@ class ShowOnboardingChoice extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
-                onPressed: () => UrlLauncher.launch(Config.privacyPolicyUrl),
+                onPressed: () => launch(Config.privacyPolicyUrl),
               ),
             ],
           ),

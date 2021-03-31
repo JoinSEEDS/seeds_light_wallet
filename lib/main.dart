@@ -8,7 +8,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:hive/hive.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:path_provider/path_provider.dart';

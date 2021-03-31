@@ -20,9 +20,11 @@ class QrCodeService {
     }
 
     _SeedsESR esr = _SeedsESR(uri: scanResult);
-    return esr.resolve(account: accountName).then((value) => processResolvedRequest(esr)).catchError((onError) => () {
+    return esr.resolve(account: accountName)
+        .then((value) => processResolvedRequest(esr))
+        .catchError((onError) => () {
           print(" processQrCode : Error processing QR code");
-          return ErrorResult("Error processing QR code");
+          return Future.value(ErrorResult("Error processing QR code"));
         });
   }
 }
