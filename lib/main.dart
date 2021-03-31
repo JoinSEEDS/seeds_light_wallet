@@ -28,6 +28,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/screens/onboarding/onboarding.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/bloc_observer.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
@@ -132,9 +133,12 @@ class SeedsApp extends StatefulWidget {
 class _SeedsAppState extends State<SeedsApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: providers,
-      child: MainScreen(),
+    return BlocProvider(
+      create: (context) => RatesBloc(),
+      child: MultiProvider(
+        providers: providers,
+        child: MainScreen(),
+      ),
     );
   }
 }
@@ -153,7 +157,11 @@ class MainScreen extends StatelessWidget {
 
         if (auth.status == AuthStatus.emptyAccount || auth.status == AuthStatus.recoveryMode) {
           return SeedsMaterialApp(
-            home: auth.status == AuthStatus.emptyAccount ? OnboardingScreen() : SeedsMaterialApp(home: LoginScreen(),),
+            home: auth.status == AuthStatus.emptyAccount
+                ? OnboardingScreen()
+                : SeedsMaterialApp(
+                    home: LoginScreen(),
+                  ),
             navigatorKey: navigationService.onboardingNavigatorKey,
             onGenerateRoute: navigationService.onGenerateRoute,
           );
