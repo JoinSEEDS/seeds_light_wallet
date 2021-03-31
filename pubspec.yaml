@@ -6,11 +6,8 @@ version: 1.4.2+32
 environment:
   sdk: ">=2.6.0 <3.0.0"
 
-
 analyzer:
   enable-experiment: extension-methods
-
-publish_to: none
 
 dependencies:
   flutter:
@@ -19,7 +16,7 @@ dependencies:
   equatable: ^1.2.6
   url_launcher: ^5.7.10
   step_progress_indicator: ^0.2.5+8
-  intl: ^0.17.0
+  intl: ^0.16.0
   flutter_localizations:
     sdk: flutter
   i18n_extension: ^1.3.7
@@ -27,7 +24,7 @@ dependencies:
   http: ^0.12.0+4
   shared_preferences: ^0.5.6+1
   flutter_secure_storage: ^3.3.2
-  local_auth: ^1.1.0
+  local_auth: ^0.6.2+3
   timeago: ^2.0.26
   cached_network_image: ^2.0.0
   intro_views_flutter:
@@ -54,7 +51,7 @@ dependencies:
   sentry: ^3.0.1
   hive: ^1.4.4
   rxdart: ^0.24.0
-  permission_handler: ^6.1.1
+  permission_handler: ^5.0.1
   qr_flutter: ^3.2.0
   eosdart_ecc:  ^0.4.3
   eosdart:
@@ -63,12 +60,11 @@ dependencies:
     git:
       url: https://github.com/JoinSEEDS/dart-esr.git
   uni_links: ^0.4.0
-  webview_flutter: ^2.0.2
+  webview_flutter: ^1.0.7
   rubber: ^0.4.0
   path_provider: ^1.6.24
   dotted_border: ^1.0.6
   pedantic: ^1.9.2
-  flutter_pagewise: ^1.2.3
   qr_code_scanner:
     git:
       url: git://github.com/triply-at/qr_code_scanner.git
@@ -101,6 +97,12 @@ flutter:
     - assets/images/onboarding/onboarding3.png
     - assets/images/onboarding/onboarding4.png
     - assets/images/onboarding/onboarding5.png
+    - assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.svg
+    - assets/images/onboarding/leaves/pointing_left/medium_light_leaf.svg
+    - assets/images/onboarding/leaves/pointing_left/small_light_leaf.svg
+    - assets/images/onboarding/leaves/pointing_right/big_dark_leaf.svg
+    - assets/images/onboarding/leaves/pointing_right/big_light_leaf.svg
+    - assets/images/onboarding/leaves/pointing_right/small_light_leaf.svg
     - assets/images/governance.svg
     - assets/images/community.svg
     - assets/images/harvest.svg
@@ -139,7 +141,8 @@ flutter:
     - assets/images/wallet/currency_info_cards/planted_seeds/logo.jpg
     - assets/images/wallet/currency_info_cards/hypha/background.jpg
     - assets/images/wallet/currency_info_cards/hypha/logo.jpg
-    - assets/images/key_guardians_icon.svg
+    - assets/images/security/key_guardians_icon.svg
+    - assets/images/security/success_outlined_icon.svg
     - assets/images/citizenship/reputation.svg
     - assets/images/citizenship/community.svg
     - assets/images/citizenship/planted.svg
@@ -150,6 +153,8 @@ flutter:
     - assets/images/contribution/planted.svg
     - assets/images/contribution/transaction.svg
     - assets/images/seeds_logo.svg
+    - assets/images/login/background.png
+    - assets/images/login/seeds_light_wallet_logo.svg
     # assets end
 
   fonts:
