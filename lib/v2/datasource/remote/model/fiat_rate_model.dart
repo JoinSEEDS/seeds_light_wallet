@@ -2,12 +2,6 @@ class FiatRateModel {
   Map<String, double> rates;
   String base;
 
-  List<String> get currencies {
-    var list = List<String>.from(rates.keys);
-    list.sort();
-    return list;
-  }
-
   FiatRateModel(this.rates, {this.base = "USD"});
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/set_currency.i18n.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
+import 'package:seeds/v2/components/full_page_error_indicator.dart';
+import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/design/app_theme.dart';
@@ -21,7 +24,8 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
   @override
   void initState() {
     super.initState();
-    _setCurrencyBloc = SetCurrencyBloc()..add(const LoadCurrencies());
+    _setCurrencyBloc = SetCurrencyBloc()
+      ..add(LoadCurrencies(rates: BlocProvider.of<RatesBloc>(context).state.fiatRate.rates));
     _queryController.addListener(_onQueryChanged);
   }
 
@@ -56,8 +60,9 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                       return const SizedBox.shrink();
                       break;
                     case PageState.loading:
-                      return const Center(child: CircularProgressIndicator());
-                      break;
+                      return const FullPageLoadingIndicator();
+                    case PageState.failure:
+                      return const FullPageErrorIndicator();
                     case PageState.success:
                       return ListView.builder(
                         itemCount: state.queryCurrenciesResults.length,

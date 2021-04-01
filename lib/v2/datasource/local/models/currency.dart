@@ -8,6 +8,7 @@ List<Map<String, String>> currencies = [
   {"code": "CAD", "name": "Canada Dollar", "symbol": "\$", "flag": "CAD", "number": "124"},
   {"code": "CHF", "name": "Switzerland Franc", "symbol": "CHF", "flag": "CHF", "number": "756"},
   {"code": "CNY", "name": "China Yuan Renminbi", "symbol": "¥", "flag": "CNY", "number": "156"},
+  {"code": "GTQ", "name": "Guatemala Quetzal", "symbol": "Q", "flag": "GTQ", "number": "879"},
   {"code": "HKD", "name": "Hong Kong Dollar", "symbol": "\$", "flag": "HKD", "number": "344"},
   {"code": "NZD", "name": "New Zealand Dollar", "symbol": "\$", "flag": "NZD", "number": "554"},
   {"code": "SEK", "name": "Sweden Krona", "symbol": "kr", "flag": "SEK", "number": "752"},
