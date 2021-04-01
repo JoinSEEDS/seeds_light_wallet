@@ -1,7 +1,6 @@
 class FiatRateModel {
   Map<String, double> rates;
   String base;
-  final bool error;
 
   List<String> get currencies {
     var list = List<String>.from(rates.keys);
@@ -9,13 +8,13 @@ class FiatRateModel {
     return list;
   }
 
-  FiatRateModel(this.rates, {this.base = "USD", this.error = false});
+  FiatRateModel(this.rates, {this.base = "USD"});
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
       return FiatRateModel(Map<String, double>.from(json["rates"]));
     } else {
-      return FiatRateModel(null, error: true);
+      return FiatRateModel(null);
     }
   }
 
@@ -25,7 +24,7 @@ class FiatRateModel {
       model.rebase("USD");
       return model;
     } else {
-      return FiatRateModel(null, error: true);
+      return FiatRateModel(null);
     }
   }
 
@@ -51,9 +50,5 @@ class FiatRateModel {
     }
   }
 
-  void merge(FiatRateModel other) {
-    if (!other.error) {
-      rates.addAll(other.rates);
-    }
-  }
+  void merge(FiatRateModel other) => rates.addAll(other.rates);
 }

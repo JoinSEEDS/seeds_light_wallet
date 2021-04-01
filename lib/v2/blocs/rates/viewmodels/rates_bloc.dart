@@ -3,6 +3,7 @@ import 'package:seeds/v2/blocs/rates/mappers/rates_state_mapper.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/datasource/local/models/rate.dart';
 import 'package:seeds/v2/blocs/rates/usecases/get_rates_use_case.dart';
 
@@ -46,7 +47,7 @@ class RatesBloc extends Bloc<RatesEvent, RatesState> with CurrencyConverter {
     if (state.rate == null || state.fiatRate == null) {
       return '';
     } else {
-      if (state.rate?.error ?? false) {
+      if (state.pageState == PageState.failure) {
         return 'Exchange rate load error'.i18n;
       }
       return asSeeds ? seedsString(amount, currency) : currencyString(amount, currency);

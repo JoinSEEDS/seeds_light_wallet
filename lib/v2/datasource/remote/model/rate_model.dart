@@ -2,18 +2,17 @@ import 'package:equatable/equatable.dart';
 
 class RateModel extends Equatable {
   final double seedsPerUSD;
-  final bool error;
 
-  const RateModel(this.seedsPerUSD, this.error);
+  const RateModel(this.seedsPerUSD);
 
   @override
   List<Object> get props => [seedsPerUSD];
 
   factory RateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String), false);
+      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String));
     } else {
-      return const RateModel(0, true);
+      return const RateModel(0);
     }
   }
 
