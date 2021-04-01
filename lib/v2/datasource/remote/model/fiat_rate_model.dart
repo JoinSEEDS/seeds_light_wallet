@@ -14,7 +14,7 @@ class FiatRateModel {
     if (json != null && json.isNotEmpty) {
       return FiatRateModel(Map<String, double>.from(json["rates"]));
     } else {
-      return FiatRateModel(null);
+      return null;
     }
   }
 
@@ -24,7 +24,7 @@ class FiatRateModel {
       model.rebase("USD");
       return model;
     } else {
-      return FiatRateModel(null);
+      return null;
     }
   }
 
