@@ -1,3 +1,4 @@
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
@@ -35,6 +36,9 @@ class SendTransactionStateMapper extends StateMapper {
       } else {
         var fromAccount = currentState.data["from"];
         var toAccount = currentState.data["to"];
+
+        GERY HERE!!
+        var selectedFiat = settingsStorage.selectedFiatCurrency;
 
         return currentState.copyWith(
             pageState: PageState.success,

@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/send_eos_transaction_repository.dart';
+import 'package:seeds/v2/datasource/remote/model/fiat_rate_model.dart';
 
 export 'package:async/src/result/result.dart';
 
@@ -10,12 +11,21 @@ class SendTransactionUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
   final fromAccount = settingsStorage.accountName;
 
-  Future<Result> run(String toName, String account, Map<String, dynamic> data) {
+  Future<Result> run(String toName, String account, Map<String, dynamic> data, FiatRateModel rates) {
     return _sendTransactionRepository.sendTransaction(toName, account, data, fromAccount).then((Result value) async {
       if (value.isError) {
         return value;
       } else {
         List<Result> profiles = await getProfileData(data["to"], fromAccount);
+
+
+        GERY HERE!!
+
+        var selectedFiat = settingsStorage.selectedFiatCurrency;
+        var actualRate = rates.rates[selectedFiat];
+
+
+
         return ValueResult(SendTransactionResponse(profiles, value));
       }
     }).catchError((onError) => () {
