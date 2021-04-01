@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_header_details.dart';
 import 'package:seeds/i18n/proposals.i18n.dart';
+import 'package:seeds/utils/old_toolbox/paginated_list_view.dart';
 
 class Proposals extends StatefulWidget {
   @override
