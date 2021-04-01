@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
@@ -33,65 +34,20 @@ class SendTransactionSuccessDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
+      icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
       children: [
         Text(
           amount,
           style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.primary),
         ),
+        Text(
+          amount,
+          style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.primary),
+        ),
         const SizedBox(height: 16.0),
-        ListTile(
-          leading: ProfileAvatar(
-            size: 60,
-            image: toImage,
-            account: toAccount,
-            nickname: toName,
-          ),
-          title: Text(
-            toName ?? toAccount,
-            style: Theme.of(context).textTheme.button.copyWith(color: AppColors.primary),
-          ),
-          subtitle: Text(
-            toAccount,
-            style: Theme.of(context).textTheme.subtitle3OpacityEmphasis.copyWith(color: AppColors.primary),
-          ),
-          trailing: Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen5),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
-                child: Text(
-                  'To',
-                  style: Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.primary),
-                ),
-              )),
-        ),
-        ListTile(
-          leading: ProfileAvatar(
-            size: 60,
-            image: fromImage,
-            account: fromAccount,
-            nickname: fromName,
-          ),
-          title: Text(
-            fromName ?? fromAccount,
-            style: Theme.of(context).textTheme.button.copyWith(color: AppColors.primary),
-          ),
-          subtitle: Text(
-            fromAccount,
-            style: Theme.of(context).textTheme.subtitle3OpacityEmphasis.copyWith(color: AppColors.primary),
-          ),
-          trailing: Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen5),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
-                child: Text(
-                  'From',
-                  style: Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.primary),
-                ),
-              )),
-        ),
+        DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "to",),
+        const SizedBox(height: 16.0),
+        DialogRow(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "from",),
         const SizedBox(height: 16.0),
         Row(
           children: [
@@ -100,12 +56,13 @@ class SendTransactionSuccessDialog extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.primary),
             ),
             Text(
-              DateFormat('dd-MMMM-yyyy - HH:mm:ss').format(DateTime.now()),
+              DateFormat('dd-MMMM-yyyy - K:MM a').format(DateTime.now()),
               style: Theme.of(context).textTheme.subtitle2LowEmphasis.copyWith(color: AppColors.primary),
             ),
           ],
         ),
         Row(
+          mainAxisSize: MainAxisSize.max,
           children: [
             Text(
               'Transaction ID:  ',
@@ -159,6 +116,61 @@ class SendTransactionSuccessDialog extends StatelessWidget {
         Navigator.of(context).pop();
       },
       singleLargeButtonTitle: 'Close',
+    );
+  }
+}
+
+class DialogRow extends StatelessWidget {
+  final String imageUrl;
+  final String account;
+  final String name;
+  final String toOrFromText;
+
+  const DialogRow({Key key, this.imageUrl, this.account, this.name, this.toOrFromText}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        ProfileAvatar(
+          size: 60,
+          image: imageUrl,
+          account: account,
+          nickname: name,
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text(
+                  name ?? account,
+                  textAlign: TextAlign.start,
+                  style: Theme.of(context).textTheme.button.copyWith(color: AppColors.primary),
+                ),
+                Text(
+                  account,
+                  style: Theme.of(context).textTheme.subtitle3OpacityEmphasis.copyWith(color: AppColors.primary),
+                )
+              ],
+            ),
+          ),
+        ),
+        Container(
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen5),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
+              child: Text(
+                toOrFromText,
+                style: Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.primary),
+              ),
+            )),
+      ],
     );
   }
 }

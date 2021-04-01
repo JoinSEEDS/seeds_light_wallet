@@ -113,13 +113,13 @@ class CustomDialog extends StatelessWidget {
               backgroundColor: Colors.transparent,
               radius: avatarRadius,
               child: Container(
-                decoration: const BoxDecoration(
+                decoration:  BoxDecoration(
                   color: AppColors.white,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 1.0),
+                      color: AppColors.green1.withOpacity(0.20),
+                      offset: const Offset(0.0, 1.0),
                       blurRadius: 6.0,
                     ),
                   ],
