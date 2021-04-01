@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/screens/app/wallet/dashboard/wallet_header.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -161,6 +163,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<void> refreshData() async {
+    BlocProvider.of<RatesBloc>(context)..add(const FetchRates());
     await Future.wait(<Future<dynamic>>[
       TransactionsNotifier.of(context).fetchTransactionsCache(),
       TransactionsNotifier.of(context).refreshTransactions(),
@@ -385,7 +388,7 @@ class _DashboardState extends State<Dashboard> {
               height: 30,
               width: 2000,
             ),
-             onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
+            onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
           ),
         ),
         Container(

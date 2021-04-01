@@ -7,6 +7,7 @@ import 'package:seeds/constants/config.dart';
 abstract class NetworkRepository {
   String baseURL = Config.defaultEndpoint;
   String hyphaURL = Config.hyphaEndpoint;
+  String fixerApiKey = Config.fixerApiKey;
   Map<String, String> headers = {'Content-type': 'application/json'};
 
   Result mapHttpResponse(http.Response response, Function modelMapper) {
