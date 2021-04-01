@@ -45,9 +45,19 @@ class SendTransactionSuccessDialog extends StatelessWidget {
           style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.primary),
         ),
         const SizedBox(height: 16.0),
-        DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "to",),
+        DialogRow(
+          imageUrl: toImage,
+          account: toAccount,
+          name: toName,
+          toOrFromText: "to",
+        ),
         const SizedBox(height: 16.0),
-        DialogRow(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "from",),
+        DialogRow(
+          imageUrl: fromImage,
+          account: fromAccount,
+          name: fromName,
+          toOrFromText: "from",
+        ),
         const SizedBox(height: 16.0),
         Row(
           children: [
@@ -81,10 +91,12 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: transactionID)).then(
                     (value) {
-                      globalKey.currentState.showSnackBar(const SnackBar(
-                        content: Text("Copied"),
-                        duration: Duration(seconds: 1),
-                      ));
+                      globalKey.currentState
+                          .showSnackBar(const SnackBar(content: Text("Copied"), duration: Duration(seconds: 1)));
+                      // This is a workaround. There is a bug where the snackbar will not hide if shown with a dialog open. This is fixed in flutter 2
+                      Future.delayed(const Duration(seconds: 1), () {
+                        globalKey.currentState.hideCurrentSnackBar();
+                      });
                     },
                   );
                 })

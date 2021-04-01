@@ -26,36 +26,36 @@ class SendConfirmationScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => SendConfirmationBloc()..add(InitSendConfirmationWithArguments(arguments: arguments)),
-      child: BlocListener<SendConfirmationBloc, SendConfirmationState>(
-        listenWhen: (context, SendConfirmationState state) => state.pageCommand != null,
-        listener: (BuildContext context, SendConfirmationState state) {
-          if (state.pageCommand is ShowTransactionSuccess) {
-            showDialog<void>(
-              context: context,
-              barrierDismissible: false, // user must tap button
-              builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
-                  amount: state.pageCommand.amount,
-                  fromAccount: state.pageCommand.fromAccount,
-                  fromImage: state.pageCommand.fromImage,
-                  fromName: state.pageCommand.fromName,
-                  toAccount: state.pageCommand.toAccount,
-                  toImage: state.pageCommand.toImage,
-                  toName: state.pageCommand.toName,
-                  transactionID: state.pageCommand.transactionId,
-                  globalKey: _scaffoldKey),
-            );
-          }
-        },
-        child: Scaffold(
-          key: _scaffoldKey,
-          appBar: AppBar(
-              leading: IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )),
-          body: BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+            leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )),
+        body: BlocListener<SendConfirmationBloc, SendConfirmationState>(
+          listenWhen: (context, SendConfirmationState state) => state.pageCommand != null,
+          listener: (BuildContext context, SendConfirmationState state) {
+            if (state.pageCommand is ShowTransactionSuccess) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false, // user must tap button
+                builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
+                    amount: state.pageCommand.amount,
+                    fromAccount: state.pageCommand.fromAccount,
+                    fromImage: state.pageCommand.fromImage,
+                    fromName: state.pageCommand.fromName,
+                    toAccount: state.pageCommand.toAccount,
+                    toImage: state.pageCommand.toImage,
+                    toName: state.pageCommand.toName,
+                    transactionID: state.pageCommand.transactionId,
+                    globalKey: _scaffoldKey),
+              );
+            }
+          },
+          child: BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
             builder: (context, SendConfirmationState state) {
               switch (state.pageState) {
                 case PageState.initial:
