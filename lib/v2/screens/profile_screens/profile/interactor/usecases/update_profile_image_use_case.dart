@@ -6,14 +6,14 @@ import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 export 'package:async/src/result/result.dart';
 
-class UpdateProfileUseCase {
+class UpdateProfileImageUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
 
-  Future<Result> run({@required String newName, @required ProfileModel profile}) {
+  Future<Result> run({@required String imageUrl, @required ProfileModel profile}) {
     return _profileRepository.updateProfile(
       accountName: settingsStorage.accountName,
-      nickname: newName,
-      image: profile.image,
+      nickname: profile.nickname,
+      image: imageUrl,
       story: profile.story,
       roles: profile.roles,
       skills: profile.skills,
