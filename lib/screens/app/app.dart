@@ -208,7 +208,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 : SizedBox.shrink()
             : SizedBox.shrink()
       ]),
-      title: isSelected
+      title: isSelected // TODO: Fix use of deprecated member
           ? Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(title, style: Theme.of(context).textTheme.caption),
