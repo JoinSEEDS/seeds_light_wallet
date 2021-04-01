@@ -34,10 +34,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
     return BlocProvider(
       create: (context) => _setCurrencyBloc,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('Select Currency'.i18n),
-          elevation: 0.0,
-        ),
+        appBar: AppBar(title: Text('Select Currency'.i18n)),
         body: Column(
           children: [
             Padding(
