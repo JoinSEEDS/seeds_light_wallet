@@ -33,12 +33,8 @@ import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
-// import 'package:sentry/sentry.dart' as Sentry;
 
 import 'generated/r.dart';
-
-// final Sentry.SentryClient _sentry =
-//     Sentry.SentryClient(dsn: 'https://ee2dd9f706974248b5b4a10850586d94@sentry.io/2239437');
 
 bool get isInDebugMode {
   var inDebugMode = false;
@@ -46,21 +42,10 @@ bool get isInDebugMode {
   return inDebugMode;
 }
 
-/// Reports [error] along with its [stackTrace] to Sentry.io.
+/// Reports [error] along with its [stackTrace] to ?????
 Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
+  // TODO(gguij002): find better error reporting
   print('Caught error: $error');
-  print('Reporting to Sentry.io...');
-
-  // final response = await _sentry.captureException(
-  //   exception: error,
-  //   stackTrace: stackTrace,
-  // );
-  //
-  // if (response.isSuccessful) {
-  //   print('Success! Event ID: ${response.eventId}');
-  // } else {
-  //   print('Failed to report to Sentry.io: ${response.error}');
-  // }
 }
 
 main(List<String> args) async {
