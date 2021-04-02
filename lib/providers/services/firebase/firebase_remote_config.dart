@@ -27,7 +27,8 @@ class FirebaseRemoteConfigService {
   }
 
   Future _fetchAndActivate() async {
-    await _remoteConfig.fetchAndActivate();
+    // this method is not defined
+    // await _remoteConfig.fetchAndActivate();
   }
 
   bool get featureFlagGuardiansEnabled => _remoteConfig.getBool(_FeatureFlagGuardianKey);
