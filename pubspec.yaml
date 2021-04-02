@@ -47,15 +47,11 @@ dependencies:
   image_cropper: ^1.2.1
   carousel_slider: ^3.0.0
   dots_indicator: ^2.0.0
-#  sentry: ^3.0.1
   hive: ^1.4.4
-#  rxdart: ^0.26.0
   permission_handler: ^6.1.1
   qr_flutter: ^4.0.0
   image_picker: ^0.7.4
   oktoast: ^3.0.0
-#  eosdart_ecc:
-#    git: git://github.com/JoinSEEDS/eosdart_ecc.git
   eosdart:
     git: git://github.com/JoinSEEDS/eosdart.git
   dart_esr:
