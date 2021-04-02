@@ -51,7 +51,6 @@ class _ReceiveState extends State<Receive> {
                     products = snapshot.hasData ? List<ProductModel>.of(snapshot.data.docs
                         .map((p) => ProductModel.fromSnapshot(p))) : List<ProductModel>();
                     return Scaffold(
-                      resizeToAvoidBottomPadding: true,
                       appBar: AppBar(
                         centerTitle: true,
                         leading: IconButton(

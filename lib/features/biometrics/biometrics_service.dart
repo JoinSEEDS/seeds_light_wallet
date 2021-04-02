@@ -31,19 +31,19 @@ class BiometricsService {
     var androidAuthStrings;
     switch(cmd.type) {
       case AuthType.fingerprint:
-        androidAuthStrings = AndroidAuthMessages(
-          fingerprintHint: "Touch Sensor",
+        androidAuthStrings = const AndroidAuthMessages(
+          biometricHint: 'Biometrics',
           signInTitle: "Fingerprint Authentication",
         );
         break;
       case AuthType.face:
-        androidAuthStrings = AndroidAuthMessages(
-          fingerprintHint: "Face Sensor",
+        androidAuthStrings = const AndroidAuthMessages(
+          biometricHint: "Biometrics",
           signInTitle: "Face Authentication",
         );
         break;
       default: {
-        androidAuthStrings = AndroidAuthMessages(
+        androidAuthStrings = const AndroidAuthMessages(
           signInTitle: "Authenticate using biometric credentials",
         );
       }
