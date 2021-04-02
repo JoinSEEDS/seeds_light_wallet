@@ -258,7 +258,7 @@ class BalanceModel {
 }
 
 class FiatRateModel {
-  Map<String, double> rates;
+  Map<String, num> rates;
   String base;
   final bool error;
 
@@ -272,15 +272,10 @@ class FiatRateModel {
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return FiatRateModel(new Map<String, double>.from(json["rates"]));
-    } else {
-      return FiatRateModel(null, error: true);
-    }
-  }
 
-  factory FiatRateModel.fromJsonFixer(Map<String, dynamic> json) {
-    if (json != null && json.isNotEmpty) {
-      var model = FiatRateModel(new Map<String, double>.from(json["rates"]), base: json["base"]);
+      print("parsing ${json}");
+
+      var model = FiatRateModel(new Map<String, num>.from(json["rates"]), base: json["base"]);
       model.rebase("USD");
       return model;
     } else {
@@ -303,8 +298,10 @@ class FiatRateModel {
   void rebase(String symbol) {
     var rate = rates[symbol];
     if (rate != null) {
+      rates[base] = 1.0;
       base = symbol;
       rates = rates.map((key, value) => MapEntry(key, value / rate));
+      rates[base] = 1.0;
     } else {
       print("error - can't rebase to " + symbol);
     }

@@ -28,11 +28,10 @@ class RateNotifier extends ChangeNotifier with CurrencyConverter {
       [
         _http.getUSDRate(),
         _http.getFiatRates(),
-        _http.getFiatRatesAlternate()
       ]).then((result) {
         rate = result[0];
         fiatRate = result[1];
-        fiatRate.merge(result[2]);
+        print("fiat rates with base ${fiatRate.base}: "+fiatRate.rates.toString());
         notifyListeners();
       });
     } else {
