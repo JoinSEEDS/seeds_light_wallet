@@ -51,7 +51,7 @@ class ConnectionNotifier extends ChangeNotifier {
   Future<Endpoint> checkEndpoint(String endpoint) async {
     try {
       var ping = Stopwatch()..start();
-      var res = await get('$endpoint/v2/health');
+      var res = await get(Uri.parse('$endpoint/v2/health'));
       ping.stop();
       if (res.statusCode == 200) {
         var endpointPing = ping.elapsedMilliseconds;

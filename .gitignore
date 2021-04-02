@@ -83,3 +83,4 @@ pubspec\.lock
 \.flutter-plugins-dependencies
 ios/Podfile.lock
 dartesr/
+ios/Flutter/Flutter.podspec

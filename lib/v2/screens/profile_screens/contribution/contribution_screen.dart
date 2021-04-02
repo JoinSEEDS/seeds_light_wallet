@@ -47,7 +47,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
     return Scaffold(
       appBar: AppBar(title: Text('Contribution Score'.i18n)),
       body: BlocConsumer<ContributionBloc, ContributionState>(
-        cubit: _contributionBloc,
+        bloc: _contributionBloc,
         listenWhen: (previous, current) =>
             previous.pageState != PageState.success && current.pageState == PageState.success,
         listener: (context, state) {
@@ -120,10 +120,14 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                       ),
                     ],
                   ),
-                  const SizedBox(height: 30.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
+                  GridView.count(
+                    padding: const EdgeInsets.symmetric(vertical: 30.0),
+                    shrinkWrap: true,
+                    primary: false,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 25,
+                    crossAxisCount: 2,
+                    children: <Widget>[
                       CircularProgressItem(
                         icon: SvgPicture.asset('assets/images/contribution/community.svg'),
                         totalStep: 99,
@@ -144,12 +148,6 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                         rate: '$_reputation',
                         rateStyle: Theme.of(context).textTheme.headline4,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 30.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
                       CircularProgressItem(
                         icon: SvgPicture.asset('assets/images/contribution/planted.svg'),
                         totalStep: 99,

@@ -90,7 +90,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    profile?.account ?? '',
+                    profile?.nickname ?? '',
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   const SizedBox(height: 8.0),
@@ -134,10 +134,14 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
               ),
             ),
           ),
-          const SizedBox(height: 26.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
+          GridView.count(
+            padding: const EdgeInsets.symmetric(vertical: 26.0),
+            shrinkWrap: true,
+            primary: false,
+            mainAxisSpacing: 20,
+            crossAxisCount: 3,
+            childAspectRatio: 0.8,
+            children: <Widget>[
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/reputation.svg'),
                 totalStep: 83,
@@ -168,12 +172,6 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 rate: '291/$_age',
                 rateStyle: Theme.of(context).textTheme.subtitle1,
               ),
-            ],
-          ),
-          const SizedBox(height: 35.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/planted.svg'),
                 totalStep: 213,

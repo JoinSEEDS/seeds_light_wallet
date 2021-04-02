@@ -29,7 +29,7 @@ class HttpService {
   static HttpService of(BuildContext context, {bool listen = false}) => Provider.of(context, listen: listen);
 
   Future<List<dynamic>> getTableRows({String code, String scope, String table, String value}) async {
-    final requestURL = '$baseURL/v1/chain/get_table_rows';
+    final requestURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request = value == null
         ? '{"json": true, "code": "$code", "scope": "$scope", "table": "$table"}'
@@ -94,7 +94,7 @@ class HttpService {
       return HttpMockResponse.profile;
     }
 
-    final profileURL = '$baseURL/v1/chain/get_table_rows';
+    final profileURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
@@ -122,7 +122,7 @@ class HttpService {
       return Future.value(HttpMockResponse.accountPermissions);
     }
 
-    final accountPermissionsURL = '$baseURL/v1/chain/get_account';
+    final accountPermissionsURL = Uri.parse('$baseURL/v1/chain/get_account');
 
     var request = '{ "account_name": $userAccount}';
     var headers = <String, String>{'Content-type': 'application/json'};
@@ -179,7 +179,7 @@ class HttpService {
       return HttpMockResponse.keyAccounts;
     }
 
-    final keyAccountsURL = '$baseURL/v2/state/get_key_accounts?public_key=$publicKey';
+    final keyAccountsURL = Uri.parse('$baseURL/v2/state/get_key_accounts?public_key=$publicKey');
 
     var res = await get(keyAccountsURL);
 
@@ -208,7 +208,7 @@ class HttpService {
       return HttpMockResponse.members;
     }
 
-    final membersURL = '$baseURL/v1/chain/get_table_rows';
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
@@ -239,7 +239,7 @@ class HttpService {
     var lowerBound = filter;
     var upperBound = filter.padRight(12 - filter.length, 'z');
 
-    final membersURL = '$baseURL/v1/chain/get_table_rows';
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":"$lowerBound","upper_bound":"$upperBound","index_position":1,"key_type":"i64","limit":"100","reverse":false,"show_payer":false}';
@@ -270,7 +270,7 @@ class HttpService {
       return HttpMockResponse.members[0];
     }
 
-    final membersURL = '$baseURL/v1/chain/get_table_rows';
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
@@ -303,7 +303,7 @@ class HttpService {
       return HttpMockResponse.members;
     }
 
-    final membersURL = '$baseURL/v1/chain/get_table_rows';
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
     var headers = <String, String>{'Content-type': 'application/json'};
 
     var requests = accountNames.map((e) =>
@@ -340,7 +340,7 @@ class HttpService {
     }
 
     final transactionsURL =
-        '$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc';
+    Uri.parse('$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc');
 
     var res = await get(transactionsURL);
 
@@ -364,7 +364,7 @@ class HttpService {
   }
 
   Future<List<TransactionModel>> getTransactionsMongo({int blockHeight = 0}) async {
-    const url = 'https://mongo-api.hypha.earth/find';
+    var url = Uri.parse('https://mongo-api.hypha.earth/find');
     var blockNum = blockHeight;
 
     var params = '''{ 
@@ -414,7 +414,7 @@ class HttpService {
       return HttpMockResponse.balance;
     }
 
-    final balanceURL = '$baseURL/v1/chain/get_currency_balance';
+    final balanceURL = Uri.parse('$baseURL/v1/chain/get_currency_balance');
 
     var request = '{"code":"token.seeds","account":"$userAccount","symbol":"SEEDS"}';
     var headers = <String, String>{'Content-type': 'application/json'};
@@ -441,7 +441,7 @@ class HttpService {
       return HttpMockResponse.rate;
     }
 
-    final rateURL = '$baseURL/v1/chain/get_table_rows';
+    final rateURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request = '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
 
@@ -463,7 +463,7 @@ class HttpService {
   Future<FiatRateModel> getFiatRates() async {
     print('[http] get fiat rates');
 
-    var res = await get('https://api.exchangeratesapi.io/latest?base=USD');
+    var res = await get(Uri.parse('https://api.exchangeratesapi.io/latest?base=USD'));
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
@@ -481,7 +481,7 @@ class HttpService {
       return HttpMockResponse.telosBalance;
     }
 
-    final balanceURL = '$baseURL/v1/chain/get_currency_balance';
+    final balanceURL = Uri.parse('$baseURL/v1/chain/get_currency_balance');
 
     var request = '{"code":"eosio.token","account":"$userAccount","symbol":"TLOS"}';
     var headers = <String, String>{'Content-type': 'application/json'};
@@ -510,7 +510,7 @@ class HttpService {
       return true;
     }
 
-    final daoURL = '$baseURL/v1/chain/get_table_rows';
+    final daoURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     String request =
         '{"json": true, "code": "trailservice","scope": "$userAccount","table": "voters"}';
@@ -535,7 +535,7 @@ class HttpService {
       return HttpMockResponse.exchangeConfig;
     }
 
-    final exchangeURL = '$baseURL/v1/chain/get_table_rows';
+    final exchangeURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"config","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
@@ -571,7 +571,7 @@ class HttpService {
       return HttpMockResponse.voice;
     }
 
-    final voiceURL = '$baseURL/v1/chain/get_table_rows';
+    final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"funds.seeds","scope":"$scope","table":"voice","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
@@ -599,7 +599,7 @@ class HttpService {
       return HttpMockResponse.planted;
     }
 
-    final plantedURL = '$baseURL/v1/chain/get_table_rows';
+    final plantedURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
@@ -627,7 +627,7 @@ class HttpService {
       return HttpMockResponse.harvest;
     }
 
-    final harvestURL = '$baseURL/v1/chain/get_table_rows';
+    final harvestURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
@@ -655,7 +655,7 @@ class HttpService {
       return HttpMockResponse.score;
     }
 
-    final scoreURL = '$baseURL/v1/chain/get_table_rows';
+    final scoreURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"harvest","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
@@ -683,7 +683,7 @@ class HttpService {
       return HttpMockResponse.proposals.where((proposal) => proposal.stage == stage).toList();
     }
 
-    final proposalsURL = '$baseURL/v1/chain/get_table_rows';
+    final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"props","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
@@ -722,7 +722,7 @@ class HttpService {
         '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$inviteHash","upper_bound":"$inviteHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
     var headers = <String, String>{'Content-type': 'application/json'};
 
-    var res = await post(inviteURL, headers: headers, body: request);
+    var res = await post(Uri.parse(inviteURL), headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
@@ -752,7 +752,7 @@ class HttpService {
       return HttpMockResponse.invites;
     }
 
-    var url = '$baseURL/v1/chain/get_table_rows';
+    var url = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":3,"key_type":"name","limit":"1000","reverse":false,"show_payer":false}';
@@ -783,7 +783,7 @@ class HttpService {
       return true;
     }
 
-    final keyAccountsURL = '$baseURL/v1/chain/get_account';
+    final keyAccountsURL = Uri.parse('$baseURL/v1/chain/get_account');
 
     var res = await post(
       keyAccountsURL,
@@ -801,7 +801,7 @@ class HttpService {
   }
 
   Future<VoteResult> getVote({proposalId = int}) async {
-    var url = '$baseURL/v1/chain/get_table_rows';
+    var url = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request = '''{
       "json": true,

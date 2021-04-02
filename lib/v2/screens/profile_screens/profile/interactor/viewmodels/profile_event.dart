@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -12,6 +14,18 @@ abstract class ProfileEvent extends Equatable {
 class LoadProfile extends ProfileEvent {
   @override
   String toString() => 'LoadProfile';
+}
+
+class OnUpdateProfileImage extends ProfileEvent {
+  final File file;
+
+  const OnUpdateProfileImage({@required this.file});
+
+  @override
+  List<Object> get props => [file];
+
+  @override
+  String toString() => 'OnUpdateProfileImage { file: $file }';
 }
 
 class OnNameChanged extends ProfileEvent {

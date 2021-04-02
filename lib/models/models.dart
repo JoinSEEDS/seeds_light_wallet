@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
-import 'package:seeds/utils/double_extension.dart';
 
 abstract class CurrencyConverter {
   double seedsTo(double seedsValue, String currencySymbol);
@@ -178,6 +177,8 @@ class TransactionModel {
   final String memo;
   final String timestamp;
   final String transactionId;
+  
+  String get symbol { return quantity.split(" ")[1]; }
 
   TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp,
       this.transactionId);

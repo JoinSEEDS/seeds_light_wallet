@@ -37,6 +37,7 @@ class CircularProgressItem extends StatelessWidget {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularStepProgressIndicator(
               circularDirection: CircularDirection.counterclockwise,
@@ -68,7 +69,10 @@ class CircularProgressItem extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8.0),
-        Row(children: [Text(rate, style: rateStyle)]),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text(rate, style: rateStyle)],
+        ),
       ],
     );
   }
