@@ -41,7 +41,6 @@ class ReceiveQRState extends State<ReceiveQR> {
   Widget build(BuildContext context) {
     var acctName = EosService.of(context).accountName;
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),

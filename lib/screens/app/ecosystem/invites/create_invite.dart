@@ -151,7 +151,6 @@ class _ShareScreenState extends State<ShareScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

@@ -31,7 +31,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
             listenWhen: (_, current) => current.showInfoSnack != null,
             listener: (context, _) {
               BlocProvider.of<PasscodeBloc>(context).add(const ResetShowSnack());
-              Scaffold.of(context).showSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   behavior: SnackBarBehavior.floating,
                   backgroundColor: AppColors.canopy,

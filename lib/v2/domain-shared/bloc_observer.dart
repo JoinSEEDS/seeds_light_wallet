@@ -31,10 +31,11 @@ class SimpleBlocObserver extends BlocObserver {
     print(event);
   }
 
+
   @override
-  void onError(Cubit cubit, Object error, StackTrace stackTrace) {
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    super.onError(bloc, error, stackTrace);
     print(error);
-    super.onError(cubit, error, stackTrace);
   }
 
   @override

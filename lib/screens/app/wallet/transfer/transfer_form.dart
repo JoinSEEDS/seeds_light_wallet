@@ -169,7 +169,6 @@ class _TransferFormState extends State<TransferForm>
       child: Stack(
         children: <Widget>[
           Scaffold(
-            resizeToAvoidBottomPadding: true,
             extendBodyBehindAppBar: true,
             appBar: AppBar(
               toolbarOpacity: 1,
