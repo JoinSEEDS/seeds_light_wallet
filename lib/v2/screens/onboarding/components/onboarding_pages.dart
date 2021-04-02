@@ -41,7 +41,7 @@ class OnboardingPage extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.only(bottom: 20, top: 90, right: 40, left: 40),
                 child: Stack(
-                  overflow: Overflow.visible,
+                  clipBehavior: Clip.none,
                   children: [
                     topLeaf1,
                     topLeaf2 ?? const SizedBox.shrink(),
@@ -61,7 +61,7 @@ class OnboardingPage extends StatelessWidget {
               height: 310,
               padding: const EdgeInsets.only(right: 40, left: 40),
               child: Stack(
-                overflow: Overflow.visible,
+                clipBehavior: Clip.none,
                 children: [
                   bottomLeaf1,
                   bottomLeaf2,

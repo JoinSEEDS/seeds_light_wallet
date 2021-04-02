@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
@@ -98,6 +98,8 @@ class ProfileBottom extends StatelessWidget {
                             ),
                             Row(
                               children: [
+                                // TODO(Raul): Fix this ASAP
+                                // ignore: deprecated_member_use
                                 FlatButton(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),

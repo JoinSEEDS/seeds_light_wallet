@@ -36,6 +36,8 @@ class _CreatePasscodeState extends State<CreatePasscode> {
       },
       bottomWidget: Padding(
         padding: const EdgeInsets.only(top: 20),
+        // TODO(Raul): Fix this ASAP
+        // ignore: deprecated_member_use
         child: OutlineButton(
           borderSide: const BorderSide(color: AppColors.white),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),

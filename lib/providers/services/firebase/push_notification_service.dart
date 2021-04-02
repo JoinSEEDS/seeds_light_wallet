@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 
@@ -13,8 +11,8 @@ class PushNotificationService {
 
   static final PushNotificationService _instance = PushNotificationService._();
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  bool _initialized = false;
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  // bool _initialized = false;
   String token;
 
   Future initialise(BuildContext context) async {
