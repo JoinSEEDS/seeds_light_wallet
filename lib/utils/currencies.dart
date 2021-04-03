@@ -1,4 +1,17 @@
-const currencyNames = {
+
+const List<String> topCurrencies = [
+    "USD", 
+    "EUR", 
+    "GBP", 
+];
+
+class Currency {
+  final String ticker;
+  final String name;
+  Currency(this.ticker, this.name);
+}
+
+const allCurrencies = {
     "USD": "United States Dollar", 
     "EUR": "Euro", 
     "JPY": "Japanese Yen", 
