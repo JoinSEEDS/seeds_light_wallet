@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
+import 'package:seeds/utils/currencies.dart';
 import 'package:seeds/utils/double_extension.dart';
 
 abstract class CurrencyConverter {
@@ -258,29 +259,31 @@ class BalanceModel {
 }
 
 class FiatRateModel {
-  Map<String, double> rates;
+  Map<String, num> rates;
   String base;
   final bool error;
 
-  List<String> get currencies {
-    var list = List<String>.from(rates.keys);
+  List<Currency> get currencies {
+    Map<String, String> available = rates.map((key, value) => MapEntry(key, key));
+    var prefix = List<String>.from(topCurrencies.where((e) { 
+      if (available[e] != null) {
+        available.remove(e);
+        return true;
+      }
+      return false;
+    }));
+    List<String> list = List<String>.from(available.keys);
     list.sort();
-    return list;
+    list = prefix + list;
+
+    return List.of(list.map((e) => Currency(e, allCurrencies[e] ?? "")));
   }
 
   FiatRateModel(this.rates, {this.base = "USD", this.error = false});
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return FiatRateModel(new Map<String, double>.from(json["rates"]));
-    } else {
-      return FiatRateModel(null, error: true);
-    }
-  }
-
-  factory FiatRateModel.fromJsonFixer(Map<String, dynamic> json) {
-    if (json != null && json.isNotEmpty) {
-      var model = FiatRateModel(new Map<String, double>.from(json["rates"]), base: json["base"]);
+      var model = FiatRateModel(new Map<String, num>.from(json["rates"]), base: json["base"]);
       model.rebase("USD");
       return model;
     } else {
@@ -303,8 +306,10 @@ class FiatRateModel {
   void rebase(String symbol) {
     var rate = rates[symbol];
     if (rate != null) {
+      rates[base] = 1.0;
       base = symbol;
       rates = rates.map((key, value) => MapEntry(key, value / rate));
+      rates[base] = 1.0;
     } else {
       print("error - can't rebase to " + symbol);
     }

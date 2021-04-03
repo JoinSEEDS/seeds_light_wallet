@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 1.4.5+36
+version: 1.4.6+37
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
