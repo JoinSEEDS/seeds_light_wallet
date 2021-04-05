@@ -18,7 +18,7 @@ class FirebaseRemoteConfigService {
     try {
       await _remoteConfig.setDefaults(defaults);
       await _fetchAndActivate();
-    } on FetchThrottledException catch (exception) {
+    } on Exception catch (exception) {
       // Fetch throttled.
       print('Remote config fetch throttled: $exception');
     } catch (exception) {
@@ -27,8 +27,7 @@ class FirebaseRemoteConfigService {
   }
 
   Future _fetchAndActivate() async {
-    await _remoteConfig.fetch();
-    await _remoteConfig.activateFetched();
+    await _remoteConfig.fetchAndActivate();
   }
 
   bool get featureFlagGuardiansEnabled => _remoteConfig.getBool(_FeatureFlagGuardianKey);

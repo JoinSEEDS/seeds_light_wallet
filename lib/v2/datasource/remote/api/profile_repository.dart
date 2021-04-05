@@ -14,13 +14,11 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
 
-    final profileURL = '${settingsStorage.nodeEndpoint}/v1/chain/get_table_rows';
-
     var request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
 
     return http
-        .post(profileURL, headers: headers, body: request)
+        .post(Uri.parse('${settingsStorage.nodeEndpoint}/v1/chain/get_table_rows'), headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return ProfileModel.fromJson(body['rows'][0]);
             }))
@@ -70,7 +68,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getScore(String accountName) async {
     print('[http] get score $accountName');
 
-    final scoreURL = '${settingsStorage.nodeEndpoint}/v1/chain/get_table_rows';
+    final scoreURL = Uri.parse('${settingsStorage.nodeEndpoint}/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"harvest","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';

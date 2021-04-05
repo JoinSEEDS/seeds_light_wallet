@@ -331,7 +331,7 @@ class EosService {
       return Future.value(HttpMockResponse.accountPermissions);
     }
 
-    final url = '$baseURL/v1/chain/get_account';
+    final url = Uri.parse('$baseURL/v1/chain/get_account');
     final body = '{ "account_name": "$accountName" }';
     var headers = <String, String>{'Content-type': 'application/json'};
 

@@ -10,7 +10,7 @@ import 'package:uuid/uuid.dart';
 class SaveImageUseCase {
   Future<Result> run({@required File file}) async {
     String extensionName = path_lib.extension(file.path);
-    String path = "ProfileImage/" + settingsStorage.accountName + '/' + Uuid().v4() + extensionName;
+    String path = "ProfileImage/" + settingsStorage.accountName + '/' + const Uuid().v4() + extensionName;
     Reference reference = FirebaseStorage.instance.ref().child(path);
     String fileType = extensionName.isNotEmpty ? extensionName.substring(1) : '*';
     await reference.putFile(file, SettableMetadata(contentType: "image/$fileType"));
