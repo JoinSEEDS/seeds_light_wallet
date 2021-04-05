@@ -98,9 +98,7 @@ class ProfileBottom extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                // TODO(Raul): Fix this ASAP
-                                // ignore: deprecated_member_use
-                                FlatButton(
+                                MaterialButton(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),

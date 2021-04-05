@@ -36,11 +36,13 @@ class _CreatePasscodeState extends State<CreatePasscode> {
       },
       bottomWidget: Padding(
         padding: const EdgeInsets.only(top: 20),
-        // TODO(Raul): Fix this ASAP
-        // ignore: deprecated_member_use
-        child: OutlineButton(
-          borderSide: const BorderSide(color: AppColors.white),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        child: OutlinedButton(
+          style: ButtonStyle(
+            side: MaterialStateProperty.resolveWith<BorderSide>((states) => const BorderSide(color: AppColors.white)),
+            shape: MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
+              return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
+            }),
+          ),
           child:
               Text('Disable Pincode'.i18n, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
           onPressed: () => bloc.execute(DisablePasswordCmd()),
