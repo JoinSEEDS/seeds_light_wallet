@@ -106,7 +106,21 @@ extension CustomStyles on TextTheme {
 
   TextStyle get subtitle3Red => subtitle3.copyWith(color: AppColors.red1);
 
-  TextStyle get subtitle2Green => subtitle2LowEmphasis.copyWith(color: AppColors.green3);
+  TextStyle get subtitle2GreenLowEmphasis => subtitle2LowEmphasis.copyWith(color: AppColors.green3);
+
+  TextStyle get subtitle2Green => subtitle2.copyWith(color: AppColors.green3);
+
+  TextStyle get subtitle2BlackHighEmphasis => subtitle2HighEmphasis.copyWith(color: AppColors.black);
+
+  TextStyle get subtitle2Green1 => subtitle2HighEmphasis.copyWith(color: AppColors.green1);
+
+  TextStyle get subtitle2BlackLowEmphasis => subtitle2LowEmphasis.copyWith(color: AppColors.black);
+
+  TextStyle get subtitle2Black => subtitle2.copyWith(color: AppColors.black);
+
+  TextStyle get subtitle2OpacityEmphasisBlack => subtitle2OpacityEmphasis.copyWith(color: AppColors.black);
+
+  TextStyle get subtitle3Green => subtitle3.copyWith(color: AppColors.green3);
 
   TextStyle get subtitle3OpacityEmphasis => Typography.material2018()
       .englishLike
@@ -132,10 +146,19 @@ extension CustomStyles on TextTheme {
   TextStyle get button1 =>
       Typography.material2018().englishLike.button.copyWith(fontSize: 25, fontWeight: FontWeight.w400);
 
+  TextStyle get buttonBlack =>
+      Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w400
+      ,color: AppColors.black);
+
+  TextStyle get headline4Black => Typography.material2018()
+      .englishLike
+      .headline4
+      .copyWith(fontSize: 36, fontWeight: FontWeight.w500, color: AppColors.green3);
+
   TextStyle get headline6Green => Typography.material2018()
       .englishLike
       .headline6
-      .copyWith(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.green3);
+      .copyWith(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.black);
 
   TextStyle get headline7Green =>
       headline7.copyWith(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.green3);
