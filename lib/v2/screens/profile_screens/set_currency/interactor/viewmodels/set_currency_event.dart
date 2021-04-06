@@ -10,7 +10,7 @@ abstract class SetCurrencyEvent extends Equatable {
 }
 
 class LoadCurrencies extends SetCurrencyEvent {
-  final Map<String, double> rates;
+  final Map<String, num> rates;
 
   const LoadCurrencies({@required this.rates}) : assert(rates != null);
 

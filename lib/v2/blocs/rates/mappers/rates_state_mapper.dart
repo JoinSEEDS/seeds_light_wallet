@@ -13,14 +13,7 @@ class RatesStateMapper extends StateMapper {
       results.retainWhere((Result i) => i.isValue);
       var values = results.map((Result i) => i.asValue.value).toList();
       RateModel rate = values.firstWhere((i) => i is RateModel, orElse: () => null);
-      List<FiatRateModel> fiatRates = values.whereType<FiatRateModel>().toList();
-      FiatRateModel fiatRate;
-      if (fiatRates.length == 1) {
-        fiatRate = fiatRates[0];
-      } else if (fiatRates.length == 2) {
-        fiatRate = fiatRates[0];
-        fiatRate.merge(fiatRates[1]);
-      }
+      FiatRateModel fiatRate = values.firstWhere((i) => i is FiatRateModel, orElse: () => null);
       return currentState.copyWith(rate: rate, fiatRate: fiatRate);
     }
   }
