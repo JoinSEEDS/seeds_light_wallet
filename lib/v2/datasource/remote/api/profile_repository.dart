@@ -13,13 +13,12 @@ export 'package:async/src/result/result.dart';
 class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
-    // TODO(Raul): Remove this en-point with settingsStorage.nodeEndpoint idk why but when I do it throws an error https://github.com/JoinSEEDS/seeds_light_wallet/pull/552.
-    var profileURL = Uri.parse('https://mainnet.telosusa.io/v1/chain/get_table_rows');
+
     var request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
 
     return http
-        .post(profileURL, headers: headers, body: request)
+        .post(Uri.parse('${settingsStorage.nodeEndpoint}/v1/chain/get_table_rows'), headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return ProfileModel.fromJson(body['rows'][0]);
             }))
