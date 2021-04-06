@@ -22,7 +22,6 @@ class _ReceiveCustomState extends State<ReceiveCustom> {
       },
       child: SafeArea(
         child: Scaffold(
-            resizeToAvoidBottomPadding: true,
             appBar: AppBar(
               leading: IconButton(
                 icon: Icon(Icons.arrow_back, color: Colors.black),

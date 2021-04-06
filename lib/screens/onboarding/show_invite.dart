@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/onboarding/onboarding_view_model.dart';
 import 'package:seeds/i18n/show_invite.i18n.dart';
+import 'package:intro_views_flutter/intro_views_flutter.dart';
 
 class ShowInviteArguments {
   final String inviterAccountName;
@@ -21,6 +20,7 @@ class ShowInvite extends StatelessWidget {
     final inviterAccountName = arguments.inviterAccountName;
     final inviteSecret = arguments.inviteSecret;
 
+    return Text("Accept your invite to create a new account and join SEEDS'.i18n");
     return Builder(
       builder: (context) => IntroViewsFlutter(
         [
@@ -33,8 +33,7 @@ class ShowInvite extends StatelessWidget {
         ],
         key: new UniqueKey(),
         onTapDoneButton: () async {
-          NavigationService.of(context)
-              .navigateTo(Routes.createAccount, inviteSecret, true);
+          NavigationService.of(context).navigateTo(Routes.createAccount, inviteSecret, true);
         },
         doneButtonPersist: true,
         doneText: Text(

@@ -10,7 +10,7 @@ class PlantedRepository extends NetworkRepository {
   Future<Result> getPlanted(String userAccount) {
     print('[http] get seeds getPlanted $userAccount');
 
-    final plantedURL = '$baseURL/v1/chain/get_table_rows';
+    final plantedURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
     var request =
         '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
 

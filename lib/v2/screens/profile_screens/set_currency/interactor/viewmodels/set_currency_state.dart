@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/datasource/local/models/currency.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -46,12 +45,6 @@ class SetCurrencyState extends Equatable {
   }
 
   factory SetCurrencyState.initial() {
-    return const SetCurrencyState(
-      pageState: PageState.initial,
-      currentQuery: null,
-      availableCurrencies: null,
-      queryCurrenciesResults: null,
-      errorMessage: null,
-    );
+    return const SetCurrencyState(pageState: PageState.initial);
   }
 }
