@@ -9,20 +9,9 @@ class RatesRepository extends NetworkRepository {
     print("[http] get fiat rates");
 
     return http
-        .get(Uri.parse("https://api.exchangeratesapi.io/latest?base=USD"))
+        .get(Uri.parse("http://api-payment.hypha.earth/fiatExchangeRates?api_key=${fxApiKey}"))
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return FiatRateModel.fromJson(body);
-            }))
-        .catchError((error) => mapHttpError(error));
-  }
-
-  Future<Result> getFiatRatesAlternate() async {
-    print("[http] get alternate fiat rates");
-
-    return http
-        .get(Uri.parse("http://data.fixer.io/api/latest?access_key=$fixerApiKey&symbols=CRC,GTQ,USD"))
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              return FiatRateModel.fromJsonFixer(body);
             }))
         .catchError((error) => mapHttpError(error));
   }

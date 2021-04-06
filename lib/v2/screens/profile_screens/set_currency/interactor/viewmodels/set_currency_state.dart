@@ -45,12 +45,6 @@ class SetCurrencyState extends Equatable {
   }
 
   factory SetCurrencyState.initial() {
-    return const SetCurrencyState(
-      pageState: PageState.initial,
-      currentQuery: null,
-      availableCurrencies: null,
-      queryCurrenciesResults: null,
-      errorMessage: null,
-    );
+    return const SetCurrencyState(pageState: PageState.initial);
   }
 }
