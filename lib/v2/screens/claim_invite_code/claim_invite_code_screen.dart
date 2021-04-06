@@ -3,16 +3,26 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/i18n/edit_name.i18n.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/scanner/seeds_qr_code_scanner_widget.dart';
-import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/components/text_form_field_light_custom.dart';
+import 'package:seeds/utils/invites.dart';
+import 'package:seeds/models/models.dart';
 
 import 'interactor/claim_invite_code_bloc.dart';
+
+
+enum ClaimCodeStatus {
+  emptyInviteCode,
+  searchingInvite,
+  foundNoInvite,
+  foundClaimedInvite,
+  foundValidInvite,
+  networkError,
+}
 
 class ClaimInviteCodeScreen extends StatefulWidget {
   final ValueSetter<String> resultCallBack;
@@ -30,6 +40,13 @@ class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController _controller;
   bool _handledQrCode = false;
+  ClaimCodeStatus status = ClaimCodeStatus.emptyInviteCode;
+  String claimedAccount;
+  String inviterAccount;
+  String inviteSecret;
+  String inviteHash;
+  String transferQuantity;
+  String sowQuantity;
 
   @override
   void initState() {
@@ -37,6 +54,54 @@ class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
     _ClaimInviteCodeBloc = ClaimInviteCodeBloc(SettingsNotifier.of(context), AuthNotifier.of(context));
     _keyController.text = '';
   }
+
+  void findInvite() async {
+    String inviteCode = _keyController.text;
+
+    if (inviteCode == "") {
+      setState(() {
+        status = ClaimCodeStatus.emptyInviteCode;
+      });
+      return;
+    }
+
+    setState(() {
+      status = ClaimCodeStatus.searchingInvite;
+    });
+
+    inviteSecret = secretFromMnemonic(inviteCode);
+    inviteHash = hashFromSecret(inviteSecret);
+
+    InviteModel invite;
+
+    try {
+      invite = await HttpService.of(context).findInvite(inviteHash);
+
+      if (invite.account == null || invite.account == '') {
+        setState(() {
+          status = ClaimCodeStatus.foundValidInvite;
+          inviterAccount = invite.sponsor;
+          transferQuantity = invite.transferQuantity;
+          sowQuantity = invite.sowQuantity;
+        });
+      } else {
+        setState(() {
+          status = ClaimCodeStatus.foundClaimedInvite;
+          inviterAccount = invite.sponsor;
+          claimedAccount = invite.account;
+        });
+      }
+    } on NetworkException {
+      setState(() {
+        status = ClaimCodeStatus.networkError;
+      });
+    } on EmptyResultException {
+      setState(() {
+        status = ClaimCodeStatus.foundNoInvite;
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -158,4 +223,7 @@ class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
       // _ClaimInviteCodeBloc.add(FindAccountByKey(userKey: _keyController.text));
     }
   }
+
+
+
 }
