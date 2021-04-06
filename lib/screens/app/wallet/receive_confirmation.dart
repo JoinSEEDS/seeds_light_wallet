@@ -19,7 +19,6 @@ class _ReceiveConfirmationState extends State<ReceiveConfirmation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),

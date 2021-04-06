@@ -23,7 +23,7 @@ jobs:
       #     ls
       #     flutter pub get
         with:
-          flutter-version: '1.22.6'
+          flutter-version: '2.0.3'
       - run: flutter pub get
       - name: Lint
         run: |
@@ -47,7 +47,7 @@ jobs:
       #     flutter channel stable
       #     flutter upgrade
         with:
-          flutter-version: '1.22.6'
+          flutter-version: '2.0.3'
       - run: flutter pub get
       - name: build iOS package
         run: |
@@ -68,7 +68,7 @@ jobs:
       #     flutter channel stable
       #     flutter upgrade
         with:
-          flutter-version: '1.22.6'
+          flutter-version: '2.0.3'
       - run: flutter pub get
       - name: Build apk package
         run: |

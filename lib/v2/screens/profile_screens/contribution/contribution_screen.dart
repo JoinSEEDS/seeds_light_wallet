@@ -47,7 +47,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
     return Scaffold(
       appBar: AppBar(title: Text('Contribution Score'.i18n)),
       body: BlocConsumer<ContributionBloc, ContributionState>(
-        cubit: _contributionBloc,
+        bloc: _contributionBloc,
         listenWhen: (previous, current) =>
             previous.pageState != PageState.success && current.pageState == PageState.success,
         listener: (context, state) {

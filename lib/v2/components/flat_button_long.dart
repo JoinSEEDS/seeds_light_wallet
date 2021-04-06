@@ -14,7 +14,7 @@ class FlatButtonLong extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: FlatButton(
+      child: MaterialButton(
         color: color ?? AppColors.green1,
         disabledTextColor: Colors.grey,
         shape: RoundedRectangleBorder(

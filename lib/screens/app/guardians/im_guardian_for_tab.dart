@@ -221,94 +221,110 @@ class ImGuardianForTab extends StatelessWidget {
 
   void showStopRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
     showDialog(
-        context: context,
-        child: AlertDialog(
-            content: Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
-            actions: [
-              FlatButton(
-                child: const Text('Cancel'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              FlatButton(
-                child: Text("Stop Key Recovery"),
-                onPressed: () {
-                  FirebaseDatabaseService().stopRecoveryForUser(userId: user.account);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              )
-            ]));
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
+          actions: [
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text("Stop Key Recovery"),
+              onPressed: () {
+                FirebaseDatabaseService().stopRecoveryForUser(userId: user.account);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   void showNowEnoughGuardiansInfoDialog(MemberModel user, BuildContext context) {
     showDialog(
-        context: context,
-        child: AlertDialog(
-            content: Text(
-                "User ${user.nickname} does not have the minimum required guardians. User must have at least 3 confirmed guardians",
-                style: TextStyle(color: Colors.black)),
-            actions: [
-              FlatButton(
-                child: const Text('Dismiss'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ]));
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(
+              "User ${user.nickname} does not have the minimum required guardians. User must have at least 3 confirmed guardians",
+              style: TextStyle(color: Colors.black)),
+          actions: [
+            TextButton(
+              child: const Text('Dismiss'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void showStartRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
     showDialog(
-        context: context,
-        child: AlertDialog(
-            content: Text("Are you sure you want to start key recovery process for ${user.nickname}?",
-                style: TextStyle(color: Colors.black)),
-            actions: [
-              FlatButton(
-                child: const Text('No: Dismiss'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              FlatButton(
-                child: Text("Yes: Start Key Recovery", style: TextStyle(color: Colors.red)),
-                onPressed: () {
-                  FirebaseDatabaseService().startRecoveryForUser(
-                      userId: user.account, currentUserId: SettingsNotifier.of(context).accountName);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              )
-            ]));
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text("Are you sure you want to start key recovery process for ${user.nickname}?",
+              style: TextStyle(color: Colors.black)),
+          actions: [
+            TextButton(
+              child: const Text('No: Dismiss'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text("Yes: Start Key Recovery", style: TextStyle(color: Colors.red)),
+              onPressed: () {
+                FirebaseDatabaseService().startRecoveryForUser(
+                    userId: user.account, currentUserId: SettingsNotifier.of(context).accountName);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   void showRemoveGuardianshipConfirmationDialog(MemberModel user, BuildContext context) {
     showDialog(
-        context: context,
-        child: AlertDialog(
-            content: Text("Are you sure you want to stop being ${user.nickname}'s guardian?",
-                style: TextStyle(color: Colors.black)),
-            actions: [
-              FlatButton(
-                child: const Text('No: Dismiss'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text("Are you sure you want to stop being ${user.nickname}'s guardian?",
+              style: TextStyle(color: Colors.black)),
+          actions: [
+            TextButton(
+              child: const Text('No: Dismiss'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text(
+                "Yes: Remove Guardianship",
+                style: TextStyle(color: Colors.red),
               ),
-              FlatButton(
-                child: const Text(
-                  "Yes: Remove Guardianship",
-                  style: TextStyle(color: Colors.red),
-                ),
-                onPressed: () {
-                  FirebaseDatabaseService().removeImGuardianFor(
-                      currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              )
-            ]));
+              onPressed: () {
+                FirebaseDatabaseService().removeImGuardianFor(
+                    currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 }
