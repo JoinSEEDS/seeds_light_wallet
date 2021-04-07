@@ -7,6 +7,7 @@ import 'package:seeds/constants/config.dart';
 abstract class NetworkRepository {
   String baseURL = Config.defaultEndpoint;
   String hyphaURL = Config.hyphaEndpoint;
+  String mongoURL = Config.mongoEndpoint;
   Map<String, String> headers = {'Content-type': 'application/json'};
 
   Result mapHttpResponse(http.Response response, Function modelMapper) {

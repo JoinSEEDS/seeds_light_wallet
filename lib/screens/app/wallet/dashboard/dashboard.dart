@@ -1,3 +1,4 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toolbox/flutter_toolbox.dart';
@@ -22,6 +23,7 @@ import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/screens/app/wallet/dashboard/wallet_header.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
+import 'package:seeds/widgets/dashboard_widgets/currency_info_card.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
@@ -44,6 +46,15 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   var savingLoader = GlobalKey<MainButtonState>();
+
+  PageController headerPageController = PageController(
+    initialPage: 0,
+    viewportFraction: 0.89,
+  );
+
+  PageController transactionsPageController = PageController(
+    initialPage: 0,
+  );
 
   @override
   void initState() {
@@ -135,21 +146,21 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      child: Scaffold(
-        appBar: buildAppBar(context),
-        body: ListView(
-          children: <Widget>[
-            buildNotification(),
-            WalletHeader(),
-            const SizedBox(height: 20),
-            buildSendReceiveButton(),
-            const SizedBox(height: 20),
-            walletBottom(),
-          ],
-        ),
+    return Scaffold(
+      appBar: buildAppBar(context),
+      body: Column(
+        children: [
+          buildNotification(),
+          buildHeader(),
+          const SizedBox(height: 20),
+          buildSendReceiveButton(),
+          const SizedBox(height: 20),
+          transactionHeader(),
+          Expanded(
+            child: buildTransactions(),
+          ),
+        ],
       ),
-      onRefresh: refreshData,
     );
   }
 
@@ -179,6 +190,75 @@ class _DashboardState extends State<Dashboard> {
 
   void onReceive() async {
     NavigationService.of(context).navigateTo(Routes.receive);
+  }
+
+  Widget buildHeader() {
+    return Container(
+      height: 220,
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: PageView(
+              onPageChanged: (page) {
+                setState(() {
+                  transactionsPageController.jumpToPage(page);
+                });
+              },
+              controller: headerPageController,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: const CurrencyInfoCard(
+                    backgroundImage: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
+                    title: "Seeds",
+                    logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
+                    balanceSubTitle: 'Wallet Balance',
+                    balance: '1244.32',
+                    fiatBalance: " \$6,423 USD",
+                  ),
+                ),
+                const CurrencyInfoCard(
+                  backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
+                  title: "Hypha",
+                  logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
+                  balanceSubTitle: 'Wallet Balance',
+                  balance: '68436.32',
+                  fiatBalance: " \$9,236.45 USD",
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: CurrencyInfoCard(
+                    backgroundImage: 'assets/images/wallet/currency_info_cards/planted_seeds/background.jpg',
+                    title: "Planted Seeds",
+                    logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
+                    balanceSubTitle: 'Planted Seeds',
+                    balance: '1244.32',
+                    fiatBalance: " \$6,423 USD",
+                    textColor: AppColors.lightGreen2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          DotsIndicator(
+            dotsCount: 3,
+            position: headerPageController.positions.isNotEmpty ? headerPageController.page : 0,
+            decorator: const DotsDecorator(
+              spacing: EdgeInsets.all(2.0),
+              size: Size(10.0, 2.0),
+              shape: Border(),
+              color: AppColors.darkGreen2,
+              activeColor: AppColors.green1,
+              activeSize: Size(18.0, 2.0),
+              activeShape: Border(),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget buildNotification() {
@@ -311,8 +391,14 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget buildTransactions() {
-    return Column(
-      children: <Widget>[
+    return PageView(
+      scrollDirection: Axis.horizontal,
+      controller: transactionsPageController,
+      pageSnapping: false,
+      // onPageChanged: (page) {
+      //   headerPageController.jumpToPage(page);
+      // },
+      children: [
         Consumer<TransactionsNotifier>(
           builder: (context, model, child) => model != null && model.transactions != null
               ? Column(
@@ -337,6 +423,20 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
         ),
+        Shimmer.fromColors(
+          baseColor: Colors.grey[300],
+          highlightColor: Colors.grey[100],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                height: 16,
+                color: Colors.white,
+                margin: const EdgeInsets.only(left: 10, right: 10),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -349,12 +449,6 @@ class _DashboardState extends State<Dashboard> {
         const SizedBox(width: 20),
         Expanded(child: ReceiveButton(onPress: onReceive)),
       ]),
-    );
-  }
-
-  Widget walletBottom() {
-    return Column(
-      children: <Widget>[transactionHeader(), buildTransactions()],
     );
   }
 
@@ -389,7 +483,7 @@ class _DashboardState extends State<Dashboard> {
               height: 30,
               width: 2000,
             ),
-             onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
+            onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
           ),
         ),
         Container(

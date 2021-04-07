@@ -152,11 +152,15 @@ class MainScreen extends StatelessWidget {
 
         if (auth.status == AuthStatus.emptyAccount || auth.status == AuthStatus.recoveryMode) {
           return SeedsMaterialApp(
-            home: auth.status == AuthStatus.emptyAccount ? Onboarding() : SeedsMaterialApp(home: LoginScreen(),),
+            home: auth.status == AuthStatus.emptyAccount
+                ? Onboarding()
+                : SeedsMaterialApp(
+                    home: LoginScreen(),
+                  ),
             navigatorKey: navigationService.onboardingNavigatorKey,
             onGenerateRoute: navigationService.onGenerateRoute,
           );
-        } else if (auth.status == AuthStatus.unlocked) {
+        } else if (auth.status == AuthStatus.unlocked || true) {
           return ToolboxApp(
             child: SeedsMaterialApp(
               home: App(),

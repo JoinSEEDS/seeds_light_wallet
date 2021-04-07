@@ -9,6 +9,10 @@ import 'package:seeds/constants/app_colors.dart';
 import '../../../../widgets/dashboard_widgets/currency_info_card.dart';
 
 class WalletHeader extends StatefulWidget {
+  final PageController controller;
+
+  const WalletHeader({this.controller});
+
   @override
   State<StatefulWidget> createState() {
     return WalletHeaderState();
@@ -21,7 +25,7 @@ class WalletHeaderState extends State<WalletHeader> {
 
   ScrollController dd = ScrollController();
 
-  void onPageChange(int index, CarouselPageChangedReason changeReason) {
+  void onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -29,70 +33,67 @@ class WalletHeaderState extends State<WalletHeader> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SingleChildScrollView(
-          child: CarouselSlider(
-            carouselController: _controller,
-            items: [
-               Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: CurrencyInfoCard(
-                  backgroundImage: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
-                  title: "Seeds",
-                  logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
+    return Container(
+      height: 220,
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: PageView(
+              onPageChanged: onPageChanged,
+              controller: widget.controller,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: CurrencyInfoCard(
+                    backgroundImage: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
+                    title: "Seeds",
+                    logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
+                    balanceSubTitle: 'Wallet Balance',
+                    balance: '1244.32',
+                    fiatBalance: " \$6,423 USD",
+                  ),
+                ),
+                CurrencyInfoCard(
+                  backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
+                  title: "Hypha",
+                  logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
                   balanceSubTitle: 'Wallet Balance',
-                  balance: '1244.32',
-                  fiatBalance: " \$6,423 USD",
+                  balance: '68436.32',
+                  fiatBalance: " \$9,236.45 USD",
                 ),
-              ),
-               CurrencyInfoCard(
-                backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
-                title: "Hypha",
-                logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
-                balanceSubTitle: 'Wallet Balance',
-                balance: '68436.32',
-                fiatBalance: " \$9,236.45 USD",
-               ),
-               Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: CurrencyInfoCard(
-                  backgroundImage: 'assets/images/wallet/currency_info_cards/planted_seeds/background.jpg',
-                  title: "Planted Seeds",
-                  logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
-                  balanceSubTitle: 'Planted Seeds',
-                  balance: '1244.32',
-                  fiatBalance: " \$6,423 USD",
-                  textColor: AppColors.lightGreen2,
+                Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: CurrencyInfoCard(
+                    backgroundImage: 'assets/images/wallet/currency_info_cards/planted_seeds/background.jpg',
+                    title: "Planted Seeds",
+                    logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
+                    balanceSubTitle: 'Planted Seeds',
+                    balance: '1244.32',
+                    fiatBalance: " \$6,423 USD",
+                    textColor: AppColors.lightGreen2,
+                  ),
                 ),
-              ),
-            ],
-            options: CarouselOptions(
-              height: 220,
-              viewportFraction: 0.89,
-              enableInfiniteScroll: false,
-              onPageChanged: onPageChange,
-
+              ],
             ),
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        DotsIndicator(
-          dotsCount: 3,
-          position: _selectedIndex.toDouble(),
-          decorator: const DotsDecorator(
-            spacing: EdgeInsets.all(2.0),
-            size: Size(10.0, 2.0),
-            shape: Border(),
-            color: AppColors.darkGreen2,
-            activeColor: AppColors.green1,
-            activeSize: Size(18.0, 2.0),
-            activeShape: Border(),
+          const SizedBox(
+            height: 10,
           ),
-        )
-      ],
+          DotsIndicator(
+            dotsCount: 3,
+            position: _selectedIndex.toDouble(),
+            decorator: const DotsDecorator(
+              spacing: EdgeInsets.all(2.0),
+              size: Size(10.0, 2.0),
+              shape: Border(),
+              color: AppColors.darkGreen2,
+              activeColor: AppColors.green1,
+              activeSize: Size(18.0, 2.0),
+              activeShape: Border(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
