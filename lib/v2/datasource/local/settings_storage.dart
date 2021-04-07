@@ -1,5 +1,5 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class _SettingsStorage {
   _SettingsStorage._();
@@ -13,7 +13,6 @@ class _SettingsStorage {
   static const PASSCODE = 'passcode';
   static const PASSCODE_ACTIVE = 'passcode_active';
   static const PASSCODE_ACTIVE_DEFAULT = true;
-  static const NODE_ENDPOINT = 'nodeEndpoint';
   static const PRIVATE_KEY_BACKED_UP = 'private_key_backed_up';
   static const BACKUP_LATEST_REMINDER = 'backup_latest_reminder';
   static const BACKUP_REMINDER_COUNT = 'backup_reminder_count';
@@ -29,19 +28,26 @@ class _SettingsStorage {
   int _backupReminderCount;
 
   bool get isInitialized => _preferences != null;
-  String get accountName => _preferences?.getString(ACCOUNT_NAME);
-  String get privateKey => _privateKey;
-  String get passcode => _passcode;
-  bool get passcodeActive => _passcodeActive;
-  String get nodeEndpoint => _preferences?.getString(NODE_ENDPOINT);
-  bool get privateKeyBackedUp => _privateKeyBackedUp;
-  int get backupLatestReminder => _backupLatestReminder;
-  int get backupReminderCount => _backupReminderCount;
-  String get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY);
-  bool get inRecoveryMode => _preferences?.getBool(IN_RECOVERY_MODE);
-  bool get guardianTutorialShown => _preferences?.getBool(GUARDIAN_TUTORIAL_SHOWN);
 
-  set nodeEndpoint(String value) => _preferences?.setString(NODE_ENDPOINT, value);
+  String get accountName => _preferences?.getString(ACCOUNT_NAME);
+
+  String get privateKey => _privateKey;
+
+  String get passcode => _passcode;
+
+  bool get passcodeActive => _passcodeActive;
+
+  bool get privateKeyBackedUp => _privateKeyBackedUp;
+
+  int get backupLatestReminder => _backupLatestReminder;
+
+  int get backupReminderCount => _backupReminderCount;
+
+  String get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY);
+
+  bool get inRecoveryMode => _preferences?.getBool(IN_RECOVERY_MODE);
+
+  bool get guardianTutorialShown => _preferences?.getBool(GUARDIAN_TUTORIAL_SHOWN);
 
   set inRecoveryMode(bool value) => _preferences?.setBool(IN_RECOVERY_MODE, value);
 
@@ -134,12 +140,6 @@ class _SettingsStorage {
     return value;
   }
 
-  void update({String nodeEndpoint}) {
-    if (nodeEndpoint != _preferences?.getString(NODE_ENDPOINT)) {
-      saveEndpoint(nodeEndpoint);
-    }
-  }
-
   void enableRecoveryMode({String accountName, String privateKey}) {
     inRecoveryMode = true;
     this.accountName = accountName;
@@ -205,10 +205,6 @@ class _SettingsStorage {
     _backupLatestReminder = 0;
     _secureStorage.delete(key: BACKUP_REMINDER_COUNT);
     _backupReminderCount = 0;
-  }
-
-  void saveEndpoint(String nodeEndpoint) {
-    _preferences?.setString(NODE_ENDPOINT, nodeEndpoint);
   }
 }
 
