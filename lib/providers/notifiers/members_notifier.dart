@@ -4,7 +4,7 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
 class MembersNotifier extends ChangeNotifier {
-  HttpService _http;
+  // HttpService _http;
 
   List<MemberModel> allMembers = [];
   List<MemberModel> visibleMembers = [];
@@ -15,7 +15,7 @@ class MembersNotifier extends ChangeNotifier {
   String filterName = '';
 
   void update({HttpService http}) async {
-    _http = http;
+    // _http = http;
   }
 
   void updateVisibleMembers() {
