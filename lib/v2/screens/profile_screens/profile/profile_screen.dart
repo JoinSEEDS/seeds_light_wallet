@@ -15,30 +15,32 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileBloc()..add(LoadProfile()),
+      create: (context) => ProfileBloc()..add(LoadProfileValues()),
       child: Scaffold(
-        body: BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
-          switch (state.pageState) {
-            case PageState.initial:
-              return const SizedBox.shrink();
-            case PageState.loading:
-              return const FullPageLoadingIndicator();
-            case PageState.failure:
-              return const FullPageErrorIndicator();
-            case PageState.success:
-              return ListView(
-                children: <Widget>[
-                  const ProfileHeader(),
-                  const DividerJungle(thickness: 2),
-                  const ProfileMiddle(),
-                  const DividerJungle(thickness: 2),
-                  const ProfileBottom(),
-                ],
-              );
-            default:
-              return const SizedBox.shrink();
-          }
-        }),
+        body: BlocBuilder<ProfileBloc, ProfileState>(
+          builder: (context, state) {
+            switch (state.pageState) {
+              case PageState.initial:
+                return const SizedBox.shrink();
+              case PageState.loading:
+                return const FullPageLoadingIndicator();
+              case PageState.failure:
+                return const FullPageErrorIndicator();
+              case PageState.success:
+                return ListView(
+                  children: <Widget>[
+                    const ProfileHeader(),
+                    const DividerJungle(thickness: 2),
+                    const ProfileMiddle(),
+                    const DividerJungle(thickness: 2),
+                    const ProfileBottom(),
+                  ],
+                );
+              default:
+                return const SizedBox.shrink();
+            }
+          },
+        ),
       ),
     );
   }

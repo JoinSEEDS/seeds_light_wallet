@@ -24,7 +24,6 @@ import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
-import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
@@ -97,7 +96,6 @@ class NavigationService {
   StreamController<String> streamRouteListener;
 
   final onboardingRoutes = {
-    Routes.onboarding: (_) => Onboarding(),
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),

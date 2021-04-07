@@ -5,7 +5,6 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/read_times_tamp.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
-import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/design/app_theme.dart';
 
 class TransactionInfoCard extends StatelessWidget {

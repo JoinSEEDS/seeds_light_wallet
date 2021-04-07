@@ -1,7 +1,5 @@
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-
-import 'package:seeds/v2/screens/profile_screens/profile/interactor/usecases/get_profile_use_case.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/profile_state.dart';
 

@@ -8,7 +8,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:hive/hive.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,8 +25,7 @@ import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
-import 'package:seeds/screens/onboarding/join_process.dart';
-import 'package:seeds/screens/onboarding/onboarding.dart';
+import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/bloc_observer.dart';
@@ -35,12 +33,8 @@ import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
-import 'package:sentry/sentry.dart' as Sentry;
 
 import 'generated/r.dart';
-
-final Sentry.SentryClient _sentry =
-    Sentry.SentryClient(dsn: 'https://ee2dd9f706974248b5b4a10850586d94@sentry.io/2239437');
 
 bool get isInDebugMode {
   var inDebugMode = false;
@@ -48,21 +42,10 @@ bool get isInDebugMode {
   return inDebugMode;
 }
 
-/// Reports [error] along with its [stackTrace] to Sentry.io.
+/// Reports [error] along with its [stackTrace] to ?????
 Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
+  // TODO(gguij002): find better error reporting
   print('Caught error: $error');
-  print('Reporting to Sentry.io...');
-
-  final response = await _sentry.captureException(
-    exception: error,
-    stackTrace: stackTrace,
-  );
-
-  if (response.isSuccessful) {
-    print('Success! Event ID: ${response.eventId}');
-  } else {
-    print('Failed to report to Sentry.io: ${response.error}');
-  }
 }
 
 main(List<String> args) async {
@@ -74,6 +57,7 @@ main(List<String> args) async {
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   await Firebase.initializeApp();
   await FirebaseRemoteConfigService().initialise();
+  // ignore: await_only_futures
   await settingsStorage.initialise();
   Bloc.observer = SimpleBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
