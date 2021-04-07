@@ -7,18 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:hive/hive.dart';
 import 'package:i18n_extension/i18n_widget.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/features/biometrics/biometrics_verification.dart';
-import 'package:seeds/models/VoteResultAdapter.dart';
-import 'package:seeds/models/member_adapter.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/models/transaction_adapter.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/providers/providers.dart';
 import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -47,11 +40,6 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  var appDir = await getApplicationDocumentsDirectory();
-  Hive.init(appDir.path);
-  Hive.registerAdapter<MemberModel>(MemberAdapter());
-  Hive.registerAdapter<VoteResult>(VoteResultAdapter());
-  Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   await Firebase.initializeApp();
   await FirebaseRemoteConfigService().initialise();
   await settingsStorage.initialise();

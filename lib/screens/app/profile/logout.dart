@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/features/backup/backup_service.dart';
@@ -22,8 +21,8 @@ class _LogoutState extends State<Logout> {
     String userAccount = SettingsNotifier.of(context).accountName;
     SettingsNotifier.of(context).removeAccount();
     FirebaseMessageTokenRepository().removeFirebaseMessageToken(userAccount);
-    Hive.deleteBoxFromDisk("members");
-    Hive.deleteBoxFromDisk("transactions");
+    // Hive.deleteBoxFromDisk("members");
+    // Hive.deleteBoxFromDisk("transactions");
   }
 
   @override

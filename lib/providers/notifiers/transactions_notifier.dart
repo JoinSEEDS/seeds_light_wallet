@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/utils/extensions/SafeHive.dart';
 
 class TransactionsNotifier extends ChangeNotifier {
   List<TransactionModel> transactions;
@@ -18,28 +16,28 @@ class TransactionsNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  Future fetchTransactionsCache() async {
-    Box cacheTransactions =
-        await SafeHive.safeOpenBox<TransactionModel>('transactions');
-    if (cacheTransactions != null && cacheTransactions.isNotEmpty) {
-      transactions = cacheTransactions.values.toList();
-      notifyListeners();
-    }
-  }
+  // Future fetchTransactionsCache() async {
+  //   Box cacheTransactions =
+  //       await SafeHive.safeOpenBox<TransactionModel>('transactions');
+  //   if (cacheTransactions != null && cacheTransactions.isNotEmpty) {
+  //     transactions = cacheTransactions.values.toList();
+  //     notifyListeners();
+  //   }
+  // }
 
-  Future refreshTransactions() async {
-    Box cacheTransactions =
-        await SafeHive.safeOpenBox<TransactionModel>('transactions');
-
-    var actualTransactions = await _http.getTransactions();
-
-    if (actualTransactions.isNotEmpty) {
-      await cacheTransactions.clear();
-      await cacheTransactions.addAll(actualTransactions);
-    }
-
-    transactions = cacheTransactions.values.toList();
-
-    notifyListeners();
-  }
+  // Future refreshTransactions() async {
+  //   Box cacheTransactions =
+  //       await SafeHive.safeOpenBox<TransactionModel>('transactions');
+  //
+  //   var actualTransactions = await _http.getTransactions();
+  //
+  //   if (actualTransactions.isNotEmpty) {
+  //     await cacheTransactions.clear();
+  //     await cacheTransactions.addAll(actualTransactions);
+  //   }
+  //
+  //   transactions = cacheTransactions.values.toList();
+  //
+  //   notifyListeners();
+  // }
 }

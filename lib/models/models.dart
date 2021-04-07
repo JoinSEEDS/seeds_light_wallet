@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hive/hive.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 
 abstract class CurrencyConverter {
   double seedsTo(double seedsValue, String currencySymbol);
+
   double toSeeds(double currencyValue, String currencySymbol);
 }
 
-class ProductModel extends HiveObject {
+class ProductModel {
   final String name;
   final String picture;
   final double price;
@@ -19,7 +19,7 @@ class ProductModel extends HiveObject {
 
   double seedsPrice(CurrencyConverter converter) {
     return currency == 'SEEDS' ? price : converter.toSeeds(price, currency);
-    }
+  }
 
   factory ProductModel.fromSnapshot(QueryDocumentSnapshot data) {
     return ProductModel(
@@ -30,7 +30,7 @@ class ProductModel extends HiveObject {
       currency: data.data()[PRODUCT_CURRENCY_KEY],
       position: data.data()[PRODUCT_POSITION_KEY] ?? 0,
     );
-  } 
+  }
 }
 
 class InviteModel {
@@ -87,12 +87,7 @@ class UserRecoversModel {
   final int completeTimestamp;
   final bool exists;
 
-  UserRecoversModel(
-      {this.account,
-      this.guardians,
-      this.publicKey,
-      this.completeTimestamp,
-      this.exists});
+  UserRecoversModel({this.account, this.guardians, this.publicKey, this.completeTimestamp, this.exists});
 
   factory UserRecoversModel.fromTableRows(List<dynamic> rows) {
     if (rows.isNotEmpty && rows[0]['account'].isNotEmpty) {
@@ -115,8 +110,7 @@ class UserGuardiansModel {
   final int timeDelaySec;
   final bool exists;
 
-  UserGuardiansModel(
-      {this.account, this.guardians, this.timeDelaySec, this.exists});
+  UserGuardiansModel({this.account, this.guardians, this.timeDelaySec, this.exists});
 
   factory UserGuardiansModel.fromTableRows(List<dynamic> rows) {
     if (rows.isNotEmpty && rows[0]['account'].isNotEmpty) {
@@ -126,11 +120,8 @@ class UserGuardiansModel {
         var guardians = List<String>.from(rows[0]['guardians']);
         int timeDelaySec = rows[0]['time_delay_sec'];
 
-        var result = UserGuardiansModel(
-            exists: exists,
-            account: account,
-            guardians: guardians,
-            timeDelaySec: timeDelaySec);
+        var result =
+            UserGuardiansModel(exists: exists, account: account, guardians: guardians, timeDelaySec: timeDelaySec);
         return result;
       } catch (error) {
         print('error: ' + error.toString());
@@ -161,10 +152,7 @@ class MemberModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MemberModel &&
-          account == other.account &&
-          nickname == other.nickname &&
-          image == other.image;
+      other is MemberModel && account == other.account && nickname == other.nickname && image == other.image;
 
   @override
   int get hashCode => super.hashCode;
@@ -177,11 +165,12 @@ class TransactionModel {
   final String memo;
   final String timestamp;
   final String transactionId;
-  
-  String get symbol { return quantity.split(" ")[1]; }
 
-  TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp,
-      this.transactionId);
+  String get symbol {
+    return quantity.split(" ")[1];
+  }
+
+  TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp, this.transactionId);
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
@@ -193,7 +182,7 @@ class TransactionModel {
       json['trx_id'],
     );
   }
-  
+
   factory TransactionModel.fromJsonMongo(Map<String, dynamic> json) {
     return TransactionModel(
       json['act']['data']['from'],
@@ -260,10 +249,7 @@ class RateModel {
 
   factory RateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return RateModel(
-          _parseQuantityString(
-              json['rows'][0]['current_seeds_per_usd'] as String),
-          false);
+      return RateModel(_parseQuantityString(json['rows'][0]['current_seeds_per_usd'] as String), false);
     } else {
       return RateModel(0, true);
     }
@@ -293,9 +279,7 @@ class RateModel {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is RateModel && seedsPerUSD == other.seedsPerUSD;
+  bool operator ==(Object other) => identical(this, other) || other is RateModel && seedsPerUSD == other.seedsPerUSD;
 
   @override
   int get hashCode => super.hashCode;
@@ -382,8 +366,7 @@ class VoiceModel {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is VoiceModel && amount == other.amount;
+  bool operator ==(Object other) => identical(this, other) || other is VoiceModel && amount == other.amount;
 
   @override
   int get hashCode => super.hashCode;
@@ -410,6 +393,7 @@ class ProposalModel {
   final String stage;
   final String fund;
   final int creationDate;
+
   ProposalType get type {
     return fund == 'allies.seeds'
         ? ProposalType.alliance

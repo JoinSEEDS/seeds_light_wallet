@@ -29,7 +29,6 @@ analyzer:
     - lib/screens/**
     - lib/utils/**
     - lib/widgets/**
-    - lib/main.dart
 
 linter:
   rules:
