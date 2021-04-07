@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
+import 'package:seeds/utils/currencies.dart';
 
 abstract class CurrencyConverter {
   double seedsTo(double seedsValue, String currencySymbol);
@@ -19,7 +20,7 @@ class ProductModel extends HiveObject {
 
   double seedsPrice(CurrencyConverter converter) {
     return currency == 'SEEDS' ? price : converter.toSeeds(price, currency);
-    }
+  }
 
   factory ProductModel.fromSnapshot(QueryDocumentSnapshot data) {
     return ProductModel(
@@ -30,7 +31,7 @@ class ProductModel extends HiveObject {
       currency: data.data()[PRODUCT_CURRENCY_KEY],
       position: data.data()[PRODUCT_POSITION_KEY] ?? 0,
     );
-  } 
+  }
 }
 
 class InviteModel {
@@ -87,12 +88,7 @@ class UserRecoversModel {
   final int completeTimestamp;
   final bool exists;
 
-  UserRecoversModel(
-      {this.account,
-      this.guardians,
-      this.publicKey,
-      this.completeTimestamp,
-      this.exists});
+  UserRecoversModel({this.account, this.guardians, this.publicKey, this.completeTimestamp, this.exists});
 
   factory UserRecoversModel.fromTableRows(List<dynamic> rows) {
     if (rows.isNotEmpty && rows[0]['account'].isNotEmpty) {
@@ -115,8 +111,7 @@ class UserGuardiansModel {
   final int timeDelaySec;
   final bool exists;
 
-  UserGuardiansModel(
-      {this.account, this.guardians, this.timeDelaySec, this.exists});
+  UserGuardiansModel({this.account, this.guardians, this.timeDelaySec, this.exists});
 
   factory UserGuardiansModel.fromTableRows(List<dynamic> rows) {
     if (rows.isNotEmpty && rows[0]['account'].isNotEmpty) {
@@ -126,11 +121,8 @@ class UserGuardiansModel {
         var guardians = List<String>.from(rows[0]['guardians']);
         int timeDelaySec = rows[0]['time_delay_sec'];
 
-        var result = UserGuardiansModel(
-            exists: exists,
-            account: account,
-            guardians: guardians,
-            timeDelaySec: timeDelaySec);
+        var result =
+            UserGuardiansModel(exists: exists, account: account, guardians: guardians, timeDelaySec: timeDelaySec);
         return result;
       } catch (error) {
         print('error: ' + error.toString());
@@ -161,10 +153,7 @@ class MemberModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MemberModel &&
-          account == other.account &&
-          nickname == other.nickname &&
-          image == other.image;
+      other is MemberModel && account == other.account && nickname == other.nickname && image == other.image;
 
   @override
   int get hashCode => super.hashCode;
@@ -177,11 +166,12 @@ class TransactionModel {
   final String memo;
   final String timestamp;
   final String transactionId;
-  
-  String get symbol { return quantity.split(" ")[1]; }
 
-  TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp,
-      this.transactionId);
+  String get symbol {
+    return quantity.split(" ")[1];
+  }
+
+  TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp, this.transactionId);
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
@@ -193,7 +183,7 @@ class TransactionModel {
       json['trx_id'],
     );
   }
-  
+
   factory TransactionModel.fromJsonMongo(Map<String, dynamic> json) {
     return TransactionModel(
       json['act']['data']['from'],
@@ -220,35 +210,64 @@ class TransactionModel {
 }
 
 class FiatRateModel {
-  final Map<String, double> ratesPerUSD;
+  Map<String, num> rates;
+  String base;
   final bool error;
 
-  List<String> get currencies {
-    var list = List<String>.from(ratesPerUSD.keys);
+  List<Currency> get currencies {
+    Map<String, String> available = rates.map((key, value) => MapEntry(key, key));
+    var prefix = List<String>.from(topCurrencies.where((e) {
+      if (available[e] != null) {
+        available.remove(e);
+        return true;
+      }
+      return false;
+    }));
+    List<String> list = List<String>.from(available.keys);
     list.sort();
-    return list;
+    list = prefix + list;
+
+    return List.of(list.map((e) => Currency(e, allCurrencies[e] ?? "")));
   }
 
-  FiatRateModel(this.ratesPerUSD, {this.error = false});
+  FiatRateModel(this.rates, {this.base = "USD", this.error = false});
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return FiatRateModel(Map<String, double>.from(json['rates']));
+      var model = FiatRateModel(new Map<String, num>.from(json["rates"]), base: json["base"]);
+      model.rebase("USD");
+      return model;
     } else {
       return FiatRateModel(null, error: true);
     }
   }
 
   double usdTo(double usdValue, String currency) {
-    var rate = ratesPerUSD[currency];
+    double rate = rates[currency];
     assert(rate != null);
     return usdValue * rate;
   }
 
   double toUSD(double currencyValue, String currency) {
-    var rate = ratesPerUSD[currency];
+    double rate = rates[currency];
     assert(rate != null);
     return rate > 0 ? currencyValue / rate : 0;
+  }
+
+  void rebase(String symbol) {
+    var rate = rates[symbol];
+    if (rate != null) {
+      rates[base] = 1.0;
+      base = symbol;
+      rates = rates.map((key, value) => MapEntry(key, value / rate));
+      rates[base] = 1.0;
+    } else {
+      print("error - can't rebase to " + symbol);
+    }
+  }
+
+  void merge(FiatRateModel other) {
+    if (!other.error) rates.addAll(other.rates);
   }
 }
 
@@ -260,10 +279,7 @@ class RateModel {
 
   factory RateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return RateModel(
-          _parseQuantityString(
-              json['rows'][0]['current_seeds_per_usd'] as String),
-          false);
+      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String), false);
     } else {
       return RateModel(0, true);
     }
@@ -273,7 +289,7 @@ class RateModel {
     if (quantityString == null) {
       return 0;
     }
-    return double.parse(quantityString.split(' ')[0]);
+    return double.parse(quantityString.split(" ")[0]);
   }
 
   double toUSD(double seedsAmount) {
@@ -293,9 +309,7 @@ class RateModel {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is RateModel && seedsPerUSD == other.seedsPerUSD;
+  bool operator ==(Object other) => identical(this, other) || other is RateModel && seedsPerUSD == other.seedsPerUSD;
 
   @override
   int get hashCode => super.hashCode;
@@ -382,8 +396,7 @@ class VoiceModel {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is VoiceModel && amount == other.amount;
+  bool operator ==(Object other) => identical(this, other) || other is VoiceModel && amount == other.amount;
 
   @override
   int get hashCode => super.hashCode;
