@@ -34,10 +34,6 @@ class ContributionState extends Equatable {
   }
 
   factory ContributionState.initial() {
-    return const ContributionState(
-      pageState: PageState.initial,
-      score: null,
-      errorMessage: null,
-    );
+    return const ContributionState(pageState: PageState.initial);
   }
 }

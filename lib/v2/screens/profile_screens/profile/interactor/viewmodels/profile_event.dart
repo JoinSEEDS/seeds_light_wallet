@@ -11,9 +11,9 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadProfile extends ProfileEvent {
+class LoadProfileValues extends ProfileEvent {
   @override
-  String toString() => 'LoadProfile';
+  String toString() => 'LoadProfileValues';
 }
 
 class OnUpdateProfileImage extends ProfileEvent {
