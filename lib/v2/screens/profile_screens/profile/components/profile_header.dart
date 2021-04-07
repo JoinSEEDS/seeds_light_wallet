@@ -97,7 +97,7 @@ class ProfileHeader extends StatelessWidget {
                         ),
                         child: InkWell(
                           onTap: () {
-                            NavigationService.of(context).navigateTo(Routes.contribution, state.profile);
+                            NavigationService.of(context).navigateTo(Routes.contribution, state.score);
                           },
                           child: Row(
                             children: [
@@ -109,7 +109,7 @@ class ProfileHeader extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Text(
-                                  '${state.profile?.reputation ?? '00'}/99',
+                                  '${state.score?.contributionScore ?? '00'}/99',
                                   textAlign: TextAlign.center,
                                   style: Theme.of(context).textTheme.headline7LowEmphasis,
                                 ),
