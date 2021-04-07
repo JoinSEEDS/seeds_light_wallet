@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
+import 'package:seeds/utils/currencies.dart';
 
 abstract class CurrencyConverter {
   double seedsTo(double seedsValue, String currencySymbol);
@@ -209,35 +210,64 @@ class TransactionModel {
 }
 
 class FiatRateModel {
-  final Map<String, double> ratesPerUSD;
+  Map<String, num> rates;
+  String base;
   final bool error;
 
-  List<String> get currencies {
-    var list = List<String>.from(ratesPerUSD.keys);
+  List<Currency> get currencies {
+    Map<String, String> available = rates.map((key, value) => MapEntry(key, key));
+    var prefix = List<String>.from(topCurrencies.where((e) {
+      if (available[e] != null) {
+        available.remove(e);
+        return true;
+      }
+      return false;
+    }));
+    List<String> list = List<String>.from(available.keys);
     list.sort();
-    return list;
+    list = prefix + list;
+
+    return List.of(list.map((e) => Currency(e, allCurrencies[e] ?? "")));
   }
 
-  FiatRateModel(this.ratesPerUSD, {this.error = false});
+  FiatRateModel(this.rates, {this.base = "USD", this.error = false});
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return FiatRateModel(Map<String, double>.from(json['rates']));
+      var model = FiatRateModel(new Map<String, num>.from(json["rates"]), base: json["base"]);
+      model.rebase("USD");
+      return model;
     } else {
       return FiatRateModel(null, error: true);
     }
   }
 
   double usdTo(double usdValue, String currency) {
-    var rate = ratesPerUSD[currency];
+    double rate = rates[currency];
     assert(rate != null);
     return usdValue * rate;
   }
 
   double toUSD(double currencyValue, String currency) {
-    var rate = ratesPerUSD[currency];
+    double rate = rates[currency];
     assert(rate != null);
     return rate > 0 ? currencyValue / rate : 0;
+  }
+
+  void rebase(String symbol) {
+    var rate = rates[symbol];
+    if (rate != null) {
+      rates[base] = 1.0;
+      base = symbol;
+      rates = rates.map((key, value) => MapEntry(key, value / rate));
+      rates[base] = 1.0;
+    } else {
+      print("error - can't rebase to " + symbol);
+    }
+  }
+
+  void merge(FiatRateModel other) {
+    if (!other.error) rates.addAll(other.rates);
   }
 }
 
@@ -249,7 +279,7 @@ class RateModel {
 
   factory RateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return RateModel(_parseQuantityString(json['rows'][0]['current_seeds_per_usd'] as String), false);
+      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String), false);
     } else {
       return RateModel(0, true);
     }
@@ -259,7 +289,7 @@ class RateModel {
     if (quantityString == null) {
       return 0;
     }
-    return double.parse(quantityString.split(' ')[0]);
+    return double.parse(quantityString.split(" ")[0]);
   }
 
   double toUSD(double seedsAmount) {

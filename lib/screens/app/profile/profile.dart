@@ -265,9 +265,10 @@ class _ProfileState extends State<Profile> {
           return ListView.builder(
             itemCount: currencies.length,
             itemBuilder: (ctx, index) => ListTile(
-              title: Text(currencies[index]),
+              title: Text(currencies[index].ticker),
+              subtitle: Text(currencies[index].name),
               onTap: () {
-                SettingsNotifier.of(context).saveSelectedFiatCurrency(currencies[index]);
+                SettingsNotifier.of(context).saveSelectedFiatCurrency(currencies[index].ticker);
                 Navigator.of(context).pop();
               },
             ),

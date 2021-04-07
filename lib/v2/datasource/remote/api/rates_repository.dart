@@ -9,7 +9,7 @@ class RatesRepository extends NetworkRepository {
     print("[http] get fiat rates");
 
     return http
-        .get(Uri.parse("http://api-payment.hypha.earth/fiatExchangeRates?api_key=${fxApiKey}"))
+        .get(Uri.parse("https://api-payment.hypha.earth/fiatExchangeRates?api_key=$fxApiKey"))
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return FiatRateModel.fromJson(body);
             }))

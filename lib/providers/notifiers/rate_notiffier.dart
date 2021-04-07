@@ -24,10 +24,9 @@ class RateNotifier extends ChangeNotifier with CurrencyConverter {
 
   Future<void> fetchRate() {
     if (DateTime.now().isAfter(lastUpdated.add(const Duration(hours: 1)))) {
-      return Future.wait(
-      [
+      return Future.wait([
         _http.getUSDRate(),
-        _http.getFiatRates()
+        _http.getFiatRates(),
       ]).then((result) {
         rate = result[0];
         fiatRate = result[1];
@@ -42,7 +41,6 @@ class RateNotifier extends ChangeNotifier with CurrencyConverter {
   double seedsTo(double seedsValue, String currencySymbol) {
     var usdValue = rate?.toUSD(seedsValue) ?? 0;
     return fiatRate?.usdTo(usdValue, currencySymbol) ?? 0;
-    
   }
 
   @override
@@ -69,5 +67,4 @@ class RateNotifier extends ChangeNotifier with CurrencyConverter {
       return asSeeds ? seedsString(amount, currency) : currencyString(amount, currency);
     }
   }
-
 }
