@@ -1,5 +1,5 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class _SettingsStorage {
   _SettingsStorage._();
@@ -28,15 +28,25 @@ class _SettingsStorage {
   int _backupReminderCount;
 
   bool get isInitialized => _preferences != null;
+
   String get accountName => _preferences?.getString(ACCOUNT_NAME);
+
   String get privateKey => _privateKey;
+
   String get passcode => _passcode;
+
   bool get passcodeActive => _passcodeActive;
+
   bool get privateKeyBackedUp => _privateKeyBackedUp;
+
   int get backupLatestReminder => _backupLatestReminder;
+
   int get backupReminderCount => _backupReminderCount;
+
   String get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY);
+
   bool get inRecoveryMode => _preferences?.getBool(IN_RECOVERY_MODE);
+
   bool get guardianTutorialShown => _preferences?.getBool(GUARDIAN_TUTORIAL_SHOWN);
 
   set inRecoveryMode(bool value) => _preferences?.setBool(IN_RECOVERY_MODE, value);
