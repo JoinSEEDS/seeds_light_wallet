@@ -18,19 +18,14 @@ class SendTransactionUseCase {
       } else {
         List<Result> profiles = await getProfileData(data["to"], fromAccount);
 
-
-        GERY HERE!!
-
         var selectedFiat = settingsStorage.selectedFiatCurrency;
-        var actualRate = rates.rates[selectedFiat];
+        num actualRate = rates.rates[selectedFiat];
 
-
-
-        return ValueResult(SendTransactionResponse(profiles, value));
+        return ValueResult(SendTransactionResponse(profiles, value, actualRate));
       }
-    }).catchError((onError) => () {
-          return ErrorResult(onError);
-        });
+    }).catchError((error) {
+      return ErrorResult("Error Sending Transaction");
+    });
   }
 
   Future<List<Result>> getProfileData(String toAccount, fromAccount) async {
@@ -44,6 +39,7 @@ class SendTransactionUseCase {
 class SendTransactionResponse {
   final List<Result> profiles;
   final Result transactionId;
+  final num rate;
 
-  SendTransactionResponse(this.profiles, this.transactionId);
+  SendTransactionResponse(this.profiles, this.transactionId, this.rate);
 }

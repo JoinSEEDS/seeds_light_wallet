@@ -2,7 +2,6 @@ import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/v2/screens/profile_screens/profile/interactor/usecases/get_profile_use_case.dart';
 import 'package:seeds/v2/screens/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
 import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_state.dart';
@@ -21,6 +20,7 @@ class SendTransactionStateMapper extends StateMapper {
       if (areAllProfilesSuccess) {
         var toAccount = resultResponse.profiles[0].asValue.value as ProfileModel;
         var fromAccount = resultResponse.profiles[1].asValue.value as ProfileModel;
+        var fiatAmount = resultResponse.rate.toString();
 
         return currentState.copyWith(
             pageState: PageState.success,
@@ -32,13 +32,11 @@ class SendTransactionStateMapper extends StateMapper {
                 toAccount: toAccount.account,
                 fromName: fromAccount.nickname,
                 fromAccount: fromAccount.account,
+                fiatAmount: fiatAmount,
                 transactionId: transactionId));
       } else {
         var fromAccount = currentState.data["from"];
         var toAccount = currentState.data["to"];
-
-        GERY HERE!!
-        var selectedFiat = settingsStorage.selectedFiatCurrency;
 
         return currentState.copyWith(
             pageState: PageState.success,

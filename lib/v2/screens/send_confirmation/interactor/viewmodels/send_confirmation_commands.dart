@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ShowTransactionSuccess {
   final String amount;
+  final String fiatAmount;
   final String toImage;
   final String toName;
   final String toAccount;
@@ -12,6 +13,7 @@ class ShowTransactionSuccess {
 
   ShowTransactionSuccess({
     @required this.amount,
+    this.fiatAmount,
     this.toImage,
     this.toName,
     @required this.toAccount,

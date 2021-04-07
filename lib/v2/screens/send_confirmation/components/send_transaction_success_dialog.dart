@@ -9,6 +9,7 @@ import 'package:seeds/v2/components/profile_avatar.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
+  final String fiatAmount;
   final String toImage;
   final String toName;
   final String toAccount;
@@ -20,7 +21,8 @@ class SendTransactionSuccessDialog extends StatelessWidget {
 
   const SendTransactionSuccessDialog(
       {Key key,
-      this.amount,
+      @required this.amount,
+      this.fiatAmount,
       this.toImage,
       this.toName,
       @required this.toAccount,
@@ -41,7 +43,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
           style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.primary),
         ),
         Text(
-          amount,
+          fiatAmount ?? "WHo KNOws",
           style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.primary),
         ),
         const SizedBox(height: 16.0),
