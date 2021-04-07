@@ -7,7 +7,6 @@ import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart'
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/score_model.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
-import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 export 'package:async/src/result/result.dart';
 
@@ -19,7 +18,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
 
     return http
-        .post(Uri.parse('${FirebaseRemoteConfigService().activeEOSServerUrl.url}/v1/chain/get_table_rows'), headers: headers, body: request)
+        .post(Uri.parse('${FirebaseRemoteConfigService().activeEOSServerUrl.url}/v1/chain/get_table_rows'),
+            headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return ProfileModel.fromJson(body['rows'][0]);
             }))
