@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
@@ -11,6 +10,7 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/screens/app/guardians/my_guardian_users_list.dart';
 import 'package:seeds/screens/app/guardians/my_guardians_tutorial.dart';
+import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
@@ -122,57 +122,62 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   void _showRemoveGuardianDialog(EosService service, MemberModel user, String accountName) {
     showDialog(
       context: context,
-      child: AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Are you sure you want to remove ",
-            ),
-            SizedBox(height: 16),
-            ListTile(
-              leading: TransactionAvatar(
-                size: 60,
-                image: user.image,
-                account: user.account,
-                nickname: user.nickname,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.blue,
-                ),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Are you sure you want to remove ",
               ),
-              title: Text("${user.nickname}", style: TextStyle(color: Colors.black),),
-              subtitle: Text("${user.account}"),
-            ),
-            SizedBox(height: 16),
-            Text("As your Guardian?"),
-          ],
-        ),
-        actions: [
-          FlatButton(
-            child: const Text('Dismiss'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+              SizedBox(height: 16),
+              ListTile(
+                leading: TransactionAvatar(
+                  size: 60,
+                  image: user.image,
+                  account: user.account,
+                  nickname: user.nickname,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.blue,
+                  ),
+                ),
+                title: Text(
+                  "${user.nickname}",
+                  style: TextStyle(color: Colors.black),
+                ),
+                subtitle: Text("${user.account}"),
+              ),
+              SizedBox(height: 16),
+              Text("As your Guardian?"),
+            ],
           ),
-          MainButton(
-            title: 'Remove Guardian',
-            key: removeGuardianLoader,
-            onPressed: () async {
-              setState(() {
-                removeGuardianLoader.currentState.loading();
-              });
+          actions: [
+            TextButton(
+              child: const Text('Dismiss'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('Remove Guardian'),
+              key: removeGuardianLoader,
+              onPressed: () async {
+                setState(() {
+                  removeGuardianLoader.currentState.loading();
+                });
 
-              await GuardianServices()
-                  .removeGuardian(service, accountName, user.account)
-                  .then((value) => onRemoveGuardianSuccess())
-                  .catchError((onError) => onRemoveGuardianError(onError));
+                await GuardianServices()
+                    .removeGuardian(service, accountName, user.account)
+                    .then((value) => onRemoveGuardianSuccess())
+                    .catchError((onError) => onRemoveGuardianError(onError));
 
-              Navigator.pop(context);
-            },
-          )
-        ],
-      ),
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -224,25 +229,29 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
 
   void _showStopRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
     showDialog(
-        context: context,
-        child: AlertDialog(
-            content: Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
-            actions: [
-              FlatButton(
-                child: const Text('No: Dismiss'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              FlatButton(
-                child: Text("Yes: Stop Key Recovery"),
-                onPressed: () {
-                  FirebaseDatabaseService().stopRecoveryForUser(userId: SettingsNotifier.of(context).accountName);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              )
-            ]));
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
+          actions: [
+            TextButton(
+              child: const Text('No: Dismiss'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text("Yes: Stop Key Recovery"),
+              onPressed: () {
+                FirebaseDatabaseService().stopRecoveryForUser(userId: SettingsNotifier.of(context).accountName);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   onInitGuardianResponse(value) {

@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -10,6 +9,8 @@ import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_header_details.dart';
+import 'package:seeds/utils/old_toolbox/net_image.dart';
+import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:seeds/i18n/proposals.i18n.dart';
@@ -215,7 +216,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                                           id: proposal.id,
                                           amount: _vote.toInt());
                                 } catch (e) {
-                                  d("e = $e");
+                                  print("error: $e");
                                   errorToast(
                                       "Unexpected error, please try again"
                                           .i18n);

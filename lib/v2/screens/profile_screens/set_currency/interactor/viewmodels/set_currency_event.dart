@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 /// --- EVENTS
@@ -11,9 +10,15 @@ abstract class SetCurrencyEvent extends Equatable {
 }
 
 class LoadCurrencies extends SetCurrencyEvent {
-  const LoadCurrencies();
+  final Map<String, num> rates;
+
+  const LoadCurrencies({@required this.rates}) : assert(rates != null);
+
   @override
-  String toString() => 'LoadCurrencies';
+  List<Object> get props => [rates];
+
+  @override
+  String toString() => 'LoadCurrencies: { $rates }';
 }
 
 class OnQueryChanged extends SetCurrencyEvent {

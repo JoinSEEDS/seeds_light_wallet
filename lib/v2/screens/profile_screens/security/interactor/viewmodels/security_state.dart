@@ -5,13 +5,17 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 /// STATE
 class SecurityState extends Equatable {
   final PageState pageState;
-  final bool isSecurePin;
+  final bool hasNotification;
+  final bool navigateToGuardians;
+  final bool isSecurePasscode;
   final bool isSecureBiometric;
   final String errorMessage;
 
   const SecurityState({
     @required this.pageState,
-    this.isSecurePin,
+    this.hasNotification,
+    this.navigateToGuardians,
+    this.isSecurePasscode,
     this.isSecureBiometric,
     this.errorMessage,
   });
@@ -19,31 +23,32 @@ class SecurityState extends Equatable {
   @override
   List<Object> get props => [
         pageState,
-        isSecurePin,
+        hasNotification,
+        navigateToGuardians,
+        isSecurePasscode,
         isSecureBiometric,
         errorMessage,
       ];
 
   SecurityState copyWith({
     PageState pageState,
-    bool isSecurePin,
+    bool hasNotification,
+    bool navigateToGuardians,
+    bool isSecurePasscode,
     bool isSecureBiometric,
     String errorMessage,
   }) {
     return SecurityState(
       pageState: pageState ?? this.pageState,
-      isSecurePin: isSecurePin ?? this.isSecurePin,
+      hasNotification: hasNotification ?? this.hasNotification,
+      navigateToGuardians: navigateToGuardians,
+      isSecurePasscode: isSecurePasscode,
       isSecureBiometric: isSecureBiometric ?? this.isSecureBiometric,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
   factory SecurityState.initial() {
-    return const SecurityState(
-      pageState: PageState.success,
-      isSecurePin: false,
-      isSecureBiometric: false,
-      errorMessage: null,
-    );
+    return const SecurityState(pageState: PageState.initial);
   }
 }

@@ -5,6 +5,9 @@ extension Localization on String {
       {
         "es_es": {
           "Security": "Seguridad",
+          "Succesful": "Exitoso",
+          "Pincode created successfully.": "Código de acceso creado exitosamente.",
+          "Close": "Cerrar",
           'Touch ID/ Face ID': "Touch ID/ Face ID",
           'When Touch ID/Face ID has been set up, any biometric saved in your device will be able to login into the Seeds Light Wallet. You will not be able to use this feature for transactions.':
               "Cuando se haya configurado Touch ID / Face ID, cualquier biométrico guardado en su dispositivo podrá iniciar sesión en Seeds Light Wallet. No podrá utilizar esta función para transacciones.",

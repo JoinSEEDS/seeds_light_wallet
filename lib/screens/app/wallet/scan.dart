@@ -5,7 +5,7 @@ import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/esr_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/app/wallet/custom_transaction.dart';
+import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 enum Steps { scan, processing, success, error }
 
@@ -62,10 +62,23 @@ class _ScanState extends State<Scan> {
         accountName: SettingsNotifier.of(context, listen: false).accountName,
       );
 
-      NavigationService.of(context).navigateTo(
-        Routes.customTransaction,
-        arguments,
-      );
+        Map<String, dynamic> data = Map<String, dynamic>.from(action.data);
+
+        NavigationService.of(context).navigateTo(
+            Routes.sendConfirmationScreen,
+            SendConfirmationArguments(
+              account: action.account,
+              name: action.name,
+              data: data,
+            ),
+            true);
+      } else {
+        print("unable to read QR, continuing");
+        setState(() {
+          _handledQrCode = false;
+          this.step = Steps.scan;
+        });
+      }
     } catch (e) {
       print("scan error: " + e);
       setState(() {

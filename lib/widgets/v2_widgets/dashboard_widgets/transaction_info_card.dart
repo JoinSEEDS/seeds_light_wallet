@@ -5,7 +5,6 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/read_times_tamp.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
-import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/design/app_theme.dart';
 
 class TransactionInfoCard extends StatelessWidget {
@@ -77,7 +76,7 @@ class TransactionInfoCard extends StatelessWidget {
                           Expanded(
                               child: Text(timesTampToTimeAgo(timestamp),
                                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)),
-                          Text('SEEDS'.i18n, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                          Text(amount.symbolFromAmount, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                         ],
                       ),
                     ],

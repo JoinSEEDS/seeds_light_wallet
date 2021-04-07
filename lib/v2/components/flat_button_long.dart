@@ -12,12 +12,9 @@ class FlatButtonLong extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var style = color != null
-        ? Theme.of(context).textTheme.button.copyWith(color: AppColors.green1)
-        : Theme.of(context).textTheme.button;
     return SizedBox(
       width: double.infinity,
-      child: FlatButton(
+      child: MaterialButton(
         color: color ?? AppColors.green1,
         disabledTextColor: Colors.grey,
         shape: RoundedRectangleBorder(
@@ -26,7 +23,7 @@ class FlatButtonLong extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Text(title, style: style),
+          child: Text(title, style: Theme.of(context).textTheme.button),
         ),
         onPressed: onPressed,
       ),
