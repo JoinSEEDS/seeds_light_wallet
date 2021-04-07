@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:path_provider/path_provider.dart';
@@ -34,8 +33,6 @@ import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 
-import 'generated/r.dart';
-
 bool get isInDebugMode {
   var inDebugMode = false;
   assert(inDebugMode = true);
@@ -48,7 +45,7 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
   print('Caught error: $error');
 }
 
-main(List<String> args) async {
+void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   var appDir = await getApplicationDocumentsDirectory();
   Hive.init(appDir.path);
@@ -57,7 +54,6 @@ main(List<String> args) async {
   Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   await Firebase.initializeApp();
   await FirebaseRemoteConfigService().initialise();
-  // ignore: await_only_futures
   await settingsStorage.initialise();
   Bloc.observer = SimpleBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
@@ -121,7 +117,7 @@ class _SeedsAppState extends State<SeedsApp> {
       create: (context) => RatesBloc(),
       child: MultiProvider(
         providers: providers,
-        child: MainScreen(),
+        child: const MainScreen(),
       ),
     );
   }
@@ -142,7 +138,7 @@ class MainScreen extends StatelessWidget {
         if (auth.status == AuthStatus.emptyAccount || auth.status == AuthStatus.recoveryMode) {
           return SeedsMaterialApp(
             home: auth.status == AuthStatus.emptyAccount
-                ? OnboardingScreen()
+                ? const OnboardingScreen()
                 : SeedsMaterialApp(
                     home: LoginScreen(),
                   ),
@@ -155,10 +151,6 @@ class MainScreen extends StatelessWidget {
               home: App(),
               navigatorKey: navigationService.appNavigatorKey,
               onGenerateRoute: navigationService.onGenerateRoute,
-            ),
-            noItemsFoundWidget: Padding(
-              padding: const EdgeInsets.all(32),
-              child: SvgPicture.asset(R.noItemFound),
             ),
           );
         } else if (auth.status == AuthStatus.emptyPasscode) {
