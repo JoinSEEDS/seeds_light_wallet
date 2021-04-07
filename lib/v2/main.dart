@@ -13,7 +13,6 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/features/biometrics/biometrics_verification.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/providers.dart';
-import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
@@ -121,38 +120,40 @@ class MainScreen extends StatelessWidget {
     return Consumer<AuthNotifier>(
       builder: (ctx, auth, _) {
         var navigationService = NavigationService.of(context);
-        PushNotificationService().initialise(context);
-
-        if (auth.status == AuthStatus.emptyAccount || auth.status == AuthStatus.recoveryMode) {
-          return SeedsMaterialApp(
-            home: auth.status == AuthStatus.emptyAccount
-                ? const OnboardingScreen()
-                : SeedsMaterialApp(
-                    home: LoginScreen(),
-                  ),
-            navigatorKey: navigationService.onboardingNavigatorKey,
-            onGenerateRoute: navigationService.onGenerateRoute,
-          );
-        } else if (auth.status == AuthStatus.unlocked) {
-          return ToolboxApp(
-            child: SeedsMaterialApp(
-              home: App(),
-              navigatorKey: navigationService.appNavigatorKey,
+        switch (auth.status) {
+          case AuthStatus.emptyAccount:
+          case AuthStatus.recoveryMode:
+            return SeedsMaterialApp(
+              home: auth.status == AuthStatus.emptyAccount
+                  ? const OnboardingScreen()
+                  : SeedsMaterialApp(
+                      home: LoginScreen(),
+                    ),
+              navigatorKey: navigationService.onboardingNavigatorKey,
               onGenerateRoute: navigationService.onGenerateRoute,
-            ),
-          );
-        } else if (auth.status == AuthStatus.emptyPasscode) {
-          return SeedsMaterialApp(
-            home: LockWallet(),
-          );
-        } else if (auth.status == AuthStatus.locked) {
-          return SeedsMaterialApp(
-            home: BiometricsVerification(),
-          );
-        } else {
-          return SeedsMaterialApp(
-            home: SplashScreen(),
-          );
+            );
+          case AuthStatus.emptyPasscode:
+            return SeedsMaterialApp(
+              home: LockWallet(),
+            );
+          case AuthStatus.locked:
+            return SeedsMaterialApp(
+              home: BiometricsVerification(),
+            );
+          case AuthStatus.unlocked:
+            return ToolboxApp(
+              child: SeedsMaterialApp(
+                home: App(),
+                navigatorKey: navigationService.appNavigatorKey,
+                onGenerateRoute: navigationService.onGenerateRoute,
+              ),
+            );
+          default:
+            {
+              return SeedsMaterialApp(
+                home: SplashScreen(),
+              );
+            }
         }
       },
     );

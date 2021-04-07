@@ -12,13 +12,13 @@ class VoteResult {
 }
 
 class VotedNotifier extends ChangeNotifier {
-  HttpService _http;
+  // HttpService _http;
 
   static VotedNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<VotedNotifier>(context, listen: listen);
 
   void update({HttpService http}) {
-    _http = http;
+    // _http = http;
   }
 
 // Future<VoteResult> fetchVote({proposalId = int}) async {

@@ -7,13 +7,13 @@ import 'package:seeds/providers/services/http_service.dart';
 class TransactionsNotifier extends ChangeNotifier {
   List<TransactionModel> transactions;
 
-  HttpService _http;
+  // HttpService _http;
 
   static TransactionsNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<TransactionsNotifier>(context, listen: listen);
 
   void update({HttpService http, AuthNotifier auth}) {
-    _http = http;
+    // _http = http;
   }
 
   // Future fetchTransactionsCache() async {

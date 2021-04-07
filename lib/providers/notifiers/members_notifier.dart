@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/system_accounts.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
@@ -98,7 +97,7 @@ class MembersNotifier extends ChangeNotifier {
 
   Future<void> refreshMembers() async {
 
-    var actualMembers = await _http.getMembers();
+    // var actualMembers = await _http.getMembers();
 
     // await addMembers(actualMembers);
 
@@ -112,7 +111,7 @@ class MembersNotifier extends ChangeNotifier {
     updateVisibleMembers();
 
     if (filterName.length > 1 && visibleMembers.length < 10) {
-      var moreMembers = await _http.getMembersWithFilter(filterName);
+      // var moreMembers = await _http.getMembersWithFilter(filterName);
       // await addMembers(moreMembers);
     }
 
