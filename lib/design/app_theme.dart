@@ -102,17 +102,11 @@ extension CustomStyles on TextTheme {
   TextStyle get subtitle3 =>
       Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 12, fontWeight: FontWeight.w400);
 
-  TextStyle get subtitle3Green => subtitle3.copyWith(color: AppColors.green3);
-
-  TextStyle get subtitle3Red => subtitle3.copyWith(color: AppColors.red1);
-
-  TextStyle get subtitle2GreenLowEmphasis => subtitle2LowEmphasis.copyWith(color: AppColors.green3);
-
-  TextStyle get subtitle2Green => subtitle2.copyWith(color: AppColors.green3);
+  TextStyle get subtitle2Green3LowEmphasis => subtitle2LowEmphasis.copyWith(color: AppColors.green3);
 
   TextStyle get subtitle2BlackHighEmphasis => subtitle2HighEmphasis.copyWith(color: AppColors.black);
 
-  TextStyle get subtitle2Green1 => subtitle2HighEmphasis.copyWith(color: AppColors.green1);
+  TextStyle get subtitle2HighEmphasisGreen1 => subtitle2HighEmphasis.copyWith(color: AppColors.green1);
 
   TextStyle get subtitle2BlackLowEmphasis => subtitle2LowEmphasis.copyWith(color: AppColors.black);
 
@@ -121,6 +115,8 @@ extension CustomStyles on TextTheme {
   TextStyle get subtitle2OpacityEmphasisBlack => subtitle2OpacityEmphasis.copyWith(color: AppColors.black);
 
   TextStyle get subtitle3Green => subtitle3.copyWith(color: AppColors.green3);
+
+  TextStyle get subtitle3Red => subtitle3.copyWith(color: AppColors.red1);
 
   TextStyle get subtitle3OpacityEmphasis => Typography.material2018()
       .englishLike
@@ -153,12 +149,12 @@ extension CustomStyles on TextTheme {
   TextStyle get headline4Black => Typography.material2018()
       .englishLike
       .headline4
-      .copyWith(fontSize: 36, fontWeight: FontWeight.w500, color: AppColors.green3);
+      .copyWith(fontSize: 36, fontWeight: FontWeight.w500, color: AppColors.black);
 
   TextStyle get headline6Green => Typography.material2018()
       .englishLike
       .headline6
-      .copyWith(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.black);
+      .copyWith(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.green3);
 
   TextStyle get headline7Green =>
       headline7.copyWith(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.green3);
