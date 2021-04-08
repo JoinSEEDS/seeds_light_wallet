@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_database_repository.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_push_notification_service.dart';
 
 const String FIREBASE_MESSAGE_TOKENS_KEY = 'firebaseMessageTokens';
 
