@@ -26,9 +26,9 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
     } else if (event is SendTransactionEvent) {
       yield state.copyWith(pageState: PageState.loading);
 
-      Result result = await SendTransactionUseCase().run(state.name, state.account, state.data, event.rates);
+      Result result = await SendTransactionUseCase().run(state.name, state.account, state.data);
 
-      yield SendTransactionStateMapper().mapResultToState(state, result);
+      yield SendTransactionStateMapper().mapResultToState(state, result, event.rates);
     }
   }
 }

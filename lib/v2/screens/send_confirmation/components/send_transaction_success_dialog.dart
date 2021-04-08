@@ -43,7 +43,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
           style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.primary),
         ),
         Text(
-          fiatAmount ?? "WHo KNOws",
+          fiatAmount ?? "",
           style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.primary),
         ),
         const SizedBox(height: 16.0),

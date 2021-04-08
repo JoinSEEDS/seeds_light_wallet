@@ -7,6 +7,8 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/datasource/remote/model/fiat_rate_model.dart';
+import 'package:seeds/v2/datasource/remote/model/rate_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/send_confirmation/components/transaction_details.dart';
@@ -46,6 +48,7 @@ class SendConfirmationScreen extends StatelessWidget {
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
                     amount: state.pageCommand.amount,
+                    fiatAmount: state.pageCommand.fiatAmount,
                     fromAccount: state.pageCommand.fromAccount,
                     fromImage: state.pageCommand.fromImage,
                     fromName: state.pageCommand.fromName,
@@ -112,7 +115,7 @@ class SendConfirmationScreen extends StatelessWidget {
                         child: FlatButtonLong(
                           title: 'Confirm and Send',
                           onPressed: () {
-                            var rates = BlocProvider.of<RatesBloc>(context).state.fiatRate;
+                            RatesState rates = BlocProvider.of<RatesBloc>(context).state;
                             BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent(rates));
                           },
                         ),

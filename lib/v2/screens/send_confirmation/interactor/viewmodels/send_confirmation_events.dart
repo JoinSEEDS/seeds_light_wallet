@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:seeds/v2/datasource/remote/model/fiat_rate_model.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/v2/datasource/remote/model/rate_model.dart';
 import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 /// --- EVENTS
@@ -20,7 +21,7 @@ class InitSendConfirmationWithArguments extends SendConfirmationEvent {
 }
 
 class SendTransactionEvent extends SendConfirmationEvent {
-  final FiatRateModel rates;
+  final RatesState rates;
 
   SendTransactionEvent(this.rates);
 

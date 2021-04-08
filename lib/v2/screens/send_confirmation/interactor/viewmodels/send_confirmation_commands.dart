@@ -28,5 +28,11 @@ class ShowTransactionSuccess {
     String toAccount,
     String fromAccount,
     String transactionId,
-  }) : this(amount: amount, toAccount: toAccount, fromAccount: fromAccount, transactionId: transactionId);
+    String fiatAmount,
+  }) : this(
+            amount: amount,
+            toAccount: toAccount,
+            fromAccount: fromAccount,
+            transactionId: transactionId,
+            fiatAmount: fiatAmount);
 }
