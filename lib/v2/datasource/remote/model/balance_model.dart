@@ -10,7 +10,11 @@ class BalanceModel {
   BalanceModel(this.quantity) : numericQuantity = _parseQuantityString(quantity);
 
   factory BalanceModel.fromJson(List<dynamic> json) {
-    return BalanceModel(json[0] as String);
+    if (json.isNotEmpty) {
+      return BalanceModel(json[0] as String);
+    } else {
+      return null;
+    }
   }
 
   static double _parseQuantityString(String quantityString) {
