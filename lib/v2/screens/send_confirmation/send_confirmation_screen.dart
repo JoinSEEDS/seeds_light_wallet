@@ -25,13 +25,11 @@ class SendConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     final SendConfirmationArguments arguments = ModalRoute.of(context).settings.arguments;
 
     return BlocProvider(
       create: (context) => SendConfirmationBloc()..add(InitSendConfirmationWithArguments(arguments: arguments)),
       child: Scaffold(
-        key: _scaffoldKey,
         appBar: AppBar(
             leading: IconButton(
           icon: const Icon(Icons.close),
@@ -55,8 +53,7 @@ class SendConfirmationScreen extends StatelessWidget {
                     toAccount: state.pageCommand.toAccount,
                     toImage: state.pageCommand.toImage,
                     toName: state.pageCommand.toName,
-                    transactionID: state.pageCommand.transactionId,
-                    globalKey: _scaffoldKey),
+                    transactionID: state.pageCommand.transactionId),
               );
             }
           },
