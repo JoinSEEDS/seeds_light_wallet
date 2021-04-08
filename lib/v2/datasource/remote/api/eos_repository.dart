@@ -33,7 +33,7 @@ abstract class EosRepository {
   }
 
   EOSClient buildEosClient() =>
-      EOSClient(FirebaseRemoteConfigService().activeEOSServerUrl.url, 'v1', privateKeys: [settingsStorage.privateKey, cpuPrivateKey]);
+      EOSClient(remoteConfigurations.activeEOSServerUrl.url, 'v1', privateKeys: [settingsStorage.privateKey, cpuPrivateKey]);
 
   Result mapEosResponse(dynamic response, Function modelMapper) {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');

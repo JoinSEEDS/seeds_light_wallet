@@ -40,7 +40,7 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseRemoteConfigService().initialise();
+  await remoteConfigurations.initialise();
   await settingsStorage.initialise();
   Bloc.observer = SimpleBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {

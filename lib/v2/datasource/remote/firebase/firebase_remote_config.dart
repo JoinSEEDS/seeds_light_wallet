@@ -5,26 +5,32 @@ import 'package:seeds/v2/datasource/remote/model/firebase_eos_servers.dart';
 
 const String _featureFlagGuardianKey = 'feature_guardians';
 const String _activeEOSEndpointKey = 'eos_enpoints';
+const String _termsAndConditionsUrlKey = 'terms_and_conditions_url';
 
-const String eosEndpoints = '[ { "url": "https://mainnet.telosusa.io", "isDefault": true } ]';
+const String _eosEndpoints = '[ { "url": "https://mainnet.telosusa.io", "isDefault": true } ]';
+const String _termsAndConditionsDefaultUrl = 'https://www.joinseeds.com/seeds-app-terms-and-conditions.html';
 
-class FirebaseRemoteConfigService {
-  final defaults = <String, dynamic>{_featureFlagGuardianKey: false, _activeEOSEndpointKey: eosEndpoints};
+class _FirebaseRemoteConfigService {
+  final defaults = <String, dynamic>{
+    _featureFlagGuardianKey: false,
+    _activeEOSEndpointKey: _eosEndpoints,
+    _termsAndConditionsUrlKey: _termsAndConditionsDefaultUrl
+  };
 
   RemoteConfig _remoteConfig;
 
-  FirebaseRemoteConfigService._();
+  _FirebaseRemoteConfigService._();
 
-  factory FirebaseRemoteConfigService() => _instance;
+  factory _FirebaseRemoteConfigService() => _instance;
 
-  static final FirebaseRemoteConfigService _instance = FirebaseRemoteConfigService._();
+  static final _FirebaseRemoteConfigService _instance = _FirebaseRemoteConfigService._();
 
   Future initialise() async {
     _remoteConfig = await RemoteConfig.instance;
 
     try {
       await _remoteConfig.setDefaults(defaults);
-      await _fetchAndActivate();
+      await _remoteConfig.fetchAndActivate();
     } on Exception catch (exception) {
       // Fetch throttled.
       print('Remote config fetch throttled: $exception');
@@ -33,11 +39,9 @@ class FirebaseRemoteConfigService {
     }
   }
 
-  Future _fetchAndActivate() async {
-    await _remoteConfig.fetchAndActivate();
-  }
-
   bool get featureFlagGuardiansEnabled => _remoteConfig.getBool(_featureFlagGuardianKey);
+
+  String get termsAndConditions => _remoteConfig.getString(_termsAndConditionsUrlKey);
 
   FirebaseEosServer get activeEOSServerUrl => parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey))
       .firstWhere((FirebaseEosServer element) => element.isDefault);
@@ -49,3 +53,6 @@ List<FirebaseEosServer> parseEosServers(String responseBody) {
 
   return parsed.map<FirebaseEosServer>((json) => FirebaseEosServer.fromJson(json)).toList();
 }
+
+/// Singleton
+_FirebaseRemoteConfigService remoteConfigurations = _FirebaseRemoteConfigService();
