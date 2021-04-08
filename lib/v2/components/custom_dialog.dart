@@ -58,10 +58,10 @@ class CustomDialog extends StatelessWidget {
             margin: const EdgeInsets.only(top: avatarRadius),
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                color: Colors.white,
+                color: AppColors.whiteYellow,
                 borderRadius: BorderRadius.circular(18.0),
                 boxShadow: const [
-                  BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
+                  BoxShadow(color: AppColors.black, offset: Offset(0, 10), blurRadius: 10),
                 ]),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -113,13 +113,13 @@ class CustomDialog extends StatelessWidget {
               backgroundColor: Colors.transparent,
               radius: avatarRadius,
               child: Container(
-                decoration: const BoxDecoration(
+                decoration:  BoxDecoration(
                   color: AppColors.white,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 1.0),
+                      color: AppColors.green1.withOpacity(0.20),
+                      offset: const Offset(0.0, 1.0),
                       blurRadius: 6.0,
                     ),
                   ],

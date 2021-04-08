@@ -42,6 +42,7 @@ abstract class EosRepository {
       var map = Map<String, dynamic>.from(response);
       return ValueResult(modelMapper(map));
     } else {
+      print('ErrorResult: response[transaction_id] is null');
       return ErrorResult(EosError(response['processed']['error_code']));
     }
   }

@@ -28,7 +28,7 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
 
       Result result = await SendTransactionUseCase().run(state.name, state.account, state.data);
 
-      yield SendTransactionStateMapper().mapResultToState(state, result);
+      yield SendTransactionStateMapper().mapResultToState(state, result, event.rates);
     }
   }
 }

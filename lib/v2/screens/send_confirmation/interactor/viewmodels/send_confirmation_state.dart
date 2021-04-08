@@ -8,10 +8,10 @@ class SendConfirmationState extends Equatable {
   final PageState pageState;
   final String account;
   final String name;
-  final List<SendInfoLineItems> lineItems;
   final Map<String, dynamic> data;
+  final List<SendInfoLineItems> lineItems;
   final String error;
-  final NavigateToTransactionSuccess pageCommand;
+  final ShowTransactionSuccess pageCommand;
 
   const SendConfirmationState(
       {@required this.pageState, this.account, this.name, this.lineItems, this.data, this.error, this.pageCommand});
@@ -26,7 +26,7 @@ class SendConfirmationState extends Equatable {
       List<SendInfoLineItems> lineItems,
       Map<String, dynamic> data,
       String error,
-      NavigateToTransactionSuccess pageCommand}) {
+      ShowTransactionSuccess pageCommand}) {
     return SendConfirmationState(
         pageState: pageState ?? this.pageState,
         account: account ?? this.account,

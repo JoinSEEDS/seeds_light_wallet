@@ -143,7 +143,7 @@ extension CustomStyles on TextTheme {
       Typography.material2018().englishLike.button.copyWith(fontSize: 25, fontWeight: FontWeight.w400);
 
   TextStyle get buttonBlack =>
-      Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w400
+      Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w500
       ,color: AppColors.black);
 
   TextStyle get headline4Black => Typography.material2018()
