@@ -108,7 +108,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
               children: [
                 Expanded(
                   child: FutureBuilder(
-                    future: VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
+                    future: null,//VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
                     builder: (ctx, snapShot) {
                       if (snapShot.hasData) {
                         var voted = snapShot.data.voted;

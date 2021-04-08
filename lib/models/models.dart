@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hive/hive.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 import 'package:seeds/utils/currencies.dart';
 
 abstract class CurrencyConverter {
   double seedsTo(double seedsValue, String currencySymbol);
+
   double toSeeds(double currencyValue, String currencySymbol);
 }
 
-class ProductModel extends HiveObject {
+class ProductModel {
   final String name;
   final String picture;
   final double price;
@@ -423,6 +423,7 @@ class ProposalModel {
   final String stage;
   final String fund;
   final int creationDate;
+
   ProposalType get type {
     return fund == 'allies.seeds'
         ? ProposalType.alliance

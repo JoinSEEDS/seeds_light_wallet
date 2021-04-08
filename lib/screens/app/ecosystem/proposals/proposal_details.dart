@@ -34,10 +34,10 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
 
   @override
   void didChangeDependencies() {
-    var future = widget.proposal.type == ProposalType.alliance ? 
+    var future = widget.proposal.type == ProposalType.alliance ?
       Provider.of<HttpService>(context).getAllianceVoice() :
       Provider.of<HttpService>(context).getCampaignVoice();
-      future.then((value) => {        
+      future.then((value) => {
         setState(() {
           voice = value;
         })
@@ -188,8 +188,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: FutureBuilder(
-            future:
-                VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
+            future: null,// VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
             builder: (ctx, snapshot) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
