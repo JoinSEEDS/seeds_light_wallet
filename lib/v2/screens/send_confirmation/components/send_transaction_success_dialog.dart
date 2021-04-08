@@ -38,53 +38,40 @@ class SendTransactionSuccessDialog extends StatelessWidget {
     return CustomDialog(
       icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
       children: [
-        Text(
-          amount,
-          style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.primary),
+        Row(
+          children: [
+            Text(amount.split(' ')[0], style: Theme.of(context).textTheme.headline4Black),
+            Padding(
+              padding: const EdgeInsets.only(top: 12, left: 4),
+              child: Text(amount.split(' ')[1], style: Theme.of(context).textTheme.subtitle2Black),
+            ),
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
         ),
-        Text(
-          fiatAmount ?? "",
-          style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.primary),
-        ),
+        Text(fiatAmount ?? "", style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
         const SizedBox(height: 16.0),
-        DialogRow(
-          imageUrl: toImage,
-          account: toAccount,
-          name: toName,
-          toOrFromText: "to",
-        ),
+        DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To"),
         const SizedBox(height: 16.0),
-        DialogRow(
-          imageUrl: fromImage,
-          account: fromAccount,
-          name: fromName,
-          toOrFromText: "from",
-        ),
+        DialogRow(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "From"),
         const SizedBox(height: 16.0),
         Row(
           children: [
-            Text(
-              'Date:  ',
-              style: Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.primary),
-            ),
+            Text('Date:  ', style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
             Text(
               DateFormat('dd-MMMM-yyyy - K:MM a').format(DateTime.now()),
-              style: Theme.of(context).textTheme.subtitle2LowEmphasis.copyWith(color: AppColors.primary),
+              style: Theme.of(context).textTheme.subtitle2BlackLowEmphasis,
             ),
           ],
         ),
         Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Text(
-              'Transaction ID:  ',
-              style: Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.primary),
-            ),
+            Text('Transaction ID:  ', style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
             Expanded(
               child: Text(
                 transactionID,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.subtitle2LowEmphasis.copyWith(color: AppColors.primary),
+                style: Theme.of(context).textTheme.subtitle2BlackLowEmphasis,
               ),
             ),
             IconButton(
@@ -106,10 +93,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
         ),
         Row(
           children: [
-            Text(
-              'Status:  ',
-              style: Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.primary),
-            ),
+            Text('Status:  ', style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
             Container(
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)), color: AppColors.lightGreen5),
@@ -118,7 +102,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 child: Text(
                   "Successful",
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.subtitle2LowEmphasis.copyWith(color: AppColors.green1),
+                  style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1,
                 ),
               ),
             ),
@@ -161,15 +145,9 @@ class DialogRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text(
-                  name ?? account,
-                  textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.button.copyWith(color: AppColors.primary),
-                ),
-                Text(
-                  account,
-                  style: Theme.of(context).textTheme.subtitle3OpacityEmphasis.copyWith(color: AppColors.primary),
-                )
+                Text(name ?? account, textAlign: TextAlign.start, style: Theme.of(context).textTheme.buttonBlack),
+                const SizedBox(height: 8),
+                Text(account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack)
               ],
             ),
           ),
@@ -179,10 +157,7 @@ class DialogRow extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen5),
             child: Padding(
               padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
-              child: Text(
-                toOrFromText,
-                style: Theme.of(context).textTheme.subtitle2HighEmphasis.copyWith(color: AppColors.primary),
-              ),
+              child: Text(toOrFromText, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
             )),
       ],
     );
