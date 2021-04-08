@@ -15,9 +15,9 @@ import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
-import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
@@ -265,9 +265,10 @@ class _ProfileState extends State<Profile> {
           return ListView.builder(
             itemCount: currencies.length,
             itemBuilder: (ctx, index) => ListTile(
-              title: Text(currencies[index]),
+              title: Text(currencies[index].ticker),
+              subtitle: Text(currencies[index].name),
               onTap: () {
-                SettingsNotifier.of(context).saveSelectedFiatCurrency(currencies[index]);
+                SettingsNotifier.of(context).saveSelectedFiatCurrency(currencies[index].ticker);
                 Navigator.of(context).pop();
               },
             ),

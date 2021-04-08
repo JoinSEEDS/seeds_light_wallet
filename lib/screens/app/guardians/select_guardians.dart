@@ -180,7 +180,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
   @override
   initState() {
     Future.delayed(Duration.zero).then((_) {
-      MembersNotifier.of(context).fetchMembersCache();
+      // MembersNotifier.of(context).fetchMembersCache();
       MembersNotifier.of(context).refreshMembers();
     });
     super.initState();

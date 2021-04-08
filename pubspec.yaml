@@ -50,7 +50,6 @@ dependencies:
   image_cropper: ^1.2.1
   carousel_slider: ^3.0.0
   dots_indicator: ^2.0.0
-  hive: ^1.4.4
   permission_handler: ^6.1.1
   qr_flutter: ^4.0.0
   image_picker: ^0.7.4

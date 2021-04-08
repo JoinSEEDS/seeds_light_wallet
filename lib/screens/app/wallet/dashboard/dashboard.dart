@@ -165,8 +165,8 @@ class _DashboardState extends State<Dashboard> {
   Future<void> refreshData() async {
     BlocProvider.of<RatesBloc>(context)..add(const FetchRates());
     await Future.wait(<Future<dynamic>>[
-      TransactionsNotifier.of(context).fetchTransactionsCache(),
-      TransactionsNotifier.of(context).refreshTransactions(),
+      // TransactionsNotifier.of(context).fetchTransactionsCache(),
+      // TransactionsNotifier.of(context).refreshTransactions(),
       BalanceNotifier.of(context).fetchBalance(),
       RateNotifier.of(context).fetchRate(),
     ]);
@@ -277,7 +277,7 @@ class _DashboardState extends State<Dashboard> {
     String participantAccountName = type == TransactionType.income ? model.from : model.to;
 
     return FutureBuilder(
-      future: MembersNotifier.of(context).getAccountDetails(participantAccountName),
+      future: null,//MembersNotifier.of(context).getAccountDetails(participantAccountName),
       builder: (ctx, member) => member.hasData
           ? TransactionInfoCard(
               callback: () {

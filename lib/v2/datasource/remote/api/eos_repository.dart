@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 abstract class EosRepository {
   String cpuPrivateKey = Config.cpuPrivateKey;
@@ -32,7 +33,7 @@ abstract class EosRepository {
   }
 
   EOSClient buildEosClient() =>
-      EOSClient(settingsStorage.nodeEndpoint, 'v1', privateKeys: [settingsStorage.privateKey, cpuPrivateKey]);
+      EOSClient(FirebaseRemoteConfigService().activeEOSServerUrl.url, 'v1', privateKeys: [settingsStorage.privateKey, cpuPrivateKey]);
 
   Result mapEosResponse(dynamic response, Function modelMapper) {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');
