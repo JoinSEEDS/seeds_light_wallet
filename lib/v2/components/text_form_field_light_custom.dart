@@ -65,7 +65,7 @@ class TextFormFieldLightCustom extends StatelessWidget {
         maxLines: maxLines,
         enabled: enabled,
         validator: validator,
-        style: Theme.of(context).textTheme.subtitle2,
+        style: Theme.of(context).textTheme.subtitle2Black,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(8),borderSide: const BorderSide(color: AppColors.canopy, width: 1.0)),
@@ -74,10 +74,11 @@ class TextFormFieldLightCustom extends StatelessWidget {
           labelText: labelText,
           errorMaxLines: 2,
           errorStyle: const TextStyle(color: Colors.red, wordSpacing: 4.0),
-          labelStyle: Theme.of(context).textTheme.subtitle3.copyWith(color: AppColors.grey),
-          hintStyle: Theme.of(context).textTheme.subtitle2OpacityEmphasis.copyWith(color: AppColors.grey),
+          labelStyle: Theme.of(context).textTheme.subtitle2Black,
+          hintStyle: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack,
           contentPadding: const EdgeInsets.all(16.0),
           enabledBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppColors.black, width: 1.0)),
+          errorBorder: OutlineInputBorder(  borderRadius: BorderRadius.circular(8),borderSide: const BorderSide(color: AppColors.red, width: 1.0)),
         ),
       ),
     );
