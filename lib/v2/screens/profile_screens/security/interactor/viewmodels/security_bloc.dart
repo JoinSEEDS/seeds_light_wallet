@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -11,12 +8,9 @@ import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/
 
 /// --- BLOC
 class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
-  // TODO(raul): Remove usage of _settingsNotifier and AuthNotifier. We need them for now to not break other areas, https://github.com/JoinSEEDS/seeds_light_wallet/pull/620
-  final SettingsNotifier settingsNotifier;
-  final AuthNotifier authNotifier;
   StreamSubscription<bool> _hasGuardianNotificationPending;
 
-  SecurityBloc({@required this.settingsNotifier, @required this.authNotifier}) : super(SecurityState.initial()) {
+  SecurityBloc() : super(SecurityState.initial()) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShowNotificationBadge(value: value)));
@@ -27,8 +21,9 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     if (event is SetUpInitialValues) {
       yield state.copyWith(
         pageState: PageState.success,
-        isSecurePasscode: settingsNotifier.passcodeActive,
+        isSecurePasscode: settingsStorage.passcodeActive,
         isSecureBiometric: true,
+        hasNotification: false,
       );
     }
     if (event is ShowNotificationBadge) {
@@ -44,13 +39,11 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     if (event is OnPinChanged) {
       if (state.isSecurePasscode) {
         yield state.copyWith(isSecurePasscode: false);
-        settingsNotifier.passcode = null;
-        settingsNotifier.passcodeActive = false;
-        authNotifier.disablePasscode();
-        authNotifier.resetPasscode();
+        settingsStorage.passcode = null;
+        settingsStorage.passcodeActive = false;
       } else {
         yield state.copyWith(isSecurePasscode: true);
-        settingsNotifier.passcodeActive = true;
+        settingsStorage.passcodeActive = true;
       }
     }
     if (event is OnBiometricsChanged) {

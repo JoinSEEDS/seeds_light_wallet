@@ -10,19 +10,19 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/features/biometrics/biometrics_verification.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
+import 'package:seeds/v2/screens/biometrics/biometrics_verification.dart';
 import 'package:seeds/providers/providers.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/domain-shared/bloc_observer.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
-import 'package:seeds/widgets/passcode.dart';
+import 'package:seeds/v2/screens/passcode/passcode_screen.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 
 bool get isInDebugMode {
@@ -45,7 +45,7 @@ void main(List<String> args) async {
   Bloc.observer = SimpleBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
-      runApp(SeedsApp());
+      runApp(const SeedsApp());
     } else {
       FlutterError.onError = (FlutterErrorDetails details) async {
         print('FlutterError.onError caught an error');
@@ -63,7 +63,7 @@ void main(List<String> args) async {
       );
 
       runZonedGuarded<Future<Null>>(() async {
-        runApp(SeedsApp());
+        runApp(const SeedsApp());
       }, (error, stackTrace) async {
         print('Zone caught an error');
         await _reportError(error, stackTrace);
@@ -92,16 +92,18 @@ class SeedsMaterialApp extends MaterialApp {
             onGenerateRoute: onGenerateRoute);
 }
 
-class SeedsApp extends StatefulWidget {
-  @override
-  _SeedsAppState createState() => _SeedsAppState();
-}
+class SeedsApp extends StatelessWidget {
+  const SeedsApp({Key key}) : super(key: key);
 
-class _SeedsAppState extends State<SeedsApp> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => RatesBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (BuildContext context) => AuthenticationBloc()..add(const InitAuthStatus()),
+        ),
+        BlocProvider<RatesBloc>(create: (BuildContext context) => RatesBloc()),
+      ],
       child: MultiProvider(
         providers: providers,
         child: const MainScreen(),
@@ -111,20 +113,18 @@ class _SeedsAppState extends State<SeedsApp> {
 }
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({
-    Key key,
-  }) : super(key: key);
+  const MainScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthNotifier>(
-      builder: (ctx, auth, _) {
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
         var navigationService = NavigationService.of(context);
-        switch (auth.status) {
+        switch (state.authStatus) {
           case AuthStatus.emptyAccount:
           case AuthStatus.recoveryMode:
             return SeedsMaterialApp(
-              home: auth.status == AuthStatus.emptyAccount
+              home: state.authStatus == AuthStatus.emptyAccount
                   ? const OnboardingScreen()
                   : SeedsMaterialApp(
                       home: LoginScreen(),
@@ -133,13 +133,9 @@ class MainScreen extends StatelessWidget {
               onGenerateRoute: navigationService.onGenerateRoute,
             );
           case AuthStatus.emptyPasscode:
-            return SeedsMaterialApp(
-              home: LockWallet(),
-            );
+            return SeedsMaterialApp(home: const PasscodeScreen());
           case AuthStatus.locked:
-            return SeedsMaterialApp(
-              home: BiometricsVerification(),
-            );
+            return SeedsMaterialApp(home: const BiometricsVerification());
           case AuthStatus.unlocked:
             return ToolboxApp(
               child: SeedsMaterialApp(
@@ -149,11 +145,7 @@ class MainScreen extends StatelessWidget {
               ),
             );
           default:
-            {
-              return SeedsMaterialApp(
-                home: SplashScreen(),
-              );
-            }
+            return SeedsMaterialApp(home: SplashScreen());
         }
       },
     );

@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/i18n/security.i18n.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
@@ -24,9 +22,7 @@ class SecurityScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Security'.i18n)),
       body: BlocProvider(
-        create: (context) =>
-            SecurityBloc(settingsNotifier: SettingsNotifier.of(context), authNotifier: AuthNotifier.of(context))
-              ..add(const SetUpInitialValues()),
+        create: (context) => SecurityBloc()..add(const SetUpInitialValues()),
         child: MultiBlocListener(
           listeners: [
             BlocListener<SecurityBloc, SecurityState>(

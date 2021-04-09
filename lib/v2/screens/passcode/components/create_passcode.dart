@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
-import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/features/biometrics/auth_commands.dart';
 import 'package:seeds/i18n/passcode.i18n.dart';
-import 'package:seeds/features/biometrics/auth_bloc.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/passcode/interactor/viewmodels/bloc.dart';
 
 class CreatePasscode extends StatefulWidget {
@@ -23,7 +21,6 @@ class _CreatePasscodeState extends State<CreatePasscode> {
 
   @override
   Widget build(BuildContext context) {
-    var bloc = Provider.of<AuthBloc>(context);
     return PasscodeScreen(
       cancelButton: const SizedBox.shrink(),
       deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
@@ -37,16 +34,15 @@ class _CreatePasscodeState extends State<CreatePasscode> {
       bottomWidget: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: OutlinedButton(
-          style: ButtonStyle(
-            side: MaterialStateProperty.resolveWith<BorderSide>((states) => const BorderSide(color: AppColors.white)),
-            shape: MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
-              return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
-            }),
-          ),
-          child:
-              Text('Disable Pincode'.i18n, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
-          onPressed: () => bloc.execute(DisablePasswordCmd()),
-        ),
+            style: ButtonStyle(
+              side: MaterialStateProperty.resolveWith<BorderSide>((states) => const BorderSide(color: AppColors.white)),
+              shape: MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
+                return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
+              }),
+            ),
+            child:
+                Text('Disable Pincode'.i18n, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
+            onPressed: () => BlocProvider.of<AuthenticationBloc>(context).add(const DisablePasscode())),
       ),
       circleUIConfig: const CircleUIConfig(circleSize: 14),
     );

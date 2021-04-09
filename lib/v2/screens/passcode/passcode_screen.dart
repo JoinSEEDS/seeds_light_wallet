@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
@@ -16,11 +15,9 @@ class PasscodeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _securityBloc = ModalRoute.of(context).settings.arguments;
     return BlocProvider(
-      create: (context) => PasscodeBloc(
-          settingsNotifier: SettingsNotifier.of(context),
-          authNotifier: AuthNotifier.of(context),
-          securityBloc: _securityBloc)
-        ..add(const DefineView()),
+      create: (context) =>
+          PasscodeBloc(authenticationBloc: BlocProvider.of<AuthenticationBloc>(context), securityBloc: _securityBloc)
+            ..add(const DefineView()),
       child: BlocBuilder<PasscodeBloc, PasscodeState>(
         builder: (context, state) {
           switch (state.pageState) {

@@ -1,29 +1,25 @@
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
-
-import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/passcode/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC
 class PasscodeBloc extends Bloc<PasscodeEvent, PasscodeState> {
-  // TODO(raul): Remove usage of _settingsNotifier and AuthNotifier. We need them for now to not break other areas, https://github.com/JoinSEEDS/seeds_light_wallet/pull/620
-  final SettingsNotifier settingsNotifier;
-  final AuthNotifier authNotifier;
   final SecurityBloc securityBloc;
+  final AuthenticationBloc authenticationBloc;
 
-  PasscodeBloc({@required this.settingsNotifier, this.authNotifier, this.securityBloc})
-      : super(PasscodeState.initial());
+  PasscodeBloc({@required this.authenticationBloc, @required this.securityBloc}) : super(PasscodeState.initial());
 
   @override
   Stream<PasscodeState> mapEventToState(PasscodeEvent event) async* {
     if (event is DefineView) {
       yield state.copyWith(
         pageState: PageState.success,
-        isCreateView: settingsNotifier.passcode == null,
-        isCreateMode: settingsNotifier.passcode == null,
+        isCreateView: settingsStorage.passcode == null,
+        isCreateMode: settingsStorage.passcode == null,
       );
     }
     if (event is OnVerifyPasscode) {
@@ -34,18 +30,21 @@ class PasscodeBloc extends Bloc<PasscodeEvent, PasscodeState> {
         );
       } else {
         yield state.copyWith(
-          isValidPasscode: event.passcode == settingsNotifier.passcode,
-          showInfoSnack: event.passcode == settingsNotifier.passcode ? null : true,
+          isValidPasscode: event.passcode == settingsStorage.passcode,
+          showInfoSnack: event.passcode == settingsStorage.passcode ? null : true,
         );
       }
     }
     if (event is OnValidVerifyPasscode) {
       securityBloc?.add(const OnPinChanged());
       if (state.isCreateMode) {
-        settingsNotifier.savePasscode(state.newPasscode);
+        settingsStorage.savePasscode(state.newPasscode);
+        if (securityBloc == null) {
+          authenticationBloc.add(const PasscodeAuthenticated());
+        }
       } else {
         if (securityBloc == null) {
-          authNotifier.unlockWallet();
+          authenticationBloc.add(const PasscodeAuthenticated());
         }
       }
     }
