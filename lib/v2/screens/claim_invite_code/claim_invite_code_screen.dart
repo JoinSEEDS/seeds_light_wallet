@@ -28,7 +28,7 @@ class ClaimInviteCodeScreen extends StatefulWidget {
   final String inviteCode;
   final Function onClaim;
 
-  const ClaimInviteCodeScreen({Key key, @required this.resultCallBack, this.inviteCode, this.onClaim})
+  const ClaimInviteCodeScreen({Key key, this.resultCallBack, this.inviteCode, this.onClaim})
       : super(key: key);
 
   @override
