@@ -40,7 +40,6 @@ class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
   final _keyController = TextEditingController();
   final _formImportKey = GlobalKey<FormState>();
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController _controller;
   bool _handledQrCode = false;
   ClaimCodeStatus status = ClaimCodeStatus.emptyInviteCode;
   String claimedAccount;
@@ -195,7 +194,6 @@ class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
   }
 
   Future<void> _onQRViewCreated(QRViewController controller) async {
-    _controller = controller;
 
     controller.scannedDataStream.listen(
       (String scanResult) async {
