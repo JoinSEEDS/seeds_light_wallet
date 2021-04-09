@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 
-/// A wigdeg wrapper of TextFormField customized for general inputs
+/// A widget wrapper of TextFormField customized for general inputs
 ///
 class TextFormFieldLightCustom extends StatelessWidget {
   final bool autofocus;
@@ -68,7 +68,9 @@ class TextFormFieldLightCustom extends StatelessWidget {
         style: Theme.of(context).textTheme.subtitle2Black,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
-          focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(8),borderSide: const BorderSide(color: AppColors.canopy, width: 1.0)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: AppColors.canopy, width: 1.0)),
           counterText: "",
           hintText: hintText,
           labelText: labelText,
@@ -77,8 +79,10 @@ class TextFormFieldLightCustom extends StatelessWidget {
           labelStyle: Theme.of(context).textTheme.subtitle2Black,
           hintStyle: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack,
           contentPadding: const EdgeInsets.all(16.0),
-          enabledBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppColors.black, width: 1.0)),
-          errorBorder: OutlineInputBorder(  borderRadius: BorderRadius.circular(8),borderSide: const BorderSide(color: AppColors.red, width: 1.0)),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppColors.black, width: 1.0)),
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppColors.red, width: 1.0)),
         ),
       ),
     );
