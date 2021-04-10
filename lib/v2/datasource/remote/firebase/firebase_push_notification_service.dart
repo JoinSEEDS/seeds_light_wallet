@@ -1,5 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 const guardianInviteReceived = 'guardianInviteReceived';
@@ -80,12 +79,12 @@ class PushNotificationService {
 
   Future<void> onMessageOpenedApp(RemoteMessage message) async {
     print("FirebaseMessaging onMessageOpenedApp");
+    // TODO(gguij002): We will handle this later when we work  on guardians
     if (message.data.isNotEmpty) {
       // Handle data message
-      final Map<dynamic, dynamic> data = message.data;
-      var notificationTypeId = data['notification_type_id'];
+      // final Map<dynamic, dynamic> data = message.data;
+      // var notificationTypeId = data['notification_type_id'];
 
-      // We will handle this later
       // if (notificationTypeId == guardianInviteReceived) {
       //   // Navigate to Guardians Screen
       //   await NavigationService.of(context).navigateTo(Routes.guardianTabs);
