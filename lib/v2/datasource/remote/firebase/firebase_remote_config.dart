@@ -9,12 +9,14 @@ const String _termsAndConditionsUrlKey = 'terms_and_conditions_url';
 const String _privacyPolicyKey = 'privacy_policy';
 const String _hyphaEndPointKey = 'hypha_end_point';
 const String _explorerUrlKey = 'explore_url';
+const String _dhoExplorerUrlKey = 'dho_explore_url';
 
 const String _eosEndpoints = '[ { "url": "https://mainnet.telosusa.io", "isDefault": true } ]';
 const String _termsAndConditionsDefaultUrl = 'https://www.joinseeds.com/seeds-app-terms-and-conditions.html';
 const String _privacyPolicyUrl = 'https://www.joinseeds.com/seeds-app-privacy-policy.html';
 const String _hyphaEndPointUrl = 'https://node.hypha.earth';
 const String _explorerUrl = 'https://telos.bloks.io';
+const String _dhoExplorerUrl = 'https://dho.hypha.earth';
 
 class _FirebaseRemoteConfigService {
   final defaults = <String, dynamic>{
@@ -23,7 +25,8 @@ class _FirebaseRemoteConfigService {
     _termsAndConditionsUrlKey: _termsAndConditionsDefaultUrl,
     _privacyPolicyKey: _privacyPolicyUrl,
     _hyphaEndPointKey: _hyphaEndPointUrl,
-    _explorerUrlKey: _explorerUrl
+    _explorerUrlKey: _explorerUrl,
+    _dhoExplorerUrlKey: _dhoExplorerUrl
   };
 
   RemoteConfig _remoteConfig;
@@ -74,6 +77,7 @@ class _FirebaseRemoteConfigService {
   String get hyphaEndPoint => _remoteConfig.getString(_hyphaEndPointUrl);
 
   String get explorerUrl => _remoteConfig.getString(_explorerUrlKey);
+  String get dhoExplorerUrl => _remoteConfig.getString(_dhoExplorerUrlKey);
 
   get activeEOSServerUrl =>
       parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey))
