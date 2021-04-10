@@ -5,6 +5,8 @@ import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/features/biometrics/auth_state.dart';
 import 'package:seeds/features/biometrics/auth_type.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/blocs/authentication/mappers/auth_types_state_mapper.dart';
+import 'package:seeds/v2/blocs/authentication/mappers/auth_state_state_mapper.dart';
 
 /// --- BLOC
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -17,13 +19,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is InitAuthentication) {
       final authTypesAvailable = await BiometricsAvailablesUseCase().run();
-      yield state.copyWith(
-        authTypesAvailable: authTypesAvailable.asValue.value,
-        preferred: authTypesAvailable.asValue.value.isEmpty ? AuthType.nothing : authTypesAvailable.asValue.value[0],
-      );
+      yield AuthTypesStateMapper().mapResultToState(state, authTypesAvailable);
       if (state.preferred == AuthType.fingerprint || state.preferred == AuthType.face) {
         final authState = await BiometricAuthUseCase().run(state.preferred);
-        yield state.copyWith(authState: authState.asValue.value);
+        yield AuthStateStateMapper().mapResultToState(state, authState);
       } else if (state.preferred == AuthType.nothing) {
         yield state.copyWith(authState: AuthState.setupNeeded);
       }
@@ -33,7 +32,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is TryAgainBiometric) {
       final authState = await BiometricAuthUseCase().run(state.preferred);
-      yield state.copyWith(authState: authState.asValue.value);
+      yield AuthStateStateMapper().mapResultToState(state, authState);
       if (state.authState == AuthState.authorized) {
         yield state.copyWith(authStatus: _updateStatus());
       }
@@ -44,12 +43,11 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is ResetPasscode) {
       settingsStorage.passcode = null;
       yield state.copyWith(authStatus: _updateStatus());
-      // _fetchTypes();
     }
     if (event is DisablePasscode) {
       settingsStorage.passcodeActive = false;
       yield state.copyWith(authStatus: _updateStatus());
-      // _fetchTypes();
+      add(const InitAuthentication());
     }
     if (event is PasscodeAuthenticated) {
       yield state.copyWith(authState: AuthState.authorized);
