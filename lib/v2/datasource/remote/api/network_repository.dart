@@ -6,7 +6,7 @@ import 'package:seeds/constants/config.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 abstract class NetworkRepository {
-  String baseURL = Config.defaultEndpoint;
+  String baseURL = remoteConfigurations.defaultEndPointUrl;
   String hyphaURL = remoteConfigurations.hyphaEndPoint;
   String fxApiKey = Config.fxApiKey;
   Map<String, String> headers = {'Content-type': 'application/json'};

@@ -13,7 +13,7 @@ String chainId = '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d
 class EosService {
   String privateKey;
   String accountName;
-  String baseURL = Config.defaultEndpoint;
+  String baseURL = remoteConfigurations.defaultEndPointUrl;
   String cpuPrivateKey = Config.cpuPrivateKey;
   EOSClient client;
   bool mockEnabled;

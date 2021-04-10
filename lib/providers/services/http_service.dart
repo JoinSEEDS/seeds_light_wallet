@@ -16,7 +16,7 @@ import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 class HttpService {
-  String baseURL = Config.defaultEndpoint;
+  String baseURL = remoteConfigurations.defaultEndPointUrl;
   String hyphaURL = remoteConfigurations.hyphaEndPoint;
   String userAccount;
   bool mockResponse;
