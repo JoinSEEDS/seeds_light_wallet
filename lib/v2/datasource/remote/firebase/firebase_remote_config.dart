@@ -80,12 +80,13 @@ class _FirebaseRemoteConfigService {
   String get hyphaEndPoint => _remoteConfig.getString(_hyphaEndPointUrl);
 
   String get explorerUrl => _remoteConfig.getString(_explorerUrlKey);
+
   String get dhoExplorerUrl => _remoteConfig.getString(_dhoExplorerUrlKey);
+
   String get defaultEndPointUrl => _remoteConfig.getString(_defaultEndPointUrlKey);
 
-  get activeEOSServerUrl =>
-      parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey))
-          .firstWhere((FirebaseEosServer element) => element.isDefault);
+  FirebaseEosServer get activeEOSServerUrl => parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey))
+      .firstWhere((FirebaseEosServer element) => element.isDefault);
 }
 
 // A function that converts a response body into a List<FirebaseEosServer>.
