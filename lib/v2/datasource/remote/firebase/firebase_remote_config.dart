@@ -8,11 +8,13 @@ const String _activeEOSEndpointKey = 'eos_enpoints';
 const String _termsAndConditionsUrlKey = 'terms_and_conditions_url';
 const String _privacyPolicyKey = 'privacy_policy';
 const String _hyphaEndPointKey = 'hypha_end_point';
+const String _explorerUrlKey = 'explore_url';
 
 const String _eosEndpoints = '[ { "url": "https://mainnet.telosusa.io", "isDefault": true } ]';
 const String _termsAndConditionsDefaultUrl = 'https://www.joinseeds.com/seeds-app-terms-and-conditions.html';
 const String _privacyPolicyUrl = 'https://www.joinseeds.com/seeds-app-privacy-policy.html';
 const String _hyphaEndPointUrl = 'https://node.hypha.earth';
+const String _explorerUrl = 'https://telos.bloks.io';
 
 class _FirebaseRemoteConfigService {
   final defaults = <String, dynamic>{
@@ -20,7 +22,8 @@ class _FirebaseRemoteConfigService {
     _activeEOSEndpointKey: _eosEndpoints,
     _termsAndConditionsUrlKey: _termsAndConditionsDefaultUrl,
     _privacyPolicyKey: _privacyPolicyUrl,
-    _hyphaEndPointKey: _hyphaEndPointUrl
+    _hyphaEndPointKey: _hyphaEndPointUrl,
+    _explorerUrlKey: _explorerUrl
   };
 
   RemoteConfig _remoteConfig;
@@ -65,12 +68,16 @@ class _FirebaseRemoteConfigService {
   bool get featureFlagGuardiansEnabled => _remoteConfig.getBool(_featureFlagGuardianKey);
 
   String get termsAndConditions => _remoteConfig.getString(_termsAndConditionsUrlKey);
+
   String get privacyPolicy => _remoteConfig.getString(_privacyPolicyKey);
 
   String get hyphaEndPoint => _remoteConfig.getString(_hyphaEndPointUrl);
 
-  FirebaseEosServer get activeEOSServerUrl => parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey))
-      .firstWhere((FirebaseEosServer element) => element.isDefault);
+  String get explorerUrl => _remoteConfig.getString(_explorerUrlKey);
+
+  get activeEOSServerUrl =>
+      parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey))
+          .firstWhere((FirebaseEosServer element) => element.isDefault);
 }
 
 // A function that converts a response body into a List<FirebaseEosServer>.

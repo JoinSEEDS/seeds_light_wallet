@@ -8,6 +8,7 @@ import 'package:seeds/constants/config.dart';
 import 'package:seeds/generated/r.dart';
 import 'package:seeds/widgets/second_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 import 'main_button.dart';
 
@@ -93,7 +94,7 @@ class _BroadcastTransactionOverlayState
   Widget detailsButton() => SecondButton(
         title: 'Show in Explorer',
         onPressed: () async {
-          var url = '${Config.explorer}/transaction/$message';
+          var url = '${remoteConfigurations.explorerUrl}/transaction/$message';
 
           if (await canLaunch(url)) {
             await launch(url);
