@@ -6,15 +6,21 @@ import 'package:seeds/v2/datasource/remote/model/firebase_eos_servers.dart';
 const String _featureFlagGuardianKey = 'feature_guardians';
 const String _activeEOSEndpointKey = 'eos_enpoints';
 const String _termsAndConditionsUrlKey = 'terms_and_conditions_url';
+const String _privacyPolicyKey = 'privacy_policy';
+const String _hyphaEndPointKey = 'hypha_end_point';
 
 const String _eosEndpoints = '[ { "url": "https://mainnet.telosusa.io", "isDefault": true } ]';
 const String _termsAndConditionsDefaultUrl = 'https://www.joinseeds.com/seeds-app-terms-and-conditions.html';
+const String _privacyPolicyUrl = 'https://www.joinseeds.com/seeds-app-privacy-policy.html';
+const String _hyphaEndPointUrl = 'https://node.hypha.earth';
 
 class _FirebaseRemoteConfigService {
   final defaults = <String, dynamic>{
     _featureFlagGuardianKey: false,
     _activeEOSEndpointKey: _eosEndpoints,
-    _termsAndConditionsUrlKey: _termsAndConditionsDefaultUrl
+    _termsAndConditionsUrlKey: _termsAndConditionsDefaultUrl,
+    _privacyPolicyKey: _privacyPolicyUrl,
+    _hyphaEndPointKey: _hyphaEndPointUrl
   };
 
   RemoteConfig _remoteConfig;
@@ -59,6 +65,9 @@ class _FirebaseRemoteConfigService {
   bool get featureFlagGuardiansEnabled => _remoteConfig.getBool(_featureFlagGuardianKey);
 
   String get termsAndConditions => _remoteConfig.getString(_termsAndConditionsUrlKey);
+  String get privacyPolicy => _remoteConfig.getString(_privacyPolicyKey);
+
+  String get hyphaEndPoint => _remoteConfig.getString(_hyphaEndPointUrl);
 
   FirebaseEosServer get activeEOSServerUrl => parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey))
       .firstWhere((FirebaseEosServer element) => element.isDefault);
