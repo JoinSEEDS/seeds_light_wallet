@@ -25,18 +25,35 @@ class _FirebaseRemoteConfigService {
 
   static final _FirebaseRemoteConfigService _instance = _FirebaseRemoteConfigService._();
 
+  void refresh() {
+    // Config has not been init yet. Dont call this function.
+    if (_remoteConfig == null) {
+      return;
+    }
+
+    _remoteConfig.fetch().then((value) {
+      print(" _remoteConfig fetch worked");
+      _remoteConfig.activate().then((bool value) {
+        print(" _remoteConfig activate worked params were activated " + value.toString());
+      }).onError((error, stackTrace) {
+        print(" _remoteConfig activate failed");
+      });
+    }).onError((error, stackTrace) {
+      print(" _remoteConfig fetch failed");
+    });
+  }
+
   Future initialise() async {
     _remoteConfig = await RemoteConfig.instance;
 
-    try {
-      await _remoteConfig.setDefaults(defaults);
-      await _remoteConfig.fetchAndActivate();
-    } on Exception catch (exception) {
-      // Fetch throttled.
-      print('Remote config fetch throttled: $exception');
-    } catch (exception) {
-      print('Unable to fetch remote config. Cached or default values will be used');
-    }
+    /// Maximum age of a cached config before it is considered stale. we set to 60 secs since we store important data.
+    await _remoteConfig.setConfigSettings(RemoteConfigSettings(
+      minimumFetchInterval: const Duration(seconds: 60),
+      fetchTimeout: const Duration(seconds: 60),
+    ));
+
+    await _remoteConfig.setDefaults(defaults);
+    refresh();
   }
 
   bool get featureFlagGuardiansEnabled => _remoteConfig.getBool(_featureFlagGuardianKey);
