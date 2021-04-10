@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
-import 'package:seeds/constants/config.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 class Endpoint {
   final String url;
   final int ping;
+
   const Endpoint(this.url, this.ping);
 }
 
@@ -46,7 +46,6 @@ class ConnectionNotifier extends ChangeNotifier {
     print('setting endpoint to ${responses[0].url}');
     currentEndpointPing = responses[0].ping;
     notifyListeners();
-
   }
 
   Future<Endpoint> checkEndpoint(String endpoint) async {
