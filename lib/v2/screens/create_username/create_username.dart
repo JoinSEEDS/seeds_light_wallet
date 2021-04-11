@@ -6,12 +6,12 @@ import 'package:seeds/design/app_theme.dart';
 
 /// Create Username screen
 class CreateUsername extends StatelessWidget {
-  bool var_name = false;
-  int count = 0;
-  int maxCount = 12;
-
   @override
   Widget build(BuildContext context) {
+    bool var_name = false;
+    int count = 0;
+    int maxCount = 12;
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -21,9 +21,10 @@ class CreateUsername extends StatelessWidget {
           children: <Widget>[
             TextFormFieldCustom(
                 labelText: "Username".i18n,
-                suffixIcon: const IconButton(
+                suffixIcon: IconButton(
                   icon: Icon(
                     Icons.check_circle_outline,
+                    color: var_name == false ? null : Colors.green,
                   ),
                 )),
             Row(
