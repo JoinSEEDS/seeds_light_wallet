@@ -20,13 +20,12 @@ class CreateUsername extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextFormFieldCustom(
-                labelText: "Username".i18n,
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.check_circle_outline,
-                    color: var_name == false ? null : Colors.green,
-                  ),
-                )),
+              labelText: "Username".i18n,
+              suffixIcon: Icon(
+                Icons.check_circle_outline,
+                color: var_name == false ? null : Colors.green,
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
