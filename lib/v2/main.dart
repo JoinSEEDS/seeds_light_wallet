@@ -7,34 +7,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:hive/hive.dart';
 import 'package:i18n_extension/i18n_widget.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/features/biometrics/biometrics_verification.dart';
-import 'package:seeds/models/VoteResultAdapter.dart';
-import 'package:seeds/models/member_adapter.dart';
-import 'package:seeds/models/models.dart';
-import 'package:seeds/models/transaction_adapter.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
-import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/providers/providers.dart';
-import 'package:seeds/providers/services/firebase/firebase_remote_config.dart';
-import 'package:seeds/providers/services/firebase/push_notification_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_push_notification_service.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/domain-shared/bloc_observer.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/widgets/splash_screen.dart';
-
-import 'generated/r.dart';
 
 bool get isInDebugMode {
   var inDebugMode = false;
@@ -48,17 +38,12 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
   print('Caught error: $error');
 }
 
-main(List<String> args) async {
+void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  var appDir = await getApplicationDocumentsDirectory();
-  Hive.init(appDir.path);
-  Hive.registerAdapter<MemberModel>(MemberAdapter());
-  Hive.registerAdapter<VoteResult>(VoteResultAdapter());
-  Hive.registerAdapter<TransactionModel>(TransactionAdapter());
   await Firebase.initializeApp();
-  await FirebaseRemoteConfigService().initialise();
-  // ignore: await_only_futures
   await settingsStorage.initialise();
+  await PushNotificationService().initialise();
+  await remoteConfigurations.initialise();
   Bloc.observer = SimpleBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
@@ -121,7 +106,7 @@ class _SeedsAppState extends State<SeedsApp> {
       create: (context) => RatesBloc(),
       child: MultiProvider(
         providers: providers,
-        child: MainScreen(),
+        child: const MainScreen(),
       ),
     );
   }
@@ -137,42 +122,40 @@ class MainScreen extends StatelessWidget {
     return Consumer<AuthNotifier>(
       builder: (ctx, auth, _) {
         var navigationService = NavigationService.of(context);
-        PushNotificationService().initialise(context);
-
-        if (auth.status == AuthStatus.emptyAccount || auth.status == AuthStatus.recoveryMode) {
-          return SeedsMaterialApp(
-            home: auth.status == AuthStatus.emptyAccount
-                ? OnboardingScreen()
-                : SeedsMaterialApp(
-                    home: LoginScreen(),
-                  ),
-            navigatorKey: navigationService.onboardingNavigatorKey,
-            onGenerateRoute: navigationService.onGenerateRoute,
-          );
-        } else if (auth.status == AuthStatus.unlocked) {
-          return ToolboxApp(
-            child: SeedsMaterialApp(
-              home: App(),
-              navigatorKey: navigationService.appNavigatorKey,
+        switch (auth.status) {
+          case AuthStatus.emptyAccount:
+          case AuthStatus.recoveryMode:
+            return SeedsMaterialApp(
+              home: auth.status == AuthStatus.emptyAccount
+                  ? const OnboardingScreen()
+                  : SeedsMaterialApp(
+                      home: LoginScreen(),
+                    ),
+              navigatorKey: navigationService.onboardingNavigatorKey,
               onGenerateRoute: navigationService.onGenerateRoute,
-            ),
-            noItemsFoundWidget: Padding(
-              padding: const EdgeInsets.all(32),
-              child: SvgPicture.asset(R.noItemFound),
-            ),
-          );
-        } else if (auth.status == AuthStatus.emptyPasscode) {
-          return SeedsMaterialApp(
-            home: LockWallet(),
-          );
-        } else if (auth.status == AuthStatus.locked) {
-          return SeedsMaterialApp(
-            home: BiometricsVerification(),
-          );
-        } else {
-          return SeedsMaterialApp(
-            home: SplashScreen(),
-          );
+            );
+          case AuthStatus.emptyPasscode:
+            return SeedsMaterialApp(
+              home: LockWallet(),
+            );
+          case AuthStatus.locked:
+            return SeedsMaterialApp(
+              home: BiometricsVerification(),
+            );
+          case AuthStatus.unlocked:
+            return ToolboxApp(
+              child: SeedsMaterialApp(
+                home: App(),
+                navigatorKey: navigationService.appNavigatorKey,
+                onGenerateRoute: navigationService.onGenerateRoute,
+              ),
+            );
+          default:
+            {
+              return SeedsMaterialApp(
+                home: SplashScreen(),
+              );
+            }
         }
       },
     );

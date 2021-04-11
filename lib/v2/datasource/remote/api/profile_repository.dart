@@ -3,10 +3,10 @@ import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/score_model.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
-import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 export 'package:async/src/result/result.dart';
 
@@ -18,7 +18,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
 
     return http
-        .post(Uri.parse('${settingsStorage.nodeEndpoint}/v1/chain/get_table_rows'), headers: headers, body: request)
+        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
+            headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return ProfileModel.fromJson(body['rows'][0]);
             }))
@@ -68,7 +69,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getScore(String accountName) async {
     print('[http] get score $accountName');
 
-    final scoreURL = Uri.parse('${settingsStorage.nodeEndpoint}/v1/chain/get_table_rows');
+    final scoreURL = Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"harvest","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';

@@ -10,13 +10,14 @@ import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/utils/extensions/response_extension.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 class HttpService {
-  String baseURL = Config.defaultEndpoint;
-  String hyphaURL = Config.hyphaEndpoint;
+  String baseURL = remoteConfigurations.defaultEndPointUrl;
+  String hyphaURL = remoteConfigurations.hyphaEndPoint;
   String userAccount;
   bool mockResponse;
 
@@ -340,7 +341,7 @@ class HttpService {
     }
 
     final transactionsURL =
-    Uri.parse('$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc');
+        Uri.parse('$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc');
 
     var res = await get(transactionsURL);
 
@@ -463,7 +464,7 @@ class HttpService {
   Future<FiatRateModel> getFiatRates() async {
     print('[http] get fiat rates');
 
-    var res = await get(Uri.parse('https://api.exchangeratesapi.io/latest?base=USD'));
+    Response res = await get(Uri.parse("https://api-payment.hypha.earth/fiatExchangeRates?api_key=${Config.fxApiKey}"));
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
@@ -512,8 +513,7 @@ class HttpService {
 
     final daoURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    String request =
-        '{"json": true, "code": "trailservice","scope": "$userAccount","table": "voters"}';
+    String request = '{"json": true, "code": "trailservice","scope": "$userAccount","table": "voters"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(daoURL, headers: headers, body: request);
