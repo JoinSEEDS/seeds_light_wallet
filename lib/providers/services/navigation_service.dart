@@ -80,6 +80,7 @@ class Routes {
   static final login = "Login";
   static final importKey = "ImportKey";
   static final passcode = "passcode";
+  static final createDisplayName = "createDisplayName";
 }
 
 class NavigationService {
@@ -100,7 +101,7 @@ class NavigationService {
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
-    //Routes.createAccount: () => DisplayName(),
+    Routes.createDisplayName: (_) => DisplayName(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),
     // Routes.showInvite: (args) => ShowInvite(args),
