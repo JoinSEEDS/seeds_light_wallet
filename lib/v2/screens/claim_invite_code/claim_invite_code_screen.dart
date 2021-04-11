@@ -14,21 +14,10 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'interactor/claim_invite_code_bloc.dart';
 
-enum ClaimCodeStatus {
-  emptyInviteCode,
-  searchingInvite,
-  foundNoInvite,
-  foundClaimedInvite,
-  foundValidInvite,
-  networkError,
-}
 
 class ClaimInviteCodeScreen extends StatefulWidget {
-  final ValueSetter<String> resultCallBack;
-  final String inviteCode;
-  final Function onClaim;
 
-  const ClaimInviteCodeScreen({Key key, this.resultCallBack, this.inviteCode, this.onClaim})
+  const ClaimInviteCodeScreen({Key key,})
       : super(key: key);
 
   @override
@@ -38,69 +27,12 @@ class ClaimInviteCodeScreen extends StatefulWidget {
 class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
   ClaimInviteCodeBloc _ClaimInviteCodeBloc;
   final _keyController = TextEditingController();
-  final _formImportKey = GlobalKey<FormState>();
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
-  bool _handledQrCode = false;
-  ClaimCodeStatus status = ClaimCodeStatus.emptyInviteCode;
-  String claimedAccount;
-  String inviterAccount;
-  String inviteSecret;
-  String inviteHash;
-  String transferQuantity;
-  String sowQuantity;
 
   @override
   void initState() {
     super.initState();
     _ClaimInviteCodeBloc = ClaimInviteCodeBloc(SettingsNotifier.of(context), AuthNotifier.of(context));
-    _keyController.text = '';
-  }
-
-  void findInvite() async {
-    String inviteCode = _keyController.text;
-
-    if (inviteCode == "") {
-      setState(() {
-        status = ClaimCodeStatus.emptyInviteCode;
-      });
-      return;
-    }
-
-    setState(() {
-      status = ClaimCodeStatus.searchingInvite;
-    });
-
-    inviteSecret = secretFromMnemonic(inviteCode);
-    inviteHash = hashFromSecret(inviteSecret);
-
-    InviteModel invite;
-
-    try {
-      invite = await HttpService.of(context).findInvite(inviteHash);
-
-      if (invite.account == null || invite.account == '') {
-        setState(() {
-          status = ClaimCodeStatus.foundValidInvite;
-          inviterAccount = invite.sponsor;
-          transferQuantity = invite.transferQuantity;
-          sowQuantity = invite.sowQuantity;
-        });
-      } else {
-        setState(() {
-          status = ClaimCodeStatus.foundClaimedInvite;
-          inviterAccount = invite.sponsor;
-          claimedAccount = invite.account;
-        });
-      }
-    } on NetworkException {
-      setState(() {
-        status = ClaimCodeStatus.networkError;
-      });
-    } on EmptyResultException {
-      setState(() {
-        status = ClaimCodeStatus.foundNoInvite;
-      });
-    }
   }
 
   @override
@@ -124,8 +56,8 @@ class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
                 height: 50,
               ),
               SeedsQRCodeScannerWidget(
-                qrKey: _qrKey,
                 onQRViewCreated: _onQRViewCreated,
+                qrKey: _qrKey,
               ),
               const SizedBox(
                 height: 75,
@@ -137,7 +69,6 @@ class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Form(
-                    key: _formImportKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -194,36 +125,13 @@ class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
   }
 
   Future<void> _onQRViewCreated(QRViewController controller) async {
-
-    controller.scannedDataStream.listen(
-      (String scanResult) async {
-        if (_handledQrCode || scanResult == null) {
-          return;
-        }
-
-        setState(() {
-          _handledQrCode = true;
-        });
-
-        widget.resultCallBack(scanResult);
-      },
-    );
   }
 
   @override
   void dispose() {
-    _keyController.dispose();
-    super.dispose();
   }
 
   void _onSubmitted() {
-    findInvite();
-    FocusScope.of(context).unfocus();
-    if (_formImportKey.currentState.validate()) {
-      widget.onClaim(
-        inviteSecret: inviteSecret,
-        inviterAccount: inviterAccount,
-      );
-    }
+
   }
 }
