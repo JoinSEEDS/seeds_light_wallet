@@ -40,8 +40,7 @@ class PushNotificationService {
       // It must not be an anonymous function. It must be a top-level function
       // (e.g. not a class method which requires initialization).
       FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
-      // When app is in Foreground.
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) => print(message));
+      
       // For testing purposes print the Firebase Messaging token.
       token = await _firebaseMessaging.getToken();
       print('FirebaseMessaging token: $token');
