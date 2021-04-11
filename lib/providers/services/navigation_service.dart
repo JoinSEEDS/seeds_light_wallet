@@ -24,7 +24,7 @@ import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
-import 'package:seeds/v2/onBoarding_flow/display_name/display_name.dart';
+import 'package:seeds/v2/screens/display_name/display_name.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
