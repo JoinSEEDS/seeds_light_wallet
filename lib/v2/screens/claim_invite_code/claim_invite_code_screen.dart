@@ -122,8 +122,5 @@ class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
 
   Future<void> _onQRViewCreated(QRViewController controller) async {}
 
-  @override
-  void dispose() {}
-
   void _onSubmitted() {}
 }
