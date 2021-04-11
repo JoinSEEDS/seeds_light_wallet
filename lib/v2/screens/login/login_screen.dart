@@ -39,9 +39,7 @@ class LoginScreen extends StatelessWidget {
                   height: 10,
                 ),
                 FlatButtonLong(
-                  onPressed: () {
-                    NavigationService.of(context).navigateTo(Routes.createDisplayName);
-                  },
+                  onPressed: () {},
                   title: "Claim invite code".i18n,
                 ),
                 const SizedBox(
