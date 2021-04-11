@@ -5,20 +5,16 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/scanner/seeds_qr_code_scanner_widget.dart';
 import 'package:seeds/v2/components/text_form_field_light_custom.dart';
-import 'package:seeds/utils/invites.dart';
-import 'package:seeds/models/models.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'interactor/claim_invite_code_bloc.dart';
 
-
 class ClaimInviteCodeScreen extends StatefulWidget {
-
-  const ClaimInviteCodeScreen({Key key,})
-      : super(key: key);
+  const ClaimInviteCodeScreen({
+    Key key,
+  }) : super(key: key);
 
   @override
   _ClaimInviteCodeScreenState createState() => _ClaimInviteCodeScreenState();
@@ -124,14 +120,10 @@ class _ClaimInviteCodeScreenState extends State<ClaimInviteCodeScreen> {
     );
   }
 
-  Future<void> _onQRViewCreated(QRViewController controller) async {
-  }
+  Future<void> _onQRViewCreated(QRViewController controller) async {}
 
   @override
-  void dispose() {
-  }
+  void dispose() {}
 
-  void _onSubmitted() {
-
-  }
+  void _onSubmitted() {}
 }
