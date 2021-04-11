@@ -18,7 +18,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
 
     return http
-        .post(Uri.parse('${FirebaseRemoteConfigService().activeEOSServerUrl.url}/v1/chain/get_table_rows'),
+        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
             headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return ProfileModel.fromJson(body['rows'][0]);
@@ -69,7 +69,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getScore(String accountName) async {
     print('[http] get score $accountName');
 
-    final scoreURL = Uri.parse('${FirebaseRemoteConfigService().activeEOSServerUrl.url}/v1/chain/get_table_rows');
+    final scoreURL = Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"harvest","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';

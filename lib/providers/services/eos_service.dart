@@ -6,13 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/utils/extensions/response_extension.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 String chainId = '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11';
 
 class EosService {
   String privateKey;
   String accountName;
-  String baseURL = Config.defaultEndpoint;
+  String baseURL = remoteConfigurations.defaultEndPointUrl;
   String cpuPrivateKey = Config.cpuPrivateKey;
   EOSClient client;
   bool mockEnabled;
@@ -603,7 +604,7 @@ class EosService {
 
     var request = await esr.SigningRequestManager.create(args,
         options: esr.defaultSigningRequestEncodingOptions(
-          nodeUrl: Config.hyphaEndpoint,
+          nodeUrl: remoteConfigurations.hyphaEndPoint,
         ));
 
     return request.encode();
@@ -627,7 +628,7 @@ class EosService {
     var args = esr.SigningRequestCreateArguments(action: action, chainId: chainId);
 
     var request = await esr.SigningRequestManager.create(args,
-        options: esr.defaultSigningRequestEncodingOptions(nodeUrl: Config.hyphaEndpoint));
+        options: esr.defaultSigningRequestEncodingOptions(nodeUrl: remoteConfigurations.hyphaEndPoint));
 
     return request.encode();
   }
