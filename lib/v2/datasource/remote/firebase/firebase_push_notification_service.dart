@@ -1,6 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 const guardianInviteReceived = 'guardianInviteReceived';
 
@@ -15,7 +14,7 @@ class PushNotificationService {
   bool _initialized = false;
   String token;
 
-  Future initialise(BuildContext context) async {
+  Future initialise() async {
     if (!_initialized) {
       // Requesting Permission
       await requestingPermissionForIOS();
@@ -25,14 +24,23 @@ class PushNotificationService {
           print("FirebaseMessaging getInitialMessage: ${message}");
         }
       });
+      await _firebaseMessaging.subscribeToTopic("PUSH_RC");
+
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        print("FirebaseMessaging onMessage -> " + message.data.toString());
+        // If remote config changed, set them to stale. And fetch new config
+        if (message.data.containsKey("CONFIG_STATE")) {
+          remoteConfigurations.refresh();
+        }
+      });
+
       // When user press the push notification and the app is in background (not terminated).
-      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) => onMessageOpenedApp(message, context));
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) => onMessageOpenedApp(message));
       // When app is in background or Terminated.
       // It must not be an anonymous function. It must be a top-level function
       // (e.g. not a class method which requires initialization).
       FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
-      // When app is in Foreground.
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) => print(message));
+      
       // For testing purposes print the Firebase Messaging token.
       token = await _firebaseMessaging.getToken();
       print('FirebaseMessaging token: $token');
@@ -68,17 +76,18 @@ class PushNotificationService {
     );
   }
 
-  Future<void> onMessageOpenedApp(RemoteMessage message, BuildContext context) async {
+  Future<void> onMessageOpenedApp(RemoteMessage message) async {
     print("FirebaseMessaging onMessageOpenedApp");
+    // TODO(gguij002): We will handle this later when we work  on guardians
     if (message.data.isNotEmpty) {
       // Handle data message
-      final Map<dynamic, dynamic> data = message.data;
-      var notificationTypeId = data['notification_type_id'];
+      // final Map<dynamic, dynamic> data = message.data;
+      // var notificationTypeId = data['notification_type_id'];
 
-      if (notificationTypeId == guardianInviteReceived) {
-        // Navigate to Guardians Screen
-        await NavigationService.of(context).navigateTo(Routes.guardianTabs);
-      }
+      // if (notificationTypeId == guardianInviteReceived) {
+      //   // Navigate to Guardians Screen
+      //   await NavigationService.of(context).navigateTo(Routes.guardianTabs);
+      // }
     }
 
     // Handle notification message. Not needed right now. But we will use this soon.

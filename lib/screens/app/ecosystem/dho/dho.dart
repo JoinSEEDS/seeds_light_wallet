@@ -11,6 +11,7 @@ import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:eosdart/eosdart.dart' show Action;
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 enum Status { Loading, Login, Connected, Sign }
 
@@ -266,7 +267,7 @@ class _DHOWebViewState extends State<DHOWebView> {
 
   WebView buildWebView() {
     return WebView(
-      initialUrl: Config.dhoExplorer,
+      initialUrl: remoteConfigurations.dhoExplorerUrl,
       javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (WebViewController controller) {
         dhoController = controller;

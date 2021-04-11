@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
-import 'package:seeds/constants/config.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 class Endpoint {
   final String url;
   final int ping;
+
   const Endpoint(this.url, this.ping);
 }
 
@@ -14,11 +15,11 @@ const doubleInfinitePing = 2000000;
 class ConnectionNotifier extends ChangeNotifier {
   bool status = true;
 
-  String currentEndpoint = Config.defaultEndpoint;
+  String currentEndpoint = remoteConfigurations.defaultEndPointUrl;
   int currentEndpointPing = 0;
 
   final availableEndpoints = [
-    Config.defaultEndpoint,
+    remoteConfigurations.defaultEndPointUrl,
     'https://mainnet.telosusa.io',
     'https://telos.eosphere.io',
     'https://telos.caleos.io',
@@ -45,7 +46,6 @@ class ConnectionNotifier extends ChangeNotifier {
     print('setting endpoint to ${responses[0].url}');
     currentEndpointPing = responses[0].ping;
     notifyListeners();
-
   }
 
   Future<Endpoint> checkEndpoint(String endpoint) async {
