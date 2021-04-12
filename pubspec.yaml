@@ -17,8 +17,8 @@ dependencies:
   flutter_bloc: ^7.0.0
   equatable: ^2.0.0
   url_launcher: ^6.0.3
-  step_progress_indicator: ^0.2.5+8
-  intro_views_flutter: ^2.9.0
+  step_progress_indicator: ^1.0.0-nullsafety.0
+  intro_views_flutter: ^3.0.0
   intl: ^0.17.0
   flutter_localizations:
     sdk: flutter
@@ -40,12 +40,12 @@ dependencies:
   cloud_firestore: ^1.0.3
   firebase_remote_config: ^0.9.0-dev.0
   liquid_pull_to_refresh: ^3.0.0
-  shimmer: ^1.0.1
+  shimmer: ^2.0.0
   share: ^2.0.1
   provider: ^5.0.0
   photo_view: ^0.11.1
   image_cropper: ^1.2.1
-  carousel_slider: ^3.0.0
+  carousel_slider: ^4.0.0-nullsafety.0
   dots_indicator: ^2.0.0
   permission_handler: ^6.1.1
   qr_flutter: ^4.0.0
@@ -57,11 +57,11 @@ dependencies:
     git:
       url: https://github.com/JoinSEEDS/dart-esr.git
   webview_flutter: ^2.0.2
-  rubber: ^0.5.0
+  rubber: ^1.0.0
   path_provider: ^2.0.1
   dotted_border: ^2.0.0-nullsafety.0
   pedantic: ^1.9.2
-  flutter_pagewise: ^1.2.3
+  flutter_pagewise: ^2.0.1
   qr_code_scanner:
     git:
       url: git://github.com/triply-at/qr_code_scanner.git
