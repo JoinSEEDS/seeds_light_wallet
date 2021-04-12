@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
-import 'package:seeds/v2/components/profile_avatar.dart';
+import 'package:seeds/v2/components/user_row_widget.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
@@ -48,9 +48,9 @@ class SendTransactionSuccessDialog extends StatelessWidget {
         ),
         Text(fiatAmount ?? "", style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
         const SizedBox(height: 16.0),
-        DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To"),
+        UserRowWidget(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To"),
         const SizedBox(height: 16.0),
-        DialogRow(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "From"),
+        UserRowWidget(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "From"),
         const SizedBox(height: 16.0),
         Row(
           children: [
@@ -108,52 +108,6 @@ class SendTransactionSuccessDialog extends StatelessWidget {
         Navigator.of(context).pop();
       },
       singleLargeButtonTitle: 'Close',
-    );
-  }
-}
-
-class DialogRow extends StatelessWidget {
-  final String imageUrl;
-  final String account;
-  final String name;
-  final String toOrFromText;
-
-  const DialogRow({Key key, this.imageUrl, this.account, this.name, this.toOrFromText}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        ProfileAvatar(
-          size: 60,
-          image: imageUrl,
-          account: account,
-          nickname: name,
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(name ?? account, textAlign: TextAlign.start, style: Theme.of(context).textTheme.buttonBlack),
-                const SizedBox(height: 8),
-                Text(account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack)
-              ],
-            ),
-          ),
-        ),
-        Container(
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen5),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
-              child: Text(toOrFromText, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
-            )),
-      ],
     );
   }
 }

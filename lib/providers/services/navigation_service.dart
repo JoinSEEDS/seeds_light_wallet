@@ -21,7 +21,6 @@ import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
 import 'package:seeds/screens/app/wallet/receive_qr.dart';
-import 'package:seeds/screens/app/wallet/transfer/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
@@ -36,10 +35,7 @@ import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_scree
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
-<<<<<<< HEAD
 import 'package:seeds/v2/screens/transfer/send_search_user/search_user_screen.dart';
-=======
->>>>>>> ed04871e0bbbb6dedb50bb73d5e7f50700aacf8c
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
