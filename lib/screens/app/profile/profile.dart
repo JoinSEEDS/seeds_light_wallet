@@ -222,7 +222,7 @@ class _ProfileState extends State<Profile> {
                   'Terms & Conditions'.i18n,
                   style: TextStyle(color: Colors.blue),
                 ),
-                onPressed: () => UrlLauncher.launch(Config.termsAndConditionsUrl),
+                onPressed: () => UrlLauncher.launch(remoteConfigurations.termsAndConditions),
               ),
               FlatButton(
                 color: Colors.white,
@@ -230,7 +230,7 @@ class _ProfileState extends State<Profile> {
                   'Privacy Policy'.i18n,
                   style: TextStyle(color: Colors.blue),
                 ),
-                onPressed: () => UrlLauncher.launch(Config.privacyPolicyUrl),
+                onPressed: () => UrlLauncher.launch(remoteConfigurations.privacyPolicy),
               ),
               FlatButton(
                 color: Colors.white,
@@ -427,7 +427,7 @@ class _ProfileState extends State<Profile> {
 
   Widget _guardiansView(bool showGuardianNotification) {
     // featureFlagGuardiansEnabled will no used anymore here
-    if (FirebaseRemoteConfigService().featureFlagGuardiansEnabled) {
+    if (remoteConfigurations.featureFlagGuardiansEnabled) {
       return Padding(
         padding: EdgeInsets.only(top: 50.0),
         child: FlatButton(
