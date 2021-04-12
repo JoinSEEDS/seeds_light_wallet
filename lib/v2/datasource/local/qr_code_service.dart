@@ -1,11 +1,11 @@
 import 'package:async/async.dart';
 import 'package:dart_esr/dart_esr.dart';
+import 'package:seeds/v2/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/v2/datasource/local/qr_code_service.dart';
 import 'package:seeds/v2/datasource/remote/api/balance_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/planted_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/voice_repository.dart';
-import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/scan_qr_code_result_data.dart';
 
 export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';

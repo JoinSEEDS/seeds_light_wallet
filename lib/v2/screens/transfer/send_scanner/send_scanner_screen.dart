@@ -4,10 +4,10 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/scanner/scanner_screen.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
-import 'package:seeds/v2/screens/send_scanner/interactor/send_scanner_bloc.dart';
-import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/scanner_events.dart';
-import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/send_scanner_state.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:seeds/v2/screens/transfer/send_scanner/interactor/send_scanner_bloc.dart';
+import 'package:seeds/v2/screens/transfer/send_scanner/interactor/viewmodels/scanner_events.dart';
+import 'package:seeds/v2/screens/transfer/send_scanner/interactor/viewmodels/send_scanner_state.dart';
 
 /// SendScannerScreen SCREEN
 class SendScannerScreen extends StatefulWidget {

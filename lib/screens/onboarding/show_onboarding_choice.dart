@@ -5,6 +5,7 @@ import 'package:seeds/constants/config.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:seeds/i18n/show_onboarding_choice.i18n.dart';
 
@@ -84,7 +85,7 @@ class ShowOnboardingChoice extends StatelessWidget {
                   ),
                 ),
                 onPressed: () =>
-                    launch(Config.termsAndConditionsUrl),
+                    launch(remoteConfigurations.termsAndConditions),
               ),
               FlatButton(
                 color: Colors.transparent,
@@ -95,7 +96,7 @@ class ShowOnboardingChoice extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
-                onPressed: () => launch(Config.privacyPolicyUrl),
+                onPressed: () => launch(remoteConfigurations.privacyPolicy),
               ),
             ],
           ),
@@ -130,7 +131,7 @@ class ShowOnboardingChoice extends StatelessWidget {
           Container(
             height: 10,
           ),
-          FirebaseRemoteConfigService().featureFlagGuardiansEnabled
+          remoteConfigurations.featureFlagGuardiansEnabled
               ? buildGroup(
                   'If you forget your private key\nclick here'.i18n,
                   'Recover account'.i18n,

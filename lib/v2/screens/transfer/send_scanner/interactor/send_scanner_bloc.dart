@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/send_scanner/interactor/usecases/scanner_use_case.dart';
-import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/scanner_events.dart';
-import 'package:seeds/v2/screens/send_scanner/interactor/viewmodels/send_scanner_state.dart';
+import 'package:seeds/v2/screens/transfer/send_scanner/interactor/usecases/scanner_use_case.dart';
+import 'package:seeds/v2/screens/transfer/send_scanner/interactor/viewmodels/scanner_events.dart';
+import 'package:seeds/v2/screens/transfer/send_scanner/interactor/viewmodels/send_scanner_state.dart';
 
 /// --- BLOC
 class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {

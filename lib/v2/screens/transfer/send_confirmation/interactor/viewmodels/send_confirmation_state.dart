@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_info_line_items.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_info_line_items.dart';
 
 class SendConfirmationState extends Equatable {
   final PageState pageState;
