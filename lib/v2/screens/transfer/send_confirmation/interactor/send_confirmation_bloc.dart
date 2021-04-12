@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/mappers/send_transaction_state_mapper.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_events.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_state.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_info_line_items.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/mappers/send_transaction_state_mapper.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_events.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_state.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_info_line_items.dart';
 import 'package:seeds/v2/utils/cap_utils.dart';
 
 /// --- BLOC
