@@ -2,7 +2,7 @@ import 'package:async/async.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/send_eos_transaction_repository.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
 
 export 'package:async/src/result/result.dart';
 

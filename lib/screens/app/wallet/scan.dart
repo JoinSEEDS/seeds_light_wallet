@@ -3,7 +3,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 enum Steps { scan, processing, success, error }
 
