@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';

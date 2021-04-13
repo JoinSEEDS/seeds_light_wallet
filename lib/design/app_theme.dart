@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 
 class SeedsAppTheme {
   static ThemeData get lightTheme {
@@ -9,7 +9,7 @@ class SeedsAppTheme {
         textTheme: SeedsTextTheme.lightTheme,
         brightness: Brightness.light,
         canvasColor: AppColors.primary,
-        appBarTheme: AppBarTheme(elevation: 0.0));
+        appBarTheme: const AppBarTheme(elevation: 0.0));
   }
 
   static ThemeData get darkTheme {
@@ -19,7 +19,7 @@ class SeedsAppTheme {
         textTheme: SeedsTextTheme.darkTheme,
         brightness: Brightness.dark,
         canvasColor: AppColors.primary,
-        appBarTheme: AppBarTheme(elevation: 0.0));
+        appBarTheme: const AppBarTheme(elevation: 0.0));
   }
 }
 
