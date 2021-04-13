@@ -24,19 +24,18 @@ import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
-import 'package:seeds/v2/screens/add_phone_number/add_phone_number.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
-import 'package:seeds/v2/screens/passcode/passcode_screen.dart';
+import 'package:seeds/v2/screens/verification/verification_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
-import 'package:seeds/v2/screens/send_confirmation/send_confirmation_screen.dart';
-import 'package:seeds/v2/screens/send_scanner/send_scanner_screen.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
+import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -79,8 +78,7 @@ class Routes {
   static final contribution = 'Contribution';
   static final login = "Login";
   static final importKey = "ImportKey";
-  static final passcode = "passcode";
-  static final AddPhoneNumberScreen = "AddPhoneNumberScreen";
+  static final verification = "verification";
 }
 
 class NavigationService {
@@ -101,7 +99,6 @@ class NavigationService {
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
-    Routes.AddPhoneNumberScreen: (_) => AddPhoneNumberScreen(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),
     // Routes.showInvite: (args) => ShowInvite(args),
@@ -140,7 +137,7 @@ class NavigationService {
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
     Routes.citizenship: (_) => const CitizenshipScreen(),
     Routes.contribution: (_) => const ContributionScreen(),
-    Routes.passcode: (_) => const PasscodeScreen(),
+    Routes.verification: (_) => const VerificationScreen(),
   };
 
   final ecosystemRoutes = {

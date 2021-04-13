@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -232,30 +231,30 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                 SizedBox(height: 12),
                 voice == null
                     ? Text("You have no trust tokens".i18n)
-                    : snapshot.hasData && snapshot.data.voted
-                        ? FluidSlider(
-                            value: snapshot.data.amount.toDouble(),
-                            onChanged: (double newValue) {},
-                            min: -100,
-                            max: 100,
-                            sliderColor: AppColors.grey,
-                            labelsTextStyle: TextStyle(color: AppColors.grey),
-                            valueTextStyle: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.grey),
-                            thumbColor: Colors.white,
-                          )
-                        : FluidSlider(
-                            value: _vote,
-                            onChanged: (double newValue) {
-                              setState(() => _vote = newValue);
-                            },
-                            min: 0 - voice.amount.toDouble(),
-                            max: 0 + voice.amount.toDouble(),
-                          ),
+                    : snapshot.hasData && snapshot.data.voted ? Container() : Container()
+                        // ? FluidSlider(
+                        //     value: snapshot.data.amount.toDouble(),
+                        //     onChanged: (double newValue) {},
+                        //     min: -100,
+                        //     max: 100,
+                        //     sliderColor: AppColors.grey,
+                        //     labelsTextStyle: TextStyle(color: AppColors.grey),
+                        //     valueTextStyle: Theme.of(context)
+                        //         .textTheme
+                        //         .headline6
+                        //         .copyWith(
+                        //             fontWeight: FontWeight.bold,
+                        //             color: AppColors.grey),
+                        //     thumbColor: Colors.white,
+                        //   )
+                        // : FluidSlider(
+                        //     value: _vote,
+                        //     onChanged: (double newValue) {
+                        //       setState(() => _vote = newValue);
+                        //     },
+                        //     min: 0 - voice.amount.toDouble(),
+                        //     max: 0 + voice.amount.toDouble(),
+                        //   ),
               ],
             ),
           ),

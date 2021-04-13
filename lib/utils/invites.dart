@@ -3,22 +3,23 @@ import 'dart:math';
 
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
-import 'package:random_words/random_words.dart';
 
 String generateMnemonic({ int words = 5, separator = '-' }) {
-  var random = Random.secure();
-
-  var dictionaryWords = 2535;
-
-  var randomDictionaryIndexes = List<int>.generate(
-      words, (i) => random.nextInt(dictionaryWords));
-
-  var randomDictionaryWords =
-      randomDictionaryIndexes.map((index) => nouns[index]).toList();
-
-  var mnemonic = randomDictionaryWords.join('-');
-
-  return mnemonic;
+  // TODO(gguij002): Figure out how to generate random words
+  return "GERY";
+  // var random = Random.secure();
+  //
+  // var dictionaryWords = 2535;
+  //
+  // var randomDictionaryIndexes = List<int>.generate(
+  //     words, (i) => random.nextInt(dictionaryWords));
+  //
+  // var randomDictionaryWords =
+  //     randomDictionaryIndexes.map((index) => nouns[index]).toList();
+  //
+  // var mnemonic = randomDictionaryWords.join('-');
+  //
+  // return mnemonic;
 }
 
 String secretFromMnemonic(String mnemonic) {
