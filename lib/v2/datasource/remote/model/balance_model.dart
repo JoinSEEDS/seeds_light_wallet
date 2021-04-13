@@ -4,7 +4,7 @@ class BalanceModel {
   final String quantity;
   final double numericQuantity;
 
-  String get formattedQuantity => numericQuantity == null ? '' : numericQuantity.seedsFormatted + ' SEEDS';
+  String get formattedQuantity => numericQuantity == null ? '' : numericQuantity.seedsFormatted! + ' SEEDS';
   String get roundedQuantity => numericQuantity == null ? '' : numericQuantity.seedsFormatted.toString();
 
   BalanceModel(this.quantity) : numericQuantity = _parseQuantityString(quantity);
@@ -13,7 +13,7 @@ class BalanceModel {
     if (json.isNotEmpty) {
       return BalanceModel(json[0] as String);
     } else {
-      return null;
+      return BalanceModel("0");
     }
   }
 

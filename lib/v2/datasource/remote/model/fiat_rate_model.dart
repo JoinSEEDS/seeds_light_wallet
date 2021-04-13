@@ -1,6 +1,6 @@
 class FiatRateModel {
-  Map<String, num> rates;
-  String base;
+  Map<String?, num> rates;
+  String? base;
 
   FiatRateModel(this.rates, {this.base = "USD"});
 
@@ -10,18 +10,18 @@ class FiatRateModel {
       model.rebase("USD");
       return model;
     } else {
-      return null;
+      return FiatRateModel({});
     }
   }
 
   double usdTo(double usdValue, String currency) {
-    double rate = rates[currency];
+    double rate = rates[currency] as double;
     assert(rate != null);
     return usdValue * rate;
   }
 
   double toUSD(double currencyValue, String currency) {
-    double rate = rates[currency];
+    double rate = rates[currency] as double;
     assert(rate != null);
     return rate > 0 ? currencyValue / rate : 0;
   }

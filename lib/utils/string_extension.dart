@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'double_extension.dart';
 
 extension StringExtension on String{

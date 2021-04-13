@@ -1,10 +1,12 @@
+// @dart=2.9
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/features/biometrics/auth_bloc.dart';
 import 'package:seeds/features/biometrics/auth_commands.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';

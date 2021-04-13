@@ -10,7 +10,7 @@ class AuthStatusStateMapper {
     }
 
     if ((settingsStorage.passcodeActive != null) &&
-        (status == AuthStatus.emptyPasscode && !settingsStorage.passcodeActive)) {
+        (status == AuthStatus.emptyPasscode && !settingsStorage.passcodeActive!)) {
       status = AuthStatus.unlocked;
     }
 

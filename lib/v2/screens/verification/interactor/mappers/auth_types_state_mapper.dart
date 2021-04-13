@@ -5,11 +5,11 @@ import 'package:seeds/features/biometrics/auth_type.dart';
 class AuthTypesStateMapper extends StateMapper {
   VerificationState mapResultToState(VerificationState currentState, Result result) {
     if (result.isError) {
-      return currentState.copyWith(errorMessage: result.asError.error.toString());
+      return currentState.copyWith(errorMessage: result.asError!.error.toString());
     } else {
       return currentState.copyWith(
-        authTypesAvailable: result.asValue.value,
-        preferred: result.asValue.value.isEmpty ? AuthType.nothing : result.asValue.value[0],
+        authTypesAvailable: result.asValue!.value,
+        preferred: result.asValue!.value.isEmpty ? AuthType.nothing : result.asValue!.value[0],
       );
     }
   }

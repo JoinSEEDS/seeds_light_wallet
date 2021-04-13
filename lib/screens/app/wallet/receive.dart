@@ -1,8 +1,10 @@
+// @dart=2.9
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/cart_model.dart';
 import 'package:seeds/models/models.dart';

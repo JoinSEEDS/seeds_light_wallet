@@ -14,10 +14,10 @@ import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/
 
 /// --- BLOC
 class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
-  final SecurityBloc securityBloc;
+  final SecurityBloc? securityBloc;
   final AuthenticationBloc authenticationBloc;
 
-  VerificationBloc({@required this.authenticationBloc, @required this.securityBloc})
+  VerificationBloc({required this.authenticationBloc, required this.securityBloc})
       : super(VerificationState.initial());
 
   @override
@@ -54,7 +54,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
       }
     }
     if (event is OnVerifyPasscode) {
-      if (state.isCreateMode) {
+      if (state.isCreateMode!) {
         yield state.copyWith(
           isValidPasscode: event.passcode == state.newPasscode,
           showInfoSnack: event.passcode == state.newPasscode ? null : true,
@@ -68,7 +68,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
     }
     if (event is OnValidVerifyPasscode) {
       securityBloc?.add(const OnPasscodeChanged());
-      if (state.isCreateMode) {
+      if (state.isCreateMode!) {
         settingsStorage.savePasscode(state.newPasscode);
         settingsStorage.passcodeActive = true;
         if (securityBloc == null) {

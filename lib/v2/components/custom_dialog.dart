@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 
 const double padding = 20;
 const double avatarRadius = 40;
@@ -17,24 +17,24 @@ class CustomDialog extends StatelessWidget {
   final String leftButtonTitle;
 
   /// Require define leftButtonTitle
-  final VoidCallback onLeftButtonPressed;
+  final VoidCallback? onLeftButtonPressed;
 
   /// Default title empty
   final String rightButtonTitle;
 
   /// Require define rightButtonTitle
-  final VoidCallback onRightButtonPressed;
+  final VoidCallback? onRightButtonPressed;
 
   /// Default title empty
   final String singleLargeButtonTitle;
 
   /// Default Navigator pop
-  final VoidCallback onSingleLargeButtonPressed;
+  final VoidCallback? onSingleLargeButtonPressed;
 
   const CustomDialog({
-    Key key,
-    @required this.icon,
-    @required this.children,
+    Key? key,
+    required this.icon,
+    required this.children,
     this.leftButtonTitle = '',
     this.onLeftButtonPressed,
     this.rightButtonTitle = '',

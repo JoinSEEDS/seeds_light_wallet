@@ -4,11 +4,11 @@ import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/interactor/viewmodels/set_currency_state.dart';
 
 class RateStateMapper extends StateMapper {
-  SetCurrencyState mapResultToState(SetCurrencyState currentState, Map<String, num> rates) {
+  SetCurrencyState mapResultToState(SetCurrencyState currentState, Map<String?, num> rates) {
     if (rates == null) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Cannot fetch rates...');
     } else {
-      Map<String, String> available = rates.map((key, value) => MapEntry(key, key));
+      Map<String?, String?> available = rates.map((key, value) => MapEntry(key, key));
       final prefix = List<String>.from(topCurrencies.where((i) {
         if (available[i] != null) {
           available.remove(i);

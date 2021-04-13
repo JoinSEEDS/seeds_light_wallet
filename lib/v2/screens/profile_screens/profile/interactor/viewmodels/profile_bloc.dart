@@ -21,11 +21,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is OnUpdateProfileImage) {
       yield state.copyWith(pageState: PageState.loading);
       var urlResult = await SaveImageUseCase().run(file: event.file);
-      var result = await UpdateProfileImageUseCase().run(imageUrl: urlResult.asValue.value, profile: state.profile);
+      var result = await UpdateProfileImageUseCase().run(imageUrl: urlResult.asValue!.value, profile: state.profile!);
       yield UpdateProfileImageStateMapper().mapResultToState(state, result);
     }
     if (event is OnNameChanged) {
-      yield state.copyWith(profile: state.profile.copyWith(nickname: event.name));
+      yield state.copyWith(profile: state.profile!.copyWith(nickname: event.name));
     }
     if (event is OnCurrencyChanged) {
       // Change the state to trigger repaint

@@ -5,26 +5,26 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class ContributionState extends Equatable {
   final PageState pageState;
-  final ScoreModel score;
-  final String errorMessage;
+  final ScoreModel? score;
+  final String? errorMessage;
 
   const ContributionState({
-    @required this.pageState,
+    required this.pageState,
     this.score,
     this.errorMessage,
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         pageState,
         score,
         errorMessage,
       ];
 
   ContributionState copyWith({
-    PageState pageState,
-    ScoreModel score,
-    String errorMessage,
+    PageState? pageState,
+    ScoreModel? score,
+    String? errorMessage,
   }) {
     return ContributionState(
       pageState: pageState ?? this.pageState,

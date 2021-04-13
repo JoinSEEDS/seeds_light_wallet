@@ -23,7 +23,7 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
       } else {
         yield state.copyWith(
           pageState: PageState.success,
-          pageCommand: NavigateToCustomTransaction(result.asValue.value),
+          pageCommand: NavigateToCustomTransaction(result.asValue!.value),
         );
       }
     }

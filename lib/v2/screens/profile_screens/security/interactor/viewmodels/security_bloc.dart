@@ -12,14 +12,14 @@ import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/
 /// --- BLOC
 class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
   final AuthenticationBloc _authenticationBloc;
-  StreamSubscription<bool> _hasGuardianNotificationPending;
+  StreamSubscription<bool?>? _hasGuardianNotificationPending;
 
-  SecurityBloc({@required AuthenticationBloc authenticationBloc})
+  SecurityBloc({required AuthenticationBloc authenticationBloc})
       : _authenticationBloc = authenticationBloc,
         super(SecurityState.initial()) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
-        .listen((value) => add(ShowNotificationBadge(value: value)));
+        .listen((value) => add(ShowNotificationBadge(value: value!)));
   }
 
   @override
@@ -37,13 +37,13 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     }
     if (event is OnGuardiansCardTapped) {
       yield state.copyWith(navigateToGuardians: null); //reset
-      if (state.hasNotification) {
+      if (state.hasNotification!) {
         await FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
       }
       yield state.copyWith(navigateToGuardians: true);
     }
     if (event is OnPasscodeChanged) {
-      if (state.isSecurePasscode) {
+      if (state.isSecurePasscode!) {
         yield state.copyWith(isSecurePasscode: false);
         _authenticationBloc.add(const DisablePasscode());
       } else {
@@ -52,7 +52,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       }
     }
     if (event is OnBiometricsChanged) {
-      yield state.copyWith(isSecureBiometric: !state.isSecureBiometric);
+      yield state.copyWith(isSecureBiometric: !state.isSecureBiometric!);
     }
   }
 

@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:share/share.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';

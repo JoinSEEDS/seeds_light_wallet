@@ -11,9 +11,9 @@ class RatesStateMapper extends StateMapper {
     } else {
       print('RatesStateMapper mapResultsToState length=${results.length}');
       results.retainWhere((Result i) => i.isValue);
-      var values = results.map((Result i) => i.asValue.value).toList();
-      RateModel rate = values.firstWhere((i) => i is RateModel, orElse: () => null);
-      FiatRateModel fiatRate = values.firstWhere((i) => i is FiatRateModel, orElse: () => null);
+      var values = results.map((Result i) => i.asValue!.value).toList();
+      RateModel? rate = values.firstWhere((i) => i is RateModel, orElse: () => null);
+      FiatRateModel? fiatRate = values.firstWhere((i) => i is FiatRateModel, orElse: () => null);
       return currentState.copyWith(rate: rate, fiatRate: fiatRate);
     }
   }

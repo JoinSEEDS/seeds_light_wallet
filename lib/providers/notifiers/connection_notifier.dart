@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';

@@ -22,7 +22,7 @@ class PickImageBloc extends Bloc<PickImageEvent, PickImageState> {
         }
       } catch (e) {
         // TODO(raul): Use a snackbar to show generic error here, https://github.com/JoinSEEDS/seeds_light_wallet/pull/614
-        yield state.copyWith(errorMessage: e);
+        yield state.copyWith(errorMessage: e.toString());
       }
     }
   }

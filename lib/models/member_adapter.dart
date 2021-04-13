@@ -32,3 +32,5 @@
 //     writer.writeString(obj.image);
 //   }
 // }
+
+// @dart=2.9

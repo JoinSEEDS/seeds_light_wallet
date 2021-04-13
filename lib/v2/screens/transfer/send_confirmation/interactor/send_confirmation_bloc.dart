@@ -16,7 +16,7 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
     if (event is InitSendConfirmationWithArguments) {
       yield state.copyWith(
         pageState: PageState.success,
-        lineItems: event.arguments.data.entries
+        lineItems: event.arguments.data!.entries
             .map((e) => SendInfoLineItems(label: e.key.inCaps, text: e.value.toString()))
             .toList(),
         name: event.arguments.name,

@@ -19,7 +19,7 @@ class LoadProfileValues extends ProfileEvent {
 class OnUpdateProfileImage extends ProfileEvent {
   final File file;
 
-  const OnUpdateProfileImage({@required this.file});
+  const OnUpdateProfileImage({required this.file});
 
   @override
   List<Object> get props => [file];
@@ -31,7 +31,7 @@ class OnUpdateProfileImage extends ProfileEvent {
 class OnNameChanged extends ProfileEvent {
   final String name;
 
-  const OnNameChanged({@required this.name});
+  const OnNameChanged({required this.name});
 
   @override
   List<Object> get props => [name];

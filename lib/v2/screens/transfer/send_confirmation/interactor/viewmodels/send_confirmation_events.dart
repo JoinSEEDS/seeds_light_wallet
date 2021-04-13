@@ -13,7 +13,7 @@ abstract class SendConfirmationEvent extends Equatable {
 class InitSendConfirmationWithArguments extends SendConfirmationEvent {
   final SendConfirmationArguments arguments;
 
-  InitSendConfirmationWithArguments({@required this.arguments}) : assert(arguments != null);
+  InitSendConfirmationWithArguments({required this.arguments}) : assert(arguments != null);
 
   @override
   String toString() => 'LoadSendConfirmation: { sendConfirmationArguments: $arguments }';

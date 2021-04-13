@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {

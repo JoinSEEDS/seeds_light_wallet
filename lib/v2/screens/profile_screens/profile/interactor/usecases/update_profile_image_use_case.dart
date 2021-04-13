@@ -9,7 +9,7 @@ export 'package:async/src/result/result.dart';
 class UpdateProfileImageUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
 
-  Future<Result> run({@required String imageUrl, @required ProfileModel profile}) {
+  Future<Result> run({required String imageUrl, required ProfileModel profile}) {
     return _profileRepository.updateProfile(
       accountName: settingsStorage.accountName,
       nickname: profile.nickname,

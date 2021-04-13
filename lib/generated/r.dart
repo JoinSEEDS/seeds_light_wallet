@@ -1,3 +1,5 @@
+// @dart=2.9
+
 class R {
   /// ![](http://127.0.0.1:2227/assets/images/error.svg)
   static final String error = 'assets/images/error.svg';

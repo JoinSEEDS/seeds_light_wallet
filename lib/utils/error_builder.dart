@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'dart:convert';
 import 'package:seeds/i18n/error_builder.i18n.dart';
 

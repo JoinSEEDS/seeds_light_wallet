@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/services/http_service.dart';

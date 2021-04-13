@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:intl/intl.dart';
 
 final fourDigitNumberFormat = NumberFormat('#,###,###,###,##0.0000');

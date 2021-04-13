@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
