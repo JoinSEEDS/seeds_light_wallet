@@ -37,7 +37,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         yield AuthTypesStateMapper().mapResultToState(state, authTypesAvailable);
         // If fingerprint or face start biometric auth
         if (state.preferred == AuthType.fingerprint || state.preferred == AuthType.face) {
-          final authState = await BiometricAuthUseCase().run(state.preferred);
+          final authState = await BiometricAuthUseCase().run(state.preferred!);
           yield AuthStateStateMapper().mapResultToState(state, authState);
         }
         // Biometric auth result
@@ -89,7 +89,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
     if (event is TryAgainBiometric) {
       if (state.preferred == AuthType.fingerprint || state.preferred == AuthType.face) {
         // If fingerprint or face start biometric auth
-        final authState = await BiometricAuthUseCase().run(state.preferred);
+        final authState = await BiometricAuthUseCase().run(state.preferred!);
         yield AuthStateStateMapper().mapResultToState(state, authState);
         // Biometric auth result
         if (state.authState == AuthState.authorized) {

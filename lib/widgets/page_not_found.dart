@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,11 +6,11 @@ import 'package:seeds/i18n/widgets.i18n.dart';
 
 class PageNotFound extends StatelessWidget {
   final String routeName;
-  final Object args;
+  final Object? args;
 
   const PageNotFound({
-    Key key,
-    @required this.routeName,
+    Key? key,
+    required this.routeName,
     this.args,
   })  : assert(routeName != null),
         super(key: key);

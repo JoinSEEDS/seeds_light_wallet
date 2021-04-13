@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -22,11 +22,11 @@ class Transfer extends StatefulWidget {
 class _TransferState extends State<Transfer> {
   bool showSearch = false;
 
-  FocusNode _searchFocusNode;
+  FocusNode? _searchFocusNode;
 
   @override
   void dispose() {
-    _searchFocusNode.dispose();
+    _searchFocusNode!.dispose();
     super.dispose();
   }
 
@@ -90,7 +90,7 @@ class _TransferState extends State<Transfer> {
                 color: Colors.black,
               ),
               onPressed: () {
-                _searchFocusNode.unfocus();
+                _searchFocusNode!.unfocus();
 
                 MembersNotifier.of(context).filterMembers('');
 

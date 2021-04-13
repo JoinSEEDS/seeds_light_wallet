@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
@@ -6,13 +6,13 @@ import 'package:seeds/models/firebase/guardian_type.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 
 class Guardian {
-  final String uid;
-  final GuardianStatus status;
-  final GuardianType type;
-  final Timestamp dateCreated;
-  final Timestamp lastUpdated;
-  final Timestamp recoveryStartedDate;
-  final Timestamp recoveryApprovedDate;
+  final String? uid;
+  final GuardianStatus? status;
+  final GuardianType? type;
+  final Timestamp? dateCreated;
+  final Timestamp? lastUpdated;
+  final Timestamp? recoveryStartedDate;
+  final Timestamp? recoveryApprovedDate;
 
   Guardian.fromMap(Map<String, dynamic> data)
       : this(

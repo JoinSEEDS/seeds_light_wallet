@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -7,13 +7,13 @@ class MainButton extends StatefulWidget {
   final double height;
   final double fontSize;
   final String title;
-  final EdgeInsets margin;
-  final Function onPressed;
+  final EdgeInsets? margin;
+  final Function? onPressed;
   final bool active;
 
   MainButton({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.height = 55,
     this.fontSize = 18,
     this.margin,
@@ -57,7 +57,7 @@ class MainButtonState extends State<MainButton> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(13),
               ),
-              onPressed: widget.active ? widget.onPressed : null,
+              onPressed: widget.active ? widget.onPressed as void Function()? : null,
               color: Colors.transparent,
               child: Container(
                 height: widget.height,

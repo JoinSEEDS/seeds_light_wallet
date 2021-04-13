@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:io';
 
@@ -35,18 +35,18 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _nameController = TextEditingController();
-  File _profileImage;
+  File? _profileImage;
   var savingLoader = GlobalKey<MainButtonState>();
   final picker = ImagePicker();
 
   @override
   initState() {
     var cachedProfile = ProfileNotifier.of(context).profile;
-    if (cachedProfile != null) _nameController.text = cachedProfile.nickname;
+    if (cachedProfile != null) _nameController.text = cachedProfile.nickname!;
 
     Future.delayed(Duration.zero).then((_) {
       ProfileNotifier.of(context).fetchProfile().then((profile) {
-        _nameController.text = profile.nickname;
+        _nameController.text = profile.nickname!;
       });
     });
     super.initState();
@@ -78,7 +78,7 @@ class _ProfileState extends State<Profile> {
                               NavigationService.of(context).navigateTo(
                                 Routes.imageViewer,
                                 ImageViewerArguments(
-                                  imageUrl: model.profile.image,
+                                  imageUrl: model.profile!.image,
                                   heroTag: "profilePic",
                                 ),
                               );
@@ -92,7 +92,7 @@ class _ProfileState extends State<Profile> {
                                 height: 100.0,
                                 child: (_profileImage != null)
                                     ? Image.file(
-                                        _profileImage,
+                                        _profileImage!,
                                         fit: BoxFit.cover,
                                       )
                                     : CachedNetworkImage(
@@ -103,9 +103,9 @@ class _ProfileState extends State<Profile> {
                                             color: AppColors.getColorByString(model?.profile?.nickname ?? ''),
                                             child: Center(
                                               child: Text(
-                                                (model?.profile?.nickname != null)
+                                                ((model?.profile?.nickname != null)
                                                     ? model?.profile?.nickname?.substring(0, 2)?.toUpperCase()
-                                                    : '?',
+                                                    : '?')!,
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 24,
@@ -178,7 +178,7 @@ class _ProfileState extends State<Profile> {
                         autocorrect: false,
                         controller: _nameController,
                         validator: (String val) {
-                          String error;
+                          String? error;
                           if (val.isEmpty) {
                             error = "Name cannot be empty".i18n;
                           }
@@ -191,14 +191,14 @@ class _ProfileState extends State<Profile> {
                   key: savingLoader,
                   title: 'Save'.i18n,
                   onPressed: () => {
-                    if (_formKey.currentState.validate()) {_saveProfile(model.profile)}
+                    if (_formKey.currentState!.validate()) {_saveProfile(model.profile)}
                   },
                 ),
               ),
-              StreamBuilder<bool>(
+              StreamBuilder<bool?>(
                   stream: FirebaseDatabaseService()
                       .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
-                  builder: (context, AsyncSnapshot<bool> snapshot) {
+                  builder: (context, AsyncSnapshot<bool?> snapshot) {
                     if (snapshot != null && snapshot.hasData) {
                       return _guardiansView(snapshot.data);
                     } else {
@@ -240,7 +240,7 @@ class _ProfileState extends State<Profile> {
                   'Export private key'.i18n,
                   style: TextStyle(color: Colors.red),
                 ),
-                onPressed: () => Share.share(SettingsNotifier.of(context).privateKey),
+                onPressed: () => Share.share(SettingsNotifier.of(context).privateKey!),
               ),
               FlatButton(
                 color: Colors.white,
@@ -262,7 +262,7 @@ class _ProfileState extends State<Profile> {
       context: context,
       builder: (context) {
         return Consumer<RateNotifier>(builder: (context, rateNotifier, child) {
-          final currencies = rateNotifier.fiatRate.currencies;
+          final currencies = rateNotifier.fiatRate!.currencies;
 
           return ListView.builder(
             itemCount: currencies.length,
@@ -349,18 +349,18 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  void _saveProfile(ProfileModel profile) async {
-    savingLoader.currentState.loading();
+  void _saveProfile(ProfileModel? profile) async {
+    savingLoader.currentState!.loading();
     var attachmentUrl;
     if (_profileImage != null) {
-      attachmentUrl = await _uploadFile(profile);
+      attachmentUrl = await _uploadFile(profile!);
     }
     try {
       await Provider.of<EosService>(context, listen: false).updateProfile(
         nickname: (_nameController.text == null || _nameController.text.isEmpty)
-            ? (profile.nickname ?? '')
+            ? (profile!.nickname ?? '')
             : _nameController.text,
-        image: attachmentUrl ?? (profile.image ?? ''),
+        image: attachmentUrl ?? (profile!.image ?? ''),
         story: '',
         roles: '',
         skills: '',
@@ -411,23 +411,23 @@ class _ProfileState extends State<Profile> {
       Scaffold.of(context).showSnackBar(snackBar);
     }
 
-    savingLoader.currentState.done();
+    savingLoader.currentState!.done();
     Future.delayed(Duration.zero).then((_) {
       ProfileNotifier.of(context).fetchProfile();
     });
   }
 
   _uploadFile(ProfileModel profile) async {
-    String extensionName = pathUtils.extension(_profileImage.path);
-    String path = "ProfileImage/" + profile.account + '/' + Uuid().v4() + extensionName;
+    String extensionName = pathUtils.extension(_profileImage!.path);
+    String path = "ProfileImage/" + profile.account! + '/' + Uuid().v4() + extensionName;
     Reference reference = FirebaseStorage.instance.ref().child(path);
     String fileType = extensionName.isNotEmpty ? extensionName.substring(1) : '*';
-    await reference.putFile(_profileImage, SettableMetadata(contentType: "image/$fileType"));
+    await reference.putFile(_profileImage!, SettableMetadata(contentType: "image/$fileType"));
     var url = await reference.getDownloadURL();
     return url;
   }
 
-  Widget _guardiansView(bool showGuardianNotification) {
+  Widget _guardiansView(bool? showGuardianNotification) {
     // featureFlagGuardiansEnabled will no used anymore here
     if (remoteConfigurations.featureFlagGuardiansEnabled) {
       return Padding(
@@ -439,7 +439,7 @@ class _ProfileState extends State<Profile> {
               'Key Guardians'.i18n,
               style: TextStyle(color: Colors.blue),
             ),
-            Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification(showGuardianNotification))
+            Positioned(bottom: -4, right: -22, top: -4, child: guardianNotification(showGuardianNotification!))
           ]),
           onPressed: () {
             if (showGuardianNotification) {

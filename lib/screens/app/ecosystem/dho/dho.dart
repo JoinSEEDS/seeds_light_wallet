@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 import 'dart:convert';
@@ -23,7 +23,7 @@ class DHO extends StatefulWidget {
 }
 
 class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
-  RubberAnimationController bottomSheetController;
+  late RubberAnimationController bottomSheetController;
 
   @override
   void initState() {
@@ -96,7 +96,7 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
     );
   }
 
-  Completer completer;
+  late Completer completer;
 
   void transactionAccepted() async {
     try {
@@ -119,7 +119,7 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
     // completer.completeError(err);
   }
 
-  List<Action> actions;
+  List<Action>? actions;
 
   Future<String> confirmTransaction(List<Action> transactionActions) async {
     completer = Completer<String>();
@@ -131,18 +131,18 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
 
     bottomSheetController.expand();
 
-    return completer.future;
+    return completer.future as FutureOr<String>;
   }
 }
 
 class WalletView extends StatefulWidget {
   final Status status;
-  final List<Action> actions;
-  final Function onTransactionAccepted;
-  final Function onTransactionRejected;
+  final List<Action>? actions;
+  final Function? onTransactionAccepted;
+  final Function? onTransactionRejected;
 
   WalletView({
-    @required this.status,
+    required this.status,
     this.actions,
     this.onTransactionAccepted,
     this.onTransactionRejected,
@@ -202,7 +202,7 @@ class _WalletViewState extends State<WalletView> {
               ),
             ],
           ),
-          widget.status == Status.Sign && widget.actions.isNotEmpty
+          widget.status == Status.Sign && widget.actions!.isNotEmpty
               ? TransactionSheet(
                   actions: widget.actions,
                   onTransactionAccepted: widget.onTransactionAccepted,
@@ -216,11 +216,11 @@ class _WalletViewState extends State<WalletView> {
 }
 
 class DHOWebView extends StatefulWidget {
-  final Function onTransactionComplete;
-  final Function onLoginMessage;
-  final Function onLoginComplete;
-  final Function onTransactionMessage;
-  final Function confirmTransaction;
+  final Function? onTransactionComplete;
+  final Function? onLoginMessage;
+  final Function? onLoginComplete;
+  final Function? onTransactionMessage;
+  final Function? confirmTransaction;
 
   DHOWebView({
     this.onLoginMessage,
@@ -235,12 +235,12 @@ class DHOWebView extends StatefulWidget {
 }
 
 class _DHOWebViewState extends State<DHOWebView> {
-  WebViewController dhoController;
+  late WebViewController dhoController;
 
   String get accountName =>
       SettingsNotifier.of(context, listen: false).accountName;
 
-  String compileCallbackJs(String callbackName, String response) =>
+  String compileCallbackJs(String? callbackName, String? response) =>
       "window.LightWallet['$callbackName']('$response')";
 
   @override
@@ -283,29 +283,29 @@ class _DHOWebViewState extends State<DHOWebView> {
             print(data);
 
             if (data['messageType'] == 'login') {
-              widget.onLoginMessage();
+              widget.onLoginMessage!();
 
               var callbackName = data['callbackName'];
 
               var invokeCallback = compileCallbackJs(callbackName, accountName);
               dhoController.evaluateJavascript(invokeCallback);
 
-              widget.onLoginComplete();
+              widget.onLoginComplete!();
             } else if (data['messageType'] == 'sendTransaction') {
-              widget.onTransactionMessage();
+              widget.onTransactionMessage!();
 
               var callbackName = data['callbackName'];
               var actions = jsonDecode(data['actions'])
                   .map<Action>((e) => Action.fromJson(e))
                   .toList();
 
-              var transactionId = await widget.confirmTransaction(actions);
+              var transactionId = await widget.confirmTransaction!(actions);
 
               var invokeCallback =
                   compileCallbackJs(callbackName, transactionId);
               dhoController.evaluateJavascript(invokeCallback);
 
-              widget.onTransactionComplete();
+              widget.onTransactionComplete!();
             } else {
               throw new ArgumentError("messageType is not supported");
             }
@@ -318,15 +318,15 @@ class _DHOWebViewState extends State<DHOWebView> {
 
 class TransactionSheet extends StatefulWidget {
   const TransactionSheet({
-    Key key,
-    @required this.onTransactionAccepted,
-    @required this.onTransactionRejected,
-    @required this.actions,
+    Key? key,
+    required this.onTransactionAccepted,
+    required this.onTransactionRejected,
+    required this.actions,
   }) : super(key: key);
 
-  final Function onTransactionAccepted;
-  final Function onTransactionRejected;
-  final List<Action> actions;
+  final Function? onTransactionAccepted;
+  final Function? onTransactionRejected;
+  final List<Action>? actions;
 
   @override
   _TransactionSheetState createState() => _TransactionSheetState();
@@ -342,9 +342,9 @@ class _TransactionSheetState extends State<TransactionSheet> {
         children: [
           ListView(
             shrinkWrap: true,
-            children: widget.actions.map(
+            children: widget.actions!.map(
               (action) {
-                var data = Map<String, dynamic>.from(action.data);
+                var data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
 
                 return Theme(
                   data: ThemeData(

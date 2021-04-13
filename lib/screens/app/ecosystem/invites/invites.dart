@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,9 +45,9 @@ class Invites extends StatelessWidget {
                   Expanded(
                     child: model.invitedMembers != null
                         ? ListView.builder(
-                            itemCount: model.invitedMembers.length,
+                            itemCount: model.invitedMembers!.length,
                             itemBuilder: (ctx, index) {
-                              var member = model.invitedMembers[index];
+                              var member = model.invitedMembers![index]!;
 
                               return Text(member,
                                   style: TextStyle(
@@ -72,9 +72,9 @@ class Invites extends StatelessWidget {
                   Expanded(
                     child: model.activeInvites != null
                         ? ListView.builder(
-                            itemCount: model.activeInvites.length,
+                            itemCount: model.activeInvites!.length,
                             itemBuilder: (ctx, index) {
-                              var invite = model.activeInvites[index];
+                              var invite = model.activeInvites![index];
 
                               return ListTile(
                                 leading: Icon(Icons.copyright),

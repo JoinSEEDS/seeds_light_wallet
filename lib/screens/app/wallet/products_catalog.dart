@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:io';
 
@@ -37,9 +37,9 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   final nameKey = GlobalKey<FormState>();
   var savingLoader = GlobalKey<MainButtonState>();
 
-  String editProductName = "";
-  double editPriceValue = 0;
-  String editCurrency = SEEDS;
+  String? editProductName = "";
+  double? editPriceValue = 0;
+  String? editCurrency = SEEDS;
   String editLocalImagePath = '';
 
   @override
@@ -48,7 +48,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   void chooseProductPicture() async {
-    final PickedFile image = await ImagePicker()
+    final PickedFile? image = await ImagePicker()
         .getImage(source: ImageSource.gallery, imageQuality: 20);
 
     if (image == null) return;
@@ -66,24 +66,24 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     });
   }
 
-  bool productNameExists(String name) {
+  bool productNameExists(String? name) {
     return (products.indexWhere(
-            (element) => element.data()['name'] == editProductName) !=
+            (element) => element.data()!['name'] == editProductName) !=
         -1);
   }
 
-  Future<void> createNewProduct(String userAccount, BuildContext context) async {
+  Future<void> createNewProduct(String? userAccount, BuildContext context) async {
     if (productNameExists(editProductName)) return;
 
-    String downloadUrl;
+    String? downloadUrl;
 
     setState(() {
-      savingLoader.currentState.loading();
+      savingLoader.currentState!.loading();
     });
 
     if (editLocalImagePath != null && editLocalImagePath.isNotEmpty) {
       TaskSnapshot image = await FirebaseDataStoreService()
-          .uploadPic(File(editLocalImagePath), userAccount);
+          .uploadPic(File(editLocalImagePath), userAccount!);
       downloadUrl = await image.ref.getDownloadURL();
       editLocalImagePath = '';
     }
@@ -101,17 +101,17 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         .then((value) => closeBottomSheet(context));
   }
 
-  Future<void> editProduct(ProductModel productModel, String userAccount, BuildContext context) async {
+  Future<void> editProduct(ProductModel productModel, String? userAccount, BuildContext context) async {
       
-    String downloadUrl;
+    String? downloadUrl;
     
     setState(() {
-      savingLoader.currentState.loading();
+      savingLoader.currentState!.loading();
     });
 
     if (editLocalImagePath != null && editLocalImagePath.isNotEmpty) {
       TaskSnapshot image = await FirebaseDataStoreService()
-          .uploadPic(File(editLocalImagePath), userAccount);
+          .uploadPic(File(editLocalImagePath), userAccount!);
       downloadUrl = await image.ref.getDownloadURL();
       editLocalImagePath = '';
     }
@@ -133,12 +133,12 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     setState(() {});
   }
 
-  void deleteProduct(ProductModel productModel, String userAccount) {
+  void deleteProduct(ProductModel productModel, String? userAccount) {
     FirebaseDatabaseService().deleteProduct(productModel, userAccount);
   }
 
   Future<void> showDeleteProduct(
-      BuildContext context, ProductModel productModel, String userAccount) {
+      BuildContext context, ProductModel productModel, String? userAccount) {
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -159,7 +159,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     );
   }
 
-  Widget buildPictureWidget(String imageUrl) {
+  Widget buildPictureWidget(String? imageUrl) {
     var children;
     if (editLocalImagePath.isNotEmpty) {
       children = [
@@ -202,7 +202,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         ));
   }
 
-  void showEditProduct(BuildContext context, ProductModel productModel, String userAccount) {
+  void showEditProduct(BuildContext context, ProductModel productModel, String? userAccount) {
     editCurrency = productModel.currency;
     editProductName = productModel.name;
     editPriceValue = productModel.price;
@@ -252,7 +252,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           labelText: 'Name'.i18n,
                           initialValue: productModel.name,
                           validator: (String name) {
-                            String error;
+                            String? error;
                             if (editProductName == null || editProductName == "") {
                               error = 'Name cannot be empty x'.i18n;
                             }
@@ -260,7 +260,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           },
                           onChanged: (name) {
                             editProductName = name;
-                            editKey.currentState.validate();
+                            editKey.currentState!.validate();
                           }),
                       AmountField(
                           currentCurrency: editCurrency,
@@ -276,7 +276,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         key: savingLoader,
                         title: 'Done'.i18n,
                         onPressed: () {
-                          if (editKey.currentState.validate()) {
+                          if (editKey.currentState!.validate()) {
                             editProduct(productModel, userAccount, context);
                           }
                         },
@@ -292,7 +292,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     setState(() {});
   }
 
-  void showNewProduct(BuildContext context, String accountName) {
+  void showNewProduct(BuildContext context, String? accountName) {
     editCurrency = SEEDS;
     editProductName = "";
     editPriceValue = 0;
@@ -338,15 +338,15 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                           labelText: 'Name'.i18n,
                           initialValue: "",
                           validator: (String name) {
-                            String error;
-                            if (editProductName == null || editProductName.isEmpty) {
+                            String? error;
+                            if (editProductName == null || editProductName!.isEmpty) {
                               error = 'Name cannot be empty'.i18n;
                             }
                             return error;
                           },
                           onChanged: (name) {
                             editProductName = name;
-                            nameKey.currentState.validate();
+                            nameKey.currentState!.validate();
                           }),
                     ),
                     Form(
@@ -366,8 +366,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                       key: savingLoader,
                       title: 'Add Product'.i18n,
                       onPressed: () {
-                        if (priceKey.currentState.validate() &&
-                            nameKey.currentState.validate()) {
+                        if (priceKey.currentState!.validate() &&
+                            nameKey.currentState!.validate()) {
                           createNewProduct(accountName, context);
                         }
                       },
@@ -381,8 +381,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     setState(() {});
   }
 
-  List<DocumentSnapshot> products;
-  Future reordering;
+  late List<DocumentSnapshot> products;
+  Future? reordering;
 
   @override
   Widget build(BuildContext context) {
@@ -417,7 +417,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                 if (!snapshot.hasData) {
                   return SizedBox.shrink();
                 } else {
-                  products = snapshot.data.docs;
+                  products = snapshot.data!.docs;
                   return ReorderableListView(
                     onReorder: (oldIndex, newIndex) {
                       if (oldIndex < newIndex) newIndex -= 1;
@@ -433,13 +433,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                       });
                     },
                     children: products.map((data) {
-                      var product = ProductModel.fromSnapshot(data);
+                      var product = ProductModel.fromSnapshot(data as QueryDocumentSnapshot);
                       return ListTile(
                         key: Key(data.id),
                         leading: CircleAvatarFactory.buildProductAvatar(product),
                         title: Material(
                           child: Text(
-                            product.name == null ? "" : product.name,
+                            product.name == null ? "" : product.name!,
                             style: TextStyle(
                                 fontFamily: "worksans",
                                 fontWeight: FontWeight.w500),

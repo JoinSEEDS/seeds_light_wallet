@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/cupertino.dart';
 import 'package:local_auth/local_auth.dart';
@@ -13,9 +13,9 @@ import 'package:seeds/utils/bloc/cmd_common.dart';
 
 class AuthBloc {
 
-  BiometricsService _service;
-  AuthNotifier _authNotifier;
-  SettingsNotifier _settingsNotifier;
+  late BiometricsService _service;
+  late AuthNotifier _authNotifier;
+  late SettingsNotifier _settingsNotifier;
   final _rawAvailable = BehaviorSubject<List<AuthType>>();
   final _preferred = BehaviorSubject<AuthType>();
   final _authenticated = BehaviorSubject<AuthState>.seeded(AuthState.init);
@@ -53,7 +53,7 @@ class AuthBloc {
   }
 
   List<AuthType> filterByPasscodeActive(List<AuthType> list) {
-    if(!_settingsNotifier.passcodeActive) {
+    if(!_settingsNotifier.passcodeActive!) {
       list.remove(AuthType.password);
     }
     return list;
@@ -106,7 +106,7 @@ class AuthBloc {
   }
 
   void _addPasswordToAvailable() {
-    if(_settingsNotifier.passcodeActive) {
+    if(_settingsNotifier.passcodeActive!) {
       _rawAvailable.add([AuthType.password]);
     } else {
       debugPrint("Passcode not active, ignoring");

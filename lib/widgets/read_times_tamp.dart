@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:timeago/timeago.dart' as timeago;
 

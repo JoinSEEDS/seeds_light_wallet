@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/http_mock_response.dart';
@@ -18,9 +18,9 @@ enum Status {
   safe // has guardians - show list of guardians
 }
 
-bool hasGuardianPermission;
-bool hasGuardiansInitialized;
-bool inRecoveryProcess;
+bool? hasGuardianPermission;
+bool? hasGuardiansInitialized;
+bool? inRecoveryProcess;
 
 class Guardians extends StatefulWidget {
   @override
@@ -61,7 +61,7 @@ class _GuardiansState extends State<Guardians> {
   }
 
   void recoverAccount() {
-    String userAccount = HttpMockResponse.members[4].account;
+    String? userAccount = HttpMockResponse.members[4].account;
     String publicKey = "";
 
     EosService.of(context)
@@ -74,7 +74,7 @@ class _GuardiansState extends State<Guardians> {
   }
 
   void initGuardians() {
-    List<String> guardians = [
+    List<String?> guardians = [
       HttpMockResponse.members[0].account,
       HttpMockResponse.members[1].account,
       HttpMockResponse.members[2].account
@@ -84,12 +84,12 @@ class _GuardiansState extends State<Guardians> {
   }
 
   void setupPermission() async {
-    final currentPermissions = await HttpService.of(context).getAccountPermissions();
+    final currentPermissions = await (HttpService.of(context).getAccountPermissions());
 
-    final ownerPermission = currentPermissions.firstWhere((item) => item.permName == "owner");
+    final ownerPermission = currentPermissions!.firstWhere((item) => item.permName == "owner");
 
-    ownerPermission.requiredAuth.accounts.add({
-      "weight": ownerPermission.requiredAuth.threshold,
+    ownerPermission.requiredAuth!.accounts!.add({
+      "weight": ownerPermission.requiredAuth!.threshold,
       "permission": {"actor": "guard.seeds", "permission": "eosio.code"}
     });
 

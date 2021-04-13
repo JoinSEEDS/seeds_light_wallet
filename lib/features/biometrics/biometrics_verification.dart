@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -78,7 +78,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
     );
   }
 
-  List<Widget> buildUnauthorized(AuthBloc bloc, AuthState state) {
+  List<Widget> buildUnauthorized(AuthBloc bloc, AuthState? state) {
     if([AuthState.unauthorized, AuthState.setupNeeded].contains(state)) {
       return [
         MaterialButton(
@@ -120,7 +120,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
       stream: bloc.passcodeAvailable,
       initialData: false,
       builder: (context, snapshot) {
-        if(snapshot.data) {
+        if(snapshot.data!) {
           return MaterialButton(
             child: Container(
               padding: const EdgeInsets.only(left: 17, right: 17, top: 12, bottom: 12),

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
@@ -10,8 +10,8 @@ class ToolboxConfig {
     this.noItemsFoundWidget,
   });
 
-  final NoItemsFoundBuilder noItemsFoundBuilder;
-  final Widget noItemsFoundWidget;
+  final NoItemsFoundBuilder? noItemsFoundBuilder;
+  final Widget? noItemsFoundWidget;
 
   static ToolboxConfig of(BuildContext context) =>
       Provider.of<ToolboxConfig>(context);

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
@@ -17,8 +17,8 @@ const doubleInfinitePing = 2000000;
 class ConnectionNotifier extends ChangeNotifier {
   bool status = true;
 
-  String currentEndpoint = remoteConfigurations.defaultEndPointUrl;
-  int currentEndpointPing = 0;
+  String? currentEndpoint = remoteConfigurations.defaultEndPointUrl;
+  int? currentEndpointPing = 0;
 
   final availableEndpoints = [
     remoteConfigurations.defaultEndPointUrl,

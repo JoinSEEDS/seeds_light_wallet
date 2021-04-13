@@ -1,12 +1,12 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 
 class MainCard extends StatelessWidget {
-  final Widget child;
-  final EdgeInsets padding;
-  final EdgeInsets margin;
-  final Function onPressed;
+  final Widget? child;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final Function? onPressed;
 
   MainCard({
     this.child,
@@ -21,7 +21,7 @@ class MainCard extends StatelessWidget {
       margin: margin,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       child: InkWell(
-        onTap: onPressed,
+        onTap: onPressed as void Function()?,
         borderRadius: BorderRadius.circular(8.0),
         child: Padding(
           padding: padding ?? const EdgeInsets.all(0.0),

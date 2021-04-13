@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
@@ -11,9 +11,9 @@ import 'package:seeds/widgets/transaction_details.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 class CustomTransactionArguments {
-  final String account;
-  final String name;
-  final Map<String, dynamic> data;
+  final String? account;
+  final String? name;
+  final Map<String, dynamic>? data;
 
   CustomTransactionArguments({this.account, this.name, this.data});
 }
@@ -35,8 +35,8 @@ class _CustomTransactionState extends State<CustomTransaction> {
 
   final StreamController<bool> _statusNotifier =
       StreamController<bool>.broadcast();
-  final StreamController<String> _messageNotifier =
-      StreamController<String>.broadcast();
+  final StreamController<String?> _messageNotifier =
+      StreamController<String?>.broadcast();
 
   @override
   void dispose() {
@@ -51,7 +51,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
     });
 
     try {
-      String transactionId = await sendTransaction();
+      String? transactionId = await sendTransaction();
 
       _statusNotifier.add(true);
       _messageNotifier.add(transactionId);
@@ -74,7 +74,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
   Widget buildTransactionForm() {
     var name = widget.arguments.name;
     var account = widget.arguments.account;
-    var data = widget.arguments.data;
+    var data = widget.arguments.data!;
 
     return Scaffold(
       appBar: AppBar(
@@ -146,7 +146,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
     );
   }
 
-  Future<String> sendTransaction() async {
+  Future<String?> sendTransaction() async {
     var name = widget.arguments.name;
     var account = widget.arguments.account;
     var data = widget.arguments.data;

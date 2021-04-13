@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:seeds/models/models.dart';
 
@@ -20,7 +20,7 @@ class SystemAccounts {
   );
 }
 
-MemberModel getSystemAccount(String accountName) {
+MemberModel? getSystemAccount(String accountName) {
   if (accountName == 'join.seeds') {
     return SystemAccounts.onboardingContract;
   } else if(accountName == 'tlosto.seeds') {

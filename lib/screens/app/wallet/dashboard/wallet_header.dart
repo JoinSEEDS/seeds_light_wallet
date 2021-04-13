@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';

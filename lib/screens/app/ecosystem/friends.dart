@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -73,8 +73,8 @@ class Friends extends StatelessWidget {
             ),
             ReactiveWidget(
               model: InvitesNotifier()..init(http: Provider.of(context)),
-              onModelReady: (model) => model.fetchInvites(),
-              builder: (ctx, model, child) =>
+              onModelReady: (dynamic model) => model.fetchInvites(),
+              builder: (ctx, dynamic model, child) =>
                   model == null || model.invites == null
                       ? ProgressBar()
                       : ListView.builder(

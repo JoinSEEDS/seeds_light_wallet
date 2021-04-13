@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,23 +9,23 @@ import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/design/app_theme.dart';
 
 class TransactionInfoCard extends StatelessWidget {
-  final String profileAccount;
-  final String profileNickname;
-  final String profileImage;
-  final String timestamp;
-  final String amount;
+  final String? profileAccount;
+  final String? profileNickname;
+  final String? profileImage;
+  final String? timestamp;
+  final String? amount;
   final String typeIcon;
   final GestureTapCallback callback;
 
   const TransactionInfoCard({
-    Key key,
-    @required this.amount,
-    @required this.callback,
-    @required this.profileAccount,
-    @required this.profileNickname,
-    @required this.profileImage,
-    @required this.timestamp,
-    @required this.typeIcon,
+    Key? key,
+    required this.amount,
+    required this.callback,
+    required this.profileAccount,
+    required this.profileNickname,
+    required this.profileImage,
+    required this.timestamp,
+    required this.typeIcon,
   }) : super(key: key);
 
   @override
@@ -60,13 +60,13 @@ class TransactionInfoCard extends StatelessWidget {
                         children: <Widget>[
                           Expanded(
                               child: Text(
-                            profileNickname,
+                            profileNickname!,
                             style: Theme.of(context).textTheme.button,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           )),
                           const SizedBox(width: 40),
-                          Text(amount.seedsFormatted, style: Theme.of(context).textTheme.button),
+                          Text(amount!.seedsFormatted, style: Theme.of(context).textTheme.button),
                           const SizedBox(width: 4),
                           SvgPicture.asset(typeIcon, height: 16)
                         ],
@@ -75,9 +75,9 @@ class TransactionInfoCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Expanded(
-                              child: Text(timesTampToTimeAgo(timestamp),
+                              child: Text(timesTampToTimeAgo(timestamp!),
                                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)),
-                          Text(amount.symbolFromAmount, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                          Text(amount!.symbolFromAmount, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                         ],
                       ),
                     ],

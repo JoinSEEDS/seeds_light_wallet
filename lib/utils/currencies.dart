@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 const List<String> topCurrencies = [
   "USD",

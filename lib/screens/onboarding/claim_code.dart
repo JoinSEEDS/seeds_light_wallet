@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
@@ -24,8 +24,8 @@ enum ClaimCodeStatus {
 }
 
 class ClaimCode extends StatefulWidget {
-  final String inviteCode;
-  final Function onClaim;
+  final String? inviteCode;
+  final Function? onClaim;
 
   ClaimCode({this.inviteCode, this.onClaim});
 
@@ -38,21 +38,21 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
 
   // Cancelled in the dispose method
   // ignore: cancel_subscriptions
-  StreamSubscription<String> inviteCodeSubscriber;
+  StreamSubscription<String>? inviteCodeSubscriber;
 
   ClaimCodeStatus status = ClaimCodeStatus.emptyInviteCode;
-  String claimedAccount;
-  String inviterAccount;
-  String inviteSecret;
-  String inviteHash;
-  String transferQuantity;
-  String sowQuantity;
+  String? claimedAccount;
+  String? inviterAccount;
+  late String inviteSecret;
+  String? inviteHash;
+  String? transferQuantity;
+  String? sowQuantity;
 
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
       if (widget.inviteCode != null) {
-        inviteCodeController.text = widget.inviteCode;
+        inviteCodeController.text = widget.inviteCode!;
       }
     });
     super.initState();
@@ -61,9 +61,9 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
   @override
   void dispose() {
     if (inviteCodeSubscriber != null) {
-      this.inviteCodeSubscriber.cancel();
+      this.inviteCodeSubscriber!.cancel();
     }
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -141,7 +141,7 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
               Map<String, String> queryParams = Uri.splitQueryString(unpackedLink.link.toString());
               if (queryParams["inviteMnemonic"] != null) {
                 setState(() {
-                  inviteCodeController.text = queryParams["inviteMnemonic"];
+                  inviteCodeController.text = queryParams["inviteMnemonic"]!;
                 });
               } else {
                 setState(() {
@@ -212,7 +212,7 @@ class _ClaimCodeState extends State<ClaimCode> with WidgetsBindingObserver {
                     MainButton(
                       title: 'Claim code'.i18n,
                       margin: EdgeInsets.only(top: 10),
-                      onPressed: () => widget.onClaim(
+                      onPressed: () => widget.onClaim!(
                         inviteSecret: inviteSecret,
                         inviterAccount: inviterAccount,
                       ),

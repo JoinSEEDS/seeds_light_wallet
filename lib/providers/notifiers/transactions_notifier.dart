@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,14 +7,14 @@ import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
 class TransactionsNotifier extends ChangeNotifier {
-  List<TransactionModel> transactions;
+  List<TransactionModel>? transactions;
 
   // HttpService _http;
 
   static TransactionsNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<TransactionsNotifier>(context, listen: listen);
 
-  void update({HttpService http, AuthNotifier auth}) {
+  void update({HttpService? http, AuthNotifier? auth}) {
     // _http = http;
   }
 

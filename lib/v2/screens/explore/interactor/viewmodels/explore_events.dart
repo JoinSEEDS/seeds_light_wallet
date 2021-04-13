@@ -11,7 +11,7 @@ abstract class ExploreEvent extends Equatable {
 class LoadExplore extends ExploreEvent {
   final String userName;
 
-  LoadExplore({required this.userName}) : assert(userName != null);
+  LoadExplore({required this.userName});
 
   @override
   String toString() => 'LoadExplore: { userName: $userName }';

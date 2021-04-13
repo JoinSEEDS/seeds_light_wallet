@@ -1,11 +1,11 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
-Widget userTile({MemberModel user, bool selected = false, GestureTapCallback onTap}) {
+Widget userTile({required MemberModel user, bool selected = false, GestureTapCallback? onTap}) {
   return ListTile(
       trailing: selected ? Icon(Icons.check, color: Colors.green) : SizedBox.shrink(),
       leading: Hero(
@@ -24,7 +24,7 @@ Widget userTile({MemberModel user, bool selected = false, GestureTapCallback onT
       title: Hero(
         child: Material(
           child: Text(
-            user.nickname,
+            user.nickname!,
             style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
           ),
           color: Colors.transparent,
@@ -34,7 +34,7 @@ Widget userTile({MemberModel user, bool selected = false, GestureTapCallback onT
       subtitle: Hero(
         child: Material(
           child: Text(
-            user.account,
+            user.account!,
             style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
           ),
           color: Colors.transparent,

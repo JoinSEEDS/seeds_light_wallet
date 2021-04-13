@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/models/models.dart';
@@ -45,7 +45,7 @@ class ProposalsState extends State<Proposals> {
             Expanded(
               child: TabBarView(
                 children: proposalTypes.values
-                    .map((data) => ProposalsList(type: data['stage'], status: data['status'], reverse: data['reverse'] == 'true'))
+                    .map((data) => ProposalsList(type: data['stage']!, status: data['status']!, reverse: data['reverse'] == 'true'))
                     .toList(),
               ),
             )
@@ -61,7 +61,7 @@ class ProposalsList extends StatefulWidget {
   final String status;
   final bool reverse;
 
-  const ProposalsList({Key key, @required this.type, @required this.status, @required this.reverse}) : super(key: key);
+  const ProposalsList({Key? key, required this.type, required this.status, required this.reverse}) : super(key: key);
 
   @override
   _ProposalsListState createState() => _ProposalsListState();
@@ -77,7 +77,7 @@ class _ProposalsListState extends State<ProposalsList>
     super.build(context);
 
     return PaginatedListView<ProposalModel>(
-      pageFuture: (int pageIndex) =>
+      pageFuture: (int? pageIndex) =>
           HttpService.of(context).getProposals(widget.type, widget.status, widget.reverse),
       pageSize: 1000,
       showRefreshIndicator: true,

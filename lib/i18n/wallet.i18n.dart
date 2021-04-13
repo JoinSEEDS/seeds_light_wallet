@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:i18n_extension/i18n_extension.dart';
 
@@ -52,5 +52,5 @@ extension Localization on String {
       };
 
   String get i18n => localize(this, _t);
-  String fill(List<Object> params) => localizeFill(this, params);
+  String fill(List<Object?> params) => localizeFill(this, params as List<Object>);
 }

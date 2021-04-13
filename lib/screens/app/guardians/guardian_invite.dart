@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
@@ -11,7 +11,7 @@ import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/widgets/main_button.dart';
 
 class InviteGuardians extends StatefulWidget {
-  final Set<MemberModel> selectedUsers;
+  final Set<MemberModel>? selectedUsers;
 
   InviteGuardians(this.selectedUsers);
 
@@ -20,7 +20,7 @@ class InviteGuardians extends StatefulWidget {
 }
 
 class _InviteGuardiansState extends State<InviteGuardians> {
-  final Set<MemberModel> selectedUsers;
+  final Set<MemberModel>? selectedUsers;
 
   _InviteGuardiansState(this.selectedUsers);
 
@@ -49,7 +49,7 @@ class _InviteGuardiansState extends State<InviteGuardians> {
 }
 
 class InviteGuardianBody extends StatefulWidget {
-  final Set<MemberModel> selectedUsers;
+  final Set<MemberModel>? selectedUsers;
   final savingLoader = GlobalKey<MainButtonState>();
 
   InviteGuardianBody(this.selectedUsers);
@@ -77,7 +77,7 @@ class _InviteGuardianBodyState extends State<InviteGuardianBody> {
           child: ListView(
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
-            children: widget.selectedUsers.map((e) => userTile(user: e, onTap: null)).toList(),
+            children: widget.selectedUsers!.map((e) => userTile(user: e, onTap: null)).toList(),
           ),
         ),
         Align(
@@ -87,9 +87,9 @@ class _InviteGuardianBodyState extends State<InviteGuardianBody> {
             margin: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 16),
             title: 'Send Invite'.i18n,
             onPressed: () => {
-              widget.savingLoader.currentState.loading(),
+              widget.savingLoader.currentState!.loading(),
               FirebaseDatabaseService()
-                  .sendGuardiansInvite(SettingsNotifier.of(context).accountName, widget.selectedUsers.toList())
+                  .sendGuardiansInvite(SettingsNotifier.of(context).accountName, widget.selectedUsers!.toList())
                   .catchError((onError) => onSendInviteError(onError))
                   .then((value) => NavigationService.of(context).navigateTo(Routes.inviteGuardiansSent))
             },
@@ -102,6 +102,6 @@ class _InviteGuardianBodyState extends State<InviteGuardianBody> {
   onSendInviteError(onError) {
     print(onError.toString());
     errorToast('Oops, Something went wrong.');
-    widget.savingLoader.currentState.done();
+    widget.savingLoader.currentState!.done();
   }
 }

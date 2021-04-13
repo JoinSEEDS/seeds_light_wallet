@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +49,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
       DashboardUseCases()
           .shouldShowCancelGuardianAlertMessage(SettingsNotifier.of(context).accountName)
           .listen((bool showAlertDialog) {
@@ -111,7 +111,7 @@ class _DashboardState extends State<Dashboard> {
                 margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8),
                 title: "Cancel Recovery",
                 onPressed: () async {
-                  savingLoader.currentState.loading();
+                  savingLoader.currentState!.loading();
                   GuardianServices()
                       .stopActiveRecovery(service, accountName)
                       .then((value) => Navigator.pop(context))
@@ -130,7 +130,7 @@ class _DashboardState extends State<Dashboard> {
     errorToast('Oops, Something went wrong');
 
     setState(() {
-      savingLoader.currentState.done();
+      savingLoader.currentState!.done();
     });
   }
 
@@ -138,7 +138,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       child: Scaffold(
-        appBar: buildAppBar(context),
+        appBar: buildAppBar(context) as PreferredSizeWidget?,
         body: ListView(
           children: <Widget>[
             buildNotification(),
@@ -162,7 +162,7 @@ class _DashboardState extends State<Dashboard> {
       Locale locale = Localizations.localeOf(context);
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
       // SettingsNotifier.of(context).saveSelectedFiatCurrency(format.currencyName);
-      settingsStorage.saveSelectedFiatCurrency(format.currencyName);
+      settingsStorage.saveSelectedFiatCurrency(format.currencyName!);
     }
   }
 
@@ -194,7 +194,7 @@ class _DashboardState extends State<Dashboard> {
       return Consumer<BalanceNotifier>(builder: (context, model, child) {
         if (model != null &&
             model.balance != null &&
-            model.balance.numericQuantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
+            model.balance!.numericQuantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
           return Container(
             width: width,
             child: MainCard(
@@ -251,9 +251,9 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void onTransaction({
-    TransactionModel transaction,
-    MemberModel member,
-    TransactionType type,
+    TransactionModel? transaction,
+    MemberModel? member,
+    TransactionType? type,
   }) {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -278,18 +278,18 @@ class _DashboardState extends State<Dashboard> {
 
     TransactionType type = model.to == userAccount ? TransactionType.income : TransactionType.outcome;
 
-    String participantAccountName = type == TransactionType.income ? model.from : model.to;
+    String? participantAccountName = type == TransactionType.income ? model.from : model.to;
 
     return FutureBuilder(
       future: null, //MembersNotifier.of(context).getAccountDetails(participantAccountName),
       builder: (ctx, member) => member.hasData
           ? TransactionInfoCard(
               callback: () {
-                onTransaction(transaction: model, member: member.data, type: type);
+                onTransaction(transaction: model, member: member.data as MemberModel, type: type);
               },
-              profileAccount: member.data.account,
-              profileNickname: member.data.nickname,
-              profileImage: member.data.image,
+              profileAccount: (member.data as MemberModel).account,
+              profileNickname: (member.data as MemberModel).nickname,
+              profileImage: (member.data as MemberModel).image,
               timestamp: model.timestamp,
               amount: model.quantity,
               typeIcon: type == TransactionType.income
@@ -297,8 +297,8 @@ class _DashboardState extends State<Dashboard> {
                   : 'assets/images/wallet/arrow_down.svg',
             )
           : Shimmer.fromColors(
-              baseColor: Colors.grey[300],
-              highlightColor: Colors.grey[100],
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -320,14 +320,14 @@ class _DashboardState extends State<Dashboard> {
           builder: (context, model, child) => model != null && model.transactions != null
               ? Column(
                   children: <Widget>[
-                    ...model.transactions.map((trx) {
+                    ...model.transactions!.map((trx) {
                       return buildTransaction(trx);
                     }).toList()
                   ],
                 )
               : Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[100],
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,15 +16,15 @@ class MembersNotifier extends ChangeNotifier {
 
   String filterName = '';
 
-  void update({HttpService http}) async {
+  void update({HttpService? http}) async {
     // _http = http;
   }
 
   void updateVisibleMembers() {
     if (filterName.isNotEmpty) {
       visibleMembers = allMembers.where((MemberModel member) {
-        return member.nickname.toLowerCase().contains(filterName) ||
-            member.account.contains(filterName);
+        return member.nickname!.toLowerCase().contains(filterName) ||
+            member.account!.contains(filterName);
       }).toList();
     } else {
       visibleMembers = allMembers.where((MemberModel member) {

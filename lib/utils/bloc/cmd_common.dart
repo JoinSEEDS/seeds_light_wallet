@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 /*
 
@@ -10,7 +10,7 @@ abstract class Cmd {}
 
 class UnknownCmd {
 
-  final String msg;
+  final String? msg;
   final Cmd cmd;
 
   UnknownCmd(this.cmd, { this.msg });

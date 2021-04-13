@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +7,7 @@ import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 
 class ConnectionStatus extends StatefulWidget {
-  final Widget child;
+  final Widget? child;
 
   ConnectionStatus({this.child});
 
@@ -36,7 +36,7 @@ class _ConnectionStatusState extends State<ConnectionStatus> {
   Widget build(BuildContext context) {
     return Consumer<ConnectionNotifier>(
       child: Flexible(
-        child: widget.child,
+        child: widget.child!,
       ),
       builder: (ctx, connection, child) => Column(
         children: [
@@ -56,7 +56,7 @@ class _ConnectionStatusState extends State<ConnectionStatus> {
               ),
             ),
           ),
-          child,
+          child!,
         ],
       ),
     );

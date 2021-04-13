@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,18 +11,18 @@ class CurrencyInfoCard extends StatelessWidget {
   final String balanceSubTitle;
   final String balance;
   final String fiatBalance;
-  final double cardWidth;
-  final double cardHeight;
-  final Color textColor;
+  final double? cardWidth;
+  final double? cardHeight;
+  final Color? textColor;
 
   const CurrencyInfoCard({
-    Key key,
-    @required this.balance,
-    @required this.backgroundImage,
-    @required this.title,
-    @required this.logo,
-    @required this.balanceSubTitle,
-    @required this.fiatBalance,
+    Key? key,
+    required this.balance,
+    required this.backgroundImage,
+    required this.title,
+    required this.logo,
+    required this.balanceSubTitle,
+    required this.fiatBalance,
     this.cardWidth,
     this.cardHeight,
     this.textColor,
@@ -60,15 +60,15 @@ class CurrencyInfoCard extends StatelessWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                Text(balanceSubTitle, style: Theme.of(context).textTheme.subtitle2.copyWith(color: textColor)),
+                Text(balanceSubTitle, style: Theme.of(context).textTheme.subtitle2!.copyWith(color: textColor)),
                 const SizedBox(
                   height: 6,
                 ),
-                Text(balance, style: Theme.of(context).textTheme.headline5.copyWith(color: textColor)),
+                Text(balance, style: Theme.of(context).textTheme.headline5!.copyWith(color: textColor)),
                 const SizedBox(
                   height: 6,
                 ),
-                Text(fiatBalance, style: Theme.of(context).textTheme.subtitle2.copyWith(color: textColor))
+                Text(fiatBalance, style: Theme.of(context).textTheme.subtitle2!.copyWith(color: textColor))
               ],
             ),
           )

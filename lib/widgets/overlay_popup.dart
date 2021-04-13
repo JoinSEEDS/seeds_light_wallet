@@ -1,13 +1,13 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 
 class OverlayPopup extends StatefulWidget {
-  final String title;
-  final Widget body;
-  final Function backCallback;
+  final String? title;
+  final Widget? body;
+  final Function? backCallback;
 
   OverlayPopup({this.title, this.body, this.backCallback});
 
@@ -69,7 +69,7 @@ class _OverlayPopupState extends State<OverlayPopup>
       ),
       child: widget.backCallback != null
           ? Column(
-              children: <Widget>[
+              children: <Widget?>[
                 Hero(
                   tag: 'header',
                   child: Container(
@@ -79,10 +79,10 @@ class _OverlayPopupState extends State<OverlayPopup>
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         InkWell(
-                            onTap: () => widget.backCallback(),
+                            onTap: () => widget.backCallback!(),
                             child: Icon(Icons.arrow_back)),
                         InkWell(
-                          onTap: () => widget.backCallback(),
+                          onTap: () => widget.backCallback!(),
                           child: Text(
                             'Back'.i18n,
                             style: TextStyle(
@@ -96,7 +96,7 @@ class _OverlayPopupState extends State<OverlayPopup>
                   ),
                 ),
                 widget.body,
-              ],
+              ] as List<Widget>,
             )
           : widget.body,
     );

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
@@ -14,13 +14,13 @@ import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 
 Widget buildPasscodeScreen(
-    {Stream<bool> shouldTriggerVerification,
-    PasswordEnteredCallback passwordEnteredCallback,
-    IsValidCallback isValidCallback,
-    CancelCallback cancelCallback,
-    Widget title,
-    Widget bottomWidget,
-    BuildContext context}) {
+    {required Stream<bool> shouldTriggerVerification,
+    required PasswordEnteredCallback passwordEnteredCallback,
+    IsValidCallback? isValidCallback,
+    CancelCallback? cancelCallback,
+    required Widget title,
+    Widget? bottomWidget,
+    required BuildContext context}) {
   return PasscodeScreen(
     cancelButton: SizedBox.shrink(),
     deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
@@ -88,8 +88,8 @@ class LockWallet extends StatelessWidget {
 
 class LockWalletBottomWidget extends StatelessWidget {
   const LockWalletBottomWidget({
-    Key key,
-    @required this.bloc,
+    Key? key,
+    required this.bloc,
   }) : super(key: key);
 
   final AuthBloc bloc;

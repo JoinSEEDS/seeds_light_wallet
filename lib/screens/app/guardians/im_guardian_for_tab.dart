@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/models/firebase/guardian.dart';
@@ -13,7 +13,7 @@ import 'guardian_user_tile.dart';
 
 class ImGuardianForTab extends StatelessWidget {
   final List<Guardian> guardians;
-  final List<MemberModel> allMembers;
+  final List<MemberModel>? allMembers;
 
   ImGuardianForTab(this.guardians, this.allMembers);
 
@@ -21,7 +21,7 @@ class ImGuardianForTab extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Guardian> myGuardians = guardians.where((Guardian e) => e.type == GuardianType.imGuardian).toList();
     List<MemberModel> myMembers =
-        allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
+        allMembers!.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
     //TODO: This is unused for now, This will be used in the near future.
     // ignore: unused_element
@@ -194,7 +194,7 @@ class ImGuardianForTab extends StatelessWidget {
                 FlatButton.icon(
                   onPressed: () {
                     FirebaseDatabaseService().approveRecoveryForUser(
-                        friendId: user.account, currentUserId: SettingsNotifier.of(context).accountName);
+                        friendId: user.account!, currentUserId: SettingsNotifier.of(context).accountName);
                     Navigator.pop(context);
                   },
                   label: Text(
@@ -319,7 +319,7 @@ class ImGuardianForTab extends StatelessWidget {
               ),
               onPressed: () {
                 FirebaseDatabaseService().removeImGuardianFor(
-                    currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account);
+                    currentUserId: SettingsNotifier.of(context).accountName, friendId: user.account!);
                 Navigator.pop(context);
                 Navigator.pop(context);
               },

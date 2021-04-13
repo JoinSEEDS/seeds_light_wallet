@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
@@ -26,8 +26,8 @@ enum InviteStatus {
 }
 
 class CreateInviteTransaction extends StatefulWidget {
-  final String inviteHash;
-  final Function nextStep;
+  final String? inviteHash;
+  final Function? nextStep;
 
   CreateInviteTransaction({this.inviteHash, this.nextStep});
 
@@ -64,7 +64,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
         quantity: double.parse(quantityController.text),
         inviteHash: widget.inviteHash,
       );
-      widget.nextStep();
+      widget.nextStep!();
     } catch (err) {
       print(err.toString());
       _statusNotifier.add(false);
@@ -138,8 +138,8 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
 }
 
 class ShareScreen extends StatefulWidget {
-  final String inviteSecret;
-  final String inviteLink;
+  final String? inviteSecret;
+  final String? inviteLink;
 
   ShareScreen({this.inviteSecret, this.inviteLink});
 
@@ -182,7 +182,7 @@ class _ShareScreenState extends State<ShareScreen> {
                   margin: EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
                   child: QrImage(
-                    data: widget.inviteLink,
+                    data: widget.inviteLink!,
                     size: 256,
                     foregroundColor: Colors.black87,
                   ),
@@ -210,7 +210,7 @@ class _ShareScreenState extends State<ShareScreen> {
                     setState(() {
                       secretShared = true;
                     });
-                    Share.share(widget.inviteLink);
+                    Share.share(widget.inviteLink!);
                   },
                 ),
                 MainButton(
@@ -220,7 +220,7 @@ class _ShareScreenState extends State<ShareScreen> {
                     setState(() {
                       secretShared = true;
                     });
-                    Share.share(widget.inviteSecret);
+                    Share.share(widget.inviteSecret!);
                   },
                 ),
                 SecondButton(
@@ -244,9 +244,9 @@ class CreateInvite extends StatefulWidget {
 
 class _CreateInviteState extends State<CreateInvite> {
   InviteStatus status = InviteStatus.initial;
-  String _readableSecretCode;
-  String _hashedSecretCode;
-  String _dynamicSecretLink;
+  String? _readableSecretCode;
+  String? _hashedSecretCode;
+  String? _dynamicSecretLink;
 
   @override
   void didChangeDependencies() {
@@ -286,7 +286,7 @@ class _CreateInviteState extends State<CreateInvite> {
 
   @override
   Widget build(BuildContext context) {
-    Widget inviteScreen;
+    late Widget inviteScreen;
 
     switch (status) {
       case InviteStatus.initial:

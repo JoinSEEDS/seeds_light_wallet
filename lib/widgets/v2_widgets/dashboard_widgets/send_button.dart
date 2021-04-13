@@ -1,11 +1,11 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 class SendButton extends StatelessWidget {
-  SendButton({@required this.onPress});
+  SendButton({required this.onPress});
 
   final VoidCallback onPress;
 

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 import 'dart:ui';
@@ -19,15 +19,15 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 
 class TransferFormArguments {
-  final String fullName;
-  final String accountName;
-  final String avatar;
+  final String? fullName;
+  final String? accountName;
+  final String? avatar;
 
   TransferFormArguments(this.fullName, this.accountName, this.avatar);
 }
 
 class TransferForm extends StatefulWidget {
-  final TransferFormArguments arguments;
+  final TransferFormArguments? arguments;
 
   TransferForm(this.arguments);
 
@@ -65,12 +65,12 @@ class _TransferFormState extends State<TransferForm>
     try {
       var response =
           await Provider.of<EosService>(context, listen: false).transferSeeds(
-        beneficiary: widget.arguments.accountName,
+        beneficiary: widget.arguments!.accountName,
         amount: seedsValue,
         memo: memo,
       );
 
-      String trxid = response["transaction_id"];
+      String? trxid = response["transaction_id"];
 
       _statusNotifier.add(true);
       _messageNotifier.add("Transaction hash: %s".i18n.fill(["$trxid"]));
@@ -89,7 +89,7 @@ class _TransferFormState extends State<TransferForm>
   }
 
   void onSend() {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       dismissKeyboard();
       processTransaction();
     }
@@ -105,25 +105,25 @@ class _TransferFormState extends State<TransferForm>
             width: width * 0.22,
             height: width * 0.22,
             color: AppColors.blue,
-            child: widget.arguments.avatar != null
+            child: widget.arguments!.avatar != null
                 ? GestureDetector(
                     onTap: () => NavigationService.of(context).navigateTo(
                       Routes.imageViewer,
                       ImageViewerArguments(
-                        imageUrl: widget.arguments.avatar,
-                        heroTag: "avatar#${widget.arguments.accountName}",
+                        imageUrl: widget.arguments!.avatar,
+                        heroTag: "avatar#${widget.arguments!.accountName}",
                       ),
                     ),
                     child: Hero(
                       child: CachedNetworkImage(
-                          imageUrl: widget.arguments.avatar, fit: BoxFit.cover),
-                      tag: "avatar#${widget.arguments.accountName}",
+                          imageUrl: widget.arguments!.avatar!, fit: BoxFit.cover),
+                      tag: "avatar#${widget.arguments!.accountName}",
                     ),
                   )
                 : Container(
                     alignment: Alignment.center,
                     child: Text(
-                      widget.arguments.fullName.substring(0, 2).toUpperCase(),
+                      widget.arguments!.fullName!.substring(0, 2).toUpperCase(),
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -133,22 +133,22 @@ class _TransferFormState extends State<TransferForm>
           ),
         ),
         Hero(
-          tag: "nickname#${widget.arguments.fullName}",
+          tag: "nickname#${widget.arguments!.fullName}",
           child: Container(
             margin: EdgeInsets.only(top: 10, left: 20, right: 20),
             child: Text(
-              widget.arguments.fullName,
+              widget.arguments!.fullName!,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
           ),
         ),
         Hero(
-          tag: "account#${widget.arguments.fullName}",
+          tag: "account#${widget.arguments!.fullName}",
           child: Container(
             margin: EdgeInsets.only(top: 5, left: 20, right: 20),
             child: Text(
-              widget.arguments.accountName,
+              widget.arguments!.accountName!,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: AppColors.grey),
             ),
@@ -161,8 +161,8 @@ class _TransferFormState extends State<TransferForm>
 
   @override
   Widget build(BuildContext context) {
-    BalanceModel model = BalanceNotifier.of(context).balance;
-    String balance = model?.formattedQuantity;
+    BalanceModel? model = BalanceNotifier.of(context).balance;
+    String? balance = model?.formattedQuantity;
 
     return GestureDetector(
       onTap: () {

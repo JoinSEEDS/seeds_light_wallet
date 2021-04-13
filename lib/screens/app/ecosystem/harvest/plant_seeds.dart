@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
@@ -14,7 +14,7 @@ import 'package:seeds/widgets/transaction_details.dart';
 import 'package:seeds/i18n/harvest.i18n.dart';
 
 class PlantSeeds extends StatefulWidget {
-  PlantSeeds({Key key}) : super(key: key);
+  PlantSeeds({Key? key}) : super(key: key);
 
   @override
   _PlantSeedState createState() => _PlantSeedState();
@@ -43,7 +43,7 @@ class _PlantSeedState extends State<PlantSeeds> {
     });
 
     try {
-      String transactionId = await plantSeeds();
+      String? transactionId = await plantSeeds();
 
       _statusNotifier.add(true);
       _messageNotifier.add("Transaction hash: %s".i18n.fill(["$transactionId"]));
@@ -108,7 +108,7 @@ class _PlantSeedState extends State<PlantSeeds> {
     );
   }
 
-  Future<String> plantSeeds() async {
+  Future<String?> plantSeeds() async {
     var response = await EosService.of(context, listen: false).plantSeeds(
       amount: double.parse(plantController.text),
     );

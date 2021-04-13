@@ -1,37 +1,37 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
 class MainTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final TextInputType keyboardType;
-  final String labelText;
-  final String hintText;
-  final String endText;
-  final EdgeInsets margin;
-  final int maxLength;
-  final Function validator;
-  final Function(String) onChanged;
-  final FocusNode focusNode;
-  final VoidCallback onEditingComplete;
-  final TextInputAction textInputAction;
-  final String initialValue;
-  final TextStyle counterStyle;
-  final TextStyle textStyle;
-  final String errorText;
-  final Widget suffixIcon;
-  final List<TextInputFormatter> inputFormatters;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final String? labelText;
+  final String? hintText;
+  final String? endText;
+  final EdgeInsets? margin;
+  final int? maxLength;
+  final Function? validator;
+  final Function(String)? onChanged;
+  final FocusNode? focusNode;
+  final VoidCallback? onEditingComplete;
+  final TextInputAction? textInputAction;
+  final String? initialValue;
+  final TextStyle? counterStyle;
+  final TextStyle? textStyle;
+  final String? errorText;
+  final Widget? suffixIcon;
+  final List<TextInputFormatter>? inputFormatters;
 
-  final bool autofocus;
+  final bool? autofocus;
   final bool autocorrect;
 
   MainTextField({
     this.controller,
     this.initialValue,
     this.keyboardType,
-    @required this.labelText,
+    required this.labelText,
     this.hintText,
     this.endText,
     this.margin,
@@ -60,7 +60,7 @@ class MainTextField extends StatelessWidget {
           labelText != null ? Container(
             padding: EdgeInsets.only(left: 5, top: 3, bottom: 3),
             child: Text(
-              labelText,
+              labelText!,
               style: TextStyle(color: AppColors.grey),
             ),
           ) : Container(width: 0, height: 0,),
@@ -75,8 +75,8 @@ class MainTextField extends StatelessWidget {
                 keyboardType: keyboardType,
                 autocorrect: autocorrect,
                 maxLength: maxLength,
-                validator: validator,
-                onChanged: (value) => onChanged(value),
+                validator: validator as String? Function(String?)?,
+                onChanged: (value) => onChanged!(value),
                 autofocus: autofocus ?? false,
                 focusNode: focusNode,
                 onEditingComplete: onEditingComplete,
@@ -111,7 +111,7 @@ class MainTextField extends StatelessWidget {
                   ? Container(
                       margin: EdgeInsets.only(right: 15),
                       child: Text(
-                        endText,
+                        endText!,
                         style: TextStyle(color: AppColors.grey, fontSize: 16),
                       ),
                     )

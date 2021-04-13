@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
@@ -6,7 +6,7 @@ import 'package:seeds/features/account/account_commands.dart';
 import 'package:seeds/utils/bloc/cmd_common.dart';
 
 class CreateAccountBloc {
-  AccountGeneratorService _accountGeneratorService;
+  late AccountGeneratorService _accountGeneratorService;
   final _userName = BehaviorSubject<String>();
   final _userAccount = BehaviorSubject<String>();
   final _selectedAccount = BehaviorSubject<String>();
@@ -39,7 +39,7 @@ class CreateAccountBloc {
     userName
         .where((value) => value.length > 0)
         .flatMap((name) => generateList(name))
-        .listen(_addValidAccounts);
+        .listen(_addValidAccounts as void Function(List<String?>)?);
   }
 
   void _initGenerateAccountFromUserAccount() {
@@ -47,7 +47,7 @@ class CreateAccountBloc {
         .where((value) => value.length > 0)
         .where((account) => validate(account).invalid)
         .flatMap((account) => generateList(account))
-        .listen(_addValidAccounts);
+        .listen(_addValidAccounts as void Function(List<String?>)?);
   }
 
   // void _initValidateLatestAccountUnlessAlreadyValid() {
@@ -57,9 +57,9 @@ class CreateAccountBloc {
   //     .listen(_available.add);
   // }
 
-  Stream<List<String>> generateList(String name) {
+  Stream<List<String?>> generateList(String name) {
     print("Generate list...");
-    _validAccounts.add(_validAccounts.value.switchToInProgress());
+    _validAccounts.add(_validAccounts.value!.switchToInProgress());
     return _accountGeneratorService.generateList(name).asStream();
   }
 
@@ -81,7 +81,7 @@ class CreateAccountBloc {
 
   _addValidAccounts(List<String> accounts) {
     final distinctList =
-        (_validAccounts.value.accounts + accounts).toSet().toList();
+        (_validAccounts.value!.accounts + accounts).toSet().toList();
 
     print("add valid $distinctList");
 

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart' hide Action;
@@ -19,7 +19,7 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/receive_form.dart';
 
 class Receive extends StatefulWidget {
-  Receive({Key key}) : super(key: key);
+  Receive({Key? key}) : super(key: key);
 
   @override
   _ReceiveState createState() => _ReceiveState();
@@ -27,7 +27,7 @@ class Receive extends StatefulWidget {
 
 class _ReceiveState extends State<Receive> {
   CartModel cart = CartModel();
-  List<ProductModel> products = List<ProductModel>();
+  List<ProductModel> products = <ProductModel>[];
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +50,8 @@ class _ReceiveState extends State<Receive> {
                   // if (!snapshot.hasData) {
                   //   return SizedBox.shrink();
                   // } else {
-                    products = snapshot.hasData ? List<ProductModel>.of(snapshot.data.docs
-                        .map((p) => ProductModel.fromSnapshot(p))) : List<ProductModel>();
+                    products = snapshot.hasData ? List<ProductModel>.of(snapshot.data!.docs
+                        .map((p) => ProductModel.fromSnapshot(p))) : <ProductModel>[];
                     return Scaffold(
                       appBar: AppBar(
                         centerTitle: true,
@@ -267,9 +267,9 @@ class _ProductListFormState extends State<ProductListForm> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            product.picture.isNotEmpty
+            product.picture!.isNotEmpty
                 ? CircleAvatar(
-                    backgroundImage: NetworkImage(product.picture),
+                    backgroundImage: NetworkImage(product.picture!),
                     radius: 20,
                   )
                 : Container(),
@@ -280,7 +280,7 @@ class _ProductListFormState extends State<ProductListForm> {
                 Row(
                   children: [
                     Text(
-                      product.seedsPrice(rateNotifier).fiatFormatted,
+                      product.seedsPrice(rateNotifier).fiatFormatted!,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -294,7 +294,7 @@ class _ProductListFormState extends State<ProductListForm> {
                   ],
                 ),
                 product.currency == SEEDS ? Container() : Text(
-                      product.price.fiatFormatted + " " + product.currency,
+                      product.price.fiatFormatted! + " " + product.currency!,
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         fontSize: 16,
@@ -406,7 +406,7 @@ class _ProductListFormState extends State<ProductListForm> {
               Row(
                 children: [
                   Text(
-                    price.seedsFormatted,
+                    price.seedsFormatted!,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,

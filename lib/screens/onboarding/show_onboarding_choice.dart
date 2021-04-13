@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +12,13 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:seeds/i18n/show_onboarding_choice.i18n.dart';
 
 class ShowOnboardingChoice extends StatelessWidget {
-  final Function onInvite;
-  final Function onImport;
-  final Function onRecover;
+  final Function? onInvite;
+  final Function? onImport;
+  final Function? onRecover;
 
   ShowOnboardingChoice({this.onInvite, this.onImport, this.onRecover});
 
-  Widget buildGroup(String text, String title, Function onPressed) {
+  Widget buildGroup(String text, String title, Function? onPressed) {
     return Column(
       children: <Widget>[
         Container(

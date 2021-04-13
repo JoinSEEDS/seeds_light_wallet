@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 import 'dart:math' as math;
@@ -14,7 +14,7 @@ import 'main_button.dart';
 
 class FullscreenLoader extends StatefulWidget {
   final Stream<bool> statusStream;
-  final Stream<String> messageStream;
+  final Stream<String>? messageStream;
 
   final Duration successCallbackDelay;
   final Duration failureCallbackDelay;
@@ -24,18 +24,18 @@ class FullscreenLoader extends StatefulWidget {
   final String _successButtonText = 'Done'.i18n;
   final String _failureButtonText = 'Done'.i18n;
 
-  final String successTitle;
-  final String failureTitle;
-  final String successButtonText;
-  final String failureButtonText;
+  final String? successTitle;
+  final String? failureTitle;
+  final String? successButtonText;
+  final String? failureButtonText;
 
-  final Function afterSuccessCallback;
-  final Function afterFailureCallback;
-  final Function successButtonCallback;
-  final Function failureButtonCallback;
+  final Function? afterSuccessCallback;
+  final Function? afterFailureCallback;
+  final Function? successButtonCallback;
+  final Function? failureButtonCallback;
 
   FullscreenLoader({
-    @required this.statusStream,
+    required this.statusStream,
     this.messageStream,
     this.afterSuccessCallback,
     this.afterFailureCallback,
@@ -54,12 +54,12 @@ class FullscreenLoader extends StatefulWidget {
 }
 
 class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerProviderStateMixin {
-  AnimationController animationController;
+  AnimationController? animationController;
 
-  StreamSubscription<bool> statusSubscription;
-  StreamSubscription<String> messageSubscription;
+  StreamSubscription<bool>? statusSubscription;
+  StreamSubscription<String>? messageSubscription;
 
-  String message = '';
+  String? message = '';
   bool showSpinner = true;
   bool showSuccess = false;
   bool showFailure = false;
@@ -69,7 +69,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
     super.initState();
 
     if (widget.messageStream != null) {
-      messageSubscription = widget.messageStream.listen(_messageListener);
+      messageSubscription = widget.messageStream!.listen(_messageListener);
     }
     statusSubscription = widget.statusStream.listen(_statusListener);
 
@@ -99,7 +99,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
 
       await Future.delayed(widget.successCallbackDelay);
 
-      if (widget.afterSuccessCallback != null) widget.afterSuccessCallback();
+      if (widget.afterSuccessCallback != null) widget.afterSuccessCallback!();
     } else {
       setState(() {
         showSpinner = false;
@@ -109,7 +109,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
 
       await Future.delayed(widget.failureCallbackDelay);
 
-      if (widget.afterSuccessCallback != null) widget.afterFailureCallback();
+      if (widget.afterSuccessCallback != null) widget.afterFailureCallback!();
     }
   }
 
@@ -140,9 +140,9 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
           ),
           if (showSpinner)
             AnimatedBuilder(
-              animation: animationController,
+              animation: animationController!,
               builder: (context, child) {
-                var scale = math.sin(math.pi * animationController.value) + 0.8;
+                var scale = math.sin(math.pi * animationController!.value) + 0.8;
                 return Align(
                   alignment: Alignment.center,
                   child: Transform.scale(
@@ -154,7 +154,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
                         height: 100,
                       ),
                       turns: Tween(begin: 0.0, end: 2.0).animate(
-                        animationController,
+                        animationController!,
                       ),
                     ),
                   ),
@@ -196,7 +196,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
                         margin: EdgeInsets.only(left: 10, right: 10),
                         padding: EdgeInsets.all(15),
                         child: Text(
-                          (showFailure == true) ? message.i18n : message,
+                          (showFailure == true) ? message!.i18n : message!,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -210,9 +210,9 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
                             : (widget.failureButtonText ?? widget._failureButtonText),
                         onPressed: () {
                           if (showSuccess && widget.successButtonCallback != null) {
-                            widget.successButtonCallback();
+                            widget.successButtonCallback!();
                           } else if (showFailure && widget.failureButtonCallback != null) {
-                            widget.failureButtonCallback();
+                            widget.failureButtonCallback!();
                           } else {
                             Navigator.of(context).maybePop();
                           }

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +10,9 @@ import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:share/share.dart';
 
 class TransactionDialog extends StatefulWidget {
-  final TransactionModel transaction;
-  final MemberModel member;
-  final TransactionType transactionType;
+  final TransactionModel? transaction;
+  final MemberModel? member;
+  final TransactionType? transactionType;
 
   TransactionDialog({this.transaction, this.member, this.transactionType});
 
@@ -27,7 +27,7 @@ class TransactionDialogState extends State<TransactionDialog> {
   }
 
   void onShare() {
-    final transactionId = widget.transaction.transactionId;
+    final transactionId = widget.transaction!.transactionId;
     final transactionLink = 'https://telos.bloks.io/transaction/$transactionId';
 
     Share.share(transactionLink);
@@ -37,7 +37,7 @@ class TransactionDialogState extends State<TransactionDialog> {
     final width = MediaQuery.of(context).size.width;
 
     var df = DateFormat('EEE dd MMM y kk:mm:ss');
-    final time = df.format(DateTime.tryParse(widget.transaction.timestamp));
+    final time = df.format(DateTime.tryParse(widget.transaction!.timestamp!)!);
 
     return Stack(children: [
       Container(
@@ -60,9 +60,9 @@ class TransactionDialogState extends State<TransactionDialog> {
         alignment: Alignment.center,
         child: TransactionAvatar(
           size: 70,
-          image: widget.member.image,
-          account: widget.member.account,
-          nickname: widget.member.nickname,
+          image: widget.member!.image,
+          account: widget.member!.account,
+          nickname: widget.member!.nickname,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: AppColors.blue,
@@ -74,7 +74,7 @@ class TransactionDialogState extends State<TransactionDialog> {
 
   Widget buildButton(Function onTap) {
     return InkWell(
-        onTap: onTap,
+        onTap: onTap as void Function()?,
         child: Column(children: [
           Container(
             width: 65,
@@ -105,14 +105,14 @@ class TransactionDialogState extends State<TransactionDialog> {
             Container(
               margin: EdgeInsets.only(top: 5, bottom: 2),
               child: Text(
-                widget.member.nickname,
+                widget.member!.nickname!,
                 maxLines: 1,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
             Container(
               child: Text(
-                widget.member.account,
+                widget.member!.account!,
                 maxLines: 1,
                 style: TextStyle(color: AppColors.grey, fontSize: 14),
               ),
@@ -134,7 +134,7 @@ class TransactionDialogState extends State<TransactionDialog> {
                   ),
                 ),
                 Text(
-                  widget.transaction.quantity,
+                  widget.transaction!.quantity!,
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
                 )
               ],

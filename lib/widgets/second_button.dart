@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -6,9 +6,9 @@ import 'package:seeds/v2/constants/app_colors.dart';
 class SecondButton extends StatelessWidget {
   final double height;
   final double fontSize;
-  final String title;
-  final EdgeInsets margin;
-  final Function onPressed;
+  final String? title;
+  final EdgeInsets? margin;
+  final Function? onPressed;
   final Color color;
 
   SecondButton({
@@ -35,14 +35,14 @@ class SecondButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(13),
         ),
-        onPressed: onPressed,
+        onPressed: onPressed as void Function()?,
         color: Colors.transparent,
         child: Container(
           height: height,
           alignment: Alignment.center,
           width: width,
           child: Text(
-            title,
+            title!,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.w400,

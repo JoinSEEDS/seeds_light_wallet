@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ enum ImportStatus {
 }
 
 class ImportAccount extends StatefulWidget {
-  final Function onImport;
+  final Function? onImport;
 
   ImportAccount({this.onImport});
 
@@ -29,8 +29,8 @@ class ImportAccount extends StatefulWidget {
 class _ImportAccountState extends State<ImportAccount> {
   var privateKeyController = TextEditingController();
 
-  List<String> availableAccounts;
-  String chosenAccount;
+  late List<String?> availableAccounts;
+  String? chosenAccount;
 
   ImportStatus status = ImportStatus.emptyPrivateKey;
 
@@ -73,7 +73,7 @@ class _ImportAccountState extends State<ImportAccount> {
       return;
     }
 
-    List<String> keyAccounts =
+    List<String?> keyAccounts =
         await Provider.of<HttpService>(context, listen: false)
             .getKeyAccountsMongo(publicKey);
 
@@ -90,10 +90,10 @@ class _ImportAccountState extends State<ImportAccount> {
   }
 
   void onImport() {
-    String accountName = chosenAccount;
+    String? accountName = chosenAccount;
     String privateKey = privateKeyController.value.text;
 
-    widget.onImport(accountName: accountName, privateKey: privateKey);
+    widget.onImport!(accountName: accountName, privateKey: privateKey);
   }
 
   @override
@@ -165,7 +165,7 @@ class _ImportAccountState extends State<ImportAccount> {
                         hint: Text("Account name".i18n),
                         isExpanded: true,
                         value: chosenAccount,
-                        onChanged: (val) {
+                        onChanged: (dynamic val) {
                           setState(() {
                             chosenAccount = val;
                           });
@@ -173,7 +173,7 @@ class _ImportAccountState extends State<ImportAccount> {
                         items: availableAccounts.map((val) {
                           return new DropdownMenuItem<String>(
                             value: val,
-                            child: Text(val),
+                            child: Text(val!),
                           );
                         }).toList(),
                       ),

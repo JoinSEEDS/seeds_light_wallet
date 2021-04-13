@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
@@ -14,12 +14,12 @@ import 'package:seeds/i18n/widgets.i18n.dart';
 enum TransactionType { seedsTransfer, telosTranfser }
 
 class TransactionForm extends StatefulWidget {
-  final Image image;
-  final String beneficiary;
-  final String title;
-  final TransactionType type;
-  final String balance;
-  final String label;
+  final Image? image;
+  final String? beneficiary;
+  final String? title;
+  final TransactionType? type;
+  final String? balance;
+  final String? label;
 
   TransactionForm({
     this.image,
@@ -77,7 +77,7 @@ class _TransactionFormState extends State<TransactionForm> {
         );
       }
 
-      String transactionId = response['transaction_id'];
+      String? transactionId = response['transaction_id'];
 
       _statusNotifier.add(true);
       _messageNotifier.add('Transaction hash: %s'.i18n.fill(['$transactionId']));
@@ -155,7 +155,7 @@ class _TransactionFormState extends State<TransactionForm> {
           child: Container(
             margin: EdgeInsets.only(top: 10, left: 20, right: 20),
             child: Text(
-              widget.title,
+              widget.title!,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
@@ -165,7 +165,7 @@ class _TransactionFormState extends State<TransactionForm> {
           child: Container(
             margin: EdgeInsets.only(top: 5, left: 20, right: 20),
             child: Text(
-              widget.beneficiary,
+              widget.beneficiary!,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: AppColors.grey),
             ),

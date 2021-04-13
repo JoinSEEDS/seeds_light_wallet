@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
@@ -6,8 +6,8 @@ import 'package:seeds/utils/old_toolbox/toolbox_config.dart';
 
 NoItemsFoundBuilder noItemsFoundBuilder(
   BuildContext context, {
-  @required NoItemsFoundBuilder noItemsFoundBuilder,
-  @required Widget noItemsFoundWidget,
+  required NoItemsFoundBuilder? noItemsFoundBuilder,
+  required Widget? noItemsFoundWidget,
 }) {
   final defaultNoItemsFoundBuilder = noItemsFoundWidget == null
       ? null
@@ -30,7 +30,7 @@ NoItemsFoundBuilder noItemsFoundBuilder(
   return localNoItemFound ?? globalNoItemFound;
 }
 
-NoItemsFoundBuilder _buildNoItemFoundBuilder(Widget noItemsFoundWidget) {
+NoItemsFoundBuilder _buildNoItemFoundBuilder(Widget? noItemsFoundWidget) {
   return (BuildContext context) {
     // remove the height of the appBar and some to make sure
     // the noItemsFoundWidget don't scroll

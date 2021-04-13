@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -9,7 +9,7 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
-Widget guardianUserTile({MemberModel user, Guardian guardian, String currentUserId, Function tileOnTap}) {
+Widget guardianUserTile({required MemberModel user, required Guardian guardian, String? currentUserId, Function? tileOnTap}) {
   return ListTile(
       trailing: trailingWidget(guardian, user, currentUserId, tileOnTap),
       leading: Hero(
@@ -28,7 +28,7 @@ Widget guardianUserTile({MemberModel user, Guardian guardian, String currentUser
       title: Hero(
         child: Material(
           child: Text(
-            user.nickname,
+            user.nickname!,
             style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
           ),
           color: Colors.transparent,
@@ -38,7 +38,7 @@ Widget guardianUserTile({MemberModel user, Guardian guardian, String currentUser
       subtitle: Hero(
         child: Material(
           child: Text(
-            user.account,
+            user.account!,
             style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
           ),
           color: Colors.transparent,
@@ -46,11 +46,11 @@ Widget guardianUserTile({MemberModel user, Guardian guardian, String currentUser
         tag: "account#${user.account}",
       ),
       onTap: () {
-        tileOnTap(user, guardian);
+        tileOnTap!(user, guardian);
       });
 }
 
-Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId, Function tileOnTap) {
+Widget trailingWidget(Guardian guardian, MemberModel user, String? currentUserId, Function? tileOnTap) {
   switch (guardian.status) {
     case GuardianStatus.requestedMe:
       return Wrap(
@@ -59,16 +59,16 @@ Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId,
               child: Text("Accept", style: TextStyle(color: Colors.blue, fontSize: 12)),
               onPressed: () {
                 FirebaseDatabaseService().acceptGuardianRequestedMe(
-                  currentUserId: currentUserId,
-                  friendId: user.account,
+                  currentUserId: currentUserId!,
+                  friendId: user.account!,
                 );
               }),
           TextButton(
               child: Text("Decline", style: TextStyle(color: Colors.red, fontSize: 12)),
               onPressed: () {
                 FirebaseDatabaseService().declineGuardianRequestedMe(
-                  currentUserId: currentUserId,
-                  friendId: user.account,
+                  currentUserId: currentUserId!,
+                  friendId: user.account!,
                 );
               })
         ],
@@ -78,8 +78,8 @@ Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId,
           child: Text("Cancel Request", style: TextStyle(color: Colors.red, fontSize: 12)),
           onPressed: () {
             FirebaseDatabaseService().cancelGuardianRequest(
-              currentUserId: currentUserId,
-              friendId: user.account,
+              currentUserId: currentUserId!,
+              friendId: user.account!,
             );
           });
     case GuardianStatus.alreadyGuardian: {
@@ -91,7 +91,7 @@ Widget trailingWidget(Guardian guardian, MemberModel user, String currentUserId,
             if (guardian.recoveryApprovedDate != null) {
                 return Text("Recovery Started", style: TextStyle(color: Colors.red, fontSize: 12),);
               } else {
-                return RaisedButton(onPressed: () { tileOnTap(user, guardian); },
+                return RaisedButton(onPressed: () { tileOnTap!(user, guardian); },
                     child: Text("Action Required", style: TextStyle(color: Colors.red, fontSize: 12),));
               }
             break;

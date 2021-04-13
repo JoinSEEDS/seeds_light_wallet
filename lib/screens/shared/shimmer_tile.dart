@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -6,8 +6,8 @@ import 'package:shimmer/shimmer.dart';
 Widget shimmerTile() {
   return ListTile(
     leading: Shimmer.fromColors(
-      baseColor: Colors.grey[300],
-      highlightColor: Colors.grey[100],
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
       child: Container(
         width: 60.0,
         height: 60.0,
@@ -18,8 +18,8 @@ Widget shimmerTile() {
       ),
     ),
     title: Shimmer.fromColors(
-      baseColor: Colors.grey[300],
-      highlightColor: Colors.grey[100],
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
       child: Row(
         children: <Widget>[
           Container(
@@ -31,8 +31,8 @@ Widget shimmerTile() {
       ),
     ),
     subtitle: Shimmer.fromColors(
-      baseColor: Colors.grey[300],
-      highlightColor: Colors.grey[100],
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
       child: Container(
         width: 40.0,
         height: 12.0,

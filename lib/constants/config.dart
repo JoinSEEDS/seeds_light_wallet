@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 class Config {
   static final onboardingAccountName = 'join.seeds';

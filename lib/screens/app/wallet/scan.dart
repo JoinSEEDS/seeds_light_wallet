@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -19,11 +19,11 @@ class Scan extends StatefulWidget {
 }
 
 class _ScanState extends State<Scan> {
-  String action, account, data, error, qrcode;
+  late String action, account, data, error, qrcode;
   Steps step = Steps.scan;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  QRViewController controller;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool _handledQrCode = false;
 
@@ -33,7 +33,7 @@ class _ScanState extends State<Scan> {
   }
 
   bool canProcess(SeedsESR esr) {
-    return esr.actions.first.account.isNotEmpty && esr.actions.first.name.isNotEmpty;
+    return esr.actions.first.account!.isNotEmpty && esr.actions.first.name!.isNotEmpty;
   }
 
   void processSigningRequest(SeedsESR esr) async {
@@ -71,7 +71,7 @@ class _ScanState extends State<Scan> {
   }
 
   void _showToast(BuildContext context, String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
+    _scaffoldKey.currentState!.showSnackBar(SnackBar(
       content: Text(message),
       duration: Duration(seconds: 3),
     ));
@@ -126,7 +126,7 @@ class _ScanState extends State<Scan> {
 
   @override
   Widget build(BuildContext context) {
-    Widget widget;
+    Widget? widget;
 
     switch (step) {
       case Steps.scan:

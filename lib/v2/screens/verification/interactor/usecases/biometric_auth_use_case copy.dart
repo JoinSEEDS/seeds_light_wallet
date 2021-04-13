@@ -8,7 +8,7 @@ import 'package:seeds/features/biometrics/auth_commands.dart';
 class BiometricAuthUseCase {
   final BiometricsService _service = BiometricsService(LocalAuthentication());
 
-  Future<Result> run(AuthType? authType) async {
+  Future<Result> run(AuthType authType) async {
     try {
       final isValid = await _service.authenticate(AuthenticateCmd(authType));
       if (isValid) {

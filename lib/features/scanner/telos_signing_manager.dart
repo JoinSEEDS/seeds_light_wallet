@@ -1,31 +1,31 @@
-// @dart=2.9
+
 
 import 'package:dart_esr/dart_esr.dart';
 
 class SeedsESR {
 
-  SigningRequestManager manager;
+  late SigningRequestManager manager;
 
-  List<Action> actions;
+  late List<Action> actions;
 
-  SeedsESR({String uri}) {
+  SeedsESR({String? uri}) {
     manager = TelosSigningManager.from(uri);
   }
 
-  Future<void> resolve({String account}) async {
+  Future<void> resolve({String? account}) async {
     this.actions = await manager.fetchActions(account: account);
   }
 
 }
 
 extension TelosSigningManager on SigningRequestManager {
-    static SigningRequestManager from(String uri) {
+    static SigningRequestManager from(String? uri) {
       return SigningRequestManager.from(uri,
       options:
           defaultSigningRequestEncodingOptions(nodeUrl: 'https://api.eos.miami'));
     }
 
-    Future<List<Action>> fetchActions({String account, String permission = "active"}) async {
+    Future<List<Action>> fetchActions({String? account, String permission = "active"}) async {
 
       var abis = await fetchAbis();
 

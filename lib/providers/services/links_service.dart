@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
@@ -6,10 +6,10 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 // import 'package:uni_links/uni_links.dart';
 
 class LinksService {
-  String inviterAccount;
-  bool _enableMockLink = false;
+  String? inviterAccount;
+  bool? _enableMockLink = false;
 
-  void update({String accountName, bool enableMockLink}) {
+  void update({String? accountName, bool? enableMockLink}) {
     inviterAccount = accountName;
     _enableMockLink = enableMockLink;
   }
@@ -29,7 +29,7 @@ class LinksService {
 
   Future<dynamic> processInitialLink() async {
     await Future.delayed(const Duration(seconds: 1));
-    if (_enableMockLink) {
+    if (_enableMockLink!) {
       return {'inviteMnemonic': 'first-second-third-fourth-fifth'};
     }
 
@@ -47,7 +47,7 @@ class LinksService {
   }
 
   void onDynamicLink(Function callback) {
-    FirebaseDynamicLinks.instance.onLink(onSuccess: (PendingDynamicLinkData data) async {
+    FirebaseDynamicLinks.instance.onLink(onSuccess: (PendingDynamicLinkData? data) async {
       final deepLink = data?.link;
 
       var queryParams = Uri.splitQueryString(deepLink.toString());
@@ -58,7 +58,7 @@ class LinksService {
     });
   }
 
-  Future<Uri> createInviteLink(String inviteMnemonic) async {
+  Future<Uri> createInviteLink(String? inviteMnemonic) async {
     final parameters = DynamicLinkParameters(
       uriPrefix: 'https://seedswallet.page.link',
       link: Uri.parse(
@@ -80,5 +80,5 @@ class LinksService {
 
   Future<PendingDynamicLinkData> unpackDynamicLink(String link) => FirebaseDynamicLinks.instance
       .getDynamicLink(Uri.parse(link))
-      .then((PendingDynamicLinkData dynamicLink) => dynamicLink);
+      .then((PendingDynamicLinkData? dynamicLink) => dynamicLink!);
 }

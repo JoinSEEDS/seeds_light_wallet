@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,13 +24,13 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final proposal = widget.proposal;
-    var createdAt = DateTime.fromMillisecondsSinceEpoch(proposal.creationDate * 1000);
+    var createdAt = DateTime.fromMillisecondsSinceEpoch(proposal.creationDate! * 1000);
     String creationDateFormatted = createdAt.formatRelative();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (proposal.image.isNotEmpty == true && !widget.fromDetails)
+        if (proposal.image!.isNotEmpty == true && !widget.fromDetails)
           NetImage(proposal.image),
         SizedBox(height: 8),
         Column(
@@ -39,7 +39,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Text(
-                proposal.title,
+                proposal.title!,
                 style: textTheme.headline6,
               ),
             ),
@@ -47,7 +47,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
               child: Text(
-                proposal.summary,
+                proposal.summary!,
                 style: textTheme.subtitle1,
               ),
             ),
@@ -59,7 +59,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                   children: <InlineSpan>[
                     TextSpan(
                       text: 'Created by:'.i18n + ' ',
-                      style: textTheme.subtitle2
+                      style: textTheme.subtitle2!
                           .copyWith(fontWeight: FontWeight.normal),
                     ),
                     TextSpan(
@@ -72,7 +72,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                     ),
                     TextSpan(
                       text: creationDateFormatted,
-                      style: textTheme.subtitle2
+                      style: textTheme.subtitle2!
                           .copyWith(fontWeight: FontWeight.normal),
                     ),
                   ],
@@ -89,7 +89,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                   Text(
                     'total\n%s'.i18n.fill(["${proposal.total}"]),
                     textAlign: TextAlign.left,
-                    style: textTheme.caption.copyWith(fontSize: 14,),
+                    style: textTheme.caption!.copyWith(fontSize: 14,),
                   ),
                   buildVotesIndicator(
                     title: 'Yes'.i18n,
@@ -113,8 +113,8 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                     future: null,//VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
                     builder: (ctx, snapShot) {
                       if (snapShot.hasData) {
-                        var voted = snapShot.data.voted;
-                        var amount = snapShot.data.amount;
+                        var voted = true;//snapShot.data.voted;
+                        var amount = 10;//snapShot.data.amount;
                         var voteString = amount==0 ? 'neutral' :
                           amount < 0 ? '-${-amount}' : '+$amount';
                         return voted ? 
@@ -146,7 +146,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (proposal.image.isNotEmpty == true && !widget.fromDetails)
+        if (proposal.image!.isNotEmpty == true && !widget.fromDetails)
           NetImage(proposal.image),
         SizedBox(height: 8),
         Padding(
@@ -156,18 +156,18 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
             children: <Widget>[
               if (!widget.fromDetails)
                 Text(
-                  proposal.title,
+                  proposal.title!,
                   style: textTheme.headline6,
                 ),
               SizedBox(height: 8),
               Text(
-                proposal.summary,
+                proposal.summary!,
                 style: textTheme.subtitle1,
               ),
               SizedBox(height: 8),
               Text(
                 DateFormat.yMMMd().format(
-                    DateTime.fromMillisecondsSinceEpoch(proposal.creationDate)),
+                    DateTime.fromMillisecondsSinceEpoch(proposal.creationDate!)),
                 style: textTheme.subtitle2,
               ),
               SizedBox(height: 16),
@@ -176,7 +176,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                 children: <Widget>[
                   Text(
                     '%s votes'.i18n.fill(["${proposal.total}"]),
-                    style: textTheme.caption.copyWith(fontSize: 14),
+                    style: textTheme.caption!.copyWith(fontSize: 14),
                   ),
                   buildVotesIndicator(
                     title: 'Yes'.i18n,
@@ -200,7 +200,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
   }
 
   Widget buildVotesIndicator(
-      {String title, Color color, int votes, int total}) {
+      {required String title, Color? color, int? votes, int? total}) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -218,7 +218,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
               animation: true,
               lineHeight: 8,
               animationDuration: 800,
-              percent: (total == 0 ? 0 : votes.toDouble() / total.toDouble()),
+              percent: (total == 0 ? 0 : votes!.toDouble() / total!.toDouble()),
               linearStrokeCap: LinearStrokeCap.roundAll,
               progressColor: color,
             ),

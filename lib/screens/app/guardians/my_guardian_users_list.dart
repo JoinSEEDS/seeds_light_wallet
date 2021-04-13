@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/models/firebase/guardian.dart';
@@ -9,7 +9,7 @@ import 'guardian_user_tile.dart';
 
 ListView buildMyGuardiansListView(
     List<MemberModel> memberModels, String currentUserId, List<Guardian> guardians, Function tileOnTap) {
-  guardians.sort((Guardian a, Guardian b) => a.status.index.compareTo(b.status.index));
+  guardians.sort((Guardian a, Guardian b) => a.status!.index.compareTo(b.status!.index));
 
   return ListView.separated(
       itemCount: guardians.length + 1,

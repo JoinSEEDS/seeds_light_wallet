@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,12 +9,12 @@ import 'package:seeds/i18n/create_account.i18n.dart';
 enum AccountNameStatus { initial, loading, acceptable, unacceptable }
 
 class AccountNameField extends StatelessWidget {
-  final TextEditingController controller;
-  final Function onChanged;
-  final FocusNode focusNode;
-  final String errorText;
-  final Widget suffixIcon;
-  final AccountNameStatus status;
+  final TextEditingController? controller;
+  final Function? onChanged;
+  final FocusNode? focusNode;
+  final String? errorText;
+  final Widget? suffixIcon;
+  final AccountNameStatus? status;
 
   AccountNameField({
     this.controller,
@@ -27,7 +27,7 @@ class AccountNameField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorString = validate(controller.text);
+    final errorString = validate(controller!.text);
     final valid = errorString == null;
 
     var suffixIcon;
@@ -80,7 +80,7 @@ class AccountNameField extends StatelessWidget {
           fontSize: 12,
           fontWeight: FontWeight.bold,
           fontFamily: 'worksans'),
-      onChanged: onChanged,
+      onChanged: onChanged as dynamic Function(String)?,
       errorText: errorText,
       suffixIcon: suffixIcon,
     );
@@ -92,7 +92,7 @@ class LowerCaseTextFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     return TextEditingValue(
-      text: newValue.text?.toLowerCase(),
+      text: newValue.text.toLowerCase(),
       selection: newValue.selection,
     );
   }

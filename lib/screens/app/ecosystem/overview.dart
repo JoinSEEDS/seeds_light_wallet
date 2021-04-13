@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,7 +19,7 @@ import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class Overview extends StatefulWidget {
   const Overview({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -70,7 +70,7 @@ class _OverviewState extends State<Overview> {
     String subtitle,
     String iconName,
     String balanceTitle,
-    String balanceValue,
+    String? balanceValue,
     Function onTap,
   ) {
     return MainCard(
@@ -138,8 +138,8 @@ class _OverviewState extends State<Overview> {
                         style: TextStyle(fontSize: 14),
                       )
                     : Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[100],
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
                         child: Container(
                           width: 80.0,
                           height: 10,
@@ -207,7 +207,7 @@ class _OverviewState extends State<Overview> {
                   ),
                 ),
                 Consumer<DhoNotifier>(
-                  builder: (ctx, model, _) => model.isDhoMember
+                  builder: (ctx, model, _) => model.isDhoMember!
                       ? buildCategory(
                           'Hypha DHO',
                           'Explore Decentralized Human Organization',
@@ -223,7 +223,7 @@ class _OverviewState extends State<Overview> {
     );
   }
 
-  String valueString(int amount) {
+  String valueString(int? amount) {
     return amount == null ? "-" : "$amount";
   }
 }

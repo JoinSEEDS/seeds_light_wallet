@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
@@ -20,11 +20,11 @@ import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/widgets/pending_notification.dart';
 
 class NavigationTab {
-  final String title;
-  final String icon;
-  final String iconSelected;
-  final Function screenBuilder;
-  final int index;
+  final String? title;
+  final String? icon;
+  final String? iconSelected;
+  final Function? screenBuilder;
+  final int? index;
 
   NavigationTab({this.title, this.icon, this.iconSelected, this.screenBuilder, this.index});
 }
@@ -65,7 +65,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   final StreamController<String> changePageNotifier = StreamController<String>.broadcast();
 
-  int index = 0;
+  int? index = 0;
   PageController pageController = PageController(initialPage: 0, keepPage: true);
 
   @override
@@ -73,7 +73,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     super.initState();
 
     changePageNotifier.stream.listen((page) {
-      int pageIndex;
+      int? pageIndex;
 
       switch (page) {
         case "Wallet":
@@ -90,14 +90,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       if (pageIndex != null) {
         setState(() {
           pageController.jumpToPage(
-            pageIndex,
+            pageIndex!,
           );
           this.index = pageIndex;
         });
       }
     });
 
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
 
     processSigningRequests();
   }
@@ -136,7 +136,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       );
 
       var action = request.actions.first;
-      var data = Map<String, dynamic>.from(action.data);
+      var data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
 
       Navigator.of(context).push(
         PageRouteBuilder(
@@ -172,10 +172,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       body: buildPageView(),
-      bottomNavigationBar: StreamBuilder<bool>(
+      bottomNavigationBar: StreamBuilder<bool?>(
           stream: FirebaseDatabaseService()
               .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
-          builder: (context, AsyncSnapshot<bool> snapshot) {
+          builder: (context, AsyncSnapshot<bool?> snapshot) {
             if (snapshot != null && snapshot.hasData) {
               return buildNavigation(snapshot.data);
             } else {
@@ -189,19 +189,19 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        ...navigationTabs.map((tab) => tab.screenBuilder()).toList(),
+        ...navigationTabs.map((tab) => tab.screenBuilder!()).toList() as Iterable<Widget>,
       ],
     );
   }
 
   BottomNavigationBarItem buildIcon(
-      String title, String icon, String selectedIcon, bool isSelected, bool profileNotification) {
+      String? title, String icon, String selectedIcon, bool isSelected, bool? profileNotification) {
     return BottomNavigationBarItem(
       activeIcon: SvgPicture.asset(selectedIcon, height: 24, width: 24),
       icon: Stack(overflow: Overflow.visible, children: <Widget>[
         SvgPicture.asset(icon, height: 24, width: 24),
         title == "Profile"
-            ? profileNotification
+            ? profileNotification!
                 ? Positioned(
                     child: guardianNotification(profileNotification),
                     right: 6,
@@ -213,17 +213,17 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       title: isSelected
           ? Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text(title, style: Theme.of(context).textTheme.caption),
+              child: Text(title!, style: Theme.of(context).textTheme.caption),
             )
           : SizedBox.shrink(),
     );
   }
 
-  Widget buildNavigation(bool showGuardianNotification) {
+  Widget buildNavigation(bool? showGuardianNotification) {
     return Container(
       decoration: BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
       child: BottomNavigationBar(
-        currentIndex: index,
+        currentIndex: index!,
         onTap: (index) {
           switch (index) {
             case 0:
@@ -239,7 +239,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         },
         items: navigationTabs
             .map(
-              (tab) => buildIcon(tab.title, tab.icon, tab.iconSelected, tab.index == index, showGuardianNotification),
+              (tab) => buildIcon(tab.title, tab.icon!, tab.iconSelected!, tab.index == index, showGuardianNotification),
             )
             .toList(),
       ),

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
@@ -95,7 +95,7 @@ class NavigationService {
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
 
-  StreamController<String> streamRouteListener;
+  StreamController<String>? streamRouteListener;
 
   final onboardingRoutes = {
     Routes.joinProcess: (_) => JoinProcess(),
@@ -154,11 +154,11 @@ class NavigationService {
     streamRouteListener = listener;
   }
 
-  Future<dynamic> navigateTo(String routeName, [Object arguments, bool replace = false]) async {
-    var navigatorKey;
+  Future<dynamic> navigateTo(String routeName, [Object? arguments, bool replace = false]) async {
+    late var navigatorKey;
 
     if (streamRouteListener != null) {
-      streamRouteListener.add(routeName);
+      streamRouteListener!.add(routeName);
     }
 
     if (appRoutes[routeName] != null) {
@@ -186,31 +186,31 @@ class NavigationService {
     var routeName = settings.name;
     var arguments = settings.arguments;
 
-    if (appRoutes[routeName] != null) {
+    if (appRoutes[routeName!] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => appRoutes[routeName](arguments),
+        builder: (context) => appRoutes[routeName]!(arguments),
       );
     } else if (onboardingRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => onboardingRoutes[routeName](arguments),
+        builder: (context) => onboardingRoutes[routeName]!(arguments),
       );
     } else if (ecosystemRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (_) => ecosystemRoutes[routeName](arguments),
+        builder: (_) => ecosystemRoutes[routeName]!(arguments),
       );
     } else if (walletRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (_) => walletRoutes[routeName](arguments),
+        builder: (_) => walletRoutes[routeName]!(arguments),
       );
     } else {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => PageNotFound(
-          routeName: settings.name,
+          routeName: settings.name!,
           args: settings.arguments,
         ),
       );

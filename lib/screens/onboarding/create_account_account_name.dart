@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -9,8 +9,8 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/create_account.i18n.dart';
 
 class CreateAccountAccountName extends StatefulWidget {
-  final String nickname;
-  final Function(String accountName, String nickName) onSubmit;
+  final String? nickname;
+  final Function(String accountName, String? nickName)? onSubmit;
 
   CreateAccountAccountName({this.nickname, this.onSubmit});
 
@@ -26,23 +26,23 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
 
   final _accountNameController = TextEditingController();
   var accountNameFocus = FocusNode();
-  String _accountName;
+  String? _accountName;
   bool _initial = true;
 
   @override
   void initState() {
     super.initState();
-    print("INIT STATE ${initialUsername(widget.nickname)}");
-    _accountName = initialUsername(widget.nickname);
-    _accountNameController.text = initialUsername(widget.nickname);
+    print("INIT STATE ${initialUsername(widget.nickname!)}");
+    _accountName = initialUsername(widget.nickname!);
+    _accountNameController.text = initialUsername(widget.nickname!);
   }
 
   createAccount() async {
-    final FormState form = formKey.currentState;
+    final FormState form = formKey.currentState!;
     if (form.validate()) {
       form.save();
       accountNameFocus.unfocus();
-      widget.onSubmit(_accountNameController.text, widget.nickname);
+      widget.onSubmit!(_accountNameController.text, widget.nickname);
     }
   }
 
@@ -66,10 +66,10 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
 
     return Container(
       child: FutureBuilder(
-          future: accountGeneratorService.findAvailable(_accountName),
+          future: accountGeneratorService.findAvailable(_accountName!),
           builder: (context, snapshot) {
             var isLoading = snapshot.connectionState != ConnectionState.done;
-            var availableName = snapshot.hasData ? snapshot.data.available : "";
+            var availableName = snapshot.hasData ? snapshot.data.toString() : "";
             if (!isLoading && snapshot.hasData && _initial) {
               _initial = false;
               _accountName = availableName; // this might change the name
@@ -186,7 +186,7 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
               var isLoading = snapshot.connectionState != ConnectionState.done;
               return isLoading
                   ? Center(child: CircularProgressIndicator())
-                  : buildSelection(context, snapshot.data);
+                  : buildSelection(context, snapshot.data as List<String>);
             }));
   }
 

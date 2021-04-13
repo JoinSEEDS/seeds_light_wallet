@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -20,7 +20,7 @@ const MIN_GUARDIANS_COMPLETED = 3;
 
 class MyGuardiansTab extends StatefulWidget {
   final List<Guardian> guardians;
-  final List<MemberModel> allMembers;
+  final List<MemberModel>? allMembers;
 
   MyGuardiansTab(this.guardians, this.allMembers);
 
@@ -35,7 +35,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
       if (!(SettingsNotifier.of(context).guardianTutorialShown == true)) {
         showFirstTimeUserDialog(context);
       }
@@ -45,7 +45,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   @override
   Widget build(BuildContext context) {
     var myGuardians = widget.guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
-    var myMembers = widget.allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
+    var myMembers = widget.allMembers!.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
     var service = EosService.of(context);
     var accountName = SettingsNotifier.of(context).accountName;
@@ -86,7 +86,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
             stream: FirebaseDatabaseService().isGuardiansInitialized(accountName),
             builder: (context, isGuardiansInitialized) {
               if (isGuardiansInitialized.hasData) {
-                if (isGuardiansInitialized.data) {
+                if (isGuardiansInitialized.data!) {
                   return SizedBox.shrink();
                 } else {
                   return Padding(
@@ -96,7 +96,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                       key: activateGuardiansLoader,
                       onPressed: () {
                         setState(() {
-                          activateGuardiansLoader.currentState.loading();
+                          activateGuardiansLoader.currentState!.loading();
                         });
 
                         GuardianServices()
@@ -166,7 +166,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
               key: removeGuardianLoader,
               onPressed: () async {
                 setState(() {
-                  removeGuardianLoader.currentState.loading();
+                  removeGuardianLoader.currentState!.loading();
                 });
 
                 await GuardianServices()
@@ -270,7 +270,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     errorToast('Oops, Something went wrong');
 
     setState(() {
-      activateGuardiansLoader.currentState.done();
+      activateGuardiansLoader.currentState!.done();
     });
   }
 
@@ -288,7 +288,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     errorToast('Oops, Something went wrong');
 
     setState(() {
-      removeGuardianLoader.currentState.done();
+      removeGuardianLoader.currentState!.done();
     });
   }
 }

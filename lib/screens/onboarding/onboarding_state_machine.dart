@@ -1,18 +1,18 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
 class _Transition {
-  final Events event;
-  final States targetState;
-  Map<String, dynamic> data;
+  final Events? event;
+  final States? targetState;
+  Map<String, dynamic>? data;
 
   _Transition({this.event, this.targetState});
 }
 
 class _State {
-  final States name;
-  final List<_Transition> transitions;
+  final States? name;
+  final List<_Transition>? transitions;
 
   _State({this.name, this.transitions});
 }
@@ -74,7 +74,7 @@ class OnboardingStateMachine {
   StreamController<Map<String, dynamic>> _streamController =
       StreamController<Map<String, dynamic>>();
 
-  States currentState = States.checkingInviteLink;
+  States? currentState = States.checkingInviteLink;
 
   Map<States, _State> states = {
     States.checkingInviteLink: _State(
@@ -267,9 +267,9 @@ class OnboardingStateMachine {
     ),
   };
 
-  void transition(Events event, {Map<String, dynamic> data}) {
+  void transition(Events event, {Map<String, dynamic>? data}) {
     var targetTransition =
-        states[currentState].transitions.firstWhere((t) => t.event == event);
+        states[currentState!]!.transitions!.firstWhere((t) => t.event == event);
 
     print("event: $event  ---> ${targetTransition.targetState}");
 
@@ -285,7 +285,7 @@ class OnboardingStateMachine {
   }
 
   void listen(Function callback) {
-    _streamController.stream.listen(callback);
+    _streamController.stream.listen(callback as void Function(Map<String, dynamic>)?);
   }
 
   void dispose() {
@@ -294,8 +294,8 @@ class OnboardingStateMachine {
 }
 
 class IllegalStateTransition implements Exception {
-  States state;
-  Events event;
+  States? state;
+  Events? event;
 
   IllegalStateTransition({this.state, this.event});
 

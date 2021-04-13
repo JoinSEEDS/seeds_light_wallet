@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:async';
 
@@ -18,8 +18,8 @@ import 'package:share/share.dart';
 enum RecoveryStatus { loading, waitingConfirmations, waitingTimelock, claimReady, noGuardiansFound }
 
 class ContinueRecovery extends StatefulWidget {
-  final Function onClaimed;
-  final Function onCancel;
+  final Function? onClaimed;
+  final Function? onCancel;
 
   ContinueRecovery({this.onClaimed, this.onCancel});
 
@@ -51,21 +51,21 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
         builder: (context, snapshot) {
           var status = RecoveryStatus.loading; // Default state: Loading
 
-          UserRecoversModel recoversModel;
-          UserGuardiansModel guardiansModel;
+          UserRecoversModel? recoversModel;
+          UserGuardiansModel? guardiansModel;
 
           int confirmedGuardianSignatures = 0;
-          int guardians;
+          int? guardians;
           int timeLockSeconds = 0;
 
           if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-            recoversModel = snapshot.data[0];
-            guardiansModel = snapshot.data[1];
+            // recoversModel = snapshot.data![0];
+            // guardiansModel = snapshot.data![1];
 
-            print("recovers: ${recoversModel.exists}");
-            print("guardians: ${guardiansModel.exists}");
+            print("recovers: ${recoversModel!.exists}");
+            print("guardians: ${guardiansModel!.exists}");
 
-            if (!guardiansModel.exists) {
+            if (!guardiansModel.exists!) {
               // This user doesn't have guardians
               status = RecoveryStatus.noGuardiansFound;
             } else {
@@ -73,19 +73,19 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               status = RecoveryStatus.waitingConfirmations;
 
               // Total number of guardians - this decides how many signatures we need.
-              guardians = guardiansModel.guardians.length;
+              guardians = guardiansModel.guardians!.length;
 
-              if (!recoversModel.exists) {
+              if (!recoversModel.exists!) {
                 // Recovery has not started yet.
                 // The first signature puts a recovery model in the table. No model ==> no signatures.
                 confirmedGuardianSignatures = 0;
               } else {
                 // Recovery has started - check if we have enough signatures
                 // Note: All these values are enforced by the contract
-                confirmedGuardianSignatures = recoversModel.guardians.length;
+                confirmedGuardianSignatures = recoversModel.guardians!.length;
 
                 // check how long we have to wait before we can claim (24h delay is standard)
-                timeLockSeconds = recoversModel.completeTimestamp + guardiansModel.timeDelaySec;
+                timeLockSeconds = recoversModel.completeTimestamp! + guardiansModel.timeDelaySec!;
 
                 // for 3 signers, we need 2/3 signatures. For 4 or 5 signers, we need 3+ signatures.
                 if ((guardians == 3 && confirmedGuardianSignatures >= 2) ||
@@ -122,7 +122,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                       fontFamily: "worksans",
                     ),
                   ),
-                  ...(recoversModel.guardians ?? [])
+                  ...(recoversModel!.guardians ?? [])
                       .map((guardian) => Text(guardian,
                           style: TextStyle(
                             fontSize: 16,
@@ -251,7 +251,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               child: Text("Yes".i18n),
               onPressed: () {
                 Navigator.pop(context);
-                widget.onCancel();
+                widget.onCancel!();
               },
             ),
             FlatButton(
@@ -340,7 +340,7 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
           firstChild: MainButton(
             title: "Share recovery link",
             onPressed: () {
-              Share.share(snapshot.data);
+              // Share.share(snapshot.data);
             },
           ),
           secondChild: Text("Creating link..."),
@@ -353,7 +353,7 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
 
   Future<String> generateRecoveryLink() async {
     String accountName = SettingsNotifier.of(context).accountName;
-    String pKey = SettingsNotifier.of(context).privateKey;
+    String pKey = SettingsNotifier.of(context).privateKey!;
 
     print("GR acct $accountName $pKey");
 
@@ -378,12 +378,12 @@ class CountdownClock extends StatefulWidget {
 }
 
 class CountdownClockState extends State<CountdownClock> {
-  Timer _timer;
+  Timer? _timer;
   var seconds = 0;
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer!.cancel();
     super.dispose();
   }
 
@@ -403,7 +403,7 @@ class CountdownClockState extends State<CountdownClock> {
 
         if (s <= 0) {
           setState(() {
-            _timer.cancel();
+            _timer!.cancel();
             seconds = s;
           });
           widget.onDone();

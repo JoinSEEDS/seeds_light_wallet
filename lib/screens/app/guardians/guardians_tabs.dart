@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class GuardianTabs extends StatelessWidget {
           floatingActionButton: StreamBuilder<QuerySnapshot>(
               stream: FirebaseDatabaseService().getMyGuardians(SettingsNotifier.of(context).accountName),
               builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data.size < _MAX_GUARDIANS_ALLOWED) {
+                if (snapshot.hasData && snapshot.data!.size < _MAX_GUARDIANS_ALLOWED) {
                   return FloatingActionButton.extended(
                     backgroundColor: AppColors.blue,
                     label: Text("Add Guardians"),
@@ -74,7 +74,7 @@ class GuardianTabs extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   Iterable<Guardian> guardians =
-                      snapshot.data.docs.map((DocumentSnapshot e) => Guardian.fromMap(e.data())).toList();
+                      snapshot.data!.docs.map((DocumentSnapshot e) => Guardian.fromMap(e.data()!)).toList();
 
                   return FutureBuilder<List<MemberModel>>(
                       future: HttpService().getMembersByIds(guardians.map((e) => e.uid).toSet().toList()),
@@ -82,7 +82,7 @@ class GuardianTabs extends StatelessWidget {
                         if (snapshot.hasData) {
                           return TabBarView(
                             children: [
-                              MyGuardiansTab(guardians, snapshot.data),
+                              MyGuardiansTab(guardians as List<Guardian>, snapshot.data),
                               ImGuardianForTab(guardians, snapshot.data),
                             ],
                           );

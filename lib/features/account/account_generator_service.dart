@@ -1,10 +1,10 @@
-// @dart=2.9
+
 
 import 'package:flutter/foundation.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
 class AccountGeneratorService {
-  HttpService _httpService;
+  late HttpService _httpService;
 
   AccountGeneratorService();
 
@@ -12,10 +12,10 @@ class AccountGeneratorService {
     this._httpService = httpService;
   }
 
-  Future<List<String>> generateList(String suggestedAccount,
+  Future<List<String?>> generateList(String suggestedAccount,
       {int count: 4}) async {
-    List<String> available = [];
-    List<String> excludes = [];
+    List<String?> available = [];
+    List<String?> excludes = [];
     for (int i = 0; i < count; i++) {
       final result = await findAvailable(suggestedAccount, exclude: excludes);
       available.add(result.available);
@@ -24,10 +24,10 @@ class AccountGeneratorService {
     return available;
   }
 
-  Future<List<String>> alternativeAccountsList(String baseAccount,
+  Future<List<String?>> alternativeAccountsList(String baseAccount,
       {int count: 4}) async {
-    List<String> available = [];
-    List<String> excludes = [baseAccount];
+    List<String?> available = [];
+    List<String?> excludes = [baseAccount];
     for (int i = 0; i < count; i++) {
       final result = await findAvailable(baseAccount, exclude: excludes);
       available.add(result.available);
@@ -40,7 +40,7 @@ class AccountGeneratorService {
 
   Future<AccountAvailableResult> findAvailable(String suggestedAccount,
       {int replaceWith: 1,
-      List<String> exclude,
+      List<String?>? exclude,
       int recursionAttempts: 40}) async {
     final account = convert(suggestedAccount);
     if (exclude == null) {
@@ -52,7 +52,7 @@ class AccountGeneratorService {
       if (isAvailable) {
         return AccountAvailableResult(
           available: account,
-          unavailable: exclude,
+          unavailable: exclude as List<String>,
         );
       }
     }
@@ -153,7 +153,7 @@ class AccountGeneratorService {
   }
 }
 
-String validator(String accountName) => validate(accountName).validation;
+String? validator(String accountName) => validate(accountName).validation;
 
 ValidationResult validate(String accountName) {
   var validCharacters = RegExp(r'^[a-z1-5]+$');
@@ -178,8 +178,8 @@ ValidationResult validate(String accountName) {
 
 class ValidationResult {
   final bool valid;
-  final String message;
-  String get validation => valid ? null : message;
+  final String? message;
+  String? get validation => valid ? null : message;
   bool get invalid => !valid;
 
   ValidationResult(this.valid, this.message);
@@ -190,9 +190,9 @@ class ValidationResult {
 }
 
 class AccountAvailableResult {
-  final String available;
+  final String? available;
   final List<String> unavailable;
-  List<String> get all => [available, ...unavailable];
+  List<String?> get all => [available, ...unavailable];
 
   AccountAvailableResult({this.available, this.unavailable: const []});
 }

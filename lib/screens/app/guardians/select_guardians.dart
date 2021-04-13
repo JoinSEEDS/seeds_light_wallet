@@ -1,6 +1,7 @@
-// @dart=2.9
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -29,12 +30,12 @@ class SelectGuardians extends StatefulWidget {
 class _SelectGuardiansState extends State<SelectGuardians> {
   bool showSearch = false;
 
-  FocusNode _searchFocusNode;
+  FocusNode? _searchFocusNode;
   Set<MemberModel> selectedUsers = Set();
 
   @override
   void dispose() {
-    _searchFocusNode.dispose();
+    _searchFocusNode!.dispose();
     super.dispose();
   }
 
@@ -98,7 +99,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                 color: Colors.black,
               ),
               onPressed: () {
-                _searchFocusNode.unfocus();
+                _searchFocusNode!.unfocus();
 
                 MembersNotifier.of(context).filterMembers('');
 
@@ -127,7 +128,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                         Padding(
                           padding: const EdgeInsets.only(left: 16.0, bottom: 8, top: 8),
                           child: Text(
-                            "Select up to ${_MAX_GUARDIANS_ALLOWED - snapshot.data.size} Guardians to invite",
+                            "Select up to ${_MAX_GUARDIANS_ALLOWED - snapshot.data!.size} Guardians to invite",
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
@@ -143,7 +144,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                                       .map((e) => Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: ActionChip(
-                                              label: Text(e.nickname),
+                                              label: Text(e.nickname!),
                                               avatar: Icon(Icons.highlight_off),
                                               onPressed: () {
                                                 setState(() {
@@ -155,7 +156,7 @@ class _SelectGuardiansState extends State<SelectGuardians> {
                                       .toList(),
                                 ),
                         ),
-                        Expanded(child: _usersList(context, snapshot.data.docs)),
+                        Expanded(child: _usersList(context, snapshot.data!.docs)),
                         MainButton(
                           active: selectedUsers.length > 0,
                           margin: const EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 16),
@@ -247,6 +248,6 @@ class _SelectGuardiansState extends State<SelectGuardians> {
   // Checks if an element is already selected or already a guardian
   bool _selected(MemberModel user, List<QueryDocumentSnapshot> alreadyGuardians) {
     return selectedUsers.contains(user) ||
-        alreadyGuardians.firstWhere((element) => element.id == user.account, orElse: () => null) != null;
+        alreadyGuardians.firstWhereOrNull((element) => element.id == user.account) != null;
   }
 }

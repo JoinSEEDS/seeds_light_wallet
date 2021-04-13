@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:share/share.dart';
@@ -42,12 +42,12 @@ class BackupService {
   BackupService();
 
   bool get showReminder {
-    if (settingsStorage.privateKeyBackedUp) {
+    if (settingsStorage.privateKeyBackedUp!) {
       return false;
     } else {
       final now = DateTime.now().millisecondsSinceEpoch;
       final incrementalDelay = settingsStorage.backupReminderCount * Duration.millisecondsPerSecond;
-      return settingsStorage.backupLatestReminder + incrementalDelay < now;
+      return settingsStorage.backupLatestReminder! + incrementalDelay < now;
     }
   }
 
@@ -58,7 +58,7 @@ class BackupService {
   }
 
   void backup() {
-    Share.share(settingsStorage.privateKey);
+    Share.share(settingsStorage.privateKey!);
     settingsStorage.savePrivateKeyBackedUp(true);
   }
 }

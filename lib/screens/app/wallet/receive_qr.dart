@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart' hide Action;
 import 'package:seeds/providers/services/eos_service.dart';
@@ -9,9 +9,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 class ReceiveQR extends StatefulWidget {
-  final double amount;
+  final double? amount;
 
-  ReceiveQR({Key key, @required this.amount}) : super(key: key);
+  ReceiveQR({Key? key, required this.amount}) : super(key: key);
 
   @override
   ReceiveQRState createState() => ReceiveQRState();
@@ -29,7 +29,7 @@ class ReceiveQRState extends State<ReceiveQR> {
   }
 
   void generateInvoice() async {
-    double receiveAmount = widget.amount;
+    double receiveAmount = widget.amount!;
 
     var uri = await EosService.of(context, listen: false)
         .generateInvoice(receiveAmount);
@@ -41,7 +41,7 @@ class ReceiveQRState extends State<ReceiveQR> {
 
   @override
   Widget build(BuildContext context) {
-    var acctName = EosService.of(context).accountName;
+    var acctName = EosService.of(context).accountName!;
     return Scaffold(
       appBar: AppBar(
           leading: IconButton(

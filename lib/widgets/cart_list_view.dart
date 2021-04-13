@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,11 +11,11 @@ import 'package:seeds/widgets/circle_avatar_factory.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 class CartListView extends StatefulWidget {
-  const CartListView({Key key, @required this.cart, this.onChange})
+  const CartListView({Key? key, required this.cart, this.onChange})
       : super(key: key);
 
-  final CartModel cart;
-  final Function onChange;
+  final CartModel? cart;
+  final Function? onChange;
 
   @override
   _CartListViewState createState() => _CartListViewState();
@@ -32,13 +32,13 @@ class _CartListViewState extends State<CartListView> {
           children: [
             Column(
                 children: 
-                  List<Widget>.of(widget.cart.lineItems.map((e) => Padding(
+                  List<Widget>.of(widget.cart!.lineItems.map((e) => Padding(
                       padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                       child: Row(children: [
-                        smallDevice ? Container() : CircleAvatarFactory.buildProductAvatar(e.product, size: 20),
+                        smallDevice ? Container() : CircleAvatarFactory.buildProductAvatar(e.product!, size: 20),
                         smallDevice ? Container() : SizedBox(width: 10),
                         Expanded(
-                          child: Text(e.product.name,
+                          child: Text(e.product!.name!,
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -54,9 +54,9 @@ class _CartListViewState extends State<CartListView> {
                               ? null
                               : () {
                                   setState(() {
-                                    widget.cart.remove(e.product);
+                                    widget.cart!.remove(e.product);
                                   });
-                                  widget.onChange();
+                                  widget.onChange!();
                                 },
                         ),
                         Text(e.quantity.toString(),
@@ -71,13 +71,13 @@ class _CartListViewState extends State<CartListView> {
                           ),
                           onPressed: () {
                             setState(() {
-                              widget.cart.add(e.product);
+                              widget.cart!.add(e.product);
                             });
-                            widget.onChange();
+                            widget.onChange!();
                           },
                         ),
                         Expanded(
-                          child: Text( (e.seedsPrice(rateNotifier)).seedsFormatted,
+                          child: Text( (e.seedsPrice(rateNotifier)).seedsFormatted!,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                   fontSize: 14,
@@ -104,7 +104,7 @@ class _CartListViewState extends State<CartListView> {
                                 fontWeight: FontWeight.w500,
                                 fontFamily: 'worksans')),
                         Spacer(),
-                        Text(widget.cart.total.seedsFormatted + ' SEEDS',
+                        Text(widget.cart!.total.seedsFormatted! + ' SEEDS',
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
@@ -115,7 +115,7 @@ class _CartListViewState extends State<CartListView> {
                       children:
                       [ 
                         Spacer(),
-                        Text( rateNotifier.seedsTo(widget.cart.total, fiat).fiatFormatted + ' $fiat',
+                        Text( rateNotifier.seedsTo(widget.cart!.total, fiat).fiatFormatted! + ' $fiat',
                             style: TextStyle(
                                 color: AppColors.blue,
                                 fontSize: 22,

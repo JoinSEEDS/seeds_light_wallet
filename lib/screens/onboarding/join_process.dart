@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
@@ -30,12 +30,12 @@ class JoinProcess extends StatefulWidget {
 class _JoinProcessState extends State<JoinProcess> {
   final machine = OnboardingStateMachine();
 
-  String nickname;
-  String accountName;
-  String privateKey;
-  String inviteCode;
-  String inviteSecret;
-  String inviterAccount;
+  String? nickname;
+  String? accountName;
+  String? privateKey;
+  String? inviteCode;
+  String? inviteSecret;
+  String? inviterAccount;
 
   @override
   void initState() {
@@ -117,7 +117,7 @@ class _JoinProcessState extends State<JoinProcess> {
     final recoveryPrivateKey = EOSPrivateKey.fromRandom();
 
     SettingsNotifier.of(context).enableRecoveryMode(
-      accountName: accountName,
+      accountName: accountName!,
       privateKey: recoveryPrivateKey.toString(),
     );
   }
@@ -148,7 +148,7 @@ class _JoinProcessState extends State<JoinProcess> {
   void secureAccountWithPasscode() async {
     await Future.delayed(Duration(milliseconds: 1500), () {});
     SettingsNotifier.of(context).saveAccount(
-      accountName,
+      accountName!,
       privateKey.toString(),
     );
   }
@@ -202,7 +202,7 @@ class _JoinProcessState extends State<JoinProcess> {
     inviteCode = inviteMnemonic;
     inviteSecret = secretFromMnemonic(inviteMnemonic);
 
-    InviteModel invite = await findInvite(inviteSecret);
+    InviteModel invite = await findInvite(inviteSecret!);
     if (invite.sponsor != null) {
       machine.transition(
         Events.foundInviteDetails,
@@ -238,8 +238,8 @@ class _JoinProcessState extends State<JoinProcess> {
 
   @override
   Widget build(BuildContext context) {
-    Widget currentScreen;
-    Function backCallback;
+    Widget? currentScreen;
+    Function? backCallback;
 
     switch (machine.currentState) {
       case States.startRecovery:
@@ -369,7 +369,7 @@ class InitRecovery extends StatefulWidget {
   @override
   _InitRecoveryState createState() => _InitRecoveryState();
 
-  InitRecovery({Function onSubmit});
+  InitRecovery({Function? onSubmit});
 }
 
 class _InitRecoveryState extends State<InitRecovery> {

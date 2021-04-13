@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:dart_esr/dart_esr.dart' as esr;
 import 'package:eosdart/eosdart.dart';
@@ -13,12 +13,12 @@ import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart'
 String chainId = '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11';
 
 class EosService {
-  String privateKey;
-  String accountName;
-  String baseURL = remoteConfigurations.defaultEndPointUrl;
+  String? privateKey;
+  String? accountName;
+  String? baseURL = remoteConfigurations.defaultEndPointUrl;
   String cpuPrivateKey = Config.cpuPrivateKey;
-  EOSClient client;
-  bool mockEnabled;
+  late EOSClient client;
+  late bool mockEnabled;
 
   static EosService of(BuildContext context, {bool listen = true}) => Provider.of(context, listen: listen);
 
@@ -32,8 +32,8 @@ class EosService {
     accountName = userAccountName;
     baseURL = nodeEndpoint;
     mockEnabled = enableMockTransactions;
-    if (privateKey != null && privateKey.isNotEmpty) {
-      client = EOSClient(baseURL, 'v1', privateKeys: [privateKey, cpuPrivateKey]);
+    if (privateKey != null && privateKey!.isNotEmpty) {
+      client = EOSClient(baseURL!, 'v1', privateKeys: [privateKey!, cpuPrivateKey]);
     }
   }
 
@@ -63,12 +63,12 @@ class EosService {
   }
 
   Future<dynamic> updateProfile({
-    String nickname,
-    String image,
-    String story,
-    String roles,
-    String skills,
-    String interests,
+    String? nickname,
+    String? image,
+    String? story,
+    String? roles,
+    String? skills,
+    String? interests,
   }) async {
     print('[eos] update profile');
 
@@ -100,7 +100,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> plantSeeds({double amount}) async {
+  Future<dynamic> plantSeeds({double? amount}) async {
     print('[eos] plant seeds ($amount)');
 
     if (mockEnabled) {
@@ -119,7 +119,7 @@ class EosService {
         ..data = {
           'from': accountName,
           'to': 'harvst.seeds',
-          'quantity': '${amount.toStringAsFixed(4)} SEEDS',
+          'quantity': '${amount!.toStringAsFixed(4)} SEEDS',
           'memo': '',
         }
     ]);
@@ -127,7 +127,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> createInvite({double quantity, String inviteHash}) async {
+  Future<dynamic> createInvite({required double quantity, String? inviteHash}) async {
     print('[eos] create invite $inviteHash ($quantity)');
 
     var sowQuantity = 5;
@@ -174,7 +174,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> acceptInvite({String accountName, String publicKey, String inviteSecret, String nickname}) async {
+  Future<dynamic> acceptInvite({String? accountName, String? publicKey, String? inviteSecret, String? nickname}) async {
     print('[eos] accept invite');
 
     if (mockEnabled) {
@@ -184,7 +184,7 @@ class EosService {
     var applicationPrivateKey = Config.onboardingPrivateKey;
     var applicationAccount = Config.onboardingAccountName;
 
-    var appClient = EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey]);
+    var appClient = EOSClient(baseURL!, 'v1', privateKeys: [applicationPrivateKey]);
 
     Map data = {
       'account': accountName,
@@ -212,7 +212,7 @@ class EosService {
     return appClient.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferTelos({String beneficiary, double amount, memo}) async {
+  Future<dynamic> transferTelos({String? beneficiary, double? amount, memo}) async {
     print('[eos] transfer telos to $beneficiary ($amount) memo: $memo');
 
     if (mockEnabled) {
@@ -231,7 +231,7 @@ class EosService {
         ..data = {
           'from': accountName,
           'to': beneficiary,
-          'quantity': '${amount.toStringAsFixed(4)} TLOS',
+          'quantity': '${amount!.toStringAsFixed(4)} TLOS',
           'memo': memo,
         }
     ]);
@@ -239,7 +239,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> transferSeeds({String beneficiary, double amount, String memo}) async {
+  Future<dynamic> transferSeeds({String? beneficiary, double? amount, String? memo}) async {
     print('[eos] transfer seeds to $beneficiary ($amount) memo: $memo');
 
     if (mockEnabled) {
@@ -258,7 +258,7 @@ class EosService {
         ..data = {
           'from': accountName,
           'to': beneficiary,
-          'quantity': '${amount.toStringAsFixed(4)} SEEDS',
+          'quantity': '${amount!.toStringAsFixed(4)} SEEDS',
           'memo': memo,
         }
     ]);
@@ -266,7 +266,7 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> voteProposal({int id, int amount}) async {
+  Future<dynamic> voteProposal({int? id, int? amount}) async {
     print('[eos] vote proposal $id ($amount)');
 
     if (mockEnabled) {
@@ -276,7 +276,7 @@ class EosService {
     var transaction = buildFreeTransaction([
       Action()
         ..account = 'funds.seeds'
-        ..name = amount.isNegative ? 'against' : 'favour'
+        ..name = amount!.isNegative ? 'against' : 'favour'
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -291,7 +291,7 @@ class EosService {
 // method to properly convert RequiredAuth to JSON - the library doesn't work
   Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) => <String, dynamic>{
         'threshold': instance.threshold,
-        'keys': List<dynamic>.from(instance.keys.map((e) => e.toJson())),
+        'keys': List<dynamic>.from(instance.keys!.map((e) => e!.toJson())),
         'accounts': instance.accounts,
         'waits': instance.waits
       };
@@ -303,7 +303,7 @@ class EosService {
       return HttpMockResponse.transactionResult;
     }
 
-    var permissionsMap = requiredAuthToJson(permission.requiredAuth);
+    var permissionsMap = requiredAuthToJson(permission.requiredAuth!);
 
     print('converted JSPN: ${permissionsMap.toString()}');
 
@@ -363,15 +363,15 @@ class EosService {
 
     final ownerPermission = currentPermissions.firstWhere((item) => item.permName == 'owner');
 
-    for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts) {
-      if (acct['permission']['actor'] == 'guard.seeds') {
+    for (Map<String, dynamic>? acct in ownerPermission.requiredAuth!.accounts as Iterable<Map<String, dynamic>?>) {
+      if (acct!['permission']['actor'] == 'guard.seeds') {
         print('permission already set, doing nothing');
         return;
       }
     }
 
-    ownerPermission.requiredAuth.accounts.add({
-      'weight': ownerPermission.requiredAuth.threshold,
+    ownerPermission.requiredAuth!.accounts!.add({
+      'weight': ownerPermission.requiredAuth!.threshold,
       'permission': {'actor': 'guard.seeds', 'permission': 'eosio.code'}
     });
 
@@ -390,14 +390,14 @@ class EosService {
     final ownerPermission = currentPermissions.firstWhere((item) => item.permName == 'owner');
 
     var newAccounts = <dynamic>[];
-    for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts) {
-      if (acct['permission']['actor'] == 'guard.seeds') {
+    for (Map<String, dynamic>? acct in ownerPermission.requiredAuth!.accounts as Iterable<Map<String, dynamic>?>) {
+      if (acct!['permission']['actor'] == 'guard.seeds') {
         //print("found guardian permission");
       } else {
         newAccounts.add(acct);
       }
     }
-    ownerPermission.requiredAuth.accounts = newAccounts;
+    ownerPermission.requiredAuth!.accounts = newAccounts;
     await updatePermission(ownerPermission);
   }
 
@@ -407,7 +407,7 @@ class EosService {
   ///
   /// Will fail when it's already set up - in that case, call cancelGuardians first.
   ///
-  Future<dynamic> initGuardians(List<String> guardians) async {
+  Future<dynamic> initGuardians(List<String?> guardians) async {
     print('[eos] init guardians: ' + guardians.toString());
 
     if (mockEnabled) {
@@ -440,7 +440,7 @@ class EosService {
   ///
   /// When 2 or 3 of the guardians call this function, the account can be recovered with claim
   ///
-  Future<dynamic> recoverAccount(String userAccount, String publicKey) async {
+  Future<dynamic> recoverAccount(String? userAccount, String publicKey) async {
     print('[eos] recover account $userAccount');
 
     if (mockEnabled) {
@@ -526,7 +526,7 @@ class EosService {
 
     var applicationPrivateKey = Config.onboardingPrivateKey;
 
-    var appClient = EOSClient(baseURL, 'v1', privateKeys: [applicationPrivateKey]);
+    var appClient = EOSClient(baseURL!, 'v1', privateKeys: [applicationPrivateKey]);
 
     var transaction = Transaction()
       ..actions = [
@@ -566,14 +566,14 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> sendTransaction(List<Action> actions) async {
+  Future<dynamic> sendTransaction(List<Action>? actions) async {
     print('[eos] send transaction');
 
     if (mockEnabled) {
       return HttpMockResponse.transactionResult;
     }
 
-    actions.forEach((action) => {
+    actions!.forEach((action) => {
           action.authorization = [
             Authorization()
               ..actor = accountName

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart' hide Action;
 import 'package:flutter/rendering.dart';
@@ -9,9 +9,9 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 class ReceiveConfirmation extends StatefulWidget {
-  final CartModel cart;
+  final CartModel? cart;
 
-  ReceiveConfirmation({Key key, @required this.cart}) : super(key: key);
+  ReceiveConfirmation({Key? key, required this.cart}) : super(key: key);
 
   @override
   _ReceiveConfirmationState createState() => _ReceiveConfirmationState();
@@ -38,11 +38,11 @@ class _ReceiveConfirmationState extends State<ReceiveConfirmation> {
                 padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                 child: MainButton(
                     title: "Next".i18n,
-                    active: widget.cart.total != 0,
+                    active: widget.cart!.total != 0,
                     onPressed: () {
                       FocusScope.of(context).unfocus();
                       NavigationService.of(context)
-                          .navigateTo(Routes.receiveQR, widget.cart.total);
+                          .navigateTo(Routes.receiveQR, widget.cart!.total);
                     }),
               ),
       body: Container(

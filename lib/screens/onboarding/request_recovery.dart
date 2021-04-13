@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:seeds/providers/services/http_service.dart';
@@ -6,7 +6,7 @@ import 'package:seeds/widgets/account_name_field.dart';
 import 'package:seeds/widgets/main_button.dart';
 
 class RequestRecovery extends StatefulWidget {
-  final Function onRequestRecovery;
+  final Function? onRequestRecovery;
   RequestRecovery({this.onRequestRecovery});
 
   @override
@@ -18,7 +18,7 @@ class _RequestRecoveryState extends State<RequestRecovery> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
+    return FutureBuilder<bool?>(
         future: checkGuardiansExists(accountNameController.text),
         builder: (context, snapshot) {
           return buildAccountForm(snapshot);
@@ -59,7 +59,7 @@ class _RequestRecoveryState extends State<RequestRecovery> {
                     firstChild: MainButton(
                       title: "Recover account",
                       onPressed: () {
-                        widget.onRequestRecovery(accountNameController.text);
+                        widget.onRequestRecovery!(accountNameController.text);
                       },
                     ),
                     secondChild: Padding(
@@ -85,10 +85,10 @@ class _RequestRecoveryState extends State<RequestRecovery> {
     );
   }
 
-  Future<bool> checkGuardiansExists(String accountName) async {
+  Future<bool?> checkGuardiansExists(String accountName) async {
     final guardians =
-        await HttpService.of(context).getAccountGuardians(accountName);
+        await (HttpService.of(context).getAccountGuardians(accountName));
 
-    return guardians.exists;
+    return guardians!.exists;
   }
 }

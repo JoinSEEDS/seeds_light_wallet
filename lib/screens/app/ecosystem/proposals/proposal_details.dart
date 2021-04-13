@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +17,9 @@ import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:seeds/i18n/proposals.i18n.dart';
 
 class ProposalDetailsPage extends StatefulWidget {
-  final ProposalModel proposal;
+  final ProposalModel? proposal;
 
-  const ProposalDetailsPage({Key key, @required this.proposal})
+  const ProposalDetailsPage({Key? key, required this.proposal})
       : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class ProposalDetailsPage extends StatefulWidget {
 }
 
 class ProposalDetailsPageState extends State<ProposalDetailsPage> {
-  VoiceModel voice;
+  VoiceModel? voice;
 
   double _vote = 0;
 
@@ -35,7 +35,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
 
   @override
   void didChangeDependencies() {
-    var future = widget.proposal.type == ProposalType.alliance ?
+    var future = widget.proposal!.type == ProposalType.alliance ?
       Provider.of<HttpService>(context).getAllianceVoice() :
       Provider.of<HttpService>(context).getCampaignVoice();
       future.then((value) => {
@@ -48,7 +48,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final proposal = widget.proposal;
+    final proposal = widget.proposal!;
 
     return Scaffold(
       body: CustomScrollView(
@@ -102,7 +102,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
     final textTheme = Theme.of(context).textTheme;
 
     double quantity =
-        double.tryParse(proposal.quantity.replaceAll(RegExp(r' SEEDS'), '')) ??
+        double.tryParse(proposal.quantity!.replaceAll(RegExp(r' SEEDS'), '')) ??
             0.0;
 
     NumberFormat format =
@@ -153,11 +153,11 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                   ),
                   TextSpan(
                     text: proposal.url,
-                    style: textTheme.subtitle1.copyWith(color: Colors.blue),
+                    style: textTheme.subtitle1!.copyWith(color: Colors.blue),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
-                        if (await UrlLauncher.canLaunch(proposal.url)) {
-                          await UrlLauncher.launch(proposal.url);
+                        if (await UrlLauncher.canLaunch(proposal.url!)) {
+                          await UrlLauncher.launch(proposal.url!);
                         } else {
                           errorToast("Couldn't open this url".i18n);
                         }
@@ -196,13 +196,11 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      snapshot.hasData && snapshot.data.voted
-                          ? 'Voted'.i18n
-                          : ('Voting'.i18n + " - " + (proposal.type == ProposalType.alliance ? "Alliance".i18n : "Campaign".i18n)),
+                    Text( 'Voted'.i18n,
+                          // : ('Voting'.i18n + " - " + (proposal.type == ProposalType.alliance ? "Alliance".i18n : "Campaign".i18n)),
                       style: textTheme.headline6,
                     ),
-                    snapshot.hasData && snapshot.data.voted
+                    snapshot.hasData// && snapshot.data.voted
                         ? Container()
                         : SeedsButton(
                             'Vote'.i18n,
@@ -233,7 +231,9 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                 SizedBox(height: 12),
                 voice == null
                     ? Text("You have no trust tokens".i18n)
-                    : snapshot.hasData && snapshot.data.voted ? Container() : Container()
+                    : snapshot.hasData
+                    //&& snapshot!.data.voted
+                    ? Container() : Container()
                         // ? FluidSlider(
                         //     value: snapshot.data.amount.toDouble(),
                         //     onChanged: (double newValue) {},

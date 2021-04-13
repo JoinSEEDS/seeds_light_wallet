@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'dart:math' as math;
 
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/generated/r.dart';
 
 class NotionLoader extends StatefulWidget {
-  final String notion;
+  final String? notion;
 
   NotionLoader({this.notion});
 
@@ -16,7 +16,7 @@ class NotionLoader extends StatefulWidget {
 
 class _NotionLoaderState extends State<NotionLoader>
     with SingleTickerProviderStateMixin {
-  AnimationController animationController;
+  late AnimationController animationController;
 
   @override
   void dispose() {
@@ -64,7 +64,7 @@ class _NotionLoaderState extends State<NotionLoader>
         Container(
           padding: EdgeInsets.symmetric(horizontal: 17),
           child: Text(
-            widget.notion,
+            widget.notion!,
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w400,
