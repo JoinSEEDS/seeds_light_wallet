@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:seeds/v2/components/circular_progress_item.dart';

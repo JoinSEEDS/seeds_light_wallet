@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';

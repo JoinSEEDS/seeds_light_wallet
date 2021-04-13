@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:firebase_remote_config/firebase_remote_config.dart';
+// import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_eos_servers.dart';
 
 const String _featureFlagGuardianKey = 'feature_guardians';
@@ -32,7 +32,7 @@ class _FirebaseRemoteConfigService {
     _defaultEndPointUrlKey: _defaultEndPointUrl
   };
 
-  RemoteConfig _remoteConfig;
+  // RemoteConfig _remoteConfig;
 
   _FirebaseRemoteConfigService._();
 
@@ -42,50 +42,51 @@ class _FirebaseRemoteConfigService {
 
   void refresh() {
     // Config has not been init yet. Dont call this function.
-    if (_remoteConfig == null) {
-      return;
-    }
+    // if (_remoteConfig == null) {
+    //   return;
+    // }
 
-    _remoteConfig.fetch().then((value) {
-      print(" _remoteConfig fetch worked");
-      _remoteConfig.activate().then((bool value) {
-        print(" _remoteConfig activate worked params were activated " + value.toString());
-      }).onError((error, stackTrace) {
-        print(" _remoteConfig activate failed");
-      });
-    }).onError((error, stackTrace) {
-      print(" _remoteConfig fetch failed");
-    });
+    // _remoteConfig.fetch().then((value) {
+    //   print(" _remoteConfig fetch worked");
+    //   _remoteConfig.activate().then((bool value) {
+    //     print(" _remoteConfig activate worked params were activated " + value.toString());
+    //   }).onError((error, stackTrace) {
+    //     print(" _remoteConfig activate failed");
+    //   });
+    // }).onError((error, stackTrace) {
+    //   print(" _remoteConfig fetch failed");
+    // });
   }
 
   Future initialise() async {
-    _remoteConfig = await RemoteConfig.instance;
-
-    /// Maximum age of a cached config before it is considered stale. we set to 60 secs since we store important data.
-    await _remoteConfig.setConfigSettings(RemoteConfigSettings(
-      minimumFetchInterval: const Duration(seconds: 60),
-      fetchTimeout: const Duration(seconds: 60),
-    ));
-
-    await _remoteConfig.setDefaults(defaults);
-    refresh();
+    // _remoteConfig = await RemoteConfig.instance;
+    //
+    // /// Maximum age of a cached config before it is considered stale. we set to 60 secs since we store important data.
+    // await _remoteConfig.setConfigSettings(RemoteConfigSettings(
+    //   minimumFetchInterval: const Duration(seconds: 60),
+    //   fetchTimeout: const Duration(seconds: 60),
+    // ));
+    //
+    // await _remoteConfig.setDefaults(defaults);
+    // refresh();
   }
 
-  bool get featureFlagGuardiansEnabled => _remoteConfig.getBool(_featureFlagGuardianKey);
+  bool get featureFlagGuardiansEnabled => false;//_remoteConfig.getBool(_featureFlagGuardianKey);
 
-  String get termsAndConditions => _remoteConfig.getString(_termsAndConditionsUrlKey);
+  String get termsAndConditions => _termsAndConditionsDefaultUrl;//_remoteConfig.getString(_termsAndConditionsUrlKey);
 
-  String get privacyPolicy => _remoteConfig.getString(_privacyPolicyKey);
+  String get privacyPolicy => _privacyPolicyUrl;//_remoteConfig.getString(_privacyPolicyKey);
 
-  String get hyphaEndPoint => _remoteConfig.getString(_hyphaEndPointUrl);
+  String get hyphaEndPoint => _hyphaEndPointUrl;//_remoteConfig.getString(_hyphaEndPointUrl);
 
-  String get explorerUrl => _remoteConfig.getString(_explorerUrlKey);
+  String get explorerUrl => _explorerUrl;//_remoteConfig.getString(_explorerUrlKey);
 
-  String get dhoExplorerUrl => _remoteConfig.getString(_dhoExplorerUrlKey);
+  String get dhoExplorerUrl => _explorerUrl;//_dhoExplorerUrl;//_remoteConfig.getString(_dhoExplorerUrlKey);
 
-  String get defaultEndPointUrl => _remoteConfig.getString(_defaultEndPointUrlKey);
+  String get defaultEndPointUrl => _defaultEndPointUrl;//_remoteConfig.getString(_defaultEndPointUrlKey);
 
-  FirebaseEosServer get activeEOSServerUrl => parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey))
+  //_remoteConfig.getString(_activeEOSEndpointKey)
+  FirebaseEosServer get activeEOSServerUrl => parseEosServers(_eosEndpoints)
       .firstWhere((FirebaseEosServer element) => element.isDefault);
 }
 
