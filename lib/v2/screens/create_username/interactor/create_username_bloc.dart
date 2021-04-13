@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/create_username/interactor/viewmodels/create_username_events.dart';
 import 'package:seeds/v2/screens/create_username/interactor/viewmodels/create_username_state.dart';
 
