@@ -29,9 +29,8 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         isCreateView: settingsStorage.passcode == null,
         isCreateMode: settingsStorage.passcode == null,
       );
-      // If It's verification mode then start biometrics (now as default, next PR I'll add the below codition)
-      // if (settingsStorage.passcode != null && settingsStorage.biometricActive)
-      if (settingsStorage.passcode != null) {
+      // If It's verification mode and biometric is enabled -> start biomtric
+      if (settingsStorage.passcode != null && settingsStorage.biometricActive) {
         // Fecht available biometrics
         final authTypesAvailable = await BiometricsAvailablesUseCase().run();
         yield AuthTypesStateMapper().mapResultToState(state, authTypesAvailable);

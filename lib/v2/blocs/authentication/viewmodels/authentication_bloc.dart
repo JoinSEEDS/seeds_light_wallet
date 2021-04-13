@@ -23,6 +23,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is DisablePasscode) {
       settingsStorage.passcode = null;
       settingsStorage.passcodeActive = false;
+      settingsStorage.biometricActive = false;
       yield AuthStatusStateMapper().mapResultToState(state);
     }
   }

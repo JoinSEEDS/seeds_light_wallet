@@ -28,7 +28,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       yield state.copyWith(
         pageState: PageState.success,
         isSecurePasscode: settingsStorage.passcodeActive,
-        isSecureBiometric: true,
+        isSecureBiometric: settingsStorage.biometricActive,
         hasNotification: false,
       );
     }
@@ -44,7 +44,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     }
     if (event is OnPasscodeChanged) {
       if (state.isSecurePasscode) {
-        yield state.copyWith(isSecurePasscode: false);
+        yield state.copyWith(isSecurePasscode: false, isSecureBiometric: false);
         _authenticationBloc.add(const DisablePasscode());
       } else {
         yield state.copyWith(isSecurePasscode: true);
@@ -52,7 +52,13 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       }
     }
     if (event is OnBiometricsChanged) {
-      yield state.copyWith(isSecureBiometric: !state.isSecureBiometric);
+      if (state.isSecureBiometric) {
+        yield state.copyWith(isSecureBiometric: false);
+        settingsStorage.biometricActive = false;
+      } else {
+        yield state.copyWith(isSecureBiometric: true);
+        settingsStorage.biometricActive = true;
+      }
     }
   }
 

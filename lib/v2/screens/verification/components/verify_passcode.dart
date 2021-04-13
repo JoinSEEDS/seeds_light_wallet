@@ -6,6 +6,7 @@ import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/passcode.i18n.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
 
 class VerifyPasscode extends StatefulWidget {
@@ -28,7 +29,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
             listener: (context, state) => _verificationNotifier.add(state.isValidPasscode),
           ),
           BlocListener<VerificationBloc, VerificationState>(
-            listenWhen: (_, current) => current.onBiometricAuthorized,
+            listenWhen: (_, current) => current.onBiometricAuthorized != null,
             listener: (context, _) => Navigator.of(context).pop(),
           ),
           BlocListener<VerificationBloc, VerificationState>(
@@ -59,7 +60,22 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
           passwordEnteredCallback: (passcode) =>
               BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
           isValidCallback: () => BlocProvider.of<VerificationBloc>(context).add(const OnValidVerifyPasscode()),
-          bottomWidget: const SizedBox.shrink(),
+          bottomWidget: settingsStorage.biometricActive
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: OutlinedButton(
+                      style: ButtonStyle(
+                        side: MaterialStateProperty.resolveWith<BorderSide>(
+                            (states) => const BorderSide(color: AppColors.white)),
+                        shape: MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
+                          return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
+                        }),
+                      ),
+                      child: Text('Disable Pincode'.i18n,
+                          textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
+                      onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric())),
+                )
+              : const SizedBox.shrink(),
           circleUIConfig: const CircleUIConfig(circleSize: 14),
         ),
       ),

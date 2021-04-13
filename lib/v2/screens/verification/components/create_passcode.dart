@@ -30,19 +30,6 @@ class _CreatePasscodeState extends State<CreatePasscode> {
       passwordEnteredCallback: (passcode) async {
         BlocProvider.of<VerificationBloc>(context).add(OnCreatePasscode(passcode: passcode));
       },
-      bottomWidget: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: OutlinedButton(
-            style: ButtonStyle(
-              side: MaterialStateProperty.resolveWith<BorderSide>((states) => const BorderSide(color: AppColors.white)),
-              shape: MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
-                return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
-              }),
-            ),
-            child:
-                Text('Disable Pincode'.i18n, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
-            onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric())),
-      ),
       circleUIConfig: const CircleUIConfig(circleSize: 14),
     );
   }

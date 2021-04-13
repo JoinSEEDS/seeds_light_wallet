@@ -148,13 +148,14 @@ class SecurityScreen extends StatelessWidget {
                         icon: const Icon(Icons.fingerprint),
                         title: 'Secure with Touch/Face ID'.i18n,
                         titleWidget: BlocBuilder<SecurityBloc, SecurityState>(
-                          buildWhen: (previous, current) => previous.isSecureBiometric != current.isSecureBiometric,
                           builder: (context, state) {
                             return Switch(
                               value: state.isSecureBiometric,
-                              onChanged: (_) {
-                                BlocProvider.of<SecurityBloc>(context).add(const OnBiometricsChanged());
-                              },
+                              onChanged: state.isSecurePasscode
+                                  ? (_) {
+                                      BlocProvider.of<SecurityBloc>(context).add(const OnBiometricsChanged());
+                                    }
+                                  : null,
                               activeTrackColor: AppColors.canopy,
                               activeColor: AppColors.white,
                             );
