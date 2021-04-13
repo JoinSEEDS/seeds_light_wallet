@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:uni_links/uni_links.dart';
+// import 'package:uni_links/uni_links.dart';
 
 class LinksService {
   String inviterAccount;
@@ -13,15 +13,16 @@ class LinksService {
   }
 
   Future<void> listenSigningRequests(Function callback) async {
-    try {
-      final initialLink = await getInitialLink();
-
-      callback(initialLink);
-    } catch (err) {
-      print(err.toString());
-    }
-
-    getLinksStream().listen(callback);
+    // TODO(gguij002):  uni_links lib is not null safe. We need to wait for it to be or find a diff one.
+    // try {
+    //   final initialLink = await getInitialLink();
+    //
+    //   callback(initialLink);
+    // } catch (err) {
+    //   print(err.toString());
+    // }
+    //
+    // getLinksStream().listen(callback);
   }
 
   Future<dynamic> processInitialLink() async {
