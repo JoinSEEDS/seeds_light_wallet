@@ -40,7 +40,7 @@ class ProfileMiddle extends StatelessWidget {
                   style: Theme.of(context).textTheme.subtitle2HighEmphasis,
                 ),
                 trailing: Text(
-                  settingsStorage.selectedFiatCurrency,
+                  settingsStorage.selectedFiatCurrency ?? "USD",
                   style: Theme.of(context).textTheme.subtitle1HighEmphasis,
                 ),
                 onTap: () async {

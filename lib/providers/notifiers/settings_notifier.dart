@@ -27,7 +27,7 @@ class SettingsNotifier extends ChangeNotifier {
   late int _backupReminderCount;
 
   bool get isInitialized => _preferences != null;
-  String get accountName => _preferences.getString(ACCOUNT_NAME)!;
+  String? get accountName => _preferences.getString(ACCOUNT_NAME);
   String? get privateKey => _privateKey;
   String? get passcode => _passcode;
   bool? get passcodeActive => _passcodeActive;
