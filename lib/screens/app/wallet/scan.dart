@@ -3,7 +3,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 enum Steps { scan, processing, success, error }
 
@@ -35,37 +35,37 @@ class _ScanState extends State<Scan> {
   }
 
   void processSigningRequest(SeedsESR esr) async {
-    var action = esr.actions.first;
-    try {
-      if (action.account.isNotEmpty && action.name.isNotEmpty) {
-        setState(() {
-          this.step = Steps.success;
-        });
-
-        Map<String, dynamic> data = Map<String, dynamic>.from(action.data);
-
-        NavigationService.of(context).navigateTo(
-            Routes.sendConfirmationScreen,
-            SendConfirmationArguments(
-              account: action.account,
-              name: action.name,
-              data: data,
-            ),
-            true);
-      } else {
-        print("unable to read QR, continuing");
-        setState(() {
-          _handledQrCode = false;
-          this.step = Steps.scan;
-        });
-      }
-    } catch (e) {
-      print("scan error: " + e);
-      setState(() {
-        this.error = 'Invalid QR code';
-        this.step = Steps.error;
-      });
-    }
+    // var action = esr.actions.first;
+    // try {
+    //   if (action.account.isNotEmpty && action.name.isNotEmpty) {
+    //     setState(() {
+    //       this.step = Steps.success;
+    //     });
+    //
+    //     Map<String, dynamic> data = Map<String, dynamic>.from(action.data);
+    //
+    //     NavigationService.of(context).navigateTo(
+    //         Routes.sendConfirmationScreen,
+    //         SendConfirmationArguments(
+    //           account: action.account,
+    //           name: action.name,
+    //           data: data,
+    //         ),
+    //         true);
+    //   } else {
+    //     print("unable to read QR, continuing");
+    //     setState(() {
+    //       _handledQrCode = false;
+    //       this.step = Steps.scan;
+    //     });
+    //   }
+    // } catch (e) {
+    //   print("scan error: " + e);
+    //   setState(() {
+    //     this.error = 'Invalid QR code';
+    //     this.step = Steps.error;
+    //   });
+    // }
   }
 
   void _showToast(BuildContext context, String message) {
@@ -76,50 +76,50 @@ class _ScanState extends State<Scan> {
   }
 
   Future<void> _onQRViewCreated(QRViewController controller) async {
-    this.controller = controller;
-
-    controller.scannedDataStream.listen(
-      (String scanResult) async {
-        if (_handledQrCode) {
-          return;
-        }
-
-        _handledQrCode = true;
-
-        if (scanResult == null) {
-          Navigator.of(context).pop();
-        } else {
-          setState(() {
-            this.step = Steps.processing;
-            this.qrcode = scanResult;
-          });
-
-          if (widget.shouldSendResultsBack) {
-            Navigator.pop(context, scanResult);
-          } else {
-            // QUESTION: Why do we not check for other URL types like deep link for invite here?
-            var esr;
-            print("Scanning QR Code: " + scanResult);
-            try {
-              esr = SeedsESR(uri: scanResult);
-              await esr.resolve(account: SettingsNotifier.of(context, listen: false).accountName);
-            } catch (e) {
-              print("can't parse ESR " + e.toString());
-              print("ignoring... show toast");
-              _showToast(context, "Invalid QR code");
-
-              setState(() {
-                _handledQrCode = false;
-                this.step = Steps.scan;
-              });
-            }
-            if (esr != null && canProcess(esr)) {
-              processSigningRequest(esr);
-            }
-          }
-        }
-      },
-    );
+    // this.controller = controller;
+    //
+    // controller.scannedDataStream.listen(
+    //   (String scanResult) async {
+    //     if (_handledQrCode) {
+    //       return;
+    //     }
+    //
+    //     _handledQrCode = true;
+    //
+    //     if (scanResult == null) {
+    //       Navigator.of(context).pop();
+    //     } else {
+    //       setState(() {
+    //         this.step = Steps.processing;
+    //         this.qrcode = scanResult;
+    //       });
+    //
+    //       if (widget.shouldSendResultsBack) {
+    //         Navigator.pop(context, scanResult);
+    //       } else {
+    //         // QUESTION: Why do we not check for other URL types like deep link for invite here?
+    //         var esr;
+    //         print("Scanning QR Code: " + scanResult);
+    //         try {
+    //           esr = SeedsESR(uri: scanResult);
+    //           await esr.resolve(account: SettingsNotifier.of(context, listen: false).accountName);
+    //         } catch (e) {
+    //           print("can't parse ESR " + e.toString());
+    //           print("ignoring... show toast");
+    //           _showToast(context, "Invalid QR code");
+    //
+    //           setState(() {
+    //             _handledQrCode = false;
+    //             this.step = Steps.scan;
+    //           });
+    //         }
+    //         if (esr != null && canProcess(esr)) {
+    //           processSigningRequest(esr);
+    //         }
+    //       }
+    //     }
+    //   },
+    // );
   }
 
   @override
@@ -137,7 +137,7 @@ class _ScanState extends State<Scan> {
                 child: QRView(
                   key: qrKey,
                   onQRViewCreated: _onQRViewCreated,
-                  showNativeAlertDialog: true,
+                  // showNativeAlertDialog: true,
                 ),
               ),
             ],
