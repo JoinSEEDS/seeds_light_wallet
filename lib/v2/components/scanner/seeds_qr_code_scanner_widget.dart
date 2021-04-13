@@ -24,7 +24,6 @@ class SeedsQRCodeScannerWidget extends StatelessWidget {
                 child: QRView(
                   key: qrKey,
                   onQRViewCreated: onQRViewCreated,
-                  showNativeAlertDialog: true,
                 ),
               ),
             ),
