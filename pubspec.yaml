@@ -62,10 +62,7 @@ dependencies:
   dotted_border: ^2.0.0-nullsafety.0
   pedantic: ^1.9.2
   flutter_pagewise: ^2.0.1
-  qr_code_scanner:
-    git:
-      url: git://github.com/triply-at/qr_code_scanner.git
-      ref: master
+  qr_code_scanner: ^0.4.0
 
 dev_dependencies:
   flutter_test:

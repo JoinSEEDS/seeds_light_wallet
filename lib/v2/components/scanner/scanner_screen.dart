@@ -66,19 +66,17 @@ class _ScannerScreenState extends State<ScannerScreen> {
   Future<void> _onQRViewCreated(QRViewController controller) async {
     _controller = controller;
 
-    controller.scannedDataStream.listen(
-      (String scanResult) async {
-        if (_handledQrCode || scanResult == null) {
-          return;
-        }
+    _controller.scannedDataStream.listen((Barcode event) {
+      if (event.code == null || event.code.isEmpty) {
+        return;
+      }
 
-        setState(() {
-          _handledQrCode = true;
-        });
+      setState(() {
+        _handledQrCode = true;
+      });
 
-        widget.resultCallBack(scanResult);
-      },
-    );
+      widget.resultCallBack(event.code);
+    });
   }
 
   Widget buildStateView(state) {
