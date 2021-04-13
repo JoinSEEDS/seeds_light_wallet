@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
@@ -36,7 +34,7 @@ final providers = [
   ),
   ChangeNotifierProxyProvider<ConnectionNotifier, SettingsNotifier>(
     create: (_) => SettingsNotifier()..init(),
-    update: (_, connection, settings) => settings
+    update: (_, connection, settings) => settings!
       ..update(
         nodeEndpoint: connection.currentEndpoint,
       ),
@@ -45,7 +43,7 @@ final providers = [
       create: (_) => AuthNotifier(),
       update: (_, settings, auth) {
         if (settings.isInitialized) {
-          return auth
+          return auth!
             ..update(
               accountName: settings.accountName,
               privateKey: settings.privateKey,
@@ -54,12 +52,12 @@ final providers = [
               inRecoveryMode: settings.inRecoveryMode,
             );
         } else {
-          return auth;
+          return auth!;
         }
       }),
   ProxyProvider<SettingsNotifier, LinksService>(
     create: (_) => LinksService(),
-    update: (_, settings, links) => links
+    update: (_, settings, links) => links!
       ..update(
         accountName: settings.accountName,
         enableMockLink: false,
@@ -67,7 +65,7 @@ final providers = [
   ),
   ProxyProvider<SettingsNotifier, HttpService>(
     create: (_) => HttpService(),
-    update: (_, settings, http) => http
+    update: (_, settings, http) => http!
       ..update(
         accountName: settings.accountName,
         nodeEndpoint: settings.nodeEndpoint,
@@ -76,7 +74,7 @@ final providers = [
   ),
   ProxyProvider<SettingsNotifier, EosService>(
     create: (context) => EosService(),
-    update: (context, settings, eos) => eos
+    update: (context, settings, eos) => eos!
       ..update(
         userPrivateKey: settings.privateKey,
         userAccountName: settings.accountName,
@@ -86,67 +84,67 @@ final providers = [
   ),
   ChangeNotifierProxyProvider<HttpService, MembersNotifier>(
     create: (context) => MembersNotifier(),
-    update: (context, http, members) => members..update(http: http),
+    update: (context, http, members) => members!..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, TransactionsNotifier>(
     create: (context) => TransactionsNotifier(),
-    update: (context, http, transactions) => transactions..update(http: http),
+    update: (context, http, transactions) => transactions!..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, TelosBalanceNotifier>(
     create: (context) => TelosBalanceNotifier(),
-    update: (context, http, balance) => balance..update(http: http),
+    update: (context, http, balance) => balance!..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, BalanceNotifier>(
     create: (context) => BalanceNotifier(),
-    update: (context, http, balance) => balance..update(http: http),
+    update: (context, http, balance) => balance!..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, DhoNotifier>(
     create: (context) => DhoNotifier(),
-    update: (context, http, notifier) => notifier..update(http: http),
+    update: (context, http, notifier) => notifier!..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, RateNotifier>(
     create: (context) => RateNotifier(),
-    update: (context, http, rate) => rate..update(http: http),
+    update: (context, http, rate) => rate!..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, VotedNotifier>(
     create: (context) => VotedNotifier(),
-    update: (context, http, vote) => vote..update(http: http),
+    update: (context, http, vote) => vote!..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, VoiceNotifier>(
     create: (context) => VoiceNotifier(),
-    update: (context, http, balance) => balance..update(http: http),
+    update: (context, http, balance) => balance!..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, PlantedNotifier>(
     create: (context) => PlantedNotifier(),
-    update: (context, http, balance) => balance..update(http: http),
+    update: (context, http, balance) => balance!..update(http: http),
   ),
   ChangeNotifierProxyProvider<HttpService, ProfileNotifier>(
     create: (context) => ProfileNotifier(),
-    update: (context, http, members) => members..update(http: http),
+    update: (context, http, members) => members!..update(http: http),
   ),
   Provider(
     create: (_) => BiometricsService(LocalAuthentication()),
   ),
   ProxyProvider3<BiometricsService, AuthNotifier, SettingsNotifier, AuthBloc>(
     create: (_) => AuthBloc(),
-    update: (_, service, authNotifier, settingsNotifier, authBloc) => authBloc
+    update: (_, service, authNotifier, settingsNotifier, authBloc) => authBloc!
       ..update(service, authNotifier,
           settingsNotifier), // AuthNotifier seems broken, shouldn't need to be updated so often
     // dispose:
   ),
   ProxyProvider<SettingsNotifier, BackupService>(
     create: (_) => BackupService(),
-    update: (_, settings, backupService) => backupService..update(settings),
+    update: (_, settings, backupService) => backupService!..update(settings),
   ),
   ProxyProvider<HttpService, AccountGeneratorService>(
     create: (_) => AccountGeneratorService(),
     update: (_, httpService, accountGeneratorService) =>
-        accountGeneratorService..update(httpService),
+        accountGeneratorService!..update(httpService),
   ),
   ProxyProvider<AccountGeneratorService, CreateAccountBloc>(
     create: (_) => CreateAccountBloc(),
     update: (_, accountGeneratorService, createAccountBloc) =>
-        createAccountBloc..update(accountGeneratorService),
+        createAccountBloc!..update(accountGeneratorService),
   ),
   Provider(
     create: (_) => PermissionService(),
