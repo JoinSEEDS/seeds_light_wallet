@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/generated/r.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 import 'package:seeds/utils/error_builder.dart';
