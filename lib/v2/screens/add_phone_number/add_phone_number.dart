@@ -10,7 +10,7 @@ class AddPhoneNumberScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(),
         body: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(children: [
             const TextFormFieldCustom(labelText: "Add Phone Number"),
             Expanded(
@@ -19,6 +19,9 @@ class AddPhoneNumberScreen extends StatelessWidget {
             FlatButtonLong(
               title: "Next",
               onPressed: () {},
+            ),
+            const SizedBox(
+              height: 10,
             ),
             TextButton(onPressed: () {}, child: Text("Skip for now", style: Theme.of(context).textTheme.button))
           ]),
