@@ -28,10 +28,10 @@ class OnGuardiansCardTapped extends SecurityEvent {
   String toString() => 'OnGuardiansCardTapped';
 }
 
-class OnPinChanged extends SecurityEvent {
-  const OnPinChanged();
+class OnPasscodeChanged extends SecurityEvent {
+  const OnPasscodeChanged();
   @override
-  String toString() => 'OnPinChanged';
+  String toString() => 'OnPasscodeChanged';
 }
 
 class OnBiometricsChanged extends SecurityEvent {

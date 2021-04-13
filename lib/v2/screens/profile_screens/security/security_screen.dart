@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/i18n/security.i18n.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
@@ -22,7 +23,8 @@ class SecurityScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Security'.i18n)),
       body: BlocProvider(
-        create: (context) => SecurityBloc()..add(const SetUpInitialValues()),
+        create: (context) => SecurityBloc(authenticationBloc: BlocProvider.of<AuthenticationBloc>(context))
+          ..add(const SetUpInitialValues()),
         child: MultiBlocListener(
           listeners: [
             BlocListener<SecurityBloc, SecurityState>(
@@ -131,7 +133,7 @@ class SecurityScreen extends StatelessWidget {
                               value: state.isSecurePasscode,
                               onChanged: (_) {
                                 NavigationService.of(context).navigateTo(
-                                  Routes.passcode,
+                                  Routes.verification,
                                   BlocProvider.of<SecurityBloc>(context),
                                 );
                               },

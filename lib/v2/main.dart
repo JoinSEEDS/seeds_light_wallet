@@ -10,7 +10,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/v2/screens/biometrics/biometrics_verification.dart';
 import 'package:seeds/providers/providers.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
@@ -23,7 +22,7 @@ import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart'
 import 'package:seeds/v2/domain-shared/bloc_observer.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
-import 'package:seeds/v2/screens/passcode/passcode_screen.dart';
+import 'package:seeds/v2/screens/verification/verification_screen.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 
 bool get isInDebugMode {
@@ -135,9 +134,9 @@ class MainScreen extends StatelessWidget {
               onGenerateRoute: navigationService.onGenerateRoute,
             );
           case AuthStatus.emptyPasscode:
-            return SeedsMaterialApp(home: const PasscodeScreen());
+            return SeedsMaterialApp(home: const VerificationScreen());
           case AuthStatus.locked:
-            return SeedsMaterialApp(home: const BiometricsVerification());
+            return SeedsMaterialApp(home: const VerificationScreen());
           case AuthStatus.unlocked:
             return ToolboxApp(
               child: SeedsMaterialApp(

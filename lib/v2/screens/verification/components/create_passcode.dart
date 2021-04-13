@@ -6,8 +6,7 @@ import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/passcode.i18n.dart';
-import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/passcode/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
 
 class CreatePasscode extends StatefulWidget {
   const CreatePasscode({Key key}) : super(key: key);
@@ -29,7 +28,7 @@ class _CreatePasscodeState extends State<CreatePasscode> {
       backgroundColor: AppColors.primary,
       shouldTriggerVerification: _verificationNotifier.stream,
       passwordEnteredCallback: (passcode) async {
-        BlocProvider.of<PasscodeBloc>(context).add(OnCreatePasscode(passcode: passcode));
+        BlocProvider.of<VerificationBloc>(context).add(OnCreatePasscode(passcode: passcode));
       },
       bottomWidget: Padding(
         padding: const EdgeInsets.only(top: 20),
@@ -42,7 +41,7 @@ class _CreatePasscodeState extends State<CreatePasscode> {
             ),
             child:
                 Text('Disable Pincode'.i18n, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
-            onPressed: () => BlocProvider.of<AuthenticationBloc>(context).add(const DisablePasscode())),
+            onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric())),
       ),
       circleUIConfig: const CircleUIConfig(circleSize: 14),
     );

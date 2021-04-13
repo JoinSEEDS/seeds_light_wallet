@@ -15,22 +15,10 @@ class InitAuthStatus extends AuthenticationEvent {
   String toString() => 'InitAuthStatus';
 }
 
-class InitAuthentication extends AuthenticationEvent {
-  const InitAuthentication();
+class UnlockWallet extends AuthenticationEvent {
+  const UnlockWallet();
   @override
-  String toString() => 'InitAuthentication';
-}
-
-class TryAgainBiometric extends AuthenticationEvent {
-  const TryAgainBiometric();
-  @override
-  String toString() => 'TryAgainBiometric';
-}
-
-class SetPasscodeAsPrefered extends AuthenticationEvent {
-  const SetPasscodeAsPrefered();
-  @override
-  String toString() => 'SetPasscodeAsPrefered';
+  String toString() => 'UnlockWallet';
 }
 
 class ResetPasscode extends AuthenticationEvent {
@@ -43,10 +31,4 @@ class DisablePasscode extends AuthenticationEvent {
   const DisablePasscode();
   @override
   String toString() => 'DisablePasscode';
-}
-
-class PasscodeAuthenticated extends AuthenticationEvent {
-  const PasscodeAuthenticated();
-  @override
-  String toString() => 'PasscodeAuthenticated';
 }
