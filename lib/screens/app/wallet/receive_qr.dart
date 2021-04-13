@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart' hide Action;
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';

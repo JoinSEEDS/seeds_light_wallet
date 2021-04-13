@@ -4,19 +4,20 @@ import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dar
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
 import 'package:seeds/v2/screens/verification/components/create_passcode.dart';
 import 'package:seeds/v2/screens/verification/components/verify_passcode.dart';
 import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
 
 class VerificationScreen extends StatelessWidget {
-  const VerificationScreen({Key key}) : super(key: key);
+  const VerificationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _securityBloc = ModalRoute.of(context).settings.arguments;
+    final _securityBloc = ModalRoute.of(context)!.settings.arguments;
     return BlocProvider(
       create: (context) => VerificationBloc(
-          authenticationBloc: BlocProvider.of<AuthenticationBloc>(context), securityBloc: _securityBloc)
+          authenticationBloc: BlocProvider.of<AuthenticationBloc>(context), securityBloc: _securityBloc! as SecurityBloc)
         ..add(const InitVerification()),
       child: Scaffold(
         body: BlocBuilder<VerificationBloc, VerificationState>(
@@ -29,7 +30,7 @@ class VerificationScreen extends StatelessWidget {
               case PageState.failure:
                 return const FullPageErrorIndicator();
               case PageState.success:
-                return state.isCreateView ? const CreatePasscode() : const VerifyPasscode();
+                return state.isCreateView! ? const CreatePasscode() : const VerifyPasscode();
               default:
                 return const SizedBox.shrink();
             }

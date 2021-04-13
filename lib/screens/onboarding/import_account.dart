@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

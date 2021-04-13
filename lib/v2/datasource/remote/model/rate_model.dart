@@ -10,13 +10,13 @@ class RateModel extends Equatable {
 
   factory RateModel.fromJson(Map<String, dynamic> json) {
     if (json != null && json.isNotEmpty) {
-      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String));
+      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String?));
     } else {
       return const RateModel(0);
     }
   }
 
-  static double _parseQuantityString(String quantityString) {
+  static double _parseQuantityString(String? quantityString) {
     if (quantityString == null) {
       return 0;
     }

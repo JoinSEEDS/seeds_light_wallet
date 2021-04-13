@@ -3,7 +3,7 @@ class PlantedModel {
 
   PlantedModel(this.quantity);
 
-  factory PlantedModel.fromJson(Map<String, dynamic> json) {
+  factory PlantedModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
       var split = (json['rows'][0]['planted'] as String).split(' ');
       var amount = double.parse(split.first);

@@ -13,14 +13,14 @@ class ExploreStateMapper extends StateMapper {
     } else {
       print('ExploreStateMapper mapResultsToState length=' + results.length.toString());
       results.retainWhere((Result element) => element.isValue);
-      var values = results.map((Result element) => element.asValue.value).toList();
+      var values = results.map((Result element) => element.asValue!.value).toList();
 
-      BalanceModel balanceModel = values.firstWhere((element) => element is BalanceModel, orElse: () => null);
-      VoiceModelAlliance allianceVoice =
+      BalanceModel? balanceModel = values.firstWhere((element) => element is BalanceModel, orElse: () => null);
+      VoiceModelAlliance? allianceVoice =
           values.firstWhere((element) => element is VoiceModelAlliance, orElse: () => null);
-      VoiceModelCampaign campaignVoice =
+      VoiceModelCampaign? campaignVoice =
           values.firstWhere((element) => element is VoiceModelCampaign, orElse: () => null);
-      PlantedModel plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
+      PlantedModel? plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
 
       return currentState.copyWith(
         pageState: PageState.success,

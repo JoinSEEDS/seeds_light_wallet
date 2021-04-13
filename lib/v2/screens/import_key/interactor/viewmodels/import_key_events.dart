@@ -11,7 +11,7 @@ abstract class ImportKeyEvent extends Equatable {
 class FindAccountByKey extends ImportKeyEvent {
   final String userKey;
 
-  FindAccountByKey({@required this.userKey}) : assert(userKey != null);
+  FindAccountByKey({required this.userKey}) : assert(userKey != null);
 
   @override
   String toString() => 'FindAccountByKey: { userKey: $userKey }';
@@ -20,7 +20,7 @@ class FindAccountByKey extends ImportKeyEvent {
 class AccountSelected extends ImportKeyEvent {
   final String account;
 
-  AccountSelected({@required this.account}) : assert(account != null);
+  AccountSelected({required this.account}) : assert(account != null);
 
   @override
   String toString() => 'AccountSelected: { account: $account }';

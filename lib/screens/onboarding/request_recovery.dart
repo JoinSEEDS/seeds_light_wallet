@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/account_name_field.dart';

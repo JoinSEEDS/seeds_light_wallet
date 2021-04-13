@@ -11,10 +11,10 @@ class CardListTile extends StatelessWidget {
   final String route;
 
   const CardListTile({
-    Key key,
-    @required this.leadingIcon,
-    @required this.title,
-    @required this.route,
+    Key? key,
+    required this.leadingIcon,
+    required this.title,
+    required this.route,
   }) : super(key: key);
 
   @override

@@ -7,7 +7,7 @@ class MockHttpService extends Mock implements HttpService {}
 
 void main() {
   HttpService httpService = MockHttpService();
-  AccountGeneratorService _service;
+  late AccountGeneratorService _service;
 
   setUp(() {
     _service = AccountGeneratorService()..update(httpService);

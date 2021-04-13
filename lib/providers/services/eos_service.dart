@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:dart_esr/dart_esr.dart' as esr;
 import 'package:eosdart/eosdart.dart';
 import 'package:flutter/widgets.dart' show BuildContext;

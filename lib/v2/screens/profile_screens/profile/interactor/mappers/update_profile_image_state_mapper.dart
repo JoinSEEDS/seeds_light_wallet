@@ -6,12 +6,12 @@ import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/p
 class UpdateProfileImageStateMapper extends StateMapper {
   ProfileState mapResultToState(ProfileState currentState, Result result) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError.error.toString());
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
-      final TransactionResponse res = result.asValue.value;
+      final TransactionResponse res = result.asValue!.value;
       return currentState.copyWith(
         pageState: PageState.success,
-        profile: currentState.profile.copyWith(image: res.data.image),
+        profile: currentState.profile!.copyWith(image: res.data!.image),
       );
     }
   }

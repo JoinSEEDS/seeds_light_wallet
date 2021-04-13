@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
 import 'package:seeds/features/account/account_commands.dart';

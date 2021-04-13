@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/providers/services/eos_service.dart';

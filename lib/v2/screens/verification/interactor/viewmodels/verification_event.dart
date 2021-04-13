@@ -17,7 +17,7 @@ class InitVerification extends VerificationEvent {
 
 class OnVerifyPasscode extends VerificationEvent {
   final String passcode;
-  const OnVerifyPasscode({@required this.passcode}) : assert(passcode != null);
+  const OnVerifyPasscode({required this.passcode}) : assert(passcode != null);
   @override
   String toString() => 'OnVerifyPasscode { passcode: $passcode }';
 }
@@ -30,7 +30,7 @@ class OnValidVerifyPasscode extends VerificationEvent {
 
 class OnCreatePasscode extends VerificationEvent {
   final String passcode;
-  const OnCreatePasscode({@required this.passcode}) : assert(passcode != null);
+  const OnCreatePasscode({required this.passcode}) : assert(passcode != null);
   @override
   String toString() => 'OnCreatePasscode { passcode: $passcode }';
 }

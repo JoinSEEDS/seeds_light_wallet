@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seeds/models/firebase/firebase_user.dart';
 import 'package:seeds/models/firebase/guardian.dart';

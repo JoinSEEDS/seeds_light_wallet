@@ -16,7 +16,7 @@ import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/
 import 'package:share/share.dart';
 
 class SecurityScreen extends StatelessWidget {
-  const SecurityScreen({Key key}) : super(key: key);
+  const SecurityScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class SecurityScreen extends StatelessWidget {
                         icon: const Icon(Icons.update),
                         title: 'Export Private Key'.i18n,
                         description: 'Export your private key so you can easily recover and access your account.'.i18n,
-                        onTap: () => Share.share(settingsStorage.privateKey),
+                        onTap: () => Share.share(settingsStorage.privateKey!),
                       ),
                       BlocBuilder<SecurityBloc, SecurityState>(
                         buildWhen: (previous, current) => previous.hasNotification != current.hasNotification,
@@ -118,7 +118,7 @@ class SecurityScreen extends StatelessWidget {
                                         .i18n,
                                 onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
                               ),
-                              if (state.hasNotification) const Positioned(left: 4, top: 10, child: NotificationBadge())
+                              if (state.hasNotification!) const Positioned(left: 4, top: 10, child: NotificationBadge())
                             ],
                           );
                         },
@@ -130,7 +130,7 @@ class SecurityScreen extends StatelessWidget {
                           buildWhen: (previous, current) => previous.isSecurePasscode != current.isSecurePasscode,
                           builder: (context, state) {
                             return Switch(
-                              value: state.isSecurePasscode,
+                              value: state.isSecurePasscode!,
                               onChanged: (_) {
                                 NavigationService.of(context).navigateTo(
                                   Routes.verification,
@@ -151,7 +151,7 @@ class SecurityScreen extends StatelessWidget {
                           buildWhen: (previous, current) => previous.isSecureBiometric != current.isSecureBiometric,
                           builder: (context, state) {
                             return Switch(
-                              value: state.isSecureBiometric,
+                              value: state.isSecureBiometric!,
                               onChanged: (_) {
                                 BlocProvider.of<SecurityBloc>(context).add(const OnBiometricsChanged());
                               },

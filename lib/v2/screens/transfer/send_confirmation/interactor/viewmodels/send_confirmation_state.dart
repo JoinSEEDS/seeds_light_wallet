@@ -6,27 +6,27 @@ import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodel
 
 class SendConfirmationState extends Equatable {
   final PageState pageState;
-  final String account;
-  final String name;
-  final Map<String, dynamic> data;
-  final List<SendInfoLineItems> lineItems;
-  final String error;
-  final ShowTransactionSuccess pageCommand;
+  final String? account;
+  final String? name;
+  final Map<String, dynamic>? data;
+  final List<SendInfoLineItems>? lineItems;
+  final String? error;
+  final ShowTransactionSuccess? pageCommand;
 
   const SendConfirmationState(
-      {@required this.pageState, this.account, this.name, this.lineItems, this.data, this.error, this.pageCommand});
+      {required this.pageState, this.account, this.name, this.lineItems, this.data, this.error, this.pageCommand});
 
   @override
   List<Object> get props => [pageState];
 
   SendConfirmationState copyWith(
-      {PageState pageState,
-      String account,
-      String name,
-      List<SendInfoLineItems> lineItems,
-      Map<String, dynamic> data,
-      String error,
-      ShowTransactionSuccess pageCommand}) {
+      {PageState? pageState,
+      String? account,
+      String? name,
+      List<SendInfoLineItems>? lineItems,
+      Map<String, dynamic>? data,
+      String? error,
+      ShowTransactionSuccess? pageCommand}) {
     return SendConfirmationState(
         pageState: pageState ?? this.pageState,
         account: account ?? this.account,

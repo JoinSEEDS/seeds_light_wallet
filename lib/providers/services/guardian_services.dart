@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';

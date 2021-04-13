@@ -18,8 +18,8 @@ class CitizenshipScreen extends StatefulWidget {
 }
 
 class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _timeLineAnimation,
+  late AnimationController _controller;
+  late Animation<double> _timeLineAnimation,
       _reputationAnimation,
       _visitorsAnimation,
       _ageAnimation,
@@ -71,7 +71,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final ProfileModel profile = ModalRoute.of(context).settings.arguments;
+    final ProfileModel profile = ModalRoute.of(context)!.settings.arguments as ProfileModel;
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
@@ -86,7 +86,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                     size: 100,
                     image: profile.image,
                     nickname: profile.nickname,
-                    account: profile.account,
+                    account: profile.account!,
                   ),
                   const SizedBox(height: 8.0),
                   Text(
@@ -150,7 +150,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Reputation Score'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '83/$_reputation',
-                rateStyle: Theme.of(context).textTheme.subtitle1,
+                rateStyle: Theme.of(context).textTheme.subtitle1!,
               ),
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
@@ -160,7 +160,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Visitors Invited'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '${_visitors ~/ 100}/1',
-                rateStyle: Theme.of(context).textTheme.subtitle1,
+                rateStyle: Theme.of(context).textTheme.subtitle1!,
               ),
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/age.svg'),
@@ -170,7 +170,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Account Age'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '291/$_age',
-                rateStyle: Theme.of(context).textTheme.subtitle1,
+                rateStyle: Theme.of(context).textTheme.subtitle1!,
               ),
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/planted.svg'),
@@ -180,7 +180,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Planted Seeds'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '213/$_seeds',
-                rateStyle: Theme.of(context).textTheme.subtitle1,
+                rateStyle: Theme.of(context).textTheme.subtitle1!,
               ),
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/transaction.svg'),
@@ -190,7 +190,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Transactions with Seeds'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '${_transactions ~/ 100}/5',
-                rateStyle: Theme.of(context).textTheme.subtitle1,
+                rateStyle: Theme.of(context).textTheme.subtitle1!,
               ),
               CircularProgressItem(
                 icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
@@ -200,7 +200,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                 title: 'Friends Invited'.i18n,
                 titleStyle: Theme.of(context).textTheme.subtitle3,
                 rate: '${_friends ~/ 100}/3',
-                rateStyle: Theme.of(context).textTheme.subtitle1,
+                rateStyle: Theme.of(context).textTheme.subtitle1!,
               ),
             ],
           ),

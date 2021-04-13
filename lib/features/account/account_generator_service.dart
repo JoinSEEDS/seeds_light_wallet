@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/foundation.dart';
 import 'package:seeds/providers/services/http_service.dart';
 

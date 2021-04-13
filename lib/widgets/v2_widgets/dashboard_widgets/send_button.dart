@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';

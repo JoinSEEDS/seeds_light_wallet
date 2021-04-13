@@ -9,14 +9,14 @@ import 'package:seeds/i18n/passcode.i18n.dart';
 import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
 
 class VerifyPasscode extends StatefulWidget {
-  const VerifyPasscode({Key key}) : super(key: key);
+  const VerifyPasscode({Key? key}) : super(key: key);
 
   @override
   _VerifyPasscodeState createState() => _VerifyPasscodeState();
 }
 
 class _VerifyPasscodeState extends State<VerifyPasscode> {
-  final StreamController<bool> _verificationNotifier = StreamController<bool>.broadcast();
+  final StreamController<bool?> _verificationNotifier = StreamController<bool?>.broadcast();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
             listener: (context, state) => _verificationNotifier.add(state.isValidPasscode),
           ),
           BlocListener<VerificationBloc, VerificationState>(
-            listenWhen: (_, current) => current.onBiometricAuthorized,
+            listenWhen: (_, current) => current.onBiometricAuthorized!,
             listener: (context, _) => Navigator.of(context).pop(),
           ),
           BlocListener<VerificationBloc, VerificationState>(
@@ -55,7 +55,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
           passwordDigits: 4,
           title: Text('Re-enter Pincode'.i18n, style: Theme.of(context).textTheme.subtitle2),
           backgroundColor: AppColors.primary,
-          shouldTriggerVerification: _verificationNotifier.stream,
+          shouldTriggerVerification: _verificationNotifier.stream as Stream<bool>,
           passwordEnteredCallback: (passcode) =>
               BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
           isValidCallback: () => BlocProvider.of<VerificationBloc>(context).add(const OnValidVerifyPasscode()),

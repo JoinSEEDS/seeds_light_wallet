@@ -17,7 +17,7 @@ class SetUpInitialValues extends SecurityEvent {
 
 class ShowNotificationBadge extends SecurityEvent {
   final bool value;
-  const ShowNotificationBadge({@required this.value}) : assert(value != null);
+  const ShowNotificationBadge({required this.value}) : assert(value != null);
   @override
   String toString() => 'ShowNotificationBadge { value: $value }';
 }

@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/components/edit_profile_pic_bottom_sheet/interactor/viewmodels/bloc.dart';
 
 class EditProfilePicBottomSheet extends StatelessWidget {
-  const EditProfilePicBottomSheet({Key key}) : super(key: key);
+  const EditProfilePicBottomSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

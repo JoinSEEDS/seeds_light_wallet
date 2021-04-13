@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/features/account/account_generator_service.dart';

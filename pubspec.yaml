@@ -4,7 +4,7 @@ description: SEEDS Wallet
 version: 1.4.2+32
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 analyzer:
   enable-experiment: extension-methods
@@ -63,6 +63,7 @@ dependencies:
   pedantic: ^1.9.2
   flutter_pagewise: ^2.0.1
   qr_code_scanner: ^0.4.0
+  collection: ^1.15.0-nullsafety.4
 
 dev_dependencies:
   flutter_test:

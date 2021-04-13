@@ -17,24 +17,24 @@ class CustomDialog extends StatelessWidget {
   final String leftButtonTitle;
 
   /// Require define leftButtonTitle
-  final VoidCallback onLeftButtonPressed;
+  final VoidCallback? onLeftButtonPressed;
 
   /// Default title empty
   final String rightButtonTitle;
 
   /// Require define rightButtonTitle
-  final VoidCallback onRightButtonPressed;
+  final VoidCallback? onRightButtonPressed;
 
   /// Default title empty
   final String singleLargeButtonTitle;
 
   /// Default Navigator pop
-  final VoidCallback onSingleLargeButtonPressed;
+  final VoidCallback? onSingleLargeButtonPressed;
 
   const CustomDialog({
-    Key key,
-    @required this.icon,
-    @required this.children,
+    Key? key,
+    required this.icon,
+    required this.children,
     this.leftButtonTitle = '',
     this.onLeftButtonPressed,
     this.rightButtonTitle = '',

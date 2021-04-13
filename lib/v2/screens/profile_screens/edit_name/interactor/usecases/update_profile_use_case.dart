@@ -9,7 +9,7 @@ export 'package:async/src/result/result.dart';
 class UpdateProfileUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
 
-  Future<Result> run({@required String newName, @required ProfileModel profile}) {
+  Future<Result> run({required String? newName, required ProfileModel profile}) {
     return _profileRepository.updateProfile(
       accountName: settingsStorage.accountName,
       nickname: newName,
