@@ -20,12 +20,12 @@ class _SettingsStorage {
   static const IN_RECOVERY_MODE = 'in_recovery_mode';
   static const GUARDIAN_TUTORIAL_SHOWN = 'guardian_tutorial_shown';
 
-  String _privateKey = "";
-  String _passcode = "";
-  bool _passcodeActive = false;
-  bool _privateKeyBackedUp = false;
-  int _backupLatestReminder = 0;
-  int _backupReminderCount = 0;
+  String? _privateKey = "";
+  String? _passcode = "";
+  bool? _passcodeActive = false;
+  bool? _privateKeyBackedUp = false;
+  int? _backupLatestReminder = 0;
+  int? _backupReminderCount = 0;
 
   String get accountName => _preferences.getString(ACCOUNT_NAME)!;
 
@@ -39,17 +39,17 @@ class _SettingsStorage {
 
   int? get backupLatestReminder => _backupLatestReminder;
 
-  int get backupReminderCount => _backupReminderCount;
+  int get backupReminderCount => _backupReminderCount ?? 0;
 
-  String get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY)!;
+  String get selectedFiatCurrency => _preferences.getString(SELECTED_FIAT_CURRENCY)!;
 
-  bool get inRecoveryMode => _preferences?.getBool(IN_RECOVERY_MODE)!;
+  bool get inRecoveryMode => _preferences.getBool(IN_RECOVERY_MODE)!;
 
-  bool get guardianTutorialShown => _preferences?.getBool(GUARDIAN_TUTORIAL_SHOWN)!;
+  bool get guardianTutorialShown => _preferences.getBool(GUARDIAN_TUTORIAL_SHOWN)!;
 
-  set inRecoveryMode(bool value) => _preferences?.setBool(IN_RECOVERY_MODE, value);
+  set inRecoveryMode(bool value) => _preferences.setBool(IN_RECOVERY_MODE, value);
 
-  set accountName(String? value) => _preferences?.setString(ACCOUNT_NAME, value);
+  set accountName(String? value) => _preferences.setString(ACCOUNT_NAME, value ?? '');
 
   set privateKey(String? value) {
     _secureStorage.write(key: PRIVATE_KEY, value: value);
@@ -129,10 +129,10 @@ class _SettingsStorage {
   }
 
   String? _migrateFromPrefs(String key) {
-    String? value = _preferences!.get(key) as String?;
+    String? value = _preferences.get(key) as String?;
     if (value != null) {
       _secureStorage.write(key: key, value: value);
-      _preferences?.remove(key);
+      _preferences.remove(key);
       print('Converted $key to secure storage');
     }
     return value;
@@ -188,12 +188,12 @@ class _SettingsStorage {
   }
 
   void removeAccount() {
-    _preferences?.remove(ACCOUNT_NAME);
+    _preferences.remove(ACCOUNT_NAME);
     _secureStorage.delete(key: ACCOUNT_NAME);
-    _preferences?.remove(PRIVATE_KEY);
+    _preferences.remove(PRIVATE_KEY);
     _secureStorage.delete(key: PRIVATE_KEY);
     _privateKey = "";
-    _preferences?.remove(PASSCODE);
+    _preferences.remove(PASSCODE);
     _secureStorage.delete(key: PASSCODE);
     _passcode = null;
     _secureStorage.delete(key: PASSCODE_ACTIVE);
