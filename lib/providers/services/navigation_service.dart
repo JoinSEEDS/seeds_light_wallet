@@ -27,7 +27,7 @@ import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
-import 'package:seeds/v2/screens/passcode/passcode_screen.dart';
+import 'package:seeds/v2/screens/verification/verification_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
@@ -78,7 +78,7 @@ class Routes {
   static final contribution = 'Contribution';
   static final login = "Login";
   static final importKey = "ImportKey";
-  static final passcode = "passcode";
+  static final verification = "verification";
 }
 
 class NavigationService {
@@ -137,7 +137,7 @@ class NavigationService {
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
     Routes.citizenship: (_) => const CitizenshipScreen(),
     Routes.contribution: (_) => const ContributionScreen(),
-    Routes.passcode: (_) => const PasscodeScreen(),
+    Routes.verification: (_) => const VerificationScreen(),
   };
 
   final ecosystemRoutes = {

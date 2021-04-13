@@ -6,7 +6,7 @@ import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/passcode.i18n.dart';
-import 'package:seeds/v2/screens/passcode/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
 
 class VerifyPasscode extends StatefulWidget {
   const VerifyPasscode({Key key}) : super(key: key);
@@ -23,14 +23,18 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
     return Scaffold(
       body: MultiBlocListener(
         listeners: [
-          BlocListener<PasscodeBloc, PasscodeState>(
+          BlocListener<VerificationBloc, VerificationState>(
             listenWhen: (previous, current) => previous.isValidPasscode != current.isValidPasscode,
             listener: (context, state) => _verificationNotifier.add(state.isValidPasscode),
           ),
-          BlocListener<PasscodeBloc, PasscodeState>(
+          BlocListener<VerificationBloc, VerificationState>(
+            listenWhen: (_, current) => current.onBiometricAuthorized,
+            listener: (context, _) => Navigator.of(context).pop(),
+          ),
+          BlocListener<VerificationBloc, VerificationState>(
             listenWhen: (_, current) => current.showInfoSnack != null,
             listener: (context, _) {
-              BlocProvider.of<PasscodeBloc>(context).add(const ResetShowSnack());
+              BlocProvider.of<VerificationBloc>(context).add(const ResetShowSnack());
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   behavior: SnackBarBehavior.floating,
@@ -53,8 +57,8 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
           backgroundColor: AppColors.primary,
           shouldTriggerVerification: _verificationNotifier.stream,
           passwordEnteredCallback: (passcode) =>
-              BlocProvider.of<PasscodeBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
-          isValidCallback: () => BlocProvider.of<PasscodeBloc>(context).add(const OnValidVerifyPasscode()),
+              BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
+          isValidCallback: () => BlocProvider.of<VerificationBloc>(context).add(const OnValidVerifyPasscode()),
           bottomWidget: const SizedBox.shrink(),
           circleUIConfig: const CircleUIConfig(circleSize: 14),
         ),

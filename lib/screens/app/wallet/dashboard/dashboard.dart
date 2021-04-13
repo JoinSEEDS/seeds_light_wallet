@@ -30,6 +30,7 @@ import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 enum TransactionType { income, outcome }
 
@@ -158,7 +159,8 @@ class _DashboardState extends State<Dashboard> {
     if (SettingsNotifier.of(context).selectedFiatCurrency == null) {
       Locale locale = Localizations.localeOf(context);
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
-      SettingsNotifier.of(context).saveSelectedFiatCurrency(format.currencyName);
+      // SettingsNotifier.of(context).saveSelectedFiatCurrency(format.currencyName);
+      settingsStorage.saveSelectedFiatCurrency(format.currencyName);
     }
   }
 
@@ -167,8 +169,8 @@ class _DashboardState extends State<Dashboard> {
     await Future.wait(<Future<dynamic>>[
       // TransactionsNotifier.of(context).fetchTransactionsCache(),
       // TransactionsNotifier.of(context).refreshTransactions(),
-      BalanceNotifier.of(context).fetchBalance(),
-      RateNotifier.of(context).fetchRate(),
+      // BalanceNotifier.of(context).fetchBalance(),
+      // RateNotifier.of(context).fetchRate(),
     ]);
   }
 
@@ -277,7 +279,7 @@ class _DashboardState extends State<Dashboard> {
     String participantAccountName = type == TransactionType.income ? model.from : model.to;
 
     return FutureBuilder(
-      future: null,//MembersNotifier.of(context).getAccountDetails(participantAccountName),
+      future: null, //MembersNotifier.of(context).getAccountDetails(participantAccountName),
       builder: (ctx, member) => member.hasData
           ? TransactionInfoCard(
               callback: () {
