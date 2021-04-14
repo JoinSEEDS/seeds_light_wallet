@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -74,7 +72,7 @@ class _ProfileState extends State<Profile> {
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
-                            if (model?.profile?.image != null)
+                            if (model.profile?.image != null)
                               NavigationService.of(context).navigateTo(
                                 Routes.imageViewer,
                                 ImageViewerArguments(
@@ -96,15 +94,15 @@ class _ProfileState extends State<Profile> {
                                         fit: BoxFit.cover,
                                       )
                                     : CachedNetworkImage(
-                                        imageUrl: model?.profile?.image ?? '',
+                                        imageUrl: model.profile?.image ?? '',
                                         fit: BoxFit.cover,
                                         errorWidget: (context, url, error) {
                                           return Container(
-                                            color: AppColors.getColorByString(model?.profile?.nickname ?? ''),
+                                            color: AppColors.getColorByString(model.profile?.nickname ?? ''),
                                             child: Center(
                                               child: Text(
-                                                ((model?.profile?.nickname != null)
-                                                    ? model?.profile?.nickname?.substring(0, 2)?.toUpperCase()
+                                                ((model.profile?.nickname != null)
+                                                    ? model.profile?.nickname?.substring(0, 2).toUpperCase()
                                                     : '?')!,
                                                 style: TextStyle(
                                                   color: Colors.white,
@@ -154,7 +152,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           Text(
-                            model?.profile?.status ?? '',
+                            model.profile?.status ?? '',
                             style: TextStyle(
                               fontFamily: "worksans",
                               fontSize: 18,

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:seeds/features/account/account_generator_service.dart';
@@ -61,13 +59,14 @@ class AccountNameField extends StatelessWidget {
           color: Colors.transparent,
         );
         break;
+      default:
+        suffixIcon = const SizedBox.shrink();
     }
 
     return MainTextField(
       labelText: 'SEEDS Username'.i18n,
       autocorrect: false,
-      textStyle: TextStyle(
-          fontSize: 17, fontWeight: FontWeight.w400, fontFamily: 'worksans'),
+      textStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.w400, fontFamily: 'worksans'),
       controller: controller,
       maxLength: 12,
       inputFormatters: [
@@ -89,8 +88,7 @@ class AccountNameField extends StatelessWidget {
 
 class LowerCaseTextFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     return TextEditingValue(
       text: newValue.text.toLowerCase(),
       selection: newValue.selection,

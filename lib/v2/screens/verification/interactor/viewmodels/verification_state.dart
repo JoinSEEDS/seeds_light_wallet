@@ -43,6 +43,7 @@ class VerificationState extends Equatable {
         authState,
         authTypesAvailable,
         preferred,
+        onBiometricAuthorized,
         errorMessage,
       ];
 

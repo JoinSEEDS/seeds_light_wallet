@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -13,7 +11,7 @@ class TelosBalance extends StatelessWidget {
 
     return Consumer<TelosBalanceNotifier>(
       builder: (ctx, model, child) {
-        var quantity = model?.balance?.quantity ?? '0.0000 TLOS';
+        var quantity = model.balance?.quantity ?? '0.0000 TLOS';
 
         return Container(
           width: width,
@@ -27,10 +25,7 @@ class TelosBalance extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Telos balance'.i18n,
-                style: TextStyle(
-                    color: AppColors.blue,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300),
+                style: TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.w300),
               ),
               Padding(padding: EdgeInsets.only(top: 3)),
               Text(

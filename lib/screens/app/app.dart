@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -14,6 +12,7 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
@@ -173,8 +172,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     return Scaffold(
       body: buildPageView(),
       bottomNavigationBar: StreamBuilder<bool?>(
-          stream: FirebaseDatabaseService()
-              .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
+          stream: FirebaseDatabaseService().hasGuardianNotificationPending(settingsStorage.accountName),
+          // stream: FirebaseDatabaseService()
+          //     .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
           builder: (context, AsyncSnapshot<bool?> snapshot) {
             if (snapshot != null && snapshot.hasData) {
               return buildNavigation(snapshot.data);
@@ -184,12 +184,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           }),
     );
   }
+
   Widget buildPageView() {
     return PageView(
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        ...navigationTabs.map((tab) => tab.screenBuilder!()).toList() as Iterable<Widget>,
+        ...navigationTabs.map((tab) => tab.screenBuilder!()).toList(),
       ],
     );
   }

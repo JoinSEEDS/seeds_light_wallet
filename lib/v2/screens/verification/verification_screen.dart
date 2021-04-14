@@ -14,10 +14,10 @@ class VerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _securityBloc = ModalRoute.of(context)!.settings.arguments;
+    final SecurityBloc? _securityBloc = ModalRoute.of(context)!.settings.arguments as SecurityBloc?;
     return BlocProvider(
       create: (context) => VerificationBloc(
-          authenticationBloc: BlocProvider.of<AuthenticationBloc>(context), securityBloc: _securityBloc! as SecurityBloc)
+          authenticationBloc: BlocProvider.of<AuthenticationBloc>(context), securityBloc: _securityBloc)
         ..add(const InitVerification()),
       child: Scaffold(
         body: BlocBuilder<VerificationBloc, VerificationState>(

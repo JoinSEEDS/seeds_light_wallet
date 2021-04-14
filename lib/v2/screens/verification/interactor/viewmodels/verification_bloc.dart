@@ -17,8 +17,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
   final SecurityBloc? securityBloc;
   final AuthenticationBloc authenticationBloc;
 
-  VerificationBloc({required this.authenticationBloc, required this.securityBloc})
-      : super(VerificationState.initial());
+  VerificationBloc({required this.authenticationBloc, required this.securityBloc}) : super(VerificationState.initial());
 
   @override
   Stream<VerificationState> mapEventToState(VerificationEvent event) async* {
@@ -44,7 +43,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
             // Onboarding flow
-            authenticationBloc?.add(const UnlockWallet());
+            authenticationBloc.add(const UnlockWallet());
           } else {
             // Security flow: update screen and the fires navigator pop
             securityBloc?.add(const OnPasscodeChanged());
@@ -72,11 +71,11 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         settingsStorage.savePasscode(state.newPasscode);
         settingsStorage.passcodeActive = true;
         if (securityBloc == null) {
-          authenticationBloc?.add(const UnlockWallet());
+          authenticationBloc.add(const UnlockWallet());
         }
       } else {
         if (securityBloc == null) {
-          authenticationBloc?.add(const UnlockWallet());
+          authenticationBloc.add(const UnlockWallet());
         }
       }
     }
@@ -95,7 +94,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
             // Onboarding flow
-            authenticationBloc?.add(const UnlockWallet());
+            authenticationBloc.add(const UnlockWallet());
           } else {
             // Security flow: update screen and the fires navigator pop
             securityBloc?.add(const OnPasscodeChanged());

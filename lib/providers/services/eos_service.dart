@@ -1,5 +1,3 @@
-
-
 import 'package:dart_esr/dart_esr.dart' as esr;
 import 'package:eosdart/eosdart.dart';
 import 'package:flutter/widgets.dart' show BuildContext;
@@ -291,7 +289,7 @@ class EosService {
 // method to properly convert RequiredAuth to JSON - the library doesn't work
   Map<String, dynamic> requiredAuthToJson(RequiredAuth instance) => <String, dynamic>{
         'threshold': instance.threshold,
-        'keys': List<dynamic>.from(instance.keys!.map((e) => e!.toJson())),
+        'keys': List<dynamic>.from(instance.keys!.map((e) => e?.toJson())),
         'accounts': instance.accounts,
         'waits': instance.waits
       };

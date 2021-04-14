@@ -1,5 +1,3 @@
-
-
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -359,6 +357,8 @@ class _JoinProcessState extends State<JoinProcess> {
           onRecover: () => machine.transition(Events.chosenRecoverAccount),
         );
         break;
+      default:
+        currentScreen = const SizedBox.shrink();
     }
 
     return OverlayPopup(body: currentScreen, backCallback: backCallback);

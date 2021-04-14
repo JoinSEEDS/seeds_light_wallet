@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -51,7 +49,8 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       DashboardUseCases()
-          .shouldShowCancelGuardianAlertMessage(SettingsNotifier.of(context).accountName)
+          // .shouldShowCancelGuardianAlertMessage(SettingsNotifier.of(context).accountName)
+          .shouldShowCancelGuardianAlertMessage(settingsStorage.accountName)
           .listen((bool showAlertDialog) {
         if (showAlertDialog) {
           showAccountUnderRecoveryDialog(context);

@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
-import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_message_token_repository.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/import_key/interactor/mappers/import_key_state_mapper.dart';
@@ -37,13 +36,11 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       _settingsNotifier.saveAccount(event.account, state.privateKey.toString());
       _settingsNotifier.privateKeyBackedUp = true;
 
-      settingsStorage.saveAccount(event.account, state.privateKey.toString());
-      settingsStorage.privateKeyBackedUp = true;
+      _authenticationBloc.add(OnImportAccount(account: event.account, privateKey: state.privateKey.toString()));
 
       await FirebaseMessageTokenRepository().setFirebaseMessageToken(event.account);
 
       _authNotifier.resetPasscode();
-      _authenticationBloc.add(const ResetPasscode());
     }
   }
 }

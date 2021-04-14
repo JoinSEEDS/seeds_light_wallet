@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/foundation.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
@@ -8,12 +6,11 @@ class AccountGeneratorService {
 
   AccountGeneratorService();
 
-  update(HttpService httpService) {
-    this._httpService = httpService;
+  void update(HttpService httpService) {
+    _httpService = httpService;
   }
 
-  Future<List<String?>> generateList(String suggestedAccount,
-      {int count: 4}) async {
+  Future<List<String?>> generateList(String suggestedAccount, {int count: 4}) async {
     List<String?> available = [];
     List<String?> excludes = [];
     for (int i = 0; i < count; i++) {
@@ -24,8 +21,7 @@ class AccountGeneratorService {
     return available;
   }
 
-  Future<List<String?>> alternativeAccountsList(String baseAccount,
-      {int count: 4}) async {
+  Future<List<String?>> alternativeAccountsList(String baseAccount, {int count: 4}) async {
     List<String?> available = [];
     List<String?> excludes = [baseAccount];
     for (int i = 0; i < count; i++) {
@@ -39,9 +35,7 @@ class AccountGeneratorService {
   static const List<String> empty = [];
 
   Future<AccountAvailableResult> findAvailable(String suggestedAccount,
-      {int replaceWith: 1,
-      List<String?>? exclude,
-      int recursionAttempts: 40}) async {
+      {int replaceWith: 1, List<String?>? exclude, int recursionAttempts: 40}) async {
     final account = convert(suggestedAccount);
     if (exclude == null) {
       exclude = [];
@@ -65,9 +59,7 @@ class AccountGeneratorService {
     final nextReplacement = increaseReplaceCounter(replaceWith);
 
     return findAvailable(modified,
-        replaceWith: nextReplacement,
-        exclude: exclude,
-        recursionAttempts: recursionAttempts - 1);
+        replaceWith: nextReplacement, exclude: exclude, recursionAttempts: recursionAttempts - 1);
   }
 
   Future<bool> availableOnChain(String account) {
@@ -80,8 +72,7 @@ class AccountGeneratorService {
   @visibleForTesting
   String modifyAccountName(String previous, int replaceWith) {
     String replacement = replaceWith.toString();
-    return previous.substring(0, previous.length - replacement.length) +
-        replacement;
+    return previous.substring(0, previous.length - replacement.length) + replacement;
   }
 
   @visibleForTesting
@@ -129,9 +120,8 @@ class AccountGeneratorService {
     }).join();
 
     // if first char is a number, start with 'a'
-    if (suggestion?.isNotEmpty == true) {
-      final illegalChar =
-          RegExp(r'[a-z]').allMatches(suggestion[0]).length == 0;
+    if (suggestion.isNotEmpty == true) {
+      final illegalChar = RegExp(r'[a-z]').allMatches(suggestion[0]).length == 0;
 
       if (illegalChar) suggestion = 'a' + suggestion;
     }

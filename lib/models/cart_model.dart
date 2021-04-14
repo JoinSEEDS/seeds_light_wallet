@@ -1,5 +1,3 @@
-
-
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:seeds/models/models.dart';
 import 'dart:math';
@@ -11,7 +9,7 @@ class LineItem {
   LineItem({this.product, required this.quantity});
 
   double seedsPrice(CurrencyConverter? converter) {
-    return quantity! * product!.seedsPrice(converter)!;
+    return quantity * product!.seedsPrice(converter)!;
   }
 }
 
@@ -40,12 +38,12 @@ class CartModel {
   void remove(ProductModel? product, {deleteOnZero = false}) {
     _add(product, -1, deleteOnZero: deleteOnZero);
   }
-  
+
   void _add(ProductModel? product, int quantity, {deleteOnZero = false}) {
     var item = itemFor(product);
     if (item != null) {
       item.quantity += quantity;
-      item.quantity = max(item.quantity!, 0);
+      item.quantity = max(item.quantity, 0);
       if (deleteOnZero && item.quantity == 0) {
         lineItems.remove(item);
       }
@@ -62,8 +60,8 @@ class CartModel {
 
   bool get isEmpty => lineItems.isEmpty;
 
-  int get itemCount => lineItems.fold(0, (p, e) => p + e.quantity!);
+  int get itemCount => lineItems.fold(0, (p, e) => p + e.quantity);
 
-  double get total => lineItems.isEmpty ? customAmount : lineItems.fold(0, (p, e) => p + e.seedsPrice(currencyConverter));
-
+  double get total =>
+      lineItems.isEmpty ? customAmount : lineItems.fold(0, (p, e) => p + e.seedsPrice(currencyConverter));
 }

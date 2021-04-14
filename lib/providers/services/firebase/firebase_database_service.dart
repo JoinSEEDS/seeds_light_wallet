@@ -1,5 +1,4 @@
-
-
+import 'package:collection/collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seeds/models/firebase/firebase_user.dart';
 import 'package:seeds/models/firebase/guardian.dart';
@@ -232,13 +231,13 @@ class FirebaseDatabaseService {
         RECOVERY_STARTED_DATE_KEY: FieldValue.serverTimestamp(),
       };
 
-      if (Guardian.fromMap(guardian.data()!).uid == currentUserId) {
+      if (Guardian.fromMap(guardian.data()).uid == currentUserId) {
         data.addAll({RECOVERY_APPROVED_DATE_KEY: FieldValue.serverTimestamp()});
       }
 
       batch.set(
           _usersCollection
-              .doc(Guardian.fromMap(guardian.data()!).uid)
+              .doc(Guardian.fromMap(guardian.data()).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
           data,
@@ -267,7 +266,7 @@ class FirebaseDatabaseService {
     myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
       batch.set(
           _usersCollection
-              .doc(Guardian.fromMap(guardian.data()!).uid)
+              .doc(Guardian.fromMap(guardian.data()).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
           data,
@@ -369,10 +368,9 @@ class FirebaseDatabaseService {
 
   Stream<bool?> hasGuardianNotificationPending(String userAccount) {
     bool? _findNotification(QuerySnapshot event) {
-      var guardianNotification =
-          event.docs.firstWhere((QueryDocumentSnapshot element) => element.id == GUARDIAN_NOTIFICATION_KEY, orElse: () {
-        return null;
-      } as QueryDocumentSnapshot Function()?);
+      QueryDocumentSnapshot? guardianNotification = event.docs.firstWhereOrNull(
+        (QueryDocumentSnapshot? element) => element?.id == GUARDIAN_NOTIFICATION_KEY,
+      );
 
       if (guardianNotification == null) {
         return false;

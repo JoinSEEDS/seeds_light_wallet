@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 import 'package:seeds/utils/currencies.dart';
@@ -26,12 +24,12 @@ class ProductModel {
 
   factory ProductModel.fromSnapshot(QueryDocumentSnapshot data) {
     return ProductModel(
-      name: data.data()![PRODUCT_NAME_KEY],
-      picture: data.data()![PRODUCT_IMAGE_URL_KEY] ?? "",
-      price: data.data()![PRODUCT_PRICE_KEY],
+      name: data.data()[PRODUCT_NAME_KEY],
+      picture: data.data()[PRODUCT_IMAGE_URL_KEY] ?? "",
+      price: data.data()[PRODUCT_PRICE_KEY],
       id: data.id,
-      currency: data.data()![PRODUCT_CURRENCY_KEY],
-      position: data.data()![PRODUCT_POSITION_KEY] ?? 0,
+      currency: data.data()[PRODUCT_CURRENCY_KEY],
+      position: data.data()[PRODUCT_POSITION_KEY] ?? 0,
     );
   }
 }

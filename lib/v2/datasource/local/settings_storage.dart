@@ -20,12 +20,12 @@ class _SettingsStorage {
   static const IN_RECOVERY_MODE = 'in_recovery_mode';
   static const GUARDIAN_TUTORIAL_SHOWN = 'guardian_tutorial_shown';
 
-  String? _privateKey = "";
-  String? _passcode = "";
-  bool _passcodeActive = false;
-  bool _privateKeyBackedUp = false;
-  int _backupLatestReminder = 0;
-  int _backupReminderCount = 0;
+  String? _privateKey;
+  String? _passcode;
+  bool? _passcodeActive;
+  bool? _privateKeyBackedUp;
+  int? _backupLatestReminder;
+  int? _backupReminderCount;
 
   String get accountName => _preferences.getString(ACCOUNT_NAME) ?? "";
 
@@ -33,13 +33,13 @@ class _SettingsStorage {
 
   String? get passcode => _passcode;
 
-  bool get passcodeActive => _passcodeActive;
+  bool? get passcodeActive => _passcodeActive;
 
-  bool get privateKeyBackedUp => _privateKeyBackedUp;
+  bool get privateKeyBackedUp => _privateKeyBackedUp ?? false;
 
-  int? get backupLatestReminder => _backupLatestReminder;
+  int? get backupLatestReminder => _backupLatestReminder ?? 0;
 
-  int get backupReminderCount => _backupReminderCount;
+  int get backupReminderCount => _backupReminderCount ?? 0;
 
   String? get selectedFiatCurrency => _preferences.getString(SELECTED_FIAT_CURRENCY);
 
@@ -60,9 +60,7 @@ class _SettingsStorage {
 
   set passcode(String? value) {
     _secureStorage.write(key: PASSCODE, value: value);
-    if (value != null) {
-      _passcode = value;
-    }
+    _passcode = value;
   }
 
   set passcodeActive(bool? value) {
@@ -206,10 +204,10 @@ class _SettingsStorage {
     _secureStorage.delete(key: ACCOUNT_NAME);
     _preferences.remove(PRIVATE_KEY);
     _secureStorage.delete(key: PRIVATE_KEY);
-    _privateKey = "";
+    _privateKey = null;
     _preferences.remove(PASSCODE);
     _secureStorage.delete(key: PASSCODE);
-    _passcode = "";
+    _passcode = null;
     _secureStorage.delete(key: PASSCODE_ACTIVE);
     _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
     _secureStorage.delete(key: PRIVATE_KEY_BACKED_UP);

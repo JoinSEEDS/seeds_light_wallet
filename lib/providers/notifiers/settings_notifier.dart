@@ -25,23 +25,23 @@ class SettingsNotifier extends ChangeNotifier {
   late int _backupReminderCount;
 
   bool get isInitialized => _preferences != null;
-  String get accountName => _preferences.getString(ACCOUNT_NAME) ?? '';
+  String get accountName => _preferences?.getString(ACCOUNT_NAME) ?? '';
   String? get privateKey => _privateKey;
   String? get passcode => _passcode;
   bool? get passcodeActive => _passcodeActive;
-  String get nodeEndpoint => _preferences.getString(NODE_ENDPOINT)!;
+  String get nodeEndpoint => _preferences?.getString(NODE_ENDPOINT) ?? '';
   bool? get privateKeyBackedUp => _privateKeyBackedUp;
   int? get backupLatestReminder => _backupLatestReminder;
   int get backupReminderCount => _backupReminderCount;
-  String get selectedFiatCurrency => _preferences.getString(SELECTED_FIAT_CURRENCY)!;
-  bool get inRecoveryMode => _preferences.getBool(IN_RECOVERY_MODE)!;
-  bool get guardianTutorialShown => _preferences.getBool(GUARDIAN_TUTORIAL_SHOWN)!;
+  String get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY) ?? '';
+  bool get inRecoveryMode => _preferences?.getBool(IN_RECOVERY_MODE) ?? false;
+  bool get guardianTutorialShown => _preferences?.getBool(GUARDIAN_TUTORIAL_SHOWN) ?? false;
 
-  set nodeEndpoint(String value) => _preferences.setString(NODE_ENDPOINT, value);
+  set nodeEndpoint(String value) => _preferences?.setString(NODE_ENDPOINT, value);
 
-  set inRecoveryMode(bool value) => _preferences.setBool(IN_RECOVERY_MODE, value);
+  set inRecoveryMode(bool value) => _preferences?.setBool(IN_RECOVERY_MODE, value);
 
-  set accountName(String? value) => _preferences.setString(ACCOUNT_NAME, value!);
+  set accountName(String? value) => _preferences?.setString(ACCOUNT_NAME, value!);
 
   set privateKey(String? value) {
     _secureStorage.write(key: PRIVATE_KEY, value: value);
@@ -74,14 +74,14 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   set selectedFiatCurrency(String value) {
-    _preferences.setString(SELECTED_FIAT_CURRENCY, value);
+    _preferences?.setString(SELECTED_FIAT_CURRENCY, value);
   }
 
   set guardianTutorialShown(bool shown) {
-    _preferences.setBool(GUARDIAN_TUTORIAL_SHOWN, shown);
+    _preferences?.setBool(GUARDIAN_TUTORIAL_SHOWN, shown);
   }
 
-  late SharedPreferences _preferences;
+  SharedPreferences? _preferences;
   late FlutterSecureStorage _secureStorage;
 
   static SettingsNotifier of(BuildContext context, {bool listen = false}) =>
@@ -124,17 +124,17 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   String? _migrateFromPrefs(String key) {
-    String? value = _preferences.get(key) as String?;
+    String? value = _preferences?.get(key) as String?;
     if (value != null) {
       _secureStorage.write(key: key, value: value);
-      _preferences.remove(key);
+      _preferences?.remove(key);
       debugPrint('Converted $key to secure storage');
     }
     return value;
   }
 
-  void update({String? nodeEndpoint}) {
-    if (nodeEndpoint != _preferences.getString(NODE_ENDPOINT)) {
+  void update({String? nodeEndpoint}) async {
+    if (nodeEndpoint != _preferences?.getString(NODE_ENDPOINT)) {
       saveEndpoint(nodeEndpoint!);
     }
   }
@@ -199,12 +199,12 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   void removeAccount() {
-    _preferences.remove(ACCOUNT_NAME);
+    _preferences?.remove(ACCOUNT_NAME);
     _secureStorage.delete(key: ACCOUNT_NAME);
-    _preferences.remove(PRIVATE_KEY);
+    _preferences?.remove(PRIVATE_KEY);
     _secureStorage.delete(key: PRIVATE_KEY);
     _privateKey = null;
-    _preferences.remove(PASSCODE);
+    _preferences?.remove(PASSCODE);
     _secureStorage.delete(key: PASSCODE);
     _passcode = null;
     _secureStorage.delete(key: PASSCODE_ACTIVE);
@@ -218,7 +218,7 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   void saveEndpoint(String nodeEndpoint) {
-    _preferences.setString(NODE_ENDPOINT, nodeEndpoint);
+    _preferences?.setString(NODE_ENDPOINT, nodeEndpoint);
     notifyListeners();
   }
 }
