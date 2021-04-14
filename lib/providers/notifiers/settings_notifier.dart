@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +25,7 @@ class SettingsNotifier extends ChangeNotifier {
   late int _backupReminderCount;
 
   bool get isInitialized => _preferences != null;
-  String? get accountName => _preferences.getString(ACCOUNT_NAME);
+  String get accountName => _preferences.getString(ACCOUNT_NAME) ?? '';
   String? get privateKey => _privateKey;
   String? get passcode => _passcode;
   bool? get passcodeActive => _passcodeActive;
@@ -39,11 +37,9 @@ class SettingsNotifier extends ChangeNotifier {
   bool get inRecoveryMode => _preferences.getBool(IN_RECOVERY_MODE)!;
   bool get guardianTutorialShown => _preferences.getBool(GUARDIAN_TUTORIAL_SHOWN)!;
 
-  set nodeEndpoint(String value) =>
-      _preferences.setString(NODE_ENDPOINT, value);
+  set nodeEndpoint(String value) => _preferences.setString(NODE_ENDPOINT, value);
 
-  set inRecoveryMode(bool value) =>
-      _preferences.setBool(IN_RECOVERY_MODE, value);
+  set inRecoveryMode(bool value) => _preferences.setBool(IN_RECOVERY_MODE, value);
 
   set accountName(String? value) => _preferences.setString(ACCOUNT_NAME, value!);
 
@@ -169,7 +165,7 @@ class SettingsNotifier extends ChangeNotifier {
 
   void savePasscodeActive(bool value) {
     passcodeActive = value;
-    if (!passcodeActive!) {
+    if (!value) {
       passcode = null;
     }
     notifyListeners();
@@ -203,12 +199,12 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   void removeAccount() {
-    _preferences?.remove(ACCOUNT_NAME);
+    _preferences.remove(ACCOUNT_NAME);
     _secureStorage.delete(key: ACCOUNT_NAME);
-    _preferences?.remove(PRIVATE_KEY);
+    _preferences.remove(PRIVATE_KEY);
     _secureStorage.delete(key: PRIVATE_KEY);
     _privateKey = null;
-    _preferences?.remove(PASSCODE);
+    _preferences.remove(PASSCODE);
     _secureStorage.delete(key: PASSCODE);
     _passcode = null;
     _secureStorage.delete(key: PASSCODE_ACTIVE);
@@ -222,7 +218,7 @@ class SettingsNotifier extends ChangeNotifier {
   }
 
   void saveEndpoint(String nodeEndpoint) {
-    _preferences?.setString(NODE_ENDPOINT, nodeEndpoint);
+    _preferences.setString(NODE_ENDPOINT, nodeEndpoint);
     notifyListeners();
   }
 }

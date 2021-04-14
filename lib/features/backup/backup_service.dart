@@ -1,5 +1,3 @@
-
-
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:share/share.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
@@ -42,7 +40,7 @@ class BackupService {
   BackupService();
 
   bool get showReminder {
-    if (settingsStorage.privateKeyBackedUp!) {
+    if (settingsStorage.privateKeyBackedUp) {
       return false;
     } else {
       final now = DateTime.now().millisecondsSinceEpoch;

@@ -53,42 +53,42 @@ class _SettingsStorage {
 
   set privateKey(String? value) {
     _secureStorage.write(key: PRIVATE_KEY, value: value);
-    if(value != null) {
+    if (value != null) {
       _privateKey = value;
     }
   }
 
   set passcode(String? value) {
     _secureStorage.write(key: PASSCODE, value: value);
-    if(value != null) {
+    if (value != null) {
       _passcode = value;
     }
   }
 
   set passcodeActive(bool? value) {
     _secureStorage.write(key: PASSCODE_ACTIVE, value: value.toString());
-    if(value != null) {
+    if (value != null) {
       _passcodeActive = value;
     }
   }
 
   set privateKeyBackedUp(bool? value) {
     _secureStorage.write(key: PRIVATE_KEY_BACKED_UP, value: value.toString());
-    if(value != null) {
+    if (value != null) {
       _privateKeyBackedUp = value;
     }
   }
 
   set backupLatestReminder(int? value) {
     _secureStorage.write(key: BACKUP_LATEST_REMINDER, value: value.toString());
-    if(value != null) {
+    if (value != null) {
       _backupLatestReminder = value;
     }
   }
 
   set backupReminderCount(int value) {
     _secureStorage.write(key: BACKUP_REMINDER_COUNT, value: value.toString());
-      _backupReminderCount = value;
+    _backupReminderCount = value;
   }
 
   set selectedFiatCurrency(String? value) {
@@ -98,7 +98,7 @@ class _SettingsStorage {
   }
 
   set guardianTutorialShown(bool? shown) {
-    if(shown != null) {
+    if (shown != null) {
       _preferences.setBool(GUARDIAN_TUTORIAL_SHOWN, shown);
     }
   }
@@ -174,7 +174,7 @@ class _SettingsStorage {
 
   void savePasscodeActive(bool value) {
     passcodeActive = value;
-    if (!passcodeActive!) {
+    if (!value) {
       passcode = null;
     }
   }
