@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -26,27 +24,27 @@ class GuardianTabs extends StatelessWidget {
                 if (snapshot.hasData && snapshot.data!.size < _MAX_GUARDIANS_ALLOWED) {
                   return FloatingActionButton.extended(
                     backgroundColor: AppColors.blue,
-                    label: Text("Add Guardians"),
+                    label: const Text("Add Guardians"),
                     onPressed: () {
                       NavigationService.of(context).navigateTo(Routes.selectGuardians);
                     },
                   );
                 } else {
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 }
               }),
           appBar: AppBar(
-            bottom: TabBar(
+            bottom: const TabBar(
               tabs: [
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     "My Guardians",
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     "Im Guardian For",
                     style: TextStyle(color: Colors.black),
@@ -56,12 +54,12 @@ class GuardianTabs extends StatelessWidget {
             ),
             automaticallyImplyLeading: true,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            title: Text(
+            title: const Text(
               "Key Guardians",
               style: TextStyle(fontFamily: "worksans", color: Colors.black),
             ),
@@ -87,11 +85,11 @@ class GuardianTabs extends StatelessWidget {
                             ],
                           );
                         } else {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator());
                         }
                       });
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               }),
         ));

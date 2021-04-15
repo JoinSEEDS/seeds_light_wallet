@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +11,7 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 import 'transfer_form.dart';
 
 class Transfer extends StatefulWidget {
-  Transfer();
+  const Transfer();
 
   @override
   _TransferState createState() => _TransferState();
@@ -36,7 +34,7 @@ class _TransferState extends State<Transfer> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             MembersNotifier.of(context).filterMembers('');
             Navigator.of(context).pop();
@@ -44,7 +42,7 @@ class _TransferState extends State<Transfer> {
         ),
         title: showSearch
             ? Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColors.lightGrey,
                   borderRadius: BorderRadius.all(Radius.circular(32)),
                 ),
@@ -53,10 +51,10 @@ class _TransferState extends State<Transfer> {
                   autocorrect: false,
                   focusNode: _searchFocusNode,
                   decoration: InputDecoration(
-                    hintStyle: TextStyle(fontSize: 17),
+                    hintStyle: const TextStyle(fontSize: 17),
                     hintText: 'Enter user name or account'.i18n,
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(15),
+                    contentPadding: const EdgeInsets.all(15),
                   ),
                   onChanged: (text) {
                     MembersNotifier.of(context).filterMembers(text);
@@ -65,13 +63,13 @@ class _TransferState extends State<Transfer> {
               )
             : Text(
                 "Transfer".i18n,
-                style: TextStyle(fontFamily: "worksans", color: Colors.black),
+                style: const TextStyle(fontFamily: "worksans", color: Colors.black),
               ),
         centerTitle: true,
         actions: <Widget>[
           if (!showSearch)
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
                 color: Colors.black,
               ),
@@ -85,7 +83,7 @@ class _TransferState extends State<Transfer> {
             )
           else
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.highlight_off,
                 color: Colors.black,
               ),
@@ -123,20 +121,20 @@ class _TransferState extends State<Transfer> {
       MembersNotifier.of(context).refreshMembers();
     });
     super.initState();
-    _searchFocusNode = new FocusNode();
+    _searchFocusNode = FocusNode();
   }
 
   Widget _usersList(context) {
     return Consumer<MembersNotifier>(builder: (ctx, model, _) {
       return (model.visibleMembers.isEmpty && showSearch == true)
           ? Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 25,
                 vertical: 7,
               ),
               child: Text(
                 "Choose existing Seeds Member to transfer".i18n,
-                style: TextStyle(fontFamily: "worksans", fontSize: 18, fontWeight: FontWeight.w300),
+                style: const TextStyle(fontFamily: "worksans", fontSize: 18, fontWeight: FontWeight.w300),
               ),
             )
           : LiquidPullToRefresh(
@@ -145,11 +143,11 @@ class _TransferState extends State<Transfer> {
               backgroundColor: AppColors.lightGreen,
               color: AppColors.lightBlue,
               onRefresh: () async {
-                Provider.of<MembersNotifier>(context, listen: false).refreshMembers();
+                await Provider.of<MembersNotifier>(context, listen: false).refreshMembers();
               },
               child: ListView.builder(
                 shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 itemCount: model.visibleMembers.length > 8
                     ? model.visibleMembers.length
                     : (showSearch == true ? model.visibleMembers.length : 8),
@@ -158,16 +156,18 @@ class _TransferState extends State<Transfer> {
                     return shimmerTile();
                   } else {
                     final user = model.visibleMembers[index];
-                    return userTile(user: user,onTap: () async {
-                      await NavigationService.of(context).navigateTo(
-                        Routes.transferForm,
-                        TransferFormArguments(
-                          user.nickname,
-                          user.account,
-                          user.image,
-                        ),
-                      );
-                    });
+                    return userTile(
+                        user: user,
+                        onTap: () async {
+                          await NavigationService.of(context).navigateTo(
+                            Routes.transferForm,
+                            TransferFormArguments(
+                              user.nickname,
+                              user.account,
+                              user.image,
+                            ),
+                          );
+                        });
                   }
                 },
               ),

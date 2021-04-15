@@ -29,7 +29,7 @@ class NavigationTab {
 }
 
 class App extends StatefulWidget {
-  App();
+  const App();
 
   @override
   _AppState createState() => _AppState();
@@ -91,7 +91,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           pageController.jumpToPage(
             pageIndex!,
           );
-          this.index = pageIndex;
+          index = pageIndex;
         });
       }
     });
@@ -137,7 +137,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       var action = request.actions.first;
       var data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
 
-      Navigator.of(context).push(
+      await Navigator.of(context).push(
         PageRouteBuilder(
             opaque: false,
             fullscreenDialog: true,
@@ -188,7 +188,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Widget buildPageView() {
     return PageView(
       controller: pageController,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
         ...navigationTabs.map((tab) => tab.screenBuilder!()).toList(),
       ],
@@ -199,7 +199,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       String? title, String icon, String selectedIcon, bool isSelected, bool? profileNotification) {
     return BottomNavigationBarItem(
       activeIcon: SvgPicture.asset(selectedIcon, height: 24, width: 24),
-      icon: Stack(overflow: Overflow.visible, children: <Widget>[
+      icon: Stack(clipBehavior: Clip.none, children: <Widget>[
         SvgPicture.asset(icon, height: 24, width: 24),
         title == "Profile"
             ? profileNotification!
@@ -208,21 +208,21 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                     right: 6,
                     top: 2,
                   )
-                : SizedBox.shrink()
-            : SizedBox.shrink()
+                : const SizedBox.shrink()
+            : const SizedBox.shrink()
       ]),
       title: isSelected
           ? Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(title!, style: Theme.of(context).textTheme.caption),
             )
-          : SizedBox.shrink(),
+          : const SizedBox.shrink(),
     );
   }
 
   Widget buildNavigation(bool? showGuardianNotification) {
     return Container(
-      decoration: BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
+      decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
       child: BottomNavigationBar(
         currentIndex: index!,
         onTap: (index) {

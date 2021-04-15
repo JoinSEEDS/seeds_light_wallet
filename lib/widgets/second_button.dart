@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
@@ -31,7 +29,7 @@ class SecondButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(13),
         color: color.withOpacity(0.2),
       ),
-      child: FlatButton(
+      child: MaterialButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(13),
         ),

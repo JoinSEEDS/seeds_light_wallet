@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:eosdart/eosdart.dart';
@@ -21,11 +19,10 @@ class CustomTransactionArguments {
 class CustomTransaction extends StatefulWidget {
   final CustomTransactionArguments arguments;
 
-  CustomTransaction(this.arguments);
+  const CustomTransaction(this.arguments);
 
   @override
   _CustomTransactionState createState() => _CustomTransactionState();
-  
 }
 
 class _CustomTransactionState extends State<CustomTransaction> {
@@ -33,10 +30,8 @@ class _CustomTransactionState extends State<CustomTransaction> {
 
   bool transactionSubmitted = false;
 
-  final StreamController<bool> _statusNotifier =
-      StreamController<bool>.broadcast();
-  final StreamController<String?> _messageNotifier =
-      StreamController<String?>.broadcast();
+  final StreamController<bool> _statusNotifier = StreamController<bool>.broadcast();
+  final StreamController<String?> _messageNotifier = StreamController<String?>.broadcast();
 
   @override
   void dispose() {
@@ -79,7 +74,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.close, color: Colors.black),
+          icon: const Icon(Icons.close, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -89,7 +84,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17),
+        margin: const EdgeInsets.symmetric(horizontal: 17),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -101,7 +96,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
                 title: name,
                 beneficiary: account,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Column(
                 children: <Widget>[
                   ...data.entries
@@ -111,7 +106,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
                           children: <Widget>[
                             Text(
                               e.key,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: "heebo",
                                 fontSize: 18,
                                 color: Colors.black,
@@ -120,7 +115,7 @@ class _CustomTransactionState extends State<CustomTransaction> {
                             ),
                             Text(
                               e.value.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: "heebo",
                                 fontSize: 18,
                                 color: Colors.black,
@@ -133,9 +128,9 @@ class _CustomTransactionState extends State<CustomTransaction> {
                       .toList(),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               MainButton(
-                margin: EdgeInsets.only(top: 25),
+                margin: const EdgeInsets.only(top: 25),
                 title: 'Send'.i18n,
                 onPressed: onSubmit,
               ),

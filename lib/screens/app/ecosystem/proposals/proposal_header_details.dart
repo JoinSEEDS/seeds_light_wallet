@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -30,9 +28,8 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (proposal.image!.isNotEmpty == true && !widget.fromDetails)
-          NetImage(proposal.image),
-        SizedBox(height: 8),
+        if (proposal.image!.isNotEmpty == true && !widget.fromDetails) NetImage(proposal.image),
+        const SizedBox(height: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -43,7 +40,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                 style: textTheme.headline6,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
               child: Text(
@@ -51,7 +48,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                 style: textTheme.subtitle1,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
               child: RichText(
@@ -59,8 +56,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                   children: <InlineSpan>[
                     TextSpan(
                       text: 'Created by:'.i18n + ' ',
-                      style: textTheme.subtitle2!
-                          .copyWith(fontWeight: FontWeight.normal),
+                      style: textTheme.subtitle2!.copyWith(fontWeight: FontWeight.normal),
                     ),
                     TextSpan(
                       text: proposal.creator,
@@ -72,14 +68,13 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                     ),
                     TextSpan(
                       text: creationDateFormatted,
-                      style: textTheme.subtitle2!
-                          .copyWith(fontWeight: FontWeight.normal),
+                      style: textTheme.subtitle2!.copyWith(fontWeight: FontWeight.normal),
                     ),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
               child: Row(
@@ -89,7 +84,9 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                   Text(
                     'total\n%s'.i18n.fill(["${proposal.total}"]),
                     textAlign: TextAlign.left,
-                    style: textTheme.caption!.copyWith(fontSize: 14,),
+                    style: textTheme.caption!.copyWith(
+                      fontSize: 14,
+                    ),
                   ),
                   buildVotesIndicator(
                     title: 'Yes'.i18n,
@@ -110,28 +107,41 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
               children: [
                 Expanded(
                   child: FutureBuilder(
-                    future: null,//VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
-                    builder: (ctx, snapShot) {
-                      if (snapShot.hasData) {
-                        var voted = true;//snapShot.data.voted;
-                        var amount = 10;//snapShot.data.amount;
-                        var voteString = amount==0 ? 'neutral' :
-                          amount < 0 ? '-${-amount}' : '+$amount';
-                        return voted ? 
-                          Container(
-                            padding: EdgeInsets.all(4),
-                            height: 24,
-                            child: Text(
-                              "Voted $voteString", 
-                              textAlign: TextAlign.center, 
-                              style: TextStyle(color: amount < 0 ? Colors.white : Colors.grey[600], fontWeight: FontWeight.bold),),
-                            color: amount == 0 ? Colors.black12 : amount > 0 ? Colors.greenAccent : Colors.red.withOpacity(.8)
-                          ) :
-                          Container(height: 16,);
-                      } else { 
-                        return Container(height: 16,);
-                      }
-                    }),
+                      future: null, //VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
+                      builder: (ctx, snapShot) {
+                        if (snapShot.hasData) {
+                          var voted = true; //snapShot.data.voted;
+                          var amount = 10; //snapShot.data.amount;
+                          var voteString = amount == 0
+                              ? 'neutral'
+                              : amount < 0
+                                  ? '-${-amount}'
+                                  : '+$amount';
+                          return voted
+                              ? Container(
+                                  padding: const EdgeInsets.all(4),
+                                  height: 24,
+                                  child: Text(
+                                    "Voted $voteString",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: amount < 0 ? Colors.white : Colors.grey[600],
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  color: amount == 0
+                                      ? Colors.black12
+                                      : amount > 0
+                                          ? Colors.greenAccent
+                                          : Colors.red.withOpacity(.8))
+                              : Container(
+                                  height: 16,
+                                );
+                        } else {
+                          return Container(
+                            height: 16,
+                          );
+                        }
+                      }),
                 ),
               ],
             )
@@ -146,9 +156,8 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (proposal.image!.isNotEmpty == true && !widget.fromDetails)
-          NetImage(proposal.image),
-        SizedBox(height: 8),
+        if (proposal.image!.isNotEmpty == true && !widget.fromDetails) NetImage(proposal.image),
+        const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -159,18 +168,17 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
                   proposal.title!,
                   style: textTheme.headline6,
                 ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 proposal.summary!,
                 style: textTheme.subtitle1,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
-                DateFormat.yMMMd().format(
-                    DateTime.fromMillisecondsSinceEpoch(proposal.creationDate!)),
+                DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(proposal.creationDate!)),
                 style: textTheme.subtitle2,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -199,8 +207,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
     );
   }
 
-  Widget buildVotesIndicator(
-      {required String title, Color? color, int? votes, int? total}) {
+  Widget buildVotesIndicator({required String title, Color? color, int? votes, int? total}) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -211,14 +218,14 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
               padding: const EdgeInsetsDirectional.only(start: 6, bottom: 4),
               child: Text(
                 title,
-                style: TextStyle(fontSize: 14),
+                style: const TextStyle(fontSize: 14),
               ),
             ),
             LinearPercentIndicator(
               animation: true,
               lineHeight: 8,
               animationDuration: 800,
-              percent: (total == 0 ? 0 : votes!.toDouble() / total!.toDouble()),
+              percent: total == 0 ? 0 : votes!.toDouble() / total!.toDouble(),
               linearStrokeCap: LinearStrokeCap.roundAll,
               progressColor: color,
             ),
@@ -231,7 +238,7 @@ class _ProposalHeaderDetailsState extends State<ProposalHeaderDetails> {
 
 extension RelativeTimeFormat on DateTime {
   String formatRelative() {
-    if (DateTime.now().difference(this) > Duration(days: 7)) {
+    if (DateTime.now().difference(this) > const Duration(days: 7)) {
       return DateFormat.yMd().format(this);
     } else {
       return timeago.format(this);

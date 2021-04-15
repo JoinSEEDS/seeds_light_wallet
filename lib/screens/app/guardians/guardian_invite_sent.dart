@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -12,14 +10,14 @@ class InviteGuardiansSent extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         title: Text(
           "Invite Guardians".i18n,
-          style: TextStyle(fontFamily: "worksans", color: Colors.black),
+          style: const TextStyle(fontFamily: "worksans", color: Colors.black),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -35,13 +33,13 @@ class InviteGuardianSentBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 16),
-        Container(child: Icon(Icons.check_circle, size: 120)),
+        const SizedBox(height: 16),
+        Container(child: const Icon(Icons.check_circle, size: 120)),
         Padding(
           padding: const EdgeInsets.all(24.0),
           child: Text(
             "Invites Sent!".i18n,
-            style: TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 18),
             textAlign: TextAlign.center,
           ),
         ),

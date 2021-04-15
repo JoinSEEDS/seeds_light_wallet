@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -28,7 +26,7 @@ Future<void> showFirstTimeUserDialog(BuildContext buildContext) async {
           ),
           actions: <Widget>[
             MainButton(
-              margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8),
+              margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8),
               title: actionButtonText,
               onPressed: () {
                 if (tutorialState == TutorialState.fourth) {
@@ -52,7 +50,7 @@ Future<void> showFirstTimeUserDialog(BuildContext buildContext) async {
   );
 }
 
-getNextState(TutorialState tutorialState) {
+TutorialState getNextState(TutorialState tutorialState) {
   switch (tutorialState) {
     case TutorialState.first:
       return TutorialState.second;
@@ -67,7 +65,7 @@ getNextState(TutorialState tutorialState) {
   }
 }
 
-getImage(TutorialState tutorialState) {
+String getImage(TutorialState tutorialState) {
   switch (tutorialState) {
     case TutorialState.first:
       return 'assets/images/guardians/guardian_tutorial_1.png';
@@ -82,19 +80,19 @@ getImage(TutorialState tutorialState) {
   }
 }
 
-getContentText(TutorialState tutorialState) {
+Widget getContentText(TutorialState tutorialState) {
   switch (tutorialState) {
     case TutorialState.first:
       return RichText(
         textAlign: TextAlign.center,
-        text: new TextSpan(
+        text: const TextSpan(
           style: TextStyle(
             fontSize: 16,
             color: Colors.black,
           ),
           children: <TextSpan>[
             TextSpan(text: 'Welcome to the '),
-            TextSpan(text: '\nKey Guardians ', style: new TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: '\nKey Guardians ', style: TextStyle(fontWeight: FontWeight.bold)),
             TextSpan(text: 'feature'),
           ],
         ),
@@ -102,7 +100,7 @@ getContentText(TutorialState tutorialState) {
     case TutorialState.second:
       return RichText(
         textAlign: TextAlign.center,
-        text: new TextSpan(
+        text: const TextSpan(
           style: TextStyle(
             fontSize: 16,
             color: Colors.black,
@@ -115,14 +113,14 @@ getContentText(TutorialState tutorialState) {
     case TutorialState.third:
       return RichText(
         textAlign: TextAlign.center,
-        text: new TextSpan(
+        text: const TextSpan(
           style: TextStyle(
             fontSize: 16,
             color: Colors.black,
           ),
           children: <TextSpan>[
             TextSpan(text: 'If you ever lose your phone, forget your password or keyphrase, your '),
-            TextSpan(text: '\nKey Guardians ', style: new TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: '\nKey Guardians ', style: TextStyle(fontWeight: FontWeight.bold)),
             TextSpan(text: 'will help you recover your account.'),
           ],
         ),
@@ -130,7 +128,7 @@ getContentText(TutorialState tutorialState) {
     case TutorialState.fourth:
       return RichText(
         textAlign: TextAlign.center,
-        text: new TextSpan(
+        text: const TextSpan(
           style: TextStyle(
             fontSize: 16,
             color: Colors.black,
@@ -143,7 +141,7 @@ getContentText(TutorialState tutorialState) {
         ),
       );
     case TutorialState.done:
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
   }
 }
 

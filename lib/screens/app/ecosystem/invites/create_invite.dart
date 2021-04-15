@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -29,7 +27,7 @@ class CreateInviteTransaction extends StatefulWidget {
   final String? inviteHash;
   final Function? nextStep;
 
-  CreateInviteTransaction({this.inviteHash, this.nextStep});
+  const CreateInviteTransaction({this.inviteHash, this.nextStep});
 
   @override
   CreateInviteTransactionState createState() => CreateInviteTransactionState();
@@ -38,10 +36,8 @@ class CreateInviteTransaction extends StatefulWidget {
 class CreateInviteTransactionState extends State<CreateInviteTransaction> {
   bool transactionSubmitted = false;
 
-  final StreamController<bool> _statusNotifier =
-      StreamController<bool>.broadcast();
-  final StreamController<String> _messageNotifier =
-      StreamController<String>.broadcast();
+  final StreamController<bool> _statusNotifier = StreamController<bool>.broadcast();
+  final StreamController<String> _messageNotifier = StreamController<String>.broadcast();
 
   final quantityController = TextEditingController(text: '5');
 
@@ -90,7 +86,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).maybePop(),
         ),
         backgroundColor: Colors.transparent,
@@ -98,7 +94,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17),
+        margin: const EdgeInsets.symmetric(horizontal: 17),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -115,7 +111,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
                 endText: 'SEEDS',
               ),
               MainButton(
-                margin: EdgeInsets.only(top: 25),
+                margin: const EdgeInsets.only(top: 25),
                 title: 'Create invite'.i18n,
                 onPressed: onSend,
               ),
@@ -141,7 +137,7 @@ class ShareScreen extends StatefulWidget {
   final String? inviteSecret;
   final String? inviteLink;
 
-  ShareScreen({this.inviteSecret, this.inviteLink});
+  const ShareScreen({this.inviteSecret, this.inviteLink});
 
   @override
   _ShareScreenState createState() => _ShareScreenState();
@@ -159,7 +155,7 @@ class _ShareScreenState extends State<ShareScreen> {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        margin: EdgeInsets.only(left: 20, right: 20),
+        margin: const EdgeInsets.only(left: 20, right: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -172,14 +168,11 @@ class _ShareScreenState extends State<ShareScreen> {
                   alignment: Alignment.center,
                   child: Text(
                     'GREAT!'.i18n,
-                    style: TextStyle(
-                        color: AppColors.blue,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 25),
+                    style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600, fontSize: 25),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: const EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
                   child: QrImage(
                     data: widget.inviteLink!,
@@ -188,17 +181,16 @@ class _ShareScreenState extends State<ShareScreen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(20),
                   alignment: Alignment.center,
                   child: Text(
-                    'Share this QR code or send link for the person you want to invite!'
-                        .i18n,
+                    'Share this QR code or send link for the person you want to invite!'.i18n,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.blue, fontSize: 16),
+                    style: const TextStyle(color: AppColors.blue, fontSize: 16),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8.0),
                 ),
               ],
             ),
@@ -275,8 +267,7 @@ class _CreateInviteState extends State<CreateInvite> {
 
   void prepareInviteLink() async {
     Uri dynamicSecretLink =
-        await Provider.of<LinksService>(context, listen: false)
-            .createInviteLink(_readableSecretCode);
+        await Provider.of<LinksService>(context, listen: false).createInviteLink(_readableSecretCode);
 
     setState(() {
       _dynamicSecretLink = dynamicSecretLink.toString();
@@ -290,7 +281,7 @@ class _CreateInviteState extends State<CreateInvite> {
 
     switch (status) {
       case InviteStatus.initial:
-        inviteScreen = Center(
+        inviteScreen = const Center(
           child: CircularProgressIndicator(),
         );
         break;

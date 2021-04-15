@@ -234,7 +234,7 @@ class FiatRateModel {
 
   factory FiatRateModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json.isNotEmpty) {
-      var model = FiatRateModel(new Map<String, num>.from(json["rates"]), base: json["base"]);
+      var model = FiatRateModel(Map<String, num>.from(json["rates"]), base: json["base"]);
       model.rebase("USD");
       return model;
     } else {
@@ -293,19 +293,19 @@ class RateModel {
   }
 
   double toUSD(double seedsAmount) {
-    return seedsPerUSD == null
-        ? 0
-        : seedsPerUSD > 0
-            ? seedsAmount / seedsPerUSD
-            : 0;
+    if (seedsPerUSD == null) {
+      return 0;
+    } else {
+      return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
+    }
   }
 
   double toSeeds(double usdAmount) {
-    return seedsPerUSD == null
-        ? 0
-        : seedsPerUSD > 0
-            ? usdAmount * seedsPerUSD
-            : 0;
+    if (seedsPerUSD == null) {
+      return 0;
+    } else {
+      return seedsPerUSD > 0 ? usdAmount * seedsPerUSD : 0;
+    }
   }
 
   @override

@@ -61,7 +61,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
                     Text(
                       title,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
+                      style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
                     ),
                     ...buildUnauthorized(bloc, snapshot.data),
                   ],
@@ -87,7 +87,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
             child: Text(
               state == AuthState.setupNeeded ? "Enable Settings".i18n : "Try Again".i18n,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
+              style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
             ),
           ),
           onPressed: () {
@@ -123,7 +123,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
                 child: Text(
                   "Use Passcode".i18n,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
+                  style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
                 ),
               ),
               onPressed: () {

@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,7 +23,7 @@ import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/utils/double_extension.dart';
 
 class ProductsCatalog extends StatefulWidget {
-  ProductsCatalog();
+  const ProductsCatalog();
 
   @override
   _ProductsCatalogState createState() => _ProductsCatalogState();
@@ -48,10 +46,11 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   void chooseProductPicture() async {
-    final PickedFile? image = await ImagePicker()
-        .getImage(source: ImageSource.gallery, imageQuality: 20);
+    final PickedFile? image = await ImagePicker().getImage(source: ImageSource.gallery, imageQuality: 20);
 
-    if (image == null) return;
+    if (image == null) {
+      return;
+    }
 
     File localImage = File(image.path);
 
@@ -67,13 +66,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   bool productNameExists(String? name) {
-    return (products.indexWhere(
-            (element) => element.data()!['name'] == editProductName) !=
-        -1);
+    return products.indexWhere((element) => element.data()!['name'] == editProductName) != -1;
   }
 
   Future<void> createNewProduct(String? userAccount, BuildContext context) async {
-    if (productNameExists(editProductName)) return;
+    if (productNameExists(editProductName)) {
+      return;
+    }
 
     String? downloadUrl;
 
@@ -81,9 +80,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
       savingLoader.currentState!.loading();
     });
 
-    if (editLocalImagePath != null && editLocalImagePath.isNotEmpty) {
-      TaskSnapshot image = await FirebaseDataStoreService()
-          .uploadPic(File(editLocalImagePath), userAccount!);
+    if (editLocalImagePath.isNotEmpty) {
+      TaskSnapshot image = await FirebaseDataStoreService().uploadPic(File(editLocalImagePath), userAccount!);
       downloadUrl = await image.ref.getDownloadURL();
       editLocalImagePath = '';
     }
@@ -96,22 +94,18 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
       position: products.length,
     );
 
-    FirebaseDatabaseService()
-        .createProduct(product, userAccount)
-        .then((value) => closeBottomSheet(context));
+    await FirebaseDatabaseService().createProduct(product, userAccount).then((value) => closeBottomSheet(context));
   }
 
   Future<void> editProduct(ProductModel productModel, String? userAccount, BuildContext context) async {
-      
     String? downloadUrl;
-    
+
     setState(() {
       savingLoader.currentState!.loading();
     });
 
-    if (editLocalImagePath != null && editLocalImagePath.isNotEmpty) {
-      TaskSnapshot image = await FirebaseDataStoreService()
-          .uploadPic(File(editLocalImagePath), userAccount!);
+    if (editLocalImagePath.isNotEmpty) {
+      TaskSnapshot image = await FirebaseDataStoreService().uploadPic(File(editLocalImagePath), userAccount!);
       downloadUrl = await image.ref.getDownloadURL();
       editLocalImagePath = '';
     }
@@ -123,9 +117,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         id: productModel.id,
         currency: editCurrency);
 
-    FirebaseDatabaseService()
-        .updateProduct(product, userAccount)
-        .then((value) => closeBottomSheet(context));
+    await FirebaseDatabaseService().updateProduct(product, userAccount).then((value) => closeBottomSheet(context));
   }
 
   void closeBottomSheet(BuildContext context) {
@@ -137,8 +129,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     FirebaseDatabaseService().deleteProduct(productModel, userAccount);
   }
 
-  Future<void> showDeleteProduct(
-      BuildContext context, ProductModel productModel, String? userAccount) {
+  Future<void> showDeleteProduct(BuildContext context, ProductModel productModel, String? userAccount) {
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -146,7 +137,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         return AlertDialog(
           title: Text('Delete'.i18n + " ${productModel.name} ?"),
           actions: [
-            FlatButton(
+            MaterialButton(
               child: Text("Delete".i18n),
               onPressed: () {
                 deleteProduct(productModel, userAccount);
@@ -167,7 +158,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           backgroundImage: FileImage(File(editLocalImagePath)),
           radius: 20,
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Text("Change Picture".i18n),
       ];
     } else if (imageUrl != null && imageUrl.isNotEmpty) {
@@ -176,12 +167,12 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
           backgroundImage: NetworkImage(imageUrl),
           radius: 20,
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Text('Change Picture'.i18n),
       ];
     } else {
       children = [
-        CircleAvatar(
+        const CircleAvatar(
           backgroundColor: Colors.white,
           child: Icon(
             Icons.add,
@@ -208,9 +199,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     editPriceValue = productModel.price;
     editLocalImagePath = "";
 
-    var fiatCurrency = editCurrency != SEEDS
-        ? editCurrency
-        : SettingsNotifier.of(context).selectedFiatCurrency;
+    var fiatCurrency = editCurrency != SEEDS ? editCurrency : SettingsNotifier.of(context).selectedFiatCurrency;
 
     showModalBottomSheet<void>(
         isScrollControlled: true,
@@ -218,7 +207,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         builder: (BuildContext context) {
           return SingleChildScrollView(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
@@ -228,12 +217,11 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                   ),
                 ],
               ),
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Form(
                 key: editKey,
                 child: Container(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 15,
                   ),
@@ -304,9 +292,8 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
         builder: (BuildContext context) {
           return SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              decoration: BoxDecoration(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
@@ -317,7 +304,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                 ],
               ),
               child: Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   vertical: 10,
                   horizontal: 15,
                 ),
@@ -351,23 +338,21 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                     ),
                     Form(
                       key: priceKey,
-                          child: AmountField(
+                      child: AmountField(
                           currentCurrency: editCurrency,
-                          fiatCurrency:
-                              SettingsNotifier.of(context).selectedFiatCurrency,
+                          fiatCurrency: SettingsNotifier.of(context).selectedFiatCurrency,
                           autoFocus: false,
                           hintText: "Price",
                           onChanged: (amount, fieldAmount, currencyInput) {
-                                editPriceValue = fieldAmount;
-                                editCurrency = currencyInput;
-                              }),
+                            editPriceValue = fieldAmount;
+                            editCurrency = currencyInput;
+                          }),
                     ),
                     MainButton(
                       key: savingLoader,
                       title: 'Add Product'.i18n,
                       onPressed: () {
-                        if (priceKey.currentState!.validate() &&
-                            nameKey.currentState!.validate()) {
+                        if (priceKey.currentState!.validate() && nameKey.currentState!.validate()) {
                           createNewProduct(accountName, context);
                         }
                       },
@@ -390,37 +375,36 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
           'Your Products'.i18n,
-          style: TextStyle(color: Colors.black87),
+          style: const TextStyle(color: Colors.black87),
         ),
       ),
       floatingActionButton: Builder(
           builder: (context) => FloatingActionButton(
                 backgroundColor: AppColors.blue,
                 onPressed: () => showNewProduct(context, accountName),
-                child: Icon(Icons.add),
+                child: const Icon(Icons.add),
               )),
-      body: FutureBuilder(
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.none ||
-            snapshot.connectionState == ConnectionState.done) {
+      body: FutureBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.none || snapshot.connectionState == ConnectionState.done) {
           return StreamBuilder<QuerySnapshot>(
-              stream: FirebaseDatabaseService()
-                  .getOrderedProductsForUser(accountName),
+              stream: FirebaseDatabaseService().getOrderedProductsForUser(accountName),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 } else {
                   products = snapshot.data!.docs;
                   return ReorderableListView(
                     onReorder: (oldIndex, newIndex) {
-                      if (oldIndex < newIndex) newIndex -= 1;
+                      if (oldIndex < newIndex) {
+                        newIndex -= 1;
+                      }
                       products.insert(newIndex, products.removeAt(oldIndex));
                       final futures = <Future>[];
                       for (int i = 0; i < products.length; i++) {
@@ -440,17 +424,13 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                         title: Material(
                           child: Text(
                             product.name == null ? "" : product.name!,
-                            style: TextStyle(
-                                fontFamily: "worksans",
-                                fontWeight: FontWeight.w500),
+                            style: const TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
                           ),
                         ),
                         subtitle: Material(
                           child: Text(
                             getProductPrice(product),
-                            style: TextStyle(
-                                fontFamily: "worksans",
-                                fontWeight: FontWeight.w400),
+                            style: const TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
                           ),
                         ),
                         trailing: Builder(
@@ -458,19 +438,17 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
-                                icon: Icon(Icons.edit),
+                                icon: const Icon(Icons.edit),
                                 onPressed: () {
                                   setState(() {});
 
-                                  showEditProduct(
-                                      context, product, accountName);
+                                  showEditProduct(context, product, accountName);
                                 },
                               ),
                               IconButton(
-                                icon: Icon(Icons.delete),
+                                icon: const Icon(Icons.delete),
                                 onPressed: () {
-                                  showDeleteProduct(
-                                      context, product, accountName);
+                                  showDeleteProduct(context, product, accountName);
                                 },
                               ),
                             ],
@@ -482,7 +460,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
                 }
               });
         } else {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       }),
     );

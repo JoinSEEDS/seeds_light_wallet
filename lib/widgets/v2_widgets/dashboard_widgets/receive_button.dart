@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
@@ -11,7 +9,7 @@ class ReceiveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return MaterialButton(
       padding: EdgeInsets.only(top: 14, bottom: 14),
       onPressed: onPress,
       color: AppColors.green1,

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -59,13 +57,10 @@ class ShowOnboardingChoice extends StatelessWidget {
                   text: seedsUrl,
                   style: TextStyle(fontSize: 14, color: AppColors.blue),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () => safeLaunch(
-                        'https://www.joinseeds.com/letmein?client=seedslight'),
+                    ..onTap = () => safeLaunch('https://www.joinseeds.com/letmein?client=seedslight'),
                 ),
                 TextSpan(
-                  text: '\n\n' +
-                      "By signing up, you agree to our terms and privacy policy"
-                          .i18n,
+                  text: '\n\n' + "By signing up, you agree to our terms and privacy policy".i18n,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 13,
@@ -77,7 +72,7 @@ class ShowOnboardingChoice extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              FlatButton(
+              MaterialButton(
                 color: Colors.transparent,
                 child: Text(
                   'Terms & Conditions'.i18n,
@@ -86,10 +81,9 @@ class ShowOnboardingChoice extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
-                onPressed: () =>
-                    launch(remoteConfigurations.termsAndConditions),
+                onPressed: () => launch(remoteConfigurations.termsAndConditions),
               ),
-              FlatButton(
+              MaterialButton(
                 color: Colors.transparent,
                 child: Text(
                   'Privacy Policy'.i18n,
@@ -108,13 +102,12 @@ class ShowOnboardingChoice extends StatelessWidget {
   }
 
   Future<void> safeLaunch(String urlString) async {
-  if (await canLaunch(urlString)) {
-    await launch(urlString);
-  } else {
-    errorToast("Couldn't open this url $urlString");
+    if (await canLaunch(urlString)) {
+      await launch(urlString);
+    } else {
+      errorToast("Couldn't open this url $urlString");
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {

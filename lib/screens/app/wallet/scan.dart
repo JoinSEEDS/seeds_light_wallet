@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
@@ -12,16 +10,16 @@ enum Steps { scan, processing, success, error }
 class Scan extends StatefulWidget {
   final shouldSendResultsBack;
 
-  @override
-  _ScanState createState() => new _ScanState();
+  const Scan(this.shouldSendResultsBack);
 
-  Scan(this.shouldSendResultsBack);
+  @override
+  _ScanState createState() => _ScanState();
 }
 
 class _ScanState extends State<Scan> {
   late String action, account, data, error, qrcode;
   Steps step = Steps.scan;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -73,7 +71,7 @@ class _ScanState extends State<Scan> {
   void _showToast(BuildContext context, String message) {
     _scaffoldKey.currentState!.showSnackBar(SnackBar(
       content: Text(message),
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     ));
   }
 
@@ -151,9 +149,9 @@ class _ScanState extends State<Scan> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
+              const CircularProgressIndicator(),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0),
                 child: Text(
                   'Processing QR Code...',
                   style: TextStyle(
@@ -169,7 +167,7 @@ class _ScanState extends State<Scan> {
         );
         break;
       case Steps.success:
-        widget = Center(
+        widget = const Center(
           child: Text(
             'Success!',
             style: TextStyle(
@@ -189,8 +187,8 @@ class _ScanState extends State<Scan> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  this.error,
-                  style: TextStyle(
+                  error,
+                  style: const TextStyle(
                     fontFamily: "heebo",
                     fontSize: 18,
                     color: Colors.redAccent,
@@ -200,16 +198,17 @@ class _ScanState extends State<Scan> {
               ),
               Padding(
                 padding: const EdgeInsets.all(20),
-                child: OutlineButton(
-                  child: Text(
+                child: OutlinedButton(
+                  style:
+                      ButtonStyle(foregroundColor: MaterialStateProperty.resolveWith<Color>((states) => Colors.black)),
+                  child: const Text(
                     'Try Again',
                     style: TextStyle(color: Colors.black),
                   ),
-                  color: Colors.black,
                   onPressed: () {
                     setState(() {
                       _handledQrCode = false;
-                      this.step = Steps.scan;
+                      step = Steps.scan;
                     });
                   },
                 ),
@@ -225,12 +224,12 @@ class _ScanState extends State<Scan> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text(
+        title: const Text(
           "Scanner",
           style: TextStyle(fontFamily: "worksans", color: Colors.black),
         ),

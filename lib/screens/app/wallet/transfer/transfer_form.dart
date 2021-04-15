@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 import 'dart:ui';
 
@@ -29,14 +27,13 @@ class TransferFormArguments {
 class TransferForm extends StatefulWidget {
   final TransferFormArguments? arguments;
 
-  TransferForm(this.arguments);
+  const TransferForm(this.arguments);
 
   @override
   _TransferFormState createState() => _TransferFormState();
 }
 
-class _TransferFormState extends State<TransferForm>
-    with SingleTickerProviderStateMixin {
+class _TransferFormState extends State<TransferForm> with SingleTickerProviderStateMixin {
   bool showPageLoader = false;
   String transactionId = "";
   final _formKey = GlobalKey<FormState>();
@@ -44,11 +41,9 @@ class _TransferFormState extends State<TransferForm>
   final TextEditingController memoController = TextEditingController();
   String memo = "";
 
-  final StreamController<bool> _statusNotifier =
-      StreamController<bool>.broadcast();
+  final StreamController<bool> _statusNotifier = StreamController<bool>.broadcast();
 
-  final StreamController<String> _messageNotifier =
-      StreamController<String>.broadcast();
+  final StreamController<String> _messageNotifier = StreamController<String>.broadcast();
 
   @override
   void initState() {
@@ -63,8 +58,7 @@ class _TransferFormState extends State<TransferForm>
 
     print("Seeds valu to send: " + seedsValue.toString());
     try {
-      var response =
-          await Provider.of<EosService>(context, listen: false).transferSeeds(
+      var response = await Provider.of<EosService>(context, listen: false).transferSeeds(
         beneficiary: widget.arguments!.accountName,
         amount: seedsValue,
         memo: memo,
@@ -115,8 +109,7 @@ class _TransferFormState extends State<TransferForm>
                       ),
                     ),
                     child: Hero(
-                      child: CachedNetworkImage(
-                          imageUrl: widget.arguments!.avatar!, fit: BoxFit.cover),
+                      child: CachedNetworkImage(imageUrl: widget.arguments!.avatar!, fit: BoxFit.cover),
                       tag: "avatar#${widget.arguments!.accountName}",
                     ),
                   )
@@ -124,10 +117,7 @@ class _TransferFormState extends State<TransferForm>
                     alignment: Alignment.center,
                     child: Text(
                       widget.arguments!.fullName!.substring(0, 2).toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600),
+                      style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
                     ),
                   ),
           ),
@@ -135,29 +125,28 @@ class _TransferFormState extends State<TransferForm>
         Hero(
           tag: "nickname#${widget.arguments!.fullName}",
           child: Container(
-            margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
             child: Text(
               widget.arguments!.fullName!,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
           ),
         ),
         Hero(
           tag: "account#${widget.arguments!.fullName}",
           child: Container(
-            margin: EdgeInsets.only(top: 5, left: 20, right: 20),
+            margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
             child: Text(
               widget.arguments!.accountName!,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: AppColors.grey),
+              style: const TextStyle(fontSize: 14, color: AppColors.grey),
             ),
           ),
         ),
       ],
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +164,7 @@ class _TransferFormState extends State<TransferForm>
             appBar: AppBar(
               toolbarOpacity: 1,
               leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.black),
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               backgroundColor: Colors.transparent,
@@ -183,31 +172,28 @@ class _TransferFormState extends State<TransferForm>
             ),
             backgroundColor: Colors.white,
             body: Container(
-              margin: EdgeInsets.only(left: 17, right: 17),
+              margin: const EdgeInsets.only(left: 17, right: 17),
               child: SingleChildScrollView(
                 child: Form(
                   key: _formKey,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(
-                          height: MediaQuery.of(context).padding.top + 22,
-                          width: 1),
+                      SizedBox(height: MediaQuery.of(context).padding.top + 22, width: 1),
                       buildProfile(),
                       Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 20),
                         child: AmountField(
-                          availableBalance: balance,
-                          onChanged: (seedsVal, fieldVal, currency) => {seedsValue = seedsVal}
-                        ),
+                            availableBalance: balance,
+                            onChanged: (seedsVal, fieldVal, currency) => {seedsValue = seedsVal}),
                       ),
                       MainTextField(
                           controller: memoController,
                           labelText: null,
                           autocorrect: false,
                           hintText: "Memo (optional)".i18n,
-                          textStyle: TextStyle(fontSize: 12)),
+                          textStyle: const TextStyle(fontSize: 12)),
                       MainButton(
-                        margin: EdgeInsets.only(top: 20),
+                        margin: const EdgeInsets.only(top: 20),
                         title: 'Send'.i18n,
                         onPressed: onSend,
                       )

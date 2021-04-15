@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
@@ -20,13 +18,10 @@ class InvitesNotifier extends ChangeNotifier {
   }
 
   Future fetchInvites() async {
-    var allInvites = await (_http!.getInvites());
+    var allInvites = await _http!.getInvites();
 
     activeInvites = allInvites!.where((invite) => invite.account!.isEmpty).toList();
-    invitedMembers = allInvites
-        .where((invite) => invite.account!.isNotEmpty)
-        .map((invite) => invite.account)
-        .toList();
+    invitedMembers = allInvites.where((invite) => invite.account!.isNotEmpty).map((invite) => invite.account).toList();
     inviteSecrets = retrieveFromSharedPreferences(activeInvites);
 
     notifyListeners();

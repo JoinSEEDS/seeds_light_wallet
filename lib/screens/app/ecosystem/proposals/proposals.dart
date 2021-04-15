@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
@@ -22,14 +20,14 @@ class ProposalsState extends State<Proposals> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.of(context).pop(),
           ),
           backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
           title: Text(
             "Proposals".i18n,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
         body: Column(
@@ -38,14 +36,14 @@ class ProposalsState extends State<Proposals> {
               height: 33,
               child: TabBar(
                 labelColor: Colors.black,
-                tabs:
-                    proposalTypes.keys.map((type) => Tab(text: type.i18n)).toList(),
+                tabs: proposalTypes.keys.map((type) => Tab(text: type.i18n)).toList(),
               ),
             ),
             Expanded(
               child: TabBarView(
                 children: proposalTypes.values
-                    .map((data) => ProposalsList(type: data['stage']!, status: data['status']!, reverse: data['reverse'] == 'true'))
+                    .map((data) => ProposalsList(
+                        type: data['stage']!, status: data['status']!, reverse: data['reverse'] == 'true'))
                     .toList(),
               ),
             )
@@ -67,8 +65,7 @@ class ProposalsList extends StatefulWidget {
   _ProposalsListState createState() => _ProposalsListState();
 }
 
-class _ProposalsListState extends State<ProposalsList>
-    with AutomaticKeepAliveClientMixin {
+class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -77,8 +74,7 @@ class _ProposalsListState extends State<ProposalsList>
     super.build(context);
 
     return PaginatedListView<ProposalModel>(
-      pageFuture: (int? pageIndex) =>
-          HttpService.of(context).getProposals(widget.type, widget.status, widget.reverse),
+      pageFuture: (int? pageIndex) => HttpService.of(context).getProposals(widget.type, widget.status, widget.reverse),
       pageSize: 1000,
       showRefreshIndicator: true,
       itemBuilder: (BuildContext context, ProposalModel proposal, int index) {
@@ -96,8 +92,7 @@ class _ProposalsListState extends State<ProposalsList>
         margin: const EdgeInsets.all(16),
         elevation: 8,
         child: InkWell(
-          onTap: () => NavigationService.of(context)
-              .navigateTo(Routes.proposalDetailsPage, proposal),
+          onTap: () => NavigationService.of(context).navigateTo(Routes.proposalDetailsPage, proposal),
           child: ProposalHeaderDetails(proposal),
         ),
       ),

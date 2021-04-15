@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -109,9 +107,9 @@ class NavigationService {
   };
 
   final appRoutes = {
-    Routes.app: (_) => App(),
+    Routes.app: (_) => const App(),
     Routes.transferForm: (args) => TransferForm(args),
-    Routes.transfer: (_) => Transfer(),
+    Routes.transfer: (_) => const Transfer(),
     Routes.invites: (_) => Invites(),
     Routes.createInvite: (_) => CreateInvite(),
     Routes.proposals: (_) => Proposals(),
@@ -120,14 +118,14 @@ class NavigationService {
     Routes.imageViewer: (args) => ImageViewer(
           arguments: args,
         ),
-    Routes.plantSeeds: (_) => PlantSeeds(),
+    Routes.plantSeeds: (_) => const PlantSeeds(),
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => SendScannerScreen(),
-    Routes.receive: (_) => Receive(),
+    Routes.receive: (_) => const Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
-    Routes.receiveCustom: (_) => ReceiveCustom(),
+    Routes.receiveCustom: (_) => const ReceiveCustom(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
-    Routes.selectGuardians: (_) => SelectGuardians(),
+    Routes.selectGuardians: (_) => const SelectGuardians(),
     Routes.inviteGuardians: (args) => InviteGuardians(args),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),
     Routes.guardianTabs: (_) => GuardianTabs(),
@@ -147,7 +145,7 @@ class NavigationService {
   };
 
   final walletRoutes = {
-    Routes.dashboard: (_) => Dashboard(),
+    Routes.dashboard: (_) => const Dashboard(),
   };
 
   void addListener(StreamController<String> listener) {

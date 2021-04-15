@@ -10,7 +10,7 @@ class AccountGeneratorService {
     _httpService = httpService;
   }
 
-  Future<List<String?>> generateList(String suggestedAccount, {int count: 4}) async {
+  Future<List<String?>> generateList(String suggestedAccount, {int count = 4}) async {
     List<String?> available = [];
     List<String?> excludes = [];
     for (int i = 0; i < count; i++) {
@@ -21,7 +21,7 @@ class AccountGeneratorService {
     return available;
   }
 
-  Future<List<String?>> alternativeAccountsList(String baseAccount, {int count: 4}) async {
+  Future<List<String?>> alternativeAccountsList(String baseAccount, {int count = 4}) async {
     List<String?> available = [];
     List<String?> excludes = [baseAccount];
     for (int i = 0; i < count; i++) {
@@ -35,11 +35,9 @@ class AccountGeneratorService {
   static const List<String> empty = [];
 
   Future<AccountAvailableResult> findAvailable(String suggestedAccount,
-      {int replaceWith: 1, List<String?>? exclude, int recursionAttempts: 40}) async {
+      {int replaceWith = 1, List<String?>? exclude, int recursionAttempts = 40}) async {
     final account = convert(suggestedAccount);
-    if (exclude == null) {
-      exclude = [];
-    }
+    exclude ??= [];
 
     if (!exclude.contains(account)) {
       final isAvailable = await availableOnChain(account);
@@ -108,22 +106,24 @@ class AccountGeneratorService {
     suggestion = suggestion.toLowerCase();
 
     // replace 0|6|7|8|9 with 1
-    if (RegExp(r'0|6|7|8|9').allMatches(suggestion).length > 0) {
+    if (RegExp(r'0|6|7|8|9').allMatches(suggestion).isNotEmpty) {
       suggestion = suggestion.replaceAll(RegExp(r'0|6|7|8|9'), '');
     }
 
     // remove characters out of the accepted range
     suggestion = suggestion.split('').map((char) {
-      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(char).length > 0;
+      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(char).isNotEmpty;
 
       return legalChar ? char.toString() : '';
     }).join();
 
     // if first char is a number, start with 'a'
     if (suggestion.isNotEmpty == true) {
-      final illegalChar = RegExp(r'[a-z]').allMatches(suggestion[0]).length == 0;
+      final illegalChar = RegExp(r'[a-z]').allMatches(suggestion[0]).isNotEmpty;
 
-      if (illegalChar) suggestion = 'a' + suggestion;
+      if (illegalChar) {
+        suggestion = 'a' + suggestion;
+      }
     }
 
     // add the missing characters.
@@ -148,7 +148,7 @@ String? validator(String accountName) => validate(accountName).validation;
 ValidationResult validate(String accountName) {
   var validCharacters = RegExp(r'^[a-z1-5]+$');
 
-  if (RegExp(r'0|6|7|8|9').allMatches(accountName).length > 0) {
+  if (RegExp(r'0|6|7|8|9').allMatches(accountName).isNotEmpty) {
     return ValidationResult.invalid('Name can only contain numbers 1-5');
   } else if (accountName.toLowerCase() != accountName) {
     return ValidationResult.invalid("Name can be lowercase only");
@@ -184,5 +184,5 @@ class AccountAvailableResult {
   final List<String> unavailable;
   List<String?> get all => [available, ...unavailable];
 
-  AccountAvailableResult({this.available, this.unavailable: const []});
+  AccountAvailableResult({this.available, this.unavailable = const []});
 }

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
 import 'package:seeds/models/models.dart';
@@ -13,7 +11,7 @@ import 'package:seeds/widgets/main_button.dart';
 class InviteGuardians extends StatefulWidget {
   final Set<MemberModel>? selectedUsers;
 
-  InviteGuardians(this.selectedUsers);
+  const InviteGuardians(this.selectedUsers);
 
   @override
   _InviteGuardiansState createState() => _InviteGuardiansState(selectedUsers);
@@ -30,14 +28,14 @@ class _InviteGuardiansState extends State<InviteGuardians> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         title: Text(
           "Invite Guardians".i18n,
-          style: TextStyle(fontFamily: "worksans", color: Colors.black),
+          style: const TextStyle(fontFamily: "worksans", color: Colors.black),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -63,20 +61,20 @@ class _InviteGuardianBodyState extends State<InviteGuardianBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 16),
-        Container(child: Icon(Icons.email_outlined, size: 120)),
+        const SizedBox(height: 16),
+        Container(child: const Icon(Icons.email_outlined, size: 120)),
         Padding(
           padding: const EdgeInsets.all(24.0),
           child: Text(
             "The users below will be sent an invite to become your Guardian.".i18n,
-            style: TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 18),
             textAlign: TextAlign.center,
           ),
         ),
         Expanded(
           child: ListView(
             shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             children: widget.selectedUsers!.map((e) => userTile(user: e, onTap: null)).toList(),
           ),
         ),
@@ -99,7 +97,7 @@ class _InviteGuardianBodyState extends State<InviteGuardianBody> {
     );
   }
 
-  onSendInviteError(onError) {
+  void onSendInviteError(onError) {
     print(onError.toString());
     errorToast('Oops, Something went wrong.');
     widget.savingLoader.currentState!.done();

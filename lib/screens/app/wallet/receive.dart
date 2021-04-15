@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:flutter/rendering.dart';
@@ -19,7 +17,7 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/receive_form.dart';
 
 class Receive extends StatefulWidget {
-  Receive({Key? key}) : super(key: key);
+  const Receive({Key? key}) : super(key: key);
 
   @override
   _ReceiveState createState() => _ReceiveState();
@@ -44,61 +42,57 @@ class _ReceiveState extends State<Receive> {
           child: SafeArea(
             top: false,
             child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseDatabaseService()
-                    .getOrderedProductsForUser(accountName),
+                stream: FirebaseDatabaseService().getOrderedProductsForUser(accountName),
                 builder: (context, snapshot) {
                   // if (!snapshot.hasData) {
                   //   return SizedBox.shrink();
                   // } else {
-                    products = snapshot.hasData ? List<ProductModel>.of(snapshot.data!.docs
-                        .map((p) => ProductModel.fromSnapshot(p))) : <ProductModel>[];
-                    return Scaffold(
-                      appBar: AppBar(
-                        centerTitle: true,
-                        leading: IconButton(
-                          icon: Icon(Icons.arrow_back, color: Colors.black),
-                          onPressed: () => Navigator.of(context).pop(),
+                  products = snapshot.hasData
+                      ? List<ProductModel>.of(snapshot.data!.docs.map((p) => ProductModel.fromSnapshot(p)))
+                      : <ProductModel>[];
+                  return Scaffold(
+                    appBar: AppBar(
+                      centerTitle: true,
+                      leading: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.black),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      title: Text(
+                        'Receive'.i18n,
+                        style: const TextStyle(
+                          color: Colors.black87,
                         ),
-                        backgroundColor: Colors.transparent,
-                        elevation: 0,
-                        title: Text(
-                          'Receive'.i18n,
-                          style: TextStyle(
-                            color: Colors.black87,
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text(
+                            "Edit",
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text(
-                              "Edit",
+                          onPressed: () {
+                            FocusScope.of(context).unfocus();
+                            showMerchantCatalog(context);
+                          },
+                        )
+                      ],
+                    ),
+                    backgroundColor: Colors.white,
+                    body: Container(
+                      margin: const EdgeInsets.only(left: 15, right: 15),
+                      child: snapshot.hasData
+                          ? ProductListForm(cart, products, () => setState(() {}))
+                          : const Center(
+                              child: CircularProgressIndicator(
+                                  //backgroundColor: Colors.white,
+                                  ),
                             ),
-                            onPressed: () {
-                              FocusScope.of(context).unfocus();
-                              showMerchantCatalog(context);
-                            },
-                          )
-                        ],
-                      ),
-                      backgroundColor: Colors.white,
-                      body: Container(
-                        margin: EdgeInsets.only(left: 15, right: 15),
-                        child: snapshot.hasData 
-                          ? ProductListForm(
-                            cart, 
-                            products, 
-                            () => setState(() {}))
-                          : Center(
-                            child: CircularProgressIndicator(
-                                //backgroundColor: Colors.white,
-                              ),
-                          ),
-                      ),
-                      bottomNavigationBar: products.length == 0
-                          ? SizedBox(height: 1)
-                          : buildBottomAppBar(rate, fiat, context),
-                    );
-                  }
-               // }
+                    ),
+                    bottomNavigationBar:
+                        products.isEmpty ? const SizedBox(height: 1) : buildBottomAppBar(rate, fiat, context),
+                  );
+                }
+                // }
                 ),
           ),
         ));
@@ -107,7 +101,7 @@ class _ReceiveState extends State<Receive> {
   BottomAppBar buildBottomAppBar(rate, fiat, BuildContext context) {
     return BottomAppBar(
       child: Container(
-          margin: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 10),
+          margin: const EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 10),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -115,22 +109,16 @@ class _ReceiveState extends State<Receive> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("${cart.itemCount} Items",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "worksans")),
-                  Spacer(),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400, fontFamily: "worksans")),
+                  const Spacer(),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text("${cart.total.seedsFormatted} SEEDS",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "worksans")),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "worksans")),
                       Text("${rate.currencyString(cart.total, fiat)}",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14,
                               color: AppColors.blue,
                               fontWeight: FontWeight.w400,
@@ -139,14 +127,13 @@ class _ReceiveState extends State<Receive> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               MainButton(
                   title: "Next".i18n,
                   active: !cart.isEmpty,
                   onPressed: () {
                     FocusScope.of(context).unfocus();
-                    NavigationService.of(context)
-                        .navigateTo(Routes.receiveConfirmation, cart);
+                    NavigationService.of(context).navigateTo(Routes.receiveConfirmation, cart);
                   }),
             ],
           )),
@@ -156,7 +143,7 @@ class _ReceiveState extends State<Receive> {
   void showMerchantCatalog(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => ProductsCatalog(),
+        builder: (_) => const ProductsCatalog(),
         maintainState: true,
         fullscreenDialog: true,
       ),
@@ -169,7 +156,7 @@ class ProductListForm extends StatefulWidget {
   final Function onChange;
   final List<ProductModel> products;
 
-  ProductListForm(this.cart, this.products, this.onChange);
+  const ProductListForm(this.cart, this.products, this.onChange);
 
   @override
   _ProductListFormState createState() => _ProductListFormState(cart);
@@ -212,21 +199,20 @@ class _ProductListFormState extends State<ProductListForm> {
         key: formKey,
         child: Column(
           children: <Widget>[
-            widget.products.length == 0
+            widget.products.isEmpty
                 ? ReceiveForm(() => {setState(() {})})
-                : FlatButton(
+                : MaterialButton(
                     color: Colors.white,
                     height: 33,
                     child: Text(
                       'Custom Amount'.i18n,
-                      style: TextStyle(color: Colors.blue),
+                      style: const TextStyle(color: Colors.blue),
                     ),
                     onPressed: () {
-                      NavigationService.of(context)
-                          .navigateTo(Routes.receiveCustom);
+                      NavigationService.of(context).navigateTo(Routes.receiveCustom);
                     },
                   ),
-            widget.products.length > 0 ? buildProductsList() : Container()
+            widget.products.isNotEmpty ? buildProductsList() : Container()
           ],
         ),
       ),
@@ -239,8 +225,8 @@ class _ProductListFormState extends State<ProductListForm> {
         return Padding(
           padding: const EdgeInsets.only(top: 8.0, bottom: 24),
           child: GridView(
-            physics: ScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            physics: const ScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200.0,
               mainAxisSpacing: 10.0,
               crossAxisSpacing: 10.0,
@@ -263,7 +249,7 @@ class _ProductListFormState extends State<ProductListForm> {
   GridTile buildGridTile(ProductModel product, RateNotifier rateNotifier) {
     return GridTile(
       header: Container(
-        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -281,7 +267,7 @@ class _ProductListFormState extends State<ProductListForm> {
                   children: [
                     Text(
                       product.seedsPrice(rateNotifier).fiatFormatted!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -293,15 +279,17 @@ class _ProductListFormState extends State<ProductListForm> {
                     ),
                   ],
                 ),
-                product.currency == SEEDS ? Container() : Text(
-                      product.price.fiatFormatted! + " " + product.currency!,
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                product.currency == SEEDS
+                    ? Container()
+                    : Text(
+                        product.price.fiatFormatted! + " " + product.currency!,
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
               ],
             ),
           ],
@@ -314,14 +302,14 @@ class _ProductListFormState extends State<ProductListForm> {
             BoxShadow(
               blurRadius: 15,
               color: AppColors.getColorByString(product.name),
-              offset: Offset(6, 10),
+              offset: const Offset(6, 10),
             ),
           ],
         ),
         child: Center(
           child: Text(
             product.name.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
               fontWeight: FontWeight.w600,
@@ -335,10 +323,10 @@ class _ProductListFormState extends State<ProductListForm> {
           SizedBox(
             width: 48,
             height: 48,
-            child: FlatButton(
+            child: MaterialButton(
               padding: EdgeInsets.zero,
               color: AppColors.red,
-              child: Icon(
+              child: const Icon(
                 Icons.remove,
                 size: 21,
                 color: Colors.white,
@@ -350,7 +338,7 @@ class _ProductListFormState extends State<ProductListForm> {
           ),
           Text(
             productQuantity(product),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 28,
@@ -359,10 +347,10 @@ class _ProductListFormState extends State<ProductListForm> {
           SizedBox(
             width: 48,
             height: 48,
-            child: FlatButton(
+            child: MaterialButton(
               padding: EdgeInsets.zero,
               color: AppColors.green,
-              child: Icon(
+              child: const Icon(
                 Icons.add,
                 size: 21,
                 color: Colors.white,
@@ -393,21 +381,20 @@ class _ProductListFormState extends State<ProductListForm> {
 
       return GridTile(
         header: Container(
-          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CircleAvatar(
                 backgroundColor: AppColors.blue,
-                child: Icon(difference > 0 ? Icons.remove : Icons.add,
-                    color: Colors.white),
+                child: Icon(difference > 0 ? Icons.remove : Icons.add, color: Colors.white),
                 radius: 20,
               ),
               Row(
                 children: [
                   Text(
                     price.seedsFormatted!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -429,14 +416,14 @@ class _ProductListFormState extends State<ProductListForm> {
               BoxShadow(
                 blurRadius: 15,
                 color: AppColors.getColorByString(name),
-                offset: Offset(6, 10),
+                offset: const Offset(6, 10),
               ),
             ],
           ),
           child: Center(
             child: Text(
               name,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
@@ -450,10 +437,10 @@ class _ProductListFormState extends State<ProductListForm> {
             SizedBox(
               width: 48,
               height: 48,
-              child: FlatButton(
+              child: MaterialButton(
                 padding: EdgeInsets.zero,
                 color: AppColors.blue,
-                child: Icon(
+                child: const Icon(
                   Icons.cancel_outlined,
                   size: 21,
                   color: Colors.white,

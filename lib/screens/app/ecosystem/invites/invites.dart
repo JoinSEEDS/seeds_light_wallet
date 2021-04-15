@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/notifiers/invites_notifier.dart';
@@ -14,21 +12,21 @@ class Invites extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 0,
         title: Text(
           "Invites".i18n,
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black),
         ),
       ),
       body: Container(
         child: ReactiveWidget<InvitesNotifier>(
           builder: (context, model, child) {
             return Container(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 10,
               ),
               child: Column(
@@ -37,10 +35,7 @@ class Invites extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "Members invited by you:".i18n,
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "worksans"),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500, fontFamily: "worksans"),
                   ),
                   Expanded(
                     child: model.invitedMembers != null
@@ -50,20 +45,18 @@ class Invites extends StatelessWidget {
                               var member = model.invitedMembers![index]!;
 
                               return Text(member,
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "worksans"));
+                                  style: const TextStyle(
+                                      fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans"));
                             },
                           )
                         : ProgressBar(),
                   ),
-                  Divider(
+                  const Divider(
                     thickness: 3,
                   ),
                   Text(
                     "Active invites:".i18n,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w500,
                       fontFamily: "worksans",
@@ -77,13 +70,12 @@ class Invites extends StatelessWidget {
                               var invite = model.activeInvites![index];
 
                               return ListTile(
-                                leading: Icon(Icons.copyright),
+                                leading: const Icon(Icons.copyright),
                                 title: Text("%s (copy)".i18n.fill(["${invite.inviteHash}"])),
                                 trailing: Column(
                                   children: <Widget>[
                                     Text("Sow: %s".i18n.fill(["${invite.sowQuantity}"])),
-                                    Text(
-                                        "Transfer: %s".i18n.fill(["${invite.transferQuantity}"])),
+                                    Text("Transfer: %s".i18n.fill(["${invite.transferQuantity}"])),
                                   ],
                                 ),
                               );

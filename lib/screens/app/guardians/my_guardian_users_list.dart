@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
@@ -15,7 +13,7 @@ ListView buildMyGuardiansListView(
       itemCount: guardians.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
 
         var guardian = guardians[index - 1];
@@ -34,8 +32,8 @@ ListView buildMyGuardiansListView(
 Widget buildSeparator(List<Guardian> guardians, int index) {
   var requested = Container(
     color: Colors.white,
-    child: Padding(
-      padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
+    child: const Padding(
+      padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
       child: Center(child: Text("Requested")),
     ),
   );
@@ -45,8 +43,8 @@ Widget buildSeparator(List<Guardian> guardians, int index) {
     if (guardian.status == GuardianStatus.alreadyGuardian) {
       return Container(
         color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
+        child: const Padding(
+          padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
           child: Center(child: Text("My Guardians")),
         ),
       );
@@ -54,7 +52,7 @@ Widget buildSeparator(List<Guardian> guardians, int index) {
       return requested;
     }
   } else if (index > guardians.length - 1) {
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   } else {
     var guardian = guardians[index - 1];
     var next = guardians[index];
@@ -62,7 +60,7 @@ Widget buildSeparator(List<Guardian> guardians, int index) {
     if (guardian.status != next.status) {
       return requested;
     } else {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
   }
 }

@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:eosdart_ecc/eosdart_ecc.dart';
@@ -21,7 +19,7 @@ class ContinueRecovery extends StatefulWidget {
   final Function? onClaimed;
   final Function? onCancel;
 
-  ContinueRecovery({this.onClaimed, this.onCancel});
+  const ContinueRecovery({this.onClaimed, this.onCancel});
 
   @override
   _ContinueRecoveryState createState() => _ContinueRecoveryState();
@@ -106,7 +104,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
             case RecoveryStatus.waitingConfirmations:
               currentWidget = Column(
                 children: [
-                  Text(
+                  const Text(
                     "Waiting For Confirmations",
                     style: TextStyle(
                       fontSize: 24,
@@ -116,7 +114,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                   ),
                   Text(
                     " $confirmedGuardianSignatures of $guardians guardians signed: ",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       fontFamily: "worksans",
@@ -124,18 +122,18 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                   ),
                   ...(recoversModel!.guardians ?? [])
                       .map((guardian) => Text(guardian,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                             fontFamily: "worksans",
                           )))
                       .toList(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10),
                     child: ShareRecoveryLink(),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: SecondButton(
                       title: "Refresh",
                       onPressed: () => setState(() {}),
@@ -148,9 +146,9 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
             case RecoveryStatus.waitingTimelock:
               currentWidget = Column(
                 children: [
-                  Text("Waiting for time lock",
+                  const Text("Waiting for time lock",
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
-                  Text(
+                  const Text(
                     "Recover your account in",
                     style: TextStyle(
                       fontSize: 14,
@@ -160,7 +158,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                   ),
                   CountdownClock(timeLockSeconds, () => setState(() {})),
                   Padding(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: SecondButton(
                       title: "Refresh",
                       onPressed: () => setState(() {}),
@@ -176,7 +174,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
 
             case RecoveryStatus.noGuardiansFound:
               currentWidget = Text("No guardians found for $accountName",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans"));
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans"));
               break;
 
             default:
@@ -207,7 +205,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
     return Column(
       children: [
         Text("Account recovered $accountName",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
         Padding(
           padding: const EdgeInsets.only(top: 24),
           child: MainButton(
@@ -222,10 +220,10 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
   Widget successComponent(String accountName) {
     return Column(
       children: [
-        Text("Your account has been recovered",
+        const Text("Your account has been recovered",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
-        Padding(
-          padding: const EdgeInsets.all(24),
+        const Padding(
+          padding: EdgeInsets.all(24),
           child: Icon(
             Icons.check_circle,
             color: Colors.greenAccent,
@@ -247,14 +245,14 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
         return AlertDialog(
           title: Text('Cancel Recovery?'.i18n),
           actions: [
-            FlatButton(
+            MaterialButton(
               child: Text("Yes".i18n),
               onPressed: () {
                 Navigator.pop(context);
                 widget.onCancel!();
               },
             ),
-            FlatButton(
+            MaterialButton(
               child: Text("No".i18n),
               onPressed: () {
                 Navigator.pop(context);
@@ -301,8 +299,8 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
       final snackBar = SnackBar(
         content: Row(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+            const Padding(
+              padding: EdgeInsets.only(right: 8.0),
               child: Icon(
                 Icons.close,
                 color: Colors.red,
@@ -317,13 +315,13 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
           ],
         ),
       );
-      Scaffold.of(context).showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 }
 
 class ShareRecoveryLink extends StatefulWidget {
-  ShareRecoveryLink();
+  const ShareRecoveryLink();
 
   @override
   _ShareRecoveryLinkState createState() => _ShareRecoveryLinkState();
@@ -336,14 +334,14 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
       future: generateRecoveryLink(),
       builder: (context, snapshot) {
         return AnimatedCrossFade(
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           firstChild: MainButton(
             title: "Share recovery link",
             onPressed: () {
               // Share.share(snapshot.data);
             },
           ),
-          secondChild: Text("Creating link..."),
+          secondChild: const Text("Creating link..."),
           crossFadeState:
               snapshot.connectionState == ConnectionState.done ? CrossFadeState.showFirst : CrossFadeState.showSecond,
         );
@@ -371,7 +369,7 @@ class CountdownClock extends StatefulWidget {
   final int toTime;
   final Function onDone;
 
-  CountdownClock(this.toTime, this.onDone);
+  const CountdownClock(this.toTime, this.onDone);
 
   @override
   CountdownClockState createState() => CountdownClockState();
@@ -395,8 +393,8 @@ class CountdownClockState extends State<CountdownClock> {
     setState(() {
       seconds = secondsRemaining();
     });
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
       oneSec,
       (Timer timer) {
         var s = secondsRemaining();
@@ -423,8 +421,9 @@ class CountdownClockState extends State<CountdownClock> {
     }
     Duration duration = Duration(seconds: seconds);
     String waitString =
-        "${duration.inHours}:${duration.inMinutes.remainder(60).twoDigits()}:${(duration.inSeconds.remainder(60).twoDigits())}";
-    return Text("$waitString", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, fontFamily: "worksans"));
+        "${duration.inHours}:${duration.inMinutes.remainder(60).twoDigits()}:${duration.inSeconds.remainder(60).twoDigits()}";
+    return Text("$waitString",
+        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, fontFamily: "worksans"));
   }
 }
 

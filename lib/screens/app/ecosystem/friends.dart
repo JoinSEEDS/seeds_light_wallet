@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -19,11 +17,7 @@ class Friends extends StatelessWidget {
             width: 230,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                SeedsButton("Copy".i18n),
-                SizedBox(width: 10),
-                SeedsButton("Cancel".i18n)
-              ],
+              children: <Widget>[SeedsButton("Copy".i18n), const SizedBox(width: 10), SeedsButton("Cancel".i18n)],
             ),
           )),
     );
@@ -35,12 +29,12 @@ class Friends extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           "Your invites".i18n,
-          style: TextStyle(fontFamily: "worksans", color: Colors.black),
+          style: const TextStyle(fontFamily: "worksans", color: Colors.black),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -50,19 +44,19 @@ class Friends extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(width: 1, color: AppColors.green),
                 ),
               ),
-              margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
-              padding: EdgeInsets.only(bottom: 5),
+              margin: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
+              padding: const EdgeInsets.only(bottom: 5),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     "Build community - gain reputation".i18n,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: "worksans",
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -74,15 +68,13 @@ class Friends extends StatelessWidget {
             ReactiveWidget(
               model: InvitesNotifier()..init(http: Provider.of(context)),
               onModelReady: (dynamic model) => model.fetchInvites(),
-              builder: (ctx, dynamic model, child) =>
-                  model == null || model.invites == null
-                      ? ProgressBar()
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemBuilder: (ctx, index) =>
-                              buildInviteWidget(model.invites[index]),
-                          itemCount: model.invites.length,
-                        ),
+              builder: (ctx, dynamic model, child) => model == null || model.invites == null
+                  ? ProgressBar()
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder: (ctx, index) => buildInviteWidget(model.invites[index]),
+                      itemCount: model.invites.length,
+                    ),
             ),
           ],
         ),

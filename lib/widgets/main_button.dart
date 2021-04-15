@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
@@ -19,7 +17,7 @@ class MainButton extends StatefulWidget {
     this.margin,
     this.onPressed,
     this.active = true,
-  }): super(key: key);
+  }) : super(key: key);
 
   @override
   MainButtonState createState() => MainButtonState();
@@ -51,9 +49,8 @@ class MainButtonState extends State<MainButton> {
           child: Container(
             height: widget.height,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(13),
-                gradient: LinearGradient(colors: AppColors.gradient)),
-            child: FlatButton(
+                borderRadius: BorderRadius.circular(13), gradient: LinearGradient(colors: AppColors.gradient)),
+            child: MaterialButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(13),
               ),
@@ -63,20 +60,22 @@ class MainButtonState extends State<MainButton> {
                 height: widget.height,
                 alignment: Alignment.center,
                 width: width,
-                child: isLoading ? Center(
-                  child: SizedBox(
-                    width: 24.0,
-                    height: 24.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      strokeWidth: 4.0,
-                    ),
-                  ),
-                ): Text(
-                  widget.title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: widget.active ? Colors.white : Colors.grey, fontSize: widget.fontSize),
-                ) ,
+                child: isLoading
+                    ? Center(
+                        child: SizedBox(
+                          width: 24.0,
+                          height: 24.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            strokeWidth: 4.0,
+                          ),
+                        ),
+                      )
+                    : Text(
+                        widget.title,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: widget.active ? Colors.white : Colors.grey, fontSize: widget.fontSize),
+                      ),
               ),
             ),
           ),
