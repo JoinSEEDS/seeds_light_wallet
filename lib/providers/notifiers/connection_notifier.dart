@@ -15,6 +15,8 @@ class Endpoint {
   String toString() {
     return "Endpoint: $url ping: $ping ";
   }
+
+  bool get valid => ping < 60000;
 }
 
 const infinitePing = 1000000;
@@ -59,14 +61,11 @@ class ConnectionNotifier extends ChangeNotifier {
 
   void discoverEndpoints() async {
     List<Future> checks = List<Future>();
-    List<String> endpoints = (hardCodedEndpoints + serverEndpoints).toSet().toList();
+
+    List<String> endpoints = serverEndpoints.length >= 2 ? serverEndpoints : (hardCodedEndpoints + serverEndpoints).toSet().toList();
 
     for (var endpoint in endpoints) {
       checks.add(checkEndpoint(endpoint));
-    }
-
-    if (checks.length == 0) {
-      return;
     }
 
     var responses = await Future.wait(checks);
@@ -84,7 +83,7 @@ class ConnectionNotifier extends ChangeNotifier {
     notifyListeners();
 
   }
-  
+
   Future<Endpoint> checkEndpoint(String endpointURL) async {
     try {
       var ping = Stopwatch()..start();

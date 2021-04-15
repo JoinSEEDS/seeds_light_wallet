@@ -1,5 +1,5 @@
 {
-    "endpointApi": "https://telos.caleos.io",
+    "endpointApi": "https://api.telosfoundation.io",
     "onboardingAccountName": "join.seeds",
     "onboardingPrivateKey": "5K1TQUxZo5oVTAjHRERTiP4kfoA3CNeYwKFVaksEQUw2zUWStUo",
     "testingAccountName": "seedsuserss1",
