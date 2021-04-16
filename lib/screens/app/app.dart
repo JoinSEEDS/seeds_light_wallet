@@ -176,7 +176,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           // stream: FirebaseDatabaseService()
           //     .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
           builder: (context, AsyncSnapshot<bool?> snapshot) {
-            if (snapshot != null && snapshot.hasData) {
+            if (snapshot.hasData) {
               return buildNavigation(snapshot.data);
             } else {
               return buildNavigation(false);

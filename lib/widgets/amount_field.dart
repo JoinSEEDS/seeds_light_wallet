@@ -11,6 +11,14 @@ import 'package:seeds/utils/double_extension.dart';
 enum InputMode { fiat, seeds }
 
 class AmountField extends StatefulWidget {
+  final Function? onChanged;
+  final String? availableBalance;
+  final String? currentCurrency;
+  final String? fiatCurrency;
+  final double? initialValue;
+  final bool? autoFocus;
+  final String? hintText;
+
   const AmountField(
       {Key? key,
       this.onChanged,
@@ -22,33 +30,27 @@ class AmountField extends StatefulWidget {
       this.hintText})
       : super(key: key);
 
-  final Function? onChanged;
-  final String? availableBalance;
-  final String? currentCurrency;
-  final String? fiatCurrency;
-  final double? initialValue;
-  final bool? autoFocus;
-  final String? hintText;
-
   @override
-  _AmountFieldState createState() => _AmountFieldState(
-        currentCurrency == null || currentCurrency == SEEDS ? InputMode.seeds : InputMode.fiat,
-        inputString: initialValue?.fiatFormatted ?? '',
-      );
+  _AmountFieldState createState() => _AmountFieldState();
 }
 
 class _AmountFieldState extends State<AmountField> {
   String? inputString;
   double seedsValue = 0;
   double fiatValue = 0;
-  InputMode inputMode;
+  late InputMode inputMode;
 
   String get _fiatCurrency => widget.fiatCurrency ?? SettingsNotifier.of(context).selectedFiatCurrency;
   String get _selectedCurrency => inputMode == InputMode.fiat ? _fiatCurrency : SEEDS;
   bool get autoFocus => widget.autoFocus ?? true;
   bool get validateBalance => widget.availableBalance != null;
 
-  _AmountFieldState(this.inputMode, {this.inputString});
+  @override
+  void initState() {
+    super.initState();
+    inputMode = widget.currentCurrency == null || widget.currentCurrency == SEEDS ? InputMode.seeds : InputMode.fiat;
+    inputString = widget.initialValue?.fiatFormatted ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
