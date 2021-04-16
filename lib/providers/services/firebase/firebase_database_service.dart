@@ -231,13 +231,13 @@ class FirebaseDatabaseService {
         RECOVERY_STARTED_DATE_KEY: FieldValue.serverTimestamp(),
       };
 
-      if (Guardian.fromMap(guardian.data()).uid == currentUserId) {
+      if (Guardian.fromMap(guardian.data()!).uid == currentUserId) {
         data.addAll({RECOVERY_APPROVED_DATE_KEY: FieldValue.serverTimestamp()});
       }
 
       batch.set(
           _usersCollection
-              .doc(Guardian.fromMap(guardian.data()).uid)
+              .doc(Guardian.fromMap(guardian.data()!).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
           data,
@@ -266,7 +266,7 @@ class FirebaseDatabaseService {
     myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
       batch.set(
           _usersCollection
-              .doc(Guardian.fromMap(guardian.data()).uid)
+              .doc(Guardian.fromMap(guardian.data()!).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
           data,

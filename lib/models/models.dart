@@ -23,13 +23,14 @@ class ProductModel {
   }
 
   factory ProductModel.fromSnapshot(QueryDocumentSnapshot data) {
+    var productData = data.data()!;
     return ProductModel(
-      name: data.data()[PRODUCT_NAME_KEY],
-      picture: data.data()[PRODUCT_IMAGE_URL_KEY] ?? "",
-      price: data.data()[PRODUCT_PRICE_KEY],
+      name: productData[PRODUCT_NAME_KEY],
+      picture: productData[PRODUCT_IMAGE_URL_KEY] ?? "",
+      price: productData[PRODUCT_PRICE_KEY],
       id: data.id,
-      currency: data.data()[PRODUCT_CURRENCY_KEY],
-      position: data.data()[PRODUCT_POSITION_KEY] ?? 0,
+      currency: productData[PRODUCT_CURRENCY_KEY],
+      position: productData[PRODUCT_POSITION_KEY] ?? 0,
     );
   }
 }

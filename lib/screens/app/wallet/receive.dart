@@ -48,7 +48,7 @@ class _ReceiveState extends State<Receive> {
                   //   return SizedBox.shrink();
                   // } else {
                   products = snapshot.hasData
-                      ? List<ProductModel>.of(snapshot.data!.docs.map((p) => ProductModel.fromSnapshot(p)))
+                      ? List<ProductModel>.of(snapshot.data!.docs.map((QueryDocumentSnapshot p) => ProductModel.fromSnapshot(p)))
                       : <ProductModel>[];
                   return Scaffold(
                     appBar: AppBar(
