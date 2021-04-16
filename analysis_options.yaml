@@ -24,6 +24,7 @@ analyzer:
     - lib/design/**
     - lib/features/**
     - lib/generated/**
+    - lib/provides/**
     - lib/i18/**
     - lib/models/**
     - lib/screens/**
