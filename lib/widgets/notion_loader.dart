@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:seeds/generated/r.dart';
 
 class NotionLoader extends StatefulWidget {
-  final String notion;
+  final String? notion;
 
-  NotionLoader({this.notion});
+  const NotionLoader({this.notion});
 
   @override
   _NotionLoaderState createState() => _NotionLoaderState();
 }
 
-class _NotionLoaderState extends State<NotionLoader>
-    with SingleTickerProviderStateMixin {
-  AnimationController animationController;
+class _NotionLoaderState extends State<NotionLoader> with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
 
   @override
   void dispose() {
@@ -26,7 +25,7 @@ class _NotionLoaderState extends State<NotionLoader>
   void initState() {
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     )..repeat();
 
     super.initState();
@@ -60,10 +59,10 @@ class _NotionLoaderState extends State<NotionLoader>
           },
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 17),
+          padding: const EdgeInsets.symmetric(horizontal: 17),
           child: Text(
-            widget.notion,
-            style: TextStyle(
+            widget.notion!,
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w400,
               fontFamily: 'worksans',

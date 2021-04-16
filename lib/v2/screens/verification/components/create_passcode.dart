@@ -9,7 +9,7 @@ import 'package:seeds/i18n/passcode.i18n.dart';
 import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
 
 class CreatePasscode extends StatefulWidget {
-  const CreatePasscode({Key key}) : super(key: key);
+  const CreatePasscode({Key? key}) : super(key: key);
 
   @override
   _CreatePasscodeState createState() => _CreatePasscodeState();

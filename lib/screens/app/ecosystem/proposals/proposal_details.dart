@@ -2,51 +2,50 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
+// import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
-import 'package:seeds/providers/notifiers/voted_notifier.dart';
+// import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_header_details.dart';
 import 'package:seeds/utils/old_toolbox/net_image.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/widgets/seeds_button.dart';
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:seeds/i18n/proposals.i18n.dart';
 
 class ProposalDetailsPage extends StatefulWidget {
-  final ProposalModel proposal;
+  final ProposalModel? proposal;
 
-  const ProposalDetailsPage({Key key, @required this.proposal})
-      : super(key: key);
+  const ProposalDetailsPage({Key? key, required this.proposal}) : super(key: key);
 
   @override
   ProposalDetailsPageState createState() => ProposalDetailsPageState();
 }
 
 class ProposalDetailsPageState extends State<ProposalDetailsPage> {
-  VoiceModel voice;
+  VoiceModel? voice;
 
-  double _vote = 0;
+  final double _vote = 0;
 
   bool _voting = false;
 
   @override
   void didChangeDependencies() {
-    var future = widget.proposal.type == ProposalType.alliance ?
-      Provider.of<HttpService>(context).getAllianceVoice() :
-      Provider.of<HttpService>(context).getCampaignVoice();
-      future.then((value) => {
-        setState(() {
-          voice = value;
-        })
-      });
+    var future = widget.proposal!.type == ProposalType.alliance
+        ? Provider.of<HttpService>(context).getAllianceVoice()
+        : Provider.of<HttpService>(context).getCampaignVoice();
+    future.then((value) => {
+          setState(() {
+            voice = value;
+          })
+        });
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final proposal = widget.proposal;
+    final proposal = widget.proposal!;
 
     return Scaffold(
       body: CustomScrollView(
@@ -75,11 +74,8 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
   Widget buildProposalHeader(ProposalModel proposal) {
     return Hero(
       tag: proposal.hashCode,
-      flightShuttleBuilder: (BuildContext flightContext,
-          Animation<double> animation,
-          HeroFlightDirection flightDirection,
-          BuildContext fromHeroContext,
-          BuildContext toHeroContext) {
+      flightShuttleBuilder: (BuildContext flightContext, Animation<double> animation,
+          HeroFlightDirection flightDirection, BuildContext fromHeroContext, BuildContext toHeroContext) {
         return SingleChildScrollView(
           child: toHeroContext.widget,
         );
@@ -99,12 +95,9 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
   Widget buildProposalDetails(ProposalModel proposal) {
     final textTheme = Theme.of(context).textTheme;
 
-    double quantity =
-        double.tryParse(proposal.quantity.replaceAll(RegExp(r' SEEDS'), '')) ??
-            0.0;
+    double quantity = double.tryParse(proposal.quantity!.replaceAll(RegExp(r' SEEDS'), '')) ?? 0.0;
 
-    NumberFormat format =
-        NumberFormat.currency(decimalDigits: 0, symbol: "", name: "");
+    NumberFormat format = NumberFormat.currency(decimalDigits: 0, symbol: "", name: "");
 
     String numSeeds = format.format(quantity);
 
@@ -121,27 +114,27 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
               'Recipient: %s '.i18n.fill(["${proposal.recipient}"]),
               style: textTheme.subtitle1,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'Requested: %s SEEDS'.i18n.fill(["$numSeeds"]),
               style: textTheme.subtitle1,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'Type: %s '.i18n.fill([proposal.type == ProposalType.alliance ? "Alliance".i18n : "Campaign".i18n]),
               style: textTheme.subtitle1,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'Status: %s '.i18n.fill(["${proposal.status}"]),
               style: textTheme.subtitle1,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'Stage: %s '.i18n.fill(["${proposal.stage}"]),
               style: textTheme.subtitle1,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             RichText(
               text: TextSpan(
                 children: [
@@ -151,11 +144,11 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                   ),
                   TextSpan(
                     text: proposal.url,
-                    style: textTheme.subtitle1.copyWith(color: Colors.blue),
+                    style: textTheme.subtitle1!.copyWith(color: Colors.blue),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
-                        if (await UrlLauncher.canLaunch(proposal.url)) {
-                          await UrlLauncher.launch(proposal.url);
+                        if (await url_launcher.canLaunch(proposal.url!)) {
+                          await url_launcher.launch(proposal.url!);
                         } else {
                           errorToast("Couldn't open this url".i18n);
                         }
@@ -164,12 +157,12 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                 ],
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'Description'.i18n,
               style: textTheme.headline6,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             SelectableText('${proposal.description} '),
           ],
         ),
@@ -187,7 +180,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: FutureBuilder(
-            future: null,// VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
+            future: null, // VotedNotifier.of(context).fetchVote(proposalId: proposal.id),
             builder: (ctx, snapshot) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -195,12 +188,11 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      snapshot.hasData && snapshot.data.voted
-                          ? 'Voted'.i18n
-                          : ('Voting'.i18n + " - " + (proposal.type == ProposalType.alliance ? "Alliance".i18n : "Campaign".i18n)),
+                      'Voted'.i18n,
+                      // : ('Voting'.i18n + " - " + (proposal.type == ProposalType.alliance ? "Alliance".i18n : "Campaign".i18n)),
                       style: textTheme.headline6,
                     ),
-                    snapshot.hasData && snapshot.data.voted
+                    snapshot.hasData // && snapshot.data.voted
                         ? Container()
                         : SeedsButton(
                             'Vote'.i18n,
@@ -208,16 +200,11 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                               if (_vote.toInt() != 0) {
                                 setState(() => _voting = true);
                                 try {
-                                  await Provider.of<EosService>(context,
-                                          listen: false)
-                                      .voteProposal(
-                                          id: proposal.id,
-                                          amount: _vote.toInt());
+                                  await Provider.of<EosService>(context, listen: false)
+                                      .voteProposal(id: proposal.id, amount: _vote.toInt());
                                 } catch (e) {
                                   print("error: $e");
-                                  errorToast(
-                                      "Unexpected error, please try again"
-                                          .i18n);
+                                  errorToast("Unexpected error, please try again".i18n);
                                   setState(() => _voting = false);
                                 }
                                 setState(() => _voting = false);
@@ -228,33 +215,36 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                           ),
                   ],
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 voice == null
                     ? Text("You have no trust tokens".i18n)
-                    : snapshot.hasData && snapshot.data.voted ? Container() : Container()
-                        // ? FluidSlider(
-                        //     value: snapshot.data.amount.toDouble(),
-                        //     onChanged: (double newValue) {},
-                        //     min: -100,
-                        //     max: 100,
-                        //     sliderColor: AppColors.grey,
-                        //     labelsTextStyle: TextStyle(color: AppColors.grey),
-                        //     valueTextStyle: Theme.of(context)
-                        //         .textTheme
-                        //         .headline6
-                        //         .copyWith(
-                        //             fontWeight: FontWeight.bold,
-                        //             color: AppColors.grey),
-                        //     thumbColor: Colors.white,
-                        //   )
-                        // : FluidSlider(
-                        //     value: _vote,
-                        //     onChanged: (double newValue) {
-                        //       setState(() => _vote = newValue);
-                        //     },
-                        //     min: 0 - voice.amount.toDouble(),
-                        //     max: 0 + voice.amount.toDouble(),
-                        //   ),
+                    : snapshot.hasData
+                        //&& snapshot!.data.voted
+                        ? Container()
+                        : Container()
+                // ? FluidSlider(
+                //     value: snapshot.data.amount.toDouble(),
+                //     onChanged: (double newValue) {},
+                //     min: -100,
+                //     max: 100,
+                //     sliderColor: AppColors.grey,
+                //     labelsTextStyle: TextStyle(color: AppColors.grey),
+                //     valueTextStyle: Theme.of(context)
+                //         .textTheme
+                //         .headline6
+                //         .copyWith(
+                //             fontWeight: FontWeight.bold,
+                //             color: AppColors.grey),
+                //     thumbColor: Colors.white,
+                //   )
+                // : FluidSlider(
+                //     value: _vote,
+                //     onChanged: (double newValue) {
+                //       setState(() => _vote = newValue);
+                //     },
+                //     min: 0 - voice.amount.toDouble(),
+                //     max: 0 + voice.amount.toDouble(),
+                //   ),
               ],
             ),
           ),

@@ -3,16 +3,16 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
-Widget userTile({MemberModel user, bool selected = false, GestureTapCallback onTap}) {
+Widget userTile({required MemberModel user, bool selected = false, GestureTapCallback? onTap}) {
   return ListTile(
-      trailing: selected ? Icon(Icons.check, color: Colors.green) : SizedBox.shrink(),
+      trailing: selected ? const Icon(Icons.check, color: Colors.green) : const SizedBox.shrink(),
       leading: Hero(
         child: TransactionAvatar(
           size: 60,
           image: user.image,
           account: user.account,
           nickname: user.nickname,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: AppColors.blue,
           ),
@@ -22,8 +22,8 @@ Widget userTile({MemberModel user, bool selected = false, GestureTapCallback onT
       title: Hero(
         child: Material(
           child: Text(
-            user.nickname,
-            style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
+            user.nickname!,
+            style: const TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w500),
           ),
           color: Colors.transparent,
         ),
@@ -32,8 +32,8 @@ Widget userTile({MemberModel user, bool selected = false, GestureTapCallback onT
       subtitle: Hero(
         child: Material(
           child: Text(
-            user.account,
-            style: TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
+            user.account!,
+            style: const TextStyle(fontFamily: "worksans", fontWeight: FontWeight.w400),
           ),
           color: Colors.transparent,
         ),

@@ -4,12 +4,12 @@ import 'package:seeds/v2/constants/app_colors.dart';
 class SecondButton extends StatelessWidget {
   final double height;
   final double fontSize;
-  final String title;
-  final EdgeInsets margin;
-  final Function onPressed;
+  final String? title;
+  final EdgeInsets? margin;
+  final Function? onPressed;
   final Color color;
 
-  SecondButton({
+  const SecondButton({
     this.title,
     this.height = 55,
     this.fontSize = 18,
@@ -29,18 +29,18 @@ class SecondButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(13),
         color: color.withOpacity(0.2),
       ),
-      child: FlatButton(
+      child: MaterialButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(13),
         ),
-        onPressed: onPressed,
+        onPressed: onPressed as void Function()?,
         color: Colors.transparent,
         child: Container(
           height: height,
           alignment: Alignment.center,
           width: width,
           child: Text(
-            title,
+            title!,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.w400,

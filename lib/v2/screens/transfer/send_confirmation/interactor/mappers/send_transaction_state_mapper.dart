@@ -11,20 +11,20 @@ import 'package:seeds/v2/utils/rate_states_extensions.dart';
 class SendTransactionStateMapper extends StateMapper {
   SendConfirmationState mapResultToState(SendConfirmationState currentState, Result result, RatesState rateState) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, error: result.asError.error.toString());
+      return currentState.copyWith(pageState: PageState.failure, error: result.asError!.error.toString());
     } else {
-      var resultResponse = result.asValue.value as SendTransactionResponse;
-      var transactionId = resultResponse.transactionId.asValue.value as String;
+      var resultResponse = result.asValue!.value as SendTransactionResponse;
+      var transactionId = resultResponse.transactionId.asValue!.value as String?;
 
-      String quantity = currentState.data['quantity'].toString();
+      String quantity = currentState.data!['quantity'].toString();
       double parsedQuantity = double.parse(quantity.split(' ')[0]);
 
       var selectedFiat = settingsStorage.selectedFiatCurrency ?? 'USD';
       String fiatAmount = rateState.currencyString(parsedQuantity, selectedFiat);
 
       if (areAllResultsSuccess(resultResponse.profiles)) {
-        var toAccount = resultResponse.profiles[0].asValue.value as ProfileModel;
-        var fromAccount = resultResponse.profiles[1].asValue.value as ProfileModel;
+        var toAccount = resultResponse.profiles[0].asValue!.value as ProfileModel;
+        var fromAccount = resultResponse.profiles[1].asValue!.value as ProfileModel;
 
         return currentState.copyWith(
             pageState: PageState.success,
@@ -39,8 +39,8 @@ class SendTransactionStateMapper extends StateMapper {
                 fiatAmount: fiatAmount,
                 transactionId: transactionId));
       } else {
-        var fromAccount = currentState.data["from"];
-        var toAccount = currentState.data["to"];
+        var fromAccount = currentState.data!["from"];
+        var toAccount = currentState.data!["to"];
 
         return currentState.copyWith(
             pageState: PageState.success,

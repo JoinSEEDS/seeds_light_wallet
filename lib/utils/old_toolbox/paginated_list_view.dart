@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 
@@ -7,10 +9,10 @@ class PaginatedListView<T> extends StatefulWidget {
   final ItemBuilder<T> itemBuilder;
   final PageFuture<T> pageFuture;
   final int pageSize;
-  final EdgeInsetsGeometry padding;
-  final NoItemsFoundBuilder noItemsFoundBuilder;
-  final Widget noItemsFoundWidget;
-  final PagewiseLoadController<T> pageLoadController;
+  final EdgeInsetsGeometry? padding;
+  final NoItemsFoundBuilder? noItemsFoundBuilder;
+  final Widget? noItemsFoundWidget;
+  final PagewiseLoadController<T>? pageLoadController;
 
   /// default is false
   ///
@@ -26,9 +28,9 @@ class PaginatedListView<T> extends StatefulWidget {
   final bool shrinkWrap;
 
   const PaginatedListView({
-    Key key,
-    @required this.itemBuilder,
-    @required this.pageFuture,
+    Key? key,
+    required this.itemBuilder,
+    required this.pageFuture,
     this.pageSize = 10,
     this.padding,
     this.noItemsFoundBuilder,
@@ -69,7 +71,7 @@ class _PaginatedListViewState<T> extends State<PaginatedListView<T>> {
     _reload = false;
 
     final PageFuture<T> pageFuture =
-        (int pageIndex) => widget.pageFuture(pageIndex + 1);
+        (int? pageIndex) => widget.pageFuture(pageIndex! + 1);
 
     final pageLoadController = widget.pageLoadController ??
         PagewiseLoadController(

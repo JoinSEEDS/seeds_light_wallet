@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class MemberModel extends Equatable {
-  final String account;
-  final String nickname;
-  final String image;
+  final String? account;
+  final String? nickname;
+  final String? image;
 
   const MemberModel({this.account, this.nickname, this.image});
 
@@ -16,5 +16,5 @@ class MemberModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [account, nickname, image];
+  List<Object?> get props => [account, nickname, image];
 }

@@ -11,7 +11,7 @@ void main() {
       await request.resolve(account: "bukabukabuka");
 
       var action = request.actions.first;
-      var data = Map<String, dynamic>.from(action.data);
+      var data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
 
       expect(request.actions.first.account, 'eosio');
       expect(request.actions.first.name, 'voteproducer');
@@ -30,7 +30,7 @@ void main() {
       print("2 action: "+request.actions.first.toJson().toString());
 
       var action = request.actions.first;
-      var data = Map<String, dynamic>.from(action.data);
+      var data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
 
       expect(request.actions.first.account, 'token.seeds');
       expect(request.actions.first.name, 'transfer');
@@ -51,7 +51,7 @@ void main() {
       print("3 action: "+request.actions.first.toJson().toString());
 
       var action = request.actions.first;
-      var data = Map<String, dynamic>.from(action.data);
+      var data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
 
       expect(request.actions.first.account, 'token.seeds');
       expect(request.actions.first.name, 'transfer');
@@ -71,7 +71,7 @@ void main() {
       print("1 action: "+request.actions.first.toJson().toString());
 
       var action = request.actions.first;
-      var data = Map<String, dynamic>.from(action.data);
+      var data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
 
       expect(request.actions.first.account, 'token.seeds');
       expect(request.actions.first.name, 'transfer');

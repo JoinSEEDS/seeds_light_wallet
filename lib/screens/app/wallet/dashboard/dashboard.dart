@@ -8,8 +8,8 @@ import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
-import 'package:seeds/providers/notifiers/members_notifier.dart';
-import 'package:seeds/providers/notifiers/rate_notiffier.dart';
+// import 'package:seeds/providers/notifiers/members_notifier.dart';
+// import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
@@ -35,7 +35,7 @@ import 'package:seeds/v2/datasource/local/settings_storage.dart';
 enum TransactionType { income, outcome }
 
 class Dashboard extends StatefulWidget {
-  Dashboard();
+  const Dashboard();
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -47,9 +47,10 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
       DashboardUseCases()
-          .shouldShowCancelGuardianAlertMessage(SettingsNotifier.of(context).accountName)
+          // .shouldShowCancelGuardianAlertMessage(SettingsNotifier.of(context).accountName)
+          .shouldShowCancelGuardianAlertMessage(settingsStorage.accountName)
           .listen((bool showAlertDialog) {
         if (showAlertDialog) {
           showAccountUnderRecoveryDialog(context);
@@ -74,8 +75,8 @@ class _DashboardState extends State<Dashboard> {
                   FadeInImage.assetNetwork(
                       placeholder: "assets/images/guardians/guardian_shield.png",
                       image: "assets/images/guardians/guardian_shield.png"),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8, top: 24, bottom: 8),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8, right: 8, top: 24, bottom: 8),
                     child: Text(
                       "Recovery Mode Initiated",
                       style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
@@ -85,14 +86,14 @@ class _DashboardState extends State<Dashboard> {
                     padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
                     child: RichText(
                       textAlign: TextAlign.center,
-                      text: new TextSpan(
+                      text: const TextSpan(
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
                         ),
                         children: <TextSpan>[
                           TextSpan(text: 'Someone has initiated the '),
-                          TextSpan(text: 'Recovery ', style: new TextStyle(fontWeight: FontWeight.bold)),
+                          TextSpan(text: 'Recovery ', style: TextStyle(fontWeight: FontWeight.bold)),
                           TextSpan(
                               text:
                                   'process for your account. If you did not request to recover your account please select cancel recovery.  '),
@@ -106,11 +107,11 @@ class _DashboardState extends State<Dashboard> {
             actions: <Widget>[
               MainButton(
                 key: savingLoader,
-                margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8),
+                margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8),
                 title: "Cancel Recovery",
                 onPressed: () async {
-                  savingLoader.currentState.loading();
-                  GuardianServices()
+                  savingLoader.currentState!.loading();
+                  await GuardianServices()
                       .stopActiveRecovery(service, accountName)
                       .then((value) => Navigator.pop(context))
                       .catchError((onError) => onStopRecoveryError(onError));
@@ -123,12 +124,12 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  onStopRecoveryError(onError) {
+  void onStopRecoveryError(onError) {
     print("onStopRecoveryError Error " + onError.toString());
     errorToast('Oops, Something went wrong');
 
     setState(() {
-      savingLoader.currentState.done();
+      savingLoader.currentState!.done();
     });
   }
 
@@ -136,7 +137,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       child: Scaffold(
-        appBar: buildAppBar(context),
+        appBar: buildAppBar(context) as PreferredSizeWidget?,
         body: ListView(
           children: <Widget>[
             buildNotification(),
@@ -156,11 +157,11 @@ class _DashboardState extends State<Dashboard> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     refreshData();
-    if (SettingsNotifier.of(context).selectedFiatCurrency == null) {
+    if (SettingsNotifier.of(context).selectedFiatCurrency.isEmpty) {
       Locale locale = Localizations.localeOf(context);
       var format = NumberFormat.simpleCurrency(locale: locale.toString());
       // SettingsNotifier.of(context).saveSelectedFiatCurrency(format.currencyName);
-      settingsStorage.saveSelectedFiatCurrency(format.currencyName);
+      settingsStorage.saveSelectedFiatCurrency(format.currencyName!);
     }
   }
 
@@ -179,7 +180,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void onReceive() async {
-    NavigationService.of(context).navigateTo(Routes.receive);
+    await NavigationService.of(context).navigateTo(Routes.receive);
   }
 
   Widget buildNotification() {
@@ -190,9 +191,7 @@ class _DashboardState extends State<Dashboard> {
 
     if (backupService.showReminder) {
       return Consumer<BalanceNotifier>(builder: (context, model, child) {
-        if (model != null &&
-            model.balance != null &&
-            model.balance.numericQuantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
+        if (model.balance != null && model.balance!.numericQuantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
           return Container(
             width: width,
             child: MainCard(
@@ -201,13 +200,13 @@ class _DashboardState extends State<Dashboard> {
                   color: AppColors.red,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Text(
                       'Your private key has not been backed up!'.i18n,
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w300),
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w300),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
@@ -249,14 +248,14 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void onTransaction({
-    TransactionModel transaction,
-    MemberModel member,
-    TransactionType type,
+    TransactionModel? transaction,
+    MemberModel? member,
+    TransactionType? type,
   }) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
         ),
         builder: (BuildContext context) {
@@ -276,18 +275,18 @@ class _DashboardState extends State<Dashboard> {
 
     TransactionType type = model.to == userAccount ? TransactionType.income : TransactionType.outcome;
 
-    String participantAccountName = type == TransactionType.income ? model.from : model.to;
+    // String? participantAccountName = type == TransactionType.income ? model.from : model.to;
 
     return FutureBuilder(
       future: null, //MembersNotifier.of(context).getAccountDetails(participantAccountName),
       builder: (ctx, member) => member.hasData
           ? TransactionInfoCard(
               callback: () {
-                onTransaction(transaction: model, member: member.data, type: type);
+                onTransaction(transaction: model, member: member.data as MemberModel, type: type);
               },
-              profileAccount: member.data.account,
-              profileNickname: member.data.nickname,
-              profileImage: member.data.image,
+              profileAccount: (member.data as MemberModel).account,
+              profileNickname: (member.data as MemberModel).nickname,
+              profileImage: (member.data as MemberModel).image,
               timestamp: model.timestamp,
               amount: model.quantity,
               typeIcon: type == TransactionType.income
@@ -295,8 +294,8 @@ class _DashboardState extends State<Dashboard> {
                   : 'assets/images/wallet/arrow_down.svg',
             )
           : Shimmer.fromColors(
-              baseColor: Colors.grey[300],
-              highlightColor: Colors.grey[100],
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -315,17 +314,17 @@ class _DashboardState extends State<Dashboard> {
     return Column(
       children: <Widget>[
         Consumer<TransactionsNotifier>(
-          builder: (context, model, child) => model != null && model.transactions != null
+          builder: (context, model, child) => model.transactions != null
               ? Column(
                   children: <Widget>[
-                    ...model.transactions.map((trx) {
+                    ...model.transactions!.map((trx) {
                       return buildTransaction(trx);
                     }).toList()
                   ],
                 )
               : Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[100],
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

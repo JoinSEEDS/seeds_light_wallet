@@ -11,7 +11,7 @@ import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/b
 
 /// PROFILE BOTTOM
 class ProfileBottom extends StatelessWidget {
-  const ProfileBottom({Key key}) : super(key: key);
+  const ProfileBottom({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class ProfileBottom extends StatelessWidget {
                                 children: [
                                   Text(
                                     'Resident'.i18n,
-                                    style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.canopy),
+                                    style: Theme.of(context).textTheme.headline6!.copyWith(color: AppColors.canopy),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -90,7 +90,7 @@ class ProfileBottom extends StatelessWidget {
                                   Flexible(
                                     child: Text(
                                       'Citizen'.i18n,
-                                      style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.canopy),
+                                      style: Theme.of(context).textTheme.headline6!.copyWith(color: AppColors.canopy),
                                     ),
                                   ),
                                 ],

@@ -12,15 +12,15 @@ import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 
 Widget buildPasscodeScreen(
-    {Stream<bool> shouldTriggerVerification,
-    PasswordEnteredCallback passwordEnteredCallback,
-    IsValidCallback isValidCallback,
-    CancelCallback cancelCallback,
-    Widget title,
-    Widget bottomWidget,
-    BuildContext context}) {
+    {required Stream<bool> shouldTriggerVerification,
+    required PasswordEnteredCallback passwordEnteredCallback,
+    IsValidCallback? isValidCallback,
+    CancelCallback? cancelCallback,
+    required Widget title,
+    Widget? bottomWidget,
+    required BuildContext context}) {
   return PasscodeScreen(
-    cancelButton: SizedBox.shrink(),
+    cancelButton: const SizedBox.shrink(),
     deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
     passwordDigits: 4,
     title: title,
@@ -30,7 +30,7 @@ Widget buildPasscodeScreen(
     isValidCallback: isValidCallback,
     cancelCallback: cancelCallback,
     bottomWidget: bottomWidget,
-    circleUIConfig: CircleUIConfig(circleSize: 14),
+    circleUIConfig: const CircleUIConfig(circleSize: 14),
   );
 }
 
@@ -85,10 +85,7 @@ class LockWallet extends StatelessWidget {
 }
 
 class LockWalletBottomWidget extends StatelessWidget {
-  const LockWalletBottomWidget({
-    Key key,
-    @required this.bloc,
-  }) : super(key: key);
+  const LockWalletBottomWidget({Key? key, required this.bloc}) : super(key: key);
 
   final AuthBloc bloc;
 
@@ -96,9 +93,13 @@ class LockWalletBottomWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
-      child: OutlineButton(
-        borderSide: BorderSide(color: AppColors.white),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      child: OutlinedButton(
+        style: ButtonStyle(
+          side: MaterialStateProperty.resolveWith<BorderSide>((states) => const BorderSide(color: AppColors.white)),
+          shape: MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
+            return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
+          }),
+        ),
         child: Text('Disable Passcode'.i18n, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
         onPressed: () {
           bloc.execute(DisablePasswordCmd());

@@ -93,7 +93,7 @@ class NavigationService {
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
 
-  StreamController<String> streamRouteListener;
+  StreamController<String>? streamRouteListener;
 
   final onboardingRoutes = {
     Routes.joinProcess: (_) => JoinProcess(),
@@ -107,9 +107,9 @@ class NavigationService {
   };
 
   final appRoutes = {
-    Routes.app: (_) => App(),
+    Routes.app: (_) => const App(),
     Routes.transferForm: (args) => TransferForm(args),
-    Routes.transfer: (_) => Transfer(),
+    Routes.transfer: (_) => const Transfer(),
     Routes.invites: (_) => Invites(),
     Routes.createInvite: (_) => CreateInvite(),
     Routes.proposals: (_) => Proposals(),
@@ -118,14 +118,14 @@ class NavigationService {
     Routes.imageViewer: (args) => ImageViewer(
           arguments: args,
         ),
-    Routes.plantSeeds: (_) => PlantSeeds(),
+    Routes.plantSeeds: (_) => const PlantSeeds(),
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => SendScannerScreen(),
-    Routes.receive: (_) => Receive(),
+    Routes.receive: (_) => const Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
-    Routes.receiveCustom: (_) => ReceiveCustom(),
+    Routes.receiveCustom: (_) => const ReceiveCustom(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
-    Routes.selectGuardians: (_) => SelectGuardians(),
+    Routes.selectGuardians: (_) => const SelectGuardians(),
     Routes.inviteGuardians: (args) => InviteGuardians(args),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),
     Routes.guardianTabs: (_) => GuardianTabs(),
@@ -145,18 +145,18 @@ class NavigationService {
   };
 
   final walletRoutes = {
-    Routes.dashboard: (_) => Dashboard(),
+    Routes.dashboard: (_) => const Dashboard(),
   };
 
   void addListener(StreamController<String> listener) {
     streamRouteListener = listener;
   }
 
-  Future<dynamic> navigateTo(String routeName, [Object arguments, bool replace = false]) async {
-    var navigatorKey;
+  Future<dynamic> navigateTo(String routeName, [Object? arguments, bool replace = false]) async {
+    late var navigatorKey;
 
     if (streamRouteListener != null) {
-      streamRouteListener.add(routeName);
+      streamRouteListener!.add(routeName);
     }
 
     if (appRoutes[routeName] != null) {
@@ -184,31 +184,31 @@ class NavigationService {
     var routeName = settings.name;
     var arguments = settings.arguments;
 
-    if (appRoutes[routeName] != null) {
+    if (appRoutes[routeName!] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => appRoutes[routeName](arguments),
+        builder: (context) => appRoutes[routeName]!(arguments),
       );
     } else if (onboardingRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => onboardingRoutes[routeName](arguments),
+        builder: (context) => onboardingRoutes[routeName]!(arguments),
       );
     } else if (ecosystemRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (_) => ecosystemRoutes[routeName](arguments),
+        builder: (_) => ecosystemRoutes[routeName]!(arguments),
       );
     } else if (walletRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (_) => walletRoutes[routeName](arguments),
+        builder: (_) => walletRoutes[routeName]!(arguments),
       );
     } else {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => PageNotFound(
-          routeName: settings.name,
+          routeName: settings.name!,
           args: settings.arguments,
         ),
       );

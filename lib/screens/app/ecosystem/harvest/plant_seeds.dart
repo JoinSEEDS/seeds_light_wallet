@@ -12,7 +12,7 @@ import 'package:seeds/widgets/transaction_details.dart';
 import 'package:seeds/i18n/harvest.i18n.dart';
 
 class PlantSeeds extends StatefulWidget {
-  PlantSeeds({Key key}) : super(key: key);
+  const PlantSeeds({Key? key}) : super(key: key);
 
   @override
   _PlantSeedState createState() => _PlantSeedState();
@@ -23,10 +23,8 @@ class _PlantSeedState extends State<PlantSeeds> {
 
   bool transactionSubmitted = false;
 
-  final StreamController<bool> _statusNotifier =
-      StreamController<bool>.broadcast();
-  final StreamController<String> _messageNotifier =
-      StreamController<String>.broadcast();
+  final StreamController<bool> _statusNotifier = StreamController<bool>.broadcast();
+  final StreamController<String> _messageNotifier = StreamController<String>.broadcast();
 
   @override
   void dispose() {
@@ -41,7 +39,7 @@ class _PlantSeedState extends State<PlantSeeds> {
     });
 
     try {
-      String transactionId = await plantSeeds();
+      String? transactionId = await plantSeeds();
 
       _statusNotifier.add(true);
       _messageNotifier.add("Transaction hash: %s".i18n.fill(["$transactionId"]));
@@ -69,7 +67,7 @@ class _PlantSeedState extends State<PlantSeeds> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.close, color: Colors.black),
+          icon: const Icon(Icons.close, color: Colors.black),
           onPressed: () => Navigator.of(context).maybePop(),
         ),
         backgroundColor: Colors.transparent,
@@ -77,7 +75,7 @@ class _PlantSeedState extends State<PlantSeeds> {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17),
+        margin: const EdgeInsets.symmetric(horizontal: 17),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -95,7 +93,7 @@ class _PlantSeedState extends State<PlantSeeds> {
                 endText: 'SEEDS',
               ),
               MainButton(
-                margin: EdgeInsets.only(top: 25),
+                margin: const EdgeInsets.only(top: 25),
                 title: 'Plant Seeds',
                 onPressed: onSubmit,
               ),
@@ -106,7 +104,7 @@ class _PlantSeedState extends State<PlantSeeds> {
     );
   }
 
-  Future<String> plantSeeds() async {
+  Future<String?> plantSeeds() async {
     var response = await EosService.of(context, listen: false).plantSeeds(
       amount: double.parse(plantController.text),
     );

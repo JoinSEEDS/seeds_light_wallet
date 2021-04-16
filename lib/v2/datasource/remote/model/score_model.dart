@@ -1,9 +1,9 @@
 class ScoreModel {
-  final int plantedScore;
-  final int transactionsScore;
-  final int reputationScore;
-  final int communityBuildingScore;
-  final int contributionScore;
+  final int? plantedScore;
+  final int? transactionsScore;
+  final int? reputationScore;
+  final int? communityBuildingScore;
+  final int? contributionScore;
 
   ScoreModel({
     this.plantedScore,

@@ -38,18 +38,18 @@ class SeedsTextTheme {
         .englishLike
         .copyWith(
           headline3:
-              Typography.material2018().englishLike.headline3.copyWith(fontSize: 42, fontWeight: FontWeight.w600),
+              Typography.material2018().englishLike.headline3!.copyWith(fontSize: 42, fontWeight: FontWeight.w600),
           headline4:
-              Typography.material2018().englishLike.headline4.copyWith(fontSize: 36, fontWeight: FontWeight.w500),
+              Typography.material2018().englishLike.headline4!.copyWith(fontSize: 36, fontWeight: FontWeight.w500),
           headline5:
-              Typography.material2018().englishLike.headline5.copyWith(fontSize: 28, fontWeight: FontWeight.w600),
+              Typography.material2018().englishLike.headline5!.copyWith(fontSize: 28, fontWeight: FontWeight.w600),
           headline6:
-              Typography.material2018().englishLike.headline6.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
+              Typography.material2018().englishLike.headline6!.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
           subtitle1:
-              Typography.material2018().englishLike.subtitle1.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
+              Typography.material2018().englishLike.subtitle1!.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
           subtitle2:
-              Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
-          button: Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
+              Typography.material2018().englishLike.subtitle2!.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
+          button: Typography.material2018().englishLike.button!.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
         )
         .apply(displayColor: Colors.black, bodyColor: Colors.black);
   }
@@ -59,18 +59,18 @@ class SeedsTextTheme {
         .englishLike
         .copyWith(
           headline3:
-              Typography.material2018().englishLike.headline3.copyWith(fontSize: 42, fontWeight: FontWeight.w600),
+              Typography.material2018().englishLike.headline3!.copyWith(fontSize: 42, fontWeight: FontWeight.w600),
           headline4:
-              Typography.material2018().englishLike.headline4.copyWith(fontSize: 36, fontWeight: FontWeight.w500),
+              Typography.material2018().englishLike.headline4!.copyWith(fontSize: 36, fontWeight: FontWeight.w500),
           headline5:
-              Typography.material2018().englishLike.headline5.copyWith(fontSize: 28, fontWeight: FontWeight.w600),
+              Typography.material2018().englishLike.headline5!.copyWith(fontSize: 28, fontWeight: FontWeight.w600),
           headline6:
-              Typography.material2018().englishLike.headline6.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
+              Typography.material2018().englishLike.headline6!.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
           subtitle1:
-              Typography.material2018().englishLike.subtitle1.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
+              Typography.material2018().englishLike.subtitle1!.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
           subtitle2:
-              Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
-          button: Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
+              Typography.material2018().englishLike.subtitle2!.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
+          button: Typography.material2018().englishLike.button!.copyWith(fontSize: 16, fontWeight: FontWeight.w500),
         )
         .apply(displayColor: Colors.white, bodyColor: Colors.white);
   }
@@ -86,21 +86,21 @@ extension CustomStyles on TextTheme {
   TextStyle get headline8 => const TextStyle(fontSize: 20, fontWeight: FontWeight.w500);
 
   TextStyle get subtitle1HighEmphasis =>
-      Typography.material2018().englishLike.subtitle1.copyWith(fontSize: 18, fontWeight: FontWeight.w600);
+      Typography.material2018().englishLike.subtitle1!.copyWith(fontSize: 18, fontWeight: FontWeight.w600);
 
   TextStyle get subtitle2HighEmphasis =>
-      Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w500);
+      Typography.material2018().englishLike.subtitle2!.copyWith(fontSize: 14, fontWeight: FontWeight.w500);
 
   TextStyle get subtitle2LowEmphasis =>
-      Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 14, fontWeight: FontWeight.w300);
+      Typography.material2018().englishLike.subtitle2!.copyWith(fontSize: 14, fontWeight: FontWeight.w300);
 
   TextStyle get subtitle2OpacityEmphasis => Typography.material2018()
       .englishLike
-      .subtitle2
+      .subtitle2!
       .copyWith(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white.withOpacity(0.5));
 
   TextStyle get subtitle3 =>
-      Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 12, fontWeight: FontWeight.w400);
+      Typography.material2018().englishLike.subtitle2!.copyWith(fontSize: 12, fontWeight: FontWeight.w400);
 
   TextStyle get subtitle2Green3LowEmphasis => subtitle2LowEmphasis.copyWith(color: AppColors.green3);
 
@@ -110,7 +110,7 @@ extension CustomStyles on TextTheme {
 
   TextStyle get subtitle2BlackLowEmphasis => subtitle2LowEmphasis.copyWith(color: AppColors.black);
 
-  TextStyle get subtitle2Black => subtitle2.copyWith(color: AppColors.black);
+  TextStyle get subtitle2Black => subtitle2!.copyWith(color: AppColors.black);
 
   TextStyle get subtitle2OpacityEmphasisBlack => subtitle2OpacityEmphasis.copyWith(color: AppColors.black);
 
@@ -120,40 +120,40 @@ extension CustomStyles on TextTheme {
 
   TextStyle get subtitle3OpacityEmphasis => Typography.material2018()
       .englishLike
-      .subtitle2
+      .subtitle2!
       .copyWith(fontSize: 13, fontWeight: FontWeight.w400, color: Colors.white.withOpacity(0.5));
 
   TextStyle get subtitle4 =>
-      Typography.material2018().englishLike.subtitle2.copyWith(fontSize: 13, fontWeight: FontWeight.w400);
+      Typography.material2018().englishLike.subtitle2!.copyWith(fontSize: 13, fontWeight: FontWeight.w400);
 
   TextStyle get buttonHighEmphasis => Typography.material2018()
       .englishLike
-      .button
+      .button!
       .copyWith(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 2);
 
   TextStyle get buttonOpacityEmphasis => Typography.material2018()
       .englishLike
-      .button
+      .button!
       .copyWith(fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 2, color: Colors.white.withOpacity(0.5));
 
   TextStyle get buttonLowEmphasis =>
-      Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w400);
+      Typography.material2018().englishLike.button!.copyWith(fontSize: 16, fontWeight: FontWeight.w400);
 
   TextStyle get button1 =>
-      Typography.material2018().englishLike.button.copyWith(fontSize: 25, fontWeight: FontWeight.w400);
+      Typography.material2018().englishLike.button!.copyWith(fontSize: 25, fontWeight: FontWeight.w400);
 
   TextStyle get buttonBlack =>
-      Typography.material2018().englishLike.button.copyWith(fontSize: 16, fontWeight: FontWeight.w500
+      Typography.material2018().englishLike.button!.copyWith(fontSize: 16, fontWeight: FontWeight.w500
       ,color: AppColors.black);
 
   TextStyle get headline4Black => Typography.material2018()
       .englishLike
-      .headline4
+      .headline4!
       .copyWith(fontSize: 36, fontWeight: FontWeight.w500, color: AppColors.black);
 
   TextStyle get headline6Green => Typography.material2018()
       .englishLike
-      .headline6
+      .headline6!
       .copyWith(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.green3);
 
   TextStyle get headline7Green =>

@@ -18,14 +18,14 @@ import 'package:seeds/v2/utils/cap_utils.dart';
 
 /// SendConfirmation SCREEN
 class SendConfirmationScreen extends StatelessWidget {
-  const SendConfirmationScreen({Key key}) : super(key: key);
+  const SendConfirmationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final SendConfirmationArguments arguments = ModalRoute.of(context).settings.arguments;
+    final SendConfirmationArguments? arguments = ModalRoute.of(context)!.settings.arguments as SendConfirmationArguments?;
 
     return BlocProvider(
-      create: (context) => SendConfirmationBloc()..add(InitSendConfirmationWithArguments(arguments: arguments)),
+      create: (context) => SendConfirmationBloc()..add(InitSendConfirmationWithArguments(arguments: arguments!)),
       child: Scaffold(
         appBar: AppBar(
             leading: IconButton(
@@ -42,15 +42,15 @@ class SendConfirmationScreen extends StatelessWidget {
                 context: context,
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
-                    amount: state.pageCommand.amount,
-                    fiatAmount: state.pageCommand.fiatAmount,
-                    fromAccount: state.pageCommand.fromAccount,
-                    fromImage: state.pageCommand.fromImage,
-                    fromName: state.pageCommand.fromName,
-                    toAccount: state.pageCommand.toAccount,
-                    toImage: state.pageCommand.toImage,
-                    toName: state.pageCommand.toName,
-                    transactionID: state.pageCommand.transactionId),
+                    amount: state.pageCommand!.amount,
+                    fiatAmount: state.pageCommand!.fiatAmount,
+                    fromAccount: state.pageCommand!.fromAccount,
+                    fromImage: state.pageCommand!.fromImage,
+                    fromName: state.pageCommand!.fromName,
+                    toAccount: state.pageCommand!.toAccount,
+                    toImage: state.pageCommand!.toImage,
+                    toName: state.pageCommand!.toName,
+                    transactionID: state.pageCommand!.transactionId),
               );
             }
           },
@@ -74,13 +74,13 @@ class SendConfirmationScreen extends StatelessWidget {
                               TransactionDetails(
                                 /// This needs to change to use the token icon. right now its hard coded to seeds
                                 image: SvgPicture.asset("assets/images/seeds_logo.svg"),
-                                title: state.name.inCaps,
+                                title: state.name!.inCaps,
                                 beneficiary: state.account,
                               ),
                               const SizedBox(height: 42),
                               Column(
                                 children: <Widget>[
-                                  ...state.lineItems
+                                  ...state.lineItems!
                                       .map(
                                         (e) => Padding(
                                           padding: const EdgeInsets.only(top: 16),
@@ -88,7 +88,7 @@ class SendConfirmationScreen extends StatelessWidget {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               Text(
-                                                e.label,
+                                                e.label!,
                                                 style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                                               ),
                                               Text(e.text.toString(), style: Theme.of(context).textTheme.subtitle2),

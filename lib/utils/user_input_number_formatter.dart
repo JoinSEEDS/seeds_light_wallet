@@ -4,7 +4,7 @@ class UserInputNumberFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     /// oldValue is ignored and never used.
-    if (newValue == null || newValue.text.isEmpty) {
+    if (newValue.text.isEmpty) {
       return newValue;
     }
 

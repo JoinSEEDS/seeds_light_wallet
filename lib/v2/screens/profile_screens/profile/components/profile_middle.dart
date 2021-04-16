@@ -10,7 +10,7 @@ import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/b
 
 /// PROFILE MIDDLE
 class ProfileMiddle extends StatelessWidget {
-  const ProfileMiddle({Key key}) : super(key: key);
+  const ProfileMiddle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class ProfileMiddle extends StatelessWidget {
                   style: Theme.of(context).textTheme.subtitle2HighEmphasis,
                 ),
                 trailing: Text(
-                  settingsStorage.selectedFiatCurrency,
+                  settingsStorage.selectedFiatCurrency ?? "USD",
                   style: Theme.of(context).textTheme.subtitle1HighEmphasis,
                 ),
                 onTap: () async {

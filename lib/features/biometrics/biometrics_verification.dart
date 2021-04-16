@@ -9,40 +9,37 @@ import 'package:seeds/widgets/passcode.dart';
 import 'package:seeds/i18n/biometrics_verification.i18n.dart';
 
 class BiometricsVerification extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return BiometricsVerificationState();
   }
-
 }
 
 class BiometricsVerificationState extends State<BiometricsVerification> {
-
   @override
   Widget build(BuildContext context) {
     AuthBloc bloc = Provider.of(context);
 
     return StreamBuilder<AuthType>(
-      stream: bloc.preferred,
-      builder: (context, snapshot) {
-        if(snapshot.hasData) {
-          switch (snapshot.data) {
-            case AuthType.nothing:
-              return buildBiometricsView("Biometrics Disabled".i18n);
-            case AuthType.password:
-              return UnlockWallet();
-            case AuthType.fingerprint:
-            case AuthType.face:
-              return buildBiometricsView("Loading your SEEDS Wallet...".i18n);
+        stream: bloc.preferred,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            switch (snapshot.data) {
+              case AuthType.nothing:
+                return buildBiometricsView("Biometrics Disabled".i18n);
+              case AuthType.password:
+                return UnlockWallet();
+              case AuthType.fingerprint:
+              case AuthType.face:
+                return buildBiometricsView("Loading your SEEDS Wallet...".i18n);
+              default:
+                const SizedBox.shrink();
+            }
+          } else {
+            bloc.execute(InitAuthenticationCmd());
           }
-        } else {
-          bloc.execute(InitAuthenticationCmd());
-        }
-        return buildBiometricsView("Initializing Biometrics".i18n);
-      }
-    );
-
+          return buildBiometricsView("Initializing Biometrics".i18n);
+        });
   }
 
   Widget buildBiometricsView(String title) {
@@ -55,29 +52,28 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
         padding: EdgeInsets.only(top: margin, bottom: margin),
         child: Center(
           child: StreamBuilder<AuthState>(
-            stream: bloc.authenticated,
-            initialData: AuthState.init,
-            builder: (context, snapshot) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
-                  ),
-                  ...buildUnauthorized(bloc, snapshot.data),
-                ],
-              );
-            }
-          ),
+              stream: bloc.authenticated,
+              initialData: AuthState.init,
+              builder: (context, snapshot) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
+                    ),
+                    ...buildUnauthorized(bloc, snapshot.data),
+                  ],
+                );
+              }),
         ),
       ),
     );
   }
 
-  List<Widget> buildUnauthorized(AuthBloc bloc, AuthState state) {
-    if([AuthState.unauthorized, AuthState.setupNeeded].contains(state)) {
+  List<Widget> buildUnauthorized(AuthBloc bloc, AuthState? state) {
+    if ([AuthState.unauthorized, AuthState.setupNeeded].contains(state)) {
       return [
         MaterialButton(
           child: Container(
@@ -91,11 +87,7 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
             child: Text(
               state == AuthState.setupNeeded ? "Enable Settings".i18n : "Try Again".i18n,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.w300
-              ),
+              style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
             ),
           ),
           onPressed: () {
@@ -115,38 +107,32 @@ class BiometricsVerificationState extends State<BiometricsVerification> {
     AuthBloc bloc = Provider.of(context);
 
     return StreamBuilder<bool>(
-      stream: bloc.passcodeAvailable,
-      initialData: false,
-      builder: (context, snapshot) {
-        if(snapshot.data) {
-          return MaterialButton(
-            child: Container(
-              padding: const EdgeInsets.only(left: 17, right: 17, top: 12, bottom: 12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(
-                  color: Colors.white,
+        stream: bloc.passcodeAvailable,
+        initialData: false,
+        builder: (context, snapshot) {
+          if (snapshot.data!) {
+            return MaterialButton(
+              child: Container(
+                padding: const EdgeInsets.only(left: 17, right: 17, top: 12, bottom: 12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(
+                    color: Colors.white,
+                  ),
+                ),
+                child: Text(
+                  "Use Passcode".i18n,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
                 ),
               ),
-              child: Text(
-                "Use Passcode".i18n,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300
-                ),
-              ),
-            ),
-            onPressed: () {
-              bloc.execute(ChangePreferredCmd(AuthType.password));
-            },
-          );
-        } else {
-          return Container();
-        }
-      }
-    );
+              onPressed: () {
+                bloc.execute(ChangePreferredCmd(AuthType.password));
+              },
+            );
+          } else {
+            return Container();
+          }
+        });
   }
-
 }

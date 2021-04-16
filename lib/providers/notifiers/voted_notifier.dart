@@ -1,10 +1,12 @@
+
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/services/http_service.dart';
 
 class VoteResult {
-  int amount;
+  int? amount;
   bool voted;
   bool error;
 
@@ -17,7 +19,7 @@ class VotedNotifier extends ChangeNotifier {
   static VotedNotifier of(BuildContext context, {bool listen = false}) =>
       Provider.of<VotedNotifier>(context, listen: listen);
 
-  void update({HttpService http}) {
+  void update({HttpService? http}) {
     // _http = http;
   }
 

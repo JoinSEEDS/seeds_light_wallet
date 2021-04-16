@@ -35,7 +35,7 @@ class WalletHeaderState extends State<WalletHeader> {
           child: CarouselSlider(
             carouselController: _controller,
             items: [
-               Padding(
+              const Padding(
                 padding: EdgeInsets.only(right: 10),
                 child: CurrencyInfoCard(
                   backgroundImage: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
@@ -46,15 +46,15 @@ class WalletHeaderState extends State<WalletHeader> {
                   fiatBalance: " \$6,423 USD",
                 ),
               ),
-               CurrencyInfoCard(
+              const CurrencyInfoCard(
                 backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
                 title: "Hypha",
                 logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
                 balanceSubTitle: 'Wallet Balance',
                 balance: '68436.32',
                 fiatBalance: " \$9,236.45 USD",
-               ),
-               Padding(
+              ),
+              const Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: CurrencyInfoCard(
                   backgroundImage: 'assets/images/wallet/currency_info_cards/planted_seeds/background.jpg',
@@ -72,7 +72,6 @@ class WalletHeaderState extends State<WalletHeader> {
               viewportFraction: 0.89,
               enableInfiniteScroll: false,
               onPageChanged: onPageChange,
-
             ),
           ),
         ),

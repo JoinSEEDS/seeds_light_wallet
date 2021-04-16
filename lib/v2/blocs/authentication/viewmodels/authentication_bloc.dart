@@ -15,15 +15,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is UnlockWallet) {
       yield state.copyWith(authStatus: AuthStatus.unlocked);
     }
-    if (event is ResetPasscode) {
-      settingsStorage.passcode = null;
-      settingsStorage.passcodeActive = null;
-      yield AuthStatusStateMapper().mapResultToState(state);
+    if (event is OnImportAccount) {
+      settingsStorage.saveAccount(event.account, event.privateKey);
+      settingsStorage.privateKeyBackedUp = true;
+      add(const InitAuthStatus());
     }
     if (event is DisablePasscode) {
       settingsStorage.passcode = null;
       settingsStorage.passcodeActive = false;
-      yield AuthStatusStateMapper().mapResultToState(state);
     }
   }
 }

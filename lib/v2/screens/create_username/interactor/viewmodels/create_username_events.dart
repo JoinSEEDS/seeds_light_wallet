@@ -11,7 +11,7 @@ abstract class CreateUsernameEvent extends Equatable {
 class OnUsernameChange extends CreateUsernameEvent {
   final String userName;
 
-  OnUsernameChange({@required this.userName}) : assert(userName != null);
+  OnUsernameChange({required this.userName});
 
   @override
   String toString() => 'OnUsernameChange: { userName: $userName }';

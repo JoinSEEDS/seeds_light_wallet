@@ -9,7 +9,7 @@ import 'package:seeds/i18n/passcode.i18n.dart';
 import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
 
 class VerifyPasscode extends StatefulWidget {
-  const VerifyPasscode({Key key}) : super(key: key);
+  const VerifyPasscode({Key? key}) : super(key: key);
 
   @override
   _VerifyPasscodeState createState() => _VerifyPasscodeState();
@@ -25,10 +25,10 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
         listeners: [
           BlocListener<VerificationBloc, VerificationState>(
             listenWhen: (previous, current) => previous.isValidPasscode != current.isValidPasscode,
-            listener: (context, state) => _verificationNotifier.add(state.isValidPasscode),
+            listener: (context, state) => _verificationNotifier.add(state.isValidPasscode!),
           ),
           BlocListener<VerificationBloc, VerificationState>(
-            listenWhen: (_, current) => current.onBiometricAuthorized,
+            listenWhen: (_, current) => current.onBiometricAuthorized != null,
             listener: (context, _) => Navigator.of(context).pop(),
           ),
           BlocListener<VerificationBloc, VerificationState>(

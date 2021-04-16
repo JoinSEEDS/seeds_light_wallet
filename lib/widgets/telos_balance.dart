@@ -11,29 +11,26 @@ class TelosBalance extends StatelessWidget {
 
     return Consumer<TelosBalanceNotifier>(
       builder: (ctx, model, child) {
-        var quantity = model?.balance?.quantity ?? '0.0000 TLOS';
+        var quantity = model.balance?.quantity ?? '0.0000 TLOS';
 
         return Container(
           width: width,
-          margin: EdgeInsets.only(bottom: 20),
+          margin: const EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: AppColors.blue.withOpacity(0.3)),
           ),
-          padding: EdgeInsets.all(7),
+          padding: const EdgeInsets.all(7),
           child: Column(
             children: <Widget>[
               Text(
                 'Telos balance'.i18n,
-                style: TextStyle(
-                    color: AppColors.blue,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300),
+                style: const TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.w300),
               ),
-              Padding(padding: EdgeInsets.only(top: 3)),
+              const Padding(padding: EdgeInsets.only(top: 3)),
               Text(
                 '$quantity',
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.blue,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,

@@ -7,14 +7,13 @@ import 'package:seeds/design/app_theme.dart';
 import 'interactor/display_name_bloc.dart';
 
 class DisplayName extends StatefulWidget {
-  const DisplayName({Key key}) : super(key: key);
 
   @override
   _DisplayNameState createState() => _DisplayNameState();
 }
 
 class _DisplayNameState extends State<DisplayName> {
-  DisplayNameBloc _DisplayNameBloc;
+  late DisplayNameBloc _DisplayNameBloc;
 
   @override
   void initState() {
@@ -36,8 +35,8 @@ class _DisplayNameState extends State<DisplayName> {
               TextFormFieldCustom(
                 labelText: 'Full Name'.i18n,
                 onFieldSubmitted: (_) => _onSubmitted(),
-                validator: (value) {
-                  if (value.isEmpty) {
+                validator: (String? value) {
+                  if (value?.isEmpty == true) {
                     return 'Private Key cannot be empty'.i18n;
                   }
                   return null;

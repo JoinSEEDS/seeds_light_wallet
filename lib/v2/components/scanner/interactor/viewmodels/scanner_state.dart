@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 enum PageState { scan, processing, success, stop }
 
@@ -7,14 +6,14 @@ class ScannerState extends Equatable {
   final PageState pageState;
 
   const ScannerState({
-    @required this.pageState,
+    required this.pageState,
   });
 
   @override
   List<Object> get props => [pageState];
 
   ScannerState copyWith({
-    PageState pageState,
+    PageState? pageState,
   }) {
     return ScannerState(
       pageState: pageState ?? this.pageState,

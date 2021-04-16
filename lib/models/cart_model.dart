@@ -1,14 +1,15 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:seeds/models/models.dart';
 import 'dart:math';
 
 class LineItem {
-  ProductModel product;
-  int quantity;
+  ProductModel? product;
+  late int quantity;
 
-  LineItem({this.product, this.quantity});
+  LineItem({this.product, required this.quantity});
 
-  double seedsPrice(CurrencyConverter converter) {
-    return quantity * product.seedsPrice(converter);
+  double seedsPrice(CurrencyConverter? converter) {
+    return quantity * product!.seedsPrice(converter)!;
   }
 }
 
@@ -20,26 +21,25 @@ class CartModel {
   bool get isShowProducts => lineItems.isNotEmpty;
   bool get isShowCustom => !isShowProducts;
 
-  CurrencyConverter currencyConverter;
+  CurrencyConverter? currencyConverter;
 
-  LineItem itemFor(ProductModel product) {
-    return lineItems.firstWhere((e) => e.product.name == product.name,
-        orElse: () => null);
+  LineItem? itemFor(ProductModel? product) {
+    return lineItems.firstWhereOrNull((e) => e.product!.name == product!.name);
   }
 
   int quantityFor(ProductModel product) {
     return itemFor(product)?.quantity ?? 0;
   }
 
-  void add(ProductModel product) {
+  void add(ProductModel? product) {
     _add(product, 1);
   }
 
-  void remove(ProductModel product, {deleteOnZero = false}) {
+  void remove(ProductModel? product, {deleteOnZero = false}) {
     _add(product, -1, deleteOnZero: deleteOnZero);
   }
-  
-  void _add(ProductModel product, int quantity, {deleteOnZero = false}) {
+
+  void _add(ProductModel? product, int quantity, {deleteOnZero = false}) {
     var item = itemFor(product);
     if (item != null) {
       item.quantity += quantity;
@@ -62,6 +62,6 @@ class CartModel {
 
   int get itemCount => lineItems.fold(0, (p, e) => p + e.quantity);
 
-  double get total => lineItems.isEmpty ? customAmount : lineItems.fold(0, (p, e) => p + e.seedsPrice(currencyConverter));
-
+  double get total =>
+      lineItems.isEmpty ? customAmount : lineItems.fold(0, (p, e) => p + e.seedsPrice(currencyConverter));
 }

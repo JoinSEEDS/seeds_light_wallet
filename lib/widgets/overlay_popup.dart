@@ -3,42 +3,37 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 
 class OverlayPopup extends StatefulWidget {
-  final String title;
-  final Widget body;
-  final Function backCallback;
+  final String? title;
+  final Widget? body;
+  final Function? backCallback;
 
-  OverlayPopup({this.title, this.body, this.backCallback});
+  const OverlayPopup({this.title, this.body, this.backCallback});
 
   @override
   _OverlayPopupState createState() => _OverlayPopupState();
 }
 
-class _OverlayPopupState extends State<OverlayPopup>
-    with SingleTickerProviderStateMixin {
-
+class _OverlayPopupState extends State<OverlayPopup> with SingleTickerProviderStateMixin {
   Widget buildHeader() {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
     return AnimatedSize(
       vsync: this,
-      duration: Duration(milliseconds: 150),
+      duration: const Duration(milliseconds: 150),
       curve: Curves.fastOutSlowIn,
       child: Container(
         width: width,
         height: height * topSize(),
         padding: EdgeInsets.only(
-            left: width * 0.23,
-            right: width * 0.23,
-            top: MediaQuery.of(context).padding.top,
-            bottom: 30),
-        decoration: BoxDecoration(
+            left: width * 0.23, right: width * 0.23, top: MediaQuery.of(context).padding.top, bottom: 30),
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 stops: [0.0, 1.32],
                 colors: AppColors.gradient)),
-        child: Image(
+        child: const Image(
           image: AssetImage('assets/images/seeds_light_wallet_logo.png'),
         ),
       ),
@@ -57,8 +52,8 @@ class _OverlayPopupState extends State<OverlayPopup>
     return Container(
       width: width,
       margin: EdgeInsets.only(top: height * topSize() - 30),
-      padding: EdgeInsets.only(top: 10),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.only(top: 10),
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30),
@@ -67,26 +62,21 @@ class _OverlayPopupState extends State<OverlayPopup>
       ),
       child: widget.backCallback != null
           ? Column(
-              children: <Widget>[
+              children: <Widget?>[
                 Hero(
                   tag: 'header',
                   child: Container(
-                    padding: EdgeInsets.only(left: 7, bottom: 20),
+                    padding: const EdgeInsets.only(left: 7, bottom: 20),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        InkWell(onTap: () => widget.backCallback!(), child: const Icon(Icons.arrow_back)),
                         InkWell(
-                            onTap: () => widget.backCallback(),
-                            child: Icon(Icons.arrow_back)),
-                        InkWell(
-                          onTap: () => widget.backCallback(),
+                          onTap: () => widget.backCallback!(),
                           child: Text(
                             'Back'.i18n,
-                            style: TextStyle(
-                                fontFamily: 'worksans',
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600),
+                            style: const TextStyle(fontFamily: 'worksans', fontSize: 17, fontWeight: FontWeight.w600),
                           ),
                         )
                       ],
@@ -94,7 +84,7 @@ class _OverlayPopupState extends State<OverlayPopup>
                   ),
                 ),
                 widget.body,
-              ],
+              ] as List<Widget>,
             )
           : widget.body,
     );

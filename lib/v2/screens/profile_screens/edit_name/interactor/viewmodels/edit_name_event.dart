@@ -7,13 +7,13 @@ import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 abstract class EditNameEvent extends Equatable {
   const EditNameEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OnNameChanged extends EditNameEvent {
   final String name;
 
-  const OnNameChanged({@required this.name});
+  const OnNameChanged({required this.name});
 
   @override
   List<Object> get props => [name];
@@ -23,12 +23,12 @@ class OnNameChanged extends EditNameEvent {
 }
 
 class SubmitName extends EditNameEvent {
-  final ProfileModel profile;
+  final ProfileModel? profile;
 
-  const SubmitName({@required this.profile});
+  const SubmitName({required this.profile});
 
   @override
-  List<Object> get props => [profile];
+  List<Object?> get props => [profile];
 
   @override
   String toString() => 'SubmitName { profile: $profile }';

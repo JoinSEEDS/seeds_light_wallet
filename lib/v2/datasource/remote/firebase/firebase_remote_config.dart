@@ -86,12 +86,12 @@ class _FirebaseRemoteConfigService {
   String get defaultEndPointUrl => _defaultEndPointUrl;//_remoteConfig.getString(_defaultEndPointUrlKey);
 
   //_remoteConfig.getString(_activeEOSEndpointKey)
-  FirebaseEosServer get activeEOSServerUrl => parseEosServers(_eosEndpoints)
-      .firstWhere((FirebaseEosServer element) => element.isDefault);
+  FirebaseEosServer get activeEOSServerUrl => parseEosServers(_eosEndpoints)!
+      .firstWhere((FirebaseEosServer element) => element.isDefault!);
 }
 
 // A function that converts a response body into a List<FirebaseEosServer>.
-List<FirebaseEosServer> parseEosServers(String responseBody) {
+List<FirebaseEosServer>? parseEosServers(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
   return parsed.map<FirebaseEosServer>((json) => FirebaseEosServer.fromJson(json)).toList();

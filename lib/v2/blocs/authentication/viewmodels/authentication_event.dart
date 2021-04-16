@@ -15,16 +15,18 @@ class InitAuthStatus extends AuthenticationEvent {
   String toString() => 'InitAuthStatus';
 }
 
+class OnImportAccount extends AuthenticationEvent {
+  final String account;
+  final String privateKey;
+  const OnImportAccount({required this.account, required this.privateKey});
+  @override
+  String toString() => 'OnImportAccount { account: $account }';
+}
+
 class UnlockWallet extends AuthenticationEvent {
   const UnlockWallet();
   @override
   String toString() => 'UnlockWallet';
-}
-
-class ResetPasscode extends AuthenticationEvent {
-  const ResetPasscode();
-  @override
-  String toString() => 'ResetPasscode';
 }
 
 class DisablePasscode extends AuthenticationEvent {

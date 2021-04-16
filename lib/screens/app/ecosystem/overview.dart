@@ -13,12 +13,10 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 class Overview extends StatefulWidget {
-  const Overview({
-    Key key,
-  }) : super(key: key);
+  const Overview({Key? key}) : super(key: key);
 
   @override
   _OverviewState createState() => _OverviewState();
@@ -43,7 +41,7 @@ class _OverviewState extends State<Overview> {
 
   void onGet() {
     String userAccount = SettingsNotifier.of(context).accountName;
-    UrlLauncher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount",
+    url_launcher.launch("https://www.joinseeds.com/buy-seeds?acc=$userAccount",
         forceSafariVC: false, forceWebView: false);
   }
 
@@ -68,13 +66,13 @@ class _OverviewState extends State<Overview> {
     String subtitle,
     String iconName,
     String balanceTitle,
-    String balanceValue,
+    String? balanceValue,
     Function onTap,
   ) {
     return MainCard(
       onPressed: onTap,
-      margin: EdgeInsets.only(bottom: 8),
-      padding: EdgeInsets.all(14),
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(14),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +83,7 @@ class _OverviewState extends State<Overview> {
               Container(
                 width: 24,
                 height: 24,
-                margin: EdgeInsets.only(right: 15),
+                margin: const EdgeInsets.only(right: 15),
                 child: SvgPicture.asset(iconName),
               ),
               Column(
@@ -96,7 +94,7 @@ class _OverviewState extends State<Overview> {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),
@@ -105,7 +103,7 @@ class _OverviewState extends State<Overview> {
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Text(
                       subtitle,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 12,
                       ),
@@ -123,21 +121,21 @@ class _OverviewState extends State<Overview> {
                 balanceTitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.grey,
                   fontSize: 14,
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.only(top: 8),
                 child: balanceValue != null
                     ? Text(
                         balanceValue,
-                        style: TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 14),
                       )
                     : Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[100],
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
                         child: Container(
                           width: 80.0,
                           height: 10,
@@ -154,65 +152,48 @@ class _OverviewState extends State<Overview> {
 
   @override
   Widget build(BuildContext context) {
-
     return RefreshIndicator(
       onRefresh: refreshData,
       child: SingleChildScrollView(
         child: Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               children: <Widget>[
                 Consumer<BalanceNotifier>(
                   builder: (ctx, model, _) => buildCategory(
-                    'Invite'.i18n,
-                    'Tap to send an invite'.i18n,
-                    'assets/images/community.svg',
-                    'Available Seeds'.i18n,
-                    model?.balance?.quantity?.seedsFormatted,
-                    onInvite
-                  ),
+                      'Invite'.i18n,
+                      'Tap to send an invite'.i18n,
+                      'assets/images/community.svg',
+                      'Available Seeds'.i18n,
+                      model.balance?.quantity.seedsFormatted,
+                      onInvite),
                 ),
                 Consumer<VoiceNotifier>(
                   builder: (ctx, model, _) => buildCategory(
-                    'Vote'.i18n,
-                    'Tap to participate'.i18n,
-                    'assets/images/governance.svg',
-                    'Trust Tokens'.i18n,
-                    valueString(model?.campaignBalance?.amount) +
-                        "/" +
-                        valueString(model?.allianceBalance?.amount),
-                    onVote
-                  ),
+                      'Vote'.i18n,
+                      'Tap to participate'.i18n,
+                      'assets/images/governance.svg',
+                      'Trust Tokens'.i18n,
+                      valueString(model.campaignBalance?.amount) + "/" + valueString(model.allianceBalance?.amount),
+                      onVote),
                 ),
                 Consumer<PlantedNotifier>(
-                  builder: (ctx, model, _) => buildCategory(
-                    'Plant'.i18n,
-                    'Tap to plant Seeds'.i18n,
-                    'assets/images/harvest.svg',
-                    'Planted Seeds'.i18n,
-                    model?.balance?.quantity?.toString(),
-                    onPlant
-                  ),
+                  builder: (ctx, model, _) => buildCategory('Plant'.i18n, 'Tap to plant Seeds'.i18n,
+                      'assets/images/harvest.svg', 'Planted Seeds'.i18n, model.balance?.quantity.toString(), onPlant),
                 ),
                 Consumer<BalanceNotifier>(
                   builder: (ctx, model, _) => buildCategory(
-                    'Get Seeds'.i18n,
-                    'Tap to get Seeds'.i18n,
-                    'assets/images/harvest.svg',
-                    'Available Seeds'.i18n,
-                    model?.balance?.quantity?.seedsFormatted,
-                    onGet
-                  ),
+                      'Get Seeds'.i18n,
+                      'Tap to get Seeds'.i18n,
+                      'assets/images/harvest.svg',
+                      'Available Seeds'.i18n,
+                      model.balance?.quantity.seedsFormatted,
+                      onGet),
                 ),
                 Consumer<DhoNotifier>(
-                  builder: (ctx, model, _) => model.isDhoMember
-                      ? buildCategory(
-                          'Hypha DHO',
-                          'Explore Decentralized Human Organization',
-                          'assets/images/harvest.svg',
-                          '',
-                          '',
-                          onDHO)
+                  builder: (ctx, model, _) => model.isDhoMember!
+                      ? buildCategory('Hypha DHO', 'Explore Decentralized Human Organization',
+                          'assets/images/harvest.svg', '', '', onDHO)
                       : Container(),
                 ),
               ],
@@ -221,7 +202,7 @@ class _OverviewState extends State<Overview> {
     );
   }
 
-  String valueString(int amount) {
+  String valueString(int? amount) {
     return amount == null ? "-" : "$amount";
   }
 }

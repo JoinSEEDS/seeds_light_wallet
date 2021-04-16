@@ -5,20 +5,19 @@ class AuthStatusStateMapper {
   AuthenticationState mapResultToState(AuthenticationState currentState) {
     AuthStatus status = AuthStatus.unlocked;
 
-    if (settingsStorage.passcode == null && settingsStorage.passcodeActive == null) {
+    if (settingsStorage.passcode == null && settingsStorage.passcodeActive == true) {
       status = AuthStatus.emptyPasscode;
     }
 
-    if ((settingsStorage.passcodeActive != null) &&
-        (status == AuthStatus.emptyPasscode && !settingsStorage.passcodeActive)) {
+    if (settingsStorage.passcode == null && settingsStorage.passcodeActive == false) {
       status = AuthStatus.unlocked;
     }
 
-    if (settingsStorage.passcode != null && settingsStorage.passcodeActive != null) {
+    if (settingsStorage.passcode != null && settingsStorage.passcodeActive == true) {
       status = AuthStatus.locked;
     }
 
-    if (settingsStorage.accountName == null || settingsStorage.privateKey == null) {
+    if (settingsStorage.accountName.isEmpty || settingsStorage.privateKey == null) {
       status = AuthStatus.emptyAccount;
     }
 

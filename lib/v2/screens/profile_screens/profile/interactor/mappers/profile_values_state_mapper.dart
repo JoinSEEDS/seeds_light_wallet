@@ -11,9 +11,9 @@ class ProfileValuesStateMapper extends StateMapper {
     } else {
       print('ProfileValuesStateMapper mapResultsToState length=${results.length}');
       results.retainWhere((Result i) => i.isValue);
-      var values = results.map((Result i) => i.asValue.value).toList();
-      ProfileModel profile = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
-      ScoreModel score = values.firstWhere((i) => i is ScoreModel, orElse: () => null);
+      var values = results.map((Result i) => i.asValue!.value).toList();
+      ProfileModel? profile = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
+      ScoreModel? score = values.firstWhere((i) => i is ScoreModel, orElse: () => null);
 
       return currentState.copyWith(pageState: PageState.success, profile: profile, score: score);
     }

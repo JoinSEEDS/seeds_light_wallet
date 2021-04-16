@@ -12,7 +12,7 @@ import 'components/pages/onboarding_page_3.dart';
 import 'package:seeds/i18n/onboarding.i18n.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key key}) : super(key: key);
+  const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

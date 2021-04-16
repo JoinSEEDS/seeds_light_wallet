@@ -11,12 +11,10 @@ class BalanceRow extends StatelessWidget {
   final String fiatAmount;
 
   const BalanceRow({
-    @required this.label,
-    @required this.seedsAmount,
-    @required this.fiatAmount,
-  })  : assert(label != null),
-        assert(seedsAmount != null),
-        assert(fiatAmount != null);
+    required this.label,
+    required this.seedsAmount,
+    required this.fiatAmount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class BalanceRow extends StatelessWidget {
                 child: Container(
                     alignment: Alignment.centerLeft,
                     child:
-                        Text(label, style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.canopy)))),
+                        Text(label, style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.canopy)))),
             Expanded(
                 child: Container(
                     alignment: Alignment.centerRight,

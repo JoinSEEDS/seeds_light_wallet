@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class CreateUsernameState extends Equatable {
@@ -7,15 +6,15 @@ class CreateUsernameState extends Equatable {
   final bool isValidUsername;
   final int usernameCharCount;
 
-  const CreateUsernameState({@required this.pageState, this.isValidUsername, this.usernameCharCount});
+  const CreateUsernameState({required this.pageState, required this.isValidUsername, required this.usernameCharCount});
 
   @override
-  List<Object> get props => [pageState, isValidUsername, usernameCharCount];
+  List<Object?> get props => [pageState, isValidUsername, usernameCharCount];
 
   CreateUsernameState copyWith({
-    PageState pageState,
-    bool isValidUsername,
-    int usernameCharCount,
+    PageState? pageState,
+    bool? isValidUsername,
+    int? usernameCharCount,
   }) {
     return CreateUsernameState(
         pageState: pageState ?? this.pageState,

@@ -7,26 +7,26 @@ import 'package:seeds/design/app_theme.dart';
 ///
 class TextFormFieldCustom extends StatelessWidget {
   final bool autofocus;
-  final FocusNode focusNode;
-  final FocusNode nextFocus;
-  final ValueChanged<String> onFieldSubmitted;
+  final FocusNode? focusNode;
+  final FocusNode? nextFocus;
+  final ValueChanged<String>? onFieldSubmitted;
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
-  final TextEditingController controller;
-  final ValueChanged<String> onChanged;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
   final TextCapitalization textCapitalization;
-  final List<TextInputFormatter> inputFormatters;
-  final int maxLength;
+  final List<TextInputFormatter>? inputFormatters;
+  final int? maxLength;
   final int maxLines;
-  final bool enabled;
-  final FormFieldValidator<String> validator;
-  final Widget suffixIcon;
-  final String hintText;
-  final String labelText;
-  final bool disabledLabelColor;
+  final bool? enabled;
+  final FormFieldValidator<String>? validator;
+  final Widget? suffixIcon;
+  final String? hintText;
+  final String? labelText;
+  final bool? disabledLabelColor;
 
   const TextFormFieldCustom({
-    Key key,
+    Key? key,
     this.autofocus = false,
     this.focusNode,
     this.nextFocus,

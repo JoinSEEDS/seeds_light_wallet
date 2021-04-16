@@ -110,7 +110,7 @@ class AppColors {
   static const borderGrey = Color(0xFFEBEBEB);
   static const gradient = [blue, blue];
 
-  static Color getColorByString(String str) {
+  static Color getColorByString(String? str) {
     var hash = 0;
     if (str == null || str.isEmpty) {
       return Colors.grey;
