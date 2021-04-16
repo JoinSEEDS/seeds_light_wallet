@@ -30,7 +30,7 @@ class QrCodeService {
 Result processResolvedRequest(_SeedsESR esr) {
   Action action = esr.actions.first;
   if (_canProcess(action)) {
-    Map<String, dynamic> data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
+    Map<String, dynamic> data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
     print(" processResolvedRequest : Success QR code");
     return ValueResult(ScanQrCodeResultData(data: data, accountName: action.account, name: action.name));
   } else {
