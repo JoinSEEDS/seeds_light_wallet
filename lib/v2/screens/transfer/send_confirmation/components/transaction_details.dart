@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 
 class TransactionDetails extends StatelessWidget {
-  final Widget image;
-  final String title;
-  final String beneficiary;
+  final Widget? image;
+  final String? title;
+  final String? beneficiary;
 
   const TransactionDetails({this.image, this.title, this.beneficiary});
 
@@ -29,7 +29,7 @@ class TransactionDetails extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
           child: Text(
-            title,
+            title!,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline8,
           ),
@@ -37,7 +37,7 @@ class TransactionDetails extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
           child: Text(
-            beneficiary,
+            beneficiary!,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle3,
           ),

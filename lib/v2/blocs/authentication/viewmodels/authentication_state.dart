@@ -11,14 +11,14 @@ enum AuthStatus {
 
 /// --- STATES
 class AuthenticationState extends Equatable {
-  final AuthStatus authStatus;
+  final AuthStatus? authStatus;
 
   const AuthenticationState({this.authStatus});
 
   @override
-  List<Object> get props => [authStatus];
+  List<Object?> get props => [authStatus];
 
-  AuthenticationState copyWith({AuthStatus authStatus}) {
+  AuthenticationState copyWith({AuthStatus? authStatus}) {
     return AuthenticationState(authStatus: authStatus ?? this.authStatus);
   }
 

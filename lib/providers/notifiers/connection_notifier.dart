@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
@@ -15,8 +17,8 @@ const doubleInfinitePing = 2000000;
 class ConnectionNotifier extends ChangeNotifier {
   bool status = true;
 
-  String currentEndpoint = remoteConfigurations.defaultEndPointUrl;
-  int currentEndpointPing = 0;
+  String? currentEndpoint = remoteConfigurations.defaultEndPointUrl;
+  int? currentEndpointPing = 0;
 
   final availableEndpoints = [
     remoteConfigurations.defaultEndPointUrl,

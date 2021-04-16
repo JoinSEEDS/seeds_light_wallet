@@ -16,9 +16,9 @@ enum Status {
   safe // has guardians - show list of guardians
 }
 
-bool hasGuardianPermission;
-bool hasGuardiansInitialized;
-bool inRecoveryProcess;
+bool? hasGuardianPermission;
+bool? hasGuardiansInitialized;
+bool? inRecoveryProcess;
 
 class Guardians extends StatefulWidget {
   @override
@@ -26,25 +26,29 @@ class Guardians extends StatefulWidget {
 }
 
 class _GuardiansState extends State<Guardians> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          OutlineButton(
-            child: Text('Setup Permission'),
+          OutlinedButton(
+            child: const Text('Setup Permission'),
             onPressed: () => setupPermission(),
           ),
-          OutlineButton(
-            child: Text('Init Guardians'),
+          OutlinedButton(
+            child: const Text('Init Guardians'),
             onPressed: () => initGuardians(),
           ),
-          OutlineButton(child: Text('Recover Account'), onPressed: () => recoverAccount()),
-          OutlineButton(
-            child: Text('Cancel Recovery'),
+          OutlinedButton(
+            child: const Text('Recover Account'),
+            onPressed: () => recoverAccount(),
+          ),
+          OutlinedButton(
+            child: const Text('Cancel Recovery'),
             onPressed: () => cancelRecovery(),
           ),
-          OutlineButton(
-            child: Text('Claim Account'),
+          OutlinedButton(
+            child: const Text('Claim Account'),
             onPressed: () => claimAccount(),
           ),
         ],
@@ -59,7 +63,7 @@ class _GuardiansState extends State<Guardians> {
   }
 
   void recoverAccount() {
-    String userAccount = HttpMockResponse.members[4].account;
+    String? userAccount = HttpMockResponse.members[4].account;
     String publicKey = "";
 
     EosService.of(context)
@@ -72,7 +76,7 @@ class _GuardiansState extends State<Guardians> {
   }
 
   void initGuardians() {
-    List<String> guardians = [
+    List<String?> guardians = [
       HttpMockResponse.members[0].account,
       HttpMockResponse.members[1].account,
       HttpMockResponse.members[2].account
@@ -84,10 +88,10 @@ class _GuardiansState extends State<Guardians> {
   void setupPermission() async {
     final currentPermissions = await HttpService.of(context).getAccountPermissions();
 
-    final ownerPermission = currentPermissions.firstWhere((item) => item.permName == "owner");
+    final ownerPermission = currentPermissions!.firstWhere((item) => item.permName == "owner");
 
-    ownerPermission.requiredAuth.accounts.add({
-      "weight": ownerPermission.requiredAuth.threshold,
+    ownerPermission.requiredAuth!.accounts!.add({
+      "weight": ownerPermission.requiredAuth!.threshold,
       "permission": {"actor": "guard.seeds", "permission": "eosio.code"}
     });
 

@@ -7,11 +7,11 @@ import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/i18n/create_account.i18n.dart';
 
 class CreateAccount extends StatefulWidget {
-  final String inviteSecret;
-  final String initialName;
-  final Function(String nickName) onSubmit;
+  final String? inviteSecret;
+  final String? initialName;
+  final Function(String? nickName)? onSubmit;
 
-  CreateAccount({this.inviteSecret, this.initialName, this.onSubmit});
+  const CreateAccount({this.inviteSecret, this.initialName, this.onSubmit});
 
   @override
   _CreateAccountState createState() => _CreateAccountState();
@@ -22,7 +22,7 @@ Future<bool> isExistingAccount(String accountName) => Future.sync(() => false);
 class _CreateAccountState extends State<CreateAccount> {
   final formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  var _name = '';
+  String? _name = '';
 
   var accountNameFocus = FocusNode();
 
@@ -30,13 +30,13 @@ class _CreateAccountState extends State<CreateAccount> {
   void initState() {
     super.initState();
     _name = widget.initialName;
-    _nameController.text = _name;
+    _nameController.text = _name!;
   }
 
-  createAccountName() async {
+  Future<void> createAccountName() async {
     print("create acct ");
 
-    final FormState form = formKey.currentState;
+    final FormState form = formKey.currentState!;
     if (form.validate()) {
       form.save();
 
@@ -44,11 +44,11 @@ class _CreateAccountState extends State<CreateAccount> {
 
       print("siubmite $_name");
 
-      widget.onSubmit(_name);
+      widget.onSubmit!(_name);
     }
   }
 
-  String _validateName(String val) {
+  String? _validateName(String val) {
     if (val.isEmpty) {
       return 'Please enter your name'.i18n;
     }
@@ -63,8 +63,8 @@ class _CreateAccountState extends State<CreateAccount> {
       child: Form(
         key: formKey,
         child: Container(
-          margin: EdgeInsets.only(left: 15, right: 15, bottom: 5),
-          padding: EdgeInsets.only(bottom: 5),
+          margin: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+          padding: const EdgeInsets.only(bottom: 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,7 +89,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     builder: (context, snapshot) {
                       return MainButton(
                         title: "Next".i18n,
-                        active: _name != null && _name.length >= 3,
+                        active: _name != null && _name!.length >= 3,
                         onPressed: () async => await createAccountName(),
                       );
                     }),

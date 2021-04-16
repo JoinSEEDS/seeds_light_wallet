@@ -4,9 +4,9 @@ import 'package:seeds/v2/screens/verification/interactor/viewmodels/verification
 class AuthStateStateMapper extends StateMapper {
   VerificationState mapResultToState(VerificationState currentState, Result result) {
     if (result.isError) {
-      return currentState.copyWith(errorMessage: result.asError.error.toString());
+      return currentState.copyWith(errorMessage: result.asError!.error.toString());
     } else {
-      return currentState.copyWith(authState: result.asValue.value);
+      return currentState.copyWith(authState: result.asValue!.value);
     }
   }
 }

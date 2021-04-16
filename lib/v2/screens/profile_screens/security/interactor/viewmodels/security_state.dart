@@ -1,18 +1,17 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
 /// STATE
 class SecurityState extends Equatable {
   final PageState pageState;
-  final bool hasNotification;
-  final bool navigateToGuardians;
-  final bool isSecurePasscode;
-  final bool isSecureBiometric;
-  final String errorMessage;
+  final bool? hasNotification;
+  final bool? navigateToGuardians;
+  final bool? isSecurePasscode;
+  final bool? isSecureBiometric;
+  final String? errorMessage;
 
   const SecurityState({
-    @required this.pageState,
+    required this.pageState,
     this.hasNotification,
     this.navigateToGuardians,
     this.isSecurePasscode,
@@ -21,7 +20,7 @@ class SecurityState extends Equatable {
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         pageState,
         hasNotification,
         navigateToGuardians,
@@ -31,12 +30,12 @@ class SecurityState extends Equatable {
       ];
 
   SecurityState copyWith({
-    PageState pageState,
-    bool hasNotification,
-    bool navigateToGuardians,
-    bool isSecurePasscode,
-    bool isSecureBiometric,
-    String errorMessage,
+    PageState? pageState,
+    bool? hasNotification,
+    bool? navigateToGuardians,
+    bool? isSecurePasscode,
+    bool? isSecureBiometric,
+    String? errorMessage,
   }) {
     return SecurityState(
       pageState: pageState ?? this.pageState,

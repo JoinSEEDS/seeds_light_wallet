@@ -13,10 +13,10 @@ extension RatesStateExtensions on RatesState {
   }
 
   String currencyString(double seedsAmount, String currencySymbol) {
-    return _seedsTo(seedsAmount, currencySymbol).fiatFormatted + ' ' + currencySymbol;
+    return _seedsTo(seedsAmount, currencySymbol).fiatFormatted! + ' ' + currencySymbol;
   }
 
   String seedsString(double currencyAmount, String currencySymbol) {
-    return _toSeeds(currencyAmount, currencySymbol).seedsFormatted + ' SEEDS';
+    return _toSeeds(currencyAmount, currencySymbol).seedsFormatted! + ' SEEDS';
   }
 }

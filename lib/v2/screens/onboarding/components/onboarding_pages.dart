@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/onboarding.i18n.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -8,19 +8,19 @@ class OnboardingPage extends StatelessWidget {
   final String subTitle;
   final double topPadding;
   final Widget topLeaf1;
-  final Widget topLeaf2;
+  final Widget? topLeaf2;
   final Widget bottomLeaf1;
   final Widget bottomLeaf2;
 
   const OnboardingPage({
-    Key key,
-    @required this.onboardingImage,
-    @required this.title,
-    @required this.subTitle,
-    @required this.topPadding,
-    @required this.topLeaf1,
-    @required this.bottomLeaf1,
-    @required this.bottomLeaf2,
+    Key? key,
+    required this.onboardingImage,
+    required this.title,
+    required this.subTitle,
+    required this.topPadding,
+    required this.topLeaf1,
+    required this.bottomLeaf1,
+    required this.bottomLeaf2,
     this.topLeaf2,
   }) : super(key: key);
 

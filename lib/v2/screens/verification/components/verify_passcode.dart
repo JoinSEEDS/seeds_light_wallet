@@ -2,15 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/components/custom_dialog.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/passcode.i18n.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
 
 class VerifyPasscode extends StatefulWidget {
-  const VerifyPasscode({Key key}) : super(key: key);
+  const VerifyPasscode({Key? key}) : super(key: key);
 
   @override
   _VerifyPasscodeState createState() => _VerifyPasscodeState();
@@ -26,7 +28,33 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
         listeners: [
           BlocListener<VerificationBloc, VerificationState>(
             listenWhen: (previous, current) => previous.isValidPasscode != current.isValidPasscode,
-            listener: (context, state) => _verificationNotifier.add(state.isValidPasscode),
+            listener: (context, state) => _verificationNotifier.add(state.isValidPasscode!),
+          ),
+          BlocListener<VerificationBloc, VerificationState>(
+            listenWhen: (_, current) => current.showSuccessDialog != null,
+            listener: (context, _) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => CustomDialog(
+                  icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
+                  children: [
+                    Text(
+                      'Succesful'.i18n,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    const SizedBox(height: 30.0),
+                    Text(
+                      'Pincode created successfully.'.i18n,
+                      textAlign: TextAlign.justify,
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    const SizedBox(height: 30.0),
+                  ],
+                  singleLargeButtonTitle: 'Close'.i18n,
+                ),
+              );
+            },
           ),
           BlocListener<VerificationBloc, VerificationState>(
             listenWhen: (_, current) => current.onBiometricAuthorized != null,
@@ -60,7 +88,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
           passwordEnteredCallback: (passcode) =>
               BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
           isValidCallback: () => BlocProvider.of<VerificationBloc>(context).add(const OnValidVerifyPasscode()),
-          bottomWidget: settingsStorage.biometricActive
+          bottomWidget: settingsStorage.biometricActive!
               ? Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: OutlinedButton(

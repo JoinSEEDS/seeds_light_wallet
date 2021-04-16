@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,11 +15,11 @@ enum AuthStatus {
 class AuthNotifier extends ChangeNotifier {
   AuthStatus status = AuthStatus.initial;
 
-  String _accountName;
-  String _privateKey;
-  String _passcode;
-  bool _inRecoveryMode;
-  bool _passcodeActive;
+  String? _accountName;
+  String? _privateKey;
+  String? _passcode;
+  bool? _inRecoveryMode;
+  bool? _passcodeActive;
   bool _locked = true;
 
   static AuthNotifier of(BuildContext context, {bool listen = false}) =>
@@ -27,8 +29,8 @@ class AuthNotifier extends ChangeNotifier {
     accountName,
     privateKey,
     passcode,
-    bool passcodeActive,
-    bool inRecoveryMode,
+    bool? passcodeActive,
+    bool? inRecoveryMode,
   }) async {
     if (accountName != _accountName ||
         privateKey != _privateKey ||
@@ -51,11 +53,11 @@ class AuthNotifier extends ChangeNotifier {
       status = AuthStatus.locked;
     }
 
-    if ((_passcode == null || _passcodeActive == null) && _passcodeActive) {
+    if ((_passcode == null || _passcodeActive == null) && _passcodeActive!) {
       status = AuthStatus.emptyPasscode;
     }
 
-    if (status == AuthStatus.emptyPasscode && !_passcodeActive) {
+    if (status == AuthStatus.emptyPasscode && !_passcodeActive!) {
       status = AuthStatus.locked;
     }
 

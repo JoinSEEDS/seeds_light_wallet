@@ -6,7 +6,7 @@ extension Localization on String {
         'es_es': {
           'Delete': 'Borrar',
           'Re-enter Pincode': 'Re-ingresar código de acceso',
-          'Enter Pincode': 'Ingresar código de acceso',
+          'Create Pincode': 'Crear código de acceso',
           'Disable Pincode': 'Deshabilita código de acceso',
         }
       };

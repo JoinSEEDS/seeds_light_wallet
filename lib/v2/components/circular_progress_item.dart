@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 
 class CircularProgressItem extends StatelessWidget {
   final Widget icon;
@@ -13,24 +13,16 @@ class CircularProgressItem extends StatelessWidget {
   final TextStyle rateStyle;
 
   const CircularProgressItem({
-    Key key,
-    @required this.icon,
-    @required this.totalStep,
-    @required this.currentStep,
-    @required this.circleRadius,
-    @required this.title,
-    @required this.titleStyle,
-    @required this.rate,
-    @required this.rateStyle,
-  })  : assert(icon != null),
-        assert(totalStep != null),
-        assert(currentStep != null),
-        assert(circleRadius != null),
-        assert(title != null),
-        assert(titleStyle != null),
-        assert(rate != null),
-        assert(rateStyle != null),
-        super(key: key);
+    Key? key,
+    required this.icon,
+    required this.totalStep,
+    required this.currentStep,
+    required this.circleRadius,
+    required this.title,
+    required this.titleStyle,
+    required this.rate,
+    required this.rateStyle,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

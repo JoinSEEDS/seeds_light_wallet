@@ -18,9 +18,9 @@ class ImportKeyUseCase {
       List<Result> items = [accountsResponse];
       return items;
     } else {
-      List<String> accounts = accountsResponse.asValue.value;
+      List<String?> accounts = accountsResponse.asValue!.value;
 
-      List<Future<Result>> futures = accounts.map((String account) => _profileRepository.getProfile(account)).toList();
+      List<Future<Result>> futures = accounts.map((String? account) => _profileRepository.getProfile(account)).toList();
 
       return Future.wait(futures);
     }

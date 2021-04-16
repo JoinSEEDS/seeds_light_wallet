@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/i18n/security.i18n.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
@@ -16,7 +16,7 @@ import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/
 import 'package:share/share.dart';
 
 class SecurityScreen extends StatelessWidget {
-  const SecurityScreen({Key key}) : super(key: key);
+  const SecurityScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,32 +30,6 @@ class SecurityScreen extends StatelessWidget {
             BlocListener<SecurityBloc, SecurityState>(
               listenWhen: (_, current) => current.navigateToGuardians != null,
               listener: (context, _) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
-            ),
-            BlocListener<SecurityBloc, SecurityState>(
-              listenWhen: (previous, current) => previous.isSecurePasscode == false && current.isSecurePasscode == true,
-              listener: (context, _) {
-                showDialog<void>(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) => CustomDialog(
-                    icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-                    children: [
-                      Text(
-                        'Succesful'.i18n,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      const SizedBox(height: 30.0),
-                      Text(
-                        'Pincode created successfully.'.i18n,
-                        textAlign: TextAlign.justify,
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                      const SizedBox(height: 30.0),
-                    ],
-                    singleLargeButtonTitle: 'Close'.i18n,
-                  ),
-                );
-              },
             ),
             BlocListener<SecurityBloc, SecurityState>(
               listenWhen: (previous, current) =>
@@ -103,7 +77,7 @@ class SecurityScreen extends StatelessWidget {
                         icon: const Icon(Icons.update),
                         title: 'Export Private Key'.i18n,
                         description: 'Export your private key so you can easily recover and access your account.'.i18n,
-                        onTap: () => Share.share(settingsStorage.privateKey),
+                        onTap: () => Share.share(settingsStorage.privateKey!),
                       ),
                       BlocBuilder<SecurityBloc, SecurityState>(
                         buildWhen: (previous, current) => previous.hasNotification != current.hasNotification,
@@ -118,7 +92,7 @@ class SecurityScreen extends StatelessWidget {
                                         .i18n,
                                 onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
                               ),
-                              if (state.hasNotification) const Positioned(left: 4, top: 10, child: NotificationBadge())
+                              if (state.hasNotification!) const Positioned(left: 4, top: 10, child: NotificationBadge())
                             ],
                           );
                         },
@@ -130,7 +104,7 @@ class SecurityScreen extends StatelessWidget {
                           buildWhen: (previous, current) => previous.isSecurePasscode != current.isSecurePasscode,
                           builder: (context, state) {
                             return Switch(
-                              value: state.isSecurePasscode,
+                              value: state.isSecurePasscode!,
                               onChanged: (_) {
                                 NavigationService.of(context).navigateTo(
                                   Routes.verification,
@@ -150,8 +124,8 @@ class SecurityScreen extends StatelessWidget {
                         titleWidget: BlocBuilder<SecurityBloc, SecurityState>(
                           builder: (context, state) {
                             return Switch(
-                              value: state.isSecureBiometric,
-                              onChanged: state.isSecurePasscode
+                              value: state.isSecureBiometric!,
+                              onChanged: state.isSecurePasscode!
                                   ? (_) {
                                       BlocProvider.of<SecurityBloc>(context).add(const OnBiometricsChanged());
                                     }

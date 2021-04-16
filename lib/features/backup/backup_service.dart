@@ -45,7 +45,7 @@ class BackupService {
     } else {
       final now = DateTime.now().millisecondsSinceEpoch;
       final incrementalDelay = settingsStorage.backupReminderCount * Duration.millisecondsPerSecond;
-      return settingsStorage.backupLatestReminder + incrementalDelay < now;
+      return settingsStorage.backupLatestReminder! + incrementalDelay < now;
     }
   }
 
@@ -56,7 +56,7 @@ class BackupService {
   }
 
   void backup() {
-    Share.share(settingsStorage.privateKey);
+    Share.share(settingsStorage.privateKey!);
     settingsStorage.savePrivateKeyBackedUp(true);
   }
 }

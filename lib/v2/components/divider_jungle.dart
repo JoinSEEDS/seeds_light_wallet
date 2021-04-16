@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 
 class DividerJungle extends StatelessWidget {
   final double thickness;
   final double height;
 
-  const DividerJungle({Key key, this.thickness = 1, this.height = 1}) : super(key: key);
+  const DividerJungle({Key? key, this.thickness = 1, this.height = 1}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

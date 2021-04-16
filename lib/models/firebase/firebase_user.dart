@@ -1,9 +1,11 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 
 class FirebaseUser {
-  final String account;
-  final Timestamp guardianRecoveryStarted;
+  final String? account;
+  final Timestamp? guardianRecoveryStarted;
 
   FirebaseUser({this.account, this.guardianRecoveryStarted});
 

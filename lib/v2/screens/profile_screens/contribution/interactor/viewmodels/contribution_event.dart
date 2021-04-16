@@ -11,8 +11,8 @@ abstract class ContributionEvent extends Equatable {
 }
 
 class SetScores extends ContributionEvent {
-  final ScoreModel score;
-  const SetScores({@required this.score});
+  final ScoreModel? score;
+  const SetScores({required this.score});
   @override
   String toString() => 'SetScores { score: $score }';
 }

@@ -5,43 +5,44 @@ import 'package:seeds/utils/currencies.dart';
 abstract class CurrencyConverter {
   double seedsTo(double seedsValue, String currencySymbol);
 
-  double toSeeds(double currencyValue, String currencySymbol);
+  double toSeeds(double? currencyValue, String? currencySymbol);
 }
 
 class ProductModel {
-  final String name;
-  final String picture;
-  final double price;
-  final String id;
-  final String currency;
-  final int position;
+  final String? name;
+  final String? picture;
+  final double? price;
+  final String? id;
+  final String? currency;
+  final int? position;
 
   ProductModel({this.name, this.picture, this.price, this.id, this.currency, this.position});
 
-  double seedsPrice(CurrencyConverter converter) {
-    return currency == 'SEEDS' ? price : converter.toSeeds(price, currency);
+  double? seedsPrice(CurrencyConverter? converter) {
+    return currency == 'SEEDS' ? price : converter!.toSeeds(price, currency);
   }
 
   factory ProductModel.fromSnapshot(QueryDocumentSnapshot data) {
+    var productData = data.data()!;
     return ProductModel(
-      name: data.data()[PRODUCT_NAME_KEY],
-      picture: data.data()[PRODUCT_IMAGE_URL_KEY] ?? "",
-      price: data.data()[PRODUCT_PRICE_KEY],
+      name: productData[PRODUCT_NAME_KEY],
+      picture: productData[PRODUCT_IMAGE_URL_KEY] ?? "",
+      price: productData[PRODUCT_PRICE_KEY],
       id: data.id,
-      currency: data.data()[PRODUCT_CURRENCY_KEY],
-      position: data.data()[PRODUCT_POSITION_KEY] ?? 0,
+      currency: productData[PRODUCT_CURRENCY_KEY],
+      position: productData[PRODUCT_POSITION_KEY] ?? 0,
     );
   }
 }
 
 class InviteModel {
-  final int inviteId;
-  final String transferQuantity;
-  final String sowQuantity;
-  final String sponsor;
-  final String account;
-  final String inviteHash;
-  final String inviteSecret;
+  final int? inviteId;
+  final String? transferQuantity;
+  final String? sowQuantity;
+  final String? sponsor;
+  final String? account;
+  final String? inviteHash;
+  final String? inviteSecret;
 
   InviteModel({
     this.inviteId,
@@ -76,17 +77,14 @@ class InviteModel {
           account == other.account &&
           inviteHash == other.inviteHash &&
           inviteSecret == other.inviteSecret;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 class UserRecoversModel {
-  final String account;
-  final List<String> guardians;
-  final String publicKey;
-  final int completeTimestamp;
-  final bool exists;
+  final String? account;
+  final List<String>? guardians;
+  final String? publicKey;
+  final int? completeTimestamp;
+  final bool? exists;
 
   UserRecoversModel({this.account, this.guardians, this.publicKey, this.completeTimestamp, this.exists});
 
@@ -106,10 +104,10 @@ class UserRecoversModel {
 }
 
 class UserGuardiansModel {
-  final String account;
-  final List<String> guardians;
-  final int timeDelaySec;
-  final bool exists;
+  final String? account;
+  final List<String>? guardians;
+  final int? timeDelaySec;
+  final bool? exists;
 
   UserGuardiansModel({this.account, this.guardians, this.timeDelaySec, this.exists});
 
@@ -117,9 +115,9 @@ class UserGuardiansModel {
     if (rows.isNotEmpty && rows[0]['account'].isNotEmpty) {
       try {
         var exists = true;
-        String account = rows[0]['account'];
+        String? account = rows[0]['account'];
         var guardians = List<String>.from(rows[0]['guardians']);
-        int timeDelaySec = rows[0]['time_delay_sec'];
+        int? timeDelaySec = rows[0]['time_delay_sec'];
 
         var result =
             UserGuardiansModel(exists: exists, account: account, guardians: guardians, timeDelaySec: timeDelaySec);
@@ -136,9 +134,9 @@ class UserGuardiansModel {
 }
 
 class MemberModel {
-  final String account;
-  final String nickname;
-  final String image;
+  final String? account;
+  final String? nickname;
+  final String? image;
 
   MemberModel({this.account, this.nickname, this.image});
 
@@ -154,21 +152,18 @@ class MemberModel {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is MemberModel && account == other.account && nickname == other.nickname && image == other.image;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 class TransactionModel {
-  final String from;
-  final String to;
-  final String quantity;
-  final String memo;
-  final String timestamp;
-  final String transactionId;
+  final String? from;
+  final String? to;
+  final String? quantity;
+  final String? memo;
+  final String? timestamp;
+  final String? transactionId;
 
   String get symbol {
-    return quantity.split(" ")[1];
+    return quantity!.split(" ")[1];
   }
 
   TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp, this.transactionId);
@@ -204,18 +199,15 @@ class TransactionModel {
           to == other.to &&
           quantity == other.quantity &&
           memo == other.memo;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 class FiatRateModel {
-  Map<String, num> rates;
-  String base;
+  Map<String?, num>? rates;
+  String? base;
   final bool error;
 
   List<Currency> get currencies {
-    Map<String, String> available = rates.map((key, value) => MapEntry(key, key));
+    Map<String?, String?> available = rates!.map((key, value) => MapEntry(key, key));
     var prefix = List<String>.from(topCurrencies.where((e) {
       if (available[e] != null) {
         available.remove(e);
@@ -232,9 +224,9 @@ class FiatRateModel {
 
   FiatRateModel(this.rates, {this.base = "USD", this.error = false});
 
-  factory FiatRateModel.fromJson(Map<String, dynamic> json) {
+  factory FiatRateModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json.isNotEmpty) {
-      var model = FiatRateModel(new Map<String, num>.from(json["rates"]), base: json["base"]);
+      var model = FiatRateModel(Map<String, num>.from(json["rates"]), base: json["base"]);
       model.rebase("USD");
       return model;
     } else {
@@ -243,31 +235,33 @@ class FiatRateModel {
   }
 
   double usdTo(double usdValue, String currency) {
-    double rate = rates[currency];
+    double rate = rates![currency] as double;
     assert(rate != null);
     return usdValue * rate;
   }
 
-  double toUSD(double currencyValue, String currency) {
-    double rate = rates[currency];
+  double toUSD(double? currencyValue, String? currency) {
+    double rate = rates![currency] as double;
     assert(rate != null);
-    return rate > 0 ? currencyValue / rate : 0;
+    return rate > 0 ? currencyValue! / rate : 0;
   }
 
   void rebase(String symbol) {
-    var rate = rates[symbol];
+    var rate = rates![symbol];
     if (rate != null) {
-      rates[base] = 1.0;
+      rates![base] = 1.0;
       base = symbol;
-      rates = rates.map((key, value) => MapEntry(key, value / rate));
-      rates[base] = 1.0;
+      rates = rates!.map((key, value) => MapEntry(key, value / rate));
+      rates![base] = 1.0;
     } else {
       print("error - can't rebase to " + symbol);
     }
   }
 
   void merge(FiatRateModel other) {
-    if (!other.error) rates.addAll(other.rates);
+    if (!other.error) {
+      rates!.addAll(other.rates!);
+    }
   }
 }
 
@@ -277,15 +271,15 @@ class RateModel {
 
   RateModel(this.seedsPerUSD, this.error);
 
-  factory RateModel.fromJson(Map<String, dynamic> json) {
+  factory RateModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json.isNotEmpty) {
-      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String), false);
+      return RateModel(_parseQuantityString(json["rows"][0]["current_seeds_per_usd"] as String?), false);
     } else {
       return RateModel(0, true);
     }
   }
 
-  static double _parseQuantityString(String quantityString) {
+  static double _parseQuantityString(String? quantityString) {
     if (quantityString == null) {
       return 0;
     }
@@ -293,31 +287,20 @@ class RateModel {
   }
 
   double toUSD(double seedsAmount) {
-    return seedsPerUSD == null
-        ? 0
-        : seedsPerUSD > 0
-            ? seedsAmount / seedsPerUSD
-            : 0;
+    return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
   }
 
   double toSeeds(double usdAmount) {
-    return seedsPerUSD == null
-        ? 0
-        : seedsPerUSD > 0
-            ? usdAmount * seedsPerUSD
-            : 0;
+    return seedsPerUSD > 0 ? usdAmount * seedsPerUSD : 0;
   }
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is RateModel && seedsPerUSD == other.seedsPerUSD;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 class HarvestModel {
-  final String planted;
-  final String reward;
+  final String? planted;
+  final String? reward;
 
   HarvestModel({this.planted, this.reward});
 
@@ -330,11 +313,11 @@ class HarvestModel {
 }
 
 class ScoreModel {
-  int plantedScore;
-  int transactionsScore;
-  int reputationScore;
-  int communityBuildingScore;
-  int contributionScore;
+  int? plantedScore;
+  int? transactionsScore;
+  int? reputationScore;
+  int? communityBuildingScore;
+  int? contributionScore;
 
   ScoreModel({
     this.plantedScore,
@@ -358,10 +341,10 @@ class ScoreModel {
 }
 
 class ExchangeModel {
-  final String rate;
-  final String citizenLimit;
-  final String residentLimit;
-  final String visitorLimit;
+  final String? rate;
+  final String? citizenLimit;
+  final String? residentLimit;
+  final String? visitorLimit;
 
   ExchangeModel({
     this.rate,
@@ -383,13 +366,13 @@ class ExchangeModel {
 }
 
 class VoiceModel {
-  final int amount;
+  final int? amount;
 
   VoiceModel(this.amount);
 
-  factory VoiceModel.fromJson(Map<String, dynamic> json) {
+  factory VoiceModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
-      return VoiceModel(json['rows'][0]['balance'] as int);
+      return VoiceModel(json['rows'][0]['balance'] as int?);
     } else {
       return VoiceModel(0);
     }
@@ -397,32 +380,29 @@ class VoiceModel {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is VoiceModel && amount == other.amount;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 enum ProposalType { alliance, campaign, hypha }
 
 class ProposalModel {
-  final int id;
-  final String creator;
-  final String recipient;
-  final String quantity;
-  final String staked;
-  final int executed;
-  final int total;
-  final int favour;
-  final int against;
-  final String title;
-  final String summary;
-  final String description;
-  final String image;
-  final String url;
-  final String status;
-  final String stage;
-  final String fund;
-  final int creationDate;
+  final int? id;
+  final String? creator;
+  final String? recipient;
+  final String? quantity;
+  final String? staked;
+  final int? executed;
+  final int? total;
+  final int? favour;
+  final int? against;
+  final String? title;
+  final String? summary;
+  final String? description;
+  final String? image;
+  final String? url;
+  final String? status;
+  final String? stage;
+  final String? fund;
+  final int? creationDate;
 
   ProposalType get type {
     return fund == 'allies.seeds'

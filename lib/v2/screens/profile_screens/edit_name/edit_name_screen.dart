@@ -10,15 +10,15 @@ import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/interactor/viewmodels/bloc.dart';
 
 class EditNameScreen extends StatefulWidget {
-  const EditNameScreen({Key key}) : super(key: key);
+  const EditNameScreen({Key? key}) : super(key: key);
 
   @override
   _EditNameScreenState createState() => _EditNameScreenState();
 }
 
 class _EditNameScreenState extends State<EditNameScreen> {
-  EditNameBloc _editNameBloc;
-  ProfileModel _profileModel;
+  late EditNameBloc _editNameBloc;
+  ProfileModel? _profileModel;
   final _nameController = TextEditingController();
   final _formKeyName = GlobalKey<FormState>();
 
@@ -32,8 +32,8 @@ class _EditNameScreenState extends State<EditNameScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO(raul): I do not like this way to retrive a value from navigation, https://github.com/JoinSEEDS/seeds_light_wallet/issues/500.
-    _profileModel = ModalRoute.of(context).settings.arguments;
-    _nameController.text = _profileModel.nickname;
+    _profileModel = ModalRoute.of(context)!.settings.arguments as ProfileModel?;
+    _nameController.text = _profileModel!.nickname!;
     return Scaffold(
       appBar: AppBar(title: Text('Edit Name'.i18n)),
       body: BlocProvider(
@@ -56,7 +56,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
                             controller: _nameController,
                             onFieldSubmitted: (_) => _onSubmitted(),
                             validator: (value) {
-                              if (value.length > 42) {
+                              if (value!.length > 42) {
                                 return 'Please enter a smaller name'.i18n;
                               }
                               return null;
@@ -94,7 +94,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
   }
 
   void _onSubmitted() {
-    if (_formKeyName.currentState.validate()) {
+    if (_formKeyName.currentState!.validate()) {
       _editNameBloc.add(SubmitName(profile: _profileModel));
     }
   }

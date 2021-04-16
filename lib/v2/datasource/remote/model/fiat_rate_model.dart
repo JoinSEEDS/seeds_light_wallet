@@ -1,29 +1,36 @@
 class FiatRateModel {
-  Map<String, num> rates;
-  String base;
+  Map<String?, num> rates;
+  String? base;
 
   FiatRateModel(this.rates, {this.base = "USD"});
 
   factory FiatRateModel.fromJson(Map<String, dynamic> json) {
-    if (json != null && json.isNotEmpty) {
+    if (json.isNotEmpty) {
       var model = FiatRateModel(Map<String, num>.from(json["rates"]), base: json["base"]);
       model.rebase("USD");
       return model;
+    } else {
+      return FiatRateModel({});
+    }
+  }
+
+  double? usdTo(double usdValue, String currency) {
+    num? rate = rates[currency];
+    if(rate != null) {
+      return usdValue * rate;
     } else {
       return null;
     }
   }
 
-  double usdTo(double usdValue, String currency) {
-    double rate = rates[currency];
-    assert(rate != null);
-    return usdValue * rate;
-  }
-
-  double toUSD(double currencyValue, String currency) {
-    double rate = rates[currency];
-    assert(rate != null);
-    return rate > 0 ? currencyValue / rate : 0;
+  double? toUSD(double currencyValue, String currency) {
+    num? rate = rates[currency];
+    if(rate != null) {
+      // ignore: unnecessary_statements
+      rate > 0 ? currencyValue / rate : 0;
+    } else {
+      return null;
+    }
   }
 
   void rebase(String symbol) {

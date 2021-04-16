@@ -11,7 +11,7 @@ class ScannerScreen extends StatefulWidget {
   final ScannerBloc _scannerBloc = ScannerBloc();
   final ValueSetter<String> resultCallBack;
 
-  ScannerScreen({Key key, @required this.resultCallBack}) : super(key: key);
+  ScannerScreen({Key? key, required this.resultCallBack}) : super(key: key);
 
   void scan() {
     _scannerBloc.add(Scan());
@@ -31,7 +31,7 @@ class ScannerScreen extends StatefulWidget {
 
 class _ScannerScreenState extends State<ScannerScreen> {
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController _controller;
+  late QRViewController _controller;
   bool _handledQrCode = false;
 
   @override
@@ -67,7 +67,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     _controller = controller;
 
     _controller.scannedDataStream.listen((Barcode event) {
-      if (!_handledQrCode || event.code == null && event.code.isEmpty) {
+      if (!_handledQrCode || event.code.isEmpty) {
         return;
       }
 
