@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/features/biometrics/auth_type.dart';
 import 'package:seeds/features/biometrics/auth_state.dart';

@@ -140,7 +140,7 @@ class MainScreen extends StatelessWidget {
           case AuthStatus.unlocked:
             return ToolboxApp(
               child: SeedsMaterialApp(
-                home: App(),
+                home: const App(),
                 navigatorKey: navigationService.appNavigatorKey,
                 onGenerateRoute: navigationService.onGenerateRoute,
               ),

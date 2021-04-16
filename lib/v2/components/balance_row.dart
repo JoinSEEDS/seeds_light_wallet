@@ -14,9 +14,7 @@ class BalanceRow extends StatelessWidget {
     required this.label,
     required this.seedsAmount,
     required this.fiatAmount,
-  })  : assert(label != null),
-        assert(seedsAmount != null),
-        assert(fiatAmount != null);
+  });
 
   @override
   Widget build(BuildContext context) {

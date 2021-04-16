@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
@@ -8,12 +6,7 @@ class PageNotFound extends StatelessWidget {
   final String routeName;
   final Object? args;
 
-  const PageNotFound({
-    Key? key,
-    required this.routeName,
-    this.args,
-  })  : assert(routeName != null),
-        super(key: key);
+  const PageNotFound({Key? key, required this.routeName, this.args}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +17,24 @@ class PageNotFound extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          margin: EdgeInsets.all(8.0),
+          margin: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Icon(
+              const Icon(
                 Icons.info_outline,
                 size: 80.0,
                 color: Colors.black38,
               ),
-              SizedBox(height: 24.0),
+              const SizedBox(height: 24.0),
               Text(
                 'The page you are looking for is not available'.i18n,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16.0,
                 ),
               ),
-              SizedBox(height: 48.0),
+              const SizedBox(height: 48.0),
               Table(
                 border: TableBorder.all(
                   color: Colors.grey,
@@ -67,25 +60,22 @@ class PageNotFound extends StatelessWidget {
   }
 
   TableRow _buildRow(String column1, String column2) {
-    assert(column1 != null);
-    assert(column2 != null);
-
     return TableRow(
       decoration: BoxDecoration(
         color: Colors.grey[100],
       ),
       children: [
         Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Text(
             column1,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Text(column2),
         ),
       ],

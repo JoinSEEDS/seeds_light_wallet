@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
 /// STATE
@@ -34,10 +33,6 @@ class EditNameState extends Equatable {
   }
 
   factory EditNameState.initial() {
-    return const EditNameState(
-      pageState: PageState.initial,
-      name: null,
-      errorMessage: null,
-    );
+    return const EditNameState(pageState: PageState.initial);
   }
 }

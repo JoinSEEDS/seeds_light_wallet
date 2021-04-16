@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:async/async.dart';
-import 'package:meta/meta.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path_lib;
 import 'package:seeds/v2/datasource/local/settings_storage.dart';

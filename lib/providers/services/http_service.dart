@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 import 'dart:convert';
 
@@ -61,7 +59,8 @@ class HttpService {
         return HttpMockResponse.userRecoversClaimReady;
       }
 
-      var rows = await (getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'recovers') as FutureOr<List<dynamic>>);
+      var rows =
+          await (getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'recovers') as FutureOr<List<dynamic>>);
 
       final recovery = UserRecoversModel.fromTableRows(rows);
 
@@ -79,7 +78,8 @@ class HttpService {
         return HttpMockResponse.userGuardians;
       }
 
-      var rows = await (getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'guards', value: accountName) as FutureOr<List<dynamic>>);
+      var rows = await (getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'guards', value: accountName)
+          as FutureOr<List<dynamic>>);
 
       final guardians = UserGuardiansModel.fromTableRows(rows);
 
@@ -618,7 +618,7 @@ class HttpService {
     } else {
       print('Cannot fetch planted...');
 
-      return PlantedModel(0);
+      return const PlantedModel(0);
     }
   }
 

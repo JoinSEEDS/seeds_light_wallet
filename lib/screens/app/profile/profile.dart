@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path_utils;
 import 'package:provider/provider.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/constants/config.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/providers/notifiers/profile_notifier.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';

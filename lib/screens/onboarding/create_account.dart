@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +11,7 @@ class CreateAccount extends StatefulWidget {
   final String? initialName;
   final Function(String? nickName)? onSubmit;
 
-  CreateAccount({this.inviteSecret, this.initialName, this.onSubmit});
+  const CreateAccount({this.inviteSecret, this.initialName, this.onSubmit});
 
   @override
   _CreateAccountState createState() => _CreateAccountState();
@@ -35,7 +33,7 @@ class _CreateAccountState extends State<CreateAccount> {
     _nameController.text = _name!;
   }
 
-  createAccountName() async {
+  Future<void> createAccountName() async {
     print("create acct ");
 
     final FormState form = formKey.currentState!;
@@ -65,8 +63,8 @@ class _CreateAccountState extends State<CreateAccount> {
       child: Form(
         key: formKey,
         child: Container(
-          margin: EdgeInsets.only(left: 15, right: 15, bottom: 5),
-          padding: EdgeInsets.only(bottom: 5),
+          margin: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+          padding: const EdgeInsets.only(bottom: 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

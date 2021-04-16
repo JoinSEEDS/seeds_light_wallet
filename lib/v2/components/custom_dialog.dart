@@ -41,8 +41,7 @@ class CustomDialog extends StatelessWidget {
     this.onRightButtonPressed,
     this.singleLargeButtonTitle = '',
     this.onSingleLargeButtonPressed,
-  })  : assert(icon != null, children != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +112,7 @@ class CustomDialog extends StatelessWidget {
               backgroundColor: Colors.transparent,
               radius: avatarRadius,
               child: Container(
-                decoration:  BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColors.white,
                   shape: BoxShape.circle,
                   boxShadow: [

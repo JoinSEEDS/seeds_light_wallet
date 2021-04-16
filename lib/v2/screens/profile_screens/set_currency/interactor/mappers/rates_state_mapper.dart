@@ -5,7 +5,7 @@ import 'package:seeds/v2/screens/profile_screens/set_currency/interactor/viewmod
 
 class RateStateMapper extends StateMapper {
   SetCurrencyState mapResultToState(SetCurrencyState currentState, Map<String?, num> rates) {
-    if (rates == null) {
+    if (rates.isEmpty) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Cannot fetch rates...');
     } else {
       Map<String?, String?> available = rates.map((key, value) => MapEntry(key, key));

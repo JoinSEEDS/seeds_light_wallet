@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui';
@@ -75,7 +73,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
 
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     )..repeat();
   }
 
@@ -99,7 +97,9 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
 
       await Future.delayed(widget.successCallbackDelay);
 
-      if (widget.afterSuccessCallback != null) widget.afterSuccessCallback!();
+      if (widget.afterSuccessCallback != null) {
+        widget.afterSuccessCallback!();
+      }
     } else {
       setState(() {
         showSpinner = false;
@@ -109,7 +109,9 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
 
       await Future.delayed(widget.failureCallbackDelay);
 
-      if (widget.afterSuccessCallback != null) widget.afterFailureCallback!();
+      if (widget.afterSuccessCallback != null) {
+        widget.afterFailureCallback!();
+      }
     }
   }
 
@@ -163,7 +165,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
             ),
           if (!showSpinner)
             Container(
-              margin: EdgeInsets.only(left: 32, right: 32),
+              margin: const EdgeInsets.only(left: 32, right: 32),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -190,14 +192,14 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(13),
-                          color: Color(0xFFf4f4f4),
+                          color: const Color(0xFFf4f4f4),
                         ),
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        padding: EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(left: 10, right: 10),
+                        padding: const EdgeInsets.all(15),
                         child: Text(
                           (showFailure == true) ? message!.i18n : message!,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                     ],
@@ -205,7 +207,7 @@ class _FullscreenLoaderState extends State<FullscreenLoader> with SingleTickerPr
                   Column(
                     children: <Widget>[
                       MainButton(
-                        title: (showSuccess)
+                        title: showSuccess
                             ? (widget.successButtonText ?? widget._successButtonText)
                             : (widget.failureButtonText ?? widget._failureButtonText),
                         onPressed: () {

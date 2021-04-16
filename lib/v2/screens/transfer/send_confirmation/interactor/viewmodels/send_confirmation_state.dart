@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_info_line_items.dart';
@@ -13,8 +12,15 @@ class SendConfirmationState extends Equatable {
   final String? error;
   final ShowTransactionSuccess? pageCommand;
 
-  const SendConfirmationState(
-      {required this.pageState, this.account, this.name, this.lineItems, this.data, this.error, this.pageCommand});
+  const SendConfirmationState({
+    required this.pageState,
+    this.account,
+    this.name,
+    this.lineItems,
+    this.data,
+    this.error,
+    this.pageCommand,
+  });
 
   @override
   List<Object> get props => [pageState];

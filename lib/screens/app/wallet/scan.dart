@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+// import 'package:seeds/providers/notifiers/settings_notifier.dart';
+// import 'package:seeds/providers/services/navigation_service.dart';
+// import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 enum Steps { scan, processing, success, error }
 
@@ -23,7 +23,7 @@ class _ScanState extends State<Scan> {
 
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  bool _handledQrCode = false;
+  // bool _handledQrCode = false;
 
   @override
   void initState() {
@@ -68,12 +68,12 @@ class _ScanState extends State<Scan> {
     // }
   }
 
-  void _showToast(BuildContext context, String message) {
-    _scaffoldKey.currentState!.showSnackBar(SnackBar(
-      content: Text(message),
-      duration: const Duration(seconds: 3),
-    ));
-  }
+  // void _showToast(BuildContext context, String message) {
+  //   _scaffoldKey.currentState!.showSnackBar(SnackBar(
+  //     content: Text(message),
+  //     duration: const Duration(seconds: 3),
+  //   ));
+  // }
 
   Future<void> _onQRViewCreated(QRViewController controller) async {
     // this.controller = controller;
@@ -207,7 +207,7 @@ class _ScanState extends State<Scan> {
                   ),
                   onPressed: () {
                     setState(() {
-                      _handledQrCode = false;
+                      // _handledQrCode = false;
                       step = Steps.scan;
                     });
                   },

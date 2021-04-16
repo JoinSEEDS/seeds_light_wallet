@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -66,7 +64,7 @@ class TransactionInfoCard extends StatelessWidget {
                             maxLines: 1,
                           )),
                           const SizedBox(width: 40),
-                          Text(amount!.seedsFormatted, style: Theme.of(context).textTheme.button),
+                          Text(amount!.seedsFormatted ?? '', style: Theme.of(context).textTheme.button),
                           const SizedBox(width: 4),
                           SvgPicture.asset(typeIcon, height: 16)
                         ],

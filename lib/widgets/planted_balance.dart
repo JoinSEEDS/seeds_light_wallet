@@ -15,22 +15,22 @@ class PlantedBalance extends StatelessWidget {
 
         return Container(
           width: width,
-          margin: EdgeInsets.only(bottom: 20),
+          margin: const EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: AppColors.blue.withOpacity(0.3)),
           ),
-          padding: EdgeInsets.all(7),
+          padding: const EdgeInsets.all(7),
           child: Column(
             children: <Widget>[
               Text(
                 'Planted balance'.i18n,
-                style: TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.w300),
+                style: const TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.w300),
               ),
-              Padding(padding: EdgeInsets.only(top: 3)),
+              const Padding(padding: EdgeInsets.only(top: 3)),
               Text(
                 '$quantity',
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.blue,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,

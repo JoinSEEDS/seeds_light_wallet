@@ -126,13 +126,13 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void checkRecoveryMode() async {
-    await Future.delayed(Duration(milliseconds: 500), () {});
+    await Future.delayed(const Duration(milliseconds: 500), () {});
 
     if (SettingsNotifier.of(context).inRecoveryMode == true) {
       var accountName = SettingsNotifier.of(context).accountName;
       var pKey = SettingsNotifier.of(context).privateKey;
 
-      if (pKey != null && accountName != null) {
+      if (pKey != null) {
         machine.transition(Events.foundRecoveryFlag, data: {
           "accountName": accountName,
           "privateKey": pKey,
@@ -144,7 +144,7 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void secureAccountWithPasscode() async {
-    await Future.delayed(Duration(milliseconds: 1500), () {});
+    await Future.delayed(const Duration(milliseconds: 1500), () {});
     SettingsNotifier.of(context).saveAccount(
       accountName!,
       privateKey.toString(),
@@ -152,18 +152,18 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void saveAccountToFirebase() async {
-    await Future.delayed(Duration(milliseconds: 1500), () {});
-    FirebaseMessageTokenRepository().setFirebaseMessageToken(accountName);
+    await Future.delayed(const Duration(milliseconds: 1500), () {});
+    await FirebaseMessageTokenRepository().setFirebaseMessageToken(accountName);
   }
 
   void importAccount() async {
-    await Future.delayed(Duration(milliseconds: 2000), () {});
+    await Future.delayed(const Duration(milliseconds: 2000), () {});
     SettingsNotifier.of(context).privateKeyBackedUp = true;
     machine.transition(Events.accountImported);
   }
 
   void acceptInvite() async {
-    await Future.delayed(Duration(milliseconds: 2000), () {});
+    await Future.delayed(const Duration(milliseconds: 2000), () {});
     machine.transition(Events.inviteAccepted);
   }
 
@@ -196,7 +196,7 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void validateInvite(String inviteMnemonic) async {
-    await Future.delayed(Duration(milliseconds: 500), () {});
+    await Future.delayed(const Duration(milliseconds: 500), () {});
     inviteCode = inviteMnemonic;
     inviteSecret = secretFromMnemonic(inviteMnemonic);
 
@@ -217,7 +217,7 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void listenInviteLink() async {
-    await Future.delayed(Duration(milliseconds: 500), () {});
+    await Future.delayed(const Duration(milliseconds: 500), () {});
 
     final dynamic result = await Provider.of<LinksService>(context, listen: false).processInitialLink();
 
@@ -249,7 +249,7 @@ class _JoinProcessState extends State<JoinProcess> {
         backCallback = () => machine.transition(Events.recoverCanceled);
         break;
       case States.canceledRecoveryProcess:
-        currentScreen = NotionLoader(notion: "Cancel recovery process...");
+        currentScreen = const NotionLoader(notion: "Cancel recovery process...");
         break;
       case States.continueRecovery:
         currentScreen = ContinueRecovery(
@@ -369,7 +369,7 @@ class InitRecovery extends StatefulWidget {
   @override
   _InitRecoveryState createState() => _InitRecoveryState();
 
-  InitRecovery({Function? onSubmit});
+  const InitRecovery();
 }
 
 class _InitRecoveryState extends State<InitRecovery> {

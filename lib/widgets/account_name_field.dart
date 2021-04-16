@@ -14,7 +14,7 @@ class AccountNameField extends StatelessWidget {
   final Widget? suffixIcon;
   final AccountNameStatus? status;
 
-  AccountNameField({
+  const AccountNameField({
     this.controller,
     this.status,
     this.onChanged,
@@ -26,7 +26,7 @@ class AccountNameField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final errorString = validate(controller!.text);
-    final valid = errorString == null;
+    final valid = errorString;
 
     var suffixIcon;
     switch (status) {
@@ -35,19 +35,19 @@ class AccountNameField extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(width: 24, height: 24, child: CircularProgressIndicator()),
+            const SizedBox(width: 24, height: 24, child: CircularProgressIndicator()),
           ],
         );
         break;
       case AccountNameStatus.acceptable:
-        suffixIcon = Icon(
+        suffixIcon = const Icon(
           Icons.check_circle,
           color: Colors.greenAccent,
           size: 24.0,
         );
         break;
       case AccountNameStatus.unacceptable:
-        suffixIcon = Icon(
+        suffixIcon = const Icon(
           Icons.remove_circle,
           color: Colors.redAccent,
           size: 24.0,
@@ -66,7 +66,7 @@ class AccountNameField extends StatelessWidget {
     return MainTextField(
       labelText: 'SEEDS Username'.i18n,
       autocorrect: false,
-      textStyle: TextStyle(fontSize: 17, fontWeight: FontWeight.w400, fontFamily: 'worksans'),
+      textStyle: const TextStyle(fontSize: 17, fontWeight: FontWeight.w400, fontFamily: 'worksans'),
       controller: controller,
       maxLength: 12,
       inputFormatters: [
@@ -75,7 +75,7 @@ class AccountNameField extends StatelessWidget {
       focusNode: focusNode,
       validator: validator,
       counterStyle: TextStyle(
-          color: valid ? Colors.green : Colors.black45,
+          color: valid is ValidationResult ? Colors.green : Colors.black45,
           fontSize: 12,
           fontWeight: FontWeight.bold,
           fontFamily: 'worksans'),

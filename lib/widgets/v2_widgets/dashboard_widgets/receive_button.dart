@@ -10,10 +10,10 @@ class ReceiveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      padding: EdgeInsets.only(top: 14, bottom: 14),
+      padding: const EdgeInsets.only(top: 14, bottom: 14),
       onPressed: onPress,
       color: AppColors.green1,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
         topLeft: Radius.circular(50),
         topRight: Radius.circular(4),
@@ -22,9 +22,9 @@ class ReceiveButton extends StatelessWidget {
       )),
       child: Center(
         child: Wrap(children: <Widget>[
-          Icon(Icons.arrow_downward, color: AppColors.white),
+          const Icon(Icons.arrow_downward, color: AppColors.white),
           Container(
-            padding: EdgeInsets.only(left: 4, top: 4),
+            padding: const EdgeInsets.only(left: 4, top: 4),
             child: Text('Receive'.i18n, style: Theme.of(context).textTheme.button),
           ),
         ]),

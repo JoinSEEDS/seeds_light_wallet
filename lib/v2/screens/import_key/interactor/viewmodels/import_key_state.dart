@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
@@ -29,11 +28,6 @@ class ImportKeyState extends Equatable {
   }
 
   factory ImportKeyState.initial() {
-    return const ImportKeyState(
-      pageState: PageState.initial,
-      errorMessage: null,
-      accounts: null,
-      privateKey: null,
-    );
+    return const ImportKeyState(pageState: PageState.initial);
   }
 }

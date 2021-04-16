@@ -1,7 +1,12 @@
-class PlantedModel {
+import 'package:equatable/equatable.dart';
+
+class PlantedModel extends Equatable {
   final double quantity;
 
-  PlantedModel(this.quantity);
+  const PlantedModel(this.quantity);
+
+  @override
+  List<Object?> get props => [quantity];
 
   factory PlantedModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
@@ -9,13 +14,7 @@ class PlantedModel {
       var amount = double.parse(split.first);
       return PlantedModel(amount);
     } else {
-      return PlantedModel(0);
+      return const PlantedModel(0);
     }
   }
-
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is PlantedModel && quantity == other.quantity;
-
-  @override
-  int get hashCode => super.hashCode;
 }

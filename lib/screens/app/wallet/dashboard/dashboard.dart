@@ -8,8 +8,8 @@ import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
-import 'package:seeds/providers/notifiers/members_notifier.dart';
-import 'package:seeds/providers/notifiers/rate_notiffier.dart';
+// import 'package:seeds/providers/notifiers/members_notifier.dart';
+// import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
@@ -275,7 +275,7 @@ class _DashboardState extends State<Dashboard> {
 
     TransactionType type = model.to == userAccount ? TransactionType.income : TransactionType.outcome;
 
-    String? participantAccountName = type == TransactionType.income ? model.from : model.to;
+    // String? participantAccountName = type == TransactionType.income ? model.from : model.to;
 
     return FutureBuilder(
       future: null, //MembersNotifier.of(context).getAccountDetails(participantAccountName),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:seeds/models/models.dart';
-import 'package:seeds/providers/notifiers/voted_notifier.dart';
+// import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/utils/old_toolbox/net_image.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:seeds/i18n/proposals.i18n.dart';

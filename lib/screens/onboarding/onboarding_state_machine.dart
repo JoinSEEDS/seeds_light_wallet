@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 class _Transition {
@@ -71,8 +69,7 @@ enum States {
 }
 
 class OnboardingStateMachine {
-  StreamController<Map<String, dynamic>> _streamController =
-      StreamController<Map<String, dynamic>>();
+  final StreamController<Map<String, dynamic>> _streamController = StreamController<Map<String, dynamic>>();
 
   States? currentState = States.checkingInviteLink;
 
@@ -187,9 +184,7 @@ class OnboardingStateMachine {
     States.startRecovery: _State(
       name: States.startRecovery,
       transitions: [
-        _Transition(
-            event: Events.cancelRecoveryProcess,
-            targetState: States.onboardingMethodChoice),
+        _Transition(event: Events.cancelRecoveryProcess, targetState: States.onboardingMethodChoice),
         _Transition(
           event: Events.recoverCanceled,
           targetState: States.onboardingMethodChoice,
@@ -198,12 +193,8 @@ class OnboardingStateMachine {
           event: Events.recoverAccountRequested,
           targetState: States.continueRecovery,
         ),
-        _Transition(
-            event: Events.recoveryStartSuccess,
-            targetState: States.onboardingMethodChoice),
-        _Transition(
-            event: Events.recoveryStartFailed,
-            targetState: States.onboardingMethodChoice),
+        _Transition(event: Events.recoveryStartSuccess, targetState: States.onboardingMethodChoice),
+        _Transition(event: Events.recoveryStartFailed, targetState: States.onboardingMethodChoice),
       ],
     ),
     States.checkRecoveryProcess: _State(
@@ -218,12 +209,8 @@ class OnboardingStateMachine {
     States.continueRecovery: _State(
       name: States.continueRecovery,
       transitions: [
-        _Transition(
-            event: Events.cancelRecoveryProcess,
-            targetState: States.onboardingMethodChoice),
-        _Transition(
-            event: Events.claimRecoveredAccount,
-            targetState: States.recoverAccountState),
+        _Transition(event: Events.cancelRecoveryProcess, targetState: States.onboardingMethodChoice),
+        _Transition(event: Events.claimRecoveredAccount, targetState: States.recoverAccountState),
       ],
     ),
     States.importAccount: _State(
@@ -268,8 +255,7 @@ class OnboardingStateMachine {
   };
 
   void transition(Events event, {Map<String, dynamic>? data}) {
-    var targetTransition =
-        states[currentState!]!.transitions!.firstWhere((t) => t.event == event);
+    var targetTransition = states[currentState!]!.transitions!.firstWhere((t) => t.event == event);
 
     print("event: $event  ---> ${targetTransition.targetState}");
 

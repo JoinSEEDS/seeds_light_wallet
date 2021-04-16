@@ -71,7 +71,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final ProfileModel profile = ModalRoute.of(context)!.settings.arguments as ProfileModel;
+    final ProfileModel profile = ModalRoute.of(context)!.settings.arguments! as ProfileModel;
     return Scaffold(
       appBar: AppBar(),
       body: ListView(

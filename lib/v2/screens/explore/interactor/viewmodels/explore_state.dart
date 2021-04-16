@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class ExploreState extends Equatable {
@@ -20,7 +19,13 @@ class ExploreState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [pageState, availableSeeds, errorMessage, allianceVoice, campaignVoice];
+  List<Object?> get props => [
+        pageState,
+        availableSeeds,
+        errorMessage,
+        allianceVoice,
+        campaignVoice,
+      ];
 
   ExploreState copyWith({
     PageState? pageState,
@@ -41,13 +46,6 @@ class ExploreState extends Equatable {
   }
 
   factory ExploreState.initial() {
-    return const ExploreState(
-      pageState: PageState.initial,
-      availableSeeds: null,
-      campaignVoice: null,
-      allianceVoice: null,
-      errorMessage: null,
-      plantedSeeds: null,
-    );
+    return const ExploreState(pageState: PageState.initial);
   }
 }

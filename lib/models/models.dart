@@ -76,9 +76,6 @@ class InviteModel {
           account == other.account &&
           inviteHash == other.inviteHash &&
           inviteSecret == other.inviteSecret;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 class UserRecoversModel {
@@ -154,9 +151,6 @@ class MemberModel {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is MemberModel && account == other.account && nickname == other.nickname && image == other.image;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 class TransactionModel {
@@ -204,9 +198,6 @@ class TransactionModel {
           to == other.to &&
           quantity == other.quantity &&
           memo == other.memo;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 class FiatRateModel {
@@ -267,7 +258,9 @@ class FiatRateModel {
   }
 
   void merge(FiatRateModel other) {
-    if (!other.error) rates!.addAll(other.rates!);
+    if (!other.error) {
+      rates!.addAll(other.rates!);
+    }
   }
 }
 
@@ -293,26 +286,15 @@ class RateModel {
   }
 
   double toUSD(double seedsAmount) {
-    if (seedsPerUSD == null) {
-      return 0;
-    } else {
-      return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
-    }
+    return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
   }
 
   double toSeeds(double usdAmount) {
-    if (seedsPerUSD == null) {
-      return 0;
-    } else {
-      return seedsPerUSD > 0 ? usdAmount * seedsPerUSD : 0;
-    }
+    return seedsPerUSD > 0 ? usdAmount * seedsPerUSD : 0;
   }
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is RateModel && seedsPerUSD == other.seedsPerUSD;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 class HarvestModel {
@@ -397,9 +379,6 @@ class VoiceModel {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is VoiceModel && amount == other.amount;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 enum ProposalType { alliance, campaign, hypha }

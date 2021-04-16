@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ShowTransactionSuccess {
   final String? amount;
   final String? fiatAmount;

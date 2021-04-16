@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -9,7 +7,7 @@ import 'package:seeds/i18n/widgets.i18n.dart';
 class ConnectionStatus extends StatefulWidget {
   final Widget? child;
 
-  ConnectionStatus({this.child});
+  const ConnectionStatus({this.child});
 
   @override
   _ConnectionStatusState createState() => _ConnectionStatusState();
@@ -41,18 +39,20 @@ class _ConnectionStatusState extends State<ConnectionStatus> {
       builder: (ctx, connection, child) => Column(
         children: [
           AnimatedOpacity(
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             opacity: _visible ? 1.0 : 0.0,
             child: Container(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 vertical: 5,
                 horizontal: 10,
               ),
               color: connection.status ? AppColors.blue : AppColors.red,
               child: Center(
                 child: Text(
-                    "[x] ${connection.status ? "ONLINE (connected to %s)".i18n.fill(["${connection.currentEndpoint}"]) : 'OFFLINE (trying to reconnect)'.i18n}",
-                    style: TextStyle(color: AppColors.lightGrey)),
+                    "[x] ${connection.status ? "ONLINE (connected to %s)".i18n.fill([
+                        "${connection.currentEndpoint}"
+                      ]) : 'OFFLINE (trying to reconnect)'.i18n}",
+                    style: const TextStyle(color: AppColors.lightGrey)),
               ),
             ),
           ),

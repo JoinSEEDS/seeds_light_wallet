@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,9 +8,13 @@ class ReactiveWidget<T extends ChangeNotifier?> extends StatefulWidget {
   final Widget? child;
   final Function(T)? onModelReady;
 
-  ReactiveWidget(
-      {Key? key, this.builder, this.model, this.child, this.onModelReady})
-      : super(key: key);
+  const ReactiveWidget({
+    Key? key,
+    this.builder,
+    this.model,
+    this.child,
+    this.onModelReady,
+  }) : super(key: key);
 
   @override
   _ReactiveWidgetState<T> createState() => _ReactiveWidgetState<T>();

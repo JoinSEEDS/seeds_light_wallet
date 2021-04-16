@@ -27,9 +27,7 @@ class SecurityCard extends StatelessWidget {
     this.description = '',
     this.titleWidget,
     this.onTap,
-  })  : assert(icon != null),
-        assert(title != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

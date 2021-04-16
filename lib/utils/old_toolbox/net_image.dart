@@ -1,5 +1,3 @@
-
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,21 +5,20 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:photo_view/photo_view.dart';
 
 class NetImage extends StatelessWidget {
-  NetImage(
+  const NetImage(
     this.imageUrl, {
-    Key? key,
     this.imageBuilder,
     this.placeholder,
     this.errorWidget,
-    this.fadeOutDuration: const Duration(milliseconds: 300),
-    this.fadeOutCurve: Curves.easeOut,
-    this.fadeInDuration: const Duration(milliseconds: 700),
-    this.fadeInCurve: Curves.easeIn,
+    this.fadeOutDuration = const Duration(milliseconds: 300),
+    this.fadeOutCurve = Curves.easeOut,
+    this.fadeInDuration = const Duration(milliseconds: 700),
+    this.fadeInCurve = Curves.easeIn,
     this.width,
     this.height,
     this.fit,
-    this.alignment: Alignment.center,
-    this.repeat: ImageRepeat.noRepeat,
+    this.alignment = Alignment.center,
+    this.repeat = ImageRepeat.noRepeat,
     this.matchTextDirection = false,
     this.httpHeaders,
     this.cacheManager,
@@ -163,14 +160,15 @@ class NetImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _errorWidget = errorWidget ?? (_, __, ___) => Icon(Icons.image);
+    final _errorWidget = errorWidget ?? (_, __, ___) => const Icon(Icons.image);
 
-    if (imageUrl?.isNotEmpty != true) return _errorWidget(context, '', null);
+    if (imageUrl?.isNotEmpty != true) {
+      return _errorWidget(context, '', null);
+    }
 
     final cachedNetworkImage = CachedNetworkImage(
       imageUrl: imageUrl!,
-      placeholder:
-          placeholder ?? (_, __) => Center(child: CircularProgressIndicator()),
+      placeholder: placeholder ?? (_, __) => const Center(child: CircularProgressIndicator()),
       errorWidget: _errorWidget,
       imageBuilder: imageBuilder,
       fadeOutDuration: fadeOutDuration,
@@ -210,7 +208,9 @@ class NetImage extends StatelessWidget {
                 child: InkWell(
                   onTap: onTap != null
                       ? onTap
-                      : fullScreen ? () => _openFullScreen(context) : null,
+                      : fullScreen
+                          ? () => _openFullScreen(context)
+                          : null,
                 ),
               ),
             ),
@@ -228,14 +228,13 @@ class NetImage extends StatelessWidget {
 Future push(BuildContext context, Widget widget, {bool setName = true}) =>
     Navigator.of(context).push(materialRoute(widget, setName: setName));
 
-MaterialPageRoute materialRoute(Widget widget, {bool setName = true}) =>
-    MaterialPageRoute(
+MaterialPageRoute materialRoute(Widget widget, {bool setName = true}) => MaterialPageRoute(
       builder: (context) => widget,
       settings: setName ? RouteSettings(name: widget.toString()) : null,
     );
 
 class FullScreenImage extends StatelessWidget {
-  FullScreenImage(this.imageUrl);
+  const FullScreenImage(this.imageUrl);
 
   final String? imageUrl;
 
@@ -251,7 +250,7 @@ class FullScreenImage extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.black,
-            leading: CloseButton(),
+            leading: const CloseButton(),
           ),
           backgroundColor: Colors.black,
           body: PhotoView(

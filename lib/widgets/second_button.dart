@@ -9,7 +9,7 @@ class SecondButton extends StatelessWidget {
   final Function? onPressed;
   final Color color;
 
-  SecondButton({
+  const SecondButton({
     this.title,
     this.height = 55,
     this.fontSize = 18,

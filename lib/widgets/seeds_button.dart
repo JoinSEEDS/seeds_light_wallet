@@ -10,8 +10,14 @@ class SeedsButton extends StatefulWidget {
   final Color color;
   final bool enabled;
 
-  SeedsButton(this.title,
-      {this.onPressed, this.showProgress = false, this.width = 100, this.color = AppColors.green, this.enabled = true});
+  const SeedsButton(
+    this.title, {
+    this.onPressed,
+    this.showProgress = false,
+    this.width = 100,
+    this.color = AppColors.green,
+    this.enabled = true,
+  });
 
   @override
   _SeedsButtonState createState() => _SeedsButtonState();
@@ -41,7 +47,7 @@ class _SeedsButtonState extends State<SeedsButton> {
                   : null,
               child: Text(
                 widget.title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'worksans',
                   color: Colors.white,
                   fontWeight: FontWeight.w300,

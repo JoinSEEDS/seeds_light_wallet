@@ -1,19 +1,18 @@
-class VoiceModelAlliance {
-  final int? amount;
+import 'package:equatable/equatable.dart';
 
-  VoiceModelAlliance(this.amount);
+class VoiceModelAlliance extends Equatable {
+  final int amount;
+
+  const VoiceModelAlliance(this.amount);
+
+  @override
+  List<Object> get props => [amount];
 
   factory VoiceModelAlliance.fromJson(Map<String, dynamic> json) {
-    if (json != null && json['rows'].isNotEmpty) {
-      return VoiceModelAlliance(json['rows'][0]['balance'] as int?);
+    if (json['rows'].isNotEmpty) {
+      return VoiceModelAlliance(json['rows'][0]['balance'] as int);
     } else {
-      return VoiceModelAlliance(0);
+      return const VoiceModelAlliance(0);
     }
   }
-
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is VoiceModelAlliance && amount == other.amount;
-
-  @override
-  int get hashCode => super.hashCode;
 }

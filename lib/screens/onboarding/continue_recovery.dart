@@ -11,9 +11,15 @@ import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/notion_loader.dart';
 import 'package:seeds/widgets/second_button.dart';
-import 'package:share/share.dart';
+// import 'package:share/share.dart';
 
-enum RecoveryStatus { loading, waitingConfirmations, waitingTimelock, claimReady, noGuardiansFound }
+enum RecoveryStatus {
+  loading,
+  waitingConfirmations,
+  waitingTimelock,
+  claimReady,
+  noGuardiansFound,
+}
 
 class ContinueRecovery extends StatefulWidget {
   final Function? onClaimed;
@@ -35,9 +41,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
     String accountName = SettingsNotifier.of(context).accountName;
 
     if (recovering) {
-      return NotionLoader(
-        notion: "Recovering account...",
-      );
+      return const NotionLoader(notion: "Recovering account...");
     } else if (doneSuccess) {
       return successComponent(accountName);
     } else if (canClaim) {

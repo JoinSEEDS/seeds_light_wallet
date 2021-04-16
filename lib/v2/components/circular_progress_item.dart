@@ -22,15 +22,7 @@ class CircularProgressItem extends StatelessWidget {
     required this.titleStyle,
     required this.rate,
     required this.rateStyle,
-  })  : assert(icon != null),
-        assert(totalStep != null),
-        assert(currentStep != null),
-        assert(circleRadius != null),
-        assert(title != null),
-        assert(titleStyle != null),
-        assert(rate != null),
-        assert(rateStyle != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

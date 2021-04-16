@@ -55,7 +55,6 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                   switch (state.pageState) {
                     case PageState.initial:
                       return const SizedBox.shrink();
-                      break;
                     case PageState.loading:
                       return const FullPageLoadingIndicator();
                     case PageState.failure:
@@ -78,7 +77,6 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                           },
                         ),
                       );
-                      break;
                     default:
                       return const SizedBox.shrink();
                   }

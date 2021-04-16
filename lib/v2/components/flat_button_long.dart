@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
 /// A long flat widget button with rounded corners

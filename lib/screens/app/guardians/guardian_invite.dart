@@ -14,14 +14,10 @@ class InviteGuardians extends StatefulWidget {
   const InviteGuardians(this.selectedUsers);
 
   @override
-  _InviteGuardiansState createState() => _InviteGuardiansState(selectedUsers);
+  _InviteGuardiansState createState() => _InviteGuardiansState();
 }
 
 class _InviteGuardiansState extends State<InviteGuardians> {
-  final Set<MemberModel>? selectedUsers;
-
-  _InviteGuardiansState(this.selectedUsers);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +37,7 @@ class _InviteGuardiansState extends State<InviteGuardians> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: InviteGuardianBody(selectedUsers),
+      body: InviteGuardianBody(widget.selectedUsers),
     );
   }
 }

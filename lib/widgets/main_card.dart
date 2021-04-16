@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class MainCard extends StatelessWidget {
@@ -8,7 +6,7 @@ class MainCard extends StatelessWidget {
   final EdgeInsets? margin;
   final Function? onPressed;
 
-  MainCard({
+  const MainCard({
     this.child,
     this.padding,
     this.margin,

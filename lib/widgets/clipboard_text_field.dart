@@ -1,12 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 
 class ClipboardTextField extends StatefulWidget {
-  final String defaultHintText =  'Paste from clipboard'.i18n;
+  final String defaultHintText = 'Paste from clipboard'.i18n;
   final TextEditingController? controller;
   final Function? onChanged;
   final String? labelText;
@@ -28,7 +26,9 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
   String? previousValue;
 
   void onChanged() {
-    if (widget.onChanged != null) widget.onChanged!();
+    if (widget.onChanged != null) {
+      widget.onChanged!();
+    }
   }
 
   @override
@@ -58,7 +58,7 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
 
   Widget showPasteButton() {
     return IconButton(
-      icon: Icon(Icons.content_paste),
+      icon: const Icon(Icons.content_paste),
       onPressed: () async {
         var clipboardData = await Clipboard.getData('text/plain');
         var clipboardText = clipboardData?.text ?? '';
@@ -71,7 +71,7 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
 
   Widget showClearButton() {
     return IconButton(
-      icon: Icon(Icons.delete_outline),
+      icon: const Icon(Icons.delete_outline),
       onPressed: () {
         WidgetsBinding.instance!.addPostFrameCallback(
           (_) {
@@ -88,15 +88,15 @@ class _ClipboardTextFieldState extends State<ClipboardTextField> {
       autofocus: false,
       controller: widget.controller,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        enabledBorder: OutlineInputBorder(
+        border: const OutlineInputBorder(),
+        enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.blue, width: 2),
         ),
         labelText: widget.labelText,
         suffixIcon: hasEmptyValue ? showPasteButton() : showClearButton(),
         hintText: widget.hintText != null ? widget.hintText!.i18n : widget.defaultHintText,
       ),
-      style: TextStyle(
+      style: const TextStyle(
         fontFamily: 'worksans',
       ),
     );

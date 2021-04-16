@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,7 +12,7 @@ class TransactionDialog extends StatefulWidget {
   final MemberModel? member;
   final TransactionType? transactionType;
 
-  TransactionDialog({this.transaction, this.member, this.transactionType});
+  const TransactionDialog({this.transaction, this.member, this.transactionType});
 
   @override
   TransactionDialogState createState() => TransactionDialogState();
@@ -42,28 +40,28 @@ class TransactionDialogState extends State<TransactionDialog> {
     return Stack(children: [
       Container(
         height: 70, //width * 0.2,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(colors: AppColors.gradient),
             borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))),
       ),
       Container(
         width: width,
         alignment: Alignment.center,
-        margin: EdgeInsets.only(top: 12), //width * 0.04),
+        margin: const EdgeInsets.only(top: 12), //width * 0.04),
         child: Text(
           time,
-          style: TextStyle(color: Colors.white, fontSize: 14),
+          style: const TextStyle(color: Colors.white, fontSize: 14),
         ),
       ),
       Container(
-        margin: EdgeInsets.only(top: 35), //width * 0.1),
+        margin: const EdgeInsets.only(top: 35), //width * 0.1),
         alignment: Alignment.center,
         child: TransactionAvatar(
           size: 70,
           image: widget.member!.image,
           account: widget.member!.account,
           nickname: widget.member!.nickname,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: AppColors.blue,
           ),
@@ -81,12 +79,13 @@ class TransactionDialogState extends State<TransactionDialog> {
             //width * 0.13,
             height: 65,
             //width * 0.13,
-            margin: EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(shape: BoxShape.circle, gradient: LinearGradient(colors: AppColors.gradient)),
-            padding: EdgeInsets.all(18),
-            child: Icon(Icons.ios_share),
+            margin: const EdgeInsets.only(bottom: 5),
+            decoration:
+                const BoxDecoration(shape: BoxShape.circle, gradient: LinearGradient(colors: AppColors.gradient)),
+            padding: const EdgeInsets.all(18),
+            child: const Icon(Icons.ios_share),
           ),
-          Text(
+          const Text(
             '',
             textAlign: TextAlign.center,
             style: TextStyle(color: AppColors.blue, fontSize: 15),
@@ -103,18 +102,18 @@ class TransactionDialogState extends State<TransactionDialog> {
         Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 5, bottom: 2),
+              margin: const EdgeInsets.only(top: 5, bottom: 2),
               child: Text(
                 widget.member!.nickname!,
                 maxLines: 1,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
             Container(
               child: Text(
                 widget.member!.account!,
                 maxLines: 1,
-                style: TextStyle(color: AppColors.grey, fontSize: 14),
+                style: const TextStyle(color: AppColors.grey, fontSize: 14),
               ),
             ),
           ],
@@ -135,7 +134,7 @@ class TransactionDialogState extends State<TransactionDialog> {
                 ),
                 Text(
                   widget.transaction!.quantity!,
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
                 )
               ],
             )),
@@ -146,7 +145,7 @@ class TransactionDialogState extends State<TransactionDialog> {
             buildButton(onShare),
           ],
         ),
-        Padding(padding: EdgeInsets.only())
+        const Padding(padding: EdgeInsets.only())
       ],
     ));
   }

@@ -9,7 +9,7 @@ class MainButton extends StatefulWidget {
   final Function? onPressed;
   final bool active;
 
-  MainButton({
+  const MainButton({
     Key? key,
     required this.title,
     this.height = 55,
@@ -40,7 +40,7 @@ class MainButtonState extends State<MainButton> {
               color: Colors.grey.withOpacity(0.5),
               blurRadius: 5,
               spreadRadius: 0.5,
-              offset: Offset(0.0, 1.0),
+              offset: const Offset(0.0, 1.0),
             ),
           ],
         ),
@@ -49,7 +49,7 @@ class MainButtonState extends State<MainButton> {
           child: Container(
             height: widget.height,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(13), gradient: LinearGradient(colors: AppColors.gradient)),
+                borderRadius: BorderRadius.circular(13), gradient: const LinearGradient(colors: AppColors.gradient)),
             child: MaterialButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(13),
@@ -61,7 +61,7 @@ class MainButtonState extends State<MainButton> {
                 alignment: Alignment.center,
                 width: width,
                 child: isLoading
-                    ? Center(
+                    ? const Center(
                         child: SizedBox(
                           width: 24.0,
                           height: 24.0,
@@ -84,13 +84,13 @@ class MainButtonState extends State<MainButton> {
     );
   }
 
-  loading() {
+  void loading() {
     setState(() {
       isLoading = true;
     });
   }
 
-  done() {
+  void done() {
     setState(() {
       isLoading = false;
     });

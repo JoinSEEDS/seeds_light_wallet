@@ -33,7 +33,7 @@ void main() {
         nodeEndpoint: 'https://telos.caleos.io',
       );
 
-    final invites = await (service.getInvites());
+    final invites = await service.getInvites();
 
     expect(invites!.isNotEmpty, true);
   });

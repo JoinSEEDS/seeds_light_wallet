@@ -1,12 +1,10 @@
-
-
 import 'dart:convert';
-import 'dart:math';
+// import 'dart:math';
 
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 
-String generateMnemonic({ int words = 5, separator = '-' }) {
+String generateMnemonic({int words = 5, separator = '-'}) {
   // TODO(gguij002): Figure out how to generate random words
   return "GERY";
   // var random = Random.secure();

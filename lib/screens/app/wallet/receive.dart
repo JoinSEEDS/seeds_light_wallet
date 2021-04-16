@@ -159,15 +159,19 @@ class ProductListForm extends StatefulWidget {
   const ProductListForm(this.cart, this.products, this.onChange);
 
   @override
-  _ProductListFormState createState() => _ProductListFormState(cart);
+  _ProductListFormState createState() => _ProductListFormState();
 }
 
 class _ProductListFormState extends State<ProductListForm> {
-  final CartModel cart;
+  late CartModel cart;
   final formKey = GlobalKey<FormState>();
   final controller = TextEditingController(text: '');
 
-  _ProductListFormState(this.cart);
+  @override
+  void initState() {
+    super.initState();
+    cart = widget.cart;
+  }
 
   void removeProductFromCart(ProductModel product, RateNotifier rateNotifier) {
     cart.currencyConverter = rateNotifier;

@@ -34,15 +34,6 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
     _accountNameController.text = initialUsername(widget.nickname!);
   }
 
-  createAccount() async {
-    final FormState form = formKey.currentState!;
-    if (form.validate()) {
-      form.save();
-      accountNameFocus.unfocus();
-      widget.onSubmit!(_accountNameController.text, widget.nickname);
-    }
-  }
-
   String initialUsername(String nickname) {
     var result = nickname.toLowerCase().trim();
 
@@ -123,7 +114,14 @@ class _CreateAccountAccountNameState extends State<CreateAccountAccountName> {
                           firstChild: MainButton(
                             title: "Create account".i18n,
                             active: createEnabled,
-                            onPressed: () async => await createAccount(),
+                            onPressed: () async {
+                              final FormState form = formKey.currentState!;
+                              if (form.validate()) {
+                                form.save();
+                                accountNameFocus.unfocus();
+                                widget.onSubmit!(_accountNameController.text, widget.nickname);
+                              }
+                            },
                           ),
                           secondChild: Padding(
                             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
