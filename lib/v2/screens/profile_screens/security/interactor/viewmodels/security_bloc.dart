@@ -41,21 +41,36 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       }
       yield state.copyWith(navigateToGuardians: true);
     }
-    if (event is OnPasscodeChanged) {
-      if (state.isSecurePasscode!) {
-        yield state.copyWith(isSecurePasscode: false, isSecureBiometric: false);
-        _authenticationBloc.add(const DisablePasscode());
-      } else {
-        yield state.copyWith(isSecurePasscode: true);
-      }
+    if (event is OnPasscodePressed) {
+      yield state.copyWith(navigateToVerification: true, currentChoice: CurrentChoice.passcodeCard);
     }
-    if (event is OnBiometricsChanged) {
+    if (event is OnBiometricPressed) {
       if (state.isSecureBiometric!) {
-        yield state.copyWith(isSecureBiometric: false);
-        _authenticationBloc.add(const DisableBiometric());
+        yield state.copyWith(navigateToVerification: true, currentChoice: CurrentChoice.biometricCard);
       } else {
         yield state.copyWith(isSecureBiometric: true);
         _authenticationBloc.add(const EnableBiometric());
+      }
+    }
+    if (event is ResetNavigateToVerification) {
+      yield state.copyWith(navigateToVerification: null); //reset
+    }
+    if (event is OnValidVerification) {
+      switch (state.currentChoice) {
+        case CurrentChoice.passcodeCard:
+          if (state.isSecurePasscode!) {
+            yield state.copyWith(isSecurePasscode: false, isSecureBiometric: false);
+            _authenticationBloc.add(const DisablePasscode());
+          } else {
+            yield state.copyWith(isSecurePasscode: true);
+          }
+          break;
+        case CurrentChoice.biometricCard:
+          yield state.copyWith(isSecureBiometric: false);
+          _authenticationBloc.add(const DisableBiometric());
+          break;
+        default:
+          return;
       }
     }
   }

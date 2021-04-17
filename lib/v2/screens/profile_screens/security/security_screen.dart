@@ -32,6 +32,15 @@ class SecurityScreen extends StatelessWidget {
               listener: (context, _) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
             ),
             BlocListener<SecurityBloc, SecurityState>(
+              listenWhen: (_, current) => current.navigateToVerification != null,
+              listener: (context, _) {
+                NavigationService.of(context).navigateTo(
+                  Routes.verification,
+                  BlocProvider.of<SecurityBloc>(context),
+                );
+              },
+            ),
+            BlocListener<SecurityBloc, SecurityState>(
               listenWhen: (previous, current) =>
                   previous.isSecureBiometric == false && current.isSecureBiometric == true,
               listener: (context, state) {
@@ -105,12 +114,7 @@ class SecurityScreen extends StatelessWidget {
                           builder: (context, state) {
                             return Switch(
                               value: state.isSecurePasscode!,
-                              onChanged: (_) {
-                                NavigationService.of(context).navigateTo(
-                                  Routes.verification,
-                                  BlocProvider.of<SecurityBloc>(context),
-                                );
-                              },
+                              onChanged: (_) => BlocProvider.of<SecurityBloc>(context)..add(const OnPasscodePressed()),
                               activeTrackColor: AppColors.canopy,
                               activeColor: AppColors.white,
                             );
@@ -127,7 +131,7 @@ class SecurityScreen extends StatelessWidget {
                               value: state.isSecureBiometric!,
                               onChanged: state.isSecurePasscode!
                                   ? (_) {
-                                      BlocProvider.of<SecurityBloc>(context).add(const OnBiometricsChanged());
+                                      BlocProvider.of<SecurityBloc>(context)..add(const OnBiometricPressed());
                                     }
                                   : null,
                               activeTrackColor: AppColors.canopy,

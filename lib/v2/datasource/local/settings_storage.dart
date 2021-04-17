@@ -13,7 +13,7 @@ class _SettingsStorage {
   static const PASSCODE = 'passcode';
   static const PASSCODE_ACTIVE = 'passcode_active';
   static const PASSCODE_ACTIVE_DEFAULT = true;
-  static const BIOMETRIC_ACTIVE = 'biometricActive';
+  static const BIOMETRIC_ACTIVE = 'biometric_active';
   static const BIOMETRIC_ACTIVE_DEFAULT = false;
   static const PRIVATE_KEY_BACKED_UP = 'private_key_backed_up';
   static const BACKUP_LATEST_REMINDER = 'backup_latest_reminder';
@@ -133,7 +133,7 @@ class _SettingsStorage {
       }
 
       if (values.containsKey(BIOMETRIC_ACTIVE)) {
-        _biometricActive = values[BIOMETRIC_ACTIVE] == 'false';
+        _biometricActive = values[BIOMETRIC_ACTIVE] == 'true';
       } else {
         _biometricActive = BIOMETRIC_ACTIVE_DEFAULT;
       }

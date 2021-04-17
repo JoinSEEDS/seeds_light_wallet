@@ -99,7 +99,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
                           return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
                         }),
                       ),
-                      child: Text('Disable Pincode'.i18n,
+                      child: Text('Unlock'.i18n,
                           textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
                       onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric())),
                 )

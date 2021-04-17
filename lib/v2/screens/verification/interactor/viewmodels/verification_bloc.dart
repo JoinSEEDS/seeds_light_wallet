@@ -44,7 +44,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
             authenticationBloc.add(const UnlockWallet());
           } else {
             // Security flow: update screen and the fires navigator pop
-            securityBloc?.add(const OnPasscodeChanged());
+            securityBloc?.add(const OnValidVerification());
             yield state.copyWith(onBiometricAuthorized: true);
           }
         }
@@ -64,7 +64,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
       }
     }
     if (event is OnValidVerifyPasscode) {
-      securityBloc?.add(const OnPasscodeChanged());
+      securityBloc?.add(const OnValidVerification());
       if (state.isCreateMode!) {
         authenticationBloc.add(EnablePasscode(newPasscode: state.newPasscode!));
         yield state.copyWith(showSuccessDialog: true);
@@ -95,7 +95,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
             authenticationBloc.add(const UnlockWallet());
           } else {
             // Security flow: update screen and the fires navigator pop
-            securityBloc?.add(const OnPasscodeChanged());
+            securityBloc?.add(const OnValidVerification());
             yield state.copyWith(onBiometricAuthorized: true);
           }
         }
