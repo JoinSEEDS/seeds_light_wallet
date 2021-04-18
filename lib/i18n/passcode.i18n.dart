@@ -7,7 +7,7 @@ extension Localization on String {
           'Delete': 'Borrar',
           'Re-enter Pincode': 'Re-ingresar código de acceso',
           'Create Pincode': 'Crear código de acceso',
-          'Unlock': 'Desbloquear',
+          'Use biometric to unlock': 'Desbloquear con biometrico',
         }
       };
 

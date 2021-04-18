@@ -14,6 +14,7 @@ class VerificationState extends Equatable {
   final AuthState? authState;
   final List<AuthType>? authTypesAvailable;
   final AuthType? preferred;
+  final bool? authError;
   final bool? onBiometricAuthorized;
   final bool? showSuccessDialog;
   final String? errorMessage;
@@ -28,6 +29,7 @@ class VerificationState extends Equatable {
     this.authState,
     this.authTypesAvailable,
     this.preferred,
+    this.authError,
     this.onBiometricAuthorized,
     this.showSuccessDialog,
     this.errorMessage,
@@ -44,6 +46,7 @@ class VerificationState extends Equatable {
         authState,
         authTypesAvailable,
         preferred,
+        authError,
         onBiometricAuthorized,
         showSuccessDialog,
         errorMessage,
@@ -59,6 +62,7 @@ class VerificationState extends Equatable {
     AuthState? authState,
     List<AuthType>? authTypesAvailable,
     AuthType? preferred,
+    bool? authError,
     bool? onBiometricAuthorized,
     bool? showSuccessDialog,
     String? errorMessage,
@@ -73,6 +77,7 @@ class VerificationState extends Equatable {
       authState: authState ?? this.authState,
       authTypesAvailable: authTypesAvailable ?? this.authTypesAvailable,
       preferred: preferred ?? this.preferred,
+      authError: authError ?? this.authError,
       onBiometricAuthorized: onBiometricAuthorized ?? this.onBiometricAuthorized,
       showSuccessDialog: showSuccessDialog ?? this.showSuccessDialog,
       errorMessage: errorMessage ?? this.errorMessage,
@@ -80,6 +85,6 @@ class VerificationState extends Equatable {
   }
 
   factory VerificationState.initial() {
-    return const VerificationState(pageState: PageState.initial);
+    return const VerificationState(pageState: PageState.initial, authError: false);
   }
 }

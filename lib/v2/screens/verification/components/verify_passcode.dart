@@ -88,22 +88,26 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
           passwordEnteredCallback: (passcode) =>
               BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
           isValidCallback: () => BlocProvider.of<VerificationBloc>(context).add(const OnValidVerifyPasscode()),
-          bottomWidget: settingsStorage.biometricActive!
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: OutlinedButton(
-                      style: ButtonStyle(
-                        side: MaterialStateProperty.resolveWith<BorderSide>(
-                            (states) => const BorderSide(color: AppColors.white)),
-                        shape: MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
-                          return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
-                        }),
-                      ),
-                      child: Text('Unlock'.i18n,
-                          textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
-                      onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric())),
-                )
-              : const SizedBox.shrink(),
+          bottomWidget: BlocBuilder<VerificationBloc, VerificationState>(
+            builder: (context, state) {
+              return !state.authError! && settingsStorage.biometricActive!
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: OutlinedButton(
+                          style: ButtonStyle(
+                            side: MaterialStateProperty.resolveWith<BorderSide>(
+                                (states) => const BorderSide(color: AppColors.white)),
+                            shape: MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
+                              return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
+                            }),
+                          ),
+                          child: Text('Use biometric to unlock'.i18n,
+                              textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
+                          onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric())),
+                    )
+                  : const SizedBox.shrink();
+            },
+          ),
           circleUIConfig: const CircleUIConfig(circleSize: 14),
         ),
       ),

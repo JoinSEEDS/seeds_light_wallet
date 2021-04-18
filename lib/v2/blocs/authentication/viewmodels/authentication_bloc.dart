@@ -18,6 +18,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is OnImportAccount) {
       settingsStorage.saveAccount(event.account, event.privateKey);
       settingsStorage.privateKeyBackedUp = true;
+      // New account --> re-start auth status
       add(const InitAuthStatus());
     }
     if (event is EnablePasscode) {
