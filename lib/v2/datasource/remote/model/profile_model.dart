@@ -25,6 +25,12 @@ class ProfileModel {
     this.timestamp,
   });
 
+  /// Returns the account age in days
+  int get accountAge {
+    var creationDate = DateTime.fromMillisecondsSinceEpoch(timestamp! * 1000);
+    return DateTime.now().difference(creationDate).inDays;
+  }
+
   ProfileModel copyWith({
     String? account,
     String? status,

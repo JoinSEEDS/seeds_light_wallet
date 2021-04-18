@@ -105,7 +105,12 @@ class ProfileBottom extends StatelessWidget {
                                   color: AppColors.green1,
                                   padding: const EdgeInsets.all(8.0),
                                   onPressed: () => NavigationService.of(context).navigateTo(
-                                      Routes.citizenship, BlocProvider.of<ProfileBloc>(context).state.profile),
+                                    Routes.citizenship,
+                                    {
+                                      'profile': BlocProvider.of<ProfileBloc>(context).state.profile,
+                                      'scores': BlocProvider.of<ProfileBloc>(context).state.score,
+                                    },
+                                  ),
                                   child: Text(
                                     'View your progress'.i18n,
                                     style: Theme.of(context).textTheme.subtitle3,

@@ -8,7 +8,7 @@ class GetProfileValuesUseCase {
   Future<List<Result>> run() {
     var futures = [
       _profileRepository.getProfile(settingsStorage.accountName),
-      _profileRepository.getScore(settingsStorage.accountName),
+      _profileRepository.getScore('illumination'),
     ];
     return Future.wait(futures);
   }
