@@ -129,7 +129,7 @@ class NavigationService {
     Routes.inviteGuardians: (args) => InviteGuardians(args),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),
     Routes.guardianTabs: (_) => GuardianTabs(),
-    Routes.dho: (_) => DHO(),
+    Routes.dho: (_) => WebWallet(),
     Routes.guardians: (_) => Guardians(),
     Routes.support: (_) => const SupportScreen(),
     Routes.security: (_) => const SecurityScreen(),

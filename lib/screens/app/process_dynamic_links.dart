@@ -123,12 +123,20 @@ class _ProcessDynamicLinksState extends State<ProcessDynamicLinks> {
         return;
       }
 
-      var request = SeedsESR(uri: link);
+      if (link.startsWith("esr")) {
+        var request = SeedsESR(uri: link);
 
-      if (request.manager.data.req[0] == "identity") {
-        processIdentityRequest(request);
-      } else {
-        processTransactionRequest(request);
+        if (request.manager.data.req[0] == "identity") {
+          processIdentityRequest(request);
+        } else {
+          processTransactionRequest(request);
+        }
+      } else if (link.startsWith("seeds")) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => WebWallet(
+            url: link.replace("seeds", "https"),
+          ));
+        );
       }
     });
   }

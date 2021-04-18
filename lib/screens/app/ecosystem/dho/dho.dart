@@ -12,14 +12,24 @@ import 'package:seeds/widgets/seeds_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:eosdart/eosdart.dart' show Action;
 
-enum Status { Loading, Login, Connected, Sign }
-
-class DHO extends StatefulWidget {
-  @override
-  _DHOState createState() => _DHOState();
+class DHO extends StatelessWidget {
+  Widget build(_) {
+    return WebWallet(Config.dhoExplorer);
+  }
 }
 
-class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
+enum Status { Loading, Login, Connected, Sign }
+
+class WebWallet extends StatefulWidget {
+  final String url;
+
+  WebWallet({ this.url });
+
+  @override
+  _WebWalletState createState() => _WebWalletState();
+}
+
+class _WebWalletState extends State<WebWallet> with SingleTickerProviderStateMixin {
   RubberAnimationController bottomSheetController;
 
   @override
@@ -55,7 +65,7 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
                 : Container(),
             RubberBottomSheet(
               animationController: bottomSheetController,
-              lowerLayer: DHOWebView(
+              lowerLayer: WalletWebView(
                 confirmTransaction: confirmTransaction,
                 onTransactionMessage: () {
                   setState(() {
@@ -79,12 +89,14 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
                     });
                   });
                 },
+                initialUrl: widget.url,
               ),
-              upperLayer: WalletView(
+              upperLayer: WalletSheetView(
                 status: status,
                 actions: actions,
                 onTransactionAccepted: transactionAccepted,
                 onTransactionRejected: transactionRejected,
+                title: widget.url.replaceAll("https://", ""),
               ),
             ),
           ],
@@ -99,8 +111,7 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
     try {
       bottomSheetController.collapse();
 
-      var response =
-          await EosService.of(context, listen: false).sendTransaction(actions);
+      var response = await EosService.of(context, listen: false).sendTransaction(actions);
 
       var transactionId = response["transaction_id"];
 
@@ -132,24 +143,26 @@ class _DHOState extends State<DHO> with SingleTickerProviderStateMixin {
   }
 }
 
-class WalletView extends StatefulWidget {
+class WalletSheetView extends StatefulWidget {
   final Status status;
   final List<Action> actions;
   final Function onTransactionAccepted;
   final Function onTransactionRejected;
+  final String title;
 
-  WalletView({
+  WalletSheetView({
     @required this.status,
     this.actions,
     this.onTransactionAccepted,
     this.onTransactionRejected,
+    this.title,
   });
 
   @override
-  _WalletViewState createState() => _WalletViewState();
+  _WalletSheetViewState createState() => _WalletSheetViewState();
 }
 
-class _WalletViewState extends State<WalletView> {
+class _WalletSheetViewState extends State<WalletSheetView> {
   String get statusText {
     switch (widget.status) {
       case Status.Loading:
@@ -176,7 +189,7 @@ class _WalletViewState extends State<WalletView> {
             children: [
               IconButton(
                 icon: Icon(Icons.close, color: Colors.white),
-                onPressed: () {
+                onPressed: () {urlName
                   Navigator.of(context).pop();
                 },
               ),
@@ -185,7 +198,7 @@ class _WalletViewState extends State<WalletView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'dho.hypha.earth',
+                    widget.title,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -212,33 +225,33 @@ class _WalletViewState extends State<WalletView> {
   }
 }
 
-class DHOWebView extends StatefulWidget {
+class WalletWebView extends StatefulWidget {
   final Function onTransactionComplete;
   final Function onLoginMessage;
   final Function onLoginComplete;
   final Function onTransactionMessage;
   final Function confirmTransaction;
+  final String initialUrl;
 
-  DHOWebView({
+  WalletWebView({
     this.onLoginMessage,
     this.onTransactionMessage,
     this.onLoginComplete,
     this.onTransactionComplete,
     this.confirmTransaction,
+    this.initialUrl
   });
 
   @override
-  _DHOWebViewState createState() => _DHOWebViewState();
+  _WalletWebViewState createState() => _WalletWebViewState();
 }
 
-class _DHOWebViewState extends State<DHOWebView> {
+class _WalletWebViewState extends State<WalletWebView> {
   WebViewController dhoController;
 
-  String get accountName =>
-      SettingsNotifier.of(context, listen: false).accountName;
+  String get accountName => SettingsNotifier.of(context, listen: false).accountName;
 
-  String compileCallbackJs(String callbackName, String response) =>
-      "window.LightWallet['$callbackName']('$response')";
+  String compileCallbackJs(String callbackName, String response) => "window.LightWallet['$callbackName']('$response')";
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +279,7 @@ class _DHOWebViewState extends State<DHOWebView> {
 
   WebView buildWebView() {
     return WebView(
-      initialUrl: Config.dhoExplorer,
+      initialUrl: widget.initialUrl,
       javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (WebViewController controller) {
         dhoController = controller;
@@ -292,14 +305,11 @@ class _DHOWebViewState extends State<DHOWebView> {
               widget.onTransactionMessage();
 
               var callbackName = data['callbackName'];
-              var actions = jsonDecode(data['actions'])
-                  .map<Action>((e) => Action.fromJson(e))
-                  .toList();
+              var actions = jsonDecode(data['actions']).map<Action>((e) => Action.fromJson(e)).toList();
 
               var transactionId = await widget.confirmTransaction(actions);
 
-              var invokeCallback =
-                  compileCallbackJs(callbackName, transactionId);
+              var invokeCallback = compileCallbackJs(callbackName, transactionId);
               dhoController.evaluateJavascript(invokeCallback);
 
               widget.onTransactionComplete();
@@ -399,12 +409,8 @@ class _TransactionSheetState extends State<TransactionSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SeedsButton('Accept',
-                  onPressed: widget.onTransactionAccepted,
-                  color: AppColors.green),
-              SeedsButton('Reject',
-                  onPressed: widget.onTransactionRejected,
-                  color: AppColors.red),
+              SeedsButton('Accept', onPressed: widget.onTransactionAccepted, color: AppColors.green),
+              SeedsButton('Reject', onPressed: widget.onTransactionRejected, color: AppColors.red),
             ],
           ),
         ],
