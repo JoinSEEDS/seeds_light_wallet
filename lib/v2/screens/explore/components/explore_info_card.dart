@@ -9,7 +9,7 @@ class ExploreInfoCard extends StatelessWidget {
   final String? amount;
   final String amountLabel;
   final GestureTapCallback callback;
-  final bool? isErrorState;
+  final bool isErrorState;
 
   const ExploreInfoCard({
     Key? key,
@@ -18,7 +18,7 @@ class ExploreInfoCard extends StatelessWidget {
     required this.amount,
     required this.amountLabel,
     required this.callback,
-    this.isErrorState,
+    this.isErrorState = false,
   }) : super(key: key);
 
   @override
@@ -43,7 +43,7 @@ class ExploreInfoCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            Text((isErrorState != null && isErrorState!) ? 'Error Loading Data' : amount!,
+            Text(isErrorState ? 'Error Loading Data' : amount ?? '',
                 style: Theme.of(context).textTheme.headline8),
             const SizedBox(height: 4),
             Text(amountLabel, style: Theme.of(context).textTheme.subtitle3),
