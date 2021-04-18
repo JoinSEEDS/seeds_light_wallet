@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/blocs/authentication/mappers/auth_status_state_mapper.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_message_token_repository.dart';
 
 /// --- BLOC
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -35,6 +36,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is DisableBiometric) {
       settingsStorage.biometricActive = false;
+    }
+    if (event is OnLogout) {
+      settingsStorage.removeAccount();
+      await FirebaseMessageTokenRepository().removeFirebaseMessageToken(settingsStorage.accountName);
     }
   }
 }

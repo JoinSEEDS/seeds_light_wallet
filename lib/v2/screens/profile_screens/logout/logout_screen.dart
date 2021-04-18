@@ -1,0 +1,90 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/features/backup/backup_service.dart';
+import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/widgets/main_button.dart';
+import 'package:seeds/widgets/second_button.dart';
+
+class LogoutScreen extends StatefulWidget {
+  @override
+  _LogoutScreenState createState() => _LogoutScreenState();
+}
+
+class _LogoutScreenState extends State<LogoutScreen> {
+  bool privateKeySaved = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final backupService = Provider.of<BackupService>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "LogoutScreen".i18n,
+          style: const TextStyle(color: Colors.black, fontFamily: "worksans"),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.close, color: Colors.black),
+          onPressed: () => Navigator.of(context).maybePop(),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      backgroundColor: Colors.white,
+      body: Container(
+        margin: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  alignment: Alignment.center,
+                  child: SvgPicture.asset(
+                    'assets/images/logout.svg',
+                    width: 100.0,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Save private key in secure place - to be able to restore access to your wallet later'.i18n,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: AppColors.blue, fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                MainButton(
+                  title: "Save private key".i18n,
+                  onPressed: () {
+                    setState(() => privateKeySaved = true);
+                    backupService.backup();
+                  },
+                ),
+                if (privateKeySaved)
+                  SecondButton(
+                    margin: const EdgeInsets.only(top: 10, bottom: 40.0),
+                    title: "Logout".i18n,
+                    onPressed: () => BlocProvider.of<AuthenticationBloc>(context).add(const OnLogout()),
+                    color: AppColors.red,
+                  ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -53,3 +53,9 @@ class DisableBiometric extends AuthenticationEvent {
   @override
   String toString() => 'DisableBiometric';
 }
+
+class OnLogout extends AuthenticationEvent {
+  const OnLogout();
+  @override
+  String toString() => 'OnLogout';
+}
