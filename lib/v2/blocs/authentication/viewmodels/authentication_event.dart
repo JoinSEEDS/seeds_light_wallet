@@ -29,8 +29,27 @@ class UnlockWallet extends AuthenticationEvent {
   String toString() => 'UnlockWallet';
 }
 
+class EnablePasscode extends AuthenticationEvent {
+  final String newPasscode;
+  const EnablePasscode({required this.newPasscode});
+  @override
+  String toString() => 'EnablePasscode { newPasscode: $newPasscode }';
+}
+
 class DisablePasscode extends AuthenticationEvent {
   const DisablePasscode();
   @override
   String toString() => 'DisablePasscode';
+}
+
+class EnableBiometric extends AuthenticationEvent {
+  const EnableBiometric();
+  @override
+  String toString() => 'EnableBiometric';
+}
+
+class DisableBiometric extends AuthenticationEvent {
+  const DisableBiometric();
+  @override
+  String toString() => 'DisableBiometric';
 }

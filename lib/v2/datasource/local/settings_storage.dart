@@ -13,6 +13,8 @@ class _SettingsStorage {
   static const PASSCODE = 'passcode';
   static const PASSCODE_ACTIVE = 'passcode_active';
   static const PASSCODE_ACTIVE_DEFAULT = true;
+  static const BIOMETRIC_ACTIVE = 'biometric_active';
+  static const BIOMETRIC_ACTIVE_DEFAULT = false;
   static const PRIVATE_KEY_BACKED_UP = 'private_key_backed_up';
   static const BACKUP_LATEST_REMINDER = 'backup_latest_reminder';
   static const BACKUP_REMINDER_COUNT = 'backup_reminder_count';
@@ -23,6 +25,7 @@ class _SettingsStorage {
   String? _privateKey;
   String? _passcode;
   bool? _passcodeActive;
+  bool? _biometricActive;
   bool? _privateKeyBackedUp;
   int? _backupLatestReminder;
   int? _backupReminderCount;
@@ -34,6 +37,8 @@ class _SettingsStorage {
   String? get passcode => _passcode;
 
   bool? get passcodeActive => _passcodeActive;
+
+  bool? get biometricActive => _biometricActive;
 
   bool get privateKeyBackedUp => _privateKeyBackedUp ?? false;
 
@@ -67,6 +72,13 @@ class _SettingsStorage {
     _secureStorage.write(key: PASSCODE_ACTIVE, value: value.toString());
     if (value != null) {
       _passcodeActive = value;
+    }
+  }
+
+  set biometricActive(bool? value) {
+    _secureStorage.write(key: BIOMETRIC_ACTIVE, value: value.toString());
+    if (value != null) {
+      _biometricActive = value;
     }
   }
 
@@ -118,6 +130,12 @@ class _SettingsStorage {
         _passcodeActive = values[PASSCODE_ACTIVE] == 'true';
       } else {
         _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
+      }
+
+      if (values.containsKey(BIOMETRIC_ACTIVE)) {
+        _biometricActive = values[BIOMETRIC_ACTIVE] == 'true';
+      } else {
+        _biometricActive = BIOMETRIC_ACTIVE_DEFAULT;
       }
 
       if (values.containsKey(PRIVATE_KEY_BACKED_UP)) {
@@ -210,6 +228,8 @@ class _SettingsStorage {
     _passcode = null;
     _secureStorage.delete(key: PASSCODE_ACTIVE);
     _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
+    _secureStorage.delete(key: BIOMETRIC_ACTIVE);
+    _biometricActive = BIOMETRIC_ACTIVE_DEFAULT;
     _secureStorage.delete(key: PRIVATE_KEY_BACKED_UP);
     _secureStorage.delete(key: BACKUP_LATEST_REMINDER);
     _backupLatestReminder = 0;

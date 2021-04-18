@@ -1,5 +1,3 @@
-
-
 import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
@@ -8,8 +6,8 @@ extension Localization on String {
         'es_es': {
           'Delete': 'Borrar',
           'Re-enter Pincode': 'Re-ingresar código de acceso',
-          'Enter Pincode': 'Ingresar código de acceso',
-          'Disable Pincode': 'Deshabilita código de acceso',
+          'Create Pincode': 'Crear código de acceso',
+          'Use biometric to unlock': 'Desbloquear con biometrico',
         }
       };
 

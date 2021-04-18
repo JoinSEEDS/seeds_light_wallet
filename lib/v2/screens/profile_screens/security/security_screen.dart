@@ -32,28 +32,11 @@ class SecurityScreen extends StatelessWidget {
               listener: (context, _) => NavigationService.of(context).navigateTo(Routes.guardianTabs),
             ),
             BlocListener<SecurityBloc, SecurityState>(
-              listenWhen: (previous, current) => previous.isSecurePasscode == false && current.isSecurePasscode == true,
+              listenWhen: (_, current) => current.navigateToVerification != null,
               listener: (context, _) {
-                showDialog<void>(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) => CustomDialog(
-                    icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-                    children: [
-                      Text(
-                        'Succesful'.i18n,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      const SizedBox(height: 30.0),
-                      Text(
-                        'Pincode created successfully.'.i18n,
-                        textAlign: TextAlign.justify,
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                      const SizedBox(height: 30.0),
-                    ],
-                    singleLargeButtonTitle: 'Close'.i18n,
-                  ),
+                NavigationService.of(context).navigateTo(
+                  Routes.verification,
+                  BlocProvider.of<SecurityBloc>(context),
                 );
               },
             ),
@@ -131,12 +114,7 @@ class SecurityScreen extends StatelessWidget {
                           builder: (context, state) {
                             return Switch(
                               value: state.isSecurePasscode!,
-                              onChanged: (_) {
-                                NavigationService.of(context).navigateTo(
-                                  Routes.verification,
-                                  BlocProvider.of<SecurityBloc>(context),
-                                );
-                              },
+                              onChanged: (_) => BlocProvider.of<SecurityBloc>(context)..add(const OnPasscodePressed()),
                               activeTrackColor: AppColors.canopy,
                               activeColor: AppColors.white,
                             );
@@ -148,13 +126,14 @@ class SecurityScreen extends StatelessWidget {
                         icon: const Icon(Icons.fingerprint),
                         title: 'Secure with Touch/Face ID'.i18n,
                         titleWidget: BlocBuilder<SecurityBloc, SecurityState>(
-                          buildWhen: (previous, current) => previous.isSecureBiometric != current.isSecureBiometric,
                           builder: (context, state) {
                             return Switch(
                               value: state.isSecureBiometric!,
-                              onChanged: (_) {
-                                BlocProvider.of<SecurityBloc>(context).add(const OnBiometricsChanged());
-                              },
+                              onChanged: state.isSecurePasscode!
+                                  ? (_) {
+                                      BlocProvider.of<SecurityBloc>(context)..add(const OnBiometricPressed());
+                                    }
+                                  : null,
                               activeTrackColor: AppColors.canopy,
                               activeColor: AppColors.white,
                             );

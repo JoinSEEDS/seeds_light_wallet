@@ -27,9 +27,8 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         isCreateView: settingsStorage.passcode == null,
         isCreateMode: settingsStorage.passcode == null,
       );
-      // If It's verification mode then start biometrics (now as default, next PR I'll add the below codition)
-      // if (settingsStorage.passcode != null && settingsStorage.biometricActive)
-      if (settingsStorage.passcode != null) {
+      // If It's verification mode and biometric is enabled -> start biomtric
+      if (settingsStorage.passcode != null && settingsStorage.biometricActive!) {
         // Fecht available biometrics
         final authTypesAvailable = await BiometricsAvailablesUseCase().run();
         yield AuthTypesStateMapper().mapResultToState(state, authTypesAvailable);
@@ -45,7 +44,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
             authenticationBloc.add(const UnlockWallet());
           } else {
             // Security flow: update screen and the fires navigator pop
-            securityBloc?.add(const OnPasscodeChanged());
+            securityBloc?.add(const OnValidVerification());
             yield state.copyWith(onBiometricAuthorized: true);
           }
         }
@@ -65,10 +64,10 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
       }
     }
     if (event is OnValidVerifyPasscode) {
-      securityBloc?.add(const OnPasscodeChanged());
+      securityBloc?.add(const OnValidVerification());
       if (state.isCreateMode!) {
-        settingsStorage.savePasscode(state.newPasscode);
-        settingsStorage.passcodeActive = true;
+        authenticationBloc.add(EnablePasscode(newPasscode: state.newPasscode!));
+        yield state.copyWith(showSuccessDialog: true);
         if (securityBloc == null) {
           authenticationBloc.add(const UnlockWallet());
         }
@@ -96,7 +95,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
             authenticationBloc.add(const UnlockWallet());
           } else {
             // Security flow: update screen and the fires navigator pop
-            securityBloc?.add(const OnPasscodeChanged());
+            securityBloc?.add(const OnValidVerification());
             yield state.copyWith(onBiometricAuthorized: true);
           }
         }

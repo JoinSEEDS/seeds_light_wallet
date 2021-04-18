@@ -27,7 +27,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       yield state.copyWith(
         pageState: PageState.success,
         isSecurePasscode: settingsStorage.passcodeActive,
-        isSecureBiometric: true,
+        isSecureBiometric: settingsStorage.biometricActive,
         hasNotification: false,
       );
     }
@@ -41,17 +41,37 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       }
       yield state.copyWith(navigateToGuardians: true);
     }
-    if (event is OnPasscodeChanged) {
-      if (state.isSecurePasscode!) {
-        yield state.copyWith(isSecurePasscode: false);
-        _authenticationBloc.add(const DisablePasscode());
+    if (event is OnPasscodePressed) {
+      yield state.copyWith(navigateToVerification: true, currentChoice: CurrentChoice.passcodeCard);
+    }
+    if (event is OnBiometricPressed) {
+      if (state.isSecureBiometric!) {
+        yield state.copyWith(navigateToVerification: true, currentChoice: CurrentChoice.biometricCard);
       } else {
-        yield state.copyWith(isSecurePasscode: true);
-        settingsStorage.passcodeActive = true;
+        yield state.copyWith(isSecureBiometric: true);
+        _authenticationBloc.add(const EnableBiometric());
       }
     }
-    if (event is OnBiometricsChanged) {
-      yield state.copyWith(isSecureBiometric: !state.isSecureBiometric!);
+    if (event is ResetNavigateToVerification) {
+      yield state.copyWith(navigateToVerification: null); //reset
+    }
+    if (event is OnValidVerification) {
+      switch (state.currentChoice) {
+        case CurrentChoice.passcodeCard:
+          if (state.isSecurePasscode!) {
+            yield state.copyWith(isSecurePasscode: false, isSecureBiometric: false);
+            _authenticationBloc.add(const DisablePasscode());
+          } else {
+            yield state.copyWith(isSecurePasscode: true);
+          }
+          break;
+        case CurrentChoice.biometricCard:
+          yield state.copyWith(isSecureBiometric: false);
+          _authenticationBloc.add(const DisableBiometric());
+          break;
+        default:
+          return;
+      }
     }
   }
 

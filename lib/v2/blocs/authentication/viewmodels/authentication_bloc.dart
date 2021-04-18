@@ -18,11 +18,23 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is OnImportAccount) {
       settingsStorage.saveAccount(event.account, event.privateKey);
       settingsStorage.privateKeyBackedUp = true;
+      // New account --> re-start auth status
       add(const InitAuthStatus());
+    }
+    if (event is EnablePasscode) {
+      settingsStorage.savePasscode(event.newPasscode);
+      settingsStorage.passcodeActive = true;
     }
     if (event is DisablePasscode) {
       settingsStorage.passcode = null;
       settingsStorage.passcodeActive = false;
+      settingsStorage.biometricActive = false;
+    }
+    if (event is EnableBiometric) {
+      settingsStorage.biometricActive = true;
+    }
+    if (event is DisableBiometric) {
+      settingsStorage.biometricActive = false;
     }
   }
 }
