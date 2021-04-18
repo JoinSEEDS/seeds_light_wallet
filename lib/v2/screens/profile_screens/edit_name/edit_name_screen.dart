@@ -33,7 +33,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
   Widget build(BuildContext context) {
     // TODO(raul): I do not like this way to retrive a value from navigation, https://github.com/JoinSEEDS/seeds_light_wallet/issues/500.
     _profileModel = ModalRoute.of(context)!.settings.arguments as ProfileModel?;
-    _nameController.text = _profileModel!.nickname!;
+    _nameController.text = _profileModel!.nickname;
     return Scaffold(
       appBar: AppBar(title: Text('Edit Name'.i18n)),
       body: BlocProvider(

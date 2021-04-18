@@ -28,7 +28,7 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
                             onTap: () {
-                              context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account!));
+                              context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account));
                             },
                             child: Ink(
                               decoration: BoxDecoration(
@@ -41,15 +41,15 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                                   leading: ProfileAvatar(
                                     size: 60,
                                     image: profile!.image,
-                                    account: profile.account!,
+                                    account: profile.account,
                                     nickname: profile.nickname,
                                   ),
                                   title: Text(
-                                    profile.nickname!,
+                                    profile.nickname,
                                     style: Theme.of(context).textTheme.button,
                                   ),
                                   subtitle: Text(
-                                    profile.account!,
+                                    profile.account,
                                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                                   ),
                                   trailing: const Icon(Icons.navigate_next),

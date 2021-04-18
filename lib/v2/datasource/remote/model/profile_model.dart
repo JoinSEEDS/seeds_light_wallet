@@ -1,28 +1,28 @@
 class ProfileModel {
-  final String? account;
-  final String? status;
-  final String? type;
-  final String? nickname;
-  final String? image;
-  final String? story;
-  final String? roles;
-  final String? skills;
-  final String? interests;
-  final int? reputation;
-  final int? timestamp;
+  final String account;
+  final String status;
+  final String type;
+  final String nickname;
+  final String image;
+  final String story;
+  final String roles;
+  final String skills;
+  final String interests;
+  final int reputation;
+  final int timestamp;
 
   ProfileModel({
-    this.account,
-    this.status,
-    this.type,
-    this.nickname,
-    this.image,
-    this.story,
-    this.roles,
-    this.skills,
-    this.interests,
-    this.reputation,
-    this.timestamp,
+    required this.account,
+    required this.status,
+    required this.type,
+    required this.nickname,
+    required this.image,
+    required this.story,
+    required this.roles,
+    required this.skills,
+    required this.interests,
+    required this.reputation,
+    required this.timestamp,
   });
 
   ProfileModel copyWith({

@@ -37,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
                         value: true,
                         icon: const Icon(Icons.keyboard_arrow_down_sharp, color: AppColors.white),
                         underline: const SizedBox.shrink(),
-                        hint: Text(state.profile?.account ?? '', style: Theme.of(context).textTheme.headline6),
+                        hint: Text(state.profile!.account, style: Theme.of(context).textTheme.headline6),
                         items: [],
                         onTap: () {
                           // For the onTap to work there must be at least one item.
@@ -46,11 +46,7 @@ class ProfileScreen extends StatelessWidget {
                     }),
                     actions: [
                       IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/images/wallet/app_bar/scan_qr_code_icon.svg',
-                          height: 30,
-                          width: 2000,
-                        ),
+                        icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
                         onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
                       ),
                     ],
