@@ -114,7 +114,19 @@ class HttpService {
     } else {
       print('Cannot fetch profile...');
 
-      return ProfileModel();
+      return ProfileModel(
+        account: '',
+        status: '',
+        type: '',
+        nickname: '',
+        image: '',
+        story: '',
+        roles: '',
+        skills: '',
+        interests: '',
+        reputation: 0,
+        timestamp: 0,
+      );
     }
   }
 
