@@ -11,7 +11,7 @@ import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
 export 'package:async/src/result/result.dart';
 
 class ProfileRepository extends NetworkRepository with EosRepository {
-  Future<Result> getProfile(String? accountName) {
+  Future<Result> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
 
     var request =

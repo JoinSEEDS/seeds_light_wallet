@@ -22,10 +22,10 @@ class SendConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SendConfirmationArguments? arguments = ModalRoute.of(context)!.settings.arguments as SendConfirmationArguments?;
+    final SendConfirmationArguments arguments = ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
 
     return BlocProvider(
-      create: (context) => SendConfirmationBloc()..add(InitSendConfirmationWithArguments(arguments: arguments!)),
+      create: (context) => SendConfirmationBloc(arguments)..add(InitSendConfirmationWithArguments()),
       child: Scaffold(
         appBar: AppBar(
             leading: IconButton(
