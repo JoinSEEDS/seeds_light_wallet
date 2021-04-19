@@ -5,21 +5,20 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:photo_view/photo_view.dart';
 
 class NetImage extends StatelessWidget {
-  NetImage(
+  const NetImage(
     this.imageUrl, {
-    Key key,
     this.imageBuilder,
     this.placeholder,
     this.errorWidget,
-    this.fadeOutDuration: const Duration(milliseconds: 300),
-    this.fadeOutCurve: Curves.easeOut,
-    this.fadeInDuration: const Duration(milliseconds: 700),
-    this.fadeInCurve: Curves.easeIn,
+    this.fadeOutDuration = const Duration(milliseconds: 300),
+    this.fadeOutCurve = Curves.easeOut,
+    this.fadeInDuration = const Duration(milliseconds: 700),
+    this.fadeInCurve = Curves.easeIn,
     this.width,
     this.height,
     this.fit,
-    this.alignment: Alignment.center,
-    this.repeat: ImageRepeat.noRepeat,
+    this.alignment = Alignment.center,
+    this.repeat = ImageRepeat.noRepeat,
     this.matchTextDirection = false,
     this.httpHeaders,
     this.cacheManager,
@@ -33,19 +32,19 @@ class NetImage extends StatelessWidget {
   });
 
   /// Option to use cachemanager with other settings
-  final BaseCacheManager cacheManager;
+  final BaseCacheManager? cacheManager;
 
   /// The target image that is displayed.
-  final String imageUrl;
+  final String? imageUrl;
 
   /// Optional builder to further customize the display of the image.
-  final ImageWidgetBuilder imageBuilder;
+  final ImageWidgetBuilder? imageBuilder;
 
   /// Widget displayed while the target [imageUrl] is loading.
-  final PlaceholderWidgetBuilder placeholder;
+  final PlaceholderWidgetBuilder? placeholder;
 
   /// Widget displayed while the target [imageUrl] failed loading.
-  final LoadingErrorWidgetBuilder errorWidget;
+  final LoadingErrorWidgetBuilder? errorWidget;
 
   /// The duration of the fade-out animation for the [placeholder].
   final Duration fadeOutDuration;
@@ -65,7 +64,7 @@ class NetImage extends StatelessWidget {
   /// aspect ratio. This may result in a sudden change if the size of the
   /// placeholder widget does not match that of the target image. The size is
   /// also affected by the scale factor.
-  final double width;
+  final double? width;
 
   /// If non-null, require the image to have this height.
   ///
@@ -73,13 +72,13 @@ class NetImage extends StatelessWidget {
   /// aspect ratio. This may result in a sudden change if the size of the
   /// placeholder widget does not match that of the target image. The size is
   /// also affected by the scale factor.
-  final double height;
+  final double? height;
 
   /// How to inscribe the image into the space allocated during layout.
   ///
   /// The default varies based on the other fields. See the discussion at
   /// [paintImage].
-  final BoxFit fit;
+  final BoxFit? fit;
 
   /// How to align the image within its bounds.
   ///
@@ -126,14 +125,14 @@ class NetImage extends StatelessWidget {
   final bool matchTextDirection;
 
   // Optional headers for the http request of the image url
-  final Map<String, String> httpHeaders;
+  final Map<String, String>? httpHeaders;
 
   /// When set to true it will animate from the old image to the new image
   /// if the url changes.
   final bool useOldImageOnUrlChange;
 
   /// If non-null, this color is blended with each image pixel using [colorBlendMode].
-  final Color color;
+  final Color? color;
 
   /// Used to combine [color] with this image.
   ///
@@ -143,7 +142,7 @@ class NetImage extends StatelessWidget {
   /// See also:
   ///
   ///  * [BlendMode], which includes an illustration of the effect of each blend mode.
-  final BlendMode colorBlendMode;
+  final BlendMode? colorBlendMode;
 
   /// default false.
   final bool fullScreen;
@@ -154,21 +153,22 @@ class NetImage extends StatelessWidget {
   final bool hero;
 
   /// defaults to 0
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
 
   /// Called when the user taps this part of the image.
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    final _errorWidget = errorWidget ?? (_, __, ___) => Icon(Icons.image);
+    final _errorWidget = errorWidget ?? (_, __, ___) => const Icon(Icons.image);
 
-    if (imageUrl?.isNotEmpty != true) return _errorWidget(context, '', null);
+    if (imageUrl?.isNotEmpty != true) {
+      return _errorWidget(context, '', null);
+    }
 
     final cachedNetworkImage = CachedNetworkImage(
-      imageUrl: imageUrl,
-      placeholder:
-          placeholder ?? (_, __) => Center(child: CircularProgressIndicator()),
+      imageUrl: imageUrl!,
+      placeholder: placeholder ?? (_, __) => const Center(child: CircularProgressIndicator()),
       errorWidget: _errorWidget,
       imageBuilder: imageBuilder,
       fadeOutDuration: fadeOutDuration,
@@ -178,7 +178,7 @@ class NetImage extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
-      alignment: alignment,
+      alignment: alignment as Alignment,
       repeat: repeat,
       matchTextDirection: matchTextDirection,
       httpHeaders: httpHeaders,
@@ -198,7 +198,7 @@ class NetImage extends StatelessWidget {
           children: <Widget>[
             fullScreen && hero
                 ? Hero(
-                    tag: imageUrl,
+                    tag: imageUrl!,
                     child: cachedNetworkImage,
                   )
                 : cachedNetworkImage,
@@ -208,7 +208,9 @@ class NetImage extends StatelessWidget {
                 child: InkWell(
                   onTap: onTap != null
                       ? onTap
-                      : fullScreen ? () => _openFullScreen(context) : null,
+                      : fullScreen
+                          ? () => _openFullScreen(context)
+                          : null,
                 ),
               ),
             ),
@@ -226,35 +228,34 @@ class NetImage extends StatelessWidget {
 Future push(BuildContext context, Widget widget, {bool setName = true}) =>
     Navigator.of(context).push(materialRoute(widget, setName: setName));
 
-MaterialPageRoute materialRoute(Widget widget, {bool setName = true}) =>
-    MaterialPageRoute(
+MaterialPageRoute materialRoute(Widget widget, {bool setName = true}) => MaterialPageRoute(
       builder: (context) => widget,
       settings: setName ? RouteSettings(name: widget.toString()) : null,
     );
 
 class FullScreenImage extends StatelessWidget {
-  FullScreenImage(this.imageUrl);
+  const FullScreenImage(this.imageUrl);
 
-  final String imageUrl;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(imageUrl),
+      key: Key(imageUrl!),
       direction: DismissDirection.vertical,
       onDismissed: (direction) => Navigator.of(context).pop(),
       child: Dismissible(
-        key: Key(imageUrl),
+        key: Key(imageUrl!),
         onDismissed: (direction) => Navigator.of(context).pop(),
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.black,
-            leading: CloseButton(),
+            leading: const CloseButton(),
           ),
           backgroundColor: Colors.black,
           body: PhotoView(
-            imageProvider: NetworkImage(imageUrl),
-            heroAttributes: PhotoViewHeroAttributes(tag: imageUrl),
+            imageProvider: NetworkImage(imageUrl!),
+            heroAttributes: PhotoViewHeroAttributes(tag: imageUrl!),
           ),
         ),
       ),

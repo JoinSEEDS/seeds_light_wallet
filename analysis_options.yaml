@@ -24,12 +24,12 @@ analyzer:
     - lib/design/**
     - lib/features/**
     - lib/generated/**
+    - lib/providers/**
     - lib/i18/**
     - lib/models/**
     - lib/screens/**
     - lib/utils/**
     - lib/widgets/**
-    - lib/main.dart
 
 linter:
   rules:

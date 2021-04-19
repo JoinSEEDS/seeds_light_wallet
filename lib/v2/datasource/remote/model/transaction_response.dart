@@ -1,8 +1,8 @@
 /// Response from EOS library when user profile is updated
 class TransactionResponse {
-  Processed processed;
+  Processed? processed;
 
-  Data get data => processed.actionTraces[1].act.data;
+  Data? get data => processed!.actionTraces[1].act!.data;
 
   TransactionResponse.fromJson(Map<String, dynamic> json) {
     processed = json['processed'] != null ? Processed.fromJson(json['processed']) : null;
@@ -10,8 +10,8 @@ class TransactionResponse {
 }
 
 class Processed {
-  List<ActionTraces> actionTraces;
-  int errorCode;
+  late List<ActionTraces> actionTraces;
+  int? errorCode;
 
   Processed.fromJson(Map<String, dynamic> json) {
     if (json['action_traces'] != null) {
@@ -25,7 +25,7 @@ class Processed {
 }
 
 class ActionTraces {
-  Act act;
+  Act? act;
 
   ActionTraces.fromJson(Map<String, dynamic> json) {
     act = json['act'] != null ? Act.fromJson(json['act']) : null;
@@ -33,7 +33,7 @@ class ActionTraces {
 }
 
 class Act {
-  Data data;
+  Data? data;
 
   Act.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -41,15 +41,15 @@ class Act {
 }
 
 class Data {
-  String account;
-  String user;
-  String type;
-  String nickname;
-  String image;
-  String story;
-  String roles;
-  String skills;
-  String interests;
+  String? account;
+  String? user;
+  String? type;
+  String? nickname;
+  String? image;
+  String? story;
+  String? roles;
+  String? skills;
+  String? interests;
 
   Data.fromJson(Map<String, dynamic> json) {
     account = json['account'];

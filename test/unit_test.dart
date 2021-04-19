@@ -35,7 +35,7 @@ void main() {
 
     final invites = await service.getInvites();
 
-    expect(invites.isNotEmpty, true);
+    expect(invites!.isNotEmpty, true);
   });
 
   test('Find key accounts mongo', () async {

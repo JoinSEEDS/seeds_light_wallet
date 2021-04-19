@@ -2,13 +2,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
+import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/widgets/pending_notification.dart';
@@ -16,17 +20,17 @@ import 'package:seeds/widgets/pending_notification.dart';
 import 'process_dynamic_links.dart';
 
 class NavigationTab {
-  final String title;
-  final String icon;
-  final String iconSelected;
-  final Function screenBuilder;
-  final int index;
+  final String? title;
+  final String? icon;
+  final String? iconSelected;
+  final Function? screenBuilder;
+  final int? index;
 
   NavigationTab({this.title, this.icon, this.iconSelected, this.screenBuilder, this.index});
 }
 
 class App extends StatefulWidget {
-  App();
+  const App();
 
   @override
   _AppState createState() => _AppState();
@@ -61,7 +65,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   final StreamController<String> changePageNotifier = StreamController<String>.broadcast();
 
-  int index = 0;
+  int? index = 0;
   PageController pageController = PageController(initialPage: 0, keepPage: true);
 
   @override
@@ -69,7 +73,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     super.initState();
 
     changePageNotifier.stream.listen((page) {
-      int pageIndex;
+      int? pageIndex;
 
       switch (page) {
         case "Wallet":
@@ -86,14 +90,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       if (pageIndex != null) {
         setState(() {
           pageController.jumpToPage(
-            pageIndex,
+            pageIndex!,
           );
-          this.index = pageIndex;
+          index = pageIndex;
         });
       }
     });
 
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
@@ -139,43 +143,43 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Widget buildPageView() {
     return PageView(
       controller: pageController,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
-        ...navigationTabs.map((tab) => tab.screenBuilder()).toList(),
+        ...navigationTabs.map((tab) => tab.screenBuilder!()).toList(),
       ],
     );
   }
 
   BottomNavigationBarItem buildIcon(
-      String title, String icon, String selectedIcon, bool isSelected, bool profileNotification) {
+      String? title, String icon, String selectedIcon, bool isSelected, bool? profileNotification) {
     return BottomNavigationBarItem(
       activeIcon: SvgPicture.asset(selectedIcon, height: 24, width: 24),
-      icon: Stack(overflow: Overflow.visible, children: <Widget>[
+      icon: Stack(clipBehavior: Clip.none, children: <Widget>[
         SvgPicture.asset(icon, height: 24, width: 24),
         title == "Profile"
-            ? profileNotification
+            ? profileNotification!
                 ? Positioned(
                     child: guardianNotification(profileNotification),
                     right: 6,
                     top: 2,
                   )
-                : SizedBox.shrink()
-            : SizedBox.shrink()
+                : const SizedBox.shrink()
+            : const SizedBox.shrink()
       ]),
       title: isSelected
           ? Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text(title, style: Theme.of(context).textTheme.caption),
+              child: Text(title!, style: Theme.of(context).textTheme.caption),
             )
-          : SizedBox.shrink(),
+          : const SizedBox.shrink(),
     );
   }
 
-  Widget buildNavigation(bool showGuardianNotification) {
+  Widget buildNavigation(bool? showGuardianNotification) {
     return Container(
-      decoration: BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
+      decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
       child: BottomNavigationBar(
-        currentIndex: index,
+        currentIndex: index!,
         onTap: (index) {
           switch (index) {
             case 0:
@@ -191,7 +195,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         },
         items: navigationTabs
             .map(
-              (tab) => buildIcon(tab.title, tab.icon, tab.iconSelected, tab.index == index, showGuardianNotification),
+              (tab) => buildIcon(tab.title, tab.icon!, tab.iconSelected!, tab.index == index, showGuardianNotification),
             )
             .toList(),
       ),

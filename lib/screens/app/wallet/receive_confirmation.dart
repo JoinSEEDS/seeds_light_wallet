@@ -7,9 +7,9 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 class ReceiveConfirmation extends StatefulWidget {
-  final CartModel cart;
+  final CartModel? cart;
 
-  ReceiveConfirmation({Key key, @required this.cart}) : super(key: key);
+  const ReceiveConfirmation({Key? key, required this.cart}) : super(key: key);
 
   @override
   _ReceiveConfirmationState createState() => _ReceiveConfirmationState();
@@ -21,32 +21,31 @@ class _ReceiveConfirmationState extends State<ReceiveConfirmation> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Receipt',
           style: TextStyle(color: Colors.black87),
         ),
       ),
       backgroundColor: Colors.white,
       bottomNavigationBar: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                child: MainButton(
-                    title: "Next".i18n,
-                    active: widget.cart.total != 0,
-                    onPressed: () {
-                      FocusScope.of(context).unfocus();
-                      NavigationService.of(context)
-                          .navigateTo(Routes.receiveQR, widget.cart.total);
-                    }),
-              ),
+        padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+        child: MainButton(
+            title: "Next".i18n,
+            active: widget.cart!.total != 0,
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              NavigationService.of(context).navigateTo(Routes.receiveQR, widget.cart!.total);
+            }),
+      ),
       body: Container(
-        margin: EdgeInsets.only(left: 15, right: 15),
+        margin: const EdgeInsets.only(left: 15, right: 15),
         child: SingleChildScrollView(
-                  child: Column(
+          child: Column(
             children: [
               Container(
                 child: CartListView(
@@ -54,7 +53,6 @@ class _ReceiveConfirmationState extends State<ReceiveConfirmation> {
                   onChange: () => setState(() {}),
                 ),
               ),
-              
             ],
           ),
         ),

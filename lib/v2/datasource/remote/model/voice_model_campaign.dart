@@ -1,20 +1,18 @@
-class VoiceModelCampaign {
+import 'package:equatable/equatable.dart';
+
+class VoiceModelCampaign extends Equatable {
   final int amount;
 
-  VoiceModelCampaign(this.amount);
+  const VoiceModelCampaign(this.amount);
+
+  @override
+  List<Object> get props => [amount];
 
   factory VoiceModelCampaign.fromJson(Map<String, dynamic> json) {
-    if (json != null && json['rows'].isNotEmpty) {
+    if (json['rows'].isNotEmpty) {
       return VoiceModelCampaign(json['rows'][0]['balance'] as int);
     } else {
-      return VoiceModelCampaign(0);
+      return const VoiceModelCampaign(0);
     }
   }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is VoiceModelCampaign && amount == other.amount;
-
-  @override
-  int get hashCode => super.hashCode;
 }

@@ -26,7 +26,7 @@ class KeyAccountsRepository extends NetworkRepository {
 
               var items = List<Map<String, dynamic>>.from(body['items'])
                   .where((item) => item['permission'] == 'active' || item['permission'] == 'owner');
-              var result = items.map<String>((item) => item['account']).toSet().toList();
+              var result = items.map<String?>((item) => item['account']).toSet().toList();
 
               result.sort();
 

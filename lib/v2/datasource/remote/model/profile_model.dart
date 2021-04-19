@@ -1,15 +1,15 @@
 class ProfileModel {
-  final String account;
-  final String status;
-  final String type;
-  final String nickname;
-  final String image;
-  final String story;
-  final String roles;
-  final String skills;
-  final String interests;
-  final int reputation;
-  final int timestamp;
+  final String? account;
+  final String? status;
+  final String? type;
+  final String? nickname;
+  final String? image;
+  final String? story;
+  final String? roles;
+  final String? skills;
+  final String? interests;
+  final int? reputation;
+  final int? timestamp;
 
   ProfileModel({
     this.account,
@@ -26,17 +26,17 @@ class ProfileModel {
   });
 
   ProfileModel copyWith({
-    String account,
-    String status,
-    String type,
-    String nickname,
-    String image,
-    String story,
-    String roles,
-    String skills,
-    String interests,
-    int reputation,
-    int timestamp,
+    String? account,
+    String? status,
+    String? type,
+    String? nickname,
+    String? image,
+    String? story,
+    String? roles,
+    String? skills,
+    String? interests,
+    int? reputation,
+    int? timestamp,
   }) {
     return ProfileModel(
       account: account ?? this.account,

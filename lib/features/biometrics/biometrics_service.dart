@@ -29,7 +29,7 @@ class BiometricsService {
 
   Future<bool> authenticate(AuthenticateCmd cmd) async {
     var androidAuthStrings;
-    switch(cmd.type) {
+    switch (cmd.type) {
       case AuthType.fingerprint:
         androidAuthStrings = const AndroidAuthMessages(
           biometricHint: 'Biometrics',
@@ -42,15 +42,17 @@ class BiometricsService {
           signInTitle: "Face Authentication",
         );
         break;
-      default: {
-        androidAuthStrings = const AndroidAuthMessages(
-          signInTitle: "Authenticate using biometric credentials",
-        );
-      }
+      default:
+        {
+          androidAuthStrings = const AndroidAuthMessages(
+            signInTitle: "Authenticate using biometric credentials",
+          );
+        }
     }
 
     try {
-      return _localAuth.authenticateWithBiometrics(
+      return _localAuth.authenticate(
+          biometricOnly: true,
           androidAuthStrings: androidAuthStrings,
           localizedReason: 'Use your device to authenticate',
           useErrorDialogs: false,

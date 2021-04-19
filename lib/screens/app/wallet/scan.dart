@@ -12,20 +12,20 @@ enum Steps { scan, processing, success, error }
 class Scan extends StatefulWidget {
   final shouldSendResultsBack;
 
-  @override
-  _ScanState createState() => new _ScanState();
+  const Scan(this.shouldSendResultsBack);
 
-  Scan(this.shouldSendResultsBack);
+  @override
+  _ScanState createState() => _ScanState();
 }
 
 class _ScanState extends State<Scan> {
-  String action, account, data, error, qrcode;
+  late String action, account, data, error, qrcode;
   Steps step = Steps.scan;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
-  QRViewController controller;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  bool _handledQrCode = false;
+  // bool _handledQrCode = false;
 
   @override
   void initState() {
@@ -150,7 +150,7 @@ class _ScanState extends State<Scan> {
 
   @override
   Widget build(BuildContext context) {
-    Widget widget;
+    Widget? widget;
 
     switch (step) {
       case Steps.scan:
@@ -163,7 +163,7 @@ class _ScanState extends State<Scan> {
                 child: QRView(
                   key: qrKey,
                   onQRViewCreated: _onQRViewCreated,
-                  showNativeAlertDialog: true,
+                  // showNativeAlertDialog: true,
                 ),
               ),
             ],
@@ -175,9 +175,9 @@ class _ScanState extends State<Scan> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
+              const CircularProgressIndicator(),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0),
                 child: Text(
                   'Processing QR Code...',
                   style: TextStyle(
@@ -193,7 +193,7 @@ class _ScanState extends State<Scan> {
         );
         break;
       case Steps.success:
-        widget = Center(
+        widget = const Center(
           child: Text(
             'Success!',
             style: TextStyle(
@@ -213,8 +213,8 @@ class _ScanState extends State<Scan> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  this.error,
-                  style: TextStyle(
+                  error,
+                  style: const TextStyle(
                     fontFamily: "heebo",
                     fontSize: 18,
                     color: Colors.redAccent,
@@ -224,16 +224,17 @@ class _ScanState extends State<Scan> {
               ),
               Padding(
                 padding: const EdgeInsets.all(20),
-                child: OutlineButton(
-                  child: Text(
+                child: OutlinedButton(
+                  style:
+                      ButtonStyle(foregroundColor: MaterialStateProperty.resolveWith<Color>((states) => Colors.black)),
+                  child: const Text(
                     'Try Again',
                     style: TextStyle(color: Colors.black),
                   ),
-                  color: Colors.black,
                   onPressed: () {
                     setState(() {
-                      _handledQrCode = false;
-                      this.step = Steps.scan;
+                      // _handledQrCode = false;
+                      step = Steps.scan;
                     });
                   },
                 ),
@@ -249,12 +250,12 @@ class _ScanState extends State<Scan> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text(
+        title: const Text(
           "Scanner",
           style: TextStyle(fontFamily: "worksans", color: Colors.black),
         ),

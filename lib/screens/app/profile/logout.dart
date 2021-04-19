@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -22,8 +21,8 @@ class _LogoutState extends State<Logout> {
     String userAccount = SettingsNotifier.of(context).accountName;
     SettingsNotifier.of(context).removeAccount();
     FirebaseMessageTokenRepository().removeFirebaseMessageToken(userAccount);
-    Hive.deleteBoxFromDisk("members");
-    Hive.deleteBoxFromDisk("transactions");
+    // Hive.deleteBoxFromDisk("members");
+    // Hive.deleteBoxFromDisk("transactions");
   }
 
   @override
@@ -34,10 +33,10 @@ class _LogoutState extends State<Logout> {
       appBar: AppBar(
         title: Text(
           "Logout".i18n,
-          style: TextStyle(color: Colors.black, fontFamily: "worksans"),
+          style: const TextStyle(color: Colors.black, fontFamily: "worksans"),
         ),
         leading: IconButton(
-          icon: Icon(Icons.close, color: Colors.black),
+          icon: const Icon(Icons.close, color: Colors.black),
           onPressed: () => Navigator.of(context).maybePop(),
         ),
         centerTitle: true,
@@ -46,7 +45,7 @@ class _LogoutState extends State<Logout> {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
+        margin: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -54,7 +53,7 @@ class _LogoutState extends State<Logout> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: const EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
                   child: SvgPicture.asset(
                     'assets/images/logout.svg',
@@ -62,12 +61,12 @@ class _LogoutState extends State<Logout> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(20),
                   alignment: Alignment.center,
                   child: Text(
                     'Save private key in secure place - to be able to restore access to your wallet later'.i18n,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.blue, fontSize: 16),
+                    style: const TextStyle(color: AppColors.blue, fontSize: 16),
                   ),
                 ),
               ],

@@ -10,17 +10,18 @@ import 'package:seeds/constants/http_mock_response.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/utils/extensions/response_extension.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 class HttpService {
-  String baseURL = Config.defaultEndpoint;
-  String hyphaURL = Config.hyphaEndpoint;
-  String userAccount;
-  bool mockResponse;
+  String? baseURL = remoteConfigurations.defaultEndPointUrl;
+  String hyphaURL = remoteConfigurations.hyphaEndPoint;
+  String? userAccount;
+  bool? mockResponse;
 
-  void update({String accountName, String nodeEndpoint, bool enableMockResponse = false}) {
+  void update({String? accountName, String? nodeEndpoint, bool enableMockResponse = false}) {
     baseURL = nodeEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
@@ -28,7 +29,7 @@ class HttpService {
 
   static HttpService of(BuildContext context, {bool listen = false}) => Provider.of(context, listen: listen);
 
-  Future<List<dynamic>> getTableRows({String code, String scope, String table, String value}) async {
+  Future<List<dynamic>?> getTableRows({String? code, String? scope, String? table, String? value}) async {
     final requestURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request = value == null
@@ -42,7 +43,7 @@ class HttpService {
     if (res.statusCode == 200) {
       final body = res.parseJson() as Map<String, dynamic>;
 
-      return body['rows'] as List<dynamic>;
+      return body['rows'] as List<dynamic>?;
     } else {
       print('Cannot fetch table rows... $code $scope $table $value');
 
@@ -50,7 +51,7 @@ class HttpService {
     }
   }
 
-  Future<UserRecoversModel> getAccountRecovery(String accountName) async {
+  Future<UserRecoversModel?> getAccountRecovery(String accountName) async {
     print('[http] get account recovery');
 
     try {
@@ -58,7 +59,8 @@ class HttpService {
         return HttpMockResponse.userRecoversClaimReady;
       }
 
-      var rows = await getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'recovers');
+      var rows =
+          await (getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'recovers') as FutureOr<List<dynamic>>);
 
       final recovery = UserRecoversModel.fromTableRows(rows);
 
@@ -69,14 +71,15 @@ class HttpService {
     }
   }
 
-  Future<UserGuardiansModel> getAccountGuardians(String accountName) async {
+  Future<UserGuardiansModel?> getAccountGuardians(String accountName) async {
     print('[http] get account guardians');
     try {
       if (mockResponse == true) {
         return HttpMockResponse.userGuardians;
       }
 
-      var rows = await getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'guards', value: accountName);
+      var rows = await (getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'guards', value: accountName)
+          as FutureOr<List<dynamic>>);
 
       final guardians = UserGuardiansModel.fromTableRows(rows);
 
@@ -115,7 +118,7 @@ class HttpService {
     }
   }
 
-  Future<List<Permission>> getAccountPermissions() async {
+  Future<List<Permission>?> getAccountPermissions() async {
     print('[http] get account permissions');
 
     if (mockResponse == true) {
@@ -132,7 +135,7 @@ class HttpService {
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
 
-      List<Permission> permissions = body['rows'].map((item) => Permission.fromJson(item)).toList();
+      List<Permission>? permissions = body['rows'].map((item) => Permission.fromJson(item)).toList();
 
       return permissions;
     } else {
@@ -141,7 +144,7 @@ class HttpService {
     }
   }
 
-  Future<List<String>> getKeyAccountsMongo(String publicKey) async {
+  Future<List<String?>> getKeyAccountsMongo(String publicKey) async {
     var headers = {'Content-Type': 'application/json'};
     var body = '''
         {
@@ -161,7 +164,7 @@ class HttpService {
       print('result: $body');
       var items = List<Map<String, dynamic>>.from(body['items'])
           .where((item) => item['permission'] == 'active' || item['permission'] == 'owner');
-      var result = items.map<String>((item) => item['account']).toSet().toList();
+      var result = items.map<String?>((item) => item['account']).toSet().toList();
 
       result.sort();
 
@@ -263,7 +266,7 @@ class HttpService {
   }
 
   /// V2 is now getMemberByAccountName
-  Future<MemberModel> getMember(String accountName) async {
+  Future<MemberModel?> getMember(String accountName) async {
     print('[http] get member');
 
     if (mockResponse == true) {
@@ -296,7 +299,7 @@ class HttpService {
   }
 
   /// In V2 use future.wait on getMemberByAccountName call
-  Future<List<MemberModel>> getMembersByIds(List<String> accountNames) async {
+  Future<List<MemberModel>> getMembersByIds(List<String?> accountNames) async {
     print('[http] get getMembersByIds ' + accountNames.length.toString());
 
     if (mockResponse == true) {
@@ -340,7 +343,7 @@ class HttpService {
     }
 
     final transactionsURL =
-    Uri.parse('$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc');
+        Uri.parse('$baseURL/v2/history/get_actions?account=$userAccount&filter=*%3A*&skip=0&limit=100&sort=desc');
 
     var res = await get(transactionsURL);
 
@@ -450,7 +453,7 @@ class HttpService {
     var res = await post(rateURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = res.parseJson();
+      Map<String, dynamic>? body = res.parseJson();
 
       return RateModel.fromJson(body);
     } else {
@@ -463,10 +466,10 @@ class HttpService {
   Future<FiatRateModel> getFiatRates() async {
     print('[http] get fiat rates');
 
-    var res = await get(Uri.parse('https://api.exchangeratesapi.io/latest?base=USD'));
+    Response res = await get(Uri.parse("https://api-payment.hypha.earth/fiatExchangeRates?api_key=${Config.fxApiKey}"));
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = res.parseJson();
+      Map<String, dynamic>? body = res.parseJson();
       return FiatRateModel.fromJson(body);
     } else {
       print('Cannot fetch rates...' + res.body.toString());
@@ -489,7 +492,7 @@ class HttpService {
     var res = await post(balanceURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      List<dynamic> body = res.parseJson();
+      List<dynamic>? body = res.parseJson();
 
       if (body != null && body.isNotEmpty) {
         return BalanceModel.fromJson(body);
@@ -503,7 +506,7 @@ class HttpService {
     }
   }
 
-  Future<bool> isDHOMember() async {
+  Future<bool?> isDHOMember() async {
     print('[http] is DHO member');
 
     if (mockResponse == true) {
@@ -512,8 +515,7 @@ class HttpService {
 
     final daoURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    String request =
-        '{"json": true, "code": "trailservice","scope": "$userAccount","table": "voters"}';
+    String request = '{"json": true, "code": "trailservice","scope": "$userAccount","table": "voters"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(daoURL, headers: headers, body: request);
@@ -580,7 +582,7 @@ class HttpService {
     var res = await post(voiceURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = res.parseJson();
+      Map<String, dynamic>? body = res.parseJson();
 
       var voice = VoiceModel.fromJson(body);
 
@@ -608,7 +610,7 @@ class HttpService {
     var res = await post(plantedURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = res.parseJson();
+      Map<String, dynamic>? body = res.parseJson();
 
       var balance = PlantedModel.fromJson(body);
 
@@ -616,7 +618,7 @@ class HttpService {
     } else {
       print('Cannot fetch planted...');
 
-      return PlantedModel(0);
+      return const PlantedModel(0);
     }
   }
 
@@ -708,7 +710,7 @@ class HttpService {
     }
   }
 
-  Future<InviteModel> findInvite(String inviteHash) async {
+  Future<InviteModel> findInvite(String? inviteHash) async {
     print('[http] find invite by hash');
 
     if (mockResponse == true) {
@@ -745,7 +747,7 @@ class HttpService {
     }
   }
 
-  Future<List<InviteModel>> getInvites() async {
+  Future<List<InviteModel>?> getInvites() async {
     print('[http] get active invites');
 
     if (mockResponse == true) {
@@ -764,7 +766,7 @@ class HttpService {
       Map<String, dynamic> body = jsonDecode(res.body);
 
       if (body['rows'].length > 0) {
-        List<InviteModel> invites = body['rows'].map((item) => InviteModel.fromJson(item)).toList();
+        List<InviteModel>? invites = body['rows'].map((item) => InviteModel.fromJson(item)).toList();
 
         return invites;
       } else {
@@ -826,7 +828,7 @@ class HttpService {
       Map<String, dynamic> body = jsonDecode(res.body);
       if (body['rows'].length > 0) {
         var item = body['rows'][0];
-        int amount = item['favour'] == 1 ? item['amount'] : -item['amount'];
+        int? amount = item['favour'] == 1 ? item['amount'] : -item['amount'];
         return VoteResult(amount, true);
       } else {
         return VoteResult(0, false);
@@ -839,10 +841,10 @@ class HttpService {
 }
 
 class NetworkException implements Exception {
-  final String requestUrl;
-  final String requestBody;
-  final int responseStatusCode;
-  final String responseBody;
+  final String? requestUrl;
+  final String? requestBody;
+  final int? responseStatusCode;
+  final String? responseBody;
 
   NetworkException({
     this.requestUrl,
@@ -860,8 +862,8 @@ class NetworkException implements Exception {
 }
 
 class EmptyResultException implements Exception {
-  final String requestUrl;
-  final String requestBody;
+  final String? requestUrl;
+  final String? requestBody;
 
   EmptyResultException({this.requestUrl, this.requestBody});
 

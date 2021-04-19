@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -21,30 +21,30 @@ class GuardianTabs extends StatelessWidget {
           floatingActionButton: StreamBuilder<QuerySnapshot>(
               stream: FirebaseDatabaseService().getMyGuardians(SettingsNotifier.of(context).accountName),
               builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data.size < _MAX_GUARDIANS_ALLOWED) {
+                if (snapshot.hasData && snapshot.data!.size < _MAX_GUARDIANS_ALLOWED) {
                   return FloatingActionButton.extended(
                     backgroundColor: AppColors.blue,
-                    label: Text("Add Guardians"),
+                    label: const Text("Add Guardians"),
                     onPressed: () {
                       NavigationService.of(context).navigateTo(Routes.selectGuardians);
                     },
                   );
                 } else {
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 }
               }),
           appBar: AppBar(
-            bottom: TabBar(
+            bottom: const TabBar(
               tabs: [
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     "My Guardians",
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     "Im Guardian For",
                     style: TextStyle(color: Colors.black),
@@ -54,12 +54,12 @@ class GuardianTabs extends StatelessWidget {
             ),
             automaticallyImplyLeading: true,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            title: Text(
+            title: const Text(
               "Key Guardians",
               style: TextStyle(fontFamily: "worksans", color: Colors.black),
             ),
@@ -72,7 +72,7 @@ class GuardianTabs extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   Iterable<Guardian> guardians =
-                      snapshot.data.docs.map((DocumentSnapshot e) => Guardian.fromMap(e.data())).toList();
+                      snapshot.data!.docs.map((DocumentSnapshot e) => Guardian.fromMap(e.data()!)).toList();
 
                   return FutureBuilder<List<MemberModel>>(
                       future: HttpService().getMembersByIds(guardians.map((e) => e.uid).toSet().toList()),
@@ -80,16 +80,16 @@ class GuardianTabs extends StatelessWidget {
                         if (snapshot.hasData) {
                           return TabBarView(
                             children: [
-                              MyGuardiansTab(guardians, snapshot.data),
+                              MyGuardiansTab(guardians as List<Guardian>, snapshot.data),
                               ImGuardianForTab(guardians, snapshot.data),
                             ],
                           );
                         } else {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator());
                         }
                       });
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               }),
         ));

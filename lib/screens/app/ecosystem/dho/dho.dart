@@ -4,13 +4,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart' hide Action;
 import 'package:rubber/rubber.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/constants/config.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/seeds_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:eosdart/eosdart.dart' show Action;
+import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 class DHO extends StatelessWidget {
   Widget build(_) {
@@ -34,14 +34,16 @@ class _WebWalletState extends State<WebWallet> with SingleTickerProviderStateMix
 
   @override
   void initState() {
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    if (Platform.isAndroid) {
+      WebView.platform = SurfaceAndroidWebView();
+    }
 
     bottomSheetController = RubberAnimationController(
         vsync: this,
         halfBoundValue: AnimationControllerValue(percentage: 0.25),
         upperBoundValue: AnimationControllerValue(percentage: 0.5),
         lowerBoundValue: AnimationControllerValue(pixel: 53),
-        duration: Duration(milliseconds: 400));
+        duration: const Duration(milliseconds: 400));
 
     super.initState();
   }
@@ -56,7 +58,7 @@ class _WebWalletState extends State<WebWallet> with SingleTickerProviderStateMix
         child: Stack(
           children: [
             status == Status.Loading
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(
                       backgroundColor: Colors.white,
                       valueColor: AlwaysStoppedAnimation(AppColors.blue),
@@ -83,7 +85,7 @@ class _WebWalletState extends State<WebWallet> with SingleTickerProviderStateMix
                   });
                 },
                 onLoginComplete: () {
-                  Future.delayed(Duration(seconds: 1)).then((_) {
+                  Future.delayed(const Duration(seconds: 1)).then((_) {
                     setState(() {
                       status = Status.Connected;
                     });
@@ -105,11 +107,11 @@ class _WebWalletState extends State<WebWallet> with SingleTickerProviderStateMix
     );
   }
 
-  Completer completer;
+  late Completer completer;
 
   void transactionAccepted() async {
     try {
-      bottomSheetController.collapse();
+      await bottomSheetController.collapse();
 
       var response = await EosService.of(context, listen: false).sendTransaction(actions);
 
@@ -127,7 +129,7 @@ class _WebWalletState extends State<WebWallet> with SingleTickerProviderStateMix
     // completer.completeError(err);
   }
 
-  List<Action> actions;
+  List<Action>? actions;
 
   Future<String> confirmTransaction(List<Action> transactionActions) async {
     completer = Completer<String>();
@@ -137,9 +139,9 @@ class _WebWalletState extends State<WebWallet> with SingleTickerProviderStateMix
       actions = transactionActions;
     });
 
-    bottomSheetController.expand();
+    await bottomSheetController.expand();
 
-    return completer.future;
+    return completer.future as FutureOr<String>;
   }
 }
 
@@ -206,13 +208,13 @@ class _WalletSheetViewState extends State<WalletSheetView> {
                   ),
                   Text(
                     'Status: $statusText',
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ],
               ),
             ],
           ),
-          widget.status == Status.Sign && widget.actions.isNotEmpty
+          widget.status == Status.Sign && widget.actions!.isNotEmpty
               ? TransactionSheet(
                   actions: widget.actions,
                   onTransactionAccepted: widget.onTransactionAccepted,
@@ -284,7 +286,7 @@ class _WalletWebViewState extends State<WalletWebView> {
       onWebViewCreated: (WebViewController controller) {
         dhoController = controller;
       },
-      javascriptChannels: Set.from([
+      javascriptChannels: {
         JavascriptChannel(
           name: "LightWalletChannel",
           onMessageReceived: (JavascriptMessage message) async {
@@ -293,47 +295,47 @@ class _WalletWebViewState extends State<WalletWebView> {
             print(data);
 
             if (data['messageType'] == 'login') {
-              widget.onLoginMessage();
+              widget.onLoginMessage!();
 
               var callbackName = data['callbackName'];
 
               var invokeCallback = compileCallbackJs(callbackName, accountName);
-              dhoController.evaluateJavascript(invokeCallback);
+              await dhoController.evaluateJavascript(invokeCallback);
 
-              widget.onLoginComplete();
+              widget.onLoginComplete!();
             } else if (data['messageType'] == 'sendTransaction') {
-              widget.onTransactionMessage();
+              widget.onTransactionMessage!();
 
               var callbackName = data['callbackName'];
               var actions = jsonDecode(data['actions']).map<Action>((e) => Action.fromJson(e)).toList();
 
-              var transactionId = await widget.confirmTransaction(actions);
+              var transactionId = await widget.confirmTransaction!(actions);
 
               var invokeCallback = compileCallbackJs(callbackName, transactionId);
               dhoController.evaluateJavascript(invokeCallback);
 
-              widget.onTransactionComplete();
+              widget.onTransactionComplete!();
             } else {
-              throw new ArgumentError("messageType is not supported");
+              throw ArgumentError("messageType is not supported");
             }
           },
         )
-      ]),
+      },
     );
   }
 }
 
 class TransactionSheet extends StatefulWidget {
   const TransactionSheet({
-    Key key,
-    @required this.onTransactionAccepted,
-    @required this.onTransactionRejected,
-    @required this.actions,
+    Key? key,
+    required this.onTransactionAccepted,
+    required this.onTransactionRejected,
+    required this.actions,
   }) : super(key: key);
 
-  final Function onTransactionAccepted;
-  final Function onTransactionRejected;
-  final List<Action> actions;
+  final Function? onTransactionAccepted;
+  final Function? onTransactionRejected;
+  final List<Action>? actions;
 
   @override
   _TransactionSheetState createState() => _TransactionSheetState();
@@ -349,9 +351,9 @@ class _TransactionSheetState extends State<TransactionSheet> {
         children: [
           ListView(
             shrinkWrap: true,
-            children: widget.actions.map(
+            children: widget.actions!.map(
               (action) {
-                var data = Map<String, dynamic>.from(action.data);
+                var data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
 
                 return Theme(
                   data: ThemeData(
@@ -359,13 +361,13 @@ class _TransactionSheetState extends State<TransactionSheet> {
                     unselectedWidgetColor: Colors.white,
                   ),
                   child: ExpansionTile(
-                    childrenPadding: EdgeInsets.symmetric(
+                    childrenPadding: const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 0,
                     ),
                     title: Text(
                       "${action.account} -> ${action.name}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: "heebo",
                         fontSize: 14,
                         color: Colors.white,
@@ -379,7 +381,7 @@ class _TransactionSheetState extends State<TransactionSheet> {
                               children: <Widget>[
                                 Text(
                                   e.key,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: "heebo",
                                     fontSize: 8,
                                     color: Colors.white,
@@ -388,7 +390,7 @@ class _TransactionSheetState extends State<TransactionSheet> {
                                 ),
                                 Text(
                                   e.value.toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: "heebo",
                                     fontSize: 8,
                                     color: Colors.white,
@@ -399,7 +401,7 @@ class _TransactionSheetState extends State<TransactionSheet> {
                             ),
                           )
                           .toList(),
-                      Divider(),
+                      const Divider(),
                     ],
                   ),
                 );

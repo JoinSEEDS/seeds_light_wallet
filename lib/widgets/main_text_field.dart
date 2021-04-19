@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 
 class MainTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final TextInputType keyboardType;
-  final String labelText;
-  final String hintText;
-  final String endText;
-  final EdgeInsets margin;
-  final int maxLength;
-  final Function validator;
-  final Function(String) onChanged;
-  final FocusNode focusNode;
-  final VoidCallback onEditingComplete;
-  final TextInputAction textInputAction;
-  final String initialValue;
-  final TextStyle counterStyle;
-  final TextStyle textStyle;
-  final String errorText;
-  final Widget suffixIcon;
-  final List<TextInputFormatter> inputFormatters;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final String? labelText;
+  final String? hintText;
+  final String? endText;
+  final EdgeInsets? margin;
+  final int? maxLength;
+  final Function? validator;
+  final Function(String)? onChanged;
+  final FocusNode? focusNode;
+  final VoidCallback? onEditingComplete;
+  final TextInputAction? textInputAction;
+  final String? initialValue;
+  final TextStyle? counterStyle;
+  final TextStyle? textStyle;
+  final String? errorText;
+  final Widget? suffixIcon;
+  final List<TextInputFormatter>? inputFormatters;
 
-  final bool autofocus;
+  final bool? autofocus;
   final bool autocorrect;
 
-  MainTextField({
+  const MainTextField({
     this.controller,
     this.initialValue,
     this.keyboardType,
-    @required this.labelText,
+    required this.labelText,
     this.hintText,
     this.endText,
     this.margin,
@@ -55,13 +55,18 @@ class MainTextField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          labelText != null ? Container(
-            padding: EdgeInsets.only(left: 5, top: 3, bottom: 3),
-            child: Text(
-              labelText,
-              style: TextStyle(color: AppColors.grey),
-            ),
-          ) : Container(width: 0, height: 0,),
+          labelText != null
+              ? Container(
+                  padding: const EdgeInsets.only(left: 5, top: 3, bottom: 3),
+                  child: Text(
+                    labelText!,
+                    style: const TextStyle(color: AppColors.grey),
+                  ),
+                )
+              : Container(
+                  width: 0,
+                  height: 0,
+                ),
           Stack(
             alignment: Alignment.centerRight,
             children: [
@@ -73,8 +78,8 @@ class MainTextField extends StatelessWidget {
                 keyboardType: keyboardType,
                 autocorrect: autocorrect,
                 maxLength: maxLength,
-                validator: validator,
-                onChanged: (value) => onChanged(value),
+                validator: validator as String? Function(String?)?,
+                onChanged: (value) => onChanged!(value),
                 autofocus: autofocus ?? false,
                 focusNode: focusNode,
                 onEditingComplete: onEditingComplete,
@@ -85,32 +90,29 @@ class MainTextField extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(13),
-                      borderSide: BorderSide(color: Colors.amberAccent)),
+                      borderRadius: BorderRadius.circular(13), borderSide: const BorderSide(color: Colors.amberAccent)),
                   errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(13),
-                      borderSide: BorderSide(color: Colors.redAccent)),
+                      borderRadius: BorderRadius.circular(13), borderSide: const BorderSide(color: Colors.redAccent)),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(13),
-                      borderSide: BorderSide(color: AppColors.borderGrey)),
+                      borderSide: const BorderSide(color: AppColors.borderGrey)),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(13),
-                      borderSide: BorderSide(color: AppColors.borderGrey)),
-                  contentPadding: EdgeInsets.only(left: 15, right: 15),
+                      borderSide: const BorderSide(color: AppColors.borderGrey)),
+                  contentPadding: const EdgeInsets.only(left: 15, right: 15),
                   counterStyle: counterStyle,
                   hintText: hintText,
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     color: Colors.grey,
                   ),
-                  
                 ),
               ),
               endText != null
                   ? Container(
-                      margin: EdgeInsets.only(right: 15),
+                      margin: const EdgeInsets.only(right: 15),
                       child: Text(
-                        endText,
-                        style: TextStyle(color: AppColors.grey, fontSize: 16),
+                        endText!,
+                        style: const TextStyle(color: AppColors.grey, fontSize: 16),
                       ),
                     )
                   : Container()

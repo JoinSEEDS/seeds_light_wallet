@@ -10,8 +10,8 @@ LinkedHashMap<_ToolboxAppState, BuildContext> contextMap = LinkedHashMap();
 
 class ToolboxApp extends StatefulWidget {
   const ToolboxApp({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
     this.noItemsFoundBuilder,
     this.noItemsFoundWidget,
   }) : super(key: key);
@@ -19,8 +19,8 @@ class ToolboxApp extends StatefulWidget {
   /// Usually should be [MaterialApp] or [CupertinoApp].
   final Widget child;
 
-  final NoItemsFoundBuilder noItemsFoundBuilder;
-  final Widget noItemsFoundWidget;
+  final NoItemsFoundBuilder? noItemsFoundBuilder;
+  final Widget? noItemsFoundWidget;
 
   @override
   _ToolboxAppState createState() => _ToolboxAppState();
@@ -43,7 +43,7 @@ class _ToolboxAppState extends State<ToolboxApp> {
     contextMap[this] = context;
 
     return OKToast(
-      textPadding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      textPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       position: ToastPosition.bottom,
       radius: 50,
       child: Provider.value(

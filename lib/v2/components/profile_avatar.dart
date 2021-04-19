@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 
 /// PROFILE AVATAR
@@ -10,21 +10,18 @@ import 'package:seeds/design/app_theme.dart';
 /// with a colored background
 class ProfileAvatar extends StatelessWidget {
   final double size;
-  final String image;
-  final String nickname;
+  final String? image;
+  final String? nickname;
   final String account;
-  final BoxDecoration decoration;
+  final BoxDecoration? decoration;
 
   const ProfileAvatar({
     this.decoration,
-    @required this.size,
-    @required this.image,
-    @required this.nickname,
-    @required this.account,
-  })  : assert(size != null),
-        assert(image != null),
-        assert(nickname != null),
-        assert(account != null);
+    required this.size,
+    this.image,
+    this.nickname,
+    required this.account,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +36,15 @@ class ProfileAvatar extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    if (image.startsWith('http')) {
-      return CachedNetworkImage(imageUrl: image, fit: BoxFit.cover);
-    } else if (image.endsWith('.svg')) {
-      return SvgPicture.asset(image, fit: BoxFit.scaleDown);
+    if (image != null && image!.startsWith('http')) {
+      return CachedNetworkImage(imageUrl: image!, fit: BoxFit.cover);
+    } else if (image != null && image!.endsWith('.svg')) {
+      return SvgPicture.asset(image!, fit: BoxFit.scaleDown);
     } else {
-      var shortName = nickname.isNotEmpty && nickname != 'Seeds Account' && nickname != 'Telos Account'
-          ? nickname.substring(0, 2).toUpperCase()
-          : account.substring(0, 2).toUpperCase();
+      var shortName =
+          nickname != null && nickname!.isNotEmpty && nickname != 'Seeds Account' && nickname != 'Telos Account'
+              ? nickname!.substring(0, 2).toUpperCase()
+              : account.substring(0, 2).toUpperCase();
 
       return Container(
         decoration: decoration ??

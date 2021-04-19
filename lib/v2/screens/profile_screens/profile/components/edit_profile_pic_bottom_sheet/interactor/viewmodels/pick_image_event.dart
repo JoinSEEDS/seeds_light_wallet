@@ -13,7 +13,7 @@ abstract class PickImageEvent extends Equatable {
 class GetImage extends PickImageEvent {
   final ImageSource source;
 
-  const GetImage({@required this.source}) : assert(source != null);
+  const GetImage({required this.source});
 
   @override
   List<Object> get props => [source];

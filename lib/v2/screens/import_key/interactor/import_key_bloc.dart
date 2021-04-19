@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_message_token_repository.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/import_key/interactor/mappers/import_key_state_mapper.dart';
@@ -14,8 +14,9 @@ import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_sta
 class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
   final SettingsNotifier _settingsNotifier;
   final AuthNotifier _authNotifier;
+  final AuthenticationBloc _authenticationBloc;
 
-  ImportKeyBloc(this._settingsNotifier, this._authNotifier) : super(ImportKeyState.initial());
+  ImportKeyBloc(this._settingsNotifier, this._authNotifier, this._authenticationBloc) : super(ImportKeyState.initial());
 
   @override
   Stream<ImportKeyState> mapEventToState(ImportKeyEvent event) async* {
@@ -35,8 +36,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       _settingsNotifier.saveAccount(event.account, state.privateKey.toString());
       _settingsNotifier.privateKeyBackedUp = true;
 
-      settingsStorage.saveAccount(event.account, state.privateKey.toString());
-      settingsStorage.privateKeyBackedUp = true;
+      _authenticationBloc.add(OnImportAccount(account: event.account, privateKey: state.privateKey.toString()));
 
       await FirebaseMessageTokenRepository().setFirebaseMessageToken(event.account);
 

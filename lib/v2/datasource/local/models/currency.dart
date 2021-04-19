@@ -114,7 +114,7 @@ class Currency {
   Currency(this.code, this.name);
 
   String get flagEmoji {
-    if (code == null || code.isEmpty) {
+    if (code.isEmpty) {
       return '';
     }
     // 0x41 is Letter A
