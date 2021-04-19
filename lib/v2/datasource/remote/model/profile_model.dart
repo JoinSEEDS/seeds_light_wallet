@@ -1,5 +1,5 @@
 class ProfileModel {
-  final String? account;
+  final String account;
   final String? status;
   final String? type;
   final String? nickname;
@@ -12,7 +12,7 @@ class ProfileModel {
   final int? timestamp;
 
   ProfileModel({
-    this.account,
+    required this.account,
     this.status,
     this.type,
     this.nickname,

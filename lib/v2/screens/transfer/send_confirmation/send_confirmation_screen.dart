@@ -37,20 +37,21 @@ class SendConfirmationScreen extends StatelessWidget {
         body: BlocListener<SendConfirmationBloc, SendConfirmationState>(
           listenWhen: (context, SendConfirmationState state) => state.pageCommand != null,
           listener: (BuildContext context, SendConfirmationState state) {
-            if (state.pageCommand is ShowTransactionSuccess) {
+            var pageCommand = state.pageCommand;
+            if (pageCommand is ShowTransactionSuccess) {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
-                    amount: state.pageCommand!.amount,
-                    fiatAmount: state.pageCommand!.fiatAmount,
-                    fromAccount: state.pageCommand!.fromAccount,
-                    fromImage: state.pageCommand!.fromImage,
-                    fromName: state.pageCommand!.fromName,
-                    toAccount: state.pageCommand!.toAccount,
-                    toImage: state.pageCommand!.toImage,
-                    toName: state.pageCommand!.toName,
-                    transactionID: state.pageCommand!.transactionId),
+                    amount: pageCommand.amount,
+                    fiatAmount: pageCommand.fiatAmount,
+                    fromAccount: pageCommand.fromAccount,
+                    fromImage: pageCommand.fromImage,
+                    fromName: pageCommand.fromName,
+                    toAccount: pageCommand.toAccount,
+                    toImage: pageCommand.toImage,
+                    toName: pageCommand.toName,
+                    transactionID: pageCommand.transactionId),
               );
             }
           },
@@ -74,13 +75,13 @@ class SendConfirmationScreen extends StatelessWidget {
                               TransactionDetails(
                                 /// This needs to change to use the token icon. right now its hard coded to seeds
                                 image: SvgPicture.asset("assets/images/seeds_logo.svg"),
-                                title: state.name!.inCaps,
+                                title: state.name.inCaps,
                                 beneficiary: state.account,
                               ),
                               const SizedBox(height: 42),
                               Column(
                                 children: <Widget>[
-                                  ...state.lineItems!
+                                  ...state.lineItems
                                       .map(
                                         (e) => Padding(
                                           padding: const EdgeInsets.only(top: 16),

@@ -1,13 +1,13 @@
 class ShowTransactionSuccess {
-  final String? amount;
+  final String amount;
   final String? fiatAmount;
   final String? toImage;
   final String? toName;
-  final String? toAccount;
+  final String toAccount;
   final String? fromImage;
   final String? fromName;
-  final String? fromAccount;
-  final String? transactionId;
+  final String fromAccount;
+  final String transactionId;
 
   ShowTransactionSuccess({
     required this.amount,
@@ -22,10 +22,10 @@ class ShowTransactionSuccess {
   });
 
   ShowTransactionSuccess.withoutServerUserData({
-    String? amount,
-    String? toAccount,
-    String? fromAccount,
-    String? transactionId,
+    required String amount,
+    required String toAccount,
+    required String fromAccount,
+    required String transactionId,
     String? fiatAmount,
   }) : this(
             amount: amount,

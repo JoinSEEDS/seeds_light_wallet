@@ -86,7 +86,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                     size: 100,
                     image: profile.image,
                     nickname: profile.nickname,
-                    account: profile.account!,
+                    account: profile.account,
                   ),
                   const SizedBox(height: 8.0),
                   Text(
