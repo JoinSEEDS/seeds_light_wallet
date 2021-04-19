@@ -71,7 +71,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       if (_handledQrCode || event.code.isEmpty) {
         return;
       }
-      
+
       setState(() {
         _handledQrCode = true;
       });
