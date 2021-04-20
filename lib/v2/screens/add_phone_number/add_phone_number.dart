@@ -3,7 +3,7 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/design/app_theme.dart';
 
-/// Login SCREEN
+/// Claim invite Flow Screen (Add phone number)
 class AddPhoneNumberScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
