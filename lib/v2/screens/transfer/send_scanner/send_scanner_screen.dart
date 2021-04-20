@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/scanner/scanner_screen.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -16,7 +16,7 @@ class SendScannerScreen extends StatefulWidget {
 }
 
 class _SendScannerScreenState extends State<SendScannerScreen> {
-  ScannerScreen _scannerScreen;
+  late ScannerScreen _scannerScreen;
   final _sendPageBloc = SendPageBloc();
 
   @override
@@ -32,15 +32,15 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
       body: BlocProvider(
         create: (context) => _sendPageBloc,
         child: BlocListener<SendPageBloc, SendPageState>(
-          listenWhen: (context, SendPageState state) => state.pageState == PageState.success,
+          listenWhen: (context, SendPageState state) => state.pageState == PageState.success && state.pageCommand != null,
           listener: (context, SendPageState state) {
             _scannerScreen.stop();
             NavigationService.of(context).navigateTo(
                 Routes.sendConfirmationScreen,
                 SendConfirmationArguments(
-                  account: state.pageCommand.resultData.accountName,
-                  name: state.pageCommand.resultData.name,
-                  data: state.pageCommand.resultData.data,
+                  account: state.pageCommand!.resultData.accountName!,
+                  name: state.pageCommand!.resultData.name!,
+                  data: state.pageCommand!.resultData.data!,
                 ),
                 true);
           },
@@ -69,8 +69,8 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                state.error,
-                                style: Theme.of(context).textTheme.subtitle2.copyWith(color: AppColors.orangeYellow),
+                                state.error!,
+                                style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
                                 textAlign: TextAlign.center,
                               ),
                             ),

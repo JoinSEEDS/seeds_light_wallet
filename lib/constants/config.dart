@@ -1,3 +1,5 @@
+
+
 class Config {
   static final onboardingAccountName = 'join.seeds';
   static final onboardingPrivateKey = '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';

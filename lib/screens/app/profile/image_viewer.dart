@@ -1,16 +1,18 @@
+
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImageViewerArguments {
-  final String imageUrl;
-  final String heroTag;
+  final String? imageUrl;
+  final String? heroTag;
 
   const ImageViewerArguments({this.imageUrl, this.heroTag});
 }
 
 class ImageViewer extends StatelessWidget {
-  final ImageViewerArguments arguments;
+  final ImageViewerArguments? arguments;
 
   const ImageViewer({this.arguments});
 
@@ -24,7 +26,7 @@ class ImageViewer extends StatelessWidget {
             minScale: PhotoViewComputedScale.contained,
             maxScale: PhotoViewComputedScale.contained,
             initialScale: PhotoViewComputedScale.contained,
-            heroAttributes: PhotoViewHeroAttributes(tag: arguments.heroTag),
+            heroAttributes: PhotoViewHeroAttributes(tag: arguments!.heroTag!),
             imageProvider: CachedNetworkImageProvider(
               arguments?.imageUrl ?? '',
             ),

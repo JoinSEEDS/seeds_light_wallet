@@ -126,7 +126,7 @@ class HttpMockResponse {
 
   static final voice = VoiceModel(77);
 
-  static final planted = PlantedModel(5.0000);
+  static final planted = const PlantedModel(5.0000);
 
   static final proposals = [
     ProposalModel(

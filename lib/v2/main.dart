@@ -40,7 +40,7 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await settingsStorage.initialise();
+  settingsStorage.initialise();
   await PushNotificationService().initialise();
   await remoteConfigurations.initialise();
   Bloc.observer = SimpleBlocObserver();
@@ -58,7 +58,7 @@ void main(List<String> args) async {
           print('Isolate.current.addErrorListener caught an error');
           await _reportError(
             (pair as List<String>).first,
-            (pair as List<String>).last,
+            pair.last,
           );
         }).sendPort,
       );
@@ -74,7 +74,7 @@ void main(List<String> args) async {
 }
 
 class SeedsMaterialApp extends MaterialApp {
-  SeedsMaterialApp({home, navigatorKey, onGenerateRoute})
+  SeedsMaterialApp({required home, navigatorKey, onGenerateRoute})
       : super(
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,
@@ -94,7 +94,7 @@ class SeedsMaterialApp extends MaterialApp {
 }
 
 class SeedsApp extends StatelessWidget {
-  const SeedsApp({Key key}) : super(key: key);
+  const SeedsApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class SeedsApp extends StatelessWidget {
 }
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({Key key}) : super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +140,7 @@ class MainScreen extends StatelessWidget {
           case AuthStatus.unlocked:
             return ToolboxApp(
               child: SeedsMaterialApp(
-                home: App(),
+                home: const App(),
                 navigatorKey: navigationService.appNavigatorKey,
                 onGenerateRoute: navigationService.onGenerateRoute,
               ),

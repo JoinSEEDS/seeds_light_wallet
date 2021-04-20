@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:seeds/features/biometrics/biometrics_service.dart';
 import 'package:seeds/features/biometrics/auth_state.dart';
@@ -17,8 +18,8 @@ class BiometricAuthUseCase {
         print("AuthState.unauthorized (direct)");
         return ValueResult(AuthState.unauthorized);
       }
-    } catch (error) {
-      return ErrorResult("Error auth with biometrics: $error");
+    } on PlatformException catch (error) {
+      return ErrorResult(error.code);
     }
   }
 }

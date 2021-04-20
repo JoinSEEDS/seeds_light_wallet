@@ -12,14 +12,14 @@ class PushNotificationService {
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   bool _initialized = false;
-  String token;
+  String? token;
 
   Future initialise() async {
     if (!_initialized) {
       // Requesting Permission
       await requestingPermissionForIOS();
       // If the application has been opened from a terminated state
-      await FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage message) {
+      await FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
         if (message != null) {
           print("FirebaseMessaging getInitialMessage: ${message}");
         }

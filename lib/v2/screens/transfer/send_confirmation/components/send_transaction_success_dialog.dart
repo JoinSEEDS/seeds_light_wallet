@@ -2,33 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
-  final String fiatAmount;
-  final String toImage;
-  final String toName;
+  final String? fiatAmount;
+  final String? toImage;
+  final String? toName;
   final String toAccount;
-  final String fromImage;
-  final String fromName;
+  final String? fromImage;
+  final String? fromName;
   final String fromAccount;
   final String transactionID;
 
   const SendTransactionSuccessDialog(
-      {Key key,
-      @required this.amount,
+      {Key? key,
+      required this.amount,
       this.fiatAmount,
       this.toImage,
       this.toName,
-      @required this.toAccount,
+      required this.toAccount,
       this.fromImage,
       this.fromName,
-      @required this.fromAccount,
-      @required this.transactionID})
+      required this.fromAccount,
+      required this.transactionID})
       : super(key: key);
 
   @override
@@ -78,7 +78,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: transactionID)).then(
                     (value) {
-                      ScaffoldMessenger.maybeOf(context)
+                      ScaffoldMessenger.maybeOf(context)!
                           .showSnackBar(const SnackBar(content: Text("Copied"), duration: Duration(seconds: 1)));
                     },
                   );
@@ -113,12 +113,12 @@ class SendTransactionSuccessDialog extends StatelessWidget {
 }
 
 class DialogRow extends StatelessWidget {
-  final String imageUrl;
-  final String account;
-  final String name;
-  final String toOrFromText;
+  final String? imageUrl;
+  final String? account;
+  final String? name;
+  final String? toOrFromText;
 
-  const DialogRow({Key key, this.imageUrl, this.account, this.name, this.toOrFromText}) : super(key: key);
+  const DialogRow({Key? key, this.imageUrl, this.account, this.name, this.toOrFromText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +129,7 @@ class DialogRow extends StatelessWidget {
         ProfileAvatar(
           size: 60,
           image: imageUrl,
-          account: account,
+          account: account!,
           nickname: name,
         ),
         Expanded(
@@ -139,9 +139,9 @@ class DialogRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text(name ?? account, textAlign: TextAlign.start, style: Theme.of(context).textTheme.buttonBlack),
+                Text(name ?? account!, textAlign: TextAlign.start, style: Theme.of(context).textTheme.buttonBlack),
                 const SizedBox(height: 8),
-                Text(account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack)
+                Text(account!, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack)
               ],
             ),
           ),
@@ -151,7 +151,7 @@ class DialogRow extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen5),
             child: Padding(
               padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
-              child: Text(toOrFromText, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
+              child: Text(toOrFromText!, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
             )),
       ],
     );

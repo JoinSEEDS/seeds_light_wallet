@@ -11,15 +11,21 @@ import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/notion_loader.dart';
 import 'package:seeds/widgets/second_button.dart';
-import 'package:share/share.dart';
+// import 'package:share/share.dart';
 
-enum RecoveryStatus { loading, waitingConfirmations, waitingTimelock, claimReady, noGuardiansFound }
+enum RecoveryStatus {
+  loading,
+  waitingConfirmations,
+  waitingTimelock,
+  claimReady,
+  noGuardiansFound,
+}
 
 class ContinueRecovery extends StatefulWidget {
-  final Function onClaimed;
-  final Function onCancel;
+  final Function? onClaimed;
+  final Function? onCancel;
 
-  ContinueRecovery({this.onClaimed, this.onCancel});
+  const ContinueRecovery({this.onClaimed, this.onCancel});
 
   @override
   _ContinueRecoveryState createState() => _ContinueRecoveryState();
@@ -35,9 +41,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
     String accountName = SettingsNotifier.of(context).accountName;
 
     if (recovering) {
-      return NotionLoader(
-        notion: "Recovering account...",
-      );
+      return const NotionLoader(notion: "Recovering account...");
     } else if (doneSuccess) {
       return successComponent(accountName);
     } else if (canClaim) {
@@ -49,21 +53,21 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
         builder: (context, snapshot) {
           var status = RecoveryStatus.loading; // Default state: Loading
 
-          UserRecoversModel recoversModel;
-          UserGuardiansModel guardiansModel;
+          UserRecoversModel? recoversModel;
+          UserGuardiansModel? guardiansModel;
 
           int confirmedGuardianSignatures = 0;
-          int guardians;
+          int? guardians;
           int timeLockSeconds = 0;
 
           if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-            recoversModel = snapshot.data[0];
-            guardiansModel = snapshot.data[1];
+            // recoversModel = snapshot.data![0];
+            // guardiansModel = snapshot.data![1];
 
-            print("recovers: ${recoversModel.exists}");
-            print("guardians: ${guardiansModel.exists}");
+            print("recovers: ${recoversModel!.exists}");
+            print("guardians: ${guardiansModel!.exists}");
 
-            if (!guardiansModel.exists) {
+            if (!guardiansModel.exists!) {
               // This user doesn't have guardians
               status = RecoveryStatus.noGuardiansFound;
             } else {
@@ -71,19 +75,19 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
               status = RecoveryStatus.waitingConfirmations;
 
               // Total number of guardians - this decides how many signatures we need.
-              guardians = guardiansModel.guardians.length;
+              guardians = guardiansModel.guardians!.length;
 
-              if (!recoversModel.exists) {
+              if (!recoversModel.exists!) {
                 // Recovery has not started yet.
                 // The first signature puts a recovery model in the table. No model ==> no signatures.
                 confirmedGuardianSignatures = 0;
               } else {
                 // Recovery has started - check if we have enough signatures
                 // Note: All these values are enforced by the contract
-                confirmedGuardianSignatures = recoversModel.guardians.length;
+                confirmedGuardianSignatures = recoversModel.guardians!.length;
 
                 // check how long we have to wait before we can claim (24h delay is standard)
-                timeLockSeconds = recoversModel.completeTimestamp + guardiansModel.timeDelaySec;
+                timeLockSeconds = recoversModel.completeTimestamp! + guardiansModel.timeDelaySec!;
 
                 // for 3 signers, we need 2/3 signatures. For 4 or 5 signers, we need 3+ signatures.
                 if ((guardians == 3 && confirmedGuardianSignatures >= 2) ||
@@ -104,7 +108,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
             case RecoveryStatus.waitingConfirmations:
               currentWidget = Column(
                 children: [
-                  Text(
+                  const Text(
                     "Waiting For Confirmations",
                     style: TextStyle(
                       fontSize: 24,
@@ -114,26 +118,26 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                   ),
                   Text(
                     " $confirmedGuardianSignatures of $guardians guardians signed: ",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       fontFamily: "worksans",
                     ),
                   ),
-                  ...(recoversModel.guardians ?? [])
+                  ...(recoversModel!.guardians ?? [])
                       .map((guardian) => Text(guardian,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                             fontFamily: "worksans",
                           )))
                       .toList(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10),
                     child: ShareRecoveryLink(),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: SecondButton(
                       title: "Refresh",
                       onPressed: () => setState(() {}),
@@ -146,9 +150,9 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
             case RecoveryStatus.waitingTimelock:
               currentWidget = Column(
                 children: [
-                  Text("Waiting for time lock",
+                  const Text("Waiting for time lock",
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
-                  Text(
+                  const Text(
                     "Recover your account in",
                     style: TextStyle(
                       fontSize: 14,
@@ -158,7 +162,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
                   ),
                   CountdownClock(timeLockSeconds, () => setState(() {})),
                   Padding(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: SecondButton(
                       title: "Refresh",
                       onPressed: () => setState(() {}),
@@ -174,7 +178,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
 
             case RecoveryStatus.noGuardiansFound:
               currentWidget = Text("No guardians found for $accountName",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans"));
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans"));
               break;
 
             default:
@@ -205,7 +209,7 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
     return Column(
       children: [
         Text("Account recovered $accountName",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
         Padding(
           padding: const EdgeInsets.only(top: 24),
           child: MainButton(
@@ -220,10 +224,10 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
   Widget successComponent(String accountName) {
     return Column(
       children: [
-        Text("Your account has been recovered",
+        const Text("Your account has been recovered",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, fontFamily: "worksans")),
-        Padding(
-          padding: const EdgeInsets.all(24),
+        const Padding(
+          padding: EdgeInsets.all(24),
           child: Icon(
             Icons.check_circle,
             color: Colors.greenAccent,
@@ -245,14 +249,14 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
         return AlertDialog(
           title: Text('Cancel Recovery?'.i18n),
           actions: [
-            FlatButton(
+            MaterialButton(
               child: Text("Yes".i18n),
               onPressed: () {
                 Navigator.pop(context);
-                widget.onCancel();
+                widget.onCancel!();
               },
             ),
-            FlatButton(
+            MaterialButton(
               child: Text("No".i18n),
               onPressed: () {
                 Navigator.pop(context);
@@ -299,8 +303,8 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
       final snackBar = SnackBar(
         content: Row(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+            const Padding(
+              padding: EdgeInsets.only(right: 8.0),
               child: Icon(
                 Icons.close,
                 color: Colors.red,
@@ -315,13 +319,13 @@ class _ContinueRecoveryState extends State<ContinueRecovery> {
           ],
         ),
       );
-      Scaffold.of(context).showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 }
 
 class ShareRecoveryLink extends StatefulWidget {
-  ShareRecoveryLink();
+  const ShareRecoveryLink();
 
   @override
   _ShareRecoveryLinkState createState() => _ShareRecoveryLinkState();
@@ -334,14 +338,14 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
       future: generateRecoveryLink(),
       builder: (context, snapshot) {
         return AnimatedCrossFade(
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           firstChild: MainButton(
             title: "Share recovery link",
             onPressed: () {
-              Share.share(snapshot.data);
+              // Share.share(snapshot.data);
             },
           ),
-          secondChild: Text("Creating link..."),
+          secondChild: const Text("Creating link..."),
           crossFadeState:
               snapshot.connectionState == ConnectionState.done ? CrossFadeState.showFirst : CrossFadeState.showSecond,
         );
@@ -351,7 +355,7 @@ class _ShareRecoveryLinkState extends State<ShareRecoveryLink> {
 
   Future<String> generateRecoveryLink() async {
     String accountName = SettingsNotifier.of(context).accountName;
-    String pKey = SettingsNotifier.of(context).privateKey;
+    String pKey = SettingsNotifier.of(context).privateKey!;
 
     print("GR acct $accountName $pKey");
 
@@ -369,19 +373,19 @@ class CountdownClock extends StatefulWidget {
   final int toTime;
   final Function onDone;
 
-  CountdownClock(this.toTime, this.onDone);
+  const CountdownClock(this.toTime, this.onDone);
 
   @override
   CountdownClockState createState() => CountdownClockState();
 }
 
 class CountdownClockState extends State<CountdownClock> {
-  Timer _timer;
+  Timer? _timer;
   var seconds = 0;
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer!.cancel();
     super.dispose();
   }
 
@@ -393,15 +397,15 @@ class CountdownClockState extends State<CountdownClock> {
     setState(() {
       seconds = secondsRemaining();
     });
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
       oneSec,
       (Timer timer) {
         var s = secondsRemaining();
 
         if (s <= 0) {
           setState(() {
-            _timer.cancel();
+            _timer!.cancel();
             seconds = s;
           });
           widget.onDone();
@@ -421,8 +425,9 @@ class CountdownClockState extends State<CountdownClock> {
     }
     Duration duration = Duration(seconds: seconds);
     String waitString =
-        "${duration.inHours}:${duration.inMinutes.remainder(60).twoDigits()}:${(duration.inSeconds.remainder(60).twoDigits())}";
-    return Text("$waitString", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, fontFamily: "worksans"));
+        "${duration.inHours}:${duration.inMinutes.remainder(60).twoDigits()}:${duration.inSeconds.remainder(60).twoDigits()}";
+    return Text("$waitString",
+        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, fontFamily: "worksans"));
   }
 }
 

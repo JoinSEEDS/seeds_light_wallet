@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
@@ -14,11 +13,10 @@ import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/
 
 /// --- BLOC
 class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
-  final SecurityBloc securityBloc;
+  final SecurityBloc? securityBloc;
   final AuthenticationBloc authenticationBloc;
 
-  VerificationBloc({@required this.authenticationBloc, @required this.securityBloc})
-      : super(VerificationState.initial());
+  VerificationBloc({required this.authenticationBloc, required this.securityBloc}) : super(VerificationState.initial());
 
   @override
   Stream<VerificationState> mapEventToState(VerificationEvent event) async* {
@@ -29,32 +27,31 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         isCreateView: settingsStorage.passcode == null,
         isCreateMode: settingsStorage.passcode == null,
       );
-      // If It's verification mode then start biometrics (now as default, next PR I'll add the below codition)
-      // if (settingsStorage.passcode != null && settingsStorage.biometricActive)
-      if (settingsStorage.passcode != null) {
+      // If It's verification mode and biometric is enabled -> start biomtric
+      if (settingsStorage.passcode != null && settingsStorage.biometricActive!) {
         // Fecht available biometrics
         final authTypesAvailable = await BiometricsAvailablesUseCase().run();
         yield AuthTypesStateMapper().mapResultToState(state, authTypesAvailable);
         // If fingerprint or face start biometric auth
         if (state.preferred == AuthType.fingerprint || state.preferred == AuthType.face) {
-          final authState = await BiometricAuthUseCase().run(state.preferred);
+          final authState = await BiometricAuthUseCase().run(state.preferred!);
           yield AuthStateStateMapper().mapResultToState(state, authState);
         }
         // Biometric auth result
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
             // Onboarding flow
-            authenticationBloc?.add(const UnlockWallet());
+            authenticationBloc.add(const UnlockWallet());
           } else {
             // Security flow: update screen and the fires navigator pop
-            securityBloc?.add(const OnPasscodeChanged());
+            securityBloc?.add(const OnValidVerification());
             yield state.copyWith(onBiometricAuthorized: true);
           }
         }
       }
     }
     if (event is OnVerifyPasscode) {
-      if (state.isCreateMode) {
+      if (state.isCreateMode!) {
         yield state.copyWith(
           isValidPasscode: event.passcode == state.newPasscode,
           showInfoSnack: event.passcode == state.newPasscode ? null : true,
@@ -67,16 +64,16 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
       }
     }
     if (event is OnValidVerifyPasscode) {
-      securityBloc?.add(const OnPasscodeChanged());
-      if (state.isCreateMode) {
-        settingsStorage.savePasscode(state.newPasscode);
-        settingsStorage.passcodeActive = true;
+      securityBloc?.add(const OnValidVerification());
+      if (state.isCreateMode!) {
+        authenticationBloc.add(EnablePasscode(newPasscode: state.newPasscode!));
+        yield state.copyWith(showSuccessDialog: true);
         if (securityBloc == null) {
-          authenticationBloc?.add(const UnlockWallet());
+          authenticationBloc.add(const UnlockWallet());
         }
       } else {
         if (securityBloc == null) {
-          authenticationBloc?.add(const UnlockWallet());
+          authenticationBloc.add(const UnlockWallet());
         }
       }
     }
@@ -89,16 +86,16 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
     if (event is TryAgainBiometric) {
       if (state.preferred == AuthType.fingerprint || state.preferred == AuthType.face) {
         // If fingerprint or face start biometric auth
-        final authState = await BiometricAuthUseCase().run(state.preferred);
+        final authState = await BiometricAuthUseCase().run(state.preferred!);
         yield AuthStateStateMapper().mapResultToState(state, authState);
         // Biometric auth result
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
             // Onboarding flow
-            authenticationBloc?.add(const UnlockWallet());
+            authenticationBloc.add(const UnlockWallet());
           } else {
             // Security flow: update screen and the fires navigator pop
-            securityBloc?.add(const OnPasscodeChanged());
+            securityBloc?.add(const OnValidVerification());
             yield state.copyWith(onBiometricAuthorized: true);
           }
         }

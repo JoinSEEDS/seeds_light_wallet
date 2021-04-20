@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/foundation.dart';
 
 enum GuardianType {
@@ -9,7 +11,7 @@ extension GuardianTypeExtension on GuardianType {
   String get name => describeEnum(this);
 }
 
-GuardianType fromTypeName(String name) {
+GuardianType fromTypeName(String? name) {
   switch (name) {
     case "myGuardian":
       return GuardianType.myGuardian;

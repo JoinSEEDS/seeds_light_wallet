@@ -1,3 +1,5 @@
+
+
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_map_keys.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
@@ -25,7 +27,7 @@ class GuardianServices {
   }
 
   /// User wants to remove one of his guardians.
-  Future removeGuardian(EosService eosService, String userAccount, String friendId) async {
+  Future removeGuardian(EosService eosService, String userAccount, String? friendId) async {
     print('removeGuardian started');
     return eosService
         .cancelGuardiansSafe()
@@ -43,18 +45,18 @@ class GuardianServices {
     return await FirebaseDatabaseService().removeGuardiansInitialized(userAccount);
   }
 
-  Future<void> _onCancelGuardiansSuccess(EosService eosService, String userAccount, String friendId) async {
+  Future<void> _onCancelGuardiansSuccess(EosService eosService, String userAccount, String? friendId) async {
     var guardiansQuery = await FirebaseDatabaseService().getMyGuardians(userAccount).first;
     print('cancelResult success');
 
     if (guardiansQuery.docs.length > 3) {
       print('guardiansQuery.docs.length IS > 3');
       var guardians = guardiansQuery.docs.map((e) => e[UID_KEY]).toList();
-      return await eosService.initGuardians(guardians).then((value) => _onInitGuardiansSuccess(userAccount, friendId));
+      return await eosService.initGuardians(guardians as List<String?>).then((value) => _onInitGuardiansSuccess(userAccount, friendId!));
     } else {
       print('guardiansQuery.docs.length IS NOT > 3');
       // Case where user does not have enough guardians
-      await FirebaseDatabaseService().removeMyGuardian(currentUserId: userAccount, friendId: friendId);
+      await FirebaseDatabaseService().removeMyGuardian(currentUserId: userAccount, friendId: friendId!);
       return await FirebaseDatabaseService().removeGuardiansInitialized(userAccount);
     }
   }

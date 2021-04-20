@@ -11,7 +11,7 @@ abstract class SendPageEvent extends Equatable {
 class ShowError extends SendPageEvent {
   final String error;
 
-  ShowError({@required this.error}) : assert(error != null);
+  ShowError({required this.error});
 
   @override
   String toString() => 'ShowError: { error: $error }';
@@ -20,7 +20,7 @@ class ShowError extends SendPageEvent {
 class ExecuteScanResult extends SendPageEvent {
   final String scanResult;
 
-  ExecuteScanResult({@required this.scanResult}) : assert(scanResult != null);
+  ExecuteScanResult({required this.scanResult});
 
   @override
   String toString() => 'ExecuteScanResult: { scanResult: $scanResult }';

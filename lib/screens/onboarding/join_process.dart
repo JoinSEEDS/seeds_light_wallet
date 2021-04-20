@@ -28,12 +28,12 @@ class JoinProcess extends StatefulWidget {
 class _JoinProcessState extends State<JoinProcess> {
   final machine = OnboardingStateMachine();
 
-  String nickname;
-  String accountName;
-  String privateKey;
-  String inviteCode;
-  String inviteSecret;
-  String inviterAccount;
+  String? nickname;
+  String? accountName;
+  String? privateKey;
+  String? inviteCode;
+  String? inviteSecret;
+  String? inviterAccount;
 
   @override
   void initState() {
@@ -115,7 +115,7 @@ class _JoinProcessState extends State<JoinProcess> {
     final recoveryPrivateKey = EOSPrivateKey.fromRandom();
 
     SettingsNotifier.of(context).enableRecoveryMode(
-      accountName: accountName,
+      accountName: accountName!,
       privateKey: recoveryPrivateKey.toString(),
     );
   }
@@ -126,13 +126,13 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void checkRecoveryMode() async {
-    await Future.delayed(Duration(milliseconds: 500), () {});
+    await Future.delayed(const Duration(milliseconds: 500), () {});
 
     if (SettingsNotifier.of(context).inRecoveryMode == true) {
       var accountName = SettingsNotifier.of(context).accountName;
       var pKey = SettingsNotifier.of(context).privateKey;
 
-      if (pKey != null && accountName != null) {
+      if (pKey != null) {
         machine.transition(Events.foundRecoveryFlag, data: {
           "accountName": accountName,
           "privateKey": pKey,
@@ -144,26 +144,26 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void secureAccountWithPasscode() async {
-    await Future.delayed(Duration(milliseconds: 1500), () {});
+    await Future.delayed(const Duration(milliseconds: 1500), () {});
     SettingsNotifier.of(context).saveAccount(
-      accountName,
+      accountName!,
       privateKey.toString(),
     );
   }
 
   void saveAccountToFirebase() async {
-    await Future.delayed(Duration(milliseconds: 1500), () {});
-    FirebaseMessageTokenRepository().setFirebaseMessageToken(accountName);
+    await Future.delayed(const Duration(milliseconds: 1500), () {});
+    await FirebaseMessageTokenRepository().setFirebaseMessageToken(accountName);
   }
 
   void importAccount() async {
-    await Future.delayed(Duration(milliseconds: 2000), () {});
+    await Future.delayed(const Duration(milliseconds: 2000), () {});
     SettingsNotifier.of(context).privateKeyBackedUp = true;
     machine.transition(Events.accountImported);
   }
 
   void acceptInvite() async {
-    await Future.delayed(Duration(milliseconds: 2000), () {});
+    await Future.delayed(const Duration(milliseconds: 2000), () {});
     machine.transition(Events.inviteAccepted);
   }
 
@@ -196,11 +196,11 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void validateInvite(String inviteMnemonic) async {
-    await Future.delayed(Duration(milliseconds: 500), () {});
+    await Future.delayed(const Duration(milliseconds: 500), () {});
     inviteCode = inviteMnemonic;
     inviteSecret = secretFromMnemonic(inviteMnemonic);
 
-    InviteModel invite = await findInvite(inviteSecret);
+    InviteModel invite = await findInvite(inviteSecret!);
     if (invite.sponsor != null) {
       machine.transition(
         Events.foundInviteDetails,
@@ -217,7 +217,7 @@ class _JoinProcessState extends State<JoinProcess> {
   }
 
   void listenInviteLink() async {
-    await Future.delayed(Duration(milliseconds: 500), () {});
+    await Future.delayed(const Duration(milliseconds: 500), () {});
 
     final dynamic result = await Provider.of<LinksService>(context, listen: false).processInitialLink();
 
@@ -236,8 +236,8 @@ class _JoinProcessState extends State<JoinProcess> {
 
   @override
   Widget build(BuildContext context) {
-    Widget currentScreen;
-    Function backCallback;
+    Widget? currentScreen;
+    Function? backCallback;
 
     switch (machine.currentState) {
       case States.startRecovery:
@@ -249,7 +249,7 @@ class _JoinProcessState extends State<JoinProcess> {
         backCallback = () => machine.transition(Events.recoverCanceled);
         break;
       case States.canceledRecoveryProcess:
-        currentScreen = NotionLoader(notion: "Cancel recovery process...");
+        currentScreen = const NotionLoader(notion: "Cancel recovery process...");
         break;
       case States.continueRecovery:
         currentScreen = ContinueRecovery(
@@ -357,6 +357,8 @@ class _JoinProcessState extends State<JoinProcess> {
           onRecover: () => machine.transition(Events.chosenRecoverAccount),
         );
         break;
+      default:
+        currentScreen = const SizedBox.shrink();
     }
 
     return OverlayPopup(body: currentScreen, backCallback: backCallback);
@@ -367,7 +369,7 @@ class InitRecovery extends StatefulWidget {
   @override
   _InitRecoveryState createState() => _InitRecoveryState();
 
-  InitRecovery({Function onSubmit});
+  const InitRecovery();
 }
 
 class _InitRecoveryState extends State<InitRecovery> {

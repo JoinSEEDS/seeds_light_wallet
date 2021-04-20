@@ -18,14 +18,14 @@ import 'package:seeds/v2/utils/cap_utils.dart';
 
 /// SendConfirmation SCREEN
 class SendConfirmationScreen extends StatelessWidget {
-  const SendConfirmationScreen({Key key}) : super(key: key);
+  const SendConfirmationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final SendConfirmationArguments arguments = ModalRoute.of(context).settings.arguments;
+    final SendConfirmationArguments arguments = ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
 
     return BlocProvider(
-      create: (context) => SendConfirmationBloc()..add(InitSendConfirmationWithArguments(arguments: arguments)),
+      create: (context) => SendConfirmationBloc(arguments)..add(InitSendConfirmationWithArguments()),
       child: Scaffold(
         appBar: AppBar(
             leading: IconButton(
@@ -37,20 +37,21 @@ class SendConfirmationScreen extends StatelessWidget {
         body: BlocListener<SendConfirmationBloc, SendConfirmationState>(
           listenWhen: (context, SendConfirmationState state) => state.pageCommand != null,
           listener: (BuildContext context, SendConfirmationState state) {
-            if (state.pageCommand is ShowTransactionSuccess) {
+            var pageCommand = state.pageCommand;
+            if (pageCommand is ShowTransactionSuccess) {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
-                    amount: state.pageCommand.amount,
-                    fiatAmount: state.pageCommand.fiatAmount,
-                    fromAccount: state.pageCommand.fromAccount,
-                    fromImage: state.pageCommand.fromImage,
-                    fromName: state.pageCommand.fromName,
-                    toAccount: state.pageCommand.toAccount,
-                    toImage: state.pageCommand.toImage,
-                    toName: state.pageCommand.toName,
-                    transactionID: state.pageCommand.transactionId),
+                    amount: pageCommand.amount,
+                    fiatAmount: pageCommand.fiatAmount,
+                    fromAccount: pageCommand.fromAccount,
+                    fromImage: pageCommand.fromImage,
+                    fromName: pageCommand.fromName,
+                    toAccount: pageCommand.toAccount,
+                    toImage: pageCommand.toImage,
+                    toName: pageCommand.toName,
+                    transactionID: pageCommand.transactionId),
               );
             }
           },
@@ -88,7 +89,7 @@ class SendConfirmationScreen extends StatelessWidget {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               Text(
-                                                e.label,
+                                                e.label!,
                                                 style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                                               ),
                                               Text(e.text.toString(), style: Theme.of(context).textTheme.subtitle2),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/edit_name.i18n.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
@@ -14,14 +14,14 @@ import 'package:seeds/v2/screens/import_key/interactor/import_key_bloc.dart';
 import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_events.dart';
 
 class ImportKeyScreen extends StatefulWidget {
-  const ImportKeyScreen({Key key}) : super(key: key);
+  const ImportKeyScreen({Key? key}) : super(key: key);
 
   @override
   _ImportKeyScreenState createState() => _ImportKeyScreenState();
 }
 
 class _ImportKeyScreenState extends State<ImportKeyScreen> {
-  ImportKeyBloc _importKeyBloc;
+  late ImportKeyBloc _importKeyBloc;
   final _keyController = TextEditingController();
   final _formImportKey = GlobalKey<FormState>();
 
@@ -66,7 +66,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                       controller: _keyController,
                       onFieldSubmitted: (_) => _onSubmitted(),
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value?.isEmpty == true) {
                           return 'Private Key cannot be empty';
                         }
                         return null;
@@ -104,7 +104,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
 
   void _onSubmitted() {
     FocusScope.of(context).unfocus();
-    if (_formImportKey.currentState.validate()) {
+    if (_formImportKey.currentState!.validate()) {
       _importKeyBloc.add(FindAccountByKey(userKey: _keyController.text));
     }
   }

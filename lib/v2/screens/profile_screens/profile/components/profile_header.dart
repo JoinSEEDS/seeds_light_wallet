@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
@@ -12,7 +12,7 @@ import 'package:seeds/v2/components/profile_avatar.dart';
 
 /// PROFILE HEADER
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({Key key}) : super(key: key);
+  const ProfileHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,9 @@ class ProfileHeader extends StatelessWidget {
                         },
                         child: ProfileAvatar(
                           size: 100,
-                          image: state.profile.image,
-                          nickname: state.profile.nickname,
-                          account: state.profile.account,
+                          image: state.profile!.image,
+                          nickname: state.profile!.nickname,
+                          account: state.profile!.account,
                         ),
                       ),
                     ],

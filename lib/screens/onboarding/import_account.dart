@@ -1,24 +1,18 @@
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/widgets/clipboard_text_field.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/import_account.i18n.dart';
 
-enum ImportStatus {
-  emptyPrivateKey,
-  loadingAccounts,
-  invaildPrivateKey,
-  noAccounts,
-  foundAccounts
-}
+enum ImportStatus { emptyPrivateKey, loadingAccounts, invaildPrivateKey, noAccounts, foundAccounts }
 
 class ImportAccount extends StatefulWidget {
-  final Function onImport;
+  final Function? onImport;
 
-  ImportAccount({this.onImport});
+  const ImportAccount({this.onImport});
 
   @override
   _ImportAccountState createState() => _ImportAccountState();
@@ -27,8 +21,8 @@ class ImportAccount extends StatefulWidget {
 class _ImportAccountState extends State<ImportAccount> {
   var privateKeyController = TextEditingController();
 
-  List<String> availableAccounts;
-  String chosenAccount;
+  late List<String?> availableAccounts;
+  String? chosenAccount;
 
   ImportStatus status = ImportStatus.emptyPrivateKey;
 
@@ -71,11 +65,9 @@ class _ImportAccountState extends State<ImportAccount> {
       return;
     }
 
-    List<String> keyAccounts =
-        await Provider.of<HttpService>(context, listen: false)
-            .getKeyAccountsMongo(publicKey);
+    List<String?> keyAccounts = await Provider.of<HttpService>(context, listen: false).getKeyAccountsMongo(publicKey);
 
-    if (keyAccounts == null || keyAccounts.length == 0) {
+    if (keyAccounts.isEmpty) {
       setState(() => status = ImportStatus.noAccounts);
       return;
     }
@@ -88,16 +80,16 @@ class _ImportAccountState extends State<ImportAccount> {
   }
 
   void onImport() {
-    String accountName = chosenAccount;
+    String? accountName = chosenAccount;
     String privateKey = privateKeyController.value.text;
 
-    widget.onImport(accountName: accountName, privateKey: privateKey);
+    widget.onImport!(accountName: accountName, privateKey: privateKey);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 33,
       ),
       child: Column(
@@ -110,12 +102,13 @@ class _ImportAccountState extends State<ImportAccount> {
             hintText: "Paste from clipboard".i18n,
             onChanged: discoverAccounts,
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           status == ImportStatus.emptyPrivateKey
               ? Center(
                   child: Text(
-                    "If you already have Seeds account - enter active private key and account will be imported automatically".i18n,
-                    style: TextStyle(
+                    "If you already have Seeds account - enter active private key and account will be imported automatically"
+                        .i18n,
+                    style: const TextStyle(
                       fontSize: 14,
                       fontFamily: "worksans",
                       fontWeight: FontWeight.w300,
@@ -127,8 +120,8 @@ class _ImportAccountState extends State<ImportAccount> {
               ? Center(
                   child: Column(
                     children: <Widget>[
-                      CircularProgressIndicator(),
-                      SizedBox(height: 5),
+                      const CircularProgressIndicator(),
+                      const SizedBox(height: 5),
                       Text("Looking for accounts...".i18n),
                     ],
                   ),
@@ -149,11 +142,11 @@ class _ImportAccountState extends State<ImportAccount> {
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.all(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(3.0),
                         ),
-                        border: new Border.all(
+                        border: Border.all(
                           color: AppColors.blue,
                           width: 2,
                         ),
@@ -163,25 +156,25 @@ class _ImportAccountState extends State<ImportAccount> {
                         hint: Text("Account name".i18n),
                         isExpanded: true,
                         value: chosenAccount,
-                        onChanged: (val) {
+                        onChanged: (dynamic val) {
                           setState(() {
                             chosenAccount = val;
                           });
                         },
                         items: availableAccounts.map((val) {
-                          return new DropdownMenuItem<String>(
+                          return DropdownMenuItem<String>(
                             value: val,
-                            child: Text(val),
+                            child: Text(val!),
                           );
                         }).toList(),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     MainButton(
                       title: 'Import account'.i18n,
                       onPressed: onImport,
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                   ],
                 )
               : Container()

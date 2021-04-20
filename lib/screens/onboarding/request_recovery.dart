@@ -4,8 +4,8 @@ import 'package:seeds/widgets/account_name_field.dart';
 import 'package:seeds/widgets/main_button.dart';
 
 class RequestRecovery extends StatefulWidget {
-  final Function onRequestRecovery;
-  RequestRecovery({this.onRequestRecovery});
+  final Function? onRequestRecovery;
+  const RequestRecovery({this.onRequestRecovery});
 
   @override
   _RequestRecoveryState createState() => _RequestRecoveryState();
@@ -16,7 +16,7 @@ class _RequestRecoveryState extends State<RequestRecovery> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
+    return FutureBuilder<bool?>(
         future: checkGuardiansExists(accountNameController.text),
         builder: (context, snapshot) {
           return buildAccountForm(snapshot);
@@ -40,8 +40,8 @@ class _RequestRecoveryState extends State<RequestRecovery> {
     return Container(
       child: Form(
         child: Container(
-          margin: EdgeInsets.only(left: 15, right: 15, bottom: 5),
-          padding: EdgeInsets.only(bottom: 5),
+          margin: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+          padding: const EdgeInsets.only(bottom: 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,15 +52,15 @@ class _RequestRecoveryState extends State<RequestRecovery> {
                 status: status,
               ),
               Padding(
-                padding: EdgeInsets.only(top: 12),
+                padding: const EdgeInsets.only(top: 12),
                 child: AnimatedCrossFade(
                     firstChild: MainButton(
                       title: "Recover account",
                       onPressed: () {
-                        widget.onRequestRecovery(accountNameController.text);
+                        widget.onRequestRecovery!(accountNameController.text);
                       },
                     ),
-                    secondChild: Padding(
+                    secondChild: const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 15),
                       child: Text(
                         'Only accounts protected by guardians are accessible for recovery',
@@ -71,10 +71,9 @@ class _RequestRecoveryState extends State<RequestRecovery> {
                         ),
                       ),
                     ),
-                    crossFadeState: status == AccountNameStatus.acceptable
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
-                    duration: Duration(milliseconds: 500)),
+                    crossFadeState:
+                        status == AccountNameStatus.acceptable ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                    duration: const Duration(milliseconds: 500)),
               ),
             ],
           ),
@@ -83,10 +82,9 @@ class _RequestRecoveryState extends State<RequestRecovery> {
     );
   }
 
-  Future<bool> checkGuardiansExists(String accountName) async {
-    final guardians =
-        await HttpService.of(context).getAccountGuardians(accountName);
+  Future<bool?> checkGuardiansExists(String accountName) async {
+    final guardians = await HttpService.of(context).getAccountGuardians(accountName);
 
-    return guardians.exists;
+    return guardians!.exists;
   }
 }

@@ -3,8 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/constants/config.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/generated/r.dart';
 import 'package:seeds/widgets/second_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,28 +13,24 @@ import 'main_button.dart';
 
 class BroadcastTransactionOverlay extends StatefulWidget {
   final Stream<bool> statusStream;
-  final Stream<String> messageStream;
-  final Function onClose;
+  final Stream<String?>? messageStream;
+  final Function? onClose;
 
-  BroadcastTransactionOverlay(
-      {@required this.statusStream, this.messageStream, this.onClose});
+  const BroadcastTransactionOverlay({required this.statusStream, this.messageStream, this.onClose});
 
   @override
-  _BroadcastTransactionOverlayState createState() =>
-      _BroadcastTransactionOverlayState();
+  _BroadcastTransactionOverlayState createState() => _BroadcastTransactionOverlayState();
 }
 
 enum Steps { progress, success, failure }
 
-class _BroadcastTransactionOverlayState
-    extends State<BroadcastTransactionOverlay>
-    with SingleTickerProviderStateMixin {
-  AnimationController animationController;
+class _BroadcastTransactionOverlayState extends State<BroadcastTransactionOverlay> with SingleTickerProviderStateMixin {
+  AnimationController? animationController;
 
-  StreamSubscription<bool> statusSubscription;
-  StreamSubscription<String> messageSubscription;
+  StreamSubscription<bool>? statusSubscription;
+  StreamSubscription<String?>? messageSubscription;
 
-  String message = '';
+  String? message = '';
 
   Steps step = Steps.progress;
 
@@ -44,17 +39,17 @@ class _BroadcastTransactionOverlayState
     super.initState();
 
     if (widget.messageStream != null) {
-      messageSubscription = widget.messageStream.listen(_messageListener);
+      messageSubscription = widget.messageStream!.listen(_messageListener);
     }
     statusSubscription = widget.statusStream.listen(_statusListener);
 
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     )..repeat();
   }
 
-  void _messageListener(String resultMessage) {
+  void _messageListener(String? resultMessage) {
     setState(() {
       message = resultMessage;
     });
@@ -84,7 +79,7 @@ class _BroadcastTransactionOverlayState
         title: 'Continue',
         onPressed: () {
           if (widget.onClose != null) {
-            widget.onClose();
+            widget.onClose!();
           } else {
             Navigator.of(context).maybePop();
           }
@@ -129,19 +124,19 @@ class _BroadcastTransactionOverlayState
                   height: 100,
                 ),
                 turns: Tween(begin: 0.0, end: 2.0).animate(
-                  animationController,
+                  animationController!,
                 ),
               ),
             ),
           if (step == Steps.failure)
             Container(
-              margin: EdgeInsets.only(left: 32, right: 32),
+              margin: const EdgeInsets.only(left: 32, right: 32),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Text(
+                      const Text(
                         'Transaction failed',
                         style: TextStyle(
                           color: AppColors.red,
@@ -160,14 +155,14 @@ class _BroadcastTransactionOverlayState
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(13),
-                          color: Color(0xFFf4f4f4),
+                          color: const Color(0xFFf4f4f4),
                         ),
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        padding: EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(left: 10, right: 10),
+                        padding: const EdgeInsets.all(15),
                         child: Text(
-                          message,
-                          style: TextStyle(fontSize: 16),
+                          message!,
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                       closeButton(),
@@ -178,13 +173,13 @@ class _BroadcastTransactionOverlayState
             ),
           if (step == Steps.success)
             Container(
-              margin: EdgeInsets.only(left: 32, right: 32),
+              margin: const EdgeInsets.only(left: 32, right: 32),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Text(
+                      const Text(
                         'Transaction success',
                         style: TextStyle(
                           color: AppColors.blue,
@@ -203,18 +198,18 @@ class _BroadcastTransactionOverlayState
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(13),
-                          color: Color(0xFFf4f4f4),
+                          color: const Color(0xFFf4f4f4),
                         ),
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        padding: EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(left: 10, right: 10),
+                        padding: const EdgeInsets.all(15),
                         child: Text(
                           'Transaction Hash: $message',
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                       closeButton(),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       detailsButton(),
                     ],
                   ),
