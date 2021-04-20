@@ -1,5 +1,3 @@
-
-
 import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
@@ -12,7 +10,7 @@ extension Localization on String {
           'Account Age': 'Edad de la cuenta',
           'Planted Seeds': 'Semillas plantadas',
           'Transactions with Seeds': 'Transacciones con semillas',
-          'Friends Invited': 'Amigos invitados',
+          'Invited Users': 'Usuarios invitados',
         }
       };
 

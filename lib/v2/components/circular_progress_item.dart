@@ -32,12 +32,12 @@ class CircularProgressItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularStepProgressIndicator(
-              circularDirection: CircularDirection.counterclockwise,
+              circularDirection: CircularDirection.clockwise,
               totalSteps: totalStep,
               currentStep: currentStep,
               stepSize: 2.5,
-              selectedColor: AppColors.darkGreen2,
-              unselectedColor: AppColors.green1,
+              selectedColor: AppColors.green1,
+              unselectedColor: AppColors.darkGreen2,
               padding: 0,
               width: circleRadius * 2,
               height: circleRadius * 2,
