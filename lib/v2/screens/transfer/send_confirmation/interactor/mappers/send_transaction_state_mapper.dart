@@ -14,9 +14,9 @@ class SendTransactionStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, error: result.asError!.error.toString());
     } else {
       var resultResponse = result.asValue!.value as SendTransactionResponse;
-      var transactionId = resultResponse.transactionId.asValue!.value as String?;
+      var transactionId = resultResponse.transactionId.asValue!.value as String;
 
-      String quantity = currentState.data!['quantity'].toString();
+      String quantity = currentState.data['quantity'].toString();
       double parsedQuantity = double.parse(quantity.split(' ')[0]);
 
       var selectedFiat = settingsStorage.selectedFiatCurrency ?? 'USD';
@@ -39,8 +39,8 @@ class SendTransactionStateMapper extends StateMapper {
                 fiatAmount: fiatAmount,
                 transactionId: transactionId));
       } else {
-        var fromAccount = currentState.data!["from"];
-        var toAccount = currentState.data!["to"];
+        var fromAccount = currentState.data["from"];
+        var toAccount = currentState.data["to"];
 
         return currentState.copyWith(
             pageState: PageState.success,

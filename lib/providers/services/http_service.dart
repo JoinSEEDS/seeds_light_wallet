@@ -90,45 +90,33 @@ class HttpService {
     }
   }
 
-  Future<ProfileModel> getProfile() async {
-    print('[http] get profile');
-
-    if (mockResponse == true) {
-      return HttpMockResponse.profile;
-    }
-
-    final profileURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
-
-    var request =
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
-    var headers = <String, String>{'Content-type': 'application/json'};
-
-    var res = await post(profileURL, headers: headers, body: request);
-
-    if (res.statusCode == 200) {
-      Map<String, dynamic> body = res.parseJson();
-
-      var profile = ProfileModel.fromJson(body['rows'][0]);
-
-      return profile;
-    } else {
-      print('Cannot fetch profile...');
-
-      return ProfileModel(
-        account: '',
-        status: '',
-        type: '',
-        nickname: '',
-        image: '',
-        story: '',
-        roles: '',
-        skills: '',
-        interests: '',
-        reputation: 0,
-        timestamp: 0,
-      );
-    }
-  }
+  // Future<ProfileModel>? getProfile() async {
+  //   print('[http] get profile');
+  //
+  //   if (mockResponse == true) {
+  //     return HttpMockResponse.profile;
+  //   }
+  //
+  //   final profileURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+  //
+  //   var request =
+  //       '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
+  //   var headers = <String, String>{'Content-type': 'application/json'};
+  //
+  //   var res = await post(profileURL, headers: headers, body: request);
+  //
+  //   if (res.statusCode == 200) {
+  //     Map<String, dynamic> body = res.parseJson();
+  //
+  //     var profile = ProfileModel.fromJson(body['rows'][0]);
+  //
+  //     return profile;
+  //   } else {
+  //     print('Cannot fetch profile...');
+  //
+  //     return null;
+  //   }
+  // }
 
   Future<List<Permission>?> getAccountPermissions() async {
     print('[http] get account permissions');

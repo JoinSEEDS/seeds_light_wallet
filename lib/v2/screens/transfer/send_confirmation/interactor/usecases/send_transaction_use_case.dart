@@ -11,12 +11,12 @@ class SendTransactionUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
   final fromAccount = settingsStorage.accountName;
 
-  Future<Result> run(String? toName, String? account, Map<String, dynamic>? data) {
+  Future<Result> run(String toName, String account, Map<String, dynamic> data) {
     return _sendTransactionRepository.sendTransaction(toName, account, data, fromAccount).then((Result value) async {
       if (value.isError) {
         return value;
       } else {
-        List<Result> profiles = await getProfileData(data!['to'], fromAccount);
+        List<Result> profiles = await getProfileData(data['to'], fromAccount);
 
         return ValueResult(SendTransactionResponse(profiles, value));
       }
@@ -25,7 +25,7 @@ class SendTransactionUseCase {
     });
   }
 
-  Future<List<Result>> getProfileData(String? toAccount, fromAccount) async {
+  Future<List<Result>> getProfileData(String toAccount, fromAccount) async {
     Future<Result> toAccountResult = _profileRepository.getProfile(toAccount);
     Future<Result> fromAccountResult = _profileRepository.getProfile(fromAccount);
 

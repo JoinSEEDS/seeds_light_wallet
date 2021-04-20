@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
-  final String? amount;
+  final String amount;
   final String? fiatAmount;
   final String? toImage;
   final String? toName;
-  final String? toAccount;
+  final String toAccount;
   final String? fromImage;
   final String? fromName;
-  final String? fromAccount;
-  final String? transactionID;
+  final String fromAccount;
+  final String transactionID;
 
   const SendTransactionSuccessDialog(
       {Key? key,
@@ -38,10 +38,10 @@ class SendTransactionSuccessDialog extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(amount!.split(' ')[0], style: Theme.of(context).textTheme.headline4Black),
+            Text(amount.split(' ')[0], style: Theme.of(context).textTheme.headline4Black),
             Padding(
               padding: const EdgeInsets.only(top: 12, left: 4),
-              child: Text(amount!.split(' ')[1], style: Theme.of(context).textTheme.subtitle2Black),
+              child: Text(amount.split(' ')[1], style: Theme.of(context).textTheme.subtitle2Black),
             ),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +67,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             Text('Transaction ID:  ', style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
             Expanded(
               child: Text(
-                transactionID!,
+                transactionID,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.subtitle2BlackLowEmphasis,
               ),
