@@ -45,7 +45,7 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                                     nickname: profile.nickname,
                                   ),
                                   title: Text(
-                                    profile.nickname,
+                                    profile.nickname ?? '',
                                     style: Theme.of(context).textTheme.button,
                                   ),
                                   subtitle: Text(
