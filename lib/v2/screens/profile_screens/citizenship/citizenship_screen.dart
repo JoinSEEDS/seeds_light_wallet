@@ -13,6 +13,7 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:seeds/v2/components/circular_progress_item.dart';
 import 'package:seeds/i18n/citizenship.18n.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/profileValuesArguments.dart';
 
 /// CITIZENSHIP SCREEN
 class CitizenshipScreen extends StatefulWidget {
@@ -53,10 +54,9 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final Map values = ModalRoute.of(context)!.settings.arguments! as Map;
+    final ProfileValuesArguments args = ModalRoute.of(context)!.settings.arguments! as ProfileValuesArguments;
     return BlocProvider(
-      create: (context) => CitizenshipBloc()
-        ..add(SetValues(profile: values['profile'] as ProfileModel?, score: values['scores'] as ScoreModel?)),
+      create: (context) => CitizenshipBloc()..add(SetValues(profile: args.profile, score: args.scores)),
       child: Scaffold(
         appBar: AppBar(),
         body: BlocConsumer<CitizenshipBloc, CitizenshipState>(
@@ -116,7 +116,7 @@ class _CitizenshipScreenState extends State<CitizenshipScreen> with TickerProvid
                                   size: 100,
                                   image: state.profile!.image,
                                   nickname: state.profile!.nickname,
-                                  account: state.profile!.account!,
+                                  account: state.profile!.account,
                                 );
                               },
                             ),
