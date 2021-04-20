@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
@@ -22,13 +22,13 @@ class ImportKeyAccountsWidget extends StatelessWidget {
             return const SizedBox.shrink();
           case PageState.success:
             return ListView(
-                children: state.accounts!
+                children: state.accounts
                     .map((ProfileModel? profile) => Padding(
                           padding: const EdgeInsets.all(16),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
                             onTap: () {
-                              context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account!));
+                              context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account));
                             },
                             child: Ink(
                               decoration: BoxDecoration(
@@ -41,7 +41,7 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                                   leading: ProfileAvatar(
                                     size: 60,
                                     image: profile!.image,
-                                    account: profile.account!,
+                                    account: profile.account,
                                     nickname: profile.nickname,
                                   ),
                                   title: Text(
@@ -49,7 +49,7 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                                     style: Theme.of(context).textTheme.button,
                                   ),
                                   subtitle: Text(
-                                    profile.account!,
+                                    profile.account,
                                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                                   ),
                                   trailing: const Icon(Icons.navigate_next),

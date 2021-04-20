@@ -40,7 +40,7 @@ class ProfileHeader extends StatelessWidget {
                           size: 100,
                           image: state.profile!.image,
                           nickname: state.profile!.nickname,
-                          account: state.profile!.account!,
+                          account: state.profile!.account,
                         ),
                       ),
                     ],

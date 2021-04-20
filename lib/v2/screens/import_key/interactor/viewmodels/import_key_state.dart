@@ -6,9 +6,9 @@ class ImportKeyState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final String? privateKey;
-  final List<ProfileModel?>? accounts;
+  final List<ProfileModel> accounts;
 
-  const ImportKeyState({required this.pageState, this.errorMessage, this.accounts, this.privateKey});
+  const ImportKeyState({required this.pageState, this.errorMessage, required this.accounts, this.privateKey});
 
   @override
   List<Object> get props => [pageState];
@@ -16,7 +16,7 @@ class ImportKeyState extends Equatable {
   ImportKeyState copyWith({
     PageState? pageState,
     String? errorMessage,
-    List<ProfileModel?>? accounts,
+    List<ProfileModel>? accounts,
     String? privateKey,
   }) {
     return ImportKeyState(
@@ -28,6 +28,6 @@ class ImportKeyState extends Equatable {
   }
 
   factory ImportKeyState.initial() {
-    return const ImportKeyState(pageState: PageState.initial);
+    return const ImportKeyState(pageState: PageState.initial, accounts: []);
   }
 }
