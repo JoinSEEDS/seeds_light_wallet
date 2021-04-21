@@ -19,10 +19,6 @@ class ShowNotificationBadge extends AppEvent {
 class BottomBarTapped extends AppEvent {
   final int index;
   const BottomBarTapped({required this.index});
-
-  @override
-  List<Object> get props => [index];
-
   @override
   String toString() => 'BottomBarTapped { index: $index }';
 }

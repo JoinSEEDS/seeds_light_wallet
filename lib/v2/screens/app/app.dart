@@ -20,22 +20,22 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with WidgetsBindingObserver {
-  final List<AppScreensItems> appScreensItems = [
-    AppScreensItems(
+  final List<AppScreenItem> appScreenItems = [
+    AppScreenItem(
       title: "Wallet".i18n,
       icon: 'assets/images/navigation_bar/wallet.svg',
       iconSelected: 'assets/images/navigation_bar/wallet_selected.svg',
       screen: Wallet(),
       index: 0,
     ),
-    AppScreensItems(
+    AppScreenItem(
       title: "Explore".i18n,
       icon: 'assets/images/navigation_bar/explore.svg',
       iconSelected: 'assets/images/navigation_bar/explore_selected.svg',
       screen: Ecosystem(),
       index: 1,
     ),
-    AppScreensItems(
+    AppScreenItem(
       title: "Profile".i18n,
       icon: 'assets/images/navigation_bar/user_profile.svg',
       iconSelected: 'assets/images/navigation_bar/user_profile_selected.svg',
@@ -85,7 +85,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           body: PageView(
             controller: pageController,
             physics: const NeverScrollableScrollPhysics(),
-            children: appScreensItems.map((i) => i.screen).toList(),
+            children: appScreenItems.map((i) => i.screen).toList(),
           ),
           bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
             builder: (context, state) {
@@ -97,7 +97,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   selectedLabelStyle: Theme.of(context).textTheme.caption,
                   unselectedLabelStyle: Theme.of(context).textTheme.caption,
                   items: [
-                    for (var i in appScreensItems)
+                    for (var i in appScreenItems)
                       BottomNavigationBarItem(
                         activeIcon:
                             Padding(padding: const EdgeInsets.only(bottom: 4), child: SvgPicture.asset(i.iconSelected)),
