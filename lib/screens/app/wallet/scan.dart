@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/screens/app/wallet/custom_transaction.dart';
-import 'package:seeds/v2/screens/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
+// import 'package:seeds/providers/notifiers/settings_notifier.dart';
+// import 'package:seeds/providers/services/navigation_service.dart';
+// import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 enum Steps { scan, processing, success, error }
 
 class Scan extends StatefulWidget {
   final shouldSendResultsBack;
 
-  @override
-  _ScanState createState() => new _ScanState();
+  const Scan(this.shouldSendResultsBack);
 
-  Scan(this.shouldSendResultsBack);
+  @override
+  _ScanState createState() => _ScanState();
 }
 
 class _ScanState extends State<Scan> {
-  String action, account, data, error, qrcode;
+  late String action, account, data, error, qrcode;
   Steps step = Steps.scan;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
-  QRViewController controller;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  bool _handledQrCode = false;
+  // bool _handledQrCode = false;
 
   @override
   void initState() {
@@ -32,100 +31,100 @@ class _ScanState extends State<Scan> {
   }
 
   bool canProcess(SeedsESR esr) {
-    return esr.actions.first.account.isNotEmpty && esr.actions.first.name.isNotEmpty;
+    return esr.actions.first.account!.isNotEmpty && esr.actions.first.name!.isNotEmpty;
   }
 
   void processSigningRequest(SeedsESR esr) async {
-    var action = esr.actions.first;
-    try {
-      if (action.account.isNotEmpty && action.name.isNotEmpty) {
-        setState(() {
-          this.step = Steps.success;
-        });
-
-        Map<String, dynamic> data = Map<String, dynamic>.from(action.data);
-
-        NavigationService.of(context).navigateTo(
-            Routes.sendConfirmationScreen,
-            SendConfirmationArguments(
-              account: action.account,
-              name: action.name,
-              data: data,
-            ),
-            true);
-      } else {
-        print("unable to read QR, continuing");
-        setState(() {
-          _handledQrCode = false;
-          this.step = Steps.scan;
-        });
-      }
-    } catch (e) {
-      print("scan error: " + e);
-      setState(() {
-        this.error = 'Invalid QR code';
-        this.step = Steps.error;
-      });
-    }
+    // var action = esr.actions.first;
+    // try {
+    //   if (action.account.isNotEmpty && action.name.isNotEmpty) {
+    //     setState(() {
+    //       this.step = Steps.success;
+    //     });
+    //
+    //     Map<String, dynamic> data = Map<String, dynamic>.from(action.data);
+    //
+    //     NavigationService.of(context).navigateTo(
+    //         Routes.sendConfirmationScreen,
+    //         SendConfirmationArguments(
+    //           account: action.account,
+    //           name: action.name,
+    //           data: data,
+    //         ),
+    //         true);
+    //   } else {
+    //     print("unable to read QR, continuing");
+    //     setState(() {
+    //       _handledQrCode = false;
+    //       this.step = Steps.scan;
+    //     });
+    //   }
+    // } catch (e) {
+    //   print("scan error: " + e);
+    //   setState(() {
+    //     this.error = 'Invalid QR code';
+    //     this.step = Steps.error;
+    //   });
+    // }
   }
 
-  void _showToast(BuildContext context, String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(message),
-      duration: Duration(seconds: 3),
-    ));
-  }
+  // void _showToast(BuildContext context, String message) {
+  //   _scaffoldKey.currentState!.showSnackBar(SnackBar(
+  //     content: Text(message),
+  //     duration: const Duration(seconds: 3),
+  //   ));
+  // }
 
   Future<void> _onQRViewCreated(QRViewController controller) async {
-    this.controller = controller;
-
-    controller.scannedDataStream.listen(
-      (String scanResult) async {
-        if (_handledQrCode) {
-          return;
-        }
-
-        _handledQrCode = true;
-
-        if (scanResult == null) {
-          Navigator.of(context).pop();
-        } else {
-          setState(() {
-            this.step = Steps.processing;
-            this.qrcode = scanResult;
-          });
-
-          if (widget.shouldSendResultsBack) {
-            Navigator.pop(context, scanResult);
-          } else {
-            // QUESTION: Why do we not check for other URL types like deep link for invite here?
-            var esr;
-            print("Scanning QR Code: " + scanResult);
-            try {
-              esr = SeedsESR(uri: scanResult);
-              await esr.resolve(account: SettingsNotifier.of(context, listen: false).accountName);
-            } catch (e) {
-              print("can't parse ESR " + e.toString());
-              print("ignoring... show toast");
-              _showToast(context, "Invalid QR code");
-
-              setState(() {
-                _handledQrCode = false;
-                this.step = Steps.scan;
-              });
-            }
-            if (esr != null && canProcess(esr)) {
-              processSigningRequest(esr);
-            }
-          }
-        }
-      },
-    );
+    // this.controller = controller;
+    //
+    // controller.scannedDataStream.listen(
+    //   (String scanResult) async {
+    //     if (_handledQrCode) {
+    //       return;
+    //     }
+    //
+    //     _handledQrCode = true;
+    //
+    //     if (scanResult == null) {
+    //       Navigator.of(context).pop();
+    //     } else {
+    //       setState(() {
+    //         this.step = Steps.processing;
+    //         this.qrcode = scanResult;
+    //       });
+    //
+    //       if (widget.shouldSendResultsBack) {
+    //         Navigator.pop(context, scanResult);
+    //       } else {
+    //         // QUESTION: Why do we not check for other URL types like deep link for invite here?
+    //         var esr;
+    //         print("Scanning QR Code: " + scanResult);
+    //         try {
+    //           esr = SeedsESR(uri: scanResult);
+    //           await esr.resolve(account: SettingsNotifier.of(context, listen: false).accountName);
+    //         } catch (e) {
+    //           print("can't parse ESR " + e.toString());
+    //           print("ignoring... show toast");
+    //           _showToast(context, "Invalid QR code");
+    //
+    //           setState(() {
+    //             _handledQrCode = false;
+    //             this.step = Steps.scan;
+    //           });
+    //         }
+    //         if (esr != null && canProcess(esr)) {
+    //           processSigningRequest(esr);
+    //         }
+    //       }
+    //     }
+    //   },
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget widget;
+    Widget? widget;
 
     switch (step) {
       case Steps.scan:
@@ -138,7 +137,7 @@ class _ScanState extends State<Scan> {
                 child: QRView(
                   key: qrKey,
                   onQRViewCreated: _onQRViewCreated,
-                  showNativeAlertDialog: true,
+                  // showNativeAlertDialog: true,
                 ),
               ),
             ],
@@ -150,9 +149,9 @@ class _ScanState extends State<Scan> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
+              const CircularProgressIndicator(),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0),
                 child: Text(
                   'Processing QR Code...',
                   style: TextStyle(
@@ -168,7 +167,7 @@ class _ScanState extends State<Scan> {
         );
         break;
       case Steps.success:
-        widget = Center(
+        widget = const Center(
           child: Text(
             'Success!',
             style: TextStyle(
@@ -188,8 +187,8 @@ class _ScanState extends State<Scan> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  this.error,
-                  style: TextStyle(
+                  error,
+                  style: const TextStyle(
                     fontFamily: "heebo",
                     fontSize: 18,
                     color: Colors.redAccent,
@@ -199,16 +198,17 @@ class _ScanState extends State<Scan> {
               ),
               Padding(
                 padding: const EdgeInsets.all(20),
-                child: OutlineButton(
-                  child: Text(
+                child: OutlinedButton(
+                  style:
+                      ButtonStyle(foregroundColor: MaterialStateProperty.resolveWith<Color>((states) => Colors.black)),
+                  child: const Text(
                     'Try Again',
                     style: TextStyle(color: Colors.black),
                   ),
-                  color: Colors.black,
                   onPressed: () {
                     setState(() {
-                      _handledQrCode = false;
-                      this.step = Steps.scan;
+                      // _handledQrCode = false;
+                      step = Steps.scan;
                     });
                   },
                 ),
@@ -224,12 +224,12 @@ class _ScanState extends State<Scan> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text(
+        title: const Text(
           "Scanner",
           style: TextStyle(fontFamily: "worksans", color: Colors.black),
         ),

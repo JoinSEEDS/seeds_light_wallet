@@ -1,5 +1,5 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class _SettingsStorage {
   _SettingsStorage._();
@@ -13,7 +13,8 @@ class _SettingsStorage {
   static const PASSCODE = 'passcode';
   static const PASSCODE_ACTIVE = 'passcode_active';
   static const PASSCODE_ACTIVE_DEFAULT = true;
-  static const NODE_ENDPOINT = 'nodeEndpoint';
+  static const BIOMETRIC_ACTIVE = 'biometric_active';
+  static const BIOMETRIC_ACTIVE_DEFAULT = false;
   static const PRIVATE_KEY_BACKED_UP = 'private_key_backed_up';
   static const BACKUP_LATEST_REMINDER = 'backup_latest_reminder';
   static const BACKUP_REMINDER_COUNT = 'backup_reminder_count';
@@ -21,55 +22,78 @@ class _SettingsStorage {
   static const IN_RECOVERY_MODE = 'in_recovery_mode';
   static const GUARDIAN_TUTORIAL_SHOWN = 'guardian_tutorial_shown';
 
-  String _privateKey;
-  String _passcode;
-  bool _passcodeActive;
-  bool _privateKeyBackedUp;
-  int _backupLatestReminder;
-  int _backupReminderCount;
+  String? _privateKey;
+  String? _passcode;
+  bool? _passcodeActive;
+  bool? _biometricActive;
+  bool? _privateKeyBackedUp;
+  int? _backupLatestReminder;
+  int? _backupReminderCount;
 
-  bool get isInitialized => _preferences != null;
-  String get accountName => _preferences?.getString(ACCOUNT_NAME);
-  String get privateKey => _privateKey;
-  String get passcode => _passcode;
-  bool get passcodeActive => _passcodeActive;
-  String get nodeEndpoint => _preferences?.getString(NODE_ENDPOINT);
-  bool get privateKeyBackedUp => _privateKeyBackedUp;
-  int get backupLatestReminder => _backupLatestReminder;
-  int get backupReminderCount => _backupReminderCount;
-  String get selectedFiatCurrency => _preferences?.getString(SELECTED_FIAT_CURRENCY);
-  bool get inRecoveryMode => _preferences?.getBool(IN_RECOVERY_MODE);
-  bool get guardianTutorialShown => _preferences?.getBool(GUARDIAN_TUTORIAL_SHOWN);
+  String get accountName => _preferences.getString(ACCOUNT_NAME) ?? "";
 
-  set nodeEndpoint(String value) => _preferences?.setString(NODE_ENDPOINT, value);
+  String? get privateKey => _privateKey;
 
-  set inRecoveryMode(bool value) => _preferences?.setBool(IN_RECOVERY_MODE, value);
+  String? get passcode => _passcode;
 
-  set accountName(String value) => _preferences?.setString(ACCOUNT_NAME, value);
+  bool? get passcodeActive => _passcodeActive;
 
-  set privateKey(String value) {
+  bool? get biometricActive => _biometricActive;
+
+  bool get privateKeyBackedUp => _privateKeyBackedUp ?? false;
+
+  int? get backupLatestReminder => _backupLatestReminder ?? 0;
+
+  int get backupReminderCount => _backupReminderCount ?? 0;
+
+  String? get selectedFiatCurrency => _preferences.getString(SELECTED_FIAT_CURRENCY);
+
+  bool get inRecoveryMode => _preferences.getBool(IN_RECOVERY_MODE) ?? false;
+
+  bool get guardianTutorialShown => _preferences.getBool(GUARDIAN_TUTORIAL_SHOWN)!;
+
+  set inRecoveryMode(bool value) => _preferences.setBool(IN_RECOVERY_MODE, value);
+
+  set accountName(String? value) => _preferences.setString(ACCOUNT_NAME, value ?? '');
+
+  set privateKey(String? value) {
     _secureStorage.write(key: PRIVATE_KEY, value: value);
-    _privateKey = value;
+    if (value != null) {
+      _privateKey = value;
+    }
   }
 
-  set passcode(String value) {
+  set passcode(String? value) {
     _secureStorage.write(key: PASSCODE, value: value);
     _passcode = value;
   }
 
-  set passcodeActive(bool value) {
+  set passcodeActive(bool? value) {
     _secureStorage.write(key: PASSCODE_ACTIVE, value: value.toString());
-    _passcodeActive = value;
+    if (value != null) {
+      _passcodeActive = value;
+    }
   }
 
-  set privateKeyBackedUp(bool value) {
+  set biometricActive(bool? value) {
+    _secureStorage.write(key: BIOMETRIC_ACTIVE, value: value.toString());
+    if (value != null) {
+      _biometricActive = value;
+    }
+  }
+
+  set privateKeyBackedUp(bool? value) {
     _secureStorage.write(key: PRIVATE_KEY_BACKED_UP, value: value.toString());
-    _privateKeyBackedUp = value;
+    if (value != null) {
+      _privateKeyBackedUp = value;
+    }
   }
 
-  set backupLatestReminder(int value) {
+  set backupLatestReminder(int? value) {
     _secureStorage.write(key: BACKUP_LATEST_REMINDER, value: value.toString());
-    _backupLatestReminder = value;
+    if (value != null) {
+      _backupLatestReminder = value;
+    }
   }
 
   set backupReminderCount(int value) {
@@ -77,16 +101,20 @@ class _SettingsStorage {
     _backupReminderCount = value;
   }
 
-  set selectedFiatCurrency(String value) {
-    _preferences.setString(SELECTED_FIAT_CURRENCY, value);
+  set selectedFiatCurrency(String? value) {
+    if (value != null) {
+      _preferences.setString(SELECTED_FIAT_CURRENCY, value);
+    }
   }
 
-  set guardianTutorialShown(bool shown) {
-    _preferences.setBool(GUARDIAN_TUTORIAL_SHOWN, shown);
+  set guardianTutorialShown(bool? shown) {
+    if (shown != null) {
+      _preferences.setBool(GUARDIAN_TUTORIAL_SHOWN, shown);
+    }
   }
 
-  SharedPreferences _preferences;
-  FlutterSecureStorage _secureStorage;
+  late SharedPreferences _preferences;
+  late FlutterSecureStorage _secureStorage;
 
   void initialise() async {
     _preferences = await SharedPreferences.getInstance();
@@ -104,6 +132,12 @@ class _SettingsStorage {
         _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
       }
 
+      if (values.containsKey(BIOMETRIC_ACTIVE)) {
+        _biometricActive = values[BIOMETRIC_ACTIVE] == 'true';
+      } else {
+        _biometricActive = BIOMETRIC_ACTIVE_DEFAULT;
+      }
+
       if (values.containsKey(PRIVATE_KEY_BACKED_UP)) {
         _privateKeyBackedUp = values[PRIVATE_KEY_BACKED_UP] == 'true';
       } else {
@@ -111,36 +145,30 @@ class _SettingsStorage {
       }
 
       if (values.containsKey(BACKUP_LATEST_REMINDER)) {
-        _backupLatestReminder = int.parse(values[BACKUP_LATEST_REMINDER]);
+        _backupLatestReminder = int.parse(values[BACKUP_LATEST_REMINDER]!);
       } else {
         _backupLatestReminder = 0;
       }
 
       if (values.containsKey(BACKUP_REMINDER_COUNT)) {
-        _backupReminderCount = int.parse(values[BACKUP_REMINDER_COUNT]);
+        _backupReminderCount = int.parse(values[BACKUP_REMINDER_COUNT]!);
       } else {
         _backupReminderCount = 0;
       }
     });
   }
 
-  String _migrateFromPrefs(String key) {
-    String value = _preferences.get(key);
+  String? _migrateFromPrefs(String key) {
+    String? value = _preferences.get(key) as String?;
     if (value != null) {
       _secureStorage.write(key: key, value: value);
-      _preferences?.remove(key);
+      _preferences.remove(key);
       print('Converted $key to secure storage');
     }
     return value;
   }
 
-  void update({String nodeEndpoint}) {
-    if (nodeEndpoint != _preferences?.getString(NODE_ENDPOINT)) {
-      saveEndpoint(nodeEndpoint);
-    }
-  }
-
-  void enableRecoveryMode({String accountName, String privateKey}) {
+  void enableRecoveryMode({required String accountName, String? privateKey}) {
     inRecoveryMode = true;
     this.accountName = accountName;
     this.privateKey = privateKey;
@@ -156,13 +184,13 @@ class _SettingsStorage {
     privateKey = null;
   }
 
-  void savePasscode(String passcode) {
+  void savePasscode(String? passcode) {
     this.passcode = passcode;
   }
 
   void savePasscodeActive(bool value) {
     passcodeActive = value;
-    if (!passcodeActive) {
+    if (!value) {
       passcode = null;
     }
   }
@@ -190,25 +218,23 @@ class _SettingsStorage {
   }
 
   void removeAccount() {
-    _preferences?.remove(ACCOUNT_NAME);
+    _preferences.remove(ACCOUNT_NAME);
     _secureStorage.delete(key: ACCOUNT_NAME);
-    _preferences?.remove(PRIVATE_KEY);
+    _preferences.remove(PRIVATE_KEY);
     _secureStorage.delete(key: PRIVATE_KEY);
     _privateKey = null;
-    _preferences?.remove(PASSCODE);
+    _preferences.remove(PASSCODE);
     _secureStorage.delete(key: PASSCODE);
     _passcode = null;
     _secureStorage.delete(key: PASSCODE_ACTIVE);
     _passcodeActive = PASSCODE_ACTIVE_DEFAULT;
+    _secureStorage.delete(key: BIOMETRIC_ACTIVE);
+    _biometricActive = BIOMETRIC_ACTIVE_DEFAULT;
     _secureStorage.delete(key: PRIVATE_KEY_BACKED_UP);
     _secureStorage.delete(key: BACKUP_LATEST_REMINDER);
     _backupLatestReminder = 0;
     _secureStorage.delete(key: BACKUP_REMINDER_COUNT);
     _backupReminderCount = 0;
-  }
-
-  void saveEndpoint(String nodeEndpoint) {
-    _preferences?.setString(NODE_ENDPOINT, nodeEndpoint);
   }
 }
 

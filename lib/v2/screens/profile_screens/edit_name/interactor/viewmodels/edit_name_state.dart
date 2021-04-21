@@ -1,30 +1,29 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
 /// STATE
 class EditNameState extends Equatable {
   final PageState pageState;
-  final String name;
-  final String errorMessage;
+  final String? name;
+  final String? errorMessage;
 
   const EditNameState({
-    @required this.pageState,
+    required this.pageState,
     this.name,
     this.errorMessage,
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         pageState,
         name,
         errorMessage,
       ];
 
   EditNameState copyWith({
-    PageState pageState,
-    String name,
-    String errorMessage,
+    PageState? pageState,
+    String? name,
+    String? errorMessage,
   }) {
     return EditNameState(
       pageState: pageState ?? this.pageState,
@@ -34,10 +33,6 @@ class EditNameState extends Equatable {
   }
 
   factory EditNameState.initial() {
-    return const EditNameState(
-      pageState: PageState.initial,
-      name: null,
-      errorMessage: null,
-    );
+    return const EditNameState(pageState: PageState.initial);
   }
 }

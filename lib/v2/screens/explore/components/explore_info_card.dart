@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 class ExploreInfoCard extends StatelessWidget {
   final String title;
-  final Widget icon;
-  final String amount;
+  final Widget? icon;
+  final String? amount;
   final String amountLabel;
   final GestureTapCallback callback;
   final bool isErrorState;
 
   const ExploreInfoCard({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.icon,
-    @required this.amount,
-    @required this.amountLabel,
-    @required this.callback,
-    this.isErrorState,
+    required this.amount,
+    required this.amountLabel,
+    required this.callback,
+    this.isErrorState = false,
   }) : super(key: key);
 
   @override
@@ -43,7 +43,7 @@ class ExploreInfoCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            Text((isErrorState != null && isErrorState) ? 'Error Loading Data' : amount,
+            Text(isErrorState ? 'Error Loading Data' : amount ?? '',
                 style: Theme.of(context).textTheme.headline8),
             const SizedBox(height: 4),
             Text(amountLabel, style: Theme.of(context).textTheme.subtitle3),

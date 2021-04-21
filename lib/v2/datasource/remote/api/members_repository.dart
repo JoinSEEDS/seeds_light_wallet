@@ -10,7 +10,7 @@ class MembersRepository extends NetworkRepository {
   Future<Result> getMembers() {
     print('[http] get members');
 
-    final membersURL = '$baseURL/v1/chain/get_table_rows';
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
     var request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
 
@@ -31,7 +31,7 @@ class MembersRepository extends NetworkRepository {
     var lowerBound = filter;
     var upperBound = filter.padRight(12 - filter.length, 'z');
 
-    final membersURL = '$baseURL/v1/chain/get_table_rows';
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":"$lowerBound","upper_bound":"$upperBound","index_position":1,"key_type":"i64","limit":"100","reverse":false,"show_payer":false}';
@@ -51,7 +51,7 @@ class MembersRepository extends NetworkRepository {
     print('[http] getMemberByAccountName $accountName ');
     assert(accountName.length > 2);
 
-    final membersURL = '$baseURL/v1/chain/get_table_rows';
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request =
         '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';

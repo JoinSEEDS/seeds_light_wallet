@@ -4,21 +4,27 @@ import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/interactor/viewmodels/set_currency_state.dart';
 
 class RateStateMapper extends StateMapper {
-  SetCurrencyState mapResultToState(SetCurrencyState currentState, Result result) {
-    if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError.error.toString());
+  SetCurrencyState mapResultToState(SetCurrencyState currentState, Map<String?, num> rates) {
+    if (rates.isEmpty) {
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Cannot fetch rates...');
     } else {
-      // System available currencies (33 at this moment)
-      final loaded = List<String>.from(result.asValue.value.ratesPerUSD.keys);
-      // All most_traded_currencies (93 at this moment) to a Currency objects
-      final allCurrencies = currencies.map((currency) => Currency.from(json: currency)).toList();
-      // Get only system available currencies from allCurrencies
-      var availables = allCurrencies.where((i) => loaded.contains(i.flag)).toList();
+      Map<String?, String?> available = rates.map((key, value) => MapEntry(key, key));
+      final prefix = List<String>.from(topCurrencies.where((i) {
+        if (available[i] != null) {
+          available.remove(i);
+          return true;
+        }
+        return false;
+      }));
+      List<String> list = List<String>.from(available.keys);
+      list.sort();
+      list = prefix + list;
+      final currencies = List.of(list.map((i) => Currency(i, allCurrencies[i] ?? "")));
 
       return currentState.copyWith(
         pageState: PageState.success,
-        availableCurrencies: availables,
-        queryCurrenciesResults: availables,
+        availableCurrencies: currencies,
+        queryCurrenciesResults: currencies,
       );
     }
   }

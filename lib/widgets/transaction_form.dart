@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -12,14 +12,14 @@ import 'package:seeds/i18n/widgets.i18n.dart';
 enum TransactionType { seedsTransfer, telosTranfser }
 
 class TransactionForm extends StatefulWidget {
-  final Image image;
-  final String beneficiary;
-  final String title;
-  final TransactionType type;
-  final String balance;
-  final String label;
+  final Image? image;
+  final String? beneficiary;
+  final String? title;
+  final TransactionType? type;
+  final String? balance;
+  final String? label;
 
-  TransactionForm({
+  const TransactionForm({
     this.image,
     this.beneficiary,
     this.title,
@@ -35,10 +35,8 @@ class TransactionForm extends StatefulWidget {
 class _TransactionFormState extends State<TransactionForm> {
   bool transactionSubmitted = false;
 
-  final StreamController<bool> _statusNotifier =
-      StreamController<bool>.broadcast();
-  final StreamController<String> _messageNotifier =
-      StreamController<String>.broadcast();
+  final StreamController<bool> _statusNotifier = StreamController<bool>.broadcast();
+  final StreamController<String> _messageNotifier = StreamController<String>.broadcast();
 
   @override
   void dispose() {
@@ -75,7 +73,7 @@ class _TransactionFormState extends State<TransactionForm> {
         );
       }
 
-      String transactionId = response['transaction_id'];
+      String? transactionId = response['transaction_id'];
 
       _statusNotifier.add(true);
       _messageNotifier.add('Transaction hash: %s'.i18n.fill(['$transactionId']));
@@ -97,7 +95,7 @@ class _TransactionFormState extends State<TransactionForm> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.close, color: Colors.black),
+          icon: const Icon(Icons.close, color: Colors.black),
           onPressed: () => Navigator.of(context).maybePop(),
         ),
         backgroundColor: Colors.transparent,
@@ -105,7 +103,7 @@ class _TransactionFormState extends State<TransactionForm> {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17),
+        margin: const EdgeInsets.symmetric(horizontal: 17),
         child: Column(
           children: <Widget>[
             _buildSummary(),
@@ -128,7 +126,7 @@ class _TransactionFormState extends State<TransactionForm> {
 
   Widget _buildButton() {
     return MainButton(
-      margin: EdgeInsets.only(top: 25),
+      margin: const EdgeInsets.only(top: 25),
       title: 'Send'.i18n,
       onPressed: onSend,
     );
@@ -151,45 +149,42 @@ class _TransactionFormState extends State<TransactionForm> {
         ),
         Material(
           child: Container(
-            margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
             child: Text(
-              widget.title,
+              widget.title!,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
           ),
         ),
         Material(
           child: Container(
-            margin: EdgeInsets.only(top: 5, left: 20, right: 20),
+            margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
             child: Text(
-              widget.beneficiary,
+              widget.beneficiary!,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: AppColors.grey),
+              style: const TextStyle(fontSize: 14, color: AppColors.grey),
             ),
           ),
         ),
         Container(
           width: width,
-          margin: EdgeInsets.only(bottom: 20, top: 20),
+          margin: const EdgeInsets.only(bottom: 20, top: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: AppColors.blue.withOpacity(0.3)),
           ),
-          padding: EdgeInsets.all(7),
+          padding: const EdgeInsets.all(7),
           child: Column(
             children: <Widget>[
               Text(
                 'Available balance'.i18n,
-                style: TextStyle(
-                    color: AppColors.blue,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300),
+                style: const TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.w300),
               ),
-              Padding(padding: EdgeInsets.only(top: 3)),
+              const Padding(padding: EdgeInsets.only(top: 3)),
               Text(
                 '$balance',
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.blue,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,

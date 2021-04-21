@@ -1,19 +1,17 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:seeds/v2/datasource/local/models/currency.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
 /// --- STATES
 class SetCurrencyState extends Equatable {
   final PageState pageState;
-  final String currentQuery;
-  final List<Currency> availableCurrencies;
-  final List<Currency> queryCurrenciesResults;
-  final String errorMessage;
+  final String? currentQuery;
+  final List<Currency>? availableCurrencies;
+  final List<Currency>? queryCurrenciesResults;
+  final String? errorMessage;
 
   const SetCurrencyState({
-    @required this.pageState,
+    required this.pageState,
     this.currentQuery,
     this.availableCurrencies,
     this.queryCurrenciesResults,
@@ -21,7 +19,7 @@ class SetCurrencyState extends Equatable {
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         pageState,
         currentQuery,
         availableCurrencies,
@@ -30,11 +28,11 @@ class SetCurrencyState extends Equatable {
       ];
 
   SetCurrencyState copyWith({
-    PageState pageState,
-    String currentQuery,
-    List<Currency> availableCurrencies,
-    List<Currency> queryCurrenciesResults,
-    String errorMessage,
+    PageState? pageState,
+    String? currentQuery,
+    List<Currency>? availableCurrencies,
+    List<Currency>? queryCurrenciesResults,
+    String? errorMessage,
   }) {
     return SetCurrencyState(
       pageState: pageState ?? this.pageState,
@@ -46,12 +44,6 @@ class SetCurrencyState extends Equatable {
   }
 
   factory SetCurrencyState.initial() {
-    return const SetCurrencyState(
-      pageState: PageState.initial,
-      currentQuery: null,
-      availableCurrencies: null,
-      queryCurrenciesResults: null,
-      errorMessage: null,
-    );
+    return const SetCurrencyState(pageState: PageState.initial);
   }
 }

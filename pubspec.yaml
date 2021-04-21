@@ -4,79 +4,72 @@ description: SEEDS Wallet
 version: 1.4.2+32
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 analyzer:
   enable-experiment: extension-methods
 
+publish_to: none
+
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: ^6.1.2
-  equatable: ^1.2.6
-  url_launcher: ^5.7.10
-  step_progress_indicator: ^0.2.5+8
-  intl: ^0.16.0
+  flutter_bloc: ^7.0.0
+  equatable: ^2.0.0
+  url_launcher: ^6.0.3
+  step_progress_indicator: ^1.0.0-nullsafety.0
+  intro_views_flutter: ^3.0.0
+  intl: ^0.17.0
   flutter_localizations:
     sdk: flutter
-  i18n_extension: ^1.3.7
-  cupertino_icons: ^0.1.3
-  flutter_toolbox: ^4.6.2
-  http: ^0.12.0+4
-  shared_preferences: ^0.5.6+1
-  flutter_secure_storage: ^3.3.2
-  local_auth: ^0.6.2+3
-  timeago: ^2.0.26
-  cached_network_image: ^2.0.0
-  intro_views_flutter:
-    git: git://github.com/n13/IntroViews-Flutter
-  flutter_masked_text: ^0.8.0
-  passcode_screen: 1.2.2+1
-  percent_indicator: ^2.1.1+1
-  flutter_svg: ^0.18.1
-  flutter_fluid_slider: ^1.0.2
-  firebase_dynamic_links: ^0.6.2
-  firebase_messaging: ^7.0.3
-  firebase_storage: ^5.2.0
-  cloud_firestore: ^0.14.3+1
-  firebase_remote_config: ^0.4.2
-  liquid_pull_to_refresh: ^1.1.1
-  shimmer: ^1.0.1
-  random_words: ^1.0.2
-  share: ^0.6.4
-  provider: ^4.0.5
-  photo_view: ^0.9.1
+  i18n_extension: ^4.0.0
+  cupertino_icons: ^1.0.2
+  http: ^0.13.1
+  shared_preferences: ^2.0.5
+  flutter_secure_storage: ^4.1.0
+  local_auth: ^1.1.1
+  timeago: ^3.0.2
+  cached_network_image: ^3.0.0
+  passcode_screen: ^2.0.0
+  percent_indicator: ^3.0.1
+  flutter_svg: ^0.21.0-nullsafety.0
+  firebase_dynamic_links: ^2.0.0-dev.1
+  firebase_messaging: ^9.1.0
+  firebase_core: ^1.0.2
+  firebase_storage: ^8.0.1
+  cloud_firestore: ^1.0.3
+  firebase_remote_config: ^0.9.0-dev.0
+  liquid_pull_to_refresh: ^3.0.0
+  shimmer: ^2.0.0
+  share: ^2.0.1
+  provider: ^5.0.0
+  photo_view: ^0.11.1
   image_cropper: ^1.2.1
-  carousel_slider: ^3.0.0
-  dots_indicator: ^1.2.0
-  sentry: ^3.0.1
-  hive: ^1.4.4
-  rxdart: ^0.24.0
-  permission_handler: ^5.0.1
-  qr_flutter: ^3.2.0
-  eosdart_ecc:  ^0.4.3
+  carousel_slider: ^4.0.0-nullsafety.0
+  dots_indicator: ^2.0.0
+  permission_handler: ^6.1.1
+  qr_flutter: ^4.0.0
+  image_picker: ^0.7.4
+  oktoast: ^3.0.0
   eosdart:
     git: git://github.com/JoinSEEDS/eosdart.git
   dart_esr:
     git:
       url: https://github.com/JoinSEEDS/dart-esr.git
-  uni_links: ^0.4.0
-  webview_flutter: ^1.0.7
-  rubber: ^0.4.0
-  path_provider: ^1.6.24
-  dotted_border: ^1.0.6
+  webview_flutter: ^2.0.2
+  rubber: ^1.0.0
+  path_provider: ^2.0.1
+  dotted_border: ^2.0.0-nullsafety.0
   pedantic: ^1.9.2
-  qr_code_scanner:
-    git:
-      url: git://github.com/triply-at/qr_code_scanner.git
-      ref: master
+  flutter_pagewise: ^2.0.1
+  qr_code_scanner: ^0.4.0
+  collection: ^1.15.0-nullsafety.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   test: any
   mockito: any
-  build_runner: ^1.8.1
 
 flutter_icons:
   android: "app_icon"
@@ -98,6 +91,12 @@ flutter:
     - assets/images/onboarding/onboarding3.png
     - assets/images/onboarding/onboarding4.png
     - assets/images/onboarding/onboarding5.png
+    - assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.svg
+    - assets/images/onboarding/leaves/pointing_left/medium_light_leaf.svg
+    - assets/images/onboarding/leaves/pointing_left/small_light_leaf.svg
+    - assets/images/onboarding/leaves/pointing_right/big_dark_leaf.svg
+    - assets/images/onboarding/leaves/pointing_right/big_light_leaf.svg
+    - assets/images/onboarding/leaves/pointing_right/small_light_leaf.svg
     - assets/images/governance.svg
     - assets/images/community.svg
     - assets/images/harvest.svg
@@ -136,7 +135,8 @@ flutter:
     - assets/images/wallet/currency_info_cards/planted_seeds/logo.jpg
     - assets/images/wallet/currency_info_cards/hypha/background.jpg
     - assets/images/wallet/currency_info_cards/hypha/logo.jpg
-    - assets/images/key_guardians_icon.svg
+    - assets/images/security/key_guardians_icon.svg
+    - assets/images/security/success_outlined_icon.svg
     - assets/images/citizenship/reputation.svg
     - assets/images/citizenship/community.svg
     - assets/images/citizenship/planted.svg
@@ -147,6 +147,8 @@ flutter:
     - assets/images/contribution/planted.svg
     - assets/images/contribution/transaction.svg
     - assets/images/seeds_logo.svg
+    - assets/images/login/background.png
+    - assets/images/login/seeds_light_wallet_logo.svg
     # assets end
 
   fonts:
@@ -160,7 +162,7 @@ flutter:
     # w800 Extra-bold
     # w900 Black, the most thick
 
-      #DEPRECATED - DO NOT USE (worksans)
+    #DEPRECATED - DO NOT USE (worksans)
     - family: worksans
       fonts:
         - asset: assets/fonts/worksans/WorkSans-Thin.ttf

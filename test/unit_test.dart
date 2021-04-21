@@ -35,7 +35,7 @@ void main() {
 
     final invites = await service.getInvites();
 
-    expect(invites.isNotEmpty, true);
+    expect(invites!.isNotEmpty, true);
   });
 
   test('Find key accounts mongo', () async {
@@ -56,7 +56,6 @@ void main() {
     final voice = await service.getCampaignVoice();
     final proposals = await service.getProposals("active", "passed", false);
     final invites = await service.getInvites();
-    final profile = await service.getProfile();
     final harvest = await service.getHarvest();
     final score = await service.getScore();
     final exchange = await service.getExchangeConfig();
@@ -68,7 +67,6 @@ void main() {
     expect(voice.amount, HttpMockResponse.voice.amount);
     expect(proposals, HttpMockResponse.proposals);
     expect(invites, HttpMockResponse.invites);
-    expect(profile, HttpMockResponse.profile);
     expect(harvest, HttpMockResponse.harvest);
     expect(score, HttpMockResponse.score);
     expect(exchange, HttpMockResponse.exchangeConfig);

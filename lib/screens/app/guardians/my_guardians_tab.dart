@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_toolbox/flutter_toolbox.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
@@ -11,6 +10,7 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/providers/services/guardian_services.dart';
 import 'package:seeds/screens/app/guardians/my_guardian_users_list.dart';
 import 'package:seeds/screens/app/guardians/my_guardians_tutorial.dart';
+import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
@@ -18,9 +18,9 @@ const MIN_GUARDIANS_COMPLETED = 3;
 
 class MyGuardiansTab extends StatefulWidget {
   final List<Guardian> guardians;
-  final List<MemberModel> allMembers;
+  final List<MemberModel>? allMembers;
 
-  MyGuardiansTab(this.guardians, this.allMembers);
+  const MyGuardiansTab(this.guardians, this.allMembers);
 
   @override
   _MyGuardiansTabState createState() => _MyGuardiansTabState();
@@ -33,9 +33,9 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
       if (!(SettingsNotifier.of(context).guardianTutorialShown == true)) {
-        showFirstTimeUserDialog(context);
+        await showFirstTimeUserDialog(context);
       }
     });
   }
@@ -43,12 +43,12 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   @override
   Widget build(BuildContext context) {
     var myGuardians = widget.guardians.where((Guardian e) => e.type == GuardianType.myGuardian).toList();
-    var myMembers = widget.allMembers.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
+    var myMembers = widget.allMembers!.where((item) => myGuardians.map((e) => e.uid).contains(item.account)).toList();
 
     var service = EosService.of(context);
     var accountName = SettingsNotifier.of(context).accountName;
 
-    _onTileTapped(MemberModel user, Guardian guardian) {
+    void _onTileTapped(MemberModel user, Guardian guardian) {
       if (guardian.recoveryStartedDate != null) {
         _showRecoveryStartedBottomSheet(context, user);
       } else {
@@ -59,9 +59,9 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     }
 
     if (myMembers.isEmpty) {
-      return Center(
+      return const Center(
           child: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: EdgeInsets.all(32.0),
         child: Text("You have added no user to become your guardian yet. Once you do, the request will show here."),
       ));
     } else {
@@ -69,8 +69,8 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
       if (myGuardians.where((element) => element.status == GuardianStatus.alreadyGuardian).length < 3) {
         items.add(Container(
           color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+          child: const Padding(
+            padding: EdgeInsets.all(16.0),
             child: Center(
               child: Text(
                 "IMPORTANT: You need a minimum of 3 Guardians to secure your backup key",
@@ -84,8 +84,8 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
             stream: FirebaseDatabaseService().isGuardiansInitialized(accountName),
             builder: (context, isGuardiansInitialized) {
               if (isGuardiansInitialized.hasData) {
-                if (isGuardiansInitialized.data) {
-                  return SizedBox.shrink();
+                if (isGuardiansInitialized.data!) {
+                  return const SizedBox.shrink();
                 } else {
                   return Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -94,7 +94,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                       key: activateGuardiansLoader,
                       onPressed: () {
                         setState(() {
-                          activateGuardiansLoader.currentState.loading();
+                          activateGuardiansLoader.currentState!.loading();
                         });
 
                         GuardianServices()
@@ -106,7 +106,7 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
                   );
                 }
               } else {
-                return SizedBox.shrink();
+                return const SizedBox.shrink();
               }
             }));
       }
@@ -122,57 +122,62 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
   void _showRemoveGuardianDialog(EosService service, MemberModel user, String accountName) {
     showDialog(
       context: context,
-      child: AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Are you sure you want to remove ",
-            ),
-            SizedBox(height: 16),
-            ListTile(
-              leading: TransactionAvatar(
-                size: 60,
-                image: user.image,
-                account: user.account,
-                nickname: user.nickname,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.blue,
-                ),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Are you sure you want to remove ",
               ),
-              title: Text("${user.nickname}", style: TextStyle(color: Colors.black),),
-              subtitle: Text("${user.account}"),
-            ),
-            SizedBox(height: 16),
-            Text("As your Guardian?"),
-          ],
-        ),
-        actions: [
-          FlatButton(
-            child: const Text('Dismiss'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+              const SizedBox(height: 16),
+              ListTile(
+                leading: TransactionAvatar(
+                  size: 60,
+                  image: user.image,
+                  account: user.account,
+                  nickname: user.nickname,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.blue,
+                  ),
+                ),
+                title: Text(
+                  "${user.nickname}",
+                  style: const TextStyle(color: Colors.black),
+                ),
+                subtitle: Text("${user.account}"),
+              ),
+              const SizedBox(height: 16),
+              const Text("As your Guardian?"),
+            ],
           ),
-          MainButton(
-            title: 'Remove Guardian',
-            key: removeGuardianLoader,
-            onPressed: () async {
-              setState(() {
-                removeGuardianLoader.currentState.loading();
-              });
+          actions: [
+            TextButton(
+              child: const Text('Dismiss'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text('Remove Guardian'),
+              key: removeGuardianLoader,
+              onPressed: () async {
+                setState(() {
+                  removeGuardianLoader.currentState!.loading();
+                });
 
-              await GuardianServices()
-                  .removeGuardian(service, accountName, user.account)
-                  .then((value) => onRemoveGuardianSuccess())
-                  .catchError((onError) => onRemoveGuardianError(onError));
+                await GuardianServices()
+                    .removeGuardian(service, accountName, user.account)
+                    .then((value) => onRemoveGuardianSuccess())
+                    .catchError((onError) => onRemoveGuardianError(onError));
 
-              Navigator.pop(context);
-            },
-          )
-        ],
-      ),
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -190,29 +195,29 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
               children: <Widget>[
                 Center(
                   child: Container(
-                    child: SizedBox(height: 2, width: 40),
+                    child: const SizedBox(height: 2, width: 40),
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                   child: Center(
                       child: Text(
                     "A motion to Recover your Key has been initiated by ${user.nickname}",
-                    style: TextStyle(color: Colors.black, fontSize: 16),
+                    style: const TextStyle(color: Colors.black, fontSize: 16),
                   )),
                 ),
-                SizedBox(height: 20),
-                FlatButton.icon(
+                const SizedBox(height: 20),
+                TextButton.icon(
                   onPressed: () {
                     _showStopRecoveryConfirmationDialog(user, context);
                   },
-                  label: Text(
+                  label: const Text(
                     "Stop this Recovery",
                     style: TextStyle(color: Colors.blue),
                   ),
-                  icon: Icon(Icons.cancel_rounded, color: AppColors.blue),
+                  icon: const Icon(Icons.cancel_rounded, color: AppColors.blue),
                 ),
               ],
             ),
@@ -224,28 +229,33 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
 
   void _showStopRecoveryConfirmationDialog(MemberModel user, BuildContext context) {
     showDialog(
-        context: context,
-        child: AlertDialog(
-            content: Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
-            actions: [
-              FlatButton(
-                child: const Text('No: Dismiss'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              FlatButton(
-                child: Text("Yes: Stop Key Recovery"),
-                onPressed: () {
-                  FirebaseDatabaseService().stopRecoveryForUser(userId: SettingsNotifier.of(context).accountName);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              )
-            ]));
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content:
+              const Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
+          actions: [
+            TextButton(
+              child: const Text('No: Dismiss'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text("Yes: Stop Key Recovery"),
+              onPressed: () {
+                FirebaseDatabaseService().stopRecoveryForUser(userId: SettingsNotifier.of(context).accountName);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
-  onInitGuardianResponse(value) {
+  void onInitGuardianResponse(value) {
     try {
       print("onInitGuardianResponse " + value.toString());
       successToast('Success, Guardians are now Active');
@@ -254,16 +264,16 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     }
   }
 
-  onInitGuardianError(onError) {
+  void onInitGuardianError(onError) {
     print("onInitGuardianError Error " + onError.toString());
     errorToast('Oops, Something went wrong');
 
     setState(() {
-      activateGuardiansLoader.currentState.done();
+      activateGuardiansLoader.currentState!.done();
     });
   }
 
-  onRemoveGuardianSuccess() {
+  void onRemoveGuardianSuccess() {
     try {
       print("onRemoveGuardianSuccess ");
       successToast('Success, Guardian Removed');
@@ -272,12 +282,12 @@ class _MyGuardiansTabState extends State<MyGuardiansTab> {
     }
   }
 
-  onRemoveGuardianError(onError) {
+  void onRemoveGuardianError(onError) {
     print("onRemoveGuardianError Error " + onError.toString());
     errorToast('Oops, Something went wrong');
 
     setState(() {
-      removeGuardianLoader.currentState.done();
+      removeGuardianLoader.currentState!.done();
     });
   }
 }

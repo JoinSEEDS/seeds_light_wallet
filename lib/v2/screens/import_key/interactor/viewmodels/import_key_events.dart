@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 /// --- EVENTS
@@ -12,7 +11,7 @@ abstract class ImportKeyEvent extends Equatable {
 class FindAccountByKey extends ImportKeyEvent {
   final String userKey;
 
-  FindAccountByKey({@required this.userKey}) : assert(userKey != null);
+  FindAccountByKey({required this.userKey});
 
   @override
   String toString() => 'FindAccountByKey: { userKey: $userKey }';
@@ -21,7 +20,7 @@ class FindAccountByKey extends ImportKeyEvent {
 class AccountSelected extends ImportKeyEvent {
   final String account;
 
-  AccountSelected({@required this.account}) : assert(account != null);
+  AccountSelected({required this.account});
 
   @override
   String toString() => 'AccountSelected: { account: $account }';

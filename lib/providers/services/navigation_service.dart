@@ -24,18 +24,18 @@ import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
-import 'package:seeds/screens/onboarding/onboarding.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
+import 'package:seeds/v2/screens/verification/verification_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
-import 'package:seeds/v2/screens/send_confirmation/send_confirmation_screen.dart';
-import 'package:seeds/v2/screens/send_scanner/send_scanner_screen.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
+import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -78,6 +78,7 @@ class Routes {
   static final contribution = 'Contribution';
   static final login = "Login";
   static final importKey = "ImportKey";
+  static final verification = "verification";
 }
 
 class NavigationService {
@@ -92,10 +93,9 @@ class NavigationService {
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
 
-  StreamController<String> streamRouteListener;
+  StreamController<String>? streamRouteListener;
 
   final onboardingRoutes = {
-    Routes.onboarding: (_) => Onboarding(),
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
@@ -107,9 +107,9 @@ class NavigationService {
   };
 
   final appRoutes = {
-    Routes.app: (_) => App(),
+    Routes.app: (_) => const App(),
     Routes.transferForm: (args) => TransferForm(args),
-    Routes.transfer: (_) => Transfer(),
+    Routes.transfer: (_) => const Transfer(),
     Routes.invites: (_) => Invites(),
     Routes.createInvite: (_) => CreateInvite(),
     Routes.proposals: (_) => Proposals(),
@@ -118,14 +118,14 @@ class NavigationService {
     Routes.imageViewer: (args) => ImageViewer(
           arguments: args,
         ),
-    Routes.plantSeeds: (_) => PlantSeeds(),
+    Routes.plantSeeds: (_) => const PlantSeeds(),
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => SendScannerScreen(),
-    Routes.receive: (_) => Receive(),
+    Routes.receive: (_) => const Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
-    Routes.receiveCustom: (_) => ReceiveCustom(),
+    Routes.receiveCustom: (_) => const ReceiveCustom(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
-    Routes.selectGuardians: (_) => SelectGuardians(),
+    Routes.selectGuardians: (_) => const SelectGuardians(),
     Routes.inviteGuardians: (args) => InviteGuardians(args),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),
     Routes.guardianTabs: (_) => GuardianTabs(),
@@ -137,6 +137,7 @@ class NavigationService {
     Routes.setCurrency: (_) => const SetCurrencyScreen(),
     Routes.citizenship: (_) => const CitizenshipScreen(),
     Routes.contribution: (_) => const ContributionScreen(),
+    Routes.verification: (_) => const VerificationScreen(),
   };
 
   final ecosystemRoutes = {
@@ -144,18 +145,18 @@ class NavigationService {
   };
 
   final walletRoutes = {
-    Routes.dashboard: (_) => Dashboard(),
+    Routes.dashboard: (_) => const Dashboard(),
   };
 
   void addListener(StreamController<String> listener) {
     streamRouteListener = listener;
   }
 
-  Future<dynamic> navigateTo(String routeName, [Object arguments, bool replace = false]) async {
-    var navigatorKey;
+  Future<dynamic> navigateTo(String routeName, [Object? arguments, bool replace = false]) async {
+    late var navigatorKey;
 
     if (streamRouteListener != null) {
-      streamRouteListener.add(routeName);
+      streamRouteListener!.add(routeName);
     }
 
     if (appRoutes[routeName] != null) {
@@ -183,31 +184,31 @@ class NavigationService {
     var routeName = settings.name;
     var arguments = settings.arguments;
 
-    if (appRoutes[routeName] != null) {
+    if (appRoutes[routeName!] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => appRoutes[routeName](arguments),
+        builder: (context) => appRoutes[routeName]!(arguments),
       );
     } else if (onboardingRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => onboardingRoutes[routeName](arguments),
+        builder: (context) => onboardingRoutes[routeName]!(arguments),
       );
     } else if (ecosystemRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (_) => ecosystemRoutes[routeName](arguments),
+        builder: (_) => ecosystemRoutes[routeName]!(arguments),
       );
     } else if (walletRoutes[routeName] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (_) => walletRoutes[routeName](arguments),
+        builder: (_) => walletRoutes[routeName]!(arguments),
       );
     } else {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => PageNotFound(
-          routeName: settings.name,
+          routeName: settings.name!,
           args: settings.arguments,
         ),
       );

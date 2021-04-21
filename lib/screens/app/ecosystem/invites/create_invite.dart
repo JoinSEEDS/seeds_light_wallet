@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/invites.i18n.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
@@ -24,10 +24,10 @@ enum InviteStatus {
 }
 
 class CreateInviteTransaction extends StatefulWidget {
-  final String inviteHash;
-  final Function nextStep;
+  final String? inviteHash;
+  final Function? nextStep;
 
-  CreateInviteTransaction({this.inviteHash, this.nextStep});
+  const CreateInviteTransaction({this.inviteHash, this.nextStep});
 
   @override
   CreateInviteTransactionState createState() => CreateInviteTransactionState();
@@ -36,10 +36,8 @@ class CreateInviteTransaction extends StatefulWidget {
 class CreateInviteTransactionState extends State<CreateInviteTransaction> {
   bool transactionSubmitted = false;
 
-  final StreamController<bool> _statusNotifier =
-      StreamController<bool>.broadcast();
-  final StreamController<String> _messageNotifier =
-      StreamController<String>.broadcast();
+  final StreamController<bool> _statusNotifier = StreamController<bool>.broadcast();
+  final StreamController<String> _messageNotifier = StreamController<String>.broadcast();
 
   final quantityController = TextEditingController(text: '5');
 
@@ -62,7 +60,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
         quantity: double.parse(quantityController.text),
         inviteHash: widget.inviteHash,
       );
-      widget.nextStep();
+      widget.nextStep!();
     } catch (err) {
       print(err.toString());
       _statusNotifier.add(false);
@@ -88,7 +86,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).maybePop(),
         ),
         backgroundColor: Colors.transparent,
@@ -96,7 +94,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
       ),
       backgroundColor: Colors.white,
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17),
+        margin: const EdgeInsets.symmetric(horizontal: 17),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -113,7 +111,7 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
                 endText: 'SEEDS',
               ),
               MainButton(
-                margin: EdgeInsets.only(top: 25),
+                margin: const EdgeInsets.only(top: 25),
                 title: 'Create invite'.i18n,
                 onPressed: onSend,
               ),
@@ -136,10 +134,10 @@ class CreateInviteTransactionState extends State<CreateInviteTransaction> {
 }
 
 class ShareScreen extends StatefulWidget {
-  final String inviteSecret;
-  final String inviteLink;
+  final String? inviteSecret;
+  final String? inviteLink;
 
-  ShareScreen({this.inviteSecret, this.inviteLink});
+  const ShareScreen({this.inviteSecret, this.inviteLink});
 
   @override
   _ShareScreenState createState() => _ShareScreenState();
@@ -151,14 +149,13 @@ class _ShareScreenState extends State<ShareScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       backgroundColor: Colors.white,
       body: Container(
-        margin: EdgeInsets.only(left: 20, right: 20),
+        margin: const EdgeInsets.only(left: 20, right: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -171,33 +168,29 @@ class _ShareScreenState extends State<ShareScreen> {
                   alignment: Alignment.center,
                   child: Text(
                     'GREAT!'.i18n,
-                    style: TextStyle(
-                        color: AppColors.blue,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 25),
+                    style: const TextStyle(color: AppColors.blue, fontWeight: FontWeight.w600, fontSize: 25),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: const EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
                   child: QrImage(
-                    data: widget.inviteLink,
+                    data: widget.inviteLink!,
                     size: 256,
                     foregroundColor: Colors.black87,
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(20),
                   alignment: Alignment.center,
                   child: Text(
-                    'Share this QR code or send link for the person you want to invite!'
-                        .i18n,
+                    'Share this QR code or send link for the person you want to invite!'.i18n,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.blue, fontSize: 16),
+                    style: const TextStyle(color: AppColors.blue, fontSize: 16),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8.0),
                 ),
               ],
             ),
@@ -209,7 +202,7 @@ class _ShareScreenState extends State<ShareScreen> {
                     setState(() {
                       secretShared = true;
                     });
-                    Share.share(widget.inviteLink);
+                    Share.share(widget.inviteLink!);
                   },
                 ),
                 MainButton(
@@ -219,7 +212,7 @@ class _ShareScreenState extends State<ShareScreen> {
                     setState(() {
                       secretShared = true;
                     });
-                    Share.share(widget.inviteSecret);
+                    Share.share(widget.inviteSecret!);
                   },
                 ),
                 SecondButton(
@@ -243,9 +236,9 @@ class CreateInvite extends StatefulWidget {
 
 class _CreateInviteState extends State<CreateInvite> {
   InviteStatus status = InviteStatus.initial;
-  String _readableSecretCode;
-  String _hashedSecretCode;
-  String _dynamicSecretLink;
+  String? _readableSecretCode;
+  String? _hashedSecretCode;
+  String? _dynamicSecretLink;
 
   @override
   void didChangeDependencies() {
@@ -274,8 +267,7 @@ class _CreateInviteState extends State<CreateInvite> {
 
   void prepareInviteLink() async {
     Uri dynamicSecretLink =
-        await Provider.of<LinksService>(context, listen: false)
-            .createInviteLink(_readableSecretCode);
+        await Provider.of<LinksService>(context, listen: false).createInviteLink(_readableSecretCode);
 
     setState(() {
       _dynamicSecretLink = dynamicSecretLink.toString();
@@ -285,11 +277,11 @@ class _CreateInviteState extends State<CreateInvite> {
 
   @override
   Widget build(BuildContext context) {
-    Widget inviteScreen;
+    late Widget inviteScreen;
 
     switch (status) {
       case InviteStatus.initial:
-        inviteScreen = Center(
+        inviteScreen = const Center(
           child: CircularProgressIndicator(),
         );
         break;
