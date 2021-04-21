@@ -104,7 +104,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                         icon: Stack(
                           children: [
                             SvgPicture.asset(i.icon),
-                            if (true && i.index == 2) const Positioned(right: 3, top: 3, child: NotificationBadge())
+                            if (state.hasNotification && i.index == 2)
+                              const Positioned(right: 3, top: 3, child: NotificationBadge())
                           ],
                         ),
                         label: state.index == i.index ? i.title : '',
