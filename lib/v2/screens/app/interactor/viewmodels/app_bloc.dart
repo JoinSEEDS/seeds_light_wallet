@@ -18,7 +18,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     if (event is ShowNotificationBadge) {
       yield state.copyWith(hasNotification: event.value);
     }
-    if (event is BottomTapped) {
+    if (event is BottomBarTapped) {
       yield state.copyWith(index: event.index);
     }
   }

@@ -9,12 +9,6 @@ abstract class AppEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SetUpInitialValues extends AppEvent {
-  const SetUpInitialValues();
-  @override
-  String toString() => 'SetUpInitialValues';
-}
-
 class ShowNotificationBadge extends AppEvent {
   final bool value;
   const ShowNotificationBadge({required this.value});
@@ -22,13 +16,13 @@ class ShowNotificationBadge extends AppEvent {
   String toString() => 'ShowNotificationBadge { value: $value }';
 }
 
-class BottomTapped extends AppEvent {
+class BottomBarTapped extends AppEvent {
   final int index;
-  const BottomTapped({required this.index});
+  const BottomBarTapped({required this.index});
 
   @override
   List<Object> get props => [index];
 
   @override
-  String toString() => 'BottomTapped { index: $index }';
+  String toString() => 'BottomBarTapped { index: $index }';
 }
