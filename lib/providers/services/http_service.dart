@@ -153,12 +153,6 @@ class HttpService {
 Future<List<String>> getKeyAccounts(String publicKey) async {
     print("[http] get key accounts");
 
-// curl --location --request POST 'https://api.telosfoundation.io/v1/history/get_key_accounts' \
-// --header 'Content-Type: application/json' \
-// --data-raw '{ 
-//       "public_key":"EOS8fDDZm7ommT5XBf9MPYkRioXX6GeCUeSNkTpimdwKon5bNAVm7"    
-//   }'
-
     if (mockResponse == true) {
       return HttpMockResponse.keyAccounts;
     }
@@ -172,11 +166,7 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
-
-      print("res: $body");
-
       List<String> keyAccounts = List<String>.from(body["account_names"]);
-
       return keyAccounts;
     } else if (res.statusCode == 400) {
       print("invalid public key");
@@ -334,7 +324,7 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
     var params = '''{ 
       "account_name": "$userAccount",
       "pos": -1,
-      "offset": -20
+      "offset": -30
     }''';
 
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -343,11 +333,12 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
-
       List<dynamic> transfers = body["actions"].where((dynamic item) {
-        return item["act"]["account"] == "token.seeds" &&
-            item["act"]["data"] != null &&
-            item["act"]["data"]["from"] != null;
+
+      var act = item["action_trace"]["act"];
+      return act["account"] == "token.seeds" &&
+            act["data"] != null &&
+            act["data"]["from"] != null;
       }).toList();
 
       List<TransactionModel> transactions =
@@ -360,57 +351,6 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       return [];
     }
   }
-
-  Future<List<TransactionModel>> getTransactionsMongo({int blockHeight = 0}) async {
-
-    print("[http] loading transactions from block $blockHeight");
-
-    const url = "https://mongo-api.hypha.earth/find";
-
-    var params = '''{ 
-      "collection":"action_traces",
-      "query": { 
-        "act.account": "token.seeds",
-        "act.name":"transfer",
-        "block_num": {"\$gt": $blockHeight },
-        "\$or": [ { "act.data.from": "$userAccount" }, { "act.data.to":"$userAccount"} ]
-      },
-      "projection":{
-        "trx_id": true,
-        "block_num": true,
-        "block_time": true,
-        "act.data": true
-      },
-      "sort":{
-        "block_num": -1
-      },
-      "skip":0,
-      "limit": 100,
-      "reverse": true
-    }''';
-
-    Map<String, String> headers = {"Content-type": "application/json"};
-
-    Response res = await post(url, headers: headers, body: params);
-    
-    if (res.statusCode == 200) {
-      Map<String, dynamic> body = res.parseJson();
-      List<dynamic> transfers = body["items"];
-      List<TransactionModel> transactions = transfers
-          .map((item) => TransactionModel.fromJsonMongo(item))
-          .toList();
-      
-      // unique transaction id - in very rare cases tx id are returned duplicates
-      final ids = transactions.map((e) => e.transactionId).toSet();
-      transactions.retainWhere((e) => ids.remove(e.transactionId));
-
-      return transactions;
-    } else {
-      print("Error fetching transactions..."+res.parseJson().toString());
-      return [];
-    }
-  }
-
 
   Future<BalanceModel> getBalance() async {
     print("[http] get seeds balance");

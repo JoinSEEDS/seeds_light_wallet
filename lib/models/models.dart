@@ -189,29 +189,22 @@ class TransactionModel {
       this.transactionId, this.blockNumber);
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
+    var acttionTrace = json["action_trace"];
+    var act = acttionTrace["act"];
+    var data = act["data"];
+    // TODO store global and account action sequences, with this we have better access
+    // to history
     return TransactionModel(
-      json["act"]["data"]["from"],
-      json["act"]["data"]["to"],
-      json["act"]["data"]["quantity"],
-      json["act"]["data"]["memo"],
-      json["@timestamp"],
-      json["trx_id"],
-      0
+      data["from"],
+      data["to"],
+      data["quantity"],
+      data["memo"],
+      acttionTrace["block_time"],
+      acttionTrace["trx_id"],
+      acttionTrace["block_num"],
     );
   }
   
-  factory TransactionModel.fromJsonMongo(Map<String, dynamic> json) {
-    return TransactionModel(
-      json["act"]["data"]["from"],
-      json["act"]["data"]["to"],
-      json["act"]["data"]["quantity"],
-      json["act"]["data"]["memo"],
-      json["block_time"],
-      json["trx_id"],
-      json["block_num"],
-    );
-  }
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
