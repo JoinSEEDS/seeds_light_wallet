@@ -1,3 +1,5 @@
+import 'package:seeds/v2/datasource/remote/model/serialization_helpers.dart';
+
 class ProfileModel {
   final String account;
   final String? status;
@@ -86,20 +88,4 @@ class ProfileModel {
   static final String _interests = 'interests';
   static final String _reputation = 'reputation';
   static final String _timestamp = 'timestamp';
-}
-
-T hasValue<T>(String mapKey, Map<String, dynamic> json) {
-  return json.containsKey(mapKey) ? json[mapKey] as T : throw Exception("Key $mapKey is required.");
-}
-
-T? hasEmptyValue<T>(String mapKey, Map<String, dynamic> json) {
-  if (json.containsKey(mapKey)) {
-    if (T == String) {
-      return (json[mapKey] as String).isEmpty ? null : json[mapKey];
-    } else if (T == int) {
-      return (json[mapKey] as int) == 0 ? null : json[mapKey];
-    }
-  } else {
-    return null;
-  }
 }
