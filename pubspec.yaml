@@ -50,10 +50,15 @@ dependencies:
   qr_flutter: ^3.2.0
   eosdart_ecc:  ^0.4.3
   eosdart:
-    git: git://github.com/JoinSEEDS/eosdart.git
-  dart_esr:
     git:
+      url: https://github.com/JoinSEEDS/eosdart.git
+      ref: flutter_1
+  
+  dart_esr:
+    git: 
       url: https://github.com/JoinSEEDS/dart-esr.git
+      ref: flutter_1
+
   uni_links: ^0.4.0
   webview_flutter: ^1.0.7
   rubber: ^0.4.0
