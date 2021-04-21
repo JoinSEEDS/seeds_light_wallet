@@ -150,36 +150,42 @@ class HttpService {
     }
   }
 
-  Future<List<String>> getKeyAccountsMongo(String publicKey) async {    
-    var headers = {'Content-Type': 'application/json'};
-    var body =
-        '''
-        {
-          "collection": "pub_keys",
-          "query": {
-            "public_key": "$publicKey"
-          },
-          "limit": 100
-        }
-        ''';
+Future<List<String>> getKeyAccounts(String publicKey) async {
+    print("[http] get key accounts");
 
-    Response res = await post(Uri.parse('https://mongo-api.hypha.earth/find'), headers: headers, body: body);
+// curl --location --request POST 'https://api.telosfoundation.io/v1/history/get_key_accounts' \
+// --header 'Content-Type: application/json' \
+// --data-raw '{ 
+//       "public_key":"EOS8fDDZm7ommT5XBf9MPYkRioXX6GeCUeSNkTpimdwKon5bNAVm7"    
+//   }'
+
+    if (mockResponse == true) {
+      return HttpMockResponse.keyAccounts;
+    }
+
+    final String keyAccountsURL =
+        "$baseURL/v1/history/get_key_accounts";
+    String request = '{"public_key":"$publicKey"}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(keyAccountsURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
 
-      print("result: $body");
-      var items = List<Map<String, dynamic>>.from(body["items"]).where((item) => item["permission"] == "active" || item["permission"] == "owner");
-      List<String> result = items
-          .map<String>((item) => item["account"])
-          .toSet()
-          .toList();
+      print("res: $body");
 
-      result.sort();
+      List<String> keyAccounts = List<String>.from(body["account_names"]);
 
-      return result;
+      return keyAccounts;
+    } else if (res.statusCode == 400) {
+      print("invalid public key");
+      return [];
+    } else if (res.statusCode == 404) {
+      print("no accounts associated with public key");
+      return [];
     } else {
-      print("Error fetching accounts: ${res.reasonPhrase}");
+      print("unexpected error fetching accounts");
       return [];
     }
   }

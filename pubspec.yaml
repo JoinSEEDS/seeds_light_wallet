@@ -9,6 +9,8 @@ environment:
 analyzer:
   enable-experiment: extension-methods
 
+publish_to: none
+
 dependencies:
   flutter:
     sdk: flutter

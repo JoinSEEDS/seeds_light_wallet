@@ -40,7 +40,7 @@ void main() {
 
   test('Find key accounts mongo', () async {
 
-    final accounts = await HttpService().getKeyAccountsMongo("EOS8QjUzkowWLLLF4d484E2CuQz2KLUvWrHKPzsh5JzFxZcBsvcmR");
+    final accounts = await HttpService().getKeyAccounts("EOS8QjUzkowWLLLF4d484E2CuQz2KLUvWrHKPzsh5JzFxZcBsvcmR");
 
     accounts.forEach((e) => print("$e"));    
     

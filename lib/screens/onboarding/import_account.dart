@@ -75,7 +75,7 @@ class _ImportAccountState extends State<ImportAccount> {
 
     List<String> keyAccounts =
         await Provider.of<HttpService>(context, listen: false)
-            .getKeyAccountsMongo(publicKey);
+            .getKeyAccounts(publicKey);
 
     if (keyAccounts == null || keyAccounts.length == 0) {
       setState(() => status = ImportStatus.noAccounts);
