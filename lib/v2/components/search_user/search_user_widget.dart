@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/components/search_user/components/search_result_row.dart';
 import 'package:seeds/v2/components/search_user/interactor/search_user_bloc.dart';
 import 'package:seeds/v2/components/search_user/interactor/viewmodels/search_user_events.dart';
 import 'package:seeds/v2/components/search_user/interactor/viewmodels/search_user_state.dart';
@@ -34,8 +35,14 @@ class SearchUserWidget extends StatelessWidget {
                 child: ListView.builder(
                     itemCount: state.users.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        title: Text(state.users[index].account),
+                      MemberModel user = state.users[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: SearchResultRow(
+                          account: user.account,
+                          name: user.nickname,
+                          imageUrl: user.image,
+                        ),
                       );
                     }),
               )

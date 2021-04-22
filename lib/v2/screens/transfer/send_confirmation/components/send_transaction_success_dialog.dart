@@ -114,11 +114,11 @@ class SendTransactionSuccessDialog extends StatelessWidget {
 
 class DialogRow extends StatelessWidget {
   final String? imageUrl;
-  final String? account;
+  final String account;
   final String? name;
   final String? toOrFromText;
 
-  const DialogRow({Key? key, this.imageUrl, this.account, this.name, this.toOrFromText}) : super(key: key);
+  const DialogRow({Key? key, this.imageUrl, required this.account, this.name, this.toOrFromText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +129,7 @@ class DialogRow extends StatelessWidget {
         ProfileAvatar(
           size: 60,
           image: imageUrl,
-          account: account!,
+          account: account,
           nickname: name,
         ),
         Expanded(
@@ -139,9 +139,9 @@ class DialogRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text(name ?? account!, textAlign: TextAlign.start, style: Theme.of(context).textTheme.buttonBlack),
+                Text(name ?? account, textAlign: TextAlign.start, style: Theme.of(context).textTheme.buttonBlack),
                 const SizedBox(height: 8),
-                Text(account!, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack)
+                Text(account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack)
               ],
             ),
           ),
