@@ -12,6 +12,8 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   @override
   Stream<Transition<SearchUserEvent, SearchUserState>> transformEvents(
       Stream<SearchUserEvent> events, TransitionFunction<SearchUserEvent, SearchUserState> transitionFn) {
+    // Debounce 500 MS to avoid making search network calls each time the user types
+    // switchMap: To remove the previous event. Every time a new Stream is created, the previous Stream is discarded.
     return events.debounceTime(const Duration(milliseconds: 500)).switchMap(transitionFn);
   }
 
