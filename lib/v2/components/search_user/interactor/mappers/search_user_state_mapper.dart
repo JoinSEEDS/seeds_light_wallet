@@ -9,7 +9,7 @@ class SearchUserStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, error: 'Error Searching for User');
     } else {
       List<MemberModel> users = result.asValue?.value as List<MemberModel>;
-      return currentState.copyWith(pageState: PageState.success, users: users);
+      return currentState.copyWith(pageState: PageState.success, users: users, error: null);
     }
   }
 }

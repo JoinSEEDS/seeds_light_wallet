@@ -38,21 +38,7 @@ class SearchUserWidget extends StatelessWidget {
                     border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                     hintText: 'Search...'),
               ),
-              Expanded(
-                child: ListView.builder(
-                    itemCount: state.users.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      MemberModel user = state.users[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: SearchResultRow(
-                          account: user.account,
-                          name: user.nickname,
-                          imageUrl: user.image,
-                        ),
-                      );
-                    }),
-              )
+              searchResults(context, state),
             ],
           );
         },
@@ -69,5 +55,43 @@ class SearchUserWidget extends StatelessWidget {
             _controller.clear();
           }
         });
+  }
+
+  Expanded list(List<MemberModel> users) {
+    return Expanded(
+      child: ListView.builder(
+          itemCount: users.length,
+          itemBuilder: (BuildContext context, int index) {
+            MemberModel user = users[index];
+            return Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: SearchResultRow(
+                account: user.account,
+                name: user.nickname,
+                imageUrl: user.image,
+              ),
+            );
+          }),
+    );
+  }
+
+  Widget searchResults(BuildContext context, SearchUserState state) {
+    switch (state.pageState) {
+      case PageState.initial:
+        return const SizedBox.shrink();
+      case PageState.loading:
+        return list(state.users);
+      case PageState.failure:
+        return list(state.users);
+      case PageState.success:
+        if (state.users.isEmpty) {
+          return const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(child: Text("No users found.")),
+          );
+        } else {
+          return list(state.users);
+        }
+    }
   }
 }
