@@ -11,14 +11,14 @@ import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/
 /// --- BLOC
 class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
   final AuthenticationBloc _authenticationBloc;
-  StreamSubscription<bool?>? _hasGuardianNotificationPending;
+  late StreamSubscription<bool> _hasGuardianNotificationPending;
 
   SecurityBloc({required AuthenticationBloc authenticationBloc})
       : _authenticationBloc = authenticationBloc,
         super(SecurityState.initial()) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
-        .listen((value) => add(ShowNotificationBadge(value: value!)));
+        .listen((value) => add(ShouldShowNotificationBadge(value: value)));
   }
 
   @override
@@ -31,7 +31,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
         hasNotification: false,
       );
     }
-    if (event is ShowNotificationBadge) {
+    if (event is ShouldShowNotificationBadge) {
       yield state.copyWith(hasNotification: event.value);
     }
     if (event is OnGuardiansCardTapped) {
@@ -77,7 +77,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
 
   @override
   Future<void> close() {
-    _hasGuardianNotificationPending?.cancel();
+    _hasGuardianNotificationPending.cancel();
     return super.close();
   }
 }

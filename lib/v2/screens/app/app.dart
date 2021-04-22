@@ -20,7 +20,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with WidgetsBindingObserver {
-  final List<AppScreenItem> appScreenItems = [
+  final List<AppScreenItem> _appScreenItems = [
     AppScreenItem(
       title: "Wallet".i18n,
       icon: 'assets/images/navigation_bar/wallet.svg',
@@ -43,7 +43,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       index: 2,
     ),
   ];
-  PageController pageController = PageController(initialPage: 0, keepPage: true);
+  final PageController _pageController = PageController(initialPage: 0, keepPage: true);
 
   @override
   void initState() {
@@ -80,12 +80,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       create: (context) => AppBloc(),
       child: BlocListener<AppBloc, AppState>(
         listenWhen: (previous, current) => previous.index != current.index,
-        listener: (_, state) => pageController.jumpToPage(state.index),
+        listener: (_, state) => _pageController.jumpToPage(state.index),
         child: Scaffold(
           body: PageView(
-            controller: pageController,
+            controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
-            children: appScreenItems.map((i) => i.screen).toList(),
+            children: _appScreenItems.map((i) => i.screen).toList(),
           ),
           bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
             builder: (context, state) {
@@ -97,7 +97,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   selectedLabelStyle: Theme.of(context).textTheme.caption,
                   unselectedLabelStyle: Theme.of(context).textTheme.caption,
                   items: [
-                    for (var i in appScreenItems)
+                    for (var i in _appScreenItems)
                       BottomNavigationBarItem(
                         activeIcon:
                             Padding(padding: const EdgeInsets.only(bottom: 4), child: SvgPicture.asset(i.iconSelected)),

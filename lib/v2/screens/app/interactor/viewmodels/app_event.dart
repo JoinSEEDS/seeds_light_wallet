@@ -9,11 +9,11 @@ abstract class AppEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ShowNotificationBadge extends AppEvent {
+class ShouldShowNotificationBadge extends AppEvent {
   final bool value;
-  const ShowNotificationBadge({required this.value});
+  const ShouldShowNotificationBadge({required this.value});
   @override
-  String toString() => 'ShowNotificationBadge { value: $value }';
+  String toString() => 'ShouldShowNotificationBadge { value: $value }';
 }
 
 class BottomBarTapped extends AppEvent {
