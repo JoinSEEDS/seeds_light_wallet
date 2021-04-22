@@ -37,6 +37,7 @@ final providers = [
     update: (_, connection, settings) => settings
       ..update(
         nodeEndpoint: connection.currentEndpoint,
+        historyEndpoint: connection.historyEndpoint,
       ),
   ),
   ChangeNotifierProxyProvider<SettingsNotifier, AuthNotifier>(
@@ -66,9 +67,10 @@ final providers = [
   ProxyProvider<SettingsNotifier, HttpService>(
     create: (_) => HttpService(),
     update: (_, settings, http) => http
-      ..update(
+      ..updateHttpService(
         accountName: settings.accountName,
         nodeEndpoint: settings.nodeEndpoint,
+        historyEndpoint: settings.historyEndpoint,
         enableMockResponse: false,
       ),
   ),

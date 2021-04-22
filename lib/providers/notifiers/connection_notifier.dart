@@ -9,7 +9,8 @@ class Endpoint {
   final String url;
   final int ping;
   final DateTime lastChecked;
-  const Endpoint(this.url, this.ping, this.lastChecked);
+  final bool historyV1;
+  const Endpoint(this.url, this.ping, this.lastChecked, this.historyV1);
 
   @override
   String toString() {
@@ -26,6 +27,7 @@ class ConnectionNotifier extends ChangeNotifier {
   bool status = true;
 
   String currentEndpoint = Config.defaultEndpoint;
+  String historyEndpoint = Config.defaultEndpoint;
   int currentEndpointPing = 0;
   List<Endpoint> allEndpoints = [];
 
@@ -33,8 +35,6 @@ class ConnectionNotifier extends ChangeNotifier {
     Config.defaultEndpoint,
     "https://api.telos.kitchen",
     "https://node.hypha.earth",
-    'https://mainnet.telosusa.io',
-    'https://telos.eosphere.io',
     'https://telos.caleos.io',
     'https://api.eos.miami',
   ];
@@ -53,6 +53,7 @@ class ConnectionNotifier extends ChangeNotifier {
   }
 
   void loadServerEndpoints() async {
+    print("[loadServerEndpoints]");
     var snapshot = await FirebaseDatabaseService().getNodeEndpoints();
     serverEndpoints = List<String>.from(snapshot.docs.map((e) => e.url())
       .where((element) => element != null));
@@ -60,6 +61,9 @@ class ConnectionNotifier extends ChangeNotifier {
   }
 
   void discoverEndpoints() async {
+    
+    print("[discoverEndpoints] [${serverEndpoints.length}]");
+
     List<Future> checks = List<Future>();
 
     List<String> endpoints = serverEndpoints.length >= 2 ? serverEndpoints : (hardCodedEndpoints + serverEndpoints).toSet().toList();
@@ -76,7 +80,9 @@ class ConnectionNotifier extends ChangeNotifier {
 
     currentEndpoint = responses[0].url;
 
-    print("[ConnectionNotifier] using endpoint $currentEndpoint");
+    historyEndpoint = responses.firstWhere((element) => element.historyV1)?.url;
+
+    print("[ConnectionNotifier] using endpoint $currentEndpoint ${responses[0].ping} historyV1: $historyEndpoint");
     
     currentEndpointPing = responses[0].ping;
     
@@ -90,17 +96,34 @@ class ConnectionNotifier extends ChangeNotifier {
       Response res = await get("$endpointURL/v1/chain/get_info");
       ping.stop();
       if (res.statusCode == 200) {
-        int endpointPing = ping.elapsedMilliseconds;
-        return Endpoint(endpointURL, endpointPing, DateTime.now());
+        var history = await testHasHistory(endpointURL);
+        //print("has history: $endpointURL: $history ${ping.elapsedMilliseconds} ms");
+        return Endpoint(endpointURL, ping.elapsedMilliseconds, DateTime.now(), history);
       } else {
-        return Endpoint(endpointURL, infinitePing, DateTime.now());
+        return Endpoint(endpointURL, infinitePing, DateTime.now(), false);
       }
     } catch (err) {
-      print("error pinging: " + err);
-      return Endpoint(endpointURL, doubleInfinitePing, DateTime.now());
+      print("error pinging: ${err.toString()}");
+      return Endpoint(endpointURL, doubleInfinitePing, DateTime.now(), false);
     }
   }
 }
+  Future<bool> testHasHistory(String endpointURL) async {
+    final String url = "$endpointURL/v1/history/get_actions";
+    var params = '''{ 
+      "account_name": "testingseeds",
+      "pos": -1,
+      "offset": -1
+    }''';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    Response res = await post(url, headers: headers, body: params);
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
 extension EndpointSnapshot on QueryDocumentSnapshot {
   String url() {

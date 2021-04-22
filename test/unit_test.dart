@@ -27,10 +27,11 @@ void main() {
   });
   test('Invite Integration', () async {
     final service = HttpService()
-      ..update(
+      ..updateHttpService(
         accountName: 'testingseeds',
         enableMockResponse: true,
-        nodeEndpoint: 'https://telos.caleos.io',
+        nodeEndpoint: 'https://node.hypha.earth',
+        historyEndpoint: 'https://node.hypha.earth',
       );
 
     final invites = await service.getInvites();
@@ -50,7 +51,7 @@ void main() {
 
 
   test('Http Service', () async {
-    final service = HttpService()..update(enableMockResponse: true);
+    final service = HttpService()..updateHttpService(enableMockResponse: true);
 
     final members = await service.getMembers();
     final transactions = await service.getTransactions();

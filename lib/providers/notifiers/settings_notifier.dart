@@ -10,6 +10,7 @@ class SettingsNotifier extends ChangeNotifier {
   static const PASSCODE_ACTIVE = "passcode_active";
   static const PASSCODE_ACTIVE_DEFAULT = true;
   static const NODE_ENDPOINT = "nodeEndpoint";
+  static const HISTORY_ENDPOINT = "historyEndpoint";
   static const PRIVATE_KEY_BACKED_UP = "private_key_backed_up";
   static const BACKUP_LATEST_REMINDER = "backup_latest_reminder";
   static const BACKUP_REMINDER_COUNT = "backup_reminder_count";
@@ -30,6 +31,7 @@ class SettingsNotifier extends ChangeNotifier {
   get passcode => _passcode;
   get passcodeActive => _passcodeActive;
   get nodeEndpoint => _preferences?.getString(NODE_ENDPOINT);
+  get historyEndpoint => _preferences?.getString(HISTORY_ENDPOINT);
   get privateKeyBackedUp => _privateKeyBackedUp;
   get backupLatestReminder => _backupLatestReminder;
   get backupReminderCount => _backupReminderCount;
@@ -139,9 +141,10 @@ class SettingsNotifier extends ChangeNotifier {
     return value;
   }
 
-  void update({String nodeEndpoint}) {
-    if (nodeEndpoint != _preferences?.getString(NODE_ENDPOINT)) {
-      saveEndpoint(nodeEndpoint);
+  void update({String nodeEndpoint, String historyEndpoint}) {
+    if (nodeEndpoint != _preferences?.getString(NODE_ENDPOINT) ||
+        historyEndpoint != _preferences?.getString(HISTORY_ENDPOINT)) {
+      saveEndpoint(nodeEndpoint, historyEndpoint);
     }
   }
 
@@ -223,8 +226,9 @@ class SettingsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveEndpoint(String nodeEndpoint) {
+  void saveEndpoint(String nodeEndpoint, String historyEndpoint) {
     _preferences?.setString(NODE_ENDPOINT, nodeEndpoint);
+    _preferences?.setString(HISTORY_ENDPOINT, historyEndpoint);
     notifyListeners();
   }
 }

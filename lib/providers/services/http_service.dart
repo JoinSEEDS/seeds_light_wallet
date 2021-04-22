@@ -13,15 +13,17 @@ import 'package:seeds/utils/extensions/response_extension.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
-  String hyphaURL = Config.hyphaEndpoint;
+  String historyURL = Config.hyphaEndpoint;
   String userAccount;
   bool mockResponse;
 
-  void update(
+  void updateHttpService(
       {String accountName,
       String nodeEndpoint,
+      String historyEndpoint,
       bool enableMockResponse = false}) {
-    nodeEndpoint = nodeEndpoint;
+    baseURL = nodeEndpoint;
+    historyURL = historyEndpoint;
     userAccount = accountName;
     mockResponse = enableMockResponse;
   }
@@ -158,7 +160,7 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
     }
 
     final String keyAccountsURL =
-        "$baseURL/v1/history/get_key_accounts";
+        "$historyURL/v1/history/get_key_accounts";
     String request = '{"public_key":"$publicKey"}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
@@ -319,7 +321,7 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       return HttpMockResponse.transactions;
     }
 
-    final String url = "$baseURL/v1/history/get_actions";
+    final String url = "$historyURL/v1/history/get_actions";
 
     var params = '''{ 
       "account_name": "$userAccount",
@@ -351,7 +353,7 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       return [];
     }
   }
-
+  
   Future<BalanceModel> getBalance() async {
     print("[http] get seeds balance");
 
