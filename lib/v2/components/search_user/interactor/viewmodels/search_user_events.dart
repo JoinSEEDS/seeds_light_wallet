@@ -16,3 +16,9 @@ class OnSearchChange extends SearchUserEvent {
   @override
   String toString() => 'OnSearchChange: { searchQuery: $searchQuery }';
 }
+
+class ClearIconTapped extends SearchUserEvent {
+
+  @override
+  String toString() => 'ClearIconTapped';
+}
