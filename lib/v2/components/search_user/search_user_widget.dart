@@ -5,12 +5,17 @@ import 'package:seeds/v2/components/search_user/components/search_result_row.dar
 import 'package:seeds/v2/components/search_user/interactor/search_user_bloc.dart';
 import 'package:seeds/v2/components/search_user/interactor/viewmodels/search_user_events.dart';
 import 'package:seeds/v2/components/search_user/interactor/viewmodels/search_user_state.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class SearchUserWidget extends StatelessWidget {
   final ValueSetter<MemberModel> resultCallBack;
   final _controller = TextEditingController();
+  final _searchBorder = const OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+    borderSide: BorderSide(color: AppColors.darkGreen2, width: 2.0),
+  );
 
   SearchUserWidget({Key? key, required this.resultCallBack}) : super(key: key);
 
@@ -31,10 +36,13 @@ class SearchUserWidget extends StatelessWidget {
                     prefixIcon: state.pageState == PageState.loading
                         ? Transform.scale(
                             scale: 0.5,
-                            child: const CircularProgressIndicator(),
+                            child: const CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.green)),
                           )
                         : const SizedBox.shrink(),
                     suffixIcon: searchBarIconHelper(state, context),
+                    enabledBorder: _searchBorder,
+                    focusedBorder: _searchBorder,
                     border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
                     hintText: 'Search...'),
               ),
@@ -48,7 +56,11 @@ class SearchUserWidget extends StatelessWidget {
 
   Widget searchBarIconHelper(SearchUserState state, BuildContext context) {
     return IconButton(
-        icon: Icon(state.searchBarIcon),
+        icon: Icon(
+          state.searchBarIcon,
+          color: AppColors.green,
+          size: 26,
+        ),
         onPressed: () {
           if (state.searchBarIcon == Icons.clear) {
             BlocProvider.of<SearchUserBloc>(context).add(ClearIconTapped());
