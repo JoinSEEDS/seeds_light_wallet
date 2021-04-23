@@ -48,7 +48,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   @override
@@ -70,7 +70,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
