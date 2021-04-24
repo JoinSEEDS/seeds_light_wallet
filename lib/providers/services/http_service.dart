@@ -332,7 +332,7 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
     var params = '''{ 
       "account_name": "$userAccount",
       "pos": -1,
-      "offset": -30
+      "offset": -100
     }''';
 
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -352,7 +352,7 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       List<TransactionModel> transactions =
           transfers.map((item) => TransactionModel.fromJson(item)).toList();
 
-      return transactions;
+      return transactions.reversed;
     } else {
       print("Cannot fetch transactions...");
 
