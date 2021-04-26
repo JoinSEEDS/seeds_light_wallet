@@ -37,6 +37,7 @@ import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
+import 'package:seeds/v2/screens/create_username/create_username.dart';
 
 class Routes {
   static final app = 'App';
@@ -79,6 +80,7 @@ class Routes {
   static final login = "Login";
   static final importKey = "ImportKey";
   static final verification = "verification";
+  static final createUserName = "createUserName";
 }
 
 class NavigationService {
@@ -99,6 +101,7 @@ class NavigationService {
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
+    Routes.createUserName: (args) => CreateUsername(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),
     // Routes.showInvite: (args) => ShowInvite(args),

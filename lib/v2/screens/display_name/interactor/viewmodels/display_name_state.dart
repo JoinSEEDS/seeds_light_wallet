@@ -5,22 +5,23 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 class DisplayNameState extends Equatable {
   final PageState? pageState;
   final String? errorMessage;
-  final String? privateKey;
+  final String? invSecret;
 
-  const DisplayNameState({@required this.pageState, this.errorMessage, this.privateKey});
+
+  const DisplayNameState({@required this.pageState, this.errorMessage, this.invSecret});
 
   @override
-  List<Object?> get props => [pageState, errorMessage, privateKey];
+  List<Object?> get props => [pageState, errorMessage, invSecret];
 
   DisplayNameState copyWith({
     PageState? pageState,
     String? errorMessage,
-    String? privateKey,
+    String? invSecret,
   }) {
     return DisplayNameState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage ?? this.errorMessage,
-      privateKey: privateKey ?? this.privateKey,
+      invSecret: invSecret ?? this.invSecret,
     );
   }
 
@@ -28,7 +29,7 @@ class DisplayNameState extends Equatable {
     return const DisplayNameState(
       pageState: PageState.initial,
       errorMessage: null,
-      privateKey: null,
+      invSecret: null,
     );
   }
 }

@@ -4,66 +4,34 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/i18n/edit_name.i18n.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
+import 'package:seeds/v2/screens/display_name/interactor/viewmodels/display_name_arguments.dart';
 import 'interactor/display_name_bloc.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-
-class DisplayName extends StatefulWidget {
-  final String? inviteSecret;
-  final String? initialName;
-  final Function(String? nickName)? onSubmit;
-
-  const DisplayName({Key? key, this.inviteSecret, this.initialName, this.onSubmit}) : super(key: key);
-
-  @override
-  _DisplayNameState createState() => _DisplayNameState();
-}
-
-class _DisplayNameState extends State<DisplayName> {
-  //late EditNameBloc _editNameBloc;
-  late DisplayNameBloc _DisplayNameBloc;
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  ProfileModel? _profileModel;
+import 'interactor/viewmodels/display_name_events.dart';
 
 
-  @override
-  void initState() {
-    super.initState();
-    _DisplayNameBloc = DisplayNameBloc();
-    _nameController.addListener(_onNameChanged);
-  }
+class DisplayName extends StatelessWidget {
+  const DisplayName({Key? key}) : super(key: key);
 
-  Future<void> createAccountName() async {
-    print("create acct ");
-
-    final FormState form = _formKey.currentState!;
-
-      form.save();
-
-      print("siubmite" + _nameController.text);
-
-      widget.onSubmit!(_nameController.text);
-
-  }
 
   @override
   Widget build(BuildContext context) {
+    final DisplayNameArguments? arguments = ModalRoute.of(context)!.settings.arguments as DisplayNameArguments?;
+
     return BlocProvider(
-      create: (BuildContext context) => _DisplayNameBloc,
+      create: (context) => DisplayNameBloc()..add(InitDisplayNameConfirmationWithArguments(arguments: arguments!)),
       child: Scaffold(
         appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
-            key: _formKey,
+            //key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 TextFormFieldCustom(
-                  controller: _nameController,
+                 // controller: _nameController,
                   labelText: 'Full Name'.i18n,
-                  onFieldSubmitted: (_) => _onSubmitted(),
+                  //onFieldSubmitted: (_) => _onSubmitted(),
                   validator: (String? value) {
                      if (value!.length > 36) {
                        return 'Maximum 36 characters.';
@@ -77,7 +45,7 @@ class _DisplayNameState extends State<DisplayName> {
                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                 )),
                 FlatButtonLong(
-                  onPressed: () {_onSubmitted();},
+                  onPressed: () {},
                   title: 'Next'.i18n,
                 ),
               ],
@@ -88,20 +56,20 @@ class _DisplayNameState extends State<DisplayName> {
     );
   }
 
-  @override
-  void dispose() {
-  //  _nameController.dispose();
-    super.dispose();
+  // @override
+  // void dispose() {
+  // //  _nameController.dispose();
+  //   super.dispose();
+  // }
+
+  // void _onNameChanged() {
+  // //  _editNameBloc.add(OnNameChanged(name: _nameController.text));
+  // }
+
+
+  // void _onSubmitted() {
+  //   if (_formKey.currentState!.validate()) {
+  //     NavigationService.of(context).navigateTo(Routes.createUserName,[_nameController.text ]);
+  //   }
   }
 
-  void _onNameChanged() {
-  //  _editNameBloc.add(OnNameChanged(name: _nameController.text));
-  }
-
-
-  void _onSubmitted() {
-    if (_formKey.currentState!.validate()) {
-     // NavigationService.of(context).navigateTo(Routes.createUserName);
-    }
-  }
-}
