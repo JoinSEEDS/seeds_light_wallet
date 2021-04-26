@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/v2/components/search_user/components/search_result_row.dart';
+import 'package:seeds/v2/components/search_user/components/search_result_list.dart';
 import 'package:seeds/v2/components/search_user/interactor/search_user_bloc.dart';
 import 'package:seeds/v2/components/search_user/interactor/viewmodels/search_user_events.dart';
 import 'package:seeds/v2/components/search_user/interactor/viewmodels/search_user_state.dart';
@@ -40,7 +40,18 @@ class SearchUserWidget extends StatelessWidget {
                                 valueColor: AlwaysStoppedAnimation<Color>(AppColors.green)),
                           )
                         : const SizedBox.shrink(),
-                    suffixIcon: searchBarIconHelper(state, context),
+                    suffixIcon: IconButton(
+                        icon: Icon(
+                          state.searchBarIcon,
+                          color: AppColors.green,
+                          size: 26,
+                        ),
+                        onPressed: () {
+                          if (state.searchBarIcon == Icons.clear) {
+                            BlocProvider.of<SearchUserBloc>(context).add(ClearIconTapped());
+                            _controller.clear();
+                          }
+                        }),
                     enabledBorder: _searchBorder,
                     focusedBorder: _searchBorder,
                     border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -54,47 +65,14 @@ class SearchUserWidget extends StatelessWidget {
     );
   }
 
-  Widget searchBarIconHelper(SearchUserState state, BuildContext context) {
-    return IconButton(
-        icon: Icon(
-          state.searchBarIcon,
-          color: AppColors.green,
-          size: 26,
-        ),
-        onPressed: () {
-          if (state.searchBarIcon == Icons.clear) {
-            BlocProvider.of<SearchUserBloc>(context).add(ClearIconTapped());
-            _controller.clear();
-          }
-        });
-  }
-
-  Expanded list(List<MemberModel> users) {
-    return Expanded(
-      child: ListView.builder(
-          itemCount: users.length,
-          itemBuilder: (BuildContext context, int index) {
-            MemberModel user = users[index];
-            return Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: SearchResultRow(
-                account: user.account,
-                name: user.nickname,
-                imageUrl: user.image,
-              ),
-            );
-          }),
-    );
-  }
-
   Widget searchResults(BuildContext context, SearchUserState state) {
     switch (state.pageState) {
       case PageState.initial:
         return const SizedBox.shrink();
       case PageState.loading:
-        return list(state.users);
+        return SearchUsersList(users: state.users);
       case PageState.failure:
-        return list(state.users);
+        return SearchUsersList(users: state.users);
       case PageState.success:
         if (state.users.isEmpty) {
           return const Padding(
@@ -102,7 +80,7 @@ class SearchUserWidget extends StatelessWidget {
             child: Center(child: Text("No users found.")),
           );
         } else {
-          return list(state.users);
+          return SearchUsersList(users: state.users);
         }
     }
   }
