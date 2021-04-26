@@ -81,4 +81,19 @@ class ProfileRepository extends NetworkRepository with EosRepository {
             }))
         .catchError((error) => mapHttpError(error));
   }
+
+  Future<Result> getReferredAccounts(String accountName) {
+    print('[http] get Referred Accounts $accountName');
+
+    var request =
+        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"refs","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":2,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
+
+    return http
+        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
+            headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              return ProfileModel.fromJson(body['rows'][0]);
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
 }
