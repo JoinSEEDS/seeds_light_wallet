@@ -37,7 +37,7 @@ class _DisplayNameState extends State<DisplayName> {
                 onFieldSubmitted: (_) => _onSubmitted(),
                 validator: (String? value) {
                   if (value?.isEmpty == true) {
-                    return 'Private Key cannot be empty'.i18n;
+                    return 'Name cannot be empty'.i18n;
                   }
                   return null;
                 },
