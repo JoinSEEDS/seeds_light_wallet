@@ -366,8 +366,8 @@ class FirebaseDatabaseService {
         .map((user) => user.data()![GUARDIAN_CONTRACT_INITIALIZED] ?? false);
   }
 
-  Stream<bool?> hasGuardianNotificationPending(String userAccount) {
-    bool? _findNotification(QuerySnapshot event) {
+  Stream<bool> hasGuardianNotificationPending(String userAccount) {
+    bool _findNotification(QuerySnapshot event) {
       QueryDocumentSnapshot? guardianNotification = event.docs.firstWhereOrNull(
         (QueryDocumentSnapshot? element) => element?.id == GUARDIAN_NOTIFICATION_KEY,
       );
