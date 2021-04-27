@@ -321,7 +321,6 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
   }
   
   Future<List<TransactionModel>> getTransactions() async {
-    print("[http] get transactions");
 
     if (mockResponse == true) {
       return HttpMockResponse.transactions;
@@ -352,9 +351,14 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       List<TransactionModel> transactions =
           transfers.map((item) => TransactionModel.fromJson(item)).toList();
 
-      return transactions.reversed;
+      transactions.sort( (a, b) => b.accountActionSequence - a.accountActionSequence);
+
+      final ids = transactions.map((e) => e.transactionId).toSet();
+      transactions.retainWhere((x) => ids.remove(x.transactionId));
+
+      return transactions;
     } else {
-      print("Cannot fetch transactions...");
+      print("Cannot fetch transactions...${res.statusCode}   ${res.parseJson()}");
 
       return [];
     }

@@ -19,7 +19,7 @@ class TransactionsNotifier extends ChangeNotifier {
     _http = http;
   }
 
-  static const cacheName = "transactions147";
+  static const cacheName = "transactions144";
 
   Future fetchTransactionsCache() async {
     Box cacheTransactions =

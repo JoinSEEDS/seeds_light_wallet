@@ -182,18 +182,18 @@ class TransactionModel {
   final String timestamp;
   final String transactionId;
   final int blockNumber;
+  final String globalActionSequence;
+  final int accountActionSequence;
 
   String get symbol { return quantity.split(" ")[1]; }
 
   TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp,
-      this.transactionId, this.blockNumber);
+      this.transactionId, this.blockNumber, this.globalActionSequence, this.accountActionSequence);
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     var acttionTrace = json["action_trace"];
     var act = acttionTrace["act"];
     var data = act["data"];
-    // TODO store global and account action sequences, with this we have better access
-    // to history
     return TransactionModel(
       data["from"],
       data["to"],
@@ -202,6 +202,8 @@ class TransactionModel {
       acttionTrace["block_time"],
       acttionTrace["trx_id"],
       acttionTrace["block_num"],
+      json["global_action_seq"].toString(),
+      int.parse(json["account_action_seq"].toString()),
     );
   }
   

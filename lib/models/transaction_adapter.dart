@@ -23,6 +23,10 @@ class TransactionAdapter extends TypeAdapter<TransactionModel> {
     fields.add(reader.readString());
     reader.readByte();
     fields.add(reader.readInt());
+    reader.readByte();
+    fields.add(reader.readString());
+    reader.readByte();
+    fields.add(reader.readInt());
 
     return TransactionModel(
       fields[0],
@@ -32,6 +36,8 @@ class TransactionAdapter extends TypeAdapter<TransactionModel> {
       fields[4],
       fields[5],
       fields[6],
+      fields[7],
+      fields[8],
     );
   }
 
@@ -51,5 +57,9 @@ class TransactionAdapter extends TypeAdapter<TransactionModel> {
     writer.writeString(obj.transactionId);
     writer.writeByte(6);
     writer.writeInt(obj.blockNumber);
+    writer.writeByte(7);
+    writer.writeString(obj.globalActionSequence);
+    writer.writeByte(8);
+    writer.writeInt(obj.accountActionSequence);
   }
 }
