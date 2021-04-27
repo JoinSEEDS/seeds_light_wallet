@@ -37,6 +37,7 @@ import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
+import 'package:seeds/v2/screens/transfer/send_search_user/send_search_user_screen.dart';
 import 'package:seeds/v2/screens/receive/receive_screen.dart';
 
 class Routes {
@@ -111,7 +112,7 @@ class NavigationService {
   final appRoutes = {
     Routes.app: (_) => const App(),
     Routes.transferForm: (args) => TransferForm(args),
-    Routes.transfer: (_) => const Transfer(),
+    Routes.transfer: (_) => SendSearchUserScreen(),
     Routes.invites: (_) => Invites(),
     Routes.createInvite: (_) => CreateInvite(),
     Routes.proposals: (_) => Proposals(),
