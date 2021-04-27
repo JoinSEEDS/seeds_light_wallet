@@ -149,6 +149,8 @@ flutter:
     - assets/images/seeds_logo.svg
     - assets/images/login/background.png
     - assets/images/login/seeds_light_wallet_logo.svg
+    - assets/images/receive/receive_input_seeds.svg
+    - assets/images/receive/merchant.svg
     # assets end
 
   fonts:

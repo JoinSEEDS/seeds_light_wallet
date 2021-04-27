@@ -37,6 +37,7 @@ import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
+import 'package:seeds/v2/screens/receive/receive_screen.dart';
 
 class Routes {
   static final app = 'App';
@@ -61,6 +62,7 @@ class Routes {
   static final sendConfirmationScreen = 'SendConfirmationScreen';
   static final scanQRCode = 'ScanQRCode';
   static final receive = 'Receive';
+  static final receiveScreen = 'ReceiveScreen';
   static final receiveConfirmation = 'ReceiveConfirmation';
   static final receiveCustom = 'ReceiveCustom';
   static final receiveQR = 'ReceiveQR';
@@ -122,6 +124,8 @@ class NavigationService {
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => SendScannerScreen(),
     Routes.receive: (_) => const Receive(),
+    Routes.receiveScreen:(_) => ReceiveScreen(),
+
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
     Routes.receiveCustom: (_) => const ReceiveCustom(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
