@@ -17,6 +17,7 @@ const int citizen_required_planted_seeds = 400;
 const int citizen_required_seeds_transactions = 5;
 const int citizen_required_residents_invited = 1;
 
+/// --- STATE
 class CitizenshipState extends Equatable {
   final PageState pageState;
   final ProfileModel? profile;

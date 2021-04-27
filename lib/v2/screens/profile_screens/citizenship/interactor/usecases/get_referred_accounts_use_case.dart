@@ -8,14 +8,21 @@ class GetReferredAccountsUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
 
   Future<Result> run() async {
-    var res = await _profileRepository.getReferredAccounts(settingsStorage.accountName);
-    ReferredAccounts referredAccounts = res.asValue!.value as ReferredAccounts;
-    var myList = referredAccounts.accounts.take(5);
-    List<ProfileModel> accounts = [];
-    for (var i in myList) {
-      var res = await _profileRepository.getProfile(i);
-      accounts.add(res.asValue?.value);
-    }
-    return ValueResult(accounts);
+    return _profileRepository.getReferredAccounts(settingsStorage.accountName).then((Result result) async {
+      if (result.isError) {
+        return result;
+      } else {
+        ReferredAccounts referredAccounts = result.asValue?.value as ReferredAccounts;
+        List<ProfileModel> accounts = [];
+        //This is an expensive approach we need change it
+        for (var i in referredAccounts.accounts) {
+          var res = await _profileRepository.getProfile(i);
+          accounts.add(res.asValue?.value);
+        }
+        return ValueResult(accounts);
+      }
+    }).catchError((error) {
+      return ErrorResult("Error getting referreds accounts");
+    });
   }
 }

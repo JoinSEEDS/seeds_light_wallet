@@ -10,7 +10,10 @@ class SetValuesStateMapper extends StateMapper {
     } else {
       double timeline = 0;
       List<ProfileModel> profiles = result.asValue?.value as List<ProfileModel>;
+      // Define timeline
       if (currentState.profile?.status == 'visitor') {
+        // Timeline to resident
+        // If the scores are greater than those required, use the required ones instead to avoid errors in the formula.
         int reputation = currentState.score!.reputationScore! > resident_required_reputation
             ? resident_required_reputation
             : currentState.score!.reputationScore!;
@@ -21,7 +24,7 @@ class SetValuesStateMapper extends StateMapper {
         int transactions = currentState.score!.transactionsScore! > resident_required_seeds_transactions
             ? resident_required_seeds_transactions
             : currentState.score!.transactionsScore!;
-
+        // Timeline to resident formula
         timeline = ((reputation / resident_required_reputation) +
                 (visitors / resident_required_visitors_invited) +
                 (planted / resident_required_planted_seeds) +
@@ -29,6 +32,8 @@ class SetValuesStateMapper extends StateMapper {
             4 *
             100;
       } else {
+        // Timeline to citizen
+        // If the scores are greater than those required, use the required ones instead to avoid errors in the formula.
         int reputation = currentState.score!.reputationScore! > citizen_required_reputation
             ? citizen_required_reputation
             : currentState.score!.reputationScore!;
@@ -47,7 +52,7 @@ class SetValuesStateMapper extends StateMapper {
         int visitors = profiles.where((i) => i.status == 'visitor').length > citizen_required_visitors_invited
             ? citizen_required_visitors_invited
             : profiles.where((i) => i.status == 'visitor').length;
-
+        // Timeline to citizen formula
         timeline = ((reputation / citizen_required_reputation) +
                 (residents / citizen_required_residents_invited) +
                 (age / citizen_required_account_age) +
