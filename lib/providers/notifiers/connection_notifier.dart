@@ -109,6 +109,10 @@ class ConnectionNotifier extends ChangeNotifier {
   }
 }
   Future<bool> testHasHistory(String endpointURL) async {
+    if (endpointURL.contains(".hypha")) {
+      // our own node has only partial history and no incoming transactions!
+      return false;
+    }
     final String url = "$endpointURL/v1/history/get_actions";
     var params = '''{ 
       "account_name": "testingseeds",
