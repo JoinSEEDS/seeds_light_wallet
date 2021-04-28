@@ -8,9 +8,11 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
+import 'package:seeds/v2/main.dart' show SeedsMaterialApp;
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/providers/services/navigation_service.dart';
 
 class App extends StatefulWidget {
   const App();
@@ -57,10 +59,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case AppLifecycleState.inactive:
         break;
       case AppLifecycleState.paused:
+        // Initialize auth when app resume
+        BlocProvider.of<AuthenticationBloc>(context).add(const InitResumeAuth());
         break;
       case AppLifecycleState.resumed:
-        // Fires again auth on app resume
-        BlocProvider.of<AuthenticationBloc>(context).add(const InitAuthStatus());
         Provider.of<ConnectionNotifier>(context, listen: false).discoverEndpoints();
         break;
       case AppLifecycleState.detached:
@@ -71,49 +73,55 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance?.removeObserver(this);
+    _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppBloc(),
-      child: BlocListener<AppBloc, AppState>(
-        listenWhen: (previous, current) => previous.index != current.index,
-        listener: (_, state) => _pageController.jumpToPage(state.index),
-        child: Scaffold(
-          body: PageView(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: _appScreenItems.map((i) => i.screen).toList(),
-          ),
-          bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
-            builder: (context, state) {
-              return Container(
-                decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
-                child: BottomNavigationBar(
-                  currentIndex: state.index,
-                  onTap: (index) => BlocProvider.of<AppBloc>(context).add(BottomBarTapped(index: index)),
-                  selectedLabelStyle: Theme.of(context).textTheme.caption,
-                  unselectedLabelStyle: Theme.of(context).textTheme.caption,
-                  items: [
-                    for (var i in _appScreenItems)
-                      BottomNavigationBarItem(
-                        activeIcon:
-                            Padding(padding: const EdgeInsets.only(bottom: 4), child: SvgPicture.asset(i.iconSelected)),
-                        icon: Stack(
-                          children: [
-                            SvgPicture.asset(i.icon),
-                            if (state.hasNotification && i.index == 2)
-                              const Positioned(right: 3, top: 3, child: NotificationBadge())
-                          ],
+    var navigationService = NavigationService.of(context);
+    return SeedsMaterialApp(
+      navigatorKey: navigationService.appNavigatorKey,
+      onGenerateRoute: navigationService.onGenerateRoute,
+      home: BlocProvider(
+        create: (context) => AppBloc(),
+        child: BlocListener<AppBloc, AppState>(
+          listenWhen: (previous, current) => previous.index != current.index,
+          listener: (_, state) => _pageController.jumpToPage(state.index),
+          child: Scaffold(
+            body: PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: _appScreenItems.map((i) => i.screen).toList(),
+            ),
+            bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
+              builder: (context, state) {
+                return Container(
+                  decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
+                  child: BottomNavigationBar(
+                    currentIndex: state.index,
+                    onTap: (index) => BlocProvider.of<AppBloc>(context).add(BottomBarTapped(index: index)),
+                    selectedLabelStyle: Theme.of(context).textTheme.caption,
+                    unselectedLabelStyle: Theme.of(context).textTheme.caption,
+                    items: [
+                      for (var i in _appScreenItems)
+                        BottomNavigationBarItem(
+                          activeIcon: Padding(
+                              padding: const EdgeInsets.only(bottom: 4), child: SvgPicture.asset(i.iconSelected)),
+                          icon: Stack(
+                            children: [
+                              SvgPicture.asset(i.icon),
+                              if (state.hasNotification && i.index == 2)
+                                const Positioned(right: 3, top: 3, child: NotificationBadge())
+                            ],
+                          ),
+                          label: state.index == i.index ? i.title : '',
                         ),
-                        label: state.index == i.index ? i.title : '',
-                      ),
-                  ],
-                ),
-              );
-            },
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),
