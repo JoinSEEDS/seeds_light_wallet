@@ -7,7 +7,6 @@ import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart'
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/score_model.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
-import 'package:seeds/v2/datasource/remote/model/referred_accounts_model.dart';
 
 export 'package:async/src/result/result.dart';
 
@@ -79,21 +78,6 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         .post(scoreURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return ScoreModel.fromJson(body);
-            }))
-        .catchError((error) => mapHttpError(error));
-  }
-
-  Future<Result> getReferredAccounts(String accountName) {
-    print('[http] get Referred Accounts $accountName');
-
-    var request =
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"refs","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":2,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
-
-    return http
-        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
-            headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              return ReferredAccounts.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }
