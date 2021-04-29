@@ -55,9 +55,7 @@ class SendEnterDataScreen extends StatelessWidget {
                     hintMaxLines: 150,
                   ),
                   autofocus: false,
-                  onChanged: (String value) {
-                    // BlocProvider.of<SearchUserBloc>(context).add(OnSearchChange(searchQuery: value));
-                  },
+                  onChanged: (String value) {},
                 ),
                 const SizedBox(height: 36),
                 BalanceRow(
