@@ -12,8 +12,6 @@ import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/
 
 /// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {
-  final _controller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final MemberModel memberModel = ModalRoute.of(context)!.settings.arguments! as MemberModel;
