@@ -16,6 +16,9 @@ class CitizenshipBloc extends Bloc<CitizenshipEvent, CitizenshipState> {
           pageState: PageState.success,
           profile: event.profile,
           score: event.score,
+          progressTimeline: 0,
+          invitedResidents: 0,
+          invitedVisitors: 0,
         );
       }
     }
