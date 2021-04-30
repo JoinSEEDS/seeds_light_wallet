@@ -17,6 +17,7 @@ class SendTransactionStateMapper extends StateMapper {
       var transactionId = resultResponse.transactionId.asValue!.value as String;
 
       String quantity = currentState.data['quantity'].toString();
+      var currency = quantity.split(' ')[0];
       double parsedQuantity = double.parse(quantity.split(' ')[0]);
 
       var selectedFiat = settingsStorage.selectedFiatCurrency ?? 'USD';
@@ -29,9 +30,10 @@ class SendTransactionStateMapper extends StateMapper {
         return currentState.copyWith(
             pageState: PageState.success,
             pageCommand: ShowTransactionSuccess(
+                currency: currency,
                 toImage: toAccount.image,
                 fromImage: fromAccount.image,
-                amount: quantity,
+                amount: parsedQuantity.toString(),
                 toName: toAccount.nickname,
                 toAccount: toAccount.account,
                 fromName: fromAccount.nickname,
@@ -45,8 +47,9 @@ class SendTransactionStateMapper extends StateMapper {
         return currentState.copyWith(
             pageState: PageState.success,
             pageCommand: ShowTransactionSuccess.withoutServerUserData(
+                currency: currency,
                 fromAccount: fromAccount,
-                amount: quantity,
+                amount: parsedQuantity.toString(),
                 toAccount: toAccount,
                 transactionId: transactionId,
                 fiatAmount: fiatAmount));

@@ -7,7 +7,7 @@ import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
-class SendTransactionSuccessDialog extends StatelessWidget {
+class SendConfirmationDialog extends StatelessWidget {
   final String amount;
   final String currency;
   final String? fiatAmount;
@@ -19,10 +19,10 @@ class SendTransactionSuccessDialog extends StatelessWidget {
   final String fromAccount;
   final String transactionID;
 
-  const SendTransactionSuccessDialog(
+  const SendConfirmationDialog(
       {Key? key,
-      required this.amount,
       required this.currency,
+      required this.amount,
       this.fiatAmount,
       this.toImage,
       this.toName,

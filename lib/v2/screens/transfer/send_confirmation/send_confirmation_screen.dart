@@ -22,7 +22,8 @@ class SendConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SendConfirmationArguments arguments = ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
+    final SendConfirmationArguments arguments =
+        ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
 
     return BlocProvider(
       create: (context) => SendConfirmationBloc(arguments)..add(InitSendConfirmationWithArguments()),
@@ -43,6 +44,7 @@ class SendConfirmationScreen extends StatelessWidget {
                 context: context,
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
+                    currency: pageCommand.currency,
                     amount: pageCommand.amount,
                     fiatAmount: pageCommand.fiatAmount,
                     fromAccount: pageCommand.fromAccount,
