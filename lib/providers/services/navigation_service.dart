@@ -38,6 +38,7 @@ import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_sc
 import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 import 'package:seeds/v2/screens/transfer/send_search_user/send_search_user_screen.dart';
+import 'package:seeds/v2/screens/transfer/send_enter_data/send_enter_data_screen.dart';
 
 class Routes {
   static final app = 'App';
@@ -49,6 +50,7 @@ class Routes {
   static final claimCode = 'ClaimCode';
   static final welcome = 'Welcome';
   static final transfer = 'Transfer';
+  static final sendEnterData = 'SendEnterData';
   static final invites = 'Invites';
   static final createInvite = 'CreateInvite';
   static final proposals = 'Proposals';
@@ -111,6 +113,7 @@ class NavigationService {
     Routes.app: (_) => const App(),
     Routes.transferForm: (args) => TransferForm(args),
     Routes.transfer: (_) => SendSearchUserScreen(),
+    Routes.sendEnterData: (_) => SendEnterDataScreen(),
     Routes.invites: (_) => Invites(),
     Routes.createInvite: (_) => CreateInvite(),
     Routes.proposals: (_) => Proposals(),
