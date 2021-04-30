@@ -13,7 +13,6 @@ import 'package:seeds/utils/extensions/response_extension.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
-import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 class HttpService {
   String? baseURL = remoteConfigurations.defaultEndPointUrl;
@@ -30,8 +29,8 @@ class HttpService {
   static HttpService of(BuildContext context, {bool listen = false}) => Provider.of(context, listen: listen);
 
   Future<List<dynamic>> getTableRows(
-      {String code, String scope, String table, 
-      String value,
+      {required String code, required String scope, required String table,
+      String? value,
       String keyType = "i64",
       int indexPosition = 1,
       int limit = 1,
@@ -45,7 +44,7 @@ class HttpService {
 
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response res = await post(requestURL, headers: headers, body: request);
+    Response res = await post(Uri.parse(requestURL), headers: headers, body: request);
 
     if (res.statusCode == 200) {
       final body = res.parseJson() as Map<String, dynamic>;
@@ -57,7 +56,7 @@ class HttpService {
       return [];
     }
   }
-  
+
   Future<UserRecoversModel?> getAccountRecovery(String accountName) async {
     print('[http] get account recovery');
 
@@ -67,7 +66,7 @@ class HttpService {
       }
 
       var rows =
-          await (getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'recovers') as FutureOr<List<dynamic>>);
+          await getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'recovers');
 
       final recovery = UserRecoversModel.fromTableRows(rows);
 
@@ -85,8 +84,7 @@ class HttpService {
         return HttpMockResponse.userGuardians;
       }
 
-      var rows = await (getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'guards', value: accountName)
-          as FutureOr<List<dynamic>>);
+      var rows = await getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'guards', value: accountName);
 
       final guardians = UserGuardiansModel.fromTableRows(rows);
 
@@ -847,7 +845,7 @@ class HttpService {
   }
 
 
-  Future<List<String>> getReferredAccounts({String username, limit = 100}) async {
+  Future<List<String>> getReferredAccounts({String? username, limit = 100}) async {
     username = username ?? userAccount;
     var result = await getTableRows(
       code: "accts.seeds",
