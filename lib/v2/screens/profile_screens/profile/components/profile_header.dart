@@ -74,7 +74,7 @@ class ProfileHeader extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            state.profile?.status ?? '',
+                            state.profile!.statusString.i18n,
                             style: Theme.of(context).textTheme.headline7LowEmphasis,
                           )
                         ],

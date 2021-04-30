@@ -1,8 +1,10 @@
 import 'package:seeds/v2/datasource/remote/model/serialization_helpers.dart';
 
+enum ProfileStatus { visitor, resident, citizen }
+
 class ProfileModel {
   final String account;
-  final String? status;
+  final ProfileStatus? status;
   final String? type;
   final String? nickname;
   final String? image;
@@ -27,7 +29,17 @@ class ProfileModel {
     required this.timestamp,
   });
 
-  /// Returns the account age in days
+  /// Returns the status String value.
+  String get statusString {
+    if (status == null) {
+      return '';
+    } else {
+      var str = status.toString().split('.').last;
+      return '${str[0].toUpperCase()}${str.substring(1)}';
+    }
+  }
+
+  /// Returns the account age in days.
   int get accountAge {
     var creationDate = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     return DateTime.now().difference(creationDate).inDays;
@@ -35,7 +47,7 @@ class ProfileModel {
 
   ProfileModel copyWith({
     String? account,
-    String? status,
+    ProfileStatus? status,
     String? type,
     String? nickname,
     String? image,
@@ -64,7 +76,7 @@ class ProfileModel {
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
       account: hasValue<String>(_account, json),
-      status: hasEmptyValue<String>(_status, json),
+      status: enumFromString<ProfileStatus>(ProfileStatus.values, hasEmptyValue<String>(_status, json)),
       type: hasEmptyValue<String>(_type, json),
       nickname: hasEmptyValue<String>(_nickname, json),
       image: hasEmptyValue<String>(_image, json),
