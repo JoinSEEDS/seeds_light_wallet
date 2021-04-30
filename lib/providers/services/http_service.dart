@@ -29,28 +29,35 @@ class HttpService {
 
   static HttpService of(BuildContext context, {bool listen = false}) => Provider.of(context, listen: listen);
 
-  Future<List<dynamic>?> getTableRows({String? code, String? scope, String? table, String? value}) async {
-    final requestURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+  Future<List<dynamic>> getTableRows(
+      {String code, String scope, String table, 
+      String value,
+      String keyType = "i64",
+      int indexPosition = 1,
+      int limit = 1,
+      bool reverse = false
+      }) async {
+    final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
-    var request = value == null
+    String request = value == null
         ? '{"json": true, "code": "$code", "scope": "$scope", "table": "$table"}'
-        : '{"json": true, "code": "$code", "scope": "$scope", "table": "$table", "lower_bound": " $value", "upper_bound": " $value", "index_position": 1, "key_type": "i64", "limit": 1, "reverse": false}';
+        : '{"json": true, "code": "$code", "scope": "$scope", "table": "$table", "lower_bound": "$value", "upper_bound": "$value", "index_position": "$indexPosition", "key_type": "$keyType", "limit": $limit, "reverse": $reverse}';
 
-    var headers = <String, String>{'Content-type': 'application/json'};
+    Map<String, String> headers = {"Content-type": "application/json"};
 
-    var res = await post(requestURL, headers: headers, body: request);
+    Response res = await post(requestURL, headers: headers, body: request);
 
     if (res.statusCode == 200) {
       final body = res.parseJson() as Map<String, dynamic>;
 
-      return body['rows'] as List<dynamic>?;
+      return body["rows"] as List<dynamic>;
     } else {
       print('Cannot fetch table rows... $code $scope $table $value');
 
       return [];
     }
   }
-
+  
   Future<UserRecoversModel?> getAccountRecovery(String accountName) async {
     print('[http] get account recovery');
 
@@ -837,6 +844,31 @@ class HttpService {
       print('Cannot fetch votes...${res.toString()}');
       return VoteResult(0, false, error: true);
     }
+  }
+
+
+  Future<List<String>> getReferredAccounts({String username, limit = 100}) async {
+    username = username ?? userAccount;
+    var result = await getTableRows(
+      code: "accts.seeds",
+      scope: "accts.seeds",
+      table: "refs",
+      value: username,
+      keyType: "name",
+      indexPosition: 2,
+      limit: limit
+    );
+    return List<String>.of(result.map((e) => e["invited"]));
+  }
+
+  Future<bool> isResidentOrCitizen(String username) async {
+    var result = await getTableRows(
+      code: "accts.seeds",
+      scope: "accts.seeds",
+      table: "users",
+      value: username
+    );
+    return result.length > 0 ? (result[0]["status"] == "resident" || result[0]["status"] == "citizen") : false;
   }
 }
 
