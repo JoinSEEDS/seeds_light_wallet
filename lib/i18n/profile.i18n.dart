@@ -1,5 +1,3 @@
-
-
 import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
@@ -29,6 +27,7 @@ extension Localization on String {
           'Currency': 'Moneda',
           'Skills & Interest': 'Habilidades e interés',
           'You are on the way from': 'Estás en el camino de',
+          'Visitor': 'Visitante',
           'Resident': 'Residente',
           'to': 'a',
           'Citizen': 'Ciudadano',

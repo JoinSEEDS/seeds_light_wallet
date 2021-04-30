@@ -13,6 +13,7 @@ class SendEnterDataPageState extends Equatable {
   final BalanceModel? balance;
   final String? availableBalance;
   final String? availableBalanceFiat;
+  final bool isNextButtonEnabled;
 
   const SendEnterDataPageState(
       {required this.pageState,
@@ -22,6 +23,7 @@ class SendEnterDataPageState extends Equatable {
       required this.ratesState,
       this.availableBalance,
       this.availableBalanceFiat,
+      required this.isNextButtonEnabled,
       this.balance});
 
   @override
@@ -34,6 +36,7 @@ class SendEnterDataPageState extends Equatable {
         availableBalanceFiat,
         balance,
         ratesState,
+        isNextButtonEnabled
       ];
 
   SendEnterDataPageState copyWith({
@@ -45,6 +48,7 @@ class SendEnterDataPageState extends Equatable {
     String? availableBalance,
     String? availableBalanceFiat,
     BalanceModel? balance,
+    bool? isNextButtonEnabled,
   }) {
     return SendEnterDataPageState(
         pageState: pageState ?? this.pageState,
@@ -54,7 +58,8 @@ class SendEnterDataPageState extends Equatable {
         ratesState: ratesState ?? this.ratesState,
         availableBalance: availableBalance ?? this.availableBalance,
         availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
-        balance: balance ?? this.balance);
+        balance: balance ?? this.balance,
+        isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled);
   }
 
   factory SendEnterDataPageState.initial(MemberModel memberModel, RatesState ratesState) {
@@ -62,6 +67,7 @@ class SendEnterDataPageState extends Equatable {
       pageState: PageState.initial,
       sendTo: memberModel,
       ratesState: ratesState,
+      isNextButtonEnabled: false
     );
   }
 }
