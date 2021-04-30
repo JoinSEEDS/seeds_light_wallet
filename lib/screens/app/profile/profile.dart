@@ -43,11 +43,11 @@ class _ProfileState extends State<Profile> {
       _nameController.text = cachedProfile.nickname!;
     }
 
-    Future.delayed(Duration.zero).then((_) {
-      ProfileNotifier.of(context).fetchProfile().then((profile) {
-        _nameController.text = profile.nickname!;
-      });
-    });
+    // Future.delayed(Duration.zero).then((_) {
+    //   ProfileNotifier.of(context).fetchProfile().then((profile) {
+    //     _nameController.text = profile.nickname!;
+    //   });
+    // });
     super.initState();
   }
 
@@ -154,7 +154,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           Text(
-                            model.profile?.status ?? '',
+                            model.profile?.status.toString() ?? '',
                             style: const TextStyle(
                               fontFamily: "worksans",
                               fontSize: 18,
@@ -414,9 +414,9 @@ class _ProfileState extends State<Profile> {
     }
 
     savingLoader.currentState!.done();
-    await Future.delayed(Duration.zero).then((_) {
-      ProfileNotifier.of(context).fetchProfile();
-    });
+    // await Future.delayed(Duration.zero).then((_) {
+    //   ProfileNotifier.of(context).fetchProfile();
+    // });
   }
 
   Future<String> _uploadFile(ProfileModel profile) async {
