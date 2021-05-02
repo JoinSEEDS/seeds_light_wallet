@@ -71,9 +71,9 @@ class SearchUserWidget extends StatelessWidget {
       case PageState.initial:
         return const SizedBox.shrink();
       case PageState.loading:
-        return SearchUsersList(users: state.users, resultCallBack: resultCallBack);
+        return SearchUsersList(resultCallBack: resultCallBack);
       case PageState.failure:
-        return SearchUsersList(users: state.users, resultCallBack: resultCallBack);
+        return SearchUsersList(resultCallBack: resultCallBack);
       case PageState.success:
         if (state.users.isEmpty) {
           return const Padding(
@@ -81,7 +81,7 @@ class SearchUserWidget extends StatelessWidget {
             child: Center(child: Text("No users found.")),
           );
         } else {
-          return SearchUsersList(users: state.users, resultCallBack: resultCallBack);
+          return SearchUsersList(resultCallBack: resultCallBack);
         }
     }
   }

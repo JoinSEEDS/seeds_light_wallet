@@ -40,8 +40,13 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         // Biometric auth result
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
-            // Onboarding flow
-            authenticationBloc.add(const UnlockWallet());
+            if (authenticationBloc.state.showResumeAuth) {
+              // App resume flow
+              authenticationBloc.add(const SuccessResumeAuth());
+            } else {
+              // Onboarding flow
+              authenticationBloc.add(const UnlockWallet());
+            }
           } else {
             // Security flow: update screen and the fires navigator pop
             securityBloc?.add(const OnValidVerification());
@@ -73,7 +78,13 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         }
       } else {
         if (securityBloc == null) {
-          authenticationBloc.add(const UnlockWallet());
+          if (authenticationBloc.state.showResumeAuth) {
+            // App resume flow
+            authenticationBloc.add(const SuccessResumeAuth());
+          } else {
+            // Onboarding flow
+            authenticationBloc.add(const UnlockWallet());
+          }
         }
       }
     }
@@ -91,8 +102,13 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         // Biometric auth result
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
-            // Onboarding flow
-            authenticationBloc.add(const UnlockWallet());
+            if (authenticationBloc.state.showResumeAuth) {
+              // App resume flow
+              authenticationBloc.add(const SuccessResumeAuth());
+            } else {
+              // Onboarding flow
+              authenticationBloc.add(const UnlockWallet());
+            }
           } else {
             // Security flow: update screen and the fires navigator pop
             securityBloc?.add(const OnValidVerification());

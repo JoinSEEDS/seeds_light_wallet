@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/providers/providers.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/v2/screens/app/app.dart';
 import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
@@ -139,11 +138,7 @@ class MainScreen extends StatelessWidget {
             return SeedsMaterialApp(home: const VerificationScreen());
           case AuthStatus.unlocked:
             return ToolboxApp(
-              child: SeedsMaterialApp(
-                home: const App(),
-                navigatorKey: navigationService.appNavigatorKey,
-                onGenerateRoute: navigationService.onGenerateRoute,
-              ),
+              child: IndexedStack(index: state.showResumeAuth ? 0 : 1, children: state.appScreens),
             );
           default:
             return SeedsMaterialApp(home: SplashScreen());

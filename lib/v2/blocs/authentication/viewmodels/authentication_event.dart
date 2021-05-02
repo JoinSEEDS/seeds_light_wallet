@@ -15,6 +15,18 @@ class InitAuthStatus extends AuthenticationEvent {
   String toString() => 'InitAuthStatus';
 }
 
+class InitResumeAuth extends AuthenticationEvent {
+  const InitResumeAuth();
+  @override
+  String toString() => 'InitResumeAuth';
+}
+
+class SuccessResumeAuth extends AuthenticationEvent {
+  const SuccessResumeAuth();
+  @override
+  String toString() => 'SuccessResumeAuth';
+}
+
 class OnImportAccount extends AuthenticationEvent {
   final String account;
   final String privateKey;
