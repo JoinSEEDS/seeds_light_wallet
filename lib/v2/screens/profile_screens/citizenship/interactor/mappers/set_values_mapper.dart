@@ -5,14 +5,15 @@ import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_state.dart';
 
 class SetValuesStateMapper extends StateMapper {
-  CitizenshipState mapResultToState(CitizenshipState currentState, Result result) {
-    if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
+  CitizenshipState mapResultToState(CitizenshipState currentState, List<Result> results) {
+    // Accounts found, but errors fetching data happened.
+    if (areAllResultsError(results) && results.isNotEmpty) {
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Accounts");
     } else {
       double timeline = 0;
       ProfileModel profile = currentState.profile!;
       ScoreModel score = currentState.score!;
-      List<ProfileModel> profiles = result.asValue?.value as List<ProfileModel>;
+      List<ProfileModel> profiles = results.map((i) => i.asValue!.value as ProfileModel).toList();
 
       // Define timeline
       if (profile.status == ProfileStatus.visitor) {
