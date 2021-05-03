@@ -32,7 +32,7 @@ class BalanceRow extends StatelessWidget {
             Expanded(
                 child: Container(
                     alignment: Alignment.centerRight,
-                    child: Text(seedsAmount, style: Theme.of(context).textTheme.subtitle2)))
+                    child: Text(seedsAmount, style: Theme.of(context).textTheme.subtitle1)))
           ],
         ),
         Padding(

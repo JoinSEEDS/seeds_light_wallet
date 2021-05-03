@@ -6,8 +6,10 @@ class FlatButtonLong extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
   final Color? color;
+  final bool enabled;
 
-  const FlatButtonLong({Key? key, required this.title, required this.onPressed, this.color}) : super(key: key);
+  const FlatButtonLong({Key? key, required this.title, required this.onPressed, this.color, this.enabled = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +17,14 @@ class FlatButtonLong extends StatelessWidget {
       width: double.infinity,
       child: MaterialButton(
         color: color ?? AppColors.green1,
-        disabledTextColor: Colors.grey,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          side: const BorderSide(color: AppColors.green1),
-        ),
+        disabledTextColor: AppColors.grey1,
+        disabledColor: AppColors.darkGreen2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: Text(title, style: Theme.of(context).textTheme.button),
         ),
-        onPressed: onPressed,
+        onPressed: enabled ? onPressed : null,
       ),
     );
   }
