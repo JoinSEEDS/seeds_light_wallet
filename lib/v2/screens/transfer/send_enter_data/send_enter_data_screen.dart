@@ -20,81 +20,89 @@ class SendEnterDataScreen extends StatelessWidget {
     RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
         create: (context) => SendEnterDataPageBloc(memberModel, rates)..add(InitSendDataArguments()),
-        child: Scaffold(
-          appBar: AppBar(),
-          body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(
-              builder: (context, SendEnterDataPageState state) {
-            return Column(
-              children: [
-                Text(
-                  "Send to",
-                  style: Theme.of(context).textTheme.subtitle1,
-                  textAlign: TextAlign.left,
+        child: BlocListener<SendEnterDataPageBloc, SendEnterDataPageState>(
+          listenWhen: (previous, current) => current.showSendConfirmDialog != null,
+          listener: (context, state) {
+            var data = state.showSendConfirmDialog;
+            if (data != null) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false, // user must tap button
+                builder: (BuildContext buildContext) => SendConfirmationDialog(
+                  amount: data.amount,
+                  currency: data.currency,
+                  fiatAmount: data.fiatAmount,
+                  toAccount: data.toAccount,
+                  toImage: data.toImage,
+                  toName: data.toName,
                 ),
-                const SizedBox(height: 8),
-                SearchResultRow(
-                  account: memberModel.account,
-                  imageUrl: memberModel.image,
-                  name: memberModel.nickname,
-                ),
-                const SizedBox(height: 16),
-                AmountEntryWidget(
-                  onValueChange: (value) {
-                    BlocProvider.of<SendEnterDataPageBloc>(context).add(OnAmountChange(amountChanged: value));
-                  },
-                  fiatAmount: state.fiatAmount,
-                  enteringCurrencyName: "SEEDS",
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  decoration: const InputDecoration(
-                    hintText: "Add a Note",
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    hintMaxLines: 150,
+              );
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(),
+            body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(
+                builder: (context, SendEnterDataPageState state) {
+              return Column(
+                children: [
+                  Text(
+                    "Send to",
+                    style: Theme.of(context).textTheme.subtitle1,
+                    textAlign: TextAlign.left,
                   ),
-                  autofocus: false,
-                  onChanged: (String value) {},
-                ),
-                const SizedBox(height: 16),
-                BalanceRow(
-                  label: "Available Balance",
-                  fiatAmount: state.availableBalanceFiat ?? "",
-                  seedsAmount: state.availableBalance ?? "",
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: FlatButtonLong(
-                        title: 'Next',
-                        enabled: state.isNextButtonEnabled,
-                        onPressed: () {
-                          showDialog<void>(
-                            context: context,
-                            barrierDismissible: false, // user must tap button
-                            //.split(' ')[0]
-                            builder: (BuildContext buildContext) => SendConfirmationDialog(
-                              amount: 100.toString(),
-                              currency: "Seeds",
-                              fiatAmount: state.fiatAmount,
-                              toAccount: state.sendTo.account,
-                              toImage: state.sendTo.image,
-                              toName: state.sendTo.nickname,
-                            ),
-                          );
-                        },
+                  const SizedBox(height: 8),
+                  SearchResultRow(
+                    account: memberModel.account,
+                    imageUrl: memberModel.image,
+                    name: memberModel.nickname,
+                  ),
+                  const SizedBox(height: 16),
+                  AmountEntryWidget(
+                    onValueChange: (value) {
+                      BlocProvider.of<SendEnterDataPageBloc>(context).add(OnAmountChange(amountChanged: value));
+                    },
+                    fiatAmount: state.fiatAmount,
+                    enteringCurrencyName: "SEEDS",
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    decoration: const InputDecoration(
+                      hintText: "Add a Note",
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      hintMaxLines: 150,
+                    ),
+                    autofocus: false,
+                    onChanged: (String value) {},
+                  ),
+                  const SizedBox(height: 16),
+                  BalanceRow(
+                    label: "Available Balance",
+                    fiatAmount: state.availableBalanceFiat ?? "",
+                    seedsAmount: state.availableBalance ?? "",
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: FlatButtonLong(
+                          title: 'Next',
+                          enabled: state.isNextButtonEnabled,
+                          onPressed: () {
+                            BlocProvider.of<SendEnterDataPageBloc>(context).add(OnNextButtonTapped());
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
-            );
-          }),
+                  )
+                ],
+              );
+            }),
+          ),
         ));
   }
 }

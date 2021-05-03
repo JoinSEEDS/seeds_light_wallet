@@ -3,6 +3,7 @@ import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 
 class SendEnterDataPageState extends Equatable {
   final PageState pageState;
@@ -14,6 +15,8 @@ class SendEnterDataPageState extends Equatable {
   final String? availableBalance;
   final String? availableBalanceFiat;
   final bool isNextButtonEnabled;
+  final ShowSendConfirmDialog? showSendConfirmDialog;
+  final double quantity;
 
   const SendEnterDataPageState(
       {required this.pageState,
@@ -24,7 +27,9 @@ class SendEnterDataPageState extends Equatable {
       this.availableBalance,
       this.availableBalanceFiat,
       required this.isNextButtonEnabled,
-      this.balance});
+      this.balance,
+      required this.quantity,
+      this.showSendConfirmDialog});
 
   @override
   List<Object?> get props => [
@@ -32,11 +37,13 @@ class SendEnterDataPageState extends Equatable {
         sendTo,
         fiatAmount,
         error,
+        ratesState,
         availableBalance,
         availableBalanceFiat,
+        isNextButtonEnabled,
         balance,
-        ratesState,
-        isNextButtonEnabled
+        quantity,
+        showSendConfirmDialog
       ];
 
   SendEnterDataPageState copyWith({
@@ -49,6 +56,8 @@ class SendEnterDataPageState extends Equatable {
     String? availableBalanceFiat,
     BalanceModel? balance,
     bool? isNextButtonEnabled,
+    ShowSendConfirmDialog? showSendConfirmDialog,
+    double? quantity,
   }) {
     return SendEnterDataPageState(
         pageState: pageState ?? this.pageState,
@@ -59,7 +68,9 @@ class SendEnterDataPageState extends Equatable {
         availableBalance: availableBalance ?? this.availableBalance,
         availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
         balance: balance ?? this.balance,
-        isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled);
+        isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled,
+        showSendConfirmDialog: showSendConfirmDialog ?? this.showSendConfirmDialog,
+        quantity: quantity ?? this.quantity);
   }
 
   factory SendEnterDataPageState.initial(MemberModel memberModel, RatesState ratesState) {
@@ -67,7 +78,8 @@ class SendEnterDataPageState extends Equatable {
       pageState: PageState.initial,
       sendTo: memberModel,
       ratesState: ratesState,
-      isNextButtonEnabled: false
+      isNextButtonEnabled: false,
+      quantity: 0,
     );
   }
 }

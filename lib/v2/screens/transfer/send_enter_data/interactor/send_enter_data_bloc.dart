@@ -8,6 +8,7 @@ import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/mappers/sen
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/usecases/get_available_balance_use_case.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_events.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
+import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 
 /// --- BLOC
 class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPageState> {
@@ -24,6 +25,17 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
       yield SendEnterDataStateMapper().mapResultToState(state, result, state.ratesState, "0");
     } else if (event is OnAmountChange) {
       yield SendAmountChangeMapper().mapResultToState(state, state.ratesState, event.amountChanged);
+    } else if (event is OnNextButtonTapped) {
+      yield state.copyWith(
+          pageState: PageState.success,
+          showSendConfirmDialog: ShowSendConfirmDialog(
+              amount: state.quantity.toString(),
+              toAccount: state.sendTo.account,
+              memo: "",
+              toName: state.sendTo.nickname,
+              toImage: state.sendTo.image,
+              currency: settingsStorage.selectedFiatCurrency ?? 'USD',
+              fiatAmount: state.fiatAmount));
     }
   }
 }
