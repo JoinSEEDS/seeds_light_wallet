@@ -1,4 +1,5 @@
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
+import 'package:seeds/v2/datasource/remote/model/score_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_state.dart';
@@ -9,22 +10,22 @@ class SetValuesStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
       double timeline = 0;
+      ProfileModel profile = currentState.profile!;
+      ScoreModel score = currentState.score!;
       List<ProfileModel> profiles = result.asValue?.value as List<ProfileModel>;
 
       // Define timeline
-      if (currentState.profile?.status == ProfileStatus.visitor) {
+      if (profile.status == ProfileStatus.visitor) {
         // Timeline to resident
         // If the scores are greater than those required, use the required ones instead to avoid errors in the formula.
-        int reputation = currentState.score!.reputationScore! > resident_required_reputation
-            ? resident_required_reputation
-            : currentState.score!.reputationScore!;
+        int reputation =
+            score.reputationScore > resident_required_reputation ? resident_required_reputation : score.reputationScore;
         int visitors = profiles.isNotEmpty ? resident_required_visitors_invited : 0;
-        int planted = currentState.score!.plantedScore! > resident_required_planted_seeds
-            ? resident_required_planted_seeds
-            : currentState.score!.plantedScore!;
-        int transactions = currentState.score!.transactionsScore! > resident_required_seeds_transactions
+        int planted =
+            score.plantedScore > resident_required_planted_seeds ? resident_required_planted_seeds : score.plantedScore;
+        int transactions = score.transactionsScore > resident_required_seeds_transactions
             ? resident_required_seeds_transactions
-            : currentState.score!.transactionsScore!;
+            : score.transactionsScore;
 
         // Timeline to resident formula
         timeline = ((reputation / resident_required_reputation) +
@@ -36,22 +37,18 @@ class SetValuesStateMapper extends StateMapper {
       } else {
         // Timeline to citizen
         // If the scores are greater than those required, use the required ones instead to avoid errors in the formula.
-        int reputation = currentState.score!.reputationScore! > citizen_required_reputation
-            ? citizen_required_reputation
-            : currentState.score!.reputationScore!;
+        int reputation =
+            score.reputationScore > citizen_required_reputation ? citizen_required_reputation : score.reputationScore;
         int residents =
             profiles.where((i) => i.status == ProfileStatus.resident).length > citizen_required_residents_invited
                 ? citizen_required_residents_invited
                 : profiles.where((i) => i.status == ProfileStatus.resident).length;
-        int age = currentState.profile!.accountAge > citizen_required_account_age
-            ? citizen_required_account_age
-            : currentState.profile!.accountAge;
-        int planted = currentState.score!.plantedScore! > resident_required_planted_seeds
-            ? resident_required_planted_seeds
-            : currentState.score!.plantedScore!;
-        int transactions = currentState.score!.transactionsScore! > resident_required_seeds_transactions
+        int age = profile.accountAge > citizen_required_account_age ? citizen_required_account_age : profile.accountAge;
+        int planted =
+            score.plantedScore > resident_required_planted_seeds ? resident_required_planted_seeds : score.plantedScore;
+        int transactions = score.transactionsScore > resident_required_seeds_transactions
             ? resident_required_seeds_transactions
-            : currentState.score!.transactionsScore!;
+            : score.transactionsScore;
         int visitors =
             profiles.where((i) => i.status == ProfileStatus.visitor).length > citizen_required_visitors_invited
                 ? citizen_required_visitors_invited

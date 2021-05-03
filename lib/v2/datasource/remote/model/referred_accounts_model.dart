@@ -1,7 +1,7 @@
 class ReferredAccounts {
   final List<String> accounts;
 
-  ReferredAccounts({this.accounts = const []});
+  ReferredAccounts({required this.accounts});
 
   factory ReferredAccounts.fromJson(Map<String, dynamic> json) {
     return ReferredAccounts(
