@@ -45,7 +45,7 @@ class EnablePasscode extends AuthenticationEvent {
   final String newPasscode;
   const EnablePasscode({required this.newPasscode});
   @override
-  String toString() => 'EnablePasscode { newPasscode: $newPasscode }';
+  String toString() => 'EnablePasscode';
 }
 
 class DisablePasscode extends AuthenticationEvent {

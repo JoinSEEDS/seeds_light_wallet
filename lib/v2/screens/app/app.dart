@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/notification_badge.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
@@ -101,8 +102,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   child: BottomNavigationBar(
                     currentIndex: state.index,
                     onTap: (index) => BlocProvider.of<AppBloc>(context).add(BottomBarTapped(index: index)),
-                    selectedLabelStyle: Theme.of(context).textTheme.caption,
-                    unselectedLabelStyle: Theme.of(context).textTheme.caption,
+                    selectedLabelStyle: Theme.of(context).textTheme.subtitle3,
+                    unselectedLabelStyle: Theme.of(context).textTheme.subtitle3,
+                    selectedItemColor: AppColors.white,
                     items: [
                       for (var i in _appScreenItems)
                         BottomNavigationBarItem(
