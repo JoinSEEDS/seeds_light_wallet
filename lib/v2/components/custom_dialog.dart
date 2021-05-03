@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/design/app_theme.dart';
 
 const double padding = 20;
 const double avatarRadius = 40;
@@ -81,6 +82,7 @@ class CustomDialog extends StatelessWidget {
                               title: leftButtonTitle,
                               onPressed: onLeftButtonPressed,
                               color: AppColors.white,
+                              textStyle: Theme.of(context).textTheme.buttonBlack,
                             ),
                           ),
                         const SizedBox(width: 10),
