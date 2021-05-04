@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
-import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
 /// --- EVENTS
 @immutable
@@ -11,12 +10,8 @@ abstract class SendConfirmationEvent extends Equatable {
 }
 
 class InitSendConfirmationWithArguments extends SendConfirmationEvent {
-  final SendConfirmationArguments arguments;
-
-  InitSendConfirmationWithArguments({required this.arguments});
-
   @override
-  String toString() => 'LoadSendConfirmation: { sendConfirmationArguments: $arguments }';
+  String toString() => 'LoadSendConfirmation';
 }
 
 class SendTransactionEvent extends SendConfirmationEvent {
@@ -25,5 +20,5 @@ class SendTransactionEvent extends SendConfirmationEvent {
   SendTransactionEvent(this.rates);
 
   @override
-  String toString() => 'SendTransactionEvent: { SendTransactionEvent: }';
+  String toString() => 'SendTransactionEvent { rates: $rates }';
 }

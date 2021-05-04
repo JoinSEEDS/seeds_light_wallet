@@ -67,7 +67,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
     _controller = controller;
 
     _controller.scannedDataStream.listen((Barcode event) {
-      if (!_handledQrCode || event.code.isEmpty) {
+      print("scannedDataStream");
+      if (_handledQrCode || event.code.isEmpty) {
         return;
       }
 

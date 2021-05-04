@@ -204,7 +204,7 @@ class HttpMockResponse {
 
   static final profile = ProfileModel(
     account: 'illumination',
-    status: 'citizen',
+    status: ProfileStatus.citizen,
     type: 'individual',
     nickname: 'Nikolaus',
     image:

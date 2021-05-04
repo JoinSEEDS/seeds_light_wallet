@@ -91,12 +91,12 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircularStepProgressIndicator(
-                          circularDirection: CircularDirection.counterclockwise,
+                          circularDirection: CircularDirection.clockwise,
                           totalSteps: 99,
                           currentStep: _contribution,
                           stepSize: 2.5,
-                          selectedColor: AppColors.darkGreen2,
-                          unselectedColor: AppColors.green1,
+                          selectedColor: AppColors.green1,
+                          unselectedColor: AppColors.darkGreen2,
                           padding: 0,
                           width: 195,
                           height: 195,

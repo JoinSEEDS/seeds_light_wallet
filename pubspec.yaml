@@ -69,7 +69,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   test: any
-  mockito: any
+  mockito: ^5.0.7
 
 flutter_icons:
   android: "app_icon"

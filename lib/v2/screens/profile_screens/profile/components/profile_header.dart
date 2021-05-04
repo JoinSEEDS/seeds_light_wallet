@@ -40,7 +40,7 @@ class ProfileHeader extends StatelessWidget {
                           size: 100,
                           image: state.profile!.image,
                           nickname: state.profile!.nickname,
-                          account: state.profile!.account!,
+                          account: state.profile!.account,
                         ),
                       ),
                     ],
@@ -74,7 +74,7 @@ class ProfileHeader extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            state.profile?.status ?? '',
+                            state.profile!.statusString.i18n,
                             style: Theme.of(context).textTheme.headline7LowEmphasis,
                           )
                         ],

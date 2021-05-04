@@ -1,18 +1,19 @@
-
-
 import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
   static final _t = Translations.byLocale('en_us') +
       {
         'es_es': {
+          'Visitor': 'Visitante',
+          'Resident': 'Residente',
+          'Citizen': 'Ciudadano',
           'Progress Timeline': 'Cronograma de progreso',
           'Reputation Score': 'Puntos de reputación',
           'Visitors Invited': 'Visitantes invitados',
           'Account Age': 'Edad de la cuenta',
           'Planted Seeds': 'Semillas plantadas',
           'Transactions with Seeds': 'Transacciones con semillas',
-          'Friends Invited': 'Amigos invitados',
+          'Invited Users': 'Usuarios invitados',
         }
       };
 

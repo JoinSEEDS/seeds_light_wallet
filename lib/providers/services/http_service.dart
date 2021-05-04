@@ -13,7 +13,6 @@ import 'package:seeds/utils/extensions/response_extension.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
-import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 class HttpService {
   String? baseURL = remoteConfigurations.defaultEndPointUrl;
@@ -29,21 +28,28 @@ class HttpService {
 
   static HttpService of(BuildContext context, {bool listen = false}) => Provider.of(context, listen: listen);
 
-  Future<List<dynamic>?> getTableRows({String? code, String? scope, String? table, String? value}) async {
-    final requestURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+  Future<List<dynamic>> getTableRows(
+      {required String code, required String scope, required String table,
+      String? value,
+      String keyType = "i64",
+      int indexPosition = 1,
+      int limit = 1,
+      bool reverse = false
+      }) async {
+    final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
-    var request = value == null
+    String request = value == null
         ? '{"json": true, "code": "$code", "scope": "$scope", "table": "$table"}'
-        : '{"json": true, "code": "$code", "scope": "$scope", "table": "$table", "lower_bound": " $value", "upper_bound": " $value", "index_position": 1, "key_type": "i64", "limit": 1, "reverse": false}';
+        : '{"json": true, "code": "$code", "scope": "$scope", "table": "$table", "lower_bound": "$value", "upper_bound": "$value", "index_position": "$indexPosition", "key_type": "$keyType", "limit": $limit, "reverse": $reverse}';
 
-    var headers = <String, String>{'Content-type': 'application/json'};
+    Map<String, String> headers = {"Content-type": "application/json"};
 
-    var res = await post(requestURL, headers: headers, body: request);
+    Response res = await post(Uri.parse(requestURL), headers: headers, body: request);
 
     if (res.statusCode == 200) {
       final body = res.parseJson() as Map<String, dynamic>;
 
-      return body['rows'] as List<dynamic>?;
+      return body["rows"] as List<dynamic>;
     } else {
       print('Cannot fetch table rows... $code $scope $table $value');
 
@@ -60,7 +66,7 @@ class HttpService {
       }
 
       var rows =
-          await (getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'recovers') as FutureOr<List<dynamic>>);
+          await getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'recovers');
 
       final recovery = UserRecoversModel.fromTableRows(rows);
 
@@ -78,8 +84,7 @@ class HttpService {
         return HttpMockResponse.userGuardians;
       }
 
-      var rows = await (getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'guards', value: accountName)
-          as FutureOr<List<dynamic>>);
+      var rows = await getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'guards', value: accountName);
 
       final guardians = UserGuardiansModel.fromTableRows(rows);
 
@@ -90,33 +95,33 @@ class HttpService {
     }
   }
 
-  Future<ProfileModel> getProfile() async {
-    print('[http] get profile');
-
-    if (mockResponse == true) {
-      return HttpMockResponse.profile;
-    }
-
-    final profileURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
-
-    var request =
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
-    var headers = <String, String>{'Content-type': 'application/json'};
-
-    var res = await post(profileURL, headers: headers, body: request);
-
-    if (res.statusCode == 200) {
-      Map<String, dynamic> body = res.parseJson();
-
-      var profile = ProfileModel.fromJson(body['rows'][0]);
-
-      return profile;
-    } else {
-      print('Cannot fetch profile...');
-
-      return ProfileModel();
-    }
-  }
+  // Future<ProfileModel>? getProfile() async {
+  //   print('[http] get profile');
+  //
+  //   if (mockResponse == true) {
+  //     return HttpMockResponse.profile;
+  //   }
+  //
+  //   final profileURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+  //
+  //   var request =
+  //       '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
+  //   var headers = <String, String>{'Content-type': 'application/json'};
+  //
+  //   var res = await post(profileURL, headers: headers, body: request);
+  //
+  //   if (res.statusCode == 200) {
+  //     Map<String, dynamic> body = res.parseJson();
+  //
+  //     var profile = ProfileModel.fromJson(body['rows'][0]);
+  //
+  //     return profile;
+  //   } else {
+  //     print('Cannot fetch profile...');
+  //
+  //     return null;
+  //   }
+  // }
 
   Future<List<Permission>?> getAccountPermissions() async {
     print('[http] get account permissions');
@@ -837,6 +842,31 @@ class HttpService {
       print('Cannot fetch votes...${res.toString()}');
       return VoteResult(0, false, error: true);
     }
+  }
+
+
+  Future<List<String>> getReferredAccounts({String? username, limit = 100}) async {
+    username = username ?? userAccount;
+    var result = await getTableRows(
+      code: "accts.seeds",
+      scope: "accts.seeds",
+      table: "refs",
+      value: username,
+      keyType: "name",
+      indexPosition: 2,
+      limit: limit
+    );
+    return List<String>.of(result.map((e) => e["invited"]));
+  }
+
+  Future<bool> isResidentOrCitizen(String username) async {
+    var result = await getTableRows(
+      code: "accts.seeds",
+      scope: "accts.seeds",
+      table: "users",
+      value: username
+    );
+    return result.length > 0 ? (result[0]["status"] == "resident" || result[0]["status"] == "citizen") : false;
   }
 }
 

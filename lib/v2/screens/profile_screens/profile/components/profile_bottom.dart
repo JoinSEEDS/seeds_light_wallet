@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/components/card_list_tile.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 /// PROFILE BOTTOM
-class ProfileBottom extends StatelessWidget {
+class ProfileBottom extends StatefulWidget {
   const ProfileBottom({Key? key}) : super(key: key);
 
   @override
+  _ProfileBottomState createState() => _ProfileBottomState();
+}
+
+class _ProfileBottomState extends State<ProfileBottom> {
+  bool privateKeySaved = false;
+  @override
   Widget build(BuildContext context) {
+    final backupService = Provider.of<BackupService>(context);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -105,7 +115,12 @@ class ProfileBottom extends StatelessWidget {
                                   color: AppColors.green1,
                                   padding: const EdgeInsets.all(8.0),
                                   onPressed: () => NavigationService.of(context).navigateTo(
-                                      Routes.citizenship, BlocProvider.of<ProfileBloc>(context).state.profile),
+                                    Routes.citizenship,
+                                    ProfileValuesArguments(
+                                      profile: BlocProvider.of<ProfileBloc>(context).state.profile!,
+                                      scores: BlocProvider.of<ProfileBloc>(context).state.score!,
+                                    ),
+                                  ),
                                   child: Text(
                                     'View your progress'.i18n,
                                     style: Theme.of(context).textTheme.subtitle3,
@@ -138,11 +153,38 @@ class ProfileBottom extends StatelessWidget {
           ),
           const SizedBox(height: 120.0),
           CardListTile(
-            leadingIcon: Icons.logout,
-            title: 'Logout'.i18n,
-            trailing: const SizedBox.shrink(),
-            onTap: () => NavigationService.of(context).navigateTo(Routes.logout),
-          ),
+              leadingIcon: Icons.logout,
+              title: 'Logout'.i18n,
+              trailing: const SizedBox.shrink(),
+              onTap: () {
+                showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (_) => CustomDialog(
+                        icon: const Icon(Icons.login_outlined),
+                        children: [
+                          Text(
+                            'Logout'.i18n,
+                            style: Theme.of(context).textTheme.buttonBlack,
+                          ),
+                          const SizedBox(height: 30.0),
+                          Text(
+                            'Save private keyin secure place - to be able to restore access to your wallet later'.i18n,
+                            textAlign: TextAlign.justify,
+                            style: Theme.of(context).textTheme.subtitle2,
+                          ),
+                          const SizedBox(height: 30.0),
+                        ],
+                        leftButtonTitle: privateKeySaved ? 'Logout' : ''.i18n,
+                        onLeftButtonPressed: () {},
+                        rightButtonTitle: 'Save private key'.i18n,
+                        onRightButtonPressed: () {
+                          setState(() {
+                            privateKeySaved = true;
+                          });
+                          backupService.backup();
+                        }));
+              }),
           const SizedBox(height: 26.0),
         ],
       ),

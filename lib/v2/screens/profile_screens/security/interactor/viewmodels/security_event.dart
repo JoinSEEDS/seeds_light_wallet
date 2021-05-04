@@ -15,11 +15,11 @@ class SetUpInitialValues extends SecurityEvent {
   String toString() => 'SetUpInitialValues';
 }
 
-class ShowNotificationBadge extends SecurityEvent {
+class ShouldShowNotificationBadge extends SecurityEvent {
   final bool value;
-  const ShowNotificationBadge({required this.value});
+  const ShouldShowNotificationBadge({required this.value});
   @override
-  String toString() => 'ShowNotificationBadge { value: $value }';
+  String toString() => 'ShouldShowNotificationBadge { value: $value }';
 }
 
 class OnGuardiansCardTapped extends SecurityEvent {
