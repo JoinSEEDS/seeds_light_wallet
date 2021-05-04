@@ -3,8 +3,10 @@ import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/mappers/send_amount_change_mapper.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/mappers/send_enter_data_state_mapper.dart';
+import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/mappers/send_transaction_mapper.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/usecases/get_available_balance_use_case.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_events.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
@@ -28,7 +30,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
     } else if (event is OnNextButtonTapped) {
       yield state.copyWith(
           pageState: PageState.success,
-          showSendConfirmDialog: ShowSendConfirmDialog(
+          pageCommand: ShowSendConfirmDialog(
               amount: state.quantity.toString(),
               toAccount: state.sendTo.account,
               memo: "",
@@ -36,6 +38,17 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
               toImage: state.sendTo.image,
               currency: settingsStorage.selectedFiatCurrency ?? 'USD',
               fiatAmount: state.fiatAmount));
+    } else if (event is OnSendButtonTapped) {
+      yield state.copyWith(pageState: PageState.loading);
+
+      Result result = await SendTransactionUseCase().run("transfer", 'token.seeds', {
+        'from': settingsStorage.accountName,
+        'to': state.sendTo.account,
+        'quantity': '${state.quantity.toStringAsFixed(4)} SEEDS',
+        'memo': state.memo,
+      });
+
+      yield SendTransactionMapper().mapResultToState(state, result);
     }
   }
 }

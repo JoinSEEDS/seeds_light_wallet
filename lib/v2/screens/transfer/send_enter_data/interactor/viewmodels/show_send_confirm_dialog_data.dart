@@ -1,4 +1,6 @@
-class ShowSendConfirmDialog {
+import 'package:seeds/v2/domain-shared/page_command.dart';
+
+class ShowSendConfirmDialog extends PageCommand {
   final String amount;
   final String currency;
   final String? fiatAmount;

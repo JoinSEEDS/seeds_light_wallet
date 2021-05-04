@@ -26,3 +26,8 @@ class OnNextButtonTapped extends SendEnterDataPageEvent {
   @override
   String toString() => 'OnNextButtonTapped';
 }
+
+class OnSendButtonTapped extends SendEnterDataPageEvent {
+  @override
+  String toString() => 'OnSendButtonTapped';
+}

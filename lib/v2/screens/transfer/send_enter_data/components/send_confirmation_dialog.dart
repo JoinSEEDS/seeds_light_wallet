@@ -13,17 +13,19 @@ class SendConfirmationDialog extends StatelessWidget {
   final String? toName;
   final String toAccount;
   final String? memo;
+  final VoidCallback onSendButtonPressed;
 
-  const SendConfirmationDialog(
-      {Key? key,
-      required this.currency,
-      required this.amount,
-      this.fiatAmount,
-      this.toImage,
-      this.toName,
-      required this.toAccount,
-      this.memo})
-      : super(key: key);
+  const SendConfirmationDialog({
+    Key? key,
+    required this.currency,
+    required this.amount,
+    this.fiatAmount,
+    this.toImage,
+    this.toName,
+    required this.toAccount,
+    this.memo,
+    required this.onSendButtonPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,7 @@ class SendConfirmationDialog extends StatelessWidget {
       onLeftButtonPressed: () {
         Navigator.of(context).pop();
       },
-      onRightButtonPressed: () {},
+      onRightButtonPressed: onSendButtonPressed,
       leftButtonTitle: "Edit",
       rightButtonTitle: "Send",
     );

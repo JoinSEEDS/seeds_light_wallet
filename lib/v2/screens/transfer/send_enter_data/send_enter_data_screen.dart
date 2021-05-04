@@ -7,10 +7,13 @@ import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/search_user/components/search_result_row.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/components/send_transaction_success_dialog.dart';
+import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/components/send_confirmation_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/send_enter_data_bloc.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_events.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
+import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 
 /// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {
@@ -21,21 +24,46 @@ class SendEnterDataScreen extends StatelessWidget {
     return BlocProvider(
         create: (context) => SendEnterDataPageBloc(memberModel, rates)..add(InitSendDataArguments()),
         child: BlocListener<SendEnterDataPageBloc, SendEnterDataPageState>(
-          listenWhen: (previous, current) => current.showSendConfirmDialog != null,
+          listenWhen: (previous, current) => current.pageCommand != null,
           listener: (context, state) {
-            var data = state.showSendConfirmDialog;
-            if (data != null) {
+            void onSendButtonPressed() {
+              BlocProvider.of<SendEnterDataPageBloc>(context).add(OnSendButtonTapped());
+            }
+
+            var command = state.pageCommand;
+            if (command == null) {
+              return;
+            }
+
+            if (command is ShowSendConfirmDialog) {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendConfirmationDialog(
-                  amount: data.amount,
-                  currency: data.currency,
-                  fiatAmount: data.fiatAmount,
-                  toAccount: data.toAccount,
-                  toImage: data.toImage,
-                  toName: data.toName,
+                  onSendButtonPressed: onSendButtonPressed,
+                  amount: command.amount,
+                  currency: command.currency,
+                  fiatAmount: command.fiatAmount,
+                  toAccount: command.toAccount,
+                  toImage: command.toImage,
+                  toName: command.toName,
                 ),
+              );
+            } else if (command is ShowTransactionSuccess) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false, // user must tap button
+                builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
+                    currency: command.currency,
+                    amount: command.amount,
+                    fiatAmount: command.fiatAmount,
+                    fromAccount: command.fromAccount,
+                    fromImage: command.fromImage,
+                    fromName: command.fromName,
+                    toAccount: command.toAccount,
+                    toImage: command.toImage,
+                    toName: command.toName,
+                    transactionID: command.transactionId),
               );
             }
           },

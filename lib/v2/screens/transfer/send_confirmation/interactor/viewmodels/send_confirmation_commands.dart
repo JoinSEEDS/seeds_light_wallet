@@ -1,4 +1,6 @@
-class ShowTransactionSuccess {
+import 'package:seeds/v2/domain-shared/page_command.dart';
+
+class ShowTransactionSuccess extends PageCommand{
   final String amount;
   final String currency;
   final String? fiatAmount;
