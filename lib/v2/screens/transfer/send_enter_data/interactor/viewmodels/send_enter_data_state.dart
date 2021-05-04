@@ -74,7 +74,7 @@ class SendEnterDataPageState extends Equatable {
       availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
       balance: balance ?? this.balance,
       isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled,
-      pageCommand: pageCommand ?? this.pageCommand,
+      pageCommand: pageCommand,
       quantity: quantity ?? this.quantity,
       memo: memo ?? this.memo,
     );

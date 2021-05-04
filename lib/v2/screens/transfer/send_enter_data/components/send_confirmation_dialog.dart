@@ -77,7 +77,10 @@ class SendConfirmationDialog extends StatelessWidget {
       onLeftButtonPressed: () {
         Navigator.of(context).pop();
       },
-      onRightButtonPressed: onSendButtonPressed,
+      onRightButtonPressed: (){
+        onSendButtonPressed.call();
+        Navigator.of(context).pop();
+      },
       leftButtonTitle: "Edit",
       rightButtonTitle: "Send",
     );

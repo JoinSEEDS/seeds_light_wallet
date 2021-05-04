@@ -31,3 +31,8 @@ class OnSendButtonTapped extends SendEnterDataPageEvent {
   @override
   String toString() => 'OnSendButtonTapped';
 }
+
+class ClearPageCommand extends SendEnterDataPageEvent {
+  @override
+  String toString() => 'ClearPageCommand';
+}

@@ -39,7 +39,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
               currency: settingsStorage.selectedFiatCurrency ?? 'USD',
               fiatAmount: state.fiatAmount));
     } else if (event is OnSendButtonTapped) {
-      yield state.copyWith(pageState: PageState.loading);
+      yield state.copyWith(pageState: PageState.loading, pageCommand: null);
 
       Result result = await SendTransactionUseCase().run("transfer", 'token.seeds', {
         'from': settingsStorage.accountName,
@@ -49,6 +49,8 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
       });
 
       yield SendTransactionMapper().mapResultToState(state, result);
+    } else if (event is ClearPageCommand) {
+      yield state.copyWith(pageCommand: null);
     }
   }
 }
