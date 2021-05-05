@@ -1,44 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
-class SendTransactionSuccessDialog extends StatelessWidget {
+class SendConfirmationDialog extends StatelessWidget {
   final String amount;
   final String currency;
   final String? fiatAmount;
   final String? toImage;
   final String? toName;
   final String toAccount;
-  final String? fromImage;
-  final String? fromName;
-  final String fromAccount;
-  final String transactionID;
-  final VoidCallback onCloseButtonPressed;
+  final String? memo;
+  final VoidCallback onSendButtonPressed;
 
-  const SendTransactionSuccessDialog({
+  const SendConfirmationDialog({
     Key? key,
-    required this.amount,
     required this.currency,
+    required this.amount,
     this.fiatAmount,
     this.toImage,
     this.toName,
     required this.toAccount,
-    this.fromImage,
-    this.fromName,
-    required this.fromAccount,
-    required this.transactionID,
-    required this.onCloseButtonPressed,
+    this.memo,
+    required this.onSendButtonPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
+      icon: SvgPicture.asset('assets/images/seeds_currency_icon.svg'),
       children: [
         Row(
           children: [
@@ -53,62 +45,44 @@ class SendTransactionSuccessDialog extends StatelessWidget {
         Text(fiatAmount ?? "", style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
         const SizedBox(height: 16.0),
         DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To"),
+        const SizedBox(height: 24.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Network Fee",
+                textAlign: TextAlign.left, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
+            Text("Always Free and Instant!",
+                textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
+          ],
+        ),
         const SizedBox(height: 16.0),
-        DialogRow(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "From"),
-        const SizedBox(height: 16.0),
-        Row(
-          children: [
-            Text('Date:  ', style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
-            Text(
-              DateFormat('dd-MMMM-yyyy - K:MM a').format(DateTime.now()),
-              style: Theme.of(context).textTheme.subtitle2BlackLowEmphasis,
-            ),
-          ],
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Text('Transaction ID:  ', style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
-            Expanded(
-              child: Text(
-                transactionID,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.subtitle2BlackLowEmphasis,
-              ),
-            ),
-            IconButton(
-                icon: const Icon(Icons.copy),
-                color: AppColors.primary,
-                onPressed: () {
-                  Clipboard.setData(ClipboardData(text: transactionID)).then(
-                    (value) {
-                      ScaffoldMessenger.maybeOf(context)!
-                          .showSnackBar(const SnackBar(content: Text("Copied"), duration: Duration(seconds: 1)));
-                    },
-                  );
-                })
-          ],
-        ),
-        Row(
-          children: [
-            Text('Status:  ', style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
-            Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)), color: AppColors.lightGreen5),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
-                child: Text(
-                  "Successful",
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1,
-                ),
-              ),
-            ),
-          ],
-        ),
+        memo != null
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Memo",
+                      textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
+                  const SizedBox(width: 16.0),
+                  Flexible(
+                    child: Text(memo!,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.right,
+                        style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
+                  ),
+                ],
+              )
+            : const SizedBox.shrink(),
       ],
-      onSingleLargeButtonPressed: onCloseButtonPressed,
-      singleLargeButtonTitle: 'Close',
+      onLeftButtonPressed: () {
+        Navigator.of(context).pop();
+      },
+      onRightButtonPressed: (){
+        onSendButtonPressed.call();
+        Navigator.of(context).pop();
+      },
+      leftButtonTitle: "Edit",
+      rightButtonTitle: "Send",
     );
   }
 }

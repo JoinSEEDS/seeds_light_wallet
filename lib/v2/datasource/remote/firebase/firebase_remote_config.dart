@@ -12,7 +12,7 @@ const String _explorerUrlKey = 'explore_url';
 const String _dhoExplorerUrlKey = 'dho_explore_url';
 const String _defaultEndPointUrlKey = 'default_end_point';
 
-const String _eosEndpoints = '[ { "url": "https://mainnet.telosusa.io", "isDefault": true } ]';
+const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
 const String _termsAndConditionsDefaultUrl = 'https://www.joinseeds.com/seeds-app-terms-and-conditions.html';
 const String _privacyPolicyUrl = 'https://www.joinseeds.com/seeds-app-privacy-policy.html';
 const String _hyphaEndPointUrl = 'https://node.hypha.earth';

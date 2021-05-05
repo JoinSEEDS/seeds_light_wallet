@@ -1,27 +1,23 @@
-import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
-import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_state.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
+import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
 
-class SendTransactionStateMapper extends StateMapper {
-  SendConfirmationState mapResultToState(SendConfirmationState currentState, Result result, RatesState rateState) {
+class SendTransactionMapper extends StateMapper {
+  SendEnterDataPageState mapResultToState(SendEnterDataPageState currentState, Result result) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, error: result.asError!.error.toString());
     } else {
       var resultResponse = result.asValue!.value as SendTransactionResponse;
       var transactionId = resultResponse.transactionId.asValue!.value as String;
-
-      String quantity = currentState.data['quantity'].toString();
-      var currency = quantity.split(' ')[0];
-      double parsedQuantity = double.parse(quantity.split(' ')[0]);
+      double parsedQuantity = currentState.quantity;
 
       var selectedFiat = settingsStorage.selectedFiatCurrency ?? 'USD';
-      String fiatAmount = rateState.currencyString(parsedQuantity, selectedFiat);
+      String fiatAmount = currentState.ratesState.currencyString(parsedQuantity, selectedFiat);
 
       if (areAllResultsSuccess(resultResponse.profiles)) {
         var toAccount = resultResponse.profiles[0].asValue!.value as ProfileModel;
@@ -30,7 +26,7 @@ class SendTransactionStateMapper extends StateMapper {
         return currentState.copyWith(
             pageState: PageState.success,
             pageCommand: ShowTransactionSuccess(
-                currency: currency,
+                currency: "Seeds",
                 toImage: toAccount.image,
                 fromImage: fromAccount.image,
                 amount: parsedQuantity.toString(),
@@ -41,13 +37,13 @@ class SendTransactionStateMapper extends StateMapper {
                 fiatAmount: fiatAmount,
                 transactionId: transactionId));
       } else {
-        var fromAccount = currentState.data["from"];
-        var toAccount = currentState.data["to"];
+        var fromAccount = settingsStorage.accountName;
+        var toAccount = currentState.sendTo.account;
 
         return currentState.copyWith(
             pageState: PageState.success,
             pageCommand: ShowTransactionSuccess.withoutServerUserData(
-                currency: currency,
+                currency: "Seeds",
                 fromAccount: fromAccount,
                 amount: parsedQuantity.toString(),
                 toAccount: toAccount,

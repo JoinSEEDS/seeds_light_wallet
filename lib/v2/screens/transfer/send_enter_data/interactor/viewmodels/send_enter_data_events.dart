@@ -21,3 +21,18 @@ class OnAmountChange extends SendEnterDataPageEvent {
   @override
   String toString() => 'OnAmountChange: { OnAmountChange: $amountChanged }';
 }
+
+class OnNextButtonTapped extends SendEnterDataPageEvent {
+  @override
+  String toString() => 'OnNextButtonTapped';
+}
+
+class OnSendButtonTapped extends SendEnterDataPageEvent {
+  @override
+  String toString() => 'OnSendButtonTapped';
+}
+
+class ClearPageCommand extends SendEnterDataPageEvent {
+  @override
+  String toString() => 'ClearPageCommand';
+}

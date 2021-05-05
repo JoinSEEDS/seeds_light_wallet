@@ -8,8 +8,13 @@ class FlatButtonLong extends StatelessWidget {
   final Color? color;
   final bool enabled;
 
-  const FlatButtonLong({Key? key, required this.title, required this.onPressed, this.color, this.enabled = true})
-      : super(key: key);
+  const FlatButtonLong({
+    Key? key,
+    required this.title,
+    required this.onPressed,
+    this.color,
+    this.enabled = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

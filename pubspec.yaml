@@ -84,6 +84,7 @@ flutter:
     # assets/images/*
     - assets/images/ecosystem.svg
     - assets/images/app_icon.png
+    - assets/images/seeds_currency_icon.svg
     - assets/images/app_icon_transparent.png
     - assets/images/loading.png
     - assets/images/onboarding/onboarding1.png
