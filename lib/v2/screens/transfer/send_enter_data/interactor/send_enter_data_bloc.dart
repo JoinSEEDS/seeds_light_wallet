@@ -30,6 +30,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
     } else if (event is OnNextButtonTapped) {
       yield state.copyWith(
           pageState: PageState.success,
+          shouldAutoFocusEnterField: false,
           pageCommand: ShowSendConfirmDialog(
               amount: state.quantity.toString(),
               toAccount: state.sendTo.account,

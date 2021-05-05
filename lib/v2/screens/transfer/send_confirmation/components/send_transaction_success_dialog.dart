@@ -18,20 +18,22 @@ class SendTransactionSuccessDialog extends StatelessWidget {
   final String? fromName;
   final String fromAccount;
   final String transactionID;
+  final VoidCallback onCloseButtonPressed;
 
-  const SendTransactionSuccessDialog(
-      {Key? key,
-      required this.amount,
-      required this.currency,
-      this.fiatAmount,
-      this.toImage,
-      this.toName,
-      required this.toAccount,
-      this.fromImage,
-      this.fromName,
-      required this.fromAccount,
-      required this.transactionID})
-      : super(key: key);
+  const SendTransactionSuccessDialog({
+    Key? key,
+    required this.amount,
+    required this.currency,
+    this.fiatAmount,
+    this.toImage,
+    this.toName,
+    required this.toAccount,
+    this.fromImage,
+    this.fromName,
+    required this.fromAccount,
+    required this.transactionID,
+    required this.onCloseButtonPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,10 +107,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
           ],
         ),
       ],
-      onSingleLargeButtonPressed: () {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-      },
+      onSingleLargeButtonPressed: onCloseButtonPressed,
       singleLargeButtonTitle: 'Close',
     );
   }

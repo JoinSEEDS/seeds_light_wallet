@@ -18,6 +18,7 @@ class SendEnterDataPageState extends Equatable {
   final PageCommand? pageCommand;
   final double quantity;
   final String memo;
+  final bool shouldAutoFocusEnterField;
 
   const SendEnterDataPageState({
     required this.pageState,
@@ -32,6 +33,7 @@ class SendEnterDataPageState extends Equatable {
     required this.quantity,
     this.pageCommand,
     required this.memo,
+    required this.shouldAutoFocusEnterField,
   });
 
   @override
@@ -47,7 +49,8 @@ class SendEnterDataPageState extends Equatable {
         balance,
         quantity,
         pageCommand,
-        memo
+        memo,
+        shouldAutoFocusEnterField
       ];
 
   SendEnterDataPageState copyWith({
@@ -63,31 +66,32 @@ class SendEnterDataPageState extends Equatable {
     PageCommand? pageCommand,
     double? quantity,
     String? memo,
+    bool? shouldAutoFocusEnterField,
   }) {
     return SendEnterDataPageState(
-      pageState: pageState ?? this.pageState,
-      error: error ?? this.error,
-      sendTo: sendTo ?? this.sendTo,
-      fiatAmount: fiatAmount ?? this.fiatAmount,
-      ratesState: ratesState ?? this.ratesState,
-      availableBalance: availableBalance ?? this.availableBalance,
-      availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
-      balance: balance ?? this.balance,
-      isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled,
-      pageCommand: pageCommand,
-      quantity: quantity ?? this.quantity,
-      memo: memo ?? this.memo,
-    );
+        pageState: pageState ?? this.pageState,
+        error: error ?? this.error,
+        sendTo: sendTo ?? this.sendTo,
+        fiatAmount: fiatAmount ?? this.fiatAmount,
+        ratesState: ratesState ?? this.ratesState,
+        availableBalance: availableBalance ?? this.availableBalance,
+        availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
+        balance: balance ?? this.balance,
+        isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled,
+        pageCommand: pageCommand,
+        quantity: quantity ?? this.quantity,
+        memo: memo ?? this.memo,
+        shouldAutoFocusEnterField: shouldAutoFocusEnterField ?? this.shouldAutoFocusEnterField);
   }
 
   factory SendEnterDataPageState.initial(MemberModel memberModel, RatesState ratesState) {
     return SendEnterDataPageState(
-      pageState: PageState.initial,
-      sendTo: memberModel,
-      ratesState: ratesState,
-      isNextButtonEnabled: false,
-      quantity: 0,
-      memo: ''
-    );
+        pageState: PageState.initial,
+        sendTo: memberModel,
+        ratesState: ratesState,
+        isNextButtonEnabled: false,
+        quantity: 0,
+        memo: '',
+        shouldAutoFocusEnterField: true);
   }
 }

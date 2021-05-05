@@ -57,6 +57,11 @@ class SendEnterDataScreen extends StatelessWidget {
                 context: context,
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
+                    onCloseButtonPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
                     currency: command.currency,
                     amount: command.amount,
                     fiatAmount: command.fiatAmount,
@@ -73,9 +78,11 @@ class SendEnterDataScreen extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(),
             body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(
+              buildWhen: (context, state) {
+                return state.pageCommand == null;
+              },
                 builder: (context, SendEnterDataPageState state) {
               switch (state.pageState) {
-
                 case PageState.initial:
                   return const SizedBox.shrink();
                 case PageState.loading:
@@ -103,6 +110,7 @@ class SendEnterDataScreen extends StatelessWidget {
                         },
                         fiatAmount: state.fiatAmount,
                         enteringCurrencyName: "SEEDS",
+                        autoFocus: state.pageState == PageState.initial,
                       ),
                       const SizedBox(height: 16),
                       TextField(
@@ -141,7 +149,8 @@ class SendEnterDataScreen extends StatelessWidget {
                       )
                     ],
                   );
-                default: return const SizedBox.shrink();
+                default:
+                  return const SizedBox.shrink();
               }
             }),
           ),

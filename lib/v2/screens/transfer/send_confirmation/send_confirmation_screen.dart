@@ -44,6 +44,10 @@ class SendConfirmationScreen extends StatelessWidget {
                 context: context,
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
+                    onCloseButtonPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
                     currency: pageCommand.currency,
                     amount: pageCommand.amount,
                     fiatAmount: pageCommand.fiatAmount,
