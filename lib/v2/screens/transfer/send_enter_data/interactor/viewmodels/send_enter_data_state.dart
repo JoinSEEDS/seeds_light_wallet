@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
-import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/page_command.dart';
 
 class SendEnterDataPageState extends Equatable {
   final PageState pageState;

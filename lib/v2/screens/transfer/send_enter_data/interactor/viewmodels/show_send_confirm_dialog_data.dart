@@ -1,4 +1,4 @@
-import 'package:seeds/v2/domain-shared/page_command.dart';
+import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/page_command.dart';
 
 class ShowSendConfirmDialog extends PageCommand {
   final String amount;

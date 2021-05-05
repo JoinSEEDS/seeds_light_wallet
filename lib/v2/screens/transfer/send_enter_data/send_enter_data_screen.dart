@@ -14,6 +14,7 @@ import 'package:seeds/v2/screens/transfer/send_confirmation/components/send_tran
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/components/send_confirmation_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/send_enter_data_bloc.dart';
+import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/page_command.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_events.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
@@ -29,7 +30,7 @@ class SendEnterDataScreen extends StatelessWidget {
         child: BlocListener<SendEnterDataPageBloc, SendEnterDataPageState>(
           listenWhen: (previous, current) => current.pageCommand != null,
           listener: (context, state) {
-            var command = state.pageCommand;
+            PageCommand? command = state.pageCommand;
             if (command == null) {
               return;
             }
