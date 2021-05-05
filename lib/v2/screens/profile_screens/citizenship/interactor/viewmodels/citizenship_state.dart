@@ -6,14 +6,14 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 /// Resident requirements
 const int resident_required_reputation = 50;
 const int resident_required_visitors_invited = 1;
-const int resident_required_planted_seeds = 200;
+const int resident_required_planted_seeds = 50;
 const int resident_required_seeds_transactions = 1;
 
 /// Citizen requirements
 const int citizen_required_reputation = 50;
 const int citizen_required_visitors_invited = 3;
 const int citizen_required_account_age = 60;
-const int citizen_required_planted_seeds = 400;
+const int citizen_required_planted_seeds = 200;
 const int citizen_required_seeds_transactions = 5;
 const int citizen_required_residents_invited = 1;
 

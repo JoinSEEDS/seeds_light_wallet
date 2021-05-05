@@ -19,7 +19,7 @@ class OnVerifyPasscode extends VerificationEvent {
   final String passcode;
   const OnVerifyPasscode({required this.passcode});
   @override
-  String toString() => 'OnVerifyPasscode { passcode: $passcode }';
+  String toString() => 'OnVerifyPasscode';
 }
 
 class OnValidVerifyPasscode extends VerificationEvent {
@@ -32,7 +32,7 @@ class OnCreatePasscode extends VerificationEvent {
   final String passcode;
   const OnCreatePasscode({required this.passcode});
   @override
-  String toString() => 'OnCreatePasscode { passcode: $passcode }';
+  String toString() => 'OnCreatePasscode';
 }
 
 class ResetShowSnack extends VerificationEvent {

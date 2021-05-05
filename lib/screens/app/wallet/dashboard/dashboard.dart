@@ -15,7 +15,7 @@ import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/guardian_services.dart';
 
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
 import 'package:seeds/screens/app/wallet/dashboard/wallet_header.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';

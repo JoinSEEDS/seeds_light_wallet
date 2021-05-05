@@ -80,7 +80,6 @@ class SendEnterDataScreen extends StatelessWidget {
                   return const SizedBox.shrink();
                 case PageState.loading:
                   return const FullPageLoadingIndicator();
-                  break;
                 case PageState.failure:
                   return const FullPageErrorIndicator();
                 case PageState.success:
@@ -142,6 +141,7 @@ class SendEnterDataScreen extends StatelessWidget {
                       )
                     ],
                   );
+                default: return const SizedBox.shrink();
               }
             }),
           ),
