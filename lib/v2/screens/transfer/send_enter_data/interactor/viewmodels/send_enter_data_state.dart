@@ -17,7 +17,7 @@ class SendEnterDataPageState extends Equatable {
   final bool isNextButtonEnabled;
   final PageCommand? pageCommand;
   final double quantity;
-  final String? memo;
+  final String memo;
 
   const SendEnterDataPageState({
     required this.pageState,
@@ -31,7 +31,7 @@ class SendEnterDataPageState extends Equatable {
     this.balance,
     required this.quantity,
     this.pageCommand,
-    this.memo,
+    required this.memo,
   });
 
   @override
@@ -87,6 +87,7 @@ class SendEnterDataPageState extends Equatable {
       ratesState: ratesState,
       isNextButtonEnabled: false,
       quantity: 0,
+      memo: ''
     );
   }
 }
