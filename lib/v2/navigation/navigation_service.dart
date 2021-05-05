@@ -38,7 +38,6 @@ import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart'
 import 'package:seeds/v2/screens/transfer/send_search_user/send_search_user_screen.dart';
 import 'package:seeds/v2/screens/verification/verification_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
-import 'package:seeds/v2/screens/transfer/send_enter_data/send_enter_data_screen.dart';
 
 class Routes {
   static final app = 'App';
