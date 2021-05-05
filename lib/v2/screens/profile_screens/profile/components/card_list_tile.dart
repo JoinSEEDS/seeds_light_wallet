@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/design/app_theme.dart';
 

@@ -28,6 +28,7 @@ class SearchUserWidget extends StatelessWidget {
           return Column(
             children: [
               TextField(
+                autofocus: true,
                 controller: _controller,
                 onChanged: (String value) {
                   BlocProvider.of<SearchUserBloc>(context).add(OnSearchChange(searchQuery: value));
@@ -70,9 +71,9 @@ class SearchUserWidget extends StatelessWidget {
       case PageState.initial:
         return const SizedBox.shrink();
       case PageState.loading:
-        return SearchUsersList(users: state.users);
+        return SearchUsersList(resultCallBack: resultCallBack);
       case PageState.failure:
-        return SearchUsersList(users: state.users);
+        return SearchUsersList(resultCallBack: resultCallBack);
       case PageState.success:
         if (state.users.isEmpty) {
           return const Padding(
@@ -80,7 +81,7 @@ class SearchUserWidget extends StatelessWidget {
             child: Center(child: Text("No users found.")),
           );
         } else {
-          return SearchUsersList(users: state.users);
+          return SearchUsersList(resultCallBack: resultCallBack);
         }
     }
   }

@@ -21,13 +21,11 @@ import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
 import 'package:seeds/screens/app/wallet/receive_qr.dart';
-import 'package:seeds/screens/app/wallet/transfer/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
-import 'package:seeds/v2/screens/verification/verification_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
@@ -35,10 +33,11 @@ import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
+import 'package:seeds/v2/screens/transfer/send_enter_data/send_enter_data_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
-import 'package:seeds/widgets/page_not_found.dart';
 import 'package:seeds/v2/screens/transfer/send_search_user/send_search_user_screen.dart';
-import 'package:seeds/v2/screens/receive/receive_screen.dart';
+import 'package:seeds/v2/screens/verification/verification_screen.dart';
+import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
   static final app = 'App';
@@ -50,6 +49,7 @@ class Routes {
   static final claimCode = 'ClaimCode';
   static final welcome = 'Welcome';
   static final transfer = 'Transfer';
+  static final sendEnterData = 'SendEnterData';
   static final invites = 'Invites';
   static final createInvite = 'CreateInvite';
   static final proposals = 'Proposals';
@@ -63,7 +63,6 @@ class Routes {
   static final sendConfirmationScreen = 'SendConfirmationScreen';
   static final scanQRCode = 'ScanQRCode';
   static final receive = 'Receive';
-  static final receiveScreen = 'ReceiveScreen';
   static final receiveConfirmation = 'ReceiveConfirmation';
   static final receiveCustom = 'ReceiveCustom';
   static final receiveQR = 'ReceiveQR';
@@ -113,6 +112,7 @@ class NavigationService {
     Routes.app: (_) => const App(),
     Routes.transferForm: (args) => TransferForm(args),
     Routes.transfer: (_) => SendSearchUserScreen(),
+    Routes.sendEnterData: (_) => SendEnterDataScreen(),
     Routes.invites: (_) => Invites(),
     Routes.createInvite: (_) => CreateInvite(),
     Routes.proposals: (_) => Proposals(),
@@ -125,8 +125,6 @@ class NavigationService {
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => SendScannerScreen(),
     Routes.receive: (_) => const Receive(),
-    Routes.receiveScreen:(_) => ReceiveScreen(),
-
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
     Routes.receiveCustom: (_) => const ReceiveCustom(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),

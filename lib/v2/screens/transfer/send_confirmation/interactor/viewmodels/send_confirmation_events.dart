@@ -11,7 +11,7 @@ abstract class SendConfirmationEvent extends Equatable {
 
 class InitSendConfirmationWithArguments extends SendConfirmationEvent {
   @override
-  String toString() => 'LoadSendConfirmation: { sendConfirmationArguments: }';
+  String toString() => 'LoadSendConfirmation';
 }
 
 class SendTransactionEvent extends SendConfirmationEvent {
@@ -20,5 +20,5 @@ class SendTransactionEvent extends SendConfirmationEvent {
   SendTransactionEvent(this.rates);
 
   @override
-  String toString() => 'SendTransactionEvent: { SendTransactionEvent: }';
+  String toString() => 'SendTransactionEvent { rates: $rates }';
 }
