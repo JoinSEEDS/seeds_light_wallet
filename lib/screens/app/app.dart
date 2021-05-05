@@ -10,7 +10,7 @@ import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';

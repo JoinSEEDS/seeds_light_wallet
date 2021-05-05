@@ -11,7 +11,7 @@ import 'package:i18n_extension/i18n_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/providers/providers.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';

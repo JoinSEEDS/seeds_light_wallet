@@ -3,7 +3,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/screens/shared/shimmer_tile.dart';
 import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
