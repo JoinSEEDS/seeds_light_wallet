@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide Action;
 import 'package:flutter/rendering.dart';
 import 'package:seeds/models/cart_model.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/widgets/cart_list_view.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
