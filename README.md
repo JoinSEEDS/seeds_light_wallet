@@ -14,8 +14,11 @@ A payment platform and financial ecosystem to empower humanity and heal our plan
 git clone https://github.com/7flash/flutter_seeds_wallet.git
 cd flutter_seeds_wallet
 flutter pub get
-flutter run
+flutter run lib/v2/main.dart --no-sound-null-safety
 ```
+
+### Sound null safety is off
+Run with ```--no-sound-null-safety``` flags as there are some external libraries that are not null safe
 
 ## Dev configuration
 
