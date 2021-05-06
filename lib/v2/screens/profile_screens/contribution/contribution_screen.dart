@@ -52,26 +52,26 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
               previous.pageState != PageState.success && current.pageState == PageState.success,
           listener: (context, state) {
             _contributionAnimation =
-                Tween<double>(begin: 0, end: state.score!.contributionScore!.toDouble()).animate(_controller)
+                Tween<double>(begin: 0, end: state.score!.contributionScore.toDouble()).animate(_controller)
                   ..addListener(() {
                     setState(() => _contribution = _contributionAnimation.value.toInt());
                   });
             _communityAnimation =
-                Tween<double>(begin: 0, end: state.score!.communityBuildingScore!.toDouble()).animate(_controller)
+                Tween<double>(begin: 0, end: state.score!.communityBuildingScore.toDouble()).animate(_controller)
                   ..addListener(() {
                     setState(() => _community = _communityAnimation.value.toInt());
                   });
             _reputationAnimation =
-                Tween<double>(begin: 0, end: state.score!.reputationScore!.toDouble()).animate(_controller)
+                Tween<double>(begin: 0, end: state.score!.reputationScore.toDouble()).animate(_controller)
                   ..addListener(() {
                     setState(() => _reputation = _reputationAnimation.value.toInt());
                   });
-            _seedsAnimation = Tween<double>(begin: 0, end: state.score!.plantedScore!.toDouble()).animate(_controller)
+            _seedsAnimation = Tween<double>(begin: 0, end: state.score!.plantedScore.toDouble()).animate(_controller)
               ..addListener(() {
                 setState(() => _seeds = _seedsAnimation.value.toInt());
               });
             _transactionsAnimation =
-                Tween<double>(begin: 0, end: state.score!.transactionsScore!.toDouble()).animate(_controller)
+                Tween<double>(begin: 0, end: state.score!.transactionsScore.toDouble()).animate(_controller)
                   ..addListener(() {
                     setState(() => _transactions = _transactionsAnimation.value.toInt());
                   });

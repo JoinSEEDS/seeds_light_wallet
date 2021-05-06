@@ -13,7 +13,7 @@ import 'package:seeds/v2/main.dart' show SeedsMaterialApp;
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 
 class App extends StatefulWidget {
   const App();

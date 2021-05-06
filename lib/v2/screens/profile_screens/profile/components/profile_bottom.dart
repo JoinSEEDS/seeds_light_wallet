@@ -2,26 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_event.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/components/card_list_tile.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 /// PROFILE BOTTOM
-class ProfileBottom extends StatefulWidget {
+class ProfileBottom extends StatelessWidget {
   const ProfileBottom({Key? key}) : super(key: key);
-
-  @override
-  _ProfileBottomState createState() => _ProfileBottomState();
-}
-
-class _ProfileBottomState extends State<ProfileBottom> {
-  bool privateKeySaved = false;
   @override
   Widget build(BuildContext context) {
     final backupService = Provider.of<BackupService>(context);
@@ -48,7 +43,7 @@ class _ProfileBottomState extends State<ProfileBottom> {
                             bottomRight: Radius.circular(defaultCardBorderRadius),
                           ),
                           child: SvgPicture.asset(
-                            "assets/images/lotus.svg",
+                            "assets/images/profile/lotus.svg",
                             color: AppColors.canopy,
                           ),
                         ),
@@ -153,20 +148,21 @@ class _ProfileBottomState extends State<ProfileBottom> {
           ),
           const SizedBox(height: 120.0),
           CardListTile(
-              leadingIcon: Icons.logout,
-              title: 'Logout'.i18n,
-              trailing: const SizedBox.shrink(),
-              onTap: () {
-                showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (_) => CustomDialog(
-                        icon: const Icon(Icons.login_outlined),
+            leadingIcon: Icons.logout,
+            title: 'Logout'.i18n,
+            trailing: const SizedBox.shrink(),
+            onTap: () {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => BlocProvider.value(
+                  value: BlocProvider.of<ProfileBloc>(context),
+                  child: BlocBuilder<ProfileBloc, ProfileState>(
+                    builder: (context, state) {
+                      return CustomDialog(
+                        icon: SvgPicture.asset("assets/images/profile/logout_icon.svg"),
                         children: [
-                          Text(
-                            'Logout'.i18n,
-                            style: Theme.of(context).textTheme.buttonBlack,
-                          ),
+                          Text('Logout'.i18n, style: Theme.of(context).textTheme.headline5),
                           const SizedBox(height: 30.0),
                           Text(
                             'Save private keyin secure place - to be able to restore access to your wallet later'.i18n,
@@ -175,16 +171,20 @@ class _ProfileBottomState extends State<ProfileBottom> {
                           ),
                           const SizedBox(height: 30.0),
                         ],
-                        leftButtonTitle: privateKeySaved ? 'Logout' : ''.i18n,
-                        onLeftButtonPressed: () {},
+                        leftButtonTitle: state.showLogoutButton ? 'Logout' : ''.i18n,
+                        onLeftButtonPressed: () => BlocProvider.of<AuthenticationBloc>(context).add(const OnLogout()),
                         rightButtonTitle: 'Save private key'.i18n,
                         onRightButtonPressed: () {
-                          setState(() {
-                            privateKeySaved = true;
-                          });
+                          BlocProvider.of<ProfileBloc>(context).add(const ShowLogoutButton());
                           backupService.backup();
-                        }));
-              }),
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ).whenComplete(() => BlocProvider.of<ProfileBloc>(context).add(const ResetShowLogoutButton()));
+            },
+          ),
           const SizedBox(height: 26.0),
         ],
       ),

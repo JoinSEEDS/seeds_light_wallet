@@ -1,5 +1,8 @@
-class ShowTransactionSuccess {
+import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/page_command.dart';
+
+class ShowTransactionSuccess extends PageCommand {
   final String amount;
+  final String currency;
   final String? fiatAmount;
   final String? toImage;
   final String? toName;
@@ -11,6 +14,7 @@ class ShowTransactionSuccess {
 
   ShowTransactionSuccess({
     required this.amount,
+    required this.currency,
     this.fiatAmount,
     this.toImage,
     this.toName,
@@ -23,12 +27,14 @@ class ShowTransactionSuccess {
 
   ShowTransactionSuccess.withoutServerUserData({
     required String amount,
+    required String currency,
     required String toAccount,
     required String fromAccount,
     required String transactionId,
     String? fiatAmount,
   }) : this(
             amount: amount,
+            currency: currency,
             toAccount: toAccount,
             fromAccount: fromAccount,
             transactionId: transactionId,

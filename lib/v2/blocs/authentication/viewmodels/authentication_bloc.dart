@@ -50,8 +50,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       settingsStorage.biometricActive = false;
     }
     if (event is OnLogout) {
+      // copy account before clear data
+      var account = settingsStorage.accountName;
+      // Clear data
       settingsStorage.removeAccount();
-      await FirebaseMessageTokenRepository().removeFirebaseMessageToken(settingsStorage.accountName);
+      // User logout --> re-start auth status
+      add(const InitAuthStatus());
+      // Remove fcm token must be last instruction to allow logout, even if there is an error here.
+      await FirebaseMessageTokenRepository().removeFirebaseMessageToken(account);
     }
   }
 }

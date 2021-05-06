@@ -45,3 +45,15 @@ class OnCurrencyChanged extends ProfileEvent {
   @override
   String toString() => 'OnCurrencyChanged';
 }
+
+class ShowLogoutButton extends ProfileEvent {
+  const ShowLogoutButton();
+  @override
+  String toString() => 'ShowLogoutButton';
+}
+
+class ResetShowLogoutButton extends ProfileEvent {
+  const ResetShowLogoutButton();
+  @override
+  String toString() => 'ResetShowLogoutButton';
+}

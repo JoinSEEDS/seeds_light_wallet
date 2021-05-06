@@ -5,12 +5,14 @@ class AmountEntryWidget extends StatelessWidget {
   final String? fiatAmount;
   final ValueSetter<String> onValueChange;
   final String enteringCurrencyName;
+  final bool autoFocus;
 
   const AmountEntryWidget({
     Key? key,
     this.fiatAmount,
     required this.onValueChange,
     required this.enteringCurrencyName,
+    required this.autoFocus,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,7 @@ class AmountEntryWidget extends StatelessWidget {
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
                 ),
-                autofocus: true,
+                autofocus: autoFocus,
                 onChanged: (String value) {
                   onValueChange(value);
                 },

@@ -9,7 +9,7 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/members_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/screens/shared/shimmer_tile.dart';
 import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';

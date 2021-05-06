@@ -7,12 +7,14 @@ class ProfileState extends Equatable {
   final PageState pageState;
   final ProfileModel? profile;
   final ScoreModel? score;
+  final bool showLogoutButton;
   final String? errorMessage;
 
   const ProfileState({
     required this.pageState,
     this.profile,
     this.score,
+    required this.showLogoutButton,
     this.errorMessage,
   });
 
@@ -21,6 +23,7 @@ class ProfileState extends Equatable {
         pageState,
         profile,
         score,
+        showLogoutButton,
         errorMessage,
       ];
 
@@ -28,17 +31,19 @@ class ProfileState extends Equatable {
     PageState? pageState,
     ProfileModel? profile,
     ScoreModel? score,
+    bool? showLogoutButton,
     String? errorMessage,
   }) {
     return ProfileState(
       pageState: pageState ?? this.pageState,
       profile: profile ?? this.profile,
       score: score ?? this.score,
+      showLogoutButton: showLogoutButton ?? this.showLogoutButton,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
   factory ProfileState.initial() {
-    return const ProfileState(pageState: PageState.initial);
+    return const ProfileState(pageState: PageState.initial, showLogoutButton: false);
   }
 }

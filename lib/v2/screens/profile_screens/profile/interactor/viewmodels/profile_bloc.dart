@@ -32,5 +32,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(pageState: PageState.loading);
       yield state.copyWith(pageState: PageState.success);
     }
+    if (event is ShowLogoutButton) {
+      yield state.copyWith(showLogoutButton: true);
+    }
+    if (event is ResetShowLogoutButton) {
+      yield state.copyWith(showLogoutButton: false);
+    }
   }
 }
