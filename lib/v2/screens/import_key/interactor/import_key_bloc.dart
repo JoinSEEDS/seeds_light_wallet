@@ -23,7 +23,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
     if (event is FindAccountByKey) {
       yield state.copyWith(pageState: PageState.loading);
 
-      var publicKey = CheckPrivateKeyUseCase().isKeyValid(event.userKey);
+      var publicKey = CheckPrivateKeyUseCase().getPublicKey(event.userKey);
 
       if (publicKey == null || publicKey.isEmpty) {
         yield state.copyWith(pageState: PageState.failure, errorMessage: "Private key is not valid");
