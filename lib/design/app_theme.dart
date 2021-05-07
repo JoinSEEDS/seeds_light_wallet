@@ -112,6 +112,8 @@ extension CustomStyles on TextTheme {
 
   TextStyle get subtitle2Black => subtitle2!.copyWith(color: AppColors.black);
 
+  TextStyle get subtitle2Darkgreen1L => subtitle2!.copyWith(color: AppColors.primary);
+
   TextStyle get subtitle2OpacityEmphasisBlack => subtitle2OpacityEmphasis.copyWith(color: AppColors.black);
 
   TextStyle get subtitle3Green => subtitle3.copyWith(color: AppColors.green3);
@@ -142,9 +144,16 @@ extension CustomStyles on TextTheme {
   TextStyle get button1 =>
       Typography.material2018().englishLike.button!.copyWith(fontSize: 25, fontWeight: FontWeight.w400);
 
-  TextStyle get buttonBlack =>
-      Typography.material2018().englishLike.button!.copyWith(fontSize: 16, fontWeight: FontWeight.w500
-      ,color: AppColors.black);
+  TextStyle get button1Black => Typography.material2018().englishLike.button1.copyWith(color: AppColors.darkGreen2);
+
+  TextStyle get buttonWhiteL => Typography.material2018().englishLike.button!.copyWith(color: AppColors.white);
+
+  TextStyle get buttonGreen1 => Typography.material2018().englishLike.button!.copyWith(color: AppColors.green1);
+
+  TextStyle get buttonBlack => Typography.material2018()
+      .englishLike
+      .button!
+      .copyWith(fontSize: 16, fontWeight: FontWeight.w500, color: AppColors.black);
 
   TextStyle get headline4Black => Typography.material2018()
       .englishLike
