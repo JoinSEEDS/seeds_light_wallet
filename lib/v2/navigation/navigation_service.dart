@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/app/ecosystem/dho/dho.dart';
 import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
-import 'package:seeds/screens/app/ecosystem/harvest/plant_seeds.dart';
+// import 'package:seeds/screens/app/ecosystem/harvest/plant_seeds.dart';
 import 'package:seeds/screens/app/ecosystem/invites/create_invite.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
@@ -24,6 +24,7 @@ import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
+import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
@@ -121,7 +122,7 @@ class NavigationService {
     Routes.imageViewer: (args) => ImageViewer(
           arguments: args,
         ),
-    Routes.plantSeeds: (_) => const PlantSeeds(),
+    Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => SendScannerScreen(),
     Routes.receive: (_) => const Receive(),
@@ -144,7 +145,7 @@ class NavigationService {
   };
 
   final ecosystemRoutes = {
-    Routes.explore: (_) => ExploreScreen(),
+    Routes.explore: (_) => const ExploreScreen(),
   };
 
   final walletRoutes = {

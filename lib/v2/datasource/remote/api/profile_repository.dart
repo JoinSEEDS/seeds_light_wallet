@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';

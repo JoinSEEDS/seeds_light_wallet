@@ -16,7 +16,7 @@ class SendTransactionMapper extends StateMapper {
       var transactionId = resultResponse.transactionId.asValue!.value as String;
       double parsedQuantity = currentState.quantity;
 
-      var selectedFiat = settingsStorage.selectedFiatCurrency ?? 'USD';
+      var selectedFiat = settingsStorage.selectedFiatCurrency;
       String fiatAmount = currentState.ratesState.currencyString(parsedQuantity, selectedFiat);
 
       if (areAllResultsSuccess(resultResponse.profiles)) {

@@ -38,18 +38,17 @@ class AmountEntryWidget extends StatelessWidget {
                   disabledBorder: InputBorder.none,
                 ),
                 autofocus: autoFocus,
-                onChanged: (String value) {
-                  onValueChange(value);
-                },
+                onChanged: (String value) => onValueChange(value),
               ),
             ),
             const SizedBox(width: 4),
             Expanded(
-                child: Text(
-                  enteringCurrencyName,
-                  textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.subtitle2,
-                )),
+              child: Text(
+                enteringCurrencyName,
+                textAlign: TextAlign.start,
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
+            ),
           ],
         ),
         Text(

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore/interactor/mappers/explore_state_mapper.dart';
-import 'package:seeds/v2/screens/explore/interactor/usecases/get_explore_page_data_use_case.dart';
+import 'package:seeds/v2/screens/explore/interactor/usecases/get_explore_data_use_case.dart';
 import 'package:seeds/v2/screens/explore/interactor/viewmodels/explore_events.dart';
 import 'package:seeds/v2/screens/explore/interactor/viewmodels/explore_state.dart';
 
@@ -11,11 +11,9 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   @override
   Stream<ExploreState> mapEventToState(ExploreEvent event) async* {
-    if (event is LoadExplore) {
+    if (event is LoadExploreData) {
       yield state.copyWith(pageState: PageState.loading);
-
-      var results = await GetExploreUseCase().run(event.userName);
-
+      var results = await GetExploreDataUseCase().run();
       yield ExploreStateMapper().mapResultsToState(state, results);
     }
   }
