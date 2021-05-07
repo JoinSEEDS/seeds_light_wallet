@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 /// --- STATES
-enum ReceiveStates { initial, goToInputSeeds, goToMerchant }
+enum ReceiveStates { initial, navigateToInputSeeds, navigateToMerchant }
 
 class ReceiveState extends Equatable {
   final ReceiveStates receiveStates;

@@ -7,7 +7,6 @@ class ReceiveSelectionCard extends StatelessWidget {
   final Widget? icon;
   final GestureTapCallback? callback;
 
-
   const ReceiveSelectionCard({
     Key? key,
     required this.title,
