@@ -27,7 +27,8 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   Stream<List<GuardianModel>> getGuardiansForUser(String userId) {
     return usersCollection.doc(userId).collection(GUARDIANS_COLLECTION_KEY).snapshots().asyncMap(
         (QuerySnapshot event) => event.docs
-            .map((QueryDocumentSnapshot e) => GuardianModel.fromMap(e.data()!))
-            .toList()); // ignore: unnecessary_non_null_assertion
+            .map(
+                (QueryDocumentSnapshot e) => GuardianModel.fromMap(e.data()!)) // ignore: unnecessary_non_null_assertion
+            .toList());
   }
 }
