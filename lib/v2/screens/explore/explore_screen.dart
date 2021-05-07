@@ -2,22 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/explore/components/explore_info_card.dart';
-import 'package:seeds/v2/screens/explore/interactor/explore_bloc.dart';
-import 'package:seeds/v2/screens/explore/interactor/viewmodels/explore_events.dart';
-import 'package:seeds/v2/screens/explore/interactor/viewmodels/explore_state.dart';
+import 'package:seeds/v2/screens/explore/interactor/viewmodels/bloc.dart';
 
 /// Explore SCREEN
 class ExploreScreen extends StatelessWidget {
+  const ExploreScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ExploreBloc()..add(LoadExplore(userName: SettingsNotifier.of(context).accountName)),
+      create: (context) => ExploreBloc()..add(const LoadExploreData()),
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Explore'),
+          actions: [
+            IconButton(
+              icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
+              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
+            ),
+          ],
+        ),
         body: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, ExploreState state) {
             switch (state.pageState) {
@@ -33,7 +41,7 @@ class ExploreScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                       child: ExploreInfoCard(
-                        callback: () {},
+                        onTap: () {},
                         title: 'Invite',
                         amount: state.availableSeeds,
                         isErrorState: state.availableSeeds == null,
@@ -52,7 +60,7 @@ class ExploreScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ExploreInfoCard(
-                              callback: () {},
+                              onTap: () => NavigationService.of(context).navigateTo(Routes.plantSeeds),
                               title: 'Plant',
                               amount: state.plantedSeeds,
                               isErrorState: state.plantedSeeds == null,
@@ -63,7 +71,7 @@ class ExploreScreen extends StatelessWidget {
                           const SizedBox(width: 20),
                           Expanded(
                             child: ExploreInfoCard(
-                              callback: () {},
+                              onTap: () {},
                               title: 'Vote',
                               amount: 'TODO',
                               icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
@@ -81,7 +89,7 @@ class ExploreScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ExploreInfoCard(
-                              callback: () {},
+                              onTap: () {},
                               title: 'Get Seeds',
                               amount: 'TODO',
                               amountLabel: 'Seeds',
@@ -90,7 +98,7 @@ class ExploreScreen extends StatelessWidget {
                           const SizedBox(width: 20),
                           Expanded(
                             child: ExploreInfoCard(
-                              callback: () {},
+                              onTap: () {},
                               title: 'Hypha DHO',
                               amount: 'TODO',
                               amountLabel: 'Hypha',

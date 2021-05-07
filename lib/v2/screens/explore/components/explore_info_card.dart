@@ -8,7 +8,7 @@ class ExploreInfoCard extends StatelessWidget {
   final Widget? icon;
   final String? amount;
   final String amountLabel;
-  final GestureTapCallback callback;
+  final GestureTapCallback? onTap;
   final bool isErrorState;
 
   const ExploreInfoCard({
@@ -17,7 +17,7 @@ class ExploreInfoCard extends StatelessWidget {
     this.icon,
     required this.amount,
     required this.amountLabel,
-    required this.callback,
+    this.onTap,
     this.isErrorState = false,
   }) : super(key: key);
 
@@ -25,7 +25,7 @@ class ExploreInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-      onTap: callback,
+      onTap: onTap,
       child: Ink(
         decoration: BoxDecoration(
           color: AppColors.lightGreen2,
@@ -43,8 +43,7 @@ class ExploreInfoCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            Text(isErrorState ? 'Error Loading Data' : amount ?? '',
-                style: Theme.of(context).textTheme.headline8),
+            Text(isErrorState ? 'Error Loading Data' : amount ?? '', style: Theme.of(context).textTheme.headline8),
             const SizedBox(height: 4),
             Text(amountLabel, style: Theme.of(context).textTheme.subtitle3),
           ],
