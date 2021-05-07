@@ -8,6 +8,7 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/viewmodels/bloc.dart';
 
 /// PLANT SEEDS SCREEN
@@ -18,7 +19,7 @@ class PlantSeedsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => PlantSeedsBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Plant')),
+        appBar: AppBar(title: Text('Plant', style: Theme.of(context).textTheme.headline6)),
         body: BlocBuilder<PlantSeedsBloc, PlantSeedsState>(
           builder: (context, PlantSeedsState state) {
             switch (state.pageState) {
@@ -40,32 +41,28 @@ class PlantSeedsScreen extends StatelessWidget {
                           BlocProvider.of<PlantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
                         },
                         fiatAmount: state.fiatAmount,
-                        enteringCurrencyName: "SEEDS",
+                        enteringCurrencyName: currencySeedsCode,
                         autoFocus: state.pageState == PageState.initial,
                       ),
-                      const SizedBox(height: 16),
+                      const Spacer(),
                       BalanceRow(
                         label: "Available Balance",
                         fiatAmount: state.availableBalanceFiat ?? "",
                         seedsAmount: state.availableBalance ?? "",
                       ),
-                      const DividerJungle(height: 12),
+                      const DividerJungle(height: 24),
                       const BalanceRow(
                         label: "Planted Balance",
                         fiatAmount: "0",
                         seedsAmount: "0",
                       ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: FlatButtonLong(
-                            title: 'Plant Seeds',
-                            enabled: state.isPlantSeedsButtonEnabled,
-                            onPressed: () {
-                              BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped());
-                            },
-                          ),
-                        ),
+                      const SizedBox(height: 16),
+                      FlatButtonLong(
+                        title: 'Plant Seeds',
+                        enabled: state.isPlantSeedsButtonEnabled,
+                        onPressed: () {
+                          BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped());
+                        },
                       )
                     ],
                   ),

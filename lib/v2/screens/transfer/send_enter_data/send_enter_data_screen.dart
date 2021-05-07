@@ -10,6 +10,7 @@ import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/search_user/components/search_result_row.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/components/send_confirmation_dialog.dart';
@@ -78,11 +79,9 @@ class SendEnterDataScreen extends StatelessWidget {
           },
           child: Scaffold(
             appBar: AppBar(),
-            body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(
-              buildWhen: (context, state) {
-                return state.pageCommand == null;
-              },
-                builder: (context, SendEnterDataPageState state) {
+            body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(buildWhen: (context, state) {
+              return state.pageCommand == null;
+            }, builder: (context, SendEnterDataPageState state) {
               switch (state.pageState) {
                 case PageState.initial:
                   return const SizedBox.shrink();
@@ -110,7 +109,7 @@ class SendEnterDataScreen extends StatelessWidget {
                           BlocProvider.of<SendEnterDataPageBloc>(context).add(OnAmountChange(amountChanged: value));
                         },
                         fiatAmount: state.fiatAmount,
-                        enteringCurrencyName: "SEEDS",
+                        enteringCurrencyName: currencySeedsCode,
                         autoFocus: state.pageState == PageState.initial,
                       ),
                       const SizedBox(height: 16),

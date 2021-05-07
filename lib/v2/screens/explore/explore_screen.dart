@@ -18,7 +18,7 @@ class ExploreScreen extends StatelessWidget {
       create: (context) => ExploreBloc()..add(const LoadExploreData()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Explore'),
+          title: Text('Explore', style: Theme.of(context).textTheme.headline6),
           actions: [
             IconButton(
               icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),

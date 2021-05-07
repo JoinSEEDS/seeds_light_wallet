@@ -12,7 +12,7 @@ class UserBalanceStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
       BalanceModel balance = result.asValue!.value as BalanceModel;
-      String selectedFiat = settingsStorage.selectedFiatCurrency ?? 'USD';
+      String? selectedFiat = settingsStorage.selectedFiatCurrency;
 
       return currentState.copyWith(
         pageState: PageState.success,

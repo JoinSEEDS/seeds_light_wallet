@@ -3,6 +3,7 @@ import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/mappers/send_amount_change_mapper.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/mappers/send_enter_data_state_mapper.dart';
@@ -37,7 +38,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
               memo: "",
               toName: state.sendTo.nickname,
               toImage: state.sendTo.image,
-              currency: settingsStorage.selectedFiatCurrency ?? 'USD',
+              currency: settingsStorage.selectedFiatCurrency ?? currencyDefaultCode,
               fiatAmount: state.fiatAmount));
     } else if (event is OnSendButtonTapped) {
       yield state.copyWith(pageState: PageState.loading, pageCommand: null);
@@ -45,7 +46,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
       Result result = await SendTransactionUseCase().run("transfer", 'token.seeds', {
         'from': settingsStorage.accountName,
         'to': state.sendTo.account,
-        'quantity': '${state.quantity.toStringAsFixed(4)} SEEDS',
+        'quantity': '${state.quantity.toStringAsFixed(4)} $currencySeedsCode',
         'memo': state.memo,
       });
 

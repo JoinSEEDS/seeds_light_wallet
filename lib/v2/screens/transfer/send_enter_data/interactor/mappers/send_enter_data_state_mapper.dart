@@ -15,7 +15,7 @@ class SendEnterDataStateMapper extends StateMapper {
       BalanceModel balance = result.asValue!.value as BalanceModel;
       double parsedQuantity = double.parse(quantity);
 
-      var selectedFiat = settingsStorage.selectedFiatCurrency ?? 'USD';
+      var selectedFiat = settingsStorage.selectedFiatCurrency;
       String fiatAmount = rateState.currencyString(parsedQuantity, selectedFiat);
 
       String availableBalanceFiat = rateState.currencyString(balance.numericQuantity, selectedFiat);

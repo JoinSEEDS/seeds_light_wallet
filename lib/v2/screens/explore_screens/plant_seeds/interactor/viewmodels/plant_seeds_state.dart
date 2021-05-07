@@ -6,7 +6,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 class PlantSeedsState extends Equatable {
   final PageState pageState;
   final RatesState ratesState;
-  final String? fiatAmount;
+  final String fiatAmount;
   final String? availableBalance;
   final String? availableBalanceFiat;
   final bool isPlantSeedsButtonEnabled;
@@ -15,7 +15,7 @@ class PlantSeedsState extends Equatable {
   const PlantSeedsState({
     required this.pageState,
     required this.ratesState,
-    this.fiatAmount,
+    required this.fiatAmount,
     this.availableBalance,
     this.availableBalanceFiat,
     required this.isPlantSeedsButtonEnabled,
@@ -57,6 +57,7 @@ class PlantSeedsState extends Equatable {
     return PlantSeedsState(
       pageState: PageState.initial,
       ratesState: ratesState,
+      fiatAmount: 0.toString(),
       isPlantSeedsButtonEnabled: false,
     );
   }
