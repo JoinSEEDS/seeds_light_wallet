@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/components/my_guardians_tab.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/interactor/guardians_bloc.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/interactor/viewmodels/guardians_events.dart';
 
@@ -42,7 +43,12 @@ class GuardiansScreen extends StatelessWidget {
                 title: const Text("Key Guardians"),
                 centerTitle: true,
               ),
-              body: Container())),
+              body: TabBarView(
+                children: [
+                  MyGuardiansTab(),
+                  MyGuardiansTab(),
+                ],
+              ))),
     );
   }
 }
