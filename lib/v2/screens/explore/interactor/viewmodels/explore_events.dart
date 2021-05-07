@@ -4,15 +4,13 @@ import 'package:meta/meta.dart';
 /// --- EVENTS
 @immutable
 abstract class ExploreEvent extends Equatable {
+  const ExploreEvent();
   @override
   List<Object> get props => [];
 }
 
-class LoadExplore extends ExploreEvent {
-  final String userName;
-
-  LoadExplore({required this.userName});
-
+class LoadExploreData extends ExploreEvent {
+  const LoadExploreData();
   @override
-  String toString() => 'LoadExplore: { userName: $userName }';
+  String toString() => 'LoadExploreData';
 }

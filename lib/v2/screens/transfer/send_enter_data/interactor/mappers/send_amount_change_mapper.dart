@@ -8,14 +8,14 @@ class SendAmountChangeMapper extends StateMapper {
   SendEnterDataPageState mapResultToState(SendEnterDataPageState currentState, RatesState rateState, String quantity) {
     double parsedQuantity = double.tryParse(quantity) ?? 0;
 
-    var selectedFiat = settingsStorage.selectedFiatCurrency ?? 'USD';
+    var selectedFiat = settingsStorage.selectedFiatCurrency;
     String fiatAmount = rateState.currencyString(parsedQuantity, selectedFiat);
 
     return currentState.copyWith(
       fiatAmount: fiatAmount,
       error: null,
       isNextButtonEnabled: parsedQuantity > 0,
-      quantity: parsedQuantity
+      quantity: parsedQuantity,
     );
   }
 }
