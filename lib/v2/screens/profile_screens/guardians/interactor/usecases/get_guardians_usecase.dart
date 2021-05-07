@@ -18,13 +18,12 @@ class GetGuardiansUseCase {
     Iterable<Future<Result>> futures =
         guardians.map((GuardianModel e) => _membersRepository.getMemberByAccountName(e.uid));
     List<Result> results = await Future.wait(futures);
-    Iterable<Result<MemberModel>> filtered =
-        results.where((Result element) => element.isValue) as Iterable<Result<MemberModel>>;
+    Iterable<Result<dynamic>> filtered = results.where((Result element) => element.isValue);
 
     return guardians.map((GuardianModel guardian) => mapGuardian(guardian, filtered)).toList();
   }
 
-  GuardianModel mapGuardian(GuardianModel guardian, Iterable<Result<MemberModel>> filtered) {
+  GuardianModel mapGuardian(GuardianModel guardian, Iterable<Result<dynamic>> filtered) {
     MemberModel match = filtered.firstWhere((element) => element.asValue!.value.account == guardian.uid).asValue!.value;
 
     return guardian.copyWith(image: match.image, nickname: match.nickname);
