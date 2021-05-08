@@ -16,38 +16,46 @@ class PushNotificationService {
 
   Future initialise() async {
     if (!_initialized) {
-      // Requesting Permission
-      await requestingPermissionForIOS();
-      // If the application has been opened from a terminated state
-      await FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
-        if (message != null) {
-          print("FirebaseMessaging getInitialMessage: ${message}");
-        }
-      });
-      await _firebaseMessaging.subscribeToTopic("PUSH_RC");
+      try {
+        // Requesting Permission
+        await requestingPermissionForIOS();
+        // If the application has been opened from a terminated state
+        await FirebaseMessaging.instance
+            .getInitialMessage()
+            .then((RemoteMessage? message) {
+          if (message != null) {
+            print("FirebaseMessaging getInitialMessage: ${message}");
+          }
+        });
+        await _firebaseMessaging.subscribeToTopic("PUSH_RC");
 
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        print("FirebaseMessaging onMessage -> " + message.data.toString());
-        // If remote config changed, set them to stale. And fetch new config
-        if (message.data.containsKey("CONFIG_STATE")) {
-          remoteConfigurations.refresh();
-        }
-      });
+        FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+          print("FirebaseMessaging onMessage -> " + message.data.toString());
+          // If remote config changed, set them to stale. And fetch new config
+          if (message.data.containsKey("CONFIG_STATE")) {
+            remoteConfigurations.refresh();
+          }
+        });
 
-      // When user press the push notification and the app is in background (not terminated).
-      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) => onMessageOpenedApp(message));
-      // When app is in background or Terminated.
-      // It must not be an anonymous function. It must be a top-level function
-      // (e.g. not a class method which requires initialization).
-      FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
-      
-      // For testing purposes print the Firebase Messaging token.
-      token = await _firebaseMessaging.getToken();
-      print('FirebaseMessaging token: $token');
+        // When user press the push notification and the app is in background (not terminated).
+        FirebaseMessaging.onMessageOpenedApp
+            .listen((RemoteMessage message) => onMessageOpenedApp(message));
+        // When app is in background or Terminated.
+        // It must not be an anonymous function. It must be a top-level function
+        // (e.g. not a class method which requires initialization).
+        FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
 
-      _firebaseMessaging.onTokenRefresh.listen((newToken) => token = newToken);
+        // For testing purposes print the Firebase Messaging token.
+        token = await _firebaseMessaging.getToken();
+        print('FirebaseMessaging token: $token');
 
-      _initialized = true;
+        _firebaseMessaging.onTokenRefresh
+            .listen((newToken) => token = newToken);
+
+        _initialized = true;
+      } catch (err) {
+        print(err);
+      }
     }
   }
 
@@ -63,13 +71,15 @@ class PushNotificationService {
     );
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
-    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
       print('User granted provisional permission');
     } else {
       print('User declined or has not accepted permission');
     }
 
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification
       badge: true,
       sound: true,
