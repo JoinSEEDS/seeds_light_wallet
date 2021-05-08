@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_event.dart';
-import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
-import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/components/card_list_tile.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/components/logout_dialog.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 /// PROFILE BOTTOM
@@ -19,7 +15,6 @@ class ProfileBottom extends StatelessWidget {
   const ProfileBottom({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final backupService = Provider.of<BackupService>(context);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -155,33 +150,9 @@ class ProfileBottom extends StatelessWidget {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
-                builder: (_) => BlocProvider.value(
-                  value: BlocProvider.of<ProfileBloc>(context),
-                  child: BlocBuilder<ProfileBloc, ProfileState>(
-                    builder: (context, state) {
-                      return CustomDialog(
-                        icon: SvgPicture.asset("assets/images/profile/logout_icon.svg"),
-                        children: [
-                          Text('Logout'.i18n, style: Theme.of(context).textTheme.headline5),
-                          const SizedBox(height: 30.0),
-                          Text(
-                            'Save private keyin secure place - to be able to restore access to your wallet later'.i18n,
-                            textAlign: TextAlign.justify,
-                            style: Theme.of(context).textTheme.subtitle2,
-                          ),
-                          const SizedBox(height: 30.0),
-                        ],
-                        leftButtonTitle: state.showLogoutButton ? 'Logout' : ''.i18n,
-                        onLeftButtonPressed: () => BlocProvider.of<AuthenticationBloc>(context).add(const OnLogout()),
-                        rightButtonTitle: 'Save private key'.i18n,
-                        onRightButtonPressed: () {
-                          BlocProvider.of<ProfileBloc>(context).add(const ShowLogoutButton());
-                          backupService.backup();
-                        },
-                      );
-                    },
-                  ),
-                ),
+                builder: (_) {
+                  return BlocProvider.value(value: BlocProvider.of<ProfileBloc>(context), child: const LogoutDialog());
+                },
               ).whenComplete(() => BlocProvider.of<ProfileBloc>(context).add(const ResetShowLogoutButton()));
             },
           ),
