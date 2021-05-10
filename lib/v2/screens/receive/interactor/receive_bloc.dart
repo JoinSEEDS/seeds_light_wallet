@@ -8,9 +8,9 @@ class ReceiveBloc extends Bloc<ReceiveEvent, ReceiveState> {
 
   @override
   Stream<ReceiveState> mapEventToState(ReceiveEvent event) async* {
-    if (event is TabInputSeedsCard) {
+    if (event is TapInputSeedsCard) {
       yield state.copyWith(receiveStates: ReceiveStates.navigateToInputSeeds);
-    } else if (event is TabMerchantCard) {
+    } else if (event is TapMerchantCard) {
       yield state.copyWith(receiveStates: ReceiveStates.navigateToMerchant);
     } else if(event is ClearState){
       yield state.copyWith(receiveStates: null);

@@ -41,9 +41,9 @@ class ReceiveScreen extends StatelessWidget {
                           Expanded(
                               child: ReceiveSelectionCard(
                                   icon: SvgPicture.asset('assets/images/receive/receive_input_seeds.svg'),
-                                  title: " Input Seeds or Other Currency ",
-                                  callback: () {
-                                    BlocProvider.of<ReceiveBloc>(context).add(TabInputSeedsCard());
+                                  title: "Input Seeds or Other Currency",
+                                  onTap: () {
+                                    BlocProvider.of<ReceiveBloc>(context).add(TapInputSeedsCard());
                                   })),
                           const SizedBox(
                             width: 20,
@@ -52,8 +52,8 @@ class ReceiveScreen extends StatelessWidget {
                               child: ReceiveSelectionCard(
                                   icon: SvgPicture.asset('assets/images/receive/merchant.svg'),
                                   title: "Select a Product or Service",
-                                  callback: () {
-                                    BlocProvider.of<ReceiveBloc>(context).add(TabMerchantCard());
+                                  onTap: () {
+                                    BlocProvider.of<ReceiveBloc>(context).add(TapMerchantCard());
                                   })),
                         ]),
                       ),

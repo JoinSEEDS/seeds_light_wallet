@@ -8,16 +8,16 @@ abstract class ReceiveEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TabInputSeedsCard extends ReceiveEvent {
+class TapInputSeedsCard extends ReceiveEvent {
 
   @override
-  String toString() => 'TabInputSeedsCard';
+  String toString() => 'TapInputSeedsCard';
 }
 
-class TabMerchantCard extends ReceiveEvent {
+class TapMerchantCard extends ReceiveEvent {
 
   @override
-  String toString() => 'TabMerchantCard';
+  String toString() => 'TapMerchantCard';
 }
 
 class ClearState extends ReceiveEvent {
