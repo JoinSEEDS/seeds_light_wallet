@@ -6,8 +6,8 @@ import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/v2/screens/explore/components/explore_info_card.dart';
-import 'package:seeds/v2/screens/explore/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/explore_screens/explore/components/explore_info_card.dart';
+import 'package:seeds/v2/screens/explore_screens/explore/interactor/viewmodels/bloc.dart';
 
 /// Explore SCREEN
 class ExploreScreen extends StatelessWidget {
