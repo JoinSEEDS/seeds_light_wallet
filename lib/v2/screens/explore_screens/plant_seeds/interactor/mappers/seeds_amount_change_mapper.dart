@@ -12,7 +12,7 @@ class SeedsAmountChangeMapper extends StateMapper {
     return currentState.copyWith(
       fiatAmount: rateState.currencyString(parsedQuantity, selectedFiat),
       isPlantSeedsButtonEnabled: parsedQuantity > 0,
-      // quantity: parsedQuantity,
+      quantity: parsedQuantity,
     );
   }
 }

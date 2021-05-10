@@ -47,14 +47,14 @@ class PlantSeedsScreen extends StatelessWidget {
                       const Spacer(),
                       BalanceRow(
                         label: "Available Balance",
-                        fiatAmount: state.availableBalanceFiat ?? "",
-                        seedsAmount: state.availableBalance ?? "",
+                        fiatAmount: state.availableBalanceFiat ?? '',
+                        seedsAmount: state.availableBalance ?? '',
                       ),
                       const DividerJungle(height: 24),
-                      const BalanceRow(
+                      BalanceRow(
                         label: "Planted Balance",
-                        fiatAmount: "0",
-                        seedsAmount: "0",
+                        fiatAmount: state.plantedBalance ?? '',
+                        seedsAmount: state.plantedBalanceFiat ?? '',
                       ),
                       const SizedBox(height: 16),
                       FlatButtonLong(

@@ -9,7 +9,10 @@ class PlantSeedsState extends Equatable {
   final String fiatAmount;
   final String? availableBalance;
   final String? availableBalanceFiat;
+  final String? plantedBalance;
+  final String? plantedBalanceFiat;
   final bool isPlantSeedsButtonEnabled;
+  final double quantity;
   final String? errorMessage;
 
   const PlantSeedsState({
@@ -18,7 +21,10 @@ class PlantSeedsState extends Equatable {
     required this.fiatAmount,
     this.availableBalance,
     this.availableBalanceFiat,
+    this.plantedBalance,
+    this.plantedBalanceFiat,
     required this.isPlantSeedsButtonEnabled,
+    required this.quantity,
     this.errorMessage,
   });
 
@@ -29,7 +35,10 @@ class PlantSeedsState extends Equatable {
         fiatAmount,
         availableBalance,
         availableBalanceFiat,
+        plantedBalance,
+        plantedBalanceFiat,
         isPlantSeedsButtonEnabled,
+        quantity,
         errorMessage,
       ];
 
@@ -39,7 +48,10 @@ class PlantSeedsState extends Equatable {
     String? fiatAmount,
     String? availableBalance,
     String? availableBalanceFiat,
+    String? plantedBalance,
+    String? plantedBalanceFiat,
     bool? isPlantSeedsButtonEnabled,
+    double? quantity,
     String? errorMessage,
   }) {
     return PlantSeedsState(
@@ -48,7 +60,10 @@ class PlantSeedsState extends Equatable {
       fiatAmount: fiatAmount ?? this.fiatAmount,
       availableBalance: availableBalance ?? this.availableBalance,
       availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
+      plantedBalance: plantedBalance ?? this.plantedBalance,
+      plantedBalanceFiat: plantedBalanceFiat ?? this.plantedBalanceFiat,
       isPlantSeedsButtonEnabled: isPlantSeedsButtonEnabled ?? this.isPlantSeedsButtonEnabled,
+      quantity: quantity ?? this.quantity,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
@@ -59,6 +74,7 @@ class PlantSeedsState extends Equatable {
       ratesState: ratesState,
       fiatAmount: 0.toString(),
       isPlantSeedsButtonEnabled: false,
+      quantity: 0,
     );
   }
 }

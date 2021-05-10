@@ -1,12 +1,12 @@
-import 'package:equatable/equatable.dart';
+import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
-class PlantedModel extends Equatable {
+class PlantedModel {
   final double quantity;
 
   const PlantedModel(this.quantity);
 
-  @override
-  List<Object?> get props => [quantity];
+  String get formattedQuantity => '${quantity.seedsFormatted!} $currencySeedsCode';
 
   factory PlantedModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {

@@ -9,6 +9,7 @@ import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/score_model.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/v2/datasource/remote/model/referred_accounts_model.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 export 'package:async/src/result/result.dart';
 
@@ -97,5 +98,33 @@ class ProfileRepository extends NetworkRepository with EosRepository {
               return ReferredAccounts.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> plantSeeds({double? amount, String? accountName}) async {
+    print('[eos] plant seeds ($amount)');
+
+    var transaction = buildFreeTransaction([
+      Action()
+        ..account = 'token.seeds'
+        ..name = 'transfer'
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = 'active'
+        ]
+        ..data = {
+          'from': accountName,
+          'to': 'harvst.seeds',
+          'quantity': '${amount!.toStringAsFixed(4)} $currencySeedsCode',
+          'memo': '',
+        }
+    ], accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction, broadcast: true)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
   }
 }
