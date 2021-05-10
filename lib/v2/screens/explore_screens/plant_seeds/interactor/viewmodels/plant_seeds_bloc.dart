@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/mappers/plant_seeds_result_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/mappers/seeds_amount_change_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/mappers/user_balance_and_planted_state_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/usecases/get_available_balance_and_planted_use_case.dart';
@@ -25,8 +26,7 @@ class PlantSeedsBloc extends Bloc<PlantSeedsEvent, PlantSeedsState> {
     if (event is OnPlantSeedsButtonTapped) {
       yield state.copyWith(pageState: PageState.loading);
       Result result = await PlantSeedsUseCase().run(amount: state.quantity);
-
-      // yield SendTransactionMapper().mapResultToState(state, result);
+      yield PlantSeedsResultMapper().mapResultToState(state, result);
     }
   }
 }
