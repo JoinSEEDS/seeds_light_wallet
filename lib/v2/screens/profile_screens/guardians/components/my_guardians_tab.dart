@@ -4,9 +4,9 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
-import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_status.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/components/guardian_row.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/components/my_guardian_list_widget.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/components/no_guardian_widget.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/interactor/guardians_bloc.dart';
 
 class MyGuardiansTab extends StatelessWidget {
@@ -78,95 +78,5 @@ class MyGuardiansTab extends StatelessWidget {
             return const SizedBox.shrink();
           }
         });
-  }
-}
-
-class NoGuardiansWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Text(
-        "You have added no user to become your guardian yet. Once you do, the request will show here.",
-        style: Theme.of(context).textTheme.subtitle2LowEmphasis,
-      ),
-    ));
-  }
-}
-
-class MyGuardiansListWidget extends StatelessWidget {
-  final String currentUserId;
-  final List<GuardianModel> guardians;
-
-  const MyGuardiansListWidget({Key? key, required this.currentUserId, required this.guardians}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-        itemCount: guardians.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return const SizedBox.shrink();
-          }
-
-          var guardian = guardians[index - 1];
-
-          return GuardianRow(
-            account: guardian.uid,
-            imageUrl: guardian.image,
-            name: guardian.nickname,
-          );
-        },
-        separatorBuilder: (context, index) {
-          return GuardianListSeparatorWidget(guardians: guardians, index: index);
-        });
-  }
-}
-
-class GuardianListSeparatorWidget extends StatelessWidget {
-  final int index;
-  final List<GuardianModel> guardians;
-
-  const GuardianListSeparatorWidget({Key? key, required this.index, required this.guardians}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var requested = Container(
-      child: const Padding(
-        padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-        child: Center(child: Text("Requested")),
-      ),
-    );
-
-    if (index == 0) {
-      var guardian = guardians[index];
-      if (guardian.status == GuardianStatus.alreadyGuardian) {
-        return Container(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
-            child: Center(
-              child: Text(
-                "My Guardians",
-                style: Theme.of(context).textTheme.subtitle2HighEmphasis,
-              ),
-            ),
-          ),
-        );
-      } else {
-        return requested;
-      }
-    } else if (index > guardians.length - 1) {
-      return const SizedBox.shrink();
-    } else {
-      var guardian = guardians[index - 1];
-      var next = guardians[index];
-
-      if (guardian.status != next.status) {
-        return requested;
-      } else {
-        return const SizedBox.shrink();
-      }
-    }
   }
 }
