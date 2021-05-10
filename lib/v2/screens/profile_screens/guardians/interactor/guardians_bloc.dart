@@ -1,10 +1,18 @@
 import 'package:bloc/bloc.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/interactor/usecases/get_guardians_usecase.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/interactor/viewmodels/guardians_events.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/interactor/viewmodels/guardians_state.dart';
 
 /// --- BLOC
 class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   GuardiansBloc() : super(GuardiansState.initial());
+
+  final GetGuardiansUseCase _userCase = GetGuardiansUseCase();
+
+  Stream<List<GuardianModel>> get guardians {
+    return _userCase.getGuardians();
+  }
 
   @override
   Stream<GuardiansState> mapEventToState(GuardiansEvent event) async* {
