@@ -76,10 +76,7 @@ class ProfileBottom extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                                 child: Row(
                                   children: [
-                                    Text(
-                                      'Resident'.i18n,
-                                      style: Theme.of(context).textTheme.headline6!.copyWith(color: AppColors.canopy),
-                                    ),
+                                    Text('Resident'.i18n, style: Theme.of(context).textTheme.headline6Green),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
                                       child: Container(
@@ -87,7 +84,7 @@ class ProfileBottom extends StatelessWidget {
                                         height: 32,
                                         decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.white,
+                                          color: AppColors.white,
                                         ),
                                         child: Center(
                                           child: Text(
@@ -101,10 +98,7 @@ class ProfileBottom extends StatelessWidget {
                                       ),
                                     ),
                                     Flexible(
-                                      child: Text(
-                                        'Citizen'.i18n,
-                                        style: Theme.of(context).textTheme.headline6!.copyWith(color: AppColors.canopy),
-                                      ),
+                                      child: Text('Citizen'.i18n, style: Theme.of(context).textTheme.headline6Green),
                                     ),
                                   ],
                                 ),
