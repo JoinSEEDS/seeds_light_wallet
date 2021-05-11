@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 
 /// --- EVENTS
 @immutable
@@ -15,4 +16,14 @@ class LoadGuardians extends GuardiansEvent {
 
   @override
   String toString() => 'LoadGuardians: { userName: $userName }';
+}
+
+class InitGuardians extends GuardiansEvent {
+  final Iterable<GuardianModel> myGuardians;
+  
+  InitGuardians(this.myGuardians);
+
+  @override
+  String toString() => 'InitGuardians: { InitGuardians: $myGuardians }';
+  
 }

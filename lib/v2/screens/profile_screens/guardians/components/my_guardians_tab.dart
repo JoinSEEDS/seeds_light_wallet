@@ -8,6 +8,7 @@ import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.d
 import 'package:seeds/v2/screens/profile_screens/guardians/components/my_guardian_list_widget.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/components/no_guardian_widget.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/interactor/guardians_bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/interactor/viewmodels/guardians_events.dart';
 
 class MyGuardiansTab extends StatelessWidget {
   @override
@@ -58,10 +59,7 @@ class MyGuardiansTab extends StatelessWidget {
                             child: FlatButtonLong(
                               title: "Activate My Guardians",
                               onPressed: () {
-                                // GuardianServices()
-                                //     .initGuardians(service, accountName)
-                                //     .then((value) => onInitGuardianResponse(value))
-                                //     .catchError((onError) => onInitGuardianError(onError));
+                                BlocProvider.of<GuardiansBloc>(context).add(InitGuardians(myGuardians));
                               },
                             ),
                           );
