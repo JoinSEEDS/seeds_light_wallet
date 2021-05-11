@@ -4,7 +4,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/read_times_tamp.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 class TransactionInfoCard extends StatelessWidget {
   final String? profileAccount;

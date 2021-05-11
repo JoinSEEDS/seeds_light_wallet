@@ -76,7 +76,7 @@ class SeedsTextTheme {
   }
 }
 
-// Make sure to import this file in order to use this text styles USE: import 'package:seeds/design/app_theme.dart';
+// Make sure to import this file in order to use this text styles USE: import 'package:seeds/v2/design/app_theme.dart';
 // https://dart.dev/guides/language/extension-methods
 extension CustomStyles on TextTheme {
   TextStyle get headline7 => const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);

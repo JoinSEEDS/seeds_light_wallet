@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 class AmountEntryWidget extends StatelessWidget {
   final String? fiatAmount;
