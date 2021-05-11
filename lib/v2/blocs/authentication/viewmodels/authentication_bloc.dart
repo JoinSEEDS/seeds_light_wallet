@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/v2/blocs/authentication/mappers/auth_status_state_mapper.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_message_token_repository.dart';
 import 'package:seeds/v2/main.dart' show SeedsMaterialApp;
 import 'package:seeds/v2/screens/verification/verification_screen.dart';
 
@@ -47,6 +48,16 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is DisableBiometric) {
       settingsStorage.biometricActive = false;
+    }
+    if (event is OnLogout) {
+      // copy account before clear data
+      var account = settingsStorage.accountName;
+      // Clear data
+      settingsStorage.removeAccount();
+      // User logout --> re-start auth status
+      add(const InitAuthStatus());
+      // Remove fcm token must be last instruction to allow logout, even if there is an error here.
+      await FirebaseMessageTokenRepository().removeFirebaseMessageToken(account);
     }
   }
 }
