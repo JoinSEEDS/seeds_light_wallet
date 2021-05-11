@@ -31,4 +31,11 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
                 (QueryDocumentSnapshot e) => GuardianModel.fromMap(e.data()!)) // ignore: unnecessary_non_null_assertion
             .toList());
   }
+
+  Stream<bool> isGuardiansInitialized(String userAccount) {
+    return usersCollection
+        .doc(userAccount)
+        .snapshots()
+        .map((user) => user.data()?[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
+  }
 }
