@@ -18,12 +18,12 @@ class SearchUsersList extends StatelessWidget {
             itemCount: state.users.length,
             itemBuilder: (BuildContext context, int index) {
               MemberModel user = state.users[index];
-              return GestureDetector(
-                onTap: () {
-                  resultCallBack(user);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16),
+              return Padding(
+                padding: const EdgeInsets.only(top: 6, bottom: 6),
+                child: InkWell(
+                  onTap: () {
+                    resultCallBack(user);
+                  },
                   child: SearchResultRow(
                     account: user.account,
                     name: user.nickname,

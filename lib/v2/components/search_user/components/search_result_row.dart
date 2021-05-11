@@ -11,35 +11,35 @@ class SearchResultRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        ProfileAvatar(
-          size: 60,
-          image: imageUrl,
-          account: account,
-          nickname: name,
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(
-                  (name != null && name?.isNotEmpty == true) ? name! : account,
-                  textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.button,
-                ),
-                const SizedBox(height: 8),
-                Text(account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
-              ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 4, bottom: 4, left: 16, right: 16),
+      child: Row(
+        children: [
+          ProfileAvatar(
+            size: 60,
+            image: imageUrl,
+            account: account,
+            nickname: name,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    (name != null && name?.isNotEmpty == true) ? name! : account,
+                    textAlign: TextAlign.start,
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
