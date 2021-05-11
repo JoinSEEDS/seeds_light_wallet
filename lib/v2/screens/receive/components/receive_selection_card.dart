@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
-import 'package:seeds/design/app_theme.dart';
 
-/// CARD LIST TILE
-class CardListTile extends StatelessWidget {
-  final IconData leadingIcon;
+class ReceiveSelectionCard extends StatelessWidget {
   final String title;
-  final Widget trailing;
-  final VoidCallback onTap;
+  final Widget icon;
+  final GestureTapCallback onTap;
 
-  const CardListTile({
+  const ReceiveSelectionCard({
     Key? key,
-    required this.leadingIcon,
     required this.title,
-    required this.trailing,
+    required this.icon,
     required this.onTap,
   }) : super(key: key);
 
@@ -28,13 +24,19 @@ class CardListTile extends StatelessWidget {
           color: AppColors.darkGreen2,
           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         ),
-        child: ListTile(
-          leading: Icon(leadingIcon),
-          title: Text(
-            title,
-            style: Theme.of(context).textTheme.buttonLowEmphasis,
-          ),
-          trailing: trailing,
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            icon,
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.button,
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );
