@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';

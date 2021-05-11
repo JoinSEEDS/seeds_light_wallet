@@ -6,7 +6,7 @@ import 'package:seeds/v2/screens/receive/interactor/viewmodels/receive_events.da
 import '../../navigation/navigation_service.dart';
 import 'interactor/receive_bloc.dart';
 import 'interactor/viewmodels/receive_state.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 /// Receive selection screen
 class ReceiveScreen extends StatelessWidget {
