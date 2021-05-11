@@ -12,7 +12,7 @@ class SearchResultRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 4, bottom: 4, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 16, right: 16),
       child: Row(
         children: [
           ProfileAvatar(
