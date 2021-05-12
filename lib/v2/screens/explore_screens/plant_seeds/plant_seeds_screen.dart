@@ -59,25 +59,30 @@ class PlantSeedsScreen extends StatelessWidget {
                         enteringCurrencyName: currencySeedsCode,
                         autoFocus: state.isAutoFocus,
                       ),
-                      if (state.showToast) const SizedBox(height: 24),
                       if (state.showToast)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Column(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.only(left: 8.0, top: 4.0, right: 8.0, bottom: 4.0),
-                              decoration: BoxDecoration(
-                                color: AppColors.darkGreen2,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                'The value exceeds your balance',
-                                style: Theme.of(context).textTheme.subtitle2,
-                              ),
+                            const SizedBox(height: 24),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(left: 8.0, top: 4.0, right: 8.0, bottom: 4.0),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.darkGreen2,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    'The value exceeds your balance',
+                                    style: Theme.of(context).textTheme.subtitle2,
+                                  ),
+                                ),
+                              ],
                             ),
+                            const SizedBox(height: 24),
                           ],
                         ),
-                      const Spacer(),
+                      if (!state.showToast) const SizedBox(height: 50),
                       BalanceRow(
                         label: "Available Balance",
                         fiatAmount: state.availableBalanceFiat ?? '',
@@ -90,11 +95,17 @@ class PlantSeedsScreen extends StatelessWidget {
                         seedsAmount: state.plantedBalanceFiat ?? '',
                       ),
                       const SizedBox(height: 16),
-                      FlatButtonLong(
-                        title: 'Plant Seeds',
-                        enabled: state.isPlantSeedsButtonEnabled,
-                        onPressed: () => BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
-                      )
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: FlatButtonLong(
+                            title: 'Plant Seeds',
+                            enabled: state.isPlantSeedsButtonEnabled,
+                            onPressed: () =>
+                                BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 );
