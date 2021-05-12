@@ -7,6 +7,7 @@ import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
@@ -56,13 +57,31 @@ class PlantSeedsScreen extends StatelessWidget {
                         },
                         fiatAmount: state.fiatAmount,
                         enteringCurrencyName: currencySeedsCode,
-                        autoFocus: state.pageState == PageState.initial,
+                        autoFocus: state.isAutoFocus,
                       ),
+                      if (state.showToast) const SizedBox(height: 24),
+                      if (state.showToast)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(left: 8.0, top: 4.0, right: 8.0, bottom: 4.0),
+                              decoration: BoxDecoration(
+                                color: AppColors.darkGreen2,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                'The value exceeds your balance',
+                                style: Theme.of(context).textTheme.subtitle2,
+                              ),
+                            ),
+                          ],
+                        ),
                       const Spacer(),
                       BalanceRow(
                         label: "Available Balance",
                         fiatAmount: state.availableBalanceFiat ?? '',
-                        seedsAmount: state.availableBalance ?? '',
+                        seedsAmount: state.availableBalance?.formattedQuantity ?? '',
                       ),
                       const DividerJungle(height: 24),
                       BalanceRow(
@@ -74,10 +93,7 @@ class PlantSeedsScreen extends StatelessWidget {
                       FlatButtonLong(
                         title: 'Plant Seeds',
                         enabled: state.isPlantSeedsButtonEnabled,
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped());
-                        },
+                        onPressed: () => BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
                       )
                     ],
                   ),
