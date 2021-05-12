@@ -21,23 +21,24 @@ import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
 import 'package:seeds/screens/app/wallet/receive_qr.dart';
-import 'package:seeds/screens/app/wallet/transfer/transfer.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
+import 'package:seeds/v2/screens/display_name/display_name.dart';
 import 'package:seeds/v2/screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
-import 'package:seeds/v2/screens/verification/verification_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
+import 'package:seeds/v2/screens/sign_up/sign_up_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
-import 'package:seeds/widgets/page_not_found.dart';
 import 'package:seeds/v2/screens/transfer/send_search_user/send_search_user_screen.dart';
+import 'package:seeds/v2/screens/verification/verification_screen.dart';
+import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
   static final app = 'App';
@@ -80,16 +81,21 @@ class Routes {
   static final login = "Login";
   static final importKey = "ImportKey";
   static final verification = "verification";
+  static final signUp = 'signUp';
+  static final displayName = 'displayName';
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> onboardingNavigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> onboardingNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> walletNavigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> walletNavigatorKey =
+      GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> ecosystemNavigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> ecosystemNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
@@ -100,6 +106,8 @@ class NavigationService {
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
+    Routes.signUp: (_) => SignUpFlowScreen(),
+    Routes.displayName: (_) => DisplayName(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),
     // Routes.showInvite: (args) => ShowInvite(args),
@@ -153,7 +161,8 @@ class NavigationService {
     streamRouteListener = listener;
   }
 
-  Future<dynamic> navigateTo(String routeName, [Object? arguments, bool replace = false]) async {
+  Future<dynamic> navigateTo(String routeName,
+      [Object? arguments, bool replace = false]) async {
     late var navigatorKey;
 
     if (streamRouteListener != null) {
@@ -175,9 +184,11 @@ class NavigationService {
     }
 
     if (replace) {
-      return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState
+          .pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState
+          .pushNamed(routeName, arguments: arguments);
     }
   }
 
@@ -222,7 +233,9 @@ class NavigationService {
       if (route.settings.name == '/' && name != '/') {
         print('pop error: Route name not found: ' + name);
       }
-      return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
+      return !route.willHandlePopInternally &&
+              route is ModalRoute &&
+              route.settings.name == name ||
           route.settings.name == '/';
     };
   }

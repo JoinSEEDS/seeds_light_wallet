@@ -7,11 +7,11 @@ import 'package:seeds/v2/components/scanner/interactor/viewmodels/scanner_state.
 import 'package:seeds/v2/components/scanner/seeds_qr_code_scanner_widget.dart';
 
 /// Scanner SCREEN
-class ScannerScreen extends StatefulWidget {
+class ScannerWidget extends StatefulWidget {
   final ScannerBloc _scannerBloc = ScannerBloc();
   final ValueSetter<String> resultCallBack;
 
-  ScannerScreen({Key? key, required this.resultCallBack}) : super(key: key);
+  ScannerWidget({Key? key, required this.resultCallBack}) : super(key: key);
 
   void scan() {
     _scannerBloc.add(Scan());
@@ -26,10 +26,10 @@ class ScannerScreen extends StatefulWidget {
   }
 
   @override
-  _ScannerScreenState createState() => _ScannerScreenState();
+  _ScannerWidgetState createState() => _ScannerWidgetState();
 }
 
-class _ScannerScreenState extends State<ScannerScreen> {
+class _ScannerWidgetState extends State<ScannerWidget> {
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
   late QRViewController _controller;
   bool _handledQrCode = false;
