@@ -14,7 +14,10 @@ class ImportKeyStateMapper extends StateMapper {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Accounts");
     } else {
-      List<ProfileModel> profiles = results.map((Result result) => result.asValue!.value as ProfileModel).toList();
+      List<ProfileModel> profiles =
+          results.where((Result result) => result.isValue).map((Result result) {
+        return result.asValue!.value as ProfileModel;
+      }).toList();
 
       return currentState.copyWith(pageState: PageState.success, accounts: profiles, privateKey: privateKey);
     }
