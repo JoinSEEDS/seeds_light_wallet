@@ -41,15 +41,15 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
             if (authenticationBloc.state.isOnResumeAuth) {
-              // App resume flow
+              // App resume flow: disable flag and and then fires navigator pop
               authenticationBloc.add(const SuccessOnResumeAuth());
               yield state.copyWith(popScreen: true);
             } else {
-              // Onboarding flow
+              // Onboarding flow: just unlock
               authenticationBloc.add(const UnlockWallet());
             }
           } else {
-            // Security flow: update screen and the fires navigator pop
+            // Security flow: update screen and then fires navigator pop
             securityBloc?.add(const OnValidVerification());
             yield state.copyWith(popScreen: true);
           }
@@ -80,7 +80,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
       } else {
         if (securityBloc == null) {
           if (authenticationBloc.state.isOnResumeAuth) {
-            // App resume flow
+            // App resume flow: disable flag and and then fires navigator pop
             authenticationBloc.add(const SuccessOnResumeAuth());
             yield state.copyWith(popScreen: true);
           } else {
@@ -105,15 +105,15 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
             if (authenticationBloc.state.isOnResumeAuth) {
-              // App resume flow
+              // App resume flow: disable flag and and then fires navigator pop
               authenticationBloc.add(const SuccessOnResumeAuth());
               yield state.copyWith(popScreen: true);
             } else {
-              // Onboarding flow
+              // Onboarding flow: just unlock
               authenticationBloc.add(const UnlockWallet());
             }
           } else {
-            // Security flow: update screen and the fires navigator pop
+            // Security flow: update screen and then fires navigator pop
             securityBloc?.add(const OnValidVerification());
             yield state.copyWith(popScreen: true);
           }

@@ -20,6 +20,7 @@ class VerificationScreen extends StatelessWidget {
           authenticationBloc: BlocProvider.of<AuthenticationBloc>(context), securityBloc: _securityBloc)
         ..add(const InitVerification()),
       child: WillPopScope(
+        // User can only pop without auth if it is on security screen
         onWillPop: () async => _securityBloc != null,
         child: Scaffold(
           body: BlocBuilder<VerificationBloc, VerificationState>(
