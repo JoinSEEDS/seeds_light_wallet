@@ -41,7 +41,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
             if (authenticationBloc.state.isOnResumeAuth) {
-              // App resume flow: disable flag and and then fires navigator pop
+              // App resume flow: disable flag and then fires navigator pop
               authenticationBloc.add(const SuccessOnResumeAuth());
               yield state.copyWith(popScreen: true);
             } else {
@@ -80,7 +80,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
       } else {
         if (securityBloc == null) {
           if (authenticationBloc.state.isOnResumeAuth) {
-            // App resume flow: disable flag and and then fires navigator pop
+            // App resume flow: disable flag and then fires navigator pop
             authenticationBloc.add(const SuccessOnResumeAuth());
             yield state.copyWith(popScreen: true);
           } else {
@@ -105,7 +105,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
             if (authenticationBloc.state.isOnResumeAuth) {
-              // App resume flow: disable flag and and then fires navigator pop
+              // App resume flow: disable flag and then fires navigator pop
               authenticationBloc.add(const SuccessOnResumeAuth());
               yield state.copyWith(popScreen: true);
             } else {
