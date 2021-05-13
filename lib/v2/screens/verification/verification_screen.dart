@@ -19,22 +19,25 @@ class VerificationScreen extends StatelessWidget {
       create: (context) => VerificationBloc(
           authenticationBloc: BlocProvider.of<AuthenticationBloc>(context), securityBloc: _securityBloc)
         ..add(const InitVerification()),
-      child: Scaffold(
-        body: BlocBuilder<VerificationBloc, VerificationState>(
-          builder: (context, state) {
-            switch (state.pageState) {
-              case PageState.initial:
-                return const SizedBox.shrink();
-              case PageState.loading:
-                return const FullPageLoadingIndicator();
-              case PageState.failure:
-                return const FullPageErrorIndicator();
-              case PageState.success:
-                return state.isCreateView! ? const CreatePasscode() : const VerifyPasscode();
-              default:
-                return const SizedBox.shrink();
-            }
-          },
+      child: WillPopScope(
+        onWillPop: () async => _securityBloc != null,
+        child: Scaffold(
+          body: BlocBuilder<VerificationBloc, VerificationState>(
+            builder: (context, state) {
+              switch (state.pageState) {
+                case PageState.initial:
+                  return const SizedBox.shrink();
+                case PageState.loading:
+                  return const FullPageLoadingIndicator();
+                case PageState.failure:
+                  return const FullPageErrorIndicator();
+                case PageState.success:
+                  return state.isCreateView! ? const CreatePasscode() : const VerifyPasscode();
+                default:
+                  return const SizedBox.shrink();
+              }
+            },
+          ),
         ),
       ),
     );

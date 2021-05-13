@@ -15,7 +15,7 @@ class VerificationState extends Equatable {
   final List<AuthType>? authTypesAvailable;
   final AuthType? preferred;
   final bool? authError;
-  final bool? onBiometricAuthorized;
+  final bool? popScreen;
   final bool? showSuccessDialog;
   final String? errorMessage;
 
@@ -30,7 +30,7 @@ class VerificationState extends Equatable {
     this.authTypesAvailable,
     this.preferred,
     this.authError,
-    this.onBiometricAuthorized,
+    this.popScreen,
     this.showSuccessDialog,
     this.errorMessage,
   });
@@ -47,7 +47,7 @@ class VerificationState extends Equatable {
         authTypesAvailable,
         preferred,
         authError,
-        onBiometricAuthorized,
+        popScreen,
         showSuccessDialog,
         errorMessage,
       ];
@@ -63,7 +63,7 @@ class VerificationState extends Equatable {
     List<AuthType>? authTypesAvailable,
     AuthType? preferred,
     bool? authError,
-    bool? onBiometricAuthorized,
+    bool? popScreen,
     bool? showSuccessDialog,
     String? errorMessage,
   }) {
@@ -78,7 +78,7 @@ class VerificationState extends Equatable {
       authTypesAvailable: authTypesAvailable ?? this.authTypesAvailable,
       preferred: preferred ?? this.preferred,
       authError: authError ?? this.authError,
-      onBiometricAuthorized: onBiometricAuthorized ?? this.onBiometricAuthorized,
+      popScreen: popScreen ?? this.popScreen,
       showSuccessDialog: showSuccessDialog ?? this.showSuccessDialog,
       errorMessage: errorMessage ?? this.errorMessage,
     );

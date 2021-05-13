@@ -40,9 +40,10 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         // Biometric auth result
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
-            if (authenticationBloc.state.showResumeAuth) {
+            if (authenticationBloc.state.isOnResumeAuth) {
               // App resume flow
-              authenticationBloc.add(const SuccessResumeAuth());
+              authenticationBloc.add(const SuccessOnResumeAuth());
+              yield state.copyWith(popScreen: true);
             } else {
               // Onboarding flow
               authenticationBloc.add(const UnlockWallet());
@@ -50,7 +51,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
           } else {
             // Security flow: update screen and the fires navigator pop
             securityBloc?.add(const OnValidVerification());
-            yield state.copyWith(onBiometricAuthorized: true);
+            yield state.copyWith(popScreen: true);
           }
         }
       }
@@ -78,9 +79,10 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         }
       } else {
         if (securityBloc == null) {
-          if (authenticationBloc.state.showResumeAuth) {
+          if (authenticationBloc.state.isOnResumeAuth) {
             // App resume flow
-            authenticationBloc.add(const SuccessResumeAuth());
+            authenticationBloc.add(const SuccessOnResumeAuth());
+            yield state.copyWith(popScreen: true);
           } else {
             // Onboarding flow
             authenticationBloc.add(const UnlockWallet());
@@ -102,9 +104,10 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         // Biometric auth result
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
-            if (authenticationBloc.state.showResumeAuth) {
+            if (authenticationBloc.state.isOnResumeAuth) {
               // App resume flow
-              authenticationBloc.add(const SuccessResumeAuth());
+              authenticationBloc.add(const SuccessOnResumeAuth());
+              yield state.copyWith(popScreen: true);
             } else {
               // Onboarding flow
               authenticationBloc.add(const UnlockWallet());
@@ -112,7 +115,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
           } else {
             // Security flow: update screen and the fires navigator pop
             securityBloc?.add(const OnValidVerification());
-            yield state.copyWith(onBiometricAuthorized: true);
+            yield state.copyWith(popScreen: true);
           }
         }
       }
