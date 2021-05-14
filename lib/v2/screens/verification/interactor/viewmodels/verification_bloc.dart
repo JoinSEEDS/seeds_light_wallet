@@ -27,7 +27,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         isCreateView: settingsStorage.passcode == null,
         isCreateMode: settingsStorage.passcode == null,
       );
-      // If It's verification mode and biometric is enabled -> start biomtric
+      // If It's verification mode and biometric is enabled -> start biometric
       if (settingsStorage.passcode != null && settingsStorage.biometricActive!) {
         // Fecht available biometrics
         final authTypesAvailable = await BiometricsAvailablesUseCase().run();
@@ -84,7 +84,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
             authenticationBloc.add(const SuccessOnResumeAuth());
             yield state.copyWith(popScreen: true);
           } else {
-            // Onboarding flow
+            // Onboarding flow: just unlock
             authenticationBloc.add(const UnlockWallet());
           }
         }
