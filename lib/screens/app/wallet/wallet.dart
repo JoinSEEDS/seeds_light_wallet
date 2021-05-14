@@ -9,7 +9,7 @@ class Wallet extends StatelessWidget {
     return Navigator(
       key: NavigationService.of(context).walletNavigatorKey,
       initialRoute: Routes.dashboard,
-      onGenerateRoute: NavigationService.of(context).onGenerateRoute,
+      onGenerateRoute: NavigationService.of(context).onGenerateRoute,11
     );
   }
 }

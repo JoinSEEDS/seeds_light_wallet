@@ -69,7 +69,7 @@ final providers = [
       ..update(
         accountName: settings.accountName,
         nodeEndpoint: settings.nodeEndpoint,
-        enableMockResponse: false,
+        enableMockResponse: true,
       ),
   ),
   ProxyProvider<SettingsNotifier, EosService>(
@@ -79,7 +79,7 @@ final providers = [
         userPrivateKey: settings.privateKey,
         userAccountName: settings.accountName,
         nodeEndpoint: settings.nodeEndpoint,
-        enableMockTransactions: false,
+        enableMockTransactions: true,
       ),
   ),
   ChangeNotifierProxyProvider<HttpService, MembersNotifier>(

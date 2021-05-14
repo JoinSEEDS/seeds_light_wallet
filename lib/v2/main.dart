@@ -36,14 +36,15 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
   print('Caught error: $error');
 }
 
-void main(List<String> args) async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   settingsStorage.initialise();
   await PushNotificationService().initialise();
   await remoteConfigurations.initialise();
   Bloc.observer = SimpleBlocObserver();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
       runApp(const SeedsApp());
     } else {
@@ -100,7 +101,8 @@ class SeedsApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthenticationBloc>(
-          create: (BuildContext context) => AuthenticationBloc()..add(const InitAuthStatus()),
+          create: (BuildContext context) =>
+              AuthenticationBloc()..add(const InitAuthStatus()),
         ),
         BlocProvider<RatesBloc>(create: (BuildContext context) => RatesBloc()),
       ],
@@ -138,7 +140,9 @@ class MainScreen extends StatelessWidget {
             return SeedsMaterialApp(home: const VerificationScreen());
           case AuthStatus.unlocked:
             return ToolboxApp(
-              child: IndexedStack(index: state.showResumeAuth ? 0 : 1, children: state.appScreens),
+              child: IndexedStack(
+                  index: state.showResumeAuth ? 0 : 1,
+                  children: state.appScreens),
             );
           default:
             return SeedsMaterialApp(home: SplashScreen());
