@@ -14,7 +14,7 @@ class SeedsAmountChangeMapper extends StateMapper {
       fiatAmount: rateState.currencyString(parsedQuantity, selectedFiat),
       isPlantSeedsButtonEnabled: parsedQuantity > 0 && parsedQuantity < currentAvailable,
       quantity: parsedQuantity,
-      showToast: parsedQuantity > currentAvailable,
+      showAlert: parsedQuantity > currentAvailable,
     );
   }
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:seeds/v2/components/alert_input_value.dart';
 import 'package:seeds/v2/components/amount_entry_widget.dart';
 import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
@@ -45,69 +45,56 @@ class PlantSeedsScreen extends StatelessWidget {
               case PageState.failure:
                 return const FullPageErrorIndicator();
               case PageState.success:
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Text("Plant amount", style: Theme.of(context).textTheme.headline6),
-                      const SizedBox(height: 16),
-                      AmountEntryWidget(
-                        onValueChange: (value) {
-                          BlocProvider.of<PlantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
-                        },
-                        fiatAmount: state.fiatAmount,
-                        enteringCurrencyName: currencySeedsCode,
-                        autoFocus: state.isAutoFocus,
-                      ),
-                      if (state.showToast)
-                        Column(
+                return Stack(
+                  children: [
+                    SingleChildScrollView(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
+                        child: Column(
                           children: [
-                            const SizedBox(height: 24),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.only(left: 8.0, top: 4.0, right: 8.0, bottom: 4.0),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.darkGreen2,
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Text(
-                                    'The value exceeds your balance',
-                                    style: Theme.of(context).textTheme.subtitle2,
-                                  ),
-                                ),
-                              ],
+                            const SizedBox(height: 16),
+                            Text("Plant amount", style: Theme.of(context).textTheme.headline6),
+                            const SizedBox(height: 16),
+                            AmountEntryWidget(
+                              onValueChange: (value) {
+                                BlocProvider.of<PlantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
+                              },
+                              fiatAmount: state.fiatAmount,
+                              enteringCurrencyName: currencySeedsCode,
+                              autoFocus: state.isAutoFocus,
                             ),
                             const SizedBox(height: 24),
+                            AlertInputValue('The value exceeds your balance', isVisible: state.showAlert),
+                            const SizedBox(height: 24),
+                            BalanceRow(
+                              label: "Available Balance",
+                              fiatAmount: state.availableBalanceFiat ?? '',
+                              seedsAmount: state.availableBalance?.formattedQuantity ?? '',
+                            ),
+                            const DividerJungle(height: 24),
+                            BalanceRow(
+                              label: "Planted Balance",
+                              fiatAmount: state.plantedBalance ?? '',
+                              seedsAmount: state.plantedBalanceFiat ?? '',
+                            ),
                           ],
                         ),
-                      if (!state.showToast) const SizedBox(height: 50),
-                      BalanceRow(
-                        label: "Available Balance",
-                        fiatAmount: state.availableBalanceFiat ?? '',
-                        seedsAmount: state.availableBalance?.formattedQuantity ?? '',
                       ),
-                      const DividerJungle(height: 24),
-                      BalanceRow(
-                        label: "Planted Balance",
-                        fiatAmount: state.plantedBalance ?? '',
-                        seedsAmount: state.plantedBalanceFiat ?? '',
-                      ),
-                      const SizedBox(height: 16),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: FlatButtonLong(
-                            title: 'Plant Seeds',
-                            enabled: state.isPlantSeedsButtonEnabled,
-                            onPressed: () =>
-                                BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
-                          ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FlatButtonLong(
+                          title: 'Plant Seeds',
+                          enabled: state.isPlantSeedsButtonEnabled,
+                          onPressed: () =>
+                              BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               default:
                 return const SizedBox.shrink();

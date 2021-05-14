@@ -15,7 +15,7 @@ class PlantSeedsState extends Equatable {
   final String? plantedBalanceFiat;
   final bool isPlantSeedsButtonEnabled;
   final double quantity;
-  final bool showToast;
+  final bool showAlert;
   final bool showPlantedSuccess;
   final String? errorMessage;
 
@@ -30,7 +30,7 @@ class PlantSeedsState extends Equatable {
     this.plantedBalanceFiat,
     required this.isPlantSeedsButtonEnabled,
     required this.quantity,
-    required this.showToast,
+    required this.showAlert,
     required this.showPlantedSuccess,
     this.errorMessage,
   });
@@ -47,7 +47,7 @@ class PlantSeedsState extends Equatable {
         plantedBalanceFiat,
         isPlantSeedsButtonEnabled,
         quantity,
-        showToast,
+        showAlert,
         showPlantedSuccess,
         errorMessage,
       ];
@@ -63,7 +63,7 @@ class PlantSeedsState extends Equatable {
     String? plantedBalanceFiat,
     bool? isPlantSeedsButtonEnabled,
     double? quantity,
-    bool? showToast,
+    bool? showAlert,
     bool? showPlantedSuccess,
     String? errorMessage,
   }) {
@@ -78,7 +78,7 @@ class PlantSeedsState extends Equatable {
       plantedBalanceFiat: plantedBalanceFiat ?? this.plantedBalanceFiat,
       isPlantSeedsButtonEnabled: isPlantSeedsButtonEnabled ?? this.isPlantSeedsButtonEnabled,
       quantity: quantity ?? this.quantity,
-      showToast: showToast ?? this.showToast,
+      showAlert: showAlert ?? this.showAlert,
       showPlantedSuccess: showPlantedSuccess ?? this.showPlantedSuccess,
       errorMessage: errorMessage ?? this.errorMessage,
     );
@@ -92,7 +92,7 @@ class PlantSeedsState extends Equatable {
       fiatAmount: 0.toString(),
       isPlantSeedsButtonEnabled: false,
       quantity: 0,
-      showToast: false,
+      showAlert: false,
       showPlantedSuccess: false,
     );
   }
