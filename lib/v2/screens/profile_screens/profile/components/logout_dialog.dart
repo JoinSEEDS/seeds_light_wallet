@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
@@ -16,7 +14,6 @@ class LogoutDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backupService = Provider.of<BackupService>(context);
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         return CustomDialog(
@@ -36,10 +33,7 @@ class LogoutDialog extends StatelessWidget {
                   const SizedBox(height: 36.0),
                   FlatButtonLong(
                     title: 'Save private key'.i18n,
-                    onPressed: () {
-                      BlocProvider.of<ProfileBloc>(context).add(const ShowLogoutButton());
-                      backupService.backup();
-                    },
+                    onPressed: () => BlocProvider.of<ProfileBloc>(context).add(const OnSavePrivateKeyButtonPressed()),
                   ),
                   const SizedBox(height: 10.0),
                   if (state.showLogoutButton)

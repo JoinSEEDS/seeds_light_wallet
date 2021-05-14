@@ -29,7 +29,7 @@ import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 enum TransactionType { income, outcome }
@@ -180,7 +180,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void onReceive() async {
-    await NavigationService.of(context).navigateTo(Routes.receive);
+    await NavigationService.of(context).navigateTo(Routes.receiveScreen);
   }
 
   Widget buildNotification() {

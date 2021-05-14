@@ -46,10 +46,22 @@ class OnCurrencyChanged extends ProfileEvent {
   String toString() => 'OnCurrencyChanged';
 }
 
-class ShowLogoutButton extends ProfileEvent {
-  const ShowLogoutButton();
+class OnProfileLogoutButtonPressed extends ProfileEvent {
+  const OnProfileLogoutButtonPressed();
   @override
-  String toString() => 'ShowLogoutButton';
+  String toString() => 'OnProfileLogoutButtonPressed';
+}
+
+class OnSavePrivateKeyButtonPressed extends ProfileEvent {
+  const OnSavePrivateKeyButtonPressed();
+  @override
+  String toString() => 'OnSavePrivateKeyButtonPressed';
+}
+
+class ClearShowLogoutDialog extends ProfileEvent {
+  const ClearShowLogoutDialog();
+  @override
+  String toString() => 'ClearShowLogoutDialog';
 }
 
 class ResetShowLogoutButton extends ProfileEvent {
