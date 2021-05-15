@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/components/guardian_row.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/components/my_guardian_separator_widget.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/guardian_row.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/my_guardian_separator_widget.dart';
 
 class MyGuardiansListWidget extends StatelessWidget {
   final String currentUserId;

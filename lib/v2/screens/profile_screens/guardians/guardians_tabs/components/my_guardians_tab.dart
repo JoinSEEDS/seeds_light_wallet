@@ -5,10 +5,10 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/components/my_guardian_list_widget.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/components/no_guardian_widget.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/interactor/guardians_bloc.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/interactor/viewmodels/guardians_events.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/my_guardian_list_widget.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/no_guardian_widget.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/guardians_bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
 
 class MyGuardiansTab extends StatelessWidget {
   @override
