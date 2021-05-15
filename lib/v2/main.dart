@@ -19,6 +19,7 @@ import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_push_notification_service.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/domain-shared/bloc_observer.dart';
+import 'package:seeds/v2/screens/app/app.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/v2/screens/verification/verification_screen.dart';
@@ -138,7 +139,11 @@ class MainScreen extends StatelessWidget {
             return SeedsMaterialApp(home: const VerificationScreen());
           case AuthStatus.unlocked:
             return ToolboxApp(
-              child: IndexedStack(index: state.showResumeAuth ? 0 : 1, children: state.appScreens),
+              child: SeedsMaterialApp(
+                navigatorKey: navigationService.appNavigatorKey,
+                onGenerateRoute: navigationService.onGenerateRoute,
+                home: const App(),
+              ),
             );
           default:
             return SeedsMaterialApp(home: SplashScreen());

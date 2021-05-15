@@ -57,7 +57,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
             },
           ),
           BlocListener<VerificationBloc, VerificationState>(
-            listenWhen: (_, current) => current.onBiometricAuthorized != null,
+            listenWhen: (_, current) => current.popScreen != null,
             listener: (context, _) => Navigator.of(context).pop(),
           ),
           BlocListener<VerificationBloc, VerificationState>(

@@ -15,16 +15,16 @@ class InitAuthStatus extends AuthenticationEvent {
   String toString() => 'InitAuthStatus';
 }
 
-class InitResumeAuth extends AuthenticationEvent {
-  const InitResumeAuth();
+class InitOnResumeAuth extends AuthenticationEvent {
+  const InitOnResumeAuth();
   @override
-  String toString() => 'InitResumeAuth';
+  String toString() => 'InitOnResumeAuth';
 }
 
-class SuccessResumeAuth extends AuthenticationEvent {
-  const SuccessResumeAuth();
+class SuccessOnResumeAuth extends AuthenticationEvent {
+  const SuccessOnResumeAuth();
   @override
-  String toString() => 'SuccessResumeAuth';
+  String toString() => 'SuccessOnResumeAuth';
 }
 
 class OnImportAccount extends AuthenticationEvent {

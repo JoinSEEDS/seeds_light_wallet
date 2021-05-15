@@ -1,8 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:seeds/v2/main.dart' show SeedsMaterialApp;
-import 'package:seeds/v2/screens/app/app.dart';
-import 'package:seeds/v2/screens/verification/verification_screen.dart';
 
 enum AuthStatus {
   initial,
@@ -16,31 +12,21 @@ enum AuthStatus {
 /// --- STATES
 class AuthenticationState extends Equatable {
   final AuthStatus authStatus;
-  final bool showResumeAuth;
-  final List<Widget> appScreens;
+  final bool isOnResumeAuth;
 
-  const AuthenticationState({
-    required this.authStatus,
-    required this.showResumeAuth,
-    required this.appScreens,
-  });
+  const AuthenticationState({required this.authStatus, required this.isOnResumeAuth});
 
   @override
-  List<Object?> get props => [authStatus, showResumeAuth, appScreens];
+  List<Object?> get props => [authStatus, isOnResumeAuth];
 
-  AuthenticationState copyWith({AuthStatus? authStatus, bool? showResumeAuth, List<Widget>? appScreens}) {
+  AuthenticationState copyWith({AuthStatus? authStatus, bool? isOnResumeAuth}) {
     return AuthenticationState(
       authStatus: authStatus ?? this.authStatus,
-      showResumeAuth: showResumeAuth ?? this.showResumeAuth,
-      appScreens: appScreens ?? this.appScreens,
+      isOnResumeAuth: isOnResumeAuth ?? this.isOnResumeAuth,
     );
   }
 
   factory AuthenticationState.initial() {
-    return AuthenticationState(
-      authStatus: AuthStatus.initial,
-      showResumeAuth: false,
-      appScreens: [SeedsMaterialApp(home: const VerificationScreen()), const App()],
-    );
+    return const AuthenticationState(authStatus: AuthStatus.initial, isOnResumeAuth: false);
   }
 }
