@@ -1,12 +1,17 @@
 /// Response from EOS library when user profile is updated
 class TransactionResponse {
+  String transactionId;
   Processed? processed;
+
+  TransactionResponse({required this.transactionId, this.processed});
 
   Data? get data => processed!.actionTraces[1].act!.data;
 
-  TransactionResponse.fromJson(Map<String, dynamic> json) {
-    processed = json['processed'] != null ? Processed.fromJson(json['processed']) : null;
-  }
+  TransactionResponse.fromJson(Map<String, dynamic> json)
+      : this(
+          transactionId: json['transaction_id'] ?? '',
+          processed: json['processed'] != null ? Processed.fromJson(json['processed']) : null,
+        );
 }
 
 class Processed {
