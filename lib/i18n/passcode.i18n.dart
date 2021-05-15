@@ -8,6 +8,9 @@ extension Localization on String {
           'Re-enter Pincode': 'Re-ingresar código de acceso',
           'Create Pincode': 'Crear código de acceso',
           'Use biometric to unlock': 'Desbloquear con biometrico',
+          'Succesful': 'Completado',
+          'Pincode created successfully.': 'Código de acceso creado satisfactoriamente.',
+          'Close': 'Cerrar'
         }
       };
 
