@@ -29,7 +29,7 @@ import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/guardians_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
