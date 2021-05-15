@@ -75,8 +75,8 @@ class PlantSeedsScreen extends StatelessWidget {
                             const DividerJungle(height: 24),
                             BalanceRow(
                               label: "Planted Balance",
-                              fiatAmount: state.plantedBalance ?? '',
-                              seedsAmount: state.plantedBalanceFiat ?? '',
+                              fiatAmount: state.plantedBalanceFiat ?? '',
+                              seedsAmount: state.plantedBalance ?? '',
                             ),
                           ],
                         ),
