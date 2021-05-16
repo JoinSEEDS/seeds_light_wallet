@@ -23,8 +23,7 @@ class ClaimInviteState extends Equatable {
     return currentState.copyWith(pageState: PageState.loading);
   }
 
-  factory ClaimInviteState.error(
-      ClaimInviteState currentState, String errorMessage) {
+  factory ClaimInviteState.error(ClaimInviteState currentState, String errorMessage) {
     return currentState.copyWith(
       pageState: PageState.failure,
       errorMessage: errorMessage,
@@ -53,13 +52,4 @@ class ClaimInviteState extends Equatable {
         inviteModel,
         inviteMnemonic,
       ];
-
-  @override
-  bool operator ==(Object other) {
-    return other is ClaimInviteState &&
-        pageState == other.pageState &&
-        errorMessage == other.errorMessage &&
-        inviteModel == other.inviteModel &&
-        inviteMnemonic == other.inviteMnemonic;
-  }
 }

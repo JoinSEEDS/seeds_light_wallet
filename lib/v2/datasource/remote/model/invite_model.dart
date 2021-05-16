@@ -41,16 +41,4 @@ class InviteModel extends Equatable {
         inviteHash,
         inviteSecret,
       ];
-
-  @override
-  bool operator ==(Object other) {
-    return other is InviteModel &&
-        inviteId == other.inviteId &&
-        transferQuantity == other.transferQuantity &&
-        sowQuantity == other.sowQuantity &&
-        sponsor == other.sponsor &&
-        account == other.account &&
-        inviteHash == other.inviteHash &&
-        inviteSecret == other.inviteSecret;
-  }
 }

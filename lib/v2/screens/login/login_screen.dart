@@ -34,8 +34,7 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("First time here?",
-                    style: Theme.of(context).textTheme.subtitle2),
+                Text("First time here?", style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(
                   height: 10,
                 ),
@@ -48,8 +47,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                Text("Already have a Seeds Account?",
-                    style: Theme.of(context).textTheme.subtitle2),
+                Text("Already have a Seeds Account?", style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(
                   height: 10,
                 ),
@@ -69,14 +67,10 @@ class LoginScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Lost your key?".i18n,
-                  style: Theme.of(context).textTheme.subtitle2),
+              Text("Lost your key?".i18n, style: Theme.of(context).textTheme.subtitle2),
               GestureDetector(
-                  onTap: () {},
-                  child: Text(" Recover ".i18n,
-                      style: Theme.of(context).textTheme.subtitle2)),
-              Text("your account here".i18n,
-                  style: Theme.of(context).textTheme.subtitle2),
+                  onTap: () {}, child: Text(" Recover ".i18n, style: Theme.of(context).textTheme.subtitle2)),
+              Text("your account here".i18n, style: Theme.of(context).textTheme.subtitle2),
             ],
           ),
           const SizedBox(

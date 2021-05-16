@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/claim_code.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/v2/blocs/signup/viewmodels/signup_bloc.dart';
 import 'package:seeds/v2/blocs/signup/viewmodels/states/claim_invite_state.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/scanner/scanner_widget.dart';
+import 'package:seeds/v2/components/tristate_clipboard_icon_button.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
+import 'package:seeds/v2/utils/helpers.dart';
 
-class SignUpScreen extends StatefulWidget {
+class ClaimInviteScreen extends StatefulWidget {
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  _ClaimInviteScreenState createState() => _ClaimInviteScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
   late SignupBloc _signupBloc;
   late ClaimInviteState _currentState;
   final _keyController = TextEditingController();
@@ -33,40 +36,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          'Scan QR Code',
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+      ),
       body: BlocListener<SignupBloc, SignupState>(
-        listenWhen: (previousState, currentState) =>
-            previousState != currentState,
+        listenWhen: (previousState, currentState) => previousState != currentState,
         listener: (context, state) {
           _currentState = state.claimInviteState;
 
-          if (_currentState.pageState == PageState.success &&
-              _currentState.inviteMnemonic != null &&
-              _currentState.inviteMnemonic!.isNotEmpty) {
+          if (_currentState.pageState == PageState.success && !_currentState.inviteMnemonic.isNullOrEmpty) {
             _keyController.text = _currentState.inviteMnemonic!;
           }
         },
         child: BlocBuilder<SignupBloc, SignupState>(
+          buildWhen: (previousState, currentState) => previousState != currentState,
           builder: (context, state) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 30),
-                    child: Text(
-                      'Scan QR Code',
-                      style: Theme.of(context).textTheme.subtitle1,
+            return LayoutBuilder(
+              builder: (context, constraint) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Expanded(child: ScannerWidget(resultCallBack: _onQRScanned)),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        _buildBottomContainer(context),
+                      ],
                     ),
                   ),
-                  ScannerWidget(resultCallBack: _onQRScanned),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  _buildBottomContainer(context),
-                ],
+                ),
               ),
             );
           },
@@ -102,10 +107,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               onChanged: _onInviteCodeChanged,
               decoration: InputDecoration(
                 hintText: 'Invite code (5 words)'.i18n,
-                hintStyle: Theme.of(context).accentTextTheme.bodyText1,
-                errorText: _currentState.pageState == PageState.failure
-                    ? _currentState.errorMessage
-                    : null,
+                hintStyle: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                errorText: _currentState.pageState == PageState.failure ? _currentState.errorMessage : null,
                 suffixIcon: _inviteCodeSuffixIcon,
                 enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -142,25 +145,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget get _inviteCodeSuffixIcon {
-    return _currentState.pageState == PageState.success &&
-            _currentState.inviteModel != null
-        ? const Icon(
-            Icons.check_circle,
-            color: AppColors.green,
-          )
-        : IconButton(
-            icon: const Icon(
-              Icons.paste,
-              color: AppColors.grey,
-            ),
-            onPressed: () async {
-              var clipboardData = await Clipboard.getData('text/plain');
-              var clipboardText = clipboardData?.text ?? '';
-              setState(() {
-                _keyController.text = clipboardText;
-              });
-            },
-          );
+    final bool isChecked = _currentState.pageState == PageState.success && _currentState.inviteModel != null;
+    final bool canClear = !isChecked && _keyController.text.isNotEmpty;
+
+    return TriStateClipboardIconButton(
+      onClear: () {
+        setState(() {
+          _keyController.text = '';
+        });
+      },
+      onPaste: () async {
+        final clipboardText = await getClipboardData();
+        setState(() {
+          _keyController.text = clipboardText;
+        });
+      },
+      isChecked: isChecked,
+      canClear: canClear,
+    );
   }
 
   void _onInviteCodeChanged(String value) {
@@ -172,6 +174,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onQRScanned(String scannedLink) {
+    print('scanned link: $scannedLink');
+    // TODO: this is getting called so many times!
     _signupBloc.add(UnpackScannedLink(scannedLink));
   }
 
@@ -185,6 +189,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             FocusScope.of(context).unfocus();
             NavigationService.of(context).navigateTo(Routes.displayName);
           }
-        : null;
+        : () {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                'Please enter a valid invite code',
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
+              backgroundColor: AppColors.red1,
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            ));
+          };
   }
 }

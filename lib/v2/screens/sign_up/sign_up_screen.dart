@@ -5,7 +5,7 @@ import 'package:seeds/v2/blocs/signup/viewmodels/signup_bloc.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite_screen.dart';
 
-class SignUpFlowScreen extends StatelessWidget {
+class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -14,7 +14,7 @@ class SignUpFlowScreen extends StatelessWidget {
           signupRepository: SignupRepository(),
         ),
       ),
-      child: SignUpScreen(),
+      child: ClaimInviteScreen(),
     );
   }
 }

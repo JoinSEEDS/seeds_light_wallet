@@ -86,16 +86,13 @@ class Routes {
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> onboardingNavigatorKey =
-      GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> onboardingNavigatorKey = GlobalKey<NavigatorState>();
 
   final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> walletNavigatorKey =
-      GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> walletNavigatorKey = GlobalKey<NavigatorState>();
 
-  final GlobalKey<NavigatorState> ecosystemNavigatorKey =
-      GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> ecosystemNavigatorKey = GlobalKey<NavigatorState>();
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
@@ -106,7 +103,7 @@ class NavigationService {
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
-    Routes.signUp: (_) => SignUpFlowScreen(),
+    Routes.signUp: (_) => SignUpScreen(),
     Routes.displayName: (_) => DisplayName(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),
@@ -161,8 +158,7 @@ class NavigationService {
     streamRouteListener = listener;
   }
 
-  Future<dynamic> navigateTo(String routeName,
-      [Object? arguments, bool replace = false]) async {
+  Future<dynamic> navigateTo(String routeName, [Object? arguments, bool replace = false]) async {
     late var navigatorKey;
 
     if (streamRouteListener != null) {
@@ -184,11 +180,9 @@ class NavigationService {
     }
 
     if (replace) {
-      return navigatorKey.currentState
-          .pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorKey.currentState
-          .pushNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
     }
   }
 
@@ -233,9 +227,7 @@ class NavigationService {
       if (route.settings.name == '/' && name != '/') {
         print('pop error: Route name not found: ' + name);
       }
-      return !route.willHandlePopInternally &&
-              route is ModalRoute &&
-              route.settings.name == name ||
+      return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
           route.settings.name == '/';
     };
   }

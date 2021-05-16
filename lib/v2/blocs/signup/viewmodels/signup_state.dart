@@ -5,8 +5,7 @@ class SignupState extends Equatable {
 
   final ClaimInviteState claimInviteState;
 
-  factory SignupState.initial() =>
-      SignupState(claimInviteState: ClaimInviteState.initial());
+  factory SignupState.initial() => SignupState(claimInviteState: ClaimInviteState.initial());
 
   SignupState copyWith({
     ClaimInviteState? claimInviteState,
