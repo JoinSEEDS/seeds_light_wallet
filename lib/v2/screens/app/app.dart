@@ -5,12 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/notification_badge.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 
 class App extends StatefulWidget {
   const App();
@@ -44,6 +46,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     ),
   ];
   final PageController _pageController = PageController(initialPage: 0, keepPage: true);
+  late GlobalKey<NavigatorState> _navigatorKey;
 
   @override
   void initState() {
@@ -57,10 +60,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case AppLifecycleState.inactive:
         break;
       case AppLifecycleState.paused:
+        // Enable the flag that indicates is in OnResumeAuth
+        BlocProvider.of<AuthenticationBloc>(context).add(const InitOnResumeAuth());
+        // Navigate to verification screen (verify mode) on app resume
+        Navigator.of(_navigatorKey.currentContext!).pushNamedIfNotCurrent(Routes.verification);
         break;
       case AppLifecycleState.resumed:
-        // Fires again auth on app resume
-        BlocProvider.of<AuthenticationBloc>(context).add(const InitAuthStatus());
         Provider.of<ConnectionNotifier>(context, listen: false).discoverEndpoints();
         break;
       case AppLifecycleState.detached:
@@ -71,11 +76,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance?.removeObserver(this);
+    _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    _navigatorKey = NavigationService.of(context).appNavigatorKey;
     return BlocProvider(
       create: (context) => AppBloc(),
       child: BlocListener<AppBloc, AppState>(
@@ -94,8 +101,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 child: BottomNavigationBar(
                   currentIndex: state.index,
                   onTap: (index) => BlocProvider.of<AppBloc>(context).add(BottomBarTapped(index: index)),
-                  selectedLabelStyle: Theme.of(context).textTheme.caption,
-                  unselectedLabelStyle: Theme.of(context).textTheme.caption,
+                  selectedLabelStyle: Theme.of(context).textTheme.subtitle3,
+                  unselectedLabelStyle: Theme.of(context).textTheme.subtitle3,
+                  selectedItemColor: AppColors.white,
                   items: [
                     for (var i in _appScreenItems)
                       BottomNavigationBarItem(
@@ -118,5 +126,25 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         ),
       ),
     );
+  }
+}
+
+extension NavigatorStateExtension on NavigatorState {
+  /// Navigate only if the new route is not the same as the current one
+  void pushNamedIfNotCurrent(String routeName, {Object? arguments}) {
+    if (!isCurrent(routeName)) {
+      pushNamed(routeName, arguments: arguments);
+    }
+  }
+
+  bool isCurrent(String routeName) {
+    bool isCurrent = false;
+    popUntil((route) {
+      if (route.settings.name == routeName) {
+        isCurrent = true;
+      }
+      return true;
+    });
+    return isCurrent;
   }
 }

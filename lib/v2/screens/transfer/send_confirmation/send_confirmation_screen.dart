@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
@@ -22,7 +22,8 @@ class SendConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SendConfirmationArguments arguments = ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
+    final SendConfirmationArguments arguments =
+        ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
 
     return BlocProvider(
       create: (context) => SendConfirmationBloc(arguments)..add(InitSendConfirmationWithArguments()),
@@ -43,6 +44,11 @@ class SendConfirmationScreen extends StatelessWidget {
                 context: context,
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
+                    onCloseButtonPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                    currency: pageCommand.currency,
                     amount: pageCommand.amount,
                     fiatAmount: pageCommand.fiatAmount,
                     fromAccount: pageCommand.fromAccount,

@@ -5,7 +5,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/onboarding/components/pages/onboarding_page_1.dart';
 import 'package:seeds/v2/screens/onboarding/components/pages/onboarding_page_2.dart';
 import 'components/pages/onboarding_page_3.dart';

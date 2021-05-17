@@ -1,11 +1,12 @@
 import 'package:async/async.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 
 export 'package:async/src/result/result.dart';
 
 class SendTransactionRepository extends EosRepository {
-  Future<Result> sendTransaction(String? name, String? account, Map<String, dynamic>? data, String accountName) async {
+  Future<Result> sendTransaction(String? name, String account, Map<String, dynamic> data, String accountName) async {
     print('[eos] sendTransaction');
 
     var actions = [

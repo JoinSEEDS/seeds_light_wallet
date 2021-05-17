@@ -21,7 +21,7 @@ import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/providers/services/permission_service.dart';
 
 // Connection => Settings => Auth => Http => Members

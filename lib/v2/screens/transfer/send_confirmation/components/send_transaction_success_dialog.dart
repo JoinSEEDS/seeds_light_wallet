@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
+  final String currency;
   final String? fiatAmount;
   final String? toImage;
   final String? toName;
@@ -17,19 +18,22 @@ class SendTransactionSuccessDialog extends StatelessWidget {
   final String? fromName;
   final String fromAccount;
   final String transactionID;
+  final VoidCallback onCloseButtonPressed;
 
-  const SendTransactionSuccessDialog(
-      {Key? key,
-      required this.amount,
-      this.fiatAmount,
-      this.toImage,
-      this.toName,
-      required this.toAccount,
-      this.fromImage,
-      this.fromName,
-      required this.fromAccount,
-      required this.transactionID})
-      : super(key: key);
+  const SendTransactionSuccessDialog({
+    Key? key,
+    required this.amount,
+    required this.currency,
+    this.fiatAmount,
+    this.toImage,
+    this.toName,
+    required this.toAccount,
+    this.fromImage,
+    this.fromName,
+    required this.fromAccount,
+    required this.transactionID,
+    required this.onCloseButtonPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +42,10 @@ class SendTransactionSuccessDialog extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(amount.split(' ')[0], style: Theme.of(context).textTheme.headline4Black),
+            Text(amount, style: Theme.of(context).textTheme.headline4Black),
             Padding(
               padding: const EdgeInsets.only(top: 12, left: 4),
-              child: Text(amount.split(' ')[1], style: Theme.of(context).textTheme.subtitle2Black),
+              child: Text(currency, style: Theme.of(context).textTheme.subtitle2Black),
             ),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
@@ -103,10 +107,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
           ],
         ),
       ],
-      onSingleLargeButtonPressed: () {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-      },
+      onSingleLargeButtonPressed: onCloseButtonPressed,
       singleLargeButtonTitle: 'Close',
     );
   }

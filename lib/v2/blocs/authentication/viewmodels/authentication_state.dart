@@ -11,18 +11,22 @@ enum AuthStatus {
 
 /// --- STATES
 class AuthenticationState extends Equatable {
-  final AuthStatus? authStatus;
+  final AuthStatus authStatus;
+  final bool isOnResumeAuth;
 
-  const AuthenticationState({this.authStatus});
+  const AuthenticationState({required this.authStatus, required this.isOnResumeAuth});
 
   @override
-  List<Object?> get props => [authStatus];
+  List<Object?> get props => [authStatus, isOnResumeAuth];
 
-  AuthenticationState copyWith({AuthStatus? authStatus}) {
-    return AuthenticationState(authStatus: authStatus ?? this.authStatus);
+  AuthenticationState copyWith({AuthStatus? authStatus, bool? isOnResumeAuth}) {
+    return AuthenticationState(
+      authStatus: authStatus ?? this.authStatus,
+      isOnResumeAuth: isOnResumeAuth ?? this.isOnResumeAuth,
+    );
   }
 
   factory AuthenticationState.initial() {
-    return const AuthenticationState(authStatus: AuthStatus.initial);
+    return const AuthenticationState(authStatus: AuthStatus.initial, isOnResumeAuth: false);
   }
 }

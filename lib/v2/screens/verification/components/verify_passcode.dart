@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
-import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/passcode.i18n.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/verification/components/passcode_created_dialog.dart';
 
 class VerifyPasscode extends StatefulWidget {
   const VerifyPasscode({Key? key}) : super(key: key);
@@ -36,28 +35,12 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
-                builder: (_) => CustomDialog(
-                  icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-                  children: [
-                    Text(
-                      'Succesful'.i18n,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    const SizedBox(height: 30.0),
-                    Text(
-                      'Pincode created successfully.'.i18n,
-                      textAlign: TextAlign.justify,
-                      style: Theme.of(context).textTheme.subtitle2,
-                    ),
-                    const SizedBox(height: 30.0),
-                  ],
-                  singleLargeButtonTitle: 'Close'.i18n,
-                ),
+                builder: (_) => const PasscodeCreatedDialog(),
               );
             },
           ),
           BlocListener<VerificationBloc, VerificationState>(
-            listenWhen: (_, current) => current.onBiometricAuthorized != null,
+            listenWhen: (_, current) => current.popScreen != null,
             listener: (context, _) => Navigator.of(context).pop(),
           ),
           BlocListener<VerificationBloc, VerificationState>(

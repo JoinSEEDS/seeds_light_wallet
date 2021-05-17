@@ -3,15 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/i18n/security.i18n.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
-import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/notification_badge.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/profile_screens/security/components/security_card.dart';
+import 'package:seeds/v2/screens/profile_screens/security/components/biometric_enabled_dialog.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
 import 'package:share/share.dart';
 
@@ -34,10 +34,8 @@ class SecurityScreen extends StatelessWidget {
             BlocListener<SecurityBloc, SecurityState>(
               listenWhen: (_, current) => current.navigateToVerification != null,
               listener: (context, _) {
-                NavigationService.of(context).navigateTo(
-                  Routes.verification,
-                  BlocProvider.of<SecurityBloc>(context),
-                );
+                BlocProvider.of<SecurityBloc>(context).add(const ResetNavigateToVerification());
+                NavigationService.of(context).navigateTo(Routes.verification, BlocProvider.of<SecurityBloc>(context));
               },
             ),
             BlocListener<SecurityBloc, SecurityState>(
@@ -47,23 +45,7 @@ class SecurityScreen extends StatelessWidget {
                 showDialog<void>(
                   context: context,
                   barrierDismissible: false,
-                  builder: (_) => CustomDialog(
-                    icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
-                    children: [
-                      Text(
-                        'Touch ID/ Face ID'.i18n,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      const SizedBox(height: 16.0),
-                      Text(
-                        'When Touch ID/Face ID has been set up, any biometric saved in your device will be able to login into the Seeds Light Wallet. You will not be able to use this feature for transactions.'
-                            .i18n,
-                        textAlign: TextAlign.justify,
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ],
-                    singleLargeButtonTitle: 'Got it, thanks!'.i18n,
-                  ),
+                  builder: (_) => const BiometricEnabledDialog(),
                 );
               },
             ),
@@ -101,7 +83,7 @@ class SecurityScreen extends StatelessWidget {
                                         .i18n,
                                 onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
                               ),
-                              if (state.hasNotification!) const Positioned(left: 4, top: 10, child: NotificationBadge())
+                              if (state.hasNotification) const Positioned(left: 4, top: 10, child: NotificationBadge())
                             ],
                           );
                         },

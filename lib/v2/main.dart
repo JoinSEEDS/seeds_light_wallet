@@ -9,10 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/providers/providers.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/v2/screens/app/app.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
@@ -20,6 +19,7 @@ import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_push_notification_service.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/domain-shared/bloc_observer.dart';
+import 'package:seeds/v2/screens/app/app.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/v2/screens/verification/verification_screen.dart';
@@ -140,9 +140,9 @@ class MainScreen extends StatelessWidget {
           case AuthStatus.unlocked:
             return ToolboxApp(
               child: SeedsMaterialApp(
-                home: const App(),
                 navigatorKey: navigationService.appNavigatorKey,
                 onGenerateRoute: navigationService.onGenerateRoute,
+                home: const App(),
               ),
             );
           default:

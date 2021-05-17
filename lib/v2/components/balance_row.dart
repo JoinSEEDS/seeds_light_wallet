@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 /// Available Amount
 ///
@@ -32,7 +32,7 @@ class BalanceRow extends StatelessWidget {
             Expanded(
                 child: Container(
                     alignment: Alignment.centerRight,
-                    child: Text(seedsAmount, style: Theme.of(context).textTheme.subtitle2)))
+                    child: Text(seedsAmount, style: Theme.of(context).textTheme.subtitle1)))
           ],
         ),
         Padding(

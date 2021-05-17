@@ -1,27 +1,25 @@
-import 'package:equatable/equatable.dart';
 import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
-class BalanceModel extends Equatable {
-  final String quantity;
-  final double numericQuantity;
+/// The available balance of seeds
+class BalanceModel {
+  /// Seeds available
+  final double quantity;
 
-  String get formattedQuantity => numericQuantity.seedsFormatted! + ' SEEDS';
-  String get roundedQuantity => numericQuantity.seedsFormatted.toString();
+  const BalanceModel(this.quantity);
 
-  BalanceModel(this.quantity) : numericQuantity = _parseQuantityString(quantity);
+  /// Returns the rounded amount in seeds with its symbol
+  String get formattedQuantity => '${quantity.seedsFormatted} $currencySeedsCode';
 
-  @override
-  List<Object?> get props => [quantity, numericQuantity];
+  /// Returns the rounded amount in seeds
+  String get roundedQuantity => '${quantity.seedsFormatted}';
 
-  factory BalanceModel.fromJson(List<dynamic> json) {
-    if (json.isNotEmpty) {
-      return BalanceModel(json[0] as String);
+  factory BalanceModel.fromJson(List<dynamic>? json) {
+    if (json != null && json[0].isNotEmpty) {
+      var amount = double.parse((json[0] as String).split(' ')[0]);
+      return BalanceModel(amount);
     } else {
-      return BalanceModel("0");
+      return const BalanceModel(0);
     }
-  }
-
-  static double _parseQuantityString(String quantityString) {
-    return double.parse(quantityString.split(' ')[0]);
   }
 }

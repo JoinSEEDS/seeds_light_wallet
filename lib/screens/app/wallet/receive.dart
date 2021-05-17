@@ -10,7 +10,7 @@ import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/products_catalog.dart';
 import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/widgets/main_button.dart';

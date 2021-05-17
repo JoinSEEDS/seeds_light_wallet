@@ -12,7 +12,7 @@ class AvailableBalance extends StatelessWidget {
 
     return Consumer<BalanceNotifier>(
       builder: (ctx, model, child) {
-        var quantity = (model.balance?.quantity.seedsFormatted ?? '0.00') + ' SEEDS';
+        var quantity = model.balance?.formattedQuantity;
 
         return Container(
           width: width,

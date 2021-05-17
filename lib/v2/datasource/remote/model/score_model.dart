@@ -1,16 +1,16 @@
 class ScoreModel {
-  final int? plantedScore;
-  final int? transactionsScore;
-  final int? reputationScore;
-  final int? communityBuildingScore;
-  final int? contributionScore;
+  final int plantedScore;
+  final int transactionsScore;
+  final int reputationScore;
+  final int communityBuildingScore;
+  final int contributionScore;
 
   ScoreModel({
-    this.plantedScore,
-    this.transactionsScore,
-    this.reputationScore,
-    this.communityBuildingScore,
-    this.contributionScore,
+    required this.plantedScore,
+    required this.transactionsScore,
+    required this.reputationScore,
+    required this.communityBuildingScore,
+    required this.contributionScore,
   });
 
   factory ScoreModel.fromJson(Map<String, dynamic> json) {
