@@ -8,11 +8,11 @@ class BalanceModel {
 
   const BalanceModel(this.quantity);
 
-  /// Returns the amount in seeds with its symbol
-  String get formattedQuantity => '${quantity.seedsFormatted!} $currencySeedsCode';
+  /// Returns the rounded amount in seeds with its symbol
+  String get formattedQuantity => '${quantity.seedsFormatted} $currencySeedsCode';
 
   /// Returns the rounded amount in seeds
-  String get roundedQuantity => quantity.seedsFormatted.toString();
+  String get roundedQuantity => '${quantity.seedsFormatted}';
 
   factory BalanceModel.fromJson(List<dynamic>? json) {
     if (json != null && json[0].isNotEmpty) {

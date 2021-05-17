@@ -8,8 +8,11 @@ class PlantedModel {
 
   const PlantedModel(this.quantity);
 
-  /// Returns the amount in seeds with its symbol
-  String get formattedQuantity => '${quantity.seedsFormatted!} $currencySeedsCode';
+  /// Returns the rounded amount in seeds with its symbol
+  String get formattedQuantity => '${quantity.seedsFormatted} $currencySeedsCode';
+
+  /// Returns the rounded amount in seeds
+  String get roundedQuantity => '${quantity.seedsFormatted}';
 
   factory PlantedModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {

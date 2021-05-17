@@ -67,7 +67,7 @@ class ExploreScreen extends StatelessWidget {
                                 );
                               },
                               title: 'Plant',
-                              amount: '${state.plantedSeeds?.quantity}',
+                              amount: state.plantedSeeds?.roundedQuantity,
                               isErrorState: state.plantedSeeds == null,
                               icon: SvgPicture.asset('assets/images/explore/plant_seed.svg'),
                               amountLabel: 'Planted Seeds',
