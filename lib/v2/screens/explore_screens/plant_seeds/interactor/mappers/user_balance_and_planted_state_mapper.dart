@@ -24,7 +24,7 @@ class UserBalanceAndPlantedStateMapper extends StateMapper {
         pageState: PageState.success,
         fiatAmount: rateState.currencyString(0, selectedFiat),
         availableBalance: balance,
-        availableBalanceFiat: rateState.currencyString(balance?.numericQuantity ?? 0, selectedFiat),
+        availableBalanceFiat: rateState.currencyString(balance?.quantity ?? 0, selectedFiat),
         plantedBalance: plantedSeeds?.formattedQuantity,
         plantedBalanceFiat: rateState.currencyString(plantedSeeds?.quantity ?? 0, selectedFiat),
       );

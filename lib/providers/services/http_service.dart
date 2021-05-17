@@ -29,13 +29,14 @@ class HttpService {
   static HttpService of(BuildContext context, {bool listen = false}) => Provider.of(context, listen: listen);
 
   Future<List<dynamic>> getTableRows(
-      {required String code, required String scope, required String table,
+      {required String code,
+      required String scope,
+      required String table,
       String? value,
       String keyType = "i64",
       int indexPosition = 1,
       int limit = 1,
-      bool reverse = false
-      }) async {
+      bool reverse = false}) async {
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
     String request = value == null
@@ -65,8 +66,7 @@ class HttpService {
         return HttpMockResponse.userRecoversClaimReady;
       }
 
-      var rows =
-          await getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'recovers');
+      var rows = await getTableRows(code: 'guard.seeds', scope: 'guard.seeds', table: 'recovers');
 
       final recovery = UserRecoversModel.fromTableRows(rows);
 
@@ -438,7 +438,7 @@ class HttpService {
     } else {
       print('Cannot fetch balance...');
 
-      return BalanceModel('0.0000 SEEDS');
+      return BalanceModel(0);
     }
   }
 
@@ -502,12 +502,12 @@ class HttpService {
       if (body != null && body.isNotEmpty) {
         return BalanceModel.fromJson(body);
       } else {
-        return BalanceModel('0.0000 TLOS');
+        return BalanceModel(0);
       }
     } else {
       print('Cannot fetch balance...');
 
-      return BalanceModel('0.0000 TLOS');
+      return BalanceModel(0);
     }
   }
 
@@ -844,28 +844,21 @@ class HttpService {
     }
   }
 
-
   Future<List<String>> getReferredAccounts({String? username, limit = 100}) async {
     username = username ?? userAccount;
     var result = await getTableRows(
-      code: "accts.seeds",
-      scope: "accts.seeds",
-      table: "refs",
-      value: username,
-      keyType: "name",
-      indexPosition: 2,
-      limit: limit
-    );
+        code: "accts.seeds",
+        scope: "accts.seeds",
+        table: "refs",
+        value: username,
+        keyType: "name",
+        indexPosition: 2,
+        limit: limit);
     return List<String>.of(result.map((e) => e["invited"]));
   }
 
   Future<bool> isResidentOrCitizen(String username) async {
-    var result = await getTableRows(
-      code: "accts.seeds",
-      scope: "accts.seeds",
-      table: "users",
-      value: username
-    );
+    var result = await getTableRows(code: "accts.seeds", scope: "accts.seeds", table: "users", value: username);
     return result.length > 0 ? (result[0]["status"] == "resident" || result[0]["status"] == "citizen") : false;
   }
 }
