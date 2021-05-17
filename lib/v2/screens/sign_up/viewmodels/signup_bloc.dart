@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:seeds/v2/blocs/signup/usecases/claim_invite_usecase.dart';
-import 'package:seeds/v2/blocs/signup/viewmodels/states/claim_invite_state.dart';
+import 'package:seeds/v2/screens/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
+import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 
 part 'signup_event.dart';
 part 'signup_state.dart';

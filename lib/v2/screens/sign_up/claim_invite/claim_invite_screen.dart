@@ -4,13 +4,13 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/claim_code.i18n.dart';
 import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/string_extension.dart';
-import 'package:seeds/v2/blocs/signup/viewmodels/signup_bloc.dart';
-import 'package:seeds/v2/blocs/signup/viewmodels/states/claim_invite_state.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/scanner/scanner_widget.dart';
 import 'package:seeds/v2/components/tristate_clipboard_icon_button.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
 import 'package:seeds/v2/utils/helpers.dart';
 
