@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/i18n/plant_seeds.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_bloc.dart';
 
 class PlantSeedsSuccessDialog extends StatelessWidget {
@@ -34,12 +35,12 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
         ),
         const SizedBox(height: 30.0),
         Text(
-          'Congratulations\nYour seeds were planted successfully!',
+          'Congratulations\nYour seeds were planted successfully!'.i18n,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.buttonBlack,
         ),
       ],
-      singleLargeButtonTitle: 'Close',
+      singleLargeButtonTitle: 'Close'.i18n,
       onSingleLargeButtonPressed: () {
         Navigator.of(context).pop();
         Navigator.of(context).pop();

@@ -10,6 +10,7 @@ import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/i18n/plant_seeds.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/viewmodels/bloc.dart';
@@ -23,7 +24,7 @@ class PlantSeedsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => PlantSeedsBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
-        appBar: AppBar(title: Text('Plant', style: Theme.of(context).textTheme.headline6)),
+        appBar: AppBar(title: Text('Plant'.i18n, style: Theme.of(context).textTheme.headline6)),
         body: BlocConsumer<PlantSeedsBloc, PlantSeedsState>(
           listenWhen: (_, current) => current.showPlantedSuccess,
           listener: (context, state) {
@@ -57,7 +58,7 @@ class PlantSeedsScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             const SizedBox(height: 16),
-                            Text("Plant amount", style: Theme.of(context).textTheme.headline6),
+                            Text('Plant amount'.i18n, style: Theme.of(context).textTheme.headline6),
                             const SizedBox(height: 16),
                             AmountEntryWidget(
                               onValueChange: (value) {
@@ -68,16 +69,16 @@ class PlantSeedsScreen extends StatelessWidget {
                               autoFocus: state.isAutoFocus,
                             ),
                             const SizedBox(height: 24),
-                            AlertInputValue('The value exceeds your balance', isVisible: state.showAlert),
+                            AlertInputValue('The value exceeds your balance'.i18n, isVisible: state.showAlert),
                             const SizedBox(height: 24),
                             BalanceRow(
-                              label: "Available Balance",
+                              label: 'Available Balance'.i18n,
                               fiatAmount: state.availableBalanceFiat ?? '',
                               seedsAmount: state.availableBalance?.formattedQuantity ?? '',
                             ),
                             const DividerJungle(height: 24),
                             BalanceRow(
-                              label: "Planted Balance",
+                              label: 'Planted Balance'.i18n,
                               fiatAmount: state.plantedBalanceFiat ?? '',
                               seedsAmount: state.plantedBalance ?? '',
                             ),
@@ -90,7 +91,7 @@ class PlantSeedsScreen extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: FlatButtonLong(
-                          title: 'Plant Seeds',
+                          title: 'Plant Seeds'.i18n,
                           enabled: state.isPlantSeedsButtonEnabled,
                           onPressed: () =>
                               BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
