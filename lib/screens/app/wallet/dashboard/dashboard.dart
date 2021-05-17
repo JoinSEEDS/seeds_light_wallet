@@ -191,7 +191,7 @@ class _DashboardState extends State<Dashboard> {
 
     if (backupService.showReminder) {
       return Consumer<BalanceNotifier>(builder: (context, model, child) {
-        if (model.balance != null && model.balance!.numericQuantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
+        if (model.balance != null && model.balance!.quantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
           return Container(
             width: width,
             child: MainCard(

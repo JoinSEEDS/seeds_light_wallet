@@ -43,7 +43,7 @@ class ExploreScreen extends StatelessWidget {
                       child: ExploreInfoCard(
                         onTap: () {},
                         title: 'Invite',
-                        amount: state.availableSeeds,
+                        amount: state.availableSeeds?.roundedQuantity,
                         isErrorState: state.availableSeeds == null,
                         icon: SvgPicture.asset(
                           'assets/images/explore/person_send_invite.svg',
@@ -60,9 +60,14 @@ class ExploreScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ExploreInfoCard(
-                              onTap: () => NavigationService.of(context).navigateTo(Routes.plantSeeds),
+                              onTap: () {
+                                NavigationService.of(context).navigateTo(
+                                  Routes.plantSeeds,
+                                  BlocProvider.of<ExploreBloc>(context),
+                                );
+                              },
                               title: 'Plant',
-                              amount: state.plantedSeeds,
+                              amount: state.plantedSeeds?.roundedQuantity,
                               isErrorState: state.plantedSeeds == null,
                               icon: SvgPicture.asset('assets/images/explore/plant_seed.svg'),
                               amountLabel: 'Planted Seeds',

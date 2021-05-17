@@ -14,3 +14,10 @@ class LoadExploreData extends ExploreEvent {
   @override
   String toString() => 'LoadExploreData';
 }
+
+class OnPlantedSeedsValueUpdate extends ExploreEvent {
+  final double plantedSeeds;
+  const OnPlantedSeedsValueUpdate({required this.plantedSeeds});
+  @override
+  String toString() => 'OnPlantedSeedsValueUpdate { plantedSeeds: $plantedSeeds }';
+}
