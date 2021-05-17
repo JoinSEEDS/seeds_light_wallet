@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_events.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_state.dart';
 
 /// --- BLOC:thi
 class SelectGuardiansBloc extends Bloc<SelectGuardiansEvent, SelectGuardiansState> {
-  SelectGuardiansBloc() : super(SelectGuardiansState.initial());
+  SelectGuardiansBloc(List<GuardianModel> myGuardians) : super(SelectGuardiansState.initial(myGuardians));
 
   @override
   Stream<SelectGuardiansState> mapEventToState(SelectGuardiansEvent event) async* {

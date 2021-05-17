@@ -10,24 +10,20 @@ import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/inter
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_events.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_state.dart';
 
-const _MAX_GUARDIANS_ALLOWED = 5;
-
 /// SelectGuardiansScreen SCREEN
 class SelectGuardiansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var myGuardians = ModalRoute.of(context)?.settings.arguments as List<GuardianModel>?;
-    int selectedGuardiansCount = myGuardians?.length ?? 0;
 
     return BlocProvider(
-        create: (context) => SelectGuardiansBloc(),
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text("Select up to ${_MAX_GUARDIANS_ALLOWED - selectedGuardiansCount} Guardians to invite",
-                  style: Theme.of(context).textTheme.headline7),
-            ),
-            body: BlocBuilder<SelectGuardiansBloc, SelectGuardiansState>(builder: (context, state) {
-              return Column(
+        create: (context) => SelectGuardiansBloc(myGuardians ?? []),
+        child: BlocBuilder<SelectGuardiansBloc, SelectGuardiansState>(builder: (context, state) {
+          return Scaffold(
+              appBar: AppBar(
+                title: Text(state.pageTitle, style: Theme.of(context).textTheme.headline7),
+              ),
+              body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -79,7 +75,7 @@ class SelectGuardiansScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              );
-            })));
+              ));
+        }));
   }
 }

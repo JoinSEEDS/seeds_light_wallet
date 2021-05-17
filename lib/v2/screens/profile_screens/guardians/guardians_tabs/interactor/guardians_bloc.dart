@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_status.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/mappers/init_guardians_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_usecase.dart';
@@ -45,6 +47,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       }
     } else if (event is OnAddGuardiansTapped) {
       List<GuardianModel> results = await guardians.first;
+      results.retainWhere((element) => element.type == GuardianType.myGuardian);
 
       yield state.copyWith(pageCommand: NavigateToSelectGuardians(results));
     }
