@@ -6,7 +6,7 @@ import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/scanner/scanner_widget.dart';
-import 'package:seeds/v2/components/tristate_clipboard_icon_button.dart';
+import 'package:seeds/v2/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
@@ -170,7 +170,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
     final bool canClear = !isChecked && _keyController.text.isNotEmpty;
     final bool loading = _currentState.pageState == PageState.loading;
 
-    return TriStateClipboardIconButton(
+    return QuadStateClipboardIconButton(
       onClear: () {
         setState(() {
           _keyController.text = '';

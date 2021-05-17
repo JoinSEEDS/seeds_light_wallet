@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
-class TriStateClipboardIconButton extends StatelessWidget {
-  const TriStateClipboardIconButton({
+class QuadStateClipboardIconButton extends StatelessWidget {
+  const QuadStateClipboardIconButton({
     required this.onClear,
     required this.onPaste,
     required this.isChecked,
