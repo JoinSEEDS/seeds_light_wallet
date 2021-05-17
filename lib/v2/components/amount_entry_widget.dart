@@ -18,14 +18,13 @@ class AmountEntryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
               child: TextFormField(
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.end,
                 maxLines: 1,
                 style: Theme.of(context).textTheme.headline4,
                 keyboardType: TextInputType.number,
@@ -43,16 +42,37 @@ class AmountEntryWidget extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             Expanded(
-              child: Text(
-                enteringCurrencyName,
-                textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.subtitle2,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        enteringCurrencyName,
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                      const SizedBox(height: 18)
+                    ],
+                  ),
+                  Positioned(
+                    bottom: -16,
+                    left: 70,
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      child: IconButton(
+                        icon: Image.asset('assets/images/currency_switch_button.png'),
+                        onPressed: () => () {},
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
           ],
         ),
         Text(
-          fiatAmount ?? "",
+          fiatAmount != null ? "\$" + fiatAmount! : "",
           style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
         ),
       ],
