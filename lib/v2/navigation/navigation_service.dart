@@ -30,6 +30,7 @@ import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
@@ -132,7 +133,7 @@ class NavigationService {
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
     Routes.receiveCustom: (_) => const ReceiveCustom(),
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
-    Routes.selectGuardians: (_) => const SelectGuardians(),
+    Routes.selectGuardians: (_) => SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => InviteGuardians(args),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),
     Routes.guardianTabs: (_) => GuardiansScreen(),

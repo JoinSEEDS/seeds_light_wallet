@@ -8,6 +8,7 @@ import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/intera
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/init_guardians_usecase.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_state.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 
 /// --- BLOC
 class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
@@ -42,6 +43,10 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
         yield InitGuardiansStateMapper().mapResultToState(state, result);
 
       }
+    } else if (event is OnAddGuardiansTapped) {
+      List<GuardianModel> results = await guardians.first;
+
+      yield state.copyWith(pageCommand: NavigateToSelectGuardians(results));
     }
   }
 }

@@ -20,10 +20,14 @@ class LoadGuardians extends GuardiansEvent {
 
 class InitGuardians extends GuardiansEvent {
   final Iterable<GuardianModel> myGuardians;
-  
+
   InitGuardians(this.myGuardians);
 
   @override
   String toString() => 'InitGuardians: { InitGuardians: $myGuardians }';
-  
+}
+
+class OnAddGuardiansTapped extends GuardiansEvent {
+  @override
+  String toString() => 'OnAddGuardiansTapped ';
 }
