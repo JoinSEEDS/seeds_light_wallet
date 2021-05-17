@@ -25,12 +25,22 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
   final _keyController = TextEditingController();
   final Debouncer _debouncer = Debouncer(milliseconds: 600);
 
+  late ScannerWidget _scannerWidget;
+
   @override
   void initState() {
     super.initState();
+    _scannerWidget = ScannerWidget(resultCallBack: _onQRScanned);
     _signupBloc = BlocProvider.of<SignupBloc>(context);
     _currentState = _signupBloc.state.claimInviteState;
     _keyController.text = '';
+    _keyController.addListener(_onInviteCodeChanged);
+  }
+
+  @override
+  void dispose() {
+    _keyController.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,6 +59,11 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
 
           if (_currentState.pageState == PageState.success && !_currentState.inviteMnemonic.isNullOrEmpty) {
             _keyController.text = _currentState.inviteMnemonic!;
+            _scannerWidget.stop();
+          }
+
+          if (_currentState.pageState == PageState.failure) {
+            _scannerWidget.scan();
           }
         },
         child: BlocBuilder<SignupBloc, SignupState>(
@@ -63,7 +78,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Expanded(child: ScannerWidget(resultCallBack: _onQRScanned)),
+                        Expanded(child: _scannerWidget),
                         const SizedBox(
                           height: 30,
                         ),
@@ -104,7 +119,6 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
             TextFormField(
               controller: _keyController,
               style: Theme.of(context).accentTextTheme.bodyText1,
-              onChanged: _onInviteCodeChanged,
               decoration: InputDecoration(
                 hintText: 'Invite code (5 words)'.i18n,
                 hintStyle: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
@@ -122,6 +136,13 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
                   borderSide: BorderSide(
                     width: 1,
                     color: Colors.black,
+                  ),
+                ),
+                focusedErrorBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  borderSide: BorderSide(
+                    width: 1,
+                    color: AppColors.red,
                   ),
                 ),
                 errorBorder: const OutlineInputBorder(
@@ -147,6 +168,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
   Widget get _inviteCodeSuffixIcon {
     final bool isChecked = _currentState.pageState == PageState.success && _currentState.inviteModel != null;
     final bool canClear = !isChecked && _keyController.text.isNotEmpty;
+    final bool loading = _currentState.pageState == PageState.loading;
 
     return TriStateClipboardIconButton(
       onClear: () {
@@ -162,20 +184,20 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
       },
       isChecked: isChecked,
       canClear: canClear,
+      isLoading: loading,
     );
   }
 
-  void _onInviteCodeChanged(String value) {
-    if (value.isNotEmpty) {
+  void _onInviteCodeChanged() {
+    if (_keyController.text.isNotEmpty) {
       _debouncer.run(() {
-        _signupBloc.add(ValidateInviteCode(inviteCode: value));
+        _signupBloc.add(ValidateInviteCode(inviteCode: _keyController.text));
       });
     }
   }
 
   void _onQRScanned(String scannedLink) {
-    print('scanned link: $scannedLink');
-    // TODO: this is getting called so many times!
+    _scannerWidget.showLoading();
     _signupBloc.add(UnpackScannedLink(scannedLink));
   }
 
@@ -187,6 +209,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
     return isValid
         ? () {
             FocusScope.of(context).unfocus();
+            _scannerWidget.stop();
             NavigationService.of(context).navigateTo(Routes.displayName);
           }
         : () {

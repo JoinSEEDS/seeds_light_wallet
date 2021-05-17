@@ -11,20 +11,19 @@ class SignupRepository extends NetworkRepository {
     final request =
         '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$inviteHash","upper_bound":"$inviteHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
 
-    try {
-      final http.Response response = await http.post(Uri.parse(inviteURL), headers: headers, body: request);
-
-      return mapHttpResponse(response, (dynamic body) {
-        final rows = body['rows'];
-        if (rows.isNotEmpty) {
-          return InviteModel.fromJson(rows.first);
-        } else {
-          throw Exception('empty result at $inviteURL');
-        }
-      });
-    } on Exception catch (error) {
-      return mapHttpError(error);
-    }
+    return await http
+        .post(Uri.parse(inviteURL), headers: headers, body: request)
+        .then(
+          (http.Response response) => mapHttpResponse(response, (dynamic body) {
+            final rows = body['rows'];
+            if (rows.isNotEmpty) {
+              return InviteModel.fromJson(rows.first);
+            } else {
+              throw Exception('empty result at $inviteURL');
+            }
+          }),
+        )
+        .catchError((error) => mapHttpError(error));
   }
 
   Future<Result> unpackDynamicLink(String scannedLink) async {

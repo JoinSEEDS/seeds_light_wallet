@@ -89,6 +89,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
         _handledQrCode = true;
         return const SizedBox.shrink();
       case PageState.processing:
+        _handledQrCode = true;
         return const CircularProgressIndicator();
       case PageState.stop:
         return const SizedBox.shrink();

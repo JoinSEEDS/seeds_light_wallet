@@ -12,7 +12,7 @@ class ClaimInviteMapper extends StateMapper {
 
     if (result.isError) {
       return currentState.copyWith(
-          claimInviteState: ClaimInviteState.error(claimInviteCurrentState, result.asError!.error.toString()));
+          claimInviteState: ClaimInviteState.error(claimInviteCurrentState, 'No invites found, try another code'.i18n));
     } else {
       final InviteModel inviteModel = result.asValue!.value;
 
@@ -44,6 +44,7 @@ class ClaimInviteMapper extends StateMapper {
 
       return currentState.copyWith(
         claimInviteState: claimInviteCurrentState.copyWith(
+          pageState: PageState.success,
           inviteMnemonic: inviteMnemonic,
         ),
       );
