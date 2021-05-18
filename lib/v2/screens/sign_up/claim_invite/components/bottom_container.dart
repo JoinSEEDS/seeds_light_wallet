@@ -9,7 +9,6 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
 import 'package:seeds/v2/utils/helpers.dart';
 
@@ -23,7 +22,6 @@ class BottomContainer extends StatefulWidget {
 class _BottomContainerState extends State<BottomContainer> {
   late SignupBloc _signupBloc;
   final _keyController = TextEditingController();
-  late ClaimInviteState _currentState;
   final Debouncer _debouncer = Debouncer(milliseconds: 600);
 
   @override
@@ -32,7 +30,6 @@ class _BottomContainerState extends State<BottomContainer> {
     _signupBloc = BlocProvider.of<SignupBloc>(context);
     _keyController.text = '';
     _keyController.addListener(_onInviteCodeChanged);
-    _currentState = _signupBloc.state.claimInviteState;
   }
 
   @override
@@ -46,10 +43,9 @@ class _BottomContainerState extends State<BottomContainer> {
     return BlocListener<SignupBloc, SignupState>(
       listenWhen: (previousState, currentState) => previousState != currentState,
       listener: (context, state) {
-        _currentState = state.claimInviteState;
-
-        if (_currentState.pageState == PageState.success && !_currentState.inviteMnemonic.isNullOrEmpty) {
-          _keyController.text = _currentState.inviteMnemonic!;
+        if (state.claimInviteState.pageState == PageState.success &&
+            !state.claimInviteState.inviteMnemonic.isNullOrEmpty) {
+          _keyController.text = state.claimInviteState.inviteMnemonic!;
         }
       },
       child: BlocBuilder<SignupBloc, SignupState>(
@@ -80,7 +76,9 @@ class _BottomContainerState extends State<BottomContainer> {
                   decoration: InputDecoration(
                     hintText: 'Invite code (5 words)'.i18n,
                     hintStyle: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                    errorText: _currentState.pageState == PageState.failure ? _currentState.errorMessage : null,
+                    errorText: state.claimInviteState.pageState == PageState.failure
+                        ? state.claimInviteState.errorMessage
+                        : null,
                     suffixIcon: _inviteCodeSuffixIcon,
                     enabledBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -126,9 +124,10 @@ class _BottomContainerState extends State<BottomContainer> {
   }
 
   Widget get _inviteCodeSuffixIcon {
-    final bool isChecked = _currentState.pageState == PageState.success && _currentState.inviteModel != null;
+    final bool isChecked = _signupBloc.state.claimInviteState.pageState == PageState.success &&
+        _signupBloc.state.claimInviteState.inviteModel != null;
     final bool canClear = !isChecked && _keyController.text.isNotEmpty;
-    final bool loading = _currentState.pageState == PageState.loading;
+    final bool loading = _signupBloc.state.claimInviteState.pageState == PageState.loading;
 
     return QuadStateClipboardIconButton(
       onClear: () {
@@ -157,7 +156,8 @@ class _BottomContainerState extends State<BottomContainer> {
   }
 
   VoidCallback? _onClaimPressed(BuildContext context) {
-    final bool isValid = _currentState.pageState == PageState.success && _currentState.inviteModel != null;
+    final bool isValid = _signupBloc.state.claimInviteState.pageState == PageState.success &&
+        _signupBloc.state.claimInviteState.inviteModel != null;
 
     return isValid
         ? () {

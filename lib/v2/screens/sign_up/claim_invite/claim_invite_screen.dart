@@ -5,7 +5,6 @@ import 'package:seeds/v2/components/scanner/scanner_widget.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/components/bottom_container.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 
 class ClaimInviteScreen extends StatefulWidget {
   @override
@@ -14,8 +13,6 @@ class ClaimInviteScreen extends StatefulWidget {
 
 class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
   late SignupBloc _signupBloc;
-  late ClaimInviteState _currentState;
-
   late ScannerWidget _scannerWidget;
 
   @override
@@ -23,7 +20,6 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
     super.initState();
     _scannerWidget = ScannerWidget(resultCallBack: _onQRScanned);
     _signupBloc = BlocProvider.of<SignupBloc>(context);
-    _currentState = _signupBloc.state.claimInviteState;
   }
 
   @override
@@ -38,13 +34,12 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
       body: BlocListener<SignupBloc, SignupState>(
         listenWhen: (previousState, currentState) => previousState != currentState,
         listener: (context, state) {
-          _currentState = state.claimInviteState;
-
-          if (_currentState.pageState == PageState.success && !_currentState.inviteMnemonic.isNullOrEmpty) {
+          if (state.claimInviteState.pageState == PageState.success &&
+              !state.claimInviteState.inviteMnemonic.isNullOrEmpty) {
             _scannerWidget.stop();
           }
 
-          if (_currentState.pageState == PageState.failure) {
+          if (state.claimInviteState.pageState == PageState.failure) {
             _scannerWidget.scan();
           }
         },
