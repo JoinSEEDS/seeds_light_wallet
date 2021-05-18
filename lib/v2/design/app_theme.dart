@@ -99,6 +99,11 @@ extension CustomStyles on TextTheme {
       .subtitle2!
       .copyWith(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white.withOpacity(0.5));
 
+  TextStyle get subtitle2OpacityBlack => Typography.material2018()
+      .englishLike
+      .subtitle2!
+      .copyWith(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black.withOpacity(0.5));
+
   TextStyle get subtitle3 =>
       Typography.material2018().englishLike.subtitle2!.copyWith(fontSize: 12, fontWeight: FontWeight.w400);
 
