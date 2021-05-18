@@ -43,7 +43,7 @@ class SendConfirmationDialog extends StatelessWidget {
       ),
       children: [
         const SizedBox(
-          height: 10,
+          height: 6,
         ),
         Row(
           children: [
