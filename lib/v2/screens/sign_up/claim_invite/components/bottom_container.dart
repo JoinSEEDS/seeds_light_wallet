@@ -79,7 +79,22 @@ class _BottomContainerState extends State<BottomContainer> {
                     errorText: state.claimInviteState.pageState == PageState.failure
                         ? state.claimInviteState.errorMessage
                         : null,
-                    suffixIcon: _inviteCodeSuffixIcon,
+                    suffixIcon: QuadStateClipboardIconButton(
+                      onClear: () {
+                        setState(() {
+                          _keyController.text = '';
+                        });
+                      },
+                      onPaste: () async {
+                        final clipboardText = await getClipboardData();
+                        setState(() {
+                          _keyController.text = clipboardText;
+                        });
+                      },
+                      isChecked: _signupBloc.state.claimInviteState.isChecked,
+                      canClear: !_signupBloc.state.claimInviteState.isChecked && _keyController.text.isNotEmpty,
+                      isLoading: _signupBloc.state.claimInviteState.isLoading,
+                    ),
                     enabledBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       borderSide: BorderSide(
@@ -120,30 +135,6 @@ class _BottomContainerState extends State<BottomContainer> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget get _inviteCodeSuffixIcon {
-    final bool isChecked = _signupBloc.state.claimInviteState.pageState == PageState.success &&
-        _signupBloc.state.claimInviteState.inviteModel != null;
-    final bool canClear = !isChecked && _keyController.text.isNotEmpty;
-    final bool loading = _signupBloc.state.claimInviteState.pageState == PageState.loading;
-
-    return QuadStateClipboardIconButton(
-      onClear: () {
-        setState(() {
-          _keyController.text = '';
-        });
-      },
-      onPaste: () async {
-        final clipboardText = await getClipboardData();
-        setState(() {
-          _keyController.text = clipboardText;
-        });
-      },
-      isChecked: isChecked,
-      canClear: canClear,
-      isLoading: loading,
     );
   }
 

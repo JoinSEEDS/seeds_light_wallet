@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/v2/components/scanner/scanner_widget.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/components/bottom_container.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 
 class ClaimInviteScreen extends StatefulWidget {
   @override
@@ -34,12 +33,11 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
       body: BlocListener<SignupBloc, SignupState>(
         listenWhen: (previousState, currentState) => previousState != currentState,
         listener: (context, state) {
-          if (state.claimInviteState.pageState == PageState.success &&
-              !state.claimInviteState.inviteMnemonic.isNullOrEmpty) {
+          if (state.claimInviteState.pageCommand is StopScan) {
             _scannerWidget.stop();
           }
 
-          if (state.claimInviteState.pageState == PageState.failure) {
+          if (state.claimInviteState.pageCommand is StartScan) {
             _scannerWidget.scan();
           }
         },

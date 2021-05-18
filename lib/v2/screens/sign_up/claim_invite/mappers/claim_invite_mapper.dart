@@ -46,6 +46,7 @@ class ClaimInviteMapper extends StateMapper {
         claimInviteState: claimInviteCurrentState.copyWith(
           pageState: PageState.success,
           inviteMnemonic: inviteMnemonic,
+          pageCommand: !inviteMnemonic.isNullOrEmpty ? StopScan() : null,
         ),
       );
     }
