@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/design/app_theme.dart';
 
 class AmountEntryWidget extends StatelessWidget {
@@ -61,7 +62,11 @@ class AmountEntryWidget extends StatelessWidget {
                       height: 60,
                       width: 60,
                       child: IconButton(
-                        icon: Image.asset('assets/images/currency_switch_button.png'),
+                        icon: SvgPicture.asset(
+                          'assets/images/currency_switch_button.svg',
+                          height: 60,
+                          width: 60,
+                        ),
                         onPressed: () => () {},
                       ),
                     ),
