@@ -20,7 +20,7 @@ import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_events.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 /// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {
