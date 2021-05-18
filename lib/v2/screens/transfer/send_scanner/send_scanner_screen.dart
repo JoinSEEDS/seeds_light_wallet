@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/components/scanner/scanner_widget.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/v2/components/scanner/scanner_screen.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/interactor/send_scanner_bloc.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/interactor/viewmodels/scanner_events.dart';
@@ -16,13 +16,13 @@ class SendScannerScreen extends StatefulWidget {
 }
 
 class _SendScannerScreenState extends State<SendScannerScreen> {
-  late ScannerScreen _scannerScreen;
+  late ScannerWidget _scannerScreen;
   final _sendPageBloc = SendPageBloc();
 
   @override
   void initState() {
     super.initState();
-    _scannerScreen = ScannerScreen(resultCallBack: onResult);
+    _scannerScreen = ScannerWidget(resultCallBack: onResult);
   }
 
   @override
@@ -32,7 +32,8 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
       body: BlocProvider(
         create: (context) => _sendPageBloc,
         child: BlocListener<SendPageBloc, SendPageState>(
-          listenWhen: (context, SendPageState state) => state.pageState == PageState.success && state.pageCommand != null,
+          listenWhen: (context, SendPageState state) =>
+              state.pageState == PageState.success && state.pageCommand != null,
           listener: (context, SendPageState state) {
             _scannerScreen.stop();
             NavigationService.of(context).navigateTo(

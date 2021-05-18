@@ -11,3 +11,7 @@ extension StringExtension on String {
     return split(" ")[1];
   }
 }
+
+extension NullableStringExtension on String? {
+  bool get isNullOrEmpty => this == null || this!.isEmpty;
+}
