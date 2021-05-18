@@ -29,7 +29,7 @@ import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 enum TransactionType { income, outcome }
@@ -191,7 +191,7 @@ class _DashboardState extends State<Dashboard> {
 
     if (backupService.showReminder) {
       return Consumer<BalanceNotifier>(builder: (context, model, child) {
-        if (model.balance != null && model.balance!.numericQuantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
+        if (model.balance != null && model.balance!.quantity >= BackupService.BACKUP_REMINDER_MIN_AMOUNT) {
           return Container(
             width: width,
             child: MainCard(

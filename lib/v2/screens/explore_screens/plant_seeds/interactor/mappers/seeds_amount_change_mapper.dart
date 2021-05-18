@@ -7,12 +7,14 @@ import 'package:seeds/v2/utils/rate_states_extensions.dart';
 class SeedsAmountChangeMapper extends StateMapper {
   PlantSeedsState mapResultToState(PlantSeedsState currentState, RatesState rateState, String quantity) {
     double parsedQuantity = double.tryParse(quantity) ?? 0;
+    double currentAvailable = currentState.availableBalance?.quantity ?? 0;
     String? selectedFiat = settingsStorage.selectedFiatCurrency;
 
     return currentState.copyWith(
       fiatAmount: rateState.currencyString(parsedQuantity, selectedFiat),
-      isPlantSeedsButtonEnabled: parsedQuantity > 0,
-      // quantity: parsedQuantity,
+      isPlantSeedsButtonEnabled: parsedQuantity > 0 && parsedQuantity < currentAvailable,
+      quantity: parsedQuantity,
+      showAlert: parsedQuantity > currentAvailable,
     );
   }
 }

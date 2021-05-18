@@ -1,25 +1,25 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
-enum CurrentChoice { passcodeCard, biometricCard }
+enum CurrentChoice { initial, passcodeCard, biometricCard }
 
 /// STATE
 class SecurityState extends Equatable {
   final PageState pageState;
-  final bool? hasNotification;
+  final bool hasNotification;
   final bool? navigateToGuardians;
   final bool? navigateToVerification;
-  final CurrentChoice? currentChoice;
+  final CurrentChoice currentChoice;
   final bool? isSecurePasscode;
   final bool? isSecureBiometric;
   final String? errorMessage;
 
   const SecurityState({
     required this.pageState,
-    this.hasNotification,
+    required this.hasNotification,
     this.navigateToGuardians,
     this.navigateToVerification,
-    this.currentChoice,
+    required this.currentChoice,
     this.isSecurePasscode,
     this.isSecureBiometric,
     this.errorMessage,
@@ -52,7 +52,7 @@ class SecurityState extends Equatable {
       hasNotification: hasNotification ?? this.hasNotification,
       navigateToGuardians: navigateToGuardians,
       navigateToVerification: navigateToVerification,
-      currentChoice: currentChoice ?? currentChoice,
+      currentChoice: currentChoice ?? this.currentChoice,
       isSecurePasscode: isSecurePasscode ?? this.isSecurePasscode,
       isSecureBiometric: isSecureBiometric ?? this.isSecureBiometric,
       errorMessage: errorMessage ?? this.errorMessage,
@@ -60,6 +60,10 @@ class SecurityState extends Equatable {
   }
 
   factory SecurityState.initial() {
-    return const SecurityState(pageState: PageState.initial);
+    return const SecurityState(
+      pageState: PageState.initial,
+      currentChoice: CurrentChoice.initial,
+      hasNotification: false,
+    );
   }
 }

@@ -16,18 +16,18 @@ class ExploreStateMapper extends StateMapper {
       var values = results.map((Result element) => element.asValue!.value).toList();
 
       BalanceModel? balanceModel = values.firstWhere((element) => element is BalanceModel, orElse: () => null);
+      PlantedModel? plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
       VoiceModelAlliance? allianceVoice =
           values.firstWhere((element) => element is VoiceModelAlliance, orElse: () => null);
       VoiceModelCampaign? campaignVoice =
           values.firstWhere((element) => element is VoiceModelCampaign, orElse: () => null);
-      PlantedModel? plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
 
       return currentState.copyWith(
         pageState: PageState.success,
-        availableSeeds: balanceModel?.roundedQuantity,
+        availableSeeds: balanceModel,
+        plantedSeeds: plantedSeeds,
         allianceVoice: allianceVoice?.amount.toString(),
         campaignVoice: campaignVoice?.amount.toString(),
-        plantedSeeds: plantedSeeds?.quantity.toString(),
       );
     }
   }

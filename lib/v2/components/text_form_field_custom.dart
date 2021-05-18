@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 /// A wigdeg wrapper of TextFormField customized for general inputs
 ///

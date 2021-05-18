@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 /// A long flat widget button with rounded corners
 class FlatButtonLong extends StatelessWidget {
@@ -28,7 +28,7 @@ class FlatButtonLong extends StatelessWidget {
         disabledColor: AppColors.darkGreen2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
-          side: const BorderSide(color: AppColors.green1),
+          side: BorderSide(color: enabled ? AppColors.green1 : AppColors.darkGreen2),
         ),
         child: Text(title,
             style: color == null ? Theme.of(context).textTheme.buttonWhiteL : Theme.of(context).textTheme.buttonGreen1),

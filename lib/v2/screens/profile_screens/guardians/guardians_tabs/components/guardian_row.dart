@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 
 class GuardianRow extends StatelessWidget {

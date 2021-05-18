@@ -27,7 +27,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         isCreateView: settingsStorage.passcode == null,
         isCreateMode: settingsStorage.passcode == null,
       );
-      // If It's verification mode and biometric is enabled -> start biomtric
+      // If It's verification mode and biometric is enabled -> start biometric
       if (settingsStorage.passcode != null && settingsStorage.biometricActive!) {
         // Fecht available biometrics
         final authTypesAvailable = await BiometricsAvailablesUseCase().run();
@@ -40,17 +40,18 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         // Biometric auth result
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
-            if (authenticationBloc.state.showResumeAuth) {
-              // App resume flow
-              authenticationBloc.add(const SuccessResumeAuth());
+            if (authenticationBloc.state.isOnResumeAuth) {
+              // App resume flow: disable flag and then fires navigator pop
+              authenticationBloc.add(const SuccessOnResumeAuth());
+              yield state.copyWith(popScreen: true);
             } else {
-              // Onboarding flow
+              // Onboarding flow: just unlock
               authenticationBloc.add(const UnlockWallet());
             }
           } else {
-            // Security flow: update screen and the fires navigator pop
+            // Security flow: update screen and then fires navigator pop
             securityBloc?.add(const OnValidVerification());
-            yield state.copyWith(onBiometricAuthorized: true);
+            yield state.copyWith(popScreen: true);
           }
         }
       }
@@ -78,11 +79,12 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         }
       } else {
         if (securityBloc == null) {
-          if (authenticationBloc.state.showResumeAuth) {
-            // App resume flow
-            authenticationBloc.add(const SuccessResumeAuth());
+          if (authenticationBloc.state.isOnResumeAuth) {
+            // App resume flow: disable flag and then fires navigator pop
+            authenticationBloc.add(const SuccessOnResumeAuth());
+            yield state.copyWith(popScreen: true);
           } else {
-            // Onboarding flow
+            // Onboarding flow: just unlock
             authenticationBloc.add(const UnlockWallet());
           }
         }
@@ -102,17 +104,18 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         // Biometric auth result
         if (state.authState == AuthState.authorized) {
           if (securityBloc == null) {
-            if (authenticationBloc.state.showResumeAuth) {
-              // App resume flow
-              authenticationBloc.add(const SuccessResumeAuth());
+            if (authenticationBloc.state.isOnResumeAuth) {
+              // App resume flow: disable flag and then fires navigator pop
+              authenticationBloc.add(const SuccessOnResumeAuth());
+              yield state.copyWith(popScreen: true);
             } else {
-              // Onboarding flow
+              // Onboarding flow: just unlock
               authenticationBloc.add(const UnlockWallet());
             }
           } else {
-            // Security flow: update screen and the fires navigator pop
+            // Security flow: update screen and then fires navigator pop
             securityBloc?.add(const OnValidVerification());
-            yield state.copyWith(onBiometricAuthorized: true);
+            yield state.copyWith(popScreen: true);
           }
         }
       }
