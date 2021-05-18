@@ -46,13 +46,15 @@ class SelectGuardiansScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(16),
                           child: FlatButtonLong(
                             title: 'Next',
-                            onPressed: () => {
-                              if (state.selectedGuardians.isNotEmpty)
-                                {
-                                  NavigationService.of(context)
-                                      .navigateTo(Routes.inviteGuardians, state.selectedGuardians),
-                                }
-                            },
+                            onPressed: state.selectedGuardians.isNotEmpty
+                                ? () => {
+                                      if (state.selectedGuardians.isNotEmpty)
+                                        {
+                                          NavigationService.of(context)
+                                              .navigateTo(Routes.inviteGuardians, state.selectedGuardians),
+                                        }
+                                    }
+                                : null,
                           ),
                         ),
                       ],
