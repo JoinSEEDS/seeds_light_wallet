@@ -40,8 +40,8 @@ class ClaimInviteState extends Equatable {
     );
   }
 
-  bool get isChecked => pageState == PageState.success && inviteModel != null;
   bool get isLoading => pageState == PageState.loading && inviteMnemonic != null;
+  bool get isValid => pageState == PageState.success && inviteModel != null;
 
   ClaimInviteState copyWith({
     PageState? pageState,

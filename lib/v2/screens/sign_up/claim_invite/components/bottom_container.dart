@@ -91,8 +91,8 @@ class _BottomContainerState extends State<BottomContainer> {
                           _keyController.text = clipboardText;
                         });
                       },
-                      isChecked: _signupBloc.state.claimInviteState.isChecked,
-                      canClear: !_signupBloc.state.claimInviteState.isChecked && _keyController.text.isNotEmpty,
+                      isChecked: _signupBloc.state.claimInviteState.isValid,
+                      canClear: !_signupBloc.state.claimInviteState.isValid && _keyController.text.isNotEmpty,
                       isLoading: _signupBloc.state.claimInviteState.isLoading,
                     ),
                     enabledBorder: const OutlineInputBorder(
@@ -146,11 +146,7 @@ class _BottomContainerState extends State<BottomContainer> {
     }
   }
 
-  VoidCallback? _onClaimPressed(BuildContext context) {
-    final bool isValid = _signupBloc.state.claimInviteState.pageState == PageState.success &&
-        _signupBloc.state.claimInviteState.inviteModel != null;
-
-    return isValid
+  VoidCallback? _onClaimPressed(BuildContext context) => _signupBloc.state.claimInviteState.isValid
         ? () {
             FocusScope.of(context).unfocus();
             NavigationService.of(context).navigateTo(Routes.displayName);
@@ -165,5 +161,4 @@ class _BottomContainerState extends State<BottomContainer> {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             ));
           };
-  }
 }
