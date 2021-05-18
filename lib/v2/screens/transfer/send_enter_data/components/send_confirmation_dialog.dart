@@ -30,20 +30,34 @@ class SendConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      icon: SvgPicture.asset('assets/images/seeds_currency_icon.svg'),
+      icon: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          SvgPicture.asset(
+            "assets/images/transfer/seeds_icon.svg",
+            height: 300,
+            width: 300,
+          ),
+          Positioned(left: 12, bottom: -6, child: SvgPicture.asset("assets/images/transfer/arrow_up.svg")),
+        ],
+      ),
       children: [
+        const SizedBox(
+          height: 10,
+        ),
         Row(
           children: [
             Text(amount, style: Theme.of(context).textTheme.headline4Black),
             Padding(
-              padding: const EdgeInsets.only(top: 12, left: 4),
-              child: Text(currency, style: Theme.of(context).textTheme.subtitle2Black),
+              padding: const EdgeInsets.only(top: 14, left: 4),
+              child: Text("SEEDS", style: Theme.of(context).textTheme.subtitle2Black),
             ),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
         ),
-        Text(fiatAmount ?? "", style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
-        const SizedBox(height: 16.0),
+        Text(fiatAmount != null ? "\$" + fiatAmount! : "",
+            style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
+        const SizedBox(height: 30.0),
         DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To"),
         const SizedBox(height: 24.0),
         Row(
@@ -55,7 +69,7 @@ class SendConfirmationDialog extends StatelessWidget {
                 textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
           ],
         ),
-        const SizedBox(height: 16.0),
+        const SizedBox(height: 40.0),
         memo != null
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +91,7 @@ class SendConfirmationDialog extends StatelessWidget {
       onLeftButtonPressed: () {
         Navigator.of(context).pop();
       },
-      onRightButtonPressed: (){
+      onRightButtonPressed: () {
         onSendButtonPressed.call();
         Navigator.of(context).pop();
       },
