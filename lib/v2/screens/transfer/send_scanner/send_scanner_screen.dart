@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
 import 'package:seeds/v2/components/scanner/scanner_widget.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/interactor/send_scanner_bloc.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/interactor/viewmodels/scanner_events.dart';
@@ -48,13 +48,11 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
           child: Column(
             children: [
               const SizedBox(height: 32),
-              Text("Scan QR Code to Send",
-                  style: Theme.of(context).textTheme.button),
+              Text("Scan QR Code to Send", style: Theme.of(context).textTheme.button),
               const SizedBox(height: 82),
               _scannerScreen,
               BlocBuilder<SendPageBloc, SendPageState>(
-                buildWhen: (context, SendPageState state) =>
-                    state.pageState != PageState.success,
+                buildWhen: (context, SendPageState state) => state.pageState != PageState.success,
                 builder: (context, SendPageState state) {
                   switch (state.pageState) {
                     case PageState.initial:
@@ -73,17 +71,12 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 state.error!,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2!
-                                    .copyWith(color: AppColors.orangeYellow),
+                                style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             decoration: const BoxDecoration(
-                                color: AppColors.black,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)))),
+                                color: AppColors.black, borderRadius: BorderRadius.all(Radius.circular(8)))),
                       );
                     default:
                       return const SizedBox.shrink();
