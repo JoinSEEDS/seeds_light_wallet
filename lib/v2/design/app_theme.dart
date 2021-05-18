@@ -177,28 +177,28 @@ class SeedsInputDecorationTheme {
   static InputDecorationTheme get lightTheme => InputDecorationTheme(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 1,
             color: AppColors.black,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 1,
             color: AppColors.black,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 1,
             color: AppColors.red,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 1,
             color: AppColors.red,
           ),
@@ -208,28 +208,28 @@ class SeedsInputDecorationTheme {
   static InputDecorationTheme get darkTheme => InputDecorationTheme(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 1,
             color: AppColors.darkGreen2,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 1,
             color: AppColors.darkGreen2,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 1,
             color: AppColors.red,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             width: 1,
             color: AppColors.red,
           ),
