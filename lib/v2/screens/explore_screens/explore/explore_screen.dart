@@ -41,7 +41,9 @@ class ExploreScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                       child: ExploreInfoCard(
-                        onTap: () {},
+                        onTap: () {
+                          NavigationService.of(context).navigateTo(Routes.createInvite);
+                        },
                         title: 'Invite',
                         amount: state.availableSeeds?.roundedQuantity,
                         isErrorState: state.availableSeeds == null,
