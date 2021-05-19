@@ -26,7 +26,6 @@ class ConnectionNotifier extends ChangeNotifier {
     'https://telos.eosphere.io',
     'https://telos.caleos.io',
     'https://api.eos.miami',
-    'https://hyperion.telosgermany.io',
   ];
 
   void init() {

@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 class CurrencyInfoCard extends StatelessWidget {
   final String backgroundImage;

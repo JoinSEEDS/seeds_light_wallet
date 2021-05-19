@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
-import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/v2/components/flat_button_long.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 
 /// Login SCREEN
 class LoginScreen extends StatelessWidget {
@@ -39,14 +39,15 @@ class LoginScreen extends StatelessWidget {
                   height: 10,
                 ),
                 FlatButtonLong(
-                  onPressed: () {},
+                  onPressed: () {
+                    NavigationService.of(context).navigateTo(Routes.signUp);
+                  },
                   title: "Claim invite code".i18n,
                 ),
                 const SizedBox(
                   height: 40,
                 ),
-                Text("Already have a Seeds Account?",
-                    style: Theme.of(context).textTheme.subtitle2),
+                Text("Already have a Seeds Account?", style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(
                   height: 10,
                 ),
@@ -68,9 +69,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               Text("Lost your key?".i18n, style: Theme.of(context).textTheme.subtitle2),
               GestureDetector(
-                  onTap: () {},
-                  child: Text(" Recover ".i18n,
-                      style: Theme.of(context).textTheme.subtitle2)),
+                  onTap: () {}, child: Text(" Recover ".i18n, style: Theme.of(context).textTheme.subtitle2)),
               Text("your account here".i18n, style: Theme.of(context).textTheme.subtitle2),
             ],
           ),

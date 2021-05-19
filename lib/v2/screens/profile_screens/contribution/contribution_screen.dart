@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/v2/components/circular_progress_item.dart';
 import 'package:seeds/i18n/contribution.18n.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/datasource/remote/model/score_model.dart';
@@ -52,26 +52,26 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
               previous.pageState != PageState.success && current.pageState == PageState.success,
           listener: (context, state) {
             _contributionAnimation =
-                Tween<double>(begin: 0, end: state.score!.contributionScore!.toDouble()).animate(_controller)
+                Tween<double>(begin: 0, end: state.score!.contributionScore.toDouble()).animate(_controller)
                   ..addListener(() {
                     setState(() => _contribution = _contributionAnimation.value.toInt());
                   });
             _communityAnimation =
-                Tween<double>(begin: 0, end: state.score!.communityBuildingScore!.toDouble()).animate(_controller)
+                Tween<double>(begin: 0, end: state.score!.communityBuildingScore.toDouble()).animate(_controller)
                   ..addListener(() {
                     setState(() => _community = _communityAnimation.value.toInt());
                   });
             _reputationAnimation =
-                Tween<double>(begin: 0, end: state.score!.reputationScore!.toDouble()).animate(_controller)
+                Tween<double>(begin: 0, end: state.score!.reputationScore.toDouble()).animate(_controller)
                   ..addListener(() {
                     setState(() => _reputation = _reputationAnimation.value.toInt());
                   });
-            _seedsAnimation = Tween<double>(begin: 0, end: state.score!.plantedScore!.toDouble()).animate(_controller)
+            _seedsAnimation = Tween<double>(begin: 0, end: state.score!.plantedScore.toDouble()).animate(_controller)
               ..addListener(() {
                 setState(() => _seeds = _seedsAnimation.value.toInt());
               });
             _transactionsAnimation =
-                Tween<double>(begin: 0, end: state.score!.transactionsScore!.toDouble()).animate(_controller)
+                Tween<double>(begin: 0, end: state.score!.transactionsScore.toDouble()).animate(_controller)
                   ..addListener(() {
                     setState(() => _transactions = _transactionsAnimation.value.toInt());
                   });

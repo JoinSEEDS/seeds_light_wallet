@@ -118,11 +118,11 @@ class HttpMockResponse {
         'b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55'),
   ];
 
-  static final balance = BalanceModel('10.0000 SEEDS');
+  static final balance = BalanceModel(5.0000);
 
   static final rate = RateModel(0.011, false);
 
-  static final telosBalance = BalanceModel('10.0000 TLOS');
+  static final telosBalance = BalanceModel(5.0000);
 
   static final voice = VoiceModel(77);
 
@@ -204,7 +204,7 @@ class HttpMockResponse {
 
   static final profile = ProfileModel(
     account: 'illumination',
-    status: 'citizen',
+    status: ProfileStatus.citizen,
     type: 'individual',
     nickname: 'Nikolaus',
     image:

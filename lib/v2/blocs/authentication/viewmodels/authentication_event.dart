@@ -15,6 +15,18 @@ class InitAuthStatus extends AuthenticationEvent {
   String toString() => 'InitAuthStatus';
 }
 
+class InitOnResumeAuth extends AuthenticationEvent {
+  const InitOnResumeAuth();
+  @override
+  String toString() => 'InitOnResumeAuth';
+}
+
+class SuccessOnResumeAuth extends AuthenticationEvent {
+  const SuccessOnResumeAuth();
+  @override
+  String toString() => 'SuccessOnResumeAuth';
+}
+
 class OnImportAccount extends AuthenticationEvent {
   final String account;
   final String privateKey;
@@ -33,7 +45,7 @@ class EnablePasscode extends AuthenticationEvent {
   final String newPasscode;
   const EnablePasscode({required this.newPasscode});
   @override
-  String toString() => 'EnablePasscode { newPasscode: $newPasscode }';
+  String toString() => 'EnablePasscode';
 }
 
 class DisablePasscode extends AuthenticationEvent {
@@ -52,4 +64,10 @@ class DisableBiometric extends AuthenticationEvent {
   const DisableBiometric();
   @override
   String toString() => 'DisableBiometric';
+}
+
+class OnLogout extends AuthenticationEvent {
+  const OnLogout();
+  @override
+  String toString() => 'OnLogout';
 }

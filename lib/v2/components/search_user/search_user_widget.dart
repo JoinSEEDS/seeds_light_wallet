@@ -27,36 +27,40 @@ class SearchUserWidget extends StatelessWidget {
         builder: (context, SearchUserState state) {
           return Column(
             children: [
-              TextField(
-                controller: _controller,
-                onChanged: (String value) {
-                  BlocProvider.of<SearchUserBloc>(context).add(OnSearchChange(searchQuery: value));
-                },
-                decoration: InputDecoration(
-                    prefixIcon: state.pageState == PageState.loading
-                        ? Transform.scale(
-                            scale: 0.5,
-                            child: const CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.green)),
-                          )
-                        : const SizedBox.shrink(),
-                    suffixIcon: IconButton(
-                        icon: Icon(
-                          state.searchBarIcon,
-                          color: AppColors.green,
-                          size: 26,
-                        ),
-                        onPressed: () {
-                          if (state.searchBarIcon == Icons.clear) {
-                            BlocProvider.of<SearchUserBloc>(context).add(ClearIconTapped());
-                            _controller.clear();
-                          }
-                        }),
-                    enabledBorder: _searchBorder,
-                    focusedBorder: _searchBorder,
-                    border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-                    hintText: 'Search...'),
+              Padding(
+                padding: const EdgeInsets.only(right: 16, left: 16, top: 10),
+                child: TextField(
+                  autofocus: true,
+                  controller: _controller,
+                  onChanged: (String value) {
+                    BlocProvider.of<SearchUserBloc>(context).add(OnSearchChange(searchQuery: value));
+                  },
+                  decoration: InputDecoration(
+                      suffixIcon: state.pageState == PageState.loading
+                          ? Transform.scale(
+                              scale: 0.5,
+                              child: const CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.green)),
+                            )
+                          : IconButton(
+                              icon: Icon(
+                                state.searchBarIcon,
+                                color: AppColors.white,
+                                size: 26,
+                              ),
+                              onPressed: () {
+                                if (state.searchBarIcon == Icons.clear) {
+                                  BlocProvider.of<SearchUserBloc>(context).add(ClearIconTapped());
+                                  _controller.clear();
+                                }
+                              }),
+                      enabledBorder: _searchBorder,
+                      focusedBorder: _searchBorder,
+                      border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                      hintText: 'Search...'),
+                ),
               ),
+              const SizedBox(height: 16),
               searchResults(context, state),
             ],
           );
@@ -70,9 +74,9 @@ class SearchUserWidget extends StatelessWidget {
       case PageState.initial:
         return const SizedBox.shrink();
       case PageState.loading:
-        return SearchUsersList(users: state.users);
+        return SearchUsersList(resultCallBack: resultCallBack);
       case PageState.failure:
-        return SearchUsersList(users: state.users);
+        return SearchUsersList(resultCallBack: resultCallBack);
       case PageState.success:
         if (state.users.isEmpty) {
           return const Padding(
@@ -80,7 +84,7 @@ class SearchUserWidget extends StatelessWidget {
             child: Center(child: Text("No users found.")),
           );
         } else {
-          return SearchUsersList(users: state.users);
+          return SearchUsersList(resultCallBack: resultCallBack);
         }
     }
   }

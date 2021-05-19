@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 /// Available Amount
 ///
@@ -28,18 +27,18 @@ class BalanceRow extends StatelessWidget {
                 child: Container(
                     alignment: Alignment.centerLeft,
                     child:
-                        Text(label, style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.canopy)))),
+                        Text(label, style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis))),
             Expanded(
                 child: Container(
                     alignment: Alignment.centerRight,
-                    child: Text(seedsAmount, style: Theme.of(context).textTheme.subtitle2)))
+                    child: Text(seedsAmount, style: Theme.of(context).textTheme.subtitle1)))
           ],
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [Text(fiatAmount, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)]),
+              children: [Text( "\$" + fiatAmount, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)]),
         )
       ],
     );

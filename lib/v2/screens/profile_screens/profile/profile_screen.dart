@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/providers/services/navigation_service.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';

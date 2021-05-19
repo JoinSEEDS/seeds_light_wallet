@@ -28,7 +28,6 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
         pageState: PageState.success,
         isSecurePasscode: settingsStorage.passcodeActive,
         isSecureBiometric: settingsStorage.biometricActive,
-        hasNotification: false,
       );
     }
     if (event is ShouldShowNotificationBadge) {
@@ -36,7 +35,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     }
     if (event is OnGuardiansCardTapped) {
       yield state.copyWith(navigateToGuardians: null); //reset
-      if (state.hasNotification!) {
+      if (state.hasNotification) {
         await FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
       }
       yield state.copyWith(navigateToGuardians: true);

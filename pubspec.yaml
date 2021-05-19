@@ -52,10 +52,14 @@ dependencies:
   image_picker: ^0.7.4
   oktoast: ^3.0.0
   eosdart:
-    git: git://github.com/JoinSEEDS/eosdart.git
+    git: 
+      url: https://github.com/JoinSEEDS/eosdart.git
+      ref: flutter_2_nns
   dart_esr:
     git:
       url: https://github.com/JoinSEEDS/dart-esr.git
+      ref: flutter_2_nns
+      
   webview_flutter: ^2.0.2
   rubber: ^1.0.0
   path_provider: ^2.0.1
@@ -69,7 +73,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   test: any
-  mockito: any
+  mockito: ^5.0.7
 
 flutter_icons:
   android: "app_icon"
@@ -84,6 +88,7 @@ flutter:
     # assets/images/*
     - assets/images/ecosystem.svg
     - assets/images/app_icon.png
+    - assets/images/seeds_currency_icon.svg
     - assets/images/app_icon_transparent.png
     - assets/images/loading.png
     - assets/images/onboarding/onboarding1.png
@@ -105,7 +110,6 @@ flutter:
     - assets/images/wallet.svg
     - assets/images/profile.svg
     - assets/images/logout.svg
-    - assets/images/lotus.svg
     - assets/images/lotus_support_small.svg
     - assets/images/lotus_support_big.svg
     - assets/images/seeds.png
@@ -135,6 +139,8 @@ flutter:
     - assets/images/wallet/currency_info_cards/planted_seeds/logo.jpg
     - assets/images/wallet/currency_info_cards/hypha/background.jpg
     - assets/images/wallet/currency_info_cards/hypha/logo.jpg
+    - assets/images/profile/lotus.svg
+    - assets/images/profile/logout_icon.svg
     - assets/images/security/key_guardians_icon.svg
     - assets/images/security/success_outlined_icon.svg
     - assets/images/citizenship/reputation.svg
@@ -149,6 +155,11 @@ flutter:
     - assets/images/seeds_logo.svg
     - assets/images/login/background.png
     - assets/images/login/seeds_light_wallet_logo.svg
+    - assets/images/receive/receive_input_seeds.svg
+    - assets/images/receive/merchant.svg
+    - assets/images/currency_switch_button.svg
+    - assets/images/transfer/seeds_icon.svg
+    - assets/images/transfer/arrow_up.svg
     # assets end
 
   fonts:

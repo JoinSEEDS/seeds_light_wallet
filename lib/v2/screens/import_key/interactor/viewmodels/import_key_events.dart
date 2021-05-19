@@ -14,7 +14,7 @@ class FindAccountByKey extends ImportKeyEvent {
   FindAccountByKey({required this.userKey});
 
   @override
-  String toString() => 'FindAccountByKey: { userKey: $userKey }';
+  String toString() => 'FindAccountByKey';
 }
 
 class AccountSelected extends ImportKeyEvent {

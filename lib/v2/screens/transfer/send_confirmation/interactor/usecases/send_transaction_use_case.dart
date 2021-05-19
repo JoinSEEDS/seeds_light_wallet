@@ -11,7 +11,7 @@ class SendTransactionUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
   final fromAccount = settingsStorage.accountName;
 
-  Future<Result> run(String toName, String account, Map<String, dynamic> data) {
+  Future<Result> run(String? toName, String account, Map<String, dynamic> data) {
     return _sendTransactionRepository.sendTransaction(toName, account, data, fromAccount).then((Result value) async {
       if (value.isError) {
         return value;

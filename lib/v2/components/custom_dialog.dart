@@ -49,6 +49,7 @@ class CustomDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
       elevation: 0,
       backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16),
       child: Stack(
         children: <Widget>[
           Container(
@@ -69,38 +70,47 @@ class CustomDialog extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: children,
                 ),
-                const SizedBox(height: 30),
                 if (leftButtonTitle.isNotEmpty || rightButtonTitle.isNotEmpty)
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Row(
-                      children: [
-                        if (leftButtonTitle.isNotEmpty)
-                          Expanded(
-                            child: FlatButtonLong(
-                              title: leftButtonTitle,
-                              onPressed: onLeftButtonPressed,
-                              color: AppColors.white,
-                            ),
-                          ),
-                        const SizedBox(width: 10),
-                        if (rightButtonTitle.isNotEmpty)
-                          Expanded(
-                            child: FlatButtonLong(
-                              title: rightButtonTitle,
-                              onPressed: onRightButtonPressed,
-                            ),
-                          ),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      const SizedBox(height: 30),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Row(
+                          children: [
+                            if (leftButtonTitle.isNotEmpty)
+                              Expanded(
+                                child: FlatButtonLong(
+                                  title: leftButtonTitle,
+                                  onPressed: onLeftButtonPressed,
+                                  color: AppColors.white,
+                                ),
+                              ),
+                            if (leftButtonTitle.isNotEmpty) const SizedBox(width: 10),
+                            if (rightButtonTitle.isNotEmpty)
+                              Expanded(
+                                child: FlatButtonLong(
+                                  title: rightButtonTitle,
+                                  onPressed: onRightButtonPressed,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 if (leftButtonTitle.isEmpty && rightButtonTitle.isEmpty && singleLargeButtonTitle.isNotEmpty)
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: FlatButtonLong(
-                      title: singleLargeButtonTitle,
-                      onPressed: onSingleLargeButtonPressed ?? () => Navigator.pop(context),
-                    ),
+                  Column(
+                    children: [
+                      const SizedBox(height: 30),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: FlatButtonLong(
+                          title: singleLargeButtonTitle,
+                          onPressed: onSingleLargeButtonPressed ?? () => Navigator.pop(context),
+                        ),
+                      ),
+                    ],
                   ),
               ],
             ),
