@@ -13,7 +13,7 @@ class InviteState extends Equatable {
   final String? availableBalanceFiat;
   final bool isCreateInviteButtonEnabled;
   final double quantity;
-  final bool showAlert;
+  final String alertMessage;
   final bool showInviteLinkDialog;
   final String? errorMessage;
 
@@ -26,7 +26,7 @@ class InviteState extends Equatable {
     this.availableBalanceFiat,
     required this.isCreateInviteButtonEnabled,
     required this.quantity,
-    required this.showAlert,
+    required this.alertMessage,
     required this.showInviteLinkDialog,
     this.errorMessage,
   });
@@ -41,7 +41,7 @@ class InviteState extends Equatable {
         availableBalanceFiat,
         isCreateInviteButtonEnabled,
         quantity,
-        showAlert,
+        alertMessage,
         showInviteLinkDialog,
         errorMessage,
       ];
@@ -55,7 +55,7 @@ class InviteState extends Equatable {
     String? availableBalanceFiat,
     bool? isCreateInviteButtonEnabled,
     double? quantity,
-    bool? showAlert,
+    String? alertMessage,
     bool? showInviteLinkDialog,
     String? errorMessage,
   }) {
@@ -68,7 +68,7 @@ class InviteState extends Equatable {
       availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
       isCreateInviteButtonEnabled: isCreateInviteButtonEnabled ?? this.isCreateInviteButtonEnabled,
       quantity: quantity ?? this.quantity,
-      showAlert: showAlert ?? this.showAlert,
+      alertMessage: alertMessage ?? this.alertMessage,
       showInviteLinkDialog: showInviteLinkDialog ?? this.showInviteLinkDialog,
       errorMessage: errorMessage ?? this.errorMessage,
     );
@@ -82,7 +82,7 @@ class InviteState extends Equatable {
       fiatAmount: 0.toString(),
       isCreateInviteButtonEnabled: false,
       quantity: 0,
-      showAlert: false,
+      alertMessage: '',
       showInviteLinkDialog: false,
     );
   }

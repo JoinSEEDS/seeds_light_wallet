@@ -9,7 +9,7 @@ class SendAmountChangeMapper extends StateMapper {
     double parsedQuantity = double.tryParse(quantity) ?? 0;
 
     var selectedFiat = settingsStorage.selectedFiatCurrency;
-    String fiatAmount = rateState.currencyString(parsedQuantity, selectedFiat);
+    String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat);
 
     return currentState.copyWith(
       fiatAmount: fiatAmount,
