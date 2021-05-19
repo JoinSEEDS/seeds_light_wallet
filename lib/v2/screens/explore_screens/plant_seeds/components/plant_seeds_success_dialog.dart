@@ -24,7 +24,7 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 12, left: 4),
-              child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2Black),
+              child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
             ),
           ],
         ),
