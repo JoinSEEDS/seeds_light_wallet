@@ -14,12 +14,13 @@ extension RatesStateExtensions on RatesState {
   }
 
   /// Returns a String that represents the amount of seeds in a given fiat currency
-  String currencyString(double seedsAmount, String? currencySymbol) {
+  String fromSeedsToFiat(double seedsAmount, String? currencySymbol) {
     var currencyCode = currencySymbol ?? currencyDefaultCode;
     return _seedsTo(seedsAmount, currencyCode).fiatFormatted! + ' ' + currencyCode;
   }
 
-  String seedsString(double currencyAmount, String currencySymbol) {
-    return _toSeeds(currencyAmount, currencySymbol).seedsFormatted! + ' $currencySeedsCode';
+  /// Returns a string representing the amount of given fiat currency in seeds
+  String fromFiatToSeeds(double currencyAmount, String currencySymbol) {
+    return _toSeeds(currencyAmount, currencySymbol).seedsFormatted! + ' ' + currencySeedsCode;
   }
 }
