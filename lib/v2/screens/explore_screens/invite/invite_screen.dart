@@ -55,7 +55,7 @@ class InviteScreen extends StatelessWidget {
                               autoFocus: state.isAutoFocus,
                             ),
                             const SizedBox(height: 24),
-                            AlertInputValue(state.alertMessage, isVisible: state.alertMessage.isNotEmpty),
+                            AlertInputValue(state.alertMessage ?? '', isVisible: state.alertMessage != null),
                             const SizedBox(height: 24),
                             BalanceRow(
                               label: 'Available Balance',
