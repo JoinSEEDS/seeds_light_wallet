@@ -27,7 +27,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       settingsStorage.privateKeyBackedUp = true;
       // New account --> re-start auth status
       add(const InitAuthStatus());
-      // Set fcm token must be last instruction to allow logout, even if there is an error here.
+      // Set fcm token must be last instruction to allow login, even if there is an error here.
       await FirebaseMessageTokenRepository().setFirebaseMessageToken(event.account);
     }
     if (event is EnablePasscode) {
