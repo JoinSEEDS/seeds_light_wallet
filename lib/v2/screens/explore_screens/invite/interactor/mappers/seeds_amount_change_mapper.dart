@@ -12,7 +12,7 @@ class SeedsAmountChangeMapper extends StateMapper {
 
     return currentState.copyWith(
       fiatAmount: rateState.fromSeedsToFiat(parsedQuantity, settingsStorage.selectedFiatCurrency),
-      isCreateInviteButtonEnabled: alertMessage == null && parsedQuantity > 0,
+      isCreateInviteButtonEnabled: parsedQuantity > 0,
       quantity: parsedQuantity,
       alertMessage: alertMessage,
     );

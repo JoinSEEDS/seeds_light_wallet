@@ -16,7 +16,7 @@ class BalanceModel {
 
   factory BalanceModel.fromJson(List<dynamic>? json) {
     if (json != null && json[0].isNotEmpty) {
-      var amount = double.parse((json[0] as String).split(' ')[0]);
+      var amount = double.parse((json[0] as String).split(' ').first);
       return BalanceModel(amount);
     } else {
       return const BalanceModel(0);
