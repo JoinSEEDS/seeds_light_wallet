@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
-import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';
-import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
+import 'package:seeds/widgets/main_button.dart';
 
 class InviteGuardians extends StatefulWidget {
   final Set<MemberModel> selectedUsers;
