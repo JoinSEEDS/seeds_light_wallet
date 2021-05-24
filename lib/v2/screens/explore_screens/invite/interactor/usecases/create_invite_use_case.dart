@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:seeds/utils/invites.dart';
+import 'package:seeds/v2/utils/mnemonic_code/mnemonic_code.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/invite_repository.dart';
 

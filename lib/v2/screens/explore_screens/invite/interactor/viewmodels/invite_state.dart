@@ -15,6 +15,8 @@ class InviteState extends Equatable {
   final double quantity;
   final String? alertMessage;
   final bool showInviteLinkDialog;
+  final String? mnemonicSecretCode;
+  final String? dynamicSecretLink;
   final String? errorMessage;
 
   const InviteState({
@@ -28,6 +30,8 @@ class InviteState extends Equatable {
     required this.quantity,
     this.alertMessage,
     required this.showInviteLinkDialog,
+    this.mnemonicSecretCode,
+    this.dynamicSecretLink,
     this.errorMessage,
   });
 
@@ -57,6 +61,8 @@ class InviteState extends Equatable {
     double? quantity,
     String? alertMessage,
     bool? showInviteLinkDialog,
+    String? mnemonicSecretCode,
+    String? dynamicSecretLink,
     String? errorMessage,
   }) {
     return InviteState(
@@ -70,6 +76,8 @@ class InviteState extends Equatable {
       quantity: quantity ?? this.quantity,
       alertMessage: alertMessage,
       showInviteLinkDialog: showInviteLinkDialog ?? this.showInviteLinkDialog,
+      mnemonicSecretCode: mnemonicSecretCode,
+      dynamicSecretLink: dynamicSecretLink,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }

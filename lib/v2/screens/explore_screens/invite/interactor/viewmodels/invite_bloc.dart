@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
-import 'package:seeds/utils/invites.dart';
+import 'package:seeds/v2/utils/mnemonic_code/mnemonic_code.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
@@ -25,9 +25,9 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
       yield SeedsAmountChangeMapper().mapResultToState(state, state.ratesState, event.amountChanged);
     }
     if (event is OnCreateInviteButtonTapped) {
-      yield state.copyWith(pageState: PageState.loading);
-      String readableSecretCode = generateMnemonic();
-      List<Result> results = await CreateInviteUseCase().run(amount: state.quantity, mnemonic: 'Mouse');
+      String mnemonicSecretCode = generateMnemonic();
+      yield state.copyWith(pageState: PageState.loading, mnemonicSecretCode: mnemonicSecretCode);
+      List<Result> results = await CreateInviteUseCase().run(amount: state.quantity, mnemonic: mnemonicSecretCode);
       yield CreateInviteResultStateMapper().mapResultsToState(state, results);
     }
   }
