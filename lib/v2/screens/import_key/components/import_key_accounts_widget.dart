@@ -7,7 +7,7 @@ import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/constants/ui_constants.dart';
 import 'package:seeds/v2/screens/import_key/interactor/import_key_bloc.dart';
 import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_events.dart';
 import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_state.dart';

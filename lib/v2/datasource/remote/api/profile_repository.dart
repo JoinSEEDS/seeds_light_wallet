@@ -9,7 +9,7 @@ import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/score_model.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/v2/datasource/remote/model/referred_accounts_model.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/constants/ui_constants.dart';
 
 export 'package:async/src/result/result.dart';
 

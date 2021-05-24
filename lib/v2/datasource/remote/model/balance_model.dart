@@ -1,5 +1,5 @@
 import 'package:seeds/utils/double_extension.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/constants/ui_constants.dart';
 
 /// The available balance of seeds
 class BalanceModel {
