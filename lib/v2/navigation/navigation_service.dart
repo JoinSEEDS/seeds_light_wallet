@@ -5,9 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/app/ecosystem/dho/dho.dart';
 import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
-
-// import 'package:seeds/screens/app/ecosystem/harvest/plant_seeds.dart';
-import 'package:seeds/screens/app/ecosystem/invites/create_invite.dart';
+// import 'package:seeds/screens/app/ecosystem/invites/create_invite.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
@@ -22,7 +20,9 @@ import 'package:seeds/screens/app/wallet/receive_custom.dart';
 import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
+import 'package:seeds/v2/screens/display_name/display_name.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
+import 'package:seeds/v2/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
@@ -35,6 +35,7 @@ import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/receive/receive_screen.dart';
+import 'package:seeds/v2/screens/sign_up/sign_up_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/send_enter_data_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
@@ -85,6 +86,8 @@ class Routes {
   static final login = "Login";
   static final importKey = "ImportKey";
   static final verification = "verification";
+  static final signUp = 'signUp';
+  static final displayName = 'displayName';
 }
 
 class NavigationService {
@@ -105,6 +108,8 @@ class NavigationService {
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
+    Routes.signUp: (_) => SignUpScreen(),
+    Routes.displayName: (_) => DisplayName(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),
     // Routes.showInvite: (args) => ShowInvite(args),
@@ -118,7 +123,7 @@ class NavigationService {
     Routes.transfer: (_) => SendSearchUserScreen(),
     Routes.sendEnterData: (_) => SendEnterDataScreen(),
     Routes.invites: (_) => Invites(),
-    Routes.createInvite: (_) => CreateInvite(),
+    Routes.createInvite: (_) => const InviteScreen(),
     Routes.proposals: (_) => Proposals(),
     Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
     Routes.logout: (_) => Logout(),

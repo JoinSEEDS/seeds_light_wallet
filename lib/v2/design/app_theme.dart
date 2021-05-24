@@ -4,22 +4,26 @@ import 'package:seeds/v2/constants/app_colors.dart';
 class SeedsAppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
-        primaryColor: AppColors.primary,
-        fontFamily: 'SFProDisplay',
-        textTheme: SeedsTextTheme.lightTheme,
-        brightness: Brightness.light,
-        canvasColor: AppColors.primary,
-        appBarTheme: const AppBarTheme(elevation: 0.0));
+      primaryColor: AppColors.primary,
+      fontFamily: 'SFProDisplay',
+      textTheme: SeedsTextTheme.lightTheme,
+      brightness: Brightness.light,
+      canvasColor: AppColors.primary,
+      appBarTheme: const AppBarTheme(elevation: 0.0),
+      inputDecorationTheme: SeedsInputDecorationTheme.lightTheme,
+    );
   }
 
   static ThemeData get darkTheme {
     return ThemeData(
-        primaryColor: AppColors.primary,
-        fontFamily: 'SFProDisplay',
-        textTheme: SeedsTextTheme.darkTheme,
-        brightness: Brightness.dark,
-        canvasColor: AppColors.primary,
-        appBarTheme: const AppBarTheme(elevation: 0.0));
+      primaryColor: AppColors.primary,
+      fontFamily: 'SFProDisplay',
+      textTheme: SeedsTextTheme.darkTheme,
+      brightness: Brightness.dark,
+      canvasColor: AppColors.primary,
+      appBarTheme: const AppBarTheme(elevation: 0.0),
+      inputDecorationTheme: SeedsInputDecorationTheme.darkTheme,
+    );
   }
 }
 
@@ -99,6 +103,11 @@ extension CustomStyles on TextTheme {
       .subtitle2!
       .copyWith(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white.withOpacity(0.5));
 
+  TextStyle get subtitle2OpacityBlack => Typography.material2018()
+      .englishLike
+      .subtitle2!
+      .copyWith(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black.withOpacity(0.5));
+
   TextStyle get subtitle3 =>
       Typography.material2018().englishLike.subtitle2!.copyWith(fontSize: 12, fontWeight: FontWeight.w400);
 
@@ -167,4 +176,68 @@ extension CustomStyles on TextTheme {
 
   TextStyle get headline7Green =>
       headline7.copyWith(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.green3);
+}
+
+class SeedsInputDecorationTheme {
+  static InputDecorationTheme get lightTheme => InputDecorationTheme(
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 1,
+            color: AppColors.black,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 1,
+            color: AppColors.black,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 1,
+            color: AppColors.red,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 1,
+            color: AppColors.red,
+          ),
+        ),
+      );
+
+  static InputDecorationTheme get darkTheme => InputDecorationTheme(
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 1,
+            color: AppColors.darkGreen2,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 1,
+            color: AppColors.darkGreen2,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 1,
+            color: AppColors.red,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 1,
+            color: AppColors.red,
+          ),
+        ),
+      );
 }

@@ -22,11 +22,11 @@ class UserBalanceAndPlantedStateMapper extends StateMapper {
 
       return currentState.copyWith(
         pageState: PageState.success,
-        fiatAmount: rateState.currencyString(0, selectedFiat),
+        fiatAmount: rateState.fromSeedsToFiat(0, selectedFiat),
         availableBalance: balance,
-        availableBalanceFiat: rateState.currencyString(balance?.quantity ?? 0, selectedFiat),
+        availableBalanceFiat: rateState.fromSeedsToFiat(balance?.quantity ?? 0, selectedFiat),
         plantedBalance: plantedSeeds?.formattedQuantity,
-        plantedBalanceFiat: rateState.currencyString(plantedSeeds?.quantity ?? 0, selectedFiat),
+        plantedBalanceFiat: rateState.fromSeedsToFiat(plantedSeeds?.quantity ?? 0, selectedFiat),
       );
     }
   }

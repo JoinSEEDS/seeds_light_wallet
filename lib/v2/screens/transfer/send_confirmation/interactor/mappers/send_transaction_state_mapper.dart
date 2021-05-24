@@ -21,7 +21,7 @@ class SendTransactionStateMapper extends StateMapper {
       double parsedQuantity = double.parse(quantity.split(' ')[0]);
 
       var selectedFiat = settingsStorage.selectedFiatCurrency;
-      String fiatAmount = rateState.currencyString(parsedQuantity, selectedFiat);
+      String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat);
 
       if (areAllResultsSuccess(resultResponse.profiles)) {
         var toAccount = resultResponse.profiles[0].asValue!.value as ProfileModel;

@@ -11,7 +11,7 @@ class SeedsAmountChangeMapper extends StateMapper {
     String? selectedFiat = settingsStorage.selectedFiatCurrency;
 
     return currentState.copyWith(
-      fiatAmount: rateState.currencyString(parsedQuantity, selectedFiat),
+      fiatAmount: rateState.fromSeedsToFiat(parsedQuantity, selectedFiat),
       isPlantSeedsButtonEnabled: parsedQuantity > 0 && parsedQuantity < currentAvailable,
       quantity: parsedQuantity,
       showAlert: parsedQuantity > currentAvailable,
