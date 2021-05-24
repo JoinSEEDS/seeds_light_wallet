@@ -6,7 +6,7 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/screens/shared/user_tile.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/v2/datasource/remote/model/';
+import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 
 class InviteGuardians extends StatefulWidget {
   final Set<MemberModel> selectedUsers;
@@ -67,13 +67,13 @@ class _InviteGuardianBodyState extends State<InviteGuardianBody> {
             textAlign: TextAlign.center,
           ),
         ),
-        Expanded(
-          child: ListView(
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            children: widget.selectedUsers!.map((e) => userTile(user: e, onTap: null)).toList(),
-          ),
-        ),
+        // Expanded(
+        //   child: ListView(
+        //     shrinkWrap: true,
+        //     physics: const ClampingScrollPhysics(),
+        //     children: widget.selectedUsers!.map((e) => userTile(user: e, onTap: null)).toList(),
+        //   ),
+        // ),
         Align(
           alignment: Alignment.bottomCenter,
           child: MainButton(
@@ -81,11 +81,11 @@ class _InviteGuardianBodyState extends State<InviteGuardianBody> {
             margin: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 16),
             title: 'Send Invite'.i18n,
             onPressed: () => {
-              widget.savingLoader.currentState!.loading(),
-              FirebaseDatabaseService()
-                  .sendGuardiansInvite(SettingsNotifier.of(context).accountName, widget.selectedUsers!.toList())
-                  .catchError((onError) => onSendInviteError(onError))
-                  .then((value) => NavigationService.of(context).navigateTo(Routes.inviteGuardiansSent))
+              // widget.savingLoader.currentState!.loading(),
+              // FirebaseDatabaseService()
+              //     .sendGuardiansInvite(SettingsNotifier.of(context).accountName, widget.selectedUsers!.toList())
+              //     .catchError((onError) => onSendInviteError(onError))
+              //     .then((value) => NavigationService.of(context).navigateTo(Routes.inviteGuardiansSent))
             },
           ),
         ),
