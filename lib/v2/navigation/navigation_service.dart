@@ -35,7 +35,7 @@ import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
 import 'package:seeds/v2/screens/receive/receive_screen.dart';
-import 'package:seeds/v2/screens/sign_up/sign_up_screen.dart';
+import 'package:seeds/v2/screens/sign_up/claim_invite/claim_invite_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/send_enter_data_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
@@ -86,7 +86,7 @@ class Routes {
   static final login = "Login";
   static final importKey = "ImportKey";
   static final verification = "verification";
-  static final signUp = 'signUp';
+  static final claimInvite = 'signUp';
   static final displayName = 'displayName';
 }
 
@@ -108,7 +108,7 @@ class NavigationService {
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
-    Routes.signUp: (_) => SignUpScreen(),
+    Routes.claimInvite: (_) => ClaimInviteScreen(),
     Routes.displayName: (_) => DisplayName(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),
