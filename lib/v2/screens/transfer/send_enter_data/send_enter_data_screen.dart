@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/v2/components/alert_input_value.dart';
 import 'package:seeds/v2/components/amount_entry_widget.dart';
 import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
@@ -21,6 +22,7 @@ import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/i18n/plant_seeds.i18n.dart';
 
 /// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {
@@ -123,6 +125,8 @@ class SendEnterDataScreen extends StatelessWidget {
                               enteringCurrencyName: currencySeedsCode,
                               autoFocus: state.pageState == PageState.initial,
                             ),
+                            const SizedBox(height: 24),
+                            AlertInputValue('The value exceeds your balance'.i18n, isVisible: state.showAlert),
                             const SizedBox(height: 30),
                             Padding(
                               padding: const EdgeInsets.only(left: 16, right: 16),

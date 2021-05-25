@@ -19,22 +19,23 @@ class SendEnterDataPageState extends Equatable {
   final double quantity;
   final String memo;
   final bool shouldAutoFocusEnterField;
+  final bool showAlert;
 
-  const SendEnterDataPageState({
-    required this.pageState,
-    this.error,
-    required this.sendTo,
-    this.fiatAmount,
-    required this.ratesState,
-    this.availableBalance,
-    this.availableBalanceFiat,
-    required this.isNextButtonEnabled,
-    this.balance,
-    required this.quantity,
-    this.pageCommand,
-    required this.memo,
-    required this.shouldAutoFocusEnterField,
-  });
+  const SendEnterDataPageState(
+      {required this.pageState,
+      this.error,
+      required this.sendTo,
+      this.fiatAmount,
+      required this.ratesState,
+      this.availableBalance,
+      this.availableBalanceFiat,
+      required this.isNextButtonEnabled,
+      this.balance,
+      required this.quantity,
+      this.pageCommand,
+      required this.memo,
+      required this.shouldAutoFocusEnterField,
+      required this.showAlert});
 
   @override
   List<Object?> get props => [
@@ -50,7 +51,8 @@ class SendEnterDataPageState extends Equatable {
         quantity,
         pageCommand,
         memo,
-        shouldAutoFocusEnterField
+        shouldAutoFocusEnterField,
+        showAlert
       ];
 
   SendEnterDataPageState copyWith({
@@ -67,6 +69,7 @@ class SendEnterDataPageState extends Equatable {
     double? quantity,
     String? memo,
     bool? shouldAutoFocusEnterField,
+    bool? showAlert,
   }) {
     return SendEnterDataPageState(
         pageState: pageState ?? this.pageState,
@@ -81,7 +84,8 @@ class SendEnterDataPageState extends Equatable {
         pageCommand: pageCommand,
         quantity: quantity ?? this.quantity,
         memo: memo ?? this.memo,
-        shouldAutoFocusEnterField: shouldAutoFocusEnterField ?? this.shouldAutoFocusEnterField);
+        shouldAutoFocusEnterField: shouldAutoFocusEnterField ?? this.shouldAutoFocusEnterField,
+        showAlert: showAlert ?? this.showAlert);
   }
 
   factory SendEnterDataPageState.initial(MemberModel memberModel, RatesState ratesState) {
@@ -92,6 +96,7 @@ class SendEnterDataPageState extends Equatable {
         isNextButtonEnabled: false,
         quantity: 0,
         memo: '',
-        shouldAutoFocusEnterField: true);
+        shouldAutoFocusEnterField: true,
+        showAlert: false);
   }
 }

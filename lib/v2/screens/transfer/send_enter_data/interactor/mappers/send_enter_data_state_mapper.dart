@@ -21,12 +21,12 @@ class SendEnterDataStateMapper extends StateMapper {
       String availableBalanceFiat = rateState.fromSeedsToFiat(balance.quantity, selectedFiat);
 
       return currentState.copyWith(
-        pageState: PageState.success,
-        fiatAmount: fiatAmount,
-        availableBalance: balance.formattedQuantity,
-        availableBalanceFiat: availableBalanceFiat,
-        error: null,
-      );
+          pageState: PageState.success,
+          fiatAmount: fiatAmount,
+          availableBalance: balance.formattedQuantity,
+          availableBalanceFiat: availableBalanceFiat,
+          error: null,
+          balance: balance);
     }
   }
 }
