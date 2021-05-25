@@ -23,7 +23,7 @@ class CreateInviteResultStateMapper extends StateMapper {
           dynamicSecretLink: dynamicSecretLink.toString(),
         );
       } else {
-        // Show a dialog or snack to retry?? we do not have yet a desing for this.
+        // next pr pop screen and show a snack with a opps! an error happes try again.
         return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error creating invite');
       }
     }
