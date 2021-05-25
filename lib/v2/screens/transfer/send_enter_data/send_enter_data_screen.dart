@@ -11,7 +11,7 @@ import 'package:seeds/v2/components/search_user/components/search_result_row.dar
 import 'package:seeds/v2/components/text_form_field_light.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/constants/ui_constants.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/components/send_confirmation_dialog.dart';

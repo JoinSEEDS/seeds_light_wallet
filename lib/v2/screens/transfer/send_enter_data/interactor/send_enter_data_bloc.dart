@@ -4,7 +4,7 @@ import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
-import 'package:seeds/v2/constants/ui_constants.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/usecases/send_transaction_use_case.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/mappers/send_amount_change_mapper.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/mappers/send_enter_data_state_mapper.dart';
