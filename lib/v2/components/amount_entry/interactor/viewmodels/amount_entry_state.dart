@@ -1,31 +1,71 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 
-enum CurrentCurrencyInput { fiat, seeds }
+enum CurrencyInput { FIAT, SEEDS }
 
 class AmountEntryState extends Equatable {
-  final PageState pageState;
-  final String? error;
   final int decimalPrecision;
-  final CurrentCurrencyInput currentCurrencyInput;
+  final CurrencyInput currentCurrencyInput;
+  final RatesState ratesState;
+  final PageCommand? pageCommand;
+  final String seedsAmount;
+  final String seedsToFiat;
+  final String fiatToSeeds;
+  final String textInput;
 
   const AmountEntryState(
-      {required this.pageState, this.error, required this.decimalPrecision, required this.currentCurrencyInput});
+      {required this.decimalPrecision,
+      required this.currentCurrencyInput,
+      required this.ratesState,
+      required this.seedsAmount,
+      this.pageCommand,
+      required this.fiatToSeeds,
+      required this.seedsToFiat,
+      required this.textInput});
 
   @override
-  List<Object?> get props => [pageState, error, decimalPrecision, currentCurrencyInput];
+  List<Object?> get props => [
+        decimalPrecision,
+        currentCurrencyInput,
+        ratesState,
+        seedsAmount,
+        pageCommand,
+        seedsToFiat,
+        fiatToSeeds,
+        textInput
+      ];
 
-  AmountEntryState copyWith(
-      {PageState? pageState, String? error, int? decimalPrecision, CurrentCurrencyInput? currentCurrencyInput}) {
+  AmountEntryState copyWith({
+    int? decimalPrecision,
+    CurrencyInput? currentCurrencyInput,
+    RatesState? ratesState,
+    String? seedsAmount,
+    PageCommand? pageCommand,
+    String? fiatToSeeds,
+    String? seedsToFiat,
+    String? textInput,
+  }) {
     return AmountEntryState(
-        pageState: pageState ?? this.pageState,
-        error: error ?? this.error,
-        decimalPrecision: decimalPrecision ?? this.decimalPrecision,
-        currentCurrencyInput: currentCurrencyInput ?? this.currentCurrencyInput);
+      decimalPrecision: decimalPrecision ?? this.decimalPrecision,
+      currentCurrencyInput: currentCurrencyInput ?? this.currentCurrencyInput,
+      ratesState: ratesState ?? this.ratesState,
+      seedsAmount: seedsAmount ?? this.seedsAmount,
+      pageCommand: pageCommand,
+      fiatToSeeds: fiatToSeeds ?? this.fiatToSeeds,
+      seedsToFiat: seedsToFiat ?? this.seedsToFiat,
+      textInput: textInput ?? this.textInput,
+    );
   }
 
-  factory AmountEntryState.initial() {
-    return const AmountEntryState(
-        pageState: PageState.initial, decimalPrecision: 4, currentCurrencyInput: CurrentCurrencyInput.seeds);
+  factory AmountEntryState.initial(RatesState ratesState) {
+    return AmountEntryState(
+        decimalPrecision: 4,
+        currentCurrencyInput: CurrencyInput.SEEDS,
+        ratesState: ratesState,
+        seedsAmount: "0",
+        fiatToSeeds: "0",
+        seedsToFiat: "0",
+        textInput: "0");
   }
 }

@@ -8,14 +8,26 @@ abstract class AmountEntryEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TabCurrencySwitchButton extends AmountEntryEvent {
-  final int intPrecision;
-
-
-  TabCurrencySwitchButton({required this.intPrecision});
-
+class InitSendDataArguments extends AmountEntryEvent {
   @override
-  String toString() => 'OnSearchChange: { searchQuery: $intPrecision }';
+  String toString() => 'InitAmountEntryDataArguments: { InitAmountEntryDataArguments: }';
 }
 
+class ClearPageCommand extends AmountEntryEvent {
+  @override
+  String toString() => 'ClearPageCommand: { ClearPageCommand: }';
+}
 
+class OnAmountChange extends AmountEntryEvent {
+  final String amountChanged;
+
+  OnAmountChange({required this.amountChanged});
+
+  @override
+  String toString() => 'OnAmountChange { OnAmountChange: $amountChanged }';
+}
+
+class TabCurrencySwitchButton extends AmountEntryEvent {
+  @override
+  String toString() => 'TabCurrencySwitchButton: { TabCurrencySwitchButton }';
+}

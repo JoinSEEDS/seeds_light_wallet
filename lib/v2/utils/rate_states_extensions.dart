@@ -9,18 +9,23 @@ extension RatesStateExtensions on RatesState {
   }
 
   double _toSeeds(double currencyValue, String currencySymbol) {
-    var usdValue = fiatRate?.toUSD(currencyValue, currencySymbol) ?? 0;
-    return rate?.toSeeds(usdValue) ?? 0;
+    if (currencySymbol == "USD") {
+      return rate?.toSeeds(currencyValue) ?? 0;
+    } else {
+      var usdValue = fiatRate?.toUSD(currencyValue, currencySymbol) ?? 0;
+      return rate?.toSeeds(usdValue) ?? 0;
+    }
   }
 
   /// Returns a String that represents the amount of seeds in a given fiat currency
   String fromSeedsToFiat(double seedsAmount, String? currencySymbol) {
     var currencyCode = currencySymbol ?? currencyDefaultCode;
-    return _seedsTo(seedsAmount, currencyCode).fiatFormatted! + ' ' + currencyCode;
+    return _seedsTo(seedsAmount, currencyCode).fiatFormatted!;
   }
 
   /// Returns a string representing the amount of given fiat currency in seeds
-  String fromFiatToSeeds(double currencyAmount, String currencySymbol) {
-    return _toSeeds(currencyAmount, currencySymbol).seedsFormatted! + ' ' + currencySeedsCode;
+  String fromFiatToSeeds(double currencyAmount, String? currencySymbol) {
+    var currencyCode = currencySymbol ?? currencyDefaultCode;
+    return _toSeeds(currencyAmount, currencyCode).seedsFormatted!;
   }
 }
