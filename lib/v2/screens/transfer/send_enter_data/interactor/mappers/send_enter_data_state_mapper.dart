@@ -16,9 +16,9 @@ class SendEnterDataStateMapper extends StateMapper {
       double parsedQuantity = double.parse(quantity);
 
       var selectedFiat = settingsStorage.selectedFiatCurrency;
-      String fiatAmount = rateState.currencyString(parsedQuantity, selectedFiat);
+      String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat);
 
-      String availableBalanceFiat = rateState.currencyString(balance.quantity, selectedFiat);
+      String availableBalanceFiat = rateState.fromSeedsToFiat(balance.quantity, selectedFiat);
 
       return currentState.copyWith(
         pageState: PageState.success,
