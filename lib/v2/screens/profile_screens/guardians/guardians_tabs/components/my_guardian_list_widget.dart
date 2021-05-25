@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/v2/components/search_result_row.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/guardian_row.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/my_guardian_separator_widget.dart';
 
 class MyGuardiansListWidget extends StatelessWidget {
@@ -20,10 +20,11 @@ class MyGuardiansListWidget extends StatelessWidget {
 
           var guardian = guardians[index - 1];
 
-          return GuardianRow(
+          return SearchResultRow(
             account: guardian.uid,
             imageUrl: guardian.image,
             name: guardian.nickname,
+            resultCallBack: (){},
           );
         },
         separatorBuilder: (context, index) {
