@@ -61,11 +61,8 @@ class SelectGuardiansScreen extends StatelessWidget {
                               title: 'Next',
                               onPressed: state.selectedGuardians.isNotEmpty
                                   ? () => {
-                                        if (state.selectedGuardians.isNotEmpty)
-                                          {
-                                            NavigationService.of(context)
-                                                .navigateTo(Routes.inviteGuardians, state.selectedGuardians),
-                                          }
+                                        NavigationService.of(context)
+                                            .navigateTo(Routes.inviteGuardians, state.selectedGuardians),
                                       }
                                   : null,
                             ),
