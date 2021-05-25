@@ -5,6 +5,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
+import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 class InviteRepository extends NetworkRepository with EosRepository {
@@ -20,26 +21,26 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     var transaction = buildFreeTransaction([
       Action()
-        ..account = 'token.seeds'
-        ..name = 'transfer'
+        ..account = tokenSeeds
+        ..name = transfer
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = 'active'
+            ..permission = permissionActive
         ]
         ..data = {
           'from': accountName,
-          'to': 'join.seeds',
+          'to': joinSeeds,
           'quantity': '${quantity.toStringAsFixed(4)} $currencySeedsCode',
           'memo': '',
         },
       Action()
-        ..account = 'join.seeds'
-        ..name = 'invite'
+        ..account = joinSeeds
+        ..name = invite
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = 'active'
+            ..permission = permissionActive
         ]
         ..data = {
           'sponsor': accountName,
@@ -59,13 +60,10 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
   Future<Result> createInviteLink(String? inviteMnemonic) async {
     final parameters = DynamicLinkParameters(
-      uriPrefix: 'https://seedswallet.page.link',
-      link: Uri.parse('https://joinseeds.com/?placeholder=&inviteMnemonic=$inviteMnemonic'),
-      androidParameters: AndroidParameters(packageName: 'com.joinseeds.seedswallet'),
-      iosParameters: IosParameters(
-        bundleId: 'com.joinseeds.seedslight',
-        appStoreId: '1507143650',
-      ),
+      uriPrefix: domainAppUriPrefix,
+      link: Uri.parse('$targetLink$inviteMnemonic'),
+      androidParameters: AndroidParameters(packageName: androidPacakageName),
+      iosParameters: IosParameters(bundleId: iosBundleId, appStoreId: iosAppStoreId),
     );
 
     final dynamicUrl = (await parameters.buildShortLink()).shortUrl;
