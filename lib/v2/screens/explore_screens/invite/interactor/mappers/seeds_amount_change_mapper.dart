@@ -8,7 +8,7 @@ class SeedsAmountChangeMapper extends StateMapper {
   InviteState mapResultToState(InviteState currentState, RatesState rateState, String quantity) {
     double parsedQuantity = double.tryParse(quantity) ?? 0;
     double currentAvailable = currentState.availableBalance?.quantity ?? 0;
-    String? alertMessage = _hasAlertMessage(currentAvailable, parsedQuantity);
+    String? alertMessage = _handleAlertMessage(currentAvailable, parsedQuantity);
 
     return currentState.copyWith(
       fiatAmount: rateState.fromSeedsToFiat(parsedQuantity, settingsStorage.selectedFiatCurrency),
@@ -18,7 +18,7 @@ class SeedsAmountChangeMapper extends StateMapper {
     );
   }
 
-  String? _hasAlertMessage(double availableAmount, double inputAmount) {
+  String? _handleAlertMessage(double availableAmount, double inputAmount) {
     if (inputAmount > 0 && inputAmount > availableAmount) {
       return 'The value exceeds your balance';
     } else if (inputAmount > 0 && inputAmount < 5) {

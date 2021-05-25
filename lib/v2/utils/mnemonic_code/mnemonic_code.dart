@@ -38,7 +38,7 @@ Uint8List _randomBytes(int size) {
 
 /// One word is equals to 8 bits of strength, the minumun is 16 (2 words).
 /// Default separator dash (-)
-String generateMnemonic({int strength = 128, RandomBytes randomBytes = _randomBytes}) {
+String generateMnemonic({int strength = 48, RandomBytes randomBytes = _randomBytes}) {
   assert(strength % 16 == 0);
   final entropy = randomBytes(strength ~/ 8);
   return entropyToMnemonic(HEX.encode(entropy));
