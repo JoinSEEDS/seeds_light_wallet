@@ -4,6 +4,7 @@ import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/interactor/viewmodels/invite_state.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
+import 'package:seeds/utils/double_extension.dart';
 
 class SeedsAmountChangeMapper extends StateMapper {
   InviteState mapResultToState(InviteState currentState, RatesState rateState, String quantity) {
@@ -13,7 +14,7 @@ class SeedsAmountChangeMapper extends StateMapper {
     String? alertMessage = _handleAlertMessage(currentAvailable, parsedQuantity);
 
     return currentState.copyWith(
-      fiatAmount: rateState.fromSeedsToFiat(parsedQuantity, settingsStorage.selectedFiatCurrency),
+      fiatAmount: rateState.fromSeedsToFiat(parsedQuantity, settingsStorage.selectedFiatCurrency).fiatFormatted,
       isCreateInviteButtonEnabled: alertMessage == null && parsedQuantity > 0,
       quantity: parsedQuantity,
       alertMessage: alertMessage,

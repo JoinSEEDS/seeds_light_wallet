@@ -46,7 +46,7 @@ class _SettingsStorage {
 
   int get backupReminderCount => _backupReminderCount ?? 0;
 
-  String? get selectedFiatCurrency => _preferences.getString(SELECTED_FIAT_CURRENCY);
+  String get selectedFiatCurrency => _preferences.getString(SELECTED_FIAT_CURRENCY) ?? 'USD';
 
   bool get inRecoveryMode => _preferences.getBool(IN_RECOVERY_MODE) ?? false;
 

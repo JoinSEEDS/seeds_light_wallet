@@ -38,7 +38,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
               memo: "",
               toName: state.sendTo.nickname,
               toImage: state.sendTo.image,
-              currency: settingsStorage.selectedFiatCurrency ?? currencyDefaultCode,
+              currency: settingsStorage.selectedFiatCurrency,
               fiatAmount: state.fiatAmount));
     } else if (event is OnSendButtonTapped) {
       yield state.copyWith(pageState: PageState.loading, pageCommand: null);

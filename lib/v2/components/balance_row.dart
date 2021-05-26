@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 
 /// Available Amount
@@ -26,8 +27,7 @@ class BalanceRow extends StatelessWidget {
             Expanded(
                 child: Container(
                     alignment: Alignment.centerLeft,
-                    child:
-                        Text(label, style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis))),
+                    child: Text(label, style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis))),
             Expanded(
                 child: Container(
                     alignment: Alignment.centerRight,
@@ -36,9 +36,10 @@ class BalanceRow extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [Text( "\$" + fiatAmount, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)]),
+          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Text("\$" + fiatAmount + " " + settingsStorage.selectedFiatCurrency,
+                style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+          ]),
         )
       ],
     );

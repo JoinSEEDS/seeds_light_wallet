@@ -4,7 +4,9 @@ import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
+
 
 class SendEnterDataStateMapper extends StateMapper {
   SendEnterDataPageState mapResultToState(
@@ -16,9 +18,9 @@ class SendEnterDataStateMapper extends StateMapper {
       double parsedQuantity = double.parse(quantity);
 
       var selectedFiat = settingsStorage.selectedFiatCurrency;
-      String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat);
+      String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
 
-      String availableBalanceFiat = rateState.fromSeedsToFiat(balance.quantity, selectedFiat);
+      String availableBalanceFiat = rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted;
 
       return currentState.copyWith(
         pageState: PageState.success,
