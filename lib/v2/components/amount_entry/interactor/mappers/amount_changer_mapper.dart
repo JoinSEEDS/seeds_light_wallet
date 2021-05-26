@@ -4,14 +4,15 @@ import 'package:seeds/v2/components/amount_entry/interactor/viewmodels/page_comm
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 
 class AmountChangeMapper extends StateMapper {
   AmountEntryState mapResultToState(AmountEntryState currentState, String quantity) {
     double parsedQuantity = double.tryParse(quantity) ?? 0;
     var selectedFiat = settingsStorage.selectedFiatCurrency;
 
-    String seedsToFiat = currentState.ratesState.fromSeedsToFiat(parsedQuantity, selectedFiat);
-    String fiatToSeeds = currentState.ratesState.fromFiatToSeeds(parsedQuantity, selectedFiat);
+    String seedsToFiat = currentState.ratesState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
+    String fiatToSeeds = currentState.ratesState.fromFiatToSeeds(parsedQuantity, selectedFiat).seedsFormatted;
 
     return currentState.copyWith(
         seedsAmount: quantity,

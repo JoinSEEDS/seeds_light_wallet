@@ -12,7 +12,7 @@ import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/screens/app/wallet/products_catalog.dart';
-import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/receive_form.dart';
 
@@ -270,7 +270,7 @@ class _ProductListFormState extends State<ProductListForm> {
                 Row(
                   children: [
                     Text(
-                      product.seedsPrice(rateNotifier).fiatFormatted!,
+                      product.seedsPrice(rateNotifier)!.fiatFormatted,
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.white,
@@ -286,7 +286,7 @@ class _ProductListFormState extends State<ProductListForm> {
                 product.currency == SEEDS
                     ? Container()
                     : Text(
-                        product.price.fiatFormatted! + " " + product.currency!,
+                        product.price!.fiatFormatted + " " + product.currency!,
                         textAlign: TextAlign.right,
                         style: const TextStyle(
                           fontSize: 16,
@@ -397,7 +397,7 @@ class _ProductListFormState extends State<ProductListForm> {
               Row(
                 children: [
                   Text(
-                    price.seedsFormatted!,
+                    price.seedsFormatted,
                     style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white,

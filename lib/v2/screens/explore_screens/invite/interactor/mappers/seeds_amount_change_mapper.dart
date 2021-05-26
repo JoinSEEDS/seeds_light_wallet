@@ -3,7 +3,7 @@ import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/interactor/viewmodels/invite_state.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
-import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 
 class SeedsAmountChangeMapper extends StateMapper {
   InviteState mapResultToState(InviteState currentState, RatesState rateState, String quantity) {
