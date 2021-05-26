@@ -14,16 +14,12 @@ import 'interactor/viewmodels/amount_entry_events.dart';
 import 'interactor/viewmodels/amount_entry_state.dart';
 
 class AmountEntryWidget extends StatelessWidget {
-  final String? fiatAmount;
   final ValueSetter<String> onValueChange;
-  final String enteringCurrencyName;
   final bool autoFocus;
 
   const AmountEntryWidget({
     Key? key,
-    this.fiatAmount,
     required this.onValueChange,
-    required this.enteringCurrencyName,
     required this.autoFocus,
   }) : super(key: key);
 

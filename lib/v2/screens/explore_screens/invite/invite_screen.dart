@@ -50,8 +50,6 @@ class InviteScreen extends StatelessWidget {
                               onValueChange: (value) {
                                 BlocProvider.of<InviteBloc>(context).add(OnAmountChange(amountChanged: value));
                               },
-                              fiatAmount: state.fiatAmount,
-                              enteringCurrencyName: currencySeedsCode,
                               autoFocus: state.isAutoFocus,
                             ),
                             const SizedBox(height: 24),
