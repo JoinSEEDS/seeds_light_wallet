@@ -23,50 +23,52 @@ class InviteLinkDialog extends StatelessWidget {
             Navigator.of(context).pop();
             return true;
           },
-          child: CustomDialog(
-            icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('${state.quantity}', style: Theme.of(context).textTheme.headline4Black),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12, left: 4),
-                    child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              Text(state.fiatAmount, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
-              const SizedBox(height: 20.0),
-              QrImage(
-                data: state.dynamicSecretLink!,
-                size: 254,
-                foregroundColor: AppColors.black,
-                errorStateBuilder: (_, err) {
-                  return Container(
-                    child: const Center(
-                      child: Text("Uh oh! Something went wrong...", textAlign: TextAlign.center),
+          child: SingleChildScrollView(
+            child: CustomDialog(
+              icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('${state.quantity}', style: Theme.of(context).textTheme.headline4Black),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12, left: 4),
+                      child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
                     ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20.0),
-              Text(
-                'Share this link with the person you want to invite!'.i18n,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.buttonBlack,
-              ),
-            ],
-            rightButtonTitle: 'Share',
-            leftButtonTitle: state.showCloseDialogButton ? 'Close' : '',
-            onLeftButtonPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
-            onRightButtonPressed: () {
-              BlocProvider.of<InviteBloc>(context).add(const OnShareInviteLinkButtonPressed());
-            },
+                  ],
+                ),
+                const SizedBox(height: 16.0),
+                Text('\$ ${state.fiatAmount}', style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
+                const SizedBox(height: 20.0),
+                QrImage(
+                  data: state.dynamicSecretLink!,
+                  size: 254,
+                  foregroundColor: AppColors.black,
+                  errorStateBuilder: (_, err) {
+                    return Container(
+                      child: const Center(
+                        child: Text("Uh oh! Something went wrong...", textAlign: TextAlign.center),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20.0),
+                Text(
+                  'Share this link with the person you want to invite!'.i18n,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.buttonBlack,
+                ),
+              ],
+              rightButtonTitle: 'Share',
+              leftButtonTitle: state.showCloseDialogButton ? 'Close' : '',
+              onLeftButtonPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              onRightButtonPressed: () {
+                BlocProvider.of<InviteBloc>(context).add(const OnShareInviteLinkButtonPressed());
+              },
+            ),
           ),
         );
       },
