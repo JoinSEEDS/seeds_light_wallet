@@ -25,13 +25,10 @@ class MyGuardiansTab extends StatelessWidget {
               List<Widget> items = [];
 
               items.add(Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: MyGuardiansListWidget(
-                  currentUserId: settingsStorage.accountName,
-                  guardians: myGuardians.toList(),
-                ),
-              )));
+                  child: MyGuardiansListWidget(
+                    currentUserId: settingsStorage.accountName,
+                    guardians: myGuardians.toList(),
+                  )));
 
               if (myGuardians.length < 3) {
                 items.add(Container(
