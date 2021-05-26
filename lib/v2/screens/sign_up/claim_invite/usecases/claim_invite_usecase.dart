@@ -28,4 +28,8 @@ class ClaimInviteUseCase {
 
     yield ClaimInviteMapper().mapInviteMnemonicToState(currentState, inviteMnemonic);
   }
+
+  SignupState navigateToDisplayName(SignupState currentState) {
+    return currentState.copyWith(pageContent: PageContent.DISPLAY_NAME);
+  }
 }

@@ -7,7 +7,6 @@ import 'package:seeds/v2/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
 import 'package:seeds/v2/utils/helpers.dart';
@@ -147,18 +146,18 @@ class _BottomContainerState extends State<BottomContainer> {
   }
 
   VoidCallback? _onClaimPressed(BuildContext context) => _signupBloc.state.claimInviteState.isValid
-        ? () {
-            FocusScope.of(context).unfocus();
-            NavigationService.of(context).navigateTo(Routes.displayName);
-          }
-        : () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(
-                'Please enter a valid invite code',
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-              backgroundColor: AppColors.red1,
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            ));
-          };
+      ? () {
+          FocusScope.of(context).unfocus();
+          _signupBloc.add(NavigateToDisplayName());
+        }
+      : () {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              'Please enter a valid invite code',
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+            backgroundColor: AppColors.red1,
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          ));
+        };
 }

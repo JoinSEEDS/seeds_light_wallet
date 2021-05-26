@@ -14,7 +14,6 @@ import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
-import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_push_notification_service.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/design/app_theme.dart';
@@ -23,8 +22,6 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/app/app.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
-import 'package:seeds/v2/screens/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/verification/verification_screen.dart';
 import 'package:seeds/widgets/splash_screen.dart';
 
@@ -107,13 +104,6 @@ class SeedsApp extends StatelessWidget {
           create: (BuildContext context) => AuthenticationBloc()..add(const InitAuthStatus()),
         ),
         BlocProvider<RatesBloc>(create: (BuildContext context) => RatesBloc()),
-        BlocProvider<SignupBloc>(
-          create: (BuildContext context) => SignupBloc(
-            claimInviteUseCase: ClaimInviteUseCase(
-              signupRepository: SignupRepository(),
-            ),
-          ),
-        ),
       ],
       child: MultiProvider(
         providers: providers,
