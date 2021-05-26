@@ -1,5 +1,4 @@
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 extension RatesStateExtensions on RatesState {
   double _seedsTo(double seedsValue, String currencySymbol) {
