@@ -6,7 +6,7 @@ import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodel
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
-import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 
 class SendTransactionMapper extends StateMapper {
   SendEnterDataPageState mapResultToState(SendEnterDataPageState currentState, Result result) {
