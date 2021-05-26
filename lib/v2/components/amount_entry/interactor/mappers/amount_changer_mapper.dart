@@ -1,4 +1,4 @@
-import 'package:seeds/v2/components/amount_entry/interactor/mappers/currency_change_mapper.dart';
+import 'package:seeds/v2/components/amount_entry/interactor/mappers/handle_info_row_text.dart';
 import 'package:seeds/v2/components/amount_entry/interactor/viewmodels/amount_entry_state.dart';
 import 'package:seeds/v2/components/amount_entry/interactor/viewmodels/page_command.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
