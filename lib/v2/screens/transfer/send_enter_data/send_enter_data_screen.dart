@@ -10,8 +10,8 @@ import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/search_user/components/search_result_row.dart';
 import 'package:seeds/v2/components/text_form_field_light.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/components/send_confirmation_dialog.dart';
@@ -20,7 +20,6 @@ import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_events.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 
 /// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/i18n/plant_seeds.i18n.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/components/alert_input_value.dart';
 import 'package:seeds/v2/components/amount_entry/amount_entry_widget.dart';
@@ -8,10 +9,8 @@ import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/plant_seeds.i18n.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/viewmodels/bloc.dart';
@@ -19,6 +18,7 @@ import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/viewmode
 /// PLANT SEEDS SCREEN
 class PlantSeedsScreen extends StatelessWidget {
   const PlantSeedsScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final _exploreBloc = ModalRoute.of(context)!.settings.arguments as ExploreBloc?;
