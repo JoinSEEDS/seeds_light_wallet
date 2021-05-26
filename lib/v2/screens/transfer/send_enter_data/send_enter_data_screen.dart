@@ -119,8 +119,6 @@ class SendEnterDataScreen extends StatelessWidget {
                                 BlocProvider.of<SendEnterDataPageBloc>(context)
                                     .add(OnAmountChange(amountChanged: value));
                               },
-                              fiatAmount: state.fiatAmount,
-                              enteringCurrencyName: currencySeedsCode,
                               autoFocus: state.pageState == PageState.initial,
                             ),
                             const SizedBox(height: 30),
