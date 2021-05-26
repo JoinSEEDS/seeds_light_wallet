@@ -7,6 +7,7 @@ import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodel
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_state.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
+import 'package:seeds/utils/double_extension.dart';
 
 class SendTransactionStateMapper extends StateMapper {
   SendConfirmationState mapResultToState(SendConfirmationState currentState, Result result, RatesState rateState) {
@@ -21,7 +22,7 @@ class SendTransactionStateMapper extends StateMapper {
       double parsedQuantity = double.parse(quantity.split(' ')[0]);
 
       var selectedFiat = settingsStorage.selectedFiatCurrency;
-      String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat);
+      String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
 
       if (areAllResultsSuccess(resultResponse.profiles)) {
         var toAccount = resultResponse.profiles[0].asValue!.value as ProfileModel;
