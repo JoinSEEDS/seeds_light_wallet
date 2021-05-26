@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
-import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/components/amount_entry/interactor/viewmodels/page_command.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/domain-shared/user_input_decimal_precision.dart';
 import 'package:seeds/v2/domain-shared/user_input_number_formatter.dart';
 
@@ -19,12 +18,10 @@ class AmountEntryWidget extends StatelessWidget {
   final ValueSetter<String> onValueChange;
   final String enteringCurrencyName;
   final bool autoFocus;
-  final int? decimalPrecision;
 
   const AmountEntryWidget({
     Key? key,
     this.fiatAmount,
-    this.decimalPrecision,
     required this.onValueChange,
     required this.enteringCurrencyName,
     required this.autoFocus,
@@ -34,16 +31,12 @@ class AmountEntryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
-      create: (BuildContext context) => AmountEntryBloc(rates)..add(InitSendDataArguments()),
+      create: (BuildContext context) => AmountEntryBloc(rates),
       child: BlocListener<AmountEntryBloc, AmountEntryState>(
         listenWhen: (previous, current) => current.pageCommand != null,
         listener: (context, state) {
-          if (state.currentCurrencyInput == CurrencyInput.SEEDS) {
-            onValueChange(state.textInput);
-          } else {
-            print("else:" + state.fiatToSeeds);
-            onValueChange(state.fiatToSeeds.replaceAll(',', ""));
-          }
+          // ignore: cast_nullable_to_non_nullable
+          onValueChange((state.pageCommand as SendTextInputDataBack).textToSend);
 
           BlocProvider.of<AmountEntryBloc>(context).add(ClearPageCommand());
         },
@@ -74,7 +67,7 @@ class AmountEntryWidget extends StatelessWidget {
                         )),
                         inputFormatters: [
                           UserInputNumberFormatter(),
-                          DecimalTextInputFormatter(decimalRange: decimalPrecision ?? state.decimalPrecision)
+                          DecimalTextInputFormatter(decimalRange: state.currentCurrencyInput.toDecimalPrecision())
                         ],
                       ),
                     ),
@@ -86,9 +79,7 @@ class AmountEntryWidget extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                state.currentCurrencyInput != CurrencyInput.FIAT
-                                    ? enteringCurrencyName
-                                    : settingsStorage.selectedFiatCurrency.toString(),
+                                state.enteringCurrencyName,
                                 style: Theme.of(context).textTheme.subtitle2,
                               ),
                               const SizedBox(height: 18)
@@ -107,7 +98,7 @@ class AmountEntryWidget extends StatelessWidget {
                                   width: 60,
                                 ),
                                 onPressed: () =>
-                                    {BlocProvider.of<AmountEntryBloc>(context).add(TabCurrencySwitchButton())},
+                                    {BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())},
                               ),
                             ),
                           )
@@ -117,9 +108,7 @@ class AmountEntryWidget extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  state.currentCurrencyInput == CurrencyInput.FIAT
-                      ? state.fiatToSeeds + " " + currencySeedsCode
-                      : "\$" + state.seedsToFiat + " " + settingsStorage.selectedFiatCurrency.toString(),
+                  state.infoRowText,
                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                 ),
               ],

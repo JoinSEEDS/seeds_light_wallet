@@ -1,0 +1,42 @@
+import 'package:seeds/v2/components/amount_entry/interactor/mappers/currency_change_mapper.dart';
+import 'package:seeds/v2/components/amount_entry/interactor/viewmodels/amount_entry_state.dart';
+import 'package:seeds/v2/components/amount_entry/interactor/viewmodels/page_command.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/v2/utils/rate_states_extensions.dart';
+
+class AmountChangeMapper extends StateMapper {
+  AmountEntryState mapResultToState(AmountEntryState currentState, String quantity) {
+    double parsedQuantity = double.tryParse(quantity) ?? 0;
+    var selectedFiat = settingsStorage.selectedFiatCurrency;
+
+    String seedsToFiat = currentState.ratesState.fromSeedsToFiat(parsedQuantity, selectedFiat);
+    String fiatToSeeds = currentState.ratesState.fromFiatToSeeds(parsedQuantity, selectedFiat);
+
+    return currentState.copyWith(
+        seedsAmount: quantity,
+        fiatToSeeds: fiatToSeeds,
+        seedsToFiat: seedsToFiat,
+        textInput: quantity,
+        infoRowText: handleInfoRowText(
+          currentCurrencyInput: currentState.currentCurrencyInput,
+          fiatToSeeds: fiatToSeeds,
+          seedsToFiat: seedsToFiat,
+        ),
+        pageCommand: SendTextInputDataBack(handleAmountToSendBack(
+          currentCurrencyInput: currentState.currentCurrencyInput,
+          textInput: quantity,
+          fiatToSeeds: fiatToSeeds,
+        )));
+  }
+}
+
+String handleAmountToSendBack(
+    {required CurrencyInput currentCurrencyInput, required String textInput, required String fiatToSeeds}) {
+  switch (currentCurrencyInput) {
+    case CurrencyInput.SEEDS:
+      return textInput;
+    case CurrencyInput.FIAT:
+      return fiatToSeeds.replaceAll(',', "");
+  }
+}

@@ -27,7 +27,7 @@ class OnAmountChange extends AmountEntryEvent {
   String toString() => 'OnAmountChange { OnAmountChange: $amountChanged }';
 }
 
-class TabCurrencySwitchButton extends AmountEntryEvent {
+class OnCurrencySwitchButtonTapped extends AmountEntryEvent {
   @override
-  String toString() => 'TabCurrencySwitchButton: { TabCurrencySwitchButton }';
+  String toString() => 'OnCurrencySwitchButtonTapped: { OnCurrencySwitchButtonTapped }';
 }
