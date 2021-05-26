@@ -4,14 +4,14 @@ import 'package:seeds/v2/constants/app_colors.dart';
 class QuadStateClipboardIconButton extends StatelessWidget {
   const QuadStateClipboardIconButton({
     required this.onClear,
-    required this.onPaste,
+    this.onPaste,
     required this.isChecked,
     required this.canClear,
     required this.isLoading,
   });
 
   final VoidCallback onClear;
-  final VoidCallback onPaste;
+  final VoidCallback? onPaste;
   final bool isChecked;
   final bool canClear;
   final bool isLoading;
@@ -47,12 +47,16 @@ class QuadStateClipboardIconButton extends StatelessWidget {
       );
     }
 
-    return IconButton(
-      icon: const Icon(
-        Icons.paste,
-        color: AppColors.grey,
-      ),
-      onPressed: onPaste,
-    );
+    if (onPaste != null) {
+      return IconButton(
+        icon: const Icon(
+          Icons.paste,
+          color: AppColors.grey,
+        ),
+        onPressed: onPaste,
+      );
+    }
+
+    return Container();
   }
 }

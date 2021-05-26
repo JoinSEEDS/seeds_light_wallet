@@ -8,6 +8,7 @@ abstract class SignupEvent extends Equatable {
   List<Object> get props => [];
 }
 
+/// Claim Invite Events
 class ValidateInviteCode extends SignupEvent {
   final String inviteCode;
 
@@ -26,8 +27,12 @@ class UnpackScannedLink extends SignupEvent {
   String toString() => 'UnpackScannedLink event { scannedLink: $scannedLink }';
 }
 
-class NavigateToDisplayName extends SignupEvent {}
+class NavigateToDisplayName extends SignupEvent {
+  @override
+  String toString() => 'NavigateToDisplayName event';
+}
 
+/// Display Name Events
 class NavigateToCreateUsername extends SignupEvent {
   final String displayName;
 
@@ -37,4 +42,25 @@ class NavigateToCreateUsername extends SignupEvent {
   String toString() => 'SaveDisplayName event { displayName: $displayName }';
 }
 
-class NavigateBack extends SignupEvent {}
+/// Create Username Events
+class OnUsernameChange extends SignupEvent {
+  final String userName;
+
+  const OnUsernameChange({required this.userName});
+
+  @override
+  String toString() => 'OnUsernameChange event { userName: $userName }';
+}
+
+class NavigateToAddPhoneNumber extends SignupEvent {
+  @override
+  String toString() => 'NavigateToAddPhoneNumber event';
+}
+
+/// Add Phone Number Events
+
+/// Common Events
+class NavigateBack extends SignupEvent {
+  @override
+  String toString() => 'NavigateBack event';
+}

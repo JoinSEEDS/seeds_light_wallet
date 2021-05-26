@@ -4,29 +4,26 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 class CreateUsernameState extends Equatable {
   final PageState pageState;
   final bool isValidUsername;
-  final int usernameCharCount;
 
-  const CreateUsernameState({required this.pageState, required this.isValidUsername, required this.usernameCharCount});
+  const CreateUsernameState({required this.pageState, required this.isValidUsername});
 
   @override
-  List<Object?> get props => [pageState, isValidUsername, usernameCharCount];
+  List<Object?> get props => [pageState, isValidUsername];
 
   CreateUsernameState copyWith({
     PageState? pageState,
     bool? isValidUsername,
-    int? usernameCharCount,
   }) {
     return CreateUsernameState(
-        pageState: pageState ?? this.pageState,
-        isValidUsername: isValidUsername ?? this.isValidUsername,
-        usernameCharCount: usernameCharCount ?? this.usernameCharCount);
+      pageState: pageState ?? this.pageState,
+      isValidUsername: isValidUsername ?? this.isValidUsername,
+    );
   }
 
   factory CreateUsernameState.initial() {
     return const CreateUsernameState(
       pageState: PageState.initial,
       isValidUsername: false,
-      usernameCharCount: 0,
     );
   }
 }

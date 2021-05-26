@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
+import 'package:seeds/v2/screens/sign_up/viewmodels/states/create_username_state.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/display_name_state.dart';
 
 part 'signup_event.dart';
