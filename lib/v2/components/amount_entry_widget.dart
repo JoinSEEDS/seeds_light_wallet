@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -77,7 +78,7 @@ class AmountEntryWidget extends StatelessWidget {
           ],
         ),
         Text(
-          fiatAmount != null ? "\$" + fiatAmount! : "",
+          fiatAmount != null ? "\$" + fiatAmount! + " " + settingsStorage.selectedFiatCurrency : "",
           style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
         ),
       ],
