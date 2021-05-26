@@ -15,16 +15,17 @@ class CreateInviteResultStateMapper extends StateMapper {
       TransactionResponse? response = values.firstWhere((i) => i is TransactionResponse, orElse: () => null);
 
       if (response != null && response.transactionId.isNotEmpty) {
+        // Transaction success show invite link dialog
         Uri? dynamicSecretLink = values.firstWhere((i) => i is Uri, orElse: () => null);
 
         return currentState.copyWith(
           pageState: PageState.success,
-          showInviteLinkDialog: true,
+          pageCommand: ShowInviteLinkDialog(),
           dynamicSecretLink: dynamicSecretLink.toString(),
         );
       } else {
-        // Show a dialog or snack to retry?? we do not have yet a desing for this.
-        return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error creating invite');
+        // Transaction fails --> close screen and show snackbar fail
+        return currentState.copyWith(pageCommand: ShowTransactionFailSnackBar());
       }
     }
   }
