@@ -11,11 +11,15 @@ class PlantSeedsResultMapper extends StateMapper {
       var response = result.asValue!.value as TransactionResponse;
 
       if (response.transactionId.isNotEmpty) {
-        return currentState.copyWith(pageState: PageState.success, showPlantedSuccess: true);
+        // Transaction success show plant seeds success dialog
+        return currentState.copyWith(pageState: PageState.success, pageCommand: ShowPlantSeedsSuccessDialog());
       } else {
+        // Transaction fail show snackbar fail
+        print('Error transaction hash not retrieved');
         return currentState.copyWith(
-          pageState: PageState.failure,
-          errorMessage: 'Error transaction hash not retrieved',
+          pageState: PageState.success,
+          pageCommand: ShowTransactionFailSnackBar(),
+          isPlantSeedsButtonEnabled: false,
         );
       }
     }

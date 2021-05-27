@@ -11,6 +11,7 @@ class SeedsAppTheme {
       canvasColor: AppColors.primary,
       appBarTheme: const AppBarTheme(elevation: 0.0),
       inputDecorationTheme: SeedsInputDecorationTheme.lightTheme,
+      snackBarTheme: const SnackBarThemeData(backgroundColor: AppColors.grey, behavior: SnackBarBehavior.floating),
     );
   }
 
@@ -23,6 +24,7 @@ class SeedsAppTheme {
       canvasColor: AppColors.primary,
       appBarTheme: const AppBarTheme(elevation: 0.0),
       inputDecorationTheme: SeedsInputDecorationTheme.darkTheme,
+      snackBarTheme: const SnackBarThemeData(backgroundColor: AppColors.grey, behavior: SnackBarBehavior.floating),
     );
   }
 }

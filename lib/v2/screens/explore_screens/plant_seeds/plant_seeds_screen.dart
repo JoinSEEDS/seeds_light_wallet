@@ -27,19 +27,42 @@ class PlantSeedsScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: Text('Plant'.i18n, style: Theme.of(context).textTheme.headline7)),
         body: BlocConsumer<PlantSeedsBloc, PlantSeedsState>(
-          listenWhen: (_, current) => current.showPlantedSuccess,
+          listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
-            _exploreBloc?.add(OnPlantedSeedsValueUpdate(plantedSeeds: state.quantity));
-            showDialog<void>(
-              context: context,
-              barrierDismissible: false,
-              builder: (_) {
-                return BlocProvider.value(
-                  value: BlocProvider.of<PlantSeedsBloc>(context),
-                  child: const PlantSeedsSuccessDialog(),
-                );
-              },
-            );
+            if (state.pageCommand is ShowPlantSeedsSuccessDialog) {
+              _exploreBloc?.add(OnPlantedSeedsValueUpdate(plantedSeeds: state.quantity));
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<PlantSeedsBloc>(context),
+                    child: const PlantSeedsSuccessDialog(),
+                  );
+                },
+              );
+            }
+            if (state.pageCommand is ShowTransactionFailSnackBar) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Plant failed, try again.',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.subtitle2,
+                        ),
+                      ),
+                      InkWell(
+                        child: const Icon(Icons.close),
+                        onTap: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
           },
           builder: (context, PlantSeedsState state) {
             switch (state.pageState) {

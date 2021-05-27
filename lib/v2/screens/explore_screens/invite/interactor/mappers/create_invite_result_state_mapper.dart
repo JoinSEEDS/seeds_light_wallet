@@ -24,8 +24,13 @@ class CreateInviteResultStateMapper extends StateMapper {
           dynamicSecretLink: dynamicSecretLink.toString(),
         );
       } else {
-        // Transaction fails --> close screen and show snackbar fail
-        return currentState.copyWith(pageCommand: ShowTransactionFailSnackBar());
+        // Transaction fail show snackbar fail
+        print('Error transaction hash not retrieved');
+        return currentState.copyWith(
+          pageState: PageState.success,
+          pageCommand: ShowTransactionFailSnackBar(),
+          isCreateInviteButtonEnabled: false,
+        );
       }
     }
   }
