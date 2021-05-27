@@ -7,6 +7,7 @@ import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/design/app_theme.dart';
@@ -40,23 +41,7 @@ class InviteScreen extends StatelessWidget {
             }
             if (state.pageCommand is ShowTransactionFailSnackBar) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Invite creation failed, try again',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle2,
-                        ),
-                      ),
-                      InkWell(
-                        child: const Icon(Icons.close),
-                        onTap: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-                      ),
-                    ],
-                  ),
-                ),
+                SnackBarInfo(title: 'Invite creation failed, try again.', context: context),
               );
             }
           },
