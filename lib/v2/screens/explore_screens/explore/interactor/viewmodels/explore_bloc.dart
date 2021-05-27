@@ -25,5 +25,9 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
         plantedSeeds: PlantedModel(plantedSeeds),
       );
     }
+    if (event is OnAvailableSeedsValueUpdate) {
+      var availableSeeds = state.availableSeeds!.quantity - event.spentSeeds;
+      yield state.copyWith(availableSeeds: BalanceModel(availableSeeds));
+    }
   }
 }

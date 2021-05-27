@@ -21,3 +21,10 @@ class OnPlantedSeedsValueUpdate extends ExploreEvent {
   @override
   String toString() => 'OnPlantedSeedsValueUpdate { plantedSeeds: $plantedSeeds }';
 }
+
+class OnAvailableSeedsValueUpdate extends ExploreEvent {
+  final double spentSeeds;
+  const OnAvailableSeedsValueUpdate({required this.spentSeeds});
+  @override
+  String toString() => 'OnAvailableSeedsValueUpdate { spentSeeds: $spentSeeds }';
+}

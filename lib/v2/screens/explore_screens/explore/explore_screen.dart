@@ -42,7 +42,10 @@ class ExploreScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                       child: ExploreInfoCard(
                         onTap: () {
-                          NavigationService.of(context).navigateTo(Routes.createInvite);
+                          NavigationService.of(context).navigateTo(
+                            Routes.createInvite,
+                            BlocProvider.of<ExploreBloc>(context),
+                          );
                         },
                         title: 'Invite',
                         amount: state.availableSeeds?.roundedQuantity,
