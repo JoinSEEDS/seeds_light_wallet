@@ -20,7 +20,7 @@ class InviteScreen extends StatelessWidget {
   const InviteScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _exploreBloc = ModalRoute.of(context)!.settings.arguments as ExploreBloc?;
+    final _exploreBloc = ModalRoute.of(context)?.settings.arguments as ExploreBloc?;
     return BlocProvider(
       create: (context) => InviteBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
@@ -30,7 +30,7 @@ class InviteScreen extends StatelessWidget {
           listener: (context, state) {
             BlocProvider.of<InviteBloc>(context).add(const ClearInviteScreenPageCommand());
             if (state.pageCommand is ShowInviteLinkDialog) {
-              _exploreBloc?.add(OnAvailableSeedsValueUpdate(spentSeeds: state.quantity));
+              _exploreBloc?.add(const LoadExploreData());
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,

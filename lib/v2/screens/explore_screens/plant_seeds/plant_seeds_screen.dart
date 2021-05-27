@@ -21,7 +21,7 @@ class PlantSeedsScreen extends StatelessWidget {
   const PlantSeedsScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _exploreBloc = ModalRoute.of(context)!.settings.arguments as ExploreBloc?;
+    final _exploreBloc = ModalRoute.of(context)?.settings.arguments as ExploreBloc?;
     return BlocProvider(
       create: (context) => PlantSeedsBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
@@ -29,7 +29,7 @@ class PlantSeedsScreen extends StatelessWidget {
         body: BlocConsumer<PlantSeedsBloc, PlantSeedsState>(
           listenWhen: (_, current) => current.showPlantedSuccess,
           listener: (context, state) {
-            _exploreBloc?.add(OnPlantedSeedsValueUpdate(plantedSeeds: state.quantity));
+            _exploreBloc?.add(const LoadExploreData());
             showDialog<void>(
               context: context,
               barrierDismissible: false,
