@@ -10,8 +10,9 @@ extension RatesStateExtensions on RatesState {
     if (currencySymbol == "USD") {
       return rate?.toSeeds(currencyValue) ?? 0;
     } else {
-      var usdValue = fiatRate?.toUSD(currencyValue, currencySymbol) ?? 0;
-      return rate?.toSeeds(usdValue) ?? 0;
+      double currencyRate = fiatRate?.usdTo(currencyValue, currencySymbol) ?? 0;
+
+      return rate?.toSeeds(currencyRate) ?? 0;
     }
   }
 
