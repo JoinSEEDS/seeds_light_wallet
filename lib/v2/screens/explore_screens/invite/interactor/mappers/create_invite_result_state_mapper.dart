@@ -6,7 +6,7 @@ import 'package:seeds/v2/screens/explore_screens/invite/interactor/viewmodels/in
 class CreateInviteResultStateMapper extends StateMapper {
   InviteState mapResultsToState(InviteState currentState, List<Result> results) {
     if (areAllResultsError(results)) {
-      // The 2 calls are error --> ransaction fail show snackbar fail
+      // The 2 calls are error --> transaction fail show snackbar fail
       print('Error transaction hash not retrieved');
       return currentState.copyWith(
         pageState: PageState.success,
