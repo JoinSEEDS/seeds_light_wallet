@@ -9,6 +9,7 @@ class SeedsAmountChangeMapper extends StateMapper {
   InviteState mapResultToState(InviteState currentState, RatesState rateState, String quantity) {
     double parsedQuantity = double.tryParse(quantity) ?? 0;
     double currentAvailable = currentState.availableBalance?.quantity ?? 0;
+
     String? alertMessage = _handleAlertMessage(currentAvailable, parsedQuantity);
 
     return currentState.copyWith(
