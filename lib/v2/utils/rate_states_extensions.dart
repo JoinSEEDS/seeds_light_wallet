@@ -2,17 +2,26 @@ import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 
 extension RatesStateExtensions on RatesState {
   double _seedsTo(double seedsValue, String currencySymbol) {
-    var usdValue = rate?.toUSD(seedsValue) ?? 0;
-    return fiatRate?.usdTo(usdValue, currencySymbol) ?? 0;
+    double? usdValue = rate?.toUSD(seedsValue);
+
+    if (usdValue != null) {
+      return fiatRate?.usdTo(usdValue, currencySymbol) ?? double.nan;
+    } else {
+      return double.nan;
+    }
   }
 
   double _toSeeds(double currencyValue, String currencySymbol) {
     if (currencySymbol == "USD") {
-      return rate?.toSeeds(currencyValue) ?? 0;
+      return rate?.toSeeds(currencyValue) ?? double.nan;
     } else {
-      double currencyRate = fiatRate?.usdTo(currencyValue, currencySymbol) ?? 0;
+      double? currencyRate = fiatRate?.usdTo(currencyValue, currencySymbol);
 
-      return rate?.toSeeds(currencyRate) ?? 0;
+      if (currencyRate != null) {
+        return rate?.toSeeds(currencyRate) ?? double.nan;
+      } else {
+        return double.nan;
+      }
     }
   }
 

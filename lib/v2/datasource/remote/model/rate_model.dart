@@ -4,12 +4,12 @@ class RateModel {
 
   const RateModel(this.seedsPerUSD);
 
-  double toUSD(double seedsAmount) {
-    return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : 0;
+  double? toUSD(double seedsAmount) {
+    return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : null;
   }
 
-  double toSeeds(double usdAmount) {
-    return seedsPerUSD > 0 ? usdAmount * seedsPerUSD : 0;
+  double? toSeeds(double usdAmount) {
+    return seedsPerUSD > 0 ? usdAmount * seedsPerUSD : null;
   }
 
   factory RateModel.fromJson(Map<String, dynamic>? json) {
