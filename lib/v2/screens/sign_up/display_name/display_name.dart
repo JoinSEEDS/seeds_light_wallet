@@ -20,6 +20,11 @@ class _DisplayNameState extends State<DisplayName> {
     super.initState();
     _bloc = BlocProvider.of<SignupBloc>(context);
     _keyController.text = '';
+    _keyController.addListener(() {
+      setState(() {
+        // Do nothing
+      });
+    });
   }
 
   @override
