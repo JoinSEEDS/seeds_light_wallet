@@ -1,11 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+
+class ShowPlantSeedsSuccessDialog extends PageCommand {}
+
+class ShowTransactionFailSnackBar extends PageCommand {}
 
 /// --- STATE
 class PlantSeedsState extends Equatable {
   final PageState pageState;
+  final PageCommand? pageCommand;
   final RatesState ratesState;
   final bool isAutoFocus;
   final String fiatAmount;
@@ -16,11 +22,11 @@ class PlantSeedsState extends Equatable {
   final bool isPlantSeedsButtonEnabled;
   final double quantity;
   final bool showAlert;
-  final bool showPlantedSuccess;
   final String? errorMessage;
 
   const PlantSeedsState({
     required this.pageState,
+    this.pageCommand,
     required this.ratesState,
     required this.isAutoFocus,
     required this.fiatAmount,
@@ -31,13 +37,13 @@ class PlantSeedsState extends Equatable {
     required this.isPlantSeedsButtonEnabled,
     required this.quantity,
     required this.showAlert,
-    required this.showPlantedSuccess,
     this.errorMessage,
   });
 
   @override
   List<Object?> get props => [
         pageState,
+        pageCommand,
         ratesState,
         isAutoFocus,
         fiatAmount,
@@ -48,12 +54,12 @@ class PlantSeedsState extends Equatable {
         isPlantSeedsButtonEnabled,
         quantity,
         showAlert,
-        showPlantedSuccess,
         errorMessage,
       ];
 
   PlantSeedsState copyWith({
     PageState? pageState,
+    PageCommand? pageCommand,
     RatesState? ratesState,
     bool? isAutoFocus,
     String? fiatAmount,
@@ -64,11 +70,11 @@ class PlantSeedsState extends Equatable {
     bool? isPlantSeedsButtonEnabled,
     double? quantity,
     bool? showAlert,
-    bool? showPlantedSuccess,
     String? errorMessage,
   }) {
     return PlantSeedsState(
       pageState: pageState ?? this.pageState,
+      pageCommand: pageCommand,
       ratesState: ratesState ?? this.ratesState,
       isAutoFocus: isAutoFocus ?? this.isAutoFocus,
       fiatAmount: fiatAmount ?? this.fiatAmount,
@@ -79,7 +85,6 @@ class PlantSeedsState extends Equatable {
       isPlantSeedsButtonEnabled: isPlantSeedsButtonEnabled ?? this.isPlantSeedsButtonEnabled,
       quantity: quantity ?? this.quantity,
       showAlert: showAlert ?? this.showAlert,
-      showPlantedSuccess: showPlantedSuccess ?? this.showPlantedSuccess,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
@@ -93,7 +98,6 @@ class PlantSeedsState extends Equatable {
       isPlantSeedsButtonEnabled: false,
       quantity: 0,
       showAlert: false,
-      showPlantedSuccess: false,
     );
   }
 }
