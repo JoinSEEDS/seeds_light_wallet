@@ -83,7 +83,7 @@ class CustomDialog extends StatelessWidget {
                                 child: FlatButtonLong(
                                   title: leftButtonTitle,
                                   onPressed: onLeftButtonPressed,
-                                  color: AppColors.white,
+                                  color: AppColors.whiteYellow,
                                 ),
                               ),
                             if (leftButtonTitle.isNotEmpty) const SizedBox(width: 10),

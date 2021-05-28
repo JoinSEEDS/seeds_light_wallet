@@ -6,6 +6,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_state.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
+import 'package:seeds/utils/double_extension.dart';
 
 class UserBalanceAndPlantedStateMapper extends StateMapper {
   PlantSeedsState mapResultToState(PlantSeedsState currentState, List<Result> results, RatesState rateState) {
@@ -22,11 +23,11 @@ class UserBalanceAndPlantedStateMapper extends StateMapper {
 
       return currentState.copyWith(
         pageState: PageState.success,
-        fiatAmount: rateState.fromSeedsToFiat(0, selectedFiat),
+        fiatAmount: rateState.fromSeedsToFiat(0, selectedFiat).fiatFormatted,
         availableBalance: balance,
-        availableBalanceFiat: rateState.fromSeedsToFiat(balance?.quantity ?? 0, selectedFiat),
+        availableBalanceFiat: rateState.fromSeedsToFiat(balance?.quantity ?? 0, selectedFiat).fiatFormatted,
         plantedBalance: plantedSeeds?.formattedQuantity,
-        plantedBalanceFiat: rateState.fromSeedsToFiat(plantedSeeds?.quantity ?? 0, selectedFiat),
+        plantedBalanceFiat: rateState.fromSeedsToFiat(plantedSeeds?.quantity ?? 0, selectedFiat).fiatFormatted,
       );
     }
   }

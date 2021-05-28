@@ -8,6 +8,7 @@ import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/plant_seeds.i18n.dart';
@@ -27,19 +28,26 @@ class PlantSeedsScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: Text('Plant'.i18n, style: Theme.of(context).textTheme.headline7)),
         body: BlocConsumer<PlantSeedsBloc, PlantSeedsState>(
-          listenWhen: (_, current) => current.showPlantedSuccess,
+          listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
-            _exploreBloc?.add(OnPlantedSeedsValueUpdate(plantedSeeds: state.quantity));
-            showDialog<void>(
-              context: context,
-              barrierDismissible: false,
-              builder: (_) {
-                return BlocProvider.value(
-                  value: BlocProvider.of<PlantSeedsBloc>(context),
-                  child: const PlantSeedsSuccessDialog(),
-                );
-              },
-            );
+            if (state.pageCommand is ShowPlantSeedsSuccessDialog) {
+              _exploreBloc?.add(OnPlantedSeedsValueUpdate(plantedSeeds: state.quantity));
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<PlantSeedsBloc>(context),
+                    child: const PlantSeedsSuccessDialog(),
+                  );
+                },
+              );
+            }
+            if (state.pageCommand is ShowTransactionFailSnackBar) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBarInfo(title: 'Plant failed, try again.', context: context),
+              );
+            }
           },
           builder: (context, PlantSeedsState state) {
             switch (state.pageState) {

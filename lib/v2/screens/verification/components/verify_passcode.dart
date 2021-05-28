@@ -49,7 +49,6 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
               BlocProvider.of<VerificationBloc>(context).add(const ResetShowSnack());
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  behavior: SnackBarBehavior.floating,
                   backgroundColor: AppColors.canopy,
                   content: Text(
                     'Pincode does not match',

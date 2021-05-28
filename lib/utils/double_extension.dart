@@ -7,11 +7,11 @@ final twoDigitNumberFormat = NumberFormat('#,###,###,###,##0.00');
 
 extension DoubleExtension on double? {
   
-  String? get fiatFormatted {
+  String get fiatFormatted {
     if (this != null) {
       return twoDigitNumberFormat.format(this);
     } else {
-      return null;
+      return "";
     }
 
   }
