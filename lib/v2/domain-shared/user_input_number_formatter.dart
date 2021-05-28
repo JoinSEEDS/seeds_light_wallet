@@ -9,6 +9,7 @@ class UserInputNumberFormatter extends TextInputFormatter {
     }
 
     var result = newValue.text;
+
     if (!result.contains(',') && !result.contains('.')) {
       return newValue;
     }
