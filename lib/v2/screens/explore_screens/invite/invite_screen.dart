@@ -7,7 +7,7 @@ import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/components/invite_link_dialog.dart';
@@ -39,17 +39,8 @@ class InviteScreen extends StatelessWidget {
               );
             }
             if (state.pageCommand is ShowTransactionFailSnackBar) {
-              Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: AppColors.grey,
-                  content: Text(
-                    'Invite creation failed, try again',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                ),
+                SnackBarInfo(title: 'Invite creation failed, try again.', context: context),
               );
             }
           },
