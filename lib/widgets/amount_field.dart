@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/utils/user_input_number_formatter.dart';
+import 'package:seeds/v2/domain-shared/user_input_number_formatter.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
-import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 
 enum InputMode { fiat, seeds }
 

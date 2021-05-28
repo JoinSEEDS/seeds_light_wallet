@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' hide Action;
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/widgets/main_button.dart';
-import '../../../utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
@@ -61,7 +61,7 @@ class ReceiveQRState extends State<ReceiveQR> {
                 children: [
                   QrImage(data: invoiceImage, foregroundColor: Colors.black87),
                   Text(
-                    "%s SEEDS to %s".i18n.fill([widget.amount.seedsFormatted, acctName]),
+                    "%s SEEDS to %s".i18n.fill([widget.amount!.seedsFormatted, acctName]),
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w500),
                   ),

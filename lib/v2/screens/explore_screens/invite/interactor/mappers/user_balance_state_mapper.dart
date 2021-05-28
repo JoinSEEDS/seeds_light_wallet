@@ -5,7 +5,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/interactor/viewmodels/invite_state.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
-import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 
 class UserBalanceStateMapper extends StateMapper {
   InviteState mapResultToState(InviteState currentState, Result result, RatesState rateState) {

@@ -22,6 +22,15 @@ class OnAmountChange extends SendEnterDataPageEvent {
   String toString() => 'OnAmountChange: { OnAmountChange: $amountChanged }';
 }
 
+class OnMemoChange extends SendEnterDataPageEvent {
+  final String memoChanged;
+
+  OnMemoChange({required this.memoChanged});
+
+  @override
+  String toString() => 'OnMemoChange: { OnMemoChange: $memoChanged }';
+}
+
 class OnNextButtonTapped extends SendEnterDataPageEvent {
   @override
   String toString() => 'OnNextButtonTapped';
