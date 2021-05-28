@@ -38,12 +38,7 @@ class _DisplayNameState extends State<DisplayName> {
     return WillPopScope(
       onWillPop: _navigateBack,
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: _navigateBack,
-          ),
-        ),
+        appBar: AppBar(),
         body: BlocConsumer<SignupBloc, SignupState>(
             listener: (context, state) {},
             builder: (context, state) {
