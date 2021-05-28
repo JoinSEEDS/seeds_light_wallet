@@ -38,6 +38,6 @@ String handleAmountToSendBack(
     case CurrencyInput.SEEDS:
       return textInput;
     case CurrencyInput.FIAT:
-      return fiatToSeeds.replaceAll(',', "");
+      return fiatToSeeds;
   }
 }

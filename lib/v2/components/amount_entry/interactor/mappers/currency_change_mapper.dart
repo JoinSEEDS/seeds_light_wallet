@@ -29,7 +29,7 @@ class CurrencyChangeMapper extends StateMapper {
 String handleEnteringCurrencyName(CurrencyInput currentCurrencyInput) {
   switch (currentCurrencyInput) {
     case CurrencyInput.FIAT:
-      return settingsStorage.selectedFiatCurrency.toString();
+      return settingsStorage.selectedFiatCurrency;
     case CurrencyInput.SEEDS:
       return currencySeedsCode;
   }

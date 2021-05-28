@@ -10,12 +10,12 @@ abstract class AmountEntryEvent extends Equatable {
 
 class InitSendDataArguments extends AmountEntryEvent {
   @override
-  String toString() => 'InitAmountEntryDataArguments: { InitAmountEntryDataArguments: }';
+  String toString() => 'InitAmountEntryDataArguments: {}';
 }
 
 class ClearPageCommand extends AmountEntryEvent {
   @override
-  String toString() => 'ClearPageCommand: { ClearPageCommand: }';
+  String toString() => 'ClearPageCommand: {}';
 }
 
 class OnAmountChange extends AmountEntryEvent {
@@ -29,5 +29,5 @@ class OnAmountChange extends AmountEntryEvent {
 
 class OnCurrencySwitchButtonTapped extends AmountEntryEvent {
   @override
-  String toString() => 'OnCurrencySwitchButtonTapped: { OnCurrencySwitchButtonTapped }';
+  String toString() => 'OnCurrencySwitchButtonTapped: {}';
 }
