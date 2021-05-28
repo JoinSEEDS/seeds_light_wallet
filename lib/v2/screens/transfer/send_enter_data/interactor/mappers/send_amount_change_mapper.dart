@@ -12,11 +12,14 @@ class SendAmountChangeMapper extends StateMapper {
     var selectedFiat = settingsStorage.selectedFiatCurrency;
     String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
 
+    double currentAvailable = currentState.balance?.quantity ?? 0;
+
     return currentState.copyWith(
       fiatAmount: fiatAmount,
       error: null,
-      isNextButtonEnabled: parsedQuantity > 0,
+      isNextButtonEnabled: parsedQuantity > 0 && parsedQuantity < currentAvailable,
       quantity: parsedQuantity,
+      showAlert: parsedQuantity > currentAvailable,
     );
   }
 }
