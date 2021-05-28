@@ -1,11 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+
+class ShowInviteLinkDialog extends PageCommand {}
+
+class ShowTransactionFailSnackBar extends PageCommand {}
 
 /// --- STATE
 class InviteState extends Equatable {
   final PageState pageState;
+  final PageCommand? pageCommand;
   final RatesState ratesState;
   final bool isAutoFocus;
   final String fiatAmount;
@@ -14,11 +20,14 @@ class InviteState extends Equatable {
   final bool isCreateInviteButtonEnabled;
   final double quantity;
   final String? alertMessage;
-  final bool showInviteLinkDialog;
+  final String? mnemonicSecretCode;
+  final String? dynamicSecretLink;
+  final bool showCloseDialogButton;
   final String? errorMessage;
 
   const InviteState({
     required this.pageState,
+    this.pageCommand,
     required this.ratesState,
     required this.isAutoFocus,
     required this.fiatAmount,
@@ -27,13 +36,16 @@ class InviteState extends Equatable {
     required this.isCreateInviteButtonEnabled,
     required this.quantity,
     this.alertMessage,
-    required this.showInviteLinkDialog,
+    this.mnemonicSecretCode,
+    this.dynamicSecretLink,
+    required this.showCloseDialogButton,
     this.errorMessage,
   });
 
   @override
   List<Object?> get props => [
         pageState,
+        pageCommand,
         ratesState,
         isAutoFocus,
         fiatAmount,
@@ -42,12 +54,13 @@ class InviteState extends Equatable {
         isCreateInviteButtonEnabled,
         quantity,
         alertMessage,
-        showInviteLinkDialog,
+        showCloseDialogButton,
         errorMessage,
       ];
 
   InviteState copyWith({
     PageState? pageState,
+    PageCommand? pageCommand,
     RatesState? ratesState,
     bool? isAutoFocus,
     String? fiatAmount,
@@ -56,11 +69,14 @@ class InviteState extends Equatable {
     bool? isCreateInviteButtonEnabled,
     double? quantity,
     String? alertMessage,
-    bool? showInviteLinkDialog,
+    String? mnemonicSecretCode,
+    String? dynamicSecretLink,
+    bool? showCloseDialogButton,
     String? errorMessage,
   }) {
     return InviteState(
       pageState: pageState ?? this.pageState,
+      pageCommand: pageCommand,
       ratesState: ratesState ?? this.ratesState,
       isAutoFocus: isAutoFocus ?? this.isAutoFocus,
       fiatAmount: fiatAmount ?? this.fiatAmount,
@@ -69,7 +85,9 @@ class InviteState extends Equatable {
       isCreateInviteButtonEnabled: isCreateInviteButtonEnabled ?? this.isCreateInviteButtonEnabled,
       quantity: quantity ?? this.quantity,
       alertMessage: alertMessage,
-      showInviteLinkDialog: showInviteLinkDialog ?? this.showInviteLinkDialog,
+      mnemonicSecretCode: mnemonicSecretCode ?? this.mnemonicSecretCode,
+      dynamicSecretLink: dynamicSecretLink ?? this.dynamicSecretLink,
+      showCloseDialogButton: showCloseDialogButton ?? this.showCloseDialogButton,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
@@ -82,7 +100,7 @@ class InviteState extends Equatable {
       fiatAmount: 0.toString(),
       isCreateInviteButtonEnabled: false,
       quantity: 0,
-      showInviteLinkDialog: false,
+      showCloseDialogButton: false,
     );
   }
 }

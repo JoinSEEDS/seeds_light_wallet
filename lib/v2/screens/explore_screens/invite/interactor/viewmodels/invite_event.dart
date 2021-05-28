@@ -29,3 +29,15 @@ class OnCreateInviteButtonTapped extends InviteEvent {
   @override
   String toString() => 'OnCreateInviteButtonTapped';
 }
+
+class OnShareInviteLinkButtonPressed extends InviteEvent {
+  const OnShareInviteLinkButtonPressed();
+  @override
+  String toString() => 'OnShareInviteLinkButtonPressed';
+}
+
+class ClearInviteScreenPageCommand extends InviteEvent {
+  const ClearInviteScreenPageCommand();
+  @override
+  String toString() => 'ClearInviteScreenPageCommand';
+}

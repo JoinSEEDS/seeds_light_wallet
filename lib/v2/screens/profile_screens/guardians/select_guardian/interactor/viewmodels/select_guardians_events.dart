@@ -26,3 +26,8 @@ class OnUserRemoved extends SelectGuardiansEvent {
   @override
   String toString() => 'OnUserRemoved: { OnUserRemoved: $user }';
 }
+
+class ClearPageCommand extends SelectGuardiansEvent {
+  @override
+  String toString() => 'ClearPageCommand';
+}
