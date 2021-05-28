@@ -4,7 +4,6 @@ import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/components/amount_entry/amount_entry_widget.dart';
 import 'package:seeds/v2/components/alert_input_value.dart';
-import 'package:seeds/v2/components/amount_entry//amount_entry_widget.dart';
 import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
