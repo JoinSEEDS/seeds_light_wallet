@@ -53,6 +53,7 @@ class SendEnterDataScreen extends StatelessWidget {
                   toAccount: command.toAccount,
                   toImage: command.toImage,
                   toName: command.toName,
+                  memo: command.memo,
                 ),
               );
             } else if (command is ShowTransactionSuccess) {
@@ -129,7 +130,10 @@ class SendEnterDataScreen extends StatelessWidget {
                                     labelText: "Memo",
                                     hintText: "Add a note",
                                     maxLength: 150,
-                                    onChanged: (String value) {},
+                                    onChanged: (String value) {
+                                      BlocProvider.of<SendEnterDataPageBloc>(context)
+                                          .add(OnMemoChange(memoChanged: value));
+                                    },
                                   ),
                                   const SizedBox(height: 16),
                                   BalanceRow(
