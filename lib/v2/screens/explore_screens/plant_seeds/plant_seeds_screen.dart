@@ -12,7 +12,6 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/plant_seeds.i18n.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/screens/explore_screens/explore/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/viewmodels/bloc.dart';
 
@@ -21,7 +20,6 @@ class PlantSeedsScreen extends StatelessWidget {
   const PlantSeedsScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _exploreBloc = ModalRoute.of(context)?.settings.arguments as ExploreBloc?;
     return BlocProvider(
       create: (context) => PlantSeedsBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
@@ -29,7 +27,6 @@ class PlantSeedsScreen extends StatelessWidget {
         body: BlocConsumer<PlantSeedsBloc, PlantSeedsState>(
           listenWhen: (_, current) => current.showPlantedSuccess,
           listener: (context, state) {
-            _exploreBloc?.add(const LoadExploreData());
             showDialog<void>(
               context: context,
               barrierDismissible: false,
