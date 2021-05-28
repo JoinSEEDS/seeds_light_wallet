@@ -44,7 +44,7 @@ class PlantSeedsScreen extends StatelessWidget {
             }
             if (state.pageCommand is ShowTransactionFailSnackBar) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBarInfo(title: 'Plant failed, try again.', context: context),
+                SnackBarInfo(title: 'Plant failed, try again.'.i18n, context: context),
               );
             }
           },
@@ -75,7 +75,7 @@ class PlantSeedsScreen extends StatelessWidget {
                               autoFocus: state.isAutoFocus,
                             ),
                             const SizedBox(height: 24),
-                            AlertInputValue('The value exceeds your balance'.i18n, isVisible: state.showAlert),
+                            AlertInputValue('Not enough balance'.i18n, isVisible: state.showAlert),
                             const SizedBox(height: 24),
                             BalanceRow(
                               label: 'Available Balance'.i18n,

@@ -12,7 +12,8 @@ extension Localization on String {
           'Congratulations\nYour seeds were planted successfully!':
               'Felicitacines\nSus Seeds fueron plantadas exitosamente!',
           'Close': 'Cerrar',
-          'The value exceeds your balance': 'El valor excede su balance'
+          'Plant failed, try again.': 'Error al plantar, inténte de nuevo',
+          'Not enough balance': 'No hay suficiente balance',
         }
       };
 
