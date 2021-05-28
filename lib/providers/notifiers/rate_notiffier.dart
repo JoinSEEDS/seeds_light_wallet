@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/http_service.dart';
-import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 const String SEEDS = 'SEEDS';
@@ -52,11 +52,11 @@ class RateNotifier extends ChangeNotifier with CurrencyConverter {
   }
 
   String currencyString(double seedsAmount, String currencySymbol) {
-    return seedsTo(seedsAmount, currencySymbol).fiatFormatted! + ' ' + currencySymbol;
+    return seedsTo(seedsAmount, currencySymbol).fiatFormatted + ' ' + currencySymbol;
   }
 
   String seedsString(double currencyAmount, String currencySymbol) {
-    return toSeeds(currencyAmount, currencySymbol).seedsFormatted! + ' SEEDS';
+    return toSeeds(currencyAmount, currencySymbol).seedsFormatted + ' SEEDS';
   }
 
   String amountToString(double amount, String currency, {bool asSeeds = false}) {

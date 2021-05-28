@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/components/alert_input_value.dart';
-import 'package:seeds/v2/components/amount_entry_widget.dart';
+import 'package:seeds/v2/components/amount_entry/amount_entry_widget.dart';
 import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/screens/explore_screens/invite/components/invite_link_dialog.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/interactor/viewmodels/bloc.dart';
 
 /// INVITE SCREEN
@@ -22,9 +23,26 @@ class InviteScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: Text('Invite', style: Theme.of(context).textTheme.headline7)),
         body: BlocConsumer<InviteBloc, InviteState>(
-          listenWhen: (_, current) => current.showInviteLinkDialog,
+          listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
-            // Here will go a invite link dialog
+            BlocProvider.of<InviteBloc>(context).add(const ClearInviteScreenPageCommand());
+            if (state.pageCommand is ShowInviteLinkDialog) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<InviteBloc>(context),
+                    child: const InviteLinkDialog(),
+                  );
+                },
+              );
+            }
+            if (state.pageCommand is ShowTransactionFailSnackBar) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBarInfo(title: 'Invite creation failed, try again.', context: context),
+              );
+            }
           },
           builder: (context, InviteState state) {
             switch (state.pageState) {
@@ -50,8 +68,6 @@ class InviteScreen extends StatelessWidget {
                               onValueChange: (value) {
                                 BlocProvider.of<InviteBloc>(context).add(OnAmountChange(amountChanged: value));
                               },
-                              fiatAmount: state.fiatAmount,
-                              enteringCurrencyName: currencySeedsCode,
                               autoFocus: state.isAutoFocus,
                             ),
                             const SizedBox(height: 24),

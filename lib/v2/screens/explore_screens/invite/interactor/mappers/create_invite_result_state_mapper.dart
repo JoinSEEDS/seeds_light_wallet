@@ -6,25 +6,37 @@ import 'package:seeds/v2/screens/explore_screens/invite/interactor/viewmodels/in
 class CreateInviteResultStateMapper extends StateMapper {
   InviteState mapResultsToState(InviteState currentState, List<Result> results) {
     if (areAllResultsError(results)) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error creating invite');
+      // The 2 calls are error --> transaction fail show snackbar fail
+      print('Error transaction hash not retrieved');
+      return currentState.copyWith(
+        pageState: PageState.success,
+        pageCommand: ShowTransactionFailSnackBar(),
+        isCreateInviteButtonEnabled: false,
+      );
     } else {
       print('CreateInviteResultStateMapper mapResultsToState length = ${results.length}');
+      // Check if the error is in the transaction
       results.retainWhere((Result element) => element.isValue);
       var values = results.map((Result element) => element.asValue!.value).toList();
-
       TransactionResponse? response = values.firstWhere((i) => i is TransactionResponse, orElse: () => null);
 
       if (response != null && response.transactionId.isNotEmpty) {
+        // Transaction success show invite link dialog
         Uri? dynamicSecretLink = values.firstWhere((i) => i is Uri, orElse: () => null);
 
         return currentState.copyWith(
           pageState: PageState.success,
-          showInviteLinkDialog: true,
+          pageCommand: ShowInviteLinkDialog(),
           dynamicSecretLink: dynamicSecretLink.toString(),
         );
       } else {
-        // Show a dialog or snack to retry?? we do not have yet a desing for this.
-        return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error creating invite');
+        // Transaction fail show snackbar fail
+        print('Error transaction hash not retrieved');
+        return currentState.copyWith(
+          pageState: PageState.success,
+          pageCommand: ShowTransactionFailSnackBar(),
+          isCreateInviteButtonEnabled: false,
+        );
       }
     }
   }

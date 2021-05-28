@@ -20,7 +20,7 @@ import 'package:seeds/widgets/main_button.dart';
 import 'package:path/path.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/widgets/main_text_field.dart';
-import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 
 class ProductsCatalog extends StatefulWidget {
   const ProductsCatalog();
@@ -467,6 +467,6 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   String getProductPrice(ProductModel product) {
-    return "${product.price.seedsFormatted} ${product.currency}";
+    return "${product.price!.seedsFormatted} ${product.currency}";
   }
 }
