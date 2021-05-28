@@ -19,15 +19,15 @@ class BottomContainer extends StatefulWidget {
 }
 
 class _BottomContainerState extends State<BottomContainer> {
-  late SignupBloc _signupBloc;
+  late SignupBloc _bloc;
   final _keyController = TextEditingController();
   final Debouncer _debouncer = Debouncer(milliseconds: 600);
 
   @override
   void initState() {
     super.initState();
-    _signupBloc = BlocProvider.of<SignupBloc>(context);
-    _keyController.text = '';
+    _bloc = BlocProvider.of<SignupBloc>(context);
+    _keyController.text = _bloc.state.claimInviteState.inviteMnemonic ?? '';
     _keyController.addListener(_onInviteCodeChanged);
   }
 
@@ -90,9 +90,9 @@ class _BottomContainerState extends State<BottomContainer> {
                           _keyController.text = clipboardText;
                         });
                       },
-                      isChecked: _signupBloc.state.claimInviteState.isValid,
-                      canClear: !_signupBloc.state.claimInviteState.isValid && _keyController.text.isNotEmpty,
-                      isLoading: _signupBloc.state.claimInviteState.isLoading,
+                      isChecked: _bloc.state.claimInviteState.isValid,
+                      canClear: !_bloc.state.claimInviteState.isValid && _keyController.text.isNotEmpty,
+                      isLoading: _bloc.state.claimInviteState.isLoading,
                     ),
                     enabledBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -140,15 +140,15 @@ class _BottomContainerState extends State<BottomContainer> {
   void _onInviteCodeChanged() {
     if (_keyController.text.isNotEmpty) {
       _debouncer.run(() {
-        _signupBloc.add(ValidateInviteCode(inviteCode: _keyController.text));
+        _bloc.add(ValidateInviteCode(inviteCode: _keyController.text));
       });
     }
   }
 
-  VoidCallback? _onClaimPressed(BuildContext context) => _signupBloc.state.claimInviteState.isValid
+  VoidCallback? _onClaimPressed(BuildContext context) => _bloc.state.claimInviteState.isValid
       ? () {
           FocusScope.of(context).unfocus();
-          _signupBloc.add(NavigateToDisplayName());
+          _bloc.add(NavigateToDisplayName());
         }
       : () {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

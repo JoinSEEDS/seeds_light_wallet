@@ -19,7 +19,7 @@ class _DisplayNameState extends State<DisplayName> {
   void initState() {
     super.initState();
     _bloc = BlocProvider.of<SignupBloc>(context);
-    _keyController.text = '';
+    _keyController.text = _bloc.state.displayNameState.displayName ?? '';
     _keyController.addListener(() {
       setState(() {
         // Do nothing
