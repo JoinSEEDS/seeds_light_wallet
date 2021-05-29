@@ -19,6 +19,7 @@ class SignupScreen extends StatelessWidget {
       ),
       child: BlocConsumer<SignupBloc, SignupState>(
         listener: (context, state) {},
+        buildWhen: (previous, current) => previous.pageContent != current.pageContent,
         builder: (context, state) {
           final PageContent pageContent = state.pageContent;
 
