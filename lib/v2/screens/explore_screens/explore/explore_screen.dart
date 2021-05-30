@@ -42,8 +42,9 @@ class ExploreScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                       child: ExploreInfoCard(
                         onTap: () async {
-                          bool? res = await NavigationService.of(context).navigateTo(Routes.createInvite);
-                          if (res != null && res) {
+                          bool? shouldReloadExplore =
+                              await NavigationService.of(context).navigateTo(Routes.createInvite);
+                          if (shouldReloadExplore != null) {
                             BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
                           }
                         },
@@ -66,8 +67,9 @@ class ExploreScreen extends StatelessWidget {
                           Expanded(
                             child: ExploreInfoCard(
                               onTap: () async {
-                                bool? res = await NavigationService.of(context).navigateTo(Routes.plantSeeds);
-                                if (res != null && res) {
+                                bool? shouldReloadExplore =
+                                    await NavigationService.of(context).navigateTo(Routes.plantSeeds);
+                                if (shouldReloadExplore != null) {
                                   BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
                                 }
                               },
