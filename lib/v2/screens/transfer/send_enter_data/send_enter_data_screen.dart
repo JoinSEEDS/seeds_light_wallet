@@ -124,7 +124,7 @@ class SendEnterDataScreen extends StatelessWidget {
                               autoFocus: state.pageState == PageState.initial,
                             ),
                             const SizedBox(height: 24),
-                            AlertInputValue('The value exceeds your balance'.i18n, isVisible: state.showAlert),
+                            AlertInputValue('Not enough balance'.i18n, isVisible: state.showAlert),
                             const SizedBox(height: 30),
                             Padding(
                               padding: const EdgeInsets.only(left: 16, right: 16),
