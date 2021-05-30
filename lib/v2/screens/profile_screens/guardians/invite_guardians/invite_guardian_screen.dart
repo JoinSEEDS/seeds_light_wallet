@@ -4,9 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/search_result_row.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/invite_guardians_bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_events.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_page_commands.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_state.dart';
 
 class InviteGuardians extends StatelessWidget {
@@ -18,7 +22,15 @@ class InviteGuardians extends StatelessWidget {
         create: (context) => InviteGuardiansBloc(myGuardians ?? {}),
         child: BlocListener<InviteGuardiansBloc, InviteGuardiansState>(
           listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) {},
+          listener: (context, state) {
+            BlocProvider.of<InviteGuardiansBloc>(context).add(InviteGuardianClearPageCommand());
+            if (state.pageCommand is NavigateToGuardians) {
+              NavigationService.of(context).navigateTo(Routes.inviteGuardiansSent);
+            } else if (state.pageCommand is ShowErrorMessage) {
+              // ignore: cast_nullable_to_non_nullable
+              SnackBarInfo(title: (state.pageCommand as ShowErrorMessage).errorMessage, context: context);
+            }
+          },
           child: BlocBuilder<InviteGuardiansBloc, InviteGuardiansState>(builder: (context, state) {
             return Scaffold(
                 appBar: AppBar(
@@ -54,11 +66,7 @@ class InviteGuardians extends StatelessWidget {
                       child: FlatButtonLong(
                         title: 'Send Invite',
                         onPressed: () {
-                          // TODO(gguij002): TODO next pr
-                          // FirebaseDatabaseService()
-                          //     .sendGuardiansInvite(SettingsNotifier.of(context).accountName, widget.selectedUsers!.toList())
-                          //     .catchError((onError) => onSendInviteError(onError))
-                          //     .then((value) => NavigationService.of(context).navigateTo(Routes.inviteGuardiansSent))
+                          BlocProvider.of<InviteGuardiansBloc>(context).add(OnSendInviteTapped());
                         },
                       ),
                     ),

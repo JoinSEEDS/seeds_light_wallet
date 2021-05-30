@@ -1,8 +1,12 @@
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
-import 'package:async/async.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_database_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_status.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
+import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 
 class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   Stream<bool> hasGuardianNotificationPending(String userAccount) {
@@ -53,4 +57,56 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       return ErrorResult(false);
     });
   }
+
+  Future<Result<dynamic>> inviteGuardians(Set<MemberModel> usersToInvite) {
+    var currentUserId = settingsStorage.accountName;
+
+    var batch = FirebaseFirestore.instance.batch();
+
+    usersToInvite.forEach((guardian) {
+      var data = <String, Object>{
+        UID_KEY: guardian.account,
+        TYPE_KEY: GuardianType.myGuardian.name,
+        GUARDIANS_STATUS_KEY: GuardianStatus.requestSent.name,
+        GUARDIANS_DATE_CREATED_KEY: FieldValue.serverTimestamp(),
+        GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
+      };
+
+      var dataOther = <String, Object>{
+        UID_KEY: currentUserId,
+        TYPE_KEY: GuardianType.imGuardian.name,
+        GUARDIANS_STATUS_KEY: GuardianStatus.requestedMe.name,
+        GUARDIANS_DATE_CREATED_KEY: FieldValue.serverTimestamp(),
+        GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
+      };
+
+      var otherUserRef = usersCollection.doc(guardian.account);
+
+      var currentUserRef = usersCollection
+          .doc(currentUserId)
+          .collection(GUARDIANS_COLLECTION_KEY)
+          .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: guardian.account));
+
+      var otherUserGuardianRef = otherUserRef
+          .collection(GUARDIANS_COLLECTION_KEY)
+          .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: guardian.account));
+
+      // This empty is needed in case the user does not exist in the database yet. Create him.
+      batch.set(otherUserRef, {}, SetOptions(merge: true));
+      batch.set(currentUserRef, data, SetOptions(merge: true));
+      batch.set(otherUserGuardianRef, dataOther, SetOptions(merge: true));
+    });
+
+    return batch.commit().then((value) {
+      return ValueResult(value);
+    }).catchError((onError) {
+      // ignore: return_of_invalid_type_from_catch_error
+      return ErrorResult(onError);
+    });
+  }
+}
+
+// Manage guardian Ids
+String _createGuardianId({required String currentUserId, required String otherUserId}) {
+  return currentUserId + '-' + otherUserId;
 }
