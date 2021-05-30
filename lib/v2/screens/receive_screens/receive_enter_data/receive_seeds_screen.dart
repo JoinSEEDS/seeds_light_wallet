@@ -35,7 +35,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                         TextFormFieldLight(
                           labelText: "Description",
                           hintText: "Enter Product Details",
-                          maxLength: 150,
+                          maxLength: blockChainMaxChars,
                           onChanged: (String value) {
                             // BlocProvider.of<ReceiveEnterDataPageBloc>(context)
                             //     .add(OnDescriptionChange(descriptionChanged: value));
@@ -44,8 +44,8 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                         const SizedBox(height: 16),
                         const BalanceRow(
                           label: "Available Balance",
-                          fiatAmount: "",
-                          seedsAmount: "",
+                          fiatAmount: "TODO",
+                          seedsAmount: "TODO",
                         ),
                       ],
                     ),
