@@ -31,10 +31,4 @@ class BalanceRepository extends NetworkRepository {
         .catchError((dynamic error) => mapHttpError(error));
   }
 
-  @override
-  Result mapHttpError(error) {
-    print('mapHttpError: ' + error.toString());
-    return ErrorResult(error);
-  }
-
 }

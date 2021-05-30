@@ -3,7 +3,6 @@ import 'package:seeds/v2/components/dashboard/interactor/mappers/balance_state_m
 import 'package:seeds/v2/components/dashboard/interactor/usecases/balance_update_use_case.dart';
 import 'package:seeds/v2/components/dashboard/interactor/viewmodels/balance_event.dart';
 import 'package:seeds/v2/components/dashboard/interactor/viewmodels/balance_state.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/models/token_model.dart';
 
 /// --- BLOC
