@@ -29,6 +29,7 @@ import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/invite__guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/invite_guardian_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
@@ -140,7 +141,7 @@ class NavigationService {
     Routes.receiveQR: (args) => ReceiveQR(amount: args),
     Routes.selectGuardians: (_) => SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => InviteGuardians(),
-    Routes.inviteGuardiansSent: (_) => InviteGuardiansSent(),
+    Routes.inviteGuardiansSent: (_) => InviteGuardiansSentScreen(),
     Routes.guardianTabs: (_) => GuardiansScreen(),
     Routes.dho: (_) => DHO(),
     Routes.guardians: (_) => Guardians(),
