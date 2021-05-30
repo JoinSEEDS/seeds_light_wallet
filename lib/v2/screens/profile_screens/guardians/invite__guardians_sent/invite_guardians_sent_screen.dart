@@ -4,7 +4,6 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/widgets/main_button.dart';
 
 class InviteGuardiansSentScreen extends StatelessWidget {
   @override
@@ -23,7 +22,12 @@ class InviteGuardiansSentScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 16),
-              Container(child: const Icon(Icons.check_circle, size: 120, color: AppColors.lightGreen5,)),
+              Container(
+                  child: const Icon(
+                Icons.check_circle,
+                size: 120,
+                color: AppColors.lightGreen5,
+              )),
               Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Text(
