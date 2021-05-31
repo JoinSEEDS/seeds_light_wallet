@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/v2/components/search_user/search_user_widget.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 
 /// SendSearchUserScreen SCREEN
 class SendSearchUserScreen extends StatelessWidget {
@@ -16,7 +15,7 @@ class SendSearchUserScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Send", style: Theme.of(context).textTheme.headline7),
+        title: const Text("Send"),
         actions: [
           IconButton(
             icon: SvgPicture.asset(

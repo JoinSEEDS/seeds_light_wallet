@@ -10,7 +10,6 @@ import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/components/invite_link_dialog.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/interactor/viewmodels/bloc.dart';
 
@@ -22,7 +21,7 @@ class InviteScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => InviteBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
-        appBar: AppBar(title: Text('Invite'.i18n, style: Theme.of(context).textTheme.headline7)),
+        appBar: AppBar(title: Text('Invite'.i18n)),
         body: BlocConsumer<InviteBloc, InviteState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {

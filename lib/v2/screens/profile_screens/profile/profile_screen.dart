@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
               case PageState.success:
                 return Scaffold(
                   appBar: AppBar(
-                    title: Text(state.profile!.account, style: Theme.of(context).textTheme.headline6),
+                    title: Text(state.profile!.account),
                     actions: [
                       IconButton(
                         icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),

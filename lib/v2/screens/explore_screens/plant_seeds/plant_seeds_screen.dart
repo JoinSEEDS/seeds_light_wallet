@@ -23,7 +23,7 @@ class PlantSeedsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => PlantSeedsBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
-        appBar: AppBar(title: Text('Plant'.i18n, style: Theme.of(context).textTheme.headline7)),
+        appBar: AppBar(title: Text('Plant'.i18n)),
         body: BlocConsumer<PlantSeedsBloc, PlantSeedsState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
