@@ -33,6 +33,7 @@ class GuardianRowWidget extends StatelessWidget {
         ),
         subtitle: Text(guardianModel.uid, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
         onTap: () {
+          // TODO(gguij002): Next PR handle this
           // tileOnTap!(user, guardian);
         });
   }
@@ -50,59 +51,39 @@ class GuardianRowTrailingWidget extends StatelessWidget {
         return Wrap(
           children: [
             TextButton(
-                child: const Text("Accept", style: TextStyle(color: Colors.blue, fontSize: 12)),
+                child: Text("Accept", style: Theme.of(context).textTheme.subtitle3),
                 onPressed: () {
                   BlocProvider.of<GuardiansBloc>(context).add(OnAcceptGuardianTapped(guardian.uid));
-                  // FirebaseDatabaseService().acceptGuardianRequestedMe(
-                  //   currentUserId: currentUserId!,
-                  //   friendId: user.account!,
-                  // );
                 }),
             TextButton(
-                child: const Text("Decline", style: TextStyle(color: Colors.red, fontSize: 12)),
+                child: Text("Decline", style: Theme.of(context).textTheme.subtitle3Red),
                 onPressed: () {
                   BlocProvider.of<GuardiansBloc>(context).add(OnDeclineGuardianTapped(guardian.uid));
-                  // FirebaseDatabaseService().declineGuardianRequestedMe(
-                  //   currentUserId: currentUserId!,
-                  //   friendId: user.account!,
-                  // );
                 })
           ],
         );
       case GuardianStatus.requestSent:
         return TextButton(
-            child: const Text("Cancel Request", style: TextStyle(color: Colors.red, fontSize: 12)),
+            child: Text("Cancel Request", style: Theme.of(context).textTheme.subtitle3Red),
             onPressed: () {
               BlocProvider.of<GuardiansBloc>(context).add(OnCancelGuardianRequestTapped(guardian.uid));
-              // FirebaseDatabaseService().cancelGuardianRequest(
-              //   currentUserId: currentUserId!,
-              //   friendId: user.account!,
-              // );
             });
       case GuardianStatus.alreadyGuardian:
         {
           if (guardian.recoveryStartedDate != null) {
             switch (guardian.type) {
               case GuardianType.myGuardian:
-                return const Text(
-                  "Recovery Started",
-                  style: TextStyle(color: Colors.red, fontSize: 12),
-                );
+                return Text("Recovery Started", style: Theme.of(context).textTheme.subtitle3Red);
               case GuardianType.imGuardian:
                 if (guardian.recoveryApprovedDate != null) {
-                  return const Text(
-                    "Recovery Started",
-                    style: TextStyle(color: Colors.red, fontSize: 12),
-                  );
+                  return Text("Recovery Started", style: Theme.of(context).textTheme.subtitle3Red);
                 } else {
                   return ElevatedButton(
                       onPressed: () {
+                        // TODO(gguij002): Next PR handle this
                         // tileOnTap!(user, guardian);
                       },
-                      child: const Text(
-                        "Action Required",
-                        style: TextStyle(color: Colors.red, fontSize: 12),
-                      ));
+                      child: Text("Action Required", style: Theme.of(context).textTheme.subtitle3Red));
                 }
 
               default:
