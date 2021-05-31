@@ -3,11 +3,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/v2/dashboard/interactor/balance_bloc.dart';
-import 'package:seeds/v2/dashboard/interactor/viewmodels/balance_event.dart';
-import 'package:seeds/v2/dashboard/interactor/viewmodels/balance_state.dart';
+import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/datasource/local/models/token_model.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/balance_bloc.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/balance_event.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/balance_state.dart';
 
 class CurrencyInfoCardWidget extends StatelessWidget {
   final TokenModel token;
@@ -69,7 +69,7 @@ class CurrencyInfoCardWidget extends StatelessWidget {
                       const SizedBox(
                         height: 6,
                       ),
-                      Text(state.displayString(), style: Theme.of(context).textTheme.headline5!.copyWith(color: textColor)),
+                      Text(state.cardDisplayText, style: Theme.of(context).textTheme.headline5!.copyWith(color: textColor)),
                       const SizedBox(
                         height: 6,
                       ),

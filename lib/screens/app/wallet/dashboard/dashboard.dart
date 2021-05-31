@@ -17,7 +17,7 @@ import 'package:seeds/providers/services/guardian_services.dart';
 
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
-import 'package:seeds/v2/components/dashboard/wallet_header.dart';
+import 'package:seeds/v2/screens/dashboard/wallet_header.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
@@ -31,7 +31,6 @@ import 'package:seeds/widgets/v2_widgets/dashboard_widgets/transaction_info_card
 import 'package:shimmer/shimmer.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
-import 'package:seeds/v2/components/dashboard/wallet_header.dart';
 
 enum TransactionType { income, outcome }
 
