@@ -35,9 +35,3 @@ class OnShareInviteLinkButtonPressed extends InviteEvent {
   @override
   String toString() => 'OnShareInviteLinkButtonPressed';
 }
-
-class ClearInviteScreenPageCommand extends InviteEvent {
-  const ClearInviteScreenPageCommand();
-  @override
-  String toString() => 'ClearInviteScreenPageCommand';
-}
