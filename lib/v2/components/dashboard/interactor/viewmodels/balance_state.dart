@@ -13,7 +13,7 @@ class BalanceState extends Equatable {
   const BalanceState({required this.pageState, required this.token, this.error, required this.amount});
 
   @override
-  List<Object?> get props => [token, error, amount];
+  List<Object?> get props => [token, error, amount, pageState];
 
   BalanceState copyWith({PageState? pageState, TokenModel? token, String? error, double? amount}) {
     return BalanceState(
