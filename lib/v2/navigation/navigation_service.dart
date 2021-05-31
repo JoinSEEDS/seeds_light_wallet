@@ -34,7 +34,8 @@ import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/selec
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
-import 'package:seeds/v2/screens/receive/receive_screen.dart';
+import 'package:seeds/v2/screens/receive_screens/receive_enter_data/receive_seeds_screen.dart';
+import 'package:seeds/v2/screens/receive_screens/receive_selection/receive_screen.dart';
 import 'package:seeds/v2/screens/sign_up/sign_up_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/send_enter_data_screen.dart';
@@ -67,6 +68,7 @@ class Routes {
   static final sendConfirmationScreen = 'SendConfirmationScreen';
   static final scanQRCode = 'ScanQRCode';
   static final receiveScreen = "receiveScreen";
+  static final receiveEnterDataScreen = "receiveEnterDataScreen";
   static final receive = 'Receive';
   static final receiveConfirmation = 'ReceiveConfirmation';
   static final receiveCustom = 'ReceiveCustom';
@@ -134,6 +136,7 @@ class NavigationService {
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => SendScannerScreen(),
     Routes.receiveScreen: (_) => ReceiveScreen(),
+    Routes.receiveEnterDataScreen: (_) => ReceiveEnterDataScreen(),
     Routes.receive: (_) => const Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
     Routes.receiveCustom: (_) => const ReceiveCustom(),
