@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/models/token_model.dart';
 
-import 'components/currency_info_card.dart';
+import 'components/currency_info_card_widget.dart';
 
 class WalletHeader extends StatefulWidget {
   @override
@@ -38,7 +38,7 @@ class WalletHeaderState extends State<WalletHeader> {
             items: [
               const Padding(
                 padding: EdgeInsets.only(right: 10),
-                child: CurrencyInfoCard(
+                child: CurrencyInfoCardWidget(
                   token: SeedsToken,
                   backgroundImage: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
                   logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
@@ -46,7 +46,7 @@ class WalletHeaderState extends State<WalletHeader> {
                   fiatBalance: " \$6,423 USD",
                 ),
               ),
-              const CurrencyInfoCard(
+              const CurrencyInfoCardWidget(
                 token: HyphaToken,
                 backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
                 logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
@@ -55,7 +55,7 @@ class WalletHeaderState extends State<WalletHeader> {
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10),
-                child: CurrencyInfoCard(
+                child: CurrencyInfoCardWidget(
                   token: HusdToken,
                   backgroundImage: 'assets/images/wallet/currency_info_cards/planted_seeds/background.jpg',
                   logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',

@@ -9,7 +9,7 @@ import 'package:seeds/v2/components/dashboard/interactor/viewmodels/balance_stat
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/models/token_model.dart';
 
-class CurrencyInfoCard extends StatelessWidget {
+class CurrencyInfoCardWidget extends StatelessWidget {
   final TokenModel token;
   final String backgroundImage;
   final String logo;
@@ -19,7 +19,7 @@ class CurrencyInfoCard extends StatelessWidget {
   final double? cardHeight;
   final Color? textColor;
 
-  const CurrencyInfoCard({
+  const CurrencyInfoCardWidget({
     Key? key,
     required this.token,
     required this.backgroundImage,
