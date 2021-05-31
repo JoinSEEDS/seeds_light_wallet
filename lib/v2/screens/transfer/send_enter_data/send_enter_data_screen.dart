@@ -20,7 +20,6 @@ import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/send_enter_
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_events.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/i18n/plant_seeds.i18n.dart';
 
 /// SendEnterDataScreen SCREEN
@@ -35,9 +34,6 @@ class SendEnterDataScreen extends StatelessWidget {
           listenWhen: (previous, current) => current.pageCommand != null,
           listener: (context, state) {
             PageCommand? command = state.pageCommand;
-            if (command == null) {
-              return;
-            }
 
             BlocProvider.of<SendEnterDataPageBloc>(context).add(ClearPageCommand());
 
@@ -82,9 +78,7 @@ class SendEnterDataScreen extends StatelessWidget {
             }
           },
           child: Scaffold(
-            appBar: AppBar(
-              title: Text("Back", style: Theme.of(context).textTheme.headline7),
-            ),
+            appBar: AppBar(title: const Text("Back")),
             body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(buildWhen: (context, state) {
               return state.pageCommand == null;
             }, builder: (context, SendEnterDataPageState state) {
