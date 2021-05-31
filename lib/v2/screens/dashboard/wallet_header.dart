@@ -5,7 +5,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/v2/datasource/local/models/token_model.dart';
+import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 
 import 'components/currency_info_card_widget.dart';
 

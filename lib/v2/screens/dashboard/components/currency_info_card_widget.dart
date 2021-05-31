@@ -3,9 +3,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/v2/components/dashboard/interactor/balance_bloc.dart';
-import 'package:seeds/v2/components/dashboard/interactor/viewmodels/balance_event.dart';
-import 'package:seeds/v2/components/dashboard/interactor/viewmodels/balance_state.dart';
+import 'package:seeds/v2/dashboard/interactor/balance_bloc.dart';
+import 'package:seeds/v2/dashboard/interactor/viewmodels/balance_event.dart';
+import 'package:seeds/v2/dashboard/interactor/viewmodels/balance_state.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/datasource/local/models/token_model.dart';
 
