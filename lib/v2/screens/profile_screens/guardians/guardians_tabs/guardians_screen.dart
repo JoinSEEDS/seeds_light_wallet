@@ -13,7 +13,7 @@ class GuardiansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => GuardiansBloc()..add(LoadGuardians(userName: SettingsNotifier.of(context).accountName)),
+        create: (context) => GuardiansBloc(),
         child: BlocListener<GuardiansBloc, GuardiansState>(
             listenWhen: (context, state) => state.pageCommand != null,
             listener: (context, state) {
@@ -41,9 +41,7 @@ class GuardiansScreen extends StatelessWidget {
                             ),
                             Padding(
                               padding: EdgeInsets.all(16.0),
-                              child: Text(
-                                "Im Guardian For",
-                              ),
+                              child: Text("Im Guardian For"),
                             )
                           ],
                         ),
