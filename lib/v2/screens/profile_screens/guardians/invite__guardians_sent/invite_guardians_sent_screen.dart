@@ -14,9 +14,7 @@ class InviteGuardiansSentScreen extends StatelessWidget {
         ),
         body: WillPopScope(
           onWillPop: () async {
-            Navigator.popUntil(context, ModalRoute.withName('/'));
-            await NavigationService.of(context).navigateTo(Routes.security);
-            await NavigationService.of(context).navigateTo(Routes.guardianTabs);
+            Navigator.popUntil(context, ModalRoute.withName(Routes.guardianTabs));
             return true;
           },
           child: Column(
