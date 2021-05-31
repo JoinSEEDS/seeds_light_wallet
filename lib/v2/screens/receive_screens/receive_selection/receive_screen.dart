@@ -6,7 +6,6 @@ import '../../../navigation/navigation_service.dart';
 import 'interactor/receive_bloc.dart';
 import 'interactor/viewmodels/receive_state.dart';
 import 'interactor/viewmodels/receive_events.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 
 /// Receive selection screen
 class ReceiveScreen extends StatelessWidget {
@@ -27,12 +26,7 @@ class ReceiveScreen extends StatelessWidget {
             buildWhen: (context, state) => state.receiveStates == ReceiveStates.initial,
             builder: (context, state) {
               return Scaffold(
-                  appBar: AppBar(
-                    title: Text(
-                      "Choose an option",
-                      style: Theme.of(context).textTheme.headline7,
-                    ),
-                  ),
+                  appBar: AppBar(title: const Text("Choose an option")),
                   body: ListView(
                     children: [
                       Padding(
