@@ -7,7 +7,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/invite.i18n.dart';
+import 'package:seeds/v2/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/interactor/viewmodels/bloc.dart';
 
 class InviteLinkDialog extends StatelessWidget {

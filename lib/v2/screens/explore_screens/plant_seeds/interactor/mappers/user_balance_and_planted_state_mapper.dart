@@ -7,11 +7,12 @@ import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_state.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
 import 'package:seeds/v2/utils/double_extension.dart';
+import 'package:seeds/v2/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
 
 class UserBalanceAndPlantedStateMapper extends StateMapper {
   PlantSeedsState mapResultToState(PlantSeedsState currentState, List<Result> results, RatesState rateState) {
     if (areAllResultsError(results)) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page'.i18n);
     } else {
       print('UserBalanceAndPlantedStateMapper mapResultsToState length = ${results.length}');
       results.retainWhere((i) => i.isValue);

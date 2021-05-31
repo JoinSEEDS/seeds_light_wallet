@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/invite.i18n.dart';
+import 'package:seeds/v2/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/components/alert_input_value.dart';
 import 'package:seeds/v2/components/amount_entry/amount_entry_widget.dart';
