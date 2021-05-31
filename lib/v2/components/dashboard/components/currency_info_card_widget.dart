@@ -7,14 +7,13 @@ import 'package:seeds/v2/components/dashboard/interactor/balance_bloc.dart';
 import 'package:seeds/v2/components/dashboard/interactor/viewmodels/balance_event.dart';
 import 'package:seeds/v2/components/dashboard/interactor/viewmodels/balance_state.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/models/token_model.dart';
+import 'package:seeds/v2/datasource/local/models/token_model.dart';
 
 class CurrencyInfoCardWidget extends StatelessWidget {
   final TokenModel token;
   final String backgroundImage;
   final String logo;
   final String balanceSubTitle;
-  final String fiatBalance;
   final double? cardWidth;
   final double? cardHeight;
   final Color? textColor;
@@ -25,7 +24,6 @@ class CurrencyInfoCardWidget extends StatelessWidget {
     required this.backgroundImage,
     required this.logo,
     required this.balanceSubTitle,
-    required this.fiatBalance,
     this.cardWidth,
     this.cardHeight,
     this.textColor,

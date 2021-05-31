@@ -5,7 +5,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/v2/models/token_model.dart';
+import 'package:seeds/v2/datasource/local/models/token_model.dart';
 
 import 'components/currency_info_card_widget.dart';
 
@@ -43,7 +43,6 @@ class WalletHeaderState extends State<WalletHeader> {
                   backgroundImage: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
                   logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
                   balanceSubTitle: 'Wallet Balance 1',
-                  fiatBalance: " \$6,423 USD",
                 ),
               ),
               const CurrencyInfoCardWidget(
@@ -51,7 +50,6 @@ class WalletHeaderState extends State<WalletHeader> {
                 backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
                 logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
                 balanceSubTitle: 'Wallet Balance',
-                fiatBalance: " \$9,236.45 USD",
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10),
@@ -60,7 +58,6 @@ class WalletHeaderState extends State<WalletHeader> {
                   backgroundImage: 'assets/images/wallet/currency_info_cards/planted_seeds/background.jpg',
                   logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
                   balanceSubTitle: 'Planted Seeds',
-                  fiatBalance: " \$6,423 USD",
                   textColor: AppColors.lightGreen2,
                 ),
               ),
