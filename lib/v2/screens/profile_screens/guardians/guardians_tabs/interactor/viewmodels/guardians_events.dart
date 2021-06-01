@@ -38,7 +38,7 @@ class OnDeclineGuardianTapped extends GuardiansEvent {
   OnDeclineGuardianTapped(this.guardianAccount);
 
   @override
-  String toString() => 'OnDeclineGuardianTapped : { OnDeclineGuardianTapped: $guardianAccount }';
+  String toString() => 'OnDeclineGuardianTapped : { guardianAccount: $guardianAccount }';
 }
 
 class OnCancelGuardianRequestTapped extends GuardiansEvent {
@@ -47,5 +47,5 @@ class OnCancelGuardianRequestTapped extends GuardiansEvent {
   OnCancelGuardianRequestTapped(this.guardianAccount);
 
   @override
-  String toString() => 'OnCancelGuardianRequestTapped : { OnCancelGuardianRequestTapped: $guardianAccount }';
+  String toString() => 'OnCancelGuardianRequestTapped : { guardianAccount: $guardianAccount }';
 }
