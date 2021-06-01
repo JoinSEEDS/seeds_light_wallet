@@ -15,8 +15,8 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(true);
+        Navigator.of(context).pop(true);
         return true;
       },
       child: CustomDialog(
@@ -49,8 +49,8 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
         ],
         singleLargeButtonTitle: 'Close'.i18n,
         onSingleLargeButtonPressed: () {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(true);
+          Navigator.of(context).pop(true);
         },
       ),
     );

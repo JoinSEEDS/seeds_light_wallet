@@ -4,7 +4,6 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/search_user/search_user_widget.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/components/selected_guardians_widget.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/interactor/select_guardians_bloc.dart';
@@ -34,9 +33,7 @@ class SelectGuardiansScreen extends StatelessWidget {
           },
           child: BlocBuilder<SelectGuardiansBloc, SelectGuardiansState>(builder: (context, state) {
             return Scaffold(
-                appBar: AppBar(
-                  title: Text(state.pageTitle, style: Theme.of(context).textTheme.headline7),
-                ),
+                appBar: AppBar(title: Text(state.pageTitle)),
                 body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,

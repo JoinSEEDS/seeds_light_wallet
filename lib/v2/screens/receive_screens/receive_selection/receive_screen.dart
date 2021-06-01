@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/v2/screens/receive/components/receive_selection_card.dart';
-import 'package:seeds/v2/screens/receive/interactor/viewmodels/receive_events.dart';
-import '../../navigation/navigation_service.dart';
+import 'package:seeds/v2/screens/receive_screens//receive_selection/components/receive_selection_card.dart';
+import '../../../navigation/navigation_service.dart';
 import 'interactor/receive_bloc.dart';
 import 'interactor/viewmodels/receive_state.dart';
-import 'package:seeds/v2/design/app_theme.dart';
+import 'interactor/viewmodels/receive_events.dart';
 
 /// Receive selection screen
 class ReceiveScreen extends StatelessWidget {
@@ -18,7 +17,7 @@ class ReceiveScreen extends StatelessWidget {
           listenWhen: (previous, current) => current.receiveStates != ReceiveStates.initial,
           listener: (context, state) {
             if (state.receiveStates == ReceiveStates.navigateToInputSeeds) {
-              NavigationService.of(context).navigateTo(Routes.receive);
+              NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen);
             } else {
               NavigationService.of(context).navigateTo(Routes.receive);
             }
@@ -27,12 +26,7 @@ class ReceiveScreen extends StatelessWidget {
             buildWhen: (context, state) => state.receiveStates == ReceiveStates.initial,
             builder: (context, state) {
               return Scaffold(
-                  appBar: AppBar(
-                    title: Text(
-                      "Choose an option",
-                      style: Theme.of(context).textTheme.headline7,
-                    ),
-                  ),
+                  appBar: AppBar(title: const Text("Choose an option")),
                   body: ListView(
                     children: [
                       Padding(

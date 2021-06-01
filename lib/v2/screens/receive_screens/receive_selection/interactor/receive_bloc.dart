@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:seeds/v2/screens/receive/interactor/viewmodels/receive_events.dart';
-import 'package:seeds/v2/screens/receive/interactor/viewmodels/receive_state.dart';
+import 'package:seeds/v2/screens/receive_screens/receive_selection/interactor/viewmodels/receive_events.dart';
+import 'package:seeds/v2/screens/receive_screens/receive_selection/interactor/viewmodels/receive_state.dart';
 
 /// --- BLOC
 class ReceiveBloc extends Bloc<ReceiveEvent, ReceiveState> {
