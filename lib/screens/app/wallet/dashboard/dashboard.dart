@@ -17,7 +17,7 @@ import 'package:seeds/providers/services/guardian_services.dart';
 
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/providers/useCases/dashboard_usecases.dart';
-import 'package:seeds/screens/app/wallet/dashboard/wallet_header.dart';
+import 'package:seeds/v2/screens/dashboard/wallet_header.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
