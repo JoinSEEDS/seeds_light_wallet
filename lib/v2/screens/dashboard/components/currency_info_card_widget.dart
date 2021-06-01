@@ -32,7 +32,7 @@ class CurrencyInfoCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BalanceBloc>(
-      create: (context) => BalanceBloc(token: token)..add(OnBalanceUpdate()),
+      create: (context) => BalanceBloc(token: token)..add(const OnLoadBalance()),
       child: BlocBuilder<BalanceBloc, BalanceState>(
         builder: (context, state) {
           return Container(

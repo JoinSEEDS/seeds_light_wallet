@@ -4,15 +4,16 @@ import 'package:meta/meta.dart';
 /// --- EVENTS
 @immutable
 abstract class BalanceEvent extends Equatable {
+  const BalanceEvent();
   @override
   List<Object> get props => [];
 }
 
-class OnBalanceUpdate extends BalanceEvent {
+class OnLoadBalance extends BalanceEvent {
 
-  OnBalanceUpdate();
+  const OnLoadBalance();
 
   @override
-  String toString() => 'OnBalanceUpdate';
+  String toString() => 'OnLoadBalance';
 }
 
