@@ -47,7 +47,6 @@ class _BottomContainerState extends State<BottomContainer> {
         }
       },
       child: BlocBuilder<SignupBloc, SignupState>(
-        buildWhen: (previousState, currentState) => previousState != currentState,
         builder: (context, state) => Container(
           width: double.infinity,
           decoration: const BoxDecoration(
