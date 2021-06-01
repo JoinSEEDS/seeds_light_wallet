@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seeds/utils/user_input_number_formatter.dart';
+import 'package:seeds/v2/domain-shared/user_input_number_formatter.dart';
 
 void main() {
   final inputFormatter = UserInputNumberFormatter();

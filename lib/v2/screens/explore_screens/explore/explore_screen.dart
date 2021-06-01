@@ -18,7 +18,7 @@ class ExploreScreen extends StatelessWidget {
       create: (context) => ExploreBloc()..add(const LoadExploreData()),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Explore', style: Theme.of(context).textTheme.headline6),
+          title: const Text('Explore'),
           actions: [
             IconButton(
               icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
@@ -41,8 +41,12 @@ class ExploreScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                       child: ExploreInfoCard(
-                        onTap: () {
-                          NavigationService.of(context).navigateTo(Routes.createInvite);
+                        onTap: () async {
+                          bool? shouldReloadExplore =
+                              await NavigationService.of(context).navigateTo(Routes.createInvite);
+                          if (shouldReloadExplore != null) {
+                            BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
+                          }
                         },
                         title: 'Invite',
                         amount: state.availableSeeds?.roundedQuantity,
@@ -62,11 +66,12 @@ class ExploreScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ExploreInfoCard(
-                              onTap: () {
-                                NavigationService.of(context).navigateTo(
-                                  Routes.plantSeeds,
-                                  BlocProvider.of<ExploreBloc>(context),
-                                );
+                              onTap: () async {
+                                bool? shouldReloadExplore =
+                                    await NavigationService.of(context).navigateTo(Routes.plantSeeds);
+                                if (shouldReloadExplore != null) {
+                                  BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
+                                }
                               },
                               title: 'Plant',
                               amount: state.plantedSeeds?.roundedQuantity,

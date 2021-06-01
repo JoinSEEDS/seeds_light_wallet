@@ -4,9 +4,10 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/models/cart_model.dart';
 import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
-import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 import 'package:seeds/widgets/circle_avatar_factory.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 
 class CartListView extends StatefulWidget {
   const CartListView({Key? key, required this.cart, this.onChange}) : super(key: key);
@@ -69,7 +70,7 @@ class _CartListViewState extends State<CartListView> {
                               },
                             ),
                             Expanded(
-                              child: Text((e.seedsPrice(rateNotifier)).seedsFormatted!,
+                              child: Text((e.seedsPrice(rateNotifier)).seedsFormatted,
                                   textAlign: TextAlign.right,
                                   style: const TextStyle(
                                       fontSize: 14, fontWeight: FontWeight.w400, fontFamily: 'worksans')),
@@ -85,12 +86,12 @@ class _CartListViewState extends State<CartListView> {
                   Text('Total'.i18n,
                       style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500, fontFamily: 'worksans')),
                   const Spacer(),
-                  Text(widget.cart!.total.seedsFormatted! + ' SEEDS',
+                  Text(widget.cart!.total.seedsFormatted + ' SEEDS',
                       style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500, fontFamily: 'worksans')),
                 ]),
                 Row(children: [
                   const Spacer(),
-                  Text(rateNotifier.seedsTo(widget.cart!.total, fiat).fiatFormatted! + ' $fiat',
+                  Text(rateNotifier.seedsTo(widget.cart!.total, fiat).fiatFormatted + ' $fiat',
                       style: const TextStyle(
                           color: AppColors.blue, fontSize: 22, fontWeight: FontWeight.w400, fontFamily: 'worksans')),
                 ])

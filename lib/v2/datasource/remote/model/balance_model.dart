@@ -1,4 +1,4 @@
-import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 /// The available balance of seeds

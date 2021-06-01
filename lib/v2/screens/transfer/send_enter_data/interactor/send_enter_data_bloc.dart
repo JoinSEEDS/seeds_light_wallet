@@ -26,6 +26,8 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
       Result result = await GetAvailableBalanceUseCase().run();
 
       yield SendEnterDataStateMapper().mapResultToState(state, result, state.ratesState, "0");
+    } else if (event is OnMemoChange) {
+      yield state.copyWith(memo: event.memoChanged);
     } else if (event is OnAmountChange) {
       yield SendAmountChangeMapper().mapResultToState(state, state.ratesState, event.amountChanged);
     } else if (event is OnNextButtonTapped) {
@@ -35,7 +37,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
           pageCommand: ShowSendConfirmDialog(
               amount: state.quantity.toString(),
               toAccount: state.sendTo.account,
-              memo: "",
+              memo: state.memo,
               toName: state.sendTo.nickname,
               toImage: state.sendTo.image,
               currency: settingsStorage.selectedFiatCurrency,
