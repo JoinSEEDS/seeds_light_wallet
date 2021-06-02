@@ -127,4 +127,18 @@ class ProfileRepository extends NetworkRepository with EosRepository {
             }))
         .catchError((error) => mapEosError(error));
   }
+
+  Future<Result> isDHOMember(String accountName) {
+    print('[http] is $accountName DHO member');
+
+    var request = '{"json": true, "code": "trailservice","scope": "$accountName","table": "voters"}';
+
+    return http
+        .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
+            headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              return (body['rows'] as List).isNotEmpty;
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
 }

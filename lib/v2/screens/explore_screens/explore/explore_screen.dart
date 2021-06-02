@@ -4,8 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/components/explore_info_card.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/interactor/viewmodels/bloc.dart';
 
@@ -18,7 +21,7 @@ class ExploreScreen extends StatelessWidget {
       create: (context) => ExploreBloc()..add(const LoadExploreData()),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Explore', style: Theme.of(context).textTheme.headline6),
+          title: const Text('Explore'),
           actions: [
             IconButton(
               icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
@@ -101,20 +104,23 @@ class ExploreScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ExploreInfoCard(
-                              onTap: () {},
+                              onTap: () => launch('$buySeedsUrl${settingsStorage.accountName}', forceSafariVC: false),
                               title: 'Get Seeds',
-                              amount: 'TODO',
+                              amount: state.availableSeeds?.quantity.toStringAsFixed(0),
+                              isErrorState: state.availableSeeds == null,
                               amountLabel: 'Seeds',
                             ),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
-                            child: ExploreInfoCard(
-                              onTap: () {},
-                              title: 'Hypha DHO',
-                              amount: 'TODO',
-                              amountLabel: 'Hypha',
-                            ),
+                            child: (state.isDHOMember != null && state.isDHOMember == true)
+                                ? ExploreInfoCard(
+                                    onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
+                                    title: 'Hypha DHO',
+                                    amount: 'TODO',
+                                    amountLabel: 'Hypha',
+                                  )
+                                : const SizedBox.shrink(),
                           ),
                         ],
                       ),

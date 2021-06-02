@@ -9,6 +9,7 @@ class ExploreState extends Equatable {
   final PlantedModel? plantedSeeds;
   final String? allianceVoice;
   final String? campaignVoice;
+  final bool? isDHOMember;
   final String? errorMessage;
 
   const ExploreState({
@@ -17,6 +18,7 @@ class ExploreState extends Equatable {
     this.plantedSeeds,
     this.errorMessage,
     this.allianceVoice,
+    this.isDHOMember,
     this.campaignVoice,
   });
 
@@ -27,6 +29,7 @@ class ExploreState extends Equatable {
         plantedSeeds,
         errorMessage,
         allianceVoice,
+        isDHOMember,
         campaignVoice,
       ];
 
@@ -36,6 +39,7 @@ class ExploreState extends Equatable {
     PlantedModel? plantedSeeds,
     String? allianceVoice,
     String? campaignVoice,
+    bool? isDHOMember,
     String? errorMessage,
   }) {
     return ExploreState(
@@ -44,6 +48,7 @@ class ExploreState extends Equatable {
       plantedSeeds: plantedSeeds ?? this.plantedSeeds,
       allianceVoice: allianceVoice ?? this.allianceVoice,
       campaignVoice: campaignVoice ?? this.campaignVoice,
+      isDHOMember: isDHOMember ?? this.isDHOMember,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
