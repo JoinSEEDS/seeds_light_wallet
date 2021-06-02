@@ -1,9 +1,9 @@
 import 'package:async/async.dart';
-import 'package:seeds/utils/invites.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/mappers/claim_invite_mapper.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
+import 'package:seeds/v2/utils/mnemonic_code/mnemonic_code.dart';
 
 class ClaimInviteUseCase {
   ClaimInviteUseCase({required SignupRepository signupRepository}) : _signupRepository = signupRepository;

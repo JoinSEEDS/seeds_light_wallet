@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
-import 'package:seeds/v2/components/amount_entry_widget.dart';
+import 'package:seeds/v2/components/amount_entry/amount_entry_widget.dart';
+import 'package:seeds/v2/components/alert_input_value.dart';
 import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
@@ -12,7 +13,6 @@ import 'package:seeds/v2/components/text_form_field_light.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/components/send_confirmation_dialog.dart';
@@ -20,7 +20,7 @@ import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/send_enter_
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_events.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
 import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
-import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/i18n/plant_seeds.i18n.dart';
 
 /// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {
@@ -34,9 +34,6 @@ class SendEnterDataScreen extends StatelessWidget {
           listenWhen: (previous, current) => current.pageCommand != null,
           listener: (context, state) {
             PageCommand? command = state.pageCommand;
-            if (command == null) {
-              return;
-            }
 
             BlocProvider.of<SendEnterDataPageBloc>(context).add(ClearPageCommand());
 
@@ -54,6 +51,7 @@ class SendEnterDataScreen extends StatelessWidget {
                   toAccount: command.toAccount,
                   toImage: command.toImage,
                   toName: command.toName,
+                  memo: command.memo,
                 ),
               );
             } else if (command is ShowTransactionSuccess) {
@@ -80,9 +78,7 @@ class SendEnterDataScreen extends StatelessWidget {
             }
           },
           child: Scaffold(
-            appBar: AppBar(
-              title: Text("Back", style: Theme.of(context).textTheme.headline7),
-            ),
+            appBar: AppBar(title: const Text("Back")),
             body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(buildWhen: (context, state) {
               return state.pageCommand == null;
             }, builder: (context, SendEnterDataPageState state) {
@@ -119,10 +115,10 @@ class SendEnterDataScreen extends StatelessWidget {
                                 BlocProvider.of<SendEnterDataPageBloc>(context)
                                     .add(OnAmountChange(amountChanged: value));
                               },
-                              fiatAmount: state.fiatAmount,
-                              enteringCurrencyName: currencySeedsCode,
                               autoFocus: state.pageState == PageState.initial,
                             ),
+                            const SizedBox(height: 24),
+                            AlertInputValue('Not enough balance'.i18n, isVisible: state.showAlert),
                             const SizedBox(height: 30),
                             Padding(
                               padding: const EdgeInsets.only(left: 16, right: 16),
@@ -132,7 +128,10 @@ class SendEnterDataScreen extends StatelessWidget {
                                     labelText: "Memo",
                                     hintText: "Add a note",
                                     maxLength: 150,
-                                    onChanged: (String value) {},
+                                    onChanged: (String value) {
+                                      BlocProvider.of<SendEnterDataPageBloc>(context)
+                                          .add(OnMemoChange(memoChanged: value));
+                                    },
                                   ),
                                   const SizedBox(height: 16),
                                   BalanceRow(

@@ -7,7 +7,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
-import 'package:seeds/i18n/plant_seeds.i18n.dart';
+import 'package:seeds/i18n/invite.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/interactor/viewmodels/bloc.dart';
 
 class InviteLinkDialog extends StatelessWidget {
@@ -20,8 +20,8 @@ class InviteLinkDialog extends StatelessWidget {
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () async {
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(true);
+            Navigator.of(context).pop(true);
             return true;
           },
           child: SingleChildScrollView(
@@ -48,8 +48,8 @@ class InviteLinkDialog extends StatelessWidget {
                   foregroundColor: AppColors.black,
                   errorStateBuilder: (_, err) {
                     return Container(
-                      child: const Center(
-                        child: Text("Uh oh! Something went wrong...", textAlign: TextAlign.center),
+                      child: Center(
+                        child: Text('Uh oh! Something went wrong...'.i18n, textAlign: TextAlign.center),
                       ),
                     );
                   },
@@ -61,11 +61,11 @@ class InviteLinkDialog extends StatelessWidget {
                   style: Theme.of(context).textTheme.buttonBlack,
                 ),
               ],
-              rightButtonTitle: 'Share',
-              leftButtonTitle: state.showCloseDialogButton ? 'Close' : '',
+              rightButtonTitle: 'Share'.i18n,
+              leftButtonTitle: state.showCloseDialogButton ? 'Close'.i18n : '',
               onLeftButtonPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
               },
               onRightButtonPressed: () {
                 BlocProvider.of<InviteBloc>(context).add(const OnShareInviteLinkButtonPressed());

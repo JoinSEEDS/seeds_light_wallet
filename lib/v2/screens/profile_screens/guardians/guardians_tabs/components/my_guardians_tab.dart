@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
@@ -70,7 +71,7 @@ class MyGuardiansTab extends StatelessWidget {
               return Column(children: items);
             }
           } else {
-            return const SizedBox.shrink();
+            return const FullPageLoadingIndicator();
           }
         });
   }

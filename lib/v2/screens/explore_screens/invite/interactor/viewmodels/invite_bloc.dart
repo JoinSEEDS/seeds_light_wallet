@@ -35,8 +35,5 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
       yield state.copyWith(showCloseDialogButton: true);
       await Share.share(state.mnemonicSecretCode!);
     }
-    if (event is ClearInviteScreenPageCommand) {
-      yield state.copyWith(pageCommand: null);
-    }
   }
 }

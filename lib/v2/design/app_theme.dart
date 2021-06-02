@@ -9,7 +9,10 @@ class SeedsAppTheme {
       textTheme: SeedsTextTheme.lightTheme,
       brightness: Brightness.light,
       canvasColor: AppColors.primary,
-      appBarTheme: const AppBarTheme(elevation: 0.0),
+      appBarTheme: const AppBarTheme(
+        elevation: 0.0,
+        textTheme: TextTheme(headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)), // headline7
+      ),
       inputDecorationTheme: SeedsInputDecorationTheme.lightTheme,
       snackBarTheme: const SnackBarThemeData(backgroundColor: AppColors.grey, behavior: SnackBarBehavior.floating),
     );
@@ -22,7 +25,10 @@ class SeedsAppTheme {
       textTheme: SeedsTextTheme.darkTheme,
       brightness: Brightness.dark,
       canvasColor: AppColors.primary,
-      appBarTheme: const AppBarTheme(elevation: 0.0),
+      appBarTheme: const AppBarTheme(
+        elevation: 0.0,
+        textTheme: TextTheme(headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)), // headline7
+      ),
       inputDecorationTheme: SeedsInputDecorationTheme.darkTheme,
       snackBarTheme: const SnackBarThemeData(backgroundColor: AppColors.grey, behavior: SnackBarBehavior.floating),
     );

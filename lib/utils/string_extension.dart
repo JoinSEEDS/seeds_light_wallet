@@ -1,5 +1,4 @@
-import 'double_extension.dart';
-
+import 'package:seeds/v2/utils/double_extension.dart';
 extension StringExtension on String {
   String? get seedsFormatted {
     var parts = split(' ');

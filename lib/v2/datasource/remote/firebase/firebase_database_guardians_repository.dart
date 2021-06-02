@@ -1,8 +1,12 @@
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
-import 'package:async/async.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_database_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_status.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
+import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 
 class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   Stream<bool> hasGuardianNotificationPending(String userAccount) {
@@ -53,4 +57,127 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       return ErrorResult(false);
     });
   }
+
+  Future<Result<dynamic>> inviteGuardians(Set<MemberModel> usersToInvite) {
+    var currentUserId = settingsStorage.accountName;
+
+    var batch = FirebaseFirestore.instance.batch();
+
+    usersToInvite.forEach((guardian) {
+      var data = <String, Object>{
+        UID_KEY: guardian.account,
+        TYPE_KEY: GuardianType.myGuardian.name,
+        GUARDIANS_STATUS_KEY: GuardianStatus.requestSent.name,
+        GUARDIANS_DATE_CREATED_KEY: FieldValue.serverTimestamp(),
+        GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
+      };
+
+      var dataOther = <String, Object>{
+        UID_KEY: currentUserId,
+        TYPE_KEY: GuardianType.imGuardian.name,
+        GUARDIANS_STATUS_KEY: GuardianStatus.requestedMe.name,
+        GUARDIANS_DATE_CREATED_KEY: FieldValue.serverTimestamp(),
+        GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
+      };
+
+      var otherUserRef = usersCollection.doc(guardian.account);
+
+      var currentUserRef = usersCollection
+          .doc(currentUserId)
+          .collection(GUARDIANS_COLLECTION_KEY)
+          .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: guardian.account));
+
+      var otherUserGuardianRef = otherUserRef
+          .collection(GUARDIANS_COLLECTION_KEY)
+          .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: guardian.account));
+
+      // This empty is needed in case the user does not exist in the database yet. Create him.
+      batch.set(otherUserRef, {}, SetOptions(merge: true));
+      batch.set(currentUserRef, data, SetOptions(merge: true));
+      batch.set(otherUserGuardianRef, dataOther, SetOptions(merge: true));
+    });
+
+    return batch.commit().then((value) {
+      return ValueResult(value);
+    }).catchError((onError) {
+      // ignore: return_of_invalid_type_from_catch_error
+      return ErrorResult(onError);
+    });
+  }
+
+  Future<void> cancelGuardianRequest({required String currentUserId, required String friendId}) {
+    return _deleteMyGuardian(currentUserId: currentUserId, friendId: friendId);
+  }
+
+  Future<void> _deleteMyGuardian({required String currentUserId, required String friendId}) {
+    var batch = FirebaseFirestore.instance.batch();
+
+    var currentUserDocRef = usersCollection
+        .doc(currentUserId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: friendId));
+    var otherUserDocRef = usersCollection
+        .doc(friendId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: friendId));
+
+    batch.delete(currentUserDocRef);
+    batch.delete(otherUserDocRef);
+
+    return batch.commit();
+  }
+
+  Future<void> declineGuardianRequestedMe({required String currentUserId, required String friendId}) {
+    return _deleteImGuardianFor(currentUserId: currentUserId, friendId: friendId);
+  }
+
+  Future<void> _deleteImGuardianFor({required String currentUserId, required String friendId}) {
+    var batch = FirebaseFirestore.instance.batch();
+
+    var currentUserDocRef = usersCollection
+        .doc(currentUserId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+    var otherUserDocRef = usersCollection
+        .doc(friendId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+
+    batch.delete(currentUserDocRef);
+    batch.delete(otherUserDocRef);
+
+    return batch.commit();
+  }
+
+  Future<void> acceptGuardianRequestedMe({required String currentUserId, required String friendId}) {
+    var batch = FirebaseFirestore.instance.batch();
+
+    var data = <String, Object>{
+      GUARDIANS_STATUS_KEY: GuardianStatus.alreadyGuardian.name,
+      GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
+    };
+
+    var currentUserDocRef = usersCollection
+        .doc(currentUserId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+    var otherUserDocRef = usersCollection
+        .doc(friendId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+
+    batch.set(currentUserDocRef, data, SetOptions(merge: true));
+    batch.set(otherUserDocRef, data, SetOptions(merge: true));
+
+    return batch.commit();
+  }
+}
+
+// Manage guardian Ids
+String _createGuardianId({required String currentUserId, required String otherUserId}) {
+  return currentUserId + '-' + otherUserId;
+}
+
+String _createImGuardianForId({required String currentUserId, required String otherUserId}) {
+  return otherUserId + '-' + currentUserId;
 }

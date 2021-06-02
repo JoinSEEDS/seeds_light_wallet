@@ -10,7 +10,7 @@ import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/telos_balance_notifier.dart';
 import 'package:seeds/providers/notifiers/voice_notifier.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 import 'package:seeds/widgets/main_card.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;

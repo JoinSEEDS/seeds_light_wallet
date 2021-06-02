@@ -1,4 +1,4 @@
-import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 /// The available balance of seeds
@@ -14,12 +14,14 @@ class BalanceModel {
   /// Returns the rounded amount in seeds
   String get roundedQuantity => '${quantity.seedsFormatted}';
 
-  factory BalanceModel.fromJson(List<dynamic>? json) {
-    if (json != null && json[0].isNotEmpty) {
+  factory BalanceModel.fromJson(List<dynamic> json) {
+    if (json.isEmpty || json[0].isEmpty) { 
+      // is a user has no balance, the list returned is empty
+      // not really sure an emtpy string can happen
+      return const BalanceModel(0);
+    } else {
       var amount = double.parse((json[0] as String).split(' ').first);
       return BalanceModel(amount);
-    } else {
-      return const BalanceModel(0);
-    }
+    } 
   }
 }

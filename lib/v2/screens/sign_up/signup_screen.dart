@@ -17,8 +17,8 @@ class SignupScreen extends StatelessWidget {
           signupRepository: SignupRepository(),
         ),
       ),
-      child: BlocConsumer<SignupBloc, SignupState>(
-        listener: (context, state) {},
+      child: BlocBuilder<SignupBloc, SignupState>(
+        buildWhen: (previous, current) => previous.pageContent != current.pageContent,
         builder: (context, state) {
           final PageContent pageContent = state.pageContent;
 
