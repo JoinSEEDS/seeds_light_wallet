@@ -167,7 +167,7 @@ class NavigationService {
   }
 
   Future<dynamic> navigateTo(String routeName, [Object? arguments, bool replace = false]) async {
-    late var navigatorKey;
+    late GlobalKey<NavigatorState> navigatorKey;
 
     if (streamRouteListener != null) {
       streamRouteListener!.add(routeName);
@@ -188,9 +188,9 @@ class NavigationService {
     }
 
     if (replace) {
-      return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState!.pushNamed(routeName, arguments: arguments);
     }
   }
 
