@@ -191,9 +191,9 @@ class NavigationService {
     }
 
     if (replace) {
-      return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState!.pushNamed(routeName, arguments: arguments);
     }
   }
 
