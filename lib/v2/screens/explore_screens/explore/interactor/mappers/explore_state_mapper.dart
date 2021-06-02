@@ -28,7 +28,7 @@ class ExploreStateMapper extends StateMapper {
         plantedSeeds: plantedSeeds,
         allianceVoice: allianceVoice?.amount.toString(),
         campaignVoice: campaignVoice?.amount.toString(),
-        isDHOMember: true,
+        isDHOMember: isDHOMember,
       );
     }
   }
