@@ -25,3 +25,16 @@ class UnpackScannedLink extends SignupEvent {
   @override
   String toString() => 'UnpackScannedLink event { scannedLink: $scannedLink }';
 }
+
+class NavigateToDisplayName extends SignupEvent {}
+
+class NavigateToCreateUsername extends SignupEvent {
+  final String displayName;
+
+  const NavigateToCreateUsername(this.displayName);
+
+  @override
+  String toString() => 'SaveDisplayName event { displayName: $displayName }';
+}
+
+class NavigateBack extends SignupEvent {}
