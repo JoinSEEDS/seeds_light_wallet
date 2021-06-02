@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 
-/// --- EVENTS
+/// --- EVENTS 
 @immutable
 abstract class GuardiansEvent extends Equatable {
   @override
