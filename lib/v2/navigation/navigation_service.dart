@@ -170,7 +170,7 @@ class NavigationService {
   }
 
   Future<dynamic> navigateTo(String routeName, [Object? arguments, bool replace = false]) async {
-    late var navigatorKey;
+    late GlobalKey<NavigatorState> navigatorKey;
 
     if (streamRouteListener != null) {
       streamRouteListener!.add(routeName);
