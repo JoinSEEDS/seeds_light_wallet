@@ -6,7 +6,7 @@ import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/notification_badge.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/i18n/widgets.i18n.dart';
+import 'package:seeds/v2/i18n/app/app.i18.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';

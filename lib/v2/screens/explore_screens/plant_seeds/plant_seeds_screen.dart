@@ -10,7 +10,7 @@ import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/i18n/plant_seeds.i18n.dart';
+import 'package:seeds/v2/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/interactor/viewmodels/bloc.dart';
 

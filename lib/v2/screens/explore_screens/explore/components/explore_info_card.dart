@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
 
 class ExploreInfoCard extends StatelessWidget {
   final String title;
@@ -43,7 +44,7 @@ class ExploreInfoCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            Text(isErrorState ? 'Error Loading Data' : amount ?? '', style: Theme.of(context).textTheme.headline8),
+            Text(isErrorState ? 'Error Loading Data'.i18n : amount ?? '', style: Theme.of(context).textTheme.headline8),
             const SizedBox(height: 4),
             Text(amountLabel ?? '', style: Theme.of(context).textTheme.subtitle3),
           ],

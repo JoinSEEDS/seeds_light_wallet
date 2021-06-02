@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/claim_code.i18n.dart';
-import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
 import 'package:seeds/v2/utils/helpers.dart';
 
@@ -20,15 +19,15 @@ class BottomContainer extends StatefulWidget {
 }
 
 class _BottomContainerState extends State<BottomContainer> {
-  late SignupBloc _signupBloc;
+  late SignupBloc _bloc;
   final _keyController = TextEditingController();
   final Debouncer _debouncer = Debouncer(milliseconds: 600);
 
   @override
   void initState() {
     super.initState();
-    _signupBloc = BlocProvider.of<SignupBloc>(context);
-    _keyController.text = '';
+    _bloc = BlocProvider.of<SignupBloc>(context);
+    _keyController.text = _bloc.state.claimInviteState.inviteMnemonic ?? '';
     _keyController.addListener(_onInviteCodeChanged);
   }
 
@@ -43,13 +42,11 @@ class _BottomContainerState extends State<BottomContainer> {
     return BlocListener<SignupBloc, SignupState>(
       listenWhen: (previousState, currentState) => previousState != currentState,
       listener: (context, state) {
-        if (state.claimInviteState.pageState == PageState.success &&
-            !state.claimInviteState.inviteMnemonic.isNullOrEmpty) {
+        if (state.claimInviteState.pageCommand is StopScan) {
           _keyController.text = state.claimInviteState.inviteMnemonic!;
         }
       },
       child: BlocBuilder<SignupBloc, SignupState>(
-        buildWhen: (previousState, currentState) => previousState != currentState,
         builder: (context, state) => Container(
           width: double.infinity,
           decoration: const BoxDecoration(
@@ -91,9 +88,9 @@ class _BottomContainerState extends State<BottomContainer> {
                           _keyController.text = clipboardText;
                         });
                       },
-                      isChecked: _signupBloc.state.claimInviteState.isValid,
-                      canClear: !_signupBloc.state.claimInviteState.isValid && _keyController.text.isNotEmpty,
-                      isLoading: _signupBloc.state.claimInviteState.isLoading,
+                      isChecked: _bloc.state.claimInviteState.isValid,
+                      canClear: !_bloc.state.claimInviteState.isValid && _keyController.text.isNotEmpty,
+                      isLoading: _bloc.state.claimInviteState.isLoading,
                     ),
                     enabledBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -141,24 +138,24 @@ class _BottomContainerState extends State<BottomContainer> {
   void _onInviteCodeChanged() {
     if (_keyController.text.isNotEmpty) {
       _debouncer.run(() {
-        _signupBloc.add(ValidateInviteCode(inviteCode: _keyController.text));
+        _bloc.add(ValidateInviteCode(inviteCode: _keyController.text));
       });
     }
   }
 
-  VoidCallback? _onClaimPressed(BuildContext context) => _signupBloc.state.claimInviteState.isValid
-        ? () {
-            FocusScope.of(context).unfocus();
-            NavigationService.of(context).navigateTo(Routes.displayName);
-          }
-        : () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(
-                'Please enter a valid invite code',
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-              backgroundColor: AppColors.red1,
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            ));
-          };
+  VoidCallback? _onClaimPressed(BuildContext context) => _bloc.state.claimInviteState.isValid
+      ? () {
+          FocusScope.of(context).unfocus();
+          _bloc.add(NavigateToDisplayName());
+        }
+      : () {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              'Please enter a valid invite code',
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+            backgroundColor: AppColors.red1,
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          ));
+        };
 }
