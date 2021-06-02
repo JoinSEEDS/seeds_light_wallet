@@ -40,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 FlatButtonLong(
                   onPressed: () {
-                    NavigationService.of(context).navigateTo(Routes.signUp);
+                    NavigationService.of(context).navigateTo(Routes.signup);
                   },
                   title: "Claim invite code".i18n,
                 ),
