@@ -21,6 +21,7 @@ abstract class NetworkRepository {
           return ValueResult(modelMapper(body));
         }
       default:
+        print("network error: ${response.reasonPhrase}");
         return ErrorResult(NetworkError(response.statusCode));
     }
   }

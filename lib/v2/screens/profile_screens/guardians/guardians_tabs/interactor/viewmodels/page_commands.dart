@@ -6,3 +6,9 @@ class NavigateToSelectGuardians extends PageCommand {
 
   NavigateToSelectGuardians(this.myGuardians);
 }
+
+class ShowMessage extends PageCommand {
+  final String message;
+
+  ShowMessage(this.message);
+}

@@ -16,7 +16,6 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   GuardiansBloc() : super(GuardiansState.initial());
 
   final GetGuardiansUseCase _userCase = GetGuardiansUseCase();
-  final InitGuardiansUseCase _initGuardiansUseCase = InitGuardiansUseCase();
   final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
   Stream<List<GuardianModel>> get guardians {
@@ -29,17 +28,13 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
   @override
   Stream<GuardiansState> mapEventToState(GuardiansEvent event) async* {
-    if (event is LoadGuardians) {
-      // TODO(gguij002): make calls to load guardians from service
-    } else if (event is InitGuardians) {
+    if (event is InitGuardians) {
       if (event.myGuardians.length < 3) {
-        print('guardiansQuery.docs.length >= 3 is true');
-        // TODO(gguij002): SHow toast saying more than 3
-        yield state;
+        yield state.copyWith(pageCommand: ShowMessage("Minimum 3 guardians needed"));
       } else {
         yield state.copyWith(pageState: PageState.loading);
 
-        var result = await _initGuardiansUseCase.initGuardians(event.myGuardians);
+        var result = await InitGuardiansUseCase().initGuardians(event.myGuardians);
 
         yield InitGuardiansStateMapper().mapResultToState(state, result);
       }
@@ -48,6 +43,15 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       results.retainWhere((element) => element.type == GuardianType.myGuardian);
 
       yield state.copyWith(pageCommand: NavigateToSelectGuardians(results));
+    } else if (event is OnAcceptGuardianTapped) {
+      await _repository.acceptGuardianRequestedMe(
+          currentUserId: settingsStorage.accountName, friendId: event.guardianAccount);
+    } else if (event is OnCancelGuardianRequestTapped) {
+      await _repository.cancelGuardianRequest(
+          currentUserId: settingsStorage.accountName, friendId: event.guardianAccount);
+    } else if (event is OnDeclineGuardianTapped) {
+      await _repository.declineGuardianRequestedMe(
+          currentUserId: settingsStorage.accountName, friendId: event.guardianAccount);
     }
   }
 }
