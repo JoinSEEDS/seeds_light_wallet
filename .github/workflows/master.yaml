@@ -28,9 +28,9 @@ jobs:
       - name: Lint
         run: |
           flutter analyze
-      - name: Unit test
-        run: |
-          flutter test
+#      - name: Unit test
+#        run: |
+#          flutter test --no-sound-null-safety
 #  build-iOS:
 #    name: Build iOS package
 #    runs-on: macOS-latest
