@@ -129,6 +129,7 @@ flutter:
     - assets/images/explore/person_send_invite.svg
     - assets/images/explore/plant_seed.svg
     - assets/images/explore/thumb_up.svg
+    - assets/images/explore/link_chain.svg
     - assets/images/wallet/arrow_up.svg
     - assets/images/wallet/arrow_down.svg
     - assets/images/wallet/app_bar/appbar_icon.svg

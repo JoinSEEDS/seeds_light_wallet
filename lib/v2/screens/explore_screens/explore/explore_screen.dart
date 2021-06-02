@@ -106,9 +106,7 @@ class ExploreScreen extends StatelessWidget {
                             child: ExploreInfoCard(
                               onTap: () => launch('$buySeedsUrl${settingsStorage.accountName}', forceSafariVC: false),
                               title: 'Get Seeds',
-                              amount: state.availableSeeds?.quantity.toStringAsFixed(0),
-                              isErrorState: state.availableSeeds == null,
-                              amountLabel: 'Seeds',
+                              icon: SvgPicture.asset('assets/images/explore/link_chain.svg'),
                             ),
                           ),
                           const SizedBox(width: 20),
@@ -117,8 +115,7 @@ class ExploreScreen extends StatelessWidget {
                                 ? ExploreInfoCard(
                                     onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
                                     title: 'Hypha DHO',
-                                    amount: 'TODO',
-                                    amountLabel: 'Hypha',
+                                    icon: SvgPicture.asset('assets/images/explore/link_chain.svg'),
                                   )
                                 : const SizedBox.shrink(),
                           ),
