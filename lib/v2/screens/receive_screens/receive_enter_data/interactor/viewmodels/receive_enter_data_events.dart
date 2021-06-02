@@ -5,12 +5,14 @@ import 'package:meta/meta.dart';
 @immutable
 abstract class ReceiveEnterDataEvents extends Equatable {
   const ReceiveEnterDataEvents();
+
   @override
   List<Object?> get props => [];
 }
 
 class LoadUserBalance extends ReceiveEnterDataEvents {
   const LoadUserBalance();
+
   @override
   String toString() => 'LoadUserBalance';
 }
@@ -24,14 +26,18 @@ class OnAmountChange extends ReceiveEnterDataEvents {
   String toString() => 'OnAmountChange: { OnAmountChange: $amountChanged }';
 }
 
-class OnCreateInviteButtonTapped extends ReceiveEnterDataEvents {
-  const OnCreateInviteButtonTapped();
+class OnDescriptionChange extends ReceiveEnterDataEvents {
+  final String description;
+
+  const OnDescriptionChange({required this.description});
+
   @override
-  String toString() => 'OnCreateInviteButtonTapped';
+  String toString() => 'OnDescriptionChange: { description: $description }';
 }
 
-class OnShareInviteLinkButtonPressed extends ReceiveEnterDataEvents {
-  const OnShareInviteLinkButtonPressed();
+class OnNextButtonTapped extends ReceiveEnterDataEvents {
+  const OnNextButtonTapped();
+
   @override
-  String toString() => 'OnShareInviteLinkButtonPressed';
+  String toString() => 'OnNextButtonTapped';
 }

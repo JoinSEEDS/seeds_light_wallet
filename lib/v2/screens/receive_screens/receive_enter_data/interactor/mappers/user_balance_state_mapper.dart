@@ -16,11 +16,10 @@ class UserBalanceStateMapper extends StateMapper {
       String? selectedFiat = settingsStorage.selectedFiatCurrency;
 
       return currentState.copyWith(
-        pageState: PageState.success,
-        fiatAmount: rateState.fromSeedsToFiat(0, selectedFiat).fiatFormatted,
-        availableBalance: balance,
-        availableBalanceFiat: rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted,
-      );
+          pageState: PageState.success,
+          availableBalance: balance,
+          availableBalanceFiat: rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted,
+          availableBalanceSeeds: balance.quantity.seedsFormatted);
     }
   }
 }

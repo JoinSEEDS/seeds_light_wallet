@@ -6,6 +6,7 @@ import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_light.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -24,23 +25,14 @@ class ReceiveEnterDataScreen extends StatelessWidget {
           body: BlocConsumer<ReceiveEnterDataBloc, ReceiveEnterDataState>(
               listenWhen: (_, current) => current.pageCommand != null,
               listener: (context, state) {
-                // if (state.pageCommand is ShowInviteLinkDialog) {
-                //   showDialog<void>(
-                //     context: context,
-                //     barrierDismissible: false,
-                //     builder: (_) {
-                //       return BlocProvider.value(
-                //         value: BlocProvider.of<InviteBloc>(context),
-                //         child: const InviteLinkDialog(),
-                //       );
-                //     },
-                //   );
-                // }
-                // if (state.pageCommand is ShowTransactionFailSnackBar) {
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBarInfo(title: 'Invite creation failed, try again.'.i18n, context: context),
-                //   );
-                // }
+                if (state.pageCommand is NavigateToReceiveDetails) {
+                  //Navigate to Receive Detail Page
+                }
+                if (state.pageCommand is ShowTransactionFailSnackBar) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBarInfo(title: 'Receive creation failed, try again.', context: context),
+                  );
+                }
               },
               builder: (context, ReceiveEnterDataState state) {
                 switch (state.pageState) {
@@ -60,10 +52,10 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                               const SizedBox(height: 100),
                               AmountEntryWidget(
                                 onValueChange: (value) {
-                                  // BlocProvider.of<ReceiveEnterDataPageBloc>(context)
-                                  //     .add(OnAmountChange(amountChanged: value));
+                                  BlocProvider.of<ReceiveEnterDataBloc>(context)
+                                      .add(OnAmountChange(amountChanged: value));
                                 },
-                                autoFocus: true,
+                                autoFocus: state.isAutoFocus,
                               ),
                               const SizedBox(height: 36),
                               Padding(
@@ -75,15 +67,15 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                       hintText: "Enter Product Details",
                                       maxLength: blockChainMaxChars,
                                       onChanged: (String value) {
-                                        // BlocProvider.of<ReceiveEnterDataPageBloc>(context)
-                                        //     .add(OnDescriptionChange(descriptionChanged: value));
+                                        BlocProvider.of<ReceiveEnterDataBloc>(context)
+                                            .add(OnDescriptionChange(description: value));
                                       },
                                     ),
                                     const SizedBox(height: 16),
-                                    const BalanceRow(
+                                    BalanceRow(
                                       label: "Available Balance",
-                                      fiatAmount: "TODO",
-                                      seedsAmount: "TODO",
+                                      fiatAmount: state.availableBalanceFiat,
+                                      seedsAmount: state.availableBalanceSeeds,
                                     ),
                                   ],
                                 ),
@@ -97,9 +89,9 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
                               title: 'Next',
-                              enabled: false,
+                              enabled: state.isNextButtonEnabled,
                               onPressed: () {
-                                // BlocProvider.of<ReceiveEnterDataPageBloc>(context).add(OnNextButtonTapped());
+                                BlocProvider.of<ReceiveEnterDataBloc>(context).add(const OnNextButtonTapped());
                               },
                             ),
                           ),
