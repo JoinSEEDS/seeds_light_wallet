@@ -104,9 +104,80 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       return ErrorResult(onError);
     });
   }
+
+  Future<void> cancelGuardianRequest({required String currentUserId, required String friendId}) {
+    return _deleteMyGuardian(currentUserId: currentUserId, friendId: friendId);
+  }
+
+  Future<void> _deleteMyGuardian({required String currentUserId, required String friendId}) {
+    var batch = FirebaseFirestore.instance.batch();
+
+    var currentUserDocRef = usersCollection
+        .doc(currentUserId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: friendId));
+    var otherUserDocRef = usersCollection
+        .doc(friendId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: friendId));
+
+    batch.delete(currentUserDocRef);
+    batch.delete(otherUserDocRef);
+
+    return batch.commit();
+  }
+
+  Future<void> declineGuardianRequestedMe({required String currentUserId, required String friendId}) {
+    return _deleteImGuardianFor(currentUserId: currentUserId, friendId: friendId);
+  }
+
+  Future<void> _deleteImGuardianFor({required String currentUserId, required String friendId}) {
+    var batch = FirebaseFirestore.instance.batch();
+
+    var currentUserDocRef = usersCollection
+        .doc(currentUserId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+    var otherUserDocRef = usersCollection
+        .doc(friendId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+
+    batch.delete(currentUserDocRef);
+    batch.delete(otherUserDocRef);
+
+    return batch.commit();
+  }
+
+  Future<void> acceptGuardianRequestedMe({required String currentUserId, required String friendId}) {
+    var batch = FirebaseFirestore.instance.batch();
+
+    var data = <String, Object>{
+      GUARDIANS_STATUS_KEY: GuardianStatus.alreadyGuardian.name,
+      GUARDIANS_DATE_UPDATED_KEY: FieldValue.serverTimestamp(),
+    };
+
+    var currentUserDocRef = usersCollection
+        .doc(currentUserId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+    var otherUserDocRef = usersCollection
+        .doc(friendId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .doc(_createImGuardianForId(currentUserId: currentUserId, otherUserId: friendId));
+
+    batch.set(currentUserDocRef, data, SetOptions(merge: true));
+    batch.set(otherUserDocRef, data, SetOptions(merge: true));
+
+    return batch.commit();
+  }
 }
 
 // Manage guardian Ids
 String _createGuardianId({required String currentUserId, required String otherUserId}) {
   return currentUserId + '-' + otherUserId;
+}
+
+String _createImGuardianForId({required String currentUserId, required String otherUserId}) {
+  return otherUserId + '-' + currentUserId;
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_tab.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/guardians_bloc.dart';
@@ -13,9 +12,9 @@ class GuardiansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => GuardiansBloc()..add(LoadGuardians(userName: SettingsNotifier.of(context).accountName)),
+        create: (context) => GuardiansBloc(),
         child: BlocListener<GuardiansBloc, GuardiansState>(
-            listenWhen: (context, state) => state.pageCommand != null,
+            listenWhen: (_, state) => state.pageCommand != null,
             listener: (context, state) {
               var pageCommand = state.pageCommand;
               if (pageCommand is NavigateToSelectGuardians) {
@@ -41,9 +40,7 @@ class GuardiansScreen extends StatelessWidget {
                             ),
                             Padding(
                               padding: EdgeInsets.all(16.0),
-                              child: Text(
-                                "Im Guardian For",
-                              ),
+                              child: Text("Im Guardian For"),
                             )
                           ],
                         ),
