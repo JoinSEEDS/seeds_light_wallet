@@ -8,6 +8,8 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/components/explore_info_card.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
+
 
 /// Explore SCREEN
 class ExploreScreen extends StatelessWidget {
@@ -18,7 +20,7 @@ class ExploreScreen extends StatelessWidget {
       create: (context) => ExploreBloc()..add(const LoadExploreData()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Explore'),
+          title: Text('Explore'.i18n),
           actions: [
             IconButton(
               icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
@@ -48,14 +50,14 @@ class ExploreScreen extends StatelessWidget {
                             BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
                           }
                         },
-                        title: 'Invite',
+                        title: 'Invite'.i18n,
                         amount: state.availableSeeds?.roundedQuantity,
                         isErrorState: state.availableSeeds == null,
                         icon: SvgPicture.asset(
                           'assets/images/explore/person_send_invite.svg',
                           color: AppColors.white,
                         ),
-                        amountLabel: 'Available Seeds',
+                        amountLabel: 'Available Seeds'.i18n,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -73,18 +75,18 @@ class ExploreScreen extends StatelessWidget {
                                   BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
                                 }
                               },
-                              title: 'Plant',
+                              title: 'Plant'.i18n,
                               amount: state.plantedSeeds?.roundedQuantity,
                               isErrorState: state.plantedSeeds == null,
                               icon: SvgPicture.asset('assets/images/explore/plant_seed.svg'),
-                              amountLabel: 'Planted Seeds',
+                              amountLabel: 'Planted Seeds'.i18n,
                             ),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
                             child: ExploreInfoCard(
                               onTap: () {},
-                              title: 'Vote',
+                              title: 'Vote'.i18n,
                               amount: 'TODO',
                               icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
                               amountLabel: 'Trust Tokens',
@@ -102,7 +104,7 @@ class ExploreScreen extends StatelessWidget {
                           Expanded(
                             child: ExploreInfoCard(
                               onTap: () {},
-                              title: 'Get Seeds',
+                              title: 'Get Seeds'.i18n,
                               amount: 'TODO',
                               amountLabel: 'Seeds',
                             ),

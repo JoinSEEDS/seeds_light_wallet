@@ -6,6 +6,7 @@ import 'package:seeds/v2/screens/import_key/interactor/usecases/check_private_ke
 import 'package:seeds/v2/screens/import_key/interactor/usecases/import_key_use_case.dart';
 import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_events.dart';
 import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_state.dart';
+import 'package:seeds/v2/i18n/import_key/import_key.i18n.dart';
 
 /// --- BLOC
 class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
@@ -21,7 +22,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       var publicKey = CheckPrivateKeyUseCase().isKeyValid(event.userKey);
 
       if (publicKey == null || publicKey.isEmpty) {
-        yield state.copyWith(pageState: PageState.failure, errorMessage: "Private key is not valid");
+        yield state.copyWith(pageState: PageState.failure, errorMessage: "Private key is not valid".i18n);
       } else {
         var results = await ImportKeyUseCase().run(publicKey);
         yield ImportKeyStateMapper().mapResultsToState(state, results, event.userKey);
