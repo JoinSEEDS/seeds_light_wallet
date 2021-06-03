@@ -4,16 +4,11 @@ import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
-class NavigateToReceiveDetails extends PageCommand {}
-
-class ShowTransactionFailSnackBar extends PageCommand {}
-
 /// --- STATE
 class ReceiveEnterDataState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final RatesState ratesState;
-  final bool isAutoFocus;
   final String fiatAmount;
   final String? description;
   final BalanceModel? availableBalance;
@@ -26,7 +21,6 @@ class ReceiveEnterDataState extends Equatable {
       {required this.pageState,
       this.pageCommand,
       required this.ratesState,
-      required this.isAutoFocus,
       required this.fiatAmount,
       this.availableBalance,
       required this.availableBalanceFiat,
@@ -40,7 +34,6 @@ class ReceiveEnterDataState extends Equatable {
         pageState,
         pageCommand,
         ratesState,
-        isAutoFocus,
         fiatAmount,
         availableBalance,
         availableBalanceFiat,
@@ -54,7 +47,6 @@ class ReceiveEnterDataState extends Equatable {
       {PageState? pageState,
       PageCommand? pageCommand,
       RatesState? ratesState,
-      bool? isAutoFocus,
       String? fiatAmount,
       BalanceModel? availableBalance,
       String? availableBalanceFiat,
@@ -66,7 +58,6 @@ class ReceiveEnterDataState extends Equatable {
         pageState: pageState ?? this.pageState,
         pageCommand: pageCommand,
         ratesState: ratesState ?? this.ratesState,
-        isAutoFocus: isAutoFocus ?? this.isAutoFocus,
         fiatAmount: fiatAmount ?? this.fiatAmount,
         availableBalance: availableBalance ?? this.availableBalance,
         availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
@@ -82,7 +73,6 @@ class ReceiveEnterDataState extends Equatable {
       availableBalanceFiat: '',
       pageState: PageState.initial,
       ratesState: ratesState,
-      isAutoFocus: true,
       fiatAmount: 0.toString(),
       isNextButtonEnabled: false,
     );

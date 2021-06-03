@@ -4,13 +4,13 @@ import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/components/amount_entry/amount_entry_widget.dart';
 import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
-import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_light.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'interactor/receive_enter_data_bloc.dart';
+import 'interactor/viewmodels/page_commands.dart';
 import 'interactor/viewmodels/receive_enter_data_events.dart';
 import 'interactor/viewmodels/receive_enter_data_state.dart';
 
@@ -40,8 +40,6 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                     return const SizedBox.shrink();
                   case PageState.loading:
                     return const FullPageLoadingIndicator();
-                  case PageState.failure:
-                    return const FullPageErrorIndicator();
                   case PageState.success:
                     return Stack(
                       children: [
@@ -55,7 +53,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                   BlocProvider.of<ReceiveEnterDataBloc>(context)
                                       .add(OnAmountChange(amountChanged: value));
                                 },
-                                autoFocus: state.isAutoFocus,
+                                autoFocus: true,
                               ),
                               const SizedBox(height: 36),
                               Padding(
@@ -64,7 +62,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                   children: [
                                     TextFormFieldLight(
                                       labelText: "Description",
-                                      hintText: "Enter Product Details",
+                                      hintText: "Enter a Description",
                                       maxLength: blockChainMaxChars,
                                       onChanged: (String value) {
                                         BlocProvider.of<ReceiveEnterDataBloc>(context)
