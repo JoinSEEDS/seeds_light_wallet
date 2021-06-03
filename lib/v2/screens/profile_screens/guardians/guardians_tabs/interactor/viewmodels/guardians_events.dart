@@ -15,12 +15,12 @@ class InitGuardians extends GuardiansEvent {
   InitGuardians(this.myGuardians);
 
   @override
-  String toString() => 'InitGuardians: { InitGuardians: $myGuardians }';
+  String toString() => 'InitGuardians: { myGuardians: $myGuardians }';
 }
 
 class OnAddGuardiansTapped extends GuardiansEvent {
   @override
-  String toString() => 'OnAddGuardiansTapped ';
+  String toString() => 'OnAddGuardiansTapped';
 }
 
 class OnAcceptGuardianTapped extends GuardiansEvent {
@@ -29,7 +29,7 @@ class OnAcceptGuardianTapped extends GuardiansEvent {
   OnAcceptGuardianTapped(this.guardianAccount);
 
   @override
-  String toString() => 'OnAcceptGuardianTapped : { OnAcceptGuardianTapped: $guardianAccount }';
+  String toString() => 'OnAcceptGuardianTapped : { guardianAccount: $guardianAccount }';
 }
 
 class OnDeclineGuardianTapped extends GuardiansEvent {

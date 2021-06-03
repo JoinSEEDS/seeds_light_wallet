@@ -13,15 +13,14 @@ class ExploreStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page'.i18n);
     } else {
       print('ExploreStateMapper mapResultsToState length=' + results.length.toString());
-      results.retainWhere((Result element) => element.isValue);
-      var values = results.map((Result element) => element.asValue!.value).toList();
+      results.retainWhere((Result i) => i.isValue);
+      var values = results.map((Result i) => i.asValue!.value).toList();
 
-      BalanceModel? balanceModel = values.firstWhere((element) => element is BalanceModel, orElse: () => null);
-      PlantedModel? plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
-      VoiceModelAlliance? allianceVoice =
-          values.firstWhere((element) => element is VoiceModelAlliance, orElse: () => null);
-      VoiceModelCampaign? campaignVoice =
-          values.firstWhere((element) => element is VoiceModelCampaign, orElse: () => null);
+      BalanceModel? balanceModel = values.firstWhere((i) => i is BalanceModel, orElse: () => null);
+      PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null);
+      VoiceModelAlliance? allianceVoice = values.firstWhere((i) => i is VoiceModelAlliance, orElse: () => null);
+      VoiceModelCampaign? campaignVoice = values.firstWhere((i) => i is VoiceModelCampaign, orElse: () => null);
+      bool? isDHOMember = values.firstWhere((i) => i is bool, orElse: () => null);
 
       return currentState.copyWith(
         pageState: PageState.success,
@@ -29,6 +28,7 @@ class ExploreStateMapper extends StateMapper {
         plantedSeeds: plantedSeeds,
         allianceVoice: allianceVoice?.amount.toString(),
         campaignVoice: campaignVoice?.amount.toString(),
+        isDHOMember: isDHOMember,
       );
     }
   }

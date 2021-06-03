@@ -4,12 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/components/explore_info_card.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
-
 
 /// Explore SCREEN
 class ExploreScreen extends StatelessWidget {
@@ -89,7 +91,7 @@ class ExploreScreen extends StatelessWidget {
                               title: 'Vote'.i18n,
                               amount: 'TODO',
                               icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
-                              amountLabel: 'Trust Tokens',
+                              amountLabel: 'Trust Tokens Remaining'.i18n,
                             ),
                           ),
                         ],
@@ -103,20 +105,20 @@ class ExploreScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ExploreInfoCard(
-                              onTap: () {},
+                              onTap: () => launch('$buySeedsUrl${settingsStorage.accountName}', forceSafariVC: false),
                               title: 'Get Seeds'.i18n,
-                              amount: 'TODO',
-                              amountLabel: 'Seeds',
+                              icon: SvgPicture.asset('assets/images/explore/link_chain.svg'),
                             ),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
-                            child: ExploreInfoCard(
-                              onTap: () {},
-                              title: 'Hypha DHO',
-                              amount: 'TODO',
-                              amountLabel: 'Hypha',
-                            ),
+                            child: (state.isDHOMember != null && state.isDHOMember == true)
+                                ? ExploreInfoCard(
+                                    onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
+                                    title: 'Hypha DHO',
+                                    icon: SvgPicture.asset('assets/images/explore/link_chain.svg'),
+                                  )
+                                : const SizedBox.shrink(),
                           ),
                         ],
                       ),

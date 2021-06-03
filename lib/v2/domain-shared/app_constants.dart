@@ -1,3 +1,6 @@
+/// Some URLs
+const String buySeedsUrl = 'https://www.joinseeds.com/buy-seeds?acc=';
+
 /// Firebase Dynamic Link Parameters
 const String domainAppUriPrefix = 'https://seedswallet.page.link';
 const String targetLink = 'https://joinseeds.com/?placeholder=&inviteMnemonic=';

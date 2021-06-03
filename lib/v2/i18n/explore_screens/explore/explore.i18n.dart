@@ -10,6 +10,7 @@ extension Localization on String {
           'Plant': 'Plantar',
           'Plant Seeds': 'Plantar Seeds',
           'Vote': 'Votar',
+          'Trust Tokens Remaining': 'Tokens de confianza restantes',
           'Get Seeds': 'Obtener Seeds',
           'Error Loading Data': 'Error Cargando Los Datos',
           'Error Loading Page': 'Error Cargando La página'

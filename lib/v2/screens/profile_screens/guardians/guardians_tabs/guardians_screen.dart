@@ -14,7 +14,7 @@ class GuardiansScreen extends StatelessWidget {
     return BlocProvider(
         create: (context) => GuardiansBloc(),
         child: BlocListener<GuardiansBloc, GuardiansState>(
-            listenWhen: (_, state) => state.pageCommand != null,
+            listenWhen: (_, current) => current.pageCommand != null,
             listener: (context, state) {
               var pageCommand = state.pageCommand;
               if (pageCommand is NavigateToSelectGuardians) {
