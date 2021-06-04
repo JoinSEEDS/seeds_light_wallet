@@ -12,3 +12,15 @@ class ShowMessage extends PageCommand {
 
   ShowMessage(this.message);
 }
+
+class ShowRemoveGuardianView extends PageCommand {
+  final GuardianModel guardian;
+
+  ShowRemoveGuardianView(this.guardian);
+}
+
+class ShowRecoveryStarted extends PageCommand {
+  final GuardianModel guardian;
+
+  ShowRecoveryStarted(this.guardian);
+}
