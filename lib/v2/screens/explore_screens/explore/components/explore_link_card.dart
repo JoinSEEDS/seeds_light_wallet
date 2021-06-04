@@ -27,7 +27,6 @@ class ExploreLinkCard extends StatelessWidget {
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-          gradient: gradient,
         ),
         child: Container(
           height: 120,
