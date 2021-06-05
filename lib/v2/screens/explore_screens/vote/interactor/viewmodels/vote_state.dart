@@ -1,19 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/explore_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
 /// --- STATE
 class VoteState extends Equatable {
   final PageState pageState;
-  final Map<String, Map> proposalTypes;
-  final Map<String, String>? currentType;
+  final ProposalType currentType;
   final List<ProposalModel>? proposals;
   final String? errorMessage;
 
   const VoteState({
     required this.pageState,
-    required this.proposalTypes,
-    this.currentType,
+    required this.currentType,
     this.proposals,
     this.errorMessage,
   });
@@ -28,13 +27,12 @@ class VoteState extends Equatable {
 
   VoteState copyWith({
     PageState? pageState,
+    ProposalType? currentType,
     List<ProposalModel>? proposals,
-    Map<String, String>? currentType,
     String? errorMessage,
   }) {
     return VoteState(
       pageState: pageState ?? this.pageState,
-      proposalTypes: proposalTypes,
       currentType: currentType ?? this.currentType,
       proposals: proposals,
       errorMessage: errorMessage ?? this.errorMessage,
@@ -42,14 +40,6 @@ class VoteState extends Equatable {
   }
 
   factory VoteState.initial() {
-    return const VoteState(
-      pageState: PageState.initial,
-      proposalTypes: {
-        'Open': {'stage': 'active', 'status': 'open'},
-        'Evaluate': {'stage': 'active', 'status': 'evaluate', 'reverse': 'true'},
-        'Passed': {'stage': 'done', 'status': 'passed', 'reverse': 'true'},
-        'Failed': {'stage': 'done', 'status': 'rejected', 'reverse': 'true'},
-      },
-    );
+    return VoteState(pageState: PageState.initial, currentType: proposalTypes.first);
   }
 }

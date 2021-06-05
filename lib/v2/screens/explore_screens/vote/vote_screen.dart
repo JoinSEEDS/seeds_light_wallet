@@ -19,8 +19,8 @@ class _VoteScreenState extends State<VoteScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _voteBloc = VoteBloc();
-    _tabController = TabController(length: _voteBloc.state.proposalTypes.length, vsync: this);
+    _voteBloc = VoteBloc()..add(const LoadProposals());
+    _tabController = TabController(length: proposalTypes.length, vsync: this);
     _tabController.addListener(() {
       // Controller is finished animating --> get the current index
       if (!_tabController.indexIsChanging) {
@@ -45,7 +45,7 @@ class _VoteScreenState extends State<VoteScreen> with TickerProviderStateMixin {
           title: const Text('Vote'),
           bottom: TabBar(
             controller: _tabController,
-            tabs: _voteBloc.state.proposalTypes.keys.map((i) => Container(child: Text(i))).toList(),
+            tabs: proposalTypes.map((i) => Container(child: Text(i.type))).toList(),
           ),
         ),
         body: BlocBuilder<VoteBloc, VoteState>(
@@ -60,9 +60,7 @@ class _VoteScreenState extends State<VoteScreen> with TickerProviderStateMixin {
               case PageState.success:
                 return TabBarView(
                   controller: _tabController,
-                  children: state.proposalTypes.values
-                      .map((data) => Container(child: Center(child: Text(data['stage']))))
-                      .toList(),
+                  children: proposalTypes.map((i) => Container(child: Center(child: Text(i.stage)))).toList(),
                 );
               default:
                 return const SizedBox.shrink();

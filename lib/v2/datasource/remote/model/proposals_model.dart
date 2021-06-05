@@ -1,4 +1,4 @@
-enum ProposalType { alliance, campaign, hypha }
+enum FundType { alliance, campaign, hypha }
 
 class ProposalsModel {
   final List<ProposalModel> proposals;
@@ -7,7 +7,7 @@ class ProposalsModel {
 
   factory ProposalsModel.fromJson(Map<String, dynamic> json) {
     if (json['rows'] != null) {
-      return ProposalsModel(json['rows'].map((i) => ProposalModel.fromJson(i)).toList());
+      return ProposalsModel(json['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList());
     } else {
       return ProposalsModel([]);
     }
@@ -34,12 +34,12 @@ class ProposalModel {
   final String? fund;
   final int? creationDate;
 
-  ProposalType get type {
+  FundType get type {
     return fund == 'allies.seeds'
-        ? ProposalType.alliance
+        ? FundType.alliance
         : fund == 'hypha.seeds'
-            ? ProposalType.hypha
-            : ProposalType.campaign;
+            ? FundType.hypha
+            : FundType.campaign;
   }
 
   ProposalModel({

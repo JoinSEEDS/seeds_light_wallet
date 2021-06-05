@@ -17,8 +17,8 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
       yield ProposalsStateMapper().mapResultToState(state, result);
     }
     if (event is OnTabChange) {
-      final value = state.proposalTypes.values.elementAt(event.tabIndex);
-      yield state.copyWith(currentType: Map.from(value));
+      yield state.copyWith(currentType: proposalTypes[event.tabIndex]);
+      add(const LoadProposals());
     }
   }
 }
