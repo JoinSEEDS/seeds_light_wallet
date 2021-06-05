@@ -23,7 +23,7 @@ class OnAmountChange extends ReceiveEnterDataEvents {
   const OnAmountChange({required this.amountChanged});
 
   @override
-  String toString() => 'OnAmountChange: { OnAmountChange: $amountChanged }';
+  String toString() => 'OnAmountChange: { amountChange: $amountChanged }';
 }
 
 class OnDescriptionChange extends ReceiveEnterDataEvents {

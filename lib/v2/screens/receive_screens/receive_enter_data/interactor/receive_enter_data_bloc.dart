@@ -15,9 +15,9 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
   @override
   Stream<ReceiveEnterDataState> mapEventToState(ReceiveEnterDataEvents event) async* {
     if (event is LoadUserBalance) {
-      yield state.copyWith(pageState: PageState.success);
+      yield state.copyWith(pageState: PageState.loading);
       Result result = await GetAvailableBalanceUseCase().run();
-      yield UserBalanceStateMapper().mapResultToState(state, result, state.ratesState);
+      yield UserBalanceStateMapper().mapResultToState(state, result);
     }
     if (event is OnAmountChange) {
       double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;
@@ -36,7 +36,7 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
       //if success
       yield state.copyWith(pageCommand: NavigateToReceiveDetails());
       //if failure
-      yield state.copyWith(pageCommand: ShowTransactionFailSnackBar());
+      yield state.copyWith(pageCommand: ShowTransactionFail());
     }
   }
 }
