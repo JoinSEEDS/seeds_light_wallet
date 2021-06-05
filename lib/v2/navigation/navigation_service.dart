@@ -33,6 +33,7 @@ import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/selec
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
+import 'package:seeds/v2/screens/receive_screens/receive_detail_scan_qr_code/receive_detail_scan_qr_code.dart';
 import 'package:seeds/v2/screens/receive_screens/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/v2/screens/receive_screens/receive_selection/receive_screen.dart';
 import 'package:seeds/v2/screens/sign_up/signup_screen.dart';
@@ -138,7 +139,7 @@ class NavigationService {
     Routes.receive: (_) => const Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
     Routes.receiveCustom: (_) => const ReceiveCustom(),
-    Routes.receiveQR: (args) => ReceiveQR(amount: args),
+    Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSentScreen(),
