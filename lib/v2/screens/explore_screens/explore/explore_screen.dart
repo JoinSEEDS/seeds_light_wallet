@@ -9,6 +9,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:seeds/v2/screens/explore_screens/explore/components/explore_link_card.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/components/explore_info_card.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
@@ -21,15 +22,7 @@ class ExploreScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ExploreBloc()..add(const LoadExploreData()),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('Explore'.i18n),
-          actions: [
-            IconButton(
-              icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
-              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
-            ),
-          ],
-        ),
+        appBar: AppBar(title: Text('Explore'.i18n)),
         body: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, ExploreState state) {
             switch (state.pageState) {
@@ -44,36 +37,34 @@ class ExploreScreen extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-                      child: ExploreInfoCard(
-                        onTap: () async {
-                          bool? shouldReloadExplore =
-                              await NavigationService.of(context).navigateTo(Routes.createInvite);
-                          if (shouldReloadExplore != null) {
-                            BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
-                          }
-                        },
-                        title: 'Invite'.i18n,
-                        amount: state.availableSeeds?.roundedQuantity,
-                        isErrorState: state.availableSeeds == null,
-                        icon: SvgPicture.asset(
-                          'assets/images/explore/person_send_invite.svg',
-                          color: AppColors.white,
-                        ),
-                        amountLabel: 'Available Seeds'.i18n,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
                       child: Row(
-                        mainAxisSize: MainAxisSize.max,
                         children: [
                           Expanded(
                             child: ExploreInfoCard(
                               onTap: () async {
                                 bool? shouldReloadExplore =
+                                    await NavigationService.of(context).navigateTo(Routes.createInvite);
+                                if (shouldReloadExplore != null && shouldReloadExplore) {
+                                  BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
+                                }
+                              },
+                              title: 'Invite'.i18n,
+                              amount: state.availableSeeds?.roundedQuantity,
+                              isErrorState: state.availableSeeds == null,
+                              icon: SvgPicture.asset(
+                                'assets/images/explore/person_send_invite.svg',
+                                color: AppColors.white,
+                              ),
+                              amountLabel: 'Available Seeds'.i18n,
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: ExploreInfoCard(
+                              onTap: () async {
+                                bool? shouldReloadExplore =
                                     await NavigationService.of(context).navigateTo(Routes.plantSeeds);
-                                if (shouldReloadExplore != null) {
+                                if (shouldReloadExplore != null && shouldReloadExplore) {
                                   BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
                                 }
                               },
@@ -82,16 +73,6 @@ class ExploreScreen extends StatelessWidget {
                               isErrorState: state.plantedSeeds == null,
                               icon: SvgPicture.asset('assets/images/explore/plant_seed.svg'),
                               amountLabel: 'Planted Seeds'.i18n,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: ExploreInfoCard(
-                              onTap: () {},
-                              title: 'Vote'.i18n,
-                              amount: 'TODO',
-                              icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
-                              amountLabel: 'Trust Tokens Remaining'.i18n,
                             ),
                           ),
                         ],
@@ -105,18 +86,44 @@ class ExploreScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ExploreInfoCard(
-                              onTap: () => launch('$buySeedsUrl${settingsStorage.accountName}', forceSafariVC: false),
-                              title: 'Get Seeds'.i18n,
-                              icon: SvgPicture.asset('assets/images/explore/link_chain.svg'),
+                              onTap: () {},
+                              title: 'Vote'.i18n,
+                              amount: 'TODO',
+                              icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
+                              amountLabel: 'Trust Tokens Remaining'.i18n,
                             ),
                           ),
                           const SizedBox(width: 20),
+                          const Expanded(child: SizedBox.shrink()),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 100),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ExploreLinkCard(
+                              title: 'Get Seeds'.i18n,
+                              backgroundImage: 'assets/images/explore/card_get_seeds.jpg',
+                              logoImage: 'assets/images/explore/get_seeds_logo.svg',
+                              gradient: const RadialGradient(
+                                center: Alignment(-0.6, 0.6),
+                                radius: 3,
+                                colors: [Color.fromARGB(255, 47, 241, 65), Color.fromARGB(255, 43, 72, 43)],
+                              ),
+                              onTap: () => launch('$buySeedsUrl${settingsStorage.accountName}', forceSafariVC: false),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
                           Expanded(
                             child: (state.isDHOMember != null && state.isDHOMember == true)
-                                ? ExploreInfoCard(
+                                ? ExploreLinkCard(
+                                    title: 'Hypah DHO',
+                                    backgroundImage: 'assets/images/explore/card_hypha.jpg',
+                                    logoImage: 'assets/images/explore/hypha_dho_logo.svg',
                                     onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
-                                    title: 'Hypha DHO',
-                                    icon: SvgPicture.asset('assets/images/explore/link_chain.svg'),
                                   )
                                 : const SizedBox.shrink(),
                           ),
