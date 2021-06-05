@@ -1,4 +1,3 @@
-import 'package:async/src/result/result.dart';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_database_guardians_repository.dart';
@@ -72,7 +71,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       await _repository.stopRecoveryForUser(settingsStorage.accountName);
     } else if (event is OnRemoveGuardianTapped) {
       yield state.copyWith(pageState: PageState.loading);
-      Result result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
+      var result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
       yield RemoveGuardianStateMapper().mapResultToState(state, result);
     }
   }
