@@ -189,15 +189,10 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
         .get();
 
     myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
-      Map<String, dynamic>? guardianData = guardian.data();
-      // unnecessary_null_checks
-      if(guardianData == null) {
-        return;
-      }
-
       batch.set(
           usersCollection
-              .doc(GuardianModel.fromMap(guardianData).uid)
+              // ignore: unnecessary_non_null_assertion
+              .doc(GuardianModel.fromMap(guardian.data()!).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
           data,
