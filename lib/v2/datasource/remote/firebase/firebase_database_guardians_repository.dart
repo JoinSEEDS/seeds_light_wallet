@@ -190,6 +190,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
 
     myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
       Map<String, dynamic>? guardianData = guardian.data();
+      // unnecessary_null_checks
       if(guardianData == null) {
         return;
       }
