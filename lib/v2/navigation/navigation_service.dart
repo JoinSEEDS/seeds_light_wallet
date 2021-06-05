@@ -15,7 +15,6 @@ import 'package:seeds/screens/app/wallet/dashboard/dashboard.dart';
 import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
-import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
@@ -33,7 +32,7 @@ import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/selec
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
-import 'package:seeds/v2/screens/receive_screens/receive_detail_scan_qr_code/receive_detail_scan_qr_code.dart';
+import 'package:seeds/v2/screens/receive_screens/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:seeds/v2/screens/receive_screens/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/v2/screens/receive_screens/receive_selection/receive_screen.dart';
 import 'package:seeds/v2/screens/sign_up/signup_screen.dart';
