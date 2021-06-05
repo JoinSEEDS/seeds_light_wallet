@@ -44,7 +44,7 @@ class ExploreScreen extends StatelessWidget {
                               onTap: () async {
                                 bool? shouldReloadExplore =
                                     await NavigationService.of(context).navigateTo(Routes.createInvite);
-                                if (shouldReloadExplore != null) {
+                                if (shouldReloadExplore != null && shouldReloadExplore) {
                                   BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
                                 }
                               },
@@ -64,7 +64,7 @@ class ExploreScreen extends StatelessWidget {
                               onTap: () async {
                                 bool? shouldReloadExplore =
                                     await NavigationService.of(context).navigateTo(Routes.plantSeeds);
-                                if (shouldReloadExplore != null) {
+                                if (shouldReloadExplore != null && shouldReloadExplore) {
                                   BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
                                 }
                               },
