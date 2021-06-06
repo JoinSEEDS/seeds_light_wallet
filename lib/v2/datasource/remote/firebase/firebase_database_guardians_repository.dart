@@ -171,6 +171,49 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
 
     return batch.commit();
   }
+
+  // This methods finds all the myGuardians for the {userId} and removes the RECOVERY_APPROVED_DATE_KEY for each one of them.
+// Then it goes over to each user and removes the field from the users collection as well.
+  Future<void> stopRecoveryForUser(String currentUserId) async {
+    var data = <String, Object>{
+      RECOVERY_STARTED_DATE_KEY: FieldValue.delete(),
+      RECOVERY_APPROVED_DATE_KEY: FieldValue.delete(),
+    };
+
+    var batch = FirebaseFirestore.instance.batch();
+
+    var myGuardians = await usersCollection
+        .doc(currentUserId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
+        .get();
+
+    myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
+      batch.set(
+          usersCollection
+              // ignore: unnecessary_non_null_assertion
+              .doc(GuardianModel.fromMap(guardian.data()!).uid)
+              .collection(GUARDIANS_COLLECTION_KEY)
+              .doc(guardian.id),
+          data,
+          SetOptions(merge: true));
+      batch.set(guardian.reference, data, SetOptions(merge: true));
+    });
+    return batch.commit();
+  }
+
+  Future<void> removeMyGuardian({required String currentUserId, required String friendId}) {
+    return _deleteMyGuardian(currentUserId: currentUserId, friendId: friendId);
+  }
+
+  /// Use only when we have successfully saved guardians to the user contract by calling eosService.initGuardians
+  Future<void> setGuardiansInitializedUpdated(String userAccount) {
+    var data = <String, Object>{
+      GUARDIAN_CONTRACT_INITIALIZED: true,
+      GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
+    };
+    return usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
+  }
 }
 
 // Manage guardian Ids

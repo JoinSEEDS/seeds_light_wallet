@@ -12,13 +12,17 @@ import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/intera
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
 
 class MyGuardiansTab extends StatelessWidget {
+  final GuardianType guardianType;
+
+  const MyGuardiansTab({Key? key, required this.guardianType}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<GuardianModel>>(
         stream: BlocProvider.of<GuardiansBloc>(context).guardians,
         builder: (context, AsyncSnapshot<List<GuardianModel>> snapshot) {
           if (snapshot.hasData) {
-            var myGuardians = snapshot.data!.where((element) => element.type == GuardianType.myGuardian);
+            var myGuardians = snapshot.data!.where((element) => element.type == guardianType);
 
             if (myGuardians.isEmpty) {
               return NoGuardiansWidget();
