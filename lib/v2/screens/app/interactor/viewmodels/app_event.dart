@@ -16,6 +16,13 @@ class ShouldShowNotificationBadge extends AppEvent {
   String toString() => 'ShouldShowNotificationBadge { value: $value }';
 }
 
+class ShouldShowGuardianRecoveryAlert extends AppEvent {
+  final bool value;
+  const ShouldShowGuardianRecoveryAlert({required this.value});
+  @override
+  String toString() => 'ShouldShowGuardianRecoveryAlert { value: $value }';
+}
+
 class BottomBarTapped extends AppEvent {
   final int index;
   const BottomBarTapped({required this.index});

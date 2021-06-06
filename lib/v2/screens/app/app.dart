@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/providers/notifiers/connection_notifier.dart';
+import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
+import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/notification_badge.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/i18n/app/app.i18.dart';
-import 'package:seeds/providers/notifiers/connection_notifier.dart';
-import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
-import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
-import 'package:seeds/screens/app/wallet/wallet.dart';
-import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 
 class App extends StatefulWidget {
   const App();
@@ -96,6 +97,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           ),
           bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
             builder: (context, state) {
+              if (state.showGuardianRecoveryAlert) {
+                showAccountUnderRecoveryDialog(context);
+              } else {
+
+              }
               return Container(
                 decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
                 child: BottomNavigationBar(
@@ -147,4 +153,66 @@ extension NavigatorStateExtension on NavigatorState {
     });
     return isCurrent;
   }
+}
+
+Future<void> showAccountUnderRecoveryDialog(BuildContext buildContext) async {
+  // var service = EosService.of(buildContext, listen: false);
+  // var accountName = SettingsNotifier.of(buildContext, listen: false).accountName;
+
+  return showDialog<void>(
+    context: buildContext,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return StatefulBuilder(builder: (context, setState) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                FadeInImage.assetNetwork(
+                    placeholder: "assets/images/guardians/guardian_shield.png",
+                    image: "assets/images/guardians/guardian_shield.png"),
+                const Padding(
+                  padding: EdgeInsets.only(left: 8, right: 8, top: 24, bottom: 8),
+                  child: Text(
+                    "Recovery Mode Initiated",
+                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: const TextSpan(
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(text: 'Someone has initiated the '),
+                        TextSpan(text: 'Recovery ', style: TextStyle(fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text:
+                                'process for your account. If you did not request to recover your account please select cancel recovery.  '),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButtonLong(
+              title: "Cancel Recovery",
+              onPressed: () async {
+                // await GuardianServices()
+                //     .stopActiveRecovery(service, accountName)
+                //     .then((value) => Navigator.pop(context))
+                //     .catchError((onError) => onStopRecoveryError(onError));
+              },
+            ),
+          ],
+        );
+      });
+    },
+  );
 }
