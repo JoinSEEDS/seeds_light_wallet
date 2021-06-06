@@ -99,8 +99,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             builder: (context, state) {
               if (state.showGuardianRecoveryAlert) {
                 showAccountUnderRecoveryDialog(context);
-              } else {
-
               }
               return Container(
                 decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
