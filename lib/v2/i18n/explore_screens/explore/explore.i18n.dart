@@ -8,7 +8,7 @@ extension Localization on String {
           'Invite': 'Invitación',
           'Available Seeds': 'Seeds Disponibles',
           'Plant': 'Plantar',
-          'Plant Seeds': 'Plantar Seeds',
+          'Planted Seeds': 'Seeds plantadas',
           'Vote': 'Votar',
           'Trust Tokens Remaining': 'Tokens de confianza restantes',
           'Get Seeds': 'Obtener Seeds',
