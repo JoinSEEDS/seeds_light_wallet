@@ -8,10 +8,10 @@ import 'package:seeds/utils/old_toolbox/paginated_list_view.dart';
 
 class Proposals extends StatefulWidget {
   @override
-  ProposalsListState createState() => ProposalsListState();
+  ProposalsState createState() => ProposalsState();
 }
 
-class ProposalsListState extends State<Proposals> {
+class ProposalsState extends State<Proposals> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
