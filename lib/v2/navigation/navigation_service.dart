@@ -5,10 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/app/ecosystem/dho/dho.dart';
 import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
-// import 'package:seeds/screens/app/ecosystem/invites/create_invite.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
-import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/dashboard/dashboard.dart';
@@ -21,6 +19,7 @@ import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
+import 'package:seeds/v2/screens/explore_screens/vote/vote_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
@@ -56,7 +55,7 @@ class Routes {
   static final sendEnterData = 'SendEnterData';
   static final invites = 'Invites';
   static final createInvite = 'CreateInvite';
-  static final proposals = 'Proposals';
+  static final vote = 'vote';
   static final proposalDetailsPage = 'ProposalDetailsPage';
   static final overview = 'Overview';
   static final explore = 'Explore';
@@ -124,7 +123,7 @@ class NavigationService {
     Routes.sendEnterData: (_) => SendEnterDataScreen(),
     Routes.invites: (_) => Invites(),
     Routes.createInvite: (_) => const InviteScreen(),
-    Routes.proposals: (_) => Proposals(),
+    Routes.vote: (_) => const VoteScreen(),
     Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
     Routes.logout: (_) => Logout(),
     Routes.imageViewer: (args) => ImageViewer(
@@ -167,7 +166,7 @@ class NavigationService {
   }
 
   Future<dynamic> navigateTo(String routeName, [Object? arguments, bool replace = false]) async {
-    late var navigatorKey;
+    late GlobalKey<NavigatorState> navigatorKey;
 
     if (streamRouteListener != null) {
       streamRouteListener!.add(routeName);
@@ -188,9 +187,9 @@ class NavigationService {
     }
 
     if (replace) {
-      return navigatorKey.currentState.pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
+      return navigatorKey.currentState!.pushNamed(routeName, arguments: arguments);
     }
   }
 

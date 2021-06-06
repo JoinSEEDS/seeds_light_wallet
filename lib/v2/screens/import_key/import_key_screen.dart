@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/i18n/edit_name.i18n.dart';
+import 'package:seeds/v2/i18n/import_key/import_key.i18n.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
@@ -64,7 +64,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                       onFieldSubmitted: (_) => _onSubmitted(),
                       validator: (value) {
                         if (value?.isEmpty == true) {
-                          return 'Private Key cannot be empty';
+                          return 'Private Key cannot be empty'.i18n;
                         }
                         return null;
                       },
@@ -76,7 +76,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
             Padding(
               padding: const EdgeInsets.only(right: 24, left: 24),
               child: Text(
-                "If you already have a Seeds account-enter active private key and account will be imported automatically.",
+                "If you already have a Seeds account-enter active private key and account will be imported automatically.".i18n,
                 style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                 textAlign: TextAlign.center,
               ),
@@ -85,7 +85,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
             Expanded(child: ImportKeyAccountsWidget()),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: FlatButtonLong(title: 'Search', onPressed: () => _onSubmitted()),
+              child: FlatButtonLong(title: 'Search'.i18n, onPressed: () => _onSubmitted()),
             )
           ],
         ),

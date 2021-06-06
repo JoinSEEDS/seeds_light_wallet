@@ -138,7 +138,7 @@ linter:
     prefer_const_declarations: false
     prefer_const_literals_to_create_immutables: false
     # - prefer_constructors_over_static_methods # far too many false positives
-#    - prefer_contains
+    prefer_contains: true
     # - prefer_double_quotes # opposite of prefer_single_quotes
 #    - prefer_equal_for_default_values
     # - prefer_expression_function_bodies # conflicts with https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo#consider-using--for-short-functions-and-methods
@@ -164,12 +164,12 @@ linter:
     # - prefer_relative_imports # not yet tested
     prefer_single_quotes: false
 #    - prefer_spread_collections
-#    - prefer_typing_uninitialized_variables
+    prefer_typing_uninitialized_variables: true
 #    - prefer_void_to_null
     # - provide_deprecation_message # not yet tested
     # - public_member_api_docs # enabled on a case-by-case basis; see e.g. packages/analysis_options.yaml
 #    - recursive_getters
-    # - sized_box_for_whitespace # not yet tested
+    sized_box_for_whitespace: false
 #    - slash_for_doc_comments
     # - sort_child_properties_last # not yet tested
 #    - sort_constructors_first
