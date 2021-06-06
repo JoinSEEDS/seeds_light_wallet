@@ -86,7 +86,7 @@ class ExploreScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ExploreInfoCard(
-                              onTap: () {},
+                              onTap: () => NavigationService.of(context).navigateTo(Routes.vote),
                               title: 'Vote'.i18n,
                               amount: 'TODO',
                               icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
