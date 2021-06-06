@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/v2/components/full_page_error_indicator.dart';
-import 'package:seeds/v2/components/full_page_loading_indicator.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/explore_screens/vote/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/screens/explore_screens/vote/components/proposals/proposals.dart';
+import 'interactor/viewmodels/proposal_type_model.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 /// VOTE SCREEN
 class VoteScreen extends StatefulWidget {
@@ -14,17 +13,15 @@ class VoteScreen extends StatefulWidget {
 }
 
 class _VoteScreenState extends State<VoteScreen> with TickerProviderStateMixin {
-  late VoteBloc _voteBloc;
   late TabController _tabController;
 
   @override
   void initState() {
-    _voteBloc = VoteBloc()..add(const LoadProposals());
     _tabController = TabController(length: proposalTypes.length, vsync: this);
     _tabController.addListener(() {
       // Controller is finished animating --> get the current index
       if (!_tabController.indexIsChanging) {
-        _voteBloc.add(OnTabChange(_tabController.index));
+        // _voteBloc.add(OnTabChange(_tabController.index));
       }
     });
     super.initState();
@@ -38,35 +35,21 @@ class _VoteScreenState extends State<VoteScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _voteBloc,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Vote'),
-          bottom: TabBar(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Vote'),
+        bottom: TabBar(
+            labelPadding: const EdgeInsets.all(8.0),
+            indicatorColor: AppColors.green1,
+            indicatorSize: TabBarIndicatorSize.label,
             controller: _tabController,
-            tabs: proposalTypes.map((i) => Container(child: Text(i.type))).toList(),
-          ),
-        ),
-        body: BlocBuilder<VoteBloc, VoteState>(
-          builder: (context, state) {
-            switch (state.pageState) {
-              case PageState.initial:
-                return const SizedBox.shrink();
-              case PageState.loading:
-                return const FullPageLoadingIndicator();
-              case PageState.failure:
-                return const FullPageErrorIndicator();
-              case PageState.success:
-                return TabBarView(
-                  controller: _tabController,
-                  children: proposalTypes.map((i) => Container(child: Center(child: Text(i.stage)))).toList(),
-                );
-              default:
-                return const SizedBox.shrink();
-            }
-          },
-        ),
+            unselectedLabelStyle: Theme.of(context).textTheme.buttonOpacityEmphasis,
+            labelStyle: Theme.of(context).textTheme.buttonLowEmphasis,
+            tabs: [for (var i in proposalTypes) Tab(child: Text(i.type))]),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: proposalTypes.map((i) => ProposalsList(proposalType: i)).toList(),
       ),
     );
   }
