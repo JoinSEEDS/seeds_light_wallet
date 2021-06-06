@@ -16,4 +16,8 @@ class SnackBarInfo extends SnackBar {
             ],
           ),
         );
+
+  void show(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(this);
+  }
 }
