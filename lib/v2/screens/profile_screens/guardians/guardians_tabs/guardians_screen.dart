@@ -5,9 +5,9 @@ import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
-import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/im_guardian_for_tab.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_tab.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/guardians_bloc.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
@@ -75,8 +75,8 @@ class GuardiansScreen extends StatelessWidget {
                           ? const FullPageLoadingIndicator()
                           : const TabBarView(
                               children: [
-                                MyGuardiansTab(guardianType: GuardianType.myGuardian),
-                                MyGuardiansTab(guardianType: GuardianType.imGuardian),
+                                MyGuardiansTab(),
+                                ImGuardianForTab(),
                               ],
                             )));
             })));
