@@ -4,9 +4,9 @@ import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/v2/screens/explore_screens/vote/components/proposals/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/explore_screens/vote/interactor/viewmodels/proposal_type_model.dart';
-import 'package:seeds/v2/screens/explore_screens/vote/components/proposals/components/loading_indicator_list.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/components/loading_indicator_list.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
 class ProposalsList extends StatefulWidget {
   final ProposalType proposalType;
@@ -18,14 +18,14 @@ class ProposalsList extends StatefulWidget {
 }
 
 class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveClientMixin {
-  late ProposalsBloc _proposalsBloc;
+  late ProposalsListBloc _proposalsBloc;
 
   @override
   void initState() {
-    _proposalsBloc = ProposalsBloc(widget.proposalType);
+    _proposalsBloc = ProposalsListBloc(widget.proposalType);
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (!mounted) {
-        print('Screen not mounted');
+        print('Screen not mounted --> call avoided.');
         return;
       }
       _proposalsBloc.add(const InitialLoadProposals());
@@ -41,7 +41,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
     super.build(context);
     return BlocProvider(
       create: (_) => _proposalsBloc,
-      child: BlocBuilder<ProposalsBloc, ProposalsState>(
+      child: BlocBuilder<ProposalsListBloc, ProposalsListState>(
         builder: (context, state) {
           switch (state.pageState) {
             case PageState.initial:
@@ -53,7 +53,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
             case PageState.success:
               return state.proposals.isEmpty
                   ? Center(
-                      child: Text('Empty proposals', style: Theme.of(context).textTheme.button),
+                      child: Text('No proposals to show, yet', style: Theme.of(context).textTheme.button),
                     )
                   : ListView.builder(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
