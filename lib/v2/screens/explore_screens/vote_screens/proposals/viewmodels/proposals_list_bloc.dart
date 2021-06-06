@@ -13,7 +13,7 @@ class ProposalsListBloc extends Bloc<ProposalsListEvent, ProposalsListState> {
 
   @override
   Stream<ProposalsListState> mapEventToState(ProposalsListEvent event) async* {
-    if (event is InitialLoadProposals && state.proposals.isEmpty) {
+    if (event is InitialLoadProposals) {
       yield state.copyWith(pageState: PageState.loading);
       Result result = await GetProposalsUseCase().run(state.currentType);
       yield ProposalsStateMapper().mapResultToState(state, result);
