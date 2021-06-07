@@ -43,13 +43,13 @@ class NavigateToCreateUsername extends SignupEvent {
 }
 
 /// Create Username Events
-class OnUsernameChange extends SignupEvent {
+class OnUsernameChanged extends SignupEvent {
   final String userName;
 
-  const OnUsernameChange({required this.userName});
+  const OnUsernameChanged({required this.userName});
 
   @override
-  String toString() => 'OnUsernameChange event { userName: $userName }';
+  String toString() => 'OnUsernameChanged event { userName: $userName }';
 }
 
 class NavigateToAddPhoneNumber extends SignupEvent {

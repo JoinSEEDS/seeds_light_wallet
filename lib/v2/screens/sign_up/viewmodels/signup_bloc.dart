@@ -42,6 +42,10 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       );
     }
 
+    if (event is OnUsernameChanged) {
+      // TODO(Farzad): Implement call to usecase
+    }
+
     if (event is NavigateBack) {
       switch (state.pageContent) {
         case PageContent.CLAIM_INVITE:

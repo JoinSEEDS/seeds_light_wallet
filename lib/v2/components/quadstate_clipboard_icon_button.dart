@@ -57,6 +57,9 @@ class QuadStateClipboardIconButton extends StatelessWidget {
       );
     }
 
-    return Container();
+    return Container(
+      width: 24,
+      height: 24,
+    );
   }
 }

@@ -23,7 +23,7 @@ class _CreateUsernameState extends State<CreateUsername> {
   void initState() {
     super.initState();
     _bloc = BlocProvider.of<SignupBloc>(context);
-    _keyController.text = '';
+    _keyController.text = _bloc.state.createUsernameState.username ?? '';
   }
 
   @override
@@ -32,8 +32,7 @@ class _CreateUsernameState extends State<CreateUsername> {
       onWillPop: _navigateBack,
       child: Scaffold(
         appBar: AppBar(),
-        body: BlocConsumer<SignupBloc, SignupState>(
-          listener: (context, state) {},
+        body: BlocBuilder<SignupBloc, SignupState>(
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.all(16),
@@ -43,6 +42,7 @@ class _CreateUsernameState extends State<CreateUsername> {
                   TextFormFieldCustom(
                     maxLength: 12,
                     labelText: "Username".i18n,
+                    controller: _keyController,
                     suffixIcon: QuadStateClipboardIconButton(
                       isChecked: state.createUsernameState.isValidUsername,
                       onClear: () {
@@ -82,7 +82,7 @@ class _CreateUsernameState extends State<CreateUsername> {
 
   void _onUsernameChanged(String text) {
     _debouncer.run(() {
-      _bloc.add(OnUsernameChange(userName: text));
+      _bloc.add(OnUsernameChanged(userName: text));
     });
   }
 
