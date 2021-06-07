@@ -3,7 +3,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:seeds/v2/components/balance_row.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
-import 'package:seeds/v2/components/copy_link_row_light.dart';
+import 'package:seeds/v2/components/copy_link_row.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/i18n/explore_screens/invite/invite.i18n.dart';
@@ -42,7 +42,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: 20),
-                    ShareLinkRowLight(
+                    ShareLinkRow(
                       label: 'Share Link to Invoice',
                       link: arguments.InvoiceLink,
                     ),

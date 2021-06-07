@@ -8,11 +8,11 @@ import 'package:seeds/v2/design/app_theme.dart';
 ///
 /// Used to display a row with a Hash and a copy Icon at the end
 
-class ShareLinkRowLight extends StatelessWidget {
+class ShareLinkRow extends StatelessWidget {
   final String label;
   final String link;
 
-  const ShareLinkRowLight({
+  const ShareLinkRow({
     required this.label,
     required this.link,
   });
