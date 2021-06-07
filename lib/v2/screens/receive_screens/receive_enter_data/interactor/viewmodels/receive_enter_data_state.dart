@@ -16,6 +16,8 @@ class ReceiveEnterDataState extends Equatable {
   final String availableBalanceFiat;
   final bool isNextButtonEnabled;
   final String? errorMessage;
+  final double quantity;
+  final String? invoiceLink;
 
   const ReceiveEnterDataState(
       {required this.pageState,
@@ -27,7 +29,9 @@ class ReceiveEnterDataState extends Equatable {
       required this.availableBalanceSeeds,
       required this.isNextButtonEnabled,
       this.errorMessage,
-      this.description});
+      this.description,
+      required this.quantity,
+      this.invoiceLink});
 
   @override
   List<Object?> get props => [
@@ -40,7 +44,9 @@ class ReceiveEnterDataState extends Equatable {
         availableBalanceSeeds,
         isNextButtonEnabled,
         errorMessage,
-        description
+        description,
+        quantity,
+        invoiceLink
       ];
 
   ReceiveEnterDataState copyWith(
@@ -53,7 +59,9 @@ class ReceiveEnterDataState extends Equatable {
       bool? isNextButtonEnabled,
       String? errorMessage,
       String? availableBalanceSeeds,
-      String? description}) {
+      String? description,
+      double? quantity,
+      String? invoiceLink}) {
     return ReceiveEnterDataState(
         pageState: pageState ?? this.pageState,
         pageCommand: pageCommand,
@@ -64,17 +72,19 @@ class ReceiveEnterDataState extends Equatable {
         isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled,
         errorMessage: errorMessage ?? this.errorMessage,
         availableBalanceSeeds: availableBalanceSeeds ?? this.availableBalanceSeeds,
-        description: description ?? this.description);
+        description: description ?? this.description,
+        quantity: quantity ?? this.quantity,
+        invoiceLink: invoiceLink ?? this.invoiceLink);
   }
 
   factory ReceiveEnterDataState.initial(RatesState ratesState) {
     return ReceiveEnterDataState(
-      availableBalanceSeeds: '',
-      availableBalanceFiat: '',
-      pageState: PageState.initial,
-      ratesState: ratesState,
-      fiatAmount: 0.toString(),
-      isNextButtonEnabled: false,
-    );
+        availableBalanceSeeds: '',
+        availableBalanceFiat: '',
+        pageState: PageState.initial,
+        ratesState: ratesState,
+        fiatAmount: 0.toString(),
+        isNextButtonEnabled: false,
+        quantity: 0);
   }
 }
