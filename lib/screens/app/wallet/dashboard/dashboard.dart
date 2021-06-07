@@ -47,16 +47,16 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      DashboardUseCases()
-          // .shouldShowCancelGuardianAlertMessage(SettingsNotifier.of(context).accountName)
-          .shouldShowCancelGuardianAlertMessage(settingsStorage.accountName)
-          .listen((bool showAlertDialog) {
-        if (showAlertDialog) {
-          showAccountUnderRecoveryDialog(context);
-        }
-      });
-    });
+    // WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    //   DashboardUseCases()
+    //       // .shouldShowCancelGuardianAlertMessage(SettingsNotifier.of(context).accountName)
+    //       .shouldShowCancelGuardianAlertMessage(settingsStorage.accountName)
+    //       .listen((bool showAlertDialog) {
+    //     if (showAlertDialog) {
+    //       showAccountUnderRecoveryDialog(context);
+    //     }
+    //   });
+    // });
   }
 
   Future<void> showAccountUnderRecoveryDialog(BuildContext buildContext) async {

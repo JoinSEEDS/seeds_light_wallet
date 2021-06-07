@@ -1,8 +1,13 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
-import 'package:seeds/v2/screens/app/interactor/usecases/guardians_recovery_alert_use_case.dart';
-import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/app/interactor/mappers/stop_guardian_recovery_state_mapper.dart';
 import 'package:seeds/v2/screens/app/interactor/usecases/guardians_notification_use_case.dart';
+import 'package:seeds/v2/screens/app/interactor/usecases/guardians_recovery_alert_use_case.dart';
+import 'package:seeds/v2/screens/app/interactor/usecases/stop_guardian_recovery_use_case.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/app_page_commands.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC
 class AppBloc extends Bloc<AppEvent, AppState> {
@@ -16,7 +21,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     _shouldShowCancelGuardianAlertMessage = RecoveryAlertUseCase()
         .shouldShowCancelGuardianAlertMessage
-        .listen((value) => add(ShouldShowGuardianRecoveryAlert(value: value)));
+        .listen((value) => add(ShouldShowGuardianRecoveryAlert(showGuardianRecoveryAlert: value)));
   }
 
   @override
@@ -25,10 +30,17 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield state.copyWith(hasNotification: event.value);
     }
     if (event is BottomBarTapped) {
-      yield state.copyWith(index: event.index);
+      yield state.copyWith(index: event.index, pageCommand: BottomBarNavigateToIndex(event.index));
     }
-    if(event is ShouldShowGuardianRecoveryAlert) {
-      yield state.copyWith(hasNotification: event.value);
+    if (event is ShouldShowGuardianRecoveryAlert) {
+      yield state.copyWith(showGuardianRecoveryAlert: event.showGuardianRecoveryAlert);
+    }
+    if (event is OnStopGuardianActiveRecoveryTapped) {
+      yield state.copyWith(pageState: PageState.loading);
+      var result = await StopGuardianRecoveryUseCase().stopRecovery();
+      yield StopGuardianRecoveryStateMapper().mapResultToState(state, result);
+    } else if (event is ClearPageCommand) {
+      yield state.copyWith(pageCommand: null);
     }
   }
 

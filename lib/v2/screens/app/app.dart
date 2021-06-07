@@ -6,12 +6,16 @@ import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
-import 'package:seeds/v2/components/flat_button_long.dart';
+import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/notification_badge.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/i18n/app/app.i18.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/screens/app/components/account_under_recovery_screen.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 
@@ -87,19 +91,38 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     return BlocProvider(
       create: (context) => AppBloc(),
       child: BlocListener<AppBloc, AppState>(
-        listenWhen: (previous, current) => previous.index != current.index,
-        listener: (_, state) => _pageController.jumpToPage(state.index),
+        listenWhen: (previous, current) {
+          return current.pageCommand != null;
+        },
+        listener: (buildContext, state) {
+          var pageCommand = state.pageCommand;
+          BlocProvider.of<AppBloc>(buildContext).add(ClearPageCommand());
+          if (pageCommand is BottomBarNavigateToIndex) {
+            _pageController.jumpToPage(pageCommand.index);
+          } else if (pageCommand is ShowStopGuardianRecoveryFailed) {
+            SnackBarInfo(title: pageCommand.message, context: buildContext).show(buildContext);
+          } else if (pageCommand is ShowStopGuardianRecoverySuccess) {
+            SnackBarInfo(title: pageCommand.message, context: buildContext).show(buildContext);
+          }
+        },
         child: Scaffold(
-          body: PageView(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: _appScreenItems.map((i) => i.screen).toList(),
-          ),
+          body: BlocBuilder<AppBloc, AppState>(builder: (context, state) {
+            if (state.pageState == PageState.loading) {
+              return const FullPageLoadingIndicator();
+            } else {
+              if (state.showGuardianRecoveryAlert) {
+                return AccountUnderRecoveryScreen();
+              } else {
+                return PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: _appScreenItems.map((i) => i.screen).toList(),
+                );
+              }
+            }
+          }),
           bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
             builder: (context, state) {
-              if (state.showGuardianRecoveryAlert) {
-                showAccountUnderRecoveryDialog(context);
-              }
               return Container(
                 decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
                 child: BottomNavigationBar(
@@ -151,66 +174,4 @@ extension NavigatorStateExtension on NavigatorState {
     });
     return isCurrent;
   }
-}
-
-Future<void> showAccountUnderRecoveryDialog(BuildContext buildContext) async {
-  // var service = EosService.of(buildContext, listen: false);
-  // var accountName = SettingsNotifier.of(buildContext, listen: false).accountName;
-
-  return showDialog<void>(
-    context: buildContext,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return StatefulBuilder(builder: (context, setState) {
-        return AlertDialog(
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                FadeInImage.assetNetwork(
-                    placeholder: "assets/images/guardians/guardian_shield.png",
-                    image: "assets/images/guardians/guardian_shield.png"),
-                const Padding(
-                  padding: EdgeInsets.only(left: 8, right: 8, top: 24, bottom: 8),
-                  child: Text(
-                    "Recovery Mode Initiated",
-                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: const TextSpan(
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(text: 'Someone has initiated the '),
-                        TextSpan(text: 'Recovery ', style: TextStyle(fontWeight: FontWeight.bold)),
-                        TextSpan(
-                            text:
-                                'process for your account. If you did not request to recover your account please select cancel recovery.  '),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButtonLong(
-              title: "Cancel Recovery",
-              onPressed: () async {
-                // await GuardianServices()
-                //     .stopActiveRecovery(service, accountName)
-                //     .then((value) => Navigator.pop(context))
-                //     .catchError((onError) => onStopRecoveryError(onError));
-              },
-            ),
-          ],
-        );
-      });
-    },
-  );
 }
