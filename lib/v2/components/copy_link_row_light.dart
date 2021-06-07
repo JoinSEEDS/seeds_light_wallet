@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 
@@ -38,8 +39,10 @@ class ShareLinkRowLight extends StatelessWidget {
             onPressed: () {
               Clipboard.setData(const ClipboardData(text: 'TODO')).then(
                 (value) {
-                  ScaffoldMessenger.maybeOf(context)!
-                      .showSnackBar(const SnackBar(content: Text("Copied"), duration: Duration(seconds: 1)));
+                  ScaffoldMessenger.maybeOf(context)!.showSnackBar(SnackBarInfo(
+                    title: "Copied",
+                    context: context,
+                  ));
                 },
               );
             })
