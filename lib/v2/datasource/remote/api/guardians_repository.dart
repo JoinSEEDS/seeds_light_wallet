@@ -29,7 +29,8 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     final Permission ownerPermission =
         (currentPermissions.asValue!.value as List<Permission>).firstWhere((item) => item.permName == 'owner');
 
-    // CHeck if permissions are already set?
+    // Check if permissions are already set?
+    // ignore: unnecessary_cast
     for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts as List<dynamic>) {
       if (acct['permission']['actor'] == 'guard.seeds') {
         print('permission already set, doing nothing');
