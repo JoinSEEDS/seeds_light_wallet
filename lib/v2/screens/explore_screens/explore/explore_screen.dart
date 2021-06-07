@@ -18,6 +18,7 @@ import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
 /// Explore SCREEN
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -40,7 +41,7 @@ class ExploreScreen extends StatelessWidget {
                     Container(
                       height: height,
                       child: ListView(
-                      padding: const EdgeInsets.all(horizontalEdgePadding),
+                        padding: const EdgeInsets.all(horizontalEdgePadding),
                         children: <Widget>[
                           Row(
                             children: [
@@ -111,14 +112,7 @@ class ExploreScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: ExploreLinkCard(
-                                title: 'Get Seeds'.i18n,
-                                backgroundImage: 'assets/images/explore/card_get_seeds.jpg',
-                                logoImage: 'assets/images/explore/get_seeds_logo.svg',
-                                gradient: const RadialGradient(
-                                  center: Alignment(-0.6, 0.6),
-                                  radius: 3,
-                                  colors: [Color.fromARGB(255, 47, 241, 65), Color.fromARGB(255, 43, 72, 43)],
-                                ),
+                                backgroundImage: 'assets/images/explore/get_seeds_card.jpg',
                                 onTap: () => launch('$buySeedsUrl${settingsStorage.accountName}', forceSafariVC: false),
                               ),
                             ),
@@ -126,12 +120,10 @@ class ExploreScreen extends StatelessWidget {
                             Expanded(
                               child: (state.isDHOMember != null && state.isDHOMember == true)
                                   ? ExploreLinkCard(
-                                title: 'Hypah DHO',
-                                backgroundImage: 'assets/images/explore/card_hypha.jpg',
-                                logoImage: 'assets/images/explore/hypha_dho_logo.svg',
-                                onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
-                              )
-                                  : const SizedBox.shrink(),
+                                      backgroundImage: 'assets/images/explore/hypha_dho_card.jpg',
+                                      onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
+                                    )
+                                  : const Expanded(child: SizedBox.shrink()),
                             ),
                           ],
                         ),
