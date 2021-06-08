@@ -37,7 +37,7 @@ class ShareLinkRow extends StatelessWidget {
             icon: const Icon(Icons.copy),
             color: AppColors.white,
             onPressed: () {
-              Clipboard.setData(const ClipboardData(text: 'TODO')).then(
+              Clipboard.setData(ClipboardData(text: link)).then(
                 (value) {
                   ScaffoldMessenger.maybeOf(context)!.showSnackBar(SnackBarInfo(
                     title: "Copied",
