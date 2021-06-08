@@ -9,6 +9,8 @@ import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_light.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/screens/receive_screens/receive_detail_qr_code/interactor/viewmodels/receive_detail_arguments.dart';
 import 'interactor/receive_enter_data_bloc.dart';
 import 'interactor/viewmodels/page_commands.dart';
 import 'interactor/viewmodels/receive_enter_data_events.dart';
@@ -26,7 +28,13 @@ class ReceiveEnterDataScreen extends StatelessWidget {
               listenWhen: (_, current) => current.pageCommand != null,
               listener: (context, state) {
                 if (state.pageCommand is NavigateToReceiveDetails) {
-                  //Navigate to Receive Detail Page
+                  NavigationService.of(context).navigateTo(
+                      Routes.receiveQR,
+                      ReceiveDetailArguments(
+                          ReceiveTotalFiat: state.fiatAmount,
+                          InvoiceLink: state.invoiceLink!,
+                          ReceiveTotalSeeds: state.quantity.toString(),
+                          description: state.description));
                 }
                 if (state.pageCommand is ShowTransactionFail) {
                   ScaffoldMessenger.of(context).showSnackBar(

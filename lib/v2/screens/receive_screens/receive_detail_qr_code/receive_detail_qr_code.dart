@@ -16,8 +16,11 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    //FocusScope.of(context).unfocus();
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    FocusManager.instance.primaryFocus!.unfocus();
     return Scaffold(
         appBar: AppBar(title: const Text("Scan QR Code")),
         body: Stack(
