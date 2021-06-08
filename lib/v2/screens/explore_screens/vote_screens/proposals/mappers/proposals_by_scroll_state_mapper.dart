@@ -13,24 +13,24 @@ class ProposalsByScrollStateMapper extends StateMapper {
       ProposalsModel proposalsModel = result.asValue!.value;
       ProposalType currentType = currentState.currentType;
       List<ProposalModel> filtered = [];
-      // Filter proposals by section type
+      // Filter proposals by proposal section type
       if (currentType.status.length == 1) {
         filtered = proposalsModel.proposals
             .where((i) => i.stage == currentType.stage && i.status == currentType.status.first)
             .toList();
       } else {
-        // History covers 2 status
+        // History covers 2 status, proposals with (passed, rejected) status are part of history list.
         filtered = proposalsModel.proposals
             .where((i) =>
                 i.stage == currentType.stage &&
                 (i.status == currentType.status.first || i.status == currentType.status.last))
             .toList();
       }
-
+      // Check if the list needs sort
       List<ProposalModel> reversed = currentType.isReverse ? List<ProposalModel>.from(filtered.reversed) : filtered;
-      // Add new proposals to current proposals
+      // Add the new proposals to current proposals
       List<ProposalModel> proposals = currentState.proposals + reversed;
-
+      // If reversed is a empty list then there are no more items to fetch
       return currentState.copyWith(proposals: proposals, hasReachedMax: reversed.isEmpty);
     }
   }

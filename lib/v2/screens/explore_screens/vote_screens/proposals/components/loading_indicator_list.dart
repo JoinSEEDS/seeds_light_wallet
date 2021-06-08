@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// A circular progress indicator made to work inside a Listview
+/// commonly showed at the bottom of a ListView.Builder meanwhile
+/// this fetch data.
 class LoadingIndicatorList extends StatelessWidget {
   const LoadingIndicatorList({Key? key}) : super(key: key);
 
