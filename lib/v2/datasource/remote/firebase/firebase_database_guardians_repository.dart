@@ -30,17 +30,20 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   }
 
   Stream<List<GuardianModel>> getGuardiansForUser(String userId) {
-    return usersCollection.doc(userId).collection(GUARDIANS_COLLECTION_KEY).snapshots().asyncMap(
-        (QuerySnapshot event) => event.docs
-            .map(
-                (QueryDocumentSnapshot e) => GuardianModel.fromMap(e.data() as Map<String, dynamic>)) // ignore: unnecessary_non_null_assertion
-            .toList());
+    return usersCollection
+        .doc(userId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .snapshots()
+        .asyncMap((QuerySnapshot event) => event.docs.map(
+            // ignore: cast_nullable_to_non_nullable
+            (QueryDocumentSnapshot e) => GuardianModel.fromMap(e.data() as Map<String, dynamic>)).toList());
   }
 
   Stream<bool> isGuardiansInitialized(String userAccount) {
     return usersCollection
         .doc(userAccount)
         .snapshots()
+        // ignore: cast_nullable_to_non_nullable
         .map((user) => (user.data() as Map<String, dynamic>)[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
   }
 
@@ -191,7 +194,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
     myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
       batch.set(
           usersCollection
-              // ignore: unnecessary_non_null_assertion
+              // ignore: cast_nullable_to_non_nullable
               .doc(GuardianModel.fromMap(guardian.data() as Map<String, dynamic>).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
