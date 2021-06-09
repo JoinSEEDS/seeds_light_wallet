@@ -18,7 +18,7 @@ import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
-import 'package:seeds/v2/screens/explore_screens/vote/vote_screen.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/vote_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';

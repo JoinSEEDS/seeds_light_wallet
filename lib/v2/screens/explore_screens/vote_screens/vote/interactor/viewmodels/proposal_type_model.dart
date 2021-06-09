@@ -14,22 +14,16 @@ class ProposalType {
 
 const List<ProposalType> proposalTypes = [
   ProposalType(
-    type: 'Stage',
-    stage: 'staged',
-    status: ['open'],
-    isReverse: false,
-  ),
-  ProposalType(
     type: 'Open',
     stage: 'active',
     status: ['open'],
     isReverse: false,
   ),
   ProposalType(
-    type: 'Evaluate',
-    stage: 'active',
-    status: ['evaluate'],
-    isReverse: true,
+    type: 'Upcoming',
+    stage: 'staged',
+    status: ['open'],
+    isReverse: false,
   ),
   ProposalType(
     type: 'History',
