@@ -78,12 +78,12 @@ class _DisplayNameState extends State<DisplayName> {
   VoidCallback? _onNextPressed() => _keyController.text.isNotEmpty
       ? () {
           FocusScope.of(context).unfocus();
-          _bloc.add(NavigateToCreateUsername(_keyController.text));
+          _bloc.add(DisplayNameOnNextTapped(_keyController.text));
         }
       : null;
 
   Future<bool> _navigateBack() {
-    _bloc.add(NavigateBack());
+    _bloc.add(OnBackPressed());
     return Future.value(false);
   }
 }

@@ -23,19 +23,19 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   Stream<SignupState> mapEventToState(
     SignupEvent event,
   ) async* {
-    if (event is ValidateInviteCode) {
+    if (event is OnInviteCodeChanged) {
       yield* _claimInviteUseCase.validateInviteCode(state, event.inviteCode);
     }
 
-    if (event is UnpackScannedLink) {
+    if (event is OnQRScanned) {
       yield* _claimInviteUseCase.unpackLink(state, event.scannedLink);
     }
 
-    if (event is NavigateToDisplayName) {
+    if (event is ClaimInviteOnNextTapped) {
       yield _claimInviteUseCase.navigateToDisplayName(state);
     }
 
-    if (event is NavigateToCreateUsername) {
+    if (event is DisplayNameOnNextTapped) {
       yield state.copyWith(
         pageContent: PageContent.USERNAME,
         displayNameState: state.displayNameState.copyWith(displayName: event.displayName),
@@ -46,7 +46,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       // TODO(Farzad): Implement call to usecase
     }
 
-    if (event is NavigateBack) {
+    if (event is OnBackPressed) {
       switch (state.pageContent) {
         case PageContent.CLAIM_INVITE:
           yield state;

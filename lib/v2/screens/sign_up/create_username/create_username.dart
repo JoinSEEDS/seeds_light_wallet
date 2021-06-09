@@ -10,6 +10,8 @@ import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
 
 class CreateUsername extends StatefulWidget {
+  const CreateUsername({Key? key}) : super(key: key);
+
   @override
   _CreateUsernameState createState() => _CreateUsernameState();
 }
@@ -89,12 +91,12 @@ class _CreateUsernameState extends State<CreateUsername> {
   VoidCallback? _onNextPressed() => _bloc.state.createUsernameState.isValidUsername
       ? () {
           FocusScope.of(context).unfocus();
-          _bloc.add(NavigateToAddPhoneNumber());
+          _bloc.add(CreateUsernameOnNextTapped());
         }
       : null;
 
   Future<bool> _navigateBack() {
-    _bloc.add(NavigateBack());
+    _bloc.add(OnBackPressed());
     return Future.value(false);
   }
 }

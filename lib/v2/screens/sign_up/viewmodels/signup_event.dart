@@ -9,37 +9,37 @@ abstract class SignupEvent extends Equatable {
 }
 
 /// Claim Invite Events
-class ValidateInviteCode extends SignupEvent {
+class OnInviteCodeChanged extends SignupEvent {
   final String inviteCode;
 
-  const ValidateInviteCode({required this.inviteCode});
+  const OnInviteCodeChanged({required this.inviteCode});
 
   @override
-  String toString() => 'ValidateInviteCode event { inviteCode: $inviteCode }';
+  String toString() => 'OnInviteCodeChanged { inviteCode: $inviteCode }';
 }
 
-class UnpackScannedLink extends SignupEvent {
+class OnQRScanned extends SignupEvent {
   final String scannedLink;
 
-  const UnpackScannedLink(this.scannedLink);
+  const OnQRScanned(this.scannedLink);
 
   @override
-  String toString() => 'UnpackScannedLink event { scannedLink: $scannedLink }';
+  String toString() => 'OnQRScanned { scannedLink: $scannedLink }';
 }
 
-class NavigateToDisplayName extends SignupEvent {
+class ClaimInviteOnNextTapped extends SignupEvent {
   @override
-  String toString() => 'NavigateToDisplayName event';
+  String toString() => 'ClaimInviteOnNextTapped';
 }
 
 /// Display Name Events
-class NavigateToCreateUsername extends SignupEvent {
+class DisplayNameOnNextTapped extends SignupEvent {
   final String displayName;
 
-  const NavigateToCreateUsername(this.displayName);
+  const DisplayNameOnNextTapped(this.displayName);
 
   @override
-  String toString() => 'SaveDisplayName event { displayName: $displayName }';
+  String toString() => 'DisplayNameOnNextTapped { displayName: $displayName }';
 }
 
 /// Create Username Events
@@ -49,18 +49,18 @@ class OnUsernameChanged extends SignupEvent {
   const OnUsernameChanged({required this.userName});
 
   @override
-  String toString() => 'OnUsernameChanged event { userName: $userName }';
+  String toString() => 'OnUsernameChanged { userName: $userName }';
 }
 
-class NavigateToAddPhoneNumber extends SignupEvent {
+class CreateUsernameOnNextTapped extends SignupEvent {
   @override
-  String toString() => 'NavigateToAddPhoneNumber event';
+  String toString() => 'CreateUsernameOnNextTapped';
 }
 
 /// Add Phone Number Events
 
 /// Common Events
-class NavigateBack extends SignupEvent {
+class OnBackPressed extends SignupEvent {
   @override
-  String toString() => 'NavigateBack event';
+  String toString() => 'NavigateBack';
 }

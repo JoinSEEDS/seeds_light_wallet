@@ -72,6 +72,6 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
 
   void _onQRScanned(String scannedLink) {
     _scannerWidget.showLoading();
-    _signupBloc.add(UnpackScannedLink(scannedLink));
+    _signupBloc.add(OnQRScanned(scannedLink));
   }
 }
