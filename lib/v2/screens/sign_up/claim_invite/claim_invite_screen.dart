@@ -6,6 +6,8 @@ import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 
 class ClaimInviteScreen extends StatefulWidget {
+  const ClaimInviteScreen({Key? key}) : super(key: key);
+
   @override
   _ClaimInviteScreenState createState() => _ClaimInviteScreenState();
 }
@@ -72,6 +74,6 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
 
   void _onQRScanned(String scannedLink) {
     _scannerWidget.showLoading();
-    _signupBloc.add(UnpackScannedLink(scannedLink));
+    _signupBloc.add(OnQRScanned(scannedLink));
   }
 }

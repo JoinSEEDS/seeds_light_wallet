@@ -138,7 +138,7 @@ class _BottomContainerState extends State<BottomContainer> {
   void _onInviteCodeChanged() {
     if (_keyController.text.isNotEmpty) {
       _debouncer.run(() {
-        _bloc.add(ValidateInviteCode(inviteCode: _keyController.text));
+        _bloc.add(OnInviteCodeChanged(inviteCode: _keyController.text));
       });
     }
   }
@@ -146,7 +146,7 @@ class _BottomContainerState extends State<BottomContainer> {
   VoidCallback? _onClaimPressed(BuildContext context) => _bloc.state.claimInviteState.isValid
       ? () {
           FocusScope.of(context).unfocus();
-          _bloc.add(NavigateToDisplayName());
+          _bloc.add(ClaimInviteOnNextTapped());
         }
       : () {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
