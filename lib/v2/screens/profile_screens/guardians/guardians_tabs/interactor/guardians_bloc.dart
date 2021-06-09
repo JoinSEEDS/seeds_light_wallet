@@ -2,11 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_database_guardians_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_status.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/mappers/init_guardians_state_mapper.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/mappers/remove_guardian_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_usecase.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/init_guardians_usecase.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/remove_guardian_usecase.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_state.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
@@ -38,6 +41,8 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 
         yield InitGuardiansStateMapper().mapResultToState(state, result);
       }
+    } else if (event is ClearPageCommand) {
+      yield state.copyWith(pageCommand: null);
     } else if (event is OnAddGuardiansTapped) {
       List<GuardianModel> results = await guardians.first;
       results.retainWhere((element) => element.type == GuardianType.myGuardian);
@@ -52,6 +57,35 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     } else if (event is OnDeclineGuardianTapped) {
       await _repository.declineGuardianRequestedMe(
           currentUserId: settingsStorage.accountName, friendId: event.guardianAccount);
+    } else if (event is OnGuardianRowTapped) {
+      switch (event.guardian.type) {
+        case GuardianType.myGuardian:
+          yield myGuardianCase(event.guardian);
+          break;
+        case GuardianType.imGuardian:
+          // Nothing to do here.
+          yield state;
+          break;
+      }
+    } else if (event is OnStopRecoveryForUser) {
+      await _repository.stopRecoveryForUser(settingsStorage.accountName);
+    } else if (event is OnRemoveGuardianTapped) {
+      yield state.copyWith(pageState: PageState.loading);
+      var result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
+      yield RemoveGuardianStateMapper().mapResultToState(state, result);
+    }
+  }
+
+  GuardiansState myGuardianCase(GuardianModel guardian) {
+    if (guardian.status == GuardianStatus.alreadyGuardian) {
+      if (guardian.recoveryStartedDate != null) {
+        return state.copyWith(pageCommand: ShowRecoveryStarted(guardian));
+      } else {
+        return state.copyWith(pageCommand: ShowRemoveGuardianView(guardian));
+      }
+    } else {
+      // Nothing to do here. Actions are handled by other events.
+      return state;
     }
   }
 }

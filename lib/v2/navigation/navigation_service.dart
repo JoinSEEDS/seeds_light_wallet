@@ -13,7 +13,6 @@ import 'package:seeds/screens/app/wallet/dashboard/dashboard.dart';
 import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
-import 'package:seeds/screens/app/wallet/receive_qr.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
@@ -26,12 +25,13 @@ import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/invite__guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/invite_guardian_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
+import 'package:seeds/v2/screens/receive_screens/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:seeds/v2/screens/receive_screens/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/v2/screens/receive_screens/receive_selection/receive_screen.dart';
 import 'package:seeds/v2/screens/sign_up/signup_screen.dart';
@@ -137,7 +137,7 @@ class NavigationService {
     Routes.receive: (_) => const Receive(),
     Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
     Routes.receiveCustom: (_) => const ReceiveCustom(),
-    Routes.receiveQR: (args) => ReceiveQR(amount: args),
+    Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSentScreen(),

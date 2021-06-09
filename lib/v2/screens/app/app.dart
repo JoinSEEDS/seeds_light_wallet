@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
-import 'package:seeds/v2/components/notification_badge.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/i18n/app/app.i18.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
-import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
-import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/components/notification_badge.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/i18n/app/app.i18.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/screens/app/components/account_under_recovery_screen.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/app_page_commands.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 
 class App extends StatefulWidget {
   const App();
@@ -86,14 +91,36 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     return BlocProvider(
       create: (context) => AppBloc(),
       child: BlocListener<AppBloc, AppState>(
-        listenWhen: (previous, current) => previous.index != current.index,
-        listener: (_, state) => _pageController.jumpToPage(state.index),
+        listenWhen: (previous, current) {
+          return current.pageCommand != null;
+        },
+        listener: (buildContext, state) {
+          var pageCommand = state.pageCommand;
+          BlocProvider.of<AppBloc>(buildContext).add(ClearPageCommand());
+          if (pageCommand is BottomBarNavigateToIndex) {
+            _pageController.jumpToPage(pageCommand.index);
+          } else if (pageCommand is ShowStopGuardianRecoveryFailed) {
+            SnackBarInfo(title: pageCommand.message, context: buildContext).show(buildContext);
+          } else if (pageCommand is ShowStopGuardianRecoverySuccess) {
+            SnackBarInfo(title: pageCommand.message, context: buildContext).show(buildContext);
+          }
+        },
         child: Scaffold(
-          body: PageView(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: _appScreenItems.map((i) => i.screen).toList(),
-          ),
+          body: BlocBuilder<AppBloc, AppState>(builder: (context, state) {
+            if (state.pageState == PageState.loading) {
+              return const FullPageLoadingIndicator();
+            } else {
+              if (state.showGuardianRecoveryAlert) {
+                return AccountUnderRecoveryScreen();
+              } else {
+                return PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: _appScreenItems.map((i) => i.screen).toList(),
+                );
+              }
+            }
+          }),
           bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
             builder: (context, state) {
               return Container(

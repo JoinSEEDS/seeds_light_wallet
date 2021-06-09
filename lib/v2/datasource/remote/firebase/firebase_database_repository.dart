@@ -16,6 +16,7 @@ const String TYPE_KEY = 'type';
 const String RECOVERY_COLLECTION_KEY = 'recovery';
 const String RECOVERY_STARTED_DATE_KEY = 'recoveryStartedDate';
 const String RECOVERY_APPROVED_DATE_KEY = 'recoveryApprovedDate';
+const String FIREBASE_MESSAGE_TOKENS_KEY = 'firebaseMessageTokens';
 
 abstract class FirebaseDatabaseService {
   CollectionReference get usersCollection => FirebaseFirestore.instance.collection(FIREBASE_DATABASE_USERS_TOKEN);

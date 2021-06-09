@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +10,6 @@ import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 export 'package:async/src/result/result.dart';
 
 class GuardiansRepository extends EosRepository with NetworkRepository {
-
   /// Step 1 in the guardian set up - call this to allow the guard.seeds contract to
   /// change the key.
   ///
@@ -26,11 +26,12 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
       return currentPermissions;
     }
 
-    final ownerPermission =
+    final Permission ownerPermission =
         (currentPermissions.asValue!.value as List<Permission>).firstWhere((item) => item.permName == 'owner');
 
-    // CHeck if permissions are already set?
-    for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts as Iterable<Map<String, dynamic>>) {
+    // Check if permissions are already set?
+    // ignore: unnecessary_cast
+    for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts as List<dynamic>) {
       if (acct['permission']['actor'] == 'guard.seeds') {
         print('permission already set, doing nothing');
         return currentPermissions;
@@ -68,20 +69,50 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     ];
 
     actions.forEach((action) => {
-      action.authorization = [
-        Authorization()
-          ..actor = accountName
-          ..permission = 'active'
-      ]
-    });
+          action.authorization = [
+            Authorization()
+              ..actor = accountName
+              ..permission = 'active'
+          ]
+        });
 
     var transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
         .pushTransaction(transaction, broadcast: true)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
-      return response["transaction_id"];
-    }))
+              return response["transaction_id"];
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
+  /// Cancel guardians.
+  ///
+  /// This cancels any recovery currently in process, and removes all guardians
+  ///
+  Future<Result> cancelGuardians() async {
+    var accountName = settingsStorage.accountName;
+    print('[eos] cancel recovery $accountName');
+
+    var actions = [
+      Action()
+        ..account = 'guard.seeds'
+        ..name = 'cancel'
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = 'owner'
+        ]
+        ..data = {'user_account': accountName}
+    ];
+
+    var transaction = buildFreeTransaction(actions, accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction, broadcast: true)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return response["transaction_id"];
+            }))
         .catchError((error) => mapEosError(error));
   }
 

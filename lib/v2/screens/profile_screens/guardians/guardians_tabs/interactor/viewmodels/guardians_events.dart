@@ -49,3 +49,31 @@ class OnCancelGuardianRequestTapped extends GuardiansEvent {
   @override
   String toString() => 'OnCancelGuardianRequestTapped : { guardianAccount: $guardianAccount }';
 }
+
+class OnGuardianRowTapped extends GuardiansEvent {
+  final GuardianModel guardian;
+
+  OnGuardianRowTapped(this.guardian);
+
+  @override
+  String toString() => 'OnGuardianRowTapped : { guardian: $guardian }';
+}
+
+class ClearPageCommand extends GuardiansEvent {
+  @override
+  String toString() => 'ClearPageCommand';
+}
+
+class OnStopRecoveryForUser extends GuardiansEvent {
+  @override
+  String toString() => 'OnStopRecoveryForUser';
+}
+
+class OnRemoveGuardianTapped extends GuardiansEvent {
+  final GuardianModel guardian;
+
+  OnRemoveGuardianTapped(this.guardian);
+
+  @override
+  String toString() => 'OnRemoveGuardianTapped : { guardian: $guardian }';
+}
