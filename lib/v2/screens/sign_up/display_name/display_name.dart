@@ -8,6 +8,8 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 
 class DisplayName extends StatefulWidget {
+  const DisplayName({Key? key}) : super(key: key);
+
   @override
   _DisplayNameState createState() => _DisplayNameState();
 }
@@ -78,12 +80,12 @@ class _DisplayNameState extends State<DisplayName> {
   VoidCallback? _onNextPressed() => _keyController.text.isNotEmpty
       ? () {
           FocusScope.of(context).unfocus();
-          _bloc.add(NavigateToCreateUsername(_keyController.text));
+          _bloc.add(DisplayNameOnNextTapped(_keyController.text));
         }
       : null;
 
   Future<bool> _navigateBack() {
-    _bloc.add(NavigateBack());
+    _bloc.add(OnBackPressed());
     return Future.value(false);
   }
 }
