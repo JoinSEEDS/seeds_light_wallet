@@ -8,6 +8,8 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 
 class DisplayName extends StatefulWidget {
+  const DisplayName({Key? key}) : super(key: key);
+
   @override
   _DisplayNameState createState() => _DisplayNameState();
 }
