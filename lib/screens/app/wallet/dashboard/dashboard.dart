@@ -3,24 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
+
 // import 'package:seeds/providers/notifiers/members_notifier.dart';
 // import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
 import 'package:seeds/providers/notifiers/transactions_notifier.dart';
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/providers/services/guardian_services.dart';
-
-import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/providers/useCases/dashboard_usecases.dart';
-import 'package:seeds/v2/screens/dashboard/wallet_header.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/screens/dashboard/wallet_header.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
@@ -29,8 +30,6 @@ import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/transaction_info_card.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 enum TransactionType { income, outcome }
 
@@ -47,16 +46,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      DashboardUseCases()
-          // .shouldShowCancelGuardianAlertMessage(SettingsNotifier.of(context).accountName)
-          .shouldShowCancelGuardianAlertMessage(settingsStorage.accountName)
-          .listen((bool showAlertDialog) {
-        if (showAlertDialog) {
-          showAccountUnderRecoveryDialog(context);
-        }
-      });
-    });
   }
 
   Future<void> showAccountUnderRecoveryDialog(BuildContext buildContext) async {

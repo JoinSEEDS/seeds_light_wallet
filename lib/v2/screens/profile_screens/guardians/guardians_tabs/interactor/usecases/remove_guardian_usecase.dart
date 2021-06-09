@@ -56,7 +56,7 @@ class RemoveGuardianUseCase {
   ValueResult<bool> _removeGuardianFromFirebase(String userAccount, String friendId) {
     print('initResult success');
     _firebaseRepository.removeMyGuardian(currentUserId: userAccount, friendId: friendId);
-    _firebaseRepository.setGuardiansInitializedUpdated(userAccount);
+    _firebaseRepository.removeGuardiansInitialized(userAccount);
 
     return ValueResult(true);
   }
