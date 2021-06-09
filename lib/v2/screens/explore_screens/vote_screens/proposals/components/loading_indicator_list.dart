@@ -13,8 +13,8 @@ class LoadingIndicatorList extends StatelessWidget {
       alignment: Alignment.center,
       child: const Center(
         child: SizedBox(
-          width: 33,
-          height: 33,
+          width: 32,
+          height: 32,
           child: CircularProgressIndicator(),
         ),
       ),
