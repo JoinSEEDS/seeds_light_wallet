@@ -25,11 +25,11 @@ class SignupScreen extends StatelessWidget {
 
           switch (pageContent) {
             case PageContent.CLAIM_INVITE:
-              return ClaimInviteScreen();
+              return const ClaimInviteScreen();
             case PageContent.DISPLAY_NAME:
-              return DisplayName();
+              return const DisplayName();
             case PageContent.USERNAME:
-              return CreateUsername();
+              return const CreateUsername();
             case PageContent.PHONE_NUMBER:
               // TODO(Farzad): return AddPhoneNumber widget
               return Container();
