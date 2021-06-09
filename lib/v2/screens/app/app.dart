@@ -136,12 +136,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   for (var i in _appScreenItems)
                     BottomNavigationBarItem(
                       activeIcon:
-                          Padding(padding: const EdgeInsets.only(bottom: 4), child: SvgPicture.asset(i.iconSelected)),
+                          Padding(padding: const EdgeInsets.only(bottom: 4.0), child: SvgPicture.asset(i.iconSelected)),
                       icon: Stack(
                         children: [
-                          SvgPicture.asset(i.icon),
-                          if (state.hasNotification && i.index == 2)
-                            const Positioned(right: 3, top: 3, child: NotificationBadge())
+                          Padding(padding: const EdgeInsets.all(4.0), child: SvgPicture.asset(i.icon)),
+                          if (i.index == 2) const Positioned(left: 0, top: 0, child: NotificationBadge())
                         ],
                       ),
                       label: state.index == i.index ? i.title : '',
