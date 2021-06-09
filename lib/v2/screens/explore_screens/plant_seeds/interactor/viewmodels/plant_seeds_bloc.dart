@@ -25,13 +25,8 @@ class PlantSeedsBloc extends Bloc<PlantSeedsEvent, PlantSeedsState> {
     }
     if (event is OnPlantSeedsButtonTapped) {
       yield state.copyWith(pageState: PageState.loading, isAutoFocus: false);
-      // Result result = await PlantSeedsUseCase().run(amount: state.quantity);
-      // yield PlantSeedsResultMapper().mapResultToState(state, result);
-      yield state.copyWith(
-        pageState: PageState.success,
-        pageCommand: ShowTransactionFailSnackBar(),
-        isPlantSeedsButtonEnabled: false,
-      );
+      Result result = await PlantSeedsUseCase().run(amount: state.quantity);
+      yield PlantSeedsResultMapper().mapResultToState(state, result);
     }
   }
 }

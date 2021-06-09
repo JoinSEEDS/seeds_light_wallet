@@ -13,7 +13,7 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => SignupBloc(
+      create: (_) => SignupBloc(
         claimInviteUseCase: ClaimInviteUseCase(
           signupRepository: SignupRepository(),
         ),
