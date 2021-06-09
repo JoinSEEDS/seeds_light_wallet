@@ -18,7 +18,7 @@ class SelectGuardiansScreen extends StatelessWidget {
     var myGuardians = ModalRoute.of(context)?.settings.arguments as List<GuardianModel>?;
 
     return BlocProvider(
-        create: (context) => SelectGuardiansBloc(myGuardians ?? []),
+        create: (_) => SelectGuardiansBloc(myGuardians ?? []),
         child: BlocListener<SelectGuardiansBloc, SelectGuardiansState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {

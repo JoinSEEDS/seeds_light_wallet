@@ -39,7 +39,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield state.copyWith(pageState: PageState.loading);
       var result = await StopGuardianRecoveryUseCase().stopRecovery();
       yield StopGuardianRecoveryStateMapper().mapResultToState(state, result);
-    } else if (event is ClearPageCommand) {
+    } else if (event is ClearAppPageCommand) {
       yield state.copyWith(pageCommand: null);
     }
   }

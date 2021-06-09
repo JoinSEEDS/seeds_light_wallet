@@ -22,7 +22,7 @@ class SearchUserWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SearchUserBloc>(
-      create: (context) => SearchUserBloc(),
+      create: (_) => SearchUserBloc(),
       child: BlocBuilder<SearchUserBloc, SearchUserState>(
         builder: (context, SearchUserState state) {
           return Column(

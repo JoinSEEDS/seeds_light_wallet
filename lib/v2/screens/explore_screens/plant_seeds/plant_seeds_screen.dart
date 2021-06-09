@@ -39,9 +39,9 @@ class PlantSeedsScreen extends StatelessWidget {
               );
             }
             if (state.pageCommand is ShowTransactionFailSnackBar) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBarInfo(title: 'Plant failed, try again.'.i18n, context: context),
-              );
+              SnackBarInfo(
+                      title: 'Plant failed, try again.'.i18n, scaffoldMessengerState: ScaffoldMessenger.of(context))
+                  .show(context);
             }
           },
           builder: (context, PlantSeedsState state) {

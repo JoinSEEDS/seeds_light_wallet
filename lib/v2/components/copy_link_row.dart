@@ -12,10 +12,7 @@ class ShareLinkRow extends StatelessWidget {
   final String label;
   final String link;
 
-  const ShareLinkRow({
-    required this.label,
-    required this.link,
-  });
+  const ShareLinkRow({required this.label, required this.link});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +20,7 @@ class ShareLinkRow extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(label, style: Theme.of(context).textTheme.subtitle2HighEmphasis),
-        const SizedBox(
-          width: 16,
-        ),
+        const SizedBox(width: 16),
         Expanded(
           child: Text(
             link,
@@ -34,18 +29,16 @@ class ShareLinkRow extends StatelessWidget {
           ),
         ),
         IconButton(
-            icon: const Icon(Icons.copy),
-            color: AppColors.white,
-            onPressed: () {
-              Clipboard.setData(ClipboardData(text: link)).then(
-                (value) {
-                  ScaffoldMessenger.maybeOf(context)!.showSnackBar(SnackBarInfo(
-                    title: "Copied",
-                    context: context,
-                  ));
-                },
-              );
-            })
+          icon: const Icon(Icons.copy),
+          color: AppColors.white,
+          onPressed: () {
+            Clipboard.setData(ClipboardData(text: link)).then(
+              (value) {
+                SnackBarInfo(title: "Copied", scaffoldMessengerState: ScaffoldMessenger.of(context)).show(context);
+              },
+            );
+          },
+        )
       ],
     );
   }

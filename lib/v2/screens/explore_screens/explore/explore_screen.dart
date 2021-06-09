@@ -20,7 +20,7 @@ class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ExploreBloc()..add(const LoadExploreData()),
+      create: (_) => ExploreBloc()..add(const LoadExploreData()),
       child: Scaffold(
         appBar: AppBar(title: Text('Explore'.i18n)),
         body: BlocBuilder<ExploreBloc, ExploreState>(

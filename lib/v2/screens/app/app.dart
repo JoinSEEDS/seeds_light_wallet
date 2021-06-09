@@ -89,24 +89,24 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     _navigatorKey = NavigationService.of(context).appNavigatorKey;
     return BlocProvider(
-      create: (context) => AppBloc(),
-      child: BlocListener<AppBloc, AppState>(
-        listenWhen: (previous, current) {
-          return current.pageCommand != null;
-        },
-        listener: (buildContext, state) {
-          var pageCommand = state.pageCommand;
-          BlocProvider.of<AppBloc>(buildContext).add(ClearPageCommand());
-          if (pageCommand is BottomBarNavigateToIndex) {
-            _pageController.jumpToPage(pageCommand.index);
-          } else if (pageCommand is ShowStopGuardianRecoveryFailed) {
-            SnackBarInfo(title: pageCommand.message, context: buildContext).show(buildContext);
-          } else if (pageCommand is ShowStopGuardianRecoverySuccess) {
-            SnackBarInfo(title: pageCommand.message, context: buildContext).show(buildContext);
-          }
-        },
-        child: Scaffold(
-          body: BlocBuilder<AppBloc, AppState>(builder: (context, state) {
+      create: (_) => AppBloc(),
+      child: Scaffold(
+        body: BlocConsumer<AppBloc, AppState>(
+          listenWhen: (_, current) => current.pageCommand != null,
+          listener: (context, state) {
+            var pageCommand = state.pageCommand;
+            BlocProvider.of<AppBloc>(context).add(ClearAppPageCommand());
+            if (pageCommand is BottomBarNavigateToIndex) {
+              _pageController.jumpToPage(pageCommand.index);
+            } else if (pageCommand is ShowStopGuardianRecoveryFailed) {
+              SnackBarInfo(title: pageCommand.message, scaffoldMessengerState: ScaffoldMessenger.of(context))
+                  .show(context);
+            } else if (pageCommand is ShowStopGuardianRecoverySuccess) {
+              SnackBarInfo(title: pageCommand.message, scaffoldMessengerState: ScaffoldMessenger.of(context))
+                  .show(context);
+            }
+          },
+          builder: (context, state) {
             if (state.pageState == PageState.loading) {
               return const FullPageLoadingIndicator();
             } else {
@@ -120,36 +120,36 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 );
               }
             }
-          }),
-          bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
-            builder: (context, state) {
-              return Container(
-                decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
-                child: BottomNavigationBar(
-                  currentIndex: state.index,
-                  onTap: (index) => BlocProvider.of<AppBloc>(context).add(BottomBarTapped(index: index)),
-                  selectedLabelStyle: Theme.of(context).textTheme.subtitle3,
-                  unselectedLabelStyle: Theme.of(context).textTheme.subtitle3,
-                  selectedItemColor: AppColors.white,
-                  items: [
-                    for (var i in _appScreenItems)
-                      BottomNavigationBarItem(
-                        activeIcon:
-                            Padding(padding: const EdgeInsets.only(bottom: 4), child: SvgPicture.asset(i.iconSelected)),
-                        icon: Stack(
-                          children: [
-                            SvgPicture.asset(i.icon),
-                            if (state.hasNotification && i.index == 2)
-                              const Positioned(right: 3, top: 3, child: NotificationBadge())
-                          ],
-                        ),
-                        label: state.index == i.index ? i.title : '',
+          },
+        ),
+        bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
+          builder: (context, state) {
+            return Container(
+              decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
+              child: BottomNavigationBar(
+                currentIndex: state.index,
+                onTap: (index) => BlocProvider.of<AppBloc>(context).add(BottomBarTapped(index: index)),
+                selectedLabelStyle: Theme.of(context).textTheme.subtitle3,
+                unselectedLabelStyle: Theme.of(context).textTheme.subtitle3,
+                selectedItemColor: AppColors.white,
+                items: [
+                  for (var i in _appScreenItems)
+                    BottomNavigationBarItem(
+                      activeIcon:
+                          Padding(padding: const EdgeInsets.only(bottom: 4), child: SvgPicture.asset(i.iconSelected)),
+                      icon: Stack(
+                        children: [
+                          SvgPicture.asset(i.icon),
+                          if (state.hasNotification && i.index == 2)
+                            const Positioned(right: 3, top: 3, child: NotificationBadge())
+                        ],
                       ),
-                  ],
-                ),
-              );
-            },
-          ),
+                      label: state.index == i.index ? i.title : '',
+                    ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

@@ -29,9 +29,9 @@ class SendEnterDataScreen extends StatelessWidget {
     final MemberModel memberModel = ModalRoute.of(context)!.settings.arguments! as MemberModel;
     RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
-        create: (context) => SendEnterDataPageBloc(memberModel, rates)..add(InitSendDataArguments()),
+        create: (_) => SendEnterDataPageBloc(memberModel, rates)..add(InitSendDataArguments()),
         child: BlocListener<SendEnterDataPageBloc, SendEnterDataPageState>(
-          listenWhen: (previous, current) => current.pageCommand != null,
+          listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
             PageCommand? command = state.pageCommand;
 

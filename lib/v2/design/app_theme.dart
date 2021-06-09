@@ -14,7 +14,11 @@ class SeedsAppTheme {
         textTheme: TextTheme(headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)), // headline7
       ),
       inputDecorationTheme: SeedsInputDecorationTheme.lightTheme,
-      snackBarTheme: const SnackBarThemeData(backgroundColor: AppColors.grey, behavior: SnackBarBehavior.floating),
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: AppColors.grey,
+        behavior: SnackBarBehavior.floating,
+        contentTextStyle: TextStyle(color: AppColors.white),
+      ),
     );
   }
 
@@ -30,7 +34,11 @@ class SeedsAppTheme {
         textTheme: TextTheme(headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)), // headline7
       ),
       inputDecorationTheme: SeedsInputDecorationTheme.darkTheme,
-      snackBarTheme: const SnackBarThemeData(backgroundColor: AppColors.grey, behavior: SnackBarBehavior.floating),
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: AppColors.grey,
+        behavior: SnackBarBehavior.floating,
+        contentTextStyle: TextStyle(color: AppColors.white),
+      ),
     );
   }
 }

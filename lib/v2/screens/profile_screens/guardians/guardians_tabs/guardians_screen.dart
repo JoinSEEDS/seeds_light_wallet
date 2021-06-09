@@ -19,7 +19,7 @@ class GuardiansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => GuardiansBloc(),
+        create: (_) => GuardiansBloc(),
         child: BlocListener<GuardiansBloc, GuardiansState>(
             listenWhen: (_, current) => current.pageCommand != null,
             listener: (context, state) {
@@ -33,7 +33,8 @@ class GuardiansScreen extends StatelessWidget {
               } else if (pageCommand is ShowRemoveGuardianView) {
                 _showRemoveGuardianDialog(context, pageCommand.guardian);
               } else if (pageCommand is ShowMessage) {
-                SnackBarInfo(title: pageCommand.message, context: context).show(context);
+                SnackBarInfo(title: pageCommand.message, scaffoldMessengerState: ScaffoldMessenger.of(context))
+                    .show(context);
               }
             },
             child: BlocBuilder<GuardiansBloc, GuardiansState>(builder: (context, state) {

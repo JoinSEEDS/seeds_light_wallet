@@ -30,10 +30,9 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text("Scan QR Code")),
       body: BlocProvider(
-        create: (context) => _sendPageBloc,
+        create: (_) => _sendPageBloc,
         child: BlocListener<SendPageBloc, SendPageState>(
-          listenWhen: (context, SendPageState state) =>
-              state.pageState == PageState.success && state.pageCommand != null,
+          listenWhen: (_, current) => current.pageState == PageState.success && current.pageCommand != null,
           listener: (context, SendPageState state) {
             _scannerScreen.stop();
             NavigationService.of(context).navigateTo(
