@@ -33,7 +33,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
     return usersCollection.doc(userId).collection(GUARDIANS_COLLECTION_KEY).snapshots().asyncMap(
         (QuerySnapshot event) => event.docs
             .map(
-                (QueryDocumentSnapshot e) => GuardianModel.fromMap(e.data()!)) // ignore: unnecessary_non_null_assertion
+                (QueryDocumentSnapshot e) => GuardianModel.fromMap(e.data() as Map<String, dynamic>)) // ignore: unnecessary_non_null_assertion
             .toList());
   }
 
@@ -41,7 +41,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
     return usersCollection
         .doc(userAccount)
         .snapshots()
-        .map((user) => user.data()?[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
+        .map((user) => (user.data() as Map<String, dynamic>)[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
   }
 
   /// Use only when we have successfully saved guardians to the user contract by calling eosService.initGuardians
@@ -192,7 +192,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       batch.set(
           usersCollection
               // ignore: unnecessary_non_null_assertion
-              .doc(GuardianModel.fromMap(guardian.data()!).uid)
+              .doc(GuardianModel.fromMap(guardian.data() as Map<String, dynamic>).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
           data,
