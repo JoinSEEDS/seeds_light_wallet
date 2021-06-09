@@ -111,7 +111,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               return const FullPageLoadingIndicator();
             } else {
               if (state.showGuardianRecoveryAlert) {
-                return AccountUnderRecoveryScreen();
+                return const AccountUnderRecoveryScreen();
               } else {
                 return PageView(
                   controller: _pageController,
