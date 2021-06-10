@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/v2/i18n/login/login.i18n.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/i18n/login/login.i18n.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 
 /// Login SCREEN
@@ -69,7 +69,9 @@ class LoginScreen extends StatelessWidget {
             children: [
               Text("Lost your key?".i18n, style: Theme.of(context).textTheme.subtitle2),
               GestureDetector(
-                  onTap: () {}, child: Text(" Recover ".i18n, style: Theme.of(context).textTheme.subtitle2)),
+                  onTap: () {
+                    NavigationService.of(context).navigateTo(Routes.recoverAccount);
+                  }, child: Text(" Recover ".i18n, style: Theme.of(context).textTheme.subtitle2)),
               Text("your account here".i18n, style: Theme.of(context).textTheme.subtitle2),
             ],
           ),
