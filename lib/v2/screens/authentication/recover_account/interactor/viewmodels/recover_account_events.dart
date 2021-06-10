@@ -12,4 +12,7 @@ class OnUsernameChanged extends RecoverAccountEvent {
   final String userName;
 
   OnUsernameChanged(this.userName);
+
+  @override
+  String toString() => 'OnUsernameChanged { userName: $userName}';
 }

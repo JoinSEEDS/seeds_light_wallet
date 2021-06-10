@@ -6,13 +6,10 @@ import 'package:seeds/v2/datasource/remote/api/planted_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/voice_repository.dart';
 
-export 'package:async/src/result/error.dart';
-export 'package:async/src/result/result.dart';
-
 class FetchAccountRecoveryUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
 
-  Future<Result> run(String accountName) async {
+  Future<Result> run(String accountName) {
     return _guardiansRepository.getAccountRecovery(accountName);
   }
 }
