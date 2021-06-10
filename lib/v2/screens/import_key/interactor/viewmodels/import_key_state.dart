@@ -11,7 +11,12 @@ class ImportKeyState extends Equatable {
   const ImportKeyState({required this.pageState, this.errorMessage, required this.accounts, this.privateKey});
 
   @override
-  List<Object> get props => [pageState];
+  List<Object?> get props => [
+        pageState,
+        errorMessage,
+        privateKey,
+        accounts,
+      ];
 
   ImportKeyState copyWith({
     PageState? pageState,
