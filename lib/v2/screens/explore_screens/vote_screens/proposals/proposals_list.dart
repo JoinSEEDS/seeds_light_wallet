@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/components/loading_indicator_list.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/components/proposal_open_card.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
@@ -63,22 +63,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                           _proposalsBloc.add(const LoadProposalsByScroll());
                           return const LoadingIndicatorList();
                         } else {
-                          return Hero(
-                            tag: state.proposals[index].hashCode,
-                            child: Card(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                              clipBehavior: Clip.antiAlias,
-                              margin: const EdgeInsets.all(16),
-                              elevation: 8,
-                              child: InkWell(
-                                onTap: () {
-                                  NavigationService.of(context)
-                                      .navigateTo(Routes.proposalDetailsPage, state.proposals[index]);
-                                },
-                                child: Container(child: Text(state.proposals[index].title ?? '')),
-                              ),
-                            ),
-                          );
+                          return ProposalOpenCard(state.proposals[index]);
                         }
                       },
                     );
