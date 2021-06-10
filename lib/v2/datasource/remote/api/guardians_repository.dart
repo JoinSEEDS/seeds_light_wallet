@@ -28,7 +28,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     }
 
     final Permission ownerPermission =
-    (currentPermissions.asValue!.value as List<Permission>).firstWhere((item) => item.permName == 'owner');
+        (currentPermissions.asValue!.value as List<Permission>).firstWhere((item) => item.permName == 'owner');
 
     // Check if permissions are already set?
     // ignore: unnecessary_cast
@@ -69,23 +69,21 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         }
     ];
 
-    actions.forEach((action) =>
-    {
-      action.authorization = [
-        Authorization()
-          ..actor = accountName
-          ..permission = 'active'
-      ]
-    });
+    actions.forEach((action) => {
+          action.authorization = [
+            Authorization()
+              ..actor = accountName
+              ..permission = 'active'
+          ]
+        });
 
     var transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
         .pushTransaction(transaction, broadcast: true)
-        .then((dynamic response) =>
-        mapEosResponse(response, (dynamic map) {
-          return response["transaction_id"];
-        }))
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return response["transaction_id"];
+            }))
         .catchError((error) => mapEosError(error));
   }
 
@@ -113,10 +111,9 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     return buildEosClient()
         .pushTransaction(transaction, broadcast: true)
-        .then((dynamic response) =>
-        mapEosResponse(response, (dynamic map) {
-          return response["transaction_id"];
-        }))
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return response["transaction_id"];
+            }))
         .catchError((error) => mapEosError(error));
   }
 
@@ -129,11 +126,10 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     return http
         .post(url, headers: headers, body: body)
-        .then((http.Response response) =>
-        mapHttpResponse(response, (dynamic body) {
-          List<dynamic> allAccounts = body['permissions'].toList();
-          return allAccounts.map((item) => Permission.fromJson(item)).toList();
-        }))
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              List<dynamic> allAccounts = body['permissions'].toList();
+              return allAccounts.map((item) => Permission.fromJson(item)).toList();
+            }))
         .catchError((error) => mapHttpError(error));
   }
 
@@ -157,23 +153,21 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         }
     ];
 
-    actions.forEach((action) =>
-    {
-      action.authorization = [
-        Authorization()
-          ..actor = accountName
-          ..permission = 'owner'
-      ]
-    });
+    actions.forEach((action) => {
+          action.authorization = [
+            Authorization()
+              ..actor = accountName
+              ..permission = 'owner'
+          ]
+        });
 
     var transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
         .pushTransaction(transaction, broadcast: true)
-        .then((dynamic response) =>
-        mapEosResponse(response, (dynamic map) {
-          return response["transaction_id"];
-        }))
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return response["transaction_id"];
+            }))
         .catchError((error) => mapEosError(error));
   }
 
@@ -181,27 +175,27 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     print('[http] get account guardians');
 
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
-    String request =
-    createRequest(code: account_seeds,
-        scope: account_seeds,
-        table: table_guards,
-        lowerBound: accountName,
-        upperBound: accountName);
+
+    String request = createRequest(
+      code: account_guards,
+      scope: account_guards,
+      table: table_guards,
+      lowerBound: accountName,
+      upperBound: accountName,
+    );
 
     return http
         .post(Uri.parse(requestURL), headers: headers, body: request)
-        .then((http.Response response) =>
-        mapHttpResponse(response, (dynamic body) {
-          var rows = body["rows"] as List<dynamic>;
-          return AccountRecoveryModel.fromTableRows(rows);
-        }))
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              var rows = body["rows"] as List<dynamic>;
+              return AccountRecoveryModel.fromTableRows(rows);
+            }))
         .catchError((error) => mapHttpError(error));
   }
 }
 
 // method to properly convert RequiredAuth to JSON - the library doesn't work
-Map<String, dynamic> _requiredAuthToJson(RequiredAuth instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _requiredAuthToJson(RequiredAuth instance) => <String, dynamic>{
       'threshold': instance.threshold,
       'keys': List<dynamic>.from(instance.keys!.map((e) => e.toJson())),
       'accounts': instance.accounts,

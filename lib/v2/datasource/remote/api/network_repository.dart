@@ -11,6 +11,7 @@ abstract class NetworkRepository {
   String fxApiKey = Config.fxApiKey;
   Map<String, String> headers = {'Content-type': 'application/json'};
   String account_seeds = 'accts.seeds';
+  String account_guards = 'guard.seeds';
   String account_harvest = 'harvst.seeds';
   String account_join = 'join.seeds';
   String account_funds = 'funds.seeds';
