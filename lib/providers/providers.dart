@@ -141,11 +141,11 @@ final providers = [
     update: (_, httpService, accountGeneratorService) =>
         accountGeneratorService!..update(httpService),
   ),
-  ProxyProvider<AccountGeneratorService, CreateAccountBloc>(
-    create: (_) => CreateAccountBloc(),
-    update: (_, accountGeneratorService, createAccountBloc) =>
-        createAccountBloc!..update(accountGeneratorService),
-  ),
+  // ProxyProvider<AccountGeneratorService, CreateAccountBloc>(
+  //   create: (_) => CreateAccountBloc(),
+  //   update: (_, accountGeneratorService, createAccountBloc) =>
+  //       createAccountBloc!..update(accountGeneratorService),
+  // ),
   Provider(
     create: (_) => PermissionService(),
   ),
