@@ -41,3 +41,10 @@ class OnNextButtonTapped extends ReceiveEnterDataEvents {
   @override
   String toString() => 'OnNextButtonTapped';
 }
+
+class ClearPageState extends ReceiveEnterDataEvents {
+  const ClearPageState();
+
+  @override
+  String toString() => 'ClearPageState';
+}

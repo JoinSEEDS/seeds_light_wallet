@@ -32,7 +32,7 @@ class AmountEntryWidget extends StatelessWidget {
         listenWhen: (previous, current) => current.pageCommand != null,
         listener: (context, state) {
           // ignore: cast_nullable_to_non_nullable
-          onValueChange((state.pageCommand as SendTextInputDataBack).textToSend);
+          onValueChange((state.pageCommand as SendTextInputDataBack).textToSend.replaceAll(',', ''));
 
           BlocProvider.of<AmountEntryBloc>(context).add(ClearPageCommand());
         },

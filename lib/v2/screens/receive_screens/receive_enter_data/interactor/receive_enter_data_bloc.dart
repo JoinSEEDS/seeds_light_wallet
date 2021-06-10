@@ -8,6 +8,9 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
 import 'mappers/create_invoice_result_mapper.dart';
 import 'mappers/user_balance_state_mapper.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/utils/rate_states_extensions.dart';
 
 /// --- BLOC
 class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterDataState> {
@@ -23,10 +26,13 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
     if (event is OnAmountChange) {
       double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;
 
+      String seedsToFiat =
+          state.ratesState.fromSeedsToFiat(parsedQuantity, settingsStorage.selectedFiatCurrency).fiatFormatted;
+
       if (parsedQuantity > 0) {
-        yield state.copyWith(isNextButtonEnabled: true, quantity: parsedQuantity);
+        yield state.copyWith(isNextButtonEnabled: true, quantity: parsedQuantity, fiatAmount: seedsToFiat);
       } else {
-        yield state.copyWith(isNextButtonEnabled: false, quantity: parsedQuantity);
+        yield state.copyWith(isNextButtonEnabled: false, quantity: parsedQuantity, fiatAmount: seedsToFiat);
       }
     }
     if (event is OnDescriptionChange) {
@@ -36,6 +42,14 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
       yield state.copyWith(pageState: PageState.loading);
       Result result = await ReceiveSeedsInvoiceUseCase().run(amount: state.quantity, memo: state.description);
       yield CreateInvoiceResultMapper().mapResultToState(state, result);
+    }
+    if (event is ClearPageState) {
+      yield state.copyWith(
+          fiatAmount: 0.toString(),
+          isNextButtonEnabled: false,
+          quantity: 0,
+          seedsAmount: 0.toString(),
+          isAutoFocus: false);
     }
   }
 }

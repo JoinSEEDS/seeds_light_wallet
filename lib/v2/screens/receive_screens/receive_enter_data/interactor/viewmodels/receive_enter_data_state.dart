@@ -10,6 +10,7 @@ class ReceiveEnterDataState extends Equatable {
   final PageCommand? pageCommand;
   final RatesState ratesState;
   final String fiatAmount;
+  final String seedsAmount;
   final String? description;
   final BalanceModel? availableBalance;
   final String availableBalanceSeeds;
@@ -18,6 +19,7 @@ class ReceiveEnterDataState extends Equatable {
   final String? errorMessage;
   final double quantity;
   final String? invoiceLink;
+  final bool isAutoFocus;
 
   const ReceiveEnterDataState(
       {required this.pageState,
@@ -31,7 +33,9 @@ class ReceiveEnterDataState extends Equatable {
       this.errorMessage,
       this.description,
       required this.quantity,
-      this.invoiceLink});
+      this.invoiceLink,
+      required this.isAutoFocus,
+      required this.seedsAmount});
 
   @override
   List<Object?> get props => [
@@ -46,8 +50,10 @@ class ReceiveEnterDataState extends Equatable {
         errorMessage,
         description,
         quantity,
-        invoiceLink
-      ];
+        invoiceLink,
+        seedsAmount,
+        isAutoFocus
+     ];
 
   ReceiveEnterDataState copyWith(
       {PageState? pageState,
@@ -61,7 +67,9 @@ class ReceiveEnterDataState extends Equatable {
       String? availableBalanceSeeds,
       String? description,
       double? quantity,
-      String? invoiceLink}) {
+      String? invoiceLink,
+      String? seedsAmount,
+      bool?   isAutoFocus}) {
     return ReceiveEnterDataState(
         pageState: pageState ?? this.pageState,
         pageCommand: pageCommand,
@@ -74,7 +82,9 @@ class ReceiveEnterDataState extends Equatable {
         availableBalanceSeeds: availableBalanceSeeds ?? this.availableBalanceSeeds,
         description: description ?? this.description,
         quantity: quantity ?? this.quantity,
-        invoiceLink: invoiceLink ?? this.invoiceLink);
+        invoiceLink: invoiceLink ?? this.invoiceLink,
+        isAutoFocus: isAutoFocus ?? this.isAutoFocus,
+        seedsAmount: seedsAmount ?? this.seedsAmount);
   }
 
   factory ReceiveEnterDataState.initial(RatesState ratesState) {
@@ -85,6 +95,8 @@ class ReceiveEnterDataState extends Equatable {
         ratesState: ratesState,
         fiatAmount: 0.toString(),
         isNextButtonEnabled: false,
-        quantity: 0);
+        quantity: 0,
+        seedsAmount: "",
+        isAutoFocus: true);
   }
 }

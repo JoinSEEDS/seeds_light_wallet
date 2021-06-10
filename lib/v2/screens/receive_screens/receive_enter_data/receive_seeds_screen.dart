@@ -28,6 +28,8 @@ class ReceiveEnterDataScreen extends StatelessWidget {
               listenWhen: (_, current) => current.pageCommand != null,
               listener: (context, state) {
                 if (state.pageCommand is NavigateToReceiveDetails) {
+                  BlocProvider.of<ReceiveEnterDataBloc>(context)
+                      .add(const ClearPageState());
                   NavigationService.of(context).navigateTo(
                       Routes.receiveQR,
                       ReceiveDetailArguments(
@@ -39,7 +41,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                 if (state.pageCommand is ShowTransactionFail) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBarInfo(
-                        title: state.quantity.toString() + " " + state.description! + " " + state.invoiceLink!,
+                        title:'Invoice failed, please try again.',
                         context: context),
                   );
                 }
@@ -63,7 +65,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                   BlocProvider.of<ReceiveEnterDataBloc>(context)
                                       .add(OnAmountChange(amountChanged: value));
                                 },
-                                autoFocus: true,
+                                autoFocus: state.isAutoFocus,
                               ),
                               const SizedBox(height: 36),
                               Padding(
@@ -71,8 +73,8 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     TextFormFieldLight(
-                                      labelText: "Description",
-                                      hintText: "Enter a Description",
+                                      labelText: "Memo",
+                                      hintText: "Add a note",
                                       maxLength: blockChainMaxChars,
                                       onChanged: (String value) {
                                         BlocProvider.of<ReceiveEnterDataBloc>(context)

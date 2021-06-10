@@ -180,7 +180,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void onReceive() async {
-    await NavigationService.of(context).navigateTo(Routes.receiveScreen);
+    await NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen);
   }
 
   Widget buildNotification() {
