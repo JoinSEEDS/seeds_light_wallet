@@ -171,7 +171,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         .catchError((error) => mapEosError(error));
   }
 
-  Future<Result<dynamic>> getAccountGuardians(String accountName) async {
+  Future<Result<dynamic>> getAccountRecovery(String accountName) async {
     print('[http] get account guardians');
     var code = 'guard.seeds';
     var scope = 'guard.seeds';

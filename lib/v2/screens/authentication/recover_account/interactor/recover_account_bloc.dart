@@ -1,4 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/authentication/recover_account/interactor/mappers/fetch_account_guardians_state_mapper.dart';
+import 'package:seeds/v2/screens/authentication/recover_account/interactor/usecases/fetch_account_guardians_use_case.dart';
 import 'package:seeds/v2/screens/authentication/recover_account/interactor/viewmodels/recover_account_events.dart';
 import 'package:seeds/v2/screens/authentication/recover_account/interactor/viewmodels/recover_account_state.dart';
 
@@ -9,7 +12,13 @@ class RecoverAccountBloc extends Bloc<RecoverAccountEvent, RecoverAccountState> 
   @override
   Stream<RecoverAccountState> mapEventToState(RecoverAccountEvent event) async* {
     if (event is OnUsernameChanged) {
-      print("OnUsernameChanged " + event.userName);
+      if (event.userName.length == 12) {
+        yield state.copyWith(pageState: PageState.loading);
+        var result = await FetchAccountRecoveryUseCase().run(event.userName);
+        yield FetchAccountRecoveryStateMapper().mapResultToState(state, result);
+      } else {
+        yield state.copyWith(isValidUsername: false);
+      }
     }
   }
 }
