@@ -24,7 +24,7 @@ class _ProposalOpenCardState extends State<ProposalOpenCard> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final proposal = widget.proposal;
-    var createdAt = DateTime.fromMillisecondsSinceEpoch(proposal.creationDate! * 1000);
+    var createdAt = DateTime.fromMillisecondsSinceEpoch(proposal.creationDate * 1000);
     String creationDateFormatted = createdAt.formatRelative();
 
     return Hero(
@@ -41,7 +41,7 @@ class _ProposalOpenCardState extends State<ProposalOpenCard> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (proposal.image!.isNotEmpty == true && !widget.fromDetails)
+              if (proposal.image.isNotEmpty == true && !widget.fromDetails)
                 Stack(
                   children: [
                     NetImage(proposal.image),
@@ -51,6 +51,7 @@ class _ProposalOpenCardState extends State<ProposalOpenCard> {
                       child: CustomPaint(
                         size: const Size(82, 22),
                         painter: Category(),
+                        child: Text(proposal.campaignType),
                       ),
                     )
                   ],
@@ -62,7 +63,7 @@ class _ProposalOpenCardState extends State<ProposalOpenCard> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                     child: Text(
-                      proposal.title!,
+                      proposal.title,
                       style: textTheme.headline6,
                     ),
                   ),
@@ -70,7 +71,7 @@ class _ProposalOpenCardState extends State<ProposalOpenCard> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                     child: Text(
-                      proposal.summary!,
+                      proposal.summary,
                       style: textTheme.subtitle1,
                     ),
                   ),
@@ -185,7 +186,7 @@ class _ProposalOpenCardState extends State<ProposalOpenCard> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (proposal.image!.isNotEmpty == true && !widget.fromDetails) NetImage(proposal.image),
+        if (proposal.image.isNotEmpty == true && !widget.fromDetails) NetImage(proposal.image),
         const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.all(16),
@@ -194,17 +195,17 @@ class _ProposalOpenCardState extends State<ProposalOpenCard> {
             children: <Widget>[
               if (!widget.fromDetails)
                 Text(
-                  proposal.title!,
+                  proposal.title,
                   style: textTheme.headline6,
                 ),
               const SizedBox(height: 8),
               Text(
-                proposal.summary!,
+                proposal.summary,
                 style: textTheme.subtitle1,
               ),
               const SizedBox(height: 8),
               Text(
-                DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(proposal.creationDate!)),
+                DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(proposal.creationDate)),
                 style: textTheme.subtitle2,
               ),
               const SizedBox(height: 16),
