@@ -145,6 +145,10 @@ extension CustomStyles on TextTheme {
 
   TextStyle get subtitle3Red => subtitle3.copyWith(color: AppColors.red1);
 
+  TextStyle get subtitle3Opacity => subtitle3.copyWith(color: Colors.white.withOpacity(0.5));
+
+  TextStyle get subtitle3LightGreen6 => subtitle3.copyWith(color: AppColors.lightGreen5);
+
   TextStyle get subtitle3OpacityEmphasis => Typography.material2018()
       .englishLike
       .subtitle2!

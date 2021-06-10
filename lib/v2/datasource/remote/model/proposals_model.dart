@@ -33,7 +33,7 @@ class ProposalModel {
   final String stage;
   final String fund;
   final int creationDate;
-  final List<Map> payPercentages;
+  final List<int> payPercentages;
   final int passedCycle;
   final int age;
   final String currentPayout;
@@ -42,6 +42,12 @@ class ProposalModel {
   final String planted;
   final String reward;
   final int campaignId;
+
+  double get favourAgainstBarPercent => total == 0 ? 0 : (favour.toDouble() / total.toDouble());
+
+  String get favourPercent => '${((favour * 100) / total).toStringAsFixed(0)} %';
+
+  String get againstPercent => '${((against * 100) / total).toStringAsFixed(0)} %';
 
   FundType get type {
     return fund == 'allies.seeds'
@@ -83,32 +89,33 @@ class ProposalModel {
 
   factory ProposalModel.fromJson(Map<String, dynamic> json) {
     return ProposalModel(
-        id: json['id'],
-        creator: json['creator'],
-        recipient: json['recipient'],
-        quantity: json['quantity'],
-        staked: json['staked'],
-        executed: json['executed'],
-        total: json['total'],
-        favour: json['favour'],
-        against: json['against'],
-        title: json['title'],
-        summary: json['summary'],
-        description: json['description'],
-        image: json['image'],
-        url: json['url'],
-        status: json['status'],
-        stage: json['stage'],
-        fund: json['fund'],
-        creationDate: json['creation_date'],
-        payPercentages: json['pay_percentages'].map((i) => Map.from(i)).toList(),
-        passedCycle: json['passed_cycle'],
-        age: json['age'],
-        currentPayout: json['current_payout'],
-        campaignType: json['campaign_type'],
-        maxAmountPerInvite: json['max_amount_per_invite'],
-        planted: json['planted'],
-        reward: json['reward'],
-        campaignId: json['campaign_id']);
+      id: json['id'],
+      creator: json['creator'],
+      recipient: json['recipient'],
+      quantity: json['quantity'],
+      staked: json['staked'],
+      executed: json['executed'],
+      total: json['total'],
+      favour: json['favour'],
+      against: json['against'],
+      title: json['title'],
+      summary: json['summary'],
+      description: json['description'],
+      image: json['image'],
+      url: json['url'],
+      status: json['status'],
+      stage: json['stage'],
+      fund: json['fund'],
+      creationDate: json['creation_date'],
+      payPercentages: List<int>.from(json['pay_percentages']),
+      passedCycle: json['passed_cycle'],
+      age: json['age'],
+      currentPayout: json['current_payout'],
+      campaignType: json['campaign_type'],
+      maxAmountPerInvite: json['max_amount_per_invite'],
+      planted: json['planted'],
+      reward: json['reward'],
+      campaignId: json['campaign_id'],
+    );
   }
 }
