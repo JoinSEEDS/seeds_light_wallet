@@ -33,8 +33,7 @@ class GuardiansScreen extends StatelessWidget {
               } else if (pageCommand is ShowRemoveGuardianView) {
                 _showRemoveGuardianDialog(context, pageCommand.guardian);
               } else if (pageCommand is ShowMessage) {
-                SnackBarInfo(title: pageCommand.message, scaffoldMessengerState: ScaffoldMessenger.of(context))
-                    .show(context);
+                SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
               }
             },
             child: BlocBuilder<GuardiansBloc, GuardiansState>(builder: (context, state) {

@@ -38,10 +38,7 @@ class InviteScreen extends StatelessWidget {
               );
             }
             if (state.pageCommand is ShowTransactionFailSnackBar) {
-              SnackBarInfo(
-                      title: 'Invite creation failed, try again.'.i18n,
-                      scaffoldMessengerState: ScaffoldMessenger.of(context))
-                  .show(context);
+              SnackBarInfo('Invite creation failed, try again.'.i18n, ScaffoldMessenger.of(context)).show();
             }
           },
           builder: (context, InviteState state) {

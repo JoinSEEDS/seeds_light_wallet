@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SnackBarInfo extends SnackBar {
-  SnackBarInfo({Key? key, required String title, required ScaffoldMessengerState scaffoldMessengerState})
+  final String title;
+  final ScaffoldMessengerState scaffoldMessengerState;
+
+  SnackBarInfo(this.title, this.scaffoldMessengerState, {Key? key})
       : super(
           key: key,
           content: Row(
@@ -15,7 +18,5 @@ class SnackBarInfo extends SnackBar {
           ),
         );
 
-  void show(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(this);
-  }
+  void show() => scaffoldMessengerState.showSnackBar(this);
 }

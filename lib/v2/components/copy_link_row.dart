@@ -34,7 +34,7 @@ class ShareLinkRow extends StatelessWidget {
           onPressed: () {
             Clipboard.setData(ClipboardData(text: link)).then(
               (value) {
-                SnackBarInfo(title: "Copied", scaffoldMessengerState: ScaffoldMessenger.of(context)).show(context);
+                SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
               },
             );
           },

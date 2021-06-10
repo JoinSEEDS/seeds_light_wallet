@@ -29,9 +29,9 @@ class InviteGuardians extends StatelessWidget {
             } else if (state.pageCommand is ShowErrorMessage) {
               SnackBarInfo(
                       // ignore: cast_nullable_to_non_nullable
-                      title: (state.pageCommand as ShowErrorMessage).errorMessage,
-                      scaffoldMessengerState: ScaffoldMessenger.of(context))
-                  .show(context);
+                      (state.pageCommand as ShowErrorMessage).errorMessage,
+                      ScaffoldMessenger.of(context))
+                  .show();
             }
           },
           child: BlocBuilder<InviteGuardiansBloc, InviteGuardiansState>(builder: (context, state) {
