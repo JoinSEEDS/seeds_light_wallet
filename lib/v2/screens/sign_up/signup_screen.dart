@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/claim_invite_screen.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
+import 'package:seeds/v2/screens/sign_up/create_username/create_username.dart';
 import 'package:seeds/v2/screens/sign_up/display_name/display_name.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 
@@ -12,7 +13,7 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => SignupBloc(
+      create: (_) => SignupBloc(
         claimInviteUseCase: ClaimInviteUseCase(
           signupRepository: SignupRepository(),
         ),
@@ -24,12 +25,11 @@ class SignupScreen extends StatelessWidget {
 
           switch (pageContent) {
             case PageContent.CLAIM_INVITE:
-              return ClaimInviteScreen();
+              return const ClaimInviteScreen();
             case PageContent.DISPLAY_NAME:
-              return DisplayName();
+              return const DisplayName();
             case PageContent.USERNAME:
-              // TODO(Farzad): return CreateUsername widget
-              return Container();
+              return const CreateUsername();
             case PageContent.PHONE_NUMBER:
               // TODO(Farzad): return AddPhoneNumber widget
               return Container();

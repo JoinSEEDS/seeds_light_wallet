@@ -26,7 +26,7 @@ class SendConfirmationScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
 
     return BlocProvider(
-      create: (context) => SendConfirmationBloc(arguments)..add(InitSendConfirmationWithArguments()),
+      create: (_) => SendConfirmationBloc(arguments)..add(InitSendConfirmationWithArguments()),
       child: Scaffold(
         appBar: AppBar(
             leading: IconButton(
@@ -36,7 +36,7 @@ class SendConfirmationScreen extends StatelessWidget {
           },
         )),
         body: BlocListener<SendConfirmationBloc, SendConfirmationState>(
-          listenWhen: (context, SendConfirmationState state) => state.pageCommand != null,
+          listenWhen: (_, current) => current.pageCommand != null,
           listener: (BuildContext context, SendConfirmationState state) {
             var pageCommand = state.pageCommand;
             if (pageCommand is ShowTransactionSuccess) {

@@ -20,7 +20,7 @@ class FirebaseDatabaseService {
     return _usersCollection
         .doc(accountName)
         .snapshots()
-        .map((DocumentSnapshot userData) => FirebaseUser.fromMap(userData.data()!, accountName));
+        .map((DocumentSnapshot userData) => FirebaseUser.fromMap(userData.data() as Map<String, dynamic>, accountName));
   }
 
   // Manage guardian Ids
@@ -231,13 +231,13 @@ class FirebaseDatabaseService {
         RECOVERY_STARTED_DATE_KEY: FieldValue.serverTimestamp(),
       };
 
-      if (Guardian.fromMap(guardian.data()!).uid == currentUserId) {
+      if (Guardian.fromMap(guardian.data() as Map<String, dynamic>).uid == currentUserId) {
         data.addAll({RECOVERY_APPROVED_DATE_KEY: FieldValue.serverTimestamp()});
       }
 
       batch.set(
           _usersCollection
-              .doc(Guardian.fromMap(guardian.data()!).uid)
+              .doc(Guardian.fromMap(guardian.data() as Map<String, dynamic>).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
           data,
@@ -266,7 +266,7 @@ class FirebaseDatabaseService {
     myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
       batch.set(
           _usersCollection
-              .doc(Guardian.fromMap(guardian.data()!).uid)
+              .doc(Guardian.fromMap(guardian.data() as Map<String, dynamic>).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
           data,
@@ -363,7 +363,7 @@ class FirebaseDatabaseService {
     return _usersCollection
         .doc(userAccount)
         .snapshots()
-        .map((user) => user.data()![GUARDIAN_CONTRACT_INITIALIZED] ?? false);
+        .map((user) => (user.data() as Map<String, dynamic> )[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
   }
 
   Stream<bool> hasGuardianNotificationPending(String userAccount) {

@@ -66,7 +66,7 @@ class _ProductsCatalogState extends State<ProductsCatalog> {
   }
 
   bool productNameExists(String? name) {
-    return products.indexWhere((element) => element.data()!['name'] == editProductName) != -1;
+    return products.indexWhere((element) => (element.data() as Map<String, dynamic>)['name'] == editProductName) != -1;
   }
 
   Future<void> createNewProduct(String? userAccount, BuildContext context) async {

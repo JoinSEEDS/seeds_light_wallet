@@ -19,7 +19,7 @@ class InviteGuardians extends StatelessWidget {
     var myGuardians = ModalRoute.of(context)?.settings.arguments as Set<MemberModel>?;
 
     return BlocProvider(
-        create: (context) => InviteGuardiansBloc(myGuardians ?? {}),
+        create: (_) => InviteGuardiansBloc(myGuardians ?? {}),
         child: BlocListener<InviteGuardiansBloc, InviteGuardiansState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
@@ -27,8 +27,11 @@ class InviteGuardians extends StatelessWidget {
             if (state.pageCommand is NavigateToGuardians) {
               NavigationService.of(context).navigateTo(Routes.inviteGuardiansSent);
             } else if (state.pageCommand is ShowErrorMessage) {
-              // ignore: cast_nullable_to_non_nullable
-              SnackBarInfo(title: (state.pageCommand as ShowErrorMessage).errorMessage, context: context);
+              SnackBarInfo(
+                      // ignore: cast_nullable_to_non_nullable
+                      (state.pageCommand as ShowErrorMessage).errorMessage,
+                      ScaffoldMessenger.of(context))
+                  .show();
             }
           },
           child: BlocBuilder<InviteGuardiansBloc, InviteGuardiansState>(builder: (context, state) {

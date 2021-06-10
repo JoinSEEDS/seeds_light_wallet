@@ -15,18 +15,19 @@ import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
+import 'package:seeds/v2/screens/authentication/recover_account/recover_account_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
-import 'package:seeds/v2/screens/explore_screens/vote/vote_screen.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/vote_screen.dart';
 import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/guardians_screen.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/invite__guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/invite_guardian_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
@@ -87,7 +88,7 @@ class Routes {
   static final importKey = "ImportKey";
   static final verification = "verification";
   static final signup = 'signUp';
-  static final displayName = 'displayName';
+  static final recoverAccount = 'recoverAccount';
 }
 
 class NavigationService {
@@ -108,6 +109,7 @@ class NavigationService {
     Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
+    Routes.recoverAccount: (_) => const RecoverAccountScreen(),
     Routes.signup: (_) => const SignupScreen(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),

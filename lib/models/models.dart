@@ -23,7 +23,7 @@ class ProductModel {
   }
 
   factory ProductModel.fromSnapshot(QueryDocumentSnapshot data) {
-    var productData = data.data()!;
+    var productData = data.data() as Map<String, dynamic>;
     return ProductModel(
       name: productData[PRODUCT_NAME_KEY],
       picture: productData[PRODUCT_IMAGE_URL_KEY] ?? "",

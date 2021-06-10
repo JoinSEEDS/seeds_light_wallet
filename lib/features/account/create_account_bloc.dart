@@ -54,7 +54,7 @@ class CreateAccountBloc {
 
   Stream<List<String?>> generateList(String name) {
     print("Generate list...");
-    _validAccounts.add(_validAccounts.value!.switchToInProgress());
+    _validAccounts.add(_validAccounts.value.switchToInProgress());
     return _accountGeneratorService.generateList(name).asStream();
   }
 
@@ -74,7 +74,7 @@ class CreateAccountBloc {
   }
 
   void _addValidAccounts(List<String> accounts) {
-    final distinctList = (_validAccounts.value!.accounts + accounts).toSet().toList();
+    final distinctList = (_validAccounts.value.accounts + accounts).toSet().toList();
 
     print("add valid $distinctList");
 

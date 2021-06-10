@@ -30,18 +30,21 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   }
 
   Stream<List<GuardianModel>> getGuardiansForUser(String userId) {
-    return usersCollection.doc(userId).collection(GUARDIANS_COLLECTION_KEY).snapshots().asyncMap(
-        (QuerySnapshot event) => event.docs
-            .map(
-                (QueryDocumentSnapshot e) => GuardianModel.fromMap(e.data()!)) // ignore: unnecessary_non_null_assertion
-            .toList());
+    return usersCollection
+        .doc(userId)
+        .collection(GUARDIANS_COLLECTION_KEY)
+        .snapshots()
+        .asyncMap((QuerySnapshot event) => event.docs.map(
+            // ignore: cast_nullable_to_non_nullable
+            (QueryDocumentSnapshot e) => GuardianModel.fromMap(e.data() as Map<String, dynamic>)).toList());
   }
 
   Stream<bool> isGuardiansInitialized(String userAccount) {
     return usersCollection
         .doc(userAccount)
         .snapshots()
-        .map((user) => user.data()?[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
+        // ignore: cast_nullable_to_non_nullable
+        .map((user) => (user.data() as Map<String, dynamic>)[GUARDIAN_CONTRACT_INITIALIZED] ?? false);
   }
 
   /// Use only when we have successfully saved guardians to the user contract by calling eosService.initGuardians
@@ -191,8 +194,8 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
     myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
       batch.set(
           usersCollection
-              // ignore: unnecessary_non_null_assertion
-              .doc(GuardianModel.fromMap(guardian.data()!).uid)
+              // ignore: cast_nullable_to_non_nullable
+              .doc(GuardianModel.fromMap(guardian.data() as Map<String, dynamic>).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
           data,
@@ -211,6 +214,15 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
     var data = <String, Object>{
       GUARDIAN_CONTRACT_INITIALIZED: true,
       GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
+    };
+    return usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
+  }
+
+  Future<void> removeGuardiansInitialized(String userAccount) {
+    var data = <String, Object?>{
+      GUARDIAN_CONTRACT_INITIALIZED: false,
+      GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
+      GUARDIAN_RECOVERY_STARTED_KEY: null,
     };
     return usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
   }

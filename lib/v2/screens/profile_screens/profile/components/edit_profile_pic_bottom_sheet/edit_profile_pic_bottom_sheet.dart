@@ -10,7 +10,7 @@ class EditProfilePicBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PickImageBloc(),
+      create: (_) => PickImageBloc(),
       child: BlocListener<PickImageBloc, PickImageState>(
         listenWhen: (previous, current) => previous.file != current.file,
         listener: (context, state) => Navigator.of(context).pop(state.file),

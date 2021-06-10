@@ -39,11 +39,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                           description: state.description));
                 }
                 if (state.pageCommand is ShowTransactionFail) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBarInfo(
-                        title:'Invoice failed, please try again.',
-                        context: context),
-                  );
+                  SnackBarInfo('Receive creation failed, try again.', ScaffoldMessenger.of(context)).show();
                 }
               },
               builder: (context, ReceiveEnterDataState state) {

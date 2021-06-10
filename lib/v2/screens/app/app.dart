@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
-import 'package:seeds/v2/components/notification_badge.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/i18n/app/app.i18.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
-import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
-import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/components/notification_badge.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/i18n/app/app.i18.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/screens/app/components/account_under_recovery_screen.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/app_page_commands.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 
 class App extends StatefulWidget {
   const App();
@@ -84,45 +89,65 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     _navigatorKey = NavigationService.of(context).appNavigatorKey;
     return BlocProvider(
-      create: (context) => AppBloc(),
-      child: BlocListener<AppBloc, AppState>(
-        listenWhen: (previous, current) => previous.index != current.index,
-        listener: (_, state) => _pageController.jumpToPage(state.index),
-        child: Scaffold(
-          body: PageView(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: _appScreenItems.map((i) => i.screen).toList(),
-          ),
-          bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
-            builder: (context, state) {
-              return Container(
-                decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
-                child: BottomNavigationBar(
-                  currentIndex: state.index,
-                  onTap: (index) => BlocProvider.of<AppBloc>(context).add(BottomBarTapped(index: index)),
-                  selectedLabelStyle: Theme.of(context).textTheme.subtitle3,
-                  unselectedLabelStyle: Theme.of(context).textTheme.subtitle3,
-                  selectedItemColor: AppColors.white,
-                  items: [
-                    for (var i in _appScreenItems)
-                      BottomNavigationBarItem(
-                        activeIcon:
-                            Padding(padding: const EdgeInsets.only(bottom: 4), child: SvgPicture.asset(i.iconSelected)),
-                        icon: Stack(
-                          children: [
-                            SvgPicture.asset(i.icon),
-                            if (state.hasNotification && i.index == 2)
-                              const Positioned(right: 3, top: 3, child: NotificationBadge())
-                          ],
-                        ),
-                        label: state.index == i.index ? i.title : '',
+      create: (_) => AppBloc(),
+      child: Scaffold(
+        body: BlocConsumer<AppBloc, AppState>(
+          listenWhen: (_, current) => current.pageCommand != null,
+          listener: (context, state) {
+            var pageCommand = state.pageCommand;
+            BlocProvider.of<AppBloc>(context).add(ClearAppPageCommand());
+            if (pageCommand is BottomBarNavigateToIndex) {
+              _pageController.jumpToPage(pageCommand.index);
+            } else if (pageCommand is ShowStopGuardianRecoveryFailed) {
+              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            } else if (pageCommand is ShowStopGuardianRecoverySuccess) {
+              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            }
+          },
+          builder: (context, state) {
+            if (state.pageState == PageState.loading) {
+              return const FullPageLoadingIndicator();
+            } else {
+              if (state.showGuardianRecoveryAlert) {
+                return const AccountUnderRecoveryScreen();
+              } else {
+                return PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: _appScreenItems.map((i) => i.screen).toList(),
+                );
+              }
+            }
+          },
+        ),
+        bottomNavigationBar: BlocBuilder<AppBloc, AppState>(
+          builder: (context, state) {
+            return Container(
+              decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
+              child: BottomNavigationBar(
+                currentIndex: state.index,
+                onTap: (index) => BlocProvider.of<AppBloc>(context).add(BottomBarTapped(index: index)),
+                selectedLabelStyle: Theme.of(context).textTheme.subtitle3,
+                unselectedLabelStyle: Theme.of(context).textTheme.subtitle3,
+                selectedItemColor: AppColors.white,
+                items: [
+                  for (var i in _appScreenItems)
+                    BottomNavigationBarItem(
+                      activeIcon:
+                          Padding(padding: const EdgeInsets.only(bottom: 4.0), child: SvgPicture.asset(i.iconSelected)),
+                      icon: Stack(
+                        children: [
+                          Padding(padding: const EdgeInsets.all(4.0), child: SvgPicture.asset(i.icon)),
+                          if (state.hasNotification && i.index == 2)
+                            const Positioned(left: 0, top: 0, child: NotificationBadge())
+                        ],
                       ),
-                  ],
-                ),
-              );
-            },
-          ),
+                      label: state.index == i.index ? i.title : '',
+                    ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
