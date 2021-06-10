@@ -46,7 +46,7 @@ class _OverviewState extends State<Overview> {
   }
 
   void onVote() {
-    NavigationService.of(context).navigateTo(Routes.proposals);
+    // NavigationService.of(context).navigateTo(Routes.proposals);
   }
 
   void onInvite() {
