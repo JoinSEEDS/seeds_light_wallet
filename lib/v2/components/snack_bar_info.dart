@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 
 class SnackBarInfo extends SnackBar {
-  SnackBarInfo({Key? key, required String title, required BuildContext context})
+  final String title;
+  final ScaffoldMessengerState scaffoldMessengerState;
+
+  SnackBarInfo(this.title, this.scaffoldMessengerState, {Key? key})
       : super(
           key: key,
           content: Row(
             children: [
-              Expanded(
-                child: Text(title, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
-              ),
+              Expanded(child: Text(title, textAlign: TextAlign.center)),
               InkWell(
                 child: const Icon(Icons.close),
-                onTap: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+                onTap: () => scaffoldMessengerState.hideCurrentSnackBar(),
               ),
             ],
           ),
         );
 
-  void show(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(this);
-  }
+  void show() => scaffoldMessengerState.showSnackBar(this);
 }

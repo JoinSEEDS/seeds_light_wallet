@@ -32,7 +32,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _setCurrencyBloc,
+      create: (_) => _setCurrencyBloc,
       child: Scaffold(
         appBar: AppBar(title: Text('Select Currency'.i18n)),
         body: Column(

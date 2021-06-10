@@ -23,7 +23,7 @@ class ExploreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return BlocProvider(
-      create: (context) => ExploreBloc()..add(const LoadExploreData()),
+      create: (_) => ExploreBloc()..add(const LoadExploreData()),
       child: Scaffold(
         appBar: AppBar(title: Text('Explore'.i18n)),
         body: BlocBuilder<ExploreBloc, ExploreState>(

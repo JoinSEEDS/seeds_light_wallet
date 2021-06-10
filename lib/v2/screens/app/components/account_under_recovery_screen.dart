@@ -6,6 +6,7 @@ import 'package:seeds/v2/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/app_event.dart';
 
 class AccountUnderRecoveryScreen extends StatelessWidget {
+  const AccountUnderRecoveryScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

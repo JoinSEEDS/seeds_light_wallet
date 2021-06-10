@@ -44,7 +44,7 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
   Widget build(BuildContext context) {
     final scores = ModalRoute.of(context)!.settings.arguments;
     return BlocProvider(
-      create: (context) => ContributionBloc()..add(SetScores(score: scores as ScoreModel?)),
+      create: (_) => ContributionBloc()..add(SetScores(score: scores as ScoreModel?)),
       child: Scaffold(
         appBar: AppBar(title: Text('Contribution Score'.i18n)),
         body: BlocConsumer<ContributionBloc, ContributionState>(

@@ -37,7 +37,7 @@ class _EditNameScreenState extends State<EditNameScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Edit Name'.i18n)),
       body: BlocProvider(
-        create: (context) => _editNameBloc,
+        create: (_) => _editNameBloc,
         child: BlocConsumer<EditNameBloc, EditNameState>(
             listenWhen: (previous, current) =>
                 previous.pageState != PageState.success && current.pageState == PageState.success,
