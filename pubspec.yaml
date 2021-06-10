@@ -129,10 +129,8 @@ flutter:
     - assets/images/explore/person_send_invite.svg
     - assets/images/explore/plant_seed.svg
     - assets/images/explore/thumb_up.svg
-    - assets/images/explore/card_hypha.jpg
-    - assets/images/explore/card_get_seeds.jpg
-    - assets/images/explore/get_seeds_logo.svg
-    - assets/images/explore/hypha_dho_logo.svg
+    - assets/images/explore/hypha_dho_card.jpg
+    - assets/images/explore/get_seeds_card.jpg
     - assets/images/wallet/arrow_up.svg
     - assets/images/wallet/arrow_down.svg
     - assets/images/wallet/app_bar/appbar_icon.svg
