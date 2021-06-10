@@ -186,7 +186,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         scope: account_seeds,
         table: table_guards,
         lowerBound: accountName,
-        upperBound: accountName)
+        upperBound: accountName);
 
     return http
         .post(Uri.parse(requestURL), headers: headers, body: request)
