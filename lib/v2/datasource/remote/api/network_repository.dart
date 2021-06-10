@@ -14,7 +14,6 @@ abstract class NetworkRepository {
   String account_harvest = 'harvst.seeds';
   String account_join = 'join.seeds';
   String account_funds = 'funds.seeds';
-  String account_tlosto = 'tlosto.seeds';
   String account_alliance = 'alliance';
 
   String table_users = 'users';
@@ -22,7 +21,6 @@ abstract class NetworkRepository {
   String table_invites = 'invites';
   String table_balances = 'balances';
   String table_props = 'props';
-  String table_price = 'price';
 
   Result mapHttpResponse(http.Response response, Function modelMapper) {
     print('mapHttpResponse - statusCode: ' + response.statusCode.toString());
