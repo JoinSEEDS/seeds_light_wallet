@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
+import 'package:seeds/v2/datasource/remote/model/account_recovery_model.dart';
 
 export 'package:async/src/result/result.dart';
 
@@ -168,6 +169,30 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
               return response["transaction_id"];
             }))
         .catchError((error) => mapEosError(error));
+  }
+
+  Future<Result<dynamic>> getAccountGuardians(String accountName) async {
+    print('[http] get account guardians');
+    var code = 'guard.seeds';
+    var scope = 'guard.seeds';
+    var table = 'guards';
+    var value = accountName;
+    String keyType = "i64";
+    int indexPosition = 1;
+    int limit = 1;
+    bool reverse = false;
+
+    final String requestURL = "$baseURL/v1/chain/get_table_rows";
+    String request =
+        '{"json": true, "code": "$code", "scope": "$scope", "table": "$table", "lower_bound": "$value", "upper_bound": "$value", "index_position": "$indexPosition", "key_type": "$keyType", "limit": $limit, "reverse": $reverse}';
+
+    return http
+        .post(Uri.parse(requestURL), headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              var rows = body["rows"] as List<dynamic>;
+              return AccountRecoveryModel.fromTableRows(rows);
+            }))
+        .catchError((error) => mapHttpError(error));
   }
 }
 
