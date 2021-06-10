@@ -44,7 +44,7 @@ class OnStopGuardianActiveRecoveryTapped extends AppEvent {
   String toString() => 'OnStopGuardianActiveRecoveryTapped';
 }
 
-class ClearPageCommand extends AppEvent {
+class ClearAppPageCommand extends AppEvent {
   @override
-  String toString() => 'ClearPageCommand';
+  String toString() => 'ClearAppPageCommand';
 }
