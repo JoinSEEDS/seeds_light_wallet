@@ -72,7 +72,8 @@ class LoginScreen extends StatelessWidget {
               GestureDetector(
                   onTap: () {
                     NavigationService.of(context).navigateTo(Routes.recoverAccount);
-                  }, child: Text(" Recover ".i18n, style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1)),
+                  },
+                  child: Text(" Recover ".i18n, style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1)),
               Text("your account here".i18n, style: Theme.of(context).textTheme.subtitle2),
             ],
           ),
