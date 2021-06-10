@@ -10,6 +10,19 @@ abstract class NetworkRepository {
   String hyphaURL = remoteConfigurations.hyphaEndPoint;
   String fxApiKey = Config.fxApiKey;
   Map<String, String> headers = {'Content-type': 'application/json'};
+  String account_seeds = 'accts.seeds';
+  String account_harvest = 'harvst.seeds';
+  String account_join = 'join.seeds';
+  String account_funds = 'funds.seeds';
+  String account_tlosto = 'tlosto.seeds';
+  String account_alliance = 'alliance';
+
+  String table_users = 'users';
+  String table_voice = 'voice';
+  String table_invites = 'invites';
+  String table_balances = 'balances';
+  String table_props = 'props';
+  String table_price = 'price';
 
   Result mapHttpResponse(http.Response response, Function modelMapper) {
     print('mapHttpResponse - statusCode: ' + response.statusCode.toString());
@@ -29,6 +42,25 @@ abstract class NetworkRepository {
   Result mapHttpError(error) {
     print('mapHttpError: ' + error.toString());
     return ErrorResult(error);
+  }
+
+  String createRequest({
+    required String code,
+    required String scope,
+    required String table,
+    String? lowerBound,
+    String? upperBound,
+    String tableKey = "",
+    String keyType = "i64",
+    int indexPosition = 1,
+    int limit = 1,
+    bool reverse = false,
+    bool showPayer = false,
+  }) {
+    String request =
+        '{"json": true, "code": "$code", "scope": "$scope", "table": "$table", "table_key":"$tableKey", "lower_bound": "$lowerBound", "upper_bound": "$upperBound", "index_position": "$indexPosition", "key_type": "$keyType", "limit": $limit, "reverse": $reverse, "show_payer":"$showPayer"}';
+
+    return request;
   }
 }
 

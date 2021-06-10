@@ -11,8 +11,8 @@ class MembersRepository extends NetworkRepository {
     print('[http] get members');
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
-    var request =
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":null,"upper_bound":null,"index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
+
+    var request = createRequest(code: account_seeds, scope: account_seeds, table: table_users, limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
@@ -33,8 +33,13 @@ class MembersRepository extends NetworkRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    var request =
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":"$lowerBound","upper_bound":"$upperBound","index_position":1,"key_type":"i64","limit":"100","reverse":false,"show_payer":false}';
+    var request = createRequest(
+        code: account_seeds,
+        scope: account_seeds,
+        table: table_users,
+        lowerBound: lowerBound,
+        upperBound: upperBound,
+        limit: 100);
 
     return http
         .post(membersURL, headers: headers, body: request)
@@ -53,19 +58,24 @@ class MembersRepository extends NetworkRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    var request =
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+    var request = createRequest(
+        code: account_seeds,
+        scope: account_seeds,
+        table: table_users,
+        lowerBound: accountName,
+        upperBound: accountName,
+        limit: 1);
 
     return http
         .post(membersURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-      List<dynamic> allAccounts = body['rows'].toList();
-      if (allAccounts.isNotEmpty) {
-        return MemberModel.fromJson(allAccounts[0]);
-      } else {
-        return null;
-      }
-    }))
+              List<dynamic> allAccounts = body['rows'].toList();
+              if (allAccounts.isNotEmpty) {
+                return MemberModel.fromJson(allAccounts[0]);
+              } else {
+                return null;
+              }
+            }))
         .catchError((error) => mapHttpError(error));
   }
 }
