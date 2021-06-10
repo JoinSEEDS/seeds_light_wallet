@@ -19,10 +19,7 @@ class RatesRepository extends NetworkRepository {
   Future<Result> getUSDRate() async {
     print('[http] get seeds rate USD');
 
-    var request = createRequest(
-        code: account_tlosto,
-        scope: account_tlosto,
-        table: table_price);
+    var request = '{"json":true,"code":"tlosto.seeds","scope":"tlosto.seeds","table":"price"}';
 
     return http
         .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
