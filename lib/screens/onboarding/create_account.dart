@@ -57,7 +57,7 @@ class _CreateAccountState extends State<CreateAccount> {
 
   @override
   Widget build(BuildContext context) {
-    //CreateAccountBloc bloc = Provider.of(context);
+    CreateAccountBloc bloc = Provider.of(context);
 
     return Container(
       child: Form(
@@ -81,19 +81,19 @@ class _CreateAccountState extends State<CreateAccount> {
                   setState(() => _name = value);
                 },
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 16.0),
-              //   child: StreamBuilder<bool>(
-              //       stream: bloc.available,
-              //       initialData: false,
-              //       builder: (context, snapshot) {
-              //         return MainButton(
-              //           title: "Next".i18n,
-              //           active: _name != null && _name!.length >= 3,
-              //           onPressed: () async => await createAccountName(),
-              //         );
-              //       }),
-              // ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: StreamBuilder<bool>(
+                    stream: bloc.available,
+                    initialData: false,
+                    builder: (context, snapshot) {
+                      return MainButton(
+                        title: "Next".i18n,
+                        active: _name != null && _name!.length >= 3,
+                        onPressed: () async => await createAccountName(),
+                      );
+                    }),
+              ),
             ],
           ),
         ),
