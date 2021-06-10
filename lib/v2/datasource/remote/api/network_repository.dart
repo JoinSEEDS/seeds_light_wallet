@@ -17,6 +17,7 @@ abstract class NetworkRepository {
   String account_alliance = 'alliance';
 
   String table_users = 'users';
+  String table_guards = 'guards';
   String table_voice = 'voice';
   String table_invites = 'invites';
   String table_balances = 'balances';
