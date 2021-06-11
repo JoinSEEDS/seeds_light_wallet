@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
+import 'package:seeds/v2/components/flat_button_long_outlined.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
 const double padding = 20;
@@ -80,10 +81,9 @@ class CustomDialog extends StatelessWidget {
                           children: [
                             if (leftButtonTitle.isNotEmpty)
                               Expanded(
-                                child: FlatButtonLong(
+                                child: FlatButtonLongOutlined(
                                   title: leftButtonTitle,
                                   onPressed: onLeftButtonPressed,
-                                  color: AppColors.whiteYellow,
                                 ),
                               ),
                             if (leftButtonTitle.isNotEmpty) const SizedBox(width: 10),

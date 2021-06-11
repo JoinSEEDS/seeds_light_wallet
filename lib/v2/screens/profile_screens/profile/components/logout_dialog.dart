@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/components/flat_button_long_outlined.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 class LogoutDialog extends StatelessWidget {
@@ -37,10 +37,9 @@ class LogoutDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   if (state.showLogoutButton)
-                    FlatButtonLong(
+                    FlatButtonLongOutlined(
                       title: 'Logout'.i18n,
                       onPressed: () => BlocProvider.of<AuthenticationBloc>(context).add(const OnLogout()),
-                      color: AppColors.white,
                     ),
                 ],
               ),
