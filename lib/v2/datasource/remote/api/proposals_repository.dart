@@ -8,10 +8,9 @@ class ProposalsRepository extends NetworkRepository {
   Future<Result> getProposals(ProposalType proposalType) async {
     print('[http] get proposals type - ${proposalType.type}');
 
-    final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+    var request = createRequest(code: account_funds, scope: account_funds, table: table_props, limit: 1000);
 
-    var request =
-        '{"json":true,"code":"funds.seeds","scope":"funds.seeds","table":"props","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
+    final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     return http
         .post(proposalsURL, headers: headers, body: request)

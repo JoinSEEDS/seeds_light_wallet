@@ -7,6 +7,9 @@ class FirebaseUserRepository extends FirebaseDatabaseService {
     return usersCollection
         .doc(accountName)
         .snapshots()
-        .map((DocumentSnapshot userData) => FirebaseUserModel.fromDocument(userData as Map<String, dynamic>, accountName));
+        .map((DocumentSnapshot userData) => FirebaseUserModel.fromDocument(
+              userData.data()! as Map<String, dynamic>,
+              accountName,
+            ));
   }
 }

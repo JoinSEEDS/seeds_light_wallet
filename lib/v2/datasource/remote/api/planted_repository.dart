@@ -11,8 +11,14 @@ class PlantedRepository extends NetworkRepository {
     print('[http] get seeds getPlanted $userAccount');
 
     final plantedURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
-    var request =
-        '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"balances","table_key":"","lower_bound":" $userAccount","upper_bound":" $userAccount","index_position":1,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
+
+    var request = createRequest(
+        code: account_harvest,
+        scope: account_harvest,
+        table: table_balances,
+        lowerBound: userAccount,
+        upperBound: userAccount,
+        limit: 1);
 
     return http
         .post(plantedURL, headers: headers, body: request)

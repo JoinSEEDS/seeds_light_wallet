@@ -173,18 +173,16 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
   Future<Result<dynamic>> getAccountRecovery(String accountName) async {
     print('[http] get account guardians');
-    var code = 'guard.seeds';
-    var scope = 'guard.seeds';
-    var table = 'guards';
-    var value = accountName;
-    String keyType = "i64";
-    int indexPosition = 1;
-    int limit = 1;
-    bool reverse = false;
 
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
-    String request =
-        '{"json": true, "code": "$code", "scope": "$scope", "table": "$table", "lower_bound": "$value", "upper_bound": "$value", "index_position": "$indexPosition", "key_type": "$keyType", "limit": $limit, "reverse": $reverse}';
+
+    String request = createRequest(
+      code: account_guards,
+      scope: account_guards,
+      table: table_guards,
+      lowerBound: accountName,
+      upperBound: accountName,
+    );
 
     return http
         .post(Uri.parse(requestURL), headers: headers, body: request)
