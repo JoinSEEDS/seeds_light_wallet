@@ -10,7 +10,7 @@ class UserInputNumberFormatter extends TextInputFormatter {
 
     var result = newValue.text;
 
-    if (!result.contains(',') && !result.contains('.')) {
+    if (result.contains(',') == false && result.contains('.') == false) {
       return newValue;
     }
 
@@ -19,16 +19,24 @@ class UserInputNumberFormatter extends TextInputFormatter {
     if ('.'.allMatches(onlyDotsValue).length == 1) {
       return newValue.copyWith(text: onlyDotsValue);
     }
-
     var lastIndexOfDot = onlyDotsValue.lastIndexOf('.');
     if (lastIndexOfDot == onlyDotsValue.length - 1) {
       onlyDotsValue = onlyDotsValue.substring(0, onlyDotsValue.length - 1);
       lastIndexOfDot = onlyDotsValue.lastIndexOf('.');
     }
 
-    return newValue.copyWith(
-      text: onlyDotsValue.substring(0, lastIndexOfDot).replaceAll('.', '') +
-          onlyDotsValue.substring(lastIndexOfDot, onlyDotsValue.length),
+    result = onlyDotsValue.substring(0, lastIndexOfDot).replaceAll('.', '') +
+        onlyDotsValue.substring(lastIndexOfDot, onlyDotsValue.length).toString();
+
+    TextSelection newSelection = newValue.selection.copyWith(
+      baseOffset: result.length,
+      extentOffset: result.length,
+    );
+
+    return TextEditingValue(
+      text: result,
+      selection: newSelection,
+      composing: TextRange.empty,
     );
   }
 }
