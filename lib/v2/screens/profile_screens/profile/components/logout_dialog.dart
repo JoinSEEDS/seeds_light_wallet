@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/components/flat_button_long_outlined.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 class LogoutDialog extends StatelessWidget {
@@ -19,7 +19,7 @@ class LogoutDialog extends StatelessWidget {
         return CustomDialog(
           icon: SvgPicture.asset("assets/images/profile/logout_icon.svg"),
           children: [
-            Text('Logout'.i18n, style: Theme.of(context).textTheme.button1Black),
+            Text('Logout'.i18n, style: Theme.of(context).textTheme.button1),
             const SizedBox(height: 30.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -28,7 +28,7 @@ class LogoutDialog extends StatelessWidget {
                   Text(
                     'Save private key in secure place - to be able to restore access to your wallet later'.i18n,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle2Darkgreen1L,
+                    style: Theme.of(context).textTheme.subtitle2,
                   ),
                   const SizedBox(height: 36.0),
                   FlatButtonLong(
@@ -37,10 +37,9 @@ class LogoutDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   if (state.showLogoutButton)
-                    FlatButtonLong(
+                    FlatButtonLongOutlined(
                       title: 'Logout'.i18n,
                       onPressed: () => BlocProvider.of<AuthenticationBloc>(context).add(const OnLogout()),
-                      color: AppColors.white,
                     ),
                 ],
               ),

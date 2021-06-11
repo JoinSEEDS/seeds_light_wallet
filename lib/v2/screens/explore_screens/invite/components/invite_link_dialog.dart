@@ -5,7 +5,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/interactor/viewmodels/bloc.dart';
@@ -31,16 +30,16 @@ class InviteLinkDialog extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('${state.quantity}', style: Theme.of(context).textTheme.headline4Black),
+                    Text('${state.quantity}', style: Theme.of(context).textTheme.headline4),
                     Padding(
                       padding: const EdgeInsets.only(top: 12, left: 4),
-                      child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
+                      child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2),
                     ),
                   ],
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 4.0),
                 Text('\$ ${state.fiatAmount} ${settingsStorage.selectedFiatCurrency}',
-                    style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
+                    style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(height: 20.0),
                 QrImage(
                   data: state.dynamicSecretLink!,
@@ -58,7 +57,7 @@ class InviteLinkDialog extends StatelessWidget {
                 Text(
                   'Share this link with the person you want to invite!'.i18n,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.buttonBlack,
+                  style: Theme.of(context).textTheme.button,
                 ),
               ],
               rightButtonTitle: 'Share'.i18n,

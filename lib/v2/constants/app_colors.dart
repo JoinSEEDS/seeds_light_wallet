@@ -43,6 +43,7 @@ class AppColors {
   static const lightGreen3 = Color(0xFF295431);
   static const lightGreen4 = Color(0xFF12411C);
   static const lightGreen5 = Color(0xFFE7F5DE);
+  static const lightGreen6 = Color(0xFF6BB283);
 
   static const whiteYellow = Color(0xFFFDFFF2);
 
@@ -87,7 +88,8 @@ class AppColors {
   static const orangeYellow = Color(0xFFE59900);
   static const tagGreen1 = Color(0xFF1E3326);
   static const tagGreen2 = Color(0xFF113119);
-  static const tagBlue = Color(0xFF239BB2);
+  static const tagGreen3 = Color(0xFF113119);
+  static const tagBlue = Color(0xFF264D33);
   static final muddyYellow = const Color(0xFFE59900).withOpacity(0.15);
   static const subtitle = Color(0xCC52CC);
 

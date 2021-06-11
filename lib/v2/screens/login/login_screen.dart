@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/components/flat_button_long_outlined.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/i18n/login/login.i18n.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
@@ -52,8 +52,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                FlatButtonLong(
-                  color: AppColors.primary,
+                FlatButtonLongOutlined(
                   onPressed: () {
                     NavigationService.of(context).navigateTo(Routes.importKey);
                   },
