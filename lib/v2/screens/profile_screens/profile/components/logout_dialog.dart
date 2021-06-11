@@ -19,7 +19,7 @@ class LogoutDialog extends StatelessWidget {
         return CustomDialog(
           icon: SvgPicture.asset("assets/images/profile/logout_icon.svg"),
           children: [
-            Text('Logout'.i18n, style: Theme.of(context).textTheme.button1Black),
+            Text('Logout'.i18n, style: Theme.of(context).textTheme.button1),
             const SizedBox(height: 30.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -28,7 +28,7 @@ class LogoutDialog extends StatelessWidget {
                   Text(
                     'Save private key in secure place - to be able to restore access to your wallet later'.i18n,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle2Darkgreen1L,
+                    style: Theme.of(context).textTheme.subtitle2,
                   ),
                   const SizedBox(height: 36.0),
                   FlatButtonLong(

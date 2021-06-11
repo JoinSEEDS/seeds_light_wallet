@@ -27,24 +27,24 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
             children: [
               Text(
                 '${BlocProvider.of<PlantSeedsBloc>(context).state.quantity}',
-                style: Theme.of(context).textTheme.headline4Black,
+                style: Theme.of(context).textTheme.headline4,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 12, left: 4),
-                child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
+                child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2),
               ),
             ],
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 4.0),
           Text(
             '\$ ${BlocProvider.of<PlantSeedsBloc>(context).state.fiatAmount} ${settingsStorage.selectedFiatCurrency}',
-            style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack,
+            style: Theme.of(context).textTheme.subtitle2,
           ),
           const SizedBox(height: 30.0),
           Text(
             'Congratulations\nYour seeds were planted successfully!'.i18n,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.buttonBlack,
+            style: Theme.of(context).textTheme.button,
           ),
         ],
         singleLargeButtonTitle: 'Close'.i18n,
