@@ -123,7 +123,7 @@ class ExploreScreen extends StatelessWidget {
                                       backgroundImage: 'assets/images/explore/hypha_dho_card.jpg',
                                       onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
                                     )
-                                  : const Expanded(child: SizedBox.shrink()),
+                                  : const SizedBox.shrink(),
                             ),
                           ],
                         ),
