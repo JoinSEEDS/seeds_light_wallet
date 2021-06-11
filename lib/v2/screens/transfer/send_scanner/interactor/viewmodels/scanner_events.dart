@@ -8,15 +8,6 @@ abstract class SendPageEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ShowError extends SendPageEvent {
-  final String error;
-
-  ShowError({required this.error});
-
-  @override
-  String toString() => 'ShowError: { error: $error }';
-}
-
 class ExecuteScanResult extends SendPageEvent {
   final String scanResult;
 
