@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/scanner/scanner_widget.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/v2/screens/transfer/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/interactor/send_scanner_bloc.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/interactor/viewmodels/scanner_events.dart';
 import 'package:seeds/v2/screens/transfer/send_scanner/interactor/viewmodels/send_scanner_state.dart';
@@ -35,14 +35,11 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
           listenWhen: (_, current) => current.pageState == PageState.success && current.pageCommand != null,
           listener: (context, SendPageState state) {
             _scannerScreen.stop();
-            NavigationService.of(context).navigateTo(
-                Routes.sendConfirmationScreen,
-                SendConfirmationArguments(
-                  account: state.pageCommand!.resultData.accountName!,
-                  name: state.pageCommand!.resultData.name!,
-                  data: state.pageCommand!.resultData.data!,
-                ),
-                true);
+
+            var pageCommand = state.pageCommand;
+            if (pageCommand is NavigateToRouteWithArguments) {
+              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+            }
           },
           child: Column(
             children: [

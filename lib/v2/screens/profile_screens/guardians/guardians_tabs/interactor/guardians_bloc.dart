@@ -4,7 +4,9 @@ import 'package:seeds/v2/datasource/remote/firebase/firebase_database_guardians_
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_status.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/mappers/init_guardians_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/mappers/remove_guardian_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/usecases/get_guardians_usecase.dart';
@@ -47,7 +49,11 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       List<GuardianModel> results = await guardians.first;
       results.retainWhere((element) => element.type == GuardianType.myGuardian);
 
-      yield state.copyWith(pageCommand: NavigateToSelectGuardians(results));
+      yield state.copyWith(
+          pageCommand: NavigateToRouteWithArguments(
+        route: Routes.selectGuardians,
+        arguments: results,
+      ));
     } else if (event is OnAcceptGuardianTapped) {
       await _repository.acceptGuardianRequestedMe(
           currentUserId: settingsStorage.accountName, friendId: event.guardianAccount);

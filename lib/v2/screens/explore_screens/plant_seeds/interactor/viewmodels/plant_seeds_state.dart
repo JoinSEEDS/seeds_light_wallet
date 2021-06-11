@@ -4,9 +4,7 @@ import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
-class ShowPlantSeedsSuccessDialog extends PageCommand {}
-
-class ShowTransactionFailSnackBar extends PageCommand {}
+class ShowPlantSeedsSuccess extends PageCommand {}
 
 /// --- STATE
 class PlantSeedsState extends Equatable {
