@@ -8,8 +8,15 @@ class SignupRepository extends NetworkRepository {
   Future<Result> findInvite(String inviteHash) async {
     final inviteURL = '$hyphaURL/v1/chain/get_table_rows';
 
-    final request =
-        '{"json":true,"code":"join.seeds","scope":"join.seeds","table":"invites","lower_bound":"$inviteHash","upper_bound":"$inviteHash","index_position":2,"key_type":"sha256","limit":1,"reverse":false,"show_payer":false}';
+    var request = createRequest(
+        code: account_join,
+        scope: account_join,
+        table: table_invites,
+        lowerBound: inviteHash,
+        upperBound: inviteHash,
+        indexPosition: 2,
+        keyType: 'sha256',
+        limit: 1);
 
     return await http
         .post(Uri.parse(inviteURL), headers: headers, body: request)

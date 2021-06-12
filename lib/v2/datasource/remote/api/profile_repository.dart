@@ -17,8 +17,13 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
 
-    var request =
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"users","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":1,"reverse":false,"show_payer":false}';
+    var request = createRequest(
+        code: account_seeds,
+        scope: account_seeds,
+        table: table_users,
+        lowerBound: accountName,
+        upperBound: accountName,
+        limit: 1);
 
     return http
         .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),

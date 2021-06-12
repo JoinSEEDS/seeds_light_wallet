@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/components/alert_input_value.dart';
@@ -25,7 +26,8 @@ class InviteScreen extends StatelessWidget {
         body: BlocConsumer<InviteBloc, InviteState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
-            if (state.pageCommand is ShowInviteLinkDialog) {
+            var pageCommand = state.pageCommand;
+            if (pageCommand is ShowInviteLinkView) {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
@@ -37,8 +39,8 @@ class InviteScreen extends StatelessWidget {
                 },
               );
             }
-            if (state.pageCommand is ShowTransactionFailSnackBar) {
-              SnackBarInfo('Invite creation failed, try again.'.i18n, ScaffoldMessenger.of(context)).show();
+            if (pageCommand is ShowErrorMessage) {
+              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             }
           },
           builder: (context, InviteState state) {

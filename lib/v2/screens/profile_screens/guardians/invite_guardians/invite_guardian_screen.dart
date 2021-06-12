@@ -7,10 +7,10 @@ import 'package:seeds/v2/components/search_result_row.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/invite_guardians_bloc.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_events.dart';
-import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_page_commands.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_state.dart';
 
 class InviteGuardians extends StatelessWidget {
@@ -23,15 +23,13 @@ class InviteGuardians extends StatelessWidget {
         child: BlocListener<InviteGuardiansBloc, InviteGuardiansState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
+            var pageCommand = state.pageCommand;
+
             BlocProvider.of<InviteGuardiansBloc>(context).add(InviteGuardianClearPageCommand());
-            if (state.pageCommand is NavigateToGuardians) {
-              NavigationService.of(context).navigateTo(Routes.inviteGuardiansSent);
-            } else if (state.pageCommand is ShowErrorMessage) {
-              SnackBarInfo(
-                      // ignore: cast_nullable_to_non_nullable
-                      (state.pageCommand as ShowErrorMessage).errorMessage,
-                      ScaffoldMessenger.of(context))
-                  .show();
+            if (pageCommand is NavigateToRoute) {
+              NavigationService.of(context).navigateTo(pageCommand.route);
+            } else if (pageCommand is ShowErrorMessage) {
+              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             }
           },
           child: BlocBuilder<InviteGuardiansBloc, InviteGuardiansState>(builder: (context, state) {
