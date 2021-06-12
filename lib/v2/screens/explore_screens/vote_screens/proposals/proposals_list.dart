@@ -56,7 +56,8 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                 onRefresh: () async => _proposalsBloc.add(const LoadProposalsByRefresh()),
                 child: CustomScrollView(
                   slivers: [
-                    const SliverPersistentHeader(floating: true, pinned: false, delegate: VotingCycleEndCard()),
+                    if (widget.proposalType.type == 'Open')
+                      const SliverPersistentHeader(floating: true, pinned: false, delegate: VotingCycleEndCard()),
                     state.proposals.isEmpty
                         ? SliverFillRemaining(
                             child: Center(

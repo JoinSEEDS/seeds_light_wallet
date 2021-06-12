@@ -9,13 +9,14 @@ class ProposalsRepository extends NetworkRepository {
   Future<Result> getMoonPhases() async {
     print('[http] get moon phases');
 
+    var ms = DateTime.now().toUtc().millisecondsSinceEpoch;
     var request = createRequest(
       code: account_cycle,
       scope: account_cycle,
       table: table_moonphases,
       limit: 4,
       keyType: '',
-      lowerBound: '${DateTime.now().millisecondsSinceEpoch}',
+      lowerBound: '${(ms / 1000).round()}',
     );
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
