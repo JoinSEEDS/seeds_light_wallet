@@ -65,16 +65,17 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                           )
                         : SliverList(
                             delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              if (index >= state.proposals.length) {
-                                _proposalsBloc.add(const LoadProposalsByScroll());
-                                return const LoadingIndicatorList();
-                              } else {
-                                return ProposalOpenCard(state.proposals[index]);
-                              }
-                            },
-                            childCount: state.hasReachedMax ? state.proposals.length : state.proposals.length + 1,
-                          )),
+                              (context, index) {
+                                if (index >= state.proposals.length) {
+                                  _proposalsBloc.add(const LoadProposalsByScroll());
+                                  return const LoadingIndicatorList();
+                                } else {
+                                  return ProposalOpenCard(state.proposals[index]);
+                                }
+                              },
+                              childCount: state.hasReachedMax ? state.proposals.length : state.proposals.length + 1,
+                            ),
+                          ),
                   ],
                 ),
               );
