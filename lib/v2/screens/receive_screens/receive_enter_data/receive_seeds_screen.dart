@@ -29,7 +29,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
               listener: (context, state) {
                 if (state.pageCommand is NavigateToReceiveDetails) {
                   BlocProvider.of<ReceiveEnterDataBloc>(context)
-                      .add(const ClearPageState());
+                      .add(const ClearReceiveEnterDataState());
                   NavigationService.of(context).navigateTo(
                       Routes.receiveQR,
                       ReceiveDetailArguments(
