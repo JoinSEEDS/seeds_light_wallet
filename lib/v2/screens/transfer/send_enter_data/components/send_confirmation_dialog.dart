@@ -48,16 +48,16 @@ class SendConfirmationDialog extends StatelessWidget {
         ),
         Row(
           children: [
-            Text(amount, style: Theme.of(context).textTheme.headline4Black),
+            Text(amount, style: Theme.of(context).textTheme.headline4),
             Padding(
               padding: const EdgeInsets.only(top: 14, left: 4),
-              child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2Black),
+              child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2),
             ),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         Text(fiatAmount != null ? "\$" + fiatAmount! : "",
-            style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack),
+            style: Theme.of(context).textTheme.subtitle2),
         const SizedBox(height: 30.0),
         DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To"),
         const SizedBox(height: 24.0),
@@ -65,9 +65,9 @@ class SendConfirmationDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Network Fee",
-                textAlign: TextAlign.left, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
+                textAlign: TextAlign.left, style: Theme.of(context).textTheme.subtitle2),
             Text("Always Free and Instant!",
-                textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
+                textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
           ],
         ),
         const SizedBox(height: 40.0),
@@ -76,14 +76,14 @@ class SendConfirmationDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Memo",
-                      textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
+                      textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
                   const SizedBox(width: 16.0),
                   Flexible(
                     child: Text(memo!,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.right,
-                        style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
+                        style: Theme.of(context).textTheme.subtitle2),
                   ),
                 ],
               )
@@ -129,19 +129,19 @@ class DialogRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text(name ?? account, textAlign: TextAlign.start, style: Theme.of(context).textTheme.buttonBlack),
+                Text(name ?? account, textAlign: TextAlign.start, style: Theme.of(context).textTheme.button),
                 const SizedBox(height: 8),
-                Text(account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasisBlack)
+                Text(account, style: Theme.of(context).textTheme.subtitle2LowEmphasis)
               ],
             ),
           ),
         ),
         Container(
             decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen5),
+                borderRadius: BorderRadius.all(Radius.elliptical(4, 4)), color: AppColors.lightGreen6),
             child: Padding(
               padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
-              child: Text(toOrFromText!, style: Theme.of(context).textTheme.subtitle2BlackHighEmphasis),
+              child: Text(toOrFromText!, style: Theme.of(context).textTheme.subtitle2),
             )),
       ],
     );

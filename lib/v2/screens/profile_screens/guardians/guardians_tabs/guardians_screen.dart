@@ -5,6 +5,7 @@ import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/im_guardian_for_tab.dart';
@@ -26,13 +27,15 @@ class GuardiansScreen extends StatelessWidget {
               var pageCommand = state.pageCommand;
               BlocProvider.of<GuardiansBloc>(context).add(ClearPageCommand());
 
-              if (pageCommand is NavigateToSelectGuardians) {
-                NavigationService.of(context).navigateTo(Routes.selectGuardians, pageCommand.myGuardians);
+              if (pageCommand is NavigateToRouteWithArguments) {
+                NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
               } else if (pageCommand is ShowRecoveryStarted) {
                 _showRecoveryStartedBottomSheet(context, pageCommand.guardian);
               } else if (pageCommand is ShowRemoveGuardianView) {
                 _showRemoveGuardianDialog(context, pageCommand.guardian);
-              } else if (pageCommand is ShowMessage) {
+              } else if (pageCommand is ShowErrorMessage) {
+                SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+              } else if(pageCommand is ShowMessage) {
                 SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
               }
             },
