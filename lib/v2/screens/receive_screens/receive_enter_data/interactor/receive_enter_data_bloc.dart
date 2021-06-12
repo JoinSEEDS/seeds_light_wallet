@@ -22,8 +22,7 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
       yield state.copyWith(pageState: PageState.loading);
       Result result = await GetAvailableBalanceUseCase().run();
       yield UserBalanceStateMapper().mapResultToState(state, result);
-    }
-    if (event is OnAmountChange) {
+    } else if (event is OnAmountChange) {
       double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;
 
       String seedsToFiat =
@@ -34,16 +33,13 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
       } else {
         yield state.copyWith(isNextButtonEnabled: false, quantity: parsedQuantity, fiatAmount: seedsToFiat);
       }
-    }
-    if (event is OnDescriptionChange) {
+    } else if (event is OnDescriptionChange) {
       yield state.copyWith(description: event.description);
-    }
-    if (event is OnNextButtonTapped) {
+    } else if (event is OnNextButtonTapped) {
       yield state.copyWith(pageState: PageState.loading);
       Result result = await ReceiveSeedsInvoiceUseCase().run(amount: state.quantity, memo: state.description);
       yield CreateInvoiceResultMapper().mapResultToState(state, result);
-    }
-    if (event is ClearReceiveEnterDataState) {
+    } else if (event is ClearReceiveEnterDataState) {
       yield state.copyWith(
           fiatAmount: 0.toString(),
           isNextButtonEnabled: false,
