@@ -26,17 +26,11 @@ class ReceiveEnterDataScreen extends StatelessWidget {
           appBar: AppBar(title: const Text("Receive")),
           body: BlocConsumer<ReceiveEnterDataBloc, ReceiveEnterDataState>(
               listenWhen: (_, current) => current.pageCommand != null,
-              listener: (context, state) {
-                if (state.pageCommand is NavigateToReceiveDetails) {
-                  BlocProvider.of<ReceiveEnterDataBloc>(context)
-                      .add(const ClearReceiveEnterDataState());
-                  NavigationService.of(context).navigateTo(
-                      Routes.receiveQR,
-                      ReceiveDetailArguments(
-                          ReceiveTotalFiat: state.fiatAmount,
-                          InvoiceLink: state.invoiceLink!,
-                          ReceiveTotalSeeds: state.quantity.toString(),
-                          description: state.description));
+              listener: (BuildContext context, ReceiveEnterDataState state) {
+                var pageCommand = state.pageCommand;
+                if (pageCommand is NavigateToReceiveDetails) {
+                  NavigationService.of(context).navigateTo(Routes.receiveQR, pageCommand.receiveDetailArguments);
+                  BlocProvider.of<ReceiveEnterDataBloc>(context).add(const ClearReceiveEnterDataState());
                 }
                 if (state.pageCommand is ShowTransactionFail) {
                   SnackBarInfo('Receive creation failed, please try again.', ScaffoldMessenger.of(context)).show();
