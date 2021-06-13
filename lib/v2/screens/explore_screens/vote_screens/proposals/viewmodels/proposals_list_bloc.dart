@@ -18,11 +18,11 @@ class ProposalsListBloc extends Bloc<ProposalsListEvent, ProposalsListState> {
       Result result = await GetProposalsUseCase().run(state.currentType);
       yield ProposalsStateMapper().mapResultToState(state, result);
     }
-    if (event is LoadProposalsByScroll) {
+    if (event is OnUserProposalsByScroll) {
       Result result = await GetProposalsUseCase().run(state.currentType);
       yield ProposalsByScrollStateMapper().mapResultToState(state, result);
     }
-    if (event is LoadProposalsByRefresh) {
+    if (event is OnUserProposalsRefresh) {
       yield state.copyWith(pageState: PageState.loading);
       Result result = await GetProposalsUseCase().run(state.currentType);
       yield ProposalsStateMapper().mapResultToState(state, result);

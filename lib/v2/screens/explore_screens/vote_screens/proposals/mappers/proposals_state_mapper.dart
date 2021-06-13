@@ -10,26 +10,25 @@ class ProposalsStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading proposals".i18n);
     } else {
-      ProposalsModel proposalsModel = result.asValue!.value;
+      List<ProposalModel> proposals = result.asValue!.value;
       ProposalType currentType = currentState.currentType;
       List<ProposalModel> filtered = [];
       // Filter proposals by proposal section type
       if (currentType.status.length == 1) {
-        filtered = proposalsModel.proposals
-            .where((i) => i.stage == currentType.stage && i.status == currentType.status.first)
-            .toList();
+        filtered =
+            proposals.where((i) => i.stage == currentType.stage && i.status == currentType.status.first).toList();
       } else {
         // History covers 2 status, proposals with (passed, rejected) status are part of history list.
-        filtered = proposalsModel.proposals
+        filtered = proposals
             .where((i) =>
                 i.stage == currentType.stage &&
                 (i.status == currentType.status.first || i.status == currentType.status.last))
             .toList();
       }
       // Check if the list needs sort
-      List<ProposalModel> proposals = currentType.isReverse ? List<ProposalModel>.from(filtered.reversed) : filtered;
+      List<ProposalModel> newProposals = currentType.isReverse ? List<ProposalModel>.from(filtered.reversed) : filtered;
 
-      return currentState.copyWith(pageState: PageState.success, proposals: proposals);
+      return currentState.copyWith(pageState: PageState.success, proposals: newProposals);
     }
   }
 }

@@ -53,7 +53,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
               return const FullPageErrorIndicator();
             case PageState.success:
               return RefreshIndicator(
-                onRefresh: () async => _proposalsBloc.add(const LoadProposalsByRefresh()),
+                onRefresh: () async => _proposalsBloc.add(const OnUserProposalsRefresh()),
                 child: CustomScrollView(
                   slivers: [
                     if (widget.proposalType.type == 'Open')
@@ -68,7 +68,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                             delegate: SliverChildBuilderDelegate(
                               (context, index) {
                                 if (index >= state.proposals.length) {
-                                  _proposalsBloc.add(const LoadProposalsByScroll());
+                                  _proposalsBloc.add(const OnUserProposalsByScroll());
                                   return const LoadingIndicatorList();
                                 } else {
                                   return ProposalOpenCard(state.proposals[index]);

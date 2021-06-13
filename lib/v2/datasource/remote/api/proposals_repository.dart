@@ -24,7 +24,7 @@ class ProposalsRepository extends NetworkRepository {
     return http
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              return MoonPhasesList.fromJson(body);
+              return body['rows'].map<MoonPhaseModel>((i) => MoonPhaseModel.fromJson(i)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -39,7 +39,7 @@ class ProposalsRepository extends NetworkRepository {
     return http
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              return ProposalsModel.fromJson(body);
+              return body['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
