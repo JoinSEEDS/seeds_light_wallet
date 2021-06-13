@@ -15,10 +15,10 @@ class InitialLoadProposals extends ProposalsListEvent {
   String toString() => 'InitialLoadProposals';
 }
 
-class OnUserProposalsByScroll extends ProposalsListEvent {
-  const OnUserProposalsByScroll();
+class OnUserProposalsScroll extends ProposalsListEvent {
+  const OnUserProposalsScroll();
   @override
-  String toString() => 'OnUserProposalsByScroll';
+  String toString() => 'OnUserProposalsScroll';
 }
 
 class OnUserProposalsRefresh extends ProposalsListEvent {

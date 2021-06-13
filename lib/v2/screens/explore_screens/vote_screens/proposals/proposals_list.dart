@@ -68,7 +68,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                             delegate: SliverChildBuilderDelegate(
                               (context, index) {
                                 if (index >= state.proposals.length) {
-                                  _proposalsBloc.add(const OnUserProposalsByScroll());
+                                  _proposalsBloc.add(const OnUserProposalsScroll());
                                   return const LoadingIndicatorList();
                                 } else {
                                   return ProposalOpenCard(state.proposals[index]);
