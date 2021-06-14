@@ -14,6 +14,7 @@ extension Localization on String {
           'hrs': 'hrs',
           'mins': 'mins',
           'sec': 'sec',
+          'Error loading next moon cycle': 'Error al cargar el próximo ciclo lunar',
           'In favour': 'A favor',
           'Votes': 'votos',
           'Against': 'En contra',
