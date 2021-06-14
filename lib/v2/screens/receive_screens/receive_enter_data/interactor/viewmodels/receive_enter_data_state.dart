@@ -10,12 +10,16 @@ class ReceiveEnterDataState extends Equatable {
   final PageCommand? pageCommand;
   final RatesState ratesState;
   final String fiatAmount;
+  final String seedsAmount;
   final String? description;
   final BalanceModel? availableBalance;
   final String availableBalanceSeeds;
   final String availableBalanceFiat;
   final bool isNextButtonEnabled;
   final String? errorMessage;
+  final double quantity;
+  final String? invoiceLink;
+  final bool isAutoFocus;
 
   const ReceiveEnterDataState(
       {required this.pageState,
@@ -27,7 +31,11 @@ class ReceiveEnterDataState extends Equatable {
       required this.availableBalanceSeeds,
       required this.isNextButtonEnabled,
       this.errorMessage,
-      this.description});
+      this.description,
+      required this.quantity,
+      this.invoiceLink,
+      required this.isAutoFocus,
+      required this.seedsAmount});
 
   @override
   List<Object?> get props => [
@@ -40,8 +48,12 @@ class ReceiveEnterDataState extends Equatable {
         availableBalanceSeeds,
         isNextButtonEnabled,
         errorMessage,
-        description
-      ];
+        description,
+        quantity,
+        invoiceLink,
+        seedsAmount,
+        isAutoFocus
+     ];
 
   ReceiveEnterDataState copyWith(
       {PageState? pageState,
@@ -53,7 +65,11 @@ class ReceiveEnterDataState extends Equatable {
       bool? isNextButtonEnabled,
       String? errorMessage,
       String? availableBalanceSeeds,
-      String? description}) {
+      String? description,
+      double? quantity,
+      String? invoiceLink,
+      String? seedsAmount,
+      bool?   isAutoFocus}) {
     return ReceiveEnterDataState(
         pageState: pageState ?? this.pageState,
         pageCommand: pageCommand,
@@ -64,17 +80,23 @@ class ReceiveEnterDataState extends Equatable {
         isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled,
         errorMessage: errorMessage ?? this.errorMessage,
         availableBalanceSeeds: availableBalanceSeeds ?? this.availableBalanceSeeds,
-        description: description ?? this.description);
+        description: description ?? this.description,
+        quantity: quantity ?? this.quantity,
+        invoiceLink: invoiceLink ?? this.invoiceLink,
+        isAutoFocus: isAutoFocus ?? this.isAutoFocus,
+        seedsAmount: seedsAmount ?? this.seedsAmount);
   }
 
   factory ReceiveEnterDataState.initial(RatesState ratesState) {
     return ReceiveEnterDataState(
-      availableBalanceSeeds: '',
-      availableBalanceFiat: '',
-      pageState: PageState.initial,
-      ratesState: ratesState,
-      fiatAmount: 0.toString(),
-      isNextButtonEnabled: false,
-    );
+        availableBalanceSeeds: '',
+        availableBalanceFiat: '',
+        pageState: PageState.initial,
+        ratesState: ratesState,
+        fiatAmount: 0.toString(),
+        isNextButtonEnabled: false,
+        quantity: 0,
+        seedsAmount: "",
+        isAutoFocus: true);
   }
 }

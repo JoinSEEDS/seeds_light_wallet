@@ -18,6 +18,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(title: const Text("Scan QR Code")),
         body: Stack(
@@ -51,7 +52,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                       height: 6,
                     ),
                     const SizedBox(height: 16),
-                     BalanceRow(
+                    BalanceRow(
                       label: "Total",
                       fiatAmount: arguments.ReceiveTotalFiat,
                       seedsAmount: arguments.ReceiveTotalSeeds,
@@ -78,6 +79,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                   title: 'Done',
                   enabled: true,
                   onPressed: () {
+                    Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   },
                 ),

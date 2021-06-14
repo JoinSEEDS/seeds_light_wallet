@@ -9,6 +9,7 @@ import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_light.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'interactor/receive_enter_data_bloc.dart';
 import 'interactor/viewmodels/page_commands.dart';
 import 'interactor/viewmodels/receive_enter_data_events.dart';
@@ -24,12 +25,14 @@ class ReceiveEnterDataScreen extends StatelessWidget {
           appBar: AppBar(title: const Text("Receive")),
           body: BlocConsumer<ReceiveEnterDataBloc, ReceiveEnterDataState>(
               listenWhen: (_, current) => current.pageCommand != null,
-              listener: (context, state) {
-                if (state.pageCommand is NavigateToReceiveDetails) {
-                  //Navigate to Receive Detail Page
+              listener: (BuildContext context, ReceiveEnterDataState state) {
+                var pageCommand = state.pageCommand;
+                if (pageCommand is NavigateToReceiveDetails) {
+                  NavigationService.of(context).navigateTo(Routes.receiveQR, pageCommand.receiveDetailArguments);
+                  BlocProvider.of<ReceiveEnterDataBloc>(context).add(const ClearReceiveEnterDataState());
                 }
                 if (state.pageCommand is ShowTransactionFail) {
-                  SnackBarInfo('Receive creation failed, try again.', ScaffoldMessenger.of(context)).show();
+                  SnackBarInfo('Receive creation failed, please try again.', ScaffoldMessenger.of(context)).show();
                 }
               },
               builder: (context, ReceiveEnterDataState state) {
@@ -51,7 +54,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                   BlocProvider.of<ReceiveEnterDataBloc>(context)
                                       .add(OnAmountChange(amountChanged: value));
                                 },
-                                autoFocus: true,
+                                autoFocus: state.isAutoFocus,
                               ),
                               const SizedBox(height: 36),
                               Padding(
@@ -59,8 +62,8 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     TextFormFieldLight(
-                                      labelText: "Description",
-                                      hintText: "Enter a Description",
+                                      labelText: "Memo",
+                                      hintText: "Add a note",
                                       maxLength: blockChainMaxChars,
                                       onChanged: (String value) {
                                         BlocProvider.of<ReceiveEnterDataBloc>(context)
