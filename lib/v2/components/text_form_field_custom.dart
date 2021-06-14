@@ -24,6 +24,7 @@ class TextFormFieldCustom extends StatelessWidget {
   final String? hintText;
   final String? labelText;
   final bool? disabledLabelColor;
+  final String? counterText;
 
   const TextFormFieldCustom({
     Key? key,
@@ -45,6 +46,7 @@ class TextFormFieldCustom extends StatelessWidget {
     this.hintText,
     this.labelText,
     this.disabledLabelColor,
+    this.counterText = ""
   }) : super(key: key);
 
   @override
@@ -69,7 +71,7 @@ class TextFormFieldCustom extends StatelessWidget {
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.canopy, width: 1.0)),
-          counterText: "",
+          counterText: counterText,
           hintText: hintText,
           labelText: labelText,
           errorMaxLines: 2,

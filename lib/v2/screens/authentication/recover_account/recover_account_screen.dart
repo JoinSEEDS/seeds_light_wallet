@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/authentication/recover_account/interactor/recover_account_bloc.dart';
 import 'package:seeds/v2/screens/authentication/recover_account/interactor/viewmodels/recover_account_events.dart';
 import 'package:seeds/v2/screens/authentication/recover_account/interactor/viewmodels/recover_account_state.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 
 class RecoverAccountScreen extends StatefulWidget {
   const RecoverAccountScreen({Key? key}) : super(key: key);
@@ -42,7 +42,8 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                 children: <Widget>[
                   TextFormFieldCustom(
                     maxLength: 12,
-                    labelText: "SEEDS Username",
+                    counterText: null,
+                    labelText: "Username",
                     controller: _keyController,
                     suffixIcon: QuadStateClipboardIconButton(
                       isChecked: state.isValidUsername,
@@ -52,28 +53,24 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                       isLoading: state.pageState == PageState.loading,
                       canClear: _keyController.text.isNotEmpty,
                     ),
-                    onChanged: (String value){
+                    onChanged: (String value) {
                       _debouncer.run(() {
                         BlocProvider.of<RecoverAccountBloc>(context).add(OnUsernameChanged(value));
                       });
                     },
                   ),
-                  const SizedBox(
-                    height: 10
-                  ),
-                  state.errorMessage != null ?
+                  const SizedBox(height: 10),
                   Expanded(
-                    child: Text(
-                      state.errorMessage!,
-                      style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                    ),
-                  ) : const SizedBox.shrink(),
+                      child: state.errorMessage != null
+                          ? Text(
+                              state.errorMessage!,
+                              style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                            )
+                          : const SizedBox.shrink()),
                   FlatButtonLong(
                     title: 'Next',
-                    onPressed: (){},
-                  ),
-                  const SizedBox(
-                    height: 20,
+                    enabled: state.isValidUsername,
+                    onPressed: () {},
                   ),
                 ],
               ),
