@@ -1,19 +1,5 @@
 enum FundType { alliance, campaign, hypha }
 
-class ProposalsModel {
-  final List<ProposalModel> proposals;
-
-  ProposalsModel(this.proposals);
-
-  factory ProposalsModel.fromJson(Map<String, dynamic> json) {
-    if (json['rows'] != null) {
-      return ProposalsModel(json['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList());
-    } else {
-      return ProposalsModel([]);
-    }
-  }
-}
-
 class ProposalModel {
   final int id;
   final String creator;

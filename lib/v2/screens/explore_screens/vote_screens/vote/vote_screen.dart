@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/i18n/explore_screens/vote/vote.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/proposals_list.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
@@ -14,14 +15,14 @@ class VoteScreen extends StatelessWidget {
       length: proposalTypes.length,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Vote'),
+          title: Text('Vote'.i18n),
           bottom: TabBar(
               labelPadding: const EdgeInsets.all(8.0),
               indicatorColor: AppColors.green1,
               indicatorSize: TabBarIndicatorSize.label,
               unselectedLabelStyle: Theme.of(context).textTheme.buttonOpacityEmphasis,
               labelStyle: Theme.of(context).textTheme.buttonLowEmphasis,
-              tabs: [for (var i in proposalTypes) Tab(child: Text(i.type))]),
+              tabs: [for (var i in proposalTypes) Tab(child: Text(i.type.i18n))]),
         ),
         body: TabBarView(children: [for (var i in proposalTypes) ProposalsList(proposalType: i)]),
       ),
