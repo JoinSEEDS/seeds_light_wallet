@@ -20,7 +20,7 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
       Result result = await ProcessScanResultUseCase().run(event.scanResult);
 
       if (result is ErrorResult) {
-        yield state.copyWith(pageState: PageState.failure, error: result.error.toString());
+        yield state.copyWith(pageState: PageState.failure, errorMessage: result.error.toString());
       } else {
         var value = result.asValue!.value as ScanQrCodeResultData;
 

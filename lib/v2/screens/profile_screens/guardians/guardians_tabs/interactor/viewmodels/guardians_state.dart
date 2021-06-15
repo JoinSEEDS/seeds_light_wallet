@@ -4,28 +4,32 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class GuardiansState extends Equatable {
   final PageState pageState;
-  final String? errorMessage;
   final PageCommand? pageCommand;
+  final String? errorMessage;
 
   const GuardiansState({
     required this.pageState,
-    this.errorMessage,
     this.pageCommand,
+    this.errorMessage,
   });
 
   @override
   List<Object?> get props => [
         pageState,
-        errorMessage,
         pageCommand,
+        errorMessage,
       ];
 
   GuardiansState copyWith({
     PageState? pageState,
-    String? errorMessage,
     PageCommand? pageCommand,
+    String? errorMessage,
   }) {
-    return GuardiansState(pageState: pageState ?? this.pageState, errorMessage: errorMessage, pageCommand: pageCommand);
+    return GuardiansState(
+      pageState: pageState ?? this.pageState,
+      pageCommand: pageCommand,
+      errorMessage: errorMessage,
+    );
   }
 
   factory GuardiansState.initial() {

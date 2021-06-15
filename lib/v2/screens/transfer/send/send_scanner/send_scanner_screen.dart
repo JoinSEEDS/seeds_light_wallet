@@ -66,7 +66,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                state.error!,
+                                state.errorMessage!,
                                 style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
                                 textAlign: TextAlign.center,
                               ),

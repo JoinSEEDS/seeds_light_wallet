@@ -11,7 +11,7 @@ import 'package:seeds/v2/utils/double_extension.dart';
 class SendTransactionMapper extends StateMapper {
   SendEnterDataPageState mapResultToState(SendEnterDataPageState currentState, Result result) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, error: result.asError!.error.toString());
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
       var resultResponse = result.asValue!.value as SendTransactionResponse;
       var transactionId = resultResponse.transactionId.asValue!.value as String;
@@ -25,31 +25,33 @@ class SendTransactionMapper extends StateMapper {
         var fromAccount = resultResponse.profiles[1].asValue!.value as ProfileModel;
 
         return currentState.copyWith(
-            pageState: PageState.success,
-            pageCommand: ShowTransactionSuccess(
-                currency: "Seeds",
-                toImage: toAccount.image,
-                fromImage: fromAccount.image,
-                amount: parsedQuantity.toString(),
-                toName: toAccount.nickname,
-                toAccount: toAccount.account,
-                fromName: fromAccount.nickname,
-                fromAccount: fromAccount.account,
-                fiatAmount: fiatAmount,
-                transactionId: transactionId));
+          pageState: PageState.success,
+          pageCommand: ShowTransactionSuccess(
+              currency: "Seeds",
+              toImage: toAccount.image,
+              fromImage: fromAccount.image,
+              amount: parsedQuantity.toString(),
+              toName: toAccount.nickname,
+              toAccount: toAccount.account,
+              fromName: fromAccount.nickname,
+              fromAccount: fromAccount.account,
+              fiatAmount: fiatAmount,
+              transactionId: transactionId),
+        );
       } else {
         var fromAccount = settingsStorage.accountName;
         var toAccount = currentState.sendTo.account;
 
         return currentState.copyWith(
-            pageState: PageState.success,
-            pageCommand: ShowTransactionSuccess.withoutServerUserData(
-                currency: "Seeds",
-                fromAccount: fromAccount,
-                amount: parsedQuantity.toString(),
-                toAccount: toAccount,
-                transactionId: transactionId,
-                fiatAmount: fiatAmount));
+          pageState: PageState.success,
+          pageCommand: ShowTransactionSuccess.withoutServerUserData(
+              currency: "Seeds",
+              fromAccount: fromAccount,
+              amount: parsedQuantity.toString(),
+              toAccount: toAccount,
+              transactionId: transactionId,
+              fiatAmount: fiatAmount),
+        );
       }
     }
   }

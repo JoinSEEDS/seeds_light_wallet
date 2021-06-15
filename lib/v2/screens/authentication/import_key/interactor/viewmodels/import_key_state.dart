@@ -8,7 +8,12 @@ class ImportKeyState extends Equatable {
   final String? privateKey;
   final List<ProfileModel> accounts;
 
-  const ImportKeyState({required this.pageState, this.errorMessage, required this.accounts, this.privateKey});
+  const ImportKeyState({
+    required this.pageState,
+    this.errorMessage,
+    required this.accounts,
+    this.privateKey,
+  });
 
   @override
   List<Object?> get props => [
@@ -26,7 +31,7 @@ class ImportKeyState extends Equatable {
   }) {
     return ImportKeyState(
       pageState: pageState ?? this.pageState,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: errorMessage,
       accounts: accounts ?? this.accounts,
       privateKey: privateKey ?? this.privateKey,
     );

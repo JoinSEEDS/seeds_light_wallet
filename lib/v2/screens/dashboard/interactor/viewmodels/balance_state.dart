@@ -4,24 +4,35 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class BalanceState extends Equatable {
   final PageState pageState;
+  final String? errorMessage;
   final TokenModel token;
-  final String? error;
   final double? amount;
   final String cardDisplayText;
-  
 
-  const BalanceState({required this.pageState, required this.token, this.error, this.amount, required this.cardDisplayText});
+  const BalanceState({
+    required this.pageState,
+    this.errorMessage,
+    required this.token,
+    this.amount,
+    required this.cardDisplayText,
+  });
 
   @override
-  List<Object?> get props => [token, error, amount, pageState, cardDisplayText];
+  List<Object?> get props => [pageState, errorMessage, token, amount, cardDisplayText];
 
-  BalanceState copyWith({PageState? pageState, TokenModel? token, String? error, double? amount, String? cardDisplayText}) {    
+  BalanceState copyWith({
+    PageState? pageState,
+    String? errorMessage,
+    TokenModel? token,
+    double? amount,
+    String? cardDisplayText,
+  }) {
     return BalanceState(
       pageState: pageState ?? this.pageState,
+      errorMessage: errorMessage,
       token: token ?? this.token,
-      error: error ?? this.error,
       amount: amount ?? this.amount,
-      cardDisplayText: cardDisplayText ?? this.cardDisplayText
+      cardDisplayText: cardDisplayText ?? this.cardDisplayText,
     );
   }
 
