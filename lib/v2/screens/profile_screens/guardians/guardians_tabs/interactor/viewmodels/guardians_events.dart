@@ -81,7 +81,7 @@ class OnRemoveGuardianTapped extends GuardiansEvent {
 class InitOnboardingGuardian extends GuardiansEvent {
 
   @override
-  String toString() => 'ShowOnboardingGuardian';
+  String toString() => 'InitOnboardingGuardian';
 }
 
 class OnNextGuardianOnboardingTapped extends GuardiansEvent {
