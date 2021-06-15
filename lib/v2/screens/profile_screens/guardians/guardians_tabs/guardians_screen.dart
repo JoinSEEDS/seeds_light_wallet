@@ -14,6 +14,8 @@ import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/intera
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_state.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
+import 'components/onboarding_dialog_double_action.dart';
+import 'components/onboarding_dialog_single_action.dart';
 
 /// GuardiansScreen SCREEN
 class GuardiansScreen extends StatelessWidget {
@@ -37,7 +39,12 @@ class GuardiansScreen extends StatelessWidget {
                 SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
               } else if(pageCommand is ShowMessage) {
                 SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+              } else if (pageCommand is ShowOnboardingGuardianSingleAction){
+                _showOnboardingGuardianDialogSingleAction( pageCommand ,context);
+              }else if (pageCommand is ShowOnboardingGuardianDoubleAction){
+                _showOnboardingGuardianDialogDoubleAction(pageCommand, context);
               }
+
             },
             child: BlocBuilder<GuardiansBloc, GuardiansState>(builder: (context, state) {
               return DefaultTabController(
@@ -48,7 +55,8 @@ class GuardiansScreen extends StatelessWidget {
                           : FloatingActionButton.extended(
                               label: const Text("Add Guardians"),
                               onPressed: () {
-                                BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
+                                BlocProvider.of<GuardiansBloc>(context).add(InitOnboardingGuardian());
+                               // BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
                               },
                             ),
                       appBar: AppBar(
@@ -211,4 +219,50 @@ void _showRemoveGuardianDialog(BuildContext buildContext, GuardianModel guardian
       );
     },
   );
+}
+
+void _showOnboardingGuardianDialogSingleAction(ShowOnboardingGuardianSingleAction pageCommand, BuildContext buildContext) {
+  showDialog(
+      context: buildContext,
+      builder: (BuildContext context) {
+        return Center(
+          child: SingleChildScrollView(
+            child: OnboardingDialogSingleAction(
+                buttonTitle: pageCommand.buttonTitle,
+                indexDialong: pageCommand.index,
+                image: pageCommand.image,
+                description: pageCommand.description,
+                onNext: () {
+                  BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
+                  Navigator.pop(context);
+                }),
+          ),
+        );
+      });
+}
+
+void _showOnboardingGuardianDialogDoubleAction(ShowOnboardingGuardianDoubleAction pageCommand, BuildContext buildContext) {
+  showDialog(
+      context: buildContext,
+      builder: (BuildContext context) {
+        return Center(
+          child: SingleChildScrollView(
+            child: OnboardingDialogDoubleAction(
+              rightButtonTitle: pageCommand.rightButtonTitle,
+              leftButtonTitle: pageCommand.leftButtonTitle,
+              indexDialong: pageCommand.index,
+              image: pageCommand.image,
+              description: pageCommand.description,
+              onNext: () {
+                BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
+                Navigator.pop(context);
+              },
+              onPrevious: () {
+                BlocProvider.of<GuardiansBloc>(buildContext).add(OnPreviousGuardianOnboardingTapped());
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        );
+      });
 }

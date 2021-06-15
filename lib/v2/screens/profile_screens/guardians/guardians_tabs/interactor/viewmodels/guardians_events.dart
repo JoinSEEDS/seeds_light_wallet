@@ -77,3 +77,21 @@ class OnRemoveGuardianTapped extends GuardiansEvent {
   @override
   String toString() => 'OnRemoveGuardianTapped : { guardian: $guardian }';
 }
+
+class InitOnboardingGuardian extends GuardiansEvent {
+
+  @override
+  String toString() => 'ShowOnboardingGuardian';
+}
+
+class OnNextGuardianOnboardingTapped extends GuardiansEvent {
+
+  @override
+  String toString() => 'OnNextGuardianOnboardingTapped';
+}
+
+class OnPreviousGuardianOnboardingTapped extends GuardiansEvent {
+
+  @override
+  String toString() => 'OnPreviousGuardianOnboardingTapped';
+}
