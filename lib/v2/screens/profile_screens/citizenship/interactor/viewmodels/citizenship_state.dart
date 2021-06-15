@@ -20,51 +20,51 @@ const int citizen_required_residents_invited = 1;
 /// --- STATE
 class CitizenshipState extends Equatable {
   final PageState pageState;
+  final String? errorMessage;
   final ProfileModel? profile;
   final ScoreModel? score;
   final double? progressTimeline;
   final int? invitedVisitors;
   final int? invitedResidents;
-  final String? errorMessage;
 
   const CitizenshipState({
     required this.pageState,
+    this.errorMessage,
     this.profile,
     this.score,
     this.progressTimeline,
     this.invitedResidents,
     this.invitedVisitors,
-    this.errorMessage,
   });
 
   @override
   List<Object?> get props => [
         pageState,
+        errorMessage,
         profile,
         score,
         progressTimeline,
         invitedResidents,
         invitedVisitors,
-        errorMessage,
       ];
 
   CitizenshipState copyWith({
     PageState? pageState,
+    String? errorMessage,
     ProfileModel? profile,
     ScoreModel? score,
     double? progressTimeline,
     int? invitedResidents,
     int? invitedVisitors,
-    String? errorMessage,
   }) {
     return CitizenshipState(
       pageState: pageState ?? this.pageState,
+      errorMessage: errorMessage,
       profile: profile ?? this.profile,
       score: score ?? this.score,
       progressTimeline: progressTimeline ?? this.progressTimeline,
       invitedResidents: invitedResidents ?? this.invitedResidents,
       invitedVisitors: invitedVisitors ?? this.invitedVisitors,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 

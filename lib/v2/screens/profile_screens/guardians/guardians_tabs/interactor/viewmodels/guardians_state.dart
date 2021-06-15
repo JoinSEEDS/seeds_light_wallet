@@ -13,9 +13,9 @@ class GuardiansState extends Equatable {
   @override
   List<Object?> get props => [
         pageState,
-        errorMessage,
         pageCommand,
         indexDialog,
+        errorMessage,
       ];
 
   GuardiansState copyWith({

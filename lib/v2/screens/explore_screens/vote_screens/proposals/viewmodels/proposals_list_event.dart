@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 @immutable
 abstract class ProposalsListEvent extends Equatable {
   const ProposalsListEvent();
-    @override
+  @override
   List<Object> get props => [];
 }
 
@@ -15,8 +15,14 @@ class InitialLoadProposals extends ProposalsListEvent {
   String toString() => 'InitialLoadProposals';
 }
 
-class LoadProposalsByScroll extends ProposalsListEvent {
-  const LoadProposalsByScroll();
+class OnUserProposalsScroll extends ProposalsListEvent {
+  const OnUserProposalsScroll();
   @override
-  String toString() => 'LoadProposalsByScroll';
+  String toString() => 'OnUserProposalsScroll';
+}
+
+class OnUserProposalsRefresh extends ProposalsListEvent {
+  const OnUserProposalsRefresh();
+  @override
+  String toString() => 'OnUserProposalsRefresh';
 }

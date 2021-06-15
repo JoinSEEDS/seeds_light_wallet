@@ -15,13 +15,15 @@ import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
 import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
 import 'package:seeds/screens/onboarding/join_process.dart';
-import 'package:seeds/v2/screens/authentication/recover_account/recover_account_screen.dart';
+import 'package:seeds/v2/screens/authentication/import_key/import_key_screen.dart';
+import 'package:seeds/v2/screens/authentication/login_screen.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
+import 'package:seeds/v2/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/vote_screen.dart';
-import 'package:seeds/v2/screens/import_key/import_key_screen.dart';
-import 'package:seeds/v2/screens/login/login_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/edit_name/edit_name_screen.dart';
@@ -32,15 +34,14 @@ import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/selec
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
-import 'package:seeds/v2/screens/receive_screens/receive_detail_qr_code/receive_detail_qr_code.dart';
-import 'package:seeds/v2/screens/receive_screens/receive_enter_data/receive_seeds_screen.dart';
-import 'package:seeds/v2/screens/receive_screens/receive_selection/receive_screen.dart';
 import 'package:seeds/v2/screens/sign_up/signup_screen.dart';
-import 'package:seeds/v2/screens/transfer/send_confirmation/send_confirmation_screen.dart';
-import 'package:seeds/v2/screens/transfer/send_enter_data/send_enter_data_screen.dart';
-import 'package:seeds/v2/screens/transfer/send_scanner/send_scanner_screen.dart';
-import 'package:seeds/v2/screens/transfer/send_search_user/send_search_user_screen.dart';
-import 'package:seeds/v2/screens/verification/verification_screen.dart';
+import 'package:seeds/v2/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
+import 'package:seeds/v2/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
+import 'package:seeds/v2/screens/transfer/receive/receive_selection/receive_screen.dart';
+import 'package:seeds/v2/screens/transfer/send/send_confirmation/send_confirmation_screen.dart';
+import 'package:seeds/v2/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
+import 'package:seeds/v2/screens/transfer/send/send_scanner/send_scanner_screen.dart';
+import 'package:seeds/v2/screens/transfer/send/send_search_user/send_search_user_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
@@ -89,6 +90,7 @@ class Routes {
   static final verification = "verification";
   static final signup = 'signUp';
   static final recoverAccount = 'recoverAccount';
+  static final recoverAccountFound = 'recoverAccountFound';
 }
 
 class NavigationService {
@@ -110,6 +112,7 @@ class NavigationService {
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
+    Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
     Routes.signup: (_) => const SignupScreen(),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),

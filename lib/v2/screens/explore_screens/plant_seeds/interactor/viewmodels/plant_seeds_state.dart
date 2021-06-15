@@ -10,6 +10,7 @@ class ShowPlantSeedsSuccess extends PageCommand {}
 class PlantSeedsState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
+  final String? errorMessage;
   final RatesState ratesState;
   final bool isAutoFocus;
   final String fiatAmount;
@@ -20,11 +21,11 @@ class PlantSeedsState extends Equatable {
   final bool isPlantSeedsButtonEnabled;
   final double quantity;
   final bool showAlert;
-  final String? errorMessage;
 
   const PlantSeedsState({
     required this.pageState,
     this.pageCommand,
+    this.errorMessage,
     required this.ratesState,
     required this.isAutoFocus,
     required this.fiatAmount,
@@ -35,13 +36,13 @@ class PlantSeedsState extends Equatable {
     required this.isPlantSeedsButtonEnabled,
     required this.quantity,
     required this.showAlert,
-    this.errorMessage,
   });
 
   @override
   List<Object?> get props => [
         pageState,
         pageCommand,
+        errorMessage,
         ratesState,
         isAutoFocus,
         fiatAmount,
@@ -52,12 +53,12 @@ class PlantSeedsState extends Equatable {
         isPlantSeedsButtonEnabled,
         quantity,
         showAlert,
-        errorMessage,
       ];
 
   PlantSeedsState copyWith({
     PageState? pageState,
     PageCommand? pageCommand,
+    String? errorMessage,
     RatesState? ratesState,
     bool? isAutoFocus,
     String? fiatAmount,
@@ -68,11 +69,11 @@ class PlantSeedsState extends Equatable {
     bool? isPlantSeedsButtonEnabled,
     double? quantity,
     bool? showAlert,
-    String? errorMessage,
   }) {
     return PlantSeedsState(
       pageState: pageState ?? this.pageState,
       pageCommand: pageCommand,
+      errorMessage: errorMessage,
       ratesState: ratesState ?? this.ratesState,
       isAutoFocus: isAutoFocus ?? this.isAutoFocus,
       fiatAmount: fiatAmount ?? this.fiatAmount,
@@ -83,7 +84,6 @@ class PlantSeedsState extends Equatable {
       isPlantSeedsButtonEnabled: isPlantSeedsButtonEnabled ?? this.isPlantSeedsButtonEnabled,
       quantity: quantity ?? this.quantity,
       showAlert: showAlert ?? this.showAlert,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 

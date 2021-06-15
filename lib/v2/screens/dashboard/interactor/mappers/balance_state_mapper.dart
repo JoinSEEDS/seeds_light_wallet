@@ -7,11 +7,19 @@ import 'package:seeds/v2/utils/double_extension.dart';
 class BalanceStateMapper {
   BalanceState mapResultToState(BalanceState currentState, Result result) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, error: 'Error getting balance for ${currentState.token.symbol}', cardDisplayText: "...");
+      return currentState.copyWith(
+        pageState: PageState.failure,
+        errorMessage: 'Error getting balance for ${currentState.token.symbol}',
+        cardDisplayText: "...",
+      );
     } else {
       BalanceModel balance = result.asValue?.value as BalanceModel;
+
       return currentState.copyWith(
-        pageState: PageState.success, amount: balance.quantity, cardDisplayText: balance.quantity.seedsFormatted + " " + currentState.token.symbol);
+        pageState: PageState.success,
+        amount: balance.quantity,
+        cardDisplayText: balance.quantity.seedsFormatted + " " + currentState.token.symbol,
+      );
     }
   }
 }

@@ -5,19 +5,30 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class SearchUserState extends Equatable {
   final PageState pageState;
-  final String? error;
+  final String? errorMessage;
   final List<MemberModel> users;
   final IconData searchBarIcon;
 
-  const SearchUserState({required this.pageState, this.error, required this.users, required this.searchBarIcon});
+  const SearchUserState({
+    required this.pageState,
+    this.errorMessage,
+    required this.users,
+    required this.searchBarIcon,
+  });
 
   @override
-  List<Object?> get props => [pageState, error, users, searchBarIcon];
+  List<Object?> get props => [
+        pageState,
+        errorMessage,
+        users,
+        searchBarIcon,
+      ];
 
-  SearchUserState copyWith({PageState? pageState, String? error, List<MemberModel>? users, IconData? searchBarIcon}) {
+  SearchUserState copyWith(
+      {PageState? pageState, String? errorMessage, List<MemberModel>? users, IconData? searchBarIcon}) {
     return SearchUserState(
       pageState: pageState ?? this.pageState,
-      error: error ?? this.error,
+      errorMessage: errorMessage,
       users: users ?? this.users,
       searchBarIcon: searchBarIcon ?? this.searchBarIcon,
     );

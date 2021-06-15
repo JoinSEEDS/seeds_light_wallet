@@ -6,10 +6,10 @@ import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 class SearchUserStateMapper extends StateMapper {
   SearchUserState mapResultToState(SearchUserState currentState, Result result) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, error: 'Error Searching for User');
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Searching for User');
     } else {
       List<MemberModel> users = result.asValue?.value as List<MemberModel>;
-      return currentState.copyWith(pageState: PageState.success, users: users, error: null);
+      return currentState.copyWith(pageState: PageState.success, users: users, errorMessage: null);
     }
   }
 }
