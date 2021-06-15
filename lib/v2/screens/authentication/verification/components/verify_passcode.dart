@@ -7,8 +7,10 @@ import 'package:passcode_screen/passcode_screen.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/passcode.i18n.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
-import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/verification/components/passcode_created_dialog.dart';
+import 'package:seeds/v2/screens/authentication/verification/components/passcode_created_dialog.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_event.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_state.dart';
 
 class VerifyPasscode extends StatefulWidget {
   const VerifyPasscode({Key? key}) : super(key: key);

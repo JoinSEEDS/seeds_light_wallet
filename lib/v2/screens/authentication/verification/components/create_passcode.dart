@@ -6,7 +6,7 @@ import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/i18n/passcode.i18n.dart';
-import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/bloc.dart';
 
 class CreatePasscode extends StatefulWidget {
   const CreatePasscode({Key? key}) : super(key: key);

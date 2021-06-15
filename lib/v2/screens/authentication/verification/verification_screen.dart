@@ -4,10 +4,13 @@ import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dar
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
-import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/security_bloc.dart';
-import 'package:seeds/v2/screens/verification/components/create_passcode.dart';
-import 'package:seeds/v2/screens/verification/components/verify_passcode.dart';
-import 'package:seeds/v2/screens/verification/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/authentication/verification/components/create_passcode.dart';
+import 'package:seeds/v2/screens/authentication/verification/components/verify_passcode.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_event.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_state.dart';
+import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
+
 
 class VerificationScreen extends StatelessWidget {
   const VerificationScreen({Key? key}) : super(key: key);
