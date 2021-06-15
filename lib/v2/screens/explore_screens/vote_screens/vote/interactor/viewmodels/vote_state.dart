@@ -5,36 +5,36 @@ import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/vi
 /// --- STATE
 class VoteState extends Equatable {
   final PageState pageState;
+  final String? errorMessage;
   final int remainingTimeStamp;
   final CurrentRemainingTime? currentRemainingTime;
-  final String? errorMessage;
 
   const VoteState({
     required this.pageState,
+    this.errorMessage,
     required this.remainingTimeStamp,
     this.currentRemainingTime,
-    this.errorMessage,
   });
 
   @override
   List<Object?> get props => [
         pageState,
+        errorMessage,
         remainingTimeStamp,
         currentRemainingTime,
-        errorMessage,
       ];
 
   VoteState copyWith({
     PageState? pageState,
+    String? errorMessage,
     int? remainingTimeStamp,
     CurrentRemainingTime? currentRemainingTime,
-    String? errorMessage,
   }) {
     return VoteState(
       pageState: pageState ?? this.pageState,
+      errorMessage: errorMessage,
       remainingTimeStamp: remainingTimeStamp ?? this.remainingTimeStamp,
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 

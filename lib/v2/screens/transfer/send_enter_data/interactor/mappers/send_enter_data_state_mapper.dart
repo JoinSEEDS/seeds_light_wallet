@@ -7,12 +7,11 @@ import 'package:seeds/v2/screens/transfer/send_enter_data/interactor/viewmodels/
 import 'package:seeds/v2/utils/double_extension.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
 
-
 class SendEnterDataStateMapper extends StateMapper {
   SendEnterDataPageState mapResultToState(
       SendEnterDataPageState currentState, Result result, RatesState rateState, String quantity) {
     if (result.isError) {
-      return currentState.copyWith(pageState: PageState.failure, error: "Error loading current balance");
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
       BalanceModel balance = result.asValue!.value as BalanceModel;
       double parsedQuantity = double.parse(quantity);
@@ -23,12 +22,13 @@ class SendEnterDataStateMapper extends StateMapper {
       String availableBalanceFiat = rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted;
 
       return currentState.copyWith(
-          pageState: PageState.success,
-          fiatAmount: fiatAmount,
-          availableBalance: balance.formattedQuantity,
-          availableBalanceFiat: availableBalanceFiat,
-          error: null,
-          balance: balance);
+        pageState: PageState.success,
+        fiatAmount: fiatAmount,
+        availableBalance: balance.formattedQuantity,
+        availableBalanceFiat: availableBalanceFiat,
+        errorMessage: null,
+        balance: balance,
+      );
     }
   }
 }

@@ -10,6 +10,7 @@ class ShowInviteLinkView extends PageCommand {}
 class InviteState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
+  final String? errorMessage;
   final RatesState ratesState;
   final bool isAutoFocus;
   final String fiatAmount;
@@ -21,11 +22,11 @@ class InviteState extends Equatable {
   final String? mnemonicSecretCode;
   final String? dynamicSecretLink;
   final bool showCloseDialogButton;
-  final String? errorMessage;
 
   const InviteState({
     required this.pageState,
     this.pageCommand,
+    this.errorMessage,
     required this.ratesState,
     required this.isAutoFocus,
     required this.fiatAmount,
@@ -37,13 +38,13 @@ class InviteState extends Equatable {
     this.mnemonicSecretCode,
     this.dynamicSecretLink,
     required this.showCloseDialogButton,
-    this.errorMessage,
   });
 
   @override
   List<Object?> get props => [
         pageState,
         pageCommand,
+        errorMessage,
         ratesState,
         isAutoFocus,
         fiatAmount,
@@ -53,12 +54,12 @@ class InviteState extends Equatable {
         quantity,
         alertMessage,
         showCloseDialogButton,
-        errorMessage,
       ];
 
   InviteState copyWith({
     PageState? pageState,
     PageCommand? pageCommand,
+    String? errorMessage,
     RatesState? ratesState,
     bool? isAutoFocus,
     String? fiatAmount,
@@ -70,11 +71,11 @@ class InviteState extends Equatable {
     String? mnemonicSecretCode,
     String? dynamicSecretLink,
     bool? showCloseDialogButton,
-    String? errorMessage,
   }) {
     return InviteState(
       pageState: pageState ?? this.pageState,
       pageCommand: pageCommand,
+      errorMessage: errorMessage,
       ratesState: ratesState ?? this.ratesState,
       isAutoFocus: isAutoFocus ?? this.isAutoFocus,
       fiatAmount: fiatAmount ?? this.fiatAmount,
@@ -86,7 +87,6 @@ class InviteState extends Equatable {
       mnemonicSecretCode: mnemonicSecretCode ?? this.mnemonicSecretCode,
       dynamicSecretLink: dynamicSecretLink ?? this.dynamicSecretLink,
       showCloseDialogButton: showCloseDialogButton ?? this.showCloseDialogButton,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 

@@ -6,6 +6,7 @@ import 'package:seeds/features/biometrics/auth_state.dart';
 /// STATE
 class VerificationState extends Equatable {
   final PageState pageState;
+  final String? errorMessage;
   final bool? isCreateView;
   final bool? isCreateMode;
   final String? newPasscode;
@@ -17,10 +18,10 @@ class VerificationState extends Equatable {
   final bool? authError;
   final bool? popScreen;
   final bool? showSuccessDialog;
-  final String? errorMessage;
 
   const VerificationState({
     required this.pageState,
+    this.errorMessage,
     this.isCreateView,
     this.isCreateMode,
     this.newPasscode,
@@ -32,12 +33,12 @@ class VerificationState extends Equatable {
     this.authError,
     this.popScreen,
     this.showSuccessDialog,
-    this.errorMessage,
   });
 
   @override
   List<Object?> get props => [
         pageState,
+        errorMessage,
         isCreateView,
         isCreateMode,
         newPasscode,
@@ -49,11 +50,11 @@ class VerificationState extends Equatable {
         authError,
         popScreen,
         showSuccessDialog,
-        errorMessage,
       ];
 
   VerificationState copyWith({
     PageState? pageState,
+    String? errorMessage,
     bool? isCreateView,
     bool? isCreateMode,
     String? newPasscode,
@@ -65,10 +66,10 @@ class VerificationState extends Equatable {
     bool? authError,
     bool? popScreen,
     bool? showSuccessDialog,
-    String? errorMessage,
   }) {
     return VerificationState(
       pageState: pageState ?? this.pageState,
+      errorMessage: errorMessage,
       isCreateView: isCreateView ?? this.isCreateView,
       isCreateMode: isCreateMode ?? this.isCreateMode,
       newPasscode: newPasscode ?? this.newPasscode,
@@ -80,7 +81,6 @@ class VerificationState extends Equatable {
       authError: authError ?? this.authError,
       popScreen: popScreen ?? this.popScreen,
       showSuccessDialog: showSuccessDialog ?? this.showSuccessDialog,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 

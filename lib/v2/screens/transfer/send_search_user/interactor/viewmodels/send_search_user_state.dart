@@ -3,15 +3,18 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class SendSearchUserPageState extends Equatable {
   final PageState pageState;
-  final String? error;
+  final String? errorMessage;
 
-  const SendSearchUserPageState({required this.pageState, this.error});
+  const SendSearchUserPageState({required this.pageState, this.errorMessage});
 
   @override
   List<Object> get props => [pageState];
 
-  SendSearchUserPageState copyWith({PageState? pageState, String? error}) {
-    return SendSearchUserPageState(pageState: pageState ?? this.pageState, error: error ?? this.error);
+  SendSearchUserPageState copyWith({PageState? pageState, String? errorMessage}) {
+    return SendSearchUserPageState(
+      pageState: pageState ?? this.pageState,
+      errorMessage: errorMessage,
+    );
   }
 
   factory SendSearchUserPageState.initial() {

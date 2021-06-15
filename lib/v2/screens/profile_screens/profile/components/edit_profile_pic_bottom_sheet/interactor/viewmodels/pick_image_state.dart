@@ -3,22 +3,20 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 
 class PickImageState extends Equatable {
-  final File? file;
   final String? errorMessage;
+  final File? file;
 
-  const PickImageState({this.file, this.errorMessage});
+  const PickImageState({this.errorMessage, this.file});
 
   @override
-  List<Object?> get props => [file, errorMessage];
+  List<Object?> get props => [errorMessage, file];
 
-  PickImageState copyWith({File? file, String? errorMessage}) {
+  PickImageState copyWith({String? errorMessage, File? file}) {
     return PickImageState(
+      errorMessage: errorMessage,
       file: file ?? this.file,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
-  factory PickImageState.initial() {
-    return const PickImageState(file: null, errorMessage: null);
-  }
+  factory PickImageState.initial() => const PickImageState();
 }
