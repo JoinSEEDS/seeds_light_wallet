@@ -37,14 +37,13 @@ class GuardiansScreen extends StatelessWidget {
                 _showRemoveGuardianDialog(context, pageCommand.guardian);
               } else if (pageCommand is ShowErrorMessage) {
                 SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-              } else if(pageCommand is ShowMessage) {
+              } else if (pageCommand is ShowMessage) {
                 SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-              } else if (pageCommand is ShowOnboardingGuardianSingleAction){
-                _showOnboardingGuardianDialogSingleAction( pageCommand ,context);
-              }else if (pageCommand is ShowOnboardingGuardianDoubleAction){
+              } else if (pageCommand is ShowOnboardingGuardianSingleAction) {
+                _showOnboardingGuardianDialogSingleAction(pageCommand, context);
+              } else if (pageCommand is ShowOnboardingGuardianDoubleAction) {
                 _showOnboardingGuardianDialogDoubleAction(pageCommand, context);
               }
-
             },
             child: BlocBuilder<GuardiansBloc, GuardiansState>(builder: (context, state) {
               return DefaultTabController(
@@ -220,7 +219,8 @@ void _showRemoveGuardianDialog(BuildContext buildContext, GuardianModel guardian
   );
 }
 
-void _showOnboardingGuardianDialogSingleAction(ShowOnboardingGuardianSingleAction pageCommand, BuildContext buildContext) {
+void _showOnboardingGuardianDialogSingleAction(
+    ShowOnboardingGuardianSingleAction pageCommand, BuildContext buildContext) {
   showDialog(
       context: buildContext,
       builder: (BuildContext context) {
@@ -240,7 +240,8 @@ void _showOnboardingGuardianDialogSingleAction(ShowOnboardingGuardianSingleActio
       });
 }
 
-void _showOnboardingGuardianDialogDoubleAction(ShowOnboardingGuardianDoubleAction pageCommand, BuildContext buildContext) {
+void _showOnboardingGuardianDialogDoubleAction(
+    ShowOnboardingGuardianDoubleAction pageCommand, BuildContext buildContext) {
   showDialog(
       context: buildContext,
       builder: (BuildContext context) {
