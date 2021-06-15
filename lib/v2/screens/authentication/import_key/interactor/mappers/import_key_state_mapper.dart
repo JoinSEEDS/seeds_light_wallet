@@ -1,8 +1,8 @@
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_state.dart';
 import 'package:seeds/v2/i18n/import_key/import_key.i18n.dart';
+import 'package:seeds/v2/screens/authentication/import_key/interactor/viewmodels/import_key_state.dart';
 
 class ImportKeyStateMapper extends StateMapper {
   ImportKeyState mapResultsToState(ImportKeyState currentState, List<Result> results, String privateKey) {

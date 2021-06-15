@@ -6,9 +6,9 @@ import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/v2/screens/authentication/recover_account/interactor/recover_account_bloc.dart';
-import 'package:seeds/v2/screens/authentication/recover_account/interactor/viewmodels/recover_account_events.dart';
-import 'package:seeds/v2/screens/authentication/recover_account/interactor/viewmodels/recover_account_state.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/recover_account_bloc.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_events.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_state.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
 
 class RecoverAccountScreen extends StatefulWidget {

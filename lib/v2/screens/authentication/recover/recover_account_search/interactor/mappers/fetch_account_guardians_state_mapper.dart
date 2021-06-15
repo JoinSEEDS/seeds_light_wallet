@@ -2,7 +2,7 @@ import 'package:seeds/v2/datasource/remote/model/account_recovery_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/i18n/import_key/import_key.i18n.dart';
-import 'package:seeds/v2/screens/authentication/recover_account/interactor/viewmodels/recover_account_state.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_state.dart';
 
 class FetchAccountRecoveryStateMapper extends StateMapper {
   RecoverAccountState mapResultToState(RecoverAccountState currentState, Result result) {

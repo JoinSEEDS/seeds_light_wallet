@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/authentication/recover_account/interactor/mappers/fetch_account_guardians_state_mapper.dart';
-import 'package:seeds/v2/screens/authentication/recover_account/interactor/usecases/fetch_account_guardians_use_case.dart';
-import 'package:seeds/v2/screens/authentication/recover_account/interactor/viewmodels/recover_account_events.dart';
-import 'package:seeds/v2/screens/authentication/recover_account/interactor/viewmodels/recover_account_state.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/mappers/fetch_account_guardians_state_mapper.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/usecases/fetch_account_guardians_use_case.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_events.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_state.dart';
 
 /// --- BLOC
 class RecoverAccountBloc extends Bloc<RecoverAccountEvent, RecoverAccountState> {

@@ -7,9 +7,9 @@ import 'package:seeds/v2/i18n/import_key/import_key.i18n.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
-import 'package:seeds/v2/screens/import_key/components/import_key_accounts_widget.dart';
-import 'package:seeds/v2/screens/import_key/interactor/import_key_bloc.dart';
-import 'package:seeds/v2/screens/import_key/interactor/viewmodels/import_key_events.dart';
+import 'package:seeds/v2/screens/authentication/import_key/components/import_key_accounts_widget.dart';
+import 'package:seeds/v2/screens/authentication/import_key/interactor/import_key_bloc.dart';
+import 'package:seeds/v2/screens/authentication/import_key/interactor/viewmodels/import_key_events.dart';
 
 class ImportKeyScreen extends StatefulWidget {
   const ImportKeyScreen({Key? key}) : super(key: key);
