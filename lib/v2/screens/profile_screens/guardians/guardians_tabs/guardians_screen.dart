@@ -55,8 +55,7 @@ class GuardiansScreen extends StatelessWidget {
                           : FloatingActionButton.extended(
                               label: const Text("Add Guardians"),
                               onPressed: () {
-                                BlocProvider.of<GuardiansBloc>(context).add(InitOnboardingGuardian());
-                               // BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
+                                BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
                               },
                             ),
                       appBar: AppBar(
