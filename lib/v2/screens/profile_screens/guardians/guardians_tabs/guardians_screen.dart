@@ -54,7 +54,8 @@ class GuardiansScreen extends StatelessWidget {
                           : FloatingActionButton.extended(
                               label: const Text("Add Guardians"),
                               onPressed: () {
-                                BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
+                                BlocProvider.of<GuardiansBloc>(context).add(InitOnboardingGuardian());
+                               // BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
                               },
                             ),
                       appBar: AppBar(
@@ -224,19 +225,15 @@ void _showOnboardingGuardianDialogSingleAction(
   showDialog(
       context: buildContext,
       builder: (BuildContext context) {
-        return Center(
-          child: SingleChildScrollView(
-            child: OnboardingDialogSingleAction(
-                buttonTitle: pageCommand.buttonTitle,
-                indexDialong: pageCommand.index,
-                image: pageCommand.image,
-                description: pageCommand.description,
-                onNext: () {
-                  BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
-                  Navigator.pop(context);
-                }),
-          ),
-        );
+        return OnboardingDialogSingleAction(
+            buttonTitle: pageCommand.buttonTitle,
+            indexDialong: pageCommand.index,
+            image: pageCommand.image,
+            description: pageCommand.description,
+            onNext: () {
+              BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
+              Navigator.pop(context);
+            });
       });
 }
 
@@ -245,24 +242,20 @@ void _showOnboardingGuardianDialogDoubleAction(
   showDialog(
       context: buildContext,
       builder: (BuildContext context) {
-        return Center(
-          child: SingleChildScrollView(
-            child: OnboardingDialogDoubleAction(
-              rightButtonTitle: pageCommand.rightButtonTitle,
-              leftButtonTitle: pageCommand.leftButtonTitle,
-              indexDialong: pageCommand.index,
-              image: pageCommand.image,
-              description: pageCommand.description,
-              onNext: () {
-                BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
-                Navigator.pop(context);
-              },
-              onPrevious: () {
-                BlocProvider.of<GuardiansBloc>(buildContext).add(OnPreviousGuardianOnboardingTapped());
-                Navigator.pop(context);
-              },
-            ),
-          ),
+        return OnboardingDialogDoubleAction(
+          rightButtonTitle: pageCommand.rightButtonTitle,
+          leftButtonTitle: pageCommand.leftButtonTitle,
+          indexDialong: pageCommand.index,
+          image: pageCommand.image,
+          description: pageCommand.description,
+          onNext: () {
+            BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
+            Navigator.pop(context);
+          },
+          onPrevious: () {
+            BlocProvider.of<GuardiansBloc>(buildContext).add(OnPreviousGuardianOnboardingTapped());
+            Navigator.pop(context);
+          },
         );
       });
 }
