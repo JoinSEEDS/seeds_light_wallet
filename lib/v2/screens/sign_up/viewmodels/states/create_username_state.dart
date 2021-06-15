@@ -28,10 +28,6 @@ class CreateUsernameState extends Equatable {
   }
 
   factory CreateUsernameState.initial() {
-    return const CreateUsernameState(
-      pageState: PageState.initial,
-      username: null,
-      isValidUsername: false,
-    );
+    return const CreateUsernameState(pageState: PageState.initial, isValidUsername: false);
   }
 }

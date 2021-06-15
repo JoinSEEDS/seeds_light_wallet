@@ -9,46 +9,46 @@ class ShowLogoutDialog extends PageCommand {}
 /// --- STATE
 class ProfileState extends Equatable {
   final PageState pageState;
+  final String? errorMessage;
   final ProfileModel? profile;
   final ScoreModel? score;
   final PageCommand? showLogoutDialog;
   final bool showLogoutButton;
-  final String? errorMessage;
 
   const ProfileState({
     required this.pageState,
+    this.errorMessage,
     this.profile,
     this.score,
     this.showLogoutDialog,
     required this.showLogoutButton,
-    this.errorMessage,
   });
 
   @override
   List<Object?> get props => [
         pageState,
+        errorMessage,
         profile,
         score,
         showLogoutDialog,
         showLogoutButton,
-        errorMessage,
       ];
 
   ProfileState copyWith({
     PageState? pageState,
+    String? errorMessage,
     ProfileModel? profile,
     ScoreModel? score,
     PageCommand? showDialog,
     bool? showLogoutButton,
-    String? errorMessage,
   }) {
     return ProfileState(
       pageState: pageState ?? this.pageState,
+      errorMessage: errorMessage,
       profile: profile ?? this.profile,
       score: score ?? this.score,
       showLogoutDialog: showDialog,
       showLogoutButton: showLogoutButton ?? this.showLogoutButton,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
