@@ -19,8 +19,12 @@ class ShowOnboardingGuardianSingleAction extends PageCommand {
   final String description;
   final String buttonTitle;
 
-  ShowOnboardingGuardianSingleAction(
-      {required this.index, required this.description, required this.image, required this.buttonTitle});
+  ShowOnboardingGuardianSingleAction({
+    required this.index,
+    required this.description,
+    required this.image,
+    required this.buttonTitle,
+  });
 }
 
 class ShowOnboardingGuardianDoubleAction extends PageCommand {
@@ -30,10 +34,11 @@ class ShowOnboardingGuardianDoubleAction extends PageCommand {
   final String leftButtonTitle;
   final String rightButtonTitle;
 
-  ShowOnboardingGuardianDoubleAction(
-      {required this.index,
-      required this.description,
-      required this.image,
-      required this.leftButtonTitle,
-      required this.rightButtonTitle});
+  ShowOnboardingGuardianDoubleAction({
+    required this.index,
+    required this.description,
+    required this.image,
+    required this.leftButtonTitle,
+    required this.rightButtonTitle,
+  });
 }
