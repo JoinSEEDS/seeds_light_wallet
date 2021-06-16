@@ -33,7 +33,7 @@ class VotesDownArrow extends CustomPainter {
     path_1.close();
 
     Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = AppColors.lightGreen5;
+    paint_1_fill.color = AppColors.lightGreen6;
     canvas.drawPath(path_1, paint_1_fill);
   }
 

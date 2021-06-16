@@ -29,6 +29,9 @@ class ProposalModel {
   final String reward;
   final int campaignId;
 
+  /// For local UI
+  final int voicePassed;
+
   double get favourAgainstBarPercent => total == 0 ? 0 : (favour.toDouble() / total.toDouble());
 
   String get favourPercent => '${((favour * 100) / total).toStringAsFixed(0)} %';
@@ -71,7 +74,41 @@ class ProposalModel {
     required this.planted,
     required this.reward,
     required this.campaignId,
+    this.voicePassed = 0,
   });
+
+  ProposalModel copyWith(int voicePassed) {
+    return ProposalModel(
+      id: id,
+      creator: creator,
+      recipient: recipient,
+      quantity: quantity,
+      staked: staked,
+      executed: executed,
+      total: total,
+      favour: favour,
+      against: against,
+      title: title,
+      summary: summary,
+      description: description,
+      image: image,
+      url: url,
+      status: status,
+      stage: stage,
+      fund: fund,
+      creationDate: creationDate,
+      payPercentages: payPercentages,
+      passedCycle: passedCycle,
+      age: age,
+      currentPayout: currentPayout,
+      campaignType: campaignType,
+      maxAmountPerInvite: maxAmountPerInvite,
+      planted: planted,
+      reward: reward,
+      campaignId: campaignId,
+      voicePassed: voicePassed,
+    );
+  }
 
   factory ProposalModel.fromJson(Map<String, dynamic> json) {
     return ProposalModel(
