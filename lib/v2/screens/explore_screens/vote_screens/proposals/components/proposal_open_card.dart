@@ -84,8 +84,6 @@ class ProposalOpenCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                           ),
-                          Text(
-                              'favor: ${proposal.favour} against: ${proposal.against} total: ${proposal.total} pass: ${proposal.voicePassed}'),
                         ],
                       ),
                     ),
