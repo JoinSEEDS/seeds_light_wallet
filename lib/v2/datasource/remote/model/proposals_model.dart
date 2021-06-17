@@ -1,4 +1,4 @@
-enum FundType { alliance, campaign, hypha }
+enum FundType { allies, gift, millest, unknown }
 
 class ProposalModel {
   final int id;
@@ -29,8 +29,8 @@ class ProposalModel {
   final String reward;
   final int campaignId;
 
-  /// For local UI
-  final int voicePassed;
+  /// local UI field
+  final int voiceNeeded;
 
   double get favourAgainstBarPercent => total == 0 ? 0 : (favour.toDouble() / total.toDouble());
 
@@ -38,12 +38,8 @@ class ProposalModel {
 
   String get againstPercent => '${((against * 100) / total).toStringAsFixed(0)} %';
 
-  FundType get type {
-    return fund == 'allies.seeds'
-        ? FundType.alliance
-        : fund == 'hypha.seeds'
-            ? FundType.hypha
-            : FundType.campaign;
+  FundType get fundType {
+    return FundType.values.firstWhere((i) => '$i' == fund.split('.').first, orElse: () => FundType.unknown);
   }
 
   ProposalModel({
@@ -74,10 +70,10 @@ class ProposalModel {
     required this.planted,
     required this.reward,
     required this.campaignId,
-    this.voicePassed = 0,
+    this.voiceNeeded = 0,
   });
 
-  ProposalModel copyWith(int voicePassed) {
+  ProposalModel copyWith(int voiceNeeded) {
     return ProposalModel(
       id: id,
       creator: creator,
@@ -106,7 +102,7 @@ class ProposalModel {
       planted: planted,
       reward: reward,
       campaignId: campaignId,
-      voicePassed: voicePassed,
+      voiceNeeded: voiceNeeded,
     );
   }
 

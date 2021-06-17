@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
@@ -9,9 +7,7 @@ import 'package:seeds/v2/i18n/explore_screens/vote/vote.i18n.dart';
 import 'package:seeds/v2/images/vote/proposal_category.dart';
 import 'package:seeds/v2/images/vote/triangle_pass_value.dart';
 import 'package:seeds/v2/images/vote/votes_down_arrow.dart';
-import 'package:seeds/v2/images/vote/votes_time_icon.dart';
 import 'package:seeds/v2/images/vote/votes_up_arrow.dart';
-import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/bloc.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ProposalOpenCard extends StatelessWidget {
@@ -36,11 +32,17 @@ class ProposalOpenCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (proposal.image.isNotEmpty)
-                  CachedNetworkImage(
-                    imageUrl: proposal.image,
-                    height: 150,
-                    fit: BoxFit.fill,
-                    errorWidget: (_, __, ___) => const SizedBox.shrink(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CachedNetworkImage(
+                          imageUrl: proposal.image,
+                          height: 150,
+                          fit: BoxFit.fill,
+                          errorWidget: (_, __, ___) => const SizedBox.shrink(),
+                        ),
+                      ),
+                    ],
                   ),
                 const SizedBox(height: 10),
                 Row(
@@ -111,10 +113,10 @@ class ProposalOpenCard extends StatelessWidget {
                         LayoutBuilder(
                           builder: (_, constrains) {
                             // Percentage to advance 0-1 scale
-                            var percent = ((proposal.voicePassed * 100) / proposal.total) / 100;
+                            var percent = ((proposal.voiceNeeded * 100) / proposal.total) / 100;
                             // If voice needed > total show 100% else show percent.
                             // triangle position - triangle middle width - left margin
-                            var leftPadding = proposal.total < proposal.voicePassed
+                            var leftPadding = proposal.total < proposal.voiceNeeded
                                 ? constrains.maxWidth - 6 - 16
                                 : constrains.maxWidth * percent - 6 - 16;
                             return Padding(
@@ -177,25 +179,7 @@ class ProposalOpenCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20.0),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10.0),
-                                child: CustomPaint(size: const Size(28, 28), painter: VotesTimeIcon()),
-                              ),
-                              Flexible(
-                                child: Text(
-                                  '${BlocProvider.of<VoteBloc>(context).state.currentRemainingTime?.days ?? 0} ' +
-                                      'days left'.i18n,
-                                  style: Theme.of(context).textTheme.headline7LowEmphasis,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20.0),
-                          FlatButtonLong(title: 'View Details and Vote'.i18n, enabled: true, onPressed: () {}),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 26),
                         ],
                       ),
                     ),

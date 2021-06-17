@@ -12,7 +12,8 @@ class TrianglePassValue extends CustomPainter {
       ..moveTo(0, 0)
       ..lineTo(size.width / 2, size.height)
       ..lineTo(size.width, 0)
-      ..lineTo(0, 0);
+      ..lineTo(0, 0)
+      ..close();
 
     canvas.drawShadow(path, AppColors.black, 3.0, false);
     canvas.drawPath(path, paint);

@@ -6,6 +6,10 @@ import 'package:seeds/v2/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_list_state.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
+const _alliance = 'alliance';
+const _cmp_funding = 'cmp.funding';
+const _milestone = 'milestone';
+
 class ProposalsStateMapper extends StateMapper {
   ProposalsListState mapResultToState(ProposalsListState currentState, List<Result> results) {
     if (areAllResultsError(results)) {
@@ -36,16 +40,16 @@ class ProposalsStateMapper extends StateMapper {
 
       // Add pass values to proposals by campaing type
       List<List<SupportLevelModel>> supportLevels = values.whereType<List<SupportLevelModel>>().toList();
-      SupportLevelModel? allianceLevels = supportLevels[0][0];
-      SupportLevelModel? campaingLevels = supportLevels[1][0];
-      SupportLevelModel? milestoneLevels = supportLevels[2][0];
+      SupportLevelModel? allianceLevels = supportLevels[0].first;
+      SupportLevelModel? campaingLevels = supportLevels[1].first;
+      SupportLevelModel? milestoneLevels = supportLevels[2].first;
 
       var updatedProposals = newProposals.map((i) {
-        if (i.campaignType == 'alliance') {
+        if (i.campaignType == _alliance) {
           i = i.copyWith(allianceLevels.voiceNeeded);
-        } else if (i.campaignType == 'cmp.funding') {
+        } else if (i.campaignType == _cmp_funding) {
           i = i.copyWith(campaingLevels.voiceNeeded);
-        } else if (i.campaignType == 'milestone') {
+        } else if (i.campaignType == _milestone) {
           i = i.copyWith(milestoneLevels.voiceNeeded);
         }
         return i;
