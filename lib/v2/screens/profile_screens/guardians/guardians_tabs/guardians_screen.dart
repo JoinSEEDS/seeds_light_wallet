@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
@@ -51,13 +52,14 @@ class GuardiansScreen extends StatelessWidget {
                   child: Scaffold(
                       floatingActionButton: state.pageState == PageState.loading
                           ? const SizedBox.shrink()
-                          : FloatingActionButton.extended(
-                              label: const Text("Add Guardians"),
-                              onPressed: () {
-                                BlocProvider.of<GuardiansBloc>(context).add(InitOnboardingGuardian());
-                               // BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
-                              },
-                            ),
+                          : Padding(
+                              padding: const EdgeInsets.only(left: 32),
+                              child: FlatButtonLong(
+                                title: "+ Add Guardians",
+                                onPressed: () {
+                                  BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
+                                },
+                              )),
                       appBar: AppBar(
                         bottom: const TabBar(
                           tabs: [
@@ -79,7 +81,6 @@ class GuardiansScreen extends StatelessWidget {
                           },
                         ),
                         title: const Text("Key Guardians"),
-                        centerTitle: true,
                       ),
                       body: state.pageState == PageState.loading
                           ? const FullPageLoadingIndicator()
