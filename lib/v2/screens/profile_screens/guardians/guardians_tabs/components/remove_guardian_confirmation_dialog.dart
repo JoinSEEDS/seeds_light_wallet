@@ -22,7 +22,7 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
     return CustomDialog(
       iconPadding: 0,
       icon: ProfileAvatar(
-        size: 60,
+        size: 80,
         image: guardian.image,
         account: guardian.uid,
         nickname: guardian.nickname,
@@ -34,7 +34,7 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
       children: [
         Text("${guardian.uid}", style: Theme.of(context).textTheme.subtitle2LowEmphasis),
         const SizedBox(height: 30),
-        Text("Are you sure you want to remove ${guardian.nickname} \n As your Guardian",
+        Text("Are you sure you want to remove ${guardian.nickname} \n from your guardians",
             style: Theme.of(context).textTheme.subtitle2, textAlign: TextAlign.center),
         const SizedBox(height: 20),
       ],
