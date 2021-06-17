@@ -120,6 +120,10 @@ flutter:
     - assets/images/guardians/guardian_tutorial_4.png
     - assets/images/guardians/invite_guardian_mail.svg
     - assets/images/guardians/guardian_shield.png
+    - assets/images/guardians/onboarding/onboarding_1.jpg
+    - assets/images/guardians/onboarding/onboarding_2.jpg
+    - assets/images/guardians/onboarding/onboarding_3.jpg
+    - assets/images/guardians/onboarding/onboarding_4.jpg
     - assets/images/navigation_bar/explore.svg
     - assets/images/navigation_bar/wallet.svg
     - assets/images/navigation_bar/user_profile.svg
