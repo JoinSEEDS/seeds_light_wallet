@@ -1,25 +1,21 @@
 import 'package:flutter/rendering.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
-class ProposalCategory extends CustomPainter {
+class TrianglePassValue extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = AppColors.orangeYellow
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 1;
+      ..color = AppColors.green1
+      ..style = PaintingStyle.fill;
 
     Path path = Path()
       ..moveTo(0, 0)
-      ..lineTo(0, size.height)
-      ..lineTo(size.width - 1, size.height)
-      ..lineTo(size.width, size.height - 1)
-      ..lineTo(size.width - 10, size.height - 11)
-      ..lineTo(size.width, 1)
-      ..lineTo(size.width - 1, 0)
+      ..lineTo(size.width / 2, size.height)
+      ..lineTo(size.width, 0)
       ..lineTo(0, 0)
       ..close();
 
+    canvas.drawShadow(path, AppColors.black, 3.0, false);
     canvas.drawPath(path, paint);
   }
 
