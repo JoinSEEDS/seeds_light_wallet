@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/flat_button_long_outlined.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -9,8 +10,8 @@ const double avatarRadius = 40;
 /// A custom dialog with top icon that can be used in multiple screens
 class CustomDialog extends StatelessWidget {
   /// Top icon dialog
-  final Widget icon;
-
+  final Widget? icon;
+  final double? iconPadding;
   /// Dialog body content
   final List<Widget> children;
 
@@ -34,7 +35,7 @@ class CustomDialog extends StatelessWidget {
 
   const CustomDialog({
     Key? key,
-    required this.icon,
+    this.icon,
     required this.children,
     this.leftButtonTitle = '',
     this.onLeftButtonPressed,
@@ -42,6 +43,7 @@ class CustomDialog extends StatelessWidget {
     this.onRightButtonPressed,
     this.singleLargeButtonTitle = '',
     this.onSingleLargeButtonPressed,
+    this.iconPadding,
   }) : super(key: key);
 
   @override
@@ -115,34 +117,35 @@ class CustomDialog extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            left: padding,
-            right: padding,
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: avatarRadius,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.green1.withOpacity(0.20),
-                      offset: const Offset(0.0, 1.0),
-                      blurRadius: 6.0,
+          icon != null ?
+              Positioned(
+                left: padding,
+                right: padding,
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: avatarRadius,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.green1.withOpacity(0.20),
+                          offset: const Offset(0.0, 1.0),
+                          blurRadius: 6.0,
+                        ),
+                      ],
                     ),
-                  ],
+                    child: ClipRRect(
+                        borderRadius: const BorderRadius.all(Radius.circular(avatarRadius)),
+                        child: Padding(
+                          padding: EdgeInsets.all(iconPadding ?? 8.0),
+                          child: icon,
+                        ),
+                      ),
+                    ),
                 ),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(avatarRadius)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: icon,
-                  ),
-                ),
-              ),
-            ),
-          ),
+              ): const SizedBox.shrink()
         ],
       ),
     );
