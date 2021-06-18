@@ -33,8 +33,9 @@ class ProposalModel {
   final int voiceNeeded;
 
   /// Percentage to advance 0-1 scale
-  double get voiceNeededPercent => ((voiceNeeded * 100) / total) / 100;
+  double get voiceNeededBarPercent => ((voiceNeeded * 100) / total) / 100;
 
+  /// Percentage in favour 0-1 scale
   double get favourAgainstBarPercent => total == 0 ? 0 : (favour.toDouble() / total.toDouble());
 
   String get favourPercent => '${((favour * 100) / total).toStringAsFixed(0)} %';

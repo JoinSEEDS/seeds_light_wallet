@@ -116,7 +116,7 @@ class ProposalOpenCard extends StatelessWidget {
                             // triangle position - triangle middle width - left margin
                             var leftPadding = proposal.total < proposal.voiceNeeded
                                 ? constrains.maxWidth - 6 - 16
-                                : constrains.maxWidth * proposal.voiceNeededPercent - 6 - 16;
+                                : constrains.maxWidth * proposal.voiceNeededBarPercent - 6 - 16;
                             return Padding(
                               padding: EdgeInsets.only(left: leftPadding, top: 20),
                               child: CustomPaint(size: const Size(12, 8), painter: TrianglePassValue()),
