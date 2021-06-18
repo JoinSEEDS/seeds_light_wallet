@@ -22,7 +22,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
     var transaction = buildFreeTransaction([
       Action()
         ..account = account_token
-        ..name = transfer
+        ..name = action_name_transfer
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -36,7 +36,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
         },
       Action()
         ..account = account_join
-        ..name = invite
+        ..name = action_name_invite
         ..authorization = [
           Authorization()
             ..actor = accountName

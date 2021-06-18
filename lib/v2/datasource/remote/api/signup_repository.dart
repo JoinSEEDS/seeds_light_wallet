@@ -3,6 +3,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/invite_model.dart';
+import 'package:seeds/v2/domain-shared/app_constants.dart';
 
 class SignupRepository extends NetworkRepository {
   Future<Result> findInvite(String inviteHash) async {

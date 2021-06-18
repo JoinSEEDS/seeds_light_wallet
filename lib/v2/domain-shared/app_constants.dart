@@ -9,8 +9,15 @@ const String ios_bundle_id = 'com.joinseeds.seedslight';
 const String ios_app_store_id = '1507143650';
 
 /// Accounts
-const account_token = 'token.seeds';
-const account_join = 'join.seeds';
+const String account_seeds = 'accts.seeds';
+const String account_alliance = 'alliance';
+const String account_cycle = 'cycle.seeds';
+const String account_eosio = 'eosio';
+const String account_funds = 'funds.seeds';
+const String account_guards = 'guard.seeds';
+const String account_harvest = 'harvst.seeds';
+const String account_join = 'join.seeds';
+const String account_token = 'token.seeds';
 
 /// ESR invoice
 const String chain_id = '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11';
