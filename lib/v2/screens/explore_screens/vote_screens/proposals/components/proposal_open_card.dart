@@ -112,13 +112,11 @@ class ProposalOpenCard extends StatelessWidget {
                         ),
                         LayoutBuilder(
                           builder: (_, constrains) {
-                            // Percentage to advance 0-1 scale
-                            var percent = ((proposal.voiceNeeded * 100) / proposal.total) / 100;
                             // If voice needed > total show 100% else show percent.
                             // triangle position - triangle middle width - left margin
                             var leftPadding = proposal.total < proposal.voiceNeeded
                                 ? constrains.maxWidth - 6 - 16
-                                : constrains.maxWidth * percent - 6 - 16;
+                                : constrains.maxWidth * proposal.voiceNeededPercent - 6 - 16;
                             return Padding(
                               padding: EdgeInsets.only(left: leftPadding, top: 20),
                               child: CustomPaint(size: const Size(12, 8), painter: TrianglePassValue()),
