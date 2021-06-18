@@ -14,7 +14,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       link = linkResult.asValue!.value;
     }
 
-    if (areAllResultsSuccess(members) && members.isNotEmpty) {
+    if (areAllResultsSuccess(members) && members.isNotEmpty && link != null) {
       List<MemberModel> guardians = members.map((e) => e.asValue!.value as MemberModel).toList();
 
       return currentState.copyWith(

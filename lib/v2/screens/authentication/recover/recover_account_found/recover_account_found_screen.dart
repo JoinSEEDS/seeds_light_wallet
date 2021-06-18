@@ -54,8 +54,8 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(16),
                     child: Row(
                       children: [
-                        Text("1", style: Theme.of(context).textTheme.button1),
-                        Text("/3", style: Theme.of(context).textTheme.button1),
+                        Text("TODO", style: Theme.of(context).textTheme.button1),
+                        Text("/TODO", style: Theme.of(context).textTheme.button1),
                         const SizedBox(
                           width: 24,
                         ),
