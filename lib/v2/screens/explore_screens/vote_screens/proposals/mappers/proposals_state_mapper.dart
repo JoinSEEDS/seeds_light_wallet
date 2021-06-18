@@ -11,7 +11,11 @@ const _cmp_funding = 'cmp.funding';
 const _milestone = 'milestone';
 
 class ProposalsStateMapper extends StateMapper {
-  ProposalsListState mapResultToState(ProposalsListState currentState, List<Result> results) {
+  ProposalsListState mapResultToState({
+    required ProposalsListState currentState,
+    required List<Result> results,
+    bool isScroll = false,
+  }) {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading proposals".i18n);
     } else {
@@ -36,7 +40,14 @@ class ProposalsStateMapper extends StateMapper {
             .toList();
       }
       // Check if the list needs sort
-      List<ProposalModel> newProposals = currentType.isReverse ? List<ProposalModel>.from(filtered.reversed) : filtered;
+      List<ProposalModel> reversed = currentType.isReverse ? List<ProposalModel>.from(filtered.reversed) : filtered;
+      late List<ProposalModel> newProposals;
+      if (isScroll) {
+        // Add the new proposals to current proposals
+        newProposals = currentState.proposals + reversed;
+      } else {
+        newProposals = reversed;
+      }
 
       // Add pass values to proposals by campaing type
       List<List<SupportLevelModel>> supportLevels = values.whereType<List<SupportLevelModel>>().toList();
@@ -55,7 +66,8 @@ class ProposalsStateMapper extends StateMapper {
         return i;
       }).toList();
 
-      return currentState.copyWith(pageState: PageState.success, proposals: updatedProposals);
+      // If reversed is a empty list then there are no more items to fetch
+      return currentState.copyWith(proposals: updatedProposals, hasReachedMax: reversed.isEmpty);
     }
   }
 }
