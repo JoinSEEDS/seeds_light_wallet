@@ -56,7 +56,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                 onRefresh: () async => _proposalsBloc.add(const OnUserProposalsRefresh()),
                 child: CustomScrollView(
                   slivers: [
-                    if (widget.proposalType.type == 'Open')
+                    if (widget.proposalType.index == 0 || widget.proposalType.index == 1)
                       const SliverPersistentHeader(floating: true, pinned: false, delegate: VotingCycleEndCard()),
                     state.proposals.isEmpty
                         ? SliverFillRemaining(
@@ -64,17 +64,21 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                               child: Text('No proposals to show, yet', style: Theme.of(context).textTheme.button),
                             ),
                           )
-                        : SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) {
-                                if (index >= state.proposals.length) {
-                                  _proposalsBloc.add(const OnUserProposalsScroll());
-                                  return const LoadingIndicatorList();
-                                } else {
-                                  return ProposalOpenCard(state.proposals[index]);
-                                }
-                              },
-                              childCount: state.hasReachedMax ? state.proposals.length : state.proposals.length + 1,
+                        : SliverPadding(
+                            padding: EdgeInsets.only(
+                                top: widget.proposalType.index != 0 && widget.proposalType.index != 1 ? 16 : 0),
+                            sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  if (index >= state.proposals.length) {
+                                    _proposalsBloc.add(const OnUserProposalsScroll());
+                                    return const LoadingIndicatorList();
+                                  } else {
+                                    return ProposalOpenCard(state.proposals[index]);
+                                  }
+                                },
+                                childCount: state.hasReachedMax ? state.proposals.length : state.proposals.length + 1,
+                              ),
                             ),
                           ),
                   ],

@@ -25,6 +25,7 @@ abstract class NetworkRepository {
   String table_balances = 'balances';
   String table_props = 'props';
   String table_moonphases = 'moonphases';
+  String table_support = 'support';
 
   Result mapHttpResponse(http.Response response, Function modelMapper) {
     print('mapHttpResponse - statusCode: ' + response.statusCode.toString());

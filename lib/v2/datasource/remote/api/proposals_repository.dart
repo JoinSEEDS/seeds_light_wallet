@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/moon_phase_model.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
+import 'package:seeds/v2/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
 class ProposalsRepository extends NetworkRepository {
@@ -40,6 +41,21 @@ class ProposalsRepository extends NetworkRepository {
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return body['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList();
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> getSupportLevels(String scope) async {
+    print('[http] get suppor leves for scope: $scope');
+
+    var request = createRequest(code: account_funds, scope: scope, table: table_support, limit: 1);
+
+    final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    return http
+        .post(proposalsURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              return body['rows'].map<SupportLevelModel>((i) => SupportLevelModel.fromJson(i)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
