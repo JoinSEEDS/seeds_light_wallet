@@ -137,13 +137,13 @@ class CustomDialog extends StatelessWidget {
                       ],
                     ),
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(avatarRadius)),
-                      child: Padding(
-                        padding: EdgeInsets.all(iconPadding?? 8.0),
-                        child: icon,
+                        borderRadius: const BorderRadius.all(Radius.circular(avatarRadius)),
+                        child: Padding(
+                          padding: EdgeInsets.all(iconPadding ?? 8.0),
+                          child: icon,
+                        ),
                       ),
                     ),
-                  ),
                 ),
               ): const SizedBox.shrink()
         ],
