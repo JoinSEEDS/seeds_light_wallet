@@ -600,7 +600,7 @@ class EosService {
       ..authorization = auth
       ..data = data;
 
-    var args = esr.SigningRequestCreateArguments(action: action, chain_id: chain_id);
+    var args = esr.SigningRequestCreateArguments(action: action, chainId: chain_id);
 
     var request = await esr.SigningRequestManager.create(args,
         options: esr.defaultSigningRequestEncodingOptions(
