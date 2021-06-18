@@ -29,7 +29,7 @@ class InvoiceRepository extends EosRepository {
       ..authorization = auth
       ..data = data;
 
-    esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: action, chainId: chainId);
+    esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: action, chainId: chain_id);
 
     return esr.SigningRequestManager.create(args,
             options: esr.defaultSigningRequestEncodingOptions(

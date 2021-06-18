@@ -20,7 +20,7 @@ class SendTransactionRepository extends EosRepository {
           action.authorization = [
             Authorization()
               ..actor = accountName
-              ..permission = 'active'
+              ..permission = permission_active
           ]
         });
 

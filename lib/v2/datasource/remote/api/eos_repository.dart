@@ -8,6 +8,14 @@ import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart'
 abstract class EosRepository {
   String cpuPrivateKey = Config.cpuPrivateKey;
 
+  // Actions
+  String transfer = 'transfer';
+  String invite = 'invite';
+
+  // Authorizations
+  String permission_active = 'active';
+  String permission_owner = 'owner';
+
   Transaction buildFreeTransaction(List<Action> actions, String? accountName) {
     var freeAuth = <Authorization>[
       Authorization()
@@ -15,7 +23,7 @@ abstract class EosRepository {
         ..permission = 'payforcpu',
       Authorization()
         ..actor = accountName
-        ..permission = 'active'
+        ..permission = permission_active
     ];
 
     var freeAction = Action()
@@ -33,8 +41,8 @@ abstract class EosRepository {
     return transaction;
   }
 
-  EOSClient buildEosClient() =>
-      EOSClient(remoteConfigurations.activeEOSServerUrl.url!, 'v1', privateKeys: [settingsStorage.privateKey!, cpuPrivateKey]);
+  EOSClient buildEosClient() => EOSClient(remoteConfigurations.activeEOSServerUrl.url!, 'v1',
+      privateKeys: [settingsStorage.privateKey!, cpuPrivateKey]);
 
   Result mapEosResponse(dynamic response, Function modelMapper) {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');

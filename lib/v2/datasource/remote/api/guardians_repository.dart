@@ -73,7 +73,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
           action.authorization = [
             Authorization()
               ..actor = accountName
-              ..permission = 'active'
+              ..permission = permission_active
           ]
         });
 
@@ -102,7 +102,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = 'owner'
+            ..permission = permission_owner
         ]
         ..data = {'user_account': accountName}
     ];
@@ -157,7 +157,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
           action.authorization = [
             Authorization()
               ..actor = accountName
-              ..permission = 'owner'
+              ..permission = permission_owner
           ]
         });
 

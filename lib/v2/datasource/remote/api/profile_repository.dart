@@ -52,7 +52,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = 'active'
+            ..permission = permission_active
         ]
         ..data = {
           'user': accountName,
@@ -115,7 +115,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = 'active'
+            ..permission = permission_active
         ]
         ..data = {
           'from': accountName,
