@@ -467,6 +467,13 @@ class VoiceModel {
       return VoiceModel(0);
     }
   }
+  factory VoiceModel.fromBalanceJson(Map<String, dynamic> balanceJson) {
+    if (balanceJson != null && balanceJson["rows"].isNotEmpty) {
+      return VoiceModel(balanceJson["rows"][0]["voice"] as int);
+    } else {
+      return VoiceModel(0);
+    }
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -541,12 +548,13 @@ class ProposalModel {
   final String stage;
   final String fund;
   final int creationDate;
+
   ProposalType get type {
     return fund == "allies.seeds"
         ? ProposalType.alliance
         : fund == "hypha.seeds"
-            ? ProposalType.hypha
-            : ProposalType.campaign;
+        ? ProposalType.hypha
+        : ProposalType.campaign;
   }
 
   ProposalModel({
@@ -596,26 +604,26 @@ class ProposalModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ProposalModel &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          creator == other.creator &&
-          recipient == other.recipient &&
-          quantity == other.quantity &&
-          staked == other.staked &&
-          executed == other.executed &&
-          total == other.total &&
-          favour == other.favour &&
-          against == other.against &&
-          title == other.title &&
-          summary == other.summary &&
-          description == other.description &&
-          image == other.image &&
-          url == other.url &&
-          status == other.status &&
-          stage == other.stage &&
-          fund == other.fund &&
-          creationDate == other.creationDate;
+          other is ProposalModel &&
+              runtimeType == other.runtimeType &&
+              id == other.id &&
+              creator == other.creator &&
+              recipient == other.recipient &&
+              quantity == other.quantity &&
+              staked == other.staked &&
+              executed == other.executed &&
+              total == other.total &&
+              favour == other.favour &&
+              against == other.against &&
+              title == other.title &&
+              summary == other.summary &&
+              description == other.description &&
+              image == other.image &&
+              url == other.url &&
+              status == other.status &&
+              stage == other.stage &&
+              fund == other.fund &&
+              creationDate == other.creationDate;
 
   @override
   int get hashCode =>
@@ -642,14 +650,108 @@ class ProposalModel {
   String toString() {
     return 'Proposal{id: $id, creator: $creator, recipient: $recipient, quantity: $quantity, staked: $staked, executed: $executed, total: $total, favour: $favour, against: $against, title: $title, summary: $summary, description: $description, image: $image, url: $url, status: $status, stage: $stage, fund: $fund, creationDate: $creationDate}';
   }
+
+}
+
+class ReferendumModel {
+  final int id;
+  final int createdAt;
+  final String settingValue;
+  final int total;
+  final int favour;
+  final int against;
+  final String settingName;
+  final String creator;
+  final String staked;
+  final String title;
+  final String summary;
+  final String description;
+  final String image;
+  final String url;
+
+  ReferendumModel({
+    this.id,
+    this.createdAt,
+    this.settingValue,
+    this.total,
+    this.favour,
+    this.against,
+    this.settingName,
+    this.creator,
+    this.staked,
+    this.title,
+    this.summary,
+    this.description,
+    this.image,
+    this.url,
+  });
+
+  factory ReferendumModel.fromJson(Map<String, dynamic> json) {
+    return ReferendumModel(
+      id: json["referendum_id"],
+      createdAt: json["created_at"],
+      settingValue: json["setting_value"],
+      total: json["favour"] + json["against"],
+      favour: json["favour"],
+      against: json["against"],
+      creator: json["creator"],
+      staked: json["staked"],
+      title: json["title"],
+      summary: json["summary"],
+      description: json["description"],
+      image: json["image"],
+      url: json["url"],
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is ReferendumModel &&
+              runtimeType == other.runtimeType &&
+              id == other.id &&
+              createdAt == other.createdAt &&
+              settingValue == other.settingValue &&
+              total == other.total &&
+              favour == other.favour &&
+              against == other.against &&
+              creator == other.creator &&
+              staked == other.staked &&
+              title == other.title &&
+              summary == other.summary &&
+              description == other.description &&
+              image == other.image &&
+              url == other.url;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      createdAt.hashCode ^
+      settingValue.hashCode ^
+      total.hashCode ^
+      favour.hashCode ^
+      against.hashCode ^
+      creator.hashCode ^
+      staked.hashCode ^
+      title.hashCode ^
+      summary.hashCode ^
+      description.hashCode ^
+      image.hashCode ^
+      url.hashCode;
+
+  @override
+  String toString() {
+    return 'Referedum{id: $id, creator: $creator, setting: $settingName, value: $settingValue, staked: $staked, total: $total, favour: $favour, against: $against, title: $title, summary: $summary, description: $description, image: $image, url: $url, createdAt: $createdAt}';
+  }
+
 }
 
 const proposalTypes = {
   // NOTE:
   // The keys here need to have i18n entries
   // in the ecosystem.i18n.dart file
-  'Open': {'stage': 'active', 'status': 'open'},
-  'Evaluate': {'stage': 'active', 'status': 'evaluate', 'reverse': 'true'},
-  'Passed': {'stage': 'done', 'status': 'passed', 'reverse': 'true'},
-  'Failed': {'stage': 'done', 'status': 'rejected', 'reverse': 'true'},
+  'Open': {'stage': 'active', 'status': 'open', "referendumStage": "active"},
+  'Evaluate': {'stage': 'active', 'status': 'evaluate', "referendumStage": "testing", 'reverse': 'true'},
+  'Passed': {'stage': 'done', 'status': 'passed', "referendumStage": "passed", 'reverse': 'true'},
+  'Failed': {'stage': 'done', 'status': 'rejected', "referendumStage": "failed", 'reverse': 'true'},
 };

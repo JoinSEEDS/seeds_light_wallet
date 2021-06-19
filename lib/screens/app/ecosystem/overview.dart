@@ -174,14 +174,24 @@ class _OverviewState extends State<Overview> {
                 ),
                 Consumer<VoiceNotifier>(
                   builder: (ctx, model, _) => buildCategory(
-                    'Vote'.i18n,
-                    'Tap to participate'.i18n,
-                    'assets/images/governance.svg',
-                    'Trust Tokens'.i18n,
-                    valueString(model?.campaignBalance?.amount) +
-                        "/" +
-                        valueString(model?.allianceBalance?.amount),
-                    onVote
+                      'Vote'.i18n,
+                      'Tap to participate'.i18n,
+                      'assets/images/governance.svg',
+                      'Trust Tokens'.i18n,
+                      valueString(model?.campaignBalance?.amount) +
+                          "/" +
+                          valueString(model?.allianceBalance?.amount),
+                      onVote
+                  ),
+                ),
+                Consumer<VoiceNotifier>(
+                  builder: (ctx, model, _) => buildCategory(
+                      'Vote On Referendums'.i18n,
+                      'Tap to participate'.i18n,
+                      'assets/images/governance.svg',
+                      'Trust Tokens'.i18n,
+                      valueString(model?.referendumBalance?.amount),
+                      onVote,
                   ),
                 ),
                 Consumer<PlantedNotifier>(

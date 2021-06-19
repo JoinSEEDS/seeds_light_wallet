@@ -11,6 +11,9 @@ import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/utils/extensions/response_extension.dart';
 
+import '../../models/models.dart';
+import '../../models/models.dart';
+
 class HttpService {
   String baseURL = Config.defaultEndpoint;
   String historyURL = Config.hyphaEndpoint;
@@ -524,6 +527,10 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
     return getVoice("alliance");
   }
 
+  Future<VoiceModel> getMilestoneVoice() async {
+    return getVoice("milestone");
+  }
+
   Future<VoiceModel> getVoice(String scope) async {
     print("[http] get voice $scope");
 
@@ -547,6 +554,36 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       return voice;
     } else {
       print('Cannot fetch voice...');
+
+      return VoiceModel(0);
+    }
+  }
+  Future<VoiceModel> getReferendumVoice() async {
+    print("[http] get referendum voice");
+
+    if (mockResponse == true) {
+      return HttpMockResponse.voice;
+    }
+
+    final String voiceURL = '$baseURL/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"rules.seeds","scope":"rules.seeds","table":"balances","table_key":"","lower_bound":"$userAccount","upper_bound":"$userAccount","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(voiceURL, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      print('ref voice...'+res.body);
+
+      VoiceModel voice = VoiceModel.fromBalanceJson(body);
+      print('ref voice...${voice.amount}');
+
+      return voice;
+    } else {
+      print('Cannot fetch referendum voice...'+res.body);
 
       return VoiceModel(0);
     }
@@ -633,6 +670,34 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       print('Cannot fetch harvest...');
 
       return ScoreModel();
+    }
+  }
+
+  Future<List<ReferendumModel>> getReferendums(String stage, String status, bool reverse) async {
+    print("[http] get referendums: stage = [$stage]");
+
+    //staged, active, testing, passed, failed
+
+    final String url = '$baseURL/v1/chain/get_table_rows';
+
+    String request =
+        '{"json":true,"code":"rules.seeds","scope":status,"table":"referendums","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(url, headers: headers, body: request);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+
+      List<dynamic> rows = body["rows"];
+
+      List<ReferendumModel> referendums = rows.map((item) => ReferendumModel.fromJson(item)).toList();
+
+      return reverse ? List<ProposalModel>.from(referendums.reversed) : referendums;
+    } else {
+      print('Cannot fetch referendums...' + res.body);
+
+      return [];
     }
   }
 
@@ -822,6 +887,7 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
     );
     return result.length > 0 ? (result[0]["status"] == "resident" || result[0]["status"] == "citizen") : false;
   }
+
 }
 
 class NetworkException implements Exception {
