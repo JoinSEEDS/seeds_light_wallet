@@ -20,9 +20,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => RecoverAccountFoundBloc(userGuardians ?? [])..add(FetchInitialData()),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Recover Account"),
-        ),
+        appBar: AppBar(title: const Text("Recover Account")),
         body: BlocBuilder<RecoverAccountFoundBloc, RecoverAccountFoundState>(
           builder: (context, state) {
             return Padding(

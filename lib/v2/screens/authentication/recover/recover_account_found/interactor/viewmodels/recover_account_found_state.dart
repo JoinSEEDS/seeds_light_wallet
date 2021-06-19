@@ -4,10 +4,10 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class RecoverAccountFoundState extends Equatable {
   final PageState pageState;
+  final String? errorMessage;
   final String linkToActivateGuardians;
   final List<String> userGuardians;
   final List<MemberModel> userGuardiansData;
-  final String? errorMessage;
 
   const RecoverAccountFoundState({
     required this.pageState,
