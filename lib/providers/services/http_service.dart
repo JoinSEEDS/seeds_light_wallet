@@ -12,7 +12,6 @@ import 'package:seeds/providers/notifiers/voted_notifier.dart';
 import 'package:seeds/utils/extensions/response_extension.dart';
 
 import '../../models/models.dart';
-import '../../models/models.dart';
 
 class HttpService {
   String baseURL = Config.defaultEndpoint;
