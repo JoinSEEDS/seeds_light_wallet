@@ -558,6 +558,7 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       return VoiceModel(0);
     }
   }
+
   Future<VoiceModel> getReferendumVoice() async {
     print("[http] get referendum voice");
 
@@ -575,16 +576,10 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
-
-      print('ref voice...'+res.body);
-
       VoiceModel voice = VoiceModel.fromBalanceJson(body);
-      print('ref voice...${voice.amount}');
-
       return voice;
     } else {
       print('Cannot fetch referendum voice...'+res.body);
-
       return VoiceModel(0);
     }
   }
@@ -673,15 +668,12 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
     }
   }
 
-  Future<List<ReferendumModel>> getReferendums(String stage, String status, bool reverse) async {
+  Future<List<ReferendumModel>> getReferendums(String stage, bool reverse) async {
     print("[http] get referendums: stage = [$stage]");
-
-    //staged, active, testing, passed, failed
-
     final String url = '$baseURL/v1/chain/get_table_rows';
 
     String request =
-        '{"json":true,"code":"rules.seeds","scope":status,"table":"referendums","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
+        '{"json":true,"code":"rules.seeds","scope":"$stage","table":"referendums","table_key":"","lower_bound":"","upper_bound":"","index_position":1,"key_type":"i64","limit":"1000","reverse":false,"show_payer":false}';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     Response res = await post(url, headers: headers, body: request);
@@ -834,6 +826,43 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       "json": true,
       "code": "funds.seeds",
       "scope": "$proposalId",
+      "table": "votes",
+      "table_key": "",
+      "lower_bound": "$userAccount",
+      "upper_bound": "$userAccount",
+      "limit": 10,
+      "key_type": "",
+      "index_position": "",
+      "encode_type": "dec",
+      "reverse": false,
+      "show_payer": false
+    }''';
+
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(url, headers: headers, body: request);
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+      if (body["rows"].length > 0) {
+        var item = body["rows"][0];
+        int amount = item["favour"] == 1 ? item["amount"] : -item["amount"];
+        return VoteResult(amount, true);
+      } else {
+        return VoteResult(0, false);
+      }
+    } else {
+      print('Cannot fetch votes...${res.toString()}');
+      return VoteResult(0, false, error: true);
+    }
+  }
+
+  Future<VoteResult> getReferendumVote({referendumId: int}) async {
+    String url = "$baseURL/v1/chain/get_table_rows";
+
+    var request = '''{
+      "json": true,
+      "code": "rules.seeds",
+      "scope": "$referendumId",
       "table": "votes",
       "table_key": "",
       "lower_bound": "$userAccount",
