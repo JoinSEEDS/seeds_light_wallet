@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:async/async.dart';
 import 'package:seeds/v2/datasource/remote/api/rates_repository.dart';
 
 class GetRatesUseCase {

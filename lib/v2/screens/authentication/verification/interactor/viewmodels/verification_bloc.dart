@@ -6,7 +6,7 @@ import 'package:seeds/features/biometrics/auth_state.dart';
 import 'package:seeds/features/biometrics/auth_type.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/mappers/auth_state_state_mapper.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/mappers/auth_types_state_mapper.dart';
-import 'package:seeds/v2/screens/authentication/verification/interactor/usecases/biometric_auth_use_case%20copy.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/usecases/biometric_auth_use_case.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/usecases/biometrics_availables_use_case.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_event.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_state.dart';

@@ -8,6 +8,8 @@ import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
+export 'package:async/src/result/result.dart';
+
 class InviteRepository extends NetworkRepository with EosRepository {
   Future<Result> createInvite({
     required double quantity,
