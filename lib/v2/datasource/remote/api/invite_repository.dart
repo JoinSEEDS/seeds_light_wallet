@@ -21,26 +21,26 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     var transaction = buildFreeTransaction([
       Action()
-        ..account = tokenSeeds
-        ..name = transfer
+        ..account = account_token
+        ..name = action_name_transfer
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permissionActive
+            ..permission = permission_active
         ]
         ..data = {
           'from': accountName,
-          'to': joinSeeds,
+          'to': account_join,
           'quantity': '${quantity.toStringAsFixed(4)} $currencySeedsCode',
           'memo': '',
         },
       Action()
-        ..account = joinSeeds
-        ..name = invite
+        ..account = account_join
+        ..name = action_name_invite
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permissionActive
+            ..permission = permission_active
         ]
         ..data = {
           'sponsor': accountName,
@@ -60,10 +60,10 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
   Future<Result> createInviteLink(String? inviteMnemonic) async {
     final parameters = DynamicLinkParameters(
-      uriPrefix: domainAppUriPrefix,
-      link: Uri.parse('$targetLink$inviteMnemonic'),
-      androidParameters: AndroidParameters(packageName: androidPacakageName),
-      iosParameters: IosParameters(bundleId: iosBundleId, appStoreId: iosAppStoreId),
+      uriPrefix: domain_app_uri_prefix,
+      link: Uri.parse('$target_link$inviteMnemonic'),
+      androidParameters: AndroidParameters(packageName: android_pacakage_name),
+      iosParameters: IosParameters(bundleId: ios_bundle_id, appStoreId: ios_app_store_id),
     );
 
     final dynamicUrl = (await parameters.buildShortLink()).shortUrl;

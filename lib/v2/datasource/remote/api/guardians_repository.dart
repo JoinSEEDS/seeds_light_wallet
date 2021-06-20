@@ -7,6 +7,7 @@ import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/account_recovery_model.dart';
+import 'package:seeds/v2/domain-shared/app_constants.dart';
 
 export 'package:async/src/result/result.dart';
 
@@ -33,7 +34,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     // Check if permissions are already set?
     // ignore: unnecessary_cast
     for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts as List<dynamic>) {
-      if (acct['permission']['actor'] == 'guard.seeds') {
+      if (acct['permission']['actor'] == account_guards) {
         print('permission already set, doing nothing');
         return currentPermissions;
       }
@@ -41,7 +42,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     ownerPermission.requiredAuth.accounts.add({
       'weight': ownerPermission.requiredAuth.threshold,
-      'permission': {'actor': 'guard.seeds', 'permission': 'eosio.code'}
+      'permission': {'actor': account_guards, 'permission': 'eosio.code'}
     });
 
     return await _updatePermission(ownerPermission);
@@ -60,8 +61,8 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     var actions = [
       Action()
-        ..account = "guard.seeds"
-        ..name = "init"
+        ..account = account_guards
+        ..name = action_name_init
         ..data = {
           'user_account': accountName,
           'guardian_accounts': guardians,
@@ -73,7 +74,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
           action.authorization = [
             Authorization()
               ..actor = accountName
-              ..permission = 'active'
+              ..permission = permission_active
           ]
         });
 
@@ -97,12 +98,12 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     var actions = [
       Action()
-        ..account = 'guard.seeds'
-        ..name = 'cancel'
+        ..account = account_guards
+        ..name = action_name_cancel
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = 'owner'
+            ..permission = permission_owner
         ]
         ..data = {'user_account': accountName}
     ];
@@ -143,8 +144,8 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     var actions = [
       Action()
-        ..account = "eosio"
-        ..name = "updateauth"
+        ..account = account_eosio
+        ..name = action_name_updateauth
         ..data = {
           'account': accountName,
           'permission': permission.permName,
@@ -157,7 +158,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
           action.authorization = [
             Authorization()
               ..actor = accountName
-              ..permission = 'owner'
+              ..permission = permission_owner
           ]
         });
 
