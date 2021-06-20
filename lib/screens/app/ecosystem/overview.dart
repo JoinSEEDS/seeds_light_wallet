@@ -51,6 +51,10 @@ class _OverviewState extends State<Overview> {
     NavigationService.of(context).navigateTo(Routes.proposals);
   }
 
+  void onReferendumVote() {
+    NavigationService.of(context).navigateTo(Routes.referendums);
+  }
+
   void onInvite() {
     NavigationService.of(context).navigateTo(Routes.createInvite);
   }
@@ -186,12 +190,12 @@ class _OverviewState extends State<Overview> {
                 ),
                 Consumer<VoiceNotifier>(
                   builder: (ctx, model, _) => buildCategory(
-                      'Vote On Referendums'.i18n,
+                      'Referendums'.i18n,
                       'Tap to participate'.i18n,
                       'assets/images/governance.svg',
                       'Trust Tokens'.i18n,
                       valueString(model?.referendumBalance?.amount),
-                      onVote,
+                      onReferendumVote,
                   ),
                 ),
                 Consumer<PlantedNotifier>(

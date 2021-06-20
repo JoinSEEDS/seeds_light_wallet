@@ -212,7 +212,7 @@ class ProposalDetailsPageState extends State<ProposalDetailsPage> {
                                   await Provider.of<EosService>(context,
                                           listen: false)
                                       .voteProposal(
-                                          id: proposal.id,
+                                          proposalId: proposal.id,
                                           amount: _vote.toInt());
                                 } catch (e) {
                                   d("e = $e");

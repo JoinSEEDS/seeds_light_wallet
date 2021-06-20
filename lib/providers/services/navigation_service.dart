@@ -11,6 +11,8 @@ import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
 import 'package:seeds/screens/app/ecosystem/overview.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/ecosystem/proposals/proposals.dart';
+import 'package:seeds/screens/app/ecosystem/referendums/referendum_details.dart';
+import 'package:seeds/screens/app/ecosystem/referendums/referendums.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite.dart';
 import 'package:seeds/screens/app/guardians/guardian_invite_sent.dart';
 import 'package:seeds/screens/app/guardians/guardians_tabs.dart';
@@ -45,6 +47,8 @@ class Routes {
   static final createInvite = "CreateInvite";
   static final proposals = "Proposals";
   static final proposalDetailsPage = "ProposalDetailsPage";
+  static final referendums = "Referendums";
+  static final referendumDetailsPage = "ReferendumDetailsPage";
   static final overview = "Overview";
   static final dashboard = "Dashboard";
   static final logout = "Logout";
@@ -100,6 +104,8 @@ class NavigationService {
     Routes.createInvite: (_) => CreateInvite(),
     Routes.proposals: (_) => Proposals(),
     Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
+    Routes.referendums: (_) => Referendums(),
+    Routes.referendumDetailsPage: (args) => ReferendumDetailsPage(referendum: args),
     Routes.logout: (_) => Logout(),
     Routes.imageViewer: (args) => ImageViewer(
           arguments: args,
