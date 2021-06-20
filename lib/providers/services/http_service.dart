@@ -323,17 +323,18 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
   }
   
   Future<List<TransactionModel>> getTransactions() async {
+    print("[http] get transactions");
 
     if (mockResponse == true) {
       return HttpMockResponse.transactions;
     }
 
-    final String url = "$historyURL/v1/history/get_actions";
+    final String url = "$baseURL/v1/history/get_actions";
 
     var params = '''{ 
       "account_name": "$userAccount",
       "pos": -1,
-      "offset": -100
+      "offset": -20
     }''';
 
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -342,29 +343,74 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = res.parseJson();
-      List<dynamic> transfers = body["actions"].where((dynamic item) {
 
-      var act = item["action_trace"]["act"];
-      return act["account"] == "token.seeds" &&
-            act["data"] != null &&
-            act["data"]["from"] != null;
+      List<dynamic> transfers = body["actions"].where((dynamic item) {
+        return item["act"]["account"] == "token.seeds" &&
+            item["act"]["data"] != null &&
+            item["act"]["data"]["from"] != null;
       }).toList();
 
       List<TransactionModel> transactions =
           transfers.map((item) => TransactionModel.fromJson(item)).toList();
 
-      transactions.sort( (a, b) => b.accountActionSequence - a.accountActionSequence);
-
-      final ids = transactions.map((e) => e.transactionId).toSet();
-      transactions.retainWhere((x) => ids.remove(x.transactionId));
-
       return transactions;
     } else {
-      print("Cannot fetch transactions...${res.statusCode}   ${res.parseJson()}");
+      print("Cannot fetch transactions...");
 
       return [];
     }
   }
+
+  Future<List<TransactionModel>> getTransactionsMongo({int blockHeight = 0}) async {
+
+    print("[http] loading transactions from block $blockHeight");
+
+    const url = "https://mongo-api.hypha.earth/find";
+
+    var params = '''{ 
+      "collection":"action_traces",
+      "query": { 
+        "act.account": "token.seeds",
+        "act.name":"transfer",
+        "block_num": {"\$gt": $blockHeight },
+        "\$or": [ { "act.data.from": "$userAccount" }, { "act.data.to":"$userAccount"} ]
+      },
+      "projection":{
+        "trx_id": true,
+        "block_num": true,
+        "block_time": true,
+        "act.data": true
+      },
+      "sort":{
+        "block_num": -1
+      },
+      "skip":0,
+      "limit": 100,
+      "reverse": true
+    }''';
+
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    Response res = await post(url, headers: headers, body: params);
+    
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = res.parseJson();
+      List<dynamic> transfers = body["items"];
+      List<TransactionModel> transactions = transfers
+          .map((item) => TransactionModel.fromJsonMongo(item))
+          .toList();
+      
+      // unique transaction id - in very rare cases tx id are returned duplicates
+      final ids = transactions.map((e) => e.transactionId).toSet();
+      transactions.retainWhere((e) => ids.remove(e.transactionId));
+
+      return transactions;
+    } else {
+      print("Error fetching transactions..."+res.parseJson().toString());
+      return [];
+    }
+  }
+
   
   Future<BalanceModel> getBalance() async {
     print("[http] get seeds balance");
