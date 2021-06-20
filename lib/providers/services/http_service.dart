@@ -908,7 +908,7 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       "json": true,
       "code": "rules.seeds",
       "scope": "$referendumId",
-      "table": "votes",
+      "table": "voters",
       "table_key": "",
       "lower_bound": "$userAccount",
       "upper_bound": "$userAccount",
@@ -927,13 +927,15 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
       Map<String, dynamic> body = jsonDecode(res.body);
       if (body["rows"].length > 0) {
         var item = body["rows"][0];
-        int amount = item["favour"] == 1 ? item["amount"] : -item["amount"];
+        int amount = item["favoured"] == 1 ? item["amount"] : -item["amount"];
+        print("getting vote for illumination $amount");
+
         return VoteResult(amount, true);
       } else {
         return VoteResult(0, false);
       }
     } else {
-      print('Cannot fetch votes...${res.toString()}');
+      print('Cannot fetch votes...${res.body.toString()}');
       return VoteResult(0, false, error: true);
     }
   }

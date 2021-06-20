@@ -35,7 +35,7 @@ class VotedNotifier extends ChangeNotifier {
   }
 
   Future<VoteResult> fetchReferendumVote({referendumId: int}) async {
-    Box box = await SafeHive.safeOpenBox<VoteResult>("votes.ref.box");
+    Box box = await SafeHive.safeOpenBox<VoteResult>("votes.ref.1.box");
     VoteResult result = box.get(referendumId);
     if (result == null) {
       result = await _http.getReferendumVote(referendumId: referendumId);
