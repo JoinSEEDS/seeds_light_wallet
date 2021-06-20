@@ -7,6 +7,8 @@ import 'package:seeds/v2/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
+export 'package:async/src/result/result.dart';
+
 class ProposalsRepository extends NetworkRepository {
   Future<Result> getMoonPhases() async {
     print('[http] get moon phases');

@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/mappers/proposals_state_mapper.dart';
