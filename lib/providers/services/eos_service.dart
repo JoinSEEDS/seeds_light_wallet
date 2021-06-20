@@ -274,8 +274,8 @@ class EosService {
     return client.pushTransaction(transaction, broadcast: true);
   }
 
-  Future<dynamic> voteProposal({int id, int amount}) async {
-    print("[eos] vote proposal $id ($amount)");
+  Future<dynamic> voteProposal({int proposalId, int amount}) async {
+    print("[eos] vote proposal $proposalId ($amount)");
 
     if (mockEnabled) {
       return HttpMockResponse.transactionResult;
@@ -290,7 +290,29 @@ class EosService {
             ..actor = accountName
             ..permission = "active"
         ]
-        ..data = {"user": accountName, "id": id, "amount": amount.abs()}
+        ..data = {"user": accountName, "id": proposalId, "amount": amount.abs()}
+    ]);
+
+    return client.pushTransaction(transaction, broadcast: true);
+  }
+
+  Future<dynamic> voteReferendum({int referendumId, int amount}) async {
+    print("[eos] vote proposal $referendumId ($amount)");
+
+    if (mockEnabled) {
+      return HttpMockResponse.transactionResult;
+    }
+
+    Transaction transaction = buildFreeTransaction([
+      Action()
+        ..account = "rules.seeds"
+        ..name = amount.isNegative ? "against" : "favour"
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = "active"
+        ]
+        ..data = {"voter": accountName, "referendum_id": referendumId, "amount": amount.abs()}
     ]);
 
     return client.pushTransaction(transaction, broadcast: true);
