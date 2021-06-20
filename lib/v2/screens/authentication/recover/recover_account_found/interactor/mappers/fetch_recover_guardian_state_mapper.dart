@@ -39,21 +39,17 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       // check how long we have to wait before we can claim (24h delay is standard)
       var timeLockSeconds = userRecoversModelData.completeTimestamp + userGuardiansModel.timeDelaySec;
 
-      bool isAccountReadyToClaim;
-      bool isAccountMissingSignatures;
+      RecoveryStatus recoveryStatus;
       // for 3 signers, we need 2/3 signatures. For 4 or 5 signers, we need 3+ signatures.
       if ((userGuardiansModel.guardians.length == 3 && confirmedGuardianSignatures >= 2) ||
           (userGuardiansModel.guardians.length > 3 && confirmedGuardianSignatures >= 3)) {
-        isAccountMissingSignatures = false;
-
         if (timeLockSeconds <= DateTime.now().millisecondsSinceEpoch / 1000) {
-          isAccountReadyToClaim = true;
+          recoveryStatus = RecoveryStatus.READY_TO_CLAIM_ACCOUNT;
         } else {
-          isAccountReadyToClaim = false;
+          recoveryStatus = RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD;
         }
       } else {
-        isAccountReadyToClaim = false;
-        isAccountMissingSignatures = true;
+        recoveryStatus = RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN;
       }
 
       return currentState.copyWith(
@@ -61,8 +57,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         linkToActivateGuardians: link,
         userGuardiansData: guardians,
         confirmedGuardianSignatures: confirmedGuardianSignatures,
-        isAccountReadyToClaim: isAccountReadyToClaim,
-        isAccountMissingSignatures: isAccountMissingSignatures,
+        recoveryStatus: recoveryStatus,
         alreadySignedGuardians: userRecoversModelData.alreadySignedGuardians
       );
     } else {

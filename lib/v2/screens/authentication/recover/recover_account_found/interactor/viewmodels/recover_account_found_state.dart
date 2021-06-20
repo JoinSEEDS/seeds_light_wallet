@@ -10,8 +10,7 @@ class RecoverAccountFoundState extends Equatable {
   final List<String> alreadySignedGuardians;
   final List<MemberModel> userGuardiansData;
   final int confirmedGuardianSignatures;
-  final bool isAccountReadyToClaim;
-  final bool isAccountMissingSignatures;
+  final RecoveryStatus recoveryStatus;
 
   const RecoverAccountFoundState({
     required this.pageState,
@@ -20,8 +19,7 @@ class RecoverAccountFoundState extends Equatable {
     required this.userGuardiansData,
     this.errorMessage,
     required this.confirmedGuardianSignatures,
-    required this.isAccountReadyToClaim,
-    required this.isAccountMissingSignatures,
+    required this.recoveryStatus,
     required this.alreadySignedGuardians,
   });
 
@@ -33,9 +31,8 @@ class RecoverAccountFoundState extends Equatable {
         userGuardiansData,
         errorMessage,
         confirmedGuardianSignatures,
-        isAccountReadyToClaim,
-        isAccountMissingSignatures,
-    alreadySignedGuardians,
+        recoveryStatus,
+        alreadySignedGuardians,
       ];
 
   RecoverAccountFoundState copyWith({
@@ -45,9 +42,8 @@ class RecoverAccountFoundState extends Equatable {
     List<MemberModel>? userGuardiansData,
     String? errorMessage,
     int? confirmedGuardianSignatures,
-    bool? isAccountReadyToClaim,
-    bool? isAccountMissingSignatures,
     List<String>? alreadySignedGuardians,
+    RecoveryStatus? recoveryStatus,
   }) {
     return RecoverAccountFoundState(
       pageState: pageState ?? this.pageState,
@@ -56,22 +52,25 @@ class RecoverAccountFoundState extends Equatable {
       userGuardiansData: userGuardiansData ?? this.userGuardiansData,
       errorMessage: errorMessage,
       confirmedGuardianSignatures: confirmedGuardianSignatures ?? this.confirmedGuardianSignatures,
-      isAccountReadyToClaim: isAccountReadyToClaim ?? this.isAccountReadyToClaim,
-      isAccountMissingSignatures: isAccountMissingSignatures ?? this.isAccountMissingSignatures,
-        alreadySignedGuardians: alreadySignedGuardians ?? this.alreadySignedGuardians,
+      recoveryStatus: recoveryStatus ?? this.recoveryStatus,
+      alreadySignedGuardians: alreadySignedGuardians ?? this.alreadySignedGuardians,
     );
   }
 
   factory RecoverAccountFoundState.initial(List<String> userGuardians) {
     return RecoverAccountFoundState(
-      pageState: PageState.initial,
-      linkToActivateGuardians: "",
-      userGuardians: userGuardians,
-      userGuardiansData: [],
-      confirmedGuardianSignatures: 0,
-      isAccountReadyToClaim: false,
-      isAccountMissingSignatures: true,
-      alreadySignedGuardians: []
-    );
+        pageState: PageState.initial,
+        linkToActivateGuardians: "",
+        userGuardians: userGuardians,
+        userGuardiansData: [],
+        confirmedGuardianSignatures: 0,
+        recoveryStatus: RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN,
+        alreadySignedGuardians: []);
   }
+}
+
+enum RecoveryStatus {
+  WAITING_FOR_GUARDIANS_TO_SIGN,
+  WAITING_FOR_24_HOUR_COOL_PERIOD,
+  READY_TO_CLAIM_ACCOUNT,
 }

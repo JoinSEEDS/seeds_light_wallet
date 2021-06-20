@@ -34,70 +34,77 @@ class RecoverAccountFoundScreen extends StatelessWidget {
               case PageState.failure:
                 return FullPageErrorIndicator(errorMessage: state.errorMessage);
               case PageState.success:
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-                        child: TextFormFieldCustom(
-                          enabled: false,
-                          labelText: 'Link to Activate Key Guardians',
-                          suffixIcon: IconButton(
-                            icon: const Icon(
-                              Icons.copy,
-                              color: AppColors.white,
-                            ),
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(text: state.linkToActivateGuardians)).then(
-                                (value) {
-                                  SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
+                switch (state.recoveryStatus) {
+                  case RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN:
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                            child: TextFormFieldCustom(
+                              enabled: false,
+                              labelText: 'Link to Activate Key Guardians',
+                              suffixIcon: IconButton(
+                                icon: const Icon(
+                                  Icons.copy,
+                                  color: AppColors.white,
+                                ),
+                                onPressed: () {
+                                  Clipboard.setData(ClipboardData(text: state.linkToActivateGuardians)).then(
+                                    (value) {
+                                      SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
+                                    },
+                                  );
                                 },
-                              );
-                            },
-                          ),
-                          controller: TextEditingController(text: state.linkToActivateGuardians),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Text(state.confirmedGuardianSignatures.toString(),
-                                style: Theme.of(context).textTheme.button1),
-                            Text("/" + state.userGuardians.length.toString(),
-                                style: Theme.of(context).textTheme.button1),
-                            const SizedBox(
-                              width: 24,
-                            ),
-                            Flexible(
-                              child: Text(
-                                "Guardians have accepted your request to recover your account",
-                                style: Theme.of(context).textTheme.buttonLowEmphasis,
                               ),
+                              controller: TextEditingController(text: state.linkToActivateGuardians),
                             ),
-                          ],
-                        ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              children: [
+                                Text(state.confirmedGuardianSignatures.toString(),
+                                    style: Theme.of(context).textTheme.button1),
+                                Text("/" + state.userGuardians.length.toString(),
+                                    style: Theme.of(context).textTheme.button1),
+                                const SizedBox(
+                                  width: 24,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    "Guardians have accepted your request to recover your account",
+                                    style: Theme.of(context).textTheme.buttonLowEmphasis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 16),
+                            child: DividerJungle(),
+                          ),
+                          Expanded(
+                            child: ListView(
+                              children: state.userGuardiansData
+                                  .map((e) => GuardianRowWidget(
+                                        guardianModel: e,
+                                        showGuardianSigned: state.alreadySignedGuardians
+                                            .where((String element) => element == e.account)
+                                            .isNotEmpty,
+                                      ))
+                                  .toList(),
+                            ),
+                          )
+                        ],
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 16),
-                        child: DividerJungle(),
-                      ),
-                      Expanded(
-                        child: ListView(
-                          children: state.userGuardiansData
-                              .map((e) => GuardianRowWidget(
-                                    guardianModel: e,
-                                    showGuardianSigned: state.alreadySignedGuardians
-                                        .where((String element) => element == e.account)
-                                        .isNotEmpty,
-                                  ))
-                              .toList(),
-                        ),
-                      )
-                    ],
-                  ),
-                );
+                    );
+                  case RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD:
+                    return const SizedBox.shrink(); // TODO(gguij002): Next PR
+                  case RecoveryStatus.READY_TO_CLAIM_ACCOUNT:
+                    return const SizedBox.shrink(); // TODO(gguij002): Next PR
+                }
             }
           },
         ),
