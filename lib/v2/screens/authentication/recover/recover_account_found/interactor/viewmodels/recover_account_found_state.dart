@@ -7,7 +7,11 @@ class RecoverAccountFoundState extends Equatable {
   final String? errorMessage;
   final String linkToActivateGuardians;
   final List<String> userGuardians;
+  final List<String> alreadySignedGuardians;
   final List<MemberModel> userGuardiansData;
+  final int confirmedGuardianSignatures;
+  final bool isAccountReadyToClaim;
+  final bool isAccountMissingSignatures;
 
   const RecoverAccountFoundState({
     required this.pageState,
@@ -15,6 +19,10 @@ class RecoverAccountFoundState extends Equatable {
     required this.userGuardians,
     required this.userGuardiansData,
     this.errorMessage,
+    required this.confirmedGuardianSignatures,
+    required this.isAccountReadyToClaim,
+    required this.isAccountMissingSignatures,
+    required this.alreadySignedGuardians,
   });
 
   @override
@@ -24,6 +32,10 @@ class RecoverAccountFoundState extends Equatable {
         userGuardians,
         userGuardiansData,
         errorMessage,
+        confirmedGuardianSignatures,
+        isAccountReadyToClaim,
+        isAccountMissingSignatures,
+    alreadySignedGuardians,
       ];
 
   RecoverAccountFoundState copyWith({
@@ -32,6 +44,10 @@ class RecoverAccountFoundState extends Equatable {
     List<String>? userGuardians,
     List<MemberModel>? userGuardiansData,
     String? errorMessage,
+    int? confirmedGuardianSignatures,
+    bool? isAccountReadyToClaim,
+    bool? isAccountMissingSignatures,
+    List<String>? alreadySignedGuardians,
   }) {
     return RecoverAccountFoundState(
       pageState: pageState ?? this.pageState,
@@ -39,6 +55,10 @@ class RecoverAccountFoundState extends Equatable {
       userGuardians: userGuardians ?? this.userGuardians,
       userGuardiansData: userGuardiansData ?? this.userGuardiansData,
       errorMessage: errorMessage,
+      confirmedGuardianSignatures: confirmedGuardianSignatures ?? this.confirmedGuardianSignatures,
+      isAccountReadyToClaim: isAccountReadyToClaim ?? this.isAccountReadyToClaim,
+      isAccountMissingSignatures: isAccountMissingSignatures ?? this.isAccountMissingSignatures,
+        alreadySignedGuardians: alreadySignedGuardians ?? this.alreadySignedGuardians,
     );
   }
 
@@ -48,6 +68,10 @@ class RecoverAccountFoundState extends Equatable {
       linkToActivateGuardians: "",
       userGuardians: userGuardians,
       userGuardiansData: [],
+      confirmedGuardianSignatures: 0,
+      isAccountReadyToClaim: false,
+      isAccountMissingSignatures: true,
+      alreadySignedGuardians: []
     );
   }
 }

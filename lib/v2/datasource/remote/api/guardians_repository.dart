@@ -10,7 +10,8 @@ import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
-import 'package:seeds/v2/datasource/remote/model/account_recovery_model.dart';
+import 'package:seeds/v2/datasource/remote/model/account_guardians_model.dart';
+import 'package:seeds/v2/datasource/remote/model/user_recover_model.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 
 export 'package:async/src/result/result.dart';
@@ -177,6 +178,22 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   }
 
   Future<Result<dynamic>> getAccountRecovery(String accountName) async {
+    print('[http] get account recovery');
+
+    final String requestURL = "$baseURL/v1/chain/get_table_rows";
+
+    String request = createRequest(code: account_guards, scope: account_guards, table: table_recover);
+
+    return http
+        .post(Uri.parse(requestURL), headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              var rows = body["rows"] as List<dynamic>;
+              return UserRecoversModel.fromTableRows(rows);
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result<dynamic>> getAccountGuardians(String accountName) async {
     print('[http] get account guardians');
 
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
@@ -193,7 +210,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         .post(Uri.parse(requestURL), headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               var rows = body["rows"] as List<dynamic>;
-              return AccountRecoveryModel.fromTableRows(rows);
+              return UserGuardiansModel.fromTableRows(rows);
             }))
         .catchError((error) => mapHttpError(error));
   }
