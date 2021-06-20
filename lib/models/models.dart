@@ -656,7 +656,7 @@ class ProposalModel {
 class ReferendumModel {
   final int id;
   final int createdAt;
-  final String settingValue;
+  final int settingValue;
   final int total;
   final int favour;
   final int against;
@@ -691,6 +691,7 @@ class ReferendumModel {
       id: json["referendum_id"],
       createdAt: json["created_at"],
       settingValue: json["setting_value"],
+      settingName: json["setting_name"],
       total: json["favour"] + json["against"],
       favour: json["favour"],
       against: json["against"],
@@ -750,8 +751,15 @@ const proposalTypes = {
   // NOTE:
   // The keys here need to have i18n entries
   // in the ecosystem.i18n.dart file
-  'Open': {'stage': 'active', 'status': 'open', "referendumStage": "active"},
-  'Evaluate': {'stage': 'active', 'status': 'evaluate', "referendumStage": "testing", 'reverse': 'true'},
-  'Passed': {'stage': 'done', 'status': 'passed', "referendumStage": "passed", 'reverse': 'true'},
-  'Failed': {'stage': 'done', 'status': 'rejected', "referendumStage": "failed", 'reverse': 'true'},
+  'Open': {'stage': 'active', 'status': 'open'},
+  'Evaluate': {'stage': 'active', 'status': 'evaluate', 'reverse': 'true'},
+  'Passed': {'stage': 'done', 'status': 'passed', 'reverse': 'true'},
+  'Failed': {'stage': 'done', 'status': 'rejected', 'reverse': 'true'},
+};
+
+const referendumTypes = {
+  'Open': {'referendumStage': 'active'},
+  'Evaluate': {'referendumStage': 'testing', 'reverse': 'true'},
+  'Passed': { "referendumStage": "passed", 'reverse': 'true'},
+  'Failed': { "referendumStage": "failed", 'reverse': 'true'},
 };
