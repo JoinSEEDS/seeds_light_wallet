@@ -72,7 +72,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                     title: 'Next',
                     enabled: state.isValidUsername,
                     onPressed: () {
-                      NavigationService.of(context).navigateTo(Routes.recoverAccountFound);
+                      NavigationService.of(context).navigateTo(Routes.recoverAccountFound, state.userGuardians);
                     },
                   ),
                 ],
