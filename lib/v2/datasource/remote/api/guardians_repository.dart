@@ -228,7 +228,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     };
 
     esr.Action action = esr.Action()
-      ..account = 'guard.seeds'
+      ..account = account_guards
       ..name = 'recover'
       ..authorization = auth
       ..data = data;
