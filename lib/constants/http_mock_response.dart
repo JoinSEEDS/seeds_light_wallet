@@ -118,14 +118,14 @@ class HttpMockResponse {
         "15.0000 SEEDS",
         "",
         "2020-02-05T17:24:28.500",
-        "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55", 0, "", 0),
+        "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55", 0),
     TransactionModel(
         "sevenflash42",
         "testingseeds",
         "5.0000 SEEDS",
         "",
         "2020-02-05T17:24:28.500",
-        "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55", 0, "", 0),
+        "b58a4db809b97e1480b3f8c5d5e181b49196b34705568ad3eeb18b075fc46c55", 0),
   ];
 
   static final balance = BalanceModel("10.0000 SEEDS", false);
