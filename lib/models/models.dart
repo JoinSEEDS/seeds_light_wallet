@@ -182,31 +182,36 @@ class TransactionModel {
   final String timestamp;
   final String transactionId;
   final int blockNumber;
-  final String globalActionSequence;
-  final int accountActionSequence;
 
   String get symbol { return quantity.split(" ")[1]; }
 
   TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp,
-      this.transactionId, this.blockNumber, this.globalActionSequence, this.accountActionSequence);
+      this.transactionId, this.blockNumber);
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
-    var acttionTrace = json["action_trace"];
-    var act = acttionTrace["act"];
-    var data = act["data"];
     return TransactionModel(
-      data["from"],
-      data["to"],
-      data["quantity"],
-      data["memo"],
-      acttionTrace["block_time"],
-      acttionTrace["trx_id"],
-      acttionTrace["block_num"],
-      json["global_action_seq"].toString(),
-      int.parse(json["account_action_seq"].toString()),
+      json["act"]["data"]["from"],
+      json["act"]["data"]["to"],
+      json["act"]["data"]["quantity"],
+      json["act"]["data"]["memo"],
+      json["@timestamp"],
+      json["trx_id"],
+      0
     );
   }
   
+  factory TransactionModel.fromJsonMongo(Map<String, dynamic> json) {
+    return TransactionModel(
+      json["act"]["data"]["from"],
+      json["act"]["data"]["to"],
+      json["act"]["data"]["quantity"],
+      json["act"]["data"]["memo"],
+      json["block_time"],
+      json["trx_id"],
+      json["block_num"],
+    );
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -219,7 +224,6 @@ class TransactionModel {
   @override
   int get hashCode => super.hashCode;
 }
-
 class BalanceModel {
   final String quantity;
   final double numericQuantity;
