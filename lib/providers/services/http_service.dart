@@ -367,12 +367,15 @@ Future<List<String>> getKeyAccounts(String publicKey) async {
 
     const url = "https://mongo-api.hypha.earth/find";
 
+    // Note: Sending the query with param == 0 causes internal server error on mongoDB
+    var blockParam = blockHeight == 0 ? "" : '''"block_num": {"\$gt": $blockHeight },''';
+
     var params = '''{ 
       "collection":"action_traces",
       "query": { 
         "act.account": "token.seeds",
         "act.name":"transfer",
-        "block_num": {"\$gt": $blockHeight },
+        $blockParam
         "\$or": [ { "act.data.from": "$userAccount" }, { "act.data.to":"$userAccount"} ]
       },
       "projection":{
