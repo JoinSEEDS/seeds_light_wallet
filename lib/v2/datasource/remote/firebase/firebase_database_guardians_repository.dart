@@ -99,7 +99,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
           .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: guardian.account));
 
       // This empty is needed in case the user does not exist in the database yet. Create him.
-      batch.set(otherUserRef, {}, SetOptions(merge: true));
+      batch.set(otherUserRef, <String, dynamic>{}, SetOptions(merge: true));
       batch.set(currentUserRef, data, SetOptions(merge: true));
       batch.set(otherUserGuardianRef, dataOther, SetOptions(merge: true));
     });
