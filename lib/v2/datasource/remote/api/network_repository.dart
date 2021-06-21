@@ -21,6 +21,7 @@ abstract class NetworkRepository {
   String table_support = 'support';
   String table_users = 'users';
   String table_voice = 'voice';
+  String table_recover = 'recovers';
 
   Result mapHttpResponse(http.Response response, Function modelMapper) {
     print('mapHttpResponse - statusCode: ' + response.statusCode.toString());
