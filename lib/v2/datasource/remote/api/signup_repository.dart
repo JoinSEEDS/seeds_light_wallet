@@ -49,4 +49,35 @@ class SignupRepository extends NetworkRepository {
       }
     }
   }
+
+  /// Checks the availability of the given username on the blockchain, it will return the success response if the username
+  /// is taken, otherwise returns an error
+  Future<Result> isUsernameTaken(String username) async {
+    final keyAccountsURL = '$baseURL/v1/chain/get_account';
+
+    final requestBody = '{ "account_name": "$username" }';
+
+    return await http
+        .post(
+          Uri.parse(keyAccountsURL),
+          body: requestBody,
+        )
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              // Username exists on the blockchain and is not available
+              return null;
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  String generateUsername(String fullname) {
+    String suggestedUsername = fullname.toLowerCase().trim().split('').map((character) {
+      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(character).isNotEmpty;
+
+      return legalChar ? character.toString() : '';
+    }).join();
+
+    suggestedUsername = suggestedUsername.padRight(12, '1');
+
+    return suggestedUsername.substring(0, 12);
+  }
 }
