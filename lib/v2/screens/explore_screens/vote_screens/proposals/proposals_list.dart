@@ -46,6 +46,12 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
   bool get wantKeepAlive => true;
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return BlocProvider(
