@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
-import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
@@ -21,7 +20,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String>? userGuardians = ModalRoute.of(context)!.settings.arguments as List<String>?;
     return BlocProvider(
-      create: (BuildContext context) => RecoverAccountFoundBloc(userGuardians ?? [])..add(FetchInitialData()),
+      create: (_) => RecoverAccountFoundBloc(userGuardians ?? [])..add(FetchInitialData()),
       child: Scaffold(
         appBar: AppBar(title: const Text("Recover Account")),
         body: BlocBuilder<RecoverAccountFoundBloc, RecoverAccountFoundState>(
@@ -53,7 +52,8 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                 onPressed: () {
                                   Clipboard.setData(ClipboardData(text: state.linkToActivateGuardians)).then(
                                     (value) {
-                                      SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
+                                      // TODO(gguij002): Fire event to bloc
+                                      // SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
                                     },
                                   );
                                 },

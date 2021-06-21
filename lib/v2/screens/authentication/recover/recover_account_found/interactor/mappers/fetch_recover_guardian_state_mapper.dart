@@ -28,6 +28,8 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       userGuardiansModel = accountGuardians.asValue!.value;
     }
 
+    // Check that we have all data needed from the server and is valid. We need data from multiple services and any of them can fail.
+    // This is the minimum required data to proceed
     if (areAllResultsSuccess(members) &&
         members.isNotEmpty &&
         link != null &&
@@ -53,13 +55,12 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       }
 
       return currentState.copyWith(
-        pageState: PageState.success,
-        linkToActivateGuardians: link,
-        userGuardiansData: guardians,
-        confirmedGuardianSignatures: confirmedGuardianSignatures,
-        recoveryStatus: recoveryStatus,
-        alreadySignedGuardians: userRecoversModelData.alreadySignedGuardians
-      );
+          pageState: PageState.success,
+          linkToActivateGuardians: link,
+          userGuardiansData: guardians,
+          confirmedGuardianSignatures: confirmedGuardianSignatures,
+          recoveryStatus: recoveryStatus,
+          alreadySignedGuardians: userRecoversModelData.alreadySignedGuardians);
     } else {
       return currentState.copyWith(
         pageState: PageState.failure,
