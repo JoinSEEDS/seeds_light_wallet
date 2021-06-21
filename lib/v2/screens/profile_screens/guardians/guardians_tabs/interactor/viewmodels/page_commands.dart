@@ -42,3 +42,21 @@ class ShowOnboardingGuardianDoubleAction extends PageCommand {
     required this.rightButtonTitle,
   });
 }
+
+class ShowActivateGuardianDoubleAction extends PageCommand {
+  final int index;
+  final String image;
+  final String description;
+  final String leftButtonTitle;
+  final String rightButtonTitle;
+  final Iterable<GuardianModel> myGuardians;
+
+  ShowActivateGuardianDoubleAction({
+    required this.index,
+    required this.description,
+    required this.image,
+    required this.leftButtonTitle,
+    required this.rightButtonTitle,
+    required this.myGuardians,
+  });
+}

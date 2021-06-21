@@ -87,6 +87,8 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
     } else if (event is OnPreviousGuardianOnboardingTapped) {
       int index = state.indexDialog - 1;
       yield state.copyWith(pageCommand: createPageCommand(index), indexDialog: index);
+    } else if (event is OnGuardianReadyForActivation) {
+      yield state.copyWith(pageCommand: createActivateGuardianPageCommand(event.myGuardians));
     }
   }
 
@@ -102,6 +104,18 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       return state;
     }
   }
+}
+
+PageCommand createActivateGuardianPageCommand(Iterable<GuardianModel> myGuardians) {
+  return ShowActivateGuardianDoubleAction(
+      myGuardians: myGuardians,
+      rightButtonTitle: "Activate Guardians!",
+      leftButtonTitle: "Dismiss",
+      index: 4,
+      image: "assets/images/guardians/onboarding/onboarding_1.jpg",
+      description:
+          "At least three of your nominated Key Guardians have accepted your request. All that is left is to activate them"
+          " and they will be able to help you recover your account when you need.");
 }
 
 PageCommand createPageCommand(int index) {

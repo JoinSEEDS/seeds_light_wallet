@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
@@ -59,15 +58,8 @@ class MyGuardiansTab extends StatelessWidget {
                             child: Text("Your guardians are active!"),
                           );
                         } else {
-                          return Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: FlatButtonLong(
-                              title: "Activate My Guardians",
-                              onPressed: () {
-                                BlocProvider.of<GuardiansBloc>(context).add(InitGuardians(myGuardians));
-                              },
-                            ),
-                          );
+                          BlocProvider.of<GuardiansBloc>(context).add(OnGuardianReadyForActivation(myGuardians));
+                          return const SizedBox.shrink();
                         }
                       } else {
                         return const SizedBox.shrink();

@@ -79,19 +79,25 @@ class OnRemoveGuardianTapped extends GuardiansEvent {
 }
 
 class InitOnboardingGuardian extends GuardiansEvent {
-
   @override
   String toString() => 'InitOnboardingGuardian';
 }
 
 class OnNextGuardianOnboardingTapped extends GuardiansEvent {
-
   @override
   String toString() => 'OnNextGuardianOnboardingTapped';
 }
 
 class OnPreviousGuardianOnboardingTapped extends GuardiansEvent {
-
   @override
   String toString() => 'OnPreviousGuardianOnboardingTapped';
+}
+
+class OnGuardianReadyForActivation extends GuardiansEvent {
+  final Iterable<GuardianModel> myGuardians;
+
+  OnGuardianReadyForActivation(this.myGuardians);
+
+  @override
+  String toString() => 'OnGuardianReadyForActivation: { myGuardians: $myGuardians }';
 }
