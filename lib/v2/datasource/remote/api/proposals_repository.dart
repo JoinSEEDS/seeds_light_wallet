@@ -36,7 +36,16 @@ class ProposalsRepository extends NetworkRepository {
   Future<Result> getProposals(ProposalType proposalType) async {
     print('[http] get proposals type - ${proposalType.type}');
 
-    var request = createRequest(code: account_funds, scope: account_funds, table: table_props, limit: 1000);
+    var request = createRequest(
+      code: account_funds,
+      scope: account_funds,
+      table: table_props,
+      lowerBound: proposalType.lowerUpperBound,
+      upperBound: proposalType.lowerUpperBound,
+      limit: 100,
+      indexPosition: proposalType.indexPosition,
+      reverse: proposalType.isReverse,
+    );
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 

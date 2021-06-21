@@ -101,7 +101,7 @@ class ProposalOpenCard extends StatelessWidget {
                               bottomRight: Radius.circular(12),
                             ),
                             child: StepProgressIndicator(
-                              totalSteps: proposal.total,
+                              totalSteps: proposal.total != 0 ? proposal.total : 1,
                               currentStep: proposal.favour,
                               size: 6,
                               padding: 0,
