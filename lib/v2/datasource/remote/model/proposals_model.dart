@@ -38,9 +38,9 @@ class ProposalModel {
   /// Percentage in favour 0-1 scale
   double get favourAgainstBarPercent => total == 0 ? 0 : (favour.toDouble() / total.toDouble());
 
-  String get favourPercent => '${((favour * 100) / total).toStringAsFixed(0)} %';
+  String get favourPercent => total > 0 ? '${((favour * 100) / total).toStringAsFixed(0)} %' : '0 %';
 
-  String get againstPercent => '${((against * 100) / total).toStringAsFixed(0)} %';
+  String get againstPercent => total > 0 ? '${((against * 100) / total).toStringAsFixed(0)} %' : '0 %';
 
   FundType get fundType {
     return FundType.values.firstWhere((i) => '$i' == fund.split('.').first, orElse: () => FundType.unknown);
