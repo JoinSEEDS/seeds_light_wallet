@@ -2,6 +2,8 @@ import 'package:flutter/rendering.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
 class TrianglePassValue extends CustomPainter {
+  const TrianglePassValue();
+
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
