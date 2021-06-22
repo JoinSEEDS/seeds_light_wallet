@@ -30,7 +30,7 @@ class ProposalDetailsScreen extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 FittedBox(
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                   child: CachedNetworkImage(
                     imageUrl: proposal.image,
                     errorWidget: (_, __, ___) => const SizedBox.shrink(),
@@ -112,7 +112,7 @@ class ProposalDetailsScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Requested: %s SEEDS'.i18n.fill(['${proposal.quantity}']),
+                            'Requested: %s '.i18n.fill(['${proposal.quantity}']),
                             style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                           ),
                           const SizedBox(height: 8),
