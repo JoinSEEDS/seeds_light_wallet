@@ -16,6 +16,9 @@ import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/intera
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_state.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 
+import 'mappers/activate_guardian_state_mapper.dart';
+import 'mappers/onboarding_dialogs_state_mapper.dart';
+
 /// --- BLOC
 class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
   GuardiansBloc() : super(GuardiansState.initial());
@@ -80,15 +83,15 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       var result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
       yield RemoveGuardianStateMapper().mapResultToState(state, result);
     } else if (event is InitOnboardingGuardian) {
-      yield state.copyWith(pageCommand: createPageCommand(1), indexDialog: 1);
+      yield OnboardingDialogsStateMapper().mapResultToState(state, 1);
     } else if (event is OnNextGuardianOnboardingTapped) {
       int index = state.indexDialog + 1;
-      yield state.copyWith(pageCommand: createPageCommand(index), indexDialog: index);
+      yield OnboardingDialogsStateMapper().mapResultToState(state, index);
     } else if (event is OnPreviousGuardianOnboardingTapped) {
       int index = state.indexDialog - 1;
-      yield state.copyWith(pageCommand: createPageCommand(index), indexDialog: index);
+      yield OnboardingDialogsStateMapper().mapResultToState(state, index);
     } else if (event is OnGuardianReadyForActivation) {
-      yield state.copyWith(pageCommand: createActivateGuardianPageCommand(event.myGuardians));
+      yield ActivateGuardianStateMapper().mapResultToState(state, event.myGuardians);
     }
   }
 
@@ -104,60 +107,4 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       return state;
     }
   }
-}
-
-PageCommand createActivateGuardianPageCommand(Iterable<GuardianModel> myGuardians) {
-  return ShowActivateGuardian(
-      myGuardians: myGuardians,
-      rightButtonTitle: "Activate Guardians!",
-      leftButtonTitle: "Dismiss",
-      index: 4,
-      image: "assets/images/guardians/onboarding/onboarding_1.jpg",
-      description:
-          "At least three of your nominated Key Guardians have accepted your request. All that is left is to activate them"
-          " and they will be able to help you recover your account when you need.");
-}
-
-PageCommand createPageCommand(int index) {
-  late PageCommand pageCommand;
-
-  switch (index) {
-    case 1:
-      pageCommand = ShowOnboardingGuardianSingleAction(
-          buttonTitle: "Next",
-          index: index,
-          image: "assets/images/guardians/onboarding/onboarding_1.jpg",
-          description: "Welcome to the \n Key Guardians feature.");
-      break;
-    case 2:
-      pageCommand = ShowOnboardingGuardianDoubleAction(
-          rightButtonTitle: "Next",
-          leftButtonTitle: "Previous",
-          index: index,
-          image: "assets/images/guardians/onboarding/onboarding_2.jpg",
-          description: "Here, you can invite 3 - 5 individuals to help you secure your SEEDS account.");
-      break;
-    case 3:
-      pageCommand = ShowOnboardingGuardianDoubleAction(
-        rightButtonTitle: "Next",
-        leftButtonTitle: "Previous",
-        index: index,
-        image: "assets/images/guardians/onboarding/onboarding_3.jpg",
-        description:
-            "If you ever lose your phone, forget your password or keyphrase, your Key Guardians will help you recover your account.",
-      );
-      break;
-
-    case 4:
-      pageCommand = ShowOnboardingGuardianDoubleAction(
-          rightButtonTitle: "Done",
-          leftButtonTitle: "Previous",
-          index: index,
-          image: "assets/images/guardians/onboarding/onboarding_4.jpg",
-          description:
-              "Make sure to choose your guardians carefully and give them a heads up. The safety of your account may depend on them in the future!");
-      break;
-  }
-
-  return pageCommand;
 }

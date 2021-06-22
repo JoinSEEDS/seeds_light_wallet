@@ -43,7 +43,7 @@ class GuardiansScreen extends StatelessWidget {
                 _showOnboardingGuardianDialogSingleAction(pageCommand, context);
               } else if (pageCommand is ShowOnboardingGuardianDoubleAction) {
                 _showOnboardingGuardianDialogDoubleAction(pageCommand, context);
-              } else if (pageCommand is ShowActivateGuardian){
+              } else if (pageCommand is ShowActivateGuardian) {
                 _showActivateGuardianDialog(pageCommand, context);
               }
             },
@@ -226,8 +226,7 @@ void _showOnboardingGuardianDialogDoubleAction(
       });
 }
 
-void _showActivateGuardianDialog(
-    ShowActivateGuardian pageCommand, BuildContext buildContext) {
+void _showActivateGuardianDialog(ShowActivateGuardian pageCommand, BuildContext buildContext) {
   showDialog(
       context: buildContext,
       builder: (BuildContext context) {
