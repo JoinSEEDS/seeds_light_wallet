@@ -80,7 +80,7 @@ class VotingCycleEndCard implements SliverPersistentHeaderDelegate {
                                     children: [
                                       Text('${state.currentRemainingTime?.sec ?? 0} ',
                                           style: Theme.of(context).textTheme.headline5),
-                                      Text('mins'.i18n, style: Theme.of(context).textTheme.subtitle3Opacity)
+                                      Text('sec'.i18n, style: Theme.of(context).textTheme.subtitle3Opacity)
                                     ],
                                   ),
                                 )
