@@ -107,7 +107,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
 }
 
 PageCommand createActivateGuardianPageCommand(Iterable<GuardianModel> myGuardians) {
-  return ShowActivateGuardianDoubleAction(
+  return ShowActivateGuardian(
       myGuardians: myGuardians,
       rightButtonTitle: "Activate Guardians!",
       leftButtonTitle: "Dismiss",
