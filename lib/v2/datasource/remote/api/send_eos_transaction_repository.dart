@@ -3,7 +3,9 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 
+export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';
+export 'package:async/src/result/value.dart';
 
 class SendTransactionRepository extends EosRepository {
   Future<Result> sendTransaction(String? name, String account, Map<String, dynamic> data, String accountName) async {
@@ -20,7 +22,7 @@ class SendTransactionRepository extends EosRepository {
           action.authorization = [
             Authorization()
               ..actor = accountName
-              ..permission = 'active'
+              ..permission = permission_active
           ]
         });
 

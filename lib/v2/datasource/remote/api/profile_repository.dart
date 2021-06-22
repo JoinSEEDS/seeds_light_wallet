@@ -9,6 +9,7 @@ import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/score_model.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/v2/datasource/remote/model/referred_accounts_model.dart';
+import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 export 'package:async/src/result/result.dart';
@@ -18,12 +19,13 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     print('[http] get seeds getProfile $accountName');
 
     var request = createRequest(
-        code: account_seeds,
-        scope: account_seeds,
-        table: table_users,
-        lowerBound: accountName,
-        upperBound: accountName,
-        limit: 1);
+      code: account_seeds,
+      scope: account_seeds,
+      table: table_users,
+      lowerBound: accountName,
+      upperBound: accountName,
+      limit: 1,
+    );
 
     return http
         .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
@@ -47,12 +49,12 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     var transaction = buildFreeTransaction([
       Action()
-        ..account = 'accts.seeds'
-        ..name = 'update'
+        ..account = account_seeds
+        ..name = action_name_update
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = 'active'
+            ..permission = permission_active
         ]
         ..data = {
           'user': accountName,
@@ -79,8 +81,14 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final scoreURL = Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows');
 
-    var request =
-        '{"json":true,"code":"harvst.seeds","scope":"harvst.seeds","table":"harvest","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":1,"key_type":"i64","limit":"1","reverse":false,"show_payer":false}';
+    var request = createRequest(
+      code: account_harvest,
+      scope: account_harvest,
+      table: table_harvest,
+      lowerBound: '$accountName',
+      upperBound: '$accountName',
+      limit: 1,
+    );
 
     return http
         .post(scoreURL, headers: headers, body: request)
@@ -93,8 +101,15 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getReferredAccounts(String accountName) {
     print('[http] get Referred Accounts $accountName');
 
-    var request =
-        '{"json":true,"code":"accts.seeds","scope":"accts.seeds","table":"refs","table_key":"","lower_bound":" $accountName","upper_bound":" $accountName","index_position":2,"key_type":"i64","limit":100,"reverse":false,"show_payer":false}';
+    var request = createRequest(
+      code: account_seeds,
+      scope: account_seeds,
+      table: table_refs,
+      lowerBound: '$accountName',
+      upperBound: '$accountName',
+      indexPosition: 2,
+      limit: 100,
+    );
 
     return http
         .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
@@ -110,16 +125,16 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     var transaction = buildFreeTransaction([
       Action()
-        ..account = 'token.seeds'
-        ..name = 'transfer'
+        ..account = account_token
+        ..name = action_name_transfer
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = 'active'
+            ..permission = permission_active
         ]
         ..data = {
           'from': accountName,
-          'to': 'harvst.seeds',
+          'to': account_harvest,
           'quantity': '${amount!.toStringAsFixed(4)} $currencySeedsCode',
           'memo': '',
         }

@@ -11,7 +11,7 @@ const double avatarRadius = 40;
 class CustomDialog extends StatelessWidget {
   /// Top icon dialog
   final Widget? icon;
-
+  final double? iconPadding;
   /// Dialog body content
   final List<Widget> children;
 
@@ -43,6 +43,7 @@ class CustomDialog extends StatelessWidget {
     this.onRightButtonPressed,
     this.singleLargeButtonTitle = '',
     this.onSingleLargeButtonPressed,
+    this.iconPadding,
   }) : super(key: key);
 
   @override
@@ -136,13 +137,13 @@ class CustomDialog extends StatelessWidget {
                       ],
                     ),
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(avatarRadius)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: icon,
+                        borderRadius: const BorderRadius.all(Radius.circular(avatarRadius)),
+                        child: Padding(
+                          padding: EdgeInsets.all(iconPadding ?? 8.0),
+                          child: icon,
+                        ),
                       ),
                     ),
-                  ),
                 ),
               ): const SizedBox.shrink()
         ],

@@ -17,6 +17,7 @@ import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/intera
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
 import 'components/onboarding_dialog_double_action.dart';
 import 'components/onboarding_dialog_single_action.dart';
+import 'components/remove_guardian_confirmation_dialog.dart';
 
 /// GuardiansScreen SCREEN
 class GuardiansScreen extends StatelessWidget {
@@ -81,6 +82,7 @@ class GuardiansScreen extends StatelessWidget {
                           },
                         ),
                         title: const Text("Key Guardians"),
+                        centerTitle: true,
                       ),
                       body: state.pageState == PageState.loading
                           ? const FullPageLoadingIndicator()
@@ -172,50 +174,15 @@ void _showRemoveGuardianDialog(BuildContext buildContext, GuardianModel guardian
   showDialog(
     context: buildContext,
     builder: (BuildContext context) {
-      return AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              "Are you sure you want to remove ",
-            ),
-            const SizedBox(height: 16),
-            ListTile(
-              leading: ProfileAvatar(
-                size: 60,
-                image: guardian.image,
-                account: guardian.uid,
-                nickname: guardian.nickname,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.blue,
-                ),
-              ),
-              title: Text(
-                "${guardian.nickname}",
-                style: const TextStyle(color: Colors.black),
-              ),
-              subtitle: Text("${guardian.uid}"),
-            ),
-            const SizedBox(height: 16),
-            const Text("As your Guardian?"),
-          ],
-        ),
-        actions: [
-          TextButton(
-            child: const Text('Dismiss'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          TextButton(
-            child: const Text('Remove Guardian'),
-            onPressed: () async {
-              BlocProvider.of<GuardiansBloc>(buildContext).add(OnRemoveGuardianTapped(guardian));
-              Navigator.pop(context);
-            },
-          )
-        ],
+      return RemoveGuardianConfirmationDialog(
+        guardian: guardian,
+        onConfirm: () {
+          BlocProvider.of<GuardiansBloc>(buildContext).add(OnRemoveGuardianTapped(guardian));
+          Navigator.pop(context);
+        },
+        onDismiss: () {
+          Navigator.pop(context);
+        },
       );
     },
   );

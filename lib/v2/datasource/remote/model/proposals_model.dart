@@ -1,4 +1,4 @@
-enum FundType { alliance, campaign, hypha }
+enum FundType { allies, gift, millest, unknown }
 
 class ProposalModel {
   final int id;
@@ -29,18 +29,21 @@ class ProposalModel {
   final String reward;
   final int campaignId;
 
+  /// local UI field
+  final int voiceNeeded;
+
+  /// Percentage to advance 0-1 scale
+  double get voiceNeededBarPercent => ((voiceNeeded * 100) / total) / 100;
+
+  /// Percentage in favour 0-1 scale
   double get favourAgainstBarPercent => total == 0 ? 0 : (favour.toDouble() / total.toDouble());
 
-  String get favourPercent => '${((favour * 100) / total).toStringAsFixed(0)} %';
+  String get favourPercent => total > 0 ? '${((favour * 100) / total).toStringAsFixed(0)} %' : '0 %';
 
-  String get againstPercent => '${((against * 100) / total).toStringAsFixed(0)} %';
+  String get againstPercent => total > 0 ? '${((against * 100) / total).toStringAsFixed(0)} %' : '0 %';
 
-  FundType get type {
-    return fund == 'allies.seeds'
-        ? FundType.alliance
-        : fund == 'hypha.seeds'
-            ? FundType.hypha
-            : FundType.campaign;
+  FundType get fundType {
+    return FundType.values.firstWhere((i) => '$i' == fund.split('.').first, orElse: () => FundType.unknown);
   }
 
   ProposalModel({
@@ -71,7 +74,41 @@ class ProposalModel {
     required this.planted,
     required this.reward,
     required this.campaignId,
+    this.voiceNeeded = 0,
   });
+
+  ProposalModel copyWith(int voiceNeeded) {
+    return ProposalModel(
+      id: id,
+      creator: creator,
+      recipient: recipient,
+      quantity: quantity,
+      staked: staked,
+      executed: executed,
+      total: total,
+      favour: favour,
+      against: against,
+      title: title,
+      summary: summary,
+      description: description,
+      image: image,
+      url: url,
+      status: status,
+      stage: stage,
+      fund: fund,
+      creationDate: creationDate,
+      payPercentages: payPercentages,
+      passedCycle: passedCycle,
+      age: age,
+      currentPayout: currentPayout,
+      campaignType: campaignType,
+      maxAmountPerInvite: maxAmountPerInvite,
+      planted: planted,
+      reward: reward,
+      campaignId: campaignId,
+      voiceNeeded: voiceNeeded,
+    );
+  }
 
   factory ProposalModel.fromJson(Map<String, dynamic> json) {
     return ProposalModel(
