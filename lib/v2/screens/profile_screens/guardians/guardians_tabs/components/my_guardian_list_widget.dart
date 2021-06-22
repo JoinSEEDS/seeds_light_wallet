@@ -11,6 +11,7 @@ class MyGuardiansListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      padding: const EdgeInsets.only(top: 10),
       children: guardians.map((GuardianModel guardian) => GuardianRowWidget(guardianModel: guardian)).toList(),
     );
   }
