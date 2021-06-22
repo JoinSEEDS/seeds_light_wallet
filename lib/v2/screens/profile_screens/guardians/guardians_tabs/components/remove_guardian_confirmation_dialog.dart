@@ -32,15 +32,19 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
         ),
       ),
       children: [
-        Text("${guardian.uid}", style: Theme.of(context).textTheme.subtitle2LowEmphasis),
+        const SizedBox(height: 20),
+        Text("Remove Guardian?", style: Theme.of(context).textTheme.headline6),
         const SizedBox(height: 30),
-        Text("Are you sure you want to remove ${guardian.nickname} \n from your guardians",
-            style: Theme.of(context).textTheme.subtitle2, textAlign: TextAlign.center),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Text("Are you sure you want to remove ${guardian.nickname} as your Guardian?",
+              style: Theme.of(context).textTheme.subtitle2, textAlign: TextAlign.center),
+        ),
         const SizedBox(height: 20),
       ],
-      rightButtonTitle: "Confirm",
+      rightButtonTitle: "Accept",
       onRightButtonPressed: onConfirm,
-      leftButtonTitle: "Dismiss",
+      leftButtonTitle: "Decline",
       onLeftButtonPressed: onDismiss,
     );
   }
