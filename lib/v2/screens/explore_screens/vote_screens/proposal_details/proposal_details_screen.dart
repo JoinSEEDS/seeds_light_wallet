@@ -142,8 +142,7 @@ class ProposalDetailsScreen extends StatelessWidget {
                                 ),
                                 TextSpan(
                                   text: proposal.url,
-                                  style:
-                                      Theme.of(context).textTheme.subtitle3OpacityEmphasis.copyWith(color: Colors.blue),
+                                  style: Theme.of(context).textTheme.subtitle3LightGreen6,
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
                                       if (await launcher.canLaunch(proposal.url)) {
