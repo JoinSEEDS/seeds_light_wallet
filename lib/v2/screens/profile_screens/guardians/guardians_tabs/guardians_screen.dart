@@ -214,11 +214,11 @@ void _showOnboardingGuardianDialogDoubleAction(
           indexDialong: pageCommand.index,
           image: pageCommand.image,
           description: pageCommand.description,
-          onNext: () {
+          onRightButtonTab: () {
             BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
             Navigator.pop(context);
           },
-          onPrevious: () {
+          onLeftButtonTab: () {
             BlocProvider.of<GuardiansBloc>(buildContext).add(OnPreviousGuardianOnboardingTapped());
             Navigator.pop(context);
           },
@@ -237,11 +237,11 @@ void _showActivateGuardianDialog(
           indexDialong: pageCommand.index,
           image: pageCommand.image,
           description: pageCommand.description,
-          onNext: () {
-           // BlocProvider.of<GuardiansBloc>(context).add(InitGuardians(pageCommand.myGuardians));
+          onRightButtonTab: () {
+            BlocProvider.of<GuardiansBloc>(buildContext).add(InitGuardians(pageCommand.myGuardians));
             Navigator.pop(context);
           },
-          onPrevious: () {
+          onLeftButtonTab: () {
             Navigator.pop(context);
           },
         );

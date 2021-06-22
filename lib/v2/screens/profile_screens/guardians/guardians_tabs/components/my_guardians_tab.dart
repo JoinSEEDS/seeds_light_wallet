@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_status.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/my_guardian_list_widget.dart';
@@ -18,9 +19,12 @@ class MyGuardiansTab extends StatelessWidget {
     return StreamBuilder<List<GuardianModel>>(
         stream: BlocProvider.of<GuardiansBloc>(context).guardians,
         builder: (context, AsyncSnapshot<List<GuardianModel>> snapshot) {
+          int count = 0;
           if (snapshot.hasData) {
             var myGuardians = snapshot.data!.where((element) => element.type == GuardianType.myGuardian);
-
+            myGuardians.forEach((element) {
+              element.status == GuardianStatus.alreadyGuardian ? count++ : count = count;
+            });
             if (myGuardians.isEmpty) {
               return const NoGuardiansWidget(
                 message: "You have added no user to become your guardian yet. Once you do, the request will show here.",
@@ -58,7 +62,9 @@ class MyGuardiansTab extends StatelessWidget {
                             child: Text("Your guardians are active!"),
                           );
                         } else {
-                          BlocProvider.of<GuardiansBloc>(context).add(OnGuardianReadyForActivation(myGuardians));
+                          if (count >= 3) {
+                            BlocProvider.of<GuardiansBloc>(context).add(OnGuardianReadyForActivation(myGuardians));
+                          }
                           return const SizedBox.shrink();
                         }
                       } else {

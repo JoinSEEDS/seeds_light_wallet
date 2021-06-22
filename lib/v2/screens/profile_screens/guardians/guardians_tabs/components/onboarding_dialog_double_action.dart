@@ -8,8 +8,8 @@ class OnboardingDialogDoubleAction extends StatelessWidget {
   final int indexDialong;
   final String image;
   final String description;
-  final GestureTapCallback? onPrevious;
-  final GestureTapCallback? onNext;
+  final GestureTapCallback? onLeftButtonTab;
+  final GestureTapCallback? onRightButtonTab;
   final String leftButtonTitle;
   final String rightButtonTitle;
 
@@ -18,8 +18,8 @@ class OnboardingDialogDoubleAction extends StatelessWidget {
       required this.indexDialong,
       required this.image,
       required this.description,
-      this.onNext,
-      this.onPrevious,
+      this.onRightButtonTab,
+      this.onLeftButtonTab,
       required this.rightButtonTitle,
       required this.leftButtonTitle})
       : super(key: key);
@@ -64,9 +64,9 @@ class OnboardingDialogDoubleAction extends StatelessWidget {
             ),
           ],
           rightButtonTitle: rightButtonTitle,
-          onRightButtonPressed: onNext,
+          onRightButtonPressed: onRightButtonTab,
           leftButtonTitle: leftButtonTitle,
-          onLeftButtonPressed: onPrevious,
+          onLeftButtonPressed: onLeftButtonTab,
         ),
       ),
     );
