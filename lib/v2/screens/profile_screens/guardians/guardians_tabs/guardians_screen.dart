@@ -43,6 +43,8 @@ class GuardiansScreen extends StatelessWidget {
                 _showOnboardingGuardianDialogSingleAction(pageCommand, context);
               } else if (pageCommand is ShowOnboardingGuardianDoubleAction) {
                 _showOnboardingGuardianDialogDoubleAction(pageCommand, context);
+              } else if (pageCommand is ShowActivateGuardian) {
+                _showActivateGuardianDialog(pageCommand, context);
               }
             },
             child: BlocBuilder<GuardiansBloc, GuardiansState>(builder: (context, state) {
@@ -212,12 +214,33 @@ void _showOnboardingGuardianDialogDoubleAction(
           indexDialong: pageCommand.index,
           image: pageCommand.image,
           description: pageCommand.description,
-          onNext: () {
+          onRightButtonTab: () {
             BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
             Navigator.pop(context);
           },
-          onPrevious: () {
+          onLeftButtonTab: () {
             BlocProvider.of<GuardiansBloc>(buildContext).add(OnPreviousGuardianOnboardingTapped());
+            Navigator.pop(context);
+          },
+        );
+      });
+}
+
+void _showActivateGuardianDialog(ShowActivateGuardian pageCommand, BuildContext buildContext) {
+  showDialog(
+      context: buildContext,
+      builder: (BuildContext context) {
+        return OnboardingDialogDoubleAction(
+          rightButtonTitle: pageCommand.rightButtonTitle,
+          leftButtonTitle: pageCommand.leftButtonTitle,
+          indexDialong: pageCommand.index,
+          image: pageCommand.image,
+          description: pageCommand.description,
+          onRightButtonTab: () {
+            BlocProvider.of<GuardiansBloc>(buildContext).add(InitGuardians(pageCommand.myGuardians));
+            Navigator.pop(context);
+          },
+          onLeftButtonTab: () {
             Navigator.pop(context);
           },
         );

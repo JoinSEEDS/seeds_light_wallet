@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_status.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/my_guardian_list_widget.dart';
@@ -21,6 +21,7 @@ class MyGuardiansTab extends StatelessWidget {
         builder: (context, AsyncSnapshot<List<GuardianModel>> snapshot) {
           if (snapshot.hasData) {
             var myGuardians = snapshot.data!.where((element) => element.type == GuardianType.myGuardian);
+            var alreadyGuardians = myGuardians.where((element) => element.status == GuardianStatus.alreadyGuardian);
 
             if (myGuardians.isEmpty) {
               return const NoGuardiansWidget(
@@ -35,7 +36,7 @@ class MyGuardiansTab extends StatelessWidget {
                 guardians: myGuardians.toList(),
               )));
 
-              if (myGuardians.length < 3) {
+              if (alreadyGuardians.length < 3) {
                 items.add(Container(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 56.0, right: 56, top: 16, bottom: 100),
@@ -59,15 +60,9 @@ class MyGuardiansTab extends StatelessWidget {
                             child: Text("Your guardians are active!"),
                           );
                         } else {
-                          return Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: FlatButtonLong(
-                              title: "Activate My Guardians",
-                              onPressed: () {
-                                BlocProvider.of<GuardiansBloc>(context).add(InitGuardians(myGuardians));
-                              },
-                            ),
-                          );
+                          BlocProvider.of<GuardiansBloc>(context).add(OnGuardianReadyForActivation(myGuardians));
+
+                          return const SizedBox.shrink();
                         }
                       } else {
                         return const SizedBox.shrink();
