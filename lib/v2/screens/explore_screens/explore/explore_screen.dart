@@ -113,7 +113,8 @@ class ExploreScreen extends StatelessWidget {
                             Expanded(
                               child: ExploreLinkCard(
                                 backgroundImage: 'assets/images/explore/get_seeds_card.jpg',
-                                onTap: () => launch('$buySeedsUrl${settingsStorage.accountName}', forceSafariVC: false),
+                                onTap: () =>
+                                    launch('$url_buy_seeds${settingsStorage.accountName}', forceSafariVC: false),
                               ),
                             ),
                             const SizedBox(width: 16),

@@ -10,17 +10,17 @@ class StopScan extends PageCommand {}
 class ClaimInviteState extends Equatable {
   const ClaimInviteState({
     required this.pageState,
+    this.pageCommand,
     this.errorMessage,
     this.inviteModel,
     this.inviteMnemonic,
-    this.pageCommand,
   });
 
   final PageState pageState;
+  final PageCommand? pageCommand;
   final String? errorMessage;
   final InviteModel? inviteModel;
   final String? inviteMnemonic;
-  final PageCommand? pageCommand;
 
   factory ClaimInviteState.initial() {
     return const ClaimInviteState(pageState: PageState.initial);
@@ -33,10 +33,10 @@ class ClaimInviteState extends Equatable {
   factory ClaimInviteState.error(ClaimInviteState currentState, String errorMessage) {
     return currentState.copyWith(
       pageState: PageState.failure,
+      pageCommand: StartScan(),
       errorMessage: errorMessage,
       inviteMnemonic: null,
       inviteModel: null,
-      pageCommand: StartScan(),
     );
   }
 
@@ -45,25 +45,25 @@ class ClaimInviteState extends Equatable {
 
   ClaimInviteState copyWith({
     PageState? pageState,
+    PageCommand? pageCommand,
     String? errorMessage,
     InviteModel? inviteModel,
     String? inviteMnemonic,
-    PageCommand? pageCommand,
   }) =>
       ClaimInviteState(
         pageState: pageState ?? this.pageState,
-        errorMessage: errorMessage ?? this.errorMessage,
+        pageCommand: pageCommand ?? this.pageCommand,
+        errorMessage: errorMessage,
         inviteModel: inviteModel ?? this.inviteModel,
         inviteMnemonic: inviteMnemonic ?? this.inviteMnemonic,
-        pageCommand: pageCommand ?? this.pageCommand,
       );
 
   @override
   List<Object?> get props => [
         pageState,
+        pageCommand,
         errorMessage,
         inviteModel,
         inviteMnemonic,
-        pageCommand,
       ];
 }

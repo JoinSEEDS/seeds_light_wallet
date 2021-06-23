@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
-import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
@@ -14,6 +13,9 @@ import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/intera
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_state.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/page_commands.dart';
+import 'components/onboarding_dialog_double_action.dart';
+import 'components/onboarding_dialog_single_action.dart';
+import 'components/remove_guardian_confirmation_dialog.dart';
 
 /// GuardiansScreen SCREEN
 class GuardiansScreen extends StatelessWidget {
@@ -35,8 +37,12 @@ class GuardiansScreen extends StatelessWidget {
                 _showRemoveGuardianDialog(context, pageCommand.guardian);
               } else if (pageCommand is ShowErrorMessage) {
                 SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-              } else if(pageCommand is ShowMessage) {
+              } else if (pageCommand is ShowMessage) {
                 SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+              } else if (pageCommand is ShowOnboardingGuardianSingleAction) {
+                _showOnboardingGuardianDialogSingleAction(pageCommand, context);
+              } else if (pageCommand is ShowOnboardingGuardianDoubleAction) {
+                _showOnboardingGuardianDialogDoubleAction(pageCommand, context);
               }
             },
             child: BlocBuilder<GuardiansBloc, GuardiansState>(builder: (context, state) {
@@ -164,51 +170,56 @@ void _showRemoveGuardianDialog(BuildContext buildContext, GuardianModel guardian
   showDialog(
     context: buildContext,
     builder: (BuildContext context) {
-      return AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              "Are you sure you want to remove ",
-            ),
-            const SizedBox(height: 16),
-            ListTile(
-              leading: ProfileAvatar(
-                size: 60,
-                image: guardian.image,
-                account: guardian.uid,
-                nickname: guardian.nickname,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.blue,
-                ),
-              ),
-              title: Text(
-                "${guardian.nickname}",
-                style: const TextStyle(color: Colors.black),
-              ),
-              subtitle: Text("${guardian.uid}"),
-            ),
-            const SizedBox(height: 16),
-            const Text("As your Guardian?"),
-          ],
-        ),
-        actions: [
-          TextButton(
-            child: const Text('Dismiss'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          TextButton(
-            child: const Text('Remove Guardian'),
-            onPressed: () async {
-              BlocProvider.of<GuardiansBloc>(buildContext).add(OnRemoveGuardianTapped(guardian));
-              Navigator.pop(context);
-            },
-          )
-        ],
+      return RemoveGuardianConfirmationDialog(
+        guardian: guardian,
+        onConfirm: () {
+          BlocProvider.of<GuardiansBloc>(buildContext).add(OnRemoveGuardianTapped(guardian));
+          Navigator.pop(context);
+        },
+        onDismiss: () {
+          Navigator.pop(context);
+        },
       );
     },
   );
+}
+
+void _showOnboardingGuardianDialogSingleAction(
+    ShowOnboardingGuardianSingleAction pageCommand, BuildContext buildContext) {
+  showDialog(
+      context: buildContext,
+      builder: (BuildContext context) {
+        return OnboardingDialogSingleAction(
+            buttonTitle: pageCommand.buttonTitle,
+            indexDialong: pageCommand.index,
+            image: pageCommand.image,
+            description: pageCommand.description,
+            onNext: () {
+              BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
+              Navigator.pop(context);
+            });
+      });
+}
+
+void _showOnboardingGuardianDialogDoubleAction(
+    ShowOnboardingGuardianDoubleAction pageCommand, BuildContext buildContext) {
+  showDialog(
+      context: buildContext,
+      builder: (BuildContext context) {
+        return OnboardingDialogDoubleAction(
+          rightButtonTitle: pageCommand.rightButtonTitle,
+          leftButtonTitle: pageCommand.leftButtonTitle,
+          indexDialong: pageCommand.index,
+          image: pageCommand.image,
+          description: pageCommand.description,
+          onNext: () {
+            BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
+            Navigator.pop(context);
+          },
+          onPrevious: () {
+            BlocProvider.of<GuardiansBloc>(buildContext).add(OnPreviousGuardianOnboardingTapped());
+            Navigator.pop(context);
+          },
+        );
+      });
 }

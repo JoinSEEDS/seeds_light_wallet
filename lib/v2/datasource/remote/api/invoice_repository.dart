@@ -6,12 +6,10 @@ import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 
+export 'package:async/src/result/result.dart';
+
 class InvoiceRepository extends EosRepository {
-  Future<Result<dynamic>> createInvoice({
-    required double quantity,
-    required String accountName,
-    String? memo,
-  }) {
+  Future<Result<dynamic>> createInvoice({required double quantity, required String accountName, String? memo}) {
     print('[ESR] create invite accountName: $accountName quantity: ($quantity)');
 
     List<esr.Authorization> auth = [esr.ESRConstants.PlaceholderAuth];
@@ -24,12 +22,12 @@ class InvoiceRepository extends EosRepository {
     };
 
     esr.Action action = esr.Action()
-      ..account = 'token.seeds'
-      ..name = 'transfer'
+      ..account = account_token
+      ..name = action_name_transfer
       ..authorization = auth
       ..data = data;
 
-    esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: action, chainId: chainId);
+    esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: action, chainId: chain_id);
 
     return esr.SigningRequestManager.create(args,
             options: esr.defaultSigningRequestEncodingOptions(

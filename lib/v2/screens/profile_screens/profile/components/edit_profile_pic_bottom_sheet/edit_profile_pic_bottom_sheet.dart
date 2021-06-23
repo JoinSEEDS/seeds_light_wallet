@@ -11,10 +11,10 @@ class EditProfilePicBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PickImageBloc(),
-      child: BlocListener<PickImageBloc, PickImageState>(
+      child: BlocConsumer<PickImageBloc, PickImageState>(
         listenWhen: (previous, current) => previous.file != current.file,
         listener: (context, state) => Navigator.of(context).pop(state.file),
-        child: BlocBuilder<PickImageBloc, PickImageState>(builder: (context, _) {
+        builder: (context, _) {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -30,7 +30,7 @@ class EditProfilePicBottomSheet extends StatelessWidget {
               ),
             ],
           );
-        }),
+        },
       ),
     );
   }

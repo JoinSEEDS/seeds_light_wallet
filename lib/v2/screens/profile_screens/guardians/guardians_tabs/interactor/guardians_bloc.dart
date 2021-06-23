@@ -79,6 +79,14 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       yield state.copyWith(pageState: PageState.loading);
       var result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
       yield RemoveGuardianStateMapper().mapResultToState(state, result);
+    } else if (event is InitOnboardingGuardian) {
+      yield state.copyWith(pageCommand: createPageCommand(1), indexDialog: 1);
+    } else if (event is OnNextGuardianOnboardingTapped) {
+      int index = state.indexDialog + 1;
+      yield state.copyWith(pageCommand: createPageCommand(index), indexDialog: index);
+    } else if (event is OnPreviousGuardianOnboardingTapped) {
+      int index = state.indexDialog - 1;
+      yield state.copyWith(pageCommand: createPageCommand(index), indexDialog: index);
     }
   }
 
@@ -94,4 +102,48 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       return state;
     }
   }
+}
+
+PageCommand createPageCommand(int index) {
+  late PageCommand pageCommand;
+
+  switch (index) {
+    case 1:
+      pageCommand = ShowOnboardingGuardianSingleAction(
+          buttonTitle: "Next",
+          index: index,
+          image: "assets/images/guardians/onboarding/onboarding_1.jpg",
+          description: "Welcome to the \n Key Guardians feature.");
+      break;
+    case 2:
+      pageCommand = ShowOnboardingGuardianDoubleAction(
+          rightButtonTitle: "Next",
+          leftButtonTitle: "Previous",
+          index: index,
+          image: "assets/images/guardians/onboarding/onboarding_2.jpg",
+          description: "Here, you can invite 3 - 5 individuals to help you secure your SEEDS account.");
+      break;
+    case 3:
+      pageCommand = ShowOnboardingGuardianDoubleAction(
+        rightButtonTitle: "Next",
+        leftButtonTitle: "Previous",
+        index: index,
+        image: "assets/images/guardians/onboarding/onboarding_3.jpg",
+        description:
+            "If you ever lose your phone, forget your password or keyphrase, your Key Guardians will help you recover your account.",
+      );
+      break;
+
+    case 4:
+      pageCommand = ShowOnboardingGuardianDoubleAction(
+          rightButtonTitle: "Done",
+          leftButtonTitle: "Previous",
+          index: index,
+          image: "assets/images/guardians/onboarding/onboarding_4.jpg",
+          description:
+              "Make sure to choose your guardians carefully and give them a heads up. The safety of your account may depend on them in the future!");
+      break;
+  }
+
+  return pageCommand;
 }

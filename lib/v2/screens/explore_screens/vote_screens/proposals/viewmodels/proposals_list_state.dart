@@ -6,41 +6,41 @@ import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/vi
 /// --- STATE
 class ProposalsListState extends Equatable {
   final PageState pageState;
+  final String? errorMessage;
   final ProposalType currentType;
   final List<ProposalModel> proposals;
   final bool hasReachedMax;
-  final String? errorMessage;
 
   const ProposalsListState({
     required this.pageState,
+    this.errorMessage,
     required this.currentType,
     required this.proposals,
     required this.hasReachedMax,
-    this.errorMessage,
   });
 
   @override
   List<Object?> get props => [
         pageState,
+        errorMessage,
         currentType,
         proposals,
         hasReachedMax,
-        errorMessage,
       ];
 
   ProposalsListState copyWith({
     PageState? pageState,
+    String? errorMessage,
     ProposalType? currentType,
     List<ProposalModel>? proposals,
     bool? hasReachedMax,
-    String? errorMessage,
   }) {
     return ProposalsListState(
       pageState: pageState ?? this.pageState,
+      errorMessage: errorMessage,
       currentType: currentType ?? this.currentType,
       proposals: proposals ?? this.proposals,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 

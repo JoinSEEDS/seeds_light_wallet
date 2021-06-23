@@ -1,34 +1,48 @@
 class ProposalType {
+  /// UI param
+  final int index;
+
+  /// UI param
   final String type;
-  final String stage;
-  final List<String> status;
+
+  /// Request param
+  final String lowerUpperBound;
+
+  /// Request param
+  final int indexPosition;
+
+  /// Request param
   final bool isReverse;
 
   const ProposalType({
+    required this.index,
     required this.type,
-    required this.stage,
-    required this.status,
+    required this.lowerUpperBound,
+    required this.indexPosition,
     required this.isReverse,
   });
 }
 
 const List<ProposalType> proposalTypes = [
   ProposalType(
+    index: 0,
     type: 'Open',
-    stage: 'active',
-    status: ['open'],
+    lowerUpperBound: 'open',
+    indexPosition: 2,
     isReverse: false,
   ),
   ProposalType(
+    index: 1,
     type: 'Upcoming',
-    stage: 'staged',
-    status: ['open'],
+    lowerUpperBound: 'staged',
+    indexPosition: 3,
     isReverse: false,
   ),
   ProposalType(
+    index: 2,
     type: 'History',
-    stage: 'done',
-    status: ['passed', 'rejected'],
+    lowerUpperBound: 'done',
+    indexPosition: 3,
     isReverse: true,
   ),
 ];

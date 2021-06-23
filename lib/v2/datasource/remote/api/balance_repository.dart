@@ -3,18 +3,17 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
-export 'package:async/src/result/error.dart';
+
 export 'package:async/src/result/result.dart';
 
 class BalanceRepository extends NetworkRepository {
-
   Future<Result<dynamic>> getBalance(String userAccount) {
     return getTokenBalance(userAccount, SeedsToken);
   }
 
   Future<Result<dynamic>> getTokenBalance(String userAccount, TokenModel token) {
     print('[http] get seeds getTokenBalance $userAccount for ${token.symbol}');
-    
+
     final String request = '''{
       "code":"${token.contract}",
       "account":"$userAccount",
@@ -30,5 +29,4 @@ class BalanceRepository extends NetworkRepository {
             }))
         .catchError((dynamic error) => mapHttpError(error));
   }
-
 }
