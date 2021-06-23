@@ -23,52 +23,54 @@ class InviteLinkDialog extends StatelessWidget {
             Navigator.of(context).pop(true);
             return true;
           },
-          child: SingleChildScrollView(
-            child: CustomDialog(
-              icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('${state.quantity}', style: Theme.of(context).textTheme.headline4),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12, left: 4),
-                      child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4.0),
-                Text('\$ ${state.fiatAmount} ${settingsStorage.selectedFiatCurrency}',
-                    style: Theme.of(context).textTheme.subtitle2),
-                const SizedBox(height: 20.0),
-                QrImage(
-                  data: state.dynamicSecretLink!,
-                  size: 254,
-                  foregroundColor: AppColors.black,
-                  errorStateBuilder: (_, err) {
-                    return Container(
-                      child: Center(
-                        child: Text('Uh oh! Something went wrong...'.i18n, textAlign: TextAlign.center),
+          child: Center(
+            child: SingleChildScrollView(
+              child: CustomDialog(
+                icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${state.quantity}', style: Theme.of(context).textTheme.headline4),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12, left: 4),
+                        child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2),
                       ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 20.0),
-                Text(
-                  'Share this link with the person you want to invite!'.i18n,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.button,
-                ),
-              ],
-              rightButtonTitle: 'Share'.i18n,
-              leftButtonTitle: state.showCloseDialogButton ? 'Close'.i18n : '',
-              onLeftButtonPressed: () {
-                Navigator.of(context).pop(true);
-                Navigator.of(context).pop(true);
-              },
-              onRightButtonPressed: () {
-                BlocProvider.of<InviteBloc>(context).add(const OnShareInviteLinkButtonPressed());
-              },
+                    ],
+                  ),
+                  const SizedBox(height: 4.0),
+                  Text('\$ ${state.fiatAmount} ${settingsStorage.selectedFiatCurrency}',
+                      style: Theme.of(context).textTheme.subtitle2),
+                  const SizedBox(height: 20.0),
+                  QrImage(
+                    data: state.dynamicSecretLink!,
+                    size: 254,
+                    foregroundColor: AppColors.white,
+                    errorStateBuilder: (_, err) {
+                      return Container(
+                        child: Center(
+                          child: Text('Uh oh! Something went wrong...'.i18n, textAlign: TextAlign.center),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20.0),
+                  Text(
+                    'Share this link with the person you want to invite!'.i18n,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                ],
+                rightButtonTitle: 'Share'.i18n,
+                leftButtonTitle: state.showCloseDialogButton ? 'Close'.i18n : '',
+                onLeftButtonPressed: () {
+                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop(true);
+                },
+                onRightButtonPressed: () {
+                  BlocProvider.of<InviteBloc>(context).add(const OnShareInviteLinkButtonPressed());
+                },
+              ),
             ),
           ),
         );
