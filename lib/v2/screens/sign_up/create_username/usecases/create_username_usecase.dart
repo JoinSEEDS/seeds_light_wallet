@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/v2/screens/sign_up/create_username/mappers/create_username_mapper.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
@@ -10,16 +11,39 @@ class CreateUsernameUseCase {
   final SignupRepository _signupRepository;
 
   Stream<SignupState> validateUsername(SignupState currentState, String username) async* {
-    yield currentState.copyWith(createUsernameState: CreateUsernameState.loading(currentState.createUsernameState));
+    final validationError = _validateUsername(username);
 
-    final Result result = await _signupRepository.isUsernameTaken(username);
+    if (validationError == null) {
+      yield currentState.copyWith(createUsernameState: CreateUsernameState.loading(currentState.createUsernameState));
 
-    yield CreateUsernameMapper().mapValidateUsernameToState(currentState, result);
+      final Result result = await _signupRepository.isUsernameTaken(username);
+
+      yield CreateUsernameMapper().mapValidateUsernameToState(currentState, result);
+    } else {
+      yield currentState.copyWith(
+          createUsernameState: CreateUsernameState.error(currentState.createUsernameState, validationError));
+    }
   }
 
   Stream<SignupState> generateNewUsername(SignupState currentState, String fullname) async* {
-    final String generatedUsername = _signupRepository.generateUsername(fullname);
+    yield CreateUsernameMapper().mapGenerateUsernameToState(currentState, fullname);
+  }
 
-    yield CreateUsernameMapper().mapGenerateUsernameToState(currentState, generatedUsername);
+  String? _validateUsername(String? username) {
+    final validCharacters = RegExp(r'^[a-z1-5]+$');
+
+    if (username.isNullOrEmpty) {
+      return 'Please select a username';
+    } else if (RegExp(r'0|6|7|8|9').allMatches(username!).isNotEmpty) {
+      return 'Only numbers 1-5 can be used.';
+    } else if (username.toLowerCase() != username) {
+      return "Name can be lowercase only";
+    } else if (!validCharacters.hasMatch(username) || username.contains(' ')) {
+      return "No special characters or spaces can be used";
+    } else if (username.length != 12) {
+      return 'Username must be 12 characters long';
+    }
+
+    return null;
   }
 }

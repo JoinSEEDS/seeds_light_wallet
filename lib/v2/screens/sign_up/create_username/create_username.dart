@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/edit_name.i18n.dart';
-import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
@@ -9,6 +8,7 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/create_username_state.dart';
+import 'package:seeds/v2/utils/debouncer.dart';
 
 class CreateUsername extends StatefulWidget {
   const CreateUsername({Key? key}) : super(key: key);
@@ -21,6 +21,7 @@ class _CreateUsernameState extends State<CreateUsername> {
   late SignupBloc _bloc;
   final TextEditingController _keyController = TextEditingController();
   final _usernameFormKey = GlobalKey<FormState>();
+  final Debouncer _debouncer = Debouncer(milliseconds: 600);
 
   @override
   void initState() {
@@ -59,7 +60,7 @@ class _CreateUsernameState extends State<CreateUsername> {
                       maxLength: 12,
                       labelText: "Username".i18n,
                       controller: _keyController,
-                      errorText: _bloc.state.createUsernameState.errorMessage,
+                      errorText: state.createUsernameState.errorMessage,
                       suffixIcon: QuadStateClipboardIconButton(
                         isChecked: state.createUsernameState.isUsernameValid,
                         onClear: () {
@@ -69,7 +70,6 @@ class _CreateUsernameState extends State<CreateUsername> {
                         canClear: _keyController.text.isNotEmpty,
                       ),
                       onChanged: _onUsernameChanged,
-                      validator: _validateUsername,
                     ),
                   ),
                   const SizedBox(
@@ -99,40 +99,18 @@ class _CreateUsernameState extends State<CreateUsername> {
     );
   }
 
-  String? _validateUsername(String? username) {
-    final validCharacters = RegExp(r'^[a-z1-5]+$');
-
-    if (username.isNullOrEmpty) {
-      return 'Please select a username';
-    } else if (RegExp(r'0|6|7|8|9').allMatches(username!).isNotEmpty) {
-      return 'Only numbers 1-5 can be used.';
-    } else if (username.toLowerCase() != username) {
-      return "Name can be lowercase only";
-    } else if (!validCharacters.hasMatch(username) || username.contains(' ')) {
-      return "No special characters or spaces can be used";
-    } else if (username.length != 12) {
-      return 'Username must be 12 characters long';
-    }
-
-    return null;
-  }
-
   void _onUsernameChanged(String text) {
-    // This is to update the next button when we go from valid username to invalid
-    setState(() {
-      if (_usernameFormKey.currentState!.validate()) {
-        _bloc.add(OnUsernameChanged(username: text));
-      }
+    _debouncer.run(() {
+      _bloc.add(OnUsernameChanged(username: text));
     });
   }
 
-  VoidCallback? _onNextPressed() =>
-      _bloc.state.createUsernameState.isUsernameValid && _usernameFormKey.currentState!.validate()
-          ? () {
-              FocusScope.of(context).unfocus();
-              _bloc.add(CreateUsernameOnNextTapped());
-            }
-          : null;
+  VoidCallback? _onNextPressed() => _bloc.state.createUsernameState.isNextButtonActive
+      ? () {
+          FocusScope.of(context).unfocus();
+          _bloc.add(CreateUsernameOnNextTapped());
+        }
+      : null;
 
   Future<bool> _navigateBack() {
     _bloc.add(OnBackPressed());

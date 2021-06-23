@@ -23,7 +23,9 @@ class CreateUsernameMapper extends StateMapper {
         createUsernameState: CreateUsernameState.error(createUsernameCurrentState, 'The username is already taken.'));
   }
 
-  SignupState mapGenerateUsernameToState(SignupState currentState, String generatedUsername) {
+  SignupState mapGenerateUsernameToState(SignupState currentState, String fullname) {
+    final generatedUsername = _generateUsername(fullname);
+
     final createUsernameCurrentState = currentState.createUsernameState;
 
     final newState = createUsernameCurrentState.copyWith(
@@ -32,5 +34,17 @@ class CreateUsernameMapper extends StateMapper {
     );
 
     return currentState.copyWith(createUsernameState: newState);
+  }
+
+  String _generateUsername(String fullname) {
+    String suggestedUsername = fullname.toLowerCase().trim().split('').map((character) {
+      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(character).isNotEmpty;
+
+      return legalChar ? character.toString() : '';
+    }).join();
+
+    suggestedUsername = suggestedUsername.padRight(12, '1');
+
+    return suggestedUsername.substring(0, 12);
   }
 }

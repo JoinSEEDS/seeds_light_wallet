@@ -54,4 +54,6 @@ class CreateUsernameState extends Equatable {
   }
 
   bool get isUsernameValid => !username.isNullOrEmpty && pageState == PageState.success;
+
+  bool get isNextButtonActive => isUsernameValid;
 }

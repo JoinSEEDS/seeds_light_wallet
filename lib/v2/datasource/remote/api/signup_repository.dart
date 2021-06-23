@@ -71,16 +71,4 @@ class SignupRepository extends NetworkRepository {
             }))
         .catchError((error) => mapHttpError(error));
   }
-
-  String generateUsername(String fullname) {
-    String suggestedUsername = fullname.toLowerCase().trim().split('').map((character) {
-      final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(character).isNotEmpty;
-
-      return legalChar ? character.toString() : '';
-    }).join();
-
-    suggestedUsername = suggestedUsername.padRight(12, '1');
-
-    return suggestedUsername.substring(0, 12);
-  }
 }
