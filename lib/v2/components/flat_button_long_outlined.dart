@@ -6,13 +6,11 @@ import 'package:seeds/v2/design/app_theme.dart';
 class FlatButtonLongOutlined extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
-  final bool enabled;
 
   const FlatButtonLongOutlined({
     Key? key,
     required this.title,
     required this.onPressed,
-    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -20,17 +18,16 @@ class FlatButtonLongOutlined extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: MaterialButton(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
-        color: AppColors.tagGreen3,
-        disabledTextColor: AppColors.grey1,
-        disabledColor: AppColors.darkGreen2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          side: BorderSide(color: enabled ? AppColors.white : AppColors.tagGreen3),
-        ),
-        child: Text(title, style: Theme.of(context).textTheme.buttonWhiteL),
-        onPressed: enabled ? onPressed : null,
-      ),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
+          color: AppColors.tagGreen3,
+          disabledTextColor: AppColors.grey1,
+          disabledColor: AppColors.darkGreen2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            side: const BorderSide(color: AppColors.green1),
+          ),
+          child: Text(title, style: Theme.of(context).textTheme.buttonWhiteL),
+          onPressed: onPressed),
     );
   }
 }
