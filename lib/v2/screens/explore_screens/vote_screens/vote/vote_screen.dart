@@ -22,7 +22,6 @@ class VoteScreen extends StatelessWidget {
             title: Text('Vote'.i18n),
             bottom: TabBar(
                 labelPadding: const EdgeInsets.all(8.0),
-                indicatorColor: AppColors.green1,
                 indicatorSize: TabBarIndicatorSize.label,
                 unselectedLabelStyle: Theme.of(context).textTheme.buttonOpacityEmphasis,
                 labelStyle: Theme.of(context).textTheme.buttonLowEmphasis,

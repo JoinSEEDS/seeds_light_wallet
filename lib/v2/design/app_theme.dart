@@ -39,6 +39,7 @@ class SeedsAppTheme {
         behavior: SnackBarBehavior.floating,
         contentTextStyle: TextStyle(color: AppColors.white),
       ),
+      indicatorColor: AppColors.green1,
     );
   }
 }
