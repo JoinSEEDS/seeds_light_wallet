@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:seeds/v2/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/mappers/proposals_state_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/usecases/get_proposals_use_case.dart';
@@ -15,6 +16,8 @@ class ProposalsListBloc extends Bloc<ProposalsListEvent, ProposalsListState> {
       yield state.copyWith(pageState: PageState.loading);
       List<Result> results = await GetProposalsUseCase().run(state.currentType);
       yield ProposalsStateMapper().mapResultToState(currentState: state, results: results);
+      var res = await ProposalsRepository().getVote(state.proposals[1].id, 'illumination');
+      print(res);
     }
     if (event is OnUserProposalsScroll) {
       List<Result> results = await GetProposalsUseCase().run(state.currentType);
