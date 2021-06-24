@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 enum FundType { allies, gift, millest, unknown }
 
 class ProposalModel {
@@ -38,9 +43,18 @@ class ProposalModel {
   /// Percentage in favour 0-1 scale
   double get favourAgainstBarPercent => total == 0 ? 0 : (favour.toDouble() / total.toDouble());
 
-  String get favourPercent => '${((favour * 100) / total).toStringAsFixed(0)} %';
+  String get favourPercent => total > 0 ? '${((favour * 100) / total).toStringAsFixed(0)} %' : '0 %';
 
-  String get againstPercent => '${((against * 100) / total).toStringAsFixed(0)} %';
+  String get againstPercent => total > 0 ? '${((against * 100) / total).toStringAsFixed(0)} %' : '0 %';
+
+  String get createdAt {
+    var created = DateTime.fromMillisecondsSinceEpoch(creationDate * 1000);
+    if (DateTime.now().difference(created) > const Duration(days: 7)) {
+      return DateFormat.yMd(Platform.localeName.split('_').first).format(created);
+    } else {
+      return timeago.format(created);
+    }
+  }
 
   FundType get fundType {
     return FundType.values.firstWhere((i) => '$i' == fund.split('.').first, orElse: () => FundType.unknown);

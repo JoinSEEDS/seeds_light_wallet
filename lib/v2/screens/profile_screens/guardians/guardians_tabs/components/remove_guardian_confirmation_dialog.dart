@@ -3,7 +3,6 @@ import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 
 class RemoveGuardianConfirmationDialog extends StatelessWidget {
   final GuardianModel guardian;
@@ -32,15 +31,19 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
         ),
       ),
       children: [
-        Text("${guardian.uid}", style: Theme.of(context).textTheme.subtitle2LowEmphasis),
+        const SizedBox(height: 20),
+        Text("Remove Guardian?", style: Theme.of(context).textTheme.headline6),
         const SizedBox(height: 30),
-        Text("Are you sure you want to remove ${guardian.nickname} \n from your guardians",
-            style: Theme.of(context).textTheme.subtitle2, textAlign: TextAlign.center),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Text("Are you sure you want to remove ${guardian.nickname} as your Guardian?",
+              style: Theme.of(context).textTheme.subtitle2, textAlign: TextAlign.center),
+        ),
         const SizedBox(height: 20),
       ],
-      rightButtonTitle: "Confirm",
+      rightButtonTitle: "Accept",
       onRightButtonPressed: onConfirm,
-      leftButtonTitle: "Dismiss",
+      leftButtonTitle: "Decline",
       onLeftButtonPressed: onDismiss,
     );
   }

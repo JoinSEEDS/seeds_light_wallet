@@ -4,7 +4,6 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_list_state.dart';
-import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
 const _alliance = 'alliance';
 const _cmp_funding = 'cmp.funding';
@@ -24,29 +23,13 @@ class ProposalsStateMapper extends StateMapper {
       var values = results.map((Result i) => i.asValue!.value).toList();
 
       List<ProposalModel> proposals = values.firstWhere((i) => i is List<ProposalModel>, orElse: () => null);
+      List<ProposalModel> newProposals;
 
-      ProposalType currentType = currentState.currentType;
-      List<ProposalModel> filtered = [];
-      // Filter proposals by proposal section type
-      if (currentType.status.length == 1) {
-        filtered =
-            proposals.where((i) => i.stage == currentType.stage && i.status == currentType.status.first).toList();
-      } else {
-        // History covers 2 status, proposals with (passed, rejected) status are part of history list.
-        filtered = proposals
-            .where((i) =>
-                i.stage == currentType.stage &&
-                (i.status == currentType.status.first || i.status == currentType.status.last))
-            .toList();
-      }
-      // Check if the list needs sort
-      List<ProposalModel> reversed = currentType.isReverse ? List<ProposalModel>.from(filtered.reversed) : filtered;
-      late List<ProposalModel> newProposals;
       if (isScroll) {
         // Add the new proposals to current proposals
-        newProposals = currentState.proposals + reversed;
+        newProposals = currentState.proposals + proposals;
       } else {
-        newProposals = reversed;
+        newProposals = proposals;
       }
 
       // Add pass values to proposals by campaing type
@@ -66,8 +49,12 @@ class ProposalsStateMapper extends StateMapper {
         return i;
       }).toList();
 
-      // If reversed is a empty list then there are no more items to fetch
-      return currentState.copyWith(proposals: updatedProposals, hasReachedMax: reversed.isEmpty);
+      // If proposals is a empty list then there are no more items to fetch
+      return currentState.copyWith(
+        pageState: PageState.success,
+        proposals: updatedProposals,
+        hasReachedMax: proposals.isEmpty || proposals.length < 100,
+      );
     }
   }
 }

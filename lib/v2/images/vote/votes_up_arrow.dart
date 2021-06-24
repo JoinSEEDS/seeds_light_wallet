@@ -1,12 +1,16 @@
 import 'package:flutter/rendering.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
 
 class VotesUpArrow extends CustomPainter {
+  final Color arrowColor;
+  final Color circleColor;
+
+  const VotesUpArrow({required this.arrowColor, required this.circleColor});
+
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
       ..style = PaintingStyle.fill
-      ..color = AppColors.lightGreen3;
+      ..color = circleColor;
 
     canvas.drawCircle(Offset(size.width * 0.5000000, size.height * 0.5000000), size.width * 0.5000000, paint);
 
@@ -36,7 +40,7 @@ class VotesUpArrow extends CustomPainter {
 
     Paint paint1 = Paint()
       ..style = PaintingStyle.fill
-      ..color = AppColors.green3;
+      ..color = arrowColor;
 
     canvas.drawPath(path1, paint1);
   }

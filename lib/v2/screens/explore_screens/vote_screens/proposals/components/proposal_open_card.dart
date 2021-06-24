@@ -8,6 +8,7 @@ import 'package:seeds/v2/images/vote/proposal_category.dart';
 import 'package:seeds/v2/images/vote/triangle_pass_value.dart';
 import 'package:seeds/v2/images/vote/votes_down_arrow.dart';
 import 'package:seeds/v2/images/vote/votes_up_arrow.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ProposalOpenCard extends StatelessWidget {
@@ -25,7 +26,7 @@ class ProposalOpenCard extends StatelessWidget {
         margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 26.0),
         elevation: 8,
         child: InkWell(
-          onTap: () {},
+          onTap: () => NavigationService.of(context).navigateTo(Routes.proposalDetails, proposal),
           child: Ink(
             decoration: BoxDecoration(color: AppColors.darkGreen2, borderRadius: BorderRadius.circular(12)),
             child: Column(
@@ -48,7 +49,7 @@ class ProposalOpenCard extends StatelessWidget {
                 Row(
                   children: [
                     CustomPaint(
-                      painter: ProposalCategory(),
+                      painter: const ProposalCategory(),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         child: Text(proposal.campaignType, style: Theme.of(context).textTheme.subtitle3OpacityEmphasis),
@@ -66,9 +67,15 @@ class ProposalOpenCard extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 6.0),
-                                child: CustomPaint(size: const Size(28, 28), painter: VotesUpArrow()),
+                              const Padding(
+                                padding: EdgeInsets.only(right: 6.0),
+                                child: CustomPaint(
+                                  size: Size(28, 28),
+                                  painter: VotesUpArrow(
+                                    circleColor: AppColors.lightGreen3,
+                                    arrowColor: AppColors.green3,
+                                  ),
+                                ),
                               ),
                               Flexible(
                                   child: Text(
@@ -101,7 +108,7 @@ class ProposalOpenCard extends StatelessWidget {
                               bottomRight: Radius.circular(12),
                             ),
                             child: StepProgressIndicator(
-                              totalSteps: proposal.total,
+                              totalSteps: proposal.total > 1 ? proposal.total : 1,
                               currentStep: proposal.favour,
                               size: 6,
                               padding: 0,
@@ -119,7 +126,7 @@ class ProposalOpenCard extends StatelessWidget {
                                 : constrains.maxWidth * proposal.voiceNeededBarPercent - 6 - 16;
                             return Padding(
                               padding: EdgeInsets.only(left: leftPadding, top: 20),
-                              child: CustomPaint(size: const Size(12, 8), painter: TrianglePassValue()),
+                              child: const CustomPaint(size: Size(12, 8), painter: TrianglePassValue()),
                             );
                           },
                         ),
@@ -136,9 +143,15 @@ class ProposalOpenCard extends StatelessWidget {
                                 flex: 2,
                                 child: Row(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 6.0),
-                                      child: CustomPaint(size: const Size(20, 20), painter: VotesUpArrow()),
+                                    const Padding(
+                                      padding: EdgeInsets.only(right: 6.0),
+                                      child: CustomPaint(
+                                        size: Size(20, 20),
+                                        painter: VotesUpArrow(
+                                          circleColor: AppColors.lightGreen3,
+                                          arrowColor: AppColors.green3,
+                                        ),
+                                      ),
                                     ),
                                     Flexible(
                                       child: Text('In favour'.i18n + ': ${proposal.favourPercent}',
@@ -164,9 +177,15 @@ class ProposalOpenCard extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 6.0),
-                                      child: CustomPaint(size: const Size(20, 20), painter: VotesDownArrow()),
+                                    const Padding(
+                                      padding: EdgeInsets.only(right: 6.0),
+                                      child: CustomPaint(
+                                        size: Size(20, 20),
+                                        painter: VotesDownArrow(
+                                          circleColor: AppColors.lightGreen3,
+                                          arrowColor: AppColors.lightGreen6,
+                                        ),
+                                      ),
                                     ),
                                     Flexible(
                                       child: Text('Against'.i18n + ': ${proposal.againstPercent}',
