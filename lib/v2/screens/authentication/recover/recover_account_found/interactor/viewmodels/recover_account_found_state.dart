@@ -25,7 +25,7 @@ class RecoverAccountFoundState extends Equatable {
     required this.recoveryStatus,
     required this.alreadySignedGuardians,
     required this.timeLockSeconds,
-    this.currentRemainingTime
+    this.currentRemainingTime,
   });
 
   @override
@@ -63,7 +63,7 @@ class RecoverAccountFoundState extends Equatable {
       recoveryStatus: recoveryStatus ?? this.recoveryStatus,
       alreadySignedGuardians: alreadySignedGuardians ?? this.alreadySignedGuardians,
       timeLockSeconds: timeLockSeconds ?? this.timeLockSeconds,
-        currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
+      currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
     );
   }
 

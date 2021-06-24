@@ -14,11 +14,10 @@ class UserRecoversModel {
       return UserRecoversModel(
         alreadySignedGuardians: List<String>.from(rows[0]['guardians']),
         publicKey: rows[0]['public key'],
-        completeTimestamp: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        completeTimestamp: rows[0]['complete_timestamp'],
       );
     } else {
-      return UserRecoversModel(
-          alreadySignedGuardians: [], publicKey: "", completeTimestamp: DateTime.now().millisecondsSinceEpoch ~/ 1000);
+      return UserRecoversModel(alreadySignedGuardians: [], publicKey: "", completeTimestamp: 0);
     }
   }
 }

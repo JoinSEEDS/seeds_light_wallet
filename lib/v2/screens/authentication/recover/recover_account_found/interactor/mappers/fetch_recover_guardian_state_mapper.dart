@@ -51,8 +51,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
           recoveryStatus = RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD;
         }
       } else {
-        recoveryStatus =
-            RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD; //TODO THIS back to WAITING_FOR_GUARDIANS_TO_SIGN
+        recoveryStatus = RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN;
       }
 
       return currentState.copyWith(
