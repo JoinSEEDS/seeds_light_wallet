@@ -8,6 +8,10 @@ import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_status
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 
+export 'package:async/src/result/error.dart';
+export 'package:async/src/result/result.dart';
+export 'package:async/src/result/value.dart';
+
 class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   Stream<bool> hasGuardianNotificationPending(String userAccount) {
     bool _findNotification(QuerySnapshot event) {
@@ -95,7 +99,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
           .doc(_createGuardianId(currentUserId: currentUserId, otherUserId: guardian.account));
 
       // This empty is needed in case the user does not exist in the database yet. Create him.
-      batch.set(otherUserRef, {}, SetOptions(merge: true));
+      batch.set(otherUserRef, <String, dynamic>{}, SetOptions(merge: true));
       batch.set(currentUserRef, data, SetOptions(merge: true));
       batch.set(otherUserGuardianRef, dataOther, SetOptions(merge: true));
     });

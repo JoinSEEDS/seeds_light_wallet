@@ -10,21 +10,18 @@ abstract class NetworkRepository {
   String hyphaURL = remoteConfigurations.hyphaEndPoint;
   String fxApiKey = Config.fxApiKey;
   Map<String, String> headers = {'Content-type': 'application/json'};
-  String account_seeds = 'accts.seeds';
-  String account_guards = 'guard.seeds';
-  String account_harvest = 'harvst.seeds';
-  String account_join = 'join.seeds';
-  String account_funds = 'funds.seeds';
-  String account_cycle = 'cycle.seeds';
-  String account_alliance = 'alliance';
 
-  String table_users = 'users';
-  String table_guards = 'guards';
-  String table_voice = 'voice';
-  String table_invites = 'invites';
   String table_balances = 'balances';
-  String table_props = 'props';
+  String table_guards = 'guards';
+  String table_harvest = 'harvest';
+  String table_invites = 'invites';
   String table_moonphases = 'moonphases';
+  String table_props = 'props';
+  String table_refs = 'refs';
+  String table_support = 'support';
+  String table_users = 'users';
+  String table_voice = 'voice';
+  String table_recover = 'recovers';
 
   Result mapHttpResponse(http.Response response, Function modelMapper) {
     print('mapHttpResponse - statusCode: ' + response.statusCode.toString());

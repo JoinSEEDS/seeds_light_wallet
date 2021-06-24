@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
