@@ -55,12 +55,14 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       }
 
       return currentState.copyWith(
-          pageState: PageState.success,
-          linkToActivateGuardians: link,
-          userGuardiansData: guardians,
-          confirmedGuardianSignatures: confirmedGuardianSignatures,
-          recoveryStatus: recoveryStatus,
-          alreadySignedGuardians: userRecoversModelData.alreadySignedGuardians);
+        pageState: PageState.success,
+        linkToActivateGuardians: link,
+        userGuardiansData: guardians,
+        confirmedGuardianSignatures: confirmedGuardianSignatures,
+        recoveryStatus: recoveryStatus,
+        alreadySignedGuardians: userRecoversModelData.alreadySignedGuardians,
+        timeLockSeconds: timeLockSeconds,
+      );
     } else {
       return currentState.copyWith(
         pageState: PageState.failure,
