@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/v2/components/notification_badge.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
@@ -12,7 +13,7 @@ class SecurityCard extends StatelessWidget {
   /// The text title in the first row
   final String title;
 
-  /// The descrption text in the second row
+  /// The description text in the second row
   final String description;
 
   /// The widget in the right side of the title
@@ -20,14 +21,17 @@ class SecurityCard extends StatelessWidget {
 
   final GestureTapCallback? onTap;
 
-  const SecurityCard({
-    Key? key,
-    required this.icon,
-    required this.title,
-    this.description = '',
-    this.titleWidget,
-    this.onTap,
-  }) : super(key: key);
+  final bool hasNotification;
+
+  const SecurityCard(
+      {Key? key,
+      required this.icon,
+      required this.title,
+      this.description = '',
+      this.titleWidget,
+      this.onTap,
+      this.hasNotification = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +69,6 @@ class SecurityCard extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 16.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Flexible(
                                     child: Text(
@@ -73,6 +76,10 @@ class SecurityCard extends StatelessWidget {
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                   ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  hasNotification ? const NotificationBadge() : const SizedBox.shrink()
                                 ],
                               ),
                             ),

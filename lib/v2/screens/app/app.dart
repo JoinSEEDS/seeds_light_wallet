@@ -136,10 +136,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                       activeIcon:
                           Padding(padding: const EdgeInsets.only(bottom: 4.0), child: SvgPicture.asset(i.iconSelected)),
                       icon: Stack(
+                       clipBehavior: Clip.none,
                         children: [
                           Padding(padding: const EdgeInsets.all(4.0), child: SvgPicture.asset(i.icon)),
                           if (state.hasNotification && i.index == 2)
-                            const Positioned(left: 0, top: 0, child: NotificationBadge())
+                            const Positioned( top: -2, right: -16, child: NotificationBadge())
                         ],
                       ),
                       label: state.index == i.index ? i.title : '',

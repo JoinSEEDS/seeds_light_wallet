@@ -73,18 +73,14 @@ class SecurityScreen extends StatelessWidget {
                       BlocBuilder<SecurityBloc, SecurityState>(
                         buildWhen: (previous, current) => previous.hasNotification != current.hasNotification,
                         builder: (context, state) {
-                          return Stack(
-                            children: [
-                              SecurityCard(
-                                icon: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
-                                title: 'Key Guardians'.i18n,
-                                description:
-                                    'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
-                                        .i18n,
-                                onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
-                              ),
-                              if (state.hasNotification) const Positioned(left: 4, top: 10, child: NotificationBadge())
-                            ],
+                          return SecurityCard(
+                            icon: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
+                            title: 'Key Guardians'.i18n,
+                            description:
+                                'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
+                                    .i18n,
+                            onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
+                            hasNotification: state.hasNotification,
                           );
                         },
                       ),
