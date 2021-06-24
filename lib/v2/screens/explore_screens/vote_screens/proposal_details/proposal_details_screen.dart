@@ -25,7 +25,7 @@ class ProposalDetailsScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 250,
+            expandedHeight: 280,
             flexibleSpace: Stack(
               fit: StackFit.expand,
               children: [

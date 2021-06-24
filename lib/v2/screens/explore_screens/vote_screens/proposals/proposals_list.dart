@@ -4,7 +4,7 @@ import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/components/loading_indicator_list.dart';
-import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/components/proposal_open_card.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/components/proposal_card.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/components/voting_end_cycle_card.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
@@ -88,7 +88,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                                   if (index >= state.proposals.length) {
                                     return const LoadingIndicatorList();
                                   } else {
-                                    return ProposalOpenCard(state.proposals[index]);
+                                    return ProposalCard(state.proposals[index]);
                                   }
                                 },
                                 childCount: state.hasReachedMax ? state.proposals.length : state.proposals.length + 1,
