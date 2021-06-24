@@ -35,12 +35,13 @@ class VoteAmountLabel extends StatelessWidget {
                       decoration: BoxDecoration(color: AppColors.darkGreen3, borderRadius: BorderRadius.circular(6.0)),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                        child: Text(
-                          '${state.amount} ' 'voted',
-                          style: state.amount > 0
-                              ? Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen
-                              : Theme.of(context).textTheme.subtitle3OpacityEmphasisRed,
-                        ),
+                        child: state.amount > 0
+                            ? Text('+${state.amount} ' 'voted',
+                                style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen)
+                            : Text(
+                                '${state.amount} ' 'voted',
+                                style: Theme.of(context).textTheme.subtitle3OpacityEmphasisRed,
+                              ),
                       ),
                     );
             default:
