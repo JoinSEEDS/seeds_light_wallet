@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
@@ -101,7 +104,41 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                       ),
                     );
                   case RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD:
-                    return const SizedBox.shrink(); // TODO(gguij002): Next PR
+                    return Column(
+                      children: [
+                        Text(
+                          "All three of your Key Guardians have accepted your request to recover your account. You account will be unlocked in 24hrs. ",
+                          style: Theme.of(context).textTheme.subtitle2,
+                          textAlign: TextAlign.center,
+                        ),
+                        SvgPicture.asset("assets/images/guardians/check_circle.svg"),
+                        const Text("Time Left Before Recovery Enabled"),
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                Text('${state.currentRemainingTime?.hours ?? 0} ',
+                                    style: Theme.of(context).textTheme.headline5),
+                                Text(':', style: Theme.of(context).textTheme.subtitle3Opacity)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('${state.currentRemainingTime?.min ?? 0} ',
+                                    style: Theme.of(context).textTheme.headline5),
+                                Text(':', style: Theme.of(context).textTheme.subtitle3Opacity)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('${state.currentRemainingTime?.sec ?? 0} ',
+                                    style: Theme.of(context).textTheme.headline5),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    );
                   case RecoveryStatus.READY_TO_CLAIM_ACCOUNT:
                     return const SizedBox.shrink(); // TODO(gguij002): Next PR
                 }
