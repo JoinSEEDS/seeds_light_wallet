@@ -5,7 +5,7 @@ import 'package:flutter/material.dart' hide Action;
 import 'package:seeds/providers/services/eos_service.dart';
 import 'package:seeds/widgets/broadcast_transaction_overlay.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/transaction_details.dart';
+import 'package:seeds/v2/screens/dashboard/components/transaction_details.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 class CustomTransactionArguments {

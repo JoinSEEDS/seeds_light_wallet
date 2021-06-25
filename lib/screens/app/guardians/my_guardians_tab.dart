@@ -12,7 +12,7 @@ import 'package:seeds/screens/app/guardians/my_guardian_users_list.dart';
 import 'package:seeds/screens/app/guardians/my_guardians_tutorial.dart';
 import 'package:seeds/utils/old_toolbox/toast.dart';
 import 'package:seeds/widgets/main_button.dart';
-import 'package:seeds/widgets/transaction_avatar.dart';
+import 'package:seeds/v2/screens/dashboard/components/transaction_avatar.dart';
 
 const MIN_GUARDIANS_COMPLETED = 3;
 
