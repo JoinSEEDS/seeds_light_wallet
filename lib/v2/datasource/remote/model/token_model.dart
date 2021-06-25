@@ -1,30 +1,75 @@
+import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
+
 class TokenModel {
   final String chainName;
   final String contract;
   final String symbol;
   final String name;
+  final String backgroundImage;
+  final String logo;
+  final String balanceSubTitle;
+
   const TokenModel({
     required this.chainName,
     required this.contract,
     required this.symbol,
     required this.name,
+    required this.backgroundImage,
+    required this.logo,
+    required this.balanceSubTitle,
     });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TokenModel &&
+          chainName == other.chainName &&
+          contract == other.contract &&
+          symbol == other.symbol;
 }
 
 const SeedsToken = TokenModel(
   chainName: "Telos", 
   contract: "token.seeds", 
   symbol: "SEEDS", 
-  name: "Seeds");
+  name: "Seeds",
+  backgroundImage: 'assets/images/wallet/currency_info_cards/seeds/background.jpg',
+  logo: 'assets/images/wallet/currency_info_cards/seeds/logo.jpg',
+  balanceSubTitle: 'Wallet Balance');
 
 const HusdToken = TokenModel(
   chainName: "Telos", 
   contract: "husd.hypha", 
   symbol: "HUSD", 
-  name: "HUSD");
+  name: "HUSD",
+  backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
+  logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
+  balanceSubTitle: 'Wallet Balance');
 
 const HyphaToken = TokenModel(
   chainName: "Telos", 
   contract: "token.hypha", 
   symbol: "HYPHA", 
-  name: "Hypha");
+  name: "Hypha",
+  backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
+  logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
+  balanceSubTitle: 'Wallet Balance');
+
+const LocalScaleToken = TokenModel(
+  chainName: "Telos", 
+  contract: "token.local", 
+  symbol: "LSCL", 
+  name: "LocalScale",
+  backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
+  logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
+  balanceSubTitle: 'Wallet Balance');
+
+
+  class TokenBalanceModel {
+    
+    final TokenModel token;
+    final BalanceModel? balance;
+
+    const TokenBalanceModel(this.token, this.balance);
+
+  }

@@ -9,9 +9,6 @@ import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/balance_state.d
 
 class CurrencyInfoCardWidget extends StatelessWidget {
   final TokenModel token;
-  final String backgroundImage;
-  final String logo;
-  final String balanceSubTitle;
   final double? cardWidth;
   final double? cardHeight;
   final Color? textColor;
@@ -19,9 +16,6 @@ class CurrencyInfoCardWidget extends StatelessWidget {
   const CurrencyInfoCardWidget({
     Key? key,
     required this.token,
-    required this.backgroundImage,
-    required this.logo,
-    required this.balanceSubTitle,
     this.cardWidth,
     this.cardHeight,
     this.textColor,
@@ -37,7 +31,7 @@ class CurrencyInfoCardWidget extends StatelessWidget {
             height: cardHeight,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
-                image: DecorationImage(image: AssetImage(backgroundImage), fit: BoxFit.fill)),
+                image: DecorationImage(image: AssetImage(token.backgroundImage), fit: BoxFit.fill)),
             child: Stack(children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
@@ -56,7 +50,7 @@ class CurrencyInfoCardWidget extends StatelessWidget {
                             height: 42,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                image: DecorationImage(image: AssetImage(logo), fit: BoxFit.fill))),
+                                image: DecorationImage(image: AssetImage(token.logo), fit: BoxFit.fill))),
                       ],
                     ),
                     const SizedBox(
