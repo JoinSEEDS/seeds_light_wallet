@@ -6,7 +6,7 @@ class BalanceModel {
   final double quantity;
   final bool hasBalance;
 
-  const BalanceModel(this.quantity, { this.hasBalance = true });
+  const BalanceModel(this.quantity, {this.hasBalance = true});
 
   /// Returns the rounded amount in seeds with its symbol
   String get formattedQuantity => '${quantity.seedsFormatted} $currencySeedsCode';
@@ -15,12 +15,11 @@ class BalanceModel {
   String get roundedQuantity => '${quantity.seedsFormatted}';
 
   factory BalanceModel.fromJson(List<dynamic> json) {
-    print("balance ${json}");
-    if (json.isEmpty || json[0].isEmpty) { 
+    if (json.isEmpty || json[0].isEmpty) {
       return const BalanceModel(0, hasBalance: false);
     } else {
       var amount = double.parse((json[0] as String).split(' ').first);
       return BalanceModel(amount);
-    } 
+    }
   }
 }
