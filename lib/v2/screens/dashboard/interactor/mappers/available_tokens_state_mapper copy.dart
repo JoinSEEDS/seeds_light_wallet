@@ -1,4 +1,5 @@
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
+import 'package:seeds/v2/datasource/remote/model/token_balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
@@ -10,7 +11,7 @@ class AvailableTokensStateMapper {
 
     assert(tokens.length == results.length, "invalid results");
     
-    List<TokenModel> available = [];
+    List<TokenBalanceModel> available = [];
 
     // TODO: get whitelist and blacklist from settings
 
@@ -20,16 +21,17 @@ class AvailableTokensStateMapper {
     for(int i=0; i<tokens.length; i++){
       var token = tokens[i];
       var result = results[i];
-
-      if (whitelist.contains(token)) {
-        available.add(token);
-      } else if (!blacklist.contains(token)) {
+      bool whitelisted = whitelist.contains(token);
+      if (whitelisted || !blacklist.contains(token)) {
         if (results[i].isError) {
           print("error loading ${token.symbol}");
+          if (whitelisted) {
+            available.add(TokenBalanceModel(token, null, errorLoading: true));
+          }  
         } else {
           BalanceModel balance = result.asValue?.value as BalanceModel;
-          if (balance.quantity > 0) {
-            available.add(token);
+          if (whitelisted || balance.quantity > 0) {
+            available.add(TokenBalanceModel(token, balance));
           } else {
             print("excluding ${token.symbol} - no balance");
           }

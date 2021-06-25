@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
+import 'package:seeds/v2/datasource/remote/model/token_balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
