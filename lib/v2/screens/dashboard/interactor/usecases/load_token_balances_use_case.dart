@@ -4,7 +4,7 @@ import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 
 export 'package:async/src/result/result.dart';
 
-class LoadAvailableTokensUseCase {
+class LoadTokenBalancesUseCase {
   Future<List<Result>> run(List<TokenModel> tokens) {
     var account = settingsStorage.accountName;
     return BalanceRepository().getTokenBalances(account, tokens);

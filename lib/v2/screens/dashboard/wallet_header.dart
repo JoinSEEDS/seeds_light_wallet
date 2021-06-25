@@ -6,9 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/available_tokens_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/available_tokens_event.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/available_tokens_state.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/token_balances_bloc.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_event.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_state.dart';
 
 import 'components/currency_info_card_widget.dart';
 
@@ -26,13 +26,13 @@ class WalletHeader extends StatefulWidget {
 class WalletHeaderState extends State<WalletHeader> {
   final CarouselController _controller = CarouselController();
   int _selectedIndex = 0;
-  late AvailableTokensBloc _bloc;
+  late TokenBalancesBloc _bloc;
   ScrollController dd = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _bloc = AvailableTokensBloc()..add(const OnLoadAvailableTokens());
+    _bloc = TokenBalancesBloc()..add(const OnLoadTokenBalances());
   }
 
   @override
@@ -48,12 +48,12 @@ class WalletHeaderState extends State<WalletHeader> {
   }
 
   void reload() {
-    _bloc.add(const OnLoadAvailableTokens());
+    _bloc.add(const OnLoadTokenBalances());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AvailableTokensBloc, AvailableTokensState>(
+    return BlocBuilder<TokenBalancesBloc, TokenBalancesState>(
         bloc: _bloc,
         builder: (context, state) {
           return Column(

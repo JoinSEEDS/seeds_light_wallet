@@ -3,12 +3,12 @@ import 'package:seeds/v2/datasource/remote/model/token_balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
-class AvailableTokensState extends Equatable {
+class TokenBalancesState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final List<TokenBalanceModel> availableTokens;
 
-  const AvailableTokensState({
+  const TokenBalancesState({
     required this.pageState,
     this.errorMessage,
     required this.availableTokens,
@@ -17,19 +17,19 @@ class AvailableTokensState extends Equatable {
   @override
   List<Object?> get props => [pageState, errorMessage, availableTokens];
 
-  AvailableTokensState copyWith({
+  TokenBalancesState copyWith({
     PageState? pageState,
     String? errorMessage,
     List<TokenBalanceModel>? availableTokens,
   }) {
-    return AvailableTokensState(
+    return TokenBalancesState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       availableTokens: availableTokens ?? this.availableTokens,
     );
   }
 
-  factory AvailableTokensState.initial() {
-    return const AvailableTokensState(pageState: PageState.initial, availableTokens: [TokenBalanceModel(SeedsToken, null)]);
+  factory TokenBalancesState.initial() {
+    return const TokenBalancesState(pageState: PageState.initial, availableTokens: [TokenBalanceModel(SeedsToken, null)]);
   }
 }

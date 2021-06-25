@@ -3,11 +3,11 @@ import 'package:seeds/v2/datasource/remote/model/token_balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/available_tokens_state.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_state.dart';
 
-class AvailableTokensStateMapper {
+class TokenBalancesStateMapper {
 
-  AvailableTokensState mapResultToState(AvailableTokensState currentState, List<TokenModel> tokens, List<Result> results) {
+  TokenBalancesState mapResultToState(TokenBalancesState currentState, List<TokenModel> tokens, List<Result> results) {
 
     assert(tokens.length == results.length, "invalid results");
     
