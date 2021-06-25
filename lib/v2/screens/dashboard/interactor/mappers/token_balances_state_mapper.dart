@@ -32,9 +32,7 @@ class TokenBalancesStateMapper {
           BalanceModel balance = result.asValue?.value as BalanceModel;
           if (whitelisted || balance.quantity > 0) {
             available.add(TokenBalanceModel(token, balance));
-          } else {
-            print("excluding ${token.symbol} - no balance");
-          }
+          } 
         }
       }
 
