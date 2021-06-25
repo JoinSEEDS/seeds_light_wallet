@@ -1,22 +1,22 @@
 import 'package:equatable/equatable.dart';
 
-enum PageState { scan, processing, success, stop }
+enum ScanStatus { scan, processing, success, stop }
 
 class ScannerState extends Equatable {
-  final PageState pageState;
+  final ScanStatus scanStatus;
 
-  const ScannerState({required this.pageState});
+  const ScannerState({required this.scanStatus});
 
   @override
-  List<Object> get props => [pageState];
+  List<Object> get props => [scanStatus];
 
-  ScannerState copyWith({PageState? pageState}) {
+  ScannerState copyWith({ScanStatus? scanStatus}) {
     return ScannerState(
-      pageState: pageState ?? this.pageState,
+      scanStatus: scanStatus ?? this.scanStatus,
     );
   }
 
   factory ScannerState.initial() {
-    return const ScannerState(pageState: PageState.scan);
+    return const ScannerState(scanStatus: ScanStatus.scan);
   }
 }

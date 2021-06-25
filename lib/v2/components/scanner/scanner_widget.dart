@@ -44,7 +44,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
     return BlocProvider(
       create: (BuildContext context) => widget._scannerBloc,
       child: BlocBuilder<ScannerBloc, ScannerState>(builder: (context, ScannerState state) {
-        if (state.pageState is Stop) {
+        if (state.scanStatus is Stop) {
           _controller.dispose();
           const SizedBox.shrink();
         }
@@ -82,16 +82,16 @@ class _ScannerWidgetState extends State<ScannerWidget> {
 
   Widget buildStateView(state) {
     switch (state.pageState) {
-      case PageState.scan:
+      case ScanStatus.scan:
         _handledQrCode = false;
         return const SizedBox.shrink();
-      case PageState.success:
+      case ScanStatus.success:
         _handledQrCode = true;
         return const SizedBox.shrink();
-      case PageState.processing:
+      case ScanStatus.processing:
         _handledQrCode = true;
         return const CircularProgressIndicator();
-      case PageState.stop:
+      case ScanStatus.stop:
         return const SizedBox.shrink();
       default:
         return const SizedBox.shrink();
