@@ -1,4 +1,3 @@
-import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 
 class TokenModel {
   final String chainName;
@@ -63,13 +62,3 @@ const LocalScaleToken = TokenModel(
   backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
   logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
   balanceSubTitle: 'Wallet Balance');
-
-
-  class TokenBalanceModel {
-    
-    final TokenModel token;
-    final BalanceModel? balance;
-
-    const TokenBalanceModel(this.token, this.balance);
-
-  }
