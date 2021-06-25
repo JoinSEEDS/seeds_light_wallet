@@ -29,21 +29,21 @@ class VoteAmountLabel extends StatelessWidget {
                     child: SizedBox(width: 14.0, height: 14.0, child: CircularProgressIndicator(strokeWidth: 2))),
               );
             case PageState.success:
-              return state.amount == 0
-                  ? const SizedBox.shrink()
-                  : Container(
-                      decoration: BoxDecoration(color: AppColors.darkGreen3, borderRadius: BorderRadius.circular(6.0)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                        child: state.amount > 0
-                            ? Text('+${state.amount} ' 'voted',
-                                style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen)
-                            : Text(
-                                '${state.amount} ' 'voted',
-                                style: Theme.of(context).textTheme.subtitle3OpacityEmphasisRed,
-                              ),
-                      ),
-                    );
+              return Container(
+                decoration: BoxDecoration(color: AppColors.darkGreen3, borderRadius: BorderRadius.circular(6.0)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                  child: state.amount > 0
+                      ? Text('+${state.amount} ' 'voted',
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen)
+                      : Text(
+                          '${state.amount} ' 'voted',
+                          style: state.amount == 0
+                              ? Theme.of(context).textTheme.subtitle3Opacity
+                              : Theme.of(context).textTheme.subtitle3OpacityEmphasisRed,
+                        ),
+                ),
+              );
             default:
               return const SizedBox.shrink();
           }
