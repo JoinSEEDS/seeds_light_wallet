@@ -12,7 +12,7 @@ import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/vi
 class ProposalsList extends StatefulWidget {
   final ProposalType proposalType;
 
-  const ProposalsList({Key? key, required this.proposalType}) : super(key: key);
+  const ProposalsList(this.proposalType, {Key? key}) : super(key: key);
 
   @override
   _ProposalsListState createState() => _ProposalsListState();

@@ -3,9 +3,9 @@ import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/vi
 
 export 'package:async/src/result/result.dart';
 
-const _alliance = 'alliance';
-const _campaign = 'campaign';
-const _milestone = 'milestone';
+const String _alliance = 'alliance';
+const String _campaign = 'campaign';
+const String _milestone = 'milestone';
 
 class GetProposalsUseCase {
   final ProposalsRepository _proposalsRepository = ProposalsRepository();

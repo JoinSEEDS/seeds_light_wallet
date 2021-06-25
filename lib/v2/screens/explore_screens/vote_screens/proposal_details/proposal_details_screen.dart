@@ -12,7 +12,7 @@ import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/v2/images/vote/proposal_category.dart';
-import 'package:seeds/i18n/proposals.i18n.dart';
+import 'package:seeds/v2/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
 
 class ProposalDetailsScreen extends StatelessWidget {
   final ProposalModel proposal;

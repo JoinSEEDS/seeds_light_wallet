@@ -2,12 +2,13 @@ import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/v2/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/v2/i18n/explore_screens/invite/invite.i18n.dart';
+import 'package:seeds/v2/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_list_state.dart';
 
-const _alliance = 'alliance';
-const _cmp_funding = 'cmp.funding';
-const _milestone = 'milestone';
+const String _alliance = 'alliance';
+const String _cmp_funding = 'cmp.funding';
+const String _cmp_invite = 'cmp.invite';
+const String _milestone = 'milestone';
 
 class ProposalsStateMapper extends StateMapper {
   ProposalsListState mapResultToState({
@@ -16,7 +17,7 @@ class ProposalsStateMapper extends StateMapper {
     bool isScroll = false,
   }) {
     if (areAllResultsError(results)) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading proposals".i18n);
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error loading proposals'.i18n);
     } else {
       print('ProposalsStateMapper mapResultsToState length = ${results.length}');
       results.retainWhere((Result i) => i.isValue);
@@ -41,7 +42,7 @@ class ProposalsStateMapper extends StateMapper {
       var updatedProposals = newProposals.map((i) {
         if (i.campaignType == _alliance) {
           i = i.copyWith(allianceLevels.voiceNeeded);
-        } else if (i.campaignType == _cmp_funding) {
+        } else if (i.campaignType == _cmp_funding || i.campaignType == _cmp_invite) {
           i = i.copyWith(campaingLevels.voiceNeeded);
         } else if (i.campaignType == _milestone) {
           i = i.copyWith(milestoneLevels.voiceNeeded);
