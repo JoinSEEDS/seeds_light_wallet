@@ -156,9 +156,8 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<void> refreshData() async {
-    print("refreshData dashboard");
     BlocProvider.of<RatesBloc>(context)..add(const FetchRates());
-    
+
     _walletHeaderKey.currentState?.reload();
 
     await Future.wait(<Future<dynamic>>[
