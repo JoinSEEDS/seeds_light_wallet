@@ -33,7 +33,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                     QrImage(
                       data: arguments.InvoiceLink,
                       size: width * 0.8,
-                      foregroundColor: AppColors.black,
+                      foregroundColor: AppColors.white,
                       errorStateBuilder: (_, err) {
                         return Container(
                           child: Center(
