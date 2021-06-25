@@ -21,11 +21,13 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/screens/dashboard/components/transaction_dialog.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/available_tokens_bloc.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/available_tokens_event.dart';
 import 'package:seeds/v2/screens/dashboard/wallet_header.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_card.dart';
-import 'package:seeds/widgets/transaction_dialog.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/transaction_info_card.dart';
@@ -42,6 +44,8 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   var savingLoader = GlobalKey<MainButtonState>();
+
+  GlobalKey<WalletHeaderState> _walletHeaderKey = GlobalKey();
 
   @override
   void initState() {
@@ -130,7 +134,7 @@ class _DashboardState extends State<Dashboard> {
         body: ListView(
           children: <Widget>[
             buildNotification(),
-            WalletHeader(),
+            WalletHeader(key: _walletHeaderKey),
             const SizedBox(height: 20),
             buildSendReceiveButton(),
             const SizedBox(height: 20),
@@ -155,7 +159,11 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<void> refreshData() async {
+    print("refreshData dashboard");
     BlocProvider.of<RatesBloc>(context)..add(const FetchRates());
+    
+    _walletHeaderKey.currentState?.reload();
+
     await Future.wait(<Future<dynamic>>[
       // TransactionsNotifier.of(context).fetchTransactionsCache(),
       // TransactionsNotifier.of(context).refreshTransactions(),
