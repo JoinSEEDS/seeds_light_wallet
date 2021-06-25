@@ -13,6 +13,10 @@ import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/available_token
 import 'components/currency_info_card_widget.dart';
 
 class WalletHeader extends StatefulWidget {
+  const WalletHeader({
+    Key? key,
+  }) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return WalletHeaderState();
@@ -22,8 +26,20 @@ class WalletHeader extends StatefulWidget {
 class WalletHeaderState extends State<WalletHeader> {
   final CarouselController _controller = CarouselController();
   int _selectedIndex = 0;
-
+  late AvailableTokensBloc _bloc;
   ScrollController dd = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = AvailableTokensBloc()..add(const OnLoadAvailableTokens());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc.close();
+  }
 
   void onPageChange(int index, CarouselPageChangedReason changeReason) {
     setState(() {
@@ -31,19 +47,28 @@ class WalletHeaderState extends State<WalletHeader> {
     });
   }
 
+  void reload() {
+    _bloc.add(const OnLoadAvailableTokens());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AvailableTokensBloc>(
-        create: (_) => AvailableTokensBloc()..add(const OnLoadAvailableTokens()),
-        child: BlocBuilder<AvailableTokensBloc, AvailableTokensState>(builder: (context, state) {
+    return BlocBuilder<AvailableTokensBloc, AvailableTokensState>(
+        bloc: _bloc,
+        builder: (context, state) {
           return Column(
             children: <Widget>[
               SingleChildScrollView(
                 child: CarouselSlider(
                   carouselController: _controller,
                   items: List.of(state.availableTokens.map(
-                    (item) => CurrencyInfoCardWidget(
-                      token: item,
+                    (item) => Container(
+                      margin: EdgeInsets.only(
+                        left: item.token == state.availableTokens.first.token ? 0 : 10.0, 
+                        right: item.token == state.availableTokens.last.token ? 0 : 10.0),
+                      child: CurrencyInfoCardWidget(
+                        tokenBalance: item,
+                      ),
                     ),
                   )),
                   options: CarouselOptions(
@@ -72,6 +97,6 @@ class WalletHeaderState extends State<WalletHeader> {
               )
             ],
           );
-        }));
+        });
   }
 }
