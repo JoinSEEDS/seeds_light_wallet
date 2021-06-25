@@ -1,3 +1,4 @@
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/datasource/remote/model/user_recover_model.dart';
@@ -48,11 +49,13 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         if (timeLockSeconds <= DateTime.now().millisecondsSinceEpoch / 1000) {
           recoveryStatus = RecoveryStatus.READY_TO_CLAIM_ACCOUNT;
         } else {
-          recoveryStatus = RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD;
+          recoveryStatus = RecoveryStatus.READY_TO_CLAIM_ACCOUNT;
         }
       } else {
-        recoveryStatus = RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN;
+        recoveryStatus = RecoveryStatus.READY_TO_CLAIM_ACCOUNT;
       }
+
+      settingsStorage.saveAccount(currentState.userAccount, result.privateKey);
 
       return currentState.copyWith(
         pageState: PageState.success,

@@ -7,11 +7,13 @@ import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart'
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 
 abstract class EosRepository {
-  String cpuPrivateKey = Config.cpuPrivateKey;
+  String cpuPrivateKey = '5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a';
+  String onboardingPrivateKey = '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
 
   // Actions
   String action_name_cancel = 'cancel';
   String action_name_init = 'init';
+  String action_name_claim = 'claim';
   String action_name_invite = 'invite';
   String action_name_transfer = 'transfer';
   String action_name_updateauth = 'updateauth';
@@ -20,6 +22,7 @@ abstract class EosRepository {
   // Authorizations
   String permission_active = 'active';
   String permission_owner = 'owner';
+  String permission_application = 'application';
 
   Transaction buildFreeTransaction(List<Action> actions, String? accountName) {
     var freeAuth = <Authorization>[
