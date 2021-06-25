@@ -148,7 +148,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                   case RecoveryStatus.READY_TO_CLAIM_ACCOUNT:
                     return Column(
                       children: [
-                        const Text("Account recovered TODO ACCOUNT NAME"),
+                        Text("Account recovered " + state.userAccount),
                         Padding(
                           padding: const EdgeInsets.only(top: 24),
                           child: FlatButtonLong(

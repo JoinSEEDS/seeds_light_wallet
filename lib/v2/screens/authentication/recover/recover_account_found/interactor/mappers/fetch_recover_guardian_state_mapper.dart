@@ -49,12 +49,13 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         if (timeLockSeconds <= DateTime.now().millisecondsSinceEpoch / 1000) {
           recoveryStatus = RecoveryStatus.READY_TO_CLAIM_ACCOUNT;
         } else {
-          recoveryStatus = RecoveryStatus.READY_TO_CLAIM_ACCOUNT;
+          recoveryStatus = RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD;
         }
       } else {
-        recoveryStatus = RecoveryStatus.READY_TO_CLAIM_ACCOUNT;
+        recoveryStatus = RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN;
       }
 
+      // Save the private key and account
       settingsStorage.saveAccount(currentState.userAccount, result.privateKey);
 
       return currentState.copyWith(
