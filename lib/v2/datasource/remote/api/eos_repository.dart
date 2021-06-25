@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
-import 'package:seeds/constants/config.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
