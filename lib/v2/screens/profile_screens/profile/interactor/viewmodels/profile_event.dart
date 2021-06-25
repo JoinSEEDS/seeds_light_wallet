@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 @immutable
 abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
+
   @override
   List<Object> get props => [];
 }
@@ -42,30 +43,44 @@ class OnNameChanged extends ProfileEvent {
 
 class OnCurrencyChanged extends ProfileEvent {
   const OnCurrencyChanged();
+
   @override
   String toString() => 'OnCurrencyChanged';
 }
 
 class OnProfileLogoutButtonPressed extends ProfileEvent {
   const OnProfileLogoutButtonPressed();
+
   @override
   String toString() => 'OnProfileLogoutButtonPressed';
 }
 
 class OnSavePrivateKeyButtonPressed extends ProfileEvent {
   const OnSavePrivateKeyButtonPressed();
+
   @override
   String toString() => 'OnSavePrivateKeyButtonPressed';
 }
 
 class ClearShowLogoutDialog extends ProfileEvent {
   const ClearShowLogoutDialog();
+
   @override
   String toString() => 'ClearShowLogoutDialog';
 }
 
 class ResetShowLogoutButton extends ProfileEvent {
   const ResetShowLogoutButton();
+
   @override
   String toString() => 'ResetShowLogoutButton';
+}
+
+class ShouldShowNotificationBadge extends ProfileEvent {
+  final bool value;
+
+  const ShouldShowNotificationBadge({required this.value});
+
+  @override
+  String toString() => 'ShouldShowNotificationBadge { value: $value }';
 }

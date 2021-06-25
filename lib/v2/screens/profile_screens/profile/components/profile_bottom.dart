@@ -135,11 +135,17 @@ class ProfileBottom extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16.0),
-            CardListTile(
-              leadingIcon: Icons.verified_user_outlined,
-              title: 'Security'.i18n,
-              trailing: const Icon(Icons.arrow_forward_ios_sharp),
-              onTap: () => NavigationService.of(context).navigateTo(Routes.security),
+            BlocBuilder<ProfileBloc, ProfileState>(
+              buildWhen: (previous, current) => previous.hasSecurityNotification != current.hasSecurityNotification,
+              builder: (context, state) {
+                return CardListTile(
+                  hasNotification: state.hasSecurityNotification,
+                  leadingIcon: Icons.verified_user_outlined,
+                  title: 'Security'.i18n,
+                  trailing: const Icon(Icons.arrow_forward_ios_sharp),
+                  onTap: () => NavigationService.of(context).navigateTo(Routes.security),
+                );
+              },
             ),
             const SizedBox(height: 8.0),
             CardListTile(
