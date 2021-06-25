@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class ExploreState extends Equatable {
   final PageState pageState;
+  final PageCommand? pageCommand;
   final String? errorMessage;
   final BalanceModel? availableSeeds;
   final PlantedModel? plantedSeeds;
@@ -14,6 +16,7 @@ class ExploreState extends Equatable {
 
   const ExploreState({
     required this.pageState,
+    this.pageCommand,
     this.errorMessage,
     this.availableSeeds,
     this.plantedSeeds,
@@ -25,6 +28,7 @@ class ExploreState extends Equatable {
   @override
   List<Object?> get props => [
         pageState,
+        pageCommand,
         errorMessage,
         availableSeeds,
         plantedSeeds,
@@ -35,6 +39,7 @@ class ExploreState extends Equatable {
 
   ExploreState copyWith({
     PageState? pageState,
+    PageCommand? pageCommand,
     String? errorMessage,
     BalanceModel? availableSeeds,
     PlantedModel? plantedSeeds,
@@ -44,6 +49,7 @@ class ExploreState extends Equatable {
   }) {
     return ExploreState(
       pageState: pageState ?? this.pageState,
+      pageCommand: pageCommand,
       errorMessage: errorMessage,
       availableSeeds: availableSeeds ?? this.availableSeeds,
       plantedSeeds: plantedSeeds ?? this.plantedSeeds,
