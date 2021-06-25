@@ -13,7 +13,7 @@ class TokenBalancesStateMapper {
     
     List<TokenBalanceModel> available = [];
 
-    // TODO: get whitelist and blacklist from settings
+    // TODO(n13): get whitelist and blacklist from settings
 
     List<TokenModel> whitelist = [SeedsToken];
     List<TokenModel> blacklist = []; // user has chosen to hide this token
