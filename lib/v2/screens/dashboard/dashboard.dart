@@ -7,7 +7,6 @@ import 'package:seeds/features/backup/backup_service.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
-
 // import 'package:seeds/providers/notifiers/members_notifier.dart';
 // import 'package:seeds/providers/notifiers/rate_notiffier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
@@ -22,8 +21,6 @@ import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/dashboard/components/transaction_dialog.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/available_tokens_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/available_tokens_event.dart';
 import 'package:seeds/v2/screens/dashboard/wallet_header.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -45,7 +42,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   var savingLoader = GlobalKey<MainButtonState>();
 
-  GlobalKey<WalletHeaderState> _walletHeaderKey = GlobalKey();
+  final GlobalKey<WalletHeaderState> _walletHeaderKey = GlobalKey();
 
   @override
   void initState() {
@@ -279,11 +276,11 @@ class _DashboardState extends State<Dashboard> {
       builder: (ctx, member) => member.hasData
           ? TransactionInfoCard(
               callback: () {
-                onTransaction(transaction: model, member: member.data as MemberModel, type: type);
+                onTransaction(transaction: model, member: member.data! as MemberModel, type: type);
               },
-              profileAccount: (member.data as MemberModel).account,
-              profileNickname: (member.data as MemberModel).nickname,
-              profileImage: (member.data as MemberModel).image,
+              profileAccount: (member.data! as MemberModel).account,
+              profileNickname: (member.data! as MemberModel).nickname,
+              profileImage: (member.data! as MemberModel).image,
               timestamp: model.timestamp,
               amount: model.quantity,
               typeIcon: type == TransactionType.income
