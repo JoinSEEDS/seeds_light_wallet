@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:seeds/v2/datasource/remote/model/token_balance_model.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balance_view_model.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 
 class CurrencyInfoCardWidget extends StatelessWidget {
-  final TokenBalanceModel tokenBalance;
+  final TokenBalanceViewModel tokenBalance;
   final double? cardWidth;
   final double? cardHeight;
   final Color? textColor;
