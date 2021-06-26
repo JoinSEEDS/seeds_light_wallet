@@ -29,12 +29,4 @@ class BalanceRepository extends NetworkRepository {
             }))
         .catchError((dynamic error) => mapHttpError(error));
   }
-
-  Future<List<Result<dynamic>>> getTokenBalances(String userAccount, List<TokenModel> tokens) {
-    print('[http] get seeds getTokenBalance $userAccount ');
-
-    List<Future<Result<dynamic>>> list = List.of(tokens.map((item) => getTokenBalance(userAccount, item)));
-
-    return Future.wait(list);
-  }
 }

@@ -7,6 +7,8 @@ export 'package:async/src/result/result.dart';
 class LoadTokenBalancesUseCase {
   Future<List<Result>> run(List<TokenModel> tokens) {
     var account = settingsStorage.accountName;
-    return BalanceRepository().getTokenBalances(account, tokens);
+    List<Future<Result<dynamic>>> list =
+        List.of(tokens.map((item) => BalanceRepository().getTokenBalance(account, item)));
+    return Future.wait(list);
   }
 }
