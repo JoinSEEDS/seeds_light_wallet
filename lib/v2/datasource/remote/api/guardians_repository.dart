@@ -93,6 +93,41 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         .catchError((error) => mapEosError(error));
   }
 
+  /// Claim recovered account for user - this switches the new public key live at the end of the
+  /// recovery process.
+  ///
+  /// This can be called without logging in - the assumption is that the user lost their key,
+  /// asked for recovery, was recovered, waited 24 hours for the time lock - and then calls this
+  /// method to regain access.
+  ///
+  Future<Result> claimRecoveredAccount(String userAccount) async {
+    print('[eos] claim recovered account $userAccount');
+
+    var actions = [
+      Action()
+        ..account = account_guards
+        ..name = action_name_claim
+        ..data = {'user_account': userAccount}
+    ];
+
+    actions.forEach((action) => {
+          action.authorization = [
+            Authorization()
+              ..actor = account_guards
+              ..permission = permission_application
+          ]
+        });
+
+    var transaction = buildFreeTransaction(actions, userAccount);
+
+    return EOSClient(baseURL, 'v1', privateKeys: [onboardingPrivateKey])
+        .pushTransaction(transaction, broadcast: true)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return response["transaction_id"];
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
   /// Cancel guardians.
   ///
   /// This cancels any recovery currently in process, and removes all guardians

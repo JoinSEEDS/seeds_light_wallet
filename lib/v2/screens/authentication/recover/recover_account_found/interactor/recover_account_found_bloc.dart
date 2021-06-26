@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_event.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/mappers/fetch_recover_guardian_state_mapper.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/mappers/remaining_time_state_mapper.dart';
@@ -10,7 +13,10 @@ import 'package:seeds/v2/screens/authentication/recover/recover_account_found/in
 
 /// --- BLOC
 class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAccountFoundState> {
-  RecoverAccountFoundBloc(List<String> userGuardians) : super(RecoverAccountFoundState.initial(userGuardians));
+  RecoverAccountFoundBloc(List<String> userGuardians, String userAccount, this._authenticationBloc)
+      : super(RecoverAccountFoundState.initial(userGuardians, userAccount));
+
+  final AuthenticationBloc _authenticationBloc;
   StreamSubscription<int>? _tickerSubscription;
 
   Stream<int> _tick(int ticks) {
@@ -34,14 +40,15 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
       RecoverGuardianInitialDTO result = await FetchRecoverGuardianInitialDataUseCase().run(state.userGuardians);
       yield FetchRecoverRecoveryStateMapper().mapResultToState(state, result);
       yield* _mapStartTimerToState();
-    }
-    else if (event is Tick) {
+    } else if (event is Tick) {
       if (event.timer > DateTime.now().millisecondsSinceEpoch ~/ 1000) {
         yield RemainingTimeStateMapper().mapResultToState(state, event.timer);
       } else {
         await _tickerSubscription?.cancel();
         // TODO(gguij002): Show account ready to claim UI
       }
+    } else if (event is OnClaimAccountTap) {
+      _authenticationBloc.add(OnImportAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
     }
   }
 }

@@ -2,13 +2,12 @@ import 'dart:convert';
 
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/constants/config.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 abstract class NetworkRepository {
   String baseURL = remoteConfigurations.defaultEndPointUrl;
   String hyphaURL = remoteConfigurations.hyphaEndPoint;
-  String fxApiKey = Config.fxApiKey;
+  String fxApiKey = "thesecretapikey989";
   Map<String, String> headers = {'Content-type': 'application/json'};
 
   String table_balances = 'balances';

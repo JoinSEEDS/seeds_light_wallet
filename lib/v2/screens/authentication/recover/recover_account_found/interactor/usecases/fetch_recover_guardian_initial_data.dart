@@ -12,9 +12,9 @@ class FetchRecoverGuardianInitialDataUseCase {
   Future<RecoverGuardianInitialDTO> run(List<String> guardians) async {
     print("FetchRecoverGuardianInitialDataUseCase accountName pKey");
     String accountName = settingsStorage.accountName;
-    final recoveryPrivateKey = EOSPrivateKey.fromRandom();
+    final recoveryPrivateKey = EOSPrivateKey.fromRandom().toString();
 
-    String publicKey = EOSPrivateKey.fromString(recoveryPrivateKey.toString()).toEOSPublicKey().toString();
+    String publicKey = EOSPrivateKey.fromString(recoveryPrivateKey).toEOSPublicKey().toString();
     print("public $publicKey");
 
     Result accountRecovery = await _guardiansRepository.getAccountRecovery(settingsStorage.accountName);
@@ -22,7 +22,7 @@ class FetchRecoverGuardianInitialDataUseCase {
     Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey);
     List<Result> membersData = await _getMembersData(guardians);
 
-    return RecoverGuardianInitialDTO(link, membersData, accountRecovery, accountGuardians);
+    return RecoverGuardianInitialDTO(link, membersData, accountRecovery, accountGuardians, recoveryPrivateKey);
   }
 
   Future<List<Result>> _getMembersData(List<String> guardians) async {
@@ -39,11 +39,13 @@ class RecoverGuardianInitialDTO {
   final List<Result> membersData;
   final Result userRecoversModel;
   final Result accountGuardians;
+  final String privateKey;
 
   RecoverGuardianInitialDTO(
     this.link,
     this.membersData,
     this.userRecoversModel,
     this.accountGuardians,
+    this.privateKey,
   );
 }

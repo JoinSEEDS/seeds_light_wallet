@@ -6,6 +6,7 @@ import 'package:seeds/v2/screens/authentication/recover/recover_account_found/in
 class RecoverAccountFoundState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
+  final String userAccount;
   final String linkToActivateGuardians;
   final List<String> userGuardians;
   final List<String> alreadySignedGuardians;
@@ -26,6 +27,7 @@ class RecoverAccountFoundState extends Equatable {
     required this.alreadySignedGuardians,
     required this.timeLockSeconds,
     this.currentRemainingTime,
+    required this.userAccount,
   });
 
   @override
@@ -39,6 +41,7 @@ class RecoverAccountFoundState extends Equatable {
         recoveryStatus,
         alreadySignedGuardians,
         timeLockSeconds,
+        userAccount,
       ];
 
   RecoverAccountFoundState copyWith({
@@ -64,10 +67,11 @@ class RecoverAccountFoundState extends Equatable {
       alreadySignedGuardians: alreadySignedGuardians ?? this.alreadySignedGuardians,
       timeLockSeconds: timeLockSeconds ?? this.timeLockSeconds,
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
+      userAccount: userAccount,
     );
   }
 
-  factory RecoverAccountFoundState.initial(List<String> userGuardians) {
+  factory RecoverAccountFoundState.initial(List<String> userGuardians, String userAccount) {
     return RecoverAccountFoundState(
       pageState: PageState.initial,
       linkToActivateGuardians: "",
@@ -77,6 +81,7 @@ class RecoverAccountFoundState extends Equatable {
       recoveryStatus: RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN,
       alreadySignedGuardians: [],
       timeLockSeconds: 0,
+      userAccount: userAccount,
     );
   }
 }
