@@ -15,6 +15,11 @@ class FetchInitialData extends RecoverAccountFoundEvent {
   String toString() => 'FetchInitialData';
 }
 
+class OnClaimAccountTap extends RecoverAccountFoundEvent {
+  @override
+  String toString() => 'OnClaimAccountTap';
+}
+
 class StartCycleCountdown extends RecoverAccountFoundEvent {
   @override
   String toString() => 'StartCycleCountdown';
