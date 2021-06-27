@@ -6,7 +6,6 @@ import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/app/ecosystem/dho/dho.dart';
 import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
-import 'package:seeds/screens/app/ecosystem/proposals/proposal_details.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
 import 'package:seeds/screens/app/wallet/dashboard/dashboard.dart';
@@ -23,6 +22,7 @@ import 'package:seeds/v2/screens/authentication/verification/verification_screen
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/vote_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/contribution_screen.dart';
@@ -58,7 +58,7 @@ class Routes {
   static final invites = 'Invites';
   static final createInvite = 'CreateInvite';
   static final vote = 'vote';
-  static final proposalDetailsPage = 'ProposalDetailsPage';
+  static final proposalDetails = 'ProposalDetails';
   static final overview = 'Overview';
   static final explore = 'Explore';
   static final dashboard = 'Dashboard';
@@ -129,7 +129,7 @@ class NavigationService {
     Routes.invites: (_) => Invites(),
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
-    Routes.proposalDetailsPage: (args) => ProposalDetailsPage(proposal: args),
+    Routes.proposalDetails: (args) => ProposalDetailsScreen(args),
     Routes.logout: (_) => Logout(),
     Routes.imageViewer: (args) => ImageViewer(
           arguments: args,

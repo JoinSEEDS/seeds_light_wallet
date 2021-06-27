@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -43,6 +44,8 @@ class GuardiansScreen extends StatelessWidget {
                 _showOnboardingGuardianDialogSingleAction(pageCommand, context);
               } else if (pageCommand is ShowOnboardingGuardianDoubleAction) {
                 _showOnboardingGuardianDialogDoubleAction(pageCommand, context);
+              } else if (pageCommand is ShowActivateGuardian) {
+                _showActivateGuardianDialog(pageCommand, context);
               }
             },
             child: BlocBuilder<GuardiansBloc, GuardiansState>(builder: (context, state) {
@@ -51,12 +54,14 @@ class GuardiansScreen extends StatelessWidget {
                   child: Scaffold(
                       floatingActionButton: state.pageState == PageState.loading
                           ? const SizedBox.shrink()
-                          : FloatingActionButton.extended(
-                              label: const Text("Add Guardians"),
-                              onPressed: () {
-                                BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
-                              },
-                            ),
+                          : Padding(
+                              padding: const EdgeInsets.only(left: 32),
+                              child: FlatButtonLong(
+                                title: "+ Add Guardians",
+                                onPressed: () {
+                                  BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
+                                },
+                              )),
                       appBar: AppBar(
                         bottom: const TabBar(
                           tabs: [
@@ -78,7 +83,6 @@ class GuardiansScreen extends StatelessWidget {
                           },
                         ),
                         title: const Text("Key Guardians"),
-                        centerTitle: true,
                       ),
                       body: state.pageState == PageState.loading
                           ? const FullPageLoadingIndicator()
@@ -212,12 +216,33 @@ void _showOnboardingGuardianDialogDoubleAction(
           indexDialong: pageCommand.index,
           image: pageCommand.image,
           description: pageCommand.description,
-          onNext: () {
+          onRightButtonTab: () {
             BlocProvider.of<GuardiansBloc>(buildContext).add(OnNextGuardianOnboardingTapped());
             Navigator.pop(context);
           },
-          onPrevious: () {
+          onLeftButtonTab: () {
             BlocProvider.of<GuardiansBloc>(buildContext).add(OnPreviousGuardianOnboardingTapped());
+            Navigator.pop(context);
+          },
+        );
+      });
+}
+
+void _showActivateGuardianDialog(ShowActivateGuardian pageCommand, BuildContext buildContext) {
+  showDialog(
+      context: buildContext,
+      builder: (BuildContext context) {
+        return OnboardingDialogDoubleAction(
+          rightButtonTitle: pageCommand.rightButtonTitle,
+          leftButtonTitle: pageCommand.leftButtonTitle,
+          indexDialong: pageCommand.index,
+          image: pageCommand.image,
+          description: pageCommand.description,
+          onRightButtonTab: () {
+            BlocProvider.of<GuardiansBloc>(buildContext).add(InitGuardians(pageCommand.myGuardians));
+            Navigator.pop(context);
+          },
+          onLeftButtonTab: () {
             Navigator.pop(context);
           },
         );

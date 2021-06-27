@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/i18n/explore_screens/vote/vote.i18n.dart';
+import 'package:seeds/v2/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/bloc.dart';
 
 class VotingCycleEndCard implements SliverPersistentHeaderDelegate {
@@ -80,7 +80,7 @@ class VotingCycleEndCard implements SliverPersistentHeaderDelegate {
                                     children: [
                                       Text('${state.currentRemainingTime?.sec ?? 0} ',
                                           style: Theme.of(context).textTheme.headline5),
-                                      Text('mins'.i18n, style: Theme.of(context).textTheme.subtitle3Opacity)
+                                      Text('sec'.i18n, style: Theme.of(context).textTheme.subtitle3Opacity)
                                     ],
                                   ),
                                 )

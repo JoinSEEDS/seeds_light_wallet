@@ -1,7 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
+import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
@@ -12,15 +17,19 @@ import 'package:seeds/v2/screens/authentication/recover/recover_account_found/co
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/recover_account_found_bloc.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_events.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 
 class RecoverAccountFoundScreen extends StatelessWidget {
   const RecoverAccountFoundScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<String>? userGuardians = ModalRoute.of(context)!.settings.arguments as List<String>?;
+    // ignore: cast_nullable_to_non_nullable
+    Input arguments = ModalRoute.of(context)!.settings.arguments as Input;
     return BlocProvider(
-      create: (_) => RecoverAccountFoundBloc(userGuardians ?? [])..add(FetchInitialData()),
+      create: (_) => RecoverAccountFoundBloc(
+          arguments.guardians, arguments.userAccount, BlocProvider.of<AuthenticationBloc>(context))
+        ..add(FetchInitialData()),
       child: Scaffold(
         appBar: AppBar(title: const Text("Recover Account")),
         body: BlocBuilder<RecoverAccountFoundBloc, RecoverAccountFoundState>(
@@ -101,9 +110,56 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                       ),
                     );
                   case RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD:
-                    return const SizedBox.shrink(); // TODO(gguij002): Next PR
+                    return Column(
+                      children: [
+                        Text(
+                          "All three of your Key Guardians have accepted your request to recover your account. You account will be unlocked in 24hrs. ",
+                          style: Theme.of(context).textTheme.subtitle2,
+                          textAlign: TextAlign.center,
+                        ),
+                        SvgPicture.asset("assets/images/guardians/check_circle.svg"),
+                        const Text("Time Left Before Recovery Enabled"),
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                Text('${state.currentRemainingTime?.hours ?? 0} ',
+                                    style: Theme.of(context).textTheme.headline5),
+                                Text(':', style: Theme.of(context).textTheme.subtitle3Opacity)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('${state.currentRemainingTime?.min ?? 0} ',
+                                    style: Theme.of(context).textTheme.headline5),
+                                Text(':', style: Theme.of(context).textTheme.subtitle3Opacity)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('${state.currentRemainingTime?.sec ?? 0} ',
+                                    style: Theme.of(context).textTheme.headline5),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    );
                   case RecoveryStatus.READY_TO_CLAIM_ACCOUNT:
-                    return const SizedBox.shrink(); // TODO(gguij002): Next PR
+                    return Column(
+                      children: [
+                        Text("Account recovered " + state.userAccount),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 24),
+                          child: FlatButtonLong(
+                            title: "Claim account",
+                            onPressed: (){
+                              BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnClaimAccountTap());
+                            },
+                          ),
+                        ),
+                      ],
+                    );
                 }
             }
           },

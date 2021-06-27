@@ -19,6 +19,7 @@ class SeedsAppTheme {
         behavior: SnackBarBehavior.floating,
         contentTextStyle: TextStyle(color: AppColors.white),
       ),
+      indicatorColor: AppColors.green1,
     );
   }
 
@@ -39,6 +40,7 @@ class SeedsAppTheme {
         behavior: SnackBarBehavior.floating,
         contentTextStyle: TextStyle(color: AppColors.white),
       ),
+      indicatorColor: AppColors.green1,
     );
   }
 }
@@ -153,6 +155,10 @@ extension CustomStyles on TextTheme {
       .englishLike
       .subtitle2!
       .copyWith(fontSize: 13, fontWeight: FontWeight.w400, color: Colors.white.withOpacity(0.5));
+
+  TextStyle get subtitle3OpacityEmphasisGreen => subtitle3.copyWith(color: AppColors.green3);
+
+  TextStyle get subtitle3OpacityEmphasisRed => subtitle3.copyWith(color: AppColors.red1);
 
   TextStyle get subtitle4 =>
       Typography.material2018().englishLike.subtitle2!.copyWith(fontSize: 13, fontWeight: FontWeight.w400);
