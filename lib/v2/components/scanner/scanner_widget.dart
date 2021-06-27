@@ -81,7 +81,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
   }
 
   Widget buildStateView(state) {
-    switch (state.pageState) {
+    switch (state.scanStatus) {
       case ScanStatus.scan:
         _handledQrCode = false;
         return const SizedBox.shrink();
