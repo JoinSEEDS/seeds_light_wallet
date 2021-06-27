@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
+import 'package:seeds/v2/screens/sign_up/add_phone_number/add_phone_number.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/claim_invite_screen.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/create_username/create_username.dart';
@@ -35,8 +36,7 @@ class SignupScreen extends StatelessWidget {
             case PageContent.USERNAME:
               return const CreateUsername();
             case PageContent.PHONE_NUMBER:
-              // TODO(Farzad): return AddPhoneNumber widget
-              return Container();
+              return const AddPhoneNumber();
           }
         },
       ),
