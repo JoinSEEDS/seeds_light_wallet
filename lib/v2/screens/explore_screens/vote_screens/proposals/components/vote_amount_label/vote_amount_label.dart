@@ -4,6 +4,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 
 class VoteAmountLabel extends StatelessWidget {
   final int proposalId;
@@ -34,10 +35,10 @@ class VoteAmountLabel extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                   child: state.amount > 0
-                      ? Text('+${state.amount} ' 'voted',
+                      ? Text('+${state.amount} ' 'voted'.i18n,
                           style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen)
                       : Text(
-                          '${state.amount} ' 'voted',
+                          '${state.amount} ' 'voted'.i18n,
                           style: state.amount == 0
                               ? Theme.of(context).textTheme.subtitle3Opacity
                               : Theme.of(context).textTheme.subtitle3OpacityEmphasisRed,

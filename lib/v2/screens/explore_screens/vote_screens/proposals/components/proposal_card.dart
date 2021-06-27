@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
-import 'package:seeds/v2/i18n/explore_screens/vote/vote.i18n.dart';
+import 'package:seeds/v2/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 import 'package:seeds/v2/images/vote/proposal_category.dart';
 import 'package:seeds/v2/images/vote/triangle_pass_value.dart';
 import 'package:seeds/v2/images/vote/votes_down_arrow.dart';

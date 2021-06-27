@@ -26,7 +26,7 @@ class VoteScreen extends StatelessWidget {
                 labelStyle: Theme.of(context).textTheme.buttonLowEmphasis,
                 tabs: [for (var i in proposalTypes) Tab(child: Text(i.type.i18n))]),
           ),
-          body: TabBarView(children: [for (var i in proposalTypes) ProposalsList(proposalType: i)]),
+          body: TabBarView(children: [for (var i in proposalTypes) ProposalsList(i)]),
         ),
       ),
     );
