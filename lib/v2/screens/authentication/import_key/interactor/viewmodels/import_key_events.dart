@@ -4,6 +4,8 @@ import 'package:meta/meta.dart';
 /// --- EVENTS
 @immutable
 abstract class ImportKeyEvent extends Equatable {
+  const ImportKeyEvent();
+
   @override
   List<Object> get props => [];
 }
@@ -11,7 +13,7 @@ abstract class ImportKeyEvent extends Equatable {
 class FindAccountByKey extends ImportKeyEvent {
   final String userKey;
 
-  FindAccountByKey({required this.userKey});
+  const FindAccountByKey({required this.userKey});
 
   @override
   String toString() => 'FindAccountByKey';
@@ -20,8 +22,17 @@ class FindAccountByKey extends ImportKeyEvent {
 class AccountSelected extends ImportKeyEvent {
   final String account;
 
-  AccountSelected({required this.account});
+  const AccountSelected({required this.account});
 
   @override
   String toString() => 'AccountSelected: { account: $account }';
+}
+
+class OnPrivateKeyChange extends ImportKeyEvent {
+  final String privateKeyChanged;
+
+  const OnPrivateKeyChange({required this.privateKeyChanged});
+
+  @override
+  String toString() => 'OnPrivateKeyChange: { inputChange: $privateKeyChanged }';
 }
