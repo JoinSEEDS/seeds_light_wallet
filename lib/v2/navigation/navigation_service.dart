@@ -8,7 +8,7 @@ import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
-import 'package:seeds/v2/screens/dashboard/dashboard.dart';
+import 'package:seeds/screens/app/wallet/dashboard/dashboard.dart';
 import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';

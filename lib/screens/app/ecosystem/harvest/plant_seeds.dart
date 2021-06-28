@@ -8,7 +8,7 @@ import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/planted_balance.dart';
-import 'package:seeds/v2/screens/dashboard/components/transaction_details.dart';
+import 'package:seeds/widgets/transaction_details.dart';
 import 'package:seeds/i18n/harvest.i18n.dart';
 
 class PlantSeeds extends StatefulWidget {

@@ -13,7 +13,7 @@ import 'package:seeds/widgets/fullscreen_loader.dart';
 import 'package:seeds/widgets/main_button.dart';
 import 'package:seeds/widgets/main_text_field.dart';
 import 'package:seeds/widgets/second_button.dart';
-import 'package:seeds/v2/screens/dashboard/components/transaction_details.dart';
+import 'package:seeds/widgets/transaction_details.dart';
 import 'package:share/share.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
