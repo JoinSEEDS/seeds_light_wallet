@@ -26,3 +26,21 @@ Use the projects git hooks
 ```
 git config core.hooksPath .githooks/
 ```
+
+## Build
+
+### Build for Android
+
+Create an app bundle and upload to Google Play
+
+```flutter build appbundle --no-sound-null-safety lib/v2/main.dart```
+
+### Build for iOS 
+
+For iOS App store release, we build with XCode - but before running the XCode build, we need to run the flutter build for iOS.
+
+1 - Build for iOS flutter
+```flutter build ios --no-sound-null-safety lib/v2/main.dart```
+
+2 - Build with XCode for App store distrubution as usual
+
