@@ -31,11 +31,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
     } else if (event is AccountSelected) {
       _authenticationBloc.add(OnImportAccount(account: event.account, privateKey: state.privateKey.toString()));
     } else if (event is OnPrivateKeyChange) {
-      if (event.privateKeyChanged.isEmpty) {
-        yield state.copyWith(enableButton: false);
-      } else {
-        yield state.copyWith(enableButton: true);
-      }
+      yield state.copyWith(enableButton: event.privateKeyChanged.isEmpty);
     }
   }
 }
