@@ -35,68 +35,70 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => _importKeyBloc,
-      child: BlocBuilder<ImportKeyBloc, ImportKeyState>(builder: (context, ImportKeyState state) {
-        return Scaffold(
-          bottomSheet: Padding(
-            padding: const EdgeInsets.all(16),
-            child: FlatButtonLong(title: 'Search'.i18n, onPressed: () => _onSubmitted(), enabled: state.enableButton),
-          ),
-          appBar: AppBar(),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Form(
-                key: _formImportKey,
-                autovalidateMode: AutovalidateMode.disabled,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      TextFormFieldCustom(
-                        autofocus: true,
-                        labelText: 'Private Key'.i18n,
-                        suffixIcon: IconButton(
-                          icon: const Icon(
-                            Icons.paste,
-                            color: AppColors.white,
+      create: (_) => _importKeyBloc,
+      child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
+        builder: (context, ImportKeyState state) {
+          return Scaffold(
+            bottomSheet: Padding(
+              padding: const EdgeInsets.all(16),
+              child: FlatButtonLong(title: 'Search'.i18n, onPressed: () => _onSubmitted(), enabled: state.enableButton),
+            ),
+            appBar: AppBar(),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Form(
+                  key: _formImportKey,
+                  autovalidateMode: AutovalidateMode.disabled,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        TextFormFieldCustom(
+                          autofocus: true,
+                          labelText: 'Private Key'.i18n,
+                          suffixIcon: IconButton(
+                            icon: const Icon(
+                              Icons.paste,
+                              color: AppColors.white,
+                            ),
+                            onPressed: () async {
+                              var clipboardData = await Clipboard.getData('text/plain');
+                              var clipboardText = clipboardData?.text ?? '';
+                              _keyController.text = clipboardText;
+                              BlocProvider.of<ImportKeyBloc>(context)
+                                  .add(OnPrivateKeyChange(privateKeyChanged: clipboardText));
+                              _onSubmitted();
+                            },
                           ),
-                          onPressed: () async {
-                            var clipboardData = await Clipboard.getData('text/plain');
-                            var clipboardText = clipboardData?.text ?? '';
-                            _keyController.text = clipboardText;
-                            BlocProvider.of<ImportKeyBloc>(context)
-                                .add(OnPrivateKeyChange(privateKeyChanged: clipboardText));
-                            _onSubmitted();
+                          onFieldSubmitted: (value) {
+                            BlocProvider.of<ImportKeyBloc>(context).add(OnPrivateKeyChange(privateKeyChanged: value));
+                          },
+                          controller: _keyController,
+                          onChanged: (value) {
+                            BlocProvider.of<ImportKeyBloc>(context).add(OnPrivateKeyChange(privateKeyChanged: value));
                           },
                         ),
-                        onFieldSubmitted: (value) {
-                          BlocProvider.of<ImportKeyBloc>(context).add(OnPrivateKeyChange(privateKeyChanged: value));
-                        },
-                        controller: _keyController,
-                        onChanged: (value) {
-                          BlocProvider.of<ImportKeyBloc>(context).add(OnPrivateKeyChange(privateKeyChanged: value));
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 24, left: 24),
-                child: Text(
-                  "If you already have a Seeds account-enter active private key and account will be imported automatically."
-                      .i18n,
-                  style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.only(right: 24, left: 24),
+                  child: Text(
+                    "If you already have a Seeds account-enter active private key and account will be imported automatically."
+                        .i18n,
+                    style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              Expanded(child: ImportKeyAccountsWidget()),
-            ],
-          ),
-        );
-      }),
+                const SizedBox(height: 24),
+                Expanded(child: ImportKeyAccountsWidget()),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
