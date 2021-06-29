@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _SettingsStorage {
@@ -46,7 +49,7 @@ class _SettingsStorage {
 
   int get backupReminderCount => _backupReminderCount ?? 0;
 
-  String get selectedFiatCurrency => _preferences.getString(SELECTED_FIAT_CURRENCY) ?? 'USD';
+  String get selectedFiatCurrency => _preferences.getString(SELECTED_FIAT_CURRENCY) ?? getPlatformCurrency();
 
   bool get inRecoveryMode => _preferences.getBool(IN_RECOVERY_MODE) ?? false;
 
@@ -235,6 +238,11 @@ class _SettingsStorage {
     _backupLatestReminder = 0;
     _secureStorage.delete(key: BACKUP_REMINDER_COUNT);
     _backupReminderCount = 0;
+  }
+
+  String getPlatformCurrency() {
+    var format = NumberFormat.simpleCurrency(locale: Platform.localeName);
+    return format.currencyName ?? 'USD';
   }
 }
 

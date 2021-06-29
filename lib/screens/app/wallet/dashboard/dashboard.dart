@@ -147,12 +147,6 @@ class _DashboardState extends State<Dashboard> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     refreshData();
-    if (SettingsNotifier.of(context).selectedFiatCurrency.isEmpty) {
-      Locale locale = Localizations.localeOf(context);
-      var format = NumberFormat.simpleCurrency(locale: locale.toString());
-      // SettingsNotifier.of(context).saveSelectedFiatCurrency(format.currencyName);
-      settingsStorage.saveSelectedFiatCurrency(format.currencyName!);
-    }
   }
 
   Future<void> refreshData() async {
