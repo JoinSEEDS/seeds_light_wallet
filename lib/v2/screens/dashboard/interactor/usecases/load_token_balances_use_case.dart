@@ -4,9 +4,11 @@ import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 
 export 'package:async/src/result/result.dart';
 
-class LoadBalanceUseCase {
-  Future<Result> run(TokenModel token) {
+class LoadTokenBalancesUseCase {
+  Future<List<Result>> run(List<TokenModel> tokens) {
     var account = settingsStorage.accountName;
-    return BalanceRepository().getTokenBalance(account, token);
+    List<Future<Result<dynamic>>> list =
+        List.of(tokens.map((item) => BalanceRepository().getTokenBalance(account, item)));
+    return Future.wait(list);
   }
 }

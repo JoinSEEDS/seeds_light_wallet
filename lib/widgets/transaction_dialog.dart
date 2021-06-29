@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/models/models.dart';
-import 'package:seeds/screens/app/wallet/dashboard/dashboard.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
+import 'package:seeds/screens/app/wallet/dashboard/dashboard.dart';
 import 'package:share/share.dart';
 
 class TransactionDialog extends StatefulWidget {
