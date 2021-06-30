@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 
 /// --- EVENTS
 @immutable
@@ -20,6 +21,14 @@ class ShouldShowNotificationBadge extends SecurityEvent {
   const ShouldShowNotificationBadge({required this.value});
   @override
   String toString() => 'ShouldShowNotificationBadge { value: $value }';
+}
+
+class OnLoadingGuardians extends SecurityEvent {
+  final List<GuardianModel> guardians;
+
+  const OnLoadingGuardians({required this.guardians});
+  @override
+  String toString() => 'OnLoadingGuardians { guardians: $guardians }';
 }
 
 class OnGuardiansCardTapped extends SecurityEvent {

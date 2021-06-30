@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
 enum CurrentChoice { initial, passcodeCard, biometricCard }
@@ -13,6 +14,7 @@ class SecurityState extends Equatable {
   final CurrentChoice currentChoice;
   final bool? isSecurePasscode;
   final bool? isSecureBiometric;
+  final Widget guardianStatusText;
 
   const SecurityState({
     required this.pageState,
@@ -23,6 +25,7 @@ class SecurityState extends Equatable {
     required this.currentChoice,
     this.isSecurePasscode,
     this.isSecureBiometric,
+    required this.guardianStatusText,
   });
 
   @override
@@ -35,6 +38,7 @@ class SecurityState extends Equatable {
         currentChoice,
         isSecurePasscode,
         isSecureBiometric,
+        guardianStatusText,
       ];
 
   SecurityState copyWith({
@@ -46,6 +50,7 @@ class SecurityState extends Equatable {
     CurrentChoice? currentChoice,
     bool? isSecurePasscode,
     bool? isSecureBiometric,
+    Widget? statusText,
   }) {
     return SecurityState(
       pageState: pageState ?? this.pageState,
@@ -56,6 +61,7 @@ class SecurityState extends Equatable {
       currentChoice: currentChoice ?? this.currentChoice,
       isSecurePasscode: isSecurePasscode ?? this.isSecurePasscode,
       isSecureBiometric: isSecureBiometric ?? this.isSecureBiometric,
+      guardianStatusText: statusText ?? this.guardianStatusText,
     );
   }
 
@@ -64,6 +70,7 @@ class SecurityState extends Equatable {
       pageState: PageState.initial,
       currentChoice: CurrentChoice.initial,
       hasNotification: false,
+      guardianStatusText: Text("..."),
     );
   }
 }
