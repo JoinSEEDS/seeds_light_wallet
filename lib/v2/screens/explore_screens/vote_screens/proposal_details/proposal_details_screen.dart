@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/images/vote/arrow_next_proposal.dart';
-import 'package:seeds/v2/images/vote/arrow_previous_proposal.dart';
 import 'package:seeds/v2/images/vote/votes_abstain_slash.dart';
 import 'package:seeds/v2/images/vote/votes_down_arrow.dart';
 import 'package:seeds/v2/images/vote/votes_up_arrow.dart';
@@ -18,8 +18,21 @@ import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/images/vote/proposal_category.dart';
 import 'package:seeds/v2/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
 
-class ProposalDetailsScreen extends StatelessWidget {
+class ProposalDetailsScreen extends StatefulWidget {
   const ProposalDetailsScreen({Key? key}) : super(key: key);
+
+  @override
+  _ProposalDetailsScreenState createState() => _ProposalDetailsScreenState();
+}
+
+class _ProposalDetailsScreenState extends State<ProposalDetailsScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +40,11 @@ class ProposalDetailsScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (_) => ProposalDetailsBloc(proposalsAndIndex!),
-        child: BlocBuilder<ProposalDetailsBloc, ProposalDetailsState>(
+        child: BlocConsumer<ProposalDetailsBloc, ProposalDetailsState>(
+          listenWhen: (_, current) => current.pageCommand != null,
+          listener: (_, __) {
+            _scrollController.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+          },
           builder: (context, state) {
             return WillPopScope(
               onWillPop: () async {
@@ -37,6 +54,7 @@ class ProposalDetailsScreen extends StatelessWidget {
                 return true;
               },
               child: CustomScrollView(
+                controller: _scrollController,
                 slivers: [
                   SliverAppBar(
                     expandedHeight: 280,
@@ -63,42 +81,6 @@ class ProposalDetailsScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        if (state.currentIndex > 0)
-                          Positioned(
-                            bottom: 24,
-                            left: 24,
-                            child: CustomPaint(
-                              painter: const ArrowPreviousProposal(),
-                              child: InkResponse(
-                                onTap: () {
-                                  BlocProvider.of<ProposalDetailsBloc>(context).add(const OnPreviousProposalTapped());
-                                },
-                                child: Container(
-                                  width: 26,
-                                  height: 26,
-                                  color: Colors.transparent,
-                                ),
-                              ),
-                            ),
-                          ),
-                        if (state.currentIndex < state.proposals.length - 1)
-                          Positioned(
-                            bottom: 24,
-                            right: 24,
-                            child: CustomPaint(
-                              painter: const ArrowNextProposal(),
-                              child: InkResponse(
-                                onTap: () {
-                                  BlocProvider.of<ProposalDetailsBloc>(context).add(const OnNextProposalTapped());
-                                },
-                                child: Container(
-                                  width: 26,
-                                  height: 26,
-                                  color: Colors.transparent,
-                                ),
-                              ),
-                            ),
-                          ),
                       ],
                     ),
                   ),
@@ -125,7 +107,7 @@ class ProposalDetailsScreen extends StatelessWidget {
                                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                                   ),
                                   const SizedBox(height: 30.0),
-                                  Text('Created by', style: Theme.of(context).textTheme.subtitle2),
+                                  Text('Created by'.i18n, style: Theme.of(context).textTheme.subtitle2),
                                   const SizedBox(height: 10.0),
                                   Row(
                                     children: [
@@ -228,86 +210,126 @@ class ProposalDetailsScreen extends StatelessWidget {
                             const DividerJungle(),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Precast your Vote'.i18n, style: Theme.of(context).textTheme.headline7),
-                                  const SizedBox(height: 25.0),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              child: state.showNextButton
+                                  ? Column(
                                       children: [
-                                        Column(
-                                          children: [
-                                            CustomPaint(
-                                              painter: const VotesUpArrow(
-                                                circleColor: AppColors.lightGreen6,
-                                                arrowColor: AppColors.white,
-                                              ),
-                                              child: InkResponse(
-                                                onTap: () {},
-                                                child: Container(
-                                                  width: 65,
-                                                  height: 65,
-                                                  color: Colors.transparent,
-                                                ),
-                                              ),
+                                        InkWell(
+                                          borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+                                          onTap: () {
+                                            BlocProvider.of<ProposalDetailsBloc>(context)
+                                                .add(const OnNextProposalTapped());
+                                          },
+                                          child: Ink(
+                                            decoration: BoxDecoration(
+                                              color: AppColors.darkGreen2,
+                                              borderRadius: BorderRadius.circular(defaultCardBorderRadius),
                                             ),
-                                            const SizedBox(height: 16.0),
-                                            Text('Yes', style: Theme.of(context).textTheme.button),
-                                          ],
+                                            child: ListTile(
+                                              title: Text(
+                                                'View Next Proposal'.i18n,
+                                                style: Theme.of(context).textTheme.headline8,
+                                              ),
+                                              trailing:
+                                                  const CustomPaint(size: Size(26, 26), painter: ArrowNextProposal()),
+                                            ),
+                                          ),
                                         ),
-                                        Column(
-                                          children: [
-                                            CustomPaint(
-                                              painter: const VotesAbstainSlash(),
-                                              child: InkResponse(
-                                                onTap: () {},
-                                                child: Container(
-                                                  width: 65,
-                                                  height: 65,
-                                                  color: Colors.transparent,
-                                                ),
+                                        const SizedBox(height: 200),
+                                      ],
+                                    )
+                                  : Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Precast your Vote'.i18n, style: Theme.of(context).textTheme.headline7),
+                                        const SizedBox(height: 25.0),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  CustomPaint(
+                                                    painter: const VotesUpArrow(
+                                                      circleColor: AppColors.lightGreen6,
+                                                      arrowColor: AppColors.white,
+                                                    ),
+                                                    child: InkResponse(
+                                                      onTap: () {
+                                                        BlocProvider.of<ProposalDetailsBloc>(context)
+                                                            .add(const OnFavourButtonTapped());
+                                                      },
+                                                      child: Container(
+                                                        width: 65,
+                                                        height: 65,
+                                                        color: Colors.transparent,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 16.0),
+                                                  Text('Yes'.i18n, style: Theme.of(context).textTheme.button),
+                                                ],
                                               ),
-                                            ),
-                                            const SizedBox(height: 16.0),
-                                            Text('Abstain', style: Theme.of(context).textTheme.button),
-                                          ],
+                                              Column(
+                                                children: [
+                                                  CustomPaint(
+                                                    painter: const VotesAbstainSlash(),
+                                                    child: InkResponse(
+                                                      onTap: () {
+                                                        BlocProvider.of<ProposalDetailsBloc>(context)
+                                                            .add(const OnAbstainButtonTapped());
+                                                      },
+                                                      child: Container(
+                                                        width: 65,
+                                                        height: 65,
+                                                        color: Colors.transparent,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 16.0),
+                                                  Text('Abstain'.i18n, style: Theme.of(context).textTheme.button),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  CustomPaint(
+                                                    painter: const VotesDownArrow(
+                                                      circleColor: AppColors.darkGreen2,
+                                                      arrowColor: AppColors.white,
+                                                    ),
+                                                    child: InkResponse(
+                                                      onTap: () {
+                                                        BlocProvider.of<ProposalDetailsBloc>(context)
+                                                            .add(const OnAgainstButtonTapped());
+                                                      },
+                                                      child: Container(
+                                                        width: 65,
+                                                        height: 65,
+                                                        color: Colors.transparent,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 16.0),
+                                                  Text('No'.i18n, style: Theme.of(context).textTheme.button),
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                        Column(
-                                          children: [
-                                            CustomPaint(
-                                              painter: const VotesDownArrow(
-                                                circleColor: AppColors.darkGreen2,
-                                                arrowColor: AppColors.white,
-                                              ),
-                                              child: InkResponse(
-                                                onTap: () {},
-                                                child: Container(
-                                                  width: 65,
-                                                  height: 65,
-                                                  color: Colors.transparent,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 16.0),
-                                            Text('No', style: Theme.of(context).textTheme.button),
-                                          ],
-                                        )
+                                        const SizedBox(height: 50.0),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                          child: FlatButtonLong(
+                                            enabled: state.isConfirmButtonEnabled,
+                                            title: 'Confirm'.i18n,
+                                            onPressed: () {
+                                              BlocProvider.of<ProposalDetailsBloc>(context)
+                                                  .add(const OnConfirmButtonPressed());
+                                            },
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                  ),
-                                  const SizedBox(height: 50.0),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                    child: FlatButtonLong(
-                                      title: 'Confirm',
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ),
                           ],
                         )

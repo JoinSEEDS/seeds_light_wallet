@@ -9,14 +9,32 @@ abstract class ProposalDetailsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class OnFavourButtonTapped extends ProposalDetailsEvent {
+  const OnFavourButtonTapped();
+  @override
+  String toString() => 'OnFavourButtonTapped';
+}
+
+class OnAbstainButtonTapped extends ProposalDetailsEvent {
+  const OnAbstainButtonTapped();
+  @override
+  String toString() => 'OnAbstainButtonTapped';
+}
+
+class OnAgainstButtonTapped extends ProposalDetailsEvent {
+  const OnAgainstButtonTapped();
+  @override
+  String toString() => 'OnAgainstButtonTapped';
+}
+
+class OnConfirmButtonPressed extends ProposalDetailsEvent {
+  const OnConfirmButtonPressed();
+  @override
+  String toString() => 'OnConfirmButtonPressed';
+}
+
 class OnNextProposalTapped extends ProposalDetailsEvent {
   const OnNextProposalTapped();
   @override
   String toString() => 'OnNextProposalTapped';
-}
-
-class OnPreviousProposalTapped extends ProposalDetailsEvent {
-  const OnPreviousProposalTapped();
-  @override
-  String toString() => 'OnPreviousProposalTapped';
 }

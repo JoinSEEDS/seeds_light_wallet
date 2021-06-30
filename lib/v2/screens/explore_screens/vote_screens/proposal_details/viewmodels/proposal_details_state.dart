@@ -11,6 +11,8 @@ class ProposalDetailsState extends Equatable {
   final String? errorMessage;
   final int currentIndex;
   final List<ProposalModel> proposals;
+  final bool showNextButton;
+  final bool isConfirmButtonEnabled;
 
   const ProposalDetailsState({
     required this.pageState,
@@ -18,6 +20,8 @@ class ProposalDetailsState extends Equatable {
     this.errorMessage,
     required this.currentIndex,
     required this.proposals,
+    required this.showNextButton,
+    required this.isConfirmButtonEnabled,
   });
 
   @override
@@ -27,6 +31,8 @@ class ProposalDetailsState extends Equatable {
         errorMessage,
         currentIndex,
         proposals,
+        showNextButton,
+        isConfirmButtonEnabled,
       ];
 
   ProposalDetailsState copyWith({
@@ -35,6 +41,8 @@ class ProposalDetailsState extends Equatable {
     String? errorMessage,
     int? currentIndex,
     List<ProposalModel>? proposals,
+    bool? showNextButton,
+    bool? isConfirmButtonEnabled,
   }) {
     return ProposalDetailsState(
       pageState: pageState ?? this.pageState,
@@ -42,6 +50,8 @@ class ProposalDetailsState extends Equatable {
       errorMessage: errorMessage,
       currentIndex: currentIndex ?? this.currentIndex,
       proposals: proposals ?? this.proposals,
+      showNextButton: showNextButton ?? this.showNextButton,
+      isConfirmButtonEnabled: isConfirmButtonEnabled ?? this.isConfirmButtonEnabled,
     );
   }
 
@@ -50,6 +60,8 @@ class ProposalDetailsState extends Equatable {
       pageState: PageState.initial,
       currentIndex: proposalsAndIndex.index,
       proposals: proposalsAndIndex.proposals,
+      showNextButton: false,
+      isConfirmButtonEnabled: false,
     );
   }
 }
