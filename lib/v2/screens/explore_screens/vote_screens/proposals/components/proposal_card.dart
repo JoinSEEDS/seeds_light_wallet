@@ -8,14 +8,14 @@ import 'package:seeds/v2/images/vote/proposal_category.dart';
 import 'package:seeds/v2/images/vote/triangle_pass_value.dart';
 import 'package:seeds/v2/images/vote/votes_down_arrow.dart';
 import 'package:seeds/v2/images/vote/votes_up_arrow.dart';
-import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'vote_amount_label/vote_amount_label.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ProposalCard extends StatefulWidget {
   final ProposalModel proposal;
+  final VoidCallback onTap;
 
-  const ProposalCard(this.proposal, {Key? key}) : super(key: key);
+  const ProposalCard(this.proposal, this.onTap, {Key? key}) : super(key: key);
 
   @override
   _ProposalCardState createState() => _ProposalCardState();
@@ -38,7 +38,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
             margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 26.0),
             elevation: 8,
             child: InkWell(
-              onTap: () => NavigationService.of(context).navigateTo(Routes.proposalDetails, widget.proposal),
+              onTap: widget.onTap,
               child: Ink(
                 decoration: BoxDecoration(color: AppColors.darkGreen2, borderRadius: BorderRadius.circular(12)),
                 child: Column(

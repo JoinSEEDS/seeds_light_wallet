@@ -26,3 +26,19 @@ class OnUserProposalsRefresh extends ProposalsListEvent {
   @override
   String toString() => 'OnUserProposalsRefresh';
 }
+
+class OnProposalCardTapped extends ProposalsListEvent {
+  final int index;
+
+  const OnProposalCardTapped(this.index);
+
+  @override
+  String toString() => 'OnProposalCardTapped { proposal index: $index }';
+}
+
+class ClearProposalsListPageCommand extends ProposalsListEvent {
+  const ClearProposalsListPageCommand();
+
+  @override
+  String toString() => 'ClearProposalsListPageCommand';
+}

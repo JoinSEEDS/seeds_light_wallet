@@ -129,7 +129,7 @@ class NavigationService {
     Routes.invites: (_) => Invites(),
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
-    Routes.proposalDetails: (args) => ProposalDetailsScreen(args),
+    Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
     Routes.logout: (_) => Logout(),
     Routes.imageViewer: (args) => ImageViewer(
           arguments: args,
