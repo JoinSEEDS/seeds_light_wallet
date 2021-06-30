@@ -12,75 +12,78 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: height * 0.4,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.fitWidth,
-                    image: AssetImage(
-                      "assets/images/login/background.png",
-                    ))),
-          ),
-          SvgPicture.asset(
-            "assets/images/login/seeds_light_wallet_logo.svg",
-          ),
-          const SizedBox(
-            height: 100,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        bottomSheet: Padding(
+          padding: const EdgeInsets.all(16),
+          child: TextButton(
+            style: TextButton.styleFrom(
+                shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
+            onPressed: () {
+              NavigationService.of(context).navigateTo(Routes.recoverAccount);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("First time here?".i18n, style: Theme.of(context).textTheme.subtitle2),
-                const SizedBox(
-                  height: 10,
-                ),
-                FlatButtonLong(
-                  onPressed: () {
-                    NavigationService.of(context).navigateTo(Routes.signup);
-                  },
-                  title: "Claim invite code".i18n,
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                Text("Already have a Seeds Account?".i18n, style: Theme.of(context).textTheme.subtitle2),
-                const SizedBox(
-                  height: 10,
-                ),
-                FlatButtonLongOutlined(
-                  onPressed: () {
-                    NavigationService.of(context).navigateTo(Routes.importKey);
-                  },
-                  title: "Import private key".i18n,
-                )
+                Text("Lost your key?".i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text(" Recover ".i18n, style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1),
+                Text("your account here".i18n, style: Theme.of(context).textTheme.subtitle2),
               ],
             ),
           ),
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
             children: [
-              Text("Lost your key?".i18n, style: Theme.of(context).textTheme.subtitle2),
-              GestureDetector(
-                  onTap: () {
-                    NavigationService.of(context).navigateTo(Routes.recoverAccount);
-                  },
-                  child: Text(" Recover ".i18n, style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1)),
-              Text("your account here".i18n, style: Theme.of(context).textTheme.subtitle2),
+              Container(
+                height: height * 0.4,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.fitWidth,
+                        image: AssetImage(
+                          "assets/images/login/background.png",
+                        ))),
+              ),
+              SvgPicture.asset(
+                "assets/images/login/seeds_light_wallet_logo.svg",
+              ),
+              const SizedBox(
+                height: 80,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("First time here?".i18n, style: Theme.of(context).textTheme.subtitle2),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    FlatButtonLong(
+                      onPressed: () {
+                        NavigationService.of(context).navigateTo(Routes.signup);
+                      },
+                      title: "Claim invite code".i18n,
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Text("Already have a Seeds Account?".i18n, style: Theme.of(context).textTheme.subtitle2),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    FlatButtonLongOutlined(
+                      onPressed: () {
+                        NavigationService.of(context).navigateTo(Routes.importKey);
+                      },
+                      title: "Import private key".i18n,
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 80,
+              ),
             ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
-    ));
+        ));
   }
 }
