@@ -9,7 +9,7 @@ import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/mappers/guardians_state_mapper.dart';
-import 'package:seeds/v2/screens/profile_screens/security/interactor/usecases/guardians_ready_to_activate_usecase.dart';
+import 'package:seeds/v2/screens/profile_screens/security/interactor/usecases/guardians_usecase.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC
