@@ -69,14 +69,14 @@ class WalletScreen extends StatelessWidget {
           )),
       title: Image.asset(
         'assets/images/seeds_symbol_forest.png',
-        height: 44,
+        height: 50,
         fit: BoxFit.fitHeight),
       actions: [
         Container(
           child: IconButton(
             icon: SvgPicture.asset(
               'assets/images/wallet/app_bar/scan_qr_code_icon.svg',
-              height: 30,
+              height: 33,
               width: 2000,
             ),
             onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
