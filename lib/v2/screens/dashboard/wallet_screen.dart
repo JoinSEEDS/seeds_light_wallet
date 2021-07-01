@@ -9,7 +9,6 @@ import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_bloc.dart';
 import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_event.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_state.dart';
 import 'package:seeds/v2/screens/dashboard/wallet_header.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 
