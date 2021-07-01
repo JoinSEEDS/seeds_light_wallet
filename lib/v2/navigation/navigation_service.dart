@@ -61,7 +61,7 @@ class Routes {
   static final proposalDetails = 'ProposalDetails';
   static final overview = 'Overview';
   static final explore = 'Explore';
-  static final wallet = 'Dashboard';
+  static final wallet = 'Wallet';
   static final logout = 'Logout';
   static final imageViewer = 'ImageViewer';
   static final plantSeeds = 'plantSeeds';
