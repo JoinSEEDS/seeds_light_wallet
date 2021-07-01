@@ -67,7 +67,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
           if (pageCommand is NavigateToRouteWithArguments<ProposalsAndIndex>) {
             int? index = await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
             if (index != null) {
-              // 420 is the height of card
+              // 420 is the height of this proposal card
               // ignore: unawaited_futures
               _scrollController.animateTo(420.0 * index,
                   duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
@@ -106,8 +106,8 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                                     return const LoadingIndicatorList();
                                   } else {
                                     return ProposalCard(
-                                      state.proposals[index],
-                                      () => _proposalsBloc.add(OnProposalCardTapped(index)),
+                                      proposal: state.proposals[index],
+                                      onTap: () => _proposalsBloc.add(OnProposalCardTapped(index)),
                                     );
                                   }
                                 },

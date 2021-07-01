@@ -15,7 +15,7 @@ class ProposalCard extends StatefulWidget {
   final ProposalModel proposal;
   final VoidCallback onTap;
 
-  const ProposalCard(this.proposal, this.onTap, {Key? key}) : super(key: key);
+  const ProposalCard({Key? key, required this.proposal, required this.onTap}) : super(key: key);
 
   @override
   _ProposalCardState createState() => _ProposalCardState();
