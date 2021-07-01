@@ -8,7 +8,6 @@ import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
 import 'package:seeds/screens/app/profile/image_viewer.dart';
 import 'package:seeds/screens/app/profile/logout.dart';
-import 'package:seeds/screens/app/wallet/dashboard/dashboard.dart';
 import 'package:seeds/screens/app/wallet/receive.dart';
 import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
 import 'package:seeds/screens/app/wallet/receive_custom.dart';
@@ -19,6 +18,7 @@ import 'package:seeds/v2/screens/authentication/login_screen.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:seeds/v2/screens/authentication/verification/verification_screen.dart';
+import 'package:seeds/v2/screens/dashboard/wallet_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
@@ -61,7 +61,7 @@ class Routes {
   static final proposalDetails = 'ProposalDetails';
   static final overview = 'Overview';
   static final explore = 'Explore';
-  static final dashboard = 'Dashboard';
+  static final wallet = 'Dashboard';
   static final logout = 'Logout';
   static final imageViewer = 'ImageViewer';
   static final plantSeeds = 'plantSeeds';
@@ -163,7 +163,7 @@ class NavigationService {
   };
 
   final walletRoutes = {
-    Routes.dashboard: (_) => const Dashboard(),
+    Routes.wallet: (_) => const WalletScreen(),
   };
 
   void addListener(StreamController<String> listener) {
