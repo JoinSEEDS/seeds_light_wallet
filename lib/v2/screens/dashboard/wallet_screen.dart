@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
@@ -24,8 +26,8 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => WalletBloc()..add(const RefreshDataEvent()),
-        child: RefreshIndicator(
+      create: (_) => WalletBloc()..add(const RefreshDataEvent()),
+      child: RefreshIndicator(
           child: Scaffold(
             appBar: buildAppBar(context) as PreferredSizeWidget?,
             body: ListView(
@@ -40,8 +42,11 @@ class WalletScreen extends StatelessWidget {
               ],
             ),
           ),
-          onRefresh: onRefresh,
-        ));
+          onRefresh: () async {
+            BlocProvider.of<RatesBloc>(context)..add(const FetchRates());
+            BlocProvider.of<WalletBloc>(context)..add(const RefreshDataEvent());
+          }),
+    );
   }
 
   Widget buildSendReceiveButton(BuildContext context) {
@@ -67,10 +72,7 @@ class WalletScreen extends StatelessWidget {
             nickname: 'gg',
             image: '',
           )),
-      title: Image.asset(
-        'assets/images/seeds_symbol_forest.png',
-        height: 50,
-        fit: BoxFit.fitHeight),
+      title: Image.asset('assets/images/seeds_symbol_forest.png', height: 50, fit: BoxFit.fitHeight),
       actions: [
         Container(
           child: IconButton(
@@ -107,10 +109,5 @@ class WalletScreen extends StatelessWidget {
 
   Widget buildTransactions() {
     return const SizedBox.shrink();
-  }
-
-  Future<void> onRefresh() {
-    // TODO(n13): implement this
-    return Future.error("not implemented");
   }
 }
