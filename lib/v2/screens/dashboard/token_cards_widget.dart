@@ -13,17 +13,17 @@ import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_
 import 'components/currency_info_card_widget.dart';
 
 // TODO(n13): Make this stateless
-class WalletHeader extends StatefulWidget {
-  const WalletHeader({
+class TokenCardsWidget extends StatefulWidget {
+  const TokenCardsWidget({
     Key? key,
   }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return WalletHeaderState();
+    return TokenCardsWidgetState();
   }
 }
-class WalletHeaderState extends State<WalletHeader> {
+class TokenCardsWidgetState extends State<TokenCardsWidget> {
   final CarouselController _controller = CarouselController();
   int _selectedIndex = 0;
   late TokenBalancesBloc _bloc;
