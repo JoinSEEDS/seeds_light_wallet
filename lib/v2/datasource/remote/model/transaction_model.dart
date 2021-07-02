@@ -1,4 +1,6 @@
-class TransactionModel {
+import 'package:equatable/equatable.dart';
+
+class TransactionModel extends Equatable{
   final String from;
   final String to;
   final String quantity;
@@ -9,6 +11,9 @@ class TransactionModel {
   String get symbol => quantity.split(" ")[1];
 
   TransactionModel({required this.from, required this.to, required this.quantity, required this.memo, required this.timestamp, required this.transactionId});
+
+  @override
+  List<Object?> get props => [transactionId];
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
@@ -33,13 +38,4 @@ class TransactionModel {
     );
   }
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is TransactionModel &&
-          from == other.from &&
-          to == other.to &&
-          quantity == other.quantity &&
-          memo == other.memo &&
-          transactionId == other.transactionId;
 }
