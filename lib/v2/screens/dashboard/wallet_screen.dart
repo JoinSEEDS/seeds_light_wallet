@@ -16,8 +16,6 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 
-enum TransactionType { income, outcome }
-
 /// Wallet SCREEN
 class WalletScreen extends StatelessWidget {
   const WalletScreen({Key? key}) : super(key: key);

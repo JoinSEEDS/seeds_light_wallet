@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class TransactionModel extends Equatable{
+class TransactionModel extends Equatable {
   final String from;
   final String to;
   final String quantity;
@@ -10,7 +10,13 @@ class TransactionModel extends Equatable{
 
   String get symbol => quantity.split(" ")[1];
 
-  TransactionModel({required this.from, required this.to, required this.quantity, required this.memo, required this.timestamp, required this.transactionId});
+  const TransactionModel(
+      {required this.from,
+      required this.to,
+      required this.quantity,
+      required this.memo,
+      required this.timestamp,
+      required this.transactionId});
 
   @override
   List<Object?> get props => [transactionId];
@@ -37,5 +43,4 @@ class TransactionModel extends Equatable{
       //json["block_num"], // can add this later - neat but changes cache structure
     );
   }
-
 }
