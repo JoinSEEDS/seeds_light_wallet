@@ -52,7 +52,9 @@ class WalletScreen extends StatelessWidget {
       child: Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
         Expanded(child: SendButton(onPress: () => NavigationService.of(context).navigateTo(Routes.transfer))),
         const SizedBox(width: 20),
-        Expanded(child: ReceiveButton(onPress: () async => await NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen))),
+        Expanded(
+            child: ReceiveButton(
+                onPress: () async => await NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen))),
       ]),
     );
   }
