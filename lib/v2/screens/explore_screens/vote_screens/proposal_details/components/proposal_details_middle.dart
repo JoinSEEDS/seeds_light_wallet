@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/viewmodels/bloc.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:flutter/gestures.dart';
@@ -19,7 +20,7 @@ class ProposalDetailsMiddle extends StatelessWidget {
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(horizontalEdgePadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -76,7 +77,7 @@ class ProposalDetailsMiddle extends StatelessWidget {
             ),
             const DividerJungle(),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(horizontalEdgePadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -122,7 +123,7 @@ class ProposalDetailsMiddle extends StatelessWidget {
                               if (await launcher.canLaunch(state.proposals[state.currentIndex].url)) {
                                 await launcher.launch(state.proposals[state.currentIndex].url);
                               } else {
-                                // todo listener snack
+                                // TODO(Raul): listener snack
                                 // print("Couldn't open this url".i18n);
                               }
                             },

@@ -21,7 +21,7 @@ class ProposalDetailsBottom extends StatelessWidget {
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(horizontalEdgePadding),
               child: state.showNextButton
                   ? Column(
                       children: [
@@ -75,7 +75,7 @@ class ProposalDetailsBottom extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 16.0),
+                                  const SizedBox(height: horizontalEdgePadding),
                                   Text('Yes'.i18n, style: Theme.of(context).textTheme.button),
                                 ],
                               ),
@@ -95,7 +95,7 @@ class ProposalDetailsBottom extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 16.0),
+                                  const SizedBox(height: horizontalEdgePadding),
                                   Text('Abstain'.i18n, style: Theme.of(context).textTheme.button),
                                 ],
                               ),
@@ -118,7 +118,7 @@ class ProposalDetailsBottom extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 16.0),
+                                  const SizedBox(height: horizontalEdgePadding),
                                   Text('No'.i18n, style: Theme.of(context).textTheme.button),
                                 ],
                               )
@@ -127,7 +127,7 @@ class ProposalDetailsBottom extends StatelessWidget {
                         ),
                         const SizedBox(height: 50.0),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          padding: const EdgeInsets.symmetric(vertical: horizontalEdgePadding),
                           child: FlatButtonLong(
                             enabled: state.isConfirmButtonEnabled,
                             title: 'Confirm'.i18n,
