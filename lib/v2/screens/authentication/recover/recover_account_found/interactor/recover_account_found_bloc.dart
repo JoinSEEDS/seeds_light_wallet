@@ -38,14 +38,17 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
     if (event is FetchInitialData) {
       yield state.copyWith(pageState: PageState.loading);
       RecoverGuardianInitialDTO result = await FetchRecoverGuardianInitialDataUseCase().run(state.userGuardians);
-      yield FetchRecoverRecoveryStateMapper().mapResultToState(state, result);
-      yield* _mapStartTimerToState();
+      var newState = FetchRecoverRecoveryStateMapper().mapResultToState(state, result);
+      yield newState;
+      if (newState.recoveryStatus == RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD) {
+        yield* _mapStartTimerToState();
+      }
     } else if (event is Tick) {
       if (event.timer > DateTime.now().millisecondsSinceEpoch ~/ 1000) {
         yield RemainingTimeStateMapper().mapResultToState(state, event.timer);
       } else {
         await _tickerSubscription?.cancel();
-        // TODO(gguij002): Show account ready to claim UI
+        yield state.copyWith(recoveryStatus: RecoveryStatus.READY_TO_CLAIM_ACCOUNT);
       }
     } else if (event is OnClaimAccountTap) {
       _authenticationBloc.add(OnImportAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
