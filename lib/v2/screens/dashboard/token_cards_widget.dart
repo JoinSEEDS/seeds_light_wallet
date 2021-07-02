@@ -12,16 +12,50 @@ import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_
 
 import 'components/currency_info_card_widget.dart';
 
-class TokenCardsWidget extends StatelessWidget {
-  final CarouselController _controller = CarouselController();
-
-  TokenCardsWidget({Key? key}) : super(key: key);
+// TODO(n13): Make this stateless
+class TokenCardsWidget extends StatefulWidget {
+  const TokenCardsWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() {
+    return TokenCardsWidgetState();
+  }
+}
+class TokenCardsWidgetState extends State<TokenCardsWidget> {
+  final CarouselController _controller = CarouselController();
+  int _selectedIndex = 0;
+  late TokenBalancesBloc _bloc;
+  ScrollController dd = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = TokenBalancesBloc()..add(const OnLoadTokenBalances());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc.close();
+  }
+
+  void onPageChange(int index, CarouselPageChangedReason changeReason) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void reload() {
+    _bloc.add(const OnLoadTokenBalances());
+  }
+  
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (_) => TokenBalancesBloc()..add(const OnLoadTokenBalances()),
-        child: BlocBuilder<TokenBalancesBloc, TokenBalancesState>(builder: (context, state) {
+    return BlocBuilder<TokenBalancesBloc, TokenBalancesState>(
+        bloc: _bloc,
+        builder: (context, state) {
           return Column(
             children: <Widget>[
               SingleChildScrollView(
@@ -30,8 +64,8 @@ class TokenCardsWidget extends StatelessWidget {
                   items: List.of(state.availableTokens.map(
                     (item) => Container(
                       margin: EdgeInsets.only(
-                          left: item.token == state.availableTokens.first.token ? 0 : 10.0,
-                          right: item.token == state.availableTokens.last.token ? 0 : 10.0),
+                        left: item.token == state.availableTokens.first.token ? 0 : 10.0, 
+                        right: item.token == state.availableTokens.last.token ? 0 : 10.0),
                       child: CurrencyInfoCardWidget(
                         tokenBalance: item,
                       ),
@@ -41,8 +75,7 @@ class TokenCardsWidget extends StatelessWidget {
                     height: 220,
                     viewportFraction: 0.89,
                     enableInfiniteScroll: false,
-                    onPageChanged: (index, controller) =>
-                        BlocProvider.of<TokenBalancesBloc>(context).add(OnSelectedTokenChanged(index)),
+                    onPageChanged: onPageChange,
                   ),
                 ),
               ),
@@ -51,7 +84,7 @@ class TokenCardsWidget extends StatelessWidget {
               ),
               DotsIndicator(
                 dotsCount: state.availableTokens.length,
-                position: state.selectedIndex.toDouble(),
+                position: _selectedIndex.toDouble(),
                 decorator: const DotsDecorator(
                   spacing: EdgeInsets.all(2.0),
                   size: Size(10.0, 2.0),
@@ -64,6 +97,6 @@ class TokenCardsWidget extends StatelessWidget {
               )
             ],
           );
-        }));
+        });
   }
 }

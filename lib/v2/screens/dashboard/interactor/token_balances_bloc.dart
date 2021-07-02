@@ -8,20 +8,19 @@ import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_
 
 /// --- BLOC
 class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
+
   TokenBalancesBloc() : super(TokenBalancesState.initial());
 
   @override
   Stream<TokenBalancesState> mapEventToState(TokenBalancesEvent event) async* {
     if (event is OnLoadTokenBalances) {
-      yield state.copyWith(pageState: PageState.loading);
-
+      yield state.copyWith(pageState: PageState.loading); 
+      
       const potentialTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken];
 
       var result = await LoadTokenBalancesUseCase().run(potentialTokens);
-
+      
       yield TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
-    } else if (event is OnSelectedTokenChanged) {
-      yield state.copyWith(selectedIndex: event.index);
-    }
+    } 
   }
 }
