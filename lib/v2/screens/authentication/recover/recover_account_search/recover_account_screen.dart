@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
+import 'package:seeds/v2/components/user_info_card.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
@@ -33,20 +34,30 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => RecoverAccountBloc(),
-      child: Scaffold(
-        appBar: AppBar(),
-        body: BlocConsumer<RecoverAccountBloc, RecoverAccountState>(
-          listenWhen: (_, state) {
-            return state.pageCommand != null;
-          },
-          listener: (context, state) {
-            var pageCommand = state.pageCommand;
-            if(pageCommand is NavigateToRecoverAccountFound) {
-              NavigationService.of(context).navigateTo(Routes.recoverAccountFound, pageCommand.args);
-            }
-          },
-          builder: (context, state) {
-            return Padding(
+      child: BlocConsumer<RecoverAccountBloc, RecoverAccountState>(
+        listenWhen: (_, state) {
+          return state.pageCommand != null;
+        },
+        listener: (context, state) {
+          var pageCommand = state.pageCommand;
+          if (pageCommand is NavigateToRecoverAccountFound) {
+            NavigationService.of(context).navigateTo(Routes.recoverAccountFound, pageCommand.args);
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(),
+            bottomSheet: Padding(
+              padding: const EdgeInsets.all(16),
+              child: FlatButtonLong(
+                title: 'Next',
+                enabled: state.isGuardianActive,
+                onPressed: () {
+                  BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped());
+                },
+              ),
+            ),
+            body: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +68,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                     labelText: "Username",
                     controller: _keyController,
                     suffixIcon: QuadStateClipboardIconButton(
-                      isChecked: state.isValidUsername,
+                      isChecked: state.isGuardianActive,
                       onClear: () {
                         _keyController.clear();
                       },
@@ -70,26 +81,28 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                       });
                     },
                   ),
+                  state.isValidAccount == true
+                      ? UserInfoCard(
+                          imageUrl: state.accountImage,
+                          account: state.userName!,
+                          name: state.accountName,
+                        )
+                      : const SizedBox.shrink(),
                   const SizedBox(height: 10),
-                  Expanded(
-                      child: state.errorMessage != null
-                          ? Text(
-                              state.errorMessage!,
-                              style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                            )
-                          : const SizedBox.shrink()),
-                  FlatButtonLong(
-                    title: 'Next',
-                    enabled: state.isValidUsername,
-                    onPressed: () {
-                      BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped());
-                    },
-                  ),
+                  state.errorMessage != null
+                      ? Center(
+                          child: Text(
+                            state.errorMessage!,
+                            style: Theme.of(context).textTheme.subtitle3Red,
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                 ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
