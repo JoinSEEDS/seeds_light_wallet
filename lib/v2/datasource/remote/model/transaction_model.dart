@@ -8,27 +8,27 @@ class TransactionModel {
 
   String get symbol => quantity.split(" ")[1];
 
-  TransactionModel(this.from, this.to, this.quantity, this.memo, this.timestamp, this.transactionId);
+  TransactionModel({required this.from, required this.to, required this.quantity, required this.memo, required this.timestamp, required this.transactionId});
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      json['act']['data']['from'],
-      json['act']['data']['to'],
-      json['act']['data']['quantity'],
-      json['act']['data']['memo'],
-      json['@timestamp'],
-      json['trx_id'],
+      from: json['act']['data']['from'],
+      to: json['act']['data']['to'],
+      quantity: json['act']['data']['quantity'],
+      memo: json['act']['data']['memo'],
+      timestamp: json['@timestamp'],
+      transactionId: json['trx_id'],
     );
   }
 
   factory TransactionModel.fromJsonMongo(Map<String, dynamic> json) {
     return TransactionModel(
-      json['act']['data']['from'],
-      json['act']['data']['to'],
-      json['act']['data']['quantity'],
-      json['act']['data']['memo'],
-      json['block_time'],
-      json['trx_id'],
+      from: json['act']['data']['from'],
+      to: json['act']['data']['to'],
+      quantity: json['act']['data']['quantity'],
+      memo: json['act']['data']['memo'],
+      timestamp: json['block_time'],
+      transactionId: json['trx_id'],
       //json["block_num"], // can add this later - neat but changes cache structure
     );
   }
