@@ -31,7 +31,7 @@ class WalletScreen extends StatelessWidget {
               // TODO(n13): Use exact measurements from figma
               children: <Widget>[
                 const SizedBox(height: 15),
-                const TokenCardsWidget(),
+                TokenCardsWidget(),
                 const SizedBox(height: 20),
                 buildSendReceiveButton(context),
                 const SizedBox(height: 20),
