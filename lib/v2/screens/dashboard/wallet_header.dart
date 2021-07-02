@@ -12,6 +12,7 @@ import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_
 
 import 'components/currency_info_card_widget.dart';
 
+// TODO(n13): Make this stateless
 class WalletHeader extends StatefulWidget {
   const WalletHeader({
     Key? key,
@@ -22,7 +23,6 @@ class WalletHeader extends StatefulWidget {
     return WalletHeaderState();
   }
 }
-
 class WalletHeaderState extends State<WalletHeader> {
   final CarouselController _controller = CarouselController();
   int _selectedIndex = 0;
@@ -50,7 +50,7 @@ class WalletHeaderState extends State<WalletHeader> {
   void reload() {
     _bloc.add(const OnLoadTokenBalances());
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TokenBalancesBloc, TokenBalancesState>(

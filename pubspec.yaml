@@ -92,6 +92,7 @@ flutter:
     - assets/images/seeds_currency_icon.svg
     - assets/images/app_icon_transparent.png
     - assets/images/loading.png
+    - assets/images/seeds_symbol_forest.png
     - assets/images/onboarding/onboarding1.png
     - assets/images/onboarding/onboarding2.png
     - assets/images/onboarding/onboarding3.png
