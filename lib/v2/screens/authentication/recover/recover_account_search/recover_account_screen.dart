@@ -4,8 +4,10 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/components/user_info_card.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/recover_account_bloc.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_events.dart';
@@ -48,7 +50,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
           return Scaffold(
             appBar: AppBar(),
             bottomSheet: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(horizontalEdgePadding),
               child: FlatButtonLong(
                 title: 'Next',
                 enabled: state.isGuardianActive,
@@ -82,10 +84,16 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                     },
                   ),
                   state.isValidAccount == true
-                      ? UserInfoCard(
-                          imageUrl: state.accountImage,
-                          account: state.userName!,
-                          name: state.accountName,
+                      ? Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.darkGreen2,
+                            borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+                          ),
+                          child: UserInfoCard(
+                            imageUrl: state.accountImage,
+                            account: state.userName!,
+                            name: state.accountName,
+                          ),
                         )
                       : const SizedBox.shrink(),
                   const SizedBox(height: 10),
