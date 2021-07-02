@@ -11,6 +11,7 @@ class FetchAccountInfoStateMapper extends StateMapper {
           pageState: PageState.failure, errorMessage: "Error Loading Account".i18n, isValidAccount: false);
     } else {
       var accountInfo = userInfo.asValue!.value as MemberModel;
+      // ignore: unnecessary_null_comparison
       if (accountInfo != null) {
         return currentState.copyWith(
           pageState: PageState.success,
