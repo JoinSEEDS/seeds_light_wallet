@@ -35,7 +35,7 @@ class GuardianStateMapper extends StateMapper {
 
     return currentState.copyWith(
       pageState: PageState.success,
-      statusText: guardianStateText,
+      guardianStatusText: guardianStateText,
     );
   }
 }

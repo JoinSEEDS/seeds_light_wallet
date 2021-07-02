@@ -50,7 +50,7 @@ class SecurityState extends Equatable {
     CurrentChoice? currentChoice,
     bool? isSecurePasscode,
     bool? isSecureBiometric,
-    Widget? statusText,
+    Widget? guardianStatusText,
   }) {
     return SecurityState(
       pageState: pageState ?? this.pageState,
@@ -61,7 +61,7 @@ class SecurityState extends Equatable {
       currentChoice: currentChoice ?? this.currentChoice,
       isSecurePasscode: isSecurePasscode ?? this.isSecurePasscode,
       isSecureBiometric: isSecureBiometric ?? this.isSecureBiometric,
-      guardianStatusText: statusText ?? this.guardianStatusText,
+      guardianStatusText: guardianStatusText ?? this.guardianStatusText,
     );
   }
 
