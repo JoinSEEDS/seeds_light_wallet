@@ -11,6 +11,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   Stream<WalletState> mapEventToState(WalletEvent event) async* {
     if (event is RefreshDataEvent) {
       yield state.copyWith(pageState: PageState.loading);
+      yield state.copyWith(pageState: PageState.success);
     }
   }
 }
