@@ -13,6 +13,7 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
   @override
   Stream<TokenBalancesState> mapEventToState(TokenBalancesEvent event) async* {
     if (event is OnLoadTokenBalances) {
+      
       yield state.copyWith(pageState: PageState.loading);
 
       const potentialTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken];

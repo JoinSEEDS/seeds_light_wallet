@@ -17,6 +17,7 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/app/components/account_under_recovery_screen.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/dashboard/wallet_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 
 class App extends StatefulWidget {
@@ -32,7 +33,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       title: "Wallet".i18n,
       icon: 'assets/images/navigation_bar/wallet.svg',
       iconSelected: 'assets/images/navigation_bar/wallet_selected.svg',
-      screen: Wallet(),
+      screen: WalletScreen(),
       index: 0,
     ),
     AppScreenItem(

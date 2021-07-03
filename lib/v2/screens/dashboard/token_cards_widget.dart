@@ -11,14 +11,27 @@ import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_
 
 import 'components/currency_info_card_widget.dart';
 
-class TokenCardsWidget extends StatelessWidget {
+class TokenCardsWidget extends StatefulWidget {
 
   const TokenCardsWidget({Key? key}) : super(key: key);
 
   @override
+  _TokenCardsWidgetState createState() => _TokenCardsWidgetState();
+}
+
+class _TokenCardsWidgetState extends State<TokenCardsWidget> {
+  late TokenBalancesBloc _bloc;
+
+  @override
+  void initState() {
+    _bloc = TokenBalancesBloc()..add(const OnLoadTokenBalances());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => TokenBalancesBloc()..add(const OnLoadTokenBalances()),
+        create: (_) => _bloc,
         child: BlocBuilder<TokenBalancesBloc, TokenBalancesState>(builder: (context, state) {
           return Column(
             children: <Widget>[

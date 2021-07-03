@@ -163,7 +163,7 @@ class NavigationService {
   };
 
   final walletRoutes = {
-    Routes.wallet: (_) => const WalletScreen(),
+    Routes.wallet: (_) => WalletScreen(),
   };
 
   void addListener(StreamController<String> listener) {
