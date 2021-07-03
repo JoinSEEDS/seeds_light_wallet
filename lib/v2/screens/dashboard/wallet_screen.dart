@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
-import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_event.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_state.dart';
-import 'package:seeds/v2/screens/dashboard/token_cards_widget.dart';
+import 'package:seeds/v2/screens/dashboard/components/tokens_cards/tokens_cards.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/bloc.dart';
 
 // Widgets to be moved to v2
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
@@ -24,28 +21,32 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => WalletBloc()..add(const RefreshDataEvent()),
-        child: BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
+      create: (_) => WalletBloc()..add(const RefreshDataEvent()),
+      child: BlocBuilder<WalletBloc, WalletState>(
+        builder: (context, state) {
           return RefreshIndicator(
-              child: Scaffold(
-                appBar: buildAppBar(context) as PreferredSizeWidget?,
-                body: ListView(
-                  // TODO(n13): Use exact measurements from figma
-                  children: <Widget>[
-                    const SizedBox(height: 15),
-                    TokenCardsWidget(),
-                    const SizedBox(height: 20),
-                    buildSendReceiveButton(context),
-                    const SizedBox(height: 20),
-                    walletBottom(context),
-                  ],
-                ),
+            onRefresh: () async {
+              BlocProvider.of<RatesBloc>(context)..add(const FetchRates());
+              BlocProvider.of<WalletBloc>(context)..add(const RefreshDataEvent());
+            },
+            child: Scaffold(
+              appBar: buildAppBar(context) as PreferredSizeWidget?,
+              body: ListView(
+                // TODO(n13): Use exact measurements from figma
+                children: <Widget>[
+                  const SizedBox(height: 15),
+                  const TokenCards(),
+                  const SizedBox(height: 20),
+                  buildSendReceiveButton(context),
+                  const SizedBox(height: 20),
+                  walletBottom(context),
+                ],
               ),
-              onRefresh: () async {
-                BlocProvider.of<RatesBloc>(context)..add(const FetchRates());
-                BlocProvider.of<WalletBloc>(context)..add(const RefreshDataEvent());
-              });
-        }));
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget buildSendReceiveButton(BuildContext context) {

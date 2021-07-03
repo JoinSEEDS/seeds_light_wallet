@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -7,34 +6,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/token_balances_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_event.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_state.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_state.dart';
+import 'package:seeds/v2/screens/dashboard/components/tokens_cards/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/bloc.dart';
 
-import 'components/currency_info_card_widget.dart';
+import '../currency_info_card_widget.dart';
 
-class TokenCardsWidget extends StatelessWidget {
-  final CarouselController _controller = CarouselController();
-
-  TokenCardsWidget({Key? key}) : super(key: key);
+class TokenCards extends StatelessWidget {
+  const TokenCards({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => TokenBalancesBloc()..add(const OnLoadTokenBalances()),
-        child: BlocListener<WalletBloc, WalletState>(
-          listenWhen: (context, state) => state.pageState == PageState.loading,
-          listener: (context, state) {
-            BlocProvider.of<TokenBalancesBloc>(context).add(const OnLoadTokenBalances());
-          },
-          child: BlocBuilder<TokenBalancesBloc, TokenBalancesState>(builder: (context, state) {
+      create: (_) => TokenBalancesBloc()..add(const OnLoadTokenBalances()),
+      child: BlocListener<WalletBloc, WalletState>(
+        listenWhen: (context, state) => state.pageState == PageState.loading,
+        listener: (context, state) {
+          BlocProvider.of<TokenBalancesBloc>(context).add(const OnLoadTokenBalances());
+        },
+        child: BlocBuilder<TokenBalancesBloc, TokenBalancesState>(
+          builder: (context, state) {
             return Column(
               children: <Widget>[
                 SingleChildScrollView(
                   child: CarouselSlider(
-                    carouselController: _controller,
                     items: List.of(state.availableTokens.map(
                       (item) => Container(
                         margin: EdgeInsets.only(
@@ -72,7 +66,9 @@ class TokenCardsWidget extends StatelessWidget {
                 )
               ],
             );
-          }),
-        ));
+          },
+        ),
+      ),
+    );
   }
 }
