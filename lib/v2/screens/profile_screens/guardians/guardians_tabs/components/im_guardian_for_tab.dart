@@ -25,10 +25,11 @@ class ImGuardianForTab extends StatelessWidget {
                     "Once they do, you will see their request here.",
               );
             } else {
-              return MyGuardiansListWidget(
+              return Expanded(
+                  child: MyGuardiansListWidget(
                 currentUserId: settingsStorage.accountName,
                 guardians: myGuardians.toList(),
-              );
+              ));
             }
           } else {
             return const FullPageLoadingIndicator();

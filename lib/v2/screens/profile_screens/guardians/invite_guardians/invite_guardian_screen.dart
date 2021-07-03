@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:seeds/i18n/guardians.i18n.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/search_result_row.dart';
@@ -39,17 +40,15 @@ class InviteGuardians extends StatelessWidget {
                 body: Column(
                   children: [
                     const SizedBox(height: 24),
-                    const Image(image: AssetImage('assets/images/guardians/invite_guardian_mail.png')),
-                    const SizedBox(height: 30),
+                    SvgPicture.asset('assets/images/guardians/invite_guardian_mail.svg'),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      padding: const EdgeInsets.all(24.0),
                       child: Text(
                         "The users below will be sent an invite to become your Guardian.".i18n,
                         style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const SizedBox(height: 20),
                     Expanded(
                       child: ListView(
                         shrinkWrap: true,

@@ -37,7 +37,7 @@ class BalanceRow extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
           child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Text(fiatAmount + " " + settingsStorage.selectedFiatCurrency,
+            Text("\$" + fiatAmount + " " + settingsStorage.selectedFiatCurrency,
                 style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
           ]),
         )

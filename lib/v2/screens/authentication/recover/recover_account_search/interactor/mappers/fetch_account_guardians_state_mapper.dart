@@ -5,7 +5,7 @@ import 'package:seeds/v2/i18n/import_key/import_key.i18n.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_state.dart';
 
 class FetchAccountRecoveryStateMapper extends StateMapper {
-  RecoverAccountState mapResultToState(RecoverAccountState currentState, Result result, String userName) {
+  RecoverAccountState mapResultToState(RecoverAccountState currentState, Result result) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Guardians".i18n);
     } else {
@@ -21,7 +21,6 @@ class FetchAccountRecoveryStateMapper extends StateMapper {
           isValidUsername: true,
           errorMessage: null,
           userGuardians: accountGuardiansModel.guardians,
-          userName: userName
         );
       }
     }

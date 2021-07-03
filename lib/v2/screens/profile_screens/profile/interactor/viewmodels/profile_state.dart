@@ -14,7 +14,6 @@ class ProfileState extends Equatable {
   final ScoreModel? score;
   final PageCommand? showLogoutDialog;
   final bool showLogoutButton;
-  final bool hasSecurityNotification;
 
   const ProfileState({
     required this.pageState,
@@ -23,7 +22,6 @@ class ProfileState extends Equatable {
     this.score,
     this.showLogoutDialog,
     required this.showLogoutButton,
-    required this.hasSecurityNotification,
   });
 
   @override
@@ -34,7 +32,6 @@ class ProfileState extends Equatable {
         score,
         showLogoutDialog,
         showLogoutButton,
-        hasSecurityNotification,
       ];
 
   ProfileState copyWith({
@@ -44,7 +41,6 @@ class ProfileState extends Equatable {
     ScoreModel? score,
     PageCommand? showDialog,
     bool? showLogoutButton,
-    bool? hasSecurityNotification,
   }) {
     return ProfileState(
       pageState: pageState ?? this.pageState,
@@ -53,11 +49,10 @@ class ProfileState extends Equatable {
       score: score ?? this.score,
       showLogoutDialog: showDialog,
       showLogoutButton: showLogoutButton ?? this.showLogoutButton,
-      hasSecurityNotification: hasSecurityNotification ?? this.hasSecurityNotification,
     );
   }
 
   factory ProfileState.initial() {
-    return const ProfileState(pageState: PageState.initial, showLogoutButton: false, hasSecurityNotification: false);
+    return const ProfileState(pageState: PageState.initial, showLogoutButton: false);
   }
 }

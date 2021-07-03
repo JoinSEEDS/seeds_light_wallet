@@ -14,18 +14,3 @@ class LoadExploreData extends ExploreEvent {
   @override
   String toString() => 'LoadExploreData';
 }
-
-class OnExploreCardTapped extends ExploreEvent {
-  final String route;
-
-  const OnExploreCardTapped(this.route);
-
-  @override
-  String toString() => 'OnExploreCardTapped { route: $route }';
-}
-
-class ClearExplorePageCommand extends ExploreEvent {
-  const ClearExplorePageCommand();
-  @override
-  String toString() => 'ClearExplorePageCommand';
-}

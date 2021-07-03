@@ -8,7 +8,7 @@ class Wallet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: NavigationService.of(context).walletNavigatorKey,
-      initialRoute: Routes.wallet,
+      initialRoute: Routes.dashboard,
       onGenerateRoute: NavigationService.of(context).onGenerateRoute,
     );
   }

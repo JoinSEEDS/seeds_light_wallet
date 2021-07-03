@@ -7,6 +7,7 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/components/notification_badge.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/profile_screens/security/components/security_card.dart';
@@ -72,14 +73,18 @@ class SecurityScreen extends StatelessWidget {
                       BlocBuilder<SecurityBloc, SecurityState>(
                         buildWhen: (previous, current) => previous.hasNotification != current.hasNotification,
                         builder: (context, state) {
-                          return SecurityCard(
-                            icon: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
-                            title: 'Key Guardians'.i18n,
-                            description:
-                                'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
-                                    .i18n,
-                            onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
-                            hasNotification: state.hasNotification,
+                          return Stack(
+                            children: [
+                              SecurityCard(
+                                icon: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
+                                title: 'Key Guardians'.i18n,
+                                description:
+                                    'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
+                                        .i18n,
+                                onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
+                              ),
+                              if (state.hasNotification) const Positioned(left: 4, top: 10, child: NotificationBadge())
+                            ],
                           );
                         },
                       ),
