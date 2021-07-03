@@ -13,9 +13,8 @@ import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balances_
 import 'components/currency_info_card_widget.dart';
 
 class TokenCardsWidget extends StatelessWidget {
-  final CarouselController _controller = CarouselController();
 
-  TokenCardsWidget({Key? key}) : super(key: key);
+  const TokenCardsWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,6 @@ class TokenCardsWidget extends StatelessWidget {
             children: <Widget>[
               SingleChildScrollView(
                 child: CarouselSlider(
-                  carouselController: _controller,
                   items: List.of(state.availableTokens.map(
                     (item) => Container(
                       margin: EdgeInsets.only(
