@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/token_balance_view_model.dart';
+import 'package:seeds/v2/screens/dashboard/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
@@ -13,7 +13,7 @@ class TokenBalancesState extends Equatable {
     required this.pageState,
     this.errorMessage,
     required this.availableTokens,
-    this.selectedIndex = 0
+    this.selectedIndex = 0,
   });
 
   @override
@@ -23,17 +23,19 @@ class TokenBalancesState extends Equatable {
     PageState? pageState,
     String? errorMessage,
     List<TokenBalanceViewModel>? availableTokens,
-    int? selectedIndex
+    int? selectedIndex,
   }) {
     return TokenBalancesState(
-      pageState: pageState ?? this.pageState,
-      errorMessage: errorMessage,
-      availableTokens: availableTokens ?? this.availableTokens,
-      selectedIndex: selectedIndex ?? this.selectedIndex
-    );
+        pageState: pageState ?? this.pageState,
+        errorMessage: errorMessage,
+        availableTokens: availableTokens ?? this.availableTokens,
+        selectedIndex: selectedIndex ?? this.selectedIndex);
   }
 
   factory TokenBalancesState.initial() {
-    return const TokenBalancesState(pageState: PageState.initial, availableTokens: [TokenBalanceViewModel(SeedsToken, null)]);
+    return const TokenBalancesState(
+      pageState: PageState.initial,
+      availableTokens: [TokenBalanceViewModel(SeedsToken, null)],
+    );
   }
 }
