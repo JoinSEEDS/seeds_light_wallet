@@ -4,6 +4,7 @@ import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/moon_phase_model.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/v2/datasource/remote/model/support_level_model.dart';
+import 'package:seeds/v2/datasource/remote/model/vote_model.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
@@ -68,6 +69,28 @@ class ProposalsRepository extends NetworkRepository {
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return body['rows'].map<SupportLevelModel>((i) => SupportLevelModel.fromJson(i)).toList();
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> getVote(int proposalId, String account) async {
+    print('[http] get vote for proposal: $proposalId');
+
+    var request = createRequest(
+      code: account_funds,
+      scope: '$proposalId',
+      table: table_votes,
+      lowerBound: account,
+      upperBound: account,
+      limit: 10,
+    );
+
+    final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    return http
+        .post(proposalsURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              return VoteModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }

@@ -1,3 +1,4 @@
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/datasource/remote/model/user_recover_model.dart';
@@ -54,13 +55,18 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         recoveryStatus = RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN;
       }
 
+      // Save the private key and account
+      settingsStorage.saveAccount(currentState.userAccount, result.privateKey);
+
       return currentState.copyWith(
-          pageState: PageState.success,
-          linkToActivateGuardians: link,
-          userGuardiansData: guardians,
-          confirmedGuardianSignatures: confirmedGuardianSignatures,
-          recoveryStatus: recoveryStatus,
-          alreadySignedGuardians: userRecoversModelData.alreadySignedGuardians);
+        pageState: PageState.success,
+        linkToActivateGuardians: link,
+        userGuardiansData: guardians,
+        confirmedGuardianSignatures: confirmedGuardianSignatures,
+        recoveryStatus: recoveryStatus,
+        alreadySignedGuardians: userRecoversModelData.alreadySignedGuardians,
+        timeLockSeconds: timeLockSeconds,
+      );
     } else {
       return currentState.copyWith(
         pageState: PageState.failure,

@@ -68,6 +68,7 @@ dependencies:
   flutter_pagewise: ^2.0.1
   qr_code_scanner: ^0.4.0
   collection: ^1.15.0-nullsafety.4
+  mask_text_input_formatter: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,7 @@ flutter:
     - assets/images/seeds_currency_icon.svg
     - assets/images/app_icon_transparent.png
     - assets/images/loading.png
+    - assets/images/seeds_symbol_forest.png
     - assets/images/onboarding/onboarding1.png
     - assets/images/onboarding/onboarding2.png
     - assets/images/onboarding/onboarding3.png
@@ -119,6 +121,7 @@ flutter:
     - assets/images/guardians/guardian_tutorial_3.png
     - assets/images/guardians/guardian_tutorial_4.png
     - assets/images/guardians/invite_guardian_mail.svg
+    - assets/images/guardians/invite_guardian_mail.png
     - assets/images/guardians/guardian_shield.png
     - assets/images/guardians/onboarding/onboarding_1.jpg
     - assets/images/guardians/onboarding/onboarding_2.jpg

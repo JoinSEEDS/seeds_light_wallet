@@ -1,16 +1,20 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/current_remaining_time.dart';
 
 class RecoverAccountFoundState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
+  final String userAccount;
   final String linkToActivateGuardians;
   final List<String> userGuardians;
   final List<String> alreadySignedGuardians;
   final List<MemberModel> userGuardiansData;
   final int confirmedGuardianSignatures;
   final RecoveryStatus recoveryStatus;
+  final int timeLockSeconds;
+  final CurrentRemainingTime? currentRemainingTime;
 
   const RecoverAccountFoundState({
     required this.pageState,
@@ -21,6 +25,9 @@ class RecoverAccountFoundState extends Equatable {
     required this.confirmedGuardianSignatures,
     required this.recoveryStatus,
     required this.alreadySignedGuardians,
+    required this.timeLockSeconds,
+    this.currentRemainingTime,
+    required this.userAccount,
   });
 
   @override
@@ -33,6 +40,8 @@ class RecoverAccountFoundState extends Equatable {
         confirmedGuardianSignatures,
         recoveryStatus,
         alreadySignedGuardians,
+        timeLockSeconds,
+        userAccount,
       ];
 
   RecoverAccountFoundState copyWith({
@@ -44,6 +53,8 @@ class RecoverAccountFoundState extends Equatable {
     int? confirmedGuardianSignatures,
     List<String>? alreadySignedGuardians,
     RecoveryStatus? recoveryStatus,
+    int? timeLockSeconds,
+    CurrentRemainingTime? currentRemainingTime,
   }) {
     return RecoverAccountFoundState(
       pageState: pageState ?? this.pageState,
@@ -54,18 +65,24 @@ class RecoverAccountFoundState extends Equatable {
       confirmedGuardianSignatures: confirmedGuardianSignatures ?? this.confirmedGuardianSignatures,
       recoveryStatus: recoveryStatus ?? this.recoveryStatus,
       alreadySignedGuardians: alreadySignedGuardians ?? this.alreadySignedGuardians,
+      timeLockSeconds: timeLockSeconds ?? this.timeLockSeconds,
+      currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
+      userAccount: userAccount,
     );
   }
 
-  factory RecoverAccountFoundState.initial(List<String> userGuardians) {
+  factory RecoverAccountFoundState.initial(List<String> userGuardians, String userAccount) {
     return RecoverAccountFoundState(
-        pageState: PageState.initial,
-        linkToActivateGuardians: "",
-        userGuardians: userGuardians,
-        userGuardiansData: [],
-        confirmedGuardianSignatures: 0,
-        recoveryStatus: RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN,
-        alreadySignedGuardians: []);
+      pageState: PageState.initial,
+      linkToActivateGuardians: "",
+      userGuardians: userGuardians,
+      userGuardiansData: [],
+      confirmedGuardianSignatures: 0,
+      recoveryStatus: RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN,
+      alreadySignedGuardians: [],
+      timeLockSeconds: 0,
+      userAccount: userAccount,
+    );
   }
 }
 

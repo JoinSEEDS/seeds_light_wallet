@@ -8,6 +8,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/recover_account_bloc.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_events.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_state.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
 
@@ -34,7 +35,16 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
       create: (BuildContext context) => RecoverAccountBloc(),
       child: Scaffold(
         appBar: AppBar(),
-        body: BlocBuilder<RecoverAccountBloc, RecoverAccountState>(
+        body: BlocConsumer<RecoverAccountBloc, RecoverAccountState>(
+          listenWhen: (_, state) {
+            return state.pageCommand != null;
+          },
+          listener: (context, state) {
+            var pageCommand = state.pageCommand;
+            if(pageCommand is NavigateToRecoverAccountFound) {
+              NavigationService.of(context).navigateTo(Routes.recoverAccountFound, pageCommand.args);
+            }
+          },
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.all(16),
@@ -72,7 +82,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                     title: 'Next',
                     enabled: state.isValidUsername,
                     onPressed: () {
-                      NavigationService.of(context).navigateTo(Routes.recoverAccountFound, state.userGuardians);
+                      BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped());
                     },
                   ),
                 ],
