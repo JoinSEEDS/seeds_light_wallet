@@ -7,14 +7,12 @@ class ImportKeyState extends Equatable {
   final String? errorMessage;
   final String? privateKey;
   final List<ProfileModel> accounts;
-  final bool enableButton;
 
   const ImportKeyState({
     required this.pageState,
     this.errorMessage,
     required this.accounts,
     this.privateKey,
-    required this.enableButton,
   });
 
   @override
@@ -23,7 +21,6 @@ class ImportKeyState extends Equatable {
         errorMessage,
         privateKey,
         accounts,
-        enableButton,
       ];
 
   ImportKeyState copyWith({
@@ -31,18 +28,16 @@ class ImportKeyState extends Equatable {
     String? errorMessage,
     List<ProfileModel>? accounts,
     String? privateKey,
-    bool? enableButton,
   }) {
     return ImportKeyState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       accounts: accounts ?? this.accounts,
       privateKey: privateKey ?? this.privateKey,
-      enableButton: enableButton ?? this.enableButton,
     );
   }
 
   factory ImportKeyState.initial() {
-    return const ImportKeyState(pageState: PageState.initial, accounts: [], enableButton: false,);
+    return const ImportKeyState(pageState: PageState.initial, accounts: []);
   }
 }

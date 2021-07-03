@@ -5,7 +5,6 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
-import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
@@ -27,18 +26,7 @@ class ExploreScreen extends StatelessWidget {
       create: (_) => ExploreBloc()..add(const LoadExploreData()),
       child: Scaffold(
         appBar: AppBar(title: Text('Explore'.i18n)),
-        body: BlocConsumer<ExploreBloc, ExploreState>(
-          listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) async {
-            var pageCommand = state.pageCommand;
-            BlocProvider.of<ExploreBloc>(context)..add(const ClearExplorePageCommand());
-            if (pageCommand is NavigateToRoute) {
-              bool? shouldReloadExplore = await NavigationService.of(context).navigateTo(pageCommand.route);
-              if (shouldReloadExplore != null && shouldReloadExplore) {
-                BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
-              }
-            }
-          },
+        body: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, ExploreState state) {
             switch (state.pageState) {
               case PageState.initial:
@@ -59,8 +47,12 @@ class ExploreScreen extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: ExploreInfoCard(
-                                  onTap: () {
-                                    BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.createInvite));
+                                  onTap: () async {
+                                    bool? shouldReloadExplore =
+                                        await NavigationService.of(context).navigateTo(Routes.createInvite);
+                                    if (shouldReloadExplore != null && shouldReloadExplore) {
+                                      BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
+                                    }
                                   },
                                   title: 'Invite'.i18n,
                                   amount: state.availableSeeds?.roundedQuantity,
@@ -75,8 +67,12 @@ class ExploreScreen extends StatelessWidget {
                               const SizedBox(width: 20),
                               Expanded(
                                 child: ExploreInfoCard(
-                                  onTap: () {
-                                    BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.plantSeeds));
+                                  onTap: () async {
+                                    bool? shouldReloadExplore =
+                                        await NavigationService.of(context).navigateTo(Routes.plantSeeds);
+                                    if (shouldReloadExplore != null && shouldReloadExplore) {
+                                      BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
+                                    }
                                   },
                                   title: 'Plant'.i18n,
                                   amount: state.plantedSeeds?.roundedQuantity,
@@ -93,11 +89,9 @@ class ExploreScreen extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: ExploreInfoCard(
-                                  onTap: () {
-                                    BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.vote));
-                                  },
+                                  onTap: () => NavigationService.of(context).navigateTo(Routes.vote),
                                   title: 'Vote'.i18n,
-                                  amount: '${state.campaignVoice} / ${state.allianceVoice}',
+                                  amount: 'TODO',
                                   icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
                                   amountLabel: 'Trust Tokens Remaining'.i18n,
                                 ),

@@ -16,8 +16,3 @@ class OnUsernameChanged extends RecoverAccountEvent {
   @override
   String toString() => 'OnUsernameChanged { userName: $userName}';
 }
-
-class OnNextButtonTapped extends RecoverAccountEvent {
-  @override
-  String toString() => 'OnNextButtonTapped';
-}

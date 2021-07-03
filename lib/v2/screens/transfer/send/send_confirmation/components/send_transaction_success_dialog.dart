@@ -56,7 +56,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
               ],
               mainAxisAlignment: MainAxisAlignment.center,
             ),
-            Text(fiatAmount != null ? fiatAmount! : "",
+            Text(fiatAmount != null ? "\$" + fiatAmount! : "",
                 style: Theme.of(context).textTheme.subtitle2),
             const SizedBox(height: 30.0),
             DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To"),

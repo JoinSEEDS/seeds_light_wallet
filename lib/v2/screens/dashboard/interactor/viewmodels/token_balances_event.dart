@@ -10,20 +10,10 @@ abstract class TokenBalancesEvent extends Equatable {
 }
 
 class OnLoadTokenBalances extends TokenBalancesEvent {
+
   const OnLoadTokenBalances();
 
   @override
   String toString() => 'OnLoadTokenBalances';
 }
 
-class OnSelectedTokenChanged extends TokenBalancesEvent {
-  final int index;
-
-  const OnSelectedTokenChanged(this.index);
-
-  @override
-  List<Object> get props => [index];
-
-  @override
-  String toString() => 'OnSelectedTokenChanged $index';
-}

@@ -1,7 +1,6 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
-import 'package:seeds/v2/datasource/remote/model/voice_model_alliance.dart';
 import 'package:seeds/v2/datasource/remote/model/voice_model_campaign.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 
@@ -43,7 +42,7 @@ class VoiceRepository extends NetworkRepository {
     return http
         .post(voiceURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              return VoiceModelAlliance.fromJson(body);
+              return VoiceModelCampaign.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }

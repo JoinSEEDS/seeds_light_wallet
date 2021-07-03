@@ -43,22 +43,13 @@ class DisplayNameOnNextTapped extends SignupEvent {
 }
 
 /// Create Username Events
-class OnGenerateNewUsername extends SignupEvent {
-  final String fullname;
-
-  const OnGenerateNewUsername({required this.fullname});
-
-  @override
-  String toString() => 'GenerateNewUsername { fullname: $fullname }';
-}
-
 class OnUsernameChanged extends SignupEvent {
-  final String username;
+  final String userName;
 
-  const OnUsernameChanged({required this.username});
+  const OnUsernameChanged({required this.userName});
 
   @override
-  String toString() => 'OnUsernameChanged { userName: $username }';
+  String toString() => 'OnUsernameChanged { userName: $userName }';
 }
 
 class CreateUsernameOnNextTapped extends SignupEvent {

@@ -14,11 +14,7 @@ class SetCurrencyBloc extends Bloc<SetCurrencyEvent, SetCurrencyState> {
     if (event is OnQueryChanged) {
       if (event.query.isNotEmpty) {
         // Get only currencies match the user query
-        final queryResult = state.availableCurrencies!
-            .where((i) =>
-                i.code.toLowerCase().contains(event.query.toLowerCase()) ||
-                i.name.toLowerCase().contains(event.query.toLowerCase()))
-            .toList();
+        final queryResult = state.availableCurrencies!.where((i) => i.code.contains(event.query)).toList();
         yield state.copyWith(currentQuery: event.query, queryCurrenciesResults: queryResult);
       } else {
         // Empty query -> clean results

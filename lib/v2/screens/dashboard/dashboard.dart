@@ -20,7 +20,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/widgets/transaction_dialog.dart';
+import 'package:seeds/v2/screens/dashboard/components/transaction_dialog.dart';
 import 'package:seeds/v2/screens/dashboard/wallet_header.dart';
 import 'package:seeds/widgets/empty_button.dart';
 import 'package:seeds/widgets/main_button.dart';
@@ -147,6 +147,12 @@ class _DashboardState extends State<Dashboard> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     refreshData();
+    if (SettingsNotifier.of(context).selectedFiatCurrency.isEmpty) {
+      Locale locale = Localizations.localeOf(context);
+      var format = NumberFormat.simpleCurrency(locale: locale.toString());
+      // SettingsNotifier.of(context).saveSelectedFiatCurrency(format.currencyName);
+      settingsStorage.saveSelectedFiatCurrency(format.currencyName!);
+    }
   }
 
   Future<void> refreshData() async {

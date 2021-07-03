@@ -5,7 +5,7 @@ import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dar
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
+import 'package:seeds/v2/screens/profile_screens/security/interactor/usecases/guardians_notification_use_case.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC
