@@ -26,8 +26,8 @@ class WalletScreen extends StatelessWidget {
         builder: (context, state) {
           return RefreshIndicator(
             onRefresh: () async {
-              BlocProvider.of<RatesBloc>(context)..add(const FetchRates());
-              BlocProvider.of<WalletBloc>(context)..add(const RefreshDataEvent());
+              BlocProvider.of<RatesBloc>(context).add(const FetchRates());
+              BlocProvider.of<WalletBloc>(context).add(const RefreshDataEvent());
             },
             child: Scaffold(
               appBar: buildAppBar(context) as PreferredSizeWidget?,
