@@ -17,11 +17,21 @@ import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 
 /// Wallet SCREEN
-class WalletScreen extends StatelessWidget {
+class WalletScreen extends StatefulWidget {
   const WalletScreen({Key? key}) : super(key: key);
 
   @override
+  _WalletScreenState createState() => _WalletScreenState();
+}
+
+class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocProvider(
       create: (_) => WalletBloc()..add(const RefreshDataEvent()),
       child: RefreshIndicator(
@@ -59,7 +69,6 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  // TODO(n13): Use exact measurements for sizes of app bar elements from figma, these are guesses
   Widget buildAppBar(BuildContext context) {
     return AppBar(
       titleSpacing: 0,
@@ -109,4 +118,5 @@ class WalletScreen extends StatelessWidget {
   Widget buildTransactions() {
     return const SizedBox.shrink();
   }
+
 }
