@@ -9,7 +9,7 @@ import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_bloc.dart';
 import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_event.dart';
-import 'package:seeds/v2/screens/dashboard/wallet_header.dart';
+import 'package:seeds/v2/screens/dashboard/token_cards_widget.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 
 // Widgets to be moved to v2
@@ -31,7 +31,7 @@ class WalletScreen extends StatelessWidget {
               // TODO(n13): Use exact measurements from figma
               children: <Widget>[
                 const SizedBox(height: 15),
-                const WalletHeader(),
+                const TokenCardsWidget(),
                 const SizedBox(height: 20),
                 buildSendReceiveButton(context),
                 const SizedBox(height: 20),
