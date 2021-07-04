@@ -8,6 +8,7 @@ class GetProposalDetailsDataUseCase {
   Future<List<Result>> run(String accountName) {
     var futures = [
       _profileRepository.getProfile(accountName),
+      // more calls comming here next PRs
     ];
     return Future.wait(futures);
   }
