@@ -3,7 +3,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import '../viewmodels/proposal_details_state.dart';
 
-class ProposalDetailsDataStateMapper extends StateMapper {
+class ProposalDataStateMapper extends StateMapper {
   ProposalDetailsState mapResultsToState(ProposalDetailsState currentState, List<Result> results) {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
