@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -13,6 +14,7 @@ class ProposalDetailsState extends Equatable {
   final List<ProposalModel> proposals;
   final bool showNextButton;
   final bool isConfirmButtonEnabled;
+  final ProfileModel? creator;
 
   const ProposalDetailsState({
     required this.pageState,
@@ -22,6 +24,7 @@ class ProposalDetailsState extends Equatable {
     required this.proposals,
     required this.showNextButton,
     required this.isConfirmButtonEnabled,
+    this.creator,
   });
 
   @override
@@ -33,6 +36,7 @@ class ProposalDetailsState extends Equatable {
         proposals,
         showNextButton,
         isConfirmButtonEnabled,
+        creator,
       ];
 
   ProposalDetailsState copyWith({
@@ -43,6 +47,7 @@ class ProposalDetailsState extends Equatable {
     List<ProposalModel>? proposals,
     bool? showNextButton,
     bool? isConfirmButtonEnabled,
+    ProfileModel? creator,
   }) {
     return ProposalDetailsState(
       pageState: pageState ?? this.pageState,
@@ -52,6 +57,7 @@ class ProposalDetailsState extends Equatable {
       proposals: proposals ?? this.proposals,
       showNextButton: showNextButton ?? this.showNextButton,
       isConfirmButtonEnabled: isConfirmButtonEnabled ?? this.isConfirmButtonEnabled,
+      creator: creator,
     );
   }
 

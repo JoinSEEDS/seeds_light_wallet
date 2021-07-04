@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
-import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:flutter/gestures.dart';
 import 'package:seeds/v2/design/app_theme.dart';
@@ -44,7 +44,12 @@ class ProposalDetailsMiddle extends StatelessWidget {
                   const SizedBox(height: 10.0),
                   Row(
                     children: [
-                      const ProfileAvatar(size: 60, account: 'TODO'),
+                      ProfileAvatar(
+                        size: 60,
+                        image: state.creator!.image,
+                        nickname: state.creator!.nickname,
+                        account: state.creator!.account,
+                      ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10.0),
@@ -65,7 +70,11 @@ class ProposalDetailsMiddle extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10.0),
-                              Row(children: [Text('TODO', style: Theme.of(context).textTheme.subtitle2)]),
+                              Row(
+                                children: [
+                                  Text(state.creator!.nickname ?? '', style: Theme.of(context).textTheme.subtitle2)
+                                ],
+                              ),
                             ],
                           ),
                         ),

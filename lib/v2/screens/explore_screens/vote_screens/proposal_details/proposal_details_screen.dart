@@ -5,7 +5,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/proposal_details_bottom.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/proposal_details_header.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/proposal_details_middle.dart';
-import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_and_index.dart';
 import 'package:flutter/material.dart';
 
