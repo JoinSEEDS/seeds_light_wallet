@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/images/vote/proposal_category.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 
 class ProposalDetailsHeader extends StatelessWidget {
   const ProposalDetailsHeader({Key? key}) : super(key: key);
