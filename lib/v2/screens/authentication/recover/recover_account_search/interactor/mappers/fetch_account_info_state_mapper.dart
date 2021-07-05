@@ -8,7 +8,10 @@ class FetchAccountInfoStateMapper extends StateMapper {
   RecoverAccountState mapResultToState(RecoverAccountState currentState, Result userInfo, String userName) {
     if (userInfo.isError) {
       return currentState.copyWith(
-          pageState: PageState.failure, errorMessage: "Error Loading Account".i18n, isValidAccount: false);
+        pageState: PageState.failure,
+        errorMessage: "Error Loading Account".i18n,
+        isValidAccount: false,
+      );
     } else {
       var accountInfo = userInfo.asValue!.value as MemberModel;
       // ignore: unnecessary_null_comparison
@@ -22,7 +25,10 @@ class FetchAccountInfoStateMapper extends StateMapper {
         );
       } else {
         return currentState.copyWith(
-            pageState: PageState.success, isValidAccount: false, errorMessage: 'Account is not valid');
+          pageState: PageState.success,
+          isValidAccount: false,
+          errorMessage: 'Account is not valid',
+        );
       }
     }
   }

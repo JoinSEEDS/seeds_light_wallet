@@ -37,9 +37,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
     return BlocProvider(
       create: (BuildContext context) => RecoverAccountBloc(),
       child: BlocConsumer<RecoverAccountBloc, RecoverAccountState>(
-        listenWhen: (_, state) {
-          return state.pageCommand != null;
-        },
+        listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
           var pageCommand = state.pageCommand;
           if (pageCommand is NavigateToRecoverAccountFound) {
@@ -83,7 +81,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                       });
                     },
                   ),
-                  state.isValidAccount == true
+                  state.isValidAccount
                       ? Container(
                           decoration: BoxDecoration(
                             color: AppColors.darkGreen2,
