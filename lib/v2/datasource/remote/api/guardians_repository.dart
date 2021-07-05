@@ -14,8 +14,6 @@ import 'package:seeds/v2/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/v2/datasource/remote/model/user_recover_model.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 
-export 'package:async/src/result/result.dart';
-
 class GuardiansRepository extends EosRepository with NetworkRepository {
   /// Step 1 in the guardian set up - call this to allow the guard.seeds contract to
   /// change the key.

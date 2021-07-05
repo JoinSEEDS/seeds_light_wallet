@@ -12,8 +12,6 @@ import 'package:seeds/v2/datasource/remote/model/referred_accounts_model.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
-export 'package:async/src/result/result.dart';
-
 class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
