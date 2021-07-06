@@ -4,8 +4,6 @@ import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 
-export 'package:async/src/result/result.dart';
-
 class PlantedRepository extends NetworkRepository {
   Future<Result> getPlanted(String userAccount) {
     print('[http] get seeds getPlanted $userAccount');

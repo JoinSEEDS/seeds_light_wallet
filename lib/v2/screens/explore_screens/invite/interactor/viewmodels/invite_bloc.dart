@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/utils/mnemonic_code/mnemonic_code.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';

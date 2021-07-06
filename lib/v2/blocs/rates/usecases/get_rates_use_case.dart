@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'dart:async';
 import 'package:seeds/v2/datasource/remote/api/rates_repository.dart';
 
