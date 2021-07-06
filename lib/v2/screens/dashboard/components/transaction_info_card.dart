@@ -8,11 +8,11 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TransactionInfoCard extends StatelessWidget {
-  final String? profileAccount;
+  final String profileAccount;
   final String? profileNickname;
   final String? profileImage;
-  final String? timestamp;
-  final String? amount;
+  final String timestamp;
+  final String amount;
   final bool incoming;
   final GestureTapCallback callback;
 
@@ -59,13 +59,13 @@ class TransactionInfoCard extends StatelessWidget {
                         children: <Widget>[
                           Expanded(
                               child: Text(
-                            profileNickname!,
+                            (profileNickname == null || profileNickname == "") ? profileAccount : profileNickname!,
                             style: Theme.of(context).textTheme.button,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           )),
                           const SizedBox(width: 40),
-                          Text(amount!.seedsFormatted ?? '', style: Theme.of(context).textTheme.button),
+                          Text(amount.seedsFormatted, style: Theme.of(context).textTheme.button),
                           const SizedBox(width: 4),
                           SvgPicture.asset(
                               incoming ? 'assets/images/wallet/arrow_up.svg' : 'assets/images/wallet/arrow_down.svg',
@@ -76,9 +76,9 @@ class TransactionInfoCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Expanded(
-                              child: Text(timesTampToTimeAgo(timestamp!),
+                              child: Text(timesTampToTimeAgo(timestamp),
                                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)),
-                          Text(amount!.symbolFromAmount, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+                          Text(amount.symbolFromAmount, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
                         ],
                       ),
                     ],
@@ -106,6 +106,4 @@ class TransactionInfoCard extends StatelessWidget {
           ],
         ),
       );
-
-      
 }
