@@ -20,29 +20,35 @@ class GuardianSecurityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
+    Widget guardianStatus;
 
-    if (guardiansStatus == GuardiansStatus.active) {
-      guardianStatus = const Text(
-        "Active",
-        style: TextStyle(
-          color: AppColors.green1,
-        ),
-      );
-    } else if (guardiansStatus == GuardiansStatus.inactive) {
-      guardianStatus = const Text(
-        'Inactive',
-        style: TextStyle(
-          color: AppColors.red,
-        ),
-      );
-    } else if (guardiansStatus == GuardiansStatus.readyToActivate) {
-      guardianStatus = const Text(
-        'Ready To Activate',
-        style: TextStyle(
-          color: AppColors.orange,
-        ),
-      );
+    switch (guardiansStatus) {
+      case GuardiansStatus.active:
+        guardianStatus = const Text(
+          "Active",
+          style: TextStyle(
+            color: AppColors.green1,
+          ),
+        );
+        break;
+      case GuardiansStatus.inactive:
+        guardianStatus = const Text(
+          'Inactive',
+          style: TextStyle(
+            color: AppColors.red,
+          ),
+        );
+        break;
+      case GuardiansStatus.readyToActivate:
+        guardianStatus = const Text(
+          'Ready To Activate',
+          style: TextStyle(
+            color: AppColors.orange,
+          ),
+        );
+        break;
+      default:
+        guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
     }
 
     return Padding(
