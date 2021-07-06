@@ -23,7 +23,6 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClientMixin {
-
   @override
   bool get wantKeepAlive => true;
 
@@ -31,13 +30,13 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
   Widget build(BuildContext context) {
     super.build(context);
     return BlocProvider(
-      create: (_) => WalletBloc()..add(const RefreshDataEvent()),
+      create: (_) => WalletBloc()..add(const OnLoadWalletData()),
       child: BlocBuilder<WalletBloc, WalletState>(
         builder: (context, state) {
           return RefreshIndicator(
             onRefresh: () async {
-              BlocProvider.of<RatesBloc>(context).add(const FetchRates());
-              BlocProvider.of<WalletBloc>(context).add(const RefreshDataEvent());
+              BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
+              BlocProvider.of<WalletBloc>(context).add(const OnLoadWalletData());
             },
             child: Scaffold(
               appBar: buildAppBar(context) as PreferredSizeWidget?,
@@ -121,5 +120,4 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
   Widget buildTransactions() {
     return const SizedBox.shrink();
   }
-
 }
