@@ -1,10 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/app/app.dart';
 
 enum CurrentChoice { initial, passcodeCard, biometricCard }
+enum GuardiansStatus { active, inactive, readyToActivate }
 
 /// STATE
 class SecurityState extends Equatable {
@@ -16,8 +14,7 @@ class SecurityState extends Equatable {
   final CurrentChoice currentChoice;
   final bool? isSecurePasscode;
   final bool? isSecureBiometric;
-  final String guardianStatus;
-  final Color guardianStatusColor;
+  final GuardiansStatus? guardiansStatus;
 
   const SecurityState({
     required this.pageState,
@@ -28,8 +25,7 @@ class SecurityState extends Equatable {
     required this.currentChoice,
     this.isSecurePasscode,
     this.isSecureBiometric,
-    required this.guardianStatus,
-    required this.guardianStatusColor,
+    this.guardiansStatus,
   });
 
   @override
@@ -42,8 +38,7 @@ class SecurityState extends Equatable {
         currentChoice,
         isSecurePasscode,
         isSecureBiometric,
-        guardianStatus,
-        guardianStatusColor,
+        guardiansStatus,
       ];
 
   SecurityState copyWith({
@@ -55,8 +50,7 @@ class SecurityState extends Equatable {
     CurrentChoice? currentChoice,
     bool? isSecurePasscode,
     bool? isSecureBiometric,
-    String? guardianStatus,
-    Color? guardianStatusColor,
+    GuardiansStatus? guardiansStatus,
   }) {
     return SecurityState(
       pageState: pageState ?? this.pageState,
@@ -67,8 +61,7 @@ class SecurityState extends Equatable {
       currentChoice: currentChoice ?? this.currentChoice,
       isSecurePasscode: isSecurePasscode ?? this.isSecurePasscode,
       isSecureBiometric: isSecureBiometric ?? this.isSecureBiometric,
-      guardianStatus: guardianStatus ?? this.guardianStatus,
-      guardianStatusColor: guardianStatusColor ?? this.guardianStatusColor,
+      guardiansStatus: guardiansStatus ?? this.guardiansStatus,
     );
   }
 
@@ -77,8 +70,6 @@ class SecurityState extends Equatable {
       pageState: PageState.initial,
       currentChoice: CurrentChoice.initial,
       hasNotification: false,
-      guardianStatus: "...",
-      guardianStatusColor: AppColors.white,
     );
   }
 }

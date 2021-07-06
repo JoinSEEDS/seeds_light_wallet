@@ -1,0 +1,125 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:seeds/v2/components/notification_badge.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/components/divider_jungle.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/i18n/security.i18n.dart';
+import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/security_state.dart';
+
+class GuardianSecurityCard extends StatelessWidget {
+  final GuardiansStatus? guardiansStatus;
+
+  final GestureTapCallback? onTap;
+
+  final bool hasNotification;
+
+  const GuardianSecurityCard({Key? key, this.guardiansStatus, this.onTap, this.hasNotification = false})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Widget guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
+
+    if (guardiansStatus == GuardiansStatus.active) {
+      guardianStatus = const Text(
+        "Active",
+        style: TextStyle(
+          color: AppColors.green1,
+        ),
+      );
+    } else if (guardiansStatus == GuardiansStatus.inactive) {
+      guardianStatus = const Text(
+        'Inactive',
+        style: TextStyle(
+          color: AppColors.red,
+        ),
+      );
+    } else if (guardiansStatus == GuardiansStatus.readyToActivate) {
+      guardianStatus = const Text(
+        'Ready To Activate',
+        style: TextStyle(
+          color: AppColors.orange,
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+        onTap: onTap,
+        child: Ink(
+          decoration: BoxDecoration(
+            color: AppColors.darkGreen2,
+            borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0, top: 16.0, right: 8.0),
+                    child: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
+                  ),
+                ],
+              ),
+              Expanded(
+                flex: 8,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16.0, bottom: 10.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      'Key Guardians'.i18n,
+                                      style: Theme.of(context).textTheme.button,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  hasNotification ? const NotificationBadge() : const SizedBox.shrink()
+                                ],
+                              ),
+                            ),
+                          ),
+                          guardianStatus
+                        ],
+                      ),
+                      const DividerJungle(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
+                                    .i18n,
+                                style: Theme.of(context).textTheme.subtitle3,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

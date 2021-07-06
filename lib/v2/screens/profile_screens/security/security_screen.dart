@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:seeds/i18n/security.i18n.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
@@ -13,6 +12,7 @@ import 'package:seeds/v2/screens/profile_screens/security/components/security_ca
 import 'package:seeds/v2/screens/profile_screens/security/components/biometric_enabled_dialog.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
 import 'package:share/share.dart';
+import 'components/guardian_security_card.dart';
 
 class SecurityScreen extends StatelessWidget {
   const SecurityScreen({Key? key}) : super(key: key);
@@ -72,20 +72,13 @@ class SecurityScreen extends StatelessWidget {
                       BlocBuilder<SecurityBloc, SecurityState>(
                         buildWhen: (previous, current) =>
                             previous.hasNotification != current.hasNotification ||
-                            previous.guardianStatus != current.guardianStatus,
+                            previous.guardiansStatus != current.guardiansStatus,
                         builder: (context, state) {
-                          return SecurityCard(
-                              icon: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
-                              title: 'Key Guardians'.i18n,
-                              description:
-                                  'Choose 3 - 5 friends and/or family members to help you recover your account in case.'
-                                      .i18n,
-                              onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
-                              hasNotification: state.hasNotification,
-                              titleWidget: Text(
-                                state.guardianStatus,
-                                style: TextStyle(color: state.guardianStatusColor),
-                              ));
+                          return GuardianSecurityCard(
+                            onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
+                            hasNotification: state.hasNotification,
+                            guardiansStatus: state.guardiansStatus,
+                          );
                         },
                       ),
                       SecurityCard(
