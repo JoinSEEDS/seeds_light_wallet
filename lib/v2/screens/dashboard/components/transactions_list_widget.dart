@@ -29,30 +29,21 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> {
           },
           child: BlocBuilder<TransactionsListBloc, TransactionsListState>(
             builder: (context, state) {
-              switch (state.pageState) {
-                case PageState.loading:
-                  return Column(
-                    children: [
-                      loadingShimmer(),
-                      loadingShimmer(),
-                      loadingShimmer(),
-                      loadingShimmer(),
-                      loadingShimmer(),
-                    ],
-                  );
-                default:
-                  if (state.pageState == PageState.success) {
-                    print("tx ${state.transactions.length}");
-                  }
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (ctx, index) {
-                      return buildTransaction(settingsStorage.accountName, state.transactions[index]);
-                      //return ListTile(title: Text("TILE"));
-                    },
-                    itemCount: state.transactions.length,
-                  );
+              if (state.isLoadingNoData) {
+                return Column(
+                  children: [
+                    for (var i = 0; i < 5; i++) loadingShimmer()
+                  ],
+                );
+              } else {
+                return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (ctx, index) {
+                    return buildTransaction(settingsStorage.accountName, state.transactions[index]);
+                  },
+                  itemCount: state.transactions.length,
+                );
               }
             },
           )),
