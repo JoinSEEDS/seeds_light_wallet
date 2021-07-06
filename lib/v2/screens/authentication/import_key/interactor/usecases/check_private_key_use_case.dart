@@ -1,8 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 
-export 'package:async/src/result/result.dart';
-
 class CheckPrivateKeyUseCase {
   String? isKeyValid(String privateKey) {
     try {

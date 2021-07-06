@@ -6,8 +6,6 @@ import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 
-export 'package:async/src/result/result.dart';
-
 class InvoiceRepository extends EosRepository {
   Future<Result<dynamic>> createInvoice({required double quantity, required String accountName, String? memo}) {
     print('[ESR] create invite accountName: $accountName quantity: ($quantity)');

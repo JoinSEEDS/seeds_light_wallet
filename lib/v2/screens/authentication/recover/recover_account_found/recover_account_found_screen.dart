@@ -109,7 +109,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                         ],
                       ),
                     );
-                  case RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD:
+                  default:
                     return Column(
                       children: [
                         Text(
@@ -142,18 +142,16 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                               ],
                             )
                           ],
-                        )
-                      ],
-                    );
-                  case RecoveryStatus.READY_TO_CLAIM_ACCOUNT:
-                    return Column(
-                      children: [
-                        Text("Account recovered " + state.userAccount),
+                        ),
+                        state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT
+                            ? Text("Account recovered " + state.userAccount)
+                            : const SizedBox.shrink(),
                         Padding(
                           padding: const EdgeInsets.only(top: 24),
                           child: FlatButtonLong(
+                            enabled: state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT,
                             title: "Claim account",
-                            onPressed: (){
+                            onPressed: () {
                               BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnClaimAccountTap());
                             },
                           ),
