@@ -20,6 +20,7 @@ class TransactionsListWidget extends StatefulWidget {
 class _TransactionsListWidgetState extends State<TransactionsListWidget> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocProvider<TransactionsListBloc>(
       create: (_) => TransactionsListBloc()..add(LoadTransactionsListEvent()),
       child: BlocListener<WalletBloc, WalletState>(

@@ -21,6 +21,7 @@ class TokenCards extends StatefulWidget {
 class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocProvider(
       create: (_) => TokenBalancesBloc()..add(const OnLoadTokenBalances()),
       child: BlocListener<WalletBloc, WalletState>(
