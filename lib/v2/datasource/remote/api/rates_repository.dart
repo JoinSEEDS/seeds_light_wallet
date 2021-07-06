@@ -6,6 +6,7 @@ import 'package:seeds/v2/datasource/remote/model/rate_model.dart';
 
 export 'package:async/src/result/result.dart';
 
+// check here
 class RatesRepository extends NetworkRepository {
   Future<Result> getFiatRates() {
     print("[http] get fiat rates");

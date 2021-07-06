@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/blocs/rates/mappers/rates_state_mapper.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/rates/usecases/get_rates_use_case.dart';
-
+//check here
 /// --- BLOC
 class RatesBloc extends Bloc<RatesEvent, RatesState> {
   DateTime lastUpdated = DateTime.now().subtract(const Duration(hours: 1));

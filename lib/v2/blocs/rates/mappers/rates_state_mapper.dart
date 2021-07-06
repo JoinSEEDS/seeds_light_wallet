@@ -3,6 +3,7 @@ import 'package:seeds/v2/datasource/remote/model/rate_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
+//here to
 
 class RatesStateMapper extends StateMapper {
   RatesState mapResultToState(RatesState currentState, List<Result> results) {
