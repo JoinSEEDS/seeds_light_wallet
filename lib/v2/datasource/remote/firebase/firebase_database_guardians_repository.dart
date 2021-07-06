@@ -8,10 +8,6 @@ import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_status
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_type.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 
-export 'package:async/src/result/error.dart';
-export 'package:async/src/result/result.dart';
-export 'package:async/src/result/value.dart';
-
 class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   Stream<bool> hasGuardianNotificationPending(String userAccount) {
     bool _findNotification(QuerySnapshot event) {

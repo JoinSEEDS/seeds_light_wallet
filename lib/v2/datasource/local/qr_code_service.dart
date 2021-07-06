@@ -2,13 +2,6 @@ import 'package:async/async.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dart_esr/dart_esr.dart';
 import 'package:seeds/v2/datasource/local/models/scan_qr_code_result_data.dart';
-import 'package:seeds/v2/datasource/local/qr_code_service.dart';
-import 'package:seeds/v2/datasource/remote/api/balance_repository.dart';
-import 'package:seeds/v2/datasource/remote/api/planted_repository.dart';
-import 'package:seeds/v2/datasource/remote/api/profile_repository.dart';
-import 'package:seeds/v2/datasource/remote/api/voice_repository.dart';
-
-export 'package:async/src/result/result.dart';
 
 class QrCodeService {
   Future<Result<dynamic>> processQrCode(String scanResult, String accountName) {
