@@ -33,8 +33,11 @@ class _ProposalDetailsScreenState extends State<ProposalDetailsScreen> {
         create: (_) => ProposalDetailsBloc(proposalsAndIndex!)..add(const OnLoadProposalData()),
         child: BlocConsumer<ProposalDetailsBloc, ProposalDetailsState>(
           listenWhen: (_, current) => current.pageCommand != null,
-          listener: (_, __) {
-            _scrollController.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+          listener: (_, __) async {
+            // Delay to avoid error when list is not drawed yet
+            // because (loading->success) transition
+            await Future.delayed(const Duration(microseconds: 500));
+            await _scrollController.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
           },
           builder: (context, state) {
             switch (state.pageState) {
