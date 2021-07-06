@@ -57,7 +57,7 @@ class InviteGuardians extends StatelessWidget {
                         children: state.selectedGuardians
                             .map((e) => SearchResultRow(
                                   account: e.account,
-                                  name: e.nickname ?? e.account,
+                                  name: e.nickname != "" ? e.nickname : e.account,
                                   imageUrl: e.image,
                                 ))
                             .toList(),

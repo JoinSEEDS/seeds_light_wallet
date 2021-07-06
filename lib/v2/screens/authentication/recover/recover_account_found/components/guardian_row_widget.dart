@@ -26,7 +26,7 @@ class GuardianRowWidget extends StatelessWidget {
           nickname: guardianModel.nickname,
         ),
         title: Text(
-          (!guardianModel.nickname.isNullOrEmpty) ? guardianModel.nickname! : guardianModel.account,
+          (!guardianModel.nickname.isNullOrEmpty) ? guardianModel.nickname : guardianModel.account,
           style: Theme.of(context).textTheme.button,
         ),
         subtitle: Text(guardianModel.account, style: Theme.of(context).textTheme.subtitle2OpacityEmphasis),
