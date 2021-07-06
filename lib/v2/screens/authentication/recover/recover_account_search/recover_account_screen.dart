@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/quadstate_clipboard_icon_button.dart';
+import 'package:seeds/v2/components/search_result_row.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
-import 'package:seeds/v2/components/user_info_card.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -87,7 +87,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                             color: AppColors.darkGreen2,
                             borderRadius: BorderRadius.circular(defaultCardBorderRadius),
                           ),
-                          child: UserInfoCard(
+                          child: SearchResultRow(
                             imageUrl: state.accountImage,
                             account: state.userName!,
                             name: state.accountName,
