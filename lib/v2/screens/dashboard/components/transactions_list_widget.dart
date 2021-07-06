@@ -17,7 +17,7 @@ class TransactionsListWidget extends StatefulWidget {
   _TransactionsListWidgetState createState() => _TransactionsListWidgetState();
 }
 
-class _TransactionsListWidgetState extends State<TransactionsListWidget> {
+class _TransactionsListWidgetState extends State<TransactionsListWidget> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     return BlocProvider<TransactionsListBloc>(
@@ -82,4 +82,7 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> {
           ],
         ),
       );
+
+  @override
+  bool get wantKeepAlive => true;
 }
