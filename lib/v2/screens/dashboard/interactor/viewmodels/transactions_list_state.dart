@@ -13,15 +13,9 @@ class TransactionsListState extends Equatable {
   });
 
   @override
-  List<Object> get props => [
-        transactions,
-        pageState,
-      ];
+  List<Object> get props => [pageState, transactions];
 
-  TransactionsListState copyWith({
-    pageState,
-    transactions,
-  }) {
+  TransactionsListState copyWith({pageState, transactions}) {
     return TransactionsListState(
       pageState: pageState ?? this.pageState,
       transactions: transactions ?? this.transactions,
