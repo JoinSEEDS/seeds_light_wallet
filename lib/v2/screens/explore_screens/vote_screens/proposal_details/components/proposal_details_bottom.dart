@@ -29,11 +29,8 @@ class ProposalDetailsBottom extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(text: 'You have already', style: Theme.of(context).textTheme.subtitle2),
-                          TextSpan(
-                            text: ' Precast',
-                            style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.green1),
-                          ),
-                          TextSpan(text: ' your vote.', style: Theme.of(context).textTheme.subtitle2),
+                          TextSpan(text: ' Precast ', style: Theme.of(context).textTheme.subtitle2Green2),
+                          TextSpan(text: 'your vote.', style: Theme.of(context).textTheme.subtitle2),
                         ],
                       ),
                     ),

@@ -35,7 +35,7 @@ class _ProposalDetailsScreenState extends State<ProposalDetailsScreen> {
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (_, __) async {
             // Delay to avoid error when list is not drawed yet
-            // because (loading->success) transition
+            // because of (loading->success) transition
             await Future.delayed(const Duration(microseconds: 500));
             await _scrollController.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
           },
