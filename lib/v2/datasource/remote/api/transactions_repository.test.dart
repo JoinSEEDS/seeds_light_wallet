@@ -3,7 +3,7 @@ import './transactions_repository.dart';
 void main() async {
   print("start");
 
-  final repository = TransactionsRepository();
+  final repository = TransactionsListRepository();
 
   final transactions = await repository.getTransactions("igorberlenko");
 
