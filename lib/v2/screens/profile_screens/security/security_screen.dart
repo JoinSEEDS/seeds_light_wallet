@@ -72,7 +72,7 @@ class SecurityScreen extends StatelessWidget {
                       BlocBuilder<SecurityBloc, SecurityState>(
                         buildWhen: (previous, current) =>
                             previous.hasNotification != current.hasNotification ||
-                            previous.guardianStatusText != current.guardianStatusText,
+                            previous.guardianStatus != current.guardianStatus,
                         builder: (context, state) {
                           return SecurityCard(
                               icon: SvgPicture.asset('assets/images/security/key_guardians_icon.svg'),
@@ -82,7 +82,10 @@ class SecurityScreen extends StatelessWidget {
                                       .i18n,
                               onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
                               hasNotification: state.hasNotification,
-                              titleWidget: state.guardianStatusText);
+                              titleWidget: Text(
+                                state.guardianStatus,
+                                style: TextStyle(color: state.guardianStatusColor),
+                              ));
                         },
                       ),
                       SecurityCard(

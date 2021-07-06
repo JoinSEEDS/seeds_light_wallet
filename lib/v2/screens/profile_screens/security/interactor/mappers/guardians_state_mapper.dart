@@ -12,30 +12,26 @@ class GuardianStateMapper extends StateMapper {
     var myGuardians = data.where((element) => element.type == GuardianType.myGuardian);
     var alreadyGuardians = myGuardians.where((element) => element.status == GuardianStatus.alreadyGuardian);
 
-    Widget guardianStateText;
+    String guardianState;
+    Color guardianStatusColor;
 
     if (alreadyGuardians.length < 3) {
-      guardianStateText = const Text(
-        "Inactive",
-        style: TextStyle(color: AppColors.red),
-      );
+      guardianState = "Inactive";
+      guardianStatusColor = AppColors.red;
     } else {
       if (isGuardianActive) {
-        guardianStateText = const Text("Active",
-            style: TextStyle(
-              color: AppColors.green1,
-            ));
+        guardianState = "Active";
+        guardianStatusColor = AppColors.green1;
       } else {
-        guardianStateText = const Text(
-          "Ready To Activate",
-          style: TextStyle(color: AppColors.orange),
-        );
+        guardianState = "Ready To Activate";
+        guardianStatusColor = AppColors.orange;
       }
     }
 
     return currentState.copyWith(
       pageState: PageState.success,
-      guardianStatusText: guardianStateText,
+      guardianStatus: guardianState,
+      guardianStatusColor: guardianStatusColor,
     );
   }
 }
