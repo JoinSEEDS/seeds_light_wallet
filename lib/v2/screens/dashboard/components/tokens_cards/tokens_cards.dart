@@ -25,8 +25,8 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
     return BlocProvider(
       create: (_) => TokenBalancesBloc()..add(const OnLoadTokenBalances()),
       child: BlocListener<WalletBloc, WalletState>(
-        listenWhen: (context, state) => state.pageState == PageState.loading,
-        listener: (context, state) {
+        listenWhen: (_, current) => current.pageState == PageState.loading,
+        listener: (context, _) {
           BlocProvider.of<TokenBalancesBloc>(context).add(const OnLoadTokenBalances());
         },
         child: BlocBuilder<TokenBalancesBloc, TokenBalancesState>(

@@ -5,8 +5,6 @@ import 'package:seeds/v2/datasource/remote/model/voice_model_alliance.dart';
 import 'package:seeds/v2/datasource/remote/model/voice_model_campaign.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 
-export 'package:async/src/result/result.dart';
-
 class VoiceRepository extends NetworkRepository {
   Future<Result> getCampaignVoice(String userAccount) async {
     print('[http] get seeds getCampaignVoice $userAccount');

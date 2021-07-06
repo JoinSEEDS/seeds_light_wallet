@@ -9,6 +9,12 @@ abstract class ProposalDetailsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class OnLoadProposalData extends ProposalDetailsEvent {
+  const OnLoadProposalData();
+  @override
+  String toString() => 'OnLoadProposalData';
+}
+
 class OnFavourButtonTapped extends ProposalDetailsEvent {
   const OnFavourButtonTapped();
   @override

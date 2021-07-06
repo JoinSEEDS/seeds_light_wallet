@@ -7,8 +7,8 @@ import 'package:seeds/v2/screens/transfer/receive/receive_enter_data/interactor/
 import 'package:seeds/v2/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_events.dart';
 import 'package:seeds/v2/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_state.dart';
 import 'package:seeds/v2/utils/double_extension.dart';
+import 'package:async/async.dart';
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
-
 import 'mappers/create_invoice_result_mapper.dart';
 import 'mappers/user_balance_state_mapper.dart';
 
