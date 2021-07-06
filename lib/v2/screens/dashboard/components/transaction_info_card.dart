@@ -5,7 +5,6 @@ import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/widgets/read_times_tamp.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:shimmer/shimmer.dart';
 
 class TransactionInfoCard extends StatelessWidget {
   final String profileAccount;
@@ -92,18 +91,4 @@ class TransactionInfoCard extends StatelessWidget {
     );
   }
 
-  Widget shimmer() => Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              height: 16,
-              color: Colors.white,
-              margin: const EdgeInsets.only(left: 10, right: 10),
-            ),
-          ],
-        ),
-      );
 }
