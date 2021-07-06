@@ -6,7 +6,7 @@ import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/dashboard/components/tokens_cards/tokens_cards.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/screens/dashboard/components/transactions_list_widget.dart';
+import 'package:seeds/v2/screens/dashboard/components/transactions_list/transactions_list_widget.dart';
 import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/bloc.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 

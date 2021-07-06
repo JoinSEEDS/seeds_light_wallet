@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/dashboard/components/transaction_info_card.dart';
+import 'package:seeds/v2/screens/dashboard/components/transactions_list/interactor/viewmodels/transactions_list_bloc.dart';
+import 'package:seeds/v2/screens/dashboard/components/transactions_list/interactor/viewmodels/transactions_list_events.dart';
+import 'package:seeds/v2/screens/dashboard/components/transactions_list/interactor/viewmodels/transactions_list_state.dart';
+import 'package:seeds/v2/screens/dashboard/components/transactions_list/transaction_info_card.dart';
 import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/transactions_list_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/transactions_list_events.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/transactions_list_state.dart';
 import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/wallet_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -17,7 +17,7 @@ class TransactionsListWidget extends StatefulWidget {
   _TransactionsListWidgetState createState() => _TransactionsListWidgetState();
 }
 
-class _TransactionsListWidgetState extends State<TransactionsListWidget> with AutomaticKeepAliveClientMixin{
+class _TransactionsListWidgetState extends State<TransactionsListWidget> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -32,9 +32,7 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
             builder: (context, state) {
               if (state.isLoadingNoData) {
                 return Column(
-                  children: [
-                    for (var i = 0; i < 5; i++) loadingShimmer()
-                  ],
+                  children: [for (var i = 0; i < 5; i++) loadingShimmer()],
                 );
               } else {
                 return ListView.builder(
