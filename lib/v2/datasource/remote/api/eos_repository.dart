@@ -11,7 +11,9 @@ abstract class EosRepository {
   String onboardingPrivateKey = '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
 
   // Actions
+  String action_name_against = 'against';
   String action_name_cancel = 'cancel';
+  String action_name_favour = 'favour';
   String action_name_init = 'init';
   String action_name_claim = 'claim';
   String action_name_invite = 'invite';

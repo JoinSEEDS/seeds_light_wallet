@@ -139,6 +139,8 @@ extension CustomStyles on TextTheme {
 
   TextStyle get subtitle2Black => subtitle2!.copyWith(color: AppColors.black);
 
+   TextStyle get subtitle2Green2 => subtitle2!.copyWith(color: AppColors.green2);
+
   TextStyle get subtitle2Darkgreen1L => subtitle2!.copyWith(color: AppColors.primary);
 
   TextStyle get subtitle2OpacityEmphasisBlack => subtitle2OpacityEmphasis.copyWith(color: AppColors.black);
