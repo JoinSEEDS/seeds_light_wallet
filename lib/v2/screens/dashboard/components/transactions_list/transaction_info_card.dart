@@ -12,8 +12,6 @@ import 'package:seeds/v2/design/app_theme.dart';
 
 class TransactionInfoCard extends StatelessWidget {
   final String profileAccount;
-  final String? profileNickname;
-  final String? profileImage;
   final String timestamp;
   final String amount;
   final bool incoming;
@@ -24,8 +22,6 @@ class TransactionInfoCard extends StatelessWidget {
     required this.amount,
     required this.callback,
     required this.profileAccount,
-    required this.profileNickname,
-    required this.profileImage,
     required this.timestamp,
     required this.incoming,
   }) : super(key: key);

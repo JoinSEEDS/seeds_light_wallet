@@ -58,8 +58,6 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
         //onTransaction(transaction: model, member: member.data! as MemberModel, type: type);
       },
       profileAccount: displayAccount,
-      profileNickname: "",
-      profileImage: "",
       timestamp: model.timestamp,
       amount: model.quantity,
       incoming: userAccount == model.to,
