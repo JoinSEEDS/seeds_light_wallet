@@ -6,6 +6,7 @@ import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/notification_badge.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
@@ -56,6 +57,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
     WidgetsBinding.instance?.addObserver(this);
   }
 
@@ -72,6 +74,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.resumed:
         Provider.of<ConnectionNotifier>(context, listen: false).discoverEndpoints();
+        BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
         break;
       case AppLifecycleState.detached:
         break;

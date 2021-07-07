@@ -9,7 +9,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   @override
   Stream<WalletState> mapEventToState(WalletEvent event) async* {
-    if (event is RefreshDataEvent) {
+    if (event is OnLoadWalletData) {
       yield state.copyWith(pageState: PageState.loading);
       yield state.copyWith(pageState: PageState.success);
     }
