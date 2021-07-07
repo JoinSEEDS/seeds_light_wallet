@@ -19,7 +19,6 @@ class ProposalsStateMapper extends StateMapper {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error loading proposals'.i18n);
     } else {
-      print('ProposalsStateMapper mapResultsToState length = ${results.length}');
       results.retainWhere((Result i) => i.isValue);
       var values = results.map((Result i) => i.asValue!.value).toList();
 
