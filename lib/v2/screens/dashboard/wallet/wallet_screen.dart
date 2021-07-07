@@ -17,6 +17,7 @@ import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 
 import 'components/tokens_cards/tokens_cards.dart';
+import 'components/wallet_appbar.dart';
 import 'interactor/viewmodels/wallet_bloc.dart';
 import 'interactor/viewmodels/wallet_event.dart';
 import 'interactor/viewmodels/wallet_state.dart';
@@ -30,7 +31,6 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClientMixin {
-
   @override
   bool get wantKeepAlive => true;
 
@@ -53,12 +53,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                   BlocProvider.of<WalletBloc>(context).add(const OnLoadWalletData());
                 },
                 child: Scaffold(
-                  appBar: buildAppBar(
-                    context,
-                    state.profile!.account,
-                    state.profile!.nickname,
-                    state.profile!.image,
-                  ) as PreferredSizeWidget,
+                  appBar: const WalletAppBar(),
                   body: ListView(
                     // TODO(n13): Use exact measurements from figma
                     children: <Widget>[
@@ -90,35 +85,6 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
             child: ReceiveButton(
                 onPress: () async => await NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen))),
       ]),
-    );
-  }
-
-  Widget buildAppBar(BuildContext context, String account, String? nickname, String? image) {
-    return AppBar(
-      actions: [
-        const SizedBox(width: horizontalEdgePadding),
-        IconButton(
-          iconSize: 36,
-          splashRadius: 26,
-          onPressed: () => NavigationService.of(context).navigateTo(Routes.profile),
-          icon: ProfileAvatar(
-            size: 36,
-            account: account,
-            nickname: nickname,
-            image: image,
-          ),
-        ),
-        Expanded(child: Image.asset('assets/images/seeds_symbol_forest.png', height: 56, fit: BoxFit.fitHeight)),
-        IconButton(
-          splashRadius: 26,
-          icon: SvgPicture.asset(
-            'assets/images/wallet/app_bar/scan_qr_code_icon.svg',
-            height: 36,
-          ),
-          onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
-        ),
-        const SizedBox(width: horizontalEdgePadding),
-      ],
     );
   }
 
