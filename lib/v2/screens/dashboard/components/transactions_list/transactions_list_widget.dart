@@ -55,7 +55,8 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
 
     return TransactionInfoCard(
       callback: () {
-        //onTransaction(transaction: model, member: member.data! as MemberModel, type: type);
+        // TODO(n13): Implement callback - show tx detail
+        print("Not implemented");
       },
       profileAccount: displayAccount,
       timestamp: model.timestamp,
