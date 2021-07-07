@@ -1,4 +1,5 @@
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
+import 'package:seeds/v2/datasource/remote/model/voice_model_alliance.dart';
 import 'package:seeds/v2/datasource/remote/model/vote_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
@@ -14,11 +15,13 @@ class ProposalDataStateMapper extends StateMapper {
 
       ProfileModel? profileModel = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
       VoteModel? voteModel = values.firstWhere((i) => i is VoteModel, orElse: () => null);
+      VoiceModelAlliance? voiceModel = values.firstWhere((i) => i is VoiceModelAlliance, orElse: () => null);
 
       return currentState.copyWith(
         pageState: PageState.success,
-        isAlreadyPrecasted: voteModel!.amount != 0,
         creator: profileModel,
+        vote: voteModel,
+        tokens: voiceModel,
       );
     }
   }

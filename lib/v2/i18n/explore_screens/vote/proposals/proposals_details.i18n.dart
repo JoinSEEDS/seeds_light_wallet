@@ -24,7 +24,10 @@ extension Localization on String {
           'View Next Proposal': 'Ver siguiente propuesta',
           'You have already': 'Ya has',
           ' Precast ': ' Prefabricado ',
-          'your vote.': 'tu voto.'
+          'your vote.': 'tu voto.',
+          'You have already used your': 'Ya has usado tus',
+          ' Trust Tokens ': ' Fichas de confianza ',
+          'for this cycle.': 'para este ciclo.',
         }
       };
 

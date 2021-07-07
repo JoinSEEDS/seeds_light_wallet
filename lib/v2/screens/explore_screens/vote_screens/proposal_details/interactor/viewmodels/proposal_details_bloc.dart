@@ -15,18 +15,12 @@ class ProposalDetailsBloc extends Bloc<ProposalDetailsEvent, ProposalDetailsStat
   Stream<ProposalDetailsState> mapEventToState(ProposalDetailsEvent event) async* {
     if (event is OnLoadProposalData) {
       yield state.copyWith(pageState: PageState.loading);
-      List<Result> results = await GetProposalDataUseCase().run(
-        creatorAccount: state.proposals[state.currentIndex].creator,
-        proposalId: state.proposals[state.currentIndex].id,
-      );
+      List<Result> results = await GetProposalDataUseCase().run(state.proposals[state.currentIndex]);
       yield ProposalDataStateMapper().mapResultsToState(state, results);
     }
     if (event is OnNextProposalTapped) {
       yield state.copyWith(pageState: PageState.loading);
-      List<Result> results = await GetProposalDataUseCase().run(
-        creatorAccount: state.proposals[state.currentIndex + 1].creator,
-        proposalId: state.proposals[state.currentIndex + 1].id,
-      );
+      List<Result> results = await GetProposalDataUseCase().run(state.proposals[state.currentIndex + 1]);
       yield NextProposalDataStateMapper().mapResultsToState(state, results);
     }
     if (event is OnFavourButtonTapped) {

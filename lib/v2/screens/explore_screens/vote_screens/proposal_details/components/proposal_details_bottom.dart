@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/images/vote/arrow_next_proposal.dart';
 import 'package:seeds/v2/images/vote/votes_abstain_slash.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/pre_cast_status_label.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
@@ -20,26 +21,10 @@ class ProposalDetailsBottom extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            if (state.isAlreadyPrecasted)
-              Padding(
-                padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
-                child: Row(
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(text: 'You have already', style: Theme.of(context).textTheme.subtitle2),
-                          TextSpan(text: ' Precast ', style: Theme.of(context).textTheme.subtitle2Green2),
-                          TextSpan(text: 'your vote.', style: Theme.of(context).textTheme.subtitle2),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            const PrecastStatusLabel(),
             Padding(
               padding: const EdgeInsets.all(horizontalEdgePadding),
-              child: state.showNextButton
+              child: state.showNextButton || state.precastStatus != PrecastStatus.canPrecast
                   ? Column(
                       children: [
                         InkWell(

@@ -1,9 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
+import 'package:seeds/v2/datasource/remote/model/voice_model_alliance.dart';
+import 'package:seeds/v2/datasource/remote/model/vote_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_and_index.dart';
+
+enum PrecastStatus { canPrecast, alreadyPrecasted, allTokensUsed }
 
 /// --- STATE
 class ProposalDetailsState extends Equatable {
@@ -14,8 +18,19 @@ class ProposalDetailsState extends Equatable {
   final List<ProposalModel> proposals;
   final bool showNextButton;
   final bool isConfirmButtonEnabled;
-  final bool isAlreadyPrecasted;
   final ProfileModel? creator;
+  final VoteModel? vote;
+  final VoiceModelAlliance? tokens;
+
+  PrecastStatus get precastStatus {
+    if (vote!.amount != 0) {
+      return PrecastStatus.alreadyPrecasted;
+    } else if (tokens!.amount <= 0) {
+      return PrecastStatus.allTokensUsed;
+    } else {
+      return PrecastStatus.canPrecast;
+    }
+  }
 
   const ProposalDetailsState({
     required this.pageState,
@@ -25,8 +40,9 @@ class ProposalDetailsState extends Equatable {
     required this.proposals,
     required this.showNextButton,
     required this.isConfirmButtonEnabled,
-    required this.isAlreadyPrecasted,
     this.creator,
+    this.vote,
+    this.tokens,
   });
 
   @override
@@ -38,8 +54,9 @@ class ProposalDetailsState extends Equatable {
         proposals,
         showNextButton,
         isConfirmButtonEnabled,
-        isAlreadyPrecasted,
         creator,
+        vote,
+        tokens,
       ];
 
   ProposalDetailsState copyWith({
@@ -50,8 +67,9 @@ class ProposalDetailsState extends Equatable {
     List<ProposalModel>? proposals,
     bool? showNextButton,
     bool? isConfirmButtonEnabled,
-    bool? isAlreadyPrecasted,
     ProfileModel? creator,
+    VoteModel? vote,
+    VoiceModelAlliance? tokens,
   }) {
     return ProposalDetailsState(
       pageState: pageState ?? this.pageState,
@@ -61,8 +79,9 @@ class ProposalDetailsState extends Equatable {
       proposals: proposals ?? this.proposals,
       showNextButton: showNextButton ?? this.showNextButton,
       isConfirmButtonEnabled: isConfirmButtonEnabled ?? this.isConfirmButtonEnabled,
-      isAlreadyPrecasted: isAlreadyPrecasted ?? this.isAlreadyPrecasted,
       creator: creator,
+      vote: vote,
+      tokens: tokens,
     );
   }
 
@@ -73,7 +92,6 @@ class ProposalDetailsState extends Equatable {
       proposals: proposalsAndIndex.proposals,
       showNextButton: false,
       isConfirmButtonEnabled: false,
-      isAlreadyPrecasted: false,
     );
   }
 }
