@@ -9,8 +9,8 @@ abstract class RatesEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchRates extends RatesEvent {
-  const FetchRates();
+class OnFetchRates extends RatesEvent {
+  const OnFetchRates();
   @override
-  String toString() => 'FetchRates';
+  String toString() => 'OnFetchRates';
 }
