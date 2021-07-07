@@ -31,6 +31,7 @@ import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/guardi
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/invite_guardian_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
@@ -91,6 +92,7 @@ class Routes {
   static final signup = 'signUp';
   static final recoverAccount = 'recoverAccount';
   static final recoverAccountFound = 'recoverAccountFound';
+  static final profile = 'profile';
 }
 
 class NavigationService {
@@ -123,6 +125,7 @@ class NavigationService {
 
   final appRoutes = {
     Routes.app: (_) => const App(),
+    Routes.profile: (_) => ProfileScreen(),
     Routes.transferForm: (args) => TransferForm(args),
     Routes.transfer: (_) => SendSearchUserScreen(),
     Routes.sendEnterData: (_) => SendEnterDataScreen(),

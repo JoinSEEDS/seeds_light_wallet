@@ -5,12 +5,19 @@ import 'package:meta/meta.dart';
 @immutable
 abstract class WalletEvent extends Equatable {
   const WalletEvent();
+
   @override
   List<Object> get props => [];
 }
 
 class RefreshDataEvent extends WalletEvent {
   const RefreshDataEvent();
+
   @override
   String toString() => 'RefreshDataEvent';
+}
+
+class LoadUserValues extends WalletEvent {
+  @override
+  String toString() => 'LoadProfileValues';
 }
