@@ -14,6 +14,7 @@ class ProposalDetailsState extends Equatable {
   final List<ProposalModel> proposals;
   final bool showNextButton;
   final bool isConfirmButtonEnabled;
+  final bool isAlreadyPrecasted;
   final ProfileModel? creator;
 
   const ProposalDetailsState({
@@ -24,6 +25,7 @@ class ProposalDetailsState extends Equatable {
     required this.proposals,
     required this.showNextButton,
     required this.isConfirmButtonEnabled,
+    required this.isAlreadyPrecasted,
     this.creator,
   });
 
@@ -36,6 +38,7 @@ class ProposalDetailsState extends Equatable {
         proposals,
         showNextButton,
         isConfirmButtonEnabled,
+        isAlreadyPrecasted,
         creator,
       ];
 
@@ -47,6 +50,7 @@ class ProposalDetailsState extends Equatable {
     List<ProposalModel>? proposals,
     bool? showNextButton,
     bool? isConfirmButtonEnabled,
+    bool? isAlreadyPrecasted,
     ProfileModel? creator,
   }) {
     return ProposalDetailsState(
@@ -57,6 +61,7 @@ class ProposalDetailsState extends Equatable {
       proposals: proposals ?? this.proposals,
       showNextButton: showNextButton ?? this.showNextButton,
       isConfirmButtonEnabled: isConfirmButtonEnabled ?? this.isConfirmButtonEnabled,
+      isAlreadyPrecasted: isAlreadyPrecasted ?? this.isAlreadyPrecasted,
       creator: creator,
     );
   }
@@ -68,6 +73,7 @@ class ProposalDetailsState extends Equatable {
       proposals: proposalsAndIndex.proposals,
       showNextButton: false,
       isConfirmButtonEnabled: false,
+      isAlreadyPrecasted: false,
     );
   }
 }
