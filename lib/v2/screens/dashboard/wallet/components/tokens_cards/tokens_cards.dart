@@ -6,16 +6,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/dashboard/components/tokens_cards/interactor/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/bloc.dart';
-
+import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_bloc.dart';
+import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_state.dart';
 import '../currency_info_card_widget.dart';
+import 'interactor/viewmodels/token_balances_bloc.dart';
+import 'interactor/viewmodels/token_balances_event.dart';
+import 'interactor/viewmodels/token_balances_state.dart';
 
-class TokenCards extends StatelessWidget {
+class TokenCards extends StatefulWidget {
   const TokenCards({Key? key}) : super(key: key);
 
   @override
+  _TokenCardsState createState() => _TokenCardsState();
+}
+
+class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocProvider(
       create: (_) => TokenBalancesBloc()..add(const OnLoadTokenBalances()),
       child: BlocListener<WalletBloc, WalletState>(
@@ -71,4 +79,7 @@ class TokenCards extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

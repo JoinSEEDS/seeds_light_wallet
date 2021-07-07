@@ -150,7 +150,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<void> refreshData() async {
-    BlocProvider.of<RatesBloc>(context)..add(const FetchRates());
+    BlocProvider.of<RatesBloc>(context)..add(const OnFetchRates());
 
     _walletHeaderKey.currentState?.reload();
 

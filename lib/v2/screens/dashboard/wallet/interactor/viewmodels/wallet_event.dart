@@ -10,14 +10,8 @@ abstract class WalletEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class RefreshDataEvent extends WalletEvent {
-  const RefreshDataEvent();
-
+class OnLoadWalletData extends WalletEvent {
+  const OnLoadWalletData();
   @override
-  String toString() => 'RefreshDataEvent';
-}
-
-class LoadUserValues extends WalletEvent {
-  @override
-  String toString() => 'LoadProfileValues';
+  String toString() => 'OnLoadWalletData';
 }

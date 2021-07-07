@@ -18,7 +18,7 @@ import 'package:seeds/v2/screens/authentication/login_screen.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:seeds/v2/screens/authentication/verification/verification_screen.dart';
-import 'package:seeds/v2/screens/dashboard/wallet_screen.dart';
+import 'package:seeds/v2/screens/dashboard/wallet/wallet_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';

@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-final fourDigitNumberFormat = NumberFormat('#,###,###,###,##0.0000');
+final fourDigitNumberFormat = NumberFormat('#,###,###,###,##0.00##');
 final twoDigitNumberFormat = NumberFormat('#,###,###,###,##0.00');
 
 extension DoubleExtension on double {

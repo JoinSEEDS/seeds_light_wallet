@@ -24,7 +24,6 @@ abstract class NetworkRepository {
   String table_recover = 'recovers';
 
   Result mapHttpResponse(http.Response response, Function modelMapper) {
-    print('mapHttpResponse - statusCode: ' + response.statusCode.toString());
     switch (response.statusCode) {
       case 200:
         {

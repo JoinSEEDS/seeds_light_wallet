@@ -20,6 +20,23 @@ class ProposalDetailsBottom extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
+            if (state.isAlreadyPrecasted)
+              Padding(
+                padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
+                child: Row(
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(text: 'You have already', style: Theme.of(context).textTheme.subtitle2),
+                          TextSpan(text: ' Precast ', style: Theme.of(context).textTheme.subtitle2Green2),
+                          TextSpan(text: 'your vote.', style: Theme.of(context).textTheme.subtitle2),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.all(horizontalEdgePadding),
               child: state.showNextButton
