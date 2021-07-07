@@ -17,7 +17,7 @@ class TransactionsListWidget extends StatefulWidget {
   _TransactionsListWidgetState createState() => _TransactionsListWidgetState();
 }
 
-class _TransactionsListWidgetState extends State<TransactionsListWidget> with AutomaticKeepAliveClientMixin{
+class _TransactionsListWidgetState extends State<TransactionsListWidget> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -32,9 +32,7 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
             builder: (context, state) {
               if (state.isLoadingNoData) {
                 return Column(
-                  children: [
-                    for (var i = 0; i < 5; i++) loadingShimmer()
-                  ],
+                  children: [for (var i = 0; i < 5; i++) loadingShimmer()],
                 );
               } else {
                 return ListView.builder(
@@ -75,7 +73,6 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
             Expanded(
               child: Container(
                 height: 44,
-                //width: 300,
                 color: Colors.black26,
                 margin: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
               ),
