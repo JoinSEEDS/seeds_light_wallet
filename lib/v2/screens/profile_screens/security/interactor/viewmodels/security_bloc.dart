@@ -4,14 +4,20 @@ import 'package:seeds/providers/services/firebase/firebase_database_service.dart
 import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/datasource/remote/firebase/firebase_database_guardians_repository.dart';
+import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
+import 'package:seeds/v2/screens/profile_screens/security/interactor/mappers/guardians_state_mapper.dart';
+import 'package:seeds/v2/screens/profile_screens/security/interactor/usecases/guardians_usecase.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC
 class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
   final AuthenticationBloc _authenticationBloc;
   late StreamSubscription<bool> _hasGuardianNotificationPending;
+  late StreamSubscription<List<GuardianModel>> _guardians;
+  final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
   SecurityBloc({required AuthenticationBloc authenticationBloc})
       : _authenticationBloc = authenticationBloc,
@@ -19,6 +25,14 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value: value)));
+
+       _guardians = GuardiansUseCase()
+        .guardians
+        .listen((value) => add(OnLoadingGuardians(guardians: value)));
+  }
+
+  Stream<bool> get isGuardianContractInitialized {
+    return _repository.isGuardiansInitialized(settingsStorage.accountName);
   }
 
   @override
@@ -32,6 +46,10 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     }
     if (event is ShouldShowNotificationBadge) {
       yield state.copyWith(hasNotification: event.value);
+    }
+    if (event is OnLoadingGuardians) {
+      bool isGuardianInitialized = await isGuardianContractInitialized.first;
+      yield GuardianStateMapper().mapResultToState(isGuardianInitialized, event.guardians, state);
     }
     if (event is OnGuardiansCardTapped) {
       yield state.copyWith(navigateToGuardians: null); //reset
@@ -77,6 +95,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
   @override
   Future<void> close() {
     _hasGuardianNotificationPending.cancel();
+    _guardians.cancel();
     return super.close();
   }
 }

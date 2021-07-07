@@ -13,16 +13,16 @@ class FetchAccountRecoveryStateMapper extends StateMapper {
       if (accountGuardiansModel.guardians.isEmpty) {
         return currentState.copyWith(
             pageState: PageState.success,
-            isValidUsername: false,
+            isGuardianActive: false,
             errorMessage: 'Only accounts protected by guardians are accessible for recovery');
       } else {
         return currentState.copyWith(
-          pageState: PageState.success,
-          isValidUsername: true,
-          errorMessage: null,
-          userGuardians: accountGuardiansModel.guardians,
-          userName: userName
-        );
+            isValidAccount: false,
+            pageState: PageState.success,
+            isGuardianActive: true,
+            errorMessage: null,
+            userGuardians: accountGuardiansModel.guardians,
+            userName: userName);
       }
     }
   }

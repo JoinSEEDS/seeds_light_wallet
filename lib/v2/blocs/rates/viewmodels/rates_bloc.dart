@@ -5,14 +5,16 @@ import 'package:seeds/v2/blocs/rates/usecases/get_rates_use_case.dart';
 
 /// --- BLOC
 class RatesBloc extends Bloc<RatesEvent, RatesState> {
-  DateTime lastUpdated = DateTime.now().subtract(const Duration(hours: 1));
+  DateTime lastUpdated = DateTime.now();
 
   RatesBloc() : super(RatesState.initial());
 
   @override
   Stream<RatesState> mapEventToState(RatesEvent event) async* {
-    if (event is FetchRates) {
-      if (DateTime.now().isAfter(lastUpdated.add(const Duration(hours: 1)))) {
+    if (event is OnFetchRates) {
+      print('Remaining minutes to fetch rates again: ${lastUpdated.difference(DateTime.now()).inMinutes}');
+      if (DateTime.now().isAfter(lastUpdated)) {
+        lastUpdated = lastUpdated.add(const Duration(hours: 1));
         var results = await GetRatesUseCase().run();
         yield RatesStateMapper().mapResultToState(state, results);
       }

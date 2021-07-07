@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -66,15 +67,14 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
   }
 
   Widget loadingShimmer() => Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
+        baseColor: AppColors.grey1,
+        highlightColor: AppColors.grey2,
         child: Row(
           children: <Widget>[
             Expanded(
               child: Container(
                 height: 44,
-                //width: 300,
-                color: Colors.black26,
+                color: AppColors.black50,
                 margin: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
               ),
             ),
