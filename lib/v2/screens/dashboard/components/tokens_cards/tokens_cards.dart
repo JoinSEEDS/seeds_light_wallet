@@ -11,11 +11,17 @@ import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/bloc.dart';
 
 import '../currency_info_card_widget.dart';
 
-class TokenCards extends StatelessWidget {
+class TokenCards extends StatefulWidget {
   const TokenCards({Key? key}) : super(key: key);
 
   @override
+  _TokenCardsState createState() => _TokenCardsState();
+}
+
+class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocProvider(
       create: (_) => TokenBalancesBloc()..add(const OnLoadTokenBalances()),
       child: BlocListener<WalletBloc, WalletState>(
@@ -71,4 +77,7 @@ class TokenCards extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

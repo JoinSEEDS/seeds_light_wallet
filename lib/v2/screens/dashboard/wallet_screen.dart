@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/dashboard/components/tokens_cards/tokens_cards.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/screens/dashboard/components/transactions_list_widget.dart';
 import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/bloc.dart';
+import 'package:seeds/i18n/wallet.i18n.dart';
 
 // Widgets to be moved to v2
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
@@ -100,7 +100,13 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
 
   Widget walletBottom(BuildContext context) {
     return Column(
-      children: <Widget>[transactionHeader(context), buildTransactions()],
+      children: <Widget>[
+        transactionHeader(context),
+        const SizedBox(
+          height: 16,
+        ),
+        TransactionsListWidget()
+      ],
     );
   }
 
@@ -109,15 +115,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
         Expanded(child: Text('Transactions History'.i18n, style: Theme.of(context).textTheme.headline7LowEmphasis)),
-        Text(
-          'View All'.i18n,
-          style: const TextStyle(color: AppColors.canopy),
-        )
       ]),
     );
-  }
-
-  Widget buildTransactions() {
-    return const SizedBox.shrink();
   }
 }

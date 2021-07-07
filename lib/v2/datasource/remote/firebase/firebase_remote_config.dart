@@ -18,7 +18,7 @@ const String _privacyPolicyUrl = 'https://www.joinseeds.com/seeds-app-privacy-po
 const String _hyphaEndPointUrl = 'https://node.hypha.earth';
 const String _explorerUrl = 'https://telos.bloks.io';
 const String _dhoExplorerUrl = 'https://dho.hypha.earth';
-const String _defaultEndPointUrl = 'https://telos.eosphere.io';
+const String _defaultEndPointUrl = 'https://mainnet.telos.net'; // mainnet.telos.net is the global load balaner for telos
 
 class _FirebaseRemoteConfigService {
   final defaults = <String, dynamic>{
