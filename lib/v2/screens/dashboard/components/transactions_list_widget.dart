@@ -67,8 +67,8 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
   }
 
   Widget loadingShimmer() => Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
+        baseColor: AppColors.grey1,
+        highlightColor: AppColors.grey2,
         child: Row(
           children: <Widget>[
             Expanded(
