@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/app/ecosystem/dho/dho.dart';
 import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
@@ -45,7 +44,6 @@ import 'package:seeds/v2/screens/transfer/send/send_search_user/send_search_user
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
-  static final app = 'App';
   static final transferForm = 'TransferForm';
   static final onboarding = 'Onboarding';
   static final joinProcess = 'JoinProcess';
@@ -122,7 +120,6 @@ class NavigationService {
   };
 
   final appRoutes = {
-    Routes.app: (_) => const App(),
     Routes.transferForm: (args) => TransferForm(args),
     Routes.transfer: (_) => SendSearchUserScreen(),
     Routes.sendEnterData: (_) => SendEnterDataScreen(),
