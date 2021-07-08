@@ -53,8 +53,8 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
       }
     } else if (event is OnClaimAccountTap) {
       _authenticationBloc.add(OnImportAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
-    } else if (event is OnCopyIconTab) {
-      yield state.copyWith(pageCommand: ShowActivateGuardiansLinkCopiedSuccess());
+    } else if (event is OnCopyIconTap) {
+      yield state.copyWith(pageCommand: ShowLinkCopied());
     }
   }
 }

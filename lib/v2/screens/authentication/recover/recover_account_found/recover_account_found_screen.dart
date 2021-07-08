@@ -19,8 +19,7 @@ import 'package:seeds/v2/screens/authentication/recover/recover_account_found/in
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_events.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
-
-import 'interactor/viewmodels/recover_account_found_page_command.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
 
 class RecoverAccountFoundScreen extends StatelessWidget {
   const RecoverAccountFoundScreen({Key? key}) : super(key: key);
@@ -40,7 +39,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
         listener: (context, state) {
           var pageCommand = state.pageCommand;
 
-          if (pageCommand is ShowActivateGuardiansLinkCopiedSuccess) {
+          if (pageCommand is ShowLinkCopied) {
             SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
           }
 
@@ -85,7 +84,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                       onPressed: () {
                                         Clipboard.setData(ClipboardData(text: state.linkToActivateGuardians)).then(
                                           (value) {
-                                            BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnCopyIconTab());
+                                            BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnCopyIconTap());
                                           },
                                         );
                                       },
