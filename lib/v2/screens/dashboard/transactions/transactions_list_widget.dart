@@ -5,13 +5,13 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/dashboard/transcations/components/transaction_info_card.dart';
-import 'package:seeds/v2/screens/dashboard/transcations/interactor/viewmodels/transactions_list_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/transcations/interactor/viewmodels/transactions_list_events.dart';
-import 'package:seeds/v2/screens/dashboard/transcations/interactor/viewmodels/transactions_list_state.dart';
 import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_bloc.dart';
 import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_state.dart';
 import 'package:shimmer/shimmer.dart';
+import 'components/transaction_info_card.dart';
+import 'interactor/viewmodels/transactions_list_bloc.dart';
+import 'interactor/viewmodels/transactions_list_events.dart';
+import 'interactor/viewmodels/transactions_list_state.dart';
 
 class TransactionsListWidget extends StatefulWidget {
   @override

@@ -6,7 +6,7 @@ import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/screens/dashboard/transcations/transactions_list_widget.dart';
+import 'package:seeds/v2/screens/dashboard/transactions/transactions_list_widget.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
 
 // Widgets to be moved to v2
