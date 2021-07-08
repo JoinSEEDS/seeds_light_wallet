@@ -9,6 +9,7 @@ import 'package:seeds/v2/screens/authentication/recover/recover_account_found/in
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/mappers/remaining_time_state_mapper.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_events.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
 
 /// --- BLOC
@@ -52,6 +53,8 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
       }
     } else if (event is OnClaimAccountTap) {
       _authenticationBloc.add(OnImportAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
+    } else if (event is OnCopyIconTab) {
+      yield state.copyWith(pageCommand: ShowActivateGuardiansLinkCopiedSuccess());
     }
   }
 }

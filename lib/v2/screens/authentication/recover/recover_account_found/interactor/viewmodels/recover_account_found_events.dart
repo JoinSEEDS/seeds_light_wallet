@@ -20,6 +20,11 @@ class OnClaimAccountTap extends RecoverAccountFoundEvent {
   String toString() => 'OnClaimAccountTap';
 }
 
+class OnCopyIconTab extends RecoverAccountFoundEvent {
+  @override
+  String toString() => 'OnCopyIconTab';
+}
+
 class StartCycleCountdown extends RecoverAccountFoundEvent {
   @override
   String toString() => 'StartCycleCountdown';

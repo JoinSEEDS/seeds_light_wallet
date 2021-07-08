@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/current_remaining_time.dart';
 
@@ -15,6 +16,7 @@ class RecoverAccountFoundState extends Equatable {
   final RecoveryStatus recoveryStatus;
   final int timeLockSeconds;
   final CurrentRemainingTime? currentRemainingTime;
+  final PageCommand? pageCommand;
 
   const RecoverAccountFoundState({
     required this.pageState,
@@ -28,6 +30,7 @@ class RecoverAccountFoundState extends Equatable {
     required this.timeLockSeconds,
     this.currentRemainingTime,
     required this.userAccount,
+    this.pageCommand,
   });
 
   @override
@@ -42,6 +45,7 @@ class RecoverAccountFoundState extends Equatable {
         alreadySignedGuardians,
         timeLockSeconds,
         userAccount,
+        pageCommand,
       ];
 
   RecoverAccountFoundState copyWith({
@@ -55,6 +59,7 @@ class RecoverAccountFoundState extends Equatable {
     RecoveryStatus? recoveryStatus,
     int? timeLockSeconds,
     CurrentRemainingTime? currentRemainingTime,
+    PageCommand? pageCommand,
   }) {
     return RecoverAccountFoundState(
       pageState: pageState ?? this.pageState,
@@ -68,6 +73,7 @@ class RecoverAccountFoundState extends Equatable {
       timeLockSeconds: timeLockSeconds ?? this.timeLockSeconds,
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
       userAccount: userAccount,
+      pageCommand: pageCommand,
     );
   }
 
