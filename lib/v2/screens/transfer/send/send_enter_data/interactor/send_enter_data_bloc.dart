@@ -22,7 +22,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
   @override
   Stream<SendEnterDataPageState> mapEventToState(SendEnterDataPageEvent event) async* {
     if (event is InitSendDataArguments) {
-      yield state.copyWith(pageState: PageState.loading);
+      yield state.copyWith(pageState: PageState.loading, showSendingAnimation: false);
 
       Result result = await GetAvailableBalanceUseCase().run();
 
