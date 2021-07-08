@@ -171,6 +171,8 @@ flutter:
     - assets/images/currency_switch_button.svg
     - assets/images/transfer/seeds_icon.svg
     - assets/images/transfer/arrow_up.svg
+    - assets/animations/forest.json
+    - assets/animations/send_animation.json
     # assets end
 
   fonts:

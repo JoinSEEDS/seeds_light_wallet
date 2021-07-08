@@ -44,7 +44,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
               currency: settingsStorage.selectedFiatCurrency,
               fiatAmount: state.fiatAmount));
     } else if (event is OnSendButtonTapped) {
-      yield state.copyWith(pageState: PageState.loading, pageCommand: null);
+      yield state.copyWith(pageState: PageState.loading, pageCommand: null, showSendingAnimation: true);
 
       Result result = await SendTransactionUseCase().run("transfer", 'token.seeds', {
         'from': settingsStorage.accountName,
