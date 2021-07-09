@@ -69,6 +69,7 @@ dependencies:
   qr_code_scanner: ^0.4.0
   collection: ^1.15.0-nullsafety.4
   mask_text_input_formatter: ^2.0.0
+  hive: ^2.0.4
 
 dev_dependencies:
   flutter_test:
