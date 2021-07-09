@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 @immutable
 abstract class WalletEvent extends Equatable {
   const WalletEvent();
+
   @override
   List<Object> get props => [];
 }
