@@ -12,8 +12,6 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   @override
   Stream<WalletState> mapEventToState(WalletEvent event) async* {
     if (event is OnLoadWalletData) {
-      // yield state.copyWith(pageState: PageState.loading);
-      // yield state.copyWith(pageState: PageState.success);
       yield state.copyWith(pageState: PageState.loading);
       var results = await GetUserAccountUseCase().run();
       yield UserAccountStateMapper().mapResultToState(state, results);
