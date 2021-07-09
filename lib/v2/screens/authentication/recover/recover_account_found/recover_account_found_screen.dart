@@ -121,70 +121,75 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                           },
                         ),
                       ),
-                      body: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                "All three of your Key Guardians have accepted your request to recover your account. \n You account will be unlocked in 24hrs. ",
-                                style: Theme.of(context).textTheme.subtitle2LowEmphasis,
-                                textAlign: TextAlign.center,
+                      body: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
                               ),
-                            ),
-                            const SizedBox(
-                              height: 40,
-                            ),
-                            const Image(image: AssetImage('assets/images/guardians/check_circle.png')),
-                            const SizedBox(
-                              height: 100,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text('${state.currentRemainingTime?.hours ?? '00'}',
-                                        style: Theme.of(context).textTheme.headline4),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 6),
-                                      child: Text(':', style: Theme.of(context).textTheme.headline4),
-                                    )
-                                  ],
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  "All three of your Key Guardians have accepted your request to recover your account. \n You account will be unlocked in 24hrs. ",
+                                  style: Theme.of(context).textTheme.subtitle2LowEmphasis,
+                                  textAlign: TextAlign.center,
                                 ),
-                                Row(
-                                  children: [
-                                    Text('${state.currentRemainingTime?.min ?? '00'}',
-                                        style: Theme.of(context).textTheme.headline4),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 6),
-                                      child: Text(':', style: Theme.of(context).textTheme.headline4),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text('${state.currentRemainingTime?.sec ?? '00'} ',
-                                        style: Theme.of(context).textTheme.headline4),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 14),
-                                  child: Text(
-                                    "Hours Left",
-                                    style: Theme.of(context).textTheme.subtitle2,
+                              ),
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              const Image(image: AssetImage('assets/images/guardians/check_circle.png')),
+                              const SizedBox(
+                                height: 100,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text('${state.currentRemainingTime?.hours ?? '00'}',
+                                          style: Theme.of(context).textTheme.headline4),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 6),
+                                        child: Text(':', style: Theme.of(context).textTheme.headline4),
+                                      )
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
-                            state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT
-                                ? Text("Account recovered " + state.userAccount)
-                                : const SizedBox.shrink(),
-                          ],
+                                  Row(
+                                    children: [
+                                      Text('${state.currentRemainingTime?.min ?? '00'}',
+                                          style: Theme.of(context).textTheme.headline4),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 6),
+                                        child: Text(':', style: Theme.of(context).textTheme.headline4),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text('${state.currentRemainingTime?.sec ?? '00'} ',
+                                          style: Theme.of(context).textTheme.headline4),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 14),
+                                    child: Text(
+                                      "Hours Left",
+                                      style: Theme.of(context).textTheme.subtitle2,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT
+                                  ? Text("Account recovered " + state.userAccount)
+                                  : const SizedBox.shrink(),
+                              const SizedBox(
+                                height: 150,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
