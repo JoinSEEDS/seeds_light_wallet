@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/dashboard/components/tokens_cards/currency_info_card_widget.dart';
 import 'package:seeds/v2/screens/dashboard/components/tokens_cards/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/bloc.dart';
-
-import 'currency_info_card_widget.dart';
 
 class TokenCards extends StatefulWidget {
   const TokenCards({Key? key}) : super(key: key);
