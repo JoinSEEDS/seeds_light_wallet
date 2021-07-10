@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/dashboard/tokens_cards/components/currency_info_card_widget.dart';
 import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_bloc.dart';
 import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_state.dart';
-import '../currency_info_card_widget.dart';
 import 'interactor/viewmodels/token_balances_bloc.dart';
 import 'interactor/viewmodels/token_balances_event.dart';
 import 'interactor/viewmodels/token_balances_state.dart';
@@ -20,7 +20,8 @@ class TokenCards extends StatefulWidget {
   _TokenCardsState createState() => _TokenCardsState();
 }
 
-class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMixin {
+class _TokenCardsState extends State<TokenCards>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -29,7 +30,8 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
       child: BlocListener<WalletBloc, WalletState>(
         listenWhen: (_, current) => current.pageState == PageState.loading,
         listener: (context, _) {
-          BlocProvider.of<TokenBalancesBloc>(context).add(const OnLoadTokenBalances());
+          BlocProvider.of<TokenBalancesBloc>(context)
+              .add(const OnLoadTokenBalances());
         },
         child: BlocBuilder<TokenBalancesBloc, TokenBalancesState>(
           builder: (context, state) {
@@ -40,8 +42,14 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                     items: List.of(state.availableTokens.map(
                       (item) => Container(
                         margin: EdgeInsets.only(
-                            left: item.token == state.availableTokens.first.token ? 0 : 10.0,
-                            right: item.token == state.availableTokens.last.token ? 0 : 10.0),
+                            left:
+                                item.token == state.availableTokens.first.token
+                                    ? 0
+                                    : 10.0,
+                            right:
+                                item.token == state.availableTokens.last.token
+                                    ? 0
+                                    : 10.0),
                         child: CurrencyInfoCardWidget(
                           tokenBalance: item,
                         ),
@@ -52,7 +60,8 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                       viewportFraction: 0.89,
                       enableInfiniteScroll: false,
                       onPageChanged: (index, controller) =>
-                          BlocProvider.of<TokenBalancesBloc>(context).add(OnSelectedTokenChanged(index)),
+                          BlocProvider.of<TokenBalancesBloc>(context)
+                              .add(OnSelectedTokenChanged(index)),
                     ),
                   ),
                 ),

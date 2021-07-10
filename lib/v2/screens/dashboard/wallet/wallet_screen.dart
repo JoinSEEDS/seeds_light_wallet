@@ -6,17 +6,16 @@ import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/screens/dashboard/tokens_cards/tokens_cards.dart';
 import 'package:seeds/v2/screens/dashboard/transactions/transactions_list_widget.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/v2/screens/dashboard/wallet/components/wallet_appbar.dart';
+import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_bloc.dart';
 
 // Widgets to be moved to v2
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
-import 'components/tokens_cards/tokens_cards.dart';
-import 'components/wallet_appbar.dart';
-import 'interactor/viewmodels/wallet_bloc.dart';
-import 'interactor/viewmodels/wallet_event.dart';
-import 'interactor/viewmodels/wallet_state.dart';
 
 /// Wallet SCREEN
 class WalletScreen extends StatefulWidget {
@@ -26,7 +25,8 @@ class WalletScreen extends StatefulWidget {
   _WalletScreenState createState() => _WalletScreenState();
 }
 
-class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClientMixin {
+class _WalletScreenState extends State<WalletScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -46,7 +46,8 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
               return RefreshIndicator(
                 onRefresh: () async {
                   BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
-                  BlocProvider.of<WalletBloc>(context).add(const OnLoadWalletData());
+                  BlocProvider.of<WalletBloc>(context)
+                      .add(const OnLoadWalletData());
                 },
                 child: Scaffold(
                   appBar: const WalletAppBar(),
@@ -74,13 +75,20 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
   Widget buildSendReceiveButton(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-        Expanded(child: SendButton(onPress: () => NavigationService.of(context).navigateTo(Routes.transfer))),
-        const SizedBox(width: 20),
-        Expanded(
-            child: ReceiveButton(
-                onPress: () async => await NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen))),
-      ]),
+      child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+                child: SendButton(
+                    onPress: () => NavigationService.of(context)
+                        .navigateTo(Routes.transfer))),
+            const SizedBox(width: 20),
+            Expanded(
+                child: ReceiveButton(
+                    onPress: () async => await NavigationService.of(context)
+                        .navigateTo(Routes.receiveEnterDataScreen))),
+          ]),
     );
   }
 
@@ -100,7 +108,9 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
-        Expanded(child: Text('Transactions History'.i18n, style: Theme.of(context).textTheme.headline7LowEmphasis)),
+        Expanded(
+            child: Text('Transactions History'.i18n,
+                style: Theme.of(context).textTheme.headline7LowEmphasis)),
       ]),
     );
   }
