@@ -14,6 +14,7 @@ class UserBalanceAndPlantedStateMapper extends StateMapper {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page'.i18n);
     } else {
+      print('UserBalanceAndPlantedStateMapper mapResultsToState length = ${results.length}');
       results.retainWhere((i) => i.isValue);
       var values = results.map((i) => i.asValue!.value).toList();
 

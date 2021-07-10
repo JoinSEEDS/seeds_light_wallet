@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/app/ecosystem/dho/dho.dart';
 import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
 import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
@@ -17,7 +18,7 @@ import 'package:seeds/v2/screens/authentication/login_screen.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:seeds/v2/screens/authentication/verification/verification_screen.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/wallet_screen.dart';
+import 'package:seeds/v2/screens/dashboard/wallet_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
@@ -30,7 +31,6 @@ import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/guardi
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/invite_guardian_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
-import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
@@ -45,6 +45,7 @@ import 'package:seeds/v2/screens/transfer/send/send_search_user/send_search_user
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
+  static final app = 'App';
   static final transferForm = 'TransferForm';
   static final onboarding = 'Onboarding';
   static final joinProcess = 'JoinProcess';
@@ -90,7 +91,6 @@ class Routes {
   static final signup = 'signUp';
   static final recoverAccount = 'recoverAccount';
   static final recoverAccountFound = 'recoverAccountFound';
-  static final profile = 'profile';
 }
 
 class NavigationService {
@@ -122,7 +122,7 @@ class NavigationService {
   };
 
   final appRoutes = {
-    Routes.profile: (_) => ProfileScreen(),
+    Routes.app: (_) => const App(),
     Routes.transferForm: (args) => TransferForm(args),
     Routes.transfer: (_) => SendSearchUserScreen(),
     Routes.sendEnterData: (_) => SendEnterDataScreen(),

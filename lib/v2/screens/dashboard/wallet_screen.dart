@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
-import 'package:seeds/v2/components/full_page_error_indicator.dart';
-import 'package:seeds/v2/components/full_page_loading_indicator.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/screens/dashboard/components/tokens_cards/tokens_cards.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/dashboard/components/transactions_list/transactions_list_widget.dart';
 import 'package:seeds/v2/screens/dashboard/interactor/viewmodels/bloc.dart';
@@ -13,11 +13,6 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 // Widgets to be moved to v2
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
-import 'components/tokens_cards/tokens_cards.dart';
-import 'components/wallet_appbar.dart';
-import 'interactor/viewmodels/wallet_bloc.dart';
-import 'interactor/viewmodels/wallet_event.dart';
-import 'interactor/viewmodels/wallet_state.dart';
 
 /// Wallet SCREEN
 class WalletScreen extends StatefulWidget {
@@ -38,35 +33,26 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
       create: (_) => WalletBloc()..add(const OnLoadWalletData()),
       child: BlocBuilder<WalletBloc, WalletState>(
         builder: (context, state) {
-          switch (state.pageState) {
-            case PageState.loading:
-              return const FullPageLoadingIndicator();
-            case PageState.failure:
-              return const FullPageErrorIndicator();
-            case PageState.success:
-              return RefreshIndicator(
-                onRefresh: () async {
-                  BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
-                  BlocProvider.of<WalletBloc>(context).add(const OnLoadWalletData());
-                },
-                child: Scaffold(
-                  appBar: const WalletAppBar(),
-                  body: ListView(
-                    // TODO(n13): Use exact measurements from figma
-                    children: <Widget>[
-                      const SizedBox(height: 15),
-                      const TokenCards(),
-                      const SizedBox(height: 20),
-                      buildSendReceiveButton(context),
-                      const SizedBox(height: 20),
-                      walletBottom(context),
-                    ],
-                  ),
-                ),
-              );
-            default:
-              return const SizedBox.shrink();
-          }
+          return RefreshIndicator(
+            onRefresh: () async {
+              BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
+              BlocProvider.of<WalletBloc>(context).add(const OnLoadWalletData());
+            },
+            child: Scaffold(
+              appBar: buildAppBar(context) as PreferredSizeWidget?,
+              body: ListView(
+                // TODO(n13): Use exact measurements from figma
+                children: <Widget>[
+                  const SizedBox(height: 15),
+                  const TokenCards(),
+                  const SizedBox(height: 20),
+                  buildSendReceiveButton(context),
+                  const SizedBox(height: 20),
+                  walletBottom(context),
+                ],
+              ),
+            ),
+          );
         },
       ),
     );
@@ -82,6 +68,33 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
             child: ReceiveButton(
                 onPress: () async => await NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen))),
       ]),
+    );
+  }
+
+  Widget buildAppBar(BuildContext context) {
+    return AppBar(
+      titleSpacing: 0,
+      leading: Container(
+          padding: const EdgeInsets.only(left: 15),
+          child: const ProfileAvatar(
+            size: 33,
+            account: 'ff',
+            nickname: 'gg',
+            image: '',
+          )),
+      title: Image.asset('assets/images/seeds_symbol_forest.png', height: 50, fit: BoxFit.fitHeight),
+      actions: [
+        Container(
+          child: IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/wallet/app_bar/scan_qr_code_icon.svg',
+              height: 33,
+              width: 2000,
+            ),
+            onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
+          ),
+        ),
+      ],
     );
   }
 
