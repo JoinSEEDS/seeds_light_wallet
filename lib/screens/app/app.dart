@@ -28,16 +28,16 @@ class NavigationTab {
   NavigationTab({this.title, this.icon, this.iconSelected, this.screenBuilder, this.index});
 }
 
-class V1App extends StatefulWidget {
-  const V1App();
+class App extends StatefulWidget {
+  const App();
 
   @override
-  _V1AppState createState() => _V1AppState();
+  _AppState createState() => _AppState();
 }
 
 bool connected = true;
 
-class _V1AppState extends State<V1App> with WidgetsBindingObserver {
+class _AppState extends State<App> with WidgetsBindingObserver {
   final navigationTabs = [
     NavigationTab(
       title: "Wallet".i18n,
@@ -173,6 +173,8 @@ class _V1AppState extends State<V1App> with WidgetsBindingObserver {
       body: buildPageView(),
       bottomNavigationBar: StreamBuilder<bool?>(
           stream: FirebaseDatabaseService().hasGuardianNotificationPending(settingsStorage.accountName),
+          // stream: FirebaseDatabaseService()
+          //     .hasGuardianNotificationPending(SettingsNotifier.of(context, listen: false).accountName),
           builder: (context, AsyncSnapshot<bool?> snapshot) {
             if (snapshot.hasData) {
               return buildNavigation(snapshot.data);

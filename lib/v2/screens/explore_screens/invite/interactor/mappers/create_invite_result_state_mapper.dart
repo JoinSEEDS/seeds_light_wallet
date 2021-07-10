@@ -16,6 +16,7 @@ class CreateInviteResultStateMapper extends StateMapper {
         isCreateInviteButtonEnabled: false,
       );
     } else {
+      print('CreateInviteResultStateMapper mapResultsToState length = ${results.length}');
       // Check if the error is in the transaction
       results.retainWhere((Result element) => element.isValue);
       var values = results.map((Result element) => element.asValue!.value).toList();

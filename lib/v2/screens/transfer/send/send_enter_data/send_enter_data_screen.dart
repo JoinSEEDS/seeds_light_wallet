@@ -9,7 +9,6 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/search_result_row.dart';
-import 'package:seeds/v2/components/send_loading_indicator.dart';
 import 'package:seeds/v2/components/text_form_field_light.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
@@ -87,8 +86,7 @@ class SendEnterDataScreen extends StatelessWidget {
                 case PageState.initial:
                   return const SizedBox.shrink();
                 case PageState.loading:
-                  /// We want to show special animation only when the user confirms send.
-                  return state.showSendingAnimation ? const SendLoadingIndicator(): const FullPageLoadingIndicator();
+                  return const FullPageLoadingIndicator();
                 case PageState.failure:
                   return const FullPageErrorIndicator();
                 case PageState.success:

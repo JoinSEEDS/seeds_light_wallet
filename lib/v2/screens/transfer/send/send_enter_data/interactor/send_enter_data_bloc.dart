@@ -22,7 +22,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
   @override
   Stream<SendEnterDataPageState> mapEventToState(SendEnterDataPageEvent event) async* {
     if (event is InitSendDataArguments) {
-      yield state.copyWith(pageState: PageState.loading, showSendingAnimation: false);
+      yield state.copyWith(pageState: PageState.loading);
 
       Result result = await GetAvailableBalanceUseCase().run();
 
@@ -44,7 +44,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
               currency: settingsStorage.selectedFiatCurrency,
               fiatAmount: state.fiatAmount));
     } else if (event is OnSendButtonTapped) {
-      yield state.copyWith(pageState: PageState.loading, pageCommand: null, showSendingAnimation: true);
+      yield state.copyWith(pageState: PageState.loading, pageCommand: null);
 
       Result result = await SendTransactionUseCase().run("transfer", 'token.seeds', {
         'from': settingsStorage.accountName,
