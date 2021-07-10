@@ -13,12 +13,12 @@ class TransactionInfoCard extends StatelessWidget {
   final String timestamp;
   final String amount;
   final bool incoming;
-  final GestureTapCallback callback;
+  final GestureTapCallback onTap;
 
   const TransactionInfoCard({
     Key? key,
     required this.amount,
-    required this.callback,
+    required this.onTap,
     required this.profileAccount,
     required this.profileNickname,
     required this.profileImage,
@@ -29,7 +29,7 @@ class TransactionInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: callback,
+      onTap: onTap,
       child: Ink(
         decoration: const BoxDecoration(
           color: AppColors.primary,
