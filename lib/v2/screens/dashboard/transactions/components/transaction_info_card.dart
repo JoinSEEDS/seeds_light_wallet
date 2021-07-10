@@ -20,8 +20,8 @@ class TransactionInfoCard extends StatelessWidget {
     required this.amount,
     required this.onTap,
     required this.profileAccount,
-    required this.profileNickname,
-    required this.profileImage,
+    this.profileNickname,
+    this.profileImage,
     required this.timestamp,
     required this.incoming,
   }) : super(key: key);
@@ -64,7 +64,7 @@ class TransactionInfoCard extends StatelessWidget {
                             maxLines: 1,
                           )),
                           const SizedBox(width: 40),
-                          Text(amount.seedsFormatted, style: Theme.of(context).textTheme.button),
+                          Text(amount.seedsFormatted.toString(), style: Theme.of(context).textTheme.button),
                           const SizedBox(width: 4),
                           SvgPicture.asset(
                               incoming ? 'assets/images/wallet/arrow_up.svg' : 'assets/images/wallet/arrow_down.svg',
