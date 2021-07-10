@@ -3,7 +3,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/models/firebase/guardian.dart';
 import 'package:seeds/models/firebase/guardian_status.dart';
 import 'package:seeds/models/firebase/guardian_type.dart';
-import 'package:seeds/models/models.dart';
+// import 'package:seeds/models/models.dart';
 import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 
