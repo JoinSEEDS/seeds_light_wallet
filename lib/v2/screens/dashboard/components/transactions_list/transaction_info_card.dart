@@ -29,7 +29,7 @@ class TransactionInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<MemberBloc>(
-        create: (_) => MemberBloc(profileAccount)..add(LoadMemberDataEvent(profileAccount)),
+        create: (_) => MemberBloc(profileAccount)..add(OnLoadMemberData(profileAccount)),
         child: BlocBuilder<MemberBloc, MemberState>(builder: (context, state) {
           return InkWell(
             onTap: callback,

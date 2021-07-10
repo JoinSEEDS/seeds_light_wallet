@@ -10,7 +10,7 @@ class TransactionsListBloc extends Bloc<TransactionsListEvent, TransactionsListS
 
   @override
   Stream<TransactionsListState> mapEventToState(TransactionsListEvent event) async* {
-    if (event is LoadTransactionsListEvent) {
+    if (event is OnLoadTransactionsList) {
       yield state.copyWith(pageState: PageState.loading);
 
       final result = await LoadTransactionsUseCase().run();

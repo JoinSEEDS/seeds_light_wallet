@@ -23,11 +23,11 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
   Widget build(BuildContext context) {
     super.build(context);
     return BlocProvider<TransactionsListBloc>(
-      create: (_) => TransactionsListBloc()..add(LoadTransactionsListEvent()),
+      create: (_) => TransactionsListBloc()..add(OnLoadTransactionsList()),
       child: BlocListener<WalletBloc, WalletState>(
           listenWhen: (context, state) => state.pageState == PageState.loading,
           listener: (context, state) {
-            BlocProvider.of<TransactionsListBloc>(context).add(LoadTransactionsListEvent());
+            BlocProvider.of<TransactionsListBloc>(context).add(OnLoadTransactionsList());
           },
           child: BlocBuilder<TransactionsListBloc, TransactionsListState>(
             builder: (context, state) {

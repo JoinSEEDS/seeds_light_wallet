@@ -10,7 +10,7 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
 
   @override
   Stream<MemberState> mapEventToState(MemberEvent event) async* {
-    if (event is LoadMemberDataEvent) {
+    if (event is OnLoadMemberData) {
       yield state.copyWith(pageState: PageState.loading);
 
       final result = await LoadMemberDataUseCase().run(event.account);
