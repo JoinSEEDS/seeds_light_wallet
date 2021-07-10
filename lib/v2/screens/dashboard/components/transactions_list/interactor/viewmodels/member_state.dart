@@ -7,7 +7,7 @@ class MemberState extends Equatable {
   final String accountName;
   final MemberModel? member;
 
-  String get displayName => (member != null && member!.nickname != "") ? member!.nickname : accountName;
+  String get displayName => (member != null && member!.nickname.isNotEmpty) ? member!.nickname : accountName;
   String get profileImageURL => member?.image ?? "";
 
   const MemberState({required this.pageState, required this.accountName, this.member});
