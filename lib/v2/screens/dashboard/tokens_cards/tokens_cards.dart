@@ -20,8 +20,7 @@ class TokenCards extends StatefulWidget {
   _TokenCardsState createState() => _TokenCardsState();
 }
 
-class _TokenCardsState extends State<TokenCards>
-    with AutomaticKeepAliveClientMixin {
+class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -30,8 +29,7 @@ class _TokenCardsState extends State<TokenCards>
       child: BlocListener<WalletBloc, WalletState>(
         listenWhen: (_, current) => current.pageState == PageState.loading,
         listener: (context, _) {
-          BlocProvider.of<TokenBalancesBloc>(context)
-              .add(const OnLoadTokenBalances());
+          BlocProvider.of<TokenBalancesBloc>(context).add(const OnLoadTokenBalances());
         },
         child: BlocBuilder<TokenBalancesBloc, TokenBalancesState>(
           builder: (context, state) {
@@ -42,14 +40,8 @@ class _TokenCardsState extends State<TokenCards>
                     items: List.of(state.availableTokens.map(
                       (item) => Container(
                         margin: EdgeInsets.only(
-                            left:
-                                item.token == state.availableTokens.first.token
-                                    ? 0
-                                    : 10.0,
-                            right:
-                                item.token == state.availableTokens.last.token
-                                    ? 0
-                                    : 10.0),
+                            left: item.token == state.availableTokens.first.token ? 0 : 10.0,
+                            right: item.token == state.availableTokens.last.token ? 0 : 10.0),
                         child: CurrencyInfoCardWidget(
                           tokenBalance: item,
                         ),
@@ -60,8 +52,7 @@ class _TokenCardsState extends State<TokenCards>
                       viewportFraction: 0.89,
                       enableInfiniteScroll: false,
                       onPageChanged: (index, controller) =>
-                          BlocProvider.of<TokenBalancesBloc>(context)
-                              .add(OnSelectedTokenChanged(index)),
+                          BlocProvider.of<TokenBalancesBloc>(context).add(OnSelectedTokenChanged(index)),
                     ),
                   ),
                 ),

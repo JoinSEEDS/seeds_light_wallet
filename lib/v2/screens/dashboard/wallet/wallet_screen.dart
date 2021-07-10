@@ -25,8 +25,7 @@ class WalletScreen extends StatefulWidget {
   _WalletScreenState createState() => _WalletScreenState();
 }
 
-class _WalletScreenState extends State<WalletScreen>
-    with AutomaticKeepAliveClientMixin {
+class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -46,8 +45,7 @@ class _WalletScreenState extends State<WalletScreen>
               return RefreshIndicator(
                 onRefresh: () async {
                   BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
-                  BlocProvider.of<WalletBloc>(context)
-                      .add(const OnLoadWalletData());
+                  BlocProvider.of<WalletBloc>(context).add(const OnLoadWalletData());
                 },
                 child: Scaffold(
                   appBar: const WalletAppBar(),
@@ -75,20 +73,13 @@ class _WalletScreenState extends State<WalletScreen>
   Widget buildSendReceiveButton(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-                child: SendButton(
-                    onPress: () => NavigationService.of(context)
-                        .navigateTo(Routes.transfer))),
-            const SizedBox(width: 20),
-            Expanded(
-                child: ReceiveButton(
-                    onPress: () async => await NavigationService.of(context)
-                        .navigateTo(Routes.receiveEnterDataScreen))),
-          ]),
+      child: Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+        Expanded(child: SendButton(onPress: () => NavigationService.of(context).navigateTo(Routes.transfer))),
+        const SizedBox(width: 20),
+        Expanded(
+            child: ReceiveButton(
+                onPress: () async => await NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen))),
+      ]),
     );
   }
 
@@ -108,9 +99,7 @@ class _WalletScreenState extends State<WalletScreen>
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
-        Expanded(
-            child: Text('Transactions History'.i18n,
-                style: Theme.of(context).textTheme.headline7LowEmphasis)),
+        Expanded(child: Text('Transactions History'.i18n, style: Theme.of(context).textTheme.headline7LowEmphasis)),
       ]),
     );
   }

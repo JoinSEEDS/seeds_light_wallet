@@ -90,5 +90,4 @@ class TransactionInfoCard extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -15,17 +15,11 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
     if (event is OnLoadTokenBalances) {
       yield state.copyWith(pageState: PageState.loading);
 
-      const potentialTokens = [
-        SeedsToken,
-        HusdToken,
-        HyphaToken,
-        LocalScaleToken
-      ];
+      const potentialTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken];
 
       var result = await LoadTokenBalancesUseCase().run(potentialTokens);
 
-      yield TokenBalancesStateMapper()
-          .mapResultToState(state, potentialTokens, result);
+      yield TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
     } else if (event is OnSelectedTokenChanged) {
       yield state.copyWith(selectedIndex: event.index);
     }
