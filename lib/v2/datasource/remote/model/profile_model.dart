@@ -17,7 +17,7 @@ class ProfileModel extends Equatable {
   final int timestamp;
 
   @override
-  List<Object?> get props => [account, status, type, nickname, image, story, roles, skills, interests, reputation, timestamp];
+  List<Object?> get props => [account, status, type, nickname, image, story, roles, skills, interests, reputation, timestamp,];
 
   const ProfileModel({
     required this.account,
