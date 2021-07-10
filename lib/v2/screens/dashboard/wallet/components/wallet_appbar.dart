@@ -27,9 +27,9 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () => NavigationService.of(context).navigateTo(Routes.profile),
               icon: ProfileAvatar(
                 size: 36,
-                account: state.profile!.account,
-                nickname: state.profile!.nickname,
-                image: state.profile!.image,
+                account: state.profile.account,
+                nickname: state.profile.nickname,
+                image: state.profile.image,
               ),
             ),
             Expanded(child: Image.asset('assets/images/seeds_symbol_forest.png', height: 56, fit: BoxFit.fitHeight)),

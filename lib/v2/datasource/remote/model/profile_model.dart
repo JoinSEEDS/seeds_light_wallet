@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/serialization_helpers.dart';
 
 enum ProfileStatus { visitor, resident, citizen }
 
-class ProfileModel {
+class ProfileModel extends Equatable {
   final String account;
   final ProfileStatus? status;
   final String? type;
@@ -14,6 +15,9 @@ class ProfileModel {
   final String? interests;
   final int? reputation;
   final int timestamp;
+
+  @override
+  List<Object?> get props => [account, status, type, nickname, image, story, roles, skills, interests, reputation, timestamp];
 
   ProfileModel({
     required this.account,
@@ -100,4 +104,5 @@ class ProfileModel {
   static final String _interests = 'interests';
   static final String _reputation = 'reputation';
   static final String _timestamp = 'timestamp';
+
 }
