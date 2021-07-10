@@ -5,13 +5,12 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_state.dart';
+import 'package:seeds/v2/screens/dashboard/transactions/components/transaction_info_card.dart';
+import 'package:seeds/v2/screens/dashboard/transactions/interactor/viewmodels/transactions_list_bloc.dart';
+import 'package:seeds/v2/screens/dashboard/transactions/interactor/viewmodels/transactions_list_events.dart';
+import 'package:seeds/v2/screens/dashboard/transactions/interactor/viewmodels/transactions_list_state.dart';
+import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/bloc.dart';
 import 'package:shimmer/shimmer.dart';
-import 'components/transaction_info_card.dart';
-import 'interactor/viewmodels/transactions_list_bloc.dart';
-import 'interactor/viewmodels/transactions_list_events.dart';
-import 'interactor/viewmodels/transactions_list_state.dart';
 
 class TransactionsListWidget extends StatefulWidget {
   @override
@@ -23,11 +22,11 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
   Widget build(BuildContext context) {
     super.build(context);
     return BlocProvider<TransactionsListBloc>(
-      create: (_) => TransactionsListBloc()..add(LoadTransactionsListEvent()),
+      create: (_) => TransactionsListBloc()..add(OnLoadTransactionsList()),
       child: BlocListener<WalletBloc, WalletState>(
           listenWhen: (context, state) => state.pageState == PageState.loading,
           listener: (context, state) {
-            BlocProvider.of<TransactionsListBloc>(context).add(LoadTransactionsListEvent());
+            BlocProvider.of<TransactionsListBloc>(context).add(OnLoadTransactionsList());
           },
           child: BlocBuilder<TransactionsListBloc, TransactionsListState>(
             builder: (context, state) {
@@ -55,11 +54,10 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
 
     return TransactionInfoCard(
       callback: () {
-        //onTransaction(transaction: model, member: member.data! as MemberModel, type: type);
+        // TODO(n13): Implement callback - show tx detail
+        print("Not implemented");
       },
       profileAccount: displayAccount,
-      profileNickname: "",
-      profileImage: "",
       timestamp: model.timestamp,
       amount: model.quantity,
       incoming: userAccount == model.to,

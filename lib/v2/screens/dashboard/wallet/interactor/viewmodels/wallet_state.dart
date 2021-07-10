@@ -1,15 +1,16 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class WalletState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
-  final ProfileModel? profile;
+  final ProfileModel profile;
 
   const WalletState({
     required this.pageState,
-    this.profile,
+    required this.profile,
     this.errorMessage,
   });
 
@@ -33,6 +34,6 @@ class WalletState extends Equatable {
   }
 
   factory WalletState.initial() {
-    return const WalletState(pageState: PageState.initial);
+    return WalletState(pageState: PageState.initial, profile: ProfileModel(account: settingsStorage.accountName, timestamp: 0));
   }
 }

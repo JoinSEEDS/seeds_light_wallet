@@ -20,7 +20,7 @@ class SelectedGuardiansWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4),
                   child: ActionChip(
                     label:
-                        Text((user.nickname == null || user.nickname?.isEmpty == true) ? user.account : user.nickname!),
+                        Text(user.nickname.isEmpty ? user.account : user.nickname),
                     avatar: const Icon(Icons.highlight_off),
                     onPressed: () {
                       BlocProvider.of<SelectGuardiansBloc>(context).add(OnUserRemoved(user));
