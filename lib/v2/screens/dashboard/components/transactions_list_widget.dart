@@ -25,8 +25,8 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
     return BlocProvider<TransactionsListBloc>(
       create: (_) => TransactionsListBloc()..add(LoadTransactionsListEvent()),
       child: BlocListener<WalletBloc, WalletState>(
-          listenWhen: (context, state) => state.pageState == PageState.loading,
-          listener: (context, state) {
+          listenWhen: (_, state) => state.pageState == PageState.loading,
+          listener: (context, _) {
             BlocProvider.of<TransactionsListBloc>(context).add(LoadTransactionsListEvent());
           },
           child: BlocBuilder<TransactionsListBloc, TransactionsListState>(
@@ -54,7 +54,7 @@ class _TransactionsListWidgetState extends State<TransactionsListWidget> with Au
     String displayAccount = model.to == userAccount ? model.from : model.to;
 
     return TransactionInfoCard(
-      callback: () {
+      onTap: () {
         //onTransaction(transaction: model, member: member.data! as MemberModel, type: type);
       },
       profileAccount: displayAccount,
