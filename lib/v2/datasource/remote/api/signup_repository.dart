@@ -1,11 +1,17 @@
 import 'package:async/async.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:eosdart/eosdart.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/constants/config.dart';
+import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/invite_model.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 
-class SignupRepository extends NetworkRepository {
+class SignupRepository extends EosRepository with NetworkRepository {
   Future<Result> findInvite(String inviteHash) async {
     final inviteURL = '$hyphaURL/v1/chain/get_table_rows';
 
@@ -68,5 +74,38 @@ class SignupRepository extends NetworkRepository {
               return null;
             }))
         .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> createAccount({String? accountName, String? inviteSecret, String? displayName}) async {
+    EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
+    EOSPublicKey publicKey = privateKey.toEOSPublicKey();
+
+    final applicationAccount = Config.onboardingAccountName;
+
+    final actions = <Action>[
+      Action()
+        ..account = applicationAccount
+        ..name = 'acceptnew'
+        ..authorization = <Authorization>[
+          Authorization()
+            ..actor = applicationAccount
+            ..permission = 'application'
+        ]
+        ..data = {
+          'account': accountName,
+          'publicKey': publicKey,
+          'invite_secret': inviteSecret,
+          'fullname': displayName,
+        }
+    ];
+
+    final transaction = Transaction()..actions = actions;
+
+    return buildEosClient()
+        .pushTransaction(transaction, broadcast: true)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return response['transaction_id'];
+            }))
+        .catchError((error) => mapEosError(error));
   }
 }

@@ -1,10 +1,14 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:seeds/v2/screens/sign_up/add_phone_number/mappers/create_account_mapper.dart';
+import 'package:seeds/v2/screens/sign_up/add_phone_number/usecases/add_phone_number_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/create_username/usecases/create_username_usecase.dart';
+import 'package:seeds/v2/screens/sign_up/viewmodels/states/add_phone_number_state.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/create_username_state.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/display_name_state.dart';
@@ -16,12 +20,15 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   SignupBloc({
     required ClaimInviteUseCase claimInviteUseCase,
     required CreateUsernameUseCase createUsernameUseCase,
+    required AddPhoneNumberUseCase addPhoneNumberUseCase,
   })  : _claimInviteUseCase = claimInviteUseCase,
         _createUsernameUseCase = createUsernameUseCase,
+        _addPhoneNumberUseCase = addPhoneNumberUseCase,
         super(SignupState.initial());
 
   final ClaimInviteUseCase _claimInviteUseCase;
   final CreateUsernameUseCase _createUsernameUseCase;
+  final AddPhoneNumberUseCase _addPhoneNumberUseCase;
 
   @override
   Stream<SignupState> mapEventToState(
@@ -60,6 +67,10 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       );
     }
 
+    if (event is OnCreateAccountTapped) {
+      yield* createAccount(state, event.phoneNumber);
+    }
+
     if (event is OnBackPressed) {
       switch (state.pageContent) {
         case PageContent.CLAIM_INVITE:
@@ -76,5 +87,20 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           break;
       }
     }
+  }
+
+  Stream<SignupState> createAccount(SignupState currentState, String? phoneNumber) async* {
+    final currentAddPhoneNumberState = currentState.addPhoneNumberState;
+
+    yield currentState.copyWith(addPhoneNumberState: AddPhoneNumberState.loading(currentAddPhoneNumberState));
+
+    final inviteSecret = state.claimInviteState.inviteModel!.inviteSecret;
+    final displayName = state.displayNameState.displayName;
+    final username = state.createUsernameState.username;
+
+    final Result result = await _addPhoneNumberUseCase.run(
+        inviteSecret: inviteSecret!, displayName: displayName!, username: username!, phoneNumber: phoneNumber);
+
+    yield CreateAccountMapper().mapOnCreateAccountTappedToState(currentState, result);
   }
 }

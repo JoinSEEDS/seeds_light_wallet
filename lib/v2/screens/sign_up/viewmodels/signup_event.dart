@@ -67,6 +67,16 @@ class CreateUsernameOnNextTapped extends SignupEvent {
 }
 
 /// Add Phone Number Events
+class OnCreateAccountTapped extends SignupEvent {
+  const OnCreateAccountTapped({
+    this.phoneNumber,
+  });
+
+  final String? phoneNumber;
+
+  @override
+  String toString() => 'OnCreateAccountTapped { phoneNumber: $phoneNumber }';
+}
 
 /// Common Events
 class OnBackPressed extends SignupEvent {
