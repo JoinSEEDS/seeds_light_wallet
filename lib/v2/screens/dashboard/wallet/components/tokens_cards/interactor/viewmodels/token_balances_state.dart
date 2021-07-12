@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/dashboard/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
+import 'package:seeds/v2/screens/dashboard/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
 
 class TokenBalancesState extends Equatable {
   final PageState pageState;
