@@ -22,6 +22,7 @@ class FetchAccountInfoStateMapper extends StateMapper {
           userName: accountInfo.account,
           accountName: accountInfo.nickname,
           accountImage: accountInfo.image,
+          errorMessage: currentState.errorMessage,
         );
       } else {
         return currentState.copyWith(

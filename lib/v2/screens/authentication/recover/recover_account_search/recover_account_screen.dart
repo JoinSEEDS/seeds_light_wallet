@@ -94,7 +94,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                           ),
                         )
                       : const SizedBox.shrink(),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   state.errorMessage != null
                       ? Center(
                           child: Text(
