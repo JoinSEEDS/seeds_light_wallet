@@ -116,6 +116,7 @@ flutter:
     - assets/images/lotus_support_small.svg
     - assets/images/lotus_support_big.svg
     - assets/images/seeds.png
+    - assets/images/appbar/seeds_symbol_forest.png
     - assets/images/seeds_light_wallet_logo.png
     - assets/images/guardians/guardian_tutorial_1.png
     - assets/images/guardians/guardian_tutorial_2.png
