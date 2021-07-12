@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
+import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
@@ -52,11 +53,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     ),
   ];
   final PageController _pageController = PageController(initialPage: 0, keepPage: true);
+  late AppBloc _appBloc;
   late GlobalKey<NavigatorState> _navigatorKey;
 
   @override
   void initState() {
     super.initState();
+    _appBloc = AppBloc()..add(HandleInitialDeepLink());
     BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
     WidgetsBinding.instance?.addObserver(this);
   }
@@ -92,19 +95,41 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     _navigatorKey = NavigationService.of(context).appNavigatorKey;
     return BlocProvider(
-      create: (_) => AppBloc(),
+      create: (_) => _appBloc,
       child: Scaffold(
         body: BlocConsumer<AppBloc, AppState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
             var pageCommand = state.pageCommand;
-            BlocProvider.of<AppBloc>(context).add(ClearAppPageCommand());
+            _appBloc.add(ClearAppPageCommand());
             if (pageCommand is BottomBarNavigateToIndex) {
               _pageController.jumpToPage(pageCommand.index);
             } else if (pageCommand is ShowStopGuardianRecoveryFailed) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             } else if (pageCommand is ShowStopGuardianRecoverySuccess) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            } else if (pageCommand is ProcessSigningRequest) {
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  opaque: false,
+                  fullscreenDialog: true,
+                  transitionsBuilder: (_, animation, __, child) {
+                    var tween = Tween(begin: const Offset(0.0, 1.0), end: Offset.zero);
+                    var curvedAnimation = CurvedAnimation(parent: animation, curve: Curves.bounceInOut);
+                    // child is the value returned by pageBuilder
+                    return SlideTransition(position: tween.animate(curvedAnimation), child: child);
+                  },
+                  pageBuilder: (context, _, __) {
+                    return CustomTransaction(
+                      CustomTransactionArguments(
+                        account: pageCommand.action.account,
+                        name: pageCommand.action.name,
+                        data: Map<String, dynamic>.from(pageCommand.action.data as Map<dynamic, dynamic>),
+                      ),
+                    );
+                  },
+                ),
+              );
             }
           },
           builder: (context, state) {
@@ -129,7 +154,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.white, width: 0.2))),
               child: BottomNavigationBar(
                 currentIndex: state.index,
-                onTap: (index) => BlocProvider.of<AppBloc>(context).add(BottomBarTapped(index: index)),
+                onTap: (index) => _appBloc.add(BottomBarTapped(index: index)),
                 selectedLabelStyle: Theme.of(context).textTheme.subtitle3,
                 unselectedLabelStyle: Theme.of(context).textTheme.subtitle3,
                 selectedItemColor: AppColors.white,
