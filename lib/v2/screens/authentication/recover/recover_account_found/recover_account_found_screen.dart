@@ -78,9 +78,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                     style: Theme.of(context).textTheme.button1),
                                 Text("/" + state.userGuardians.length.toString(),
                                     style: Theme.of(context).textTheme.button1),
-                                const SizedBox(
-                                  width: 24,
-                                ),
+                                const SizedBox(width: 24),
                                 Flexible(
                                   child: Text(
                                     "Guardians have accepted your request to recover your account",
@@ -126,9 +124,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                           child: Column(
                             children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
+                              const SizedBox(height: 10),
                               Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Text(
@@ -137,13 +133,9 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                 ),
                               ),
-                              const SizedBox(
-                                height: 40,
-                              ),
+                              const SizedBox(height: 40),
                               const Image(image: AssetImage('assets/images/guardians/check_circle.png')),
-                              const SizedBox(
-                                height: 100,
-                              ),
+                              const SizedBox(height: 100),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -185,9 +177,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                               state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT
                                   ? Text("Account recovered " + state.userAccount)
                                   : const SizedBox.shrink(),
-                              const SizedBox(
-                                height: 150,
-                              ),
+                              const SizedBox(height: 150),
                             ],
                           ),
                         ),
