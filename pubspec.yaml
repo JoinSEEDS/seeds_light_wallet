@@ -70,6 +70,8 @@ dependencies:
   collection: ^1.15.0-nullsafety.4
   mask_text_input_formatter: ^2.0.0
   lottie: ^1.0.1
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
