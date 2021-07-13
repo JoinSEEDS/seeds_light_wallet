@@ -1,3 +1,4 @@
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/app_page_commands.dart';
@@ -10,7 +11,7 @@ class SingingRequestStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(
         pageState: PageState.failure,
-        pageCommand: ShowStopGuardianRecoveryFailed("Oops, something went wrong"),
+        pageCommand: ShowErrorMessage("Oops, something went wrong"),
       );
     } else {
       SeedsESR? request = result.asValue!.value;

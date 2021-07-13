@@ -34,11 +34,18 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield state.copyWith(hasNotification: event.value);
     }
     if (event is HandleInitialDeepLink) {
+      /// Handle the initial Uri - the one the app was started with
+      ///
+      /// **ATTENTION**: `getInitialLink` should be handled
+      /// ONLY ONCE in your app's lifetime, since it is not meant to change
+      /// throughout your app's life.
       Result result = await GetInitialDeepLinkUseCase().run();
       yield SingingRequestStateMapper().mapResultToState(state, result);
       linkStream.listen((newLink) => add(HandleIncomingDeepLink(newLink)));
     }
     if (event is HandleIncomingDeepLink) {
+      /// Handle incoming links - the ones that the app will recieve from the OS
+      /// while already started.
       Result result = await GetIncomingDeepLinkUseCase().run(event.newLink);
       yield SingingRequestStateMapper().mapResultToState(state, result);
     }

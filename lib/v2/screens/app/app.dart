@@ -13,6 +13,7 @@ import 'package:seeds/v2/components/notification_badge.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/i18n/app/app.i18.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
@@ -107,6 +108,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             } else if (pageCommand is ShowStopGuardianRecoveryFailed) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             } else if (pageCommand is ShowStopGuardianRecoverySuccess) {
+              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            } else if (pageCommand is ShowErrorMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             } else if (pageCommand is ProcessSigningRequest) {
               Navigator.of(context).push(
