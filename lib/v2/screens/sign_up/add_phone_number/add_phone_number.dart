@@ -6,6 +6,7 @@ import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/utils/formatters.dart';
 
@@ -38,7 +39,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
             return Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(horizontalEdgePadding),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -46,7 +47,8 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                         labelText: "Add Phone Number (optional)".i18n,
                         keyboardType: TextInputType.phone,
                         controller: _keyController,
-                        enabled: state.addPhoneNumberState.pageState != PageState.loading,
+                        enabled: state.addPhoneNumberState.pageState !=
+                            PageState.loading,
                         inputFormatters: [
                           phoneNumberInternationalFormatter,
                         ],
@@ -56,21 +58,22 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                       ),
                       Expanded(
                         child: Text(
-                          "Note: Your phone number is encrypted and never shared with anyone.",
-                          style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                          "Note: Your phone number is never shared with anyone.",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2OpacityEmphasis,
                         ),
                       ),
                       FlatButtonLong(
                         title: 'Create account'.i18n,
                         onPressed: _onCreateAccountPressed(),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
                     ],
                   ),
                 ),
-                if (state.addPhoneNumberState.pageState == PageState.loading) const FullPageLoadingIndicator(),
+                if (state.addPhoneNumberState.pageState == PageState.loading)
+                  const FullPageLoadingIndicator(),
               ],
             );
           },
@@ -83,7 +86,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
     return _bloc.state.addPhoneNumberState.pageState == PageState.loading
         ? null
         : () {
-            _bloc.add(OnCreateAccountTapped(phoneNumber: _keyController.text));
+            _bloc.add(OnCreateAccountTapped(_keyController.text));
           };
   }
 

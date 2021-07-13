@@ -8,7 +8,8 @@ import 'package:seeds/v2/domain-shared/app_constants.dart';
 
 abstract class EosRepository {
   String cpuPrivateKey = '5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a';
-  String onboardingPrivateKey = '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
+  String onboardingPrivateKey =
+      '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
 
   // Actions
   String action_name_against = 'against';
@@ -20,6 +21,7 @@ abstract class EosRepository {
   String action_name_transfer = 'transfer';
   String action_name_updateauth = 'updateauth';
   String action_name_update = 'update';
+  String action_name_accept_new = 'acceptnew';
 
   // Authorizations
   String permission_active = 'active';
@@ -51,8 +53,9 @@ abstract class EosRepository {
     return transaction;
   }
 
-  EOSClient buildEosClient() => EOSClient(remoteConfigurations.activeEOSServerUrl.url!, 'v1',
-      privateKeys: [settingsStorage.privateKey!, cpuPrivateKey]);
+  EOSClient buildEosClient() =>
+      EOSClient(remoteConfigurations.activeEOSServerUrl.url!, 'v1',
+          privateKeys: [settingsStorage.privateKey!, cpuPrivateKey]);
 
   Result mapEosResponse(dynamic response, Function modelMapper) {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');

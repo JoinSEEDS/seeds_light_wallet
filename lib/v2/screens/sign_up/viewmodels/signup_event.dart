@@ -68,9 +68,7 @@ class CreateUsernameOnNextTapped extends SignupEvent {
 
 /// Add Phone Number Events
 class OnCreateAccountTapped extends SignupEvent {
-  const OnCreateAccountTapped({
-    this.phoneNumber,
-  });
+  const OnCreateAccountTapped(this.phoneNumber);
 
   final String? phoneNumber;
 

@@ -41,13 +41,15 @@ class SignupRepository extends EosRepository with NetworkRepository {
   }
 
   Future<Result> unpackDynamicLink(String scannedLink) async {
-    final PendingDynamicLinkData? unpackedLink =
-        await FirebaseDynamicLinks.instance.getDynamicLink(Uri.parse(scannedLink));
+    final PendingDynamicLinkData? unpackedLink = await FirebaseDynamicLinks
+        .instance
+        .getDynamicLink(Uri.parse(scannedLink));
 
     if (unpackedLink == null) {
       return mapHttpError('Link is invalid');
     } else {
-      final Map<String, String> queryParams = Uri.splitQueryString(unpackedLink.link.toString());
+      final Map<String, String> queryParams =
+          Uri.splitQueryString(unpackedLink.link.toString());
       final String? inviteMnemonic = queryParams["inviteMnemonic"];
       if (inviteMnemonic == null) {
         return mapHttpError('Link is invalid');
@@ -69,14 +71,19 @@ class SignupRepository extends EosRepository with NetworkRepository {
           Uri.parse(keyAccountsURL),
           body: requestBody,
         )
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) =>
+            mapHttpResponse(response, (dynamic body) {
               // Username exists on the blockchain and is not available
               return null;
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> createAccount({String? accountName, String? inviteSecret, String? displayName}) async {
+  Future<Result> createAccount({
+    required String accountName,
+    required String inviteSecret,
+    String? displayName,
+  }) async {
     EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
     EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
@@ -85,11 +92,11 @@ class SignupRepository extends EosRepository with NetworkRepository {
     final actions = <Action>[
       Action()
         ..account = applicationAccount
-        ..name = 'acceptnew'
+        ..name = action_name_accept_new
         ..authorization = <Authorization>[
           Authorization()
             ..actor = applicationAccount
-            ..permission = 'application'
+            ..permission = permission_application
         ]
         ..data = {
           'account': accountName,

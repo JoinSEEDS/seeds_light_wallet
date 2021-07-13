@@ -49,7 +49,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     if (event is DisplayNameOnNextTapped) {
       yield state.copyWith(
         pageContent: PageContent.USERNAME,
-        displayNameState: state.displayNameState.copyWith(displayName: event.displayName),
+        displayNameState:
+            state.displayNameState.copyWith(displayName: event.displayName),
       );
     }
 
@@ -89,18 +90,25 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     }
   }
 
-  Stream<SignupState> createAccount(SignupState currentState, String? phoneNumber) async* {
+  Stream<SignupState> createAccount(
+      SignupState currentState, String? phoneNumber) async* {
     final currentAddPhoneNumberState = currentState.addPhoneNumberState;
 
-    yield currentState.copyWith(addPhoneNumberState: AddPhoneNumberState.loading(currentAddPhoneNumberState));
+    yield currentState.copyWith(
+        addPhoneNumberState:
+            AddPhoneNumberState.loading(currentAddPhoneNumberState));
 
     final inviteSecret = state.claimInviteState.inviteModel!.inviteSecret;
     final displayName = state.displayNameState.displayName;
     final username = state.createUsernameState.username;
 
     final Result result = await _addPhoneNumberUseCase.run(
-        inviteSecret: inviteSecret!, displayName: displayName!, username: username!, phoneNumber: phoneNumber);
+        inviteSecret: inviteSecret!,
+        displayName: displayName!,
+        username: username!,
+        phoneNumber: phoneNumber);
 
-    yield CreateAccountMapper().mapOnCreateAccountTappedToState(currentState, result);
+    yield CreateAccountMapper()
+        .mapOnCreateAccountTappedToState(currentState, result);
   }
 }
