@@ -5,8 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_state.dart';
+import 'package:seeds/v2/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
+import 'package:seeds/v2/screens/wallet/interactor/viewmodels/wallet_state.dart';
 
 class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
   const WalletAppBar({Key? key}) : super(key: key);

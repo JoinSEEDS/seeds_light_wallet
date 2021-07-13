@@ -2,8 +2,8 @@ import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/tokens_cards/interactor/viewmodels/token_balances_state.dart';
+import 'package:seeds/v2/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
+import 'package:seeds/v2/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_state.dart';
 
 class TokenBalancesStateMapper {
   TokenBalancesState mapResultToState(TokenBalancesState currentState, List<TokenModel> tokens, List<Result> results) {

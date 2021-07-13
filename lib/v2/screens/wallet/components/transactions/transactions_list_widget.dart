@@ -5,11 +5,11 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/transactions/components/transaction_info_card.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/transactions/interactor/viewmodels/transactions_list_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/transactions/interactor/viewmodels/transactions_list_events.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/transactions/interactor/viewmodels/transactions_list_state.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions/components/transaction_info_card.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions/interactor/viewmodels/transactions_list_bloc.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions/interactor/viewmodels/transactions_list_events.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions/interactor/viewmodels/transactions_list_state.dart';
+import 'package:seeds/v2/screens/wallet/interactor/viewmodels/bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TransactionsListWidget extends StatefulWidget {
