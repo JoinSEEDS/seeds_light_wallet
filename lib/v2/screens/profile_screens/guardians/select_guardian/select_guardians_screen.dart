@@ -25,7 +25,7 @@ class SelectGuardiansScreen extends StatelessWidget {
     //   })
 
     return BlocProvider(
-        create: (_) => SelectGuardiansBloc(myGuardians ?? [])..add(LoadNoShowUsers()),
+        create: (_) => SelectGuardiansBloc(myGuardians ?? []),
         child: BlocListener<SelectGuardiansBloc, SelectGuardiansState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
@@ -57,7 +57,7 @@ class SelectGuardiansScreen extends StatelessWidget {
                                 : const SelectedGuardiansWidget(),
                           ),
                           Text(state.noShowGuardians.toString()),
-                          Expanded(child: SearchUserWidget(noShowUsers: myGuardians?.map((e) => e.uid).toList(),resultCallBack: (MemberModel selectedUser) {
+                          Expanded(child: SearchUserWidget(noShowUsers: state.noShowGuardians, resultCallBack: (MemberModel selectedUser) {
                             BlocProvider.of<SelectGuardiansBloc>(context).add(OnUserSelected(selectedUser));
                           })),
                           Padding(

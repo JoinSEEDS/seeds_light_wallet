@@ -56,12 +56,16 @@ class SelectGuardiansState extends Equatable {
     } else {
       guardian = 'Guardians';
     }
+
+    List<String> noShowGuardians = myGuardians.map((GuardianModel e) => e.uid).toList();
+    noShowGuardians.add(settingsStorage.accountName);
+
     return SelectGuardiansState(
       pageState: PageState.initial,
       selectedGuardians: {},
       pageTitle: "Select up to ${MAX_GUARDIANS_ALLOWED - myGuardians.length} ${guardian} to invite",
       myGuardians: myGuardians,
-      //noShowGuardians: noShow,
+      noShowGuardians: noShowGuardians,
     );
   }
 }

@@ -28,7 +28,11 @@ class SearchUserState extends Equatable {
       ];
 
   SearchUserState copyWith(
-      {PageState? pageState, String? errorMessage, List<MemberModel>? users, IconData? searchBarIcon, List<String>? noShowUsers}) {
+      {PageState? pageState,
+      String? errorMessage,
+      List<MemberModel>? users,
+      IconData? searchBarIcon,
+      List<String>? noShowUsers}) {
     return SearchUserState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
@@ -39,6 +43,11 @@ class SearchUserState extends Equatable {
   }
 
   factory SearchUserState.initial(List<String>? noShowUsers) {
-    return SearchUserState(pageState: PageState.initial, users: [], searchBarIcon: Icons.search, noShowUsers: noShowUsers);
+    return SearchUserState(
+      pageState: PageState.initial,
+      users: [],
+      searchBarIcon: Icons.search,
+      noShowUsers: noShowUsers,
+    );
   }
 }

@@ -8,8 +8,6 @@ import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/inter
 
 class SelectGuardiansBloc extends Bloc<SelectGuardiansEvent, SelectGuardiansState> {
 
-  List<String> noShowGuardians = [settingsStorage.accountName];
-
   SelectGuardiansBloc(List<GuardianModel> myGuardians) : super(SelectGuardiansState.initial(myGuardians));
 
    // myGuardians.forEach((element) {noShowGuardians.add(element.uid);});
@@ -43,14 +41,7 @@ class SelectGuardiansBloc extends Bloc<SelectGuardiansEvent, SelectGuardiansStat
       mutableSet.remove(event.user);
 
       yield state.copyWith(selectedGuardians: mutableSet);
-    } else if (event is LoadNoShowUsers){
-      List<String> noShowGuardians2 = [settingsStorage.accountName];
-      state.myGuardians.forEach((element) {noShowGuardians2.add(element.uid);});
-      print("inside load event");
-      print(noShowGuardians2);
-      yield state.copyWith(noShowGuardians: noShowGuardians2);
-    }
-    else if(event is ClearPageCommand) {
+    } else if(event is ClearPageCommand) {
       yield state.copyWith(pageCommand: null);
     }
   }

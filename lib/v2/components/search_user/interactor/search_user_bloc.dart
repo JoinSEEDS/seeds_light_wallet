@@ -12,7 +12,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   final num _MIN_TEXT_LENGTH_BEFORE_VALID_SEARCH = 2;
 
  // SelectGuardiansBloc(List<GuardianModel> myGuardians) : super(SelectGuardiansState.initial(myGuardians))
-  SearchUserBloc(List<String> noShowUsers) : super(SearchUserState.initial(noShowUsers)){
+  SearchUserBloc(List<String>? noShowUsers) : super(SearchUserState.initial(noShowUsers)){
     print("Inside search Bloc init");
     print(noShowUsers);
   }
@@ -49,7 +49,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
         yield SearchUserStateMapper().mapResultToState(state, result, state.noShowUsers);
       }
     } else if (event is ClearIconTapped) {
-      yield SearchUserState.initial(null);
+      yield SearchUserState.initial(state.noShowUsers);
     }
   }
 }

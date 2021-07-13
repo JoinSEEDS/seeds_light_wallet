@@ -27,7 +27,7 @@ class SearchUserWidget extends StatelessWidget {
     print("inside search screen ");
     print(noShowUsers);
     return BlocProvider<SearchUserBloc>(
-      create: (_) => SearchUserBloc(noShowUsers ?? []),
+      create: (_) => SearchUserBloc(noShowUsers),
       child: BlocBuilder<SearchUserBloc, SearchUserState>(
         builder: (context, SearchUserState state) {
           return Column(
