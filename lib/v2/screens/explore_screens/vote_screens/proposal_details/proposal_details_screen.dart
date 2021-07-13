@@ -6,7 +6,7 @@ import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/c
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/proposal_details_header.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/proposal_details_middle.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_and_index.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
 import 'package:flutter/material.dart';
 
 class ProposalDetailsScreen extends StatefulWidget {
@@ -27,10 +27,10 @@ class _ProposalDetailsScreenState extends State<ProposalDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ProposalsAndIndex? proposalsAndIndex = ModalRoute.of(context)?.settings.arguments as ProposalsAndIndex?;
+    ProposalsArgsData? proposalsArgsData = ModalRoute.of(context)?.settings.arguments as ProposalsArgsData?;
     return Scaffold(
       body: BlocProvider(
-        create: (_) => ProposalDetailsBloc(proposalsAndIndex!)..add(const OnLoadProposalData()),
+        create: (_) => ProposalDetailsBloc(proposalsArgsData!)..add(const OnLoadProposalData()),
         child: BlocConsumer<ProposalDetailsBloc, ProposalDetailsState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (_, __) async {
@@ -50,7 +50,7 @@ class _ProposalDetailsScreenState extends State<ProposalDetailsScreen> {
               case PageState.success:
                 return WillPopScope(
                   onWillPop: () async {
-                    if (state.currentIndex != proposalsAndIndex!.index) {
+                    if (state.currentIndex != proposalsArgsData!.index) {
                       Navigator.of(context).pop(state.currentIndex);
                     }
                     return true;

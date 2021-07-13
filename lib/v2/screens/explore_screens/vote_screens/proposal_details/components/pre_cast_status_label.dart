@@ -14,6 +14,23 @@ class PrecastStatusLabel extends StatelessWidget {
     return BlocBuilder<ProposalDetailsBloc, ProposalDetailsState>(
       builder: (context, state) {
         switch (state.precastStatus) {
+          case PrecastStatus.notCitizen:
+            return Padding(
+              padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
+              child: Row(
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(text: 'You must be a'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                        TextSpan(text: ' Citizen '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
+                        TextSpan(text: 'to vote on proposals.'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
           case PrecastStatus.alreadyPrecasted:
             return Padding(
               padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -9,6 +10,7 @@ class ProposalsListState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final String? errorMessage;
+  final ProfileModel? profile;
   final ProposalType currentType;
   final List<ProposalModel> proposals;
   final bool hasReachedMax;
@@ -17,6 +19,7 @@ class ProposalsListState extends Equatable {
     required this.pageState,
     this.pageCommand,
     this.errorMessage,
+    this.profile,
     required this.currentType,
     required this.proposals,
     required this.hasReachedMax,
@@ -27,6 +30,7 @@ class ProposalsListState extends Equatable {
         pageState,
         pageCommand,
         errorMessage,
+        profile,
         currentType,
         proposals,
         hasReachedMax,
@@ -36,6 +40,7 @@ class ProposalsListState extends Equatable {
     PageState? pageState,
     PageCommand? pageCommand,
     String? errorMessage,
+    ProfileModel? profile,
     ProposalType? currentType,
     List<ProposalModel>? proposals,
     bool? hasReachedMax,
@@ -44,6 +49,7 @@ class ProposalsListState extends Equatable {
       pageState: pageState ?? this.pageState,
       pageCommand: pageCommand,
       errorMessage: errorMessage,
+      profile: profile,
       currentType: currentType ?? this.currentType,
       proposals: proposals ?? this.proposals,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,

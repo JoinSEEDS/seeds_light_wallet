@@ -1,5 +1,5 @@
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
-import 'package:seeds/v2/datasource/remote/model/voice_model_alliance.dart';
+import 'package:seeds/v2/datasource/remote/model/voice_model.dart';
 import 'package:seeds/v2/datasource/remote/model/vote_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
@@ -16,7 +16,7 @@ class NextProposalDataStateMapper extends StateMapper {
 
       ProfileModel? profileModel = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
       VoteModel? voteModel = values.firstWhere((i) => i is VoteModel, orElse: () => null);
-      VoiceModelAlliance? voiceModel = values.firstWhere((i) => i is VoiceModelAlliance, orElse: () => null);
+      VoiceModel? voiceModel = values.firstWhere((i) => i is VoiceModel, orElse: () => null);
 
       return currentState.copyWith(
         pageState: PageState.success,
@@ -26,7 +26,7 @@ class NextProposalDataStateMapper extends StateMapper {
         pageCommand: ReturnToTopScreen(),
         currentIndex: currentState.currentIndex + 1,
         showNextButton: false,
-        isConfirmButtonEnabled: false,
+        voteChoice: null,
       );
     }
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/images/vote/arrow_next_proposal.dart';
 import 'package:seeds/v2/images/vote/votes_abstain_slash.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/current_vote_choice_label.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/pre_cast_status_label.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
@@ -127,11 +128,11 @@ class ProposalDetailsBottom extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 50.0),
+                        const CurrentVoteChoiceLabel(),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: horizontalEdgePadding),
                           child: FlatButtonLong(
-                            enabled: state.isConfirmButtonEnabled,
+                            enabled: state.voteChoice != null,
                             title: 'Confirm'.i18n,
                             onPressed: () {
                               BlocProvider.of<ProposalDetailsBloc>(context).add(const OnConfirmButtonPressed());
