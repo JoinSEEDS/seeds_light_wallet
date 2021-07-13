@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
-import 'package:seeds/v2/navigation/navigation_service.dart';
-import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/v2/screens/wallet/components/receive_send_buttons.dart';
 import 'package:seeds/v2/screens/wallet/components/tokens_cards/tokens_cards.dart';
-import 'package:seeds/v2/screens/wallet/components/transactions/transactions_list_widget.dart';
+import 'package:seeds/v2/screens/wallet/components/wallet_appbar.dart';
+import 'package:seeds/v2/screens/wallet/components/wallet_bottom.dart';
 import 'package:seeds/v2/screens/wallet/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
-import 'package:seeds/v2/screens/wallet/components/wallet_appbar.dart';
-
-// Widgets to be moved to v2
-import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
-import 'package:seeds/widgets/v2_widgets/dashboard_widgets/send_button.dart';
 
 /// Wallet SCREEN
 class WalletScreen extends StatefulWidget {
@@ -46,49 +40,15 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                   const SizedBox(height: 15),
                   const TokenCards(),
                   const SizedBox(height: 20),
-                  buildSendReceiveButton(context),
+                  const ReceiveSendButtons(),
                   const SizedBox(height: 20),
-                  walletBottom(context),
+                  const WalletBottom(),
                 ],
               ),
             ),
           );
         },
       ),
-    );
-  }
-
-  Widget buildSendReceiveButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Row(mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-        Expanded(child: SendButton(onPress: () => NavigationService.of(context).navigateTo(Routes.transfer))),
-        const SizedBox(width: 20),
-        Expanded(
-            child: ReceiveButton(
-                onPress: () async => await NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen))),
-      ]),
-    );
-  }
-
-  Widget walletBottom(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        transactionHeader(context),
-        const SizedBox(
-          height: 16,
-        ),
-        TransactionsListWidget()
-      ],
-    );
-  }
-
-  Widget transactionHeader(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
-        Expanded(child: Text('Transactions History'.i18n, style: Theme.of(context).textTheme.headline7LowEmphasis)),
-      ]),
     );
   }
 }

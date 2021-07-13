@@ -17,7 +17,6 @@ import 'package:seeds/v2/screens/authentication/login_screen.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:seeds/v2/screens/authentication/verification/verification_screen.dart';
-import 'package:seeds/v2/screens/wallet/wallet_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/v2/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
@@ -42,6 +41,7 @@ import 'package:seeds/v2/screens/transfer/send/send_confirmation/send_confirmati
 import 'package:seeds/v2/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
 import 'package:seeds/v2/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/v2/screens/transfer/send/send_search_user/send_search_user_screen.dart';
+import 'package:seeds/v2/screens/wallet/wallet_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
