@@ -8,6 +8,7 @@ import 'package:seeds/v2/components/search_user/interactor/viewmodels/search_use
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 class SearchUserWidget extends StatelessWidget {
   final ValueSetter<MemberModel> resultCallBack;
@@ -18,14 +19,10 @@ class SearchUserWidget extends StatelessWidget {
     borderSide: BorderSide(color: AppColors.darkGreen2, width: 2.0),
   );
 
-  //var myGuardians = ModalRoute.of(context)?.settings.arguments as List<GuardianModel>?;
-
-  SearchUserWidget({Key? key, required this.resultCallBack,this.noShowUsers}) : super(key: key);
+  SearchUserWidget({Key? key, required this.resultCallBack, this.noShowUsers}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print("inside search screen ");
-    print(noShowUsers);
     return BlocProvider<SearchUserBloc>(
       create: (_) => SearchUserBloc(noShowUsers),
       child: BlocBuilder<SearchUserBloc, SearchUserState>(
@@ -33,7 +30,7 @@ class SearchUserWidget extends StatelessWidget {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 16, left: 16, top: 10),
+                padding: const EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
                 child: TextField(
                   autofocus: true,
                   controller: _controller,
@@ -83,8 +80,6 @@ class SearchUserWidget extends StatelessWidget {
       case PageState.failure:
         return SearchUsersList(resultCallBack: resultCallBack);
       case PageState.success:
-        print("user length");
-        print(state.users.length);
         if (state.users.isEmpty) {
           return const Padding(
             padding: EdgeInsets.all(16.0),
