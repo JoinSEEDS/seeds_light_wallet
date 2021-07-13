@@ -49,7 +49,7 @@ class ProposalsListState extends Equatable {
       pageState: pageState ?? this.pageState,
       pageCommand: pageCommand,
       errorMessage: errorMessage,
-      profile: profile,
+      profile: profile ?? this.profile,
       currentType: currentType ?? this.currentType,
       proposals: proposals ?? this.proposals,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
