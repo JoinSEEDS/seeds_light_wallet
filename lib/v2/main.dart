@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/datasource/local/member_model_cache_item.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_push_notification_service.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
@@ -19,6 +20,7 @@ import 'package:seeds/v2/screens/authentication/verification/verification_screen
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/v2/seeds_material_app.dart';
 import 'package:seeds/widgets/splash_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 bool get isInDebugMode {
   var inDebugMode = false;
@@ -39,8 +41,10 @@ void main(List<String> args) async {
   await PushNotificationService().initialise();
   await remoteConfigurations.initialise();
   Bloc.observer = SimpleBlocObserver();
-  await SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+  await Hive.initFlutter();
+  Hive.registerAdapter(MemberModelCacheItemAdapter());
+
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
       runApp(const SeedsApp());
     } else {
