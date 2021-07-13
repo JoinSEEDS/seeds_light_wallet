@@ -37,7 +37,8 @@ class SeedsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()..add(const InitAuthStatus())),
+        BlocProvider<AuthenticationBloc>(
+            create: (_) => AuthenticationBloc()..add(const InitAuthStatus())),
         BlocProvider<RatesBloc>(create: (_) => RatesBloc()),
       ],
       child: MultiProvider(providers: providers, child: const MainScreen()),

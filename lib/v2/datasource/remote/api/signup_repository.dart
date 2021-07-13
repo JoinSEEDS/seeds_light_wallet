@@ -41,15 +41,13 @@ class SignupRepository extends EosRepository with NetworkRepository {
   }
 
   Future<Result> unpackDynamicLink(String scannedLink) async {
-    final PendingDynamicLinkData? unpackedLink = await FirebaseDynamicLinks
-        .instance
-        .getDynamicLink(Uri.parse(scannedLink));
+    final PendingDynamicLinkData? unpackedLink =
+        await FirebaseDynamicLinks.instance.getDynamicLink(Uri.parse(scannedLink));
 
     if (unpackedLink == null) {
       return mapHttpError('Link is invalid');
     } else {
-      final Map<String, String> queryParams =
-          Uri.splitQueryString(unpackedLink.link.toString());
+      final Map<String, String> queryParams = Uri.splitQueryString(unpackedLink.link.toString());
       final String? inviteMnemonic = queryParams["inviteMnemonic"];
       if (inviteMnemonic == null) {
         return mapHttpError('Link is invalid');
@@ -71,8 +69,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
           Uri.parse(keyAccountsURL),
           body: requestBody,
         )
-        .then((http.Response response) =>
-            mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               // Username exists on the blockchain and is not available
               return null;
             }))

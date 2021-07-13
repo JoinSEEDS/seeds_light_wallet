@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
@@ -8,8 +7,7 @@ import 'package:seeds/v2/domain-shared/app_constants.dart';
 
 abstract class EosRepository {
   String cpuPrivateKey = '5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a';
-  String onboardingPrivateKey =
-      '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
+  String onboardingPrivateKey = '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
 
   // Actions
   String action_name_against = 'against';
@@ -53,9 +51,8 @@ abstract class EosRepository {
     return transaction;
   }
 
-  EOSClient buildEosClient() =>
-      EOSClient(remoteConfigurations.activeEOSServerUrl.url!, 'v1',
-          privateKeys: [settingsStorage.privateKey!, cpuPrivateKey]);
+  EOSClient buildEosClient() => EOSClient(remoteConfigurations.activeEOSServerUrl.url!, 'v1',
+      privateKeys: [settingsStorage.privateKey!, cpuPrivateKey]);
 
   Result mapEosResponse(dynamic response, Function modelMapper) {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');
