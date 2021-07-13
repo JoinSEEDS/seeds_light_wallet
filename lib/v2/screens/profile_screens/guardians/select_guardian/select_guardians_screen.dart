@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/search_user/search_user_widget.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
@@ -16,9 +17,15 @@ class SelectGuardiansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var myGuardians = ModalRoute.of(context)?.settings.arguments as List<GuardianModel>?;
+    // var noShowGuardians = [settingsStorage.accountName];
+    //
+    // List<String> noShowGuardians2 = [settingsStorage.accountName];
+    // if(myGuardians != null){
+    //   myGuardians.forEach((element) {noShowGuardians2.add(element.uid);
+    //   })
 
     return BlocProvider(
-        create: (_) => SelectGuardiansBloc(myGuardians ?? []),
+        create: (_) => SelectGuardiansBloc(myGuardians ?? [])..add(LoadNoShowUsers()),
         child: BlocListener<SelectGuardiansBloc, SelectGuardiansState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
@@ -49,7 +56,8 @@ class SelectGuardiansScreen extends StatelessWidget {
                                 ? const SizedBox.shrink()
                                 : const SelectedGuardiansWidget(),
                           ),
-                          Expanded(child: SearchUserWidget(resultCallBack: (MemberModel selectedUser) {
+                          Text(state.noShowGuardians.toString()),
+                          Expanded(child: SearchUserWidget(noShowUsers: myGuardians?.map((e) => e.uid).toList(),resultCallBack: (MemberModel selectedUser) {
                             BlocProvider.of<SelectGuardiansBloc>(context).add(OnUserSelected(selectedUser));
                           })),
                           Padding(

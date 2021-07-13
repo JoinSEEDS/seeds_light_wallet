@@ -11,7 +11,11 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   final num _MIN_TEXT_LENGTH_BEFORE_VALID_SEARCH = 2;
 
-  SearchUserBloc() : super(SearchUserState.initial());
+ // SelectGuardiansBloc(List<GuardianModel> myGuardians) : super(SelectGuardiansState.initial(myGuardians))
+  SearchUserBloc(List<String> noShowUsers) : super(SearchUserState.initial(noShowUsers)){
+    print("Inside search Bloc init");
+    print(noShowUsers);
+  }
 
   @override
   Stream<Transition<SearchUserEvent, SearchUserState>> transformEvents(
@@ -40,10 +44,12 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
       if (event.searchQuery.length > _MIN_TEXT_LENGTH_BEFORE_VALID_SEARCH) {
         yield state.copyWith(pageState: PageState.loading);
         var result = await SearchForMemberUseCase().run(event.searchQuery);
-        yield SearchUserStateMapper().mapResultToState(state, result);
+        print("search Bloc before calling mapper");
+        print(state.noShowUsers);
+        yield SearchUserStateMapper().mapResultToState(state, result, state.noShowUsers);
       }
     } else if (event is ClearIconTapped) {
-      yield SearchUserState.initial();
+      yield SearchUserState.initial(null);
     }
   }
 }

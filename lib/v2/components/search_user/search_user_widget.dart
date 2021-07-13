@@ -11,18 +11,23 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class SearchUserWidget extends StatelessWidget {
   final ValueSetter<MemberModel> resultCallBack;
+  final List<String>? noShowUsers;
   final _controller = TextEditingController();
   final _searchBorder = const OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(8)),
     borderSide: BorderSide(color: AppColors.darkGreen2, width: 2.0),
   );
 
-  SearchUserWidget({Key? key, required this.resultCallBack}) : super(key: key);
+  //var myGuardians = ModalRoute.of(context)?.settings.arguments as List<GuardianModel>?;
+
+  SearchUserWidget({Key? key, required this.resultCallBack,this.noShowUsers}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print("inside search screen ");
+    print(noShowUsers);
     return BlocProvider<SearchUserBloc>(
-      create: (_) => SearchUserBloc(),
+      create: (_) => SearchUserBloc(noShowUsers ?? []),
       child: BlocBuilder<SearchUserBloc, SearchUserState>(
         builder: (context, SearchUserState state) {
           return Column(
@@ -78,6 +83,8 @@ class SearchUserWidget extends StatelessWidget {
       case PageState.failure:
         return SearchUsersList(resultCallBack: resultCallBack);
       case PageState.success:
+        print("user length");
+        print(state.users.length);
         if (state.users.isEmpty) {
           return const Padding(
             padding: EdgeInsets.all(16.0),

@@ -8,12 +8,14 @@ class SearchUserState extends Equatable {
   final String? errorMessage;
   final List<MemberModel> users;
   final IconData searchBarIcon;
+  final List<String>? noShowUsers;
 
   const SearchUserState({
     required this.pageState,
     this.errorMessage,
     required this.users,
     required this.searchBarIcon,
+    this.noShowUsers,
   });
 
   @override
@@ -22,19 +24,21 @@ class SearchUserState extends Equatable {
         errorMessage,
         users,
         searchBarIcon,
+        noShowUsers,
       ];
 
   SearchUserState copyWith(
-      {PageState? pageState, String? errorMessage, List<MemberModel>? users, IconData? searchBarIcon}) {
+      {PageState? pageState, String? errorMessage, List<MemberModel>? users, IconData? searchBarIcon, List<String>? noShowUsers}) {
     return SearchUserState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       users: users ?? this.users,
       searchBarIcon: searchBarIcon ?? this.searchBarIcon,
+      noShowUsers: noShowUsers ?? this.noShowUsers,
     );
   }
 
-  factory SearchUserState.initial() {
-    return const SearchUserState(pageState: PageState.initial, users: [], searchBarIcon: Icons.search);
+  factory SearchUserState.initial(List<String>? noShowUsers) {
+    return SearchUserState(pageState: PageState.initial, users: [], searchBarIcon: Icons.search, noShowUsers: noShowUsers);
   }
 }
