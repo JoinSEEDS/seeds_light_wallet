@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/dashboard/tokens_cards/components/currency_info_card_widget.dart';
+import 'package:seeds/v2/screens/dashboard/wallet/components/tokens_cards/components/currency_info_card_widget.dart';
 import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_bloc.dart';
 import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_state.dart';
 import 'interactor/viewmodels/token_balances_bloc.dart';

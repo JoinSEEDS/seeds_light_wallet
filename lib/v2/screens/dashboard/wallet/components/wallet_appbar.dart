@@ -32,7 +32,7 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
                 image: state.profile.image,
               ),
             ),
-            Expanded(child: Image.asset('assets/images/seeds_symbol_forest.png', height: 56, fit: BoxFit.fitHeight)),
+            Expanded(child: Image.asset('assets/images/seeds_symbol_forest.png', fit: BoxFit.fitHeight)),
             IconButton(
               splashRadius: 26,
               icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg', height: 36),
