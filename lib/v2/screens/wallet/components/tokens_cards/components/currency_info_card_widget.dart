@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
+import 'package:seeds/v2/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
 
 class CurrencyInfoCardWidget extends StatelessWidget {
   final TokenBalanceViewModel tokenBalance;

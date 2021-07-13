@@ -1,7 +1,7 @@
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_state.dart';
+import 'package:seeds/v2/screens/wallet/interactor/viewmodels/wallet_state.dart';
 
 class UserAccountStateMapper extends StateMapper {
   WalletState mapResultToState(WalletState currentState, List<Result> results) {

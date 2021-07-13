@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/transactions/interactor/mappers/member_state_mapper.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/transactions/interactor/usecases/load_member_data_usecase.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/transactions/interactor/viewmodels/member_events.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/transactions/interactor/viewmodels/member_state.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions/interactor/mappers/member_state_mapper.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions/interactor/usecases/load_member_data_usecase.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions/interactor/viewmodels/member_events.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions/interactor/viewmodels/member_state.dart';
 
 
 class MemberBloc extends Bloc<MemberEvent, MemberState> {

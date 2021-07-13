@@ -4,11 +4,11 @@ import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/i18n/wallet.i18n.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/tokens_cards/tokens_cards.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/transactions/transactions_list_widget.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/interactor/viewmodels/wallet_bloc.dart';
-import 'package:seeds/v2/screens/dashboard/wallet/components/wallet_appbar.dart';
+import 'package:seeds/v2/screens/wallet/components/tokens_cards/tokens_cards.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions/transactions_list_widget.dart';
+import 'package:seeds/v2/screens/wallet/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
+import 'package:seeds/v2/screens/wallet/components/wallet_appbar.dart';
 
 // Widgets to be moved to v2
 import 'package:seeds/widgets/v2_widgets/dashboard_widgets/receive_button.dart';
