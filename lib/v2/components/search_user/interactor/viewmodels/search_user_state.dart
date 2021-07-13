@@ -27,12 +27,13 @@ class SearchUserState extends Equatable {
         noShowUsers,
       ];
 
-  SearchUserState copyWith(
-      {PageState? pageState,
-      String? errorMessage,
-      List<MemberModel>? users,
-      IconData? searchBarIcon,
-      List<String>? noShowUsers}) {
+  SearchUserState copyWith({
+    PageState? pageState,
+    String? errorMessage,
+    List<MemberModel>? users,
+    IconData? searchBarIcon,
+    List<String>? noShowUsers,
+  }) {
     return SearchUserState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,

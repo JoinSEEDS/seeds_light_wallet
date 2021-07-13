@@ -9,14 +9,9 @@ class SearchUserStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Searching for User');
     } else {
       List<MemberModel> users = result.asValue?.value as List<MemberModel>;
-      print(noShowUsers);
-      print("inside mapResult");
-     // print(users);
       noShowUsers?.forEach((noShowUser) {
         users.removeWhere((element) => element.account == noShowUser);
       });
-      print(users);
-
       return currentState.copyWith(pageState: PageState.success, users: users, errorMessage: null);
     }
   }

@@ -21,7 +21,7 @@ class SelectGuardiansState extends Equatable {
       required this.pageTitle,
       required this.myGuardians,
       this.pageCommand,
-        this.noShowGuardians});
+      this.noShowGuardians});
 
   @override
   List<Object?> get props => [
@@ -29,6 +29,7 @@ class SelectGuardiansState extends Equatable {
         selectedGuardians,
         pageTitle,
         pageCommand,
+        myGuardians,
         noShowGuardians,
       ];
 
@@ -40,16 +41,18 @@ class SelectGuardiansState extends Equatable {
     List<String>? noShowGuardians,
   }) {
     return SelectGuardiansState(
-        pageState: pageState ?? this.pageState,
-        selectedGuardians: selectedGuardians ?? this.selectedGuardians,
-        pageTitle: pageTitle ?? this.pageTitle,
-        myGuardians: myGuardians,
-        pageCommand: pageCommand,
-        noShowGuardians: noShowGuardians ?? this.noShowGuardians,
-        );
+      pageState: pageState ?? this.pageState,
+      selectedGuardians: selectedGuardians ?? this.selectedGuardians,
+      pageTitle: pageTitle ?? this.pageTitle,
+      myGuardians: myGuardians,
+      pageCommand: pageCommand,
+      noShowGuardians: noShowGuardians ?? this.noShowGuardians,
+    );
   }
 
-  factory SelectGuardiansState.initial(List<GuardianModel> myGuardians,) {
+  factory SelectGuardiansState.initial(
+    List<GuardianModel> myGuardians,
+  ) {
     var guardian = '';
     if (MAX_GUARDIANS_ALLOWED - myGuardians.length == 1) {
       guardian = 'Guardian';

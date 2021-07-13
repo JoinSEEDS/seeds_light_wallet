@@ -31,8 +31,3 @@ class ClearPageCommand extends SelectGuardiansEvent {
   @override
   String toString() => 'ClearPageCommand';
 }
-
-class LoadNoShowUsers extends SelectGuardiansEvent {
-  @override
-  String toString() => 'LoadNoShowUsers';
-}
