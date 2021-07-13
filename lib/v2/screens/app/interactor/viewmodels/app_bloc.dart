@@ -41,7 +41,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       /// throughout your app's life.
       Result result = await GetInitialDeepLinkUseCase().run();
       yield SingingRequestStateMapper().mapResultToState(state, result);
-      // Strem that handle incoming links - it add the event to the bloc
+      // Stream that handle incoming links - it add the event to the bloc
       linkStream.listen((newLink) => add(HandleIncomingDeepLink(newLink)));
     }
     if (event is HandleIncomingDeepLink) {
