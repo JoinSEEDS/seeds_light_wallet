@@ -8,7 +8,7 @@ import 'package:seeds/providers/providers.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/main.dart';
+import 'package:seeds/main.dart';
 
 class SeedsMaterialApp extends MaterialApp {
   SeedsMaterialApp({required home, navigatorKey, onGenerateRoute})

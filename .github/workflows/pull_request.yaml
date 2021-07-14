@@ -74,4 +74,4 @@ jobs:
       - run: flutter pub get
       - name: Build apk package
         run: |
-          flutter build apk --no-sound-null-safety --debug lib/v2/main.dart
+          flutter build apk --no-sound-null-safety --debug lib/main.dart
