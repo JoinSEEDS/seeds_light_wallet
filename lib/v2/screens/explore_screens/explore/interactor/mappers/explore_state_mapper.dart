@@ -1,7 +1,6 @@
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
-import 'package:seeds/v2/datasource/remote/model/voice_model_alliance.dart';
-import 'package:seeds/v2/datasource/remote/model/voice_model_campaign.dart';
+import 'package:seeds/v2/datasource/remote/model/voice_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/interactor/viewmodels/explore_state.dart';
@@ -17,16 +16,15 @@ class ExploreStateMapper extends StateMapper {
 
       BalanceModel? balanceModel = values.firstWhere((i) => i is BalanceModel, orElse: () => null);
       PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null);
-      VoiceModelAlliance? allianceVoice = values.firstWhere((i) => i is VoiceModelAlliance, orElse: () => null);
-      VoiceModelCampaign? campaignVoice = values.firstWhere((i) => i is VoiceModelCampaign, orElse: () => null);
+      List<VoiceModel> voiceModels = values.whereType<VoiceModel>().toList();
       bool? isDHOMember = values.firstWhere((i) => i is bool, orElse: () => null);
 
       return currentState.copyWith(
         pageState: PageState.success,
         availableSeeds: balanceModel,
         plantedSeeds: plantedSeeds,
-        allianceVoice: allianceVoice?.amount.toString(),
-        campaignVoice: campaignVoice?.amount.toString(),
+        allianceVoice: voiceModels.first.amount.toString(),
+        campaignVoice: voiceModels.last.amount.toString(),
         isDHOMember: isDHOMember,
       );
     }

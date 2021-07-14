@@ -1,3 +1,4 @@
+import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/v2/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -21,7 +22,7 @@ class ProposalsStateMapper extends StateMapper {
     } else {
       results.retainWhere((Result i) => i.isValue);
       var values = results.map((Result i) => i.asValue!.value).toList();
-
+      ProfileModel? profile = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
       List<ProposalModel> proposals = values.firstWhere((i) => i is List<ProposalModel>, orElse: () => null);
       List<ProposalModel> newProposals;
 
@@ -48,10 +49,10 @@ class ProposalsStateMapper extends StateMapper {
         }
         return i;
       }).toList();
-
       // If proposals is a empty list then there are no more items to fetch
       return currentState.copyWith(
         pageState: PageState.success,
+        profile: profile,
         proposals: updatedProposals,
         hasReachedMax: proposals.isEmpty || proposals.length < 100,
       );
