@@ -26,7 +26,7 @@ class NextProposalDataStateMapper extends StateMapper {
         pageCommand: ReturnToTopScreen(),
         currentIndex: currentState.currentIndex + 1,
         showNextButton: false,
-        voteChoice: null,
+        voteAmount: null,
       );
     }
   }

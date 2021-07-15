@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/page_commands.dart';
 import '../mappers/next_proposal_data_state_mapper.dart';
 import '../mappers/proposal_data_state_mapper.dart';
 import '../usecases/get_proposal_data_use_case.dart';
@@ -23,17 +24,21 @@ class ProposalDetailsBloc extends Bloc<ProposalDetailsEvent, ProposalDetailsStat
       List<Result> results = await GetProposalDataUseCase().run(state.proposals[state.currentIndex + 1]);
       yield NextProposalDataStateMapper().mapResultsToState(state, results);
     }
-    if (event is OnFavourButtonTapped) {
-      yield state.copyWith(voteChoice: VoteChoice.favour);
-    }
-    if (event is OnAbstainButtonTapped) {
-      yield state.copyWith(voteChoice: VoteChoice.abstain);
-    }
-    if (event is OnAgainstButtonTapped) {
-      yield state.copyWith(voteChoice: VoteChoice.against);
+    // if (event is OnFavourButtonTapped) {
+    //   yield state.copyWith(voteChoice: VoteChoice.favour);
+    // }
+    // if (event is OnAbstainButtonTapped) {
+    //   yield state.copyWith(voteChoice: VoteChoice.abstain);
+    // }
+    // if (event is OnAgainstButtonTapped) {
+    //   yield state.copyWith(voteChoice: VoteChoice.against);
+    // }
+    if (event is OnVoteAmountChanged) {
+      yield state.copyWith(voteAmount: event.voteAmount);
     }
     if (event is OnConfirmButtonPressed) {
-      yield state.copyWith(showNextButton: true);
+      await Future.delayed(const Duration(milliseconds: 500));
+      yield state.copyWith(pageCommand: VoteSuccess(), showNextButton: true);
     }
   }
 }

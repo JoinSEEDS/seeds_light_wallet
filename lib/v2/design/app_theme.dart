@@ -20,6 +20,14 @@ class SeedsAppTheme {
         contentTextStyle: TextStyle(color: AppColors.white),
       ),
       indicatorColor: AppColors.green1,
+      sliderTheme: const SliderThemeData(
+        thumbColor: AppColors.white,
+        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+        trackHeight: 4.0,
+        activeTrackColor: AppColors.green1,
+        inactiveTrackColor: AppColors.lightGreen6,
+        valueIndicatorColor: AppColors.green1,
+      ),
     );
   }
 
@@ -41,6 +49,14 @@ class SeedsAppTheme {
         contentTextStyle: TextStyle(color: AppColors.white),
       ),
       indicatorColor: AppColors.green1,
+      sliderTheme: const SliderThemeData(
+        thumbColor: AppColors.white,
+        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+        trackHeight: 4.0,
+        activeTrackColor: AppColors.green1,
+        inactiveTrackColor: AppColors.lightGreen6,
+        valueIndicatorColor: AppColors.green1,
+      ),
     );
   }
 }
@@ -139,7 +155,7 @@ extension CustomStyles on TextTheme {
 
   TextStyle get subtitle2Black => subtitle2!.copyWith(color: AppColors.black);
 
-   TextStyle get subtitle2Green2 => subtitle2!.copyWith(color: AppColors.green2);
+  TextStyle get subtitle2Green2 => subtitle2!.copyWith(color: AppColors.green2);
 
   TextStyle get subtitle2Darkgreen1L => subtitle2!.copyWith(color: AppColors.primary);
 

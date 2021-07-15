@@ -56,9 +56,10 @@ class PrecastStatusLabel extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       children: [
-                        TextSpan(text: 'You have already used your'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                        TextSpan(text: ' Trust Tokens '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                        TextSpan(text: 'for this cycle.'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                        TextSpan(text: 'Voting - '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                        TextSpan(
+                            text: '${state.proposals[state.currentIndex].campaignType}'.i18n,
+                            style: Theme.of(context).textTheme.subtitle2Green2),
                       ],
                     ),
                   ),
