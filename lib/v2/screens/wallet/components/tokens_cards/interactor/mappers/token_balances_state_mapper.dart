@@ -1,3 +1,4 @@
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/balance_model.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -11,10 +12,12 @@ class TokenBalancesStateMapper {
 
     List<TokenBalanceViewModel> available = [];
 
-    // TODO(n13): get whitelist and blacklist from settings
+    Iterable<TokenModel> whitelist =
+        TokenModel.AllTokens.where((element) => settingsStorage.tokensWhitelist.contains(element.id));
 
-    List<TokenModel> whitelist = [SeedsToken];
     List<TokenModel> blacklist = []; // user has chosen to hide this token
+
+    List<String> newWhitelist = [];
 
     for (int i = 0; i < tokens.length; i++) {
       var token = tokens[i];
@@ -22,18 +25,24 @@ class TokenBalancesStateMapper {
       bool whitelisted = whitelist.contains(token);
       if (whitelisted || !blacklist.contains(token)) {
         if (results[i].isError) {
-          print("error loading ${token.symbol}");
-          if (whitelisted) {
-            available.add(TokenBalanceViewModel(token, null, errorLoading: true));
+          print("error loading ${token.symbol} - show existing balance.");
+          var existingBalance = currentState.balanceViewModelForToken(token.id);
+          if (existingBalance != null || whitelisted) {
+            var viewModel = existingBalance ?? TokenBalanceViewModel(token, null, errorLoading: true);
+            available.add(viewModel);
+            newWhitelist.add(token.id);
           }
         } else {
           BalanceModel balance = result.asValue?.value as BalanceModel;
           if (whitelisted || balance.quantity > 0) {
             available.add(TokenBalanceViewModel(token, balance));
+            newWhitelist.add(token.id);
           }
         }
       }
     }
+
+    settingsStorage.tokensWhitelist = newWhitelist;
 
     return currentState.copyWith(pageState: PageState.success, availableTokens: available);
   }

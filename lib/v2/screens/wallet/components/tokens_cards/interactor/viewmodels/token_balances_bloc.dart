@@ -15,7 +15,7 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
     if (event is OnLoadTokenBalances) {
       yield state.copyWith(pageState: PageState.loading);
 
-      const potentialTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken];
+      var potentialTokens = TokenModel.AllTokens;
 
       var result = await LoadTokenBalancesUseCase().run(potentialTokens);
 

@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class TokenModel extends Equatable {
+  static const AllTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken];
+
   final String chainName;
   final String contract;
   final String symbol;
@@ -8,6 +10,7 @@ class TokenModel extends Equatable {
   final String backgroundImage;
   final String logo;
   final String balanceSubTitle;
+  String get id => contract + "#" + symbol;
 
   const TokenModel({
     required this.chainName,
