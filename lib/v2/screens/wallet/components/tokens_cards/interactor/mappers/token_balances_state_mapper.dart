@@ -15,9 +15,6 @@ class TokenBalancesStateMapper {
     Iterable<TokenModel> whitelist =
         TokenModel.AllTokens.where((element) => settingsStorage.tokensWhitelist.contains(element.id));
 
-    print("whitelist: ");
-    print(whitelist);
-
     List<TokenModel> blacklist = []; // user has chosen to hide this token
 
     List<String> newWhitelist = [];
@@ -46,9 +43,6 @@ class TokenBalancesStateMapper {
     }
 
     settingsStorage.tokensWhitelist = newWhitelist;
-
-    print("NEW whitelist: ");
-    print(whitelist);
 
     return currentState.copyWith(pageState: PageState.success, availableTokens: available);
   }
