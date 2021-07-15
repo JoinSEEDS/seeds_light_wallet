@@ -19,6 +19,9 @@ class TokenBalancesState extends Equatable {
   @override
   List<Object?> get props => [pageState, errorMessage, availableTokens];
 
+  TokenBalanceViewModel? balanceViewModelForToken(String tokenModelID) =>
+      availableTokens.firstWhere((element) => element.token.id == tokenModelID);
+
   TokenBalancesState copyWith({
     PageState? pageState,
     String? errorMessage,
