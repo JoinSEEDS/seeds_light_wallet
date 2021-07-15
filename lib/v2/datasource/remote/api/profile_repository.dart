@@ -35,13 +35,13 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   }
 
   Future<Result> updateProfile({
-    String? nickname,
-    String? image,
-    String? story,
-    String? roles,
-    String? skills,
-    String? interests,
-    String? accountName,
+    required String nickname,
+    required String image,
+    required String story,
+    required String roles,
+    required String skills,
+    required String interests,
+    required String accountName,
   }) async {
     print('[eos] update profile');
 

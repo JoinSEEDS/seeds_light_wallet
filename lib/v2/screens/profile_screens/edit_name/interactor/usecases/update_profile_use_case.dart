@@ -9,12 +9,12 @@ class UpdateProfileUseCase {
   Future<Result> run({required String? newName, required ProfileModel profile}) {
     return _profileRepository.updateProfile(
       accountName: settingsStorage.accountName,
-      nickname: newName,
-      image: profile.image,
-      story: profile.story,
-      roles: profile.roles,
-      skills: profile.skills,
-      interests: profile.interests,
+      nickname: newName ?? '',
+      image: profile.image ?? '',
+      story: profile.story ?? '',
+      roles: profile.roles ?? '',
+      skills: profile.skills ?? '',
+      interests: profile.interests ?? '',
     );
   }
 }
