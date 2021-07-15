@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
+import 'package:collection/collection.dart';
 
 class TokenBalancesState extends Equatable {
   final PageState pageState;
@@ -20,7 +21,7 @@ class TokenBalancesState extends Equatable {
   List<Object?> get props => [pageState, errorMessage, availableTokens];
 
   TokenBalanceViewModel? balanceViewModelForToken(String tokenModelID) =>
-      availableTokens.firstWhere((element) => element.token.id == tokenModelID);
+      availableTokens.firstWhereOrNull((element) => element.token.id == tokenModelID);
 
   TokenBalancesState copyWith({
     PageState? pageState,
