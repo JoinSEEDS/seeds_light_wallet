@@ -1,5 +1,7 @@
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 
+// Seeds system accounts with special icons. Harvest account, onboarding account, etc. 
+
 // TODO(n13): get correct icons from figma
 class SystemAccounts {
   static final onboardingContract =
