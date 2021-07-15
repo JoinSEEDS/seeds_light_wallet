@@ -8,27 +8,29 @@ import 'package:seeds/v2/components/search_user/interactor/viewmodels/search_use
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 class SearchUserWidget extends StatelessWidget {
   final ValueSetter<MemberModel> resultCallBack;
+  final List<String>? noShowUsers;
   final _controller = TextEditingController();
   final _searchBorder = const OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(8)),
     borderSide: BorderSide(color: AppColors.darkGreen2, width: 2.0),
   );
 
-  SearchUserWidget({Key? key, required this.resultCallBack}) : super(key: key);
+  SearchUserWidget({Key? key, required this.resultCallBack, this.noShowUsers}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SearchUserBloc>(
-      create: (_) => SearchUserBloc(),
+      create: (_) => SearchUserBloc(noShowUsers),
       child: BlocBuilder<SearchUserBloc, SearchUserState>(
         builder: (context, SearchUserState state) {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 16, left: 16, top: 10),
+                padding: const EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
                 child: TextField(
                   autofocus: true,
                   controller: _controller,
