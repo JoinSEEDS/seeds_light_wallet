@@ -2,12 +2,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:seeds/v2/constants/system_accounts.dart';
 import 'package:seeds/v2/datasource/local/member_model_cache_item.dart';
+import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions/interactor/mappers/member_state_mapper.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions/interactor/usecases/load_member_data_usecase.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions/interactor/viewmodels/member_events.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions/interactor/viewmodels/member_state.dart';
-
 
 const cacheExpiryMinutes = 30;
 
@@ -40,11 +40,12 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
       final result = await LoadMemberDataUseCase().run(account);
 
       // store result in cache
-      if (!result.isError && result.asValue != null) {
+      if (!result.isError && result.asValue != null && result.asValue!.value is MemberModel) {
+        MemberModel member = result.asValue!.value;
         await box.put(
             account,
-            MemberModelCacheItem(result.asValue!.value,
-                DateTime.now().millisecondsSinceEpoch + Duration.millisecondsPerMinute * cacheExpiryMinutes));
+            MemberModelCacheItem(
+                member, DateTime.now().millisecondsSinceEpoch + Duration.millisecondsPerMinute * cacheExpiryMinutes));
       }
 
       yield MemberStateMapper().mapResultToState(state, result);
