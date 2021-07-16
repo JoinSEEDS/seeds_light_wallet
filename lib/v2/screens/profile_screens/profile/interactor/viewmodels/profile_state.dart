@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
-import 'package:seeds/v2/datasource/remote/model/score_model.dart';
+import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 
 class ShowLogoutDialog extends PageCommand {}
 
@@ -11,7 +11,7 @@ class ProfileState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final ProfileModel? profile;
-  final ScoreModel? score;
+  final ScoresViewModel? score;
   final PageCommand? showLogoutDialog;
   final bool showLogoutButton;
   final bool hasSecurityNotification;
@@ -41,7 +41,7 @@ class ProfileState extends Equatable {
     PageState? pageState,
     String? errorMessage,
     ProfileModel? profile,
-    ScoreModel? score,
+    ScoresViewModel? score,
     PageCommand? showDialog,
     bool? showLogoutButton,
     bool? hasSecurityNotification,

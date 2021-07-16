@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/v2/datasource/remote/model/score_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 
 class ContributionState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
-  final ScoreModel? score;
+  final ScoresViewModel? score;
 
   const ContributionState({required this.pageState, this.errorMessage, this.score});
 
   @override
   List<Object?> get props => [pageState, errorMessage, score];
 
-  ContributionState copyWith({PageState? pageState, String? errorMessage, ScoreModel? score}) {
+  ContributionState copyWith({PageState? pageState, String? errorMessage, ScoresViewModel? score}) {
     return ContributionState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
