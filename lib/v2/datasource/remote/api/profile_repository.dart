@@ -74,24 +74,30 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
-  Future<Result> getScore(String accountName) async {
-    print('[http] get score $accountName');
+  Future<Result> getScore({
+    required String account,
+    String contractName = account_harvest,
+    String? scope,
+    required String tableName,
+    String fieldName = "rank",
+  }) async {
+    print('[http] get score $account $tableName');
 
     final scoreURL = Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows');
 
     var request = createRequest(
-      code: account_harvest,
-      scope: account_harvest,
-      table: table_harvest,
-      lowerBound: '$accountName',
-      upperBound: '$accountName',
+      code: contractName,
+      scope: scope ?? contractName,
+      table: tableName,
+      lowerBound: '$account',
+      upperBound: '$account',
       limit: 1,
     );
 
     return http
         .post(scoreURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              return ScoreModel.fromJson(body);
+              return ScoreModel.fromJson(json: body, fieldName: fieldName);
             }))
         .catchError((error) => mapHttpError(error));
   }

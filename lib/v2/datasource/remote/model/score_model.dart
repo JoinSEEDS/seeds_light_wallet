@@ -1,36 +1,27 @@
 class ScoreModel {
-  final int plantedScore;
-  final int transactionsScore;
-  final int reputationScore;
-  final int communityBuildingScore;
-  final int contributionScore;
+  final int value;
 
   ScoreModel({
-    required this.plantedScore,
-    required this.transactionsScore,
-    required this.reputationScore,
-    required this.communityBuildingScore,
-    required this.contributionScore,
+    required this.value,
   });
 
-  factory ScoreModel.fromJson(Map<String, dynamic> json) {
+  double toDouble() => value.toDouble();
+
+  factory ScoreModel.fromJson({required Map<String, dynamic> json, String fieldName = "rank"}) {
     if (json['rows'].isNotEmpty) {
       Map<String, dynamic> item = json['rows'][0];
       return ScoreModel(
-        plantedScore: item['planted_score'],
-        transactionsScore: item['transactions_score'],
-        reputationScore: item['reputation_score'],
-        communityBuildingScore: item['community_building_score'],
-        contributionScore: item['contribution_score'],
+        value: item[fieldName],
       );
     } else {
       return ScoreModel(
-        plantedScore: 0,
-        transactionsScore: 0,
-        reputationScore: 0,
-        communityBuildingScore: 0,
-        contributionScore: 0,
+        value: 0,
       );
     }
+  }
+
+  @override
+  String toString() {
+    return "ScoreModel: $value";
   }
 }
