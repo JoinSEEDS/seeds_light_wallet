@@ -36,8 +36,11 @@ class ProposalDetailsBloc extends Bloc<ProposalDetailsEvent, ProposalDetailsStat
     if (event is OnVoteAmountChanged) {
       yield state.copyWith(voteAmount: event.voteAmount);
     }
-    if (event is OnConfirmButtonPressed) {
-      await Future.delayed(const Duration(milliseconds: 500));
+    if (event is OnVoteButtonPressed) {
+      yield state.copyWith(pageCommand: ShowConfimVote());
+    }
+    if (event is OnConfirmVoteButtonPressed) {
+      await Future.delayed(const Duration(seconds: 1));
       yield state.copyWith(pageCommand: VoteSuccess(), showNextButton: true);
     }
   }

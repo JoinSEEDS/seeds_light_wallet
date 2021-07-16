@@ -33,7 +33,7 @@ class ProposalDetailsHeader extends StatelessWidget {
                   painter: const ProposalCategory(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    child: Text(state.proposals[state.currentIndex].campaignType,
+                    child: Text(state.proposals[state.currentIndex].campaignTypeLabel,
                         style: Theme.of(context).textTheme.subtitle3OpacityEmphasis),
                   ),
                 ),

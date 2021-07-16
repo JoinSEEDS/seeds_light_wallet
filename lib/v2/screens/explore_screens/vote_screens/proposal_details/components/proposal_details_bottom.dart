@@ -4,6 +4,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/images/vote/arrow_next_proposal.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/current_vote_choice_label.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/vote_status_label.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
@@ -18,27 +19,7 @@ class ProposalDetailsBottom extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
-              child: state.showNextButton
-                  ? Row(
-                      children: [Text('Voted'.i18n, style: Theme.of(context).textTheme.subtitle2)],
-                    )
-                  : Row(
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(text: 'Voting - '.i18n, style: Theme.of(context).textTheme.subtitle2),
-                              TextSpan(
-                                  text: '${state.proposals[state.currentIndex].campaignType}'.i18n,
-                                  style: Theme.of(context).textTheme.subtitle2Green2),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-            ),
+            const VoteStatusLabel(),
             state.showNextButton || state.vote!.isVoted
                 ? Padding(
                     padding: const EdgeInsets.all(horizontalEdgePadding),
@@ -91,9 +72,9 @@ class ProposalDetailsBottom extends StatelessWidget {
                         padding: const EdgeInsets.all(horizontalEdgePadding),
                         child: FlatButtonLong(
                           enabled: true,
-                          title: 'Confirm'.i18n,
+                          title: 'Vote'.i18n,
                           onPressed: () {
-                            BlocProvider.of<ProposalDetailsBloc>(context).add(const OnConfirmButtonPressed());
+                            BlocProvider.of<ProposalDetailsBloc>(context).add(const OnVoteButtonPressed());
                           },
                         ),
                       ),

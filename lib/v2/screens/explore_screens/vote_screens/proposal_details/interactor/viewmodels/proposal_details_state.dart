@@ -7,7 +7,7 @@ import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
 
-enum PrecastStatus { canPrecast, alreadyPrecasted, allTokensUsed, notCitizen }
+enum VoteStatus { canVote, alreadyVoted, notCitizen }
 
 /// --- STATE
 class ProposalDetailsState extends Equatable {
@@ -23,15 +23,13 @@ class ProposalDetailsState extends Equatable {
   final VoteModel? vote;
   final VoiceModel? tokens;
 
-  PrecastStatus get precastStatus {
+  VoteStatus get voteStatus {
     if (!isCitizen) {
-      return PrecastStatus.notCitizen;
-    } else if (vote!.amount != 0) {
-      return PrecastStatus.alreadyPrecasted;
-    } else if (tokens!.amount <= 0) {
-      return PrecastStatus.allTokensUsed;
+      return VoteStatus.notCitizen;
+    } else if (vote!.isVoted) {
+      return VoteStatus.alreadyVoted;
     } else {
-      return PrecastStatus.canPrecast;
+      return VoteStatus.canVote;
     }
   }
 
