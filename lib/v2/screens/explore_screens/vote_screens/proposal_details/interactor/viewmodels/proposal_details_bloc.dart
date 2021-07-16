@@ -24,15 +24,6 @@ class ProposalDetailsBloc extends Bloc<ProposalDetailsEvent, ProposalDetailsStat
       List<Result> results = await GetProposalDataUseCase().run(state.proposals[state.currentIndex + 1]);
       yield NextProposalDataStateMapper().mapResultsToState(state, results);
     }
-    // if (event is OnFavourButtonTapped) {
-    //   yield state.copyWith(voteChoice: VoteChoice.favour);
-    // }
-    // if (event is OnAbstainButtonTapped) {
-    //   yield state.copyWith(voteChoice: VoteChoice.abstain);
-    // }
-    // if (event is OnAgainstButtonTapped) {
-    //   yield state.copyWith(voteChoice: VoteChoice.against);
-    // }
     if (event is OnVoteAmountChanged) {
       yield state.copyWith(voteAmount: event.voteAmount);
     }

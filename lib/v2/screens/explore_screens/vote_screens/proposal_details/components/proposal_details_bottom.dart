@@ -20,7 +20,7 @@ class ProposalDetailsBottom extends StatelessWidget {
         return Column(
           children: [
             const VoteStatusLabel(),
-            state.showNextButton || state.vote!.isVoted
+            state.showNextButton || state.vote!.isVoted || !state.isCitizen
                 ? Padding(
                     padding: const EdgeInsets.all(horizontalEdgePadding),
                     child: Column(
