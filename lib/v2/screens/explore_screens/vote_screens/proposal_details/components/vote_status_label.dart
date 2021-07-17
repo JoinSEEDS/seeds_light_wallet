@@ -6,15 +6,15 @@ import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/i
 import 'package:seeds/v2/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
 import '../interactor/viewmodels/proposal_details_bloc.dart';
 
-class PrecastStatusLabel extends StatelessWidget {
-  const PrecastStatusLabel({Key? key}) : super(key: key);
+class VoteStatusLabel extends StatelessWidget {
+  const VoteStatusLabel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProposalDetailsBloc, ProposalDetailsState>(
       builder: (context, state) {
-        switch (state.precastStatus) {
-          case PrecastStatus.notCitizen:
+        switch (state.voteStatus) {
+          case VoteStatus.notCitizen:
             return Padding(
               padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
               child: Row(
@@ -31,7 +31,7 @@ class PrecastStatusLabel extends StatelessWidget {
                 ],
               ),
             );
-          case PrecastStatus.alreadyPrecasted:
+          case VoteStatus.alreadyVoted:
             return Padding(
               padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
               child: Row(
@@ -40,15 +40,14 @@ class PrecastStatusLabel extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(text: 'You have already'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                        TextSpan(text: ' Precast '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                        TextSpan(text: 'your vote.'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                        TextSpan(text: ' Voted.'.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
                       ],
                     ),
                   ),
                 ],
               ),
             );
-          case PrecastStatus.allTokensUsed:
+          case VoteStatus.canVote:
             return Padding(
               padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
               child: Row(
@@ -56,9 +55,10 @@ class PrecastStatusLabel extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       children: [
-                        TextSpan(text: 'You have already used your'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                        TextSpan(text: ' Trust Tokens '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                        TextSpan(text: 'for this cycle.'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                        TextSpan(text: 'Voting - '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                        TextSpan(
+                            text: state.proposals[state.currentIndex].campaignTypeLabel,
+                            style: Theme.of(context).textTheme.subtitle2Green2),
                       ],
                     ),
                   ),

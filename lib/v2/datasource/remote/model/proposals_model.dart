@@ -60,6 +60,10 @@ class ProposalModel {
     return FundType.values.firstWhere((i) => '$i' == fund.split('.').first, orElse: () => FundType.unknown);
   }
 
+  String get campaignTypeLabel {
+    return campaignType == 'cmp.funding' || campaignType == 'cmp.invite' ? 'campaign' : campaignType;
+  }
+
   ProposalModel({
     required this.id,
     required this.creator,

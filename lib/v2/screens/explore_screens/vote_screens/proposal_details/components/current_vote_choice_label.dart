@@ -13,60 +13,61 @@ class CurrentVoteChoiceLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProposalDetailsBloc, ProposalDetailsState>(
       builder: (context, state) {
-        switch (state.voteChoice) {
-          case VoteChoice.favour:
-            return Padding(
-              padding: const EdgeInsets.only(top: 28.0, left: horizontalEdgePadding, bottom: 10),
-              child: Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(text: "I'm".i18n, style: Theme.of(context).textTheme.subtitle2),
-                        TextSpan(text: ' in favor '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                        TextSpan(text: 'of this proposal'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                      ],
-                    ),
+        if (state.voteAmount > 0) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 28.0, left: horizontalEdgePadding, bottom: 10),
+            child: Row(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(text: "I'm".i18n, style: Theme.of(context).textTheme.subtitle2),
+                      TextSpan(text: ' in favor '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
+                      TextSpan(text: 'of this proposal with '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                      TextSpan(text: state.voteAmount.toString(), style: Theme.of(context).textTheme.subtitle2),
+                    ],
                   ),
-                ],
-              ),
-            );
-          case VoteChoice.abstain:
-            return Padding(
-              padding: const EdgeInsets.only(top: 28.0, left: horizontalEdgePadding, bottom: 10),
-              child: Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(text: 'I'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                        TextSpan(text: ' refrain '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                        TextSpan(text: 'from voting'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                      ],
-                    ),
+                ),
+              ],
+            ),
+          );
+        } else if (state.voteAmount == 0) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 28.0, left: horizontalEdgePadding, bottom: 10),
+            child: Row(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(text: 'I'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                      TextSpan(text: ' refrain '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
+                      TextSpan(text: 'from voting'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                    ],
                   ),
-                ],
-              ),
-            );
-          case VoteChoice.against:
-            return Padding(
-              padding: const EdgeInsets.only(top: 28.0, left: horizontalEdgePadding, bottom: 10),
-              child: Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(text: "I'm".i18n, style: Theme.of(context).textTheme.subtitle2),
-                        TextSpan(text: ' against '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                        TextSpan(text: 'this proposal'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                      ],
-                    ),
+                ),
+              ],
+            ),
+          );
+        } else if (state.voteAmount < 0) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 28.0, left: horizontalEdgePadding, bottom: 10),
+            child: Row(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(text: "I'm".i18n, style: Theme.of(context).textTheme.subtitle2),
+                      TextSpan(text: ' against '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
+                      TextSpan(text: 'this proposal with '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                      TextSpan(text: state.voteAmount.toString(), style: Theme.of(context).textTheme.subtitle2),
+                    ],
                   ),
-                ],
-              ),
-            );
-          default:
-            return const SizedBox(height: 50.0);
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox(height: 50.0);
         }
       },
     );

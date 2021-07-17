@@ -7,8 +7,7 @@ import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
 
-enum PrecastStatus { canPrecast, alreadyPrecasted, allTokensUsed, notCitizen }
-enum VoteChoice { favour, abstain, against }
+enum VoteStatus { canVote, alreadyVoted, notCitizen }
 
 /// --- STATE
 class ProposalDetailsState extends Equatable {
@@ -19,20 +18,18 @@ class ProposalDetailsState extends Equatable {
   final List<ProposalModel> proposals;
   final bool showNextButton;
   final bool isCitizen;
-  final VoteChoice? voteChoice;
+  final int voteAmount;
   final ProfileModel? creator;
   final VoteModel? vote;
   final VoiceModel? tokens;
 
-  PrecastStatus get precastStatus {
+  VoteStatus get voteStatus {
     if (!isCitizen) {
-      return PrecastStatus.notCitizen;
-    } else if (vote!.amount != 0) {
-      return PrecastStatus.alreadyPrecasted;
-    } else if (tokens!.amount <= 0) {
-      return PrecastStatus.allTokensUsed;
+      return VoteStatus.notCitizen;
+    } else if (vote!.isVoted) {
+      return VoteStatus.alreadyVoted;
     } else {
-      return PrecastStatus.canPrecast;
+      return VoteStatus.canVote;
     }
   }
 
@@ -44,7 +41,7 @@ class ProposalDetailsState extends Equatable {
     required this.proposals,
     required this.showNextButton,
     required this.isCitizen,
-    this.voteChoice,
+    required this.voteAmount,
     this.creator,
     this.vote,
     this.tokens,
@@ -59,7 +56,7 @@ class ProposalDetailsState extends Equatable {
         proposals,
         showNextButton,
         isCitizen,
-        voteChoice,
+        voteAmount,
         creator,
         vote,
         tokens,
@@ -73,7 +70,7 @@ class ProposalDetailsState extends Equatable {
     List<ProposalModel>? proposals,
     bool? showNextButton,
     bool? isCitizen,
-    VoteChoice? voteChoice,
+    int? voteAmount,
     ProfileModel? creator,
     VoteModel? vote,
     VoiceModel? tokens,
@@ -86,7 +83,7 @@ class ProposalDetailsState extends Equatable {
       proposals: proposals ?? this.proposals,
       showNextButton: showNextButton ?? this.showNextButton,
       isCitizen: isCitizen ?? this.isCitizen,
-      voteChoice: voteChoice,
+      voteAmount: voteAmount ?? this.voteAmount,
       creator: creator ?? this.creator,
       vote: vote ?? this.vote,
       tokens: tokens ?? this.tokens,
@@ -100,6 +97,7 @@ class ProposalDetailsState extends Equatable {
       proposals: proposalsArgsData.proposals,
       showNextButton: false,
       isCitizen: proposalsArgsData.profile.status == ProfileStatus.citizen,
+      voteAmount: 0,
     );
   }
 }

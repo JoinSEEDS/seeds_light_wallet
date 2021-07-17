@@ -15,28 +15,25 @@ class OnLoadProposalData extends ProposalDetailsEvent {
   String toString() => 'OnLoadProposalData';
 }
 
-class OnFavourButtonTapped extends ProposalDetailsEvent {
-  const OnFavourButtonTapped();
+class OnVoteAmountChanged extends ProposalDetailsEvent {
+  final int voteAmount;
+
+  const OnVoteAmountChanged(this.voteAmount);
+
   @override
-  String toString() => 'OnFavourButtonTapped';
+  String toString() => 'OnVoteAmountChanged';
 }
 
-class OnAbstainButtonTapped extends ProposalDetailsEvent {
-  const OnAbstainButtonTapped();
+class OnVoteButtonPressed extends ProposalDetailsEvent {
+  const OnVoteButtonPressed();
   @override
-  String toString() => 'OnAbstainButtonTapped';
+  String toString() => 'OnVoteButtonPressed';
 }
 
-class OnAgainstButtonTapped extends ProposalDetailsEvent {
-  const OnAgainstButtonTapped();
+class OnConfirmVoteButtonPressed extends ProposalDetailsEvent {
+  const OnConfirmVoteButtonPressed();
   @override
-  String toString() => 'OnAgainstButtonTapped';
-}
-
-class OnConfirmButtonPressed extends ProposalDetailsEvent {
-  const OnConfirmButtonPressed();
-  @override
-  String toString() => 'OnConfirmButtonPressed';
+  String toString() => 'OnConfirmVoteButtonPressed';
 }
 
 class OnNextProposalTapped extends ProposalDetailsEvent {
