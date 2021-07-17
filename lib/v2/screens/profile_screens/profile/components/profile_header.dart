@@ -109,7 +109,7 @@ class ProfileHeader extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Text(
-                                  '${state.score?.contributionScore ?? '00'}/99',
+                                  '${state.score?.contributionScore?.value ?? '00'}/99',
                                   textAlign: TextAlign.center,
                                   style: Theme.of(context).textTheme.headline7LowEmphasis,
                                 ),

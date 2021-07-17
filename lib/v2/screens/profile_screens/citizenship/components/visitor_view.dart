@@ -53,7 +53,7 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
             setState(() => _timeLine = _timeLineAnimation.value.toInt());
           });
         _reputationAnimation =
-            Tween<double>(begin: 0, end: state.score!.reputationScore.toDouble()).animate(_controller)
+            Tween<double>(begin: 0, end: state.score!.reputationScore?.toDouble()).animate(_controller)
               ..addListener(() {
                 setState(() => _reputation = _reputationAnimation.value.toInt());
               });
@@ -61,12 +61,12 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
           ..addListener(() {
             setState(() => _visitors = _visitorsAnimation.value.toInt() * 100);
           });
-        _seedsAnimation = Tween<double>(begin: 0, end: state.score!.plantedScore.toDouble()).animate(_controller)
+        _seedsAnimation = Tween<double>(begin: 0, end: state.score!.plantedScore?.toDouble()).animate(_controller)
           ..addListener(() {
             setState(() => _seeds = _seedsAnimation.value.toInt());
           });
         _transactionsAnimation =
-            Tween<double>(begin: 0, end: state.score!.transactionsScore.toDouble()).animate(_controller)
+            Tween<double>(begin: 0, end: state.score!.transactionScore?.toDouble()).animate(_controller)
               ..addListener(() {
                 setState(() => _transactions = _transactionsAnimation.value.toInt());
               });

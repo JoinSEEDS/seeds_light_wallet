@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:seeds/v2/datasource/remote/model/score_model.dart';
+import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 
 /// --- EVENTS
 @immutable
@@ -11,7 +11,7 @@ abstract class ContributionEvent extends Equatable {
 }
 
 class SetScores extends ContributionEvent {
-  final ScoreModel? score;
+  final ScoresViewModel? score;
   const SetScores({required this.score});
   @override
   String toString() => 'SetScores { score: $score }';
