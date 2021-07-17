@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _SettingsStorage {
@@ -24,6 +25,7 @@ class _SettingsStorage {
   static const SELECTED_FIAT_CURRENCY = 'selected_fiat_currency';
   static const IN_RECOVERY_MODE = 'in_recovery_mode';
   static const GUARDIAN_TUTORIAL_SHOWN = 'guardian_tutorial_shown';
+  static const TOKENS_WHITELIST = 'tokens_whitelist';
 
   String? _privateKey;
   String? _passcode;
@@ -54,6 +56,8 @@ class _SettingsStorage {
   bool get inRecoveryMode => _preferences.getBool(IN_RECOVERY_MODE) ?? false;
 
   bool get guardianTutorialShown => _preferences.getBool(GUARDIAN_TUTORIAL_SHOWN)!;
+
+  List<String> get tokensWhitelist => _preferences.getStringList(TOKENS_WHITELIST) ?? [SeedsToken.id];
 
   set inRecoveryMode(bool value) => _preferences.setBool(IN_RECOVERY_MODE, value);
 
@@ -114,6 +118,10 @@ class _SettingsStorage {
     if (shown != null) {
       _preferences.setBool(GUARDIAN_TUTORIAL_SHOWN, shown);
     }
+  }
+
+  set tokensWhitelist(List<String> tokensList) {
+    _preferences.setStringList(TOKENS_WHITELIST, tokensList);
   }
 
   late SharedPreferences _preferences;
