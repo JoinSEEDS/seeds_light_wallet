@@ -9,7 +9,7 @@ import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/componen
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/components/proposal_card.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/components/voting_end_cycle_card.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_and_index.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
 class ProposalsList extends StatefulWidget {
@@ -64,7 +64,7 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
         listener: (context, state) async {
           var pageCommand = state.pageCommand;
           _proposalsBloc.add(const ClearProposalsListPageCommand());
-          if (pageCommand is NavigateToRouteWithArguments<ProposalsAndIndex>) {
+          if (pageCommand is NavigateToRouteWithArguments<ProposalsArgsData>) {
             int? index = await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
             if (index != null) {
               // 420 is the height of this proposal card

@@ -18,6 +18,7 @@ dependencies:
   equatable: ^2.0.0
   url_launcher: ^6.0.3
   step_progress_indicator: ^1.0.0-nullsafety.0
+  uni_links: ^0.5.1
   intro_views_flutter: ^3.0.0
   intl: ^0.17.0
   flutter_localizations:
@@ -70,6 +71,8 @@ dependencies:
   collection: ^1.15.0-nullsafety.4
   mask_text_input_formatter: ^2.0.0
   lottie: ^1.0.1
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -116,12 +119,14 @@ flutter:
     - assets/images/lotus_support_small.svg
     - assets/images/lotus_support_big.svg
     - assets/images/seeds.png
+    - assets/images/appbar/seeds_symbol_forest.png
     - assets/images/seeds_light_wallet_logo.png
     - assets/images/guardians/guardian_tutorial_1.png
     - assets/images/guardians/guardian_tutorial_2.png
     - assets/images/guardians/guardian_tutorial_3.png
     - assets/images/guardians/guardian_tutorial_4.png
     - assets/images/guardians/invite_guardian_mail.svg
+    - assets/images/guardians/check_circle.png
     - assets/images/guardians/invite_guardian_mail.png
     - assets/images/guardians/guardian_shield.png
     - assets/images/guardians/onboarding/onboarding_1.jpg

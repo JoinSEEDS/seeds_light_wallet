@@ -1,45 +1,38 @@
 import 'package:async/async.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/page_commands.dart';
 import '../mappers/next_proposal_data_state_mapper.dart';
 import '../mappers/proposal_data_state_mapper.dart';
 import '../usecases/get_proposal_data_use_case.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_and_index.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
 
 /// --- BLOC
 class ProposalDetailsBloc extends Bloc<ProposalDetailsEvent, ProposalDetailsState> {
-  ProposalDetailsBloc(ProposalsAndIndex proposalsAndIndex) : super(ProposalDetailsState.initial(proposalsAndIndex));
+  ProposalDetailsBloc(ProposalsArgsData proposalsArgsData) : super(ProposalDetailsState.initial(proposalsArgsData));
 
   @override
   Stream<ProposalDetailsState> mapEventToState(ProposalDetailsEvent event) async* {
     if (event is OnLoadProposalData) {
       yield state.copyWith(pageState: PageState.loading);
-      List<Result> results = await GetProposalDataUseCase().run(
-        creatorAccount: state.proposals[state.currentIndex].creator,
-        proposalId: state.proposals[state.currentIndex].id,
-      );
+      List<Result> results = await GetProposalDataUseCase().run(state.proposals[state.currentIndex]);
       yield ProposalDataStateMapper().mapResultsToState(state, results);
     }
     if (event is OnNextProposalTapped) {
       yield state.copyWith(pageState: PageState.loading);
-      List<Result> results = await GetProposalDataUseCase().run(
-        creatorAccount: state.proposals[state.currentIndex + 1].creator,
-        proposalId: state.proposals[state.currentIndex + 1].id,
-      );
+      List<Result> results = await GetProposalDataUseCase().run(state.proposals[state.currentIndex + 1]);
       yield NextProposalDataStateMapper().mapResultsToState(state, results);
     }
-    if (event is OnFavourButtonTapped) {
-      yield state.copyWith(isConfirmButtonEnabled: true);
+    if (event is OnVoteAmountChanged) {
+      yield state.copyWith(voteAmount: event.voteAmount);
     }
-    if (event is OnAbstainButtonTapped) {
-      yield state.copyWith(isConfirmButtonEnabled: true);
+    if (event is OnVoteButtonPressed) {
+      yield state.copyWith(pageCommand: ShowConfimVote());
     }
-    if (event is OnAgainstButtonTapped) {
-      yield state.copyWith(isConfirmButtonEnabled: true);
-    }
-    if (event is OnConfirmButtonPressed) {
-      yield state.copyWith(showNextButton: true);
+    if (event is OnConfirmVoteButtonPressed) {
+      await Future.delayed(const Duration(seconds: 1));
+      yield state.copyWith(pageCommand: VoteSuccess(), showNextButton: true);
     }
   }
 }

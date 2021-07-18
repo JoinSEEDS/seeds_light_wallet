@@ -20,11 +20,26 @@ extension Localization on String {
           'Abstain': 'Abstenerse',
           'No': 'No',
           'You have no trust tokens': 'No tienes tokens de confianza',
+          'Vote': 'Votar',
           'Confirm': 'Confirmar',
           'View Next Proposal': 'Ver siguiente propuesta',
+          'You must be a': 'Debes ser un',
+          ' Citizen ': ' Ciudadano ',
+          'to vote on proposals.': 'para votar en propuestas.',
           'You have already': 'Ya has',
-          ' Precast ': ' Prefabricado ',
-          'your vote.': 'tu voto.'
+          ' Voted.': ' Votado.',
+          'Voting - ': 'Votar - ',
+          'You have already used your': 'Ya has usado tus',
+          ' Trust Tokens ': ' Fichas de confianza ',
+          'for this cycle.': 'para este ciclo.',
+          "I'm": "Estoy",
+          ' in favor ': ' en favor ',
+          'of this proposal with ': 'de esta propuesta con ',
+          'I': 'Me',
+          ' refrain ': ' abstengo ',
+          'from voting': 'de votar',
+          ' against ': 'en contra',
+          'this proposal with': 'de esta propuesta con',
         }
       };
 
