@@ -50,7 +50,7 @@ dependencies:
   dots_indicator: ^2.0.0
   permission_handler: ^8.0.1
   qr_flutter: ^4.0.0
-  image_picker: ^0.8.0+3
+  image_picker: ^0.8.2
   oktoast: ^3.0.0
   eosdart:
     git: 
