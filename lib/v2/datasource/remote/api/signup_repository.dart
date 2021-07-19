@@ -97,7 +97,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
         ]
         ..data = {
           'account': accountName,
-          'publicKey': publicKey,
+          'publicKey': publicKey.toString(),
           'invite_secret': inviteSecret,
           'fullname': displayName,
         }
@@ -106,7 +106,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
     final transaction = Transaction()..actions = actions;
 
     try {
-      final dynamic response = buildEosClient().pushTransaction(transaction, broadcast: true);
+      final dynamic response = await buildEosClient().pushTransaction(transaction, broadcast: true);
 
       return mapEosResponse(response, (dynamic map) {
         return response['transaction_id'];
