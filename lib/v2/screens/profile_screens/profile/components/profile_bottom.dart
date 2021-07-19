@@ -35,7 +35,7 @@ class ProfileBottom extends StatelessWidget {
             BlocBuilder<ProfileBloc, ProfileState>(
               buildWhen: (previous, current) => previous.profile != current.profile,
               builder: (context, state) {
-                return CitizenshipCard(profile: state.profile,);
+                return state.profile != null ? CitizenshipCard(profile: state.profile!) : const SizedBox.shrink();
               },
             ),
             const SizedBox(height: 16.0),
