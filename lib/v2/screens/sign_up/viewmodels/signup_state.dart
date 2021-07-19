@@ -6,18 +6,21 @@ class SignupState extends Equatable {
     required this.claimInviteState,
     required this.displayNameState,
     required this.createUsernameState,
+    required this.addPhoneNumberState,
   });
 
   final ClaimInviteState claimInviteState;
   final PageContent pageContent;
   final DisplayNameState displayNameState;
   final CreateUsernameState createUsernameState;
+  final AddPhoneNumberState addPhoneNumberState;
 
   factory SignupState.initial() => SignupState(
         pageContent: PageContent.CLAIM_INVITE,
         claimInviteState: ClaimInviteState.initial(),
         displayNameState: DisplayNameState.initial(),
         createUsernameState: CreateUsernameState.initial(),
+        addPhoneNumberState: AddPhoneNumberState.initial(),
       );
 
   SignupState copyWith({
@@ -25,12 +28,14 @@ class SignupState extends Equatable {
     ClaimInviteState? claimInviteState,
     DisplayNameState? displayNameState,
     CreateUsernameState? createUsernameState,
+    AddPhoneNumberState? addPhoneNumberState,
   }) =>
       SignupState(
         pageContent: pageContent ?? this.pageContent,
         claimInviteState: claimInviteState ?? this.claimInviteState,
         displayNameState: displayNameState ?? this.displayNameState,
         createUsernameState: createUsernameState ?? this.createUsernameState,
+        addPhoneNumberState: addPhoneNumberState ?? this.addPhoneNumberState,
       );
 
   @override
@@ -39,6 +44,7 @@ class SignupState extends Equatable {
         claimInviteState.props,
         displayNameState,
         createUsernameState,
+        addPhoneNumberState,
       ];
 }
 

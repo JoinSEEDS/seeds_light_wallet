@@ -37,11 +37,11 @@ class ProfileMiddle extends StatelessWidget {
                 leading: const Icon(Icons.attach_money_sharp, color: AppColors.green1),
                 title: Text(
                   'Currency'.i18n,
-                  style: Theme.of(context).textTheme.subtitle2HighEmphasis,
+                  style: Theme.of(context).textTheme.button,
                 ),
                 trailing: Text(
                   settingsStorage.selectedFiatCurrency,
-                  style: Theme.of(context).textTheme.subtitle1HighEmphasis,
+                  style: Theme.of(context).textTheme.headline7,
                 ),
                 onTap: () async {
                   final res = await NavigationService.of(context).navigateTo(Routes.setCurrency);

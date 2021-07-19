@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
@@ -20,6 +19,7 @@ abstract class EosRepository {
   String action_name_transfer = 'transfer';
   String action_name_updateauth = 'updateauth';
   String action_name_update = 'update';
+  String action_name_accept_new = 'acceptnew';
 
   // Authorizations
   String permission_active = 'active';
