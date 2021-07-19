@@ -6,7 +6,6 @@ class GuardianApproveOrDenyStateMapper extends StateMapper {
   AppState mapResultToState(AppState currentState, Uri newLink) {
     var splitUri = newLink.query.split('=');
     var placeHolder = splitUri[0];
-    var esr = splitUri[1];
 
     if (placeHolder.contains("guardian")) {
       return currentState.copyWith(showGuardianApproveOrDenyScreen: true);
