@@ -27,19 +27,19 @@ extension Localization on String {
           ' Citizen ': ' Ciudadano ',
           'to vote on proposals.': 'para votar en propuestas.',
           'You have already': 'Ya has',
-          ' Voted.': ' Votado.',
-          'Voting - ': 'Votar - ',
+          ' Voted with': ' Votado con',
+          'Voting': 'Votar',
           'You have already used your': 'Ya has usado tus',
           ' Trust Tokens ': ' Fichas de confianza ',
           'for this cycle.': 'para este ciclo.',
           "I'm": "Estoy",
           ' in favor ': ' en favor ',
-          'of this proposal with ': 'de esta propuesta con ',
+          'of this proposal': 'de esta propuesta',
           'I': 'Me',
           ' refrain ': ' abstengo ',
           'from voting': 'de votar',
           ' against ': 'en contra',
-          'this proposal with': 'de esta propuesta con',
+          'this proposal': 'de esta propuesta',
         }
       };
 

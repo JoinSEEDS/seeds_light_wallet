@@ -40,7 +40,8 @@ class VoteStatusLabel extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(text: 'You have already'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                        TextSpan(text: ' Voted.'.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
+                        TextSpan(text: ' Voted with '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
+                        TextSpan(text: '${state.vote!.amount}', style: Theme.of(context).textTheme.subtitle2),
                       ],
                     ),
                   ),
@@ -55,10 +56,11 @@ class VoteStatusLabel extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       children: [
-                        TextSpan(text: 'Voting - '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                        TextSpan(text: 'Voting'.i18n, style: Theme.of(context).textTheme.subtitle2),
                         TextSpan(
-                            text: state.proposals[state.currentIndex].campaignTypeLabel,
+                            text: ' - ${state.proposals[state.currentIndex].campaignTypeLabel} - ',
                             style: Theme.of(context).textTheme.subtitle2Green2),
+                        TextSpan(text: state.voteAmount.toString(), style: Theme.of(context).textTheme.subtitle2),
                       ],
                     ),
                   ),

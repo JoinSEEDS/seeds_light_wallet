@@ -50,23 +50,24 @@ class ProposalDetailsBottom extends StatelessWidget {
                   )
                 : Column(
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Slider(
-                              value: state.voteAmount.toDouble(),
-                              min: -100,
-                              max: 100,
-                              divisions: 200,
-                              label: '${state.voteAmount}',
-                              onChanged: (newValue) {
-                                BlocProvider.of<ProposalDetailsBloc>(context)
-                                    .add(OnVoteAmountChanged(newValue.round()));
-                              },
-                            ),
-                          )
-                        ],
-                      ),
+                      if (state.tokens!.amount > 0)
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Slider(
+                                value: state.voteAmount.toDouble(),
+                                min: -100,
+                                max: 100,
+                                divisions: 200,
+                                label: '${state.voteAmount}',
+                                onChanged: (newValue) {
+                                  BlocProvider.of<ProposalDetailsBloc>(context)
+                                      .add(OnVoteAmountChanged(newValue.round()));
+                                },
+                              ),
+                            )
+                          ],
+                        ),
                       const CurrentVoteChoiceLabel(),
                       Padding(
                         padding: const EdgeInsets.all(horizontalEdgePadding),
