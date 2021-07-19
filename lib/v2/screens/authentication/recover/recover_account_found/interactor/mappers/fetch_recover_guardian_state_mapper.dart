@@ -1,3 +1,4 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
@@ -14,7 +15,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
     Result userRecoversModel = result.userRecoversModel;
     Result accountGuardians = result.accountGuardians;
 
-    String? link;
+    Uri? link;
     if (linkResult.isValue) {
       link = linkResult.asValue!.value;
     }

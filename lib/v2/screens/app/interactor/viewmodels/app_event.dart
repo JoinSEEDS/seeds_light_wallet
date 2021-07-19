@@ -49,16 +49,11 @@ class ClearAppPageCommand extends AppEvent {
   String toString() => 'ClearAppPageCommand';
 }
 
-class HandleInitialDeepLink extends AppEvent {
-  @override
-  String toString() => 'HandleInitialDeepLink';
-}
+class HandleIncomingFirebaseDeepLink extends AppEvent {
+  final Uri newLink;
 
-class HandleIncomingDeepLink extends AppEvent {
-  final String? newLink;
-
-  const HandleIncomingDeepLink(this.newLink);
+  const HandleIncomingFirebaseDeepLink(this.newLink);
 
   @override
-  String toString() => 'HandleIncomingDeepLink';
+  String toString() => 'HandleIncomingFirebaseDeepLink';
 }
