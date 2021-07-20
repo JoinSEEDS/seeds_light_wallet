@@ -5,8 +5,8 @@ import 'package:async/async.dart';
 
 class TransactionsListRepository extends NetworkRepository {
   Future<Result> getTransactions(String userAccount) async {
-    final transactionsUrl =
-        Uri.parse('$baseURL/v2/history/get_actions?account=$userAccount&act.name=transfer&skip=0&limit=100&sort=desc');
+    final transactionsUrl = Uri.parse(
+        '$v2historyURL/v2/history/get_actions?account=$userAccount&act.name=transfer&skip=0&limit=100&sort=desc');
 
     return http
         .get(transactionsUrl)

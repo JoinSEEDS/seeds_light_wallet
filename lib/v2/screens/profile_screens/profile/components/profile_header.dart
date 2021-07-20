@@ -104,7 +104,7 @@ class ProfileHeader extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   'Contribution Score'.i18n,
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: Theme.of(context).textTheme.subtitle4,
                                 ),
                               ),
                               Expanded(
