@@ -14,11 +14,11 @@ class TokenBalancesState extends Equatable {
     required this.pageState,
     this.errorMessage,
     required this.availableTokens,
-    this.selectedIndex = 0,
+    required this.selectedIndex,
   });
 
   @override
-  List<Object?> get props => [pageState, errorMessage, availableTokens];
+  List<Object?> get props => [pageState, errorMessage, availableTokens, selectedIndex];
 
   TokenBalanceViewModel? balanceViewModelForToken(String tokenModelID) =>
       availableTokens.firstWhereOrNull((element) => element.token.id == tokenModelID);
@@ -38,6 +38,7 @@ class TokenBalancesState extends Equatable {
 
   factory TokenBalancesState.initial() {
     return const TokenBalancesState(
+      selectedIndex: 0,
       pageState: PageState.initial,
       availableTokens: [TokenBalanceViewModel(SeedsToken, null)],
     );
