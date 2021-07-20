@@ -21,6 +21,8 @@ extension Localization on String {
           'No': 'No',
           'You have no trust tokens': 'No tienes tokens de confianza',
           'Vote': 'Votar',
+          'Vote ': 'Voto ',
+          'Votes': 'Votos',
           'Confirm': 'Confirmar',
           'View Next Proposal': 'Ver siguiente propuesta',
           'You must be a': 'Debes ser un',
