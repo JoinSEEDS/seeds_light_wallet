@@ -11,6 +11,7 @@ import 'citizenship_card.dart';
 /// PROFILE BOTTOM
 class ProfileBottom extends StatelessWidget {
   const ProfileBottom({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ProfileBloc, ProfileState>(
@@ -28,12 +29,7 @@ class ProfileBottom extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            BlocBuilder<ProfileBloc, ProfileState>(
-              buildWhen: (previous, current) => previous.profile != current.profile,
-              builder: (context, state) {
-                return state.profile != null ? CitizenshipCard(profile: state.profile!) : const SizedBox.shrink();
-              },
-            ),
+            const CitizenshipCard(),
             const SizedBox(height: 16.0),
             BlocBuilder<ProfileBloc, ProfileState>(
               buildWhen: (previous, current) => previous.hasSecurityNotification != current.hasSecurityNotification,
