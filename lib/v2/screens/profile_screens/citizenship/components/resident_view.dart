@@ -211,7 +211,7 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                     CircularProgressItem(
                       icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
                       totalStep: citizen_required_visitors_invited,
-                      currentStep: _visitors,
+                      currentStep: _visitors ~/ 100,
                       circleRadius: 30,
                       title: 'Invited Users'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
