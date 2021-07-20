@@ -25,6 +25,7 @@ class ProposalDetailsHeader extends StatelessWidget {
                   errorWidget: (_, __, ___) => const SizedBox.shrink(),
                 ),
               ),
+              Positioned(left: 0, top: 0, right: 0, child: AppBar(backgroundColor: Colors.transparent)),
               Positioned(
                 top: kToolbarHeight + 42,
                 left: 0,
