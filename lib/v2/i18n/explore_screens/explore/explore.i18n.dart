@@ -5,14 +5,10 @@ extension Localization on String {
       {
         'es_es': {
           'Explore': 'Explorar',
-          'Invite': 'Invitación',
-          'Available Seeds': 'Seeds Disponibles',
-          'Plant': 'Plantar',
+          'Invite a Friend': 'Invita un amigo',
           'Planted Seeds': 'Seeds plantadas',
           'Vote': 'Votar',
-          'Trust Tokens Remaining': 'Tokens de confianza restantes',
           'Get Seeds': 'Obtener Seeds',
-          'Error Loading Data': 'Error Cargando Los Datos',
           'Error Loading Page': 'Error Cargando La página'
         }
       };

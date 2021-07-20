@@ -12,7 +12,7 @@ import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/components/explore_link_card.dart';
-import 'package:seeds/v2/screens/explore_screens/explore/components/explore_info_card.dart';
+import 'package:seeds/v2/screens/explore_screens/explore/components/explore_card.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
 
@@ -29,14 +29,11 @@ class ExploreScreen extends StatelessWidget {
         appBar: AppBar(title: Text('Explore'.i18n)),
         body: BlocConsumer<ExploreBloc, ExploreState>(
           listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) async {
+          listener: (context, state) {
             var pageCommand = state.pageCommand;
             BlocProvider.of<ExploreBloc>(context)..add(const ClearExplorePageCommand());
             if (pageCommand is NavigateToRoute) {
-              bool? shouldReloadExplore = await NavigationService.of(context).navigateTo(pageCommand.route);
-              if (shouldReloadExplore != null && shouldReloadExplore) {
-                BlocProvider.of<ExploreBloc>(context)..add(const LoadExploreData());
-              }
+              NavigationService.of(context).navigateTo(pageCommand.route);
             }
           },
           builder: (context, ExploreState state) {
@@ -54,35 +51,29 @@ class ExploreScreen extends StatelessWidget {
                       height: height,
                       child: ListView(
                         padding: const EdgeInsets.all(horizontalEdgePadding),
-                        children: <Widget>[
+                        children: [
                           Row(
                             children: [
                               Expanded(
-                                child: ExploreInfoCard(
+                                child: ExploreCard(
                                   onTap: () {
                                     BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.createInvite));
                                   },
-                                  title: 'Invite'.i18n,
-                                  amount: state.availableSeeds?.roundedQuantity,
-                                  isErrorState: state.availableSeeds == null,
+                                  title: 'Invite a Friend'.i18n,
                                   icon: SvgPicture.asset(
                                     'assets/images/explore/person_send_invite.svg',
                                     color: AppColors.white,
                                   ),
-                                  amountLabel: 'Available Seeds'.i18n,
                                 ),
                               ),
                               const SizedBox(width: 20),
                               Expanded(
-                                child: ExploreInfoCard(
+                                child: ExploreCard(
                                   onTap: () {
                                     BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.plantSeeds));
                                   },
-                                  title: 'Plant'.i18n,
-                                  amount: state.plantedSeeds?.roundedQuantity,
-                                  isErrorState: state.plantedSeeds == null,
+                                  title: 'Planted Seeds'.i18n,
                                   icon: SvgPicture.asset('assets/images/explore/plant_seed.svg'),
-                                  amountLabel: 'Planted Seeds'.i18n,
                                 ),
                               ),
                             ],
@@ -92,14 +83,12 @@ class ExploreScreen extends StatelessWidget {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Expanded(
-                                child: ExploreInfoCard(
+                                child: ExploreCard(
                                   onTap: () {
                                     BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.vote));
                                   },
                                   title: 'Vote'.i18n,
-                                  amount: '${state.campaignVoice} / ${state.allianceVoice}',
                                   icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
-                                  amountLabel: 'Trust Tokens Remaining'.i18n,
                                 ),
                               ),
                               const SizedBox(width: 20),
@@ -125,7 +114,7 @@ class ExploreScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 16),
                             Expanded(
-                              child: (state.isDHOMember != null && state.isDHOMember == true)
+                              child: state.isDHOMember
                                   ? ExploreLinkCard(
                                       backgroundImage: 'assets/images/explore/hypha_dho_card.jpg',
                                       onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
