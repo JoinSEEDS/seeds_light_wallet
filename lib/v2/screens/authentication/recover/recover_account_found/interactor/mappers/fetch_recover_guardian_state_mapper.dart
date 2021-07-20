@@ -14,7 +14,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
     Result userRecoversModel = result.userRecoversModel;
     Result accountGuardians = result.accountGuardians;
 
-    String? link;
+    Uri? link;
     if (linkResult.isValue) {
       link = linkResult.asValue!.value;
     }
