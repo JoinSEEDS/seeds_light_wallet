@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
-import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/images/explore/invite_person.dart';
+import 'package:seeds/v2/images/explore/plant_seeds.dart';
+import 'package:seeds/v2/images/explore/vote.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:seeds/v2/screens/explore_screens/explore/components/explore_link_card.dart';
@@ -38,13 +38,9 @@ class ExploreScreen extends StatelessWidget {
           },
           builder: (context, ExploreState state) {
             switch (state.pageState) {
-              case PageState.initial:
-                return const SizedBox.shrink();
-              case PageState.loading:
-                return const FullPageLoadingIndicator();
               case PageState.failure:
                 return const FullPageErrorIndicator();
-              case PageState.success:
+              case PageState.initial:
                 return Stack(
                   children: [
                     Container(
@@ -60,9 +56,9 @@ class ExploreScreen extends StatelessWidget {
                                     BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.createInvite));
                                   },
                                   title: 'Invite a Friend'.i18n,
-                                  icon: SvgPicture.asset(
-                                    'assets/images/explore/person_send_invite.svg',
-                                    color: AppColors.white,
+                                  icon: const Padding(
+                                    padding: EdgeInsets.only(left: 6.0),
+                                    child: CustomPaint(size: Size(40, 40), painter: InvitePerson()),
                                   ),
                                 ),
                               ),
@@ -70,10 +66,13 @@ class ExploreScreen extends StatelessWidget {
                               Expanded(
                                 child: ExploreCard(
                                   onTap: () {
-                                    BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.plantSeeds));
+                                    BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.vote));
                                   },
-                                  title: 'Planted Seeds'.i18n,
-                                  icon: SvgPicture.asset('assets/images/explore/plant_seed.svg'),
+                                  title: 'Vote'.i18n,
+                                  icon: const Padding(
+                                    padding: EdgeInsets.only(right: 6.0),
+                                    child: CustomPaint(size: Size(40, 40), painter: Vote()),
+                                  ),
                                 ),
                               ),
                             ],
@@ -85,10 +84,10 @@ class ExploreScreen extends StatelessWidget {
                               Expanded(
                                 child: ExploreCard(
                                   onTap: () {
-                                    BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.vote));
+                                    BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.plantSeeds));
                                   },
-                                  title: 'Vote'.i18n,
-                                  icon: SvgPicture.asset('assets/images/explore/thumb_up.svg'),
+                                  title: 'Plant Seeds'.i18n,
+                                  icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
                                 ),
                               ),
                               const SizedBox(width: 20),

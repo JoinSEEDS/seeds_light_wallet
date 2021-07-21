@@ -20,15 +20,24 @@ class ExploreCard extends StatelessWidget {
           color: AppColors.darkGreen2,
           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         ),
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4.0),
-            icon,
-            const SizedBox(height: 20.0),
-            Text(title, style: Theme.of(context).textTheme.headline8),
-          ],
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
+          width: 158.0,
+          height: 158.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 4.0),
+              Container(
+                height: 70,
+                width: 70,
+                decoration: const BoxDecoration(color: AppColors.lightGreen2, shape: BoxShape.circle),
+                child: Center(child: icon),
+              ),
+              const SizedBox(height: 20.0),
+              Text(title, style: Theme.of(context).textTheme.buttonWhiteL),
+            ],
+          ),
         ),
       ),
     );

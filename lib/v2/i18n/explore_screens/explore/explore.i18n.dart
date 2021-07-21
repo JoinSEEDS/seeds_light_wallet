@@ -6,9 +6,8 @@ extension Localization on String {
         'es_es': {
           'Explore': 'Explorar',
           'Invite a Friend': 'Invita un amigo',
-          'Planted Seeds': 'Seeds plantadas',
+          'Plant Seeds': 'Seeds plantadas',
           'Vote': 'Votar',
-          'Get Seeds': 'Obtener Seeds',
           'Error Loading Page': 'Error Cargando La página'
         }
       };

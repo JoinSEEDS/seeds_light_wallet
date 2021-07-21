@@ -10,7 +10,7 @@ class ExploreStateMapper extends StateMapper {
     } else {
       bool? isDHOMember = result.asValue!.value;
 
-      return currentState.copyWith(pageState: PageState.success, isDHOMember: isDHOMember);
+      return currentState.copyWith(isDHOMember: isDHOMember);
     }
   }
 }
