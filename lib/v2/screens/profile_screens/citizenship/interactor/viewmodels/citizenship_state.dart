@@ -26,6 +26,8 @@ class CitizenshipState extends Equatable {
   final double? progressTimeline;
   final int? invitedVisitors;
   final int? invitedResidents;
+  final double? plantedSeeds;
+  final int? transactionsWithSeeds;
 
   const CitizenshipState({
     required this.pageState,
@@ -35,6 +37,8 @@ class CitizenshipState extends Equatable {
     this.progressTimeline,
     this.invitedResidents,
     this.invitedVisitors,
+    this.plantedSeeds,
+    this.transactionsWithSeeds,
   });
 
   @override
@@ -46,6 +50,8 @@ class CitizenshipState extends Equatable {
         progressTimeline,
         invitedResidents,
         invitedVisitors,
+        plantedSeeds,
+       transactionsWithSeeds,
       ];
 
   CitizenshipState copyWith({
@@ -56,6 +62,8 @@ class CitizenshipState extends Equatable {
     double? progressTimeline,
     int? invitedResidents,
     int? invitedVisitors,
+    double? plantedSeeds,
+    int? transactionsWithSeeds,
   }) {
     return CitizenshipState(
       pageState: pageState ?? this.pageState,
@@ -65,6 +73,8 @@ class CitizenshipState extends Equatable {
       progressTimeline: progressTimeline ?? this.progressTimeline,
       invitedResidents: invitedResidents ?? this.invitedResidents,
       invitedVisitors: invitedVisitors ?? this.invitedVisitors,
+      plantedSeeds: plantedSeeds ?? this.plantedSeeds,
+      transactionsWithSeeds: transactionsWithSeeds ?? this.transactionsWithSeeds,
     );
   }
 
