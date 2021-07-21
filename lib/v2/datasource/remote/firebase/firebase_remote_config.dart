@@ -11,6 +11,7 @@ const String _hyphaEndPointKey = 'hypha_end_point';
 const String _explorerUrlKey = 'explore_url';
 const String _dhoExplorerUrlKey = 'dho_explore_url';
 const String _defaultEndPointUrlKey = 'default_end_point';
+const String _defaultV2EndPointUrlKey = 'default_v2_end_point';
 
 const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
 const String _termsAndConditionsDefaultUrl = 'https://www.joinseeds.com/seeds-app-terms-and-conditions.html';
@@ -18,7 +19,9 @@ const String _privacyPolicyUrl = 'https://www.joinseeds.com/seeds-app-privacy-po
 const String _hyphaEndPointUrl = 'https://node.hypha.earth';
 const String _explorerUrl = 'https://telos.bloks.io';
 const String _dhoExplorerUrl = 'https://dho.hypha.earth';
-const String _defaultEndPointUrl = 'https://mainnet.telos.net'; // mainnet.telos.net is the global load balaner for telos
+const String _defaultEndPointUrl = "https://api.telosfoundation.io";
+// we need a separate endpoint for v2/history as most nodes don't support v2
+const String _defaultV2EndpointUrl = "https://api.telosfoundation.io";
 
 class _FirebaseRemoteConfigService {
   final defaults = <String, dynamic>{
@@ -29,7 +32,8 @@ class _FirebaseRemoteConfigService {
     _hyphaEndPointKey: _hyphaEndPointUrl,
     _explorerUrlKey: _explorerUrl,
     _dhoExplorerUrlKey: _dhoExplorerUrl,
-    _defaultEndPointUrlKey: _defaultEndPointUrl
+    _defaultEndPointUrlKey: _defaultEndPointUrl,
+    _defaultV2EndPointUrlKey: _defaultV2EndpointUrl
   };
 
   // RemoteConfig _remoteConfig;
@@ -71,23 +75,25 @@ class _FirebaseRemoteConfigService {
     // refresh();
   }
 
-  bool get featureFlagGuardiansEnabled => false;//_remoteConfig.getBool(_featureFlagGuardianKey);
+  bool get featureFlagGuardiansEnabled => false; //_remoteConfig.getBool(_featureFlagGuardianKey);
 
-  String get termsAndConditions => _termsAndConditionsDefaultUrl;//_remoteConfig.getString(_termsAndConditionsUrlKey);
+  String get termsAndConditions => _termsAndConditionsDefaultUrl; //_remoteConfig.getString(_termsAndConditionsUrlKey);
 
-  String get privacyPolicy => _privacyPolicyUrl;//_remoteConfig.getString(_privacyPolicyKey);
+  String get privacyPolicy => _privacyPolicyUrl; //_remoteConfig.getString(_privacyPolicyKey);
 
-  String get hyphaEndPoint => _hyphaEndPointUrl;//_remoteConfig.getString(_hyphaEndPointUrl);
+  String get hyphaEndPoint => _hyphaEndPointUrl; //_remoteConfig.getString(_hyphaEndPointUrl);
 
-  String get explorerUrl => _explorerUrl;//_remoteConfig.getString(_explorerUrlKey);
+  String get explorerUrl => _explorerUrl; //_remoteConfig.getString(_explorerUrlKey);
 
-  String get dhoExplorerUrl => _explorerUrl;//_dhoExplorerUrl;//_remoteConfig.getString(_dhoExplorerUrlKey);
+  String get dhoExplorerUrl => _explorerUrl; //_dhoExplorerUrl;//_remoteConfig.getString(_dhoExplorerUrlKey);
 
-  String get defaultEndPointUrl => _defaultEndPointUrl;//_remoteConfig.getString(_defaultEndPointUrlKey);
+  String get defaultEndPointUrl => _defaultEndPointUrl; //_remoteConfig.getString(_defaultEndPointUrlKey);
+
+  String get defaultV2EndPointUrl => _defaultV2EndpointUrl; //_remoteConfig.getString(_defaultEndPointUrlKey);
 
   //_remoteConfig.getString(_activeEOSEndpointKey)
-  FirebaseEosServer get activeEOSServerUrl => parseEosServers(_eosEndpoints)!
-      .firstWhere((FirebaseEosServer element) => element.isDefault!);
+  FirebaseEosServer get activeEOSServerUrl =>
+      parseEosServers(_eosEndpoints)!.firstWhere((FirebaseEosServer element) => element.isDefault!);
 }
 
 // A function that converts a response body into a List<FirebaseEosServer>.

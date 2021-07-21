@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
@@ -24,6 +23,7 @@ abstract class EosRepository {
   String action_name_canresident = 'canresident';
   String action_name_makecitizen = 'makecitizen';
   String action_name_cancitizen = 'cancitizen';
+  String action_name_accept_new = 'acceptnew';
 
   // Authorizations
   String permission_active = 'active';

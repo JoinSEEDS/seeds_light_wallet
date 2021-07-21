@@ -67,7 +67,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                   enabled: false,
                                   labelText: 'Link to Activate Key Guardians',
                                   suffixIcon: const SizedBox.shrink(),
-                                  controller: TextEditingController(text: state.linkToActivateGuardians),
+                                  controller: TextEditingController(text: state.linkToActivateGuardians?.toString()),
                                 ),
                               ),
                               Positioned(
@@ -82,7 +82,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                       ),
                                       splashRadius: 30,
                                       onPressed: () {
-                                        Clipboard.setData(ClipboardData(text: state.linkToActivateGuardians)).then(
+                                        Clipboard.setData(ClipboardData(text: state.linkToActivateGuardians?.toString())).then(
                                           (value) {
                                             BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnCopyIconTap());
                                           },

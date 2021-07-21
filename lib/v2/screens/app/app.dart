@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
-import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
+import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
@@ -18,6 +18,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/i18n/app/app.i18.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/app/components/account_under_recovery_screen.dart';
+import 'package:seeds/v2/screens/app/components/guardian_approve_or_deny_recovery_screen.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
@@ -60,7 +61,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _appBloc = AppBloc()..add(HandleInitialDeepLink());
+    _appBloc = AppBloc();
     BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
     WidgetsBinding.instance?.addObserver(this);
   }
@@ -141,6 +142,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             } else {
               if (state.showGuardianRecoveryAlert) {
                 return const AccountUnderRecoveryScreen();
+              } else if (state.showGuardianApproveOrDenyScreen) {
+                return const GuardianApproveOrDenyScreen();
               } else {
                 return PageView(
                   controller: _pageController,

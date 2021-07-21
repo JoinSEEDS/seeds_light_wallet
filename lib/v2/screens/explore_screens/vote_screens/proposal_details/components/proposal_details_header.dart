@@ -13,9 +13,9 @@ class ProposalDetailsHeader extends StatelessWidget {
     return BlocBuilder<ProposalDetailsBloc, ProposalDetailsState>(
       buildWhen: (previous, current) => previous.currentIndex != current.currentIndex,
       builder: (context, state) {
-        return SliverAppBar(
-          expandedHeight: 280,
-          flexibleSpace: Stack(
+        return Container(
+          height: 280,
+          child: Stack(
             fit: StackFit.expand,
             children: [
               FittedBox(
@@ -25,6 +25,7 @@ class ProposalDetailsHeader extends StatelessWidget {
                   errorWidget: (_, __, ___) => const SizedBox.shrink(),
                 ),
               ),
+              Positioned(left: 0, top: 0, right: 0, child: AppBar(backgroundColor: Colors.transparent)),
               Positioned(
                 top: kToolbarHeight + 42,
                 left: 0,
