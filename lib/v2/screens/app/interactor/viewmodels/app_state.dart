@@ -9,14 +9,15 @@ class AppState extends Equatable {
   final int index;
   final bool hasNotification;
   final bool showGuardianRecoveryAlert;
+  final bool showGuardianApproveOrDenyScreen;
 
-  const AppState({
-    required this.pageState,
-    this.pageCommand,
-    required this.index,
-    required this.hasNotification,
-    required this.showGuardianRecoveryAlert,
-  });
+  const AppState(
+      {required this.pageState,
+      this.pageCommand,
+      required this.index,
+      required this.hasNotification,
+      required this.showGuardianRecoveryAlert,
+      required this.showGuardianApproveOrDenyScreen});
 
   @override
   List<Object?> get props => [
@@ -25,6 +26,7 @@ class AppState extends Equatable {
         index,
         hasNotification,
         showGuardianRecoveryAlert,
+        showGuardianApproveOrDenyScreen,
       ];
 
   AppState copyWith({
@@ -33,6 +35,7 @@ class AppState extends Equatable {
     int? index,
     bool? hasNotification,
     bool? showGuardianRecoveryAlert,
+    bool? showGuardianApproveOrDenyScreen,
   }) {
     return AppState(
       pageState: pageState ?? this.pageState,
@@ -40,6 +43,7 @@ class AppState extends Equatable {
       index: index ?? this.index,
       hasNotification: hasNotification ?? this.hasNotification,
       showGuardianRecoveryAlert: showGuardianRecoveryAlert ?? this.showGuardianRecoveryAlert,
+      showGuardianApproveOrDenyScreen: showGuardianApproveOrDenyScreen ?? this.showGuardianApproveOrDenyScreen,
     );
   }
 
@@ -49,6 +53,7 @@ class AppState extends Equatable {
       index: 0,
       hasNotification: false,
       showGuardianRecoveryAlert: false,
+      showGuardianApproveOrDenyScreen: false,
     );
   }
 }

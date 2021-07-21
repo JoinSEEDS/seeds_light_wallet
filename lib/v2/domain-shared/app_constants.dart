@@ -4,12 +4,13 @@ const String url_buy_seeds = 'https://www.joinseeds.com/buy-seeds?acc=';
 /// Firebase Dynamic Link Parameters
 const String domain_app_uri_prefix = 'https://seedswallet.page.link';
 const String target_link = 'https://joinseeds.com/?placeholder=&inviteMnemonic=';
+const String guardian_target_link = 'https://joinseeds.com/?placeholder=&guardian=';
 const String android_pacakage_name = 'com.joinseeds.seedswallet';
 const String ios_bundle_id = 'com.joinseeds.seedslight';
 const String ios_app_store_id = '1507143650';
 
 /// Accounts
-const String account_seeds = 'accts.seeds';
+const String account_accounts = 'accts.seeds';
 const String account_alliance = 'alliance';
 const String account_cycle = 'cycle.seeds';
 const String account_eosio = 'eosio';
