@@ -33,7 +33,7 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
     }
     if (event is OnShareInviteLinkButtonPressed) {
       yield state.copyWith(showCloseDialogButton: true);
-      await Share.share(state.mnemonicSecretCode!);
+      await Share.share(state.dynamicSecretLink!);
     }
   }
 }
