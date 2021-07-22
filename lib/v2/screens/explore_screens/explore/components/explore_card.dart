@@ -21,7 +21,7 @@ class ExploreCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
         ),
         child: Container(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),
           width: 158.0,
           height: 158.0,
           child: Column(
@@ -35,7 +35,7 @@ class ExploreCard extends StatelessWidget {
                 child: Center(child: icon),
               ),
               const SizedBox(height: 20.0),
-              Text(title, style: Theme.of(context).textTheme.buttonWhiteL),
+              Flexible(child: Text(title, style: Theme.of(context).textTheme.buttonWhiteL)),
             ],
           ),
         ),
