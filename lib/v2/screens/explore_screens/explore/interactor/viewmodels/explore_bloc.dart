@@ -13,7 +13,6 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   Stream<ExploreState> mapEventToState(ExploreEvent event) async* {
     if (event is LoadExploreData) {
       yield state.copyWith(pageState: PageState.loading);
-      await Future.delayed(const Duration(hours: 1));
       var results = await GetExploreDataUseCase().run();
       yield ExploreStateMapper().mapResultsToState(state, results);
     }
