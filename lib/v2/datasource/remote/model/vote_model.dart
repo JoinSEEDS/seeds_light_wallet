@@ -1,3 +1,5 @@
+import 'package:hive/hive.dart';
+
 /// The user's vote
 class VoteModel {
   final int amount;
@@ -12,5 +14,28 @@ class VoteModel {
     } else {
       return const VoteModel(amount: 0, isVoted: false);
     }
+  }
+}
+
+class VoteModelAdapter extends TypeAdapter<VoteModel> {
+  @override
+  final typeId = 3;
+
+  @override
+  VoteModel read(BinaryReader reader) {
+    var fields = [];
+    reader.readByte();
+    fields.add(reader.readInt());
+    reader.readByte();
+    fields.add(reader.readBool());
+    return VoteModel(amount: fields[1], isVoted: fields[0]);
+  }
+
+  @override
+  void write(BinaryWriter writer, VoteModel obj) {
+    writer.writeByte(0);
+    writer.writeInt(obj.amount);
+    writer.writeByte(1);
+    writer.writeBool(obj.isVoted);
   }
 }
