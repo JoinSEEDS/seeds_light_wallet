@@ -19,7 +19,7 @@ class ProposalDetailsHeader extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               FittedBox(
-                fit: BoxFit.fill,
+                fit: BoxFit.fitWidth,
                 child: CachedNetworkImage(
                   imageUrl: state.proposals[state.currentIndex].image,
                   errorWidget: (_, __, ___) => const SizedBox.shrink(),

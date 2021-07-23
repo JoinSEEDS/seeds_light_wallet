@@ -51,7 +51,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                             child: CachedNetworkImage(
                               imageUrl: widget.proposal.image,
                               height: 150,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.fitWidth,
                               errorWidget: (_, __, ___) => const SizedBox.shrink(),
                             ),
                           ),
