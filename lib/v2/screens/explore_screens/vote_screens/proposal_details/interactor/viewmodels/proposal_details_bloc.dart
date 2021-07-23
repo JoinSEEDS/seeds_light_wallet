@@ -1,6 +1,8 @@
 import 'package:async/async.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/mappers/vote_proposal_state_mapper.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/usecases/vote_proposal_use_case.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/page_commands.dart';
 import '../mappers/next_proposal_data_state_mapper.dart';
 import '../mappers/proposal_data_state_mapper.dart';
@@ -31,8 +33,12 @@ class ProposalDetailsBloc extends Bloc<ProposalDetailsEvent, ProposalDetailsStat
       yield state.copyWith(pageCommand: ShowConfimVote());
     }
     if (event is OnConfirmVoteButtonPressed) {
-      await Future.delayed(const Duration(seconds: 1));
-      yield state.copyWith(pageCommand: VoteSuccess(), showNextButton: true);
+      yield state.copyWith(pageState: PageState.loading);
+      Result result = await VoteProposalUseCase().run(
+        id: state.proposals[state.currentIndex].id,
+        amount: state.voteAmount,
+      );
+      yield VoteProposalStateMapper().mapResultsToState(state, result);
     }
   }
 }
