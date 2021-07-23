@@ -23,13 +23,8 @@ class ProfileMiddle extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: ListTile(
                 horizontalTitleGap: 0,
-                leading: SvgPicture.asset(
-                  'assets/images/profile/contribution_icon.svg',
-                ),
-                title: Text(
-                  'Contribution Score'.i18n,
-                  style: Theme.of(context).textTheme.button,
-                ),
+                leading: SvgPicture.asset('assets/images/profile/contribution_icon.svg'),
+                title: Text('Contribution Score'.i18n, style: Theme.of(context).textTheme.button),
                 trailing: Text(
                   '${state.score?.contributionScore?.value ?? '00'}/99',
                   textAlign: TextAlign.center,
