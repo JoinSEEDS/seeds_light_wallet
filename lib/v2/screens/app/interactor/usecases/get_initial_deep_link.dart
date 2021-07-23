@@ -29,7 +29,6 @@ class GetInitialDeepLinkUseCase {
       data,
       deepLinkPlaceHolder,
       action.account,
-      action.name,
     ));
   }
 }
@@ -38,13 +37,11 @@ class DeepLinkData {
   final Map<String, dynamic> data;
   final DeepLinkPlaceHolder deepLinkPlaceHolder;
   final String guardianAccount;
-  final String guardianName;
 
   DeepLinkData(
     this.data,
     this.deepLinkPlaceHolder,
     this.guardianAccount,
-    this.guardianName,
   );
 }
 
