@@ -142,8 +142,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             } else {
               if (state.showGuardianRecoveryAlert) {
                 return const AccountUnderRecoveryScreen();
-              } else if (state.showGuardianApproveOrDenyScreen) {
-                return const GuardianApproveOrDenyScreen();
+              } else if (state.showGuardianApproveOrDenyScreen != null) {
+                return GuardianApproveOrDenyScreen(data: state.showGuardianApproveOrDenyScreen!);
               } else {
                 return PageView(
                   controller: _pageController,

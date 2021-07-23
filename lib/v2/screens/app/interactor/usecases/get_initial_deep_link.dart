@@ -1,27 +1,55 @@
 import 'package:async/async.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
-import 'package:uni_links/uni_links.dart';
 
 class GetInitialDeepLinkUseCase {
-  Future<Result> run() {
-    return getInitialLink()
-        .then((link) => _getRequestData(link))
-        // ignore: return_of_invalid_type_from_catch_error
-        .catchError((onError) => ErrorResult(onError));
-  }
+  Future<Result> run(Uri newLink) async {
+    var splitUri = newLink.query.split('=');
+    var placeHolder = splitUri[0];
+    var esrUrl = splitUri[1];
 
-  Future<Result> _getRequestData(String? link) {
-    if (link != null) {
-      SeedsESR request = SeedsESR(uri: link);
-      return request
-          .resolve(account: settingsStorage.accountName)
-          .then((value) => ValueResult(value))
-          // ignore: return_of_invalid_type_from_catch_error
-          .catchError((onError) => ErrorResult(onError));
+    SeedsESR request = SeedsESR(uri: esrUrl);
+
+    await request.resolve(account: settingsStorage.accountName);
+    var action = request.actions.first;
+    var data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
+
+    var deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_UNKNOWN;
+    if (placeHolder.contains("guardian")) {
+      deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_GUARDIANS;
+    } else if (placeHolder.contains("invite")) {
+      deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_INVITE;
     } else {
-      return Future.value(ValueResult(null));
+      deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_UNKNOWN;
     }
+
+    return ValueResult(DeepLinkData(
+      data,
+      deepLinkPlaceHolder,
+      action.account,
+      action.name,
+    ));
   }
+}
+
+class DeepLinkData {
+  final Map<String, dynamic> data;
+  final DeepLinkPlaceHolder deepLinkPlaceHolder;
+  final String guardianAccount;
+  final String guardianName;
+
+  DeepLinkData(
+    this.data,
+    this.deepLinkPlaceHolder,
+    this.guardianAccount,
+    this.guardianName,
+  );
+}
+
+enum DeepLinkPlaceHolder {
+  LINK_GUARDIANS,
+  LINK_INVITE,
+  LINK_UNKNOWN,
 }

@@ -1,20 +1,29 @@
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/v2/screens/app/interactor/usecases/get_initial_deep_link.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/app_state.dart';
 
-// Example guardian Link: https://joinseeds.com/?placeholder&guardian=esr://gmN0S9_Eeqy57zv_9xn9eU3hL_bxCbUs-jptJqsXY3-JtawgA0NBEFdzSW8aAwPDg1W-E3cxMjJAABOUdoMJwICpq3-waWSJq3d-UUhhaFlEuVdFUblpaLBFuKGFaVS6b1mhb6hXeliEZWCKT3p5nkuoX5h5SRbQFAA
+// Example guardian Link: https://joinseeds.com/?placeholder&guardian=esr://gmN0S9_Eeqy57zv_9xn9eU3hL_bxCbUs-jptJqsXY3-JtawgA0NBEFdzSW8aAwPDg1W-E3cxMjJAABOUdoMJCPBcMvRdvD7S1NU_2MIsL8itJC_YvSTTODk50M0jOKPcKSjFMsXN0M0xxNDNvDC10tDHLNsvMbjA1Nk8qdAXaAoA
 class GuardianApproveOrDenyStateMapper extends StateMapper {
-  AppState mapResultToState(AppState currentState, Uri newLink) {
-    var splitUri = newLink.query.split('=');
-    var placeHolder = splitUri[0];
-
-    if (placeHolder.contains("guardian")) {
-      return currentState.copyWith(showGuardianApproveOrDenyScreen: true);
-    } else if (placeHolder.contains("invite")) {
-      // TODO(gguij002): Handle invite links
+  AppState mapResultToState(AppState currentState, Result result) {
+    if (result.isError) {
       return currentState;
     } else {
-      // Don't know how to handle this link. Return current state
-      return currentState;
+      var deepLinkData = result.asValue!.value as DeepLinkData;
+
+      switch (deepLinkData.deepLinkPlaceHolder) {
+        case DeepLinkPlaceHolder.LINK_GUARDIANS:
+          var newPublicKey = deepLinkData.data["new_public_key"];
+          var userAccount = deepLinkData.data["user_account"];
+          return currentState.copyWith(
+              showGuardianApproveOrDenyScreen:
+                  GuardianApproveOrDenyData(guardianAccount: userAccount, publicKey: newPublicKey));
+        case DeepLinkPlaceHolder.LINK_INVITE:
+          // TODO(gguij002): Handle invite links
+          return currentState;
+        case DeepLinkPlaceHolder.LINK_UNKNOWN:
+          // Don't know how to handle this link. Return current state
+          return currentState;
+      }
     }
   }
 }

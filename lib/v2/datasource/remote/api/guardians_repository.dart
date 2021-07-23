@@ -156,6 +156,44 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         .catchError((error) => mapEosError(error));
   }
 
+  /// Recover an account via the key guardian system
+  ///
+  /// userAcount - the account to recovery, iE current user is a guardian for userAccount
+  /// publicKey - the new public key on the account once the recovery is complete
+  ///
+  /// When 2 or 3 of the guardians call this function, the account can be recovered with claim
+  ///
+  Future<Result> recoverAccount(String userAccount, String publicKey) async {
+    print('[eos] recover account $userAccount');
+
+    var accountName = settingsStorage.accountName;
+
+    var actions = [
+      Action()
+        ..account = account_guards
+        ..name = action_name_recover
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = permission_owner
+        ]
+        ..data = {
+          'guardian_account': accountName,
+          'user_account': userAccount,
+          'new_public_key': publicKey,
+        }
+    ];
+
+    var transaction = buildFreeTransaction(actions, accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction, broadcast: true)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return response["transaction_id"];
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
   Future<Result<dynamic>> _getAccountPermissions() async {
     print('[http] get account permissions');
     var accountName = settingsStorage.accountName;

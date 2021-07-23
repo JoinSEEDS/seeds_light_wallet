@@ -25,3 +25,9 @@ class ProcessSigningRequest extends PageCommand {
 
   ProcessSigningRequest(this.action);
 }
+
+class ShowApproveGuardianRecoverySuccess extends PageCommand {
+  final String message;
+
+  ShowApproveGuardianRecoverySuccess(this.message);
+}
