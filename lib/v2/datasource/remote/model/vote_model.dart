@@ -28,7 +28,7 @@ class VoteModelAdapter extends TypeAdapter<VoteModel> {
     fields.add(reader.readInt());
     reader.readByte();
     fields.add(reader.readBool());
-    return VoteModel(amount: fields[1], isVoted: fields[0]);
+    return VoteModel(amount: fields[0], isVoted: fields[1]);
   }
 
   @override
