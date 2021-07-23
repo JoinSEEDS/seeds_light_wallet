@@ -88,95 +88,30 @@ class ProfileHeader extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12.0),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            right: BorderSide(color: AppColors.lightGreen2, width: 2),
-                          ),
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            NavigationService.of(context).navigateTo(Routes.contribution, state.score);
-                          },
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'Contribution Score'.i18n,
-                                  style: Theme.of(context).textTheme.subtitle4,
-                                ),
+                      child: InkWell(
+                        onTap: () {
+                          NavigationService.of(context).navigateTo(Routes.contribution, state.score);
+                        },
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Contribution Score'.i18n,
+                                style: Theme.of(context).textTheme.subtitle4,
                               ),
-                              Expanded(
-                                child: Text(
-                                  '${state.score?.contributionScore?.value ?? '00'}/99',
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.headline7LowEmphasis,
-                                ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${state.score?.contributionScore?.value ?? '00'}/99',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.headline7LowEmphasis,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    Expanded(
-                        child: Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              'Badges Earned'.i18n,
-                              style: Theme.of(context).textTheme.subtitle4,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Stack(
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.circle,
-                                    size: 36,
-                                    color: Colors.transparent,
-                                  ),
-                                  const Icon(
-                                    Icons.circle,
-                                    size: 36,
-                                    color: Colors.transparent,
-                                  ),
-                                ],
-                              ),
-                              const Positioned(
-                                width: 36,
-                                child: Icon(
-                                  Icons.circle_notifications,
-                                  size: 36,
-                                  color: Colors.blue,
-                                ),
-                              ),
-                              const Positioned(
-                                width: 72,
-                                child: Icon(
-                                  Icons.account_circle_rounded,
-                                  size: 36,
-                                  color: Colors.orange,
-                                ),
-                              ),
-                              const Positioned(
-                                width: 108,
-                                child: Icon(
-                                  Icons.add_circle,
-                                  size: 36,
-                                  color: Colors.grey,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ))
+                    const Expanded(child: SizedBox.shrink()),
                   ],
                 ),
               )

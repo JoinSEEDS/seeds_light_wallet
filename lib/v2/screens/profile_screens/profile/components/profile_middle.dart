@@ -5,7 +5,6 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
-import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 /// PROFILE MIDDLE
@@ -18,19 +17,6 @@ class ProfileMiddle extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
-          ListTile(
-            leading: const Icon(Icons.location_on_outlined, color: AppColors.green1),
-            title: Text(
-              'Region'.i18n,
-              style: Theme.of(context).textTheme.button,
-            ),
-            trailing: Text(
-              'Bali',
-              style: Theme.of(context).textTheme.headline7,
-            ),
-            onTap: () {},
-          ),
-          const DividerJungle(),
           BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               return ListTile(
