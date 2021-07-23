@@ -43,7 +43,7 @@ class ProfileScreen extends StatelessWidget {
                       const ProfileHeader(),
                       const DividerJungle(thickness: 2),
                       const ProfileMiddle(),
-                      const DividerJungle(thickness: 2),
+                      const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: DividerJungle(thickness: 2)),
                       const ProfileBottom(),
                     ],
                   ),

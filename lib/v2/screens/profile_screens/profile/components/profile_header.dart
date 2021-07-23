@@ -75,45 +75,14 @@ class ProfileHeader extends StatelessWidget {
                           Text(
                             state.profile!.statusString.i18n,
                             style: Theme.of(context).textTheme.headline7LowEmphasis,
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          NavigationService.of(context).navigateTo(Routes.contribution, state.score);
-                        },
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Contribution Score'.i18n,
-                                style: Theme.of(context).textTheme.subtitle4,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                '${state.score?.contributionScore?.value ?? '00'}/99',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.headline7LowEmphasis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const Expanded(child: SizedBox.shrink()),
-                  ],
-                ),
-              )
+              const SizedBox(height: 10)
             ],
           ),
         );
