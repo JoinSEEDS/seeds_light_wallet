@@ -23,8 +23,7 @@ class CurrentVoteChoiceLabel extends StatelessWidget {
                     children: [
                       TextSpan(text: "I'm".i18n, style: Theme.of(context).textTheme.subtitle2),
                       TextSpan(text: ' in favor '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                      TextSpan(text: 'of this proposal with '.i18n, style: Theme.of(context).textTheme.subtitle2),
-                      TextSpan(text: state.voteAmount.toString(), style: Theme.of(context).textTheme.subtitle2),
+                      TextSpan(text: 'of this proposal'.i18n, style: Theme.of(context).textTheme.subtitle2),
                     ],
                   ),
                 ),
@@ -58,8 +57,7 @@ class CurrentVoteChoiceLabel extends StatelessWidget {
                     children: [
                       TextSpan(text: "I'm".i18n, style: Theme.of(context).textTheme.subtitle2),
                       TextSpan(text: ' against '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                      TextSpan(text: 'this proposal with '.i18n, style: Theme.of(context).textTheme.subtitle2),
-                      TextSpan(text: state.voteAmount.toString(), style: Theme.of(context).textTheme.subtitle2),
+                      TextSpan(text: 'this proposal'.i18n, style: Theme.of(context).textTheme.subtitle2),
                     ],
                   ),
                 ),
