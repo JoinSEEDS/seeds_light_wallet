@@ -56,8 +56,8 @@ class ProposalDetailsBottom extends StatelessWidget {
                             Expanded(
                               child: Slider(
                                 value: state.voteAmount.toDouble(),
-                                min: -state.voteAmount.toDouble(),
-                                max: state.voteAmount.toDouble(),
+                                min: - state.tokens!.amount.toDouble(),
+                                max: state.tokens!.amount.toDouble(),
                                 divisions: 200,
                                 label: '${state.voteAmount}',
                                 onChanged: (newValue) {
