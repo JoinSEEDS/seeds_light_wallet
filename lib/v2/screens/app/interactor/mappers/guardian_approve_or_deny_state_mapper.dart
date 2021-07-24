@@ -13,6 +13,7 @@ class GuardianApproveOrDenyStateMapper extends StateMapper {
     if (placeHolder.contains("guardian")) {
       return currentState.copyWith(showGuardianApproveOrDenyScreen: true);
     } else if (newLink.queryParameters["inviteMnemonic"] != null) {
+      // TODO(n13): Do nothing when user not logged in - not sure where to put that logic, but it's simple - when auth state is logged out.
       return currentState.copyWith(pageCommand: ProcessInviteLink(newLink.queryParameters["inviteMnemonic"]!));
     } else {
       // Don't know how to handle this link. Return current state
