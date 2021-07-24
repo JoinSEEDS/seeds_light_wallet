@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/images/vote/proposal_category.dart';
-import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 
 class ProposalDetailsHeader extends StatelessWidget {
@@ -56,15 +55,15 @@ class ProposalDetailsHeader extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                   )),
               Positioned(
-                top: kToolbarHeight + 42,
+                bottom: kToolbarHeight + 42,
                 left: 0,
                 child: CustomPaint(
-                  size: const Size(82, 22),
+                  size: const Size(100, 40),
                   painter: const ProposalCategory(),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                     child: Text(state.proposals[state.currentIndex].campaignTypeLabel,
-                        style: Theme.of(context).textTheme.subtitle3OpacityEmphasis),
+                        style: Theme.of(context).textTheme.subtitle2),
                   ),
                 ),
               ),
