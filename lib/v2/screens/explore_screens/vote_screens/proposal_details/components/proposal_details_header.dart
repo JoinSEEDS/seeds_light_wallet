@@ -38,6 +38,20 @@ class ProposalDetailsHeader extends StatelessWidget {
                   left: 0,
                   top: 0,
                   right: 0,
+                  child: Container(
+                    width: width,
+                    height: 200,
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [AppColors.black, Colors.transparent],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter)),
+                    // backgroundColor: Colors.transparent,
+                  )),
+              Positioned(
+                  left: 0,
+                  top: 0,
+                  right: 0,
                   child: AppBar(
                     backgroundColor: Colors.transparent,
                   )),
