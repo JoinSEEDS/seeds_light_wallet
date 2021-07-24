@@ -7,6 +7,12 @@ class ShowErrorMessage extends PageCommand {
   ShowErrorMessage(this.message);
 }
 
+class ProcessInviteLink extends PageCommand {
+  final String inviteMnemonic;
+
+  ProcessInviteLink(this.inviteMnemonic);
+}
+
 /// Command to inform the UI to show a REGULAR (not error) message
 class ShowMessage extends PageCommand {
   final String message;

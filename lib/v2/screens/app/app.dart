@@ -112,6 +112,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             } else if (pageCommand is ShowErrorMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            } else if (pageCommand is ProcessInviteLink) {
+              // TODO(n13): show new processing invite... screen
             } else if (pageCommand is ProcessSigningRequest) {
               Navigator.of(context).push(
                 PageRouteBuilder(
