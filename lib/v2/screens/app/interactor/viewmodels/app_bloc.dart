@@ -52,6 +52,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield StopGuardianRecoveryStateMapper().mapResultToState(state, result);
     } else if (event is ClearAppPageCommand) {
       yield state.copyWith(pageCommand: null);
+    } else if (event is OnDismissGuardianRecoveryTapped) {
+      yield state.copyWith(pageCommand: null, showGuardianApproveOrDenyScreen: null);
     } else if (event is OnApproveGuardianRecoveryTapped) {
       yield state.copyWith(pageState: PageState.loading);
       var result = await ApproveGuardianRecoveryUseCase()

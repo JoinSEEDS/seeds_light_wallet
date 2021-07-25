@@ -54,6 +54,11 @@ class OnApproveGuardianRecoveryTapped extends AppEvent {
   String toString() => 'OnApproveGuardianRecoveryTapped';
 }
 
+class OnDismissGuardianRecoveryTapped extends AppEvent {
+  @override
+  String toString() => 'OnDismissGuardianRecoveryTapped';
+}
+
 class ClearAppPageCommand extends AppEvent {
   @override
   String toString() => 'ClearAppPageCommand';
