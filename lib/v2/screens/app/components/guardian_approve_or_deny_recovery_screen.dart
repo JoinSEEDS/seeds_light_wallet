@@ -48,8 +48,8 @@ class GuardianApproveOrDenyScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
           ],
-          leftButtonTitle: 'Do NOT Approve',
-          rightButtonTitle: 'Approve Recovery',
+          leftButtonTitle: 'Dismiss',
+          rightButtonTitle: 'Accept Request',
           onLeftButtonPressed: () {
             BlocProvider.of<AppBloc>(context).add(OnDismissGuardianRecoveryTapped());
           },
