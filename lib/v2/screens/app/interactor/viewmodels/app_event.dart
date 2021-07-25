@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/app_state.dart';
 
 /// --- EVENTS
 @immutable
@@ -42,6 +43,15 @@ class OnStopGuardianActiveRecoveryTapped extends AppEvent {
 
   @override
   String toString() => 'OnStopGuardianActiveRecoveryTapped';
+}
+
+class OnApproveGuardianRecoveryTapped extends AppEvent {
+  final GuardianApproveOrDenyData data;
+
+  const OnApproveGuardianRecoveryTapped(this.data);
+
+  @override
+  String toString() => 'OnApproveGuardianRecoveryTapped';
 }
 
 class ClearAppPageCommand extends AppEvent {

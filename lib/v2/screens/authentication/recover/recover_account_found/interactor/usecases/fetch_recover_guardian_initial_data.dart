@@ -2,7 +2,6 @@ import 'package:async/async.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart_ecc/eosdart_ecc.dart';
-import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/guardians_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/members_repository.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
@@ -13,15 +12,14 @@ class FetchRecoverGuardianInitialDataUseCase {
   final MembersRepository _membersRepository = MembersRepository();
   final CreateFirebaseDynamicLinkUseCase _createFirebaseDynamicLinkUseCase = CreateFirebaseDynamicLinkUseCase();
 
-  Future<RecoverGuardianInitialDTO> run(List<String> guardians) async {
+  Future<RecoverGuardianInitialDTO> run(List<String> guardians, String accountName) async {
     print("FetchRecoverGuardianInitialDataUseCase accountName pKey");
-    String accountName = settingsStorage.accountName;
     final recoveryPrivateKey = EOSPrivateKey.fromRandom().toString();
 
     String publicKey = EOSPrivateKey.fromString(recoveryPrivateKey).toEOSPublicKey().toString();
     print("public $publicKey");
 
-    Result accountRecovery = await _guardiansRepository.getAccountRecovery(settingsStorage.accountName);
+    Result accountRecovery = await _guardiansRepository.getAccountRecovery(accountName);
     Result accountGuardians = await _guardiansRepository.getAccountGuardians(accountName);
     Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey);
 

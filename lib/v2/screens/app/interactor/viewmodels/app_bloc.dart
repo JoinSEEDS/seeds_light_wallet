@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/screens/app/interactor/mappers/approve_guardian_recovery_state_mapper.dart';
 import 'package:seeds/v2/screens/app/interactor/mappers/guardian_approve_or_deny_state_mapper.dart';
 import 'package:seeds/v2/screens/app/interactor/mappers/stop_guardian_recovery_state_mapper.dart';
+import 'package:seeds/v2/screens/app/interactor/usecases/approve_guardian_recovery_use_case.dart';
+import 'package:seeds/v2/screens/app/interactor/usecases/get_initial_deep_link.dart';
 import 'package:seeds/v2/screens/app/interactor/usecases/guardians_notification_use_case.dart';
 import 'package:seeds/v2/screens/app/interactor/usecases/guardians_recovery_alert_use_case.dart';
 import 'package:seeds/v2/screens/app/interactor/usecases/stop_guardian_recovery_use_case.dart';
@@ -34,7 +37,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield state.copyWith(hasNotification: event.value);
     }
     if (event is HandleIncomingFirebaseDeepLink) {
-      yield GuardianApproveOrDenyStateMapper().mapResultToState(state, event.newLink);
+      var result = await GetInitialDeepLinkUseCase().run(event.newLink);
+      yield GuardianApproveOrDenyStateMapper().mapResultToState(state, result);
     }
     if (event is BottomBarTapped) {
       yield state.copyWith(index: event.index, pageCommand: BottomBarNavigateToIndex(event.index));
@@ -48,6 +52,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield StopGuardianRecoveryStateMapper().mapResultToState(state, result);
     } else if (event is ClearAppPageCommand) {
       yield state.copyWith(pageCommand: null);
+    } else if (event is OnApproveGuardianRecoveryTapped) {
+      yield state.copyWith(pageState: PageState.loading);
+      var result = await ApproveGuardianRecoveryUseCase()
+          .approveGuardianRecovery(event.data.guardianAccount, event.data.publicKey);
+      yield ApproveGuardianRecoveryStateMapper().mapResultToState(state, result);
     }
   }
 

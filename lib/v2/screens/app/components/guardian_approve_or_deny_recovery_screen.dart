@@ -1,11 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/app_bloc.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/app_event.dart';
+import 'package:seeds/v2/screens/app/interactor/viewmodels/app_state.dart';
 
 class GuardianApproveOrDenyScreen extends StatelessWidget {
-  const GuardianApproveOrDenyScreen({Key? key}) : super(key: key);
+  final GuardianApproveOrDenyData data;
+
+  const GuardianApproveOrDenyScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +34,15 @@ class GuardianApproveOrDenyScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'Guardian TODONAME would like to reset their private key. You as their guardian can approve or deny this request. Only approve this request if you are 100% sure its a valid request ',
+              'Account Recovery Request',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline6,
             ),
             const SizedBox(height: 30),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                'Approve this guardian reset request?',
+                data.guardianAccount + ' has initiated their account recovery process through their Key Guardians. Accepting this request will help them to recover their account. Please make sure they are who they claim to be and are actually locked out of their account before accepting.',
                 textAlign: TextAlign.center,
               ),
             ),
@@ -48,7 +54,7 @@ class GuardianApproveOrDenyScreen extends StatelessWidget {
             // TODO(gguij002): Next PR
           },
           onRightButtonPressed: () {
-            // TODO(gguij002): Next PR
+            BlocProvider.of<AppBloc>(context).add(OnApproveGuardianRecoveryTapped(data));
           },
         ),
       ),

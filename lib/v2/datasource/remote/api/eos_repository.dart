@@ -24,6 +24,7 @@ abstract class EosRepository {
   String action_name_makecitizen = 'makecitizen';
   String action_name_cancitizen = 'cancitizen';
   String action_name_accept_new = 'acceptnew';
+  String action_name_recover = 'recover';
 
   // Authorizations
   String permission_active = 'active';
