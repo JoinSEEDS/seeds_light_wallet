@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/app_event.dart';
-import 'package:seeds/v2/screens/app/interactor/viewmodels/app_state.dart';
 
 class GuardianApproveOrDenyScreen extends StatelessWidget {
-  final GuardianApproveOrDenyData data;
+  final GuardianRecoveryRequestData data;
 
   const GuardianApproveOrDenyScreen({Key? key, required this.data}) : super(key: key);
 
@@ -42,16 +42,17 @@ class GuardianApproveOrDenyScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                data.guardianAccount + ' has initiated their account recovery process through their Key Guardians. Accepting this request will help them to recover their account. Please make sure they are who they claim to be and are actually locked out of their account before accepting.',
+                data.guardianAccount +
+                    ' has initiated their account recovery process through their Key Guardians. Accepting this request will help them to recover their account. Please make sure they are who they claim to be and are actually locked out of their account before accepting.',
                 textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 20),
           ],
-          leftButtonTitle: 'Do NOT Approve',
-          rightButtonTitle: 'Approve Recovery',
+          leftButtonTitle: 'Dismiss',
+          rightButtonTitle: 'Accept Request',
           onLeftButtonPressed: () {
-            // TODO(gguij002): Next PR
+            BlocProvider.of<AppBloc>(context).add(OnDismissGuardianRecoveryTapped());
           },
           onRightButtonPressed: () {
             BlocProvider.of<AppBloc>(context).add(OnApproveGuardianRecoveryTapped(data));

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:seeds/v2/screens/app/interactor/viewmodels/app_state.dart';
+import 'package:seeds/v2/blocs/deeplink/model/guardian_recovery_request_data.dart';
 
 /// --- EVENTS
 @immutable
@@ -46,7 +46,7 @@ class OnStopGuardianActiveRecoveryTapped extends AppEvent {
 }
 
 class OnApproveGuardianRecoveryTapped extends AppEvent {
-  final GuardianApproveOrDenyData data;
+  final GuardianRecoveryRequestData data;
 
   const OnApproveGuardianRecoveryTapped(this.data);
 
@@ -54,16 +54,21 @@ class OnApproveGuardianRecoveryTapped extends AppEvent {
   String toString() => 'OnApproveGuardianRecoveryTapped';
 }
 
+class OnDismissGuardianRecoveryTapped extends AppEvent {
+  @override
+  String toString() => 'OnDismissGuardianRecoveryTapped';
+}
+
 class ClearAppPageCommand extends AppEvent {
   @override
   String toString() => 'ClearAppPageCommand';
 }
 
-class HandleIncomingFirebaseDeepLink extends AppEvent {
-  final Uri newLink;
+class OnApproveGuardianRecoveryDeepLink extends AppEvent {
+  final GuardianRecoveryRequestData data;
 
-  const HandleIncomingFirebaseDeepLink(this.newLink);
+  const OnApproveGuardianRecoveryDeepLink(this.data);
 
   @override
-  String toString() => 'HandleIncomingFirebaseDeepLink';
+  String toString() => 'OnApproveGuardianRecoveryDeepLink';
 }
