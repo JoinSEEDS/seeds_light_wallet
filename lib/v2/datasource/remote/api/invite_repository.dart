@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
@@ -56,18 +56,5 @@ class InviteRepository extends NetworkRepository with EosRepository {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
-  }
-
-  Future<Result> createInviteLink(String? inviteMnemonic) async {
-    final parameters = DynamicLinkParameters(
-      uriPrefix: domain_app_uri_prefix,
-      link: Uri.parse('$target_link$inviteMnemonic'),
-      androidParameters: AndroidParameters(packageName: android_pacakage_name),
-      iosParameters: IosParameters(bundleId: ios_bundle_id, appStoreId: ios_app_store_id),
-    );
-
-    final dynamicUrl = (await parameters.buildShortLink()).shortUrl;
-
-    return ValueResult(dynamicUrl);
   }
 }
