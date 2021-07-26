@@ -23,16 +23,6 @@ class ProposalDetailsState extends Equatable {
   final VoteModel? vote;
   final VoiceModel? tokens;
 
-  VoteStatus get voteStatus {
-    if (!isCitizen) {
-      return VoteStatus.notCitizen;
-    } else if (vote!.isVoted) {
-      return VoteStatus.alreadyVoted;
-    } else {
-      return VoteStatus.canVote;
-    }
-  }
-
   const ProposalDetailsState({
     required this.pageState,
     this.pageCommand,
@@ -61,6 +51,25 @@ class ProposalDetailsState extends Equatable {
         vote,
         tokens,
       ];
+
+  VoteStatus get voteStatus {
+    if (!isCitizen) {
+      return VoteStatus.notCitizen;
+    } else if (vote!.isVoted) {
+      return VoteStatus.alreadyVoted;
+    } else {
+      return VoteStatus.canVote;
+    }
+  }
+
+  bool get shouldShowNexProposalButton {
+    var hasMoreItems = currentIndex < proposals.length - 1;
+    return (showNextButton || vote!.isVoted || !isCitizen || proposals[currentIndex].stage == 'staged') && hasMoreItems;
+  }
+
+  bool get shouldShowVoteModule {
+    return !showNextButton && !vote!.isVoted && isCitizen && proposals[currentIndex].stage != 'staged';
+  }
 
   ProposalDetailsState copyWith({
     PageState? pageState,
