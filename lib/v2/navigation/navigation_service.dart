@@ -113,7 +113,7 @@ class NavigationService {
     Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
-    Routes.signup: (_) => const SignupScreen(),
+    Routes.signup: (_) => const SignupScreen(null),
     // Routes.importAccount: (_) => ImportAccount(),
     // Routes.createAccount: (args) => CreateAccount(args),
     // Routes.showInvite: (args) => ShowInvite(args),

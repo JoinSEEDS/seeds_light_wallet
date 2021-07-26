@@ -4,6 +4,8 @@ import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/sign_up/add_phone_number/mappers/create_account_mapper.dart';
 import 'package:seeds/v2/screens/sign_up/add_phone_number/usecases/add_phone_number_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
@@ -14,14 +16,18 @@ import 'package:seeds/v2/screens/sign_up/viewmodels/states/create_username_state
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/display_name_state.dart';
 
 part 'signup_event.dart';
+
 part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
+  final DeeplinkBloc deeplinkBloc;
+
   SignupBloc({
     required ClaimInviteUseCase claimInviteUseCase,
     required CreateUsernameUseCase createUsernameUseCase,
     required AddPhoneNumberUseCase addPhoneNumberUseCase,
-  })  : _claimInviteUseCase = claimInviteUseCase,
+    required this.deeplinkBloc,
+  })   : _claimInviteUseCase = claimInviteUseCase,
         _createUsernameUseCase = createUsernameUseCase,
         _addPhoneNumberUseCase = addPhoneNumberUseCase,
         super(SignupState.initial());
@@ -38,6 +44,19 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       yield* _claimInviteUseCase.validateInviteCode(state, event.inviteCode);
     }
 
+    if (event is OnInviteCodeFromDeepLink) {
+      if (event.inviteCode != null) {
+        yield state.copyWith(
+            claimInviteState: state.claimInviteState.copyWith(
+          inviteMnemonic: event.inviteCode,
+          pageState: PageState.success,
+          pageCommand: StopScan(),
+        ));
+
+        yield* _claimInviteUseCase.validateInviteCode(state, event.inviteCode!);
+      }
+    }
+
     if (event is OnQRScanned) {
       yield* _claimInviteUseCase.unpackLink(state, event.scannedLink);
     }
@@ -49,8 +68,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     if (event is DisplayNameOnNextTapped) {
       yield state.copyWith(
         pageContent: PageContent.USERNAME,
-        displayNameState:
-            state.displayNameState.copyWith(displayName: event.displayName),
+        displayNameState: state.displayNameState.copyWith(displayName: event.displayName),
       );
     }
 
@@ -90,25 +108,18 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     }
   }
 
-  Stream<SignupState> createAccount(
-      SignupState currentState, String? phoneNumber) async* {
+  Stream<SignupState> createAccount(SignupState currentState, String? phoneNumber) async* {
     final currentAddPhoneNumberState = currentState.addPhoneNumberState;
 
-    yield currentState.copyWith(
-        addPhoneNumberState:
-            AddPhoneNumberState.loading(currentAddPhoneNumberState));
+    yield currentState.copyWith(addPhoneNumberState: AddPhoneNumberState.loading(currentAddPhoneNumberState));
 
     final inviteSecret = state.claimInviteState.inviteModel!.inviteSecret;
     final displayName = state.displayNameState.displayName;
     final username = state.createUsernameState.username;
 
     final Result result = await _addPhoneNumberUseCase.run(
-        inviteSecret: inviteSecret!,
-        displayName: displayName!,
-        username: username!,
-        phoneNumber: phoneNumber);
+        inviteSecret: inviteSecret!, displayName: displayName!, username: username!, phoneNumber: phoneNumber);
 
-    yield CreateAccountMapper()
-        .mapOnCreateAccountTappedToState(currentState, result);
+    yield CreateAccountMapper().mapOnCreateAccountTappedToState(currentState, result);
   }
 }
