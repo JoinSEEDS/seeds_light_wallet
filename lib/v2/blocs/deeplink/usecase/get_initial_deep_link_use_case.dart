@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:seeds/features/scanner/telos_signing_manager.dart';
+import 'package:seeds/v2/blocs/deeplink/model/deep_link_data.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 class GetInitialDeepLinkUseCase {
@@ -31,22 +32,4 @@ class GetInitialDeepLinkUseCase {
       action.account,
     ));
   }
-}
-
-class DeepLinkData {
-  final Map<String, dynamic> data;
-  final DeepLinkPlaceHolder deepLinkPlaceHolder;
-  final String guardianAccount;
-
-  DeepLinkData(
-    this.data,
-    this.deepLinkPlaceHolder,
-    this.guardianAccount,
-  );
-}
-
-enum DeepLinkPlaceHolder {
-  LINK_GUARDIANS,
-  LINK_INVITE,
-  LINK_UNKNOWN,
 }

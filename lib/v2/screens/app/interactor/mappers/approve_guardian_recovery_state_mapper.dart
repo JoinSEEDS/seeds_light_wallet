@@ -10,9 +10,10 @@ class ApproveGuardianRecoveryStateMapper extends StateMapper {
           pageState: PageState.failure, pageCommand: ShowErrorMessage("Oops, something went wrong"));
     } else {
       return currentState.copyWith(
-          pageState: PageState.success,
-          pageCommand: ShowMessage("Success, guardians recovery approved"),
-          showGuardianApproveOrDenyScreen: null);
+        pageState: PageState.success,
+        pageCommand: ShowMessage("Success, guardians recovery approved"),
+        showGuardianApproveOrDenyScreen: null,
+      );
     }
   }
 }
