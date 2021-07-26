@@ -7,6 +7,7 @@ import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.da
 
 class ClaimInviteScreen extends StatefulWidget {
   final String? mnemonic;
+
   const ClaimInviteScreen({Key? key, this.mnemonic}) : super(key: key);
 
   @override
