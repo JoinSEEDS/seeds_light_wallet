@@ -45,7 +45,6 @@ class ProposalDetailsHeader extends StatelessWidget {
                             colors: [AppColors.black, Colors.transparent],
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter)),
-                    // backgroundColor: Colors.transparent,
                   )),
               Positioned(
                   left: 0,
