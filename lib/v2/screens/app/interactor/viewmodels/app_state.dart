@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/v2/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
@@ -9,7 +10,7 @@ class AppState extends Equatable {
   final int index;
   final bool hasNotification;
   final bool showGuardianRecoveryAlert;
-  final GuardianApproveOrDenyData? showGuardianApproveOrDenyScreen;
+  final GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen;
 
   const AppState({
     required this.pageState,
@@ -36,7 +37,7 @@ class AppState extends Equatable {
     int? index,
     bool? hasNotification,
     bool? showGuardianRecoveryAlert,
-    GuardianApproveOrDenyData? showGuardianApproveOrDenyScreen,
+    GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen,
   }) {
     return AppState(
       pageState: pageState ?? this.pageState,
@@ -48,23 +49,13 @@ class AppState extends Equatable {
     );
   }
 
-  factory AppState.initial() {
-    return const AppState(
+  factory AppState.initial(GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen) {
+    return AppState(
       pageState: PageState.initial,
       index: 0,
       hasNotification: false,
       showGuardianRecoveryAlert: false,
-      showGuardianApproveOrDenyScreen: null,
+      showGuardianApproveOrDenyScreen: showGuardianApproveOrDenyScreen,
     );
   }
-}
-
-class GuardianApproveOrDenyData {
-  final String guardianAccount;
-  final String publicKey;
-
-  GuardianApproveOrDenyData({
-    required this.guardianAccount,
-    required this.publicKey,
-  });
 }

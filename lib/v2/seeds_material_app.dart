@@ -6,6 +6,7 @@ import 'package:i18n_extension/i18n_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/providers/providers.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/main.dart';
@@ -39,6 +40,7 @@ class SeedsApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()..add(const InitAuthStatus())),
         BlocProvider<RatesBloc>(create: (_) => RatesBloc()),
+        BlocProvider<DeeplinkBloc>(create: (_) => DeeplinkBloc()),
       ],
       child: MultiProvider(providers: providers, child: const MainScreen()),
     );

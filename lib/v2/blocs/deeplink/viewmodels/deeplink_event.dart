@@ -9,3 +9,19 @@ abstract class DeeplinkEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class HandleIncomingFirebaseDeepLink extends DeeplinkEvent {
+  final Uri newLink;
+
+  const HandleIncomingFirebaseDeepLink(this.newLink);
+
+  @override
+  String toString() => 'HandleIncomingFirebaseDeepLink';
+}
+
+class OnGuardianRecoveryRequestSeen extends DeeplinkEvent {
+  const OnGuardianRecoveryRequestSeen();
+
+  @override
+  String toString() => 'OnGuardianRecoveryRequestSeen';
+}

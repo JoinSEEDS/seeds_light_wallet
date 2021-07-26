@@ -7,6 +7,7 @@ import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/notification_badge.dart';
@@ -61,7 +62,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _appBloc = AppBloc();
+    _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context));
     BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
     WidgetsBinding.instance?.addObserver(this);
   }
@@ -108,10 +109,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               _pageController.jumpToPage(pageCommand.index);
             } else if (pageCommand is ShowErrorMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-            } else if(pageCommand is ShowMessage) {
+            } else if (pageCommand is ShowMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-            }
-            else if (pageCommand is ProcessSigningRequest) {
+            } else if (pageCommand is ProcessSigningRequest) {
               Navigator.of(context).push(
                 PageRouteBuilder(
                   opaque: false,
