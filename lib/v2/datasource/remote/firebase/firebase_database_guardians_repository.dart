@@ -215,7 +215,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       GUARDIAN_CONTRACT_INITIALIZED: true,
       GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
     };
-    return usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
+    return usersCollection.doc(userAccount).set(data, SetOptions(merge: true));
   }
 
   Future<void> removeGuardiansInitialized(String userAccount) {
@@ -224,7 +224,14 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       GUARDIAN_CONTRACT_INITIALIZED_UPDATE_DATE: FieldValue.serverTimestamp(),
       GUARDIAN_RECOVERY_STARTED_KEY: null,
     };
-    return usersCollection.doc(userAccount).set(data, SetOptions(merge: false));
+    return usersCollection.doc(userAccount).set(data, SetOptions(merge: true));
+  }
+
+  Future<void> setGuardianRecoveryStarted(String userAccount) {
+    var data = <String, Object>{
+      GUARDIAN_RECOVERY_STARTED_KEY: FieldValue.serverTimestamp(),
+    };
+    return usersCollection.doc(userAccount).set(data, SetOptions(merge: true));
   }
 }
 

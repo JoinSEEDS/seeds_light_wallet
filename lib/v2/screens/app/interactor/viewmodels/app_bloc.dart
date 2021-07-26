@@ -52,6 +52,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield StopGuardianRecoveryStateMapper().mapResultToState(state, result);
     } else if (event is ClearAppPageCommand) {
       yield state.copyWith(pageCommand: null);
+    } else if (event is OnDismissGuardianRecoveryTapped) {
+      yield state.copyWith(pageCommand: null, showGuardianApproveOrDenyScreen: null);
     } else if (event is OnApproveGuardianRecoveryTapped) {
       yield state.copyWith(pageState: PageState.loading);
       var result = await ApproveGuardianRecoveryUseCase()
@@ -69,15 +71,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   void initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink(onError: (error) async {
-      print('onLinkError');
-      print(error.message);
     }, onSuccess: (dynamicLink) async {
       final Uri? deepLink = dynamicLink?.link;
 
       if (deepLink != null) {
-        print('onSuccess');
-        print(deepLink.toString());
-        print(deepLink.data.toString());
         add(HandleIncomingFirebaseDeepLink(deepLink));
       }
     });
@@ -86,9 +83,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     final Uri? deepLink = data?.link;
 
     if (deepLink != null) {
-      print('PendingDynamicLinkData');
-      print(deepLink.data.toString());
-      print(deepLink.toString());
       add(HandleIncomingFirebaseDeepLink(deepLink));
     }
   }

@@ -106,13 +106,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             _appBloc.add(ClearAppPageCommand());
             if (pageCommand is BottomBarNavigateToIndex) {
               _pageController.jumpToPage(pageCommand.index);
-            } else if (pageCommand is ShowStopGuardianRecoveryFailed) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-            } else if (pageCommand is ShowStopGuardianRecoverySuccess) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             } else if (pageCommand is ShowErrorMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-            } else if (pageCommand is ProcessSigningRequest) {
+            } else if(pageCommand is ShowMessage) {
+              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            }
+            else if (pageCommand is ProcessSigningRequest) {
               Navigator.of(context).push(
                 PageRouteBuilder(
                   opaque: false,
