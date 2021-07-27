@@ -13,7 +13,7 @@ class VoteStatusLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProposalDetailsBloc, ProposalDetailsState>(
       builder: (context, state) {
-        if (state.proposals[state.currentIndex].stage != 'staged') {
+        if (state.proposals[state.currentIndex].stage == 'active') {
           switch (state.voteStatus) {
             case VoteStatus.notCitizen:
               return Padding(
@@ -79,7 +79,7 @@ class VoteStatusLabel extends StatelessWidget {
             default:
               return const SizedBox.shrink();
           }
-        } else {
+        } else if (state.proposals[state.currentIndex].stage == 'staged') {
           return Padding(
             padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
             child: Row(
@@ -88,6 +88,8 @@ class VoteStatusLabel extends StatelessWidget {
               ],
             ),
           );
+        } else {
+          return const SizedBox.shrink();
         }
       },
     );
