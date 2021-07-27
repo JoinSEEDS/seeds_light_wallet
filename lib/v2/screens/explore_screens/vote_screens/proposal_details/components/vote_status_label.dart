@@ -84,15 +84,7 @@ class VoteStatusLabel extends StatelessWidget {
             padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
             child: Row(
               children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(text: 'Voting for this proposal'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                      TextSpan(text: ' is not open '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                      TextSpan(text: 'yet.'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                    ],
-                  ),
-                ),
+                Text('Voting for this proposal is not open yet.'.i18n, style: Theme.of(context).textTheme.subtitle2),
               ],
             ),
           );
