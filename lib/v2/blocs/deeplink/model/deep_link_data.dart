@@ -1,12 +1,10 @@
 class DeepLinkData {
   final Map<String, dynamic> data;
   final DeepLinkPlaceHolder deepLinkPlaceHolder;
-  final String guardianAccount;
 
   DeepLinkData(
     this.data,
     this.deepLinkPlaceHolder,
-    this.guardianAccount,
   );
 }
 

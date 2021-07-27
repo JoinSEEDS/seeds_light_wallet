@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_user_repository.dart';
 import 'package:seeds/v2/screens/sign_up/add_phone_number/add_phone_number.dart';
@@ -12,7 +13,8 @@ import 'package:seeds/v2/screens/sign_up/display_name/display_name.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 
 class SignupScreen extends StatelessWidget {
-  const SignupScreen();
+  final String? Mnemonic;
+  const SignupScreen(this.Mnemonic);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,8 @@ class SignupScreen extends StatelessWidget {
           signupRepository: SignupRepository(),
           firebaseUserRepository: FirebaseUserRepository(),
         ),
-      ),
+        deeplinkBloc: BlocProvider.of<DeeplinkBloc>(context)
+      )..add(OnInviteCodeFromDeepLink(inviteCode: Mnemonic)),
       child: BlocBuilder<SignupBloc, SignupState>(
         buildWhen: (previous, current) => previous.pageContent != current.pageContent,
         builder: (context, state) {

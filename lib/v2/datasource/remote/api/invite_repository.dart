@@ -1,9 +1,12 @@
 import 'package:async/async.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
+import 'package:seeds/v2/datasource/remote/model/invite_model.dart';
+import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
@@ -58,16 +61,44 @@ class InviteRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
-  Future<Result> createInviteLink(String? inviteMnemonic) async {
-    final parameters = DynamicLinkParameters(
-      uriPrefix: domain_app_uri_prefix,
-      link: Uri.parse('$target_link$inviteMnemonic'),
-      androidParameters: AndroidParameters(packageName: android_pacakage_name),
-      iosParameters: IosParameters(bundleId: ios_bundle_id, appStoreId: ios_app_store_id),
-    );
+  Future<Result> getMembers() {
+    print('[http] get members');
 
-    final dynamicUrl = (await parameters.buildShortLink()).shortUrl;
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    return ValueResult(dynamicUrl);
+    var request = createRequest(code: account_accounts, scope: account_accounts, table: table_users, limit: 1000);
+
+    return http
+        .post(membersURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              List<dynamic> allAccounts = body['rows'].toList();
+              return allAccounts.map((item) => MemberModel.fromJson(item)).toList();
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> findInvite(String inviteHash) async {
+    print('[http] find invite by hash');
+
+    var inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+    // 'https://node.hypha.earth/v1/chain/get_table_rows'; // todo: Why is this still Hypha when config has changed?
+
+    var request = createRequest(
+        code: account_join,
+        scope: account_join,
+        table: table_invites,
+        lowerBound: inviteHash,
+        upperBound: inviteHash,
+        indexPosition: 2,
+        keyType: "sha256",
+        limit: 1);
+
+    return http
+        .post(inviteURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              List<dynamic> invite = body['rows'].toList();
+              return invite.map((item) => InviteModel.fromJson(item)).toList();
+            }))
+        .catchError((error) => mapHttpError(error));
   }
 }

@@ -4,8 +4,8 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/flat_button_long_outlined.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 
-const double padding = 20;
-const double avatarRadius = 40;
+const double _padding = 20;
+const double _avatarRadius = 40;
 
 /// A custom dialog with top icon that can be used in multiple screens
 class CustomDialog extends StatelessWidget {
@@ -57,8 +57,8 @@ class CustomDialog extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.only(
-                left: padding, top: avatarRadius + padding - 10, right: padding, bottom: padding + 10),
-            margin: const EdgeInsets.only(top: avatarRadius),
+                left: _padding, top: _avatarRadius + _padding - 10, right: _padding, bottom: _padding + 10),
+            margin: const EdgeInsets.only(top: _avatarRadius),
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: AppColors.tagGreen3,
@@ -119,11 +119,11 @@ class CustomDialog extends StatelessWidget {
           ),
           icon != null ?
               Positioned(
-                left: padding,
-                right: padding,
+                left: _padding,
+                right: _padding,
                 child: CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  radius: avatarRadius,
+                  radius: _avatarRadius,
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.white,
@@ -137,7 +137,7 @@ class CustomDialog extends StatelessWidget {
                       ],
                     ),
                     child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(avatarRadius)),
+                        borderRadius: const BorderRadius.all(Radius.circular(_avatarRadius)),
                         child: Padding(
                           padding: EdgeInsets.all(iconPadding ?? 8.0),
                           child: icon,
