@@ -6,7 +6,9 @@ import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 
 class ClaimInviteScreen extends StatefulWidget {
-  const ClaimInviteScreen({Key? key}) : super(key: key);
+  final String? mnemonic;
+
+  const ClaimInviteScreen({Key? key, this.mnemonic}) : super(key: key);
 
   @override
   _ClaimInviteScreenState createState() => _ClaimInviteScreenState();
