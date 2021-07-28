@@ -21,110 +21,99 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     return BlocProvider(
       create: (_) => ExploreBloc()..add(const LoadExploreData()),
-      child: Scaffold(
-        appBar: AppBar(title: Text('Explore'.i18n)),
-        body: BlocConsumer<ExploreBloc, ExploreState>(
-          listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) {
-            var pageCommand = state.pageCommand;
-            BlocProvider.of<ExploreBloc>(context)..add(const ClearExplorePageCommand());
-            if (pageCommand is NavigateToRoute) {
-              NavigationService.of(context).navigateTo(pageCommand.route);
-            }
-            if (pageCommand is ShowErrorMessage) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-            }
-          },
-          builder: (context, state) {
-            return Stack(
-              children: [
-                Container(
-                  height: height,
-                  child: ListView(
-                    padding: const EdgeInsets.all(horizontalEdgePadding),
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ExploreCard(
-                              onTap: () {
-                                BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.createInvite));
-                              },
-                              title: 'Invite a Friend'.i18n,
-                              icon: const Padding(
-                                padding: EdgeInsets.only(left: 6.0),
-                                child: CustomPaint(size: Size(40, 40), painter: InvitePerson()),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: ExploreCard(
-                              onTap: () {
-                                BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.vote));
-                              },
-                              title: 'Vote'.i18n,
-                              icon: const Padding(
-                                padding: EdgeInsets.only(right: 6.0),
-                                child: CustomPaint(size: Size(40, 40), painter: Vote()),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: ExploreCard(
-                              onTap: () {
-                                BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.plantSeeds));
-                              },
-                              title: 'Plant Seeds'.i18n,
-                              icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          const Expanded(child: SizedBox.shrink()),
-                        ],
-                      ),
-                      const SizedBox(height: 150),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.all(horizontalEdgePadding),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ExploreLinkCard(
-                            backgroundImage: 'assets/images/explore/get_seeds_card.jpg',
-                            onTap: () => launch('$url_buy_seeds${settingsStorage.accountName}', forceSafariVC: false),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: state.isDHOMember
-                              ? ExploreLinkCard(
-                                  backgroundImage: 'assets/images/explore/hypha_dho_card.jpg',
-                                  onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
-                                )
-                              : const SizedBox.shrink(),
-                        ),
-                      ],
+      child: BlocConsumer<ExploreBloc, ExploreState>(
+        listenWhen: (_, current) => current.pageCommand != null,
+        listener: (context, state) {
+          var pageCommand = state.pageCommand;
+          BlocProvider.of<ExploreBloc>(context)..add(const ClearExplorePageCommand());
+          if (pageCommand is NavigateToRoute) {
+            NavigationService.of(context).navigateTo(pageCommand.route);
+          }
+          if (pageCommand is ShowErrorMessage) {
+            SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(title: Text('Explore'.i18n)),
+            bottomSheet: Padding(
+              padding: const EdgeInsets.all(horizontalEdgePadding),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ExploreLinkCard(
+                      backgroundImage: 'assets/images/explore/get_seeds_card.jpg',
+                      onTap: () => launch('$url_buy_seeds${settingsStorage.accountName}', forceSafariVC: false),
                     ),
                   ),
-                )
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: state.isDHOMember
+                        ? ExploreLinkCard(
+                            backgroundImage: 'assets/images/explore/hypha_dho_card.jpg',
+                            onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
+            ),
+            body: ListView(
+              padding: const EdgeInsets.all(horizontalEdgePadding),
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: ExploreCard(
+                        onTap: () {
+                          BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.createInvite));
+                        },
+                        title: 'Invite a Friend'.i18n,
+                        icon: const Padding(
+                          padding: EdgeInsets.only(left: 6.0),
+                          child: CustomPaint(size: Size(40, 40), painter: InvitePerson()),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: ExploreCard(
+                        onTap: () {
+                          BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.vote));
+                        },
+                        title: 'Vote'.i18n,
+                        icon: const Padding(
+                          padding: EdgeInsets.only(right: 6.0),
+                          child: CustomPaint(size: Size(40, 40), painter: Vote()),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: ExploreCard(
+                        onTap: () {
+                          BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.plantSeeds));
+                        },
+                        title: 'Plant Seeds'.i18n,
+                        icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    const Expanded(child: SizedBox.shrink()),
+                  ],
+                ),
+                const SizedBox(height: 150),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
