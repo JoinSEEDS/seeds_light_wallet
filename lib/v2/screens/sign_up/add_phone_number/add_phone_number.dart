@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/phone_number.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
@@ -38,14 +38,10 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
         body: BlocConsumer<SignupBloc, SignupState>(
           listener: (context, state) {
             if (state.addPhoneNumberState.pageState == PageState.failure) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                  state.addPhoneNumberState.errorMessage ?? 'Oops, something went wrong. Please try again later.',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                backgroundColor: AppColors.red1,
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              ));
+              SnackBarInfo(
+                      state.addPhoneNumberState.errorMessage ?? 'Oops, something went wrong. Please try again later.',
+                      ScaffoldMessenger.of(context))
+                  .show();
             }
 
             if (state.addPhoneNumberState.pageState == PageState.success) {

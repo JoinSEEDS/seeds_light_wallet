@@ -79,7 +79,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
   Future<Result> createAccount({
     required String accountName,
     required String inviteSecret,
-    String? displayName,
+    required String displayName,
   }) async {
     EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
     EOSPublicKey publicKey = privateKey.toEOSPublicKey();
