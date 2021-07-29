@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
 import 'package:seeds/screens/app/wallet/custom_transaction.dart';
@@ -58,11 +57,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   final PageController _pageController = PageController(initialPage: 0, keepPage: true);
   late AppBloc _appBloc;
   late GlobalKey<NavigatorState> _navigatorKey;
+  late ConnectionNotifier _connectionNotifier;
 
   @override
   void initState() {
     super.initState();
     _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context));
+    _connectionNotifier = ConnectionNotifier()..init();
     BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
     WidgetsBinding.instance?.addObserver(this);
   }
@@ -79,7 +80,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         Navigator.of(_navigatorKey.currentContext!).pushNamedIfNotCurrent(Routes.verification);
         break;
       case AppLifecycleState.resumed:
-        Provider.of<ConnectionNotifier>(context, listen: false).discoverEndpoints();
+        _connectionNotifier.discoverEndpoints();
         BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
         break;
       case AppLifecycleState.detached:

@@ -27,7 +27,7 @@ import 'package:seeds/providers/services/permission_service.dart';
 // Connection => Settings => Auth => Http => Members
 final providers = [
   Provider(create: (_) => NavigationService()),
-  ChangeNotifierProvider(create: (_) => ConnectionNotifier()..init()),
+  // ChangeNotifierProvider(create: (_) => ConnectionNotifier()..init()),
   // ChangeNotifierProxyProvider<ConnectionNotifier, SettingsNotifier>(
   //   create: (_) => SettingsNotifier()..init(),
   //   update: (_, connection, settings) => settings!
@@ -82,14 +82,14 @@ final providers = [
   //   create: (context) => MembersNotifier(),
   //   update: (context, http, members) => members!..update(http: http),
   // ),
-  ChangeNotifierProxyProvider<HttpService, TransactionsNotifier>(
-    create: (context) => TransactionsNotifier(),
-    update: (context, http, transactions) => transactions!..update(http: http),
-  ),
-  ChangeNotifierProxyProvider<HttpService, TelosBalanceNotifier>(
-    create: (context) => TelosBalanceNotifier(),
-    update: (context, http, balance) => balance!..update(http: http),
-  ),
+  // ChangeNotifierProxyProvider<HttpService, TransactionsNotifier>(
+  //   create: (context) => TransactionsNotifier(),
+  //   update: (context, http, transactions) => transactions!..update(http: http),
+  // ),
+  // ChangeNotifierProxyProvider<HttpService, TelosBalanceNotifier>(
+  //   create: (context) => TelosBalanceNotifier(),
+  //   update: (context, http, balance) => balance!..update(http: http),
+  // ),
   // ChangeNotifierProxyProvider<HttpService, BalanceNotifier>(
   //   create: (context) => BalanceNotifier(),
   //   update: (context, http, balance) => balance!..update(http: http),
@@ -132,14 +132,14 @@ final providers = [
   //   create: (_) => BackupService(),
   //   update: (_, settings, backupService) => backupService!..update(settings),
   // ),
-  ProxyProvider<HttpService, AccountGeneratorService>(
-    create: (_) => AccountGeneratorService(),
-    update: (_, httpService, accountGeneratorService) => accountGeneratorService!..update(httpService),
-  ),
-  ProxyProvider<AccountGeneratorService, CreateAccountBloc>(
-    create: (_) => CreateAccountBloc(),
-    update: (_, accountGeneratorService, createAccountBloc) => createAccountBloc!..update(accountGeneratorService),
-  ),
+  // ProxyProvider<HttpService, AccountGeneratorService>(
+  //   create: (_) => AccountGeneratorService(),
+  //   update: (_, httpService, accountGeneratorService) => accountGeneratorService!..update(httpService),
+  // ),
+  // ProxyProvider<AccountGeneratorService, CreateAccountBloc>(
+  //   create: (_) => CreateAccountBloc(),
+  //   update: (_, accountGeneratorService, createAccountBloc) => createAccountBloc!..update(accountGeneratorService),
+  // ),
   // Provider(
   //   create: (_) => PermissionService(),
   // ),
