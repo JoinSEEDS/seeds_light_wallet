@@ -28,43 +28,23 @@ class CircularProgressItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularStepProgressIndicator(
-              circularDirection: CircularDirection.clockwise,
-              totalSteps: totalStep,
-              currentStep: currentStep,
-              stepSize: 2.5,
-              selectedColor: AppColors.green1,
-              unselectedColor: AppColors.darkGreen2,
-              padding: 0,
-              width: circleRadius * 2,
-              height: circleRadius * 2,
-              selectedStepSize: 2.5,
-              roundedCap: (_, __) => true,
-              child: Center(child: icon),
-            ),
-          ],
+        CircularStepProgressIndicator(
+          circularDirection: CircularDirection.clockwise,
+          totalSteps: totalStep,
+          currentStep: currentStep,
+          stepSize: 2.5,
+          selectedColor: AppColors.green1,
+          unselectedColor: AppColors.darkGreen2,
+          padding: 0,
+          width: circleRadius * 2,
+          height: circleRadius * 2,
+          selectedStepSize: 2.5,
+          roundedCap: (_, __) => true,
+          child: Center(child: icon),
         ),
-        const SizedBox(height: 8.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 120),
-                child: Text(title, textAlign: TextAlign.center, maxLines: 2, style: titleStyle),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text(rate, style: rateStyle)],
-        ),
+        const SizedBox(height: 12.0),
+        Text(title, style: titleStyle),
+        Text(rate, style: rateStyle),
       ],
     );
   }
