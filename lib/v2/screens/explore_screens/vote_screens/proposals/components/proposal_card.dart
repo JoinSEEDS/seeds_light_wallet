@@ -51,7 +51,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                             child: CachedNetworkImage(
                               imageUrl: widget.proposal.image,
                               height: 150,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.fitWidth,
                               errorWidget: (_, __, ___) => const SizedBox.shrink(),
                             ),
                           ),
@@ -63,9 +63,9 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                         CustomPaint(
                           painter: const ProposalCategory(),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                            child: Text(widget.proposal.campaignTypeLabel,
-                                style: Theme.of(context).textTheme.subtitle3OpacityEmphasis),
+                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                            child:
+                                Text(widget.proposal.campaignTypeLabel, style: Theme.of(context).textTheme.subtitle2),
                           ),
                         ),
                       ],
@@ -226,7 +226,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
               ),
             ),
           ),
-          if (widget.proposal.stage == 'done')
+          if (widget.proposal.stage != 'staged')
             Positioned(top: 10.0, right: 26.0, child: VoteAmountLabel(widget.proposal.id)),
         ],
       ),

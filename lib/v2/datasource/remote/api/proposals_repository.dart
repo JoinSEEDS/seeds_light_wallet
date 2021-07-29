@@ -55,7 +55,11 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     return http
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              return body['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList();
+              List<ProposalModel> result = body['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList();
+              if (proposalType.filterByStage != null) {
+                result.retainWhere((e) => e.stage == proposalType.filterByStage);
+              } 
+              return result;
             }))
         .catchError((error) => mapHttpError(error));
   }

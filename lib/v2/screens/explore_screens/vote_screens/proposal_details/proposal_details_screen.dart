@@ -77,13 +77,12 @@ class _ProposalDetailsScreenState extends State<ProposalDetailsScreen> {
                     }
                     return true;
                   },
-                  child: CustomScrollView(
+                  child: ListView(
                     controller: _scrollController,
-                    slivers: [
+                    children: [
                       const ProposalDetailsHeader(),
-                      const SliverList(
-                        delegate: SliverChildListDelegate.fixed([ProposalDetailsMiddle(), ProposalDetailsBottom()]),
-                      ),
+                      const ProposalDetailsMiddle(),
+                      const ProposalDetailsBottom()
                     ],
                   ),
                 );

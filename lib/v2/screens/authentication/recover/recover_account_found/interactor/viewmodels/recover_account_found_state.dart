@@ -8,7 +8,7 @@ class RecoverAccountFoundState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final String userAccount;
-  final String linkToActivateGuardians;
+  final Uri? linkToActivateGuardians;
   final List<String> userGuardians;
   final List<String> alreadySignedGuardians;
   final List<MemberModel> userGuardiansData;
@@ -50,7 +50,7 @@ class RecoverAccountFoundState extends Equatable {
 
   RecoverAccountFoundState copyWith({
     PageState? pageState,
-    String? linkToActivateGuardians,
+    Uri? linkToActivateGuardians,
     List<String>? userGuardians,
     List<MemberModel>? userGuardiansData,
     String? errorMessage,
@@ -80,7 +80,7 @@ class RecoverAccountFoundState extends Equatable {
   factory RecoverAccountFoundState.initial(List<String> userGuardians, String userAccount) {
     return RecoverAccountFoundState(
       pageState: PageState.initial,
-      linkToActivateGuardians: "",
+      linkToActivateGuardians: null,
       userGuardians: userGuardians,
       userGuardiansData: [],
       confirmedGuardianSignatures: 0,

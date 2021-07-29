@@ -38,7 +38,8 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
   Stream<RecoverAccountFoundState> mapEventToState(RecoverAccountFoundEvent event) async* {
     if (event is FetchInitialData) {
       yield state.copyWith(pageState: PageState.loading);
-      RecoverGuardianInitialDTO result = await FetchRecoverGuardianInitialDataUseCase().run(state.userGuardians);
+      RecoverGuardianInitialDTO result =
+          await FetchRecoverGuardianInitialDataUseCase().run(state.userGuardians, state.userAccount);
       var newState = FetchRecoverRecoveryStateMapper().mapResultToState(state, result);
       yield newState;
       if (newState.recoveryStatus == RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD) {

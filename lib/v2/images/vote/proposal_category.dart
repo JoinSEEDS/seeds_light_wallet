@@ -16,7 +16,7 @@ class ProposalCategory extends CustomPainter {
       ..lineTo(0, size.height)
       ..lineTo(size.width - 1, size.height)
       ..lineTo(size.width, size.height - 1)
-      ..lineTo(size.width - 10, size.height - 11)
+      ..lineTo(size.width - 10, size.height - 13)
       ..lineTo(size.width, 1)
       ..lineTo(size.width - 1, 0)
       ..lineTo(0, 0)

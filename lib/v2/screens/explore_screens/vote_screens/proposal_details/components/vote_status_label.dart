@@ -13,60 +13,83 @@ class VoteStatusLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProposalDetailsBloc, ProposalDetailsState>(
       builder: (context, state) {
-        switch (state.voteStatus) {
-          case VoteStatus.notCitizen:
-            return Padding(
-              padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
-              child: Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(text: 'You must be a'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                        TextSpan(text: ' Citizen '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                        TextSpan(text: 'to vote on proposals.'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                      ],
+        if (state.proposals[state.currentIndex].stage == 'active') {
+          switch (state.voteStatus) {
+            case VoteStatus.notCitizen:
+              return Padding(
+                padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
+                child: Row(
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(text: 'You must be a'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                          TextSpan(text: ' Citizen '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
+                          TextSpan(text: 'to vote on proposals.'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          case VoteStatus.alreadyVoted:
-            return Padding(
-              padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
-              child: Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(text: 'You have already'.i18n, style: Theme.of(context).textTheme.subtitle2),
-                        TextSpan(text: ' Voted.'.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
-                      ],
+                  ],
+                ),
+              );
+            case VoteStatus.alreadyVoted:
+              return Padding(
+                padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
+                child: Row(
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(text: 'You have already'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                          TextSpan(text: ' Voted with '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
+                          TextSpan(
+                              text: state.vote!.amount == 1
+                                  ? '${state.vote!.amount} ' + 'vote '.i18n
+                                  : '${state.vote!.amount} ' + 'votes'.i18n,
+                              style: Theme.of(context).textTheme.subtitle2),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          case VoteStatus.canVote:
-            return Padding(
-              padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
-              child: Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(text: 'Voting - '.i18n, style: Theme.of(context).textTheme.subtitle2),
-                        TextSpan(
-                            text: state.proposals[state.currentIndex].campaignTypeLabel,
-                            style: Theme.of(context).textTheme.subtitle2Green2),
-                      ],
+                  ],
+                ),
+              );
+            case VoteStatus.canVote:
+              return Padding(
+                padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
+                child: Row(
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(text: 'Voting'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                          TextSpan(
+                              text: ' - ${state.proposals[state.currentIndex].campaignTypeLabel}: ',
+                              style: Theme.of(context).textTheme.subtitle2Green2),
+                          TextSpan(
+                              text: state.voteAmount == 1
+                                  ? '${state.voteAmount} ' + 'vote '.i18n
+                                  : '${state.voteAmount} ' + 'votes'.i18n,
+                              style: Theme.of(context).textTheme.subtitle2),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          default:
-            return const SizedBox.shrink();
+                  ],
+                ),
+              );
+            default:
+              return const SizedBox.shrink();
+          }
+        } else if (state.proposals[state.currentIndex].stage == 'staged') {
+          return Padding(
+            padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
+            child: Row(
+              children: [
+                Text('Voting for this proposal is not open yet.'.i18n, style: Theme.of(context).textTheme.subtitle2),
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
         }
       },
     );
