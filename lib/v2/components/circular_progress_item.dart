@@ -42,8 +42,9 @@ class CircularProgressItem extends StatelessWidget {
           roundedCap: (_, __) => true,
           child: Center(child: icon),
         ),
-        const SizedBox(height: 12.0),
-        Text(title, style: titleStyle),
+        const SizedBox(height: 8.0),
+        Text(title, style: titleStyle, textAlign: TextAlign.center,),
+        const SizedBox(height: 2.0),
         Text(rate, style: rateStyle),
       ],
     );
