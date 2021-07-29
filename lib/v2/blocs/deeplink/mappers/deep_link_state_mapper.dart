@@ -18,18 +18,13 @@ class DeepLinkStateMapper extends StateMapper {
         case DeepLinkPlaceHolder.LINK_GUARDIANS:
           var newPublicKey = deepLinkData.data["new_public_key"];
           var userAccount = deepLinkData.data["user_account"];
-          var guardianAccount = deepLinkData.data["guardian_account"];
 
-          if (settingsStorage.accountName == guardianAccount) {
-            return currentState.copyWith(
-              showGuardianApproveOrDenyScreen: GuardianRecoveryRequestData(
-                guardianAccount: userAccount,
-                publicKey: newPublicKey,
-              ),
-            );
-          } else {
-            return currentState;
-          }
+          return currentState.copyWith(
+            showGuardianApproveOrDenyScreen: GuardianRecoveryRequestData(
+              guardianAccount: userAccount,
+              publicKey: newPublicKey,
+            ),
+          );
         case DeepLinkPlaceHolder.LINK_INVITE:
           if (settingsStorage.accountName.isNullOrEmpty) {
             // handle invite link. Send user to memonic screen.

@@ -39,20 +39,33 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   @override
   Stream<AppState> mapEventToState(AppEvent event) async* {
     if (event is ShouldShowNotificationBadge) {
-      yield state.copyWith(hasNotification: event.value);
+      yield state.copyWith(
+        hasNotification: event.value,
+        showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
+      );
     }
     if (event is BottomBarTapped) {
-      yield state.copyWith(index: event.index, pageCommand: BottomBarNavigateToIndex(event.index));
+      yield state.copyWith(
+        index: event.index,
+        pageCommand: BottomBarNavigateToIndex(event.index),
+        showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
+      );
     }
     if (event is ShouldShowGuardianRecoveryAlert) {
-      yield state.copyWith(showGuardianRecoveryAlert: event.showGuardianRecoveryAlert);
+      yield state.copyWith(
+        showGuardianRecoveryAlert: event.showGuardianRecoveryAlert,
+        showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
+      );
     }
     if (event is OnStopGuardianActiveRecoveryTapped) {
       yield state.copyWith(pageState: PageState.loading);
       var result = await StopGuardianRecoveryUseCase().stopRecovery();
       yield StopGuardianRecoveryStateMapper().mapResultToState(state, result);
     } else if (event is ClearAppPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith(
+        pageCommand: null,
+        showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
+      );
     } else if (event is OnDismissGuardianRecoveryTapped) {
       // Update Deep Link Bloc State
       _deeplinkBloc.add(const OnGuardianRecoveryRequestSeen());

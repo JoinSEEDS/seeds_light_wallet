@@ -18,7 +18,6 @@ class GetInitialDeepLinkUseCase {
       await request.resolve(account: settingsStorage.accountName);
       var action = request.actions.first;
       var data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
-      data.addAll({"guardian_account": action.account});
 
       deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_GUARDIANS;
       return ValueResult(DeepLinkData(data, deepLinkPlaceHolder));
