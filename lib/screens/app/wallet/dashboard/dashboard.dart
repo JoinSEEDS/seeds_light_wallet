@@ -267,7 +267,7 @@
 //     return FutureBuilder(
 //       future: null, //MembersNotifier.of(context).getAccountDetails(participantAccountName),
 //       builder: (ctx, member) => member.hasData
-//           ? TransactionInfoCard(
+//           ? TransactionInfoRow(
 //               callback: () {
 //                 onTransaction(transaction: model, member: member.data! as MemberModel, type: type);
 //               },

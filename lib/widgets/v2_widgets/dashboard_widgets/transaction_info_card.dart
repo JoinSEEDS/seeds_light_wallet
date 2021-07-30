@@ -5,8 +5,8 @@
 // import 'package:seeds/widgets/read_times_tamp.dart';
 // import 'package:seeds/widgets/transaction_avatar.dart';
 // import 'package:seeds/v2/design/app_theme.dart';
-// // DEPRECATED - 
-// class TransactionInfoCard extends StatelessWidget {
+// // DEPRECATED -
+// class TransactionInfoRow extends StatelessWidget {
 //   final String? profileAccount;
 //   final String? profileNickname;
 //   final String? profileImage;
@@ -15,7 +15,7 @@
 //   final String typeIcon;
 //   final GestureTapCallback callback;
 
-//   const TransactionInfoCard({
+//   const TransactionInfoRow({
 //     Key? key,
 //     required this.amount,
 //     required this.callback,

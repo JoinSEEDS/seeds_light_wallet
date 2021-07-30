@@ -19,7 +19,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileState.initial()) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
-        .listen((value) => add(ShouldShowNotificationBadge(value: value)));
+        .listen((value) => add(ShouldShowNotificationBadge(value)));
   }
 
   @override
