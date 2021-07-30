@@ -6,9 +6,9 @@ import 'package:seeds/v2/design/app_theme.dart';
 const String _urlPattern =
     r"((https?:www\.)|(https?:\/\/)|(www\.))?[\w/\-?=%.][-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?";
 const String _emailPattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-const String _phonePattern = r"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$";
+const String _phonePattern = r"^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$";
 final RegExp _linkRegExp = RegExp(
-    r"(((https?:www\.)|(https?:\/\/)|(www\.))?[\w/\-?=%.][-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?)|(^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+)|(^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$)",
+    r"(((https?:www\.)|(https?:\/\/)|(www\.))?[\w/\-?=%.][-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?)|(^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+)|(^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$)",
     caseSensitive: false);
 
 /// Creates a selectable text widget. Also It uses url_launcher
@@ -50,7 +50,9 @@ class SelectableTextWithLinks extends StatelessWidget {
     }
 
     final String linkText = match.group(0)!;
-    if (linkText.contains(RegExp(_urlPattern, caseSensitive: false))) {
+    // Remove <&& linkText.contains('https')> condition part
+    // if you want to highlight bare domains like google.com
+    if (linkText.contains(RegExp(_urlPattern, caseSensitive: false)) && linkText.contains('https')) {
       // Is a URL link
       list.add(
         TextSpan(
@@ -78,6 +80,7 @@ class SelectableTextWithLinks extends StatelessWidget {
         ),
       );
     } else {
+      list.add(TextSpan(text: text, style: style));
       // oh oh..
       print('Unexpected match: $linkText');
     }
