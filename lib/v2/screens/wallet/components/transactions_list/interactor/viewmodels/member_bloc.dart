@@ -4,10 +4,10 @@ import 'package:seeds/v2/constants/system_accounts.dart';
 import 'package:seeds/v2/datasource/local/member_model_cache_item.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/wallet/components/transactions/interactor/mappers/member_state_mapper.dart';
-import 'package:seeds/v2/screens/wallet/components/transactions/interactor/usecases/load_member_data_usecase.dart';
-import 'package:seeds/v2/screens/wallet/components/transactions/interactor/viewmodels/member_events.dart';
-import 'package:seeds/v2/screens/wallet/components/transactions/interactor/viewmodels/member_state.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/mappers/member_state_mapper.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/usecases/load_member_data_usecase.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/member_events.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/member_state.dart';
 
 const cacheExpiryMinutes = 30;
 
