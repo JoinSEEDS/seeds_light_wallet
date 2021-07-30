@@ -9,14 +9,14 @@ import 'package:seeds/widgets/read_times_tamp.dart';
 import 'package:seeds/widgets/transaction_avatar.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 
-class TransactionInfoCard extends StatelessWidget {
+class TransactionInfoRow extends StatelessWidget {
   final String profileAccount;
   final String timestamp;
   final String amount;
   final bool incoming;
   final GestureTapCallback callback;
 
-  const TransactionInfoCard({
+  const TransactionInfoRow({
     Key? key,
     required this.amount,
     required this.callback,

@@ -5,8 +5,8 @@ import 'package:seeds/i18n/wallet.i18n.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/wallet/components/transactions_list/components/transaction_info_card.dart';
-import 'package:seeds/v2/screens/wallet/components/transactions_list/components/transaction_loadign_card.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions_list/components/transaction_info_row.dart';
+import 'package:seeds/v2/screens/wallet/components/transactions_list/components/transaction_loading_row.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_bloc.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_events.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_state.dart';
@@ -45,7 +45,7 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
             child: BlocBuilder<TransactionsListBloc, TransactionsListState>(
               builder: (context, state) {
                 if (state.isLoadingNoData) {
-                  return Column(children: [for (var i = 0; i < 5; i++) const TransactionLoadingCard()]);
+                  return Column(children: [for (var i = 0; i < 5; i++) const TransactionLoadingRow()]);
                 } else {
                   return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
@@ -54,7 +54,7 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
                     itemBuilder: (_, index) {
                       final account = settingsStorage.accountName;
                       var model = state.transactions[index];
-                      return TransactionInfoCard(
+                      return TransactionInfoRow(
                         callback: () {
                           // TODO(n13): Implement callback - show tx detail
                           print("Not implemented");

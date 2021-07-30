@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:seeds/v2/components/shimmer_circle.dart';
 import 'package:seeds/v2/components/shimmer_rectangle.dart';
 
-class TransactionLoadingCard extends StatelessWidget {
-  const TransactionLoadingCard({Key? key}) : super(key: key);
+class TransactionLoadingRow extends StatelessWidget {
+  const TransactionLoadingRow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
