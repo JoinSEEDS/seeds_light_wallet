@@ -52,16 +52,17 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
                     shrinkWrap: true,
                     itemCount: state.transactions.length,
                     itemBuilder: (_, index) {
+                      final account = settingsStorage.accountName;
                       var model = state.transactions[index];
                       return TransactionInfoCard(
                         callback: () {
                           // TODO(n13): Implement callback - show tx detail
                           print("Not implemented");
                         },
-                        profileAccount: model.to == settingsStorage.accountName ? model.from : model.to,
+                        profileAccount: model.to == account ? model.from : model.to,
                         timestamp: model.timestamp,
                         amount: model.quantity,
-                        incoming: settingsStorage.accountName == model.to,
+                        incoming: account == model.to,
                       );
                     },
                   );
