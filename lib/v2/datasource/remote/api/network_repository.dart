@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
-import 'package:seeds/utils/extensions/response_extension.dart';
+import 'package:seeds/v2/datasource/remote/util/response_extension.dart';
 
 abstract class NetworkRepository {
   String baseURL = remoteConfigurations.defaultEndPointUrl;
