@@ -16,9 +16,7 @@ class WalletBottom extends StatelessWidget {
             Expanded(child: Text('Transactions History'.i18n, style: Theme.of(context).textTheme.headline7LowEmphasis)),
           ]),
         ),
-        const SizedBox(
-          height: 16,
-        ),
+        const SizedBox(height: 16),
         TransactionsListWidget()
       ],
     );

@@ -36,7 +36,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
               appBar: const WalletAppBar(),
               body: ListView(
                 // TODO(n13): Use exact measurements from figma
-                children: <Widget>[
+                children: [
                   const SizedBox(height: 15),
                   const TokenCards(),
                   const SizedBox(height: 20),
