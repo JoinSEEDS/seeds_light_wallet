@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:seeds/v2/datasource/remote/util/response_extension.dart';
 
 abstract class NetworkRepository {
   String baseURL = remoteConfigurations.defaultEndPointUrl;
@@ -29,7 +28,7 @@ abstract class NetworkRepository {
       case 200:
         {
           print('Model Class: ' + modelMapper.toString());
-          var body = json.decode(response.body);
+          var body = response.parseJson();
           return ValueResult(modelMapper(body));
         }
       default:
