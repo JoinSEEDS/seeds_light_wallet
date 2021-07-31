@@ -27,6 +27,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     super.build(context);
     return Hero(
       tag: widget.proposal.hashCode,
@@ -45,32 +46,14 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (widget.proposal.image.isNotEmpty)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: CachedNetworkImage(
-                              imageUrl: widget.proposal.image,
-                              height: 150,
-                              fit: BoxFit.fitWidth,
-                              errorWidget: (_, __, ___) => const SizedBox.shrink(),
-                            ),
-                          ),
-                        ],
+                      CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: widget.proposal.image,
+                        height: width - 100,
+                        width: width - 32,
+                        errorWidget: (_, __, ___) => const SizedBox.shrink(),
                       ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        CustomPaint(
-                          painter: const ProposalCategory(),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-                            child:
-                                Text(widget.proposal.campaignTypeLabel, style: Theme.of(context).textTheme.subtitle2),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     Column(
                       children: <Widget>[
                         Padding(
@@ -98,13 +81,6 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                                     style: Theme.of(context).textTheme.headline7,
                                   )),
                                 ],
-                              ),
-                              const SizedBox(height: 10.0),
-                              Text(
-                                widget.proposal.summary,
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                               ),
                             ],
                           ),
@@ -224,6 +200,21 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                   ],
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            top: width / 2,
+            left: 16,
+            child: Row(
+              children: [
+                CustomPaint(
+                  painter: const ProposalCategory(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                    child: Text(widget.proposal.campaignTypeLabel, style: Theme.of(context).textTheme.subtitle2),
+                  ),
+                ),
+              ],
             ),
           ),
           if (widget.proposal.stage != 'staged')
