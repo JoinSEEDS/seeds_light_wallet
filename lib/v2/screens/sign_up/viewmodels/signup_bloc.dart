@@ -14,6 +14,7 @@ import 'package:seeds/v2/screens/sign_up/viewmodels/states/add_phone_number_stat
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/create_username_state.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/display_name_state.dart';
+import 'package:seeds/v2/utils/mnemonic_code/mnemonic_code.dart';
 
 part 'signup_event.dart';
 
@@ -113,7 +114,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
     yield currentState.copyWith(addPhoneNumberState: AddPhoneNumberState.loading(currentAddPhoneNumberState));
 
-    final inviteSecret = state.claimInviteState.inviteModel!.inviteSecret;
+    final String inviteSecret = secretFromMnemonic(state.claimInviteState.inviteMnemonic!);
     final displayName = state.displayNameState.displayName;
     final username = state.createUsernameState.username;
 
