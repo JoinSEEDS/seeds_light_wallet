@@ -2,12 +2,14 @@ import 'package:async/async.dart';
 import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_user_repository.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:eosdart_ecc/eosdart_ecc.dart';
 
 class AddPhoneNumberUseCase {
   AddPhoneNumberUseCase({
     required SignupRepository signupRepository,
     required FirebaseUserRepository firebaseUserRepository,
-  })   : _signupRepository = signupRepository,
+  })  : _signupRepository = signupRepository,
         _firebaseUserRepository = firebaseUserRepository;
 
   final SignupRepository _signupRepository;
@@ -17,12 +19,14 @@ class AddPhoneNumberUseCase {
     required String inviteSecret,
     required String displayName,
     required String username,
+    required EOSPrivateKey privateKey,
     String? phoneNumber,
   }) async {
     final Result result = await _signupRepository.createAccount(
       accountName: username,
       inviteSecret: inviteSecret,
       displayName: displayName,
+      privateKey: privateKey,
     );
 
     // Phone number is optional.
