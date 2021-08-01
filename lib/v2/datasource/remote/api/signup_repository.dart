@@ -86,8 +86,6 @@ class SignupRepository extends EosRepository with NetworkRepository {
 
     final applicationAccount = Config.onboardingAccountName;
 
-    //print("create account with secret: $inviteSecret  \npub: $publicKey \npriv: $privateKey");
-
     final actions = <Action>[
       Action()
         ..account = applicationAccount
