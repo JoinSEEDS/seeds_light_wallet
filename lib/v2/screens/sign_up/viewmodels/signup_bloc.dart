@@ -28,7 +28,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     required CreateUsernameUseCase createUsernameUseCase,
     required AddPhoneNumberUseCase addPhoneNumberUseCase,
     required this.deeplinkBloc,
-  })   : _claimInviteUseCase = claimInviteUseCase,
+  })  : _claimInviteUseCase = claimInviteUseCase,
         _createUsernameUseCase = createUsernameUseCase,
         _addPhoneNumberUseCase = addPhoneNumberUseCase,
         super(SignupState.initial());
@@ -119,7 +119,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     final username = state.createUsernameState.username;
 
     final Result result = await _addPhoneNumberUseCase.run(
-        inviteSecret: inviteSecret!, displayName: displayName!, username: username!, phoneNumber: phoneNumber);
+        inviteSecret: inviteSecret, displayName: displayName!, username: username!, phoneNumber: phoneNumber);
 
     yield CreateAccountMapper().mapOnCreateAccountTappedToState(currentState, result);
   }
