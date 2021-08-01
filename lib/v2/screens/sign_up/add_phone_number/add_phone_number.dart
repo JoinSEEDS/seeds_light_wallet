@@ -45,7 +45,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
             }
 
             if (state.addPhoneNumberState.pageState == PageState.success) {
-              NavigationService.of(context).navigateTo(Routes.wallet);
+              BlocProvider.of<AuthenticationBloc>(context).add(const OnCreateAccount());
             }
           },
           builder: (context, state) {
