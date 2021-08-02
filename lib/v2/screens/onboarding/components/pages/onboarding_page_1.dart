@@ -8,13 +8,14 @@ class FirstPage extends StatelessWidget {
     return OnboardingPage(
       onboardingImage: "assets/images/onboarding/onboarding5.png",
       topPadding: 30,
-      title: "Better \nThan Free Transcations",
+      title: "Better \nThan Free Transactions",
       subTitle:
-          "Make payments globally without any fees. Earn rewards when you support ‘Regenerative’ organisations and people.",
+          "Make payments globally without any fees. Earn rewards when you support ‘Regenerative’ organizations and people.",
       topLeaf1: Positioned(
         right: 80,
         top: -10,
-        child: SvgPicture.asset('assets/images/onboarding/leaves/pointing_right/small_light_leaf.svg'),
+        child: SvgPicture.asset(
+            'assets/images/onboarding/leaves/pointing_right/small_light_leaf.svg'),
       ),
       bottomLeaf1: Positioned(
         bottom: -20,
