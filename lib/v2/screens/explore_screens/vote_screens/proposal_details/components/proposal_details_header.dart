@@ -40,7 +40,7 @@ class ProposalDetailsHeader extends StatelessWidget {
                 right: 0,
                 child: Container(
                   width: width,
-                  height: 180,
+                  height: 80,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [Colors.black54, Colors.transparent],
