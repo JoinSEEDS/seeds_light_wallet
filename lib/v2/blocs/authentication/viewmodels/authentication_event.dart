@@ -35,6 +35,12 @@ class OnImportAccount extends AuthenticationEvent {
   String toString() => 'OnImportAccount { account: $account }';
 }
 
+class OnCreateAccount extends AuthenticationEvent {
+  const OnCreateAccount();
+  @override
+  String toString() => 'OnCreateAccount';
+}
+
 class UnlockWallet extends AuthenticationEvent {
   const UnlockWallet();
   @override

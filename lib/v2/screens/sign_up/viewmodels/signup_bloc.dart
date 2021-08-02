@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/sign_up/add_phone_number/mappers/create_account_mapper.dart';
 import 'package:seeds/v2/screens/sign_up/add_phone_number/usecases/add_phone_number_usecase.dart';
@@ -15,6 +16,8 @@ import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.da
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/create_username_state.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/display_name_state.dart';
 import 'package:seeds/v2/utils/mnemonic_code/mnemonic_code.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:eosdart_ecc/eosdart_ecc.dart';
 
 part 'signup_event.dart';
 
@@ -118,8 +121,19 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     final displayName = state.displayNameState.displayName;
     final username = state.createUsernameState.username;
 
+    EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
+
     final Result result = await _addPhoneNumberUseCase.run(
-        inviteSecret: inviteSecret, displayName: displayName!, username: username!, phoneNumber: phoneNumber);
+      inviteSecret: inviteSecret,
+      displayName: displayName!,
+      username: username!,
+      privateKey: privateKey,
+      phoneNumber: phoneNumber,
+    );
+
+    if (!result.isError) {
+      settingsStorage.saveAccount(username, privateKey.toString());
+    }
 
     yield CreateAccountMapper().mapOnCreateAccountTappedToState(currentState, result);
   }

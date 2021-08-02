@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/phone_number.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
@@ -8,7 +10,6 @@ import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
-import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/utils/formatters.dart';
 
@@ -45,7 +46,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
             }
 
             if (state.addPhoneNumberState.pageState == PageState.success) {
-              NavigationService.of(context).navigateTo(Routes.wallet);
+              BlocProvider.of<AuthenticationBloc>(context).add(const OnCreateAccount());
             }
           },
           builder: (context, state) {

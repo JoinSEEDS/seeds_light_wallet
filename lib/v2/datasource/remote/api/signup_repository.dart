@@ -80,8 +80,8 @@ class SignupRepository extends EosRepository with NetworkRepository {
     required String accountName,
     required String inviteSecret,
     required String displayName,
+    required EOSPrivateKey privateKey,
   }) async {
-    EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
     EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
     final applicationAccount = Config.onboardingAccountName;
