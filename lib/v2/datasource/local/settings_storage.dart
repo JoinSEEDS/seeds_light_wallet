@@ -128,7 +128,7 @@ class _SettingsStorage {
     _preferences.setStringList(TOKENS_WHITELIST, tokensList);
   }
 
-  set saveIsCitizen(bool? value) {
+  set isCitizen(bool? value) {
     _secureStorage.write(key: IS_CITIZEN, value: value.toString());
     if (value != null) {
       _biometricActive = value;
@@ -243,6 +243,10 @@ class _SettingsStorage {
   void updateBackupLater() {
     backupLatestReminder = DateTime.now().millisecondsSinceEpoch;
     backupReminderCount++;
+  }
+
+  void saveIsCitizen(bool value) {
+    isCitizen = value;
   }
 
   void removeAccount() {

@@ -1,3 +1,4 @@
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
@@ -11,6 +12,11 @@ class ProfileValuesStateMapper extends StateMapper {
     } else {
       // results.retainWhere((Result i) => i.isValue); // seems like a bug if there's 1 bad result it will do the wrong thing
       ProfileModel? profile = results[0].valueOrNull;
+      if (profile != null && profile.status == ProfileStatus.citizen) {
+        // Save is citizen in storage to avoid show shimmer again
+        // in the citizenship module (this will not show for a citizen)
+        settingsStorage.saveIsCitizen(true);
+      }
       var score = ScoresViewModel(
         contributionScore: results[1].valueOrNull,
         communityScore: results[2].valueOrNull,
