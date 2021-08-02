@@ -26,6 +26,8 @@ class _SettingsStorage {
   static const IN_RECOVERY_MODE = 'in_recovery_mode';
   static const GUARDIAN_TUTORIAL_SHOWN = 'guardian_tutorial_shown';
   static const TOKENS_WHITELIST = 'tokens_whitelist';
+  static const IS_CITIZEN = 'is_citizen';
+  static const IS_CITIZEN_DEFAULT = false;
 
   String? _privateKey;
   String? _passcode;
@@ -58,6 +60,8 @@ class _SettingsStorage {
   bool get guardianTutorialShown => _preferences.getBool(GUARDIAN_TUTORIAL_SHOWN)!;
 
   List<String> get tokensWhitelist => _preferences.getStringList(TOKENS_WHITELIST) ?? [SeedsToken.id];
+
+  bool get isCitizen => _preferences.getBool(IS_CITIZEN) ?? IS_CITIZEN_DEFAULT;
 
   set inRecoveryMode(bool value) => _preferences.setBool(IN_RECOVERY_MODE, value);
 
@@ -124,6 +128,13 @@ class _SettingsStorage {
     _preferences.setStringList(TOKENS_WHITELIST, tokensList);
   }
 
+  set saveIsCitizen(bool? value) {
+    _secureStorage.write(key: IS_CITIZEN, value: value.toString());
+    if (value != null) {
+      _biometricActive = value;
+    }
+  }
+
   late SharedPreferences _preferences;
   late FlutterSecureStorage _secureStorage;
 
@@ -165,6 +176,12 @@ class _SettingsStorage {
         _backupReminderCount = int.parse(values[BACKUP_REMINDER_COUNT]!);
       } else {
         _backupReminderCount = 0;
+      }
+
+      if (values.containsKey(IS_CITIZEN)) {
+        _biometricActive = values[IS_CITIZEN] == 'true';
+      } else {
+        _biometricActive = IS_CITIZEN_DEFAULT;
       }
     });
   }
@@ -245,6 +262,7 @@ class _SettingsStorage {
     _secureStorage.delete(key: BACKUP_LATEST_REMINDER);
     _backupLatestReminder = 0;
     _secureStorage.delete(key: BACKUP_REMINDER_COUNT);
+    _secureStorage.delete(key: IS_CITIZEN);
     _backupReminderCount = 0;
   }
 

@@ -5,7 +5,6 @@ import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/shimmer_rectangle.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
@@ -27,7 +26,7 @@ class ProfileMiddle extends StatelessWidget {
                 horizontalTitleGap: 0,
                 leading: SvgPicture.asset('assets/images/profile/contribution_icon.svg'),
                 title: Text('Contribution Score'.i18n, style: Theme.of(context).textTheme.button),
-                trailing: state.pageState == PageState.loading || state.pageState == PageState.initial
+                trailing: state.shoulShowCitizenshipShimmer
                     ? const ShimmerRectangle(size: Size(52, 21))
                     : Text(
                         '${state.score?.contributionScore?.value ?? '00'}/99',
