@@ -129,9 +129,8 @@ class _SettingsStorage {
   }
 
   set isCitizen(bool? value) {
-    _secureStorage.write(key: IS_CITIZEN, value: value.toString());
     if (value != null) {
-      _biometricActive = value;
+      _preferences.setBool(IS_CITIZEN, value);
     }
   }
 
@@ -176,12 +175,6 @@ class _SettingsStorage {
         _backupReminderCount = int.parse(values[BACKUP_REMINDER_COUNT]!);
       } else {
         _backupReminderCount = 0;
-      }
-
-      if (values.containsKey(IS_CITIZEN)) {
-        _biometricActive = values[IS_CITIZEN] == 'true';
-      } else {
-        _biometricActive = IS_CITIZEN_DEFAULT;
       }
     });
   }
@@ -266,7 +259,7 @@ class _SettingsStorage {
     _secureStorage.delete(key: BACKUP_LATEST_REMINDER);
     _backupLatestReminder = 0;
     _secureStorage.delete(key: BACKUP_REMINDER_COUNT);
-    _secureStorage.delete(key: IS_CITIZEN);
+    _preferences.remove(IS_CITIZEN);
     _backupReminderCount = 0;
   }
 
