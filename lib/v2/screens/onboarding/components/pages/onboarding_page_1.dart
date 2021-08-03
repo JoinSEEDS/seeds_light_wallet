@@ -14,8 +14,7 @@ class FirstPage extends StatelessWidget {
       topLeaf1: Positioned(
         right: 80,
         top: -10,
-        child: SvgPicture.asset(
-            'assets/images/onboarding/leaves/pointing_right/small_light_leaf.svg'),
+        child: SvgPicture.asset('assets/images/onboarding/leaves/pointing_right/small_light_leaf.svg'),
       ),
       bottomLeaf1: Positioned(
         bottom: -20,
