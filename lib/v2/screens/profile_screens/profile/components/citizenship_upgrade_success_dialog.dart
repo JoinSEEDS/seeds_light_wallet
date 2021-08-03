@@ -55,12 +55,7 @@ class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
               const SizedBox(height: 36.0),
-              FlatButtonLong(
-                title: 'Done'.i18n,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
+              FlatButtonLong(title: 'Done'.i18n, onPressed: () => Navigator.pop(context)),
               const SizedBox(height: 10.0),
             ],
           ),
