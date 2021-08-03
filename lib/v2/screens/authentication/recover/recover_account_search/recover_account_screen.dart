@@ -91,6 +91,8 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                             imageUrl: state.accountImage,
                             account: state.userName!,
                             name: state.accountName,
+                            resultCallBack: () =>
+                                BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
                           ),
                         )
                       : const SizedBox.shrink(),
