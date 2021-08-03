@@ -53,7 +53,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       GUARDIAN_CONTRACT_INITIALIZED: true,
       GUARDIAN_CONTRACT_INITIALIZED_DATE: FieldValue.serverTimestamp(),
     };
-    return usersCollection.doc(userAccount).set(data, SetOptions(merge: false)).then((value) {
+    return usersCollection.doc(userAccount).set(data, SetOptions(merge: true)).then((value) {
       return ValueResult(true);
     }).catchError((onError) {
       // ignore: return_of_invalid_type_from_catch_error
