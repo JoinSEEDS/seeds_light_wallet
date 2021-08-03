@@ -6,23 +6,15 @@ import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/p
 
 class UpgradeCitizenshipResultMapper extends StateMapper {
   ProfileState mapResultToState(ProfileState currentState, Result result, bool isResident) {
-    String newCitizenshipStatus;
-
     if (result.isError) {
-      // citizenship upgrade error, show snackbar fail
-      print('Error upgrading citizenship status');
+      /// citizenship upgrade error, show snackbar fail
       return currentState.copyWith(
         pageState: PageState.success,
         pageCommand: ShowErrorMessage('Fail to upgrade citizenship status.'),
       );
     } else {
-      // Show citizenship upgrade success
-      if (isResident) {
-        newCitizenshipStatus = "Citizen";
-      } else {
-        newCitizenshipStatus = "Resident";
-      }
-
+      /// Show citizenship upgrade success
+      final String newCitizenshipStatus = isResident ? "Citizen" : "Resident";
       return currentState.copyWith(
         pageState: PageState.success,
         pageCommand: ShowCitizenshipUpgradeSuccess(newCitizenshipStatus),
