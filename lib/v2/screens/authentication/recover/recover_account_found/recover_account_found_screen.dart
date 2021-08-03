@@ -163,7 +163,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Text('${state.currentRemainingTime?.hours ?? '00'}',
+                                      Text('${state.currentRemainingTime?.hoursFormatted ?? '00'}',
                                           style: Theme.of(context).textTheme.headline4),
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 6),
@@ -173,7 +173,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                   ),
                                   Row(
                                     children: [
-                                      Text('${state.currentRemainingTime?.min ?? '00'}',
+                                      Text('${state.currentRemainingTime?.minFormatted ?? '00'}',
                                           style: Theme.of(context).textTheme.headline4),
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 6),
@@ -183,7 +183,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                   ),
                                   Row(
                                     children: [
-                                      Text('${state.currentRemainingTime?.sec ?? '00'} ',
+                                      Text('${state.currentRemainingTime?.secFormatted ?? '00'} ',
                                           style: Theme.of(context).textTheme.headline4),
                                     ],
                                   ),
