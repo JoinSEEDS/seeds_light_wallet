@@ -15,6 +15,8 @@ class ProfileState extends Equatable {
   final PageCommand? showLogoutDialog;
   final bool showLogoutButton;
   final bool hasSecurityNotification;
+  final bool canResident;
+  final bool canCitizen;
 
   const ProfileState({
     required this.pageState,
@@ -24,6 +26,8 @@ class ProfileState extends Equatable {
     this.showLogoutDialog,
     required this.showLogoutButton,
     required this.hasSecurityNotification,
+    required this.canCitizen,
+    required this.canResident,
   });
 
   @override
@@ -35,6 +39,8 @@ class ProfileState extends Equatable {
         showLogoutDialog,
         showLogoutButton,
         hasSecurityNotification,
+        canResident,
+        canCitizen,
       ];
 
   ProfileState copyWith({
@@ -45,6 +51,8 @@ class ProfileState extends Equatable {
     PageCommand? showDialog,
     bool? showLogoutButton,
     bool? hasSecurityNotification,
+    bool? canResident,
+    bool? canCitizen,
   }) {
     return ProfileState(
       pageState: pageState ?? this.pageState,
@@ -54,10 +62,17 @@ class ProfileState extends Equatable {
       showLogoutDialog: showDialog,
       showLogoutButton: showLogoutButton ?? this.showLogoutButton,
       hasSecurityNotification: hasSecurityNotification ?? this.hasSecurityNotification,
+      canResident: canResident ?? this.canResident,
+      canCitizen: canCitizen ?? this.canCitizen,
     );
   }
 
   factory ProfileState.initial() {
-    return const ProfileState(pageState: PageState.initial, showLogoutButton: false, hasSecurityNotification: false);
+    return const ProfileState(
+        pageState: PageState.initial,
+        showLogoutButton: false,
+        hasSecurityNotification: false,
+        canCitizen: false,
+        canResident: false);
   }
 }

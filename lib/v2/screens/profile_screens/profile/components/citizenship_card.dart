@@ -124,6 +124,37 @@ class CitizenshipCard extends StatelessWidget {
                                         style: Theme.of(context).textTheme.subtitle3,
                                       ),
                                     ),
+                                    const Expanded(child: SizedBox(width: 6)),
+                                    state.canResident
+                                        ? MaterialButton(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8.0),
+                                            ),
+                                            color: AppColors.darkGreen2,
+                                            padding: const EdgeInsets.all(8.0),
+                                            //Next Pr
+                                            onPressed: () {},
+                                            child: Text(
+                                              'Upgrade To Resident'.i18n,
+                                              style: Theme.of(context).textTheme.subtitle3,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
+                                    state.canCitizen
+                                        ? MaterialButton(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8.0),
+                                            ),
+                                            color: AppColors.darkGreen2,
+                                            padding: const EdgeInsets.all(8.0),
+                                            //Next Pr
+                                            onPressed: () {},
+                                            child: Text(
+                                              'Upgrade To Citizen'.i18n,
+                                              style: Theme.of(context).textTheme.subtitle3,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink()
                                   ],
                                 ),
                               ],
