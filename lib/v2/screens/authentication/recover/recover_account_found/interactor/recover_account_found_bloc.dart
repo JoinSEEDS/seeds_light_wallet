@@ -4,10 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_event.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/mappers/fetch_recover_guardian_state_mapper.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/mappers/remaining_time_state_mapper.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/usecases/reset_user_account_use_case.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_events.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
@@ -53,7 +55,13 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
         yield state.copyWith(recoveryStatus: RecoveryStatus.READY_TO_CLAIM_ACCOUNT);
       }
     } else if (event is OnClaimAccountTap) {
-      _authenticationBloc.add(OnImportAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
+      var result = await ResetUserAccountUseCase().run(state.userAccount);
+      if(result.isValue) {
+        // The private key was saved in the settings storage when the user data for this bloc was loaded
+        _authenticationBloc.add(OnImportAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
+      } else {
+        state.copyWith(pageCommand: ShowErrorMessage("Oops, Something went wrong. Try again later"));
+      }
     } else if (event is OnCopyIconTap) {
       yield state.copyWith(pageCommand: ShowLinkCopied());
     }

@@ -233,6 +233,13 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
     };
     return usersCollection.doc(userAccount).set(data, SetOptions(merge: true));
   }
+
+  Future<void> removeGuardianRecoveryStarted(String userAccount) {
+    var data = <String, Object?>{
+      GUARDIAN_RECOVERY_STARTED_KEY: null,
+    };
+    return usersCollection.doc(userAccount).set(data, SetOptions(merge: true));
+  }
 }
 
 // Manage guardian Ids
