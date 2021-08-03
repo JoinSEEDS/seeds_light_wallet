@@ -36,11 +36,16 @@ class ProposalDetailsMiddle extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10.0),
-                  Text(
-                    state.proposals[state.currentIndex].summary,
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
-                  const SizedBox(height: 30.0),
+                  if (state.proposals[state.currentIndex].summary.isNotEmpty)
+                    Column(
+                      children: [
+                        Text(
+                          state.proposals[state.currentIndex].summary,
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 30.0),
+                      ],
+                    ),
                   Text('Created by'.i18n, style: Theme.of(context).textTheme.subtitle2),
                   const SizedBox(height: 10.0),
                   Row(
