@@ -53,7 +53,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       GUARDIAN_CONTRACT_INITIALIZED: true,
       GUARDIAN_CONTRACT_INITIALIZED_DATE: FieldValue.serverTimestamp(),
     };
-    return usersCollection.doc(userAccount).set(data, SetOptions(merge: false)).then((value) {
+    return usersCollection.doc(userAccount).set(data, SetOptions(merge: true)).then((value) {
       return ValueResult(true);
     }).catchError((onError) {
       // ignore: return_of_invalid_type_from_catch_error
@@ -230,6 +230,13 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   Future<void> setGuardianRecoveryStarted(String userAccount) {
     var data = <String, Object>{
       GUARDIAN_RECOVERY_STARTED_KEY: FieldValue.serverTimestamp(),
+    };
+    return usersCollection.doc(userAccount).set(data, SetOptions(merge: true));
+  }
+
+  Future<void> removeGuardianRecoveryStarted(String userAccount) {
+    var data = <String, Object?>{
+      GUARDIAN_RECOVERY_STARTED_KEY: null,
     };
     return usersCollection.doc(userAccount).set(data, SetOptions(merge: true));
   }
