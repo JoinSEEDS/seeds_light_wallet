@@ -23,7 +23,10 @@ class ClaimInviteMapper extends StateMapper {
           inviteModel: inviteModel,
         );
 
-        return currentState.copyWith(claimInviteState: newState);
+        return currentState.copyWith(
+          claimInviteState: newState,
+          signupScreens: SignupScreens.displayName,
+        );
       } else {
         // invite code is valid but claimed before
         final newState = ClaimInviteState.error(claimInviteCurrentState,

@@ -6,9 +6,9 @@ import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.da
 import 'package:seeds/v2/utils/mnemonic_code/mnemonic_code.dart';
 
 class ClaimInviteUseCase {
-  ClaimInviteUseCase({required SignupRepository signupRepository}) : _signupRepository = signupRepository;
-
   final SignupRepository _signupRepository;
+
+  ClaimInviteUseCase({required SignupRepository signupRepository}) : _signupRepository = signupRepository;
 
   Stream<SignupState> validateInviteCode(SignupState currentState, String inviteCode) async* {
     final String inviteSecret = secretFromMnemonic(inviteCode);
@@ -27,9 +27,5 @@ class ClaimInviteUseCase {
     final Result inviteMnemonic = await _signupRepository.unpackDynamicLink(link);
 
     yield ClaimInviteMapper().mapInviteMnemonicToState(currentState, inviteMnemonic);
-  }
-
-  SignupState navigateToDisplayName(SignupState currentState) {
-    return currentState.copyWith(pageContent: PageContent.DISPLAY_NAME);
   }
 }

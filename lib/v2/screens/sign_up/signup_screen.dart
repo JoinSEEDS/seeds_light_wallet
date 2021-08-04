@@ -20,31 +20,26 @@ class SignupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => SignupBloc(
-        claimInviteUseCase: ClaimInviteUseCase(
-          signupRepository: SignupRepository(),
-        ),
-        createUsernameUseCase: CreateUsernameUseCase(
-          signupRepository: SignupRepository(),
-        ),
+        deeplinkBloc: BlocProvider.of<DeeplinkBloc>(context),
+        claimInviteUseCase: ClaimInviteUseCase(signupRepository: SignupRepository()),
+        createUsernameUseCase: CreateUsernameUseCase(signupRepository: SignupRepository()),
         addPhoneNumberUseCase: AddPhoneNumberUseCase(
           signupRepository: SignupRepository(),
           firebaseUserRepository: FirebaseUserRepository(),
         ),
-        deeplinkBloc: BlocProvider.of<DeeplinkBloc>(context)
       )..add(OnInviteCodeFromDeepLink(inviteCode: Mnemonic)),
       child: BlocBuilder<SignupBloc, SignupState>(
-        buildWhen: (previous, current) => previous.pageContent != current.pageContent,
-        builder: (context, state) {
-          final PageContent pageContent = state.pageContent;
-
-          switch (pageContent) {
-            case PageContent.CLAIM_INVITE:
+        buildWhen: (previous, current) => previous.signupScreens != current.signupScreens,
+        builder: (_, state) {
+          final SignupScreens signupScreens = state.signupScreens;
+          switch (signupScreens) {
+            case SignupScreens.claimInvite:
               return const ClaimInviteScreen();
-            case PageContent.DISPLAY_NAME:
+            case SignupScreens.displayName:
               return const DisplayName();
-            case PageContent.USERNAME:
+            case SignupScreens.username:
               return const CreateUsername();
-            case PageContent.PHONE_NUMBER:
+            case SignupScreens.phoneNumber:
               return const AddPhoneNumber();
           }
         },

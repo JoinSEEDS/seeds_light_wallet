@@ -28,8 +28,8 @@ class DeepLinkStateMapper extends StateMapper {
         case DeepLinkPlaceHolder.LINK_INVITE:
           if (settingsStorage.accountName.isNullOrEmpty) {
             // handle invite link. Send user to memonic screen.
-            var Mnemonic = deepLinkData.data["Mnemonic"];
-            return currentState.copyWith(inviteLinkData: InviteLinkData(Mnemonic: Mnemonic));
+            var mnemonic = deepLinkData.data["Mnemonic"];
+            return currentState.copyWith(inviteLinkData: InviteLinkData(mnemonic));
           } else {
             //  If user is logged in, Ignore invite link
             return currentState;

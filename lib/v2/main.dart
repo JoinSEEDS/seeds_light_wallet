@@ -93,7 +93,7 @@ class MainScreen extends StatelessWidget {
               builder: (context, deepLinkState) {
                 if (deepLinkState.inviteLinkData != null) {
                   return SeedsMaterialApp(
-                    home: SignupScreen(deepLinkState.inviteLinkData!.Mnemonic),
+                    home: SignupScreen(deepLinkState.inviteLinkData!.mnemonic),
                   );
                 } else {
                   return SeedsMaterialApp(

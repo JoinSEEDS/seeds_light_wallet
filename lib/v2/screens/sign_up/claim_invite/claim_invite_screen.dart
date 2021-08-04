@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/scanner/scanner_widget.dart';
-import 'package:seeds/v2/screens/sign_up/claim_invite/components/bottom_container.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
+import 'package:seeds/v2/i18n/sign_up/claim_invite.i18n.dart';
 
 class ClaimInviteScreen extends StatefulWidget {
-  final String? mnemonic;
-
-  const ClaimInviteScreen({Key? key, this.mnemonic}) : super(key: key);
+  const ClaimInviteScreen({Key? key}) : super(key: key);
 
   @override
   _ClaimInviteScreenState createState() => _ClaimInviteScreenState();
@@ -28,14 +26,9 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Scan QR Code',
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-      ),
+      appBar: AppBar(title: Text('Scan QR Code'.i18n)),
       body: BlocListener<SignupBloc, SignupState>(
-        listenWhen: (previousState, currentState) => previousState != currentState,
+        listenWhen: (previousState, currentState) => previousState != currentState, // <--on every state change??
         listener: (context, state) {
           if (state.claimInviteState.pageCommand is StopScan) {
             _scannerWidget.stop();
@@ -46,7 +39,6 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
           }
         },
         child: BlocBuilder<SignupBloc, SignupState>(
-          buildWhen: (previousState, currentState) => previousState != currentState,
           builder: (context, state) {
             return LayoutBuilder(
               builder: (context, constraint) => SingleChildScrollView(
@@ -56,12 +48,9 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
+                      children: [
                         Expanded(child: _scannerWidget),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        const BottomContainer(),
+                        const SizedBox(height: 30),
                       ],
                     ),
                   ),
