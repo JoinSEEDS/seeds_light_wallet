@@ -84,3 +84,17 @@ class ShouldShowNotificationBadge extends ProfileEvent {
   @override
   String toString() => 'ShouldShowNotificationBadge { value: $value }';
 }
+
+class OnActivateResidentButtonTapped extends ProfileEvent {
+  const OnActivateResidentButtonTapped();
+
+  @override
+  String toString() => 'OnActivateResidentButtonTapped';
+}
+
+class OnActivateCitizenButtonTapped extends ProfileEvent {
+  const OnActivateCitizenButtonTapped();
+
+  @override
+  String toString() => 'OnActivateCitizenButtonTapped';
+}

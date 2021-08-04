@@ -2,13 +2,18 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/mappers/profile_values_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/mappers/update_profile_image_state_mapper.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/interactor/mappers/upgrade_citizenship_result_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/usecases/get_profile_values_use_case.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/interactor/usecases/make_citizen_use_case.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/interactor/usecases/make_resident_use_case.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/usecases/save_image_use_case.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/usecases/update_profile_image_use_case.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/profile_state.dart';
 import 'package:share/share.dart';
 
@@ -44,7 +49,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(pageState: PageState.success);
     }
     if (event is OnProfileLogoutButtonPressed) {
-      yield state.copyWith(showDialog: ShowLogoutDialog());
+      yield state.copyWith(pageCommand: ShowLogoutDialog());
     }
     if (event is OnSavePrivateKeyButtonPressed) {
       yield state.copyWith(showLogoutButton: true);
@@ -52,13 +57,23 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       settingsStorage.savePrivateKeyBackedUp(true);
     }
     if (event is ClearShowLogoutDialog) {
-      yield state.copyWith(showDialog: null);
+      yield state.copyWith(pageCommand: null);
     }
     if (event is ResetShowLogoutButton) {
       yield state.copyWith(showLogoutButton: false);
     }
     if (event is ShouldShowNotificationBadge) {
       yield state.copyWith(hasSecurityNotification: event.value);
+    }
+    if (event is OnActivateResidentButtonTapped) {
+      yield state.copyWith(pageState: PageState.loading);
+      Result result = await MakeResidentUseCase().run();
+      yield UpgradeCitizenshipResultMapper().mapResultToState(state, result, false);
+    }
+    if (event is OnActivateCitizenButtonTapped) {
+      yield state.copyWith(pageState: PageState.loading);
+      Result result = await MakeCitizenUseCase().run();
+      yield UpgradeCitizenshipResultMapper().mapResultToState(state, result, true);
     }
   }
 
