@@ -12,14 +12,14 @@ import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/components/guardian_row_widget.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/recover_account_found_bloc.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_events.dart';
-import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
-import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
 
 class RecoverAccountFoundScreen extends StatelessWidget {
   const RecoverAccountFoundScreen({Key? key}) : super(key: key);
@@ -27,23 +27,26 @@ class RecoverAccountFoundScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: cast_nullable_to_non_nullable
-    Input arguments = ModalRoute.of(context)!.settings.arguments as Input;
+    String userAccount = ModalRoute.of(context)!.settings.arguments as String;
     return BlocProvider(
-      create: (_) => RecoverAccountFoundBloc(
-          arguments.guardians, arguments.userAccount, BlocProvider.of<AuthenticationBloc>(context))
-        ..add(FetchInitialData()),
+      create: (_) =>
+          RecoverAccountFoundBloc(userAccount, BlocProvider.of<AuthenticationBloc>(context))..add(FetchInitialData()),
       child: Scaffold(
         appBar: AppBar(title: const Text("Recover Account")),
         body: BlocConsumer<RecoverAccountFoundBloc, RecoverAccountFoundState>(
-        listenWhen: (_, current) => current.pageCommand != null,
-        listener: (context, state) {
-          var pageCommand = state.pageCommand;
+          listenWhen: (_, current) => current.pageCommand != null,
+          listener: (context, state) {
+            var pageCommand = state.pageCommand;
+            BlocProvider.of<RecoverAccountFoundBloc>(context)..add(const ClearRecoverPageCommand());
 
-          if (pageCommand is ShowLinkCopied) {
-            SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
-          }
-
-        },
+            if (pageCommand is ShowLinkCopied) {
+              SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
+            } else if (pageCommand is ShowErrorMessage) {
+              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            } else if (pageCommand is CancelRecoveryProcess) {
+              Navigator.of(context).pop();
+            }
+          },
           builder: (context, state) {
             switch (state.pageState) {
               case PageState.initial:
@@ -82,7 +85,9 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                       ),
                                       splashRadius: 30,
                                       onPressed: () {
-                                        Clipboard.setData(ClipboardData(text: state.linkToActivateGuardians?.toString())).then(
+                                        Clipboard.setData(
+                                                ClipboardData(text: state.linkToActivateGuardians?.toString()))
+                                            .then(
                                           (value) {
                                             BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnCopyIconTap());
                                           },
@@ -98,7 +103,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                               children: [
                                 Text(state.confirmedGuardianSignatures.toString(),
                                     style: Theme.of(context).textTheme.button1),
-                                Text("/" + state.userGuardians.length.toString(),
+                                Text("/" + state.userGuardiansData.length.toString(),
                                     style: Theme.of(context).textTheme.button1),
                                 const SizedBox(width: 24),
                                 Flexible(
@@ -114,6 +119,17 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                             padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 16),
                             child: DividerJungle(),
                           ),
+                          FlatButtonLong(
+                              title: "Refresh",
+                              onPressed: () {
+                                BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnRefreshTap());
+                              }),
+                          const SizedBox(height: 16),
+                          FlatButtonLong(
+                              title: "Cancel Process",
+                              onPressed: () {
+                                BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnCancelProcessTap());
+                              }),
                           Expanded(
                             child: ListView(
                               children: state.userGuardiansData
@@ -163,7 +179,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Text('${state.currentRemainingTime?.hours ?? '00'}',
+                                      Text('${state.currentRemainingTime?.hoursFormatted ?? '00'}',
                                           style: Theme.of(context).textTheme.headline4),
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 6),
@@ -173,7 +189,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                   ),
                                   Row(
                                     children: [
-                                      Text('${state.currentRemainingTime?.min ?? '00'}',
+                                      Text('${state.currentRemainingTime?.minFormatted ?? '00'}',
                                           style: Theme.of(context).textTheme.headline4),
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 6),
@@ -183,7 +199,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                                   ),
                                   Row(
                                     children: [
-                                      Text('${state.currentRemainingTime?.sec ?? '00'} ',
+                                      Text('${state.currentRemainingTime?.secFormatted ?? '00'} ',
                                           style: Theme.of(context).textTheme.headline4),
                                     ],
                                   ),

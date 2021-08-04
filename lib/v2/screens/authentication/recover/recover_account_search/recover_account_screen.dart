@@ -41,7 +41,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
         listener: (context, state) {
           var pageCommand = state.pageCommand;
           if (pageCommand is NavigateToRecoverAccountFound) {
-            NavigationService.of(context).navigateTo(Routes.recoverAccountFound, pageCommand.args);
+            NavigationService.of(context).navigateTo(Routes.recoverAccountFound, pageCommand.userAccount);
           }
         },
         builder: (context, state) {
@@ -91,6 +91,8 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                             imageUrl: state.accountImage,
                             account: state.userName!,
                             name: state.accountName,
+                            resultCallBack: () =>
+                                BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
                           ),
                         )
                       : const SizedBox.shrink(),

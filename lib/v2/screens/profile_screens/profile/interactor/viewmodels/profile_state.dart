@@ -4,6 +4,8 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 
+enum CitizenshipUpgradeStatus { notReady, canResident, canCitizen }
+
 /// --- STATE
 class ProfileState extends Equatable {
   final PageState pageState;
@@ -13,6 +15,7 @@ class ProfileState extends Equatable {
   final PageCommand? pageCommand;
   final bool showLogoutButton;
   final bool hasSecurityNotification;
+  final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
 
   const ProfileState({
     required this.pageState,
@@ -22,6 +25,7 @@ class ProfileState extends Equatable {
     this.pageCommand,
     required this.showLogoutButton,
     required this.hasSecurityNotification,
+    required this.citizenshipUpgradeStatus,
   });
 
   @override
@@ -33,6 +37,7 @@ class ProfileState extends Equatable {
         pageCommand,
         showLogoutButton,
         hasSecurityNotification,
+        citizenshipUpgradeStatus,
       ];
 
   ProfileState copyWith({
@@ -43,6 +48,7 @@ class ProfileState extends Equatable {
     PageCommand? pageCommand,
     bool? showLogoutButton,
     bool? hasSecurityNotification,
+    CitizenshipUpgradeStatus? citizenshipUpgradeStatus,
   }) {
     return ProfileState(
       pageState: pageState ?? this.pageState,
@@ -52,10 +58,15 @@ class ProfileState extends Equatable {
       pageCommand: pageCommand,
       showLogoutButton: showLogoutButton ?? this.showLogoutButton,
       hasSecurityNotification: hasSecurityNotification ?? this.hasSecurityNotification,
+      citizenshipUpgradeStatus: citizenshipUpgradeStatus ?? this.citizenshipUpgradeStatus,
     );
   }
 
   factory ProfileState.initial() {
-    return const ProfileState(pageState: PageState.initial, showLogoutButton: false, hasSecurityNotification: false);
+    return const ProfileState(
+        pageState: PageState.initial,
+        showLogoutButton: false,
+        hasSecurityNotification: false,
+        citizenshipUpgradeStatus: CitizenshipUpgradeStatus.notReady);
   }
 }

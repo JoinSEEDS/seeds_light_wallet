@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/flat_button_long_outlined.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/i18n/login/login.i18n.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
@@ -18,7 +19,14 @@ class LoginScreen extends StatelessWidget {
             style: TextButton.styleFrom(
                 shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
             onPressed: () {
-              NavigationService.of(context).navigateTo(Routes.recoverAccount);
+              if (settingsStorage.inRecoveryMode) {
+                NavigationService.of(context).navigateTo(
+                  Routes.recoverAccountFound,
+                  settingsStorage.accountName,
+                );
+              } else {
+                NavigationService.of(context).navigateTo(Routes.recoverAccount);
+              }
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -12,6 +12,8 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
+import 'citizenship_upgrade_button.dart';
+
 class CitizenshipCard extends StatelessWidget {
   const CitizenshipCard({Key? key}) : super(key: key);
 
@@ -124,6 +126,8 @@ class CitizenshipCard extends StatelessWidget {
                                         style: Theme.of(context).textTheme.subtitle3,
                                       ),
                                     ),
+                                    const Expanded(child: SizedBox(width: 6)),
+                                    CitizenshipUpgradeButton(state.citizenshipUpgradeStatus),
                                   ],
                                 ),
                               ],

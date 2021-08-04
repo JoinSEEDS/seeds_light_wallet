@@ -69,7 +69,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         ..data = {
           'user_account': accountName,
           'guardian_accounts': guardians,
-          'time_delay_sec': const Duration(days: 1).inSeconds,
+          'time_delay_sec': const Duration(minutes: 3).inSeconds,
         }
     ];
 
@@ -116,7 +116,10 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
           ]
         });
 
-    var transaction = buildFreeTransaction(actions, userAccount);
+    var transaction = Transaction()
+      ..actions = [
+        ...actions,
+      ];
 
     return EOSClient(baseURL, 'v1', privateKeys: [onboardingPrivateKey])
         .pushTransaction(transaction, broadcast: true)
@@ -249,11 +252,16 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   }
 
   Future<Result<dynamic>> getAccountRecovery(String accountName) async {
-    print('[http] get account recovery');
+    print('[http] get account recovery' + accountName);
 
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
-    String request = createRequest(code: account_guards, scope: account_guards, table: table_recover);
+    String request = createRequest(
+        code: account_guards,
+        scope: account_guards,
+        table: table_recover,
+        lowerBound: accountName,
+        upperBound: accountName);
 
     return http
         .post(Uri.parse(requestURL), headers: headers, body: request)

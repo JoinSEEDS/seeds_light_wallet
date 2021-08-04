@@ -26,7 +26,7 @@ class RecoverAccountBloc extends Bloc<RecoverAccountEvent, RecoverAccountState> 
         yield state.copyWith(isGuardianActive: false, isValidAccount: false);
       }
     } else if (event is OnNextButtonTapped) {
-      yield state.copyWith(pageCommand: NavigateToRecoverAccountFound(Input(state.userGuardians, state.userName!)));
+      yield state.copyWith(pageCommand: NavigateToRecoverAccountFound(state.userName!));
     }
   }
 }

@@ -155,6 +155,7 @@ flutter:
     - assets/images/profile/lotus.svg
     - assets/images/profile/logout_icon.svg
     - assets/images/profile/contribution_icon.svg
+    - assets/images/profile/celebration_icon.png
     - assets/images/security/key_guardians_icon.svg
     - assets/images/security/success_outlined_icon.svg
     - assets/images/citizenship/reputation.svg
