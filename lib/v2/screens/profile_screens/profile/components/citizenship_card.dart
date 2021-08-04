@@ -12,6 +12,8 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
+import 'citizenship_upgrade_button.dart';
+
 class CitizenshipCard extends StatelessWidget {
   const CitizenshipCard({Key? key}) : super(key: key);
 
@@ -125,36 +127,7 @@ class CitizenshipCard extends StatelessWidget {
                                       ),
                                     ),
                                     const Expanded(child: SizedBox(width: 6)),
-                                    state.canResident
-                                        ? MaterialButton(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                            ),
-                                            color: AppColors.darkGreen2,
-                                            padding: const EdgeInsets.all(8.0),
-                                            //Next Pr
-                                            onPressed: () {},
-                                            child: Text(
-                                              'Upgrade To Resident'.i18n,
-                                              style: Theme.of(context).textTheme.subtitle3,
-                                            ),
-                                          )
-                                        : const SizedBox.shrink(),
-                                    state.canCitizen
-                                        ? MaterialButton(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                            ),
-                                            color: AppColors.darkGreen2,
-                                            padding: const EdgeInsets.all(8.0),
-                                            //Next Pr
-                                            onPressed: () {},
-                                            child: Text(
-                                              'Upgrade To Citizen'.i18n,
-                                              style: Theme.of(context).textTheme.subtitle3,
-                                            ),
-                                          )
-                                        : const SizedBox.shrink()
+                                    CitizenshipUpgradeButton(citizenshipUpgradeStatus: state.citizenshipUpgradeStatus),
                                   ],
                                 ),
                               ],

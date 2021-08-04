@@ -12,7 +12,8 @@ class ProfileValuesStateMapper extends StateMapper {
     } else {
       // results.retainWhere((Result i) => i.isValue); // seems like a bug if there's 1 bad result it will do the wrong thing
       ProfileModel? profile = results[0].valueOrNull;
-      var isCitizen = settingsStorage.isCitizen;
+      final isCitizen = settingsStorage.isCitizen;
+      final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
 
       if (isCitizen) {
         var score = ScoresViewModel(
@@ -32,12 +33,18 @@ class ProfileValuesStateMapper extends StateMapper {
         plantedScore: results[4].valueOrNull,
         transactionScore: results[5].valueOrNull,
       );
+
+      results[6].isValue
+          ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canResident
+          : results[7].isValue
+              ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canCitizen
+              : citizenshipUpgradeStatus = CitizenshipUpgradeStatus.notReady;
+
       return currentState.copyWith(
           pageState: PageState.success,
           profile: profile,
           score: score,
-          canResident: results[6].valueOrNull,
-          canCitizen: results[7].valueOrNull);
+          citizenshipUpgradeStatus: citizenshipUpgradeStatus);
     }
   }
 }
