@@ -260,6 +260,9 @@ class _SettingsStorage {
     _backupLatestReminder = 0;
     _secureStorage.delete(key: BACKUP_REMINDER_COUNT);
     _preferences.remove(IS_CITIZEN);
+    _preferences.remove(TOKENS_WHITELIST);
+    _preferences.remove(GUARDIAN_TUTORIAL_SHOWN);
+    _preferences.remove(IN_RECOVERY_MODE);
     _backupReminderCount = 0;
   }
 
