@@ -16,8 +16,8 @@ import 'package:seeds/v2/screens/authentication/recover/recover_account_found/in
 
 /// --- BLOC
 class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAccountFoundState> {
-  RecoverAccountFoundBloc(List<String> userGuardians, String userAccount, this._authenticationBloc)
-      : super(RecoverAccountFoundState.initial(userGuardians, userAccount));
+  RecoverAccountFoundBloc(String userAccount, this._authenticationBloc)
+      : super(RecoverAccountFoundState.initial(userAccount));
 
   final AuthenticationBloc _authenticationBloc;
   StreamSubscription<int>? _tickerSubscription;
@@ -40,30 +40,39 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
   Stream<RecoverAccountFoundState> mapEventToState(RecoverAccountFoundEvent event) async* {
     if (event is FetchInitialData) {
       yield state.copyWith(pageState: PageState.loading);
-      RecoverGuardianInitialDTO result =
-          await FetchRecoverGuardianInitialDataUseCase().run(state.userGuardians, state.userAccount);
+
+      RecoverGuardianInitialDTO result = await FetchRecoverGuardianInitialDataUseCase().run(state.userAccount);
       var newState = FetchRecoverRecoveryStateMapper().mapResultToState(state, result);
       yield newState;
       if (newState.recoveryStatus == RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD) {
         yield* _mapStartTimerToState();
       }
     } else if (event is Tick) {
-      if (event.timer > DateTime.now().millisecondsSinceEpoch ~/ 1000) {
+      if (event.timer >= DateTime.now().millisecondsSinceEpoch ~/ 1000) {
         yield RemainingTimeStateMapper().mapResultToState(state, event.timer);
       } else {
         await _tickerSubscription?.cancel();
         yield state.copyWith(recoveryStatus: RecoveryStatus.READY_TO_CLAIM_ACCOUNT);
       }
     } else if (event is OnClaimAccountTap) {
+      yield state.copyWith(pageState: PageState.loading);
       var result = await ResetUserAccountUseCase().run(state.userAccount);
-      if(result.isValue) {
+      if (result.isValue) {
         // The private key was saved in the settings storage when the user data for this bloc was loaded
         _authenticationBloc.add(OnImportAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
       } else {
         state.copyWith(pageCommand: ShowErrorMessage("Oops, Something went wrong. Try again later"));
       }
+      yield state.copyWith(pageState: PageState.success);
     } else if (event is OnCopyIconTap) {
       yield state.copyWith(pageCommand: ShowLinkCopied());
+    } else if (event is OnRefreshTap) {
+      add(FetchInitialData());
+    } else if (event is ClearRecoverPageCommand) {
+      yield state.copyWith(pageCommand: null);
+    } else if (event is OnCancelProcessTap) {
+      settingsStorage.cancelRecoveryProcess();
+      yield state.copyWith(pageCommand: CancelRecoveryProcess());
     }
   }
 }

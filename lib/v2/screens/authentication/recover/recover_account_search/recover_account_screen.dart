@@ -41,7 +41,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
         listener: (context, state) {
           var pageCommand = state.pageCommand;
           if (pageCommand is NavigateToRecoverAccountFound) {
-            NavigationService.of(context).navigateTo(Routes.recoverAccountFound, pageCommand.args);
+            NavigationService.of(context).navigateTo(Routes.recoverAccountFound, pageCommand.userAccount);
           }
         },
         builder: (context, state) {

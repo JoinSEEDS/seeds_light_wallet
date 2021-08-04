@@ -25,6 +25,23 @@ class OnCopyIconTap extends RecoverAccountFoundEvent {
   String toString() => 'OnCopyIconTab';
 }
 
+class OnRefreshTap extends RecoverAccountFoundEvent {
+  @override
+  String toString() => 'OnRefreshTap';
+}
+
+class OnCancelProcessTap extends RecoverAccountFoundEvent {
+  @override
+  String toString() => 'OnCancelProcessTap';
+}
+
+class ClearRecoverPageCommand extends RecoverAccountFoundEvent {
+  @override
+  String toString() => 'ClearRecoverPageCommand';
+
+  const ClearRecoverPageCommand();
+}
+
 class StartCycleCountdown extends RecoverAccountFoundEvent {
   @override
   String toString() => 'StartCycleCountdown';

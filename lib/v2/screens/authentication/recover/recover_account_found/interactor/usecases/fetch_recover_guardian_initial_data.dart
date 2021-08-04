@@ -2,19 +2,28 @@ import 'package:async/async.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart_ecc/eosdart_ecc.dart';
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/guardians_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/members_repository.dart';
+import 'package:seeds/v2/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
+import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/usecases/fetch_account_guardians_use_case.dart';
 
 class FetchRecoverGuardianInitialDataUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
   final MembersRepository _membersRepository = MembersRepository();
   final CreateFirebaseDynamicLinkUseCase _createFirebaseDynamicLinkUseCase = CreateFirebaseDynamicLinkUseCase();
 
-  Future<RecoverGuardianInitialDTO> run(List<String> guardians, String accountName) async {
+  Future<RecoverGuardianInitialDTO> run(String accountName) async {
     print("FetchRecoverGuardianInitialDataUseCase accountName pKey");
-    final recoveryPrivateKey = EOSPrivateKey.fromRandom().toString();
+    final String recoveryPrivateKey;
+    if(settingsStorage.privateKey != null && settingsStorage.inRecoveryMode) {
+      recoveryPrivateKey = settingsStorage.privateKey!;
+    } else {
+      recoveryPrivateKey = EOSPrivateKey.fromRandom().toString();
+      settingsStorage.enableRecoveryMode(accountName: accountName, privateKey: recoveryPrivateKey);
+    }
 
     String publicKey = EOSPrivateKey.fromString(recoveryPrivateKey).toEOSPublicKey().toString();
     print("public $publicKey");
@@ -26,7 +35,12 @@ class FetchRecoverGuardianInitialDataUseCase {
     // Check
     link = await generateFirebaseDynamicLink(link);
 
-    List<Result> membersData = await _getMembersData(guardians);
+    List<Result> membersData = [];
+    if(accountGuardians.isValue) {
+      UserGuardiansModel guardians = accountGuardians.asValue!.value;
+      membersData = await _getMembersData(guardians.guardians);
+    }
+
 
     return RecoverGuardianInitialDTO(link, membersData, accountRecovery, accountGuardians, recoveryPrivateKey);
   }

@@ -9,7 +9,6 @@ class RecoverAccountFoundState extends Equatable {
   final String? errorMessage;
   final String userAccount;
   final Uri? linkToActivateGuardians;
-  final List<String> userGuardians;
   final List<String> alreadySignedGuardians;
   final List<MemberModel> userGuardiansData;
   final int confirmedGuardianSignatures;
@@ -21,7 +20,6 @@ class RecoverAccountFoundState extends Equatable {
   const RecoverAccountFoundState({
     required this.pageState,
     required this.linkToActivateGuardians,
-    required this.userGuardians,
     required this.userGuardiansData,
     this.errorMessage,
     required this.confirmedGuardianSignatures,
@@ -37,7 +35,6 @@ class RecoverAccountFoundState extends Equatable {
   List<Object?> get props => [
         pageState,
         linkToActivateGuardians,
-        userGuardians,
         userGuardiansData,
         errorMessage,
         confirmedGuardianSignatures,
@@ -64,7 +61,6 @@ class RecoverAccountFoundState extends Equatable {
     return RecoverAccountFoundState(
       pageState: pageState ?? this.pageState,
       linkToActivateGuardians: linkToActivateGuardians ?? this.linkToActivateGuardians,
-      userGuardians: userGuardians ?? this.userGuardians,
       userGuardiansData: userGuardiansData ?? this.userGuardiansData,
       errorMessage: errorMessage,
       confirmedGuardianSignatures: confirmedGuardianSignatures ?? this.confirmedGuardianSignatures,
@@ -77,11 +73,10 @@ class RecoverAccountFoundState extends Equatable {
     );
   }
 
-  factory RecoverAccountFoundState.initial(List<String> userGuardians, String userAccount) {
+  factory RecoverAccountFoundState.initial(String userAccount) {
     return RecoverAccountFoundState(
       pageState: PageState.initial,
       linkToActivateGuardians: null,
-      userGuardians: userGuardians,
       userGuardiansData: [],
       confirmedGuardianSignatures: 0,
       recoveryStatus: RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN,
