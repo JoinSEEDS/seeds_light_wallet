@@ -6,6 +6,8 @@ import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmod
 
 class ShowLogoutDialog extends PageCommand {}
 
+enum CitizenshipUpgradeStatus { notReady, canResident, canCitizen }
+
 /// --- STATE
 class ProfileState extends Equatable {
   final PageState pageState;
@@ -15,6 +17,7 @@ class ProfileState extends Equatable {
   final PageCommand? showLogoutDialog;
   final bool showLogoutButton;
   final bool hasSecurityNotification;
+  final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
 
   const ProfileState({
     required this.pageState,
@@ -24,6 +27,7 @@ class ProfileState extends Equatable {
     this.showLogoutDialog,
     required this.showLogoutButton,
     required this.hasSecurityNotification,
+    required this.citizenshipUpgradeStatus,
   });
 
   @override
@@ -35,6 +39,7 @@ class ProfileState extends Equatable {
         showLogoutDialog,
         showLogoutButton,
         hasSecurityNotification,
+        citizenshipUpgradeStatus,
       ];
 
   ProfileState copyWith({
@@ -45,6 +50,7 @@ class ProfileState extends Equatable {
     PageCommand? showDialog,
     bool? showLogoutButton,
     bool? hasSecurityNotification,
+    CitizenshipUpgradeStatus? citizenshipUpgradeStatus,
   }) {
     return ProfileState(
       pageState: pageState ?? this.pageState,
@@ -54,10 +60,15 @@ class ProfileState extends Equatable {
       showLogoutDialog: showDialog,
       showLogoutButton: showLogoutButton ?? this.showLogoutButton,
       hasSecurityNotification: hasSecurityNotification ?? this.hasSecurityNotification,
+      citizenshipUpgradeStatus: citizenshipUpgradeStatus ?? this.citizenshipUpgradeStatus,
     );
   }
 
   factory ProfileState.initial() {
-    return const ProfileState(pageState: PageState.initial, showLogoutButton: false, hasSecurityNotification: false);
+    return const ProfileState(
+        pageState: PageState.initial,
+        showLogoutButton: false,
+        hasSecurityNotification: false,
+        citizenshipUpgradeStatus: CitizenshipUpgradeStatus.notReady);
   }
 }
