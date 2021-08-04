@@ -6,10 +6,7 @@ import 'package:seeds/v2/design/app_theme.dart';
 class CitizenshipUpgradeButton extends StatelessWidget {
   final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
 
-  const CitizenshipUpgradeButton({
-    Key? key,
-    required this.citizenshipUpgradeStatus,
-  }) : super(key: key);
+  const CitizenshipUpgradeButton(this.citizenshipUpgradeStatus, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -127,7 +127,7 @@ class CitizenshipCard extends StatelessWidget {
                                       ),
                                     ),
                                     const Expanded(child: SizedBox(width: 6)),
-                                    CitizenshipUpgradeButton(citizenshipUpgradeStatus: state.citizenshipUpgradeStatus),
+                                    CitizenshipUpgradeButton(state.citizenshipUpgradeStatus),
                                   ],
                                 ),
                               ],
