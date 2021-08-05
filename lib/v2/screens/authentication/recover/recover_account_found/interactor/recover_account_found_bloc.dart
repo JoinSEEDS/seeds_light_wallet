@@ -62,8 +62,7 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
         settingsStorage.finishRecoveryProcess();
         _authenticationBloc.add(OnImportAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
       } else {
-        state.copyWith(pageCommand: ShowErrorMessage("Oops, Something went wrong. Try again later"));
-        yield state.copyWith(pageState: PageState.failure, errorMessage: "Oops, Something went wrong. Try again later");
+        yield state.copyWith(pageCommand: ShowErrorMessage("Oops, Something went wrong. Try again later"));
       }
     } else if (event is OnCopyIconTap) {
       yield state.copyWith(pageCommand: ShowLinkCopied());
