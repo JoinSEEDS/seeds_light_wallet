@@ -13,17 +13,11 @@ class ScannerWidget extends StatefulWidget {
 
   ScannerWidget({Key? key, required this.resultCallBack}) : super(key: key);
 
-  void scan() {
-    _scannerBloc.add(Scan());
-  }
+  void scan() => _scannerBloc.add(Scan());
 
-  void showLoading() {
-    _scannerBloc.add(ShowLoading());
-  }
+  void showLoading() => _scannerBloc.add(ShowLoading());
 
-  void stop() {
-    _scannerBloc.add(Stop());
-  }
+  void stop() => _scannerBloc.add(Stop());
 
   @override
   _ScannerWidgetState createState() => _ScannerWidgetState();
@@ -35,31 +29,28 @@ class _ScannerWidgetState extends State<ScannerWidget> {
   bool _handledQrCode = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => widget._scannerBloc,
-      child: BlocBuilder<ScannerBloc, ScannerState>(builder: (context, ScannerState state) {
-        if (state.scanStatus is Stop) {
-          _controller.dispose();
-          const SizedBox.shrink();
-        }
+      create: (_) => widget._scannerBloc,
+      child: BlocBuilder<ScannerBloc, ScannerState>(
+        builder: (context, state) {
+          if (state.scanStatus is Stop) {
+            _controller.dispose();
+            const SizedBox.shrink();
+          }
 
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            SeedsQRCodeScannerWidget(
-              onQRViewCreated: _onQRViewCreated,
-              qrKey: _qrKey,
-            ),
-            Center(child: buildStateView(state))
-          ],
-        );
-      }),
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              SeedsQRCodeScannerWidget(
+                onQRViewCreated: _onQRViewCreated,
+                qrKey: _qrKey,
+              ),
+              Center(child: buildStateView(state))
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -72,9 +63,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
         return;
       }
 
-      setState(() {
-        _handledQrCode = true;
-      });
+      setState(() => _handledQrCode = true);
 
       widget.resultCallBack(event.code);
     });

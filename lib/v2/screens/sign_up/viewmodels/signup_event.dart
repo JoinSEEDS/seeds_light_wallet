@@ -11,7 +11,7 @@ abstract class SignupEvent extends Equatable {
 class OnInviteCodeFromDeepLink extends SignupEvent {
   final String? inviteCode;
 
-  const OnInviteCodeFromDeepLink({required this.inviteCode});
+  const OnInviteCodeFromDeepLink(this.inviteCode);
 
   @override
   String toString() => 'OnInviteCodeFromDeepLink { inviteCode: $inviteCode }';
@@ -24,6 +24,16 @@ class OnQRScanned extends SignupEvent {
 
   @override
   String toString() => 'OnQRScanned { scannedLink: $scannedLink }';
+}
+
+class ClearClaimInvitePageCommand extends SignupEvent {
+  @override
+  String toString() => 'ClearClaimInvitePageCommand';
+}
+
+class OnInvalidInviteDialogClosed extends SignupEvent {
+  @override
+  String toString() => 'OnInvalidInviteDialogClosed';
 }
 
 /// Display Name Events

@@ -13,21 +13,21 @@ import 'package:seeds/v2/screens/sign_up/display_name/display_name.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 
 class SignupScreen extends StatelessWidget {
-  final String? Mnemonic;
-  const SignupScreen(this.Mnemonic);
+  final String? mnemonic;
+  const SignupScreen(this.mnemonic, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => SignupBloc(
         deeplinkBloc: BlocProvider.of<DeeplinkBloc>(context),
-        claimInviteUseCase: ClaimInviteUseCase(signupRepository: SignupRepository()),
+        claimInviteUseCase: ClaimInviteUseCase(SignupRepository()),
         createUsernameUseCase: CreateUsernameUseCase(signupRepository: SignupRepository()),
         addPhoneNumberUseCase: AddPhoneNumberUseCase(
           signupRepository: SignupRepository(),
           firebaseUserRepository: FirebaseUserRepository(),
         ),
-      )..add(OnInviteCodeFromDeepLink(inviteCode: Mnemonic)),
+      )..add(OnInviteCodeFromDeepLink(mnemonic)),
       child: BlocBuilder<SignupBloc, SignupState>(
         buildWhen: (previous, current) => previous.signupScreens != current.signupScreens,
         builder: (_, state) {
