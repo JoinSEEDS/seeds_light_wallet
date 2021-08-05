@@ -127,7 +127,16 @@ class CitizenshipCard extends StatelessWidget {
                                       ),
                                     ),
                                     const Expanded(child: SizedBox(width: 6)),
-                                    CitizenshipUpgradeButton(state.citizenshipUpgradeStatus),
+                                    CitizenshipUpgradeButton(
+                                      citizenshipUpgradeStatus: state.citizenshipUpgradeStatus,
+                                      onPressed: () {
+                                        state.citizenshipUpgradeStatus == CitizenshipUpgradeStatus.canResident
+                                            ? BlocProvider.of<ProfileBloc>(context)
+                                                .add(const OnActivateResidentButtonTapped())
+                                            : BlocProvider.of<ProfileBloc>(context)
+                                                .add(const OnActivateCitizenButtonTapped());
+                                      },
+                                    ),
                                   ],
                                 ),
                               ],

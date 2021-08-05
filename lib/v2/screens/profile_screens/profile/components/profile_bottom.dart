@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/components/card_list_tile.dart';
@@ -9,6 +10,7 @@ import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/b
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
 
 import 'citizenship_card.dart';
+import 'citizenship_upgrade_success_dialog.dart';
 
 /// PROFILE BOTTOM
 class ProfileBottom extends StatelessWidget {
@@ -30,9 +32,18 @@ class ProfileBottom extends StatelessWidget {
             },
           ).whenComplete(() => BlocProvider.of<ProfileBloc>(context).add(const ResetShowLogoutButton()));
         } else if (pageCommand is ShowCitizenshipUpgradeSuccess) {
-          //Todo Next Pr
+          showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) {
+              return BlocProvider.value(
+                value: BlocProvider.of<ProfileBloc>(context),
+                child: CitizenshipUpgradeSuccessDialog(isResident: pageCommand.isResident),
+              );
+            },
+          );
         } else if (pageCommand is ShowErrorMessage) {
-          //Todo Next PR
+          SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
         }
       },
       child: Padding(
