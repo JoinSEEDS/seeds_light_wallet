@@ -6,21 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_state.dart';
 import 'package:seeds/v2/datasource/local/member_model_cache_item.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_push_notification_service.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
+import 'package:seeds/v2/datasource/remote/model/vote_model.dart';
 import 'package:seeds/v2/domain-shared/bloc_observer.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/app/app.dart';
 import 'package:seeds/v2/screens/authentication/login_screen.dart';
 import 'package:seeds/v2/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
+import 'package:seeds/v2/screens/sign_up/signup_screen.dart';
 import 'package:seeds/v2/seeds_material_app.dart';
 import 'package:seeds/widgets/splash_screen.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 bool get isInDebugMode {
   var inDebugMode = false;
@@ -43,6 +47,7 @@ void main(List<String> args) async {
   Bloc.observer = SimpleBlocObserver();
   await Hive.initFlutter();
   Hive.registerAdapter(MemberModelCacheItemAdapter());
+  Hive.registerAdapter(VoteModelAdapter());
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {
@@ -84,14 +89,24 @@ class MainScreen extends StatelessWidget {
         switch (state.authStatus) {
           case AuthStatus.emptyAccount:
           case AuthStatus.recoveryMode:
-            return SeedsMaterialApp(
-              home: state.authStatus == AuthStatus.emptyAccount
-                  ? const OnboardingScreen()
-                  : SeedsMaterialApp(
-                      home: LoginScreen(),
-                    ),
-              navigatorKey: navigationService.onboardingNavigatorKey,
-              onGenerateRoute: navigationService.onGenerateRoute,
+            return BlocBuilder<DeeplinkBloc, DeeplinkState>(
+              builder: (context, deepLinkState) {
+                if (deepLinkState.inviteLinkData != null) {
+                  return SeedsMaterialApp(
+                    home: SignupScreen(deepLinkState.inviteLinkData!.Mnemonic),
+                  );
+                } else {
+                  return SeedsMaterialApp(
+                    home: state.authStatus == AuthStatus.emptyAccount
+                        ? const OnboardingScreen()
+                        : SeedsMaterialApp(
+                            home: LoginScreen(),
+                          ),
+                    navigatorKey: navigationService.onboardingNavigatorKey,
+                    onGenerateRoute: navigationService.onGenerateRoute,
+                  );
+                }
+              },
             );
           case AuthStatus.emptyPasscode:
             return SeedsMaterialApp(home: const VerificationScreen());

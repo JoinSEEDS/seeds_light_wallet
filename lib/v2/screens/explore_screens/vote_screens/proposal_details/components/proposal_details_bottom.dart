@@ -20,53 +20,50 @@ class ProposalDetailsBottom extends StatelessWidget {
         return Column(
           children: [
             const VoteStatusLabel(),
-            state.showNextButton || state.vote!.isVoted || !state.isCitizen
-                ? Padding(
-                    padding: const EdgeInsets.all(horizontalEdgePadding),
-                    child: Column(
-                      children: [
-                        InkWell(
-                          borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                          onTap: () {
-                            BlocProvider.of<ProposalDetailsBloc>(context).add(const OnNextProposalTapped());
-                          },
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              color: AppColors.darkGreen2,
-                              borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                'View Next Proposal'.i18n,
-                                style: Theme.of(context).textTheme.headline8,
-                              ),
-                              trailing: const CustomPaint(size: Size(26, 26), painter: ArrowNextProposal()),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 200),
-                      ],
+            if (state.shouldShowNexProposalButton)
+              Padding(
+                padding: const EdgeInsets.all(horizontalEdgePadding),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+                  onTap: () {
+                    BlocProvider.of<ProposalDetailsBloc>(context).add(const OnNextProposalTapped());
+                  },
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color: AppColors.darkGreen2,
+                      borderRadius: BorderRadius.circular(defaultCardBorderRadius),
                     ),
-                  )
-                : Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Slider(
-                              value: state.voteAmount.toDouble(),
-                              min: -100,
-                              max: 100,
-                              divisions: 200,
-                              label: '${state.voteAmount}',
-                              onChanged: (newValue) {
-                                BlocProvider.of<ProposalDetailsBloc>(context)
-                                    .add(OnVoteAmountChanged(newValue.round()));
-                              },
-                            ),
-                          )
-                        ],
+                    child: ListTile(
+                      title: Text(
+                        'View Next Proposal'.i18n,
+                        style: Theme.of(context).textTheme.headline8,
                       ),
+                      trailing: const CustomPaint(size: Size(26, 26), painter: ArrowNextProposal()),
+                    ),
+                  ),
+                ),
+              ),
+            state.shouldShowVoteModule
+                ? Column(
+                    children: [
+                      if (state.tokens!.amount > 0)
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Slider(
+                                value: state.voteAmount.toDouble(),
+                                min: -state.tokens!.amount.toDouble(),
+                                max: state.tokens!.amount.toDouble(),
+                                divisions: 200,
+                                label: '${state.voteAmount}',
+                                onChanged: (newValue) {
+                                  BlocProvider.of<ProposalDetailsBloc>(context)
+                                      .add(OnVoteAmountChanged(newValue.round()));
+                                },
+                              ),
+                            )
+                          ],
+                        ),
                       const CurrentVoteChoiceLabel(),
                       Padding(
                         padding: const EdgeInsets.all(horizontalEdgePadding),
@@ -79,7 +76,8 @@ class ProposalDetailsBottom extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  )
+                : const SizedBox(height: 200),
           ],
         );
       },

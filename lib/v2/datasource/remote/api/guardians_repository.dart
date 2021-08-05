@@ -69,7 +69,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         ..data = {
           'user_account': accountName,
           'guardian_accounts': guardians,
-          'time_delay_sec': const Duration(days: 1).inSeconds,
+          'time_delay_sec': const Duration(minutes: 3).inSeconds,
         }
     ];
 
@@ -116,7 +116,10 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
           ]
         });
 
-    var transaction = buildFreeTransaction(actions, userAccount);
+    var transaction = Transaction()
+      ..actions = [
+        ...actions,
+      ];
 
     return EOSClient(baseURL, 'v1', privateKeys: [onboardingPrivateKey])
         .pushTransaction(transaction, broadcast: true)
@@ -144,6 +147,44 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
             ..permission = permission_owner
         ]
         ..data = {'user_account': accountName}
+    ];
+
+    var transaction = buildFreeTransaction(actions, accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction, broadcast: true)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return response["transaction_id"];
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
+  /// Recover an account via the key guardian system
+  ///
+  /// userAcount - the account to recovery, iE current user is a guardian for userAccount
+  /// publicKey - the new public key on the account once the recovery is complete
+  ///
+  /// When 2 or 3 of the guardians call this function, the account can be recovered with claim
+  ///
+  Future<Result> recoverAccount(String userAccount, String publicKey) async {
+    print('[eos] recover account $userAccount');
+
+    var accountName = settingsStorage.accountName;
+
+    var actions = [
+      Action()
+        ..account = account_guards
+        ..name = action_name_recover
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = permission_owner
+        ]
+        ..data = {
+          'guardian_account': accountName,
+          'user_account': userAccount,
+          'new_public_key': publicKey,
+        }
     ];
 
     var transaction = buildFreeTransaction(actions, accountName);
@@ -211,11 +252,16 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   }
 
   Future<Result<dynamic>> getAccountRecovery(String accountName) async {
-    print('[http] get account recovery');
+    print('[http] get account recovery' + accountName);
 
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
-    String request = createRequest(code: account_guards, scope: account_guards, table: table_recover);
+    String request = createRequest(
+        code: account_guards,
+        scope: account_guards,
+        table: table_recover,
+        lowerBound: accountName,
+        upperBound: accountName);
 
     return http
         .post(Uri.parse(requestURL), headers: headers, body: request)

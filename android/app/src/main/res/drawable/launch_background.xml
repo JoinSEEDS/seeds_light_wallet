@@ -3,16 +3,9 @@
     <item>
         <color android:color="@color/colorPrimary" />
     </item>
-
     <item>
         <bitmap
-            android:gravity="center"
-            android:src="@drawable/splash_screen_flower" />
-    </item>
-
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/seeds_light_wallet_logo" />
+            android:gravity="center|fill_horizontal"
+            android:src="@drawable/splash_screen" />
     </item>
 </layer-list>

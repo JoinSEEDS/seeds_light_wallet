@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/phone_number.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
+import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
@@ -34,7 +37,18 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
       child: Scaffold(
         appBar: AppBar(),
         body: BlocConsumer<SignupBloc, SignupState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state.addPhoneNumberState.pageState == PageState.failure) {
+              SnackBarInfo(
+                      state.addPhoneNumberState.errorMessage ?? 'Oops, something went wrong. Please try again later.',
+                      ScaffoldMessenger.of(context))
+                  .show();
+            }
+
+            if (state.addPhoneNumberState.pageState == PageState.success) {
+              BlocProvider.of<AuthenticationBloc>(context).add(const OnCreateAccount());
+            }
+          },
           builder: (context, state) {
             return Stack(
               children: [
@@ -47,8 +61,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                         labelText: "Add Phone Number (optional)".i18n,
                         keyboardType: TextInputType.phone,
                         controller: _keyController,
-                        enabled: state.addPhoneNumberState.pageState !=
-                            PageState.loading,
+                        enabled: state.addPhoneNumberState.pageState != PageState.loading,
                         inputFormatters: [
                           phoneNumberInternationalFormatter,
                         ],
@@ -60,9 +73,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                         child: Text(
                           "Note: Your phone number is never shared with anyone.",
                           textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2OpacityEmphasis,
+                          style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                         ),
                       ),
                       FlatButtonLong(
@@ -72,8 +83,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                     ],
                   ),
                 ),
-                if (state.addPhoneNumberState.pageState == PageState.loading)
-                  const FullPageLoadingIndicator(),
+                if (state.addPhoneNumberState.pageState == PageState.loading) const FullPageLoadingIndicator(),
               ],
             );
           },
@@ -86,6 +96,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
     return _bloc.state.addPhoneNumberState.pageState == PageState.loading
         ? null
         : () {
+            FocusScope.of(context).unfocus();
             _bloc.add(OnCreateAccountTapped(_keyController.text));
           };
   }

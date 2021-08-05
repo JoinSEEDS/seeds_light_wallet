@@ -20,7 +20,7 @@ class LoadProfileValues extends ProfileEvent {
 class OnUpdateProfileImage extends ProfileEvent {
   final File file;
 
-  const OnUpdateProfileImage({required this.file});
+  const OnUpdateProfileImage(this.file);
 
   @override
   List<Object> get props => [file];
@@ -32,7 +32,7 @@ class OnUpdateProfileImage extends ProfileEvent {
 class OnNameChanged extends ProfileEvent {
   final String name;
 
-  const OnNameChanged({required this.name});
+  const OnNameChanged(this.name);
 
   @override
   List<Object> get props => [name];
@@ -79,8 +79,22 @@ class ResetShowLogoutButton extends ProfileEvent {
 class ShouldShowNotificationBadge extends ProfileEvent {
   final bool value;
 
-  const ShouldShowNotificationBadge({required this.value});
+  const ShouldShowNotificationBadge(this.value);
 
   @override
   String toString() => 'ShouldShowNotificationBadge { value: $value }';
+}
+
+class OnActivateResidentButtonTapped extends ProfileEvent {
+  const OnActivateResidentButtonTapped();
+
+  @override
+  String toString() => 'OnActivateResidentButtonTapped';
+}
+
+class OnActivateCitizenButtonTapped extends ProfileEvent {
+  const OnActivateCitizenButtonTapped();
+
+  @override
+  String toString() => 'OnActivateCitizenButtonTapped';
 }

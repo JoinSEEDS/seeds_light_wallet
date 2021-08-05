@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
-import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
+import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/notification_badge.dart';
@@ -18,6 +18,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/i18n/app/app.i18.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/app/components/account_under_recovery_screen.dart';
+import 'package:seeds/v2/screens/app/components/guardian_approve_or_deny_recovery_screen.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
@@ -56,11 +57,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   final PageController _pageController = PageController(initialPage: 0, keepPage: true);
   late AppBloc _appBloc;
   late GlobalKey<NavigatorState> _navigatorKey;
+  late ConnectionNotifier _connectionNotifier;
 
   @override
   void initState() {
     super.initState();
-    _appBloc = AppBloc()..add(HandleInitialDeepLink());
+    _appBloc = AppBloc(BlocProvider.of<DeeplinkBloc>(context));
+    _connectionNotifier = ConnectionNotifier()..init();
     BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
     WidgetsBinding.instance?.addObserver(this);
   }
@@ -77,7 +80,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         Navigator.of(_navigatorKey.currentContext!).pushNamedIfNotCurrent(Routes.verification);
         break;
       case AppLifecycleState.resumed:
-        Provider.of<ConnectionNotifier>(context, listen: false).discoverEndpoints();
+        _connectionNotifier.discoverEndpoints();
         BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
         break;
       case AppLifecycleState.detached:
@@ -105,11 +108,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             _appBloc.add(ClearAppPageCommand());
             if (pageCommand is BottomBarNavigateToIndex) {
               _pageController.jumpToPage(pageCommand.index);
-            } else if (pageCommand is ShowStopGuardianRecoveryFailed) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-            } else if (pageCommand is ShowStopGuardianRecoverySuccess) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             } else if (pageCommand is ShowErrorMessage) {
+              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            } else if (pageCommand is ShowMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             } else if (pageCommand is ProcessSigningRequest) {
               Navigator.of(context).push(
@@ -141,6 +142,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             } else {
               if (state.showGuardianRecoveryAlert) {
                 return const AccountUnderRecoveryScreen();
+              } else if (state.showGuardianApproveOrDenyScreen != null) {
+                return GuardianApproveOrDenyScreen(data: state.showGuardianApproveOrDenyScreen!);
               } else {
                 return PageView(
                   controller: _pageController,

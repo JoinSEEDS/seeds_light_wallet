@@ -14,12 +14,16 @@ class ProposalType {
   /// Request param
   final bool isReverse;
 
+  // Filter by stage - stage can be one of: staged, active, done
+  final String? filterByStage;
+
   const ProposalType({
     required this.index,
     required this.type,
     required this.lowerUpperBound,
     required this.indexPosition,
     required this.isReverse,
+    this.filterByStage
   });
 }
 
@@ -30,6 +34,7 @@ const List<ProposalType> proposalTypes = [
     lowerUpperBound: 'open',
     indexPosition: 2,
     isReverse: false,
+    filterByStage: "active"
   ),
   ProposalType(
     index: 1,

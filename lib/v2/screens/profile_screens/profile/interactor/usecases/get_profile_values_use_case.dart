@@ -14,6 +14,8 @@ class GetProfileValuesUseCase {
       _profileRepository.getScore(account: account, contractName: "accts.seeds", tableName: "rep"),
       _profileRepository.getScore(account: account, tableName: "planted"),
       _profileRepository.getScore(account: account, tableName: "txpoints"),
+      _profileRepository.canResident(account),
+      _profileRepository.canCitizen(account),
     ];
     return Future.wait(futures);
   }

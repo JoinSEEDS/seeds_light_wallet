@@ -26,6 +26,8 @@ class _SettingsStorage {
   static const IN_RECOVERY_MODE = 'in_recovery_mode';
   static const GUARDIAN_TUTORIAL_SHOWN = 'guardian_tutorial_shown';
   static const TOKENS_WHITELIST = 'tokens_whitelist';
+  static const IS_CITIZEN = 'is_citizen';
+  static const IS_CITIZEN_DEFAULT = false;
 
   String? _privateKey;
   String? _passcode;
@@ -58,6 +60,8 @@ class _SettingsStorage {
   bool get guardianTutorialShown => _preferences.getBool(GUARDIAN_TUTORIAL_SHOWN)!;
 
   List<String> get tokensWhitelist => _preferences.getStringList(TOKENS_WHITELIST) ?? [SeedsToken.id];
+
+  bool get isCitizen => _preferences.getBool(IS_CITIZEN) ?? IS_CITIZEN_DEFAULT;
 
   set inRecoveryMode(bool value) => _preferences.setBool(IN_RECOVERY_MODE, value);
 
@@ -122,6 +126,12 @@ class _SettingsStorage {
 
   set tokensWhitelist(List<String> tokensList) {
     _preferences.setStringList(TOKENS_WHITELIST, tokensList);
+  }
+
+  set isCitizen(bool? value) {
+    if (value != null) {
+      _preferences.setBool(IS_CITIZEN, value);
+    }
   }
 
   late SharedPreferences _preferences;
@@ -228,6 +238,10 @@ class _SettingsStorage {
     backupReminderCount++;
   }
 
+  void saveIsCitizen(bool value) {
+    isCitizen = value;
+  }
+
   void removeAccount() {
     _preferences.remove(ACCOUNT_NAME);
     _secureStorage.delete(key: ACCOUNT_NAME);
@@ -245,6 +259,10 @@ class _SettingsStorage {
     _secureStorage.delete(key: BACKUP_LATEST_REMINDER);
     _backupLatestReminder = 0;
     _secureStorage.delete(key: BACKUP_REMINDER_COUNT);
+    _preferences.remove(IS_CITIZEN);
+    _preferences.remove(TOKENS_WHITELIST);
+    _preferences.remove(GUARDIAN_TUTORIAL_SHOWN);
+    _preferences.remove(IN_RECOVERY_MODE);
     _backupReminderCount = 0;
   }
 

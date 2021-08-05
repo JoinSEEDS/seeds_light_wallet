@@ -18,6 +18,15 @@ class OnInviteCodeChanged extends SignupEvent {
   String toString() => 'OnInviteCodeChanged { inviteCode: $inviteCode }';
 }
 
+class OnInviteCodeFromDeepLink extends SignupEvent {
+  final String? inviteCode;
+
+  const OnInviteCodeFromDeepLink({required this.inviteCode});
+
+  @override
+  String toString() => 'OnInviteCodeFromDeepLink { inviteCode: $inviteCode }';
+}
+
 class OnQRScanned extends SignupEvent {
   final String scannedLink;
 

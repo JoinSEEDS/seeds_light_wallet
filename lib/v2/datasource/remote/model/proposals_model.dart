@@ -61,7 +61,7 @@ class ProposalModel {
   }
 
   String get campaignTypeLabel {
-    return campaignType == 'cmp.funding' || campaignType == 'cmp.invite' ? 'campaign' : campaignType;
+    return campaignType == 'cmp.funding' || campaignType == 'cmp.invite' ? 'Campaign' : campaignType;
   }
 
   ProposalModel({

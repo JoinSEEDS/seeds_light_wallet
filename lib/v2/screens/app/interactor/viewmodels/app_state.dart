@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/v2/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
@@ -9,6 +10,7 @@ class AppState extends Equatable {
   final int index;
   final bool hasNotification;
   final bool showGuardianRecoveryAlert;
+  final GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen;
 
   const AppState({
     required this.pageState,
@@ -16,6 +18,7 @@ class AppState extends Equatable {
     required this.index,
     required this.hasNotification,
     required this.showGuardianRecoveryAlert,
+    required this.showGuardianApproveOrDenyScreen,
   });
 
   @override
@@ -25,6 +28,7 @@ class AppState extends Equatable {
         index,
         hasNotification,
         showGuardianRecoveryAlert,
+        showGuardianApproveOrDenyScreen,
       ];
 
   AppState copyWith({
@@ -33,6 +37,7 @@ class AppState extends Equatable {
     int? index,
     bool? hasNotification,
     bool? showGuardianRecoveryAlert,
+    GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen,
   }) {
     return AppState(
       pageState: pageState ?? this.pageState,
@@ -40,15 +45,17 @@ class AppState extends Equatable {
       index: index ?? this.index,
       hasNotification: hasNotification ?? this.hasNotification,
       showGuardianRecoveryAlert: showGuardianRecoveryAlert ?? this.showGuardianRecoveryAlert,
+      showGuardianApproveOrDenyScreen: showGuardianApproveOrDenyScreen,
     );
   }
 
-  factory AppState.initial() {
-    return const AppState(
+  factory AppState.initial(GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen) {
+    return AppState(
       pageState: PageState.initial,
       index: 0,
       hasNotification: false,
       showGuardianRecoveryAlert: false,
+      showGuardianApproveOrDenyScreen: showGuardianApproveOrDenyScreen,
     );
   }
 }

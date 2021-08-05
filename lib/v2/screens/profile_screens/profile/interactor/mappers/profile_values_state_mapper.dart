@@ -1,3 +1,4 @@
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
@@ -11,6 +12,20 @@ class ProfileValuesStateMapper extends StateMapper {
     } else {
       // results.retainWhere((Result i) => i.isValue); // seems like a bug if there's 1 bad result it will do the wrong thing
       ProfileModel? profile = results[0].valueOrNull;
+      final isCitizen = settingsStorage.isCitizen;
+      final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
+
+      if (isCitizen) {
+        var score = ScoresViewModel(
+          contributionScore: results[1].valueOrNull,
+          communityScore: results[2].valueOrNull,
+          reputationScore: results[3].valueOrNull,
+          plantedScore: results[4].valueOrNull,
+          transactionScore: results[5].valueOrNull,
+        );
+        return currentState.copyWith(pageState: PageState.success, profile: profile, score: score);
+      }
+
       var score = ScoresViewModel(
         contributionScore: results[1].valueOrNull,
         communityScore: results[2].valueOrNull,
@@ -18,11 +33,22 @@ class ProfileValuesStateMapper extends StateMapper {
         plantedScore: results[4].valueOrNull,
         transactionScore: results[5].valueOrNull,
       );
-      return currentState.copyWith(pageState: PageState.success, profile: profile, score: score);
+
+      results[6].isValue
+          ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canResident
+          : results[7].isValue
+              ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canCitizen
+              : citizenshipUpgradeStatus = CitizenshipUpgradeStatus.notReady;
+
+      return currentState.copyWith(
+          pageState: PageState.success,
+          profile: profile,
+          score: score,
+          citizenshipUpgradeStatus: citizenshipUpgradeStatus);
     }
   }
 }
 
-extension ValueResult<T> on Result<T> {
+extension _ValueResult<T> on Result<T> {
   T? get valueOrNull => isValue ? asValue!.value : null;
 }

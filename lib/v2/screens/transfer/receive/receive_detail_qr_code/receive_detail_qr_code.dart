@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:seeds/v2/components/balance_row.dart';
+import 'package:seeds/v2/components/copy_link_row.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
-import 'package:seeds/v2/components/copy_link_row.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/components/qr_code_generator_widget.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
-import 'package:seeds/v2/i18n/explore_screens/invite/invite.i18n.dart';
+
 import 'interactor/viewmodels/receive_detail_arguments.dart';
 
 class ReceiveDetailQrCodeScreen extends StatelessWidget {
@@ -30,17 +29,9 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 30),
-                    QrImage(
+                    QrCodeGeneratorWidget(
                       data: arguments.InvoiceLink,
                       size: width * 0.8,
-                      foregroundColor: AppColors.white,
-                      errorStateBuilder: (_, err) {
-                        return Container(
-                          child: Center(
-                            child: Text('Uh oh! Something went wrong...'.i18n, textAlign: TextAlign.center),
-                          ),
-                        );
-                      },
                     ),
                     const SizedBox(height: 20),
                     ShareLinkRow(

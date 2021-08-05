@@ -4,6 +4,7 @@ import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/components/selectable_text_with_links.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:flutter/gestures.dart';
 import 'package:seeds/v2/design/app_theme.dart';
@@ -35,11 +36,16 @@ class ProposalDetailsMiddle extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10.0),
-                  Text(
-                    state.proposals[state.currentIndex].summary,
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
-                  const SizedBox(height: 30.0),
+                  if (state.proposals[state.currentIndex].summary.isNotEmpty)
+                    Column(
+                      children: [
+                        Text(
+                          state.proposals[state.currentIndex].summary,
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 30.0),
+                      ],
+                    ),
                   Text('Created by'.i18n, style: Theme.of(context).textTheme.subtitle2),
                   const SizedBox(height: 10.0),
                   Row(
@@ -143,7 +149,7 @@ class ProposalDetailsMiddle extends StatelessWidget {
                   const SizedBox(height: 8.0),
                   Text('Description'.i18n, style: Theme.of(context).textTheme.headline7),
                   const SizedBox(height: 8.0),
-                  SelectableText(
+                  SelectableTextWithLinks(
                     state.proposals[state.currentIndex].description,
                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                   ),

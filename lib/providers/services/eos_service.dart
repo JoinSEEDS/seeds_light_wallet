@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/constants/config.dart';
 import 'package:seeds/constants/http_mock_response.dart';
-import 'package:seeds/utils/extensions/response_extension.dart';
+import 'package:seeds/v2/datasource/remote/util/response_extension.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
 
 String chain_id = '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11';
