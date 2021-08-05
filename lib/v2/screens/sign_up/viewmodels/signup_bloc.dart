@@ -41,13 +41,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final AddPhoneNumberUseCase _addPhoneNumberUseCase;
 
   @override
-  Stream<SignupState> mapEventToState(
-    SignupEvent event,
-  ) async* {
-    if (event is OnInviteCodeChanged) {
-      yield* _claimInviteUseCase.validateInviteCode(state, event.inviteCode);
-    }
-
+  Stream<SignupState> mapEventToState(SignupEvent event) async* {
     if (event is OnInviteCodeFromDeepLink) {
       if (event.inviteCode != null) {
         yield state.copyWith(
@@ -65,13 +59,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       yield* _claimInviteUseCase.unpackLink(state, event.scannedLink);
     }
 
-    if (event is ClaimInviteOnNextTapped) {
-      yield _claimInviteUseCase.navigateToDisplayName(state);
-    }
-
     if (event is DisplayNameOnNextTapped) {
       yield state.copyWith(
-        pageContent: PageContent.USERNAME,
+        signupScreens: SignupScreens.username,
         displayNameState: state.displayNameState.copyWith(displayName: event.displayName),
       );
     }
@@ -85,9 +75,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     }
 
     if (event is CreateUsernameOnNextTapped) {
-      yield state.copyWith(
-        pageContent: PageContent.PHONE_NUMBER,
-      );
+      yield state.copyWith(signupScreens: SignupScreens.phoneNumber);
     }
 
     if (event is OnCreateAccountTapped) {
@@ -95,18 +83,18 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     }
 
     if (event is OnBackPressed) {
-      switch (state.pageContent) {
-        case PageContent.CLAIM_INVITE:
+      switch (state.signupScreens) {
+        case SignupScreens.claimInvite:
           yield state;
           break;
-        case PageContent.DISPLAY_NAME:
-          yield state.copyWith(pageContent: PageContent.CLAIM_INVITE);
+        case SignupScreens.displayName:
+          yield state.copyWith(signupScreens: SignupScreens.claimInvite);
           break;
-        case PageContent.USERNAME:
-          yield state.copyWith(pageContent: PageContent.DISPLAY_NAME);
+        case SignupScreens.username:
+          yield state.copyWith(signupScreens: SignupScreens.displayName);
           break;
-        case PageContent.PHONE_NUMBER:
-          yield state.copyWith(pageContent: PageContent.USERNAME);
+        case SignupScreens.phoneNumber:
+          yield state.copyWith(signupScreens: SignupScreens.username);
           break;
       }
     }
