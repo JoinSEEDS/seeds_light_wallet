@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
-import 'package:seeds/v2/datasource/remote/model/seeds_history_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 
