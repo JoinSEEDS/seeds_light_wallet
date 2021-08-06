@@ -201,6 +201,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
+  /// Not being used for the moment
   Future<Result> isDHOMember(String accountName) {
     print('[http] is $accountName DHO member');
 
