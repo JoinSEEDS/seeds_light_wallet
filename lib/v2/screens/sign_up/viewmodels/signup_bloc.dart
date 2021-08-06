@@ -49,6 +49,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
             inviteMnemonic: event.inviteCode,
             claimInviteView: ClaimInviteView.processing,
             pageCommand: StopScan(),
+            fromDeepLink: true,
           ),
         );
         await Future.delayed(const Duration(seconds: 2));
@@ -62,7 +63,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
                 state.claimInviteState.copyWith(claimInviteView: ClaimInviteView.scanner, pageCommand: StartScan()),
             signupScreens: SignupScreens.displayName,
           );
-        }
+        } 
       } else {
         // No link set the scanner view and start it
         yield state.copyWith(
@@ -79,6 +80,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         claimInviteState: state.claimInviteState.copyWith(
           claimInviteView: ClaimInviteView.processing,
           pageCommand: StopScan(),
+          fromDeepLink: false,
         ),
       );
       Result result = await _claimInviteUseCase.unpackLink(event.scannedLink);

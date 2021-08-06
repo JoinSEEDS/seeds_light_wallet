@@ -14,6 +14,7 @@ class ClaimInviteState extends Equatable {
   final ClaimInviteView claimInviteView;
   final InviteModel? inviteModel;
   final String? inviteMnemonic;
+  final bool fromDeepLink;
 
   const ClaimInviteState({
     this.pageCommand,
@@ -21,6 +22,7 @@ class ClaimInviteState extends Equatable {
     required this.claimInviteView,
     this.inviteModel,
     this.inviteMnemonic,
+    required this.fromDeepLink
   });
 
   @override
@@ -30,6 +32,7 @@ class ClaimInviteState extends Equatable {
         claimInviteView,
         inviteModel,
         inviteMnemonic,
+        fromDeepLink,
       ];
 
   ClaimInviteState copyWith({
@@ -38,6 +41,7 @@ class ClaimInviteState extends Equatable {
     ClaimInviteView? claimInviteView,
     InviteModel? inviteModel,
     String? inviteMnemonic,
+    bool? fromDeepLink,
   }) =>
       ClaimInviteState(
         pageCommand: pageCommand,
@@ -45,9 +49,10 @@ class ClaimInviteState extends Equatable {
         claimInviteView: claimInviteView ?? this.claimInviteView,
         inviteModel: inviteModel ?? this.inviteModel,
         inviteMnemonic: inviteMnemonic ?? this.inviteMnemonic,
+        fromDeepLink: fromDeepLink ?? this.fromDeepLink
       );
 
   factory ClaimInviteState.initial() {
-    return const ClaimInviteState(claimInviteView: ClaimInviteView.initial);
+    return const ClaimInviteState(claimInviteView: ClaimInviteView.initial, fromDeepLink: false);
   }
 }
