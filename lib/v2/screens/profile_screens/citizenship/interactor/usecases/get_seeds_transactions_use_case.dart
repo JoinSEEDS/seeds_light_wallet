@@ -6,7 +6,7 @@ class GetSeedsTransactionsUseCase {
   final SeedsHistoryRepository _seedsHistoryRepository = SeedsHistoryRepository();
 
   Future<Result> run() {
-    var account = settingsStorage.accountName;
+   final account = settingsStorage.accountName;
     return _seedsHistoryRepository.getNumberOfTransactions(account);
   }
 }

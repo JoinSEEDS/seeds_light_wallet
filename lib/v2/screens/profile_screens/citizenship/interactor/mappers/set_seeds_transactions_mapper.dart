@@ -8,7 +8,7 @@ class SetSeedsTransactionsMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error seeds transaction history");
     } else {
-      SeedsHistoryModel seedsHistoryModel = result.asValue!.value;
+      final SeedsHistoryModel seedsHistoryModel = result.asValue!.value;
 
       return currentState.copyWith(
         pageState: PageState.success,
