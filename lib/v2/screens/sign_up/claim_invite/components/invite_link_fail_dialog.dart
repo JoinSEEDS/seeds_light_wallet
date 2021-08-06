@@ -14,7 +14,7 @@ class InviteLinkFailDialog extends StatelessWidget {
         Text('Invite Code Error'.i18n, style: Theme.of(context).textTheme.headline6),
         const SizedBox(height: 24.0),
         Text(
-          'Your invite code is no longer valid! Please check with the person who invited you to make sure their invitation is still valid. '
+          'This invite code has already been claimed! Please check with the person who invited you.'
               .i18n,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.subtitle2,
