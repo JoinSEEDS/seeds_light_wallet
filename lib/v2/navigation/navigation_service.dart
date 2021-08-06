@@ -158,6 +158,10 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
   };
 
+  final fullScreenRoutes = {
+    Routes.verification,
+  };
+
   final ecosystemRoutes = {
     Routes.explore: (_) => const ExploreScreen(),
   };
@@ -206,6 +210,7 @@ class NavigationService {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => appRoutes[routeName]!(arguments),
+        fullscreenDialog: fullScreenRoutes.contains(routeName),
       );
     } else if (onboardingRoutes[routeName] != null) {
       return MaterialPageRoute(
