@@ -52,7 +52,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
             fromDeepLink: true,
           ),
         );
-        await Future.delayed(const Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 1));
         Result result = await _claimInviteUseCase.validateInviteCode(event.inviteCode!);
         yield ClaimInviteMapper().mapValidateInviteCodeToState(state, result);
         // if success shows successs screen for 1 second then move to add name
@@ -85,6 +85,17 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       );
       Result result = await _claimInviteUseCase.unpackLink(event.scannedLink);
       yield ClaimInviteMapper().mapInviteMnemonicToState(state, result);
+
+      if (state.claimInviteState.inviteMnemonic != null) {
+        yield state.copyWith(
+          claimInviteState: state.claimInviteState.copyWith(
+            pageCommand: StopScan(),
+          ),
+        );
+        Result result = await _claimInviteUseCase.validateInviteCode(state.claimInviteState.inviteMnemonic!);
+        yield ClaimInviteMapper().mapValidateInviteCodeToState(state, result);
+      }
+
       // if success shows successs screen for 1 second then move to add name
       if (state.claimInviteState.claimInviteView == ClaimInviteView.success) {
         await Future.delayed(const Duration(seconds: 1));
