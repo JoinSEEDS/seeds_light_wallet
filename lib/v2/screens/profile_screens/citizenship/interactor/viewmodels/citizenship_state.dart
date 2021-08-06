@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
+import 'package:seeds/v2/datasource/remote/model/seeds_history_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 
@@ -26,6 +27,7 @@ class CitizenshipState extends Equatable {
   final double? progressTimeline;
   final int? invitedVisitors;
   final int? invitedResidents;
+  final int? seedsTransactionsCount;
 
   const CitizenshipState({
     required this.pageState,
@@ -35,6 +37,7 @@ class CitizenshipState extends Equatable {
     this.progressTimeline,
     this.invitedResidents,
     this.invitedVisitors,
+    this.seedsTransactionsCount,
   });
 
   @override
@@ -46,6 +49,7 @@ class CitizenshipState extends Equatable {
         progressTimeline,
         invitedResidents,
         invitedVisitors,
+        seedsTransactionsCount,
       ];
 
   CitizenshipState copyWith({
@@ -56,6 +60,7 @@ class CitizenshipState extends Equatable {
     double? progressTimeline,
     int? invitedResidents,
     int? invitedVisitors,
+    int? seedsTransactionsCount,
   }) {
     return CitizenshipState(
       pageState: pageState ?? this.pageState,
@@ -65,6 +70,7 @@ class CitizenshipState extends Equatable {
       progressTimeline: progressTimeline ?? this.progressTimeline,
       invitedResidents: invitedResidents ?? this.invitedResidents,
       invitedVisitors: invitedVisitors ?? this.invitedVisitors,
+      seedsTransactionsCount: seedsTransactionsCount ?? this.seedsTransactionsCount,
     );
   }
 
