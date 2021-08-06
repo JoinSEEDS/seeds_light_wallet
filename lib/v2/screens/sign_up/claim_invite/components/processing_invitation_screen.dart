@@ -22,7 +22,10 @@ class ProcessingInvitationScreen extends StatelessWidget {
                   if (view == ClaimInviteView.processing)
                     Column(
                       children: [
-                        const CircularProgressIndicator(color: AppColors.green1),
+                        const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(AppColors.green1),
+                          backgroundColor: Colors.transparent,
+                        ),
                         const SizedBox(height: 30),
                         Text(
                           'Processing your invitation...',
