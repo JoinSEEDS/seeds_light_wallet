@@ -12,7 +12,7 @@ class ProcessingInvitationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: AppColors.grey,
+        backgroundColor: AppColors.primary,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
