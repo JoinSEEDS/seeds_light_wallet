@@ -9,7 +9,7 @@ class InviteLinkFailDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
+      icon: const Icon(Icons.cancel_outlined, size: 60, color: AppColors.red),
       children: [
         Text('Invite Code Error'.i18n, style: Theme.of(context).textTheme.headline6),
         const SizedBox(height: 24.0),
