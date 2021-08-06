@@ -15,11 +15,7 @@ class SeedsHistoryRepository extends NetworkRepository {
       tableKey: "",
       lowerBound: '$userAccount',
       upperBound: '$userAccount',
-      limit: 10,
-      indexPosition: 1,
-      keyType: "",
-      reverse: false,
-      showPayer: false,
+      limit: 1,
     );
 
     final seedsHistoryURL = Uri.parse('$hyphaURL/v1/chain/get_table_rows');
