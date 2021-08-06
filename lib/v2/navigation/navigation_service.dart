@@ -158,6 +158,9 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
   };
 
+  // iOS: full screen routes pop up from the bottom and disappear vertically too
+  // On iOS that's a standard full screen dialog
+  // Has no effect on Android.
   final fullScreenRoutes = {
     Routes.verification,
   };
