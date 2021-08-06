@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		124779046EE2B38CDDB0AE24 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70884C1D0F7376597EC707C /* Pods_Runner.framework */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		24BE020026BD3995004DF703 /* seeds_logo_font@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24BE01FF26BD3995004DF703 /* seeds_logo_font@2x.png */; };
+		24BE020226BD39D6004DF703 /* seeds_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24BE020126BD39D6004DF703 /* seeds_mark@2x.png */; };
+		24BE020426BD39EA004DF703 /* seeds_flower@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24BE020326BD39EA004DF703 /* seeds_flower@2x.png */; };
 		24CCE17F23B4AC99001456E4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 24CCE17E23B4AC99001456E4 /* GoogleService-Info.plist */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -35,6 +38,9 @@
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		217CE53B4C7E972697290EF5 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		243D697823B4C3DB00BD14A7 /* SEEDS Wallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SEEDS Wallet.entitlements"; sourceTree = "<group>"; };
+		24BE01FF26BD3995004DF703 /* seeds_logo_font@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seeds_logo_font@2x.png"; sourceTree = "<group>"; };
+		24BE020126BD39D6004DF703 /* seeds_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seeds_mark@2x.png"; sourceTree = "<group>"; };
+		24BE020326BD39EA004DF703 /* seeds_flower@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seeds_flower@2x.png"; sourceTree = "<group>"; };
 		24C2636523B472A1007B4494 /* SEEDS WalletProfile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SEEDS WalletProfile.entitlements"; sourceTree = "<group>"; };
 		24CCE17E23B4AC99001456E4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -135,6 +141,9 @@
 		97C146F11CF9000F007C117D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				24BE020326BD39EA004DF703 /* seeds_flower@2x.png */,
+				24BE020126BD39D6004DF703 /* seeds_mark@2x.png */,
+				24BE01FF26BD3995004DF703 /* seeds_logo_font@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -206,9 +215,12 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
+				24BE020426BD39EA004DF703 /* seeds_flower@2x.png in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				24CCE17F23B4AC99001456E4 /* GoogleService-Info.plist in Resources */,
+				24BE020026BD3995004DF703 /* seeds_logo_font@2x.png in Resources */,
+				24BE020226BD39D6004DF703 /* seeds_mark@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
