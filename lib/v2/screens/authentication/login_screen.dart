@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
@@ -9,6 +11,8 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 
 /// Login SCREEN
 class LoginScreen extends StatelessWidget {
+  static const int approxWidgetHeight = 450;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -20,10 +24,7 @@ class LoginScreen extends StatelessWidget {
               shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
           onPressed: () {
             if (settingsStorage.inRecoveryMode) {
-              NavigationService.of(context).navigateTo(
-                Routes.recoverAccountFound,
-                settingsStorage.accountName,
-              );
+              NavigationService.of(context).navigateTo(Routes.recoverAccountFound, settingsStorage.accountName);
             } else {
               NavigationService.of(context).navigateTo(Routes.recoverAccount);
             }
@@ -42,7 +43,7 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: height * 0.4,
+              height: max(0, min(height * 0.4, height - approxWidgetHeight)),
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitWidth,
