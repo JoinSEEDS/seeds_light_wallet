@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_event.dart';
 import 'package:seeds/v2/components/scanner/scanner_widget.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/components/invite_link_fail_dialog.dart';
@@ -17,12 +19,14 @@ class ClaimInviteScreen extends StatefulWidget {
 
 class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
   late SignupBloc _signupBloc;
+  late DeeplinkBloc _deeplinkBloc;
   late ScannerWidget _scannerWidget;
 
   @override
   void initState() {
     super.initState();
     _signupBloc = BlocProvider.of<SignupBloc>(context);
+    _deeplinkBloc = BlocProvider.of<DeeplinkBloc>(context);
     _scannerWidget = ScannerWidget(resultCallBack: (scannedLink) => _signupBloc.add(OnQRScanned(scannedLink)));
   }
 
@@ -42,7 +46,9 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
             barrierColor: Colors.transparent,
             context: context,
             builder: (_) => const InviteLinkFailDialog(),
-          ).whenComplete(() => _signupBloc.add(OnInvalidInviteDialogClosed()));
+          ).whenComplete(() => state.claimInviteState.fromDeepLink
+              ? _deeplinkBloc.add(const ClearDeepLink())
+              : _signupBloc.add(OnInvalidInviteDialogClosed()));
         }
       },
       child: BlocBuilder<SignupBloc, SignupState>(
