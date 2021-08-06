@@ -24,7 +24,7 @@ class SignupState extends Equatable {
 
   @override
   List<Object?> get props => [
-        SignupScreens,
+        signupScreens,
         claimInviteState.props,
         displayNameState,
         createUsernameState,
