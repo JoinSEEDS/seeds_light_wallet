@@ -55,7 +55,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     arguments.description != null
-                        ? Align(alignment: Alignment.centerLeft, child: Text("Description: " + arguments.description!))
+                        ? Align(alignment: Alignment.centerLeft, child: Text("Memo: " + arguments.description!))
                         : const SizedBox.shrink(),
                     const SizedBox(height: 150),
                   ],
