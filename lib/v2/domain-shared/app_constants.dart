@@ -19,6 +19,7 @@ const String account_guards = 'guard.seeds';
 const String account_harvest = 'harvst.seeds';
 const String account_join = 'join.seeds';
 const String account_token = 'token.seeds';
+const String history_seeds = 'histry.seeds';
 
 /// ESR invoice
 const String chain_id = '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11';
