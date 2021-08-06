@@ -35,7 +35,7 @@ class ExploreScreen extends StatelessWidget {
             SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
           }
         },
-        builder: (context, state) {
+        builder: (context, _) {
           return Scaffold(
             appBar: AppBar(title: Text('Explore'.i18n)),
             bottomSheet: Padding(
