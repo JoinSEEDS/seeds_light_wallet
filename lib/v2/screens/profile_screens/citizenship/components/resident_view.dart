@@ -71,7 +71,7 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
             setState(() => _seeds = _seedsAnimation.value.toInt());
           });
         _transactionsAnimation =
-            Tween<double>(begin: 0, end: state.transactionsWithSeeds?.toDouble()).animate(_controller)
+            Tween<double>(begin: 0, end: state.seedsTransactionsCount?.toDouble()).animate(_controller)
               ..addListener(() {
                 setState(() => _transactions = _transactionsAnimation.value.toInt());
               });

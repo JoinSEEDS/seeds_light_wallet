@@ -27,7 +27,6 @@ class CitizenshipState extends Equatable {
   final int? invitedVisitors;
   final int? invitedResidents;
   final double? plantedSeeds;
-  final int? transactionsWithSeeds;
   final int? seedsTransactionsCount;
 
   const CitizenshipState({
@@ -39,7 +38,6 @@ class CitizenshipState extends Equatable {
     this.invitedResidents,
     this.invitedVisitors,
     this.plantedSeeds,
-    this.transactionsWithSeeds,
     this.seedsTransactionsCount,
   });
 
@@ -53,7 +51,6 @@ class CitizenshipState extends Equatable {
         invitedResidents,
         invitedVisitors,
         plantedSeeds,
-       transactionsWithSeeds,
         seedsTransactionsCount,
       ];
 
@@ -66,7 +63,6 @@ class CitizenshipState extends Equatable {
     int? invitedResidents,
     int? invitedVisitors,
     double? plantedSeeds,
-    int? transactionsWithSeeds,
     int? seedsTransactionsCount,
   }) {
     return CitizenshipState(
@@ -78,7 +74,6 @@ class CitizenshipState extends Equatable {
       invitedResidents: invitedResidents ?? this.invitedResidents,
       invitedVisitors: invitedVisitors ?? this.invitedVisitors,
       plantedSeeds: plantedSeeds ?? this.plantedSeeds,
-      transactionsWithSeeds: transactionsWithSeeds ?? this.transactionsWithSeeds,
       seedsTransactionsCount: seedsTransactionsCount ?? this.seedsTransactionsCount,
     );
   }

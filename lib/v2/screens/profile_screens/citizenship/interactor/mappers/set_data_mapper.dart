@@ -1,5 +1,5 @@
 import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
-import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
+import 'package:seeds/v2/datasource/remote/model/seeds_history_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
@@ -12,18 +12,14 @@ class SetDataStateMapper extends StateMapper {
     } else {
       results.retainWhere((Result i) => i.isValue);
       var values = results.map((Result i) => i.asValue!.value).toList();
-      List <TransactionModel> transactions;
-      //List <TransactionModel> seedsTransactions = TransactionModel();
 
       PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null);
-      transactions = values.firstWhere((i) => i is List, orElse: () => null);
-
-     //transactions.forEach((element) { element.transactionId == 'Seeds'? seedsTransactions.add(element) });
+      SeedsHistoryModel? seedsHistory = values.firstWhere((i) => i is SeedsHistoryModel, orElse: () => null);
 
       return currentState.copyWith(
         pageState: PageState.success,
         plantedSeeds: plantedSeeds?.quantity,
-        transactionsWithSeeds: transactions.length,
+        seedsTransactionsCount: seedsHistory?.totalNumberOfTransactions,
       );
     }
   }

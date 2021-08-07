@@ -21,9 +21,6 @@ class CitizenshipBloc extends Bloc<CitizenshipEvent, CitizenshipState> {
         var results2 = await GetCitizenshipDataUseCase().run();
         yield SetDataStateMapper().mapResultsToState(state, results2);
         yield SetValuesStateMapper().mapResultToState(state, results);
-        //yield SetDataStateMapper().mapResultsToState(state, results2);
-
-       // yield ExploreStateMapper().mapResultsToState(state, results);
       }
     }
   }
