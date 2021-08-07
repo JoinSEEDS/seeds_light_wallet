@@ -135,7 +135,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     }
 
     if (event is CreateUsernameOnNextTapped) {
-      yield* createAccount(state);
+      yield* createAccount(state, null);
     }
 
     if (event is OnBackPressed) {
