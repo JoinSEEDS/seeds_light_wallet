@@ -63,7 +63,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
                 state.claimInviteState.copyWith(claimInviteView: ClaimInviteView.scanner, pageCommand: StartScan()),
             signupScreens: SignupScreens.displayName,
           );
-        } 
+        }
       } else {
         // No link set the scanner view and start it
         yield state.copyWith(
@@ -135,11 +135,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     }
 
     if (event is CreateUsernameOnNextTapped) {
-      yield state.copyWith(signupScreens: SignupScreens.phoneNumber);
-    }
-
-    if (event is OnCreateAccountTapped) {
-      yield* createAccount(state, event.phoneNumber);
+      yield* createAccount(state);
     }
 
     if (event is OnBackPressed) {
