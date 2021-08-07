@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/edit_name.i18n.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
+import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/quadstate_clipboard_icon_button.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/design/app_theme.dart';
@@ -47,49 +50,57 @@ class _CreateUsernameState extends State<CreateUsername> {
               _keyController.text = state.createUsernameState.username ?? _keyController.text;
               _bloc.add(OnUsernameChanged(username: state.createUsernameState.username!));
             }
+            if (state.createUsernameState.pageState == PageState.success) {
+              BlocProvider.of<AuthenticationBloc>(context).add(const OnCreateAccount());
+            }
           },
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Form(
-                    key: _usernameFormKey,
-                    child: TextFormFieldCustom(
-                      maxLength: 12,
-                      labelText: "Username".i18n,
-                      controller: _keyController,
-                      errorText: state.createUsernameState.errorMessage,
-                      suffixIcon: QuadStateClipboardIconButton(
-                        isChecked: state.createUsernameState.isUsernameValid,
-                        onClear: () {
-                          _keyController.clear();
-                        },
-                        isLoading: state.createUsernameState.pageState == PageState.loading,
-                        canClear: _keyController.text.isNotEmpty,
+              child: Stack(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Form(
+                        key: _usernameFormKey,
+                        child: TextFormFieldCustom(
+                          maxLength: 12,
+                          labelText: "Username".i18n,
+                          controller: _keyController,
+                          errorText: state.createUsernameState.errorMessage,
+                          suffixIcon: QuadStateClipboardIconButton(
+                            isChecked: state.createUsernameState.isUsernameValid,
+                            onClear: () {
+                              _keyController.clear();
+                            },
+                            isLoading: state.createUsernameState.pageState == PageState.loading,
+                            canClear: _keyController.text.isNotEmpty,
+                          ),
+                          onChanged: _onUsernameChanged,
+                        ),
                       ),
-                      onChanged: _onUsernameChanged,
-                    ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Expanded(
+                        child: Text(
+                          "Note: Usernames must be 12 characters long. "
+                          "\n\n Usernames can only contain characters a-z  (all lowercase), 1 - 5 (no 0’s), and no special characters or full stops. "
+                          "\n\n **Reminder! Your account name cannot be changed or deleted and will be public for other users to see.**",
+                          style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                        ),
+                      ),
+                      FlatButtonLong(
+                        title: 'Next'.i18n,
+                        onPressed: _onNextPressed(),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      "Note: Usernames must be 12 characters long. "
-                      "\n\n Usernames can only contain characters a-z  (all lowercase), 1 - 5 (no 0’s), and no special characters or full stops. "
-                      "\n\n **Reminder! Your account name cannot be changed or deleted and will be public for other users to see.**",
-                      style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                    ),
-                  ),
-                  FlatButtonLong(
-                    title: 'Next'.i18n,
-                    onPressed: _onNextPressed(),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  if (state.createUsernameState.pageState == PageState.loading) const FullPageLoadingIndicator(),
                 ],
               ),
             );

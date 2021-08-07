@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/sign_up/add_phone_number/mappers/create_account_mapper.dart';
 import 'package:seeds/v2/screens/sign_up/add_phone_number/usecases/add_phone_number_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/mappers/claim_invite_mapper.dart';
@@ -157,9 +158,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   }
 
   Stream<SignupState> createAccount(SignupState currentState, String? phoneNumber) async* {
-    final currentAddPhoneNumberState = currentState.addPhoneNumberState;
-
-    yield currentState.copyWith(addPhoneNumberState: AddPhoneNumberState.loading(currentAddPhoneNumberState));
+    yield currentState.copyWith(createUsernameState: const CreateUsernameState(pageState: PageState.loading));
 
     final String inviteSecret = secretFromMnemonic(state.claimInviteState.inviteMnemonic!);
     final displayName = state.displayNameState.displayName;
@@ -168,7 +167,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
 
     final Result result = await _addPhoneNumberUseCase.run(
-      inviteSecret: inviteSecret,
+      inviteSecret: "631b5b3ab7caae325889ea5ea1bd540a4b70929cd30e21444e8251699ceaa977", // inviteSecret,
       displayName: displayName!,
       username: username!,
       privateKey: privateKey,

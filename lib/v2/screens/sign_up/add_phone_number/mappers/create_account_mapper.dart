@@ -4,15 +4,15 @@ import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 
 class CreateAccountMapper extends StateMapper {
   SignupState mapOnCreateAccountTappedToState(SignupState currentState, Result result) {
-    final addPhoneNumberState = currentState.addPhoneNumberState;
+    final createUsernameState = currentState.createUsernameState;
 
     if (result.isError) {
-      final newState = addPhoneNumberState.copyWith(
+      final newState = createUsernameState.copyWith(
           pageState: PageState.failure, errorMessage: 'Failed to create the account. Please try again later.');
 
-      return currentState.copyWith(addPhoneNumberState: newState);
+      return currentState.copyWith(createUsernameState: newState);
     }
 
-    return currentState.copyWith(addPhoneNumberState: addPhoneNumberState.copyWith(pageState: PageState.success));
+    return currentState.copyWith(createUsernameState: createUsernameState.copyWith(pageState: PageState.success));
   }
 }
