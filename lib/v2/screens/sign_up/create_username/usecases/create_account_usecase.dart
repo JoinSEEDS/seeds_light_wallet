@@ -5,8 +5,8 @@ import 'package:seeds/v2/datasource/remote/firebase/firebase_user_repository.dar
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 
-class AddPhoneNumberUseCase {
-  AddPhoneNumberUseCase({
+class CreateAccountUseCase {
+  CreateAccountUseCase({
     required SignupRepository signupRepository,
     required FirebaseUserRepository firebaseUserRepository,
   })  : _signupRepository = signupRepository,

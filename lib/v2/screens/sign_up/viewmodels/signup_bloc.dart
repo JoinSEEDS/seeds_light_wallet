@@ -7,7 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/sign_up/create_username/mappers/create_account_mapper.dart';
-import 'package:seeds/v2/screens/sign_up/add_phone_number/usecases/add_phone_number_usecase.dart';
+import 'package:seeds/v2/screens/sign_up/create_username/usecases/create_account_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/mappers/claim_invite_mapper.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/create_username/usecases/create_username_usecase.dart';
@@ -26,16 +26,16 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final DeeplinkBloc deeplinkBloc;
   final ClaimInviteUseCase _claimInviteUseCase;
   final CreateUsernameUseCase _createUsernameUseCase;
-  final AddPhoneNumberUseCase _addPhoneNumberUseCase;
+  final CreateAccountUseCase _createAccountUseCase;
 
   SignupBloc({
     required ClaimInviteUseCase claimInviteUseCase,
     required CreateUsernameUseCase createUsernameUseCase,
-    required AddPhoneNumberUseCase addPhoneNumberUseCase,
+    required CreateAccountUseCase createAccountUseCase,
     required this.deeplinkBloc,
   })  : _claimInviteUseCase = claimInviteUseCase,
         _createUsernameUseCase = createUsernameUseCase,
-        _addPhoneNumberUseCase = addPhoneNumberUseCase,
+        _createAccountUseCase = createAccountUseCase,
         super(SignupState.initial());
 
   @override
@@ -161,7 +161,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
     EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
 
-    final Result result = await _addPhoneNumberUseCase.run(
+    final Result result = await _createAccountUseCase.run(
       inviteSecret: inviteSecret,
       displayName: displayName!,
       username: username!,
