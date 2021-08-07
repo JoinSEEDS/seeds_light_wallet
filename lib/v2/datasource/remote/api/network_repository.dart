@@ -10,7 +10,7 @@ abstract class NetworkRepository {
   String fxApiKey = "thesecretapikey989";
   Map<String, String> headers = {'Content-type': 'application/json'};
 
-  String table_balances = 'balances';
+  String table_planted = 'planted';
   String table_guards = 'guards';
   String table_harvest = 'harvest';
   String table_invites = 'invites';

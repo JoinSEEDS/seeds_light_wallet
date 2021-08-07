@@ -52,28 +52,28 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
               previous.pageState != PageState.success && current.pageState == PageState.success,
           listener: (context, state) {
             _contributionAnimation =
-                Tween<double>(begin: 0, end: (state.score!.contributionScore?.value ?? 0).toDouble())
+                Tween<double>(begin: 0, end: (state.score!.contributionScore?.score ?? 0).toDouble())
                     .animate(_controller)
                       ..addListener(() {
                         setState(() => _contribution = _contributionAnimation.value.toInt());
                       });
             _communityAnimation =
-                Tween<double>(begin: 0, end: (state.score!.communityScore?.value ?? 0).toDouble()).animate(_controller)
+                Tween<double>(begin: 0, end: (state.score!.communityScore?.score ?? 0).toDouble()).animate(_controller)
                   ..addListener(() {
                     setState(() => _community = _communityAnimation.value.toInt());
                   });
-            _reputationAnimation =
-                Tween<double>(begin: 0, end: (state.score!.reputationScore?.value ?? 0).toDouble()).animate(_controller)
+            _reputationAnimation = Tween<double>(begin: 0, end: (state.score!.reputationScore?.points ?? 0).toDouble())
+                .animate(_controller)
                   ..addListener(() {
                     setState(() => _reputation = _reputationAnimation.value.toInt());
                   });
             _seedsAnimation =
-                Tween<double>(begin: 0, end: (state.score!.plantedScore?.value ?? 0).toDouble()).animate(_controller)
+                Tween<double>(begin: 0, end: (state.score!.plantedScore?.intQuantity ?? 0).toDouble()).animate(_controller)
                   ..addListener(() {
                     setState(() => _seeds = _seedsAnimation.value.toInt());
                   });
             _transactionsAnimation =
-                Tween<double>(begin: 0, end: (state.score!.transactionScore?.value ?? 0).toDouble())
+                Tween<double>(begin: 0, end: (state.score!.transactionScore?.points ?? 0).toDouble())
                     .animate(_controller)
                       ..addListener(() {
                         setState(() => _transactions = _transactionsAnimation.value.toInt());

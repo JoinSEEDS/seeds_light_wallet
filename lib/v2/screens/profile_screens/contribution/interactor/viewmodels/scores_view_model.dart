@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
 import 'package:seeds/v2/datasource/remote/model/score_model.dart';
 
 class ScoresViewModel extends Equatable {
   final ScoreModel? contributionScore;
   final ScoreModel? communityScore;
   final ScoreModel? reputationScore;
-  final ScoreModel? plantedScore;
+  final PlantedModel? plantedScore;
   final ScoreModel? transactionScore;
 
   const ScoresViewModel(
@@ -16,5 +17,5 @@ class ScoresViewModel extends Equatable {
 
   @override
   String toString() =>
-      "ScoreViewModel: cs: ${contributionScore?.value} community: ${communityScore?.value} rep: ${reputationScore?.value} planted: ${plantedScore?.value} transactions: ${transactionScore?.value}";
+      "ScoreViewModel: cs: ${contributionScore?.score} community: ${communityScore?.score} rep: ${reputationScore?.score} planted: ${plantedScore?.quantity} transactions: ${transactionScore?.points}";
 }

@@ -10,6 +10,10 @@ extension StringExtension on String {
   String get symbolFromAmount {
     return split(" ")[1];
   }
+
+  double get assetAmount {
+    return double.parse(split(" ")[0]);
+  }
 }
 
 extension NullableStringExtension on String? {

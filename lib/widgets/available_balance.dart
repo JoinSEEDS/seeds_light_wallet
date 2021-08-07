@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/providers/notifiers/balance_notifier.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/v2/utils/string_extension.dart';
 
 class AvailableBalance extends StatelessWidget {
   @override

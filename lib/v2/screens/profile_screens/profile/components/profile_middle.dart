@@ -30,7 +30,7 @@ class ProfileMiddle extends StatelessWidget {
                 trailing: state.pageState == PageState.loading || state.pageState == PageState.initial
                     ? const ShimmerRectangle(size: Size(52, 21))
                     : Text(
-                        '${state.score?.contributionScore?.value ?? '00'}/99',
+                        '${state.score?.contributionScore?.score ?? '00'}/99',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline7LowEmphasis,
                       ),

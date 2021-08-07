@@ -79,7 +79,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     String contractName = account_harvest,
     String? scope,
     required String tableName,
-    String fieldName = "rank",
+    required String pointsName,
+    String rankName = "rank",
   }) async {
     print('[http] get score $account $tableName');
 
@@ -97,7 +98,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     return http
         .post(scoreURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              return ScoreModel.fromJson(json: body, fieldName: fieldName);
+              return ScoreModel.fromJson(json: body, pointsName: pointsName, rankName: rankName);
             }))
         .catchError((error) => mapHttpError(error));
   }

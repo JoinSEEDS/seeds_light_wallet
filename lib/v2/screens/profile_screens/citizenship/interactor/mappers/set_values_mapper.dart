@@ -21,10 +21,10 @@ class SetValuesStateMapper extends StateMapper {
       if (profile.status == ProfileStatus.visitor) {
         // Timeline to resident
         // If the scores are greater than those required, use the required ones instead to avoid errors in the formula.
-        int reputation = min(score.reputationScore?.value ?? 0, resident_required_reputation);
+        int reputation = min(score.reputationScore?.points ?? 0, resident_required_reputation);
         int visitors = profiles.isNotEmpty ? resident_required_visitors_invited : 0;
-        int planted = min(score.plantedScore?.value ?? 0, resident_required_planted_seeds);
-        int transactions = min(score.transactionScore?.value ?? 0, resident_required_seeds_transactions);
+        int planted = min(score.plantedScore?.intQuantity ?? 0, resident_required_planted_seeds);
+        int transactions = min(score.transactionScore?.points ?? 0, resident_required_seeds_transactions);
         // Timeline to resident formula
         timeline = ((reputation / resident_required_reputation) +
                 (visitors / resident_required_visitors_invited) +
@@ -35,9 +35,9 @@ class SetValuesStateMapper extends StateMapper {
       } else {
         // Timeline to citizen
         // If the scores are greater than those required, use the required ones instead to avoid errors in the formula.
-        int reputation = min(score.reputationScore?.value ?? 0, citizen_required_reputation);
-        int planted = min(score.plantedScore?.value ?? 0, citizen_required_planted_seeds);
-        int transactions = min(score.transactionScore?.value ?? 0, citizen_required_seeds_transactions);
+        int reputation = min(score.reputationScore?.score ?? 0, citizen_required_reputation);
+        int planted = min(score.plantedScore?.intQuantity ?? 0, citizen_required_planted_seeds);
+        int transactions = min(score.transactionScore?.points ?? 0, citizen_required_seeds_transactions);
         int residents =
             profiles.where((i) => i.status == ProfileStatus.resident).length > citizen_required_residents_invited
                 ? citizen_required_residents_invited
