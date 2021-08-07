@@ -6,9 +6,9 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/sign_up/add_phone_number/mappers/create_account_mapper.dart';
 import 'package:seeds/v2/screens/sign_up/add_phone_number/usecases/add_phone_number_usecase.dart';
+import 'package:seeds/v2/screens/sign_up/claim_invite/mappers/claim_invite_mapper.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/create_username/usecases/create_username_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/add_phone_number_state.dart';
@@ -25,6 +25,9 @@ part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final DeeplinkBloc deeplinkBloc;
+  final ClaimInviteUseCase _claimInviteUseCase;
+  final CreateUsernameUseCase _createUsernameUseCase;
+  final AddPhoneNumberUseCase _addPhoneNumberUseCase;
 
   SignupBloc({
     required ClaimInviteUseCase claimInviteUseCase,
@@ -36,42 +39,89 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         _addPhoneNumberUseCase = addPhoneNumberUseCase,
         super(SignupState.initial());
 
-  final ClaimInviteUseCase _claimInviteUseCase;
-  final CreateUsernameUseCase _createUsernameUseCase;
-  final AddPhoneNumberUseCase _addPhoneNumberUseCase;
-
   @override
-  Stream<SignupState> mapEventToState(
-    SignupEvent event,
-  ) async* {
-    if (event is OnInviteCodeChanged) {
-      yield* _claimInviteUseCase.validateInviteCode(state, event.inviteCode);
-    }
-
+  Stream<SignupState> mapEventToState(SignupEvent event) async* {
+    // if it has a invite deep link
     if (event is OnInviteCodeFromDeepLink) {
       if (event.inviteCode != null) {
         yield state.copyWith(
-            claimInviteState: state.claimInviteState.copyWith(
-          inviteMnemonic: event.inviteCode,
-          pageState: PageState.success,
-          pageCommand: StopScan(),
-        ));
-
-        yield* _claimInviteUseCase.validateInviteCode(state, event.inviteCode!);
+          claimInviteState: state.claimInviteState.copyWith(
+            inviteMnemonic: event.inviteCode,
+            claimInviteView: ClaimInviteView.processing,
+            pageCommand: StopScan(),
+            fromDeepLink: true,
+          ),
+        );
+        await Future.delayed(const Duration(seconds: 1));
+        Result result = await _claimInviteUseCase.validateInviteCode(event.inviteCode!);
+        yield ClaimInviteMapper().mapValidateInviteCodeToState(state, result);
+        // if success shows successs screen for 1 second then move to add name
+        if (state.claimInviteState.claimInviteView == ClaimInviteView.success) {
+          await Future.delayed(const Duration(seconds: 1));
+          yield state.copyWith(
+            claimInviteState:
+                state.claimInviteState.copyWith(claimInviteView: ClaimInviteView.scanner, pageCommand: StartScan()),
+            signupScreens: SignupScreens.displayName,
+          );
+        } 
+      } else {
+        // No link set the scanner view and start it
+        yield state.copyWith(
+          claimInviteState: state.claimInviteState.copyWith(
+            claimInviteView: ClaimInviteView.scanner,
+            pageCommand: StartScan(),
+          ),
+        );
       }
     }
 
     if (event is OnQRScanned) {
-      yield* _claimInviteUseCase.unpackLink(state, event.scannedLink);
+      yield state.copyWith(
+        claimInviteState: state.claimInviteState.copyWith(
+          claimInviteView: ClaimInviteView.processing,
+          pageCommand: StopScan(),
+          fromDeepLink: false,
+        ),
+      );
+      Result result = await _claimInviteUseCase.unpackLink(event.scannedLink);
+      yield ClaimInviteMapper().mapInviteMnemonicToState(state, result);
+
+      if (state.claimInviteState.inviteMnemonic != null) {
+        yield state.copyWith(
+          claimInviteState: state.claimInviteState.copyWith(
+            pageCommand: StopScan(),
+          ),
+        );
+        Result result = await _claimInviteUseCase.validateInviteCode(state.claimInviteState.inviteMnemonic!);
+        yield ClaimInviteMapper().mapValidateInviteCodeToState(state, result);
+      }
+
+      // if success shows successs screen for 1 second then move to add name
+      if (state.claimInviteState.claimInviteView == ClaimInviteView.success) {
+        await Future.delayed(const Duration(seconds: 1));
+        yield state.copyWith(
+            claimInviteState:
+                state.claimInviteState.copyWith(claimInviteView: ClaimInviteView.scanner, pageCommand: StartScan()),
+            signupScreens: SignupScreens.displayName);
+      }
     }
 
-    if (event is ClaimInviteOnNextTapped) {
-      yield _claimInviteUseCase.navigateToDisplayName(state);
+    if (event is ClearClaimInvitePageCommand) {
+      yield state.copyWith(claimInviteState: state.claimInviteState.copyWith(pageCommand: null));
+    }
+
+    if (event is OnInvalidInviteDialogClosed) {
+      yield state.copyWith(
+        claimInviteState: state.claimInviteState.copyWith(
+          claimInviteView: ClaimInviteView.scanner,
+          pageCommand: StartScan(),
+        ),
+      );
     }
 
     if (event is DisplayNameOnNextTapped) {
       yield state.copyWith(
-        pageContent: PageContent.USERNAME,
+        signupScreens: SignupScreens.username,
         displayNameState: state.displayNameState.copyWith(displayName: event.displayName),
       );
     }
@@ -85,9 +135,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     }
 
     if (event is CreateUsernameOnNextTapped) {
-      yield state.copyWith(
-        pageContent: PageContent.PHONE_NUMBER,
-      );
+      yield state.copyWith(signupScreens: SignupScreens.phoneNumber);
     }
 
     if (event is OnCreateAccountTapped) {
@@ -95,18 +143,18 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     }
 
     if (event is OnBackPressed) {
-      switch (state.pageContent) {
-        case PageContent.CLAIM_INVITE:
+      switch (state.signupScreens) {
+        case SignupScreens.claimInvite:
           yield state;
           break;
-        case PageContent.DISPLAY_NAME:
-          yield state.copyWith(pageContent: PageContent.CLAIM_INVITE);
+        case SignupScreens.displayName:
+          yield state.copyWith(signupScreens: SignupScreens.claimInvite);
           break;
-        case PageContent.USERNAME:
-          yield state.copyWith(pageContent: PageContent.DISPLAY_NAME);
+        case SignupScreens.username:
+          yield state.copyWith(signupScreens: SignupScreens.displayName);
           break;
-        case PageContent.PHONE_NUMBER:
-          yield state.copyWith(pageContent: PageContent.USERNAME);
+        case SignupScreens.phoneNumber:
+          yield state.copyWith(signupScreens: SignupScreens.username);
           break;
       }
     }

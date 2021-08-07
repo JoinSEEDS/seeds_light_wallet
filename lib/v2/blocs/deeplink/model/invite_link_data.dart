@@ -1,7 +1,5 @@
 class InviteLinkData {
-  final String Mnemonic;
+  final String mnemonic;
 
-  InviteLinkData({
-    required this.Mnemonic,
-  });
+  InviteLinkData(this.mnemonic);
 }

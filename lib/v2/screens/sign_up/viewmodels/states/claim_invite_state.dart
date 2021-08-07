@@ -1,69 +1,58 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/invite_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
-import 'package:seeds/v2/domain-shared/page_state.dart';
 
 class StartScan extends PageCommand {}
 
 class StopScan extends PageCommand {}
 
-class ClaimInviteState extends Equatable {
-  const ClaimInviteState({
-    required this.pageState,
-    this.pageCommand,
-    this.errorMessage,
-    this.inviteModel,
-    this.inviteMnemonic,
-  });
+enum ClaimInviteView { initial, scanner, processing, success, fail }
 
-  final PageState pageState;
+class ClaimInviteState extends Equatable {
   final PageCommand? pageCommand;
   final String? errorMessage;
+  final ClaimInviteView claimInviteView;
   final InviteModel? inviteModel;
   final String? inviteMnemonic;
+  final bool fromDeepLink;
 
-  factory ClaimInviteState.initial() {
-    return const ClaimInviteState(pageState: PageState.initial);
-  }
-
-  factory ClaimInviteState.loading(ClaimInviteState currentState) {
-    return currentState.copyWith(pageState: PageState.loading);
-  }
-
-  factory ClaimInviteState.error(ClaimInviteState currentState, String errorMessage) {
-    return currentState.copyWith(
-      pageState: PageState.failure,
-      pageCommand: StartScan(),
-      errorMessage: errorMessage,
-      inviteMnemonic: null,
-      inviteModel: null,
-    );
-  }
-
-  bool get isLoading => pageState == PageState.loading && inviteMnemonic != null;
-  bool get isValid => pageState == PageState.success && inviteModel != null;
-
-  ClaimInviteState copyWith({
-    PageState? pageState,
-    PageCommand? pageCommand,
-    String? errorMessage,
-    InviteModel? inviteModel,
-    String? inviteMnemonic,
-  }) =>
-      ClaimInviteState(
-        pageState: pageState ?? this.pageState,
-        pageCommand: pageCommand ?? this.pageCommand,
-        errorMessage: errorMessage,
-        inviteModel: inviteModel ?? this.inviteModel,
-        inviteMnemonic: inviteMnemonic ?? this.inviteMnemonic,
-      );
+  const ClaimInviteState({
+    this.pageCommand,
+    this.errorMessage,
+    required this.claimInviteView,
+    this.inviteModel,
+    this.inviteMnemonic,
+    required this.fromDeepLink
+  });
 
   @override
   List<Object?> get props => [
-        pageState,
         pageCommand,
         errorMessage,
+        claimInviteView,
         inviteModel,
         inviteMnemonic,
+        fromDeepLink,
       ];
+
+  ClaimInviteState copyWith({
+    PageCommand? pageCommand,
+    String? errorMessage,
+    ClaimInviteView? claimInviteView,
+    InviteModel? inviteModel,
+    String? inviteMnemonic,
+    bool? fromDeepLink,
+  }) =>
+      ClaimInviteState(
+        pageCommand: pageCommand,
+        errorMessage: errorMessage,
+        claimInviteView: claimInviteView ?? this.claimInviteView,
+        inviteModel: inviteModel ?? this.inviteModel,
+        inviteMnemonic: inviteMnemonic ?? this.inviteMnemonic,
+        fromDeepLink: fromDeepLink ?? this.fromDeepLink
+      );
+
+  factory ClaimInviteState.initial() {
+    return const ClaimInviteState(claimInviteView: ClaimInviteView.initial, fromDeepLink: false);
+  }
 }

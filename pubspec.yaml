@@ -108,8 +108,8 @@ flutter:
     - assets/images/onboarding/leaves/pointing_right/big_dark_leaf.svg
     - assets/images/onboarding/leaves/pointing_right/big_light_leaf.svg
     - assets/images/onboarding/leaves/pointing_right/small_light_leaf.svg
-    - assets/images/governance.svg
     - assets/images/community.svg
+    - assets/images/governance.svg
     - assets/images/harvest.svg
     - assets/images/exchange.svg
     - assets/images/ecosystem.svg

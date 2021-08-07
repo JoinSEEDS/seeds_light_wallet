@@ -62,19 +62,19 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
             },
           ),
         ],
-        child: PasscodeScreen(
-          cancelButton: const SizedBox.shrink(),
-          deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
-          passwordDigits: 4,
-          title: Text('Re-enter Pincode'.i18n, style: Theme.of(context).textTheme.subtitle2),
-          backgroundColor: AppColors.primary,
-          shouldTriggerVerification: _verificationNotifier.stream,
-          passwordEnteredCallback: (passcode) =>
-              BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
-          isValidCallback: () => BlocProvider.of<VerificationBloc>(context).add(const OnValidVerifyPasscode()),
-          bottomWidget: BlocBuilder<VerificationBloc, VerificationState>(
-            builder: (context, state) {
-              return !state.authError! && settingsStorage.biometricActive!
+        child: BlocBuilder<VerificationBloc, VerificationState>(
+          builder: (context, state) {
+            return PasscodeScreen(
+              cancelButton: const SizedBox.shrink(),
+              deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
+              passwordDigits: 4,
+              title: Text( (state.isCreateMode ?? false) ? 'Re-enter Pincode' : 'Enter Pincode'.i18n, style: Theme.of(context).textTheme.subtitle2),
+              backgroundColor: AppColors.primary,
+              shouldTriggerVerification: _verificationNotifier.stream,
+              passwordEnteredCallback: (passcode) =>
+                  BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
+              isValidCallback: () => BlocProvider.of<VerificationBloc>(context).add(const OnValidVerifyPasscode()),
+              bottomWidget: !state.authError! && settingsStorage.biometricActive!
                   ? Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: OutlinedButton(
@@ -89,10 +89,10 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
                               textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
                           onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric())),
                     )
-                  : const SizedBox.shrink();
-            },
-          ),
-          circleUIConfig: const CircleUIConfig(circleSize: 14),
+                  : const SizedBox.shrink(),
+              circleUIConfig: const CircleUIConfig(circleSize: 14),
+            );
+          },
         ),
       ),
     );

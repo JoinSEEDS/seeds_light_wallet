@@ -22,7 +22,7 @@ class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ExploreBloc()..add(const LoadExploreData()),
+      create: (_) => ExploreBloc(),
       child: BlocConsumer<ExploreBloc, ExploreState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -35,7 +35,7 @@ class ExploreScreen extends StatelessWidget {
             SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
           }
         },
-        builder: (context, state) {
+        builder: (context, _) {
           return Scaffold(
             appBar: AppBar(title: Text('Explore'.i18n)),
             bottomSheet: Padding(
@@ -48,15 +48,7 @@ class ExploreScreen extends StatelessWidget {
                       onTap: () => launch('$url_buy_seeds${settingsStorage.accountName}', forceSafariVC: false),
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: state.isDHOMember
-                        ? ExploreLinkCard(
-                            backgroundImage: 'assets/images/explore/hypha_dho_card.jpg',
-                            onTap: () => NavigationService.of(context).navigateTo(Routes.dho),
-                          )
-                        : const SizedBox.shrink(),
-                  ),
+                  const Expanded(child: SizedBox.shrink()),
                 ],
               ),
             ),

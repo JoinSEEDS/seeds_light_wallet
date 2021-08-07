@@ -18,6 +18,8 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
       yield DeepLinkStateMapper().mapResultToState(state, result);
     } else if (event is OnGuardianRecoveryRequestSeen) {
       yield state.copyWith(showGuardianApproveOrDenyScreen: null);
+    } else if (event is ClearDeepLink) {
+      yield DeeplinkState.initial();
     }
   }
 

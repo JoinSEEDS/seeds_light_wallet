@@ -158,6 +158,13 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
   };
 
+  // iOS: full screen routes pop up from the bottom and disappear vertically too
+  // On iOS that's a standard full screen dialog
+  // Has no effect on Android.
+  final fullScreenRoutes = {
+    Routes.verification,
+  };
+
   final ecosystemRoutes = {
     Routes.explore: (_) => const ExploreScreen(),
   };
@@ -206,6 +213,7 @@ class NavigationService {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => appRoutes[routeName]!(arguments),
+        fullscreenDialog: fullScreenRoutes.contains(routeName),
       );
     } else if (onboardingRoutes[routeName] != null) {
       return MaterialPageRoute(
