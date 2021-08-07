@@ -3,8 +3,8 @@ part of 'signup_bloc.dart';
 enum SignupScreens { claimInvite, displayName, username }
 
 class SignupState extends Equatable {
-  final ClaimInviteState claimInviteState;
   final SignupScreens signupScreens;
+  final ClaimInviteState claimInviteState;
   final DisplayNameState displayNameState;
   final CreateUsernameState createUsernameState;
 
