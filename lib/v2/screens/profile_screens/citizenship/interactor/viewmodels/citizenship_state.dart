@@ -26,6 +26,7 @@ class CitizenshipState extends Equatable {
   final double? progressTimeline;
   final int? invitedVisitors;
   final int? invitedResidents;
+  final double? plantedSeeds;
   final int? seedsTransactionsCount;
 
   const CitizenshipState({
@@ -36,6 +37,7 @@ class CitizenshipState extends Equatable {
     this.progressTimeline,
     this.invitedResidents,
     this.invitedVisitors,
+    this.plantedSeeds,
     this.seedsTransactionsCount,
   });
 
@@ -48,6 +50,7 @@ class CitizenshipState extends Equatable {
         progressTimeline,
         invitedResidents,
         invitedVisitors,
+        plantedSeeds,
         seedsTransactionsCount,
       ];
 
@@ -59,6 +62,7 @@ class CitizenshipState extends Equatable {
     double? progressTimeline,
     int? invitedResidents,
     int? invitedVisitors,
+    double? plantedSeeds,
     int? seedsTransactionsCount,
   }) {
     return CitizenshipState(
@@ -69,6 +73,7 @@ class CitizenshipState extends Equatable {
       progressTimeline: progressTimeline ?? this.progressTimeline,
       invitedResidents: invitedResidents ?? this.invitedResidents,
       invitedVisitors: invitedVisitors ?? this.invitedVisitors,
+      plantedSeeds: plantedSeeds ?? this.plantedSeeds,
       seedsTransactionsCount: seedsTransactionsCount ?? this.seedsTransactionsCount,
     );
   }

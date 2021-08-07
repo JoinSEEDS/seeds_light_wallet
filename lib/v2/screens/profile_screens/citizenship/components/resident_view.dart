@@ -66,12 +66,12 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
           ..addListener(() {
             setState(() => _age = _ageAnimation.value.toInt());
           });
-        _seedsAnimation = Tween<double>(begin: 0, end: state.score!.plantedScore?.toDouble()).animate(_controller)
+        _seedsAnimation = Tween<double>(begin: 0, end: state.plantedSeeds?.toDouble()).animate(_controller)
           ..addListener(() {
             setState(() => _seeds = _seedsAnimation.value.toInt());
           });
         _transactionsAnimation =
-            Tween<double>(begin: 0, end: state.score!.transactionScore?.toDouble()).animate(_controller)
+            Tween<double>(begin: 0, end: state.seedsTransactionsCount?.toDouble()).animate(_controller)
               ..addListener(() {
                 setState(() => _transactions = _transactionsAnimation.value.toInt());
               });
@@ -211,7 +211,7 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                     CircularProgressItem(
                       icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
                       totalStep: citizen_required_visitors_invited,
-                      currentStep: _visitors,
+                      currentStep: _visitors ~/ 100,
                       circleRadius: 30,
                       title: 'Invited Users'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
