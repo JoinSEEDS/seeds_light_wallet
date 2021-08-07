@@ -65,11 +65,6 @@ class OnUsernameChanged extends SignupEvent {
   String toString() => 'OnUsernameChanged { userName: $username }';
 }
 
-class CreateUsernameOnNextTapped extends SignupEvent {
-  @override
-  String toString() => 'CreateUsernameOnNextTapped';
-}
-
 /// Add Phone Number Events
 class OnCreateAccountTapped extends SignupEvent {
   const OnCreateAccountTapped(this.phoneNumber);

@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_user_repository.dart';
-import 'package:seeds/v2/screens/sign_up/add_phone_number/add_phone_number.dart';
-import 'package:seeds/v2/screens/sign_up/add_phone_number/usecases/add_phone_number_usecase.dart';
+import 'package:seeds/v2/screens/sign_up/create_username/usecases/create_account_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/claim_invite_screen.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
 import 'package:seeds/v2/screens/sign_up/create_username/create_username.dart';
@@ -23,7 +22,7 @@ class SignupScreen extends StatelessWidget {
         deeplinkBloc: BlocProvider.of<DeeplinkBloc>(context),
         claimInviteUseCase: ClaimInviteUseCase(SignupRepository()),
         createUsernameUseCase: CreateUsernameUseCase(signupRepository: SignupRepository()),
-        addPhoneNumberUseCase: AddPhoneNumberUseCase(
+        createAccountUseCase: CreateAccountUseCase(
           signupRepository: SignupRepository(),
           firebaseUserRepository: FirebaseUserRepository(),
         ),
@@ -39,8 +38,6 @@ class SignupScreen extends StatelessWidget {
               return const DisplayName();
             case SignupScreens.username:
               return const CreateUsername();
-            case SignupScreens.phoneNumber:
-              return const AddPhoneNumber();
           }
         },
       ),
