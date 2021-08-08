@@ -5,8 +5,13 @@ import 'package:seeds/v2/design/app_theme.dart';
 
 class CitizenshipUpgradeButton extends StatelessWidget {
   final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
+  final VoidCallback onPressed;
 
-  const CitizenshipUpgradeButton(this.citizenshipUpgradeStatus, {Key? key}) : super(key: key);
+  const CitizenshipUpgradeButton({
+    Key? key,
+    required this.citizenshipUpgradeStatus,
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +23,7 @@ class CitizenshipUpgradeButton extends StatelessWidget {
           ),
           color: AppColors.darkGreen2,
           padding: const EdgeInsets.all(8.0),
-          //Next Pr
-          onPressed: () {},
+          onPressed: onPressed,
           child: Text(
             'Upgrade To Resident',
             style: Theme.of(context).textTheme.subtitle3,
@@ -33,8 +37,7 @@ class CitizenshipUpgradeButton extends StatelessWidget {
           ),
           color: AppColors.darkGreen2,
           padding: const EdgeInsets.all(8.0),
-          //Next Pr
-          onPressed: () {},
+          onPressed: onPressed,
           child: Text(
             'Upgrade To Citizen',
             style: Theme.of(context).textTheme.subtitle3,

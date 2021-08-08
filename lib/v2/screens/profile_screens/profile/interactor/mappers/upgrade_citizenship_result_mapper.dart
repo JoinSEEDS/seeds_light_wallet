@@ -14,10 +14,9 @@ class UpgradeCitizenshipResultMapper extends StateMapper {
       );
     } else {
       /// Show citizenship upgrade success
-      final String newCitizenshipStatus = isResident ? "Citizen" : "Resident";
       return currentState.copyWith(
         pageState: PageState.success,
-        pageCommand: ShowCitizenshipUpgradeSuccess(newCitizenshipStatus),
+        pageCommand: ShowCitizenshipUpgradeSuccess(isResident),
       );
     }
   }
