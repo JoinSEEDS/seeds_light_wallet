@@ -62,8 +62,8 @@ class SetValuesStateMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         progressTimeline: timeline,
-        invitedVisitors: profiles.where((i) => i.status == ProfileStatus.visitor).length,
-        invitedResidents: profiles.where((i) => i.status == ProfileStatus.resident).length,
+        invitedVisitors: profiles.length,
+        invitedResidents: profiles.where((i) => i.status == ProfileStatus.citizen || i.status == ProfileStatus.resident).length,
       );
     }
   }
