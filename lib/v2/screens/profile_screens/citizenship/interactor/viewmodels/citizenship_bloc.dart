@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/profile_screens/citizenship/interactor/mappers/set_data_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/interactor/usecases/get_citizenship_data_use_case.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/interactor/usecases/get_referred_accounts_use_case.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/interactor/mappers/set_values_mapper.dart';
@@ -17,10 +16,9 @@ class CitizenshipBloc extends Bloc<CitizenshipEvent, CitizenshipState> {
         yield state.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
       } else {
         yield state.copyWith(pageState: PageState.loading, profile: event.profile, score: event.score);
-        var results = await GetReferredAccountsUseCase().run();
-        var results2 = await GetCitizenshipDataUseCase().run();
-        yield SetDataStateMapper().mapResultsToState(state, results2);
-        yield SetValuesStateMapper().mapResultToState(state, results);
+        var referredAccountResults = await GetReferredAccountsUseCase().run();
+        var citizenshipDataResults = await GetCitizenshipDataUseCase().run();
+        yield SetValuesStateMapper().mapResultToState(state, referredAccountResults, citizenshipDataResults);
       }
     }
   }
