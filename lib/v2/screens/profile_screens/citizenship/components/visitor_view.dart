@@ -26,9 +26,8 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
       _reputationAnimation,
       _visitorsAnimation,
       _seedsAnimation,
-      _transactionsAnimation,
-      _usersAnimation;
-  int _timeLine = 0, _reputation = 0, _visitors = 0, _seeds = 0, _transactions = 0, _users = 0;
+      _transactionsAnimation;
+  int _timeLine = 0, _reputation = 0, _visitors = 0, _seeds = 0, _transactions = 0;
 
   @override
   void initState() {
@@ -53,27 +52,23 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
             setState(() => _timeLine = _timeLineAnimation.value.toInt());
           });
         _reputationAnimation =
-            Tween<double>(begin: 0, end: state.score!.reputationScore?.toDouble()).animate(_controller)
+            Tween<double>(begin: 0, end: state.profile?.reputation?.toDouble()).animate(_controller)
               ..addListener(() {
                 setState(() => _reputation = _reputationAnimation.value.toInt());
               });
-        _visitorsAnimation = Tween<double>(begin: 0, end: state.invitedResidents?.toDouble()).animate(_controller)
+        _visitorsAnimation = Tween<double>(begin: 0, end: state.invitedVisitors?.toDouble()).animate(_controller)
           ..addListener(() {
             setState(() => _visitors = _visitorsAnimation.value.toInt() * 100);
           });
-        _seedsAnimation = Tween<double>(begin: 0, end: state.score!.plantedScore?.toDouble()).animate(_controller)
+        _seedsAnimation = Tween<double>(begin: 0, end: state.plantedSeeds).animate(_controller)
           ..addListener(() {
             setState(() => _seeds = _seedsAnimation.value.toInt());
           });
         _transactionsAnimation =
-            Tween<double>(begin: 0, end: state.score!.transactionScore?.toDouble()).animate(_controller)
+            Tween<double>(begin: 0, end: state.seedsTransactionsCount?.toDouble()).animate(_controller)
               ..addListener(() {
                 setState(() => _transactions = _transactionsAnimation.value.toInt());
               });
-        _usersAnimation = Tween<double>(begin: 0, end: state.invitedResidents?.toDouble()).animate(_controller)
-          ..addListener(() {
-            setState(() => _users = _usersAnimation.value.toInt() * 100);
-          });
         _controller.forward();
       },
       builder: (context, state) {
@@ -158,7 +153,7 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
                       totalStep: resident_required_reputation,
                       currentStep: _reputation,
                       circleRadius: 30,
-                      title: 'Reputation Score'.i18n,
+                      title: 'Reputation Points'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
                       rate: '$_reputation/$resident_required_reputation',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
@@ -191,16 +186,6 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
                       title: 'Transactions with Seeds'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
                       rate: '${_transactions}/$resident_required_seeds_transactions',
-                      rateStyle: Theme.of(context).textTheme.subtitle1!,
-                    ),
-                    CircularProgressItem(
-                      icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
-                      totalStep: resident_required_visitors_invited,
-                      currentStep: _users,
-                      circleRadius: 30,
-                      title: 'Invited Users'.i18n,
-                      titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '${_users ~/ 100}/$resident_required_visitors_invited',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
                     ),
                   ],
