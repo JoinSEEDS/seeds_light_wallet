@@ -22,7 +22,7 @@ class SetValuesStateMapper extends StateMapper {
         // Timeline to resident
         // If the scores are greater than those required, use the required ones instead to avoid errors in the formula.
         int reputation = min(score.reputationScore?.value ?? 0, resident_required_reputation);
-        int visitors = profiles.isNotEmpty ? resident_required_visitors_invited : 0;
+        int visitors = profiles.length > resident_required_visitors_invited ? resident_required_visitors_invited : profiles.length;
         int planted = min(score.plantedScore?.value ?? 0, resident_required_planted_seeds);
         int transactions = min(score.transactionScore?.value ?? 0, resident_required_seeds_transactions);
         // Timeline to resident formula
@@ -38,14 +38,15 @@ class SetValuesStateMapper extends StateMapper {
         int reputation = min(score.reputationScore?.value ?? 0, citizen_required_reputation);
         int planted = min(score.plantedScore?.value ?? 0, citizen_required_planted_seeds);
         int transactions = min(score.transactionScore?.value ?? 0, citizen_required_seeds_transactions);
+        int residentsInvited = profiles.where((i) => i.status == ProfileStatus.resident || i.status == ProfileStatus.citizen).length;
         int residents =
-            profiles.where((i) => i.status == ProfileStatus.resident).length > citizen_required_residents_invited
+             residentsInvited > citizen_required_residents_invited
                 ? citizen_required_residents_invited
-                : profiles.where((i) => i.status == ProfileStatus.resident).length;
+                : residentsInvited;
         int visitors =
-            profiles.where((i) => i.status == ProfileStatus.visitor).length > citizen_required_visitors_invited
+            profiles.length > citizen_required_visitors_invited
                 ? citizen_required_visitors_invited
-                : profiles.where((i) => i.status == ProfileStatus.visitor).length;
+                : profiles.length;
         int age = min(profile.accountAge, citizen_required_account_age);
 
         // Timeline to citizen formula
