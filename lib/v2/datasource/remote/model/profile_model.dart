@@ -16,6 +16,8 @@ class ProfileModel extends Equatable {
   final int? reputation;
   final int timestamp;
 
+  bool get hasData => status != null;
+
   @override
   List<Object?> get props => [account, status, type, nickname, image, story, roles, skills, interests, reputation, timestamp,];
 

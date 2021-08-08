@@ -61,7 +61,7 @@ class _SettingsStorage {
 
   List<String> get tokensWhitelist => _preferences.getStringList(TOKENS_WHITELIST) ?? [SeedsToken.id];
 
-  bool get isCitizen => _preferences.getBool(IS_CITIZEN) ?? IS_CITIZEN_DEFAULT;
+  bool get isCitizen => false;// _preferences.getBool(IS_CITIZEN) ?? IS_CITIZEN_DEFAULT;
 
   set inRecoveryMode(bool value) => _preferences.setBool(IN_RECOVERY_MODE, value);
 
