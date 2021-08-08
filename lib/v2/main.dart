@@ -25,6 +25,9 @@ import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/v2/screens/sign_up/signup_screen.dart';
 import 'package:seeds/v2/seeds_material_app.dart';
 import 'package:seeds/widgets/splash_screen.dart';
+import 'package:event_bus/event_bus.dart';
+
+EventBus eventBus = EventBus();
 
 bool get isInDebugMode {
   var inDebugMode = false;

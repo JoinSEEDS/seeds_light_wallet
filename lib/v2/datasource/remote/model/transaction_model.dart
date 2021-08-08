@@ -43,4 +43,15 @@ class TransactionModel extends Equatable {
       //json["block_num"], // can add this later - neat but changes cache structure
     );
   }
+
+  factory TransactionModel.fromTxData(Map<String, dynamic> data, String transactionId) {
+    return TransactionModel(
+      from: data['from'],
+      to: data['to'],
+      quantity: data['quantity'],
+      memo: data['memo'],
+      timestamp: '0',
+      transactionId: transactionId,
+    );
+  }
 }
