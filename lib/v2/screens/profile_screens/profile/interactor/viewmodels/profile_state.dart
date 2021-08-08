@@ -17,8 +17,6 @@ class ProfileState extends Equatable {
   final bool hasSecurityNotification;
   final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
 
-  bool get hasData => profile?.hasData ?? false;
-
   const ProfileState({
     required this.pageState,
     this.errorMessage,
