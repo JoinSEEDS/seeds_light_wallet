@@ -16,10 +16,6 @@ class LoadProfileValues extends ProfileEvent {
   @override
   String toString() => 'LoadProfileValues';
 }
-class LoadProfileValuesBackground extends ProfileEvent {
-  @override
-  String toString() => 'LoadProfileValuesBackground';
-}
 
 class OnUpdateProfileImage extends ProfileEvent {
   final File file;

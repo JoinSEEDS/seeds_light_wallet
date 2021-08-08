@@ -30,9 +30,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is LoadProfileValues) {
-     // if (!state.hasData) {
-        yield state.copyWith(pageState: PageState.loading);
-     // }
+      yield state.copyWith(pageState: PageState.loading);
       var results = await GetProfileValuesUseCase().run();
       yield ProfileValuesStateMapper().mapResultToState(state, results);
     }
