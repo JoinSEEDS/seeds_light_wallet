@@ -28,6 +28,7 @@ class _SettingsStorage {
   static const TOKENS_WHITELIST = 'tokens_whitelist';
   static const IS_CITIZEN = 'is_citizen';
   static const IS_CITIZEN_DEFAULT = false;
+  static const IS_FIRST_RUN = "is_first_run";
 
   String? _privateKey;
   String? _passcode;
@@ -140,6 +141,13 @@ class _SettingsStorage {
   void initialise() async {
     _preferences = await SharedPreferences.getInstance();
     _secureStorage = const FlutterSecureStorage();
+
+    // on iOS secure storage items are not deleted on app uninstall - must be deleted manually
+    if (_preferences.getBool(IS_FIRST_RUN) ?? true) {
+      await _secureStorage.deleteAll();
+      await _preferences.setBool(IS_FIRST_RUN, false);
+    }
+
     await _secureStorage.readAll().then((values) {
       _privateKey = values[PRIVATE_KEY];
       _privateKey ??= _migrateFromPrefs(PRIVATE_KEY);
