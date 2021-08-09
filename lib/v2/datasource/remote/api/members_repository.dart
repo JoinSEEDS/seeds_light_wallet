@@ -27,7 +27,7 @@ class MembersRepository extends NetworkRepository {
     assert(filter.length > 2);
 
     var lowerBound = filter;
-    var upperBound = filter.padRight(12 - filter.length, 'z');
+    var upperBound = filter.padRight(12, 'z');
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
