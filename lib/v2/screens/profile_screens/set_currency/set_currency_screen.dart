@@ -63,6 +63,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                       return ListView.builder(
                         itemCount: state.queryCurrenciesResults!.length,
                         itemBuilder: (ctx, index) => ListTile(
+                          key: Key(state.queryCurrenciesResults![index].code),
                           leading: Text(state.queryCurrenciesResults![index].flagEmoji,
                               style: Theme.of(context).textTheme.headline4),
                           title: Text(
