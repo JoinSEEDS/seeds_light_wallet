@@ -79,7 +79,12 @@ class SendEnterDataScreen extends StatelessWidget {
             }
           },
           child: Scaffold(
-            appBar: AppBar(title: const Text("Back")),
+            appBar: AppBar(
+              title: Text("Send".i18n),
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+            ),
+            extendBodyBehindAppBar: true,
             body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(buildWhen: (context, state) {
               return state.pageCommand == null;
             }, builder: (context, SendEnterDataPageState state) {
@@ -87,81 +92,86 @@ class SendEnterDataScreen extends StatelessWidget {
                 case PageState.initial:
                   return const SizedBox.shrink();
                 case PageState.loading:
+
                   /// We want to show special animation only when the user confirms send.
-                  return state.showSendingAnimation ? const SendLoadingIndicator(): const FullPageLoadingIndicator();
+                  return state.showSendingAnimation
+                      ? const SendLoadingIndicator()
+                      : const SafeArea(child: FullPageLoadingIndicator());
                 case PageState.failure:
-                  return const FullPageErrorIndicator();
+                  return const SafeArea(child: FullPageErrorIndicator());
                 case PageState.success:
-                  return Stack(
-                    children: [
-                      SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16, top: 10),
-                              child: Text(
-                                "Send to",
-                                style: Theme.of(context).textTheme.subtitle1,
+                  return SafeArea(
+                    child: Stack(
+                      children: [
+                        SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16, top: 10),
+                                child: Text(
+                                  "Send to",
+                                  style: Theme.of(context).textTheme.subtitle1,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 8),
-                            SearchResultRow(
-                              account: memberModel.account,
-                              imageUrl: memberModel.image,
-                              name: memberModel.nickname,
-                            ),
-                            const SizedBox(height: 16),
-                            AmountEntryWidget(
-                              onValueChange: (value) {
-                                BlocProvider.of<SendEnterDataPageBloc>(context)
-                                    .add(OnAmountChange(amountChanged: value));
-                              },
-                              autoFocus: state.pageState == PageState.initial,
-                            ),
-                            const SizedBox(height: 24),
-                            AlertInputValue('Not enough balance'.i18n, isVisible: state.showAlert),
-                            const SizedBox(height: 30),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16, right: 16),
-                              child: Column(
-                                children: [
-                                  TextFormFieldLight(
-                                    labelText: "Memo",
-                                    hintText: "Add a note",
-                                    maxLength: 150,
-                                    onChanged: (String value) {
-                                      BlocProvider.of<SendEnterDataPageBloc>(context)
-                                          .add(OnMemoChange(memoChanged: value));
-                                    },
-                                  ),
-                                  const SizedBox(height: 16),
-                                  BalanceRow(
-                                    label: "Available Balance",
-                                    fiatAmount: state.availableBalanceFiat ?? "",
-                                    seedsAmount: state.availableBalance ?? "",
-                                  ),
-                                  const SizedBox(height: 100),
-                                ],
+                              const SizedBox(height: 8),
+                              SearchResultRow(
+                                account: memberModel.account,
+                                imageUrl: memberModel.image,
+                                name: memberModel.nickname,
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: FlatButtonLong(
-                            title: 'Next',
-                            enabled: state.isNextButtonEnabled,
-                            onPressed: () {
-                              BlocProvider.of<SendEnterDataPageBloc>(context).add(OnNextButtonTapped());
-                            },
+                              const SizedBox(height: 16),
+                              AmountEntryWidget(
+                                onValueChange: (value) {
+                                  BlocProvider.of<SendEnterDataPageBloc>(context)
+                                      .add(OnAmountChange(amountChanged: value));
+                                },
+                                autoFocus: state.pageState == PageState.initial,
+                              ),
+                              const SizedBox(height: 24),
+                              AlertInputValue('Not enough balance'.i18n, isVisible: state.showAlert),
+                              const SizedBox(height: 30),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16, right: 16),
+                                child: Column(
+                                  children: [
+                                    TextFormFieldLight(
+                                      labelText: "Memo",
+                                      hintText: "Add a note",
+                                      maxLength: 150,
+                                      onChanged: (String value) {
+                                        BlocProvider.of<SendEnterDataPageBloc>(context)
+                                            .add(OnMemoChange(memoChanged: value));
+                                      },
+                                    ),
+                                    const SizedBox(height: 16),
+                                    BalanceRow(
+                                      label: "Available Balance",
+                                      fiatAmount: state.availableBalanceFiat ?? "",
+                                      seedsAmount: state.availableBalance ?? "",
+                                    ),
+                                    const SizedBox(height: 100),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: FlatButtonLong(
+                              title: 'Next',
+                              enabled: state.isNextButtonEnabled,
+                              onPressed: () {
+                                BlocProvider.of<SendEnterDataPageBloc>(context).add(OnNextButtonTapped());
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   );
                 default:
                   return const SizedBox.shrink();
