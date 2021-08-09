@@ -19,6 +19,7 @@ class SearchUsersList extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               MemberModel user = state.users[index];
               return SearchResultRow(
+                key: Key(user.account),
                 account: user.account,
                 name: user.nickname,
                 imageUrl: user.image,
