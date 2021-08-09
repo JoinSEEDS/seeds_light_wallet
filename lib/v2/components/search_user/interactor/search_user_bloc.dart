@@ -23,7 +23,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
     final debounceStream =
         events.where((event) => event is OnSearchChange).debounceTime(const Duration(milliseconds: 300));
 
-    // Debounce 500 MS to avoid making search network calls each time the user types
+    // Debounce to avoid making search network calls each time the user types
     // switchMap: To remove the previous event. Every time a new Stream is created, the previous Stream is discarded.
     return MergeStream([nonDebounceStream, debounceStream]).switchMap(transitionFn);
   }
