@@ -11,3 +11,15 @@ class OnLoadTransactionsList extends TransactionsListEvent {
   @override
   List<Object> get props => [];
 }
+
+class OnTransactionDisplayTick extends TransactionsListEvent {
+  final int count;
+  
+  OnTransactionDisplayTick(this.count);
+
+  @override
+  String toString() => 'OnTick';
+
+  @override
+  List<Object> get props => [count];
+}
