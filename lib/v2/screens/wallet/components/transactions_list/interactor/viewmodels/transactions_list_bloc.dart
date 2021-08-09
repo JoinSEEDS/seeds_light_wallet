@@ -13,7 +13,6 @@ class TransactionsListBloc extends Bloc<TransactionsListEvent, TransactionsListS
   
   TransactionsListBloc() : super(TransactionsListState.initial()) {
       _tickerSubscription = Stream.periodic(const Duration(seconds: 3), (x) => x).listen((counter) { // TODO make this 30 seconds
-        print("ticker counter: $counter");
         add(OnTransactionDisplayTick(counter));
       });
   }
