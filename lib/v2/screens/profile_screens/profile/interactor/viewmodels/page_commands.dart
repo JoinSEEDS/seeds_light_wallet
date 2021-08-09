@@ -7,3 +7,5 @@ class ShowCitizenshipUpgradeSuccess extends PageCommand {
 
   ShowCitizenshipUpgradeSuccess(this.isResident);
 }
+
+class ShowProcessingCitizenshipUpgrade extends PageCommand {}

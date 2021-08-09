@@ -98,3 +98,10 @@ class OnActivateCitizenButtonTapped extends ProfileEvent {
   @override
   String toString() => 'OnActivateCitizenButtonTapped';
 }
+
+class LoadCitizenshipStatus extends ProfileEvent {
+  const LoadCitizenshipStatus();
+
+  @override
+  String toString() => 'LoadCitizenshipStatus';
+}

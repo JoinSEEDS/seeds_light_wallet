@@ -10,6 +10,7 @@ import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/b
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
 
 import 'citizenship_card.dart';
+import 'citizenship_upgrade_in_progress_dialog.dart';
 import 'citizenship_upgrade_success_dialog.dart';
 
 /// PROFILE BOTTOM
@@ -32,6 +33,7 @@ class ProfileBottom extends StatelessWidget {
             },
           ).whenComplete(() => BlocProvider.of<ProfileBloc>(context).add(const ResetShowLogoutButton()));
         } else if (pageCommand is ShowCitizenshipUpgradeSuccess) {
+          Navigator.pop(context, CitizenshipUpgradeInProgressDialog);
           showDialog<void>(
             context: context,
             barrierDismissible: false,
@@ -42,7 +44,20 @@ class ProfileBottom extends StatelessWidget {
               );
             },
           );
-        } else if (pageCommand is ShowErrorMessage) {
+        } else if (pageCommand is ShowProcessingCitizenshipUpgrade){
+          showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) {
+              return BlocProvider.value(
+                value: BlocProvider.of<ProfileBloc>(context),
+                child: const CitizenshipUpgradeInProgressDialog(),
+              );
+            },
+          );
+        }
+        else if (pageCommand is ShowErrorMessage) {
+          Navigator.pop(context, CitizenshipUpgradeInProgressDialog);
           SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
         }
       },
