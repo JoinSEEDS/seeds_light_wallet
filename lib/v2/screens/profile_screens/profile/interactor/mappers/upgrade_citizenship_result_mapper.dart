@@ -3,6 +3,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/profile_state.dart';
+import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 
 class UpgradeCitizenshipResultMapper extends StateMapper {
   ProfileState mapResultToState(ProfileState currentState, Result result, bool isResident) {
@@ -14,10 +15,15 @@ class UpgradeCitizenshipResultMapper extends StateMapper {
       );
     } else {
       /// Show citizenship upgrade success
+
+      ProfileStatus nextProfileStatus;
+
+      isResident ? nextProfileStatus = ProfileStatus.citizen : nextProfileStatus = ProfileStatus.resident;
+
       return currentState.copyWith(
-        pageState: PageState.success,
-        pageCommand: ShowCitizenshipUpgradeSuccess(isResident),
-      );
+          pageState: PageState.success,
+          pageCommand: ShowCitizenshipUpgradeSuccess(isResident),
+          profile: currentState.profile!.copyWith(status: nextProfileStatus));
     }
   }
 }

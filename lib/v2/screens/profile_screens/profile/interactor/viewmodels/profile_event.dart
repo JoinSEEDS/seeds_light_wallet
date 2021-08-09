@@ -98,3 +98,4 @@ class OnActivateCitizenButtonTapped extends ProfileEvent {
   @override
   String toString() => 'OnActivateCitizenButtonTapped';
 }
+

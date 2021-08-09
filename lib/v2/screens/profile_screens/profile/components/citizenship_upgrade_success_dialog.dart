@@ -21,39 +21,45 @@ class CitizenshipUpgradeSuccessDialog extends StatelessWidget {
           child: Column(
             children: [
               isResident
-                  ? RichText(
-                      text: TextSpan(
-                          text: 'You have have fulfilled all the requirements and are now officially upgraded to be a ',
-                          style: Theme.of(context).textTheme.subtitle2,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: "Citizen",
-                              style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1,
-                            ),
-                            TextSpan(
-                              text:
-                                  '! You now have the ability to vote on proposals! Go to the Explore section to see more.',
-                              style: Theme.of(context).textTheme.subtitle2,
-                            )
-                          ]),
-                      textAlign: TextAlign.center,
-                    )
-                  : RichText(
-                      text: TextSpan(
-                          text: 'You have have fulfilled all the requirements and are now officially upgraded to be a ',
-                          style: Theme.of(context).textTheme.subtitle2,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: "Resident",
-                              style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1,
-                            ),
-                            TextSpan(
-                              text: '! Just one more level until you are a full-fledged Citizen.',
-                              style: Theme.of(context).textTheme.subtitle2,
-                            )
-                          ]),
-                      textAlign: TextAlign.center,
-                    ),
+                  ? Container(
+                   height: 100,
+                    child: RichText(
+                        text: TextSpan(
+                            text: 'You have have fulfilled all the requirements and are now officially upgraded to be a ',
+                            style: Theme.of(context).textTheme.subtitle2,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "Citizen",
+                                style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1,
+                              ),
+                              TextSpan(
+                                text:
+                                    '! You now have the ability to vote on proposals! Go to the Explore section to see more.',
+                                style: Theme.of(context).textTheme.subtitle2,
+                              )
+                            ]),
+                        textAlign: TextAlign.center,
+                      ),
+                  )
+                  : Container(
+                    height: 100,
+                    child: RichText(
+                        text: TextSpan(
+                            text: 'You have have fulfilled all the requirements and are now officially upgraded to be a ',
+                            style: Theme.of(context).textTheme.subtitle2,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "Resident",
+                                style: Theme.of(context).textTheme.subtitle2HighEmphasisGreen1,
+                              ),
+                              TextSpan(
+                                text: '! Just one more level until you are a full-fledged Citizen.',
+                                style: Theme.of(context).textTheme.subtitle2,
+                              )
+                            ]),
+                        textAlign: TextAlign.center,
+                      ),
+                  ),
               const SizedBox(height: 36.0),
               FlatButtonLong(title: 'Done'.i18n, onPressed: () => Navigator.pop(context)),
               const SizedBox(height: 10.0),
