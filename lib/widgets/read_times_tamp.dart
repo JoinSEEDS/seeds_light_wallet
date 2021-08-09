@@ -9,9 +9,8 @@ import 'package:timeago/timeago.dart' as timeago;
 //https://pub.dev/documentation/timeago/latest/timeago/timeago-library.html
 
 String timesTampToTimeAgo(String timestamp) {
-
-  var covertTimesTamp = DateTime.parse(timestamp);
-  covertTimesTamp = covertTimesTamp.toUtc();
+  // Note: Timestamps always come as UTC but don't have the time zone set on EOSIO
+  var covertTimesTamp = DateTime.parse(timestamp + "Z");
 
   var timeAgo = timeago.format(covertTimesTamp, locale: 'en',);
 
