@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/send_eos_transaction_repository.dart';
+import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
 
 class SendTransactionUseCase {
@@ -15,8 +16,8 @@ class SendTransactionUseCase {
         return value;
       } else {
         List<Result> profiles = await getProfileData(data['to'], fromAccount);
-
-        return ValueResult(SendTransactionResponse(profiles, value));
+        var transactionModel = TransactionModel.fromTxData(data, value.asValue!.value);
+        return ValueResult(SendTransactionResponse(profiles, value, transactionModel));
       }
     }).catchError((error) {
       return ErrorResult("Error Sending Transaction");
