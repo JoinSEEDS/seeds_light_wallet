@@ -68,14 +68,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is OnActivateResidentButtonTapped) {
       yield state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade());
       Result result = await MakeResidentUseCase().run();
-      var ProfileResults = await GetProfileValuesUseCase().run();
-      yield UpgradeCitizenshipResultMapper().mapResultToState(state, result,ProfileResults, false);
+      yield UpgradeCitizenshipResultMapper().mapResultToState(state, result, false);
     }
     if (event is OnActivateCitizenButtonTapped) {
       yield state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade());
       Result result = await MakeCitizenUseCase().run();
-      var ProfileResults = await GetProfileValuesUseCase().run();
-      yield UpgradeCitizenshipResultMapper().mapResultToState(state, result, ProfileResults ,true);
+      yield UpgradeCitizenshipResultMapper().mapResultToState(state, result, true);
     }
   }
 
