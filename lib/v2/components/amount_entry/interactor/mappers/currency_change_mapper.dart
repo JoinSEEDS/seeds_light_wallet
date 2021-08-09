@@ -8,7 +8,7 @@ import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 class CurrencyChangeMapper extends StateMapper {
   AmountEntryState mapResultToState(AmountEntryState currentState) {
-    var input = currentState.currentCurrencyInput == CurrencyInput.SEEDS ? CurrencyInput.FIAT : CurrencyInput.SEEDS;
+    final input = currentState.currentCurrencyInput == CurrencyInput.SEEDS ? CurrencyInput.FIAT : CurrencyInput.SEEDS;
 
     return currentState.copyWith(
         currentCurrencyInput: input,

@@ -8,12 +8,10 @@ class FullPageErrorIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(
-          errorMessage ?? "Oops, Something Went Wrong",
-          style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.red1),
-        ),
+    return Center(
+      child: Text(
+        errorMessage ?? "Oops, Something Went Wrong",
+        style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.red1),
       ),
     );
   }

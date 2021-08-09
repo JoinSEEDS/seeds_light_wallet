@@ -15,7 +15,7 @@ class RatesBloc extends Bloc<RatesEvent, RatesState> {
       print('Remaining minutes to fetch rates again: ${lastUpdated.difference(DateTime.now()).inMinutes}');
       if (DateTime.now().isAfter(lastUpdated)) {
         lastUpdated = lastUpdated.add(const Duration(hours: 1));
-        var results = await GetRatesUseCase().run();
+        final results = await GetRatesUseCase().run();
         yield RatesStateMapper().mapResultToState(state, results);
       }
     }
