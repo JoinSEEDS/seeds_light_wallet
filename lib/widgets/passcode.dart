@@ -3,13 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/features/biometrics/auth_bloc.dart';
-import 'package:seeds/features/biometrics/auth_commands.dart';
 import 'package:seeds/i18n/widgets.i18n.dart';
 import 'package:seeds/providers/notifiers/auth_notifier.dart';
 import 'package:seeds/providers/notifiers/settings_notifier.dart';
+import 'package:seeds/v2/constants/app_colors.dart';
 
 Widget buildPasscodeScreen(
     {required Stream<bool> shouldTriggerVerification,
@@ -62,8 +59,6 @@ class LockWallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var bloc = Provider.of<AuthBloc>(context);
-
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height,
@@ -77,7 +72,7 @@ class LockWallet extends StatelessWidget {
             },
             isValidCallback: () {},
             cancelCallback: () {},
-            bottomWidget: LockWalletBottomWidget(bloc: bloc),
+            bottomWidget: LockWalletBottomWidget(),
             context: context),
       ),
     );
@@ -85,9 +80,7 @@ class LockWallet extends StatelessWidget {
 }
 
 class LockWalletBottomWidget extends StatelessWidget {
-  const LockWalletBottomWidget({Key? key, required this.bloc}) : super(key: key);
-
-  final AuthBloc bloc;
+  const LockWalletBottomWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +94,7 @@ class LockWalletBottomWidget extends StatelessWidget {
           }),
         ),
         child: Text('Disable Passcode'.i18n, textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
-        onPressed: () {
-          bloc.execute(DisablePasswordCmd());
-        },
+        onPressed: () {},
       ),
     );
   }

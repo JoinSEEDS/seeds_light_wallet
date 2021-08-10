@@ -1,6 +1,6 @@
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_state.dart';
-import 'package:seeds/features/biometrics/auth_type.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/model/auth_type.dart';
 
 class AuthTypesStateMapper extends StateMapper {
   VerificationState mapResultToState(VerificationState currentState, Result result) {
