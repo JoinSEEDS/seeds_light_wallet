@@ -103,7 +103,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         body: BlocConsumer<AppBloc, AppState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
-            var pageCommand = state.pageCommand;
+            final pageCommand = state.pageCommand;
             _appBloc.add(ClearAppPageCommand());
             if (pageCommand is BottomBarNavigateToIndex) {
               _pageController.jumpToPage(pageCommand.index);

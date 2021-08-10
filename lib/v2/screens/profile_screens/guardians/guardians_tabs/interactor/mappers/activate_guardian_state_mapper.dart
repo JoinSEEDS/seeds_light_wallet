@@ -6,7 +6,7 @@ import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/intera
 
 class ActivateGuardianStateMapper extends StateMapper {
   GuardiansState mapResultToState(GuardiansState currentState, Iterable<GuardianModel> myGuardians) {
-    var pageCommand = ShowActivateGuardian(
+    final pageCommand = ShowActivateGuardian(
         myGuardians: myGuardians,
         rightButtonTitle: "Activate Guardians!",
         leftButtonTitle: "Dismiss",

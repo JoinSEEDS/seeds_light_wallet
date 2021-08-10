@@ -11,9 +11,9 @@ class PickImageBloc extends Bloc<PickImageEvent, PickImageState> {
   Stream<PickImageState> mapEventToState(PickImageEvent event) async* {
     if (event is GetImage) {
       try {
-        var image = await ImagePicker().pickImage(source: event.source, imageQuality: 50, maxWidth: 2000);
+        final image = await ImagePicker().pickImage(source: event.source, imageQuality: 50, maxWidth: 2000);
         if (image != null) {
-          var croppedFile = await ImageCropper.cropImage(
+          final croppedFile = await ImageCropper.cropImage(
             sourcePath: image.path,
             aspectRatioPresets: [CropAspectRatioPreset.square],
             compressQuality: 50,

@@ -10,22 +10,22 @@ class InvoiceRepository extends EosRepository {
   Future<Result<dynamic>> createInvoice({required double quantity, required String accountName, String? memo}) {
     print('[ESR] create invite accountName: $accountName quantity: ($quantity)');
 
-    List<esr.Authorization> auth = [esr.ESRConstants.PlaceholderAuth];
+    final List<esr.Authorization> auth = [esr.ESRConstants.PlaceholderAuth];
 
-    Map<String, String> data = {
+    final Map<String, String> data = {
       'from': esr.ESRConstants.PlaceholderName,
       'to': accountName,
       'quantity': quantity.toStringAsFixed(4),
       'memo': memo ?? ''
     };
 
-    esr.Action action = esr.Action()
+    final esr.Action action = esr.Action()
       ..account = account_token
       ..name = actionNameTransfer
       ..authorization = auth
       ..data = data;
 
-    esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: action, chainId: chain_id);
+    final esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: action, chainId: chain_id);
 
     return esr.SigningRequestManager.create(args,
             options: esr.defaultSigningRequestEncodingOptions(

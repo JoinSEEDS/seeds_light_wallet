@@ -7,12 +7,12 @@ import 'package:seeds/v2/utils/double_extension.dart';
 
 class SendAmountChangeMapper extends StateMapper {
   SendEnterDataPageState mapResultToState(SendEnterDataPageState currentState, RatesState rateState, String quantity) {
-    double parsedQuantity = double.tryParse(quantity) ?? 0;
+    final double parsedQuantity = double.tryParse(quantity) ?? 0;
 
-    var selectedFiat = settingsStorage.selectedFiatCurrency;
-    String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
+    final selectedFiat = settingsStorage.selectedFiatCurrency;
+    final String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
 
-    double currentAvailable = currentState.balance?.quantity ?? 0;
+    final double currentAvailable = currentState.balance?.quantity ?? 0;
 
     return currentState.copyWith(
       fiatAmount: fiatAmount,

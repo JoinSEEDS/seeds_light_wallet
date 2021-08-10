@@ -16,7 +16,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
 
-    var request = createRequest(
+    final request = createRequest(
       code: account_accounts,
       scope: account_accounts,
       table: tableUsers,
@@ -44,7 +44,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   }) async {
     print('[eos] update profile');
 
-    var transaction = buildFreeTransaction([
+    final transaction = buildFreeTransaction([
       Action()
         ..account = account_accounts
         ..name = actionNameUpdate
@@ -84,7 +84,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final scoreURL = Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows');
 
-    var request = createRequest(
+    final request = createRequest(
       code: contractName,
       scope: scope ?? contractName,
       table: tableName,
@@ -103,7 +103,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getReferredAccounts(String accountName) {
     print('[http] get Referred Accounts $accountName');
 
-    var request = createRequest(
+    final request = createRequest(
       code: account_accounts,
       scope: account_accounts,
       table: tableRefs,
@@ -125,7 +125,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> plantSeeds({required double amount, required String accountName}) async {
     print('[eos] plant seeds ($amount)');
 
-    var transaction = buildFreeTransaction([
+    final transaction = buildFreeTransaction([
       Action()
         ..account = account_token
         ..name = actionNameTransfer
@@ -172,7 +172,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     print('[eos] $isMakeText $isCitizenText');
 
-    var actionName = isMake
+    final actionName = isMake
         ? isCitizen
             ? actionNameMakecitizen
             : actionNameMakeresident
@@ -180,7 +180,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
             ? actionNameCakecitizen
             : actionNameCanresident;
 
-    var transaction = buildFreeTransaction([
+    final transaction = buildFreeTransaction([
       Action()
         ..account = account_accounts
         ..name = actionName
@@ -206,7 +206,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> isDHOMember(String accountName) {
     print('[http] is $accountName DHO member');
 
-    var request = '{"json": true, "code": "trailservice","scope": "$accountName","table": "voters"}';
+    final request = '{"json": true, "code": "trailservice","scope": "$accountName","table": "voters"}';
 
     return http
         .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),

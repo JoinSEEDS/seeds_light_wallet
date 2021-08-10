@@ -8,7 +8,7 @@ class ResetUserAccountUseCase {
       FirebaseDatabaseGuardiansRepository();
 
   Future<Result> run(String userAccount) async {
-    var result = await _guardiansRepository.claimRecoveredAccount(userAccount);
+    final result = await _guardiansRepository.claimRecoveredAccount(userAccount);
 
     if (result.isValue) {
       await _firebaseDatabaseGuardiansRepository.removeGuardianRecoveryStarted(userAccount);

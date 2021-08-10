@@ -12,7 +12,7 @@ extension DoubleExtension on double {
     if (this != 0 && (this > 0 ? this < 1 : this > -1)) {
       return fourDigitNumberFormat.format(this);
     } else {
-      var number = (this * 100).toInt() / 100.0;
+      final number = (this * 100).toInt() / 100.0;
       return twoDigitNumberFormat.format(number);
     }
   }

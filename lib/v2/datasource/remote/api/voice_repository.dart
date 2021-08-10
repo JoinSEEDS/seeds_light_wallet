@@ -9,7 +9,7 @@ class VoiceRepository extends NetworkRepository {
     print('[http] get seeds getCampaignVoice $userAccount');
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    var request = createRequest(
+    final request = createRequest(
         code: account_funds, scope: account_funds, table: tableVoice, lowerBound: userAccount, upperBound: userAccount);
 
     return http
@@ -24,7 +24,7 @@ class VoiceRepository extends NetworkRepository {
     print('[http] get seeds getAllianceVoice $userAccount');
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    var request = createRequest(
+    final request = createRequest(
         code: account_funds,
         scope: account_alliance,
         table: tableVoice,

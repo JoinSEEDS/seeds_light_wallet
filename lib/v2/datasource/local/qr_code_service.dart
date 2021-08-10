@@ -5,14 +5,14 @@ import 'package:seeds/v2/datasource/local/models/scan_qr_code_result_data.dart';
 
 class QrCodeService {
   Future<Result<dynamic>> processQrCode(String scanResult, String accountName) {
-    var splitUri = scanResult.split(':');
-    var scheme = splitUri[0];
+    final splitUri = scanResult.split(':');
+    final scheme = splitUri[0];
     if (scanResult is! String || scheme != 'esr' && scheme != 'web+esr') {
       print(" processQrCode : Invalid QR code");
       return Future.value(ErrorResult('Invalid QR Code'));
     }
 
-    _SeedsESR esr = _SeedsESR(uri: scanResult);
+    final _SeedsESR esr = _SeedsESR(uri: scanResult);
     return esr.resolve(account: accountName).then((value) => processResolvedRequest(esr)).catchError((onError) {
       print(" processQrCode : Error processing QR code");
       return ErrorResult("Error processing QR code");
@@ -21,9 +21,9 @@ class QrCodeService {
 }
 
 Result processResolvedRequest(_SeedsESR esr) {
-  Action action = esr.actions.first;
+  final Action action = esr.actions.first;
   if (_canProcess(action)) {
-    Map<String, dynamic> data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
+    final Map<String, dynamic> data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
     print(" processResolvedRequest : Success QR code");
     return ValueResult(ScanQrCodeResultData(data: data, accountName: action.account, name: action.name));
   } else {
@@ -57,13 +57,13 @@ extension _TelosSigningManager on SigningRequestManager {
   }
 
   Future<List<Action>> fetchActions({String? account, String permission = "active"}) async {
-    var abis = await fetchAbis();
+    final abis = await fetchAbis();
 
-    var auth = Authorization();
+    final auth = Authorization();
     auth.actor = account;
     auth.permission = permission;
 
-    var actions = resolveActions(abis, auth);
+    final actions = resolveActions(abis, auth);
 
     return actions;
   }

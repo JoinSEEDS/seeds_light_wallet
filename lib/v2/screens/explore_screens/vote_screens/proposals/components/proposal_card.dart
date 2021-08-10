@@ -28,7 +28,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
     super.build(context);
     return Hero(
       tag: widget.proposal.hashCode,
@@ -116,7 +116,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                                     builder: (_, constrains) {
                                       // If voice needed > total show 100% else show percent.
                                       // triangle position - triangle middle width - left margin
-                                      var leftPadding = widget.proposal.total < widget.proposal.voiceNeeded
+                                      final leftPadding = widget.proposal.total < widget.proposal.voiceNeeded
                                           ? constrains.maxWidth - 6 - 16
                                           : constrains.maxWidth * widget.proposal.voiceNeededBarPercent - 6 - 16;
                                       return Padding(

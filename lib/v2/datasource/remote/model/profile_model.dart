@@ -17,7 +17,19 @@ class ProfileModel extends Equatable {
   final int timestamp;
 
   @override
-  List<Object?> get props => [account, status, type, nickname, image, story, roles, skills, interests, reputation, timestamp,];
+  List<Object?> get props => [
+        account,
+        status,
+        type,
+        nickname,
+        image,
+        story,
+        roles,
+        skills,
+        interests,
+        reputation,
+        timestamp,
+      ];
 
   const ProfileModel({
     required this.account,
@@ -38,14 +50,14 @@ class ProfileModel extends Equatable {
     if (status == null) {
       return '';
     } else {
-      var str = status.toString().split('.').last;
+      final str = status.toString().split('.').last;
       return '${str[0].toUpperCase()}${str.substring(1)}';
     }
   }
 
   /// Returns the account age in days.
   int get accountAge {
-    var creationDate = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    final creationDate = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     return DateTime.now().difference(creationDate).inDays;
   }
 
@@ -104,5 +116,4 @@ class ProfileModel extends Equatable {
   static final String _interests = 'interests';
   static final String _reputation = 'reputation';
   static final String _timestamp = 'timestamp';
-
 }

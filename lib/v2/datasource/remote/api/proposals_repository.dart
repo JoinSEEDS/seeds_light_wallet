@@ -16,8 +16,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> getMoonPhases() async {
     print('[http] get moon phases');
 
-    var ms = DateTime.now().toUtc().millisecondsSinceEpoch;
-    var request = createRequest(
+    final ms = DateTime.now().toUtc().millisecondsSinceEpoch;
+    final request = createRequest(
       code: account_cycle,
       scope: account_cycle,
       table: tableMoonphases,
@@ -39,7 +39,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> getProposals(ProposalType proposalType) async {
     print('[http] get proposals type - ${proposalType.type}');
 
-    var request = createRequest(
+    final request = createRequest(
       code: account_funds,
       scope: account_funds,
       table: tableProps,
@@ -55,7 +55,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     return http
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              List<ProposalModel> result = body['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList();
+              final List<ProposalModel> result =
+                  body['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList();
               if (proposalType.filterByStage != null) {
                 result.retainWhere((e) => e.stage == proposalType.filterByStage);
               }
@@ -67,7 +68,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> getSupportLevels(String scope) async {
     print('[http] get suppor leves for scope: $scope');
 
-    var request = createRequest(code: account_funds, scope: scope, table: tableSupport);
+    final request = createRequest(code: account_funds, scope: scope, table: tableSupport);
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
@@ -82,7 +83,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> getVote(int proposalId, String account) async {
     print('[http] get vote for proposal: $proposalId');
 
-    var request = createRequest(
+    final request = createRequest(
       code: account_funds,
       scope: '$proposalId',
       table: tableVotes,
@@ -104,7 +105,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> voteProposal({required int id, required int amount, required String accountName}) async {
     print('[eos] vote proposal $id ($amount)');
 
-    var transaction = buildFreeTransaction([
+    final transaction = buildFreeTransaction([
       Action()
         ..account = account_funds
         ..name = amount.isNegative ? actionNameAgainst : actionNameFavour

@@ -8,8 +8,8 @@ class GetCitizenshipDataUseCase {
   final SeedsHistoryRepository _seedsHistoryRepository = SeedsHistoryRepository();
 
   Future<List<Result>> run() {
-    var account = settingsStorage.accountName;
-    var futures = [
+    final account = settingsStorage.accountName;
+    final futures = [
       _plantedRepository.getPlanted(account),
       _seedsHistoryRepository.getNumberOfTransactions(account),
     ];

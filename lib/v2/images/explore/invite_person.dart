@@ -5,7 +5,7 @@ class InvitePerson extends CustomPainter {
   const InvitePerson();
   @override
   void paint(Canvas canvas, Size size) {
-    Path path_0 = Path()
+    final Path path_0 = Path()
       ..moveTo(size.width * 0.6666675, size.height * 0.8750000)
       ..lineTo(size.width * 0.6666675, size.height * 0.7916675)
       ..cubicTo(size.width * 0.6666675, size.height * 0.7474650, size.width * 0.6491100, size.height * 0.7050725,
@@ -19,7 +19,7 @@ class InvitePerson extends CustomPainter {
           size.width * 0.04166875, size.height * 0.7916675)
       ..lineTo(size.width * 0.04166875, size.height * 0.8750000);
 
-    Paint paint0Stroke = Paint()
+    final Paint paint0Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white
@@ -28,7 +28,7 @@ class InvitePerson extends CustomPainter {
 
     canvas.drawPath(path_0, paint0Stroke);
 
-    Path path_1 = Path()
+    final Path path_1 = Path()
       ..moveTo(size.width * 0.3541675, size.height * 0.4583325)
       ..cubicTo(size.width * 0.4462150, size.height * 0.4583325, size.width * 0.5208325, size.height * 0.3837150,
           size.width * 0.5208325, size.height * 0.2916675)
@@ -40,7 +40,7 @@ class InvitePerson extends CustomPainter {
           size.width * 0.3541675, size.height * 0.4583325)
       ..close();
 
-    Paint paint1Stroke = Paint()
+    final Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white
@@ -49,11 +49,11 @@ class InvitePerson extends CustomPainter {
 
     canvas.drawPath(path_1, paint1Stroke);
 
-    Path path_2 = Path()
+    final Path path_2 = Path()
       ..moveTo(size.width * 0.8333325, size.height * 0.3333250)
       ..lineTo(size.width * 0.8333325, size.height * 0.5833250);
 
-    Paint paint2Stroke = Paint()
+    final Paint paint2Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white
@@ -62,17 +62,17 @@ class InvitePerson extends CustomPainter {
 
     canvas.drawPath(path_2, paint2Stroke);
 
-    Paint paint2Fill = Paint()
+    final Paint paint2Fill = Paint()
       ..style = PaintingStyle.fill
       ..color = AppColors.white;
 
     canvas.drawPath(path_2, paint2Fill);
 
-    Path path_3 = Path()
+    final Path path_3 = Path()
       ..moveTo(size.width * 0.9583325, size.height * 0.4583250)
       ..lineTo(size.width * 0.7083325, size.height * 0.4583250);
 
-    Paint paint3Stroke = Paint()
+    final Paint paint3Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white
@@ -81,7 +81,7 @@ class InvitePerson extends CustomPainter {
 
     canvas.drawPath(path_3, paint3Stroke);
 
-    Paint paint3Fill = Paint()
+    final Paint paint3Fill = Paint()
       ..style = PaintingStyle.fill
       ..color = AppColors.white;
 

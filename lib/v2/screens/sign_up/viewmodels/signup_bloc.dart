@@ -52,7 +52,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           ),
         );
         await Future.delayed(const Duration(seconds: 1));
-        Result result = await _claimInviteUseCase.validateInviteCode(event.inviteCode!);
+        final Result result = await _claimInviteUseCase.validateInviteCode(event.inviteCode!);
         yield ClaimInviteMapper().mapValidateInviteCodeToState(state, result);
         // if success shows successs screen for 1 second then move to add name
         if (state.claimInviteState.claimInviteView == ClaimInviteView.success) {
@@ -82,7 +82,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           fromDeepLink: false,
         ),
       );
-      Result result = await _claimInviteUseCase.unpackLink(event.scannedLink);
+      final Result result = await _claimInviteUseCase.unpackLink(event.scannedLink);
       yield ClaimInviteMapper().mapInviteMnemonicToState(state, result);
 
       if (state.claimInviteState.inviteMnemonic != null) {
@@ -91,7 +91,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
             pageCommand: StopScan(),
           ),
         );
-        Result result = await _claimInviteUseCase.validateInviteCode(state.claimInviteState.inviteMnemonic!);
+        final Result result = await _claimInviteUseCase.validateInviteCode(state.claimInviteState.inviteMnemonic!);
         yield ClaimInviteMapper().mapValidateInviteCodeToState(state, result);
       }
 
@@ -159,7 +159,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     final displayName = state.displayNameState.displayName;
     final username = state.createUsernameState.username;
 
-    EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
+    final EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
 
     final Result result = await _createAccountUseCase.run(
       inviteSecret: inviteSecret,

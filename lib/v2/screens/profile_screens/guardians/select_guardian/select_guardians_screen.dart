@@ -17,7 +17,7 @@ class SelectGuardiansScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var myGuardians = ModalRoute.of(context)?.settings.arguments as List<GuardianModel>?;
+    final myGuardians = ModalRoute.of(context)?.settings.arguments as List<GuardianModel>?;
 
     return BlocProvider(
       create: (_) => SelectGuardiansBloc(myGuardians ?? []),

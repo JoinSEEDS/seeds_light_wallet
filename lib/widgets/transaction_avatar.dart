@@ -39,7 +39,7 @@ class TransactionAvatar extends StatelessWidget {
             child: SvgPicture.asset(image!, fit: BoxFit.scaleDown),
           ));
     } else {
-      var shortName = nickname!.isNotEmpty && nickname != 'Seeds Account' && nickname != 'Telos Account'
+      final shortName = nickname!.isNotEmpty && nickname != 'Seeds Account' && nickname != 'Telos Account'
           ? nickname!.substring(0, 2).toUpperCase()
           : account!.substring(0, 2).toUpperCase();
 

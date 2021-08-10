@@ -15,8 +15,8 @@ class SendTransactionUseCase {
       if (value.isError) {
         return value;
       } else {
-        List<Result> profiles = await getProfileData(data['to'], fromAccount);
-        var transactionModel = TransactionModel.fromTxData(data, value.asValue!.value);
+        final List<Result> profiles = await getProfileData(data['to'], fromAccount);
+        final transactionModel = TransactionModel.fromTxData(data, value.asValue!.value);
         return ValueResult(SendTransactionResponse(profiles, value, transactionModel));
       }
     }).catchError((error) {
@@ -25,8 +25,8 @@ class SendTransactionUseCase {
   }
 
   Future<List<Result>> getProfileData(String toAccount, fromAccount) async {
-    Future<Result> toAccountResult = _profileRepository.getProfile(toAccount);
-    Future<Result> fromAccountResult = _profileRepository.getProfile(fromAccount);
+    final Future<Result> toAccountResult = _profileRepository.getProfile(toAccount);
+    final Future<Result> fromAccountResult = _profileRepository.getProfile(fromAccount);
 
     return Future.wait([toAccountResult, fromAccountResult]);
   }

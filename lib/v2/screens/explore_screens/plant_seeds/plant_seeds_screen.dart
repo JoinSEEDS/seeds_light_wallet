@@ -27,7 +27,7 @@ class PlantSeedsScreen extends StatelessWidget {
         body: BlocConsumer<PlantSeedsBloc, PlantSeedsState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
-            var pageCommand = state.pageCommand;
+            final pageCommand = state.pageCommand;
 
             if (pageCommand is ShowPlantSeedsSuccess) {
               showDialog<void>(

@@ -29,7 +29,7 @@ abstract class NetworkRepository {
       case 200:
         {
           print('Model Class: $modelMapper');
-          var body = response.parseJson();
+          final body = response.parseJson();
           return ValueResult(modelMapper(body));
         }
       default:
@@ -56,7 +56,7 @@ abstract class NetworkRepository {
     bool reverse = false,
     bool showPayer = false,
   }) {
-    String request =
+    final String request =
         '{"json": true, "code": "$code", "scope": "$scope", "table": "$table", "table_key":"$tableKey", "lower_bound": "$lowerBound", "upper_bound": "$upperBound", "index_position": "$indexPosition", "key_type": "$keyType", "limit": $limit, "reverse": $reverse, "show_payer":"$showPayer"}';
 
     return request;

@@ -33,7 +33,7 @@ abstract class EosRepository {
   String permissionApplication = 'application';
 
   Transaction buildFreeTransaction(List<Action> actions, String? accountName) {
-    var freeAuth = <Authorization>[
+    final freeAuth = <Authorization>[
       Authorization()
         ..actor = account_harvest
         ..permission = 'payforcpu',
@@ -42,13 +42,13 @@ abstract class EosRepository {
         ..permission = permissionActive
     ];
 
-    var freeAction = Action()
+    final freeAction = Action()
       ..account = account_harvest
       ..name = 'payforcpu'
       ..authorization = freeAuth
       ..data = {'account': accountName};
 
-    var transaction = Transaction()
+    final transaction = Transaction()
       ..actions = [
         freeAction,
         ...actions,
@@ -64,7 +64,7 @@ abstract class EosRepository {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');
     if (response['transaction_id'] != null) {
       print('Model Class: $modelMapper');
-      var map = Map<String, dynamic>.from(response);
+      final map = Map<String, dynamic>.from(response);
       return ValueResult(modelMapper(map));
     } else {
       print('ErrorResult: response[transaction_id] is null');

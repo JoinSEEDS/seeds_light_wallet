@@ -9,7 +9,7 @@ class FetchAccountRecoveryStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Guardians".i18n);
     } else {
-      var accountGuardiansModel = result.asValue!.value as UserGuardiansModel;
+      final accountGuardiansModel = result.asValue!.value as UserGuardiansModel;
       if (accountGuardiansModel.guardians.isEmpty) {
         return currentState.copyWith(
             pageState: PageState.success,

@@ -17,14 +17,14 @@ class InviteGuardians extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var myGuardians = ModalRoute.of(context)?.settings.arguments as Set<MemberModel>?;
+    final myGuardians = ModalRoute.of(context)?.settings.arguments as Set<MemberModel>?;
 
     return BlocProvider(
       create: (_) => InviteGuardiansBloc(myGuardians ?? {}),
       child: BlocListener<InviteGuardiansBloc, InviteGuardiansState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
-          var pageCommand = state.pageCommand;
+          final pageCommand = state.pageCommand;
 
           BlocProvider.of<InviteGuardiansBloc>(context).add(InviteGuardianClearPageCommand());
           if (pageCommand is NavigateToRoute) {

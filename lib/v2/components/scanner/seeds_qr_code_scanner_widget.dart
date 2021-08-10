@@ -10,7 +10,7 @@ class SeedsQRCodeScannerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width * 0.85;
+    final double width = MediaQuery.of(context).size.width * 0.85;
     return Center(
       child: Container(
         width: width,

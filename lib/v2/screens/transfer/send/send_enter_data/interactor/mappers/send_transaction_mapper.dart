@@ -15,18 +15,18 @@ class SendTransactionMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
-      var resultResponse = result.asValue!.value as SendTransactionResponse;
-      var transactionId = resultResponse.transactionId.asValue!.value as String;
-      double parsedQuantity = currentState.quantity;
+      final resultResponse = result.asValue!.value as SendTransactionResponse;
+      final transactionId = resultResponse.transactionId.asValue!.value as String;
+      final double parsedQuantity = currentState.quantity;
 
-      var selectedFiat = settingsStorage.selectedFiatCurrency;
-      String fiatAmount = currentState.ratesState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
+      final selectedFiat = settingsStorage.selectedFiatCurrency;
+      final String fiatAmount = currentState.ratesState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
 
       eventBus.fire(TransactionSentEventBusEvent(resultResponse.transactionModel));
 
       if (areAllResultsSuccess(resultResponse.profiles)) {
-        var toAccount = resultResponse.profiles[0].asValue!.value as ProfileModel;
-        var fromAccount = resultResponse.profiles[1].asValue!.value as ProfileModel;
+        final toAccount = resultResponse.profiles[0].asValue!.value as ProfileModel;
+        final fromAccount = resultResponse.profiles[1].asValue!.value as ProfileModel;
 
         return currentState.copyWith(
           pageState: PageState.success,
@@ -43,18 +43,19 @@ class SendTransactionMapper extends StateMapper {
               transactionId: transactionId),
         );
       } else {
-        var fromAccount = settingsStorage.accountName;
-        var toAccount = currentState.sendTo.account;
+        final fromAccount = settingsStorage.accountName;
+        final toAccount = currentState.sendTo.account;
 
         return currentState.copyWith(
           pageState: PageState.success,
           pageCommand: ShowTransactionSuccess.withoutServerUserData(
-              currency: "Seeds",
-              fromAccount: fromAccount,
-              amount: parsedQuantity.toString(),
-              toAccount: toAccount,
-              transactionId: transactionId,
-              fiatAmount: fiatAmount),
+            currency: "Seeds",
+            fromAccount: fromAccount,
+            amount: parsedQuantity.toString(),
+            toAccount: toAccount,
+            transactionId: transactionId,
+            fiatAmount: fiatAmount,
+          ),
         );
       }
     }

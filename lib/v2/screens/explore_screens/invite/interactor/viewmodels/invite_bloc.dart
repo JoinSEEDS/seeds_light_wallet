@@ -20,16 +20,17 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
   Stream<InviteState> mapEventToState(InviteEvent event) async* {
     if (event is LoadUserBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      Result result = await GetAvailableBalanceUseCase().run();
+      final Result result = await GetAvailableBalanceUseCase().run();
       yield UserBalanceStateMapper().mapResultToState(state, result, state.ratesState);
     }
     if (event is OnAmountChange) {
       yield SeedsAmountChangeMapper().mapResultToState(state, state.ratesState, event.amountChanged);
     }
     if (event is OnCreateInviteButtonTapped) {
-      String mnemonicSecretCode = generateMnemonic();
+      final String mnemonicSecretCode = generateMnemonic();
       yield state.copyWith(pageState: PageState.loading, isAutoFocus: false, mnemonicSecretCode: mnemonicSecretCode);
-      List<Result> results = await CreateInviteUseCase().run(amount: state.quantity, mnemonic: mnemonicSecretCode);
+      final List<Result> results =
+          await CreateInviteUseCase().run(amount: state.quantity, mnemonic: mnemonicSecretCode);
       yield CreateInviteResultStateMapper().mapResultsToState(state, results);
     }
     if (event is OnShareInviteLinkButtonPressed) {

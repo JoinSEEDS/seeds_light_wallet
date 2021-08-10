@@ -10,29 +10,29 @@ import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmod
 import 'package:seeds/v2/i18n/app/app.i18.dart';
 
 class SetValuesStateMapper extends StateMapper {
-  CitizenshipState mapResultToState(CitizenshipState currentState, List<Result> referredAccountResults, List<Result> citizenshipDataResults ) {
+  CitizenshipState mapResultToState(
+      CitizenshipState currentState, List<Result> referredAccountResults, List<Result> citizenshipDataResults) {
     // Accounts found, but errors fetching data happened.
     if (referredAccountResults.isNotEmpty && areAllResultsError(referredAccountResults)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Accounts".i18n);
     } else if (areAllResultsError(citizenshipDataResults)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Citizenship Data'.i18n);
     } else {
-
       citizenshipDataResults.retainWhere((Result i) => i.isValue);
-      var values = citizenshipDataResults.map((Result i) => i.asValue!.value).toList();
+      final values = citizenshipDataResults.map((Result i) => i.asValue!.value).toList();
 
-      PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null);
-      SeedsHistoryModel? seedsHistory = values.firstWhere((i) => i is SeedsHistoryModel, orElse: () => null);
+      final PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null);
+      final SeedsHistoryModel? seedsHistory = values.firstWhere((i) => i is SeedsHistoryModel, orElse: () => null);
 
-      int planted = plantedSeeds?.quantity.toInt() ?? 0;
-      int transactions = seedsHistory?.totalNumberOfTransactions ?? 0;
+      final int planted = plantedSeeds?.quantity.toInt() ?? 0;
+      final int transactions = seedsHistory?.totalNumberOfTransactions ?? 0;
 
       double timeline = 0;
-      ProfileModel profile = currentState.profile!;
-      ScoresViewModel score = currentState.score!;
-      List<ProfileModel> profiles = referredAccountResults.map((i) => i.asValue!.value as ProfileModel).toList();
+      final ProfileModel profile = currentState.profile!;
+      final ScoresViewModel score = currentState.score!;
+      final List<ProfileModel> profiles = referredAccountResults.map((i) => i.asValue!.value as ProfileModel).toList();
 
-      int reputation = score.reputationScore?.value ?? 0;
+      final int reputation = score.reputationScore?.value ?? 0;
 
       // Define timeline
       if (profile.status == ProfileStatus.visitor) {
@@ -45,8 +45,9 @@ class SetValuesStateMapper extends StateMapper {
             100;
       } else {
         // Timeline to citizen
-        int residentsInvited = profiles.where((i) => i.status == ProfileStatus.resident || i.status == ProfileStatus.citizen).length;
-        timeline = ((min(reputation,citizen_required_reputation) / citizen_required_reputation) +
+        final int residentsInvited =
+            profiles.where((i) => i.status == ProfileStatus.resident || i.status == ProfileStatus.citizen).length;
+        timeline = ((min(reputation, citizen_required_reputation) / citizen_required_reputation) +
                 (min(planted, citizen_required_planted_seeds) / citizen_required_planted_seeds) +
                 (min(transactions, citizen_required_seeds_transactions) / citizen_required_seeds_transactions) +
                 (min(residentsInvited, citizen_required_residents_invited) / citizen_required_residents_invited) +
@@ -62,7 +63,8 @@ class SetValuesStateMapper extends StateMapper {
         seedsTransactionsCount: seedsHistory?.totalNumberOfTransactions,
         progressTimeline: timeline,
         invitedVisitors: profiles.length,
-        invitedResidents: profiles.where((i) => i.status == ProfileStatus.citizen || i.status == ProfileStatus.resident).length,
+        invitedResidents:
+            profiles.where((i) => i.status == ProfileStatus.citizen || i.status == ProfileStatus.resident).length,
       );
     }
   }

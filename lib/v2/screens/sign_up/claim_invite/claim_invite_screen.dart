@@ -35,7 +35,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
     return BlocListener<SignupBloc, SignupState>(
       listenWhen: (_, current) => current.claimInviteState.pageCommand != null,
       listener: (context, state) async {
-        var pageCommand = state.claimInviteState.pageCommand;
+        final pageCommand = state.claimInviteState.pageCommand;
         _signupBloc.add(ClearClaimInvitePageCommand());
         if (pageCommand is StopScan) {
           _scannerWidget.stop();
@@ -53,7 +53,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
       },
       child: BlocBuilder<SignupBloc, SignupState>(
         builder: (context, state) {
-          var view = state.claimInviteState.claimInviteView;
+          final view = state.claimInviteState.claimInviteView;
           switch (view) {
             case ClaimInviteView.initial:
               return const SizedBox.shrink();

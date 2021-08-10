@@ -20,12 +20,12 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
   Stream<ReceiveEnterDataState> mapEventToState(ReceiveEnterDataEvents event) async* {
     if (event is LoadUserBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      Result result = await GetAvailableBalanceUseCase().run();
+      final Result result = await GetAvailableBalanceUseCase().run();
       yield UserBalanceStateMapper().mapResultToState(state, result);
     } else if (event is OnAmountChange) {
-      double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;
+      final double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;
 
-      String seedsToFiat =
+      final String seedsToFiat =
           state.ratesState.fromSeedsToFiat(parsedQuantity, settingsStorage.selectedFiatCurrency).fiatFormatted;
 
       if (parsedQuantity > 0) {
@@ -37,15 +37,16 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
       yield state.copyWith(description: event.description);
     } else if (event is OnNextButtonTapped) {
       yield state.copyWith(pageState: PageState.loading);
-      Result result = await ReceiveSeedsInvoiceUseCase().run(amount: state.quantity, memo: state.description);
+      final Result result = await ReceiveSeedsInvoiceUseCase().run(amount: state.quantity, memo: state.description);
       yield CreateInvoiceResultMapper().mapResultToState(state, result);
     } else if (event is ClearReceiveEnterDataState) {
       yield state.copyWith(
-          fiatAmount: 0.toString(),
-          isNextButtonEnabled: false,
-          quantity: 0,
-          seedsAmount: 0.toString(),
-          isAutoFocus: false);
+        fiatAmount: 0.toString(),
+        isNextButtonEnabled: false,
+        quantity: 0,
+        seedsAmount: 0.toString(),
+        isAutoFocus: false,
+      );
     }
   }
 }

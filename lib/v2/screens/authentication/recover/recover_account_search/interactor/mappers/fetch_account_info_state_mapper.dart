@@ -13,7 +13,7 @@ class FetchAccountInfoStateMapper extends StateMapper {
         isValidAccount: false,
       );
     } else {
-      var accountInfo = userInfo.asValue?.value as MemberModel?;
+      final accountInfo = userInfo.asValue?.value as MemberModel?;
 
       if (accountInfo != null) {
         return currentState.copyWith(

@@ -39,7 +39,7 @@ class SendConfirmationScreen extends StatelessWidget {
         body: BlocListener<SendConfirmationBloc, SendConfirmationState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (BuildContext context, SendConfirmationState state) {
-            var pageCommand = state.pageCommand;
+            final pageCommand = state.pageCommand;
             if (pageCommand is ShowTransactionSuccess) {
               showDialog<void>(
                 context: context,
@@ -117,7 +117,7 @@ class SendConfirmationScreen extends StatelessWidget {
                         child: FlatButtonLong(
                           title: 'Confirm and Send',
                           onPressed: () {
-                            RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+                            final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
                             BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent(rates));
                           },
                         ),

@@ -52,7 +52,7 @@ class PushNotificationService {
   }
 
   Future<void> requestingPermissionForIOS() async {
-    NotificationSettings settings = await _firebaseMessaging.requestPermission();
+    final NotificationSettings settings = await _firebaseMessaging.requestPermission();
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
     } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {

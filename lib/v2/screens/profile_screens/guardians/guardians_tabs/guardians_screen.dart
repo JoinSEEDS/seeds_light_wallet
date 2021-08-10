@@ -29,7 +29,7 @@ class GuardiansScreen extends StatelessWidget {
         child: BlocListener<GuardiansBloc, GuardiansState>(
             listenWhen: (_, current) => current.pageCommand != null,
             listener: (context, state) {
-              var pageCommand = state.pageCommand;
+              final pageCommand = state.pageCommand;
               BlocProvider.of<GuardiansBloc>(context).add(ClearPageCommand());
 
               if (pageCommand is NavigateToRouteWithArguments) {

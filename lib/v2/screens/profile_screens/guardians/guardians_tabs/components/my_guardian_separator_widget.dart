@@ -11,13 +11,13 @@ class GuardianListSeparatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var requested = const Padding(
+    final requested = const Padding(
       padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
       child: Center(child: Text("Requested")),
     );
 
     if (index == 0) {
-      var guardian = guardians[index];
+      final guardian = guardians[index];
       if (guardian.status == GuardianStatus.alreadyGuardian) {
         return Padding(
           padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
@@ -34,8 +34,8 @@ class GuardianListSeparatorWidget extends StatelessWidget {
     } else if (index > guardians.length - 1) {
       return const SizedBox.shrink();
     } else {
-      var guardian = guardians[index - 1];
-      var next = guardians[index];
+      final guardian = guardians[index - 1];
+      final next = guardians[index];
 
       if (guardian.status != next.status) {
         return requested;

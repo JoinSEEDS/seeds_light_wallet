@@ -7,13 +7,13 @@ class SendTransactionRepository extends EosRepository {
   Future<Result> sendTransaction(String? name, String account, Map<String, dynamic> data, String accountName) async {
     print('[eos] sendTransaction');
 
-    var actions = [
+    final actions = [
       Action()
         ..account = account
         ..name = name
         ..data = data
     ];
-    for (var action in actions) {
+    for (final action in actions) {
       action.authorization = [
         Authorization()
           ..actor = accountName
@@ -21,7 +21,7 @@ class SendTransactionRepository extends EosRepository {
       ];
     }
 
-    var transaction = buildFreeTransaction(actions, accountName);
+    final transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
         .pushTransaction(transaction)

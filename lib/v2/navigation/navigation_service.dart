@@ -169,8 +169,8 @@ class NavigationService {
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    var routeName = settings.name;
-    var arguments = settings.arguments;
+    final routeName = settings.name;
+    final arguments = settings.arguments;
 
     if (appRoutes[routeName!] != null) {
       return MaterialPageRoute(

@@ -62,10 +62,10 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
       child: BlocConsumer<ProposalsListBloc, ProposalsListState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) async {
-          var pageCommand = state.pageCommand;
+          final pageCommand = state.pageCommand;
           _proposalsBloc.add(const ClearProposalsListPageCommand());
           if (pageCommand is NavigateToRouteWithArguments<ProposalsArgsData>) {
-            int? index = await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+            final int? index = await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
             if (index != null) {
               // 420 is the height of this proposal card
               // ignore: unawaited_futures

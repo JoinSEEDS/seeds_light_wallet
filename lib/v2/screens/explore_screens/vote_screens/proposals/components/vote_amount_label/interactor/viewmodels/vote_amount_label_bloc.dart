@@ -14,7 +14,7 @@ class VoteAmountLabelBloc extends Bloc<VoteAmountLabelEvent, VoteAmountLabelStat
   Stream<VoteAmountLabelState> mapEventToState(VoteAmountLabelEvent event) async* {
     if (event is LoadVoteAmount) {
       yield state.copyWith(pageState: PageState.loading);
-      Result result = await GetVoteUseCase().run(event.proposalId, settingsStorage.accountName);
+      final Result result = await GetVoteUseCase().run(event.proposalId, settingsStorage.accountName);
       yield VoteResultStateMapper().mapResultToState(state, result);
     }
   }

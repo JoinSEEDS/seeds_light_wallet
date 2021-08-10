@@ -18,7 +18,7 @@ class GetProposalDataUseCase {
         ? _voiceRepository.getAllianceVoice(userAccount)
         : _voiceRepository.getCampaignVoice(userAccount);
 
-    var futures = [
+    final futures = [
       _profileRepository.getProfile(proposal.creator),
       _fetchVote(proposal.id, userAccount),
       _getVoice,
@@ -27,10 +27,10 @@ class GetProposalDataUseCase {
   }
 
   Future<Result> _fetchVote(int proposalId, String account) async {
-    var box = await Hive.openBox<VoteModel>("votes.1.box");
+    final box = await Hive.openBox<VoteModel>("votes.1.box");
     VoteModel? voteModel = box.get(proposalId);
     if (voteModel == null) {
-      var result = await _proposalsRepository.getVote(proposalId, account);
+      final result = await _proposalsRepository.getVote(proposalId, account);
       if (result.isValue) {
         voteModel = result.asValue!.value as VoteModel;
         if (voteModel.isVoted) {

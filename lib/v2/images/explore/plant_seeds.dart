@@ -5,14 +5,14 @@ class PlantSeeds extends CustomPainter {
   const PlantSeeds();
   @override
   void paint(Canvas canvas, Size size) {
-    Path path_0 = Path()
+    final Path path_0 = Path()
       ..moveTo(size.width * 0.9402909, size.height * 0.5508047)
       ..cubicTo(size.width * 0.9402909, size.height * 0.5658907, size.width * 0.9414394, size.height * 0.5820907,
           size.width * 0.9323758, size.height * 0.5960047)
       ..cubicTo(size.width * 0.9288576, size.height * 0.6014047, size.width * 0.9174606, size.height * 0.6088512,
           size.width * 0.9101576, size.height * 0.6107209);
 
-    Paint paint0Stroke = Paint()
+    final Paint paint0Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..color = AppColors.white
@@ -20,7 +20,7 @@ class PlantSeeds extends CustomPainter {
 
     canvas.drawPath(path_0, paint0Stroke);
 
-    Path path_1 = Path()
+    final Path path_1 = Path()
       ..moveTo(size.width * 0.9033061, size.height * 0.3847209)
       ..cubicTo(size.width * 0.9089061, size.height * 0.4030605, size.width * 0.9146606, size.height * 0.4219116,
           size.width * 0.9225576, size.height * 0.4397884)
@@ -37,7 +37,7 @@ class PlantSeeds extends CustomPainter {
       ..cubicTo(size.width * 0.9178788, size.height * 0.4758140, size.width * 0.9183727, size.height * 0.4746512,
           size.width * 0.9183727, size.height * 0.4793233);
 
-    Paint paint1Stroke = Paint()
+    final Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..color = AppColors.white
@@ -45,7 +45,7 @@ class PlantSeeds extends CustomPainter {
 
     canvas.drawPath(path_1, paint1Stroke);
 
-    Path path_2 = Path()
+    final Path path_2 = Path()
       ..moveTo(size.width * 0.05922394, size.height * 0.5190674)
       ..cubicTo(size.width * 0.05807818, size.height * 0.5127070, size.width * 0.05043000, size.height * 0.5082628,
           size.width * 0.04214061, size.height * 0.5091419)
@@ -3132,7 +3132,7 @@ class PlantSeeds extends CustomPainter {
       ..lineTo(size.width * 0.4680848, size.height * 0.9532558)
       ..close();
 
-    Paint paint2Fill = Paint()
+    final Paint paint2Fill = Paint()
       ..style = PaintingStyle.fill
       ..color = AppColors.white;
 

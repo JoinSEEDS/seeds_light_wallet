@@ -24,7 +24,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
     if (event is InitSendDataArguments) {
       yield state.copyWith(pageState: PageState.loading, showSendingAnimation: false);
 
-      Result result = await GetAvailableBalanceUseCase().run();
+      final Result result = await GetAvailableBalanceUseCase().run();
 
       yield SendEnterDataStateMapper().mapResultToState(state, result, state.ratesState, "0");
     } else if (event is OnMemoChange) {
@@ -48,7 +48,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
     } else if (event is OnSendButtonTapped) {
       yield state.copyWith(pageState: PageState.loading, showSendingAnimation: true);
 
-      Result result = await SendTransactionUseCase().run("transfer", 'token.seeds', {
+      final Result result = await SendTransactionUseCase().run("transfer", 'token.seeds', {
         'from': settingsStorage.accountName,
         'to': state.sendTo.account,
         'quantity': '${state.quantity.toStringAsFixed(4)} $currencySeedsCode',

@@ -21,9 +21,9 @@ class ProposalsStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error loading proposals'.i18n);
     } else {
       results.retainWhere((Result i) => i.isValue);
-      var values = results.map((Result i) => i.asValue!.value).toList();
-      ProfileModel? profile = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
-      List<ProposalModel> proposals = values.firstWhere((i) => i is List<ProposalModel>, orElse: () => null);
+      final values = results.map((Result i) => i.asValue!.value).toList();
+      final ProfileModel? profile = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
+      final List<ProposalModel> proposals = values.firstWhere((i) => i is List<ProposalModel>, orElse: () => null);
       List<ProposalModel> newProposals;
 
       if (isScroll) {
@@ -34,12 +34,12 @@ class ProposalsStateMapper extends StateMapper {
       }
 
       // Add pass values to proposals by campaing type
-      List<List<SupportLevelModel>> supportLevels = values.whereType<List<SupportLevelModel>>().toList();
-      SupportLevelModel? allianceLevels = supportLevels[0].first;
-      SupportLevelModel? campaingLevels = supportLevels[1].first;
-      SupportLevelModel? milestoneLevels = supportLevels[2].first;
+      final List<List<SupportLevelModel>> supportLevels = values.whereType<List<SupportLevelModel>>().toList();
+      final SupportLevelModel allianceLevels = supportLevels[0].first;
+      final SupportLevelModel campaingLevels = supportLevels[1].first;
+      final SupportLevelModel milestoneLevels = supportLevels[2].first;
 
-      var updatedProposals = newProposals.map((i) {
+      final updatedProposals = newProposals.map((i) {
         if (i.campaignType == _alliance) {
           i = i.copyWith(allianceLevels.voiceNeeded);
         } else if (i.campaignType == _cmp_funding || i.campaignType == _cmp_invite) {

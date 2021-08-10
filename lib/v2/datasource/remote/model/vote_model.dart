@@ -9,7 +9,7 @@ class VoteModel {
 
   factory VoteModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
-      var vote = json['rows'].first;
+      final vote = json['rows'].first;
       return VoteModel(amount: vote['favour'] == 1 ? vote['amount'] : -vote['amount'], isVoted: true);
     } else {
       return const VoteModel(amount: 0, isVoted: false);
@@ -23,7 +23,7 @@ class VoteModelAdapter extends TypeAdapter<VoteModel> {
 
   @override
   VoteModel read(BinaryReader reader) {
-    var fields = [];
+    final fields = [];
     reader.readByte();
     fields.add(reader.readInt());
     reader.readByte();

@@ -14,8 +14,8 @@ class RateModel {
 
   factory RateModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
-      var value = json['rows'][0]['current_seeds_per_usd'] ?? 0.toString();
-      var amount = double.parse(value.split(' ').first);
+      final value = json['rows'][0]['current_seeds_per_usd'] ?? 0.toString();
+      final amount = double.parse(value.split(' ').first);
       return RateModel(amount);
     } else {
       return const RateModel(0);

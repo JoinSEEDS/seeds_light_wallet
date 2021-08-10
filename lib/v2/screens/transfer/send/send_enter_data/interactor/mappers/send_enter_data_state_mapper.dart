@@ -13,13 +13,13 @@ class SendEnterDataStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
-      BalanceModel balance = result.asValue!.value as BalanceModel;
-      double parsedQuantity = double.parse(quantity);
+      final BalanceModel balance = result.asValue!.value as BalanceModel;
+      final double parsedQuantity = double.parse(quantity);
 
-      var selectedFiat = settingsStorage.selectedFiatCurrency;
-      String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
+      final selectedFiat = settingsStorage.selectedFiatCurrency;
+      final String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
 
-      String availableBalanceFiat = rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted;
+      final String availableBalanceFiat = rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted;
 
       return currentState.copyWith(
         pageState: PageState.success,

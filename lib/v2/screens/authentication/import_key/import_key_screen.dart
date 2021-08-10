@@ -63,8 +63,8 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                               color: AppColors.white,
                             ),
                             onPressed: () async {
-                              var clipboardData = await Clipboard.getData('text/plain');
-                              var clipboardText = clipboardData?.text ?? '';
+                              final clipboardData = await Clipboard.getData('text/plain');
+                              final clipboardText = clipboardData?.text ?? '';
                               _keyController.text = clipboardText;
                               BlocProvider.of<ImportKeyBloc>(context)
                                   .add(OnPrivateKeyChange(privateKeyChanged: clipboardText));

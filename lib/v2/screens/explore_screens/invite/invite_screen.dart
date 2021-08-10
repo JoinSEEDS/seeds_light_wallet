@@ -26,7 +26,7 @@ class InviteScreen extends StatelessWidget {
         body: BlocConsumer<InviteBloc, InviteState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
-            var pageCommand = state.pageCommand;
+            final pageCommand = state.pageCommand;
             if (pageCommand is ShowInviteLinkView) {
               showDialog<void>(
                 context: context,

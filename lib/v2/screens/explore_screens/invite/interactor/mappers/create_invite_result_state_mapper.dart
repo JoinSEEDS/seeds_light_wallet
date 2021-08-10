@@ -18,12 +18,12 @@ class CreateInviteResultStateMapper extends StateMapper {
     } else {
       // Check if the error is in the transaction
       results.retainWhere((Result element) => element.isValue);
-      var values = results.map((Result element) => element.asValue!.value).toList();
-      TransactionResponse? response = values.firstWhere((i) => i is TransactionResponse, orElse: () => null);
+      final values = results.map((Result element) => element.asValue!.value).toList();
+      final TransactionResponse? response = values.firstWhere((i) => i is TransactionResponse, orElse: () => null);
 
       if (response != null && response.transactionId.isNotEmpty) {
         // Transaction success show invite link dialog
-        Uri? dynamicSecretLink = values.firstWhere((i) => i is Uri, orElse: () => null);
+        final Uri? dynamicSecretLink = values.firstWhere((i) => i is Uri, orElse: () => null);
 
         return currentState.copyWith(
           pageState: PageState.success,

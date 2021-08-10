@@ -41,7 +41,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
           listener: (context, SendPageState state) {
             _scannerScreen.stop();
 
-            var pageCommand = state.pageCommand;
+            final pageCommand = state.pageCommand;
             if (pageCommand is NavigateToRouteWithArguments) {
               NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
             }

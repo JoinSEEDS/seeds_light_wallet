@@ -7,7 +7,7 @@ class ApproveGuardianRecoveryUseCase {
   final FirebaseDatabaseGuardiansRepository _databaseGuardiansRepository = FirebaseDatabaseGuardiansRepository();
 
   Future<Result> approveGuardianRecovery(String userAccount, String publicKey) async {
-    var result = await _guardiansRepository.recoverAccount(userAccount, publicKey);
+    final result = await _guardiansRepository.recoverAccount(userAccount, publicKey);
 
     // If recover call success, Init the firebase recovery flag.
     if (result.isValue) {
