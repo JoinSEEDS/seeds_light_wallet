@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/providers/notifiers/connection_notifier.dart';
 import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
-import 'package:seeds/screens/app/wallet/custom_transaction.dart';
 import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
@@ -113,27 +112,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             } else if (pageCommand is ShowMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             } else if (pageCommand is ProcessSigningRequest) {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  opaque: false,
-                  fullscreenDialog: true,
-                  transitionsBuilder: (_, animation, __, child) {
-                    var tween = Tween(begin: const Offset(0.0, 1.0), end: Offset.zero);
-                    var curvedAnimation = CurvedAnimation(parent: animation, curve: Curves.bounceInOut);
-                    // child is the value returned by pageBuilder
-                    return SlideTransition(position: tween.animate(curvedAnimation), child: child);
-                  },
-                  pageBuilder: (context, _, __) {
-                    return CustomTransaction(
-                      CustomTransactionArguments(
-                        account: pageCommand.action.account,
-                        name: pageCommand.action.name,
-                        data: Map<String, dynamic>.from(pageCommand.action.data as Map<dynamic, dynamic>),
-                      ),
-                    );
-                  },
-                ),
-              );
+              // TODO(gguij002): Is this needed?
             }
           },
           builder: (context, state) {

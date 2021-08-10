@@ -2,16 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/screens/app/ecosystem/dho/dho.dart';
-import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
-import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
-import 'package:seeds/screens/app/profile/image_viewer.dart';
-import 'package:seeds/screens/app/profile/logout.dart';
-import 'package:seeds/screens/app/wallet/receive.dart';
-import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
-import 'package:seeds/screens/app/wallet/receive_custom.dart';
-import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
-import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/v2/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/authentication/login_screen.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
@@ -45,39 +35,29 @@ import 'package:seeds/v2/screens/wallet/wallet_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
-  static final transferForm = 'TransferForm';
   static final onboarding = 'Onboarding';
-  static final joinProcess = 'JoinProcess';
   static final createAccount = 'CreateAccount';
   static final showInvite = 'ShowInvite';
   static final claimCode = 'ClaimCode';
   static final welcome = 'Welcome';
   static final transfer = 'Transfer';
   static final sendEnterData = 'SendEnterData';
-  static final invites = 'Invites';
   static final createInvite = 'CreateInvite';
   static final vote = 'vote';
   static final proposalDetails = 'ProposalDetails';
   static final overview = 'Overview';
   static final explore = 'Explore';
   static final wallet = 'Wallet';
-  static final logout = 'Logout';
-  static final imageViewer = 'ImageViewer';
   static final plantSeeds = 'plantSeeds';
   static final sendConfirmationScreen = 'SendConfirmationScreen';
   static final scanQRCode = 'ScanQRCode';
   static final receiveScreen = "receiveScreen";
   static final receiveEnterDataScreen = "receiveEnterDataScreen";
-  static final receive = 'Receive';
-  static final receiveConfirmation = 'ReceiveConfirmation';
-  static final receiveCustom = 'ReceiveCustom';
   static final receiveQR = 'ReceiveQR';
   static final selectGuardians = 'SelectGuardians';
   static final inviteGuardians = 'InviteGuardians';
   static final inviteGuardiansSent = 'InviteGuardiansSent';
   static final guardianTabs = 'GuardianTabs';
-  static final dho = 'DHO';
-  static final guardians = 'Guardians';
   static final support = 'Support';
   static final security = 'Security';
   static final editName = 'EditName';
@@ -108,7 +88,6 @@ class NavigationService {
   StreamController<String>? streamRouteListener;
 
   final onboardingRoutes = {
-    Routes.joinProcess: (_) => JoinProcess(),
     Routes.login: (_) => LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
@@ -118,32 +97,21 @@ class NavigationService {
 
   final appRoutes = {
     Routes.profile: (_) => ProfileScreen(),
-    Routes.transferForm: (args) => TransferForm(args),
     Routes.transfer: (_) => SendSearchUserScreen(),
     Routes.sendEnterData: (_) => SendEnterDataScreen(),
-    Routes.invites: (_) => Invites(),
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
-    Routes.logout: (_) => Logout(),
-    Routes.imageViewer: (args) => ImageViewer(
-          arguments: args,
-        ),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => SendScannerScreen(),
     Routes.receiveScreen: (_) => ReceiveScreen(),
     Routes.receiveEnterDataScreen: (_) => ReceiveEnterDataScreen(),
-    Routes.receive: (_) => const Receive(),
-    Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
-    Routes.receiveCustom: (_) => const ReceiveCustom(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => InviteGuardiansSentScreen(),
     Routes.guardianTabs: (_) => GuardiansScreen(),
-    Routes.dho: (_) => DHO(),
-    Routes.guardians: (_) => Guardians(),
     Routes.support: (_) => const SupportScreen(),
     Routes.security: (_) => const SecurityScreen(),
     Routes.editName: (_) => const EditNameScreen(),
