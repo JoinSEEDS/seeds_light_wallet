@@ -48,7 +48,7 @@ linter:
     avoid_bool_literals_in_conditional_expressions: true
     # - avoid_catches_without_on_clauses # we do this commonly
     # - avoid_catching_errors # we do this commonly
-    avoid_classes_with_only_static_members: false # <---------- Gery enable and check this I think is a really good one.
+    avoid_classes_with_only_static_members: false # <---Gery check it when you have time I think is a really good one.
     # - avoid_double_and_int_checks # only useful when targeting JS runtime
     avoid_dynamic_calls: false # <--this is a good one to check in future
     avoid_empty_else: true
