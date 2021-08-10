@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 

@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_user_repository.dart';
 // ignore: import_of_legacy_library_into_null_safe

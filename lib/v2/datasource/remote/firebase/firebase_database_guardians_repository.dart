@@ -240,6 +240,16 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
     };
     return usersCollection.doc(userAccount).set(data, SetOptions(merge: true));
   }
+
+  Future<void> removeGuardianNotification(String userAccount) {
+    var data = <String, Object>{GUARDIAN_NOTIFICATION_KEY: false};
+
+    return usersCollection
+        .doc(userAccount)
+        .collection(PENDING_NOTIFICATIONS_KEY)
+        .doc(GUARDIAN_NOTIFICATION_KEY)
+        .set(data, SetOptions(merge: true));
+  }
 }
 
 // Manage guardian Ids
