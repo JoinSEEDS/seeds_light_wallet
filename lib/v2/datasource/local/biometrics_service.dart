@@ -28,7 +28,7 @@ class BiometricsService {
   }
 
   Future<bool> authenticate(AuthenticateCmd cmd) async {
-    var androidAuthStrings;
+    AndroidAuthMessages androidAuthStrings;
     switch (cmd.type) {
       case AuthType.fingerprint:
         androidAuthStrings = const AndroidAuthMessages(
