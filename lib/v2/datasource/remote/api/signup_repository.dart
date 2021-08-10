@@ -1,11 +1,12 @@
 import 'package:async/async.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/constants/config.dart';
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/invite_model.dart';
@@ -84,7 +85,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
   }) async {
     EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
-    final applicationAccount = Config.onboardingAccountName;
+    final applicationAccount = onboardingAccountName;
 
     final actions = <Action>[
       Action()
