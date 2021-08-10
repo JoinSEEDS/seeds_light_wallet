@@ -12,7 +12,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:icon="@mipmap/app_icon"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="SEEDS Wallet"
         >
         <!-- android:usesCleartextTraffic="true" -->

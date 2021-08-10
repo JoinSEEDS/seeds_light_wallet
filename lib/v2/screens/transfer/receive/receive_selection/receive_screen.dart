@@ -29,7 +29,7 @@ class ReceiveScreen extends StatelessWidget {
                         icon: SvgPicture.asset('assets/images/receive/merchant.svg'),
                         title: "Select a Product or Service",
                         onTap: () {
-                          NavigationService.of(context).navigateTo(Routes.receive);
+                          // TODO(gguij002): Not yet implemented
                         })),
               ]),
             ),

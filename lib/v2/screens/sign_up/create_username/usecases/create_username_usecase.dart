@@ -1,5 +1,5 @@
 import 'package:async/async.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/v2/screens/sign_up/create_username/mappers/create_username_mapper.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';

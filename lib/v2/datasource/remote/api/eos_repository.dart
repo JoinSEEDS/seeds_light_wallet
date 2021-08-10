@@ -8,6 +8,7 @@ import 'package:seeds/v2/domain-shared/app_constants.dart';
 abstract class EosRepository {
   String cpuPrivateKey = '5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a';
   String onboardingPrivateKey = '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
+  String onboardingAccountName = 'join.seeds';
 
   // Actions
   String action_name_against = 'against';

@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_state.dart';
@@ -116,12 +115,10 @@ class MainScreen extends StatelessWidget {
           case AuthStatus.locked:
             return SeedsMaterialApp(home: const VerificationScreen());
           case AuthStatus.unlocked:
-            return ToolboxApp(
-              child: SeedsMaterialApp(
-                navigatorKey: navigationService.appNavigatorKey,
-                onGenerateRoute: navigationService.onGenerateRoute,
-                home: const App(),
-              ),
+            return SeedsMaterialApp(
+              navigatorKey: navigationService.appNavigatorKey,
+              onGenerateRoute: navigationService.onGenerateRoute,
+              home: const App(),
             );
           default:
             return SeedsMaterialApp(home: SplashScreen());

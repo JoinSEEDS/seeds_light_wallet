@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:seeds/features/biometrics/biometrics_service.dart';
-import 'package:seeds/features/biometrics/auth_type.dart';
+import 'package:seeds/v2/datasource/local/biometrics_service.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/model/auth_type.dart';
 
 class BiometricsAvailablesUseCase {
   final BiometricsService _service = BiometricsService(LocalAuthentication());
