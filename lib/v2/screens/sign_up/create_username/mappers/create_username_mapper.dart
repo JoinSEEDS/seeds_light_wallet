@@ -9,11 +9,7 @@ class CreateUsernameMapper extends StateMapper {
 
     if (result.isError) {
       // Error means username is not taken and is available for the user to take it
-      final newState = createUsernameCurrentState.copyWith(
-        pageState: PageState.success,
-        pageCommand: null,
-        errorMessage: null,
-      );
+      final newState = createUsernameCurrentState.copyWith(pageState: PageState.success);
 
       return currentState.copyWith(createUsernameState: newState);
     }

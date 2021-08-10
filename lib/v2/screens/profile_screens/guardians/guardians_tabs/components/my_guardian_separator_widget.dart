@@ -11,24 +11,20 @@ class GuardianListSeparatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var requested = Container(
-      child: const Padding(
-        padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-        child: Center(child: Text("Requested")),
-      ),
+    var requested = const Padding(
+      padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+      child: Center(child: Text("Requested")),
     );
 
     if (index == 0) {
       var guardian = guardians[index];
       if (guardian.status == GuardianStatus.alreadyGuardian) {
-        return Container(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
-            child: Center(
-              child: Text(
-                "My Guardians",
-                style: Theme.of(context).textTheme.subtitle2HighEmphasis,
-              ),
+        return Padding(
+          padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
+          child: Center(
+            child: Text(
+              "My Guardians",
+              style: Theme.of(context).textTheme.subtitle2HighEmphasis,
             ),
           ),
         );

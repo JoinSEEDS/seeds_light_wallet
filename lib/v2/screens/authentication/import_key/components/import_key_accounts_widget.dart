@@ -13,6 +13,8 @@ import 'package:seeds/v2/screens/authentication/import_key/interactor/viewmodels
 import 'package:seeds/v2/screens/authentication/import_key/interactor/viewmodels/import_key_state.dart';
 
 class ImportKeyAccountsWidget extends StatelessWidget {
+  const ImportKeyAccountsWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ImportKeyBloc, ImportKeyState>(

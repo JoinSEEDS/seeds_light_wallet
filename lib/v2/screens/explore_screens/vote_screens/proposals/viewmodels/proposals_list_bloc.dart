@@ -38,7 +38,7 @@ class ProposalsListBloc extends Bloc<ProposalsListEvent, ProposalsListState> {
       );
     }
     if (event is ClearProposalsListPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     }
   }
 }

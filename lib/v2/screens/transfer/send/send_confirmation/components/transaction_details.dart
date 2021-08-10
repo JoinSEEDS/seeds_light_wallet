@@ -7,7 +7,7 @@ class TransactionDetails extends StatelessWidget {
   final String? title;
   final String? beneficiary;
 
-  const TransactionDetails({this.image, this.title, this.beneficiary});
+  const TransactionDetails({Key? key, this.image, this.title, this.beneficiary}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,7 @@ class TransactionDetails extends StatelessWidget {
       children: <Widget>[
         Container(
           padding: const EdgeInsets.all(24),
-          decoration: const BoxDecoration(
-            color: AppColors.darkGreen2,
-            shape: BoxShape.circle,
-          ),
+          decoration: const BoxDecoration(color: AppColors.darkGreen2, shape: BoxShape.circle),
           width: width * 0.28,
           height: width * 0.28,
           child: image,

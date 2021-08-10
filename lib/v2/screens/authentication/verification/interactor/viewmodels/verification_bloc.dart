@@ -95,7 +95,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
       yield state.copyWith(isCreateView: false, newPasscode: event.passcode);
     }
     if (event is ResetShowSnack) {
-      yield state.copyWith(showInfoSnack: null);
+      yield state.copyWith();
     }
     if (event is TryAgainBiometric) {
       if (state.preferred == AuthType.fingerprint || state.preferred == AuthType.face) {

@@ -25,14 +25,14 @@ class Vote extends CustomPainter {
           size.width * 0.3581850, size.height * 0.2000022)
       ..lineTo(size.width * 0.3581850, size.height * 0.3500075);
 
-    Paint paint_0_stroke = Paint()
+    Paint paint0Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawPath(path_0, paint_0_stroke);
+    canvas.drawPath(path_0, paint0Stroke);
 
     Path path_1 = Path()
       ..moveTo(size.width * 0.6957025, size.height * 0.1500000)
@@ -41,14 +41,14 @@ class Vote extends CustomPainter {
           size.width * 0.7207025, size.height * 0.3875075)
       ..lineTo(size.width * 0.9375000, size.height * 0.3875075);
 
-    Paint paint_1_stroke = Paint()
+    Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawPath(path_1, paint_1_stroke);
+    canvas.drawPath(path_1, paint1Stroke);
 
     Path path_2 = Path()
       ..moveTo(size.width * 0.3797475, size.height * 0.5828650)
@@ -89,12 +89,12 @@ class Vote extends CustomPainter {
       ..lineTo(size.width * 0.3797475, size.height * 0.6859925)
       ..lineTo(size.width * 0.3797475, size.height * 0.7891200);
 
-    Paint paint_2_stroke = Paint()
+    Paint paint2Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white;
 
-    canvas.drawPath(path_2, paint_2_stroke);
+    canvas.drawPath(path_2, paint2Stroke);
   }
 
   @override

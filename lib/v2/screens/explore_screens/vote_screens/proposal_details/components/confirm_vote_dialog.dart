@@ -10,6 +10,10 @@ class ConfirmVoteDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDialog(
       icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
+      leftButtonTitle: 'Cancel',
+      onLeftButtonPressed: () => Navigator.of(context).pop(),
+      rightButtonTitle: 'Confirm',
+      onRightButtonPressed: () => Navigator.of(context).pop(true),
       children: [
         Text('Confirm your Vote', style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 24.0),
@@ -20,10 +24,6 @@ class ConfirmVoteDialog extends StatelessWidget {
         ),
         const SizedBox(height: 16.0),
       ],
-      leftButtonTitle: 'Cancel',
-      onLeftButtonPressed: () => Navigator.of(context).pop(),
-      rightButtonTitle: 'Confirm',
-      onRightButtonPressed: () => Navigator.of(context).pop(true),
     );
   }
 }

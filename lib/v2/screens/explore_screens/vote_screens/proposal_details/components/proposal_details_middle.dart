@@ -97,29 +97,32 @@ class ProposalDetailsMiddle extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Recipient: %s '.i18n.fill(["${state.proposals[state.currentIndex].recipient}"]),
+                    'Recipient: %s '.i18n.fill([(state.proposals[state.currentIndex].recipient)]),
                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Requested: %s '.i18n.fill(['${state.proposals[state.currentIndex].quantity}']),
+                    'Requested: %s '.i18n.fill([(state.proposals[state.currentIndex].quantity)]),
                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'Type: %s '.i18n.fill([
-                      state.proposals[state.currentIndex].campaignType == 'alliance' ? "Alliance".i18n : "Campaign".i18n
+                      if (state.proposals[state.currentIndex].campaignType == 'alliance')
+                        "Alliance".i18n
+                      else
+                        "Campaign".i18n
                     ]),
                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Status: %s '.i18n.fill(["${state.proposals[state.currentIndex].status}"]),
+                    'Status: %s '.i18n.fill([(state.proposals[state.currentIndex].status)]),
                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Stage: %s '.i18n.fill(["${state.proposals[state.currentIndex].stage}"]),
+                    'Stage: %s '.i18n.fill([(state.proposals[state.currentIndex].stage)]),
                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                   ),
                   const SizedBox(height: 8),

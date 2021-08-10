@@ -106,7 +106,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     }
 
     if (event is ClearClaimInvitePageCommand) {
-      yield state.copyWith(claimInviteState: state.claimInviteState.copyWith(pageCommand: null));
+      yield state.copyWith(claimInviteState: state.claimInviteState.copyWith());
     }
 
     if (event is OnInvalidInviteDialogClosed) {

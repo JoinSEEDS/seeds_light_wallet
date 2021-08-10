@@ -4,7 +4,8 @@ import 'package:seeds/features/scanner/telos_signing_manager.dart';
 void main() {
   group('dartesr', () {
     test('decode esr', () async {
-      var esr = 'esr://gmNcs7jsE9uOP6rL3rrcvpMWUmN27LCdleD836_eTzFz-vCSjQEMXhmEFohe6ry3yuguIyNEiIEJSgvCBA58nnUl1dgwlAEoAAA';
+      var esr =
+          'esr://gmNcs7jsE9uOP6rL3rrcvpMWUmN27LCdleD836_eTzFz-vCSjQEMXhmEFohe6ry3yuguIyNEiIEJSgvCBA58nnUl1dgwlAEoAAA';
 
       var request = SeedsESR(uri: esr);
 
@@ -27,7 +28,7 @@ void main() {
 
       await request.resolve(account: "bukabukabuka");
 
-      print("2 action: "+request.actions.first.toJson().toString());
+      print("2 action: ${request.actions.first.toJson()}");
 
       var action = request.actions.first;
       var data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
@@ -38,17 +39,17 @@ void main() {
       expect(data['to'], 'igorberlenko');
       expect(data['quantity'], '7.0000 SEEDS');
       expect(data['memo'], '');
+    });
 
-    });    
-    
     test('decode esr 3', () async {
-      var esr = 'esr:gmN0S9_Eeqy57zv_9xn9eU3hL_bxCbUs-jptJqsXY3-JtawgU09qb_yjZdUau3YzAAEjQ0EQV_NKhbNAdriuzdmzjIwMEMAEpTVgAgeWdbM9zBDoDTgM4bMEu7q6BDMwsJekFpdk5qUDzWIAAA';
+      var esr =
+          'esr:gmN0S9_Eeqy57zv_9xn9eU3hL_bxCbUs-jptJqsXY3-JtawgU09qb_yjZdUau3YzAAEjQ0EQV_NKhbNAdriuzdmzjIwMEMAEpTVgAgeWdbM9zBDoDTgM4bMEu7q6BDMwsJekFpdk5qUDzWIAAA';
 
       var request = SeedsESR(uri: esr);
 
       await request.resolve(account: "illumination");
 
-      print("3 action: "+request.actions.first.toJson().toString());
+      print("3 action: ${request.actions.first.toJson()}");
 
       var action = request.actions.first;
       var data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
@@ -62,13 +63,14 @@ void main() {
     });
 
     test('decode esr with 112 Seeds', () async {
-      var esr = 'esr://gmN0S9_Eeqy57zv_9xn9eU3hL_bxCbUs-jptJqsXY3-JtawgA0NBEFfzSoWzDAwM4bo2Z88yMjJAABOUVoQJGKw8nWa1MrnkhZQgmM8S7OrqEgxkABUAAA';
+      var esr =
+          'esr://gmN0S9_Eeqy57zv_9xn9eU3hL_bxCbUs-jptJqsXY3-JtawgA0NBEFfzSoWzDAwM4bo2Z88yMjJAABOUVoQJGKw8nWa1MrnkhZQgmM8S7OrqEgxkABUAAA';
 
       var request = SeedsESR(uri: esr);
 
       await request.resolve(account: "bukabukabuka");
 
-      print("1 action: "+request.actions.first.toJson().toString());
+      print("1 action: ${request.actions.first.toJson()}");
 
       var action = request.actions.first;
       var data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
@@ -82,17 +84,17 @@ void main() {
     });
 
     test('login signing', () async {
-      
-      var esr = 'esr:AgACAwACO2h0dHBzOi8vY2IuYW5jaG9yLmxpbmsvODE3NzNjYWUtYjUzZS00YTdmLTg2ZjctNzJmOTQzZjhiYTk3AQRsaW5rKgAIAAAA06oHAAKLu05xjZ9d38TXa0W9f_WH76gGXk4wxIzEw31kEpVMQg';
+      var esr =
+          'esr:AgACAwACO2h0dHBzOi8vY2IuYW5jaG9yLmxpbmsvODE3NzNjYWUtYjUzZS00YTdmLTg2ZjctNzJmOTQzZjhiYTk3AQRsaW5rKgAIAAAA06oHAAKLu05xjZ9d38TXa0W9f_WH76gGXk4wxIzEw31kEpVMQg';
 
       var request = SeedsESR(uri: esr);
 
       await request.resolve(account: "illumination");
 
-      print("identity action: "+request.actions.first.toJson().toString());
+      print("identity action: ${request.actions.first.toJson()}");
 
       var action = request.actions.first;
-      
+
       expect(action.name, 'identity');
     });
   });

@@ -35,15 +35,15 @@ bool get isInDebugMode {
 }
 
 /// Reports [error] along with its [stackTrace] to ?????
-Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
+Future<void> _reportError(dynamic error, dynamic stackTrace) async {
   // TODO(gguij002): find better error reporting
   print('Caught error: $error');
 }
 
-void main(List<String> args) async {
+Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  settingsStorage.initialise();
+  await settingsStorage.initialise();
   await PushNotificationService().initialise();
   await remoteConfigurations.initialise();
   Bloc.observer = SimpleBlocObserver();
@@ -70,7 +70,7 @@ void main(List<String> args) async {
         }).sendPort,
       );
 
-      runZonedGuarded<Future<Null>>(() async {
+      runZonedGuarded<Future<void>>(() async {
         runApp(const SeedsApp());
       }, (error, stackTrace) async {
         print('Zone caught an error');
@@ -102,7 +102,7 @@ class MainScreen extends StatelessWidget {
                     home: state.authStatus == AuthStatus.emptyAccount
                         ? const OnboardingScreen()
                         : SeedsMaterialApp(
-                            home: LoginScreen(),
+                            home: const LoginScreen(),
                           ),
                     navigatorKey: navigationService.onboardingNavigatorKey,
                     onGenerateRoute: navigationService.onGenerateRoute,
@@ -121,7 +121,7 @@ class MainScreen extends StatelessWidget {
               home: const App(),
             );
           default:
-            return SeedsMaterialApp(home: SplashScreen());
+            return SeedsMaterialApp(home: const SplashScreen());
         }
       },
     );

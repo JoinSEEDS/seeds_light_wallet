@@ -12,12 +12,11 @@ class ShareLinkRow extends StatelessWidget {
   final String label;
   final String link;
 
-  const ShareLinkRow({required this.label, required this.link});
+  const ShareLinkRow({Key? key, required this.label, required this.link}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.max,
       children: [
         Text(label, style: Theme.of(context).textTheme.subtitle2HighEmphasis),
         const SizedBox(width: 16),
@@ -32,11 +31,8 @@ class ShareLinkRow extends StatelessWidget {
           icon: const Icon(Icons.copy),
           color: AppColors.white,
           onPressed: () {
-            Clipboard.setData(ClipboardData(text: link)).then(
-              (value) {
-                SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
-              },
-            );
+            Clipboard.setData(ClipboardData(text: link))
+                .then((_) => SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show());
           },
         )
       ],

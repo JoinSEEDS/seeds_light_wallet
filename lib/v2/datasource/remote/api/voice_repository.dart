@@ -10,12 +10,7 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     var request = createRequest(
-        code: account_funds,
-        scope: account_funds,
-        table: table_voice,
-        lowerBound: userAccount,
-        upperBound: userAccount,
-        limit: 1);
+        code: account_funds, scope: account_funds, table: tableVoice, lowerBound: userAccount, upperBound: userAccount);
 
     return http
         .post(voiceURL, headers: headers, body: request)
@@ -32,10 +27,9 @@ class VoiceRepository extends NetworkRepository {
     var request = createRequest(
         code: account_funds,
         scope: account_alliance,
-        table: table_voice,
+        table: tableVoice,
         lowerBound: userAccount,
-        upperBound: userAccount,
-        limit: 1);
+        upperBound: userAccount);
 
     return http
         .post(voiceURL, headers: headers, body: request)

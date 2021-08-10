@@ -25,8 +25,8 @@ class FlatButtonLong extends StatelessWidget {
         disabledTextColor: AppColors.grey1,
         disabledColor: AppColors.darkGreen2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        child: Text(title, style: Theme.of(context).textTheme.buttonWhiteL),
         onPressed: enabled ? onPressed : null,
+        child: Text(title, style: Theme.of(context).textTheme.buttonWhiteL),
       ),
     );
   }

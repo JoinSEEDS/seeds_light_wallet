@@ -26,6 +26,15 @@ class InviteLinkDialog extends StatelessWidget {
             child: SingleChildScrollView(
               child: CustomDialog(
                 icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
+                rightButtonTitle: 'Share'.i18n,
+                leftButtonTitle: state.showCloseDialogButton ? 'Close'.i18n : '',
+                onLeftButtonPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                onRightButtonPressed: () {
+                  BlocProvider.of<InviteBloc>(context).add(const OnShareInviteLinkButtonPressed());
+                },
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -49,15 +58,6 @@ class InviteLinkDialog extends StatelessWidget {
                     style: Theme.of(context).textTheme.button,
                   ),
                 ],
-                rightButtonTitle: 'Share'.i18n,
-                leftButtonTitle: state.showCloseDialogButton ? 'Close'.i18n : '',
-                onLeftButtonPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-                onRightButtonPressed: () {
-                  BlocProvider.of<InviteBloc>(context).add(const OnShareInviteLinkButtonPressed());
-                },
               ),
             ),
           ),

@@ -33,7 +33,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
             listenWhen: (_, current) => current.pageCommand != null,
             listener: (context, state) {
               var pageCommand = state.pageCommand;
-              BlocProvider.of<RecoverAccountFoundBloc>(context)..add(const ClearRecoverPageCommand());
+              BlocProvider.of<RecoverAccountFoundBloc>(context).add(const ClearRecoverPageCommand());
 
               if (pageCommand is ShowLinkCopied) {
                 SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
@@ -115,8 +115,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(state.confirmedGuardianSignatures.toString(), style: Theme.of(context).textTheme.button1),
-                        Text("/" + state.userGuardiansData.length.toString(),
-                            style: Theme.of(context).textTheme.button1),
+                        Text("/${state.userGuardiansData.length}", style: Theme.of(context).textTheme.button1),
                         const SizedBox(width: 24),
                         Flexible(
                           child: Text(
@@ -189,7 +188,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text('${state.currentRemainingTime?.hoursFormatted ?? '00'}',
+                              Text(state.currentRemainingTime?.hoursFormatted ?? '00',
                                   style: Theme.of(context).textTheme.headline4),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 6),
@@ -199,7 +198,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Text('${state.currentRemainingTime?.minFormatted ?? '00'}',
+                              Text(state.currentRemainingTime?.minFormatted ?? '00',
                                   style: Theme.of(context).textTheme.headline4),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 6),
@@ -222,9 +221,10 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT
-                          ? Text("Account recovered " + state.userAccount)
-                          : const SizedBox.shrink(),
+                      if (state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT)
+                        Text('Account recovered ' '${state.userAccount}')
+                      else
+                        const SizedBox.shrink(),
                       const SizedBox(height: 150),
                     ],
                   ),

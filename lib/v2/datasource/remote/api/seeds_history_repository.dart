@@ -12,10 +12,9 @@ class SeedsHistoryRepository extends NetworkRepository {
     final String request = createRequest(
       code: history_seeds,
       scope: history_seeds,
-      table: table_totals,
+      table: tableTotals,
       lowerBound: userAccount,
       upperBound: userAccount,
-      limit: 1,
     );
 
     final seedsHistoryURL = Uri.parse('$hyphaURL/v1/chain/get_table_rows');

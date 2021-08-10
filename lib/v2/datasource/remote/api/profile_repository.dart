@@ -19,10 +19,9 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     var request = createRequest(
       code: account_accounts,
       scope: account_accounts,
-      table: table_users,
+      table: tableUsers,
       lowerBound: accountName,
       upperBound: accountName,
-      limit: 1,
     );
 
     return http
@@ -48,11 +47,11 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     var transaction = buildFreeTransaction([
       Action()
         ..account = account_accounts
-        ..name = action_name_update
+        ..name = actionNameUpdate
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_active
+            ..permission = permissionActive
         ]
         ..data = {
           'user': accountName,
@@ -67,7 +66,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     ], accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
@@ -89,9 +88,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
       code: contractName,
       scope: scope ?? contractName,
       table: tableName,
-      lowerBound: '$account',
-      upperBound: '$account',
-      limit: 1,
+      lowerBound: account,
+      upperBound: account,
     );
 
     return http
@@ -108,9 +106,9 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     var request = createRequest(
       code: account_accounts,
       scope: account_accounts,
-      table: table_refs,
-      lowerBound: '$accountName',
-      upperBound: '$accountName',
+      table: tableRefs,
+      lowerBound: accountName,
+      upperBound: accountName,
       indexPosition: 2,
       limit: 100,
     );
@@ -130,11 +128,11 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     var transaction = buildFreeTransaction([
       Action()
         ..account = account_token
-        ..name = action_name_transfer
+        ..name = actionNameTransfer
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_active
+            ..permission = permissionActive
         ]
         ..data = {
           'from': accountName,
@@ -145,7 +143,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     ], accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
@@ -169,15 +167,18 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   }
 
   Future<Result> citizenshipAction({required String accountName, required bool isMake, required bool isCitizen}) async {
-    print('[eos] ' + (isMake ? "make" : "can") + " " + (isCitizen ? "citizen" : "resident"));
+    final String isMakeText = isMake ? "make" : "can";
+    final String isCitizenText = isMake ? "citizen" : "resident";
+
+    print('[eos] $isMakeText $isCitizenText');
 
     var actionName = isMake
         ? isCitizen
-            ? action_name_makecitizen
-            : action_name_makeresident
+            ? actionNameMakecitizen
+            : actionNameMakeresident
         : isCitizen
-            ? action_name_cancitizen
-            : action_name_canresident;
+            ? actionNameCakecitizen
+            : actionNameCanresident;
 
     var transaction = buildFreeTransaction([
       Action()
@@ -186,7 +187,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_active
+            ..permission = permissionActive
         ]
         ..data = {
           'user': accountName,
@@ -194,7 +195,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     ], accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))

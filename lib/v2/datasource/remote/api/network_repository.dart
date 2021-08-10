@@ -10,25 +10,25 @@ abstract class NetworkRepository {
   String fxApiKey = "thesecretapikey989";
   Map<String, String> headers = {'Content-type': 'application/json'};
 
-  String table_balances = 'balances';
-  String table_guards = 'guards';
-  String table_harvest = 'harvest';
-  String table_invites = 'invites';
-  String table_moonphases = 'moonphases';
-  String table_props = 'props';
-  String table_refs = 'refs';
-  String table_support = 'support';
-  String table_users = 'users';
-  String table_voice = 'voice';
-  String table_votes = 'votes';
-  String table_recover = 'recovers';
-  String table_totals = 'totals';
+  String tableBalances = 'balances';
+  String tableGuards = 'guards';
+  String tableHarvest = 'harvest';
+  String tableInvites = 'invites';
+  String tableMoonphases = 'moonphases';
+  String tableProps = 'props';
+  String tableRefs = 'refs';
+  String tableSupport = 'support';
+  String tableUsers = 'users';
+  String tableVoice = 'voice';
+  String tableVotes = 'votes';
+  String tableRecover = 'recovers';
+  String tableTotals = 'totals';
 
   Result mapHttpResponse(http.Response response, Function modelMapper) {
     switch (response.statusCode) {
       case 200:
         {
-          print('Model Class: ' + modelMapper.toString());
+          print('Model Class: $modelMapper');
           var body = response.parseJson();
           return ValueResult(modelMapper(body));
         }
@@ -39,7 +39,7 @@ abstract class NetworkRepository {
   }
 
   Result mapHttpError(error) {
-    print('mapHttpError: ' + error.toString());
+    print('mapHttpError: $error');
     return ErrorResult(error);
   }
 

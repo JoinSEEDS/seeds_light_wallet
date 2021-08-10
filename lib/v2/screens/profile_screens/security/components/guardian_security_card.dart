@@ -10,9 +10,7 @@ import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/
 
 class GuardianSecurityCard extends StatelessWidget {
   final GuardiansStatus? guardiansStatus;
-
   final GestureTapCallback? onTap;
-
   final bool hasNotification;
 
   const GuardianSecurityCard({Key? key, this.guardiansStatus, this.onTap, this.hasNotification = false})
@@ -24,28 +22,13 @@ class GuardianSecurityCard extends StatelessWidget {
 
     switch (guardiansStatus) {
       case GuardiansStatus.active:
-        guardianStatus = const Text(
-          "Active",
-          style: TextStyle(
-            color: AppColors.green1,
-          ),
-        );
+        guardianStatus = const Text("Active", style: TextStyle(color: AppColors.green1));
         break;
       case GuardiansStatus.inactive:
-        guardianStatus = const Text(
-          'Inactive',
-          style: TextStyle(
-            color: AppColors.red,
-          ),
-        );
+        guardianStatus = const Text('Inactive', style: TextStyle(color: AppColors.red));
         break;
       case GuardiansStatus.readyToActivate:
-        guardianStatus = const Text(
-          'Ready To Activate',
-          style: TextStyle(
-            color: AppColors.orange,
-          ),
-        );
+        guardianStatus = const Text('Ready To Activate', style: TextStyle(color: AppColors.orange));
         break;
       default:
         guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
@@ -92,10 +75,8 @@ class GuardianSecurityCard extends StatelessWidget {
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  hasNotification ? const NotificationBadge() : const SizedBox.shrink()
+                                  const SizedBox(width: 10),
+                                  if (hasNotification) const NotificationBadge()
                                 ],
                               ),
                             ),

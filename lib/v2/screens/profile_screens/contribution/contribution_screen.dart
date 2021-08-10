@@ -94,7 +94,6 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircularStepProgressIndicator(
-                          circularDirection: CircularDirection.clockwise,
                           totalSteps: 99,
                           currentStep: _contribution,
                           stepSize: 2.5,

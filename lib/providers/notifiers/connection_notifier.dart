@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart';
@@ -32,7 +30,7 @@ class ConnectionNotifier extends ChangeNotifier {
     discoverEndpoints();
   }
 
-  void discoverEndpoints() async {
+  Future<void> discoverEndpoints() async {
     var checks = <Future>[];
 
     for (var endpoint in availableEndpoints) {

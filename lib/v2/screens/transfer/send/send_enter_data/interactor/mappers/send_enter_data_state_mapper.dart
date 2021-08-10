@@ -26,7 +26,6 @@ class SendEnterDataStateMapper extends StateMapper {
         fiatAmount: fiatAmount,
         availableBalance: balance.formattedQuantity,
         availableBalanceFiat: availableBalanceFiat,
-        errorMessage: null,
         balance: balance,
       );
     }

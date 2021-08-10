@@ -16,13 +16,8 @@ class QrCodeGeneratorWidget extends StatelessWidget {
       backgroundColor: AppColors.white,
       foregroundColor: AppColors.black,
       errorStateBuilder: (_, err) {
-        return Container(
-          child: const Center(
-            child: Text('Uh oh! Something went wrong...', textAlign: TextAlign.center),
-          ),
-        );
+        return const Center(child: Text('Uh oh! Something went wrong...', textAlign: TextAlign.center));
       },
     );
   }
-
 }

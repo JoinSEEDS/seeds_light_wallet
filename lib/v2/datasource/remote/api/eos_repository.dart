@@ -11,26 +11,26 @@ abstract class EosRepository {
   String onboardingAccountName = 'join.seeds';
 
   // Actions
-  String action_name_against = 'against';
-  String action_name_cancel = 'cancel';
-  String action_name_favour = 'favour';
-  String action_name_init = 'init';
-  String action_name_claim = 'claim';
-  String action_name_invite = 'invite';
-  String action_name_transfer = 'transfer';
-  String action_name_updateauth = 'updateauth';
-  String action_name_update = 'update';
-  String action_name_makeresident = 'makeresident';
-  String action_name_canresident = 'canresident';
-  String action_name_makecitizen = 'makecitizen';
-  String action_name_cancitizen = 'cancitizen';
-  String action_name_accept_new = 'acceptnew';
-  String action_name_recover = 'recover';
+  String actionNameAgainst = 'against';
+  String actionNameCancel = 'cancel';
+  String actionNameFavour = 'favour';
+  String actionNameInit = 'init';
+  String actionNameClaim = 'claim';
+  String actionNameInvite = 'invite';
+  String actionNameTransfer = 'transfer';
+  String actionNameUpdateauth = 'updateauth';
+  String actionNameUpdate = 'update';
+  String actionNameMakeresident = 'makeresident';
+  String actionNameCanresident = 'canresident';
+  String actionNameMakecitizen = 'makecitizen';
+  String actionNameCakecitizen = 'cancitizen';
+  String actionNameAcceptnew = 'acceptnew';
+  String actionNameRecover = 'recover';
 
   // Authorizations
-  String permission_active = 'active';
-  String permission_owner = 'owner';
-  String permission_application = 'application';
+  String permissionActive = 'active';
+  String permissionOwner = 'owner';
+  String permissionApplication = 'application';
 
   Transaction buildFreeTransaction(List<Action> actions, String? accountName) {
     var freeAuth = <Authorization>[
@@ -39,7 +39,7 @@ abstract class EosRepository {
         ..permission = 'payforcpu',
       Authorization()
         ..actor = accountName
-        ..permission = permission_active
+        ..permission = permissionActive
     ];
 
     var freeAction = Action()
@@ -73,7 +73,7 @@ abstract class EosRepository {
   }
 
   Result mapEosError(error) {
-    print('mapEosError: ' + error.toString());
+    print('mapEosError: $error');
     return ErrorResult(error);
   }
 }

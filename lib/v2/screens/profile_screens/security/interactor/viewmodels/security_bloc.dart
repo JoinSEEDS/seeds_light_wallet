@@ -25,9 +25,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value: value)));
 
-       _guardians = GuardiansUseCase()
-        .guardians
-        .listen((value) => add(OnLoadingGuardians(guardians: value)));
+    _guardians = GuardiansUseCase().guardians.listen((value) => add(OnLoadingGuardians(guardians: value)));
   }
 
   Stream<bool> get isGuardianContractInitialized {
@@ -51,7 +49,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       yield GuardianStateMapper().mapResultToState(isGuardianInitialized, event.guardians, state);
     }
     if (event is OnGuardiansCardTapped) {
-      yield state.copyWith(navigateToGuardians: null); //reset
+      yield state.copyWith(); //reset
       if (state.hasNotification) {
         await FirebaseDatabaseGuardiansRepository().removeGuardianNotification(settingsStorage.accountName);
       }
@@ -69,7 +67,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       }
     }
     if (event is ResetNavigateToVerification) {
-      yield state.copyWith(navigateToVerification: null); //reset
+      yield state.copyWith(); //reset
     }
     if (event is OnValidVerification) {
       switch (state.currentChoice) {

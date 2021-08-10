@@ -25,7 +25,7 @@ class VoteScreen extends StatelessWidget {
               child: Container(
                 decoration: const BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(color: AppColors.lightGreen2, width: 1.0),
+                    bottom: BorderSide(color: AppColors.lightGreen2),
                   ),
                 ),
                 child: TabBar(

@@ -88,7 +88,7 @@ class NavigationService {
   StreamController<String>? streamRouteListener;
 
   final onboardingRoutes = {
-    Routes.login: (_) => LoginScreen(),
+    Routes.login: (_) => const LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
@@ -96,22 +96,22 @@ class NavigationService {
   };
 
   final appRoutes = {
-    Routes.profile: (_) => ProfileScreen(),
-    Routes.transfer: (_) => SendSearchUserScreen(),
-    Routes.sendEnterData: (_) => SendEnterDataScreen(),
+    Routes.profile: (_) => const ProfileScreen(),
+    Routes.transfer: (_) => const SendSearchUserScreen(),
+    Routes.sendEnterData: (_) => const SendEnterDataScreen(),
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
-    Routes.scanQRCode: (_) => SendScannerScreen(),
-    Routes.receiveScreen: (_) => ReceiveScreen(),
-    Routes.receiveEnterDataScreen: (_) => ReceiveEnterDataScreen(),
+    Routes.scanQRCode: (_) => const SendScannerScreen(),
+    Routes.receiveScreen: (_) => const ReceiveScreen(),
+    Routes.receiveEnterDataScreen: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
-    Routes.selectGuardians: (_) => SelectGuardiansScreen(),
-    Routes.inviteGuardians: (args) => InviteGuardians(),
-    Routes.inviteGuardiansSent: (_) => InviteGuardiansSentScreen(),
-    Routes.guardianTabs: (_) => GuardiansScreen(),
+    Routes.selectGuardians: (_) => const SelectGuardiansScreen(),
+    Routes.inviteGuardians: (args) => const InviteGuardians(),
+    Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
+    Routes.guardianTabs: (_) => const GuardiansScreen(),
     Routes.support: (_) => const SupportScreen(),
     Routes.security: (_) => const SecurityScreen(),
     Routes.editName: (_) => const EditNameScreen(),
@@ -208,7 +208,7 @@ class NavigationService {
     return (Route<dynamic> route) {
       //print("Route: ${route.settings.name}" + " modal: ${route is ModalRoute} handlepop: ${route.willHandlePopInternally}");
       if (route.settings.name == '/' && name != '/') {
-        print('pop error: Route name not found: ' + name);
+        print('pop error: Route name not found: $name');
       }
       return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
           route.settings.name == '/';

@@ -9,7 +9,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 /// --- BLOC
 class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
-  final num _MIN_TEXT_LENGTH_BEFORE_VALID_SEARCH = 2;
+  final num _minTextLengthBeforeValidSearch = 2;
 
   SearchUserBloc(List<String>? noShowUsers) : super(SearchUserState.initial(noShowUsers));
 
@@ -37,7 +37,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
         yield state.copyWith(searchBarIcon: Icons.clear);
       }
 
-      if (event.searchQuery.length > _MIN_TEXT_LENGTH_BEFORE_VALID_SEARCH) {
+      if (event.searchQuery.length > _minTextLengthBeforeValidSearch) {
         yield state.copyWith(pageState: PageState.loading);
         var result = await SearchForMemberUseCase().run(event.searchQuery);
         yield SearchUserStateMapper().mapResultToState(state, result, state.noShowUsers);

@@ -76,10 +76,8 @@ class SecurityCard extends StatelessWidget {
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  hasNotification ? const NotificationBadge() : const SizedBox.shrink()
+                                  const SizedBox(width: 10),
+                                  if (hasNotification) const NotificationBadge()
                                 ],
                               ),
                             ),
@@ -93,10 +91,7 @@ class SecurityCard extends StatelessWidget {
                         child: Row(
                           children: [
                             Flexible(
-                              child: Text(
-                                description,
-                                style: Theme.of(context).textTheme.subtitle3,
-                              ),
+                              child: Text(description, style: Theme.of(context).textTheme.subtitle3),
                             )
                           ],
                         ),

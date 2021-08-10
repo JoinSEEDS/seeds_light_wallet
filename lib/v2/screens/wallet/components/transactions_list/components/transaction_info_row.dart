@@ -63,9 +63,10 @@ class TransactionInfoRow extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 40),
-                                incoming
-                                    ? Text('+', style: Theme.of(context).textTheme.subtitle1Green1)
-                                    : Text('-', style: Theme.of(context).textTheme.subtitle1Red2),
+                                if (incoming)
+                                  Text('+', style: Theme.of(context).textTheme.subtitle1Green1)
+                                else
+                                  Text('-', style: Theme.of(context).textTheme.subtitle1Red2),
                                 const SizedBox(width: 4),
                                 Text(amount.seedsFormatted, style: Theme.of(context).textTheme.button),
                               ],

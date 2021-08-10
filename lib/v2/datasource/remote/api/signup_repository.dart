@@ -19,14 +19,13 @@ class SignupRepository extends EosRepository with NetworkRepository {
     var request = createRequest(
         code: account_join,
         scope: account_join,
-        table: table_invites,
+        table: tableInvites,
         lowerBound: inviteHash,
         upperBound: inviteHash,
         indexPosition: 2,
-        keyType: 'sha256',
-        limit: 1);
+        keyType: 'sha256');
 
-    return await http
+    return http
         .post(Uri.parse(inviteURL), headers: headers, body: request)
         .then(
           (http.Response response) => mapHttpResponse(response, (dynamic body) {
@@ -65,7 +64,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
 
     final requestBody = '{ "account_name": "$username" }';
 
-    return await http
+    return http
         .post(
           Uri.parse(keyAccountsURL),
           body: requestBody,
@@ -90,11 +89,11 @@ class SignupRepository extends EosRepository with NetworkRepository {
     final actions = <Action>[
       Action()
         ..account = applicationAccount
-        ..name = action_name_accept_new
+        ..name = actionNameAcceptnew
         ..authorization = <Authorization>[
           Authorization()
             ..actor = applicationAccount
-            ..permission = permission_application
+            ..permission = permissionApplication
         ]
         ..data = {
           'account': accountName,
@@ -107,7 +106,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
     final transaction = Transaction()..actions = actions;
 
     try {
-      final dynamic response = await buildEosClient().pushTransaction(transaction, broadcast: true);
+      final dynamic response = await buildEosClient().pushTransaction(transaction);
 
       return mapEosResponse(response, (dynamic map) {
         return response['transaction_id'];

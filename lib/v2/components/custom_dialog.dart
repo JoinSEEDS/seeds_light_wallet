@@ -12,6 +12,7 @@ class CustomDialog extends StatelessWidget {
   /// Top icon dialog
   final Widget? icon;
   final double? iconPadding;
+
   /// Dialog body content
   final List<Widget> children;
 
@@ -59,13 +60,10 @@ class CustomDialog extends StatelessWidget {
             padding: const EdgeInsets.only(
                 left: _padding, top: _avatarRadius + _padding - 10, right: _padding, bottom: _padding + 10),
             margin: const EdgeInsets.only(top: _avatarRadius),
-            decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: AppColors.tagGreen3,
-                borderRadius: BorderRadius.circular(18.0),
-                boxShadow: const [
-                  BoxShadow(color: AppColors.black, offset: Offset(0, 10), blurRadius: 10),
-                ]),
+            decoration:
+                BoxDecoration(color: AppColors.tagGreen3, borderRadius: BorderRadius.circular(18.0), boxShadow: const [
+              BoxShadow(offset: Offset(0, 10), blurRadius: 10),
+            ]),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -117,35 +115,37 @@ class CustomDialog extends StatelessWidget {
               ],
             ),
           ),
-          icon != null ?
-              Positioned(
-                left: _padding,
-                right: _padding,
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: _avatarRadius,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.green1.withOpacity(0.20),
-                          offset: const Offset(0.0, 1.0),
-                          blurRadius: 6.0,
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(_avatarRadius)),
-                        child: Padding(
-                          padding: EdgeInsets.all(iconPadding ?? 8.0),
-                          child: icon,
-                        ),
+          if (icon != null)
+            Positioned(
+              left: _padding,
+              right: _padding,
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: _avatarRadius,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.green1.withOpacity(0.20),
+                        offset: const Offset(0.0, 1.0),
+                        blurRadius: 6.0,
                       ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(_avatarRadius)),
+                    child: Padding(
+                      padding: EdgeInsets.all(iconPadding ?? 8.0),
+                      child: icon,
                     ),
+                  ),
                 ),
-              ): const SizedBox.shrink()
+              ),
+            )
+          else
+            const SizedBox.shrink()
         ],
       ),
     );

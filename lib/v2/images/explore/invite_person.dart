@@ -19,14 +19,14 @@ class InvitePerson extends CustomPainter {
           size.width * 0.04166875, size.height * 0.7916675)
       ..lineTo(size.width * 0.04166875, size.height * 0.8750000);
 
-    Paint paint_0_stroke = Paint()
+    Paint paint0Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawPath(path_0, paint_0_stroke);
+    canvas.drawPath(path_0, paint0Stroke);
 
     Path path_1 = Path()
       ..moveTo(size.width * 0.3541675, size.height * 0.4583325)
@@ -40,52 +40,52 @@ class InvitePerson extends CustomPainter {
           size.width * 0.3541675, size.height * 0.4583325)
       ..close();
 
-    Paint paint_1_stroke = Paint()
+    Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawPath(path_1, paint_1_stroke);
+    canvas.drawPath(path_1, paint1Stroke);
 
     Path path_2 = Path()
       ..moveTo(size.width * 0.8333325, size.height * 0.3333250)
       ..lineTo(size.width * 0.8333325, size.height * 0.5833250);
 
-    Paint paint_2_stroke = Paint()
+    Paint paint2Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawPath(path_2, paint_2_stroke);
+    canvas.drawPath(path_2, paint2Stroke);
 
-    Paint paint_2_fill = Paint()
+    Paint paint2Fill = Paint()
       ..style = PaintingStyle.fill
       ..color = AppColors.white;
 
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path()
       ..moveTo(size.width * 0.9583325, size.height * 0.4583250)
       ..lineTo(size.width * 0.7083325, size.height * 0.4583250);
 
-    Paint paint_3_stroke = Paint()
+    Paint paint3Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.05000000
       ..color = AppColors.white
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawPath(path_3, paint_3_stroke);
+    canvas.drawPath(path_3, paint3Stroke);
 
-    Paint paint_3_fill = Paint()
+    Paint paint3Fill = Paint()
       ..style = PaintingStyle.fill
       ..color = AppColors.white;
 
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
   }
 
   @override

@@ -69,7 +69,7 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
     } else if (event is OnRefreshTap) {
       add(FetchInitialData());
     } else if (event is ClearRecoverPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     } else if (event is OnCancelProcessTap) {
       settingsStorage.cancelRecoveryProcess();
       yield state.copyWith(pageCommand: CancelRecoveryProcess());

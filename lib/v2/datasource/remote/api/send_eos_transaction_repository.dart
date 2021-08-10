@@ -13,19 +13,18 @@ class SendTransactionRepository extends EosRepository {
         ..name = name
         ..data = data
     ];
-
-    actions.forEach((action) => {
-          action.authorization = [
-            Authorization()
-              ..actor = accountName
-              ..permission = permission_active
-          ]
-        });
+    for (var action in actions) {
+      action.authorization = [
+        Authorization()
+          ..actor = accountName
+          ..permission = permissionActive
+      ];
+    }
 
     var transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return response["transaction_id"];
             }))

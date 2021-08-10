@@ -11,6 +11,7 @@ class BiometricEnabledDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDialog(
       icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
+      singleLargeButtonTitle: 'Got it, thanks!'.i18n,
       children: [
         Text('Touch ID/ Face ID'.i18n, style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 24.0),
@@ -22,7 +23,6 @@ class BiometricEnabledDialog extends StatelessWidget {
         ),
         const SizedBox(height: 16.0),
       ],
-      singleLargeButtonTitle: 'Got it, thanks!'.i18n,
     );
   }
 }

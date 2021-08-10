@@ -24,8 +24,8 @@ class FlatButtonLongOutlined extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             side: const BorderSide(color: AppColors.green1),
           ),
-          child: Text(title, style: Theme.of(context).textTheme.buttonWhiteL),
-          onPressed: onPressed),
+          onPressed: onPressed,
+          child: Text(title, style: Theme.of(context).textTheme.buttonWhiteL)),
     );
   }
 }

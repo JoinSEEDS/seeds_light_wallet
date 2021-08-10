@@ -16,11 +16,13 @@ class CreateInvoiceResultMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         pageCommand: NavigateToReceiveDetails(
-            receiveDetailArguments: ReceiveDetailArguments(
-                ReceiveTotalFiat: currentState.fiatAmount,
-                InvoiceLink: result.asValue!.value,
-                ReceiveTotalSeeds: currentState.quantity.toString(),
-                description: currentState.description)),
+          receiveDetailArguments: ReceiveDetailArguments(
+            receiveTotalFiat: currentState.fiatAmount,
+            invoiceLink: result.asValue!.value,
+            receiveTotalSeeds: currentState.quantity.toString(),
+            description: currentState.description,
+          ),
+        ),
       );
     }
   }

@@ -17,17 +17,13 @@ class AmountEntryWidget extends StatelessWidget {
   final ValueSetter<String> onValueChange;
   final bool autoFocus;
 
-  const AmountEntryWidget({
-    Key? key,
-    required this.onValueChange,
-    required this.autoFocus,
-  }) : super(key: key);
+  const AmountEntryWidget({Key? key, required this.onValueChange, required this.autoFocus}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+    final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
-      create: (BuildContext context) => AmountEntryBloc(rates),
+      create: (_) => AmountEntryBloc(rates),
       child: BlocListener<AmountEntryBloc, AmountEntryState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -46,7 +42,6 @@ class AmountEntryWidget extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         textAlign: TextAlign.end,
-                        maxLines: 1,
                         style: Theme.of(context).textTheme.headline4,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(

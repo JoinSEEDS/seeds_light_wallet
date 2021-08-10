@@ -47,7 +47,7 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
         yield InitGuardiansStateMapper().mapResultToState(state, result);
       }
     } else if (event is ClearPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     } else if (event is OnAddGuardiansTapped) {
       List<GuardianModel> results = await guardians.first;
       results.retainWhere((element) => element.type == GuardianType.myGuardian);

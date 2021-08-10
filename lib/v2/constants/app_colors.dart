@@ -91,7 +91,7 @@ class AppColors {
   static const tagGreen3 = Color(0xFF113119);
   static const tagBlue = Color(0xFF264D33);
   static final muddyYellow = const Color(0xFFE59900).withOpacity(0.15);
-  static const subtitle = Color(0xCC52CC);
+  static const subtitle = Color(0x00cc52cc);
 
   // DEPRECATED COLORS. DO NOT USE THESE COLORS ANYMORE
   static const purple = Color(0xFF5719FF);

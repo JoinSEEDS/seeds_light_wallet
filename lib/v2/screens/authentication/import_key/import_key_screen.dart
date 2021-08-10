@@ -93,7 +93,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                Expanded(child: ImportKeyAccountsWidget()),
+                const Expanded(child: ImportKeyAccountsWidget()),
               ],
             ),
           );

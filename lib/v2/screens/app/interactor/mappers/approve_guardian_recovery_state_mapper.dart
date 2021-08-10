@@ -12,7 +12,6 @@ class ApproveGuardianRecoveryStateMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         pageCommand: ShowMessage("Success, guardians recovery approved"),
-        showGuardianApproveOrDenyScreen: null,
       );
     }
   }

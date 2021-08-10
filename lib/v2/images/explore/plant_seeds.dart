@@ -12,13 +12,13 @@ class PlantSeeds extends CustomPainter {
       ..cubicTo(size.width * 0.9288576, size.height * 0.6014047, size.width * 0.9174606, size.height * 0.6088512,
           size.width * 0.9101576, size.height * 0.6107209);
 
-    Paint paint_0_stroke = Paint()
+    Paint paint0Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..color = AppColors.white
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawPath(path_0, paint_0_stroke);
+    canvas.drawPath(path_0, paint0Stroke);
 
     Path path_1 = Path()
       ..moveTo(size.width * 0.9033061, size.height * 0.3847209)
@@ -37,13 +37,13 @@ class PlantSeeds extends CustomPainter {
       ..cubicTo(size.width * 0.9178788, size.height * 0.4758140, size.width * 0.9183727, size.height * 0.4746512,
           size.width * 0.9183727, size.height * 0.4793233);
 
-    Paint paint_1_stroke = Paint()
+    Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..color = AppColors.white
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawPath(path_1, paint_1_stroke);
+    canvas.drawPath(path_1, paint1Stroke);
 
     Path path_2 = Path()
       ..moveTo(size.width * 0.05922394, size.height * 0.5190674)
@@ -3132,11 +3132,11 @@ class PlantSeeds extends CustomPainter {
       ..lineTo(size.width * 0.4680848, size.height * 0.9532558)
       ..close();
 
-    Paint paint_2_fill = Paint()
+    Paint paint2Fill = Paint()
       ..style = PaintingStyle.fill
       ..color = AppColors.white;
 
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
   }
 
   @override

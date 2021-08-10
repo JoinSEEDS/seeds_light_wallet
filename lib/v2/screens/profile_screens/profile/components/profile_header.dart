@@ -79,12 +79,13 @@ class ProfileHeader extends StatelessWidget {
                               ),
                             ],
                           ),
-                          state.pageState == PageState.loading || state.pageState == PageState.initial
-                              ? const ShimmerRectangle(size: Size(94, 21))
-                              : Text(
-                                  state.profile?.statusString.i18n ?? '',
-                                  style: Theme.of(context).textTheme.headline7LowEmphasis,
-                                ),
+                          if (state.pageState == PageState.loading || state.pageState == PageState.initial)
+                            const ShimmerRectangle(size: Size(94, 21))
+                          else
+                            Text(
+                              state.profile?.statusString.i18n ?? '',
+                              style: Theme.of(context).textTheme.headline7LowEmphasis,
+                            ),
                         ],
                       ),
                     ),

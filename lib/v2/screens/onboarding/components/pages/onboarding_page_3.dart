@@ -4,6 +4,8 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import '../onboarding_pages.dart';
 
 class ThirdPage extends StatelessWidget {
+  const ThirdPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return OnboardingPage(

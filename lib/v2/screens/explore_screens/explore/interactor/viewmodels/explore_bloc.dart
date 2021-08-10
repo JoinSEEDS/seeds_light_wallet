@@ -12,7 +12,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       yield state.copyWith(pageCommand: NavigateToRoute(event.route));
     }
     if (event is ClearExplorePageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     }
   }
 }
