@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:seeds/providers/services/firebase/firebase_database_service.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
@@ -54,7 +53,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
     if (event is OnGuardiansCardTapped) {
       yield state.copyWith(navigateToGuardians: null); //reset
       if (state.hasNotification) {
-        await FirebaseDatabaseService().removeGuardianNotification(settingsStorage.accountName);
+        await FirebaseDatabaseGuardiansRepository().removeGuardianNotification(settingsStorage.accountName);
       }
       yield state.copyWith(navigateToGuardians: true);
     }
