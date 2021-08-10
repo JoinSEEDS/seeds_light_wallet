@@ -53,7 +53,7 @@ class HexDecoder extends Converter<String, List<int>> {
     String str = input.replaceAll(" ", "");
     str = str.toLowerCase();
     if (str.length % 2 != 0) {
-      str = "0" + str;
+      str = "0$str";
     }
     Uint8List result = Uint8List(str.length ~/ 2);
     for (int i = 0; i < result.length; i++) {

@@ -38,12 +38,11 @@ class CreateUsernameState extends Equatable {
   factory CreateUsernameState.initial() {
     return const CreateUsernameState(
       pageState: PageState.initial,
-      username: null,
     );
   }
 
   factory CreateUsernameState.loading(CreateUsernameState currentState) {
-    return currentState.copyWith(pageState: PageState.loading, errorMessage: null);
+    return currentState.copyWith(pageState: PageState.loading);
   }
 
   factory CreateUsernameState.error(CreateUsernameState currentState, String errorMessage) {

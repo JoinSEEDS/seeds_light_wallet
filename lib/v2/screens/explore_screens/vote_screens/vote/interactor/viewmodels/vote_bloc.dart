@@ -1,11 +1,13 @@
-import 'package:async/async.dart';
 import 'dart:async';
+
+import 'package:async/async.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import '../mappers/next_moon_phase_state_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/mappers/remaining_time_state_mapper.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/usecases/get_next_moon_phase.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/vote/interactor/viewmodels/bloc.dart';
+
+import '../mappers/next_moon_phase_state_mapper.dart';
 
 /// --- BLOC
 class VoteBloc extends Bloc<VoteEvent, VoteState> {

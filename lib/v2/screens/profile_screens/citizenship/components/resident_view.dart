@@ -14,7 +14,7 @@ import 'package:seeds/v2/components/circular_progress_item.dart';
 import 'package:seeds/i18n/citizenship.18n.dart';
 
 class ResidentView extends StatefulWidget {
-  const ResidentView();
+  const ResidentView({Key? key}) : super(key: key);
 
   @override
   _ResidentViewState createState() => _ResidentViewState();
@@ -139,7 +139,6 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                         StepProgressIndicator(
                           totalSteps: 100,
                           currentStep: _timeLine,
-                          size: 4,
                           padding: 0,
                           selectedColor: AppColors.green1,
                           unselectedColor: AppColors.primary,
@@ -205,7 +204,7 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                       circleRadius: 30,
                       title: 'Transactions with Seeds'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '${_transactions}/$citizen_required_seeds_transactions',
+                      rate: '$_transactions/$citizen_required_seeds_transactions',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
                     ),
                     CircularProgressItem(

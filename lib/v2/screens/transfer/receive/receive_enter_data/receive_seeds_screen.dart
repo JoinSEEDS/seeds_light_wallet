@@ -16,6 +16,8 @@ import 'interactor/viewmodels/receive_enter_data_events.dart';
 import 'interactor/viewmodels/receive_enter_data_state.dart';
 
 class ReceiveEnterDataScreen extends StatelessWidget {
+  const ReceiveEnterDataScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

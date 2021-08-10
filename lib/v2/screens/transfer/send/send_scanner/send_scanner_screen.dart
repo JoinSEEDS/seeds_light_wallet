@@ -11,18 +11,23 @@ import 'package:seeds/v2/screens/transfer/send/send_scanner/interactor/viewmodel
 
 /// SendScannerScreen SCREEN
 class SendScannerScreen extends StatefulWidget {
+  const SendScannerScreen({Key? key}) : super(key: key);
+
   @override
   _SendScannerScreenState createState() => _SendScannerScreenState();
 }
 
 class _SendScannerScreenState extends State<SendScannerScreen> {
   late ScannerWidget _scannerScreen;
-  final _sendPageBloc = SendPageBloc();
+  late SendPageBloc _sendPageBloc;
 
   @override
   void initState() {
     super.initState();
-    _scannerScreen = ScannerWidget(resultCallBack: onResult);
+    _sendPageBloc = SendPageBloc();
+    _scannerScreen = ScannerWidget(resultCallBack: (scanResult) async {
+      _sendPageBloc.add(ExecuteScanResult(scanResult: scanResult));
+    });
   }
 
   @override
@@ -61,18 +66,19 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                       return Padding(
                         padding: const EdgeInsets.all(32),
                         child: Container(
-                            padding: const EdgeInsets.all(16),
-                            width: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                state.errorMessage!,
-                                style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
-                                textAlign: TextAlign.center,
-                              ),
+                          padding: const EdgeInsets.all(16),
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                              color: AppColors.black, borderRadius: BorderRadius.all(Radius.circular(8))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              state.errorMessage!,
+                              style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
+                              textAlign: TextAlign.center,
                             ),
-                            decoration: const BoxDecoration(
-                                color: AppColors.black, borderRadius: BorderRadius.all(Radius.circular(8)))),
+                          ),
+                        ),
                       );
                     default:
                       return const SizedBox.shrink();
@@ -84,9 +90,5 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> onResult(String scanResult) async {
-    _sendPageBloc.add(ExecuteScanResult(scanResult: scanResult));
   }
 }

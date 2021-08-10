@@ -37,8 +37,8 @@ class MyGuardiansTab extends StatelessWidget {
               )));
 
               if (alreadyGuardians.length < 3) {
-                items.add(Container(
-                  child: Padding(
+                items.add(
+                  Padding(
                     padding: const EdgeInsets.only(left: 56.0, right: 56, top: 16, bottom: 100),
                     child: Center(
                       child: Text(
@@ -48,7 +48,7 @@ class MyGuardiansTab extends StatelessWidget {
                       ),
                     ),
                   ),
-                ));
+                );
               } else {
                 items.add(StreamBuilder<bool>(
                     stream: BlocProvider.of<GuardiansBloc>(context).isGuardianContractInitialized,

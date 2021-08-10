@@ -15,7 +15,7 @@ class MemberState extends Equatable {
   @override
   List<Object> get props => [pageState, accountName];
 
-  MemberState copyWith({pageState, accountName, member}) {
+  MemberState copyWith({PageState? pageState, String? accountName, MemberModel? member}) {
     return MemberState(
       pageState: pageState ?? this.pageState,
       accountName: accountName ?? this.accountName,

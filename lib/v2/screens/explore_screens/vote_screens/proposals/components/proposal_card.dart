@@ -157,7 +157,6 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                                           ),
                                         ),
                                         Expanded(
-                                          flex: 1,
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
@@ -184,7 +183,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                                                 ),
                                               ),
                                               Flexible(
-                                                child: Text('Against'.i18n + ': ${widget.proposal.againstPercent}',
+                                                child: Text('${'Against'.i18n}${': ${widget.proposal.againstPercent}'}',
                                                     style: Theme.of(context).textTheme.subtitle3LightGreen6),
                                               ),
                                             ],

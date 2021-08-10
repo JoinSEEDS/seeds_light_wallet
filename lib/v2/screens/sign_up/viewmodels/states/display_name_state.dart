@@ -8,15 +8,11 @@ class DisplayNameState extends Equatable {
   @override
   List<Object?> get props => [displayName];
 
-  DisplayNameState copyWith({
-    String? displayName,
-  }) {
+  DisplayNameState copyWith({String? displayName}) {
     return DisplayNameState(
       displayName: displayName ?? this.displayName,
     );
   }
 
-  factory DisplayNameState.initial() => const DisplayNameState(
-        displayName: null,
-      );
+  factory DisplayNameState.initial() => const DisplayNameState();
 }

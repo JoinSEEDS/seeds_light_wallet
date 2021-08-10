@@ -10,45 +10,43 @@ class ProcessingInvitationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        backgroundColor: AppColors.primary,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  if (view == ClaimInviteView.processing)
-                    Column(
-                      children: [
-                        const CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(AppColors.green1),
-                          backgroundColor: Colors.transparent,
-                        ),
-                        const SizedBox(height: 30),
-                        Text(
-                          'Processing your invitation...',
-                          style: Theme.of(context).textTheme.headline7,
-                        )
-                      ],
-                    ),
-                  if (view == ClaimInviteView.success)
-                    Column(
-                      children: [
-                        const CustomPaint(
-                          size: Size(70, 70),
-                          painter: InviteLinkSuccess(),
-                        ),
-                        const SizedBox(height: 30),
-                        Text('Success!', style: Theme.of(context).textTheme.headline7),
-                      ],
-                    ),
-                ],
-              ),
+    return Scaffold(
+      backgroundColor: AppColors.primary,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Column(
+              children: [
+                if (view == ClaimInviteView.processing)
+                  Column(
+                    children: [
+                      const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.green1),
+                        backgroundColor: Colors.transparent,
+                      ),
+                      const SizedBox(height: 30),
+                      Text(
+                        'Processing your invitation...',
+                        style: Theme.of(context).textTheme.headline7,
+                      )
+                    ],
+                  ),
+                if (view == ClaimInviteView.success)
+                  Column(
+                    children: [
+                      const CustomPaint(
+                        size: Size(70, 70),
+                        painter: InviteLinkSuccess(),
+                      ),
+                      const SizedBox(height: 30),
+                      Text('Success!', style: Theme.of(context).textTheme.headline7),
+                    ],
+                  ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

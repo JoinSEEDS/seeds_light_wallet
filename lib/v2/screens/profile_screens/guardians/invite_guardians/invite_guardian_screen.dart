@@ -13,68 +13,73 @@ import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/inte
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_state.dart';
 
 class InviteGuardians extends StatelessWidget {
+  const InviteGuardians({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var myGuardians = ModalRoute.of(context)?.settings.arguments as Set<MemberModel>?;
 
     return BlocProvider(
-        create: (_) => InviteGuardiansBloc(myGuardians ?? {}),
-        child: BlocListener<InviteGuardiansBloc, InviteGuardiansState>(
-          listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) {
-            var pageCommand = state.pageCommand;
+      create: (_) => InviteGuardiansBloc(myGuardians ?? {}),
+      child: BlocListener<InviteGuardiansBloc, InviteGuardiansState>(
+        listenWhen: (_, current) => current.pageCommand != null,
+        listener: (context, state) {
+          var pageCommand = state.pageCommand;
 
-            BlocProvider.of<InviteGuardiansBloc>(context).add(InviteGuardianClearPageCommand());
-            if (pageCommand is NavigateToRoute) {
-              NavigationService.of(context).navigateTo(pageCommand.route);
-            } else if (pageCommand is ShowErrorMessage) {
-              SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-            }
-          },
-          child: BlocBuilder<InviteGuardiansBloc, InviteGuardiansState>(builder: (context, state) {
+          BlocProvider.of<InviteGuardiansBloc>(context).add(InviteGuardianClearPageCommand());
+          if (pageCommand is NavigateToRoute) {
+            NavigationService.of(context).navigateTo(pageCommand.route);
+          } else if (pageCommand is ShowErrorMessage) {
+            SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+          }
+        },
+        child: BlocBuilder<InviteGuardiansBloc, InviteGuardiansState>(
+          builder: (context, state) {
             return Scaffold(
-                appBar: AppBar(
-                  title: const Text("Invite Guardians"),
-                ),
-                body: Column(
-                  children: [
-                    const SizedBox(height: 24),
-                    const Image(image: AssetImage('assets/images/guardians/invite_guardian_mail.png')),
-                    const SizedBox(height: 30),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: Text(
-                        "The users below will be sent an invite to become your Guardian.".i18n,
-                        style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                        textAlign: TextAlign.center,
-                      ),
+              appBar: AppBar(title: const Text("Invite Guardians")),
+              body: Column(
+                children: [
+                  const SizedBox(height: 24),
+                  const Image(image: AssetImage('assets/images/guardians/invite_guardian_mail.png')),
+                  const SizedBox(height: 30),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    child: Text(
+                      "The users below will be sent an invite to become your Guardian.".i18n,
+                      style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                      textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: ListView(
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        children: state.selectedGuardians
-                            .map((e) => SearchResultRow(
-                                  account: e.account,
-                                  name: e.nickname.isNotEmpty ? e.nickname : e.account,
-                                  imageUrl: e.image,
-                                ))
-                            .toList(),
-                      ),
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      children: [
+                        for (var e in state.selectedGuardians)
+                          SearchResultRow(
+                            account: e.account,
+                            name: e.nickname.isNotEmpty ? e.nickname : e.account,
+                            imageUrl: e.image,
+                          ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: FlatButtonLong(
-                        title: 'Send Invite',
-                        onPressed: () {
-                          BlocProvider.of<InviteGuardiansBloc>(context).add(OnSendInviteTapped());
-                        },
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: FlatButtonLong(
+                      title: 'Send Invite',
+                      onPressed: () {
+                        BlocProvider.of<InviteGuardiansBloc>(context).add(OnSendInviteTapped());
+                      },
                     ),
-                  ],
-                ));
-          }),
-        ));
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }

@@ -57,7 +57,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       settingsStorage.savePrivateKeyBackedUp(true);
     }
     if (event is ClearShowLogoutDialog) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     }
     if (event is ResetShowLogoutButton) {
       yield state.copyWith(showLogoutButton: false);

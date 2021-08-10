@@ -121,7 +121,7 @@ class MainScreen extends StatelessWidget {
               home: const App(),
             );
           default:
-            return SeedsMaterialApp(home: SplashScreen());
+            return SeedsMaterialApp(home: const SplashScreen());
         }
       },
     );

@@ -21,7 +21,7 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
 
       // handle special system accounts
       if (SystemAccounts.isSystemAccount(account)) {
-        yield state.copyWith(pageState: PageState.success, member: SystemAccounts.getSystemAccount(account)!);
+        yield state.copyWith(pageState: PageState.success, member: SystemAccounts.getSystemAccount(account));
         return;
       }
 

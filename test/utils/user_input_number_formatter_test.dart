@@ -17,7 +17,7 @@ void main() {
   });
 
   test('Input: "", should return "" ', () async {
-    TextEditingValue userInput = const TextEditingValue(text: "");
+    TextEditingValue userInput = const TextEditingValue();
     final result = inputFormatter.formatEditUpdate(TextEditingValue.empty, userInput);
     expect(result.text, "");
   });

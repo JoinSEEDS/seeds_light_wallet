@@ -1,9 +1,13 @@
 class ReceiveDetailArguments {
   final String? description;
-  final String InvoiceLink;
-  final String ReceiveTotalSeeds;
-  final String ReceiveTotalFiat;
+  final String invoiceLink;
+  final String receiveTotalSeeds;
+  final String receiveTotalFiat;
 
-  ReceiveDetailArguments(
-      {required this.ReceiveTotalSeeds, required this.ReceiveTotalFiat, required this.InvoiceLink, this.description});
+  const ReceiveDetailArguments({
+    required this.receiveTotalSeeds,
+    required this.receiveTotalFiat,
+    required this.invoiceLink,
+    this.description,
+  });
 }

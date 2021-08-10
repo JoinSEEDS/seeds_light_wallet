@@ -13,23 +13,25 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/main.dart';
 
 class SeedsMaterialApp extends MaterialApp {
-  SeedsMaterialApp({required home, navigatorKey, onGenerateRoute})
+  SeedsMaterialApp({Key? key, required home, navigatorKey, onGenerateRoute})
       : super(
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: [
-              const Locale('en', 'US'),
-              const Locale('es', 'ES'),
-            ],
-            //debugShowCheckedModeBanner: false,
-            //debugShowMaterialGrid: true,
-            home: I18n(child: home),
-            theme: SeedsAppTheme.darkTheme,
-            navigatorKey: navigatorKey,
-            onGenerateRoute: onGenerateRoute);
+          key: key,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('en', 'US'),
+            const Locale('es', 'ES'),
+          ],
+          //debugShowCheckedModeBanner: false,
+          //debugShowMaterialGrid: true,
+          home: I18n(child: home),
+          theme: SeedsAppTheme.darkTheme,
+          navigatorKey: navigatorKey,
+          onGenerateRoute: onGenerateRoute,
+        );
 }
 
 class SeedsApp extends StatelessWidget {

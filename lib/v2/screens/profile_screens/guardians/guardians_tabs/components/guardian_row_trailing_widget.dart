@@ -19,23 +19,23 @@ class GuardianRowTrailingWidget extends StatelessWidget {
         return Wrap(
           children: [
             TextButton(
-                child: Text("Accept", style: Theme.of(context).textTheme.subtitle3),
                 onPressed: () {
                   BlocProvider.of<GuardiansBloc>(context).add(OnAcceptGuardianTapped(guardian.uid));
-                }),
+                },
+                child: Text("Accept", style: Theme.of(context).textTheme.subtitle3)),
             TextButton(
-                child: Text("Decline", style: Theme.of(context).textTheme.subtitle3Red),
                 onPressed: () {
                   BlocProvider.of<GuardiansBloc>(context).add(OnDeclineGuardianTapped(guardian.uid));
-                })
+                },
+                child: Text("Decline", style: Theme.of(context).textTheme.subtitle3Red))
           ],
         );
       case GuardianStatus.requestSent:
         return TextButton(
-            child: Text("Cancel Request", style: Theme.of(context).textTheme.subtitle3Red),
             onPressed: () {
               BlocProvider.of<GuardiansBloc>(context).add(OnCancelGuardianRequestTapped(guardian.uid));
-            });
+            },
+            child: Text("Cancel Request", style: Theme.of(context).textTheme.subtitle3Red));
       case GuardianStatus.alreadyGuardian:
         {
           if (guardian.recoveryStartedDate != null) {

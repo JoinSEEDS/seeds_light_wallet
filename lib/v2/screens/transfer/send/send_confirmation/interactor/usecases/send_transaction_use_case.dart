@@ -28,6 +28,6 @@ class SendTransactionUseCase {
     Future<Result> toAccountResult = _profileRepository.getProfile(toAccount);
     Future<Result> fromAccountResult = _profileRepository.getProfile(fromAccount);
 
-    return await Future.wait([toAccountResult, fromAccountResult]);
+    return Future.wait([toAccountResult, fromAccountResult]);
   }
 }

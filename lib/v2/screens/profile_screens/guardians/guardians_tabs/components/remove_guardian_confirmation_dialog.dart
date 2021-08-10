@@ -30,6 +30,10 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
           color: AppColors.blue,
         ),
       ),
+      rightButtonTitle: "Accept",
+      onRightButtonPressed: onConfirm,
+      leftButtonTitle: "Decline",
+      onLeftButtonPressed: onDismiss,
       children: [
         const SizedBox(height: 20),
         Text("Remove Guardian?", style: Theme.of(context).textTheme.headline6),
@@ -41,10 +45,6 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
         ),
         const SizedBox(height: 20),
       ],
-      rightButtonTitle: "Accept",
-      onRightButtonPressed: onConfirm,
-      leftButtonTitle: "Decline",
-      onLeftButtonPressed: onDismiss,
     );
   }
 }

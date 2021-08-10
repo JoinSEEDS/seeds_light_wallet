@@ -28,7 +28,7 @@ class SelectGuardiansBloc extends Bloc<SelectGuardiansEvent, SelectGuardiansStat
 
       yield state.copyWith(selectedGuardians: mutableSet);
     } else if (event is ClearPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     }
   }
 }

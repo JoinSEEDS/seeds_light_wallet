@@ -36,7 +36,7 @@ class RemoveGuardianUseCase {
     if (guardiansQuery.length > 3) {
       print('guardiansQuery.docs.length IS > 3');
       var guardians = guardiansQuery.map((e) => e.uid).toList();
-      return await _guardiansRepository.initGuardians(guardians).then((value) {
+      return _guardiansRepository.initGuardians(guardians).then((value) {
         if (value.isError) {
           return value;
         } else {

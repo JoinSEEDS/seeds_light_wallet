@@ -33,18 +33,20 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
       yield SendAmountChangeMapper().mapResultToState(state, state.ratesState, event.amountChanged);
     } else if (event is OnNextButtonTapped) {
       yield state.copyWith(
-          pageState: PageState.success,
-          shouldAutoFocusEnterField: false,
-          pageCommand: ShowSendConfirmDialog(
-              amount: state.quantity.toString(),
-              toAccount: state.sendTo.account,
-              memo: state.memo,
-              toName: state.sendTo.nickname,
-              toImage: state.sendTo.image,
-              currency: settingsStorage.selectedFiatCurrency,
-              fiatAmount: state.fiatAmount));
+        pageState: PageState.success,
+        shouldAutoFocusEnterField: false,
+        pageCommand: ShowSendConfirmDialog(
+          amount: state.quantity.toString(),
+          toAccount: state.sendTo.account,
+          memo: state.memo,
+          toName: state.sendTo.nickname,
+          toImage: state.sendTo.image,
+          currency: settingsStorage.selectedFiatCurrency,
+          fiatAmount: state.fiatAmount,
+        ),
+      );
     } else if (event is OnSendButtonTapped) {
-      yield state.copyWith(pageState: PageState.loading, pageCommand: null, showSendingAnimation: true);
+      yield state.copyWith(pageState: PageState.loading, showSendingAnimation: true);
 
       Result result = await SendTransactionUseCase().run("transfer", 'token.seeds', {
         'from': settingsStorage.accountName,
@@ -55,7 +57,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
 
       yield SendTransactionMapper().mapResultToState(state, result);
     } else if (event is ClearPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     }
   }
 }

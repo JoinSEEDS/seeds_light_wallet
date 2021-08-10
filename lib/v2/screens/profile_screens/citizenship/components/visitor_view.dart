@@ -14,7 +14,7 @@ import 'package:seeds/v2/components/circular_progress_item.dart';
 import 'package:seeds/i18n/citizenship.18n.dart';
 
 class VisitorView extends StatefulWidget {
-  const VisitorView();
+  const VisitorView({Key? key}) : super(key: key);
 
   @override
   _VisitorViewState createState() => _VisitorViewState();
@@ -51,11 +51,10 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
           ..addListener(() {
             setState(() => _timeLine = _timeLineAnimation.value.toInt());
           });
-        _reputationAnimation =
-            Tween<double>(begin: 0, end: state.profile?.reputation?.toDouble()).animate(_controller)
-              ..addListener(() {
-                setState(() => _reputation = _reputationAnimation.value.toInt());
-              });
+        _reputationAnimation = Tween<double>(begin: 0, end: state.profile?.reputation?.toDouble()).animate(_controller)
+          ..addListener(() {
+            setState(() => _reputation = _reputationAnimation.value.toInt());
+          });
         _visitorsAnimation = Tween<double>(begin: 0, end: state.invitedVisitors?.toDouble()).animate(_controller)
           ..addListener(() {
             setState(() => _visitors = _visitorsAnimation.value.toInt() * 100);
@@ -129,7 +128,6 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
                         StepProgressIndicator(
                           totalSteps: 100,
                           currentStep: _timeLine,
-                          size: 4,
                           padding: 0,
                           selectedColor: AppColors.green1,
                           unselectedColor: AppColors.primary,
@@ -185,7 +183,7 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
                       circleRadius: 30,
                       title: 'Transactions with Seeds'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '${_transactions}/$resident_required_seeds_transactions',
+                      rate: '$_transactions/$resident_required_seeds_transactions',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
                     ),
                   ],

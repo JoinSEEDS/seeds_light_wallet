@@ -11,12 +11,12 @@ class InviteGuardiansBloc extends Bloc<InviteGuardiansEvent, InviteGuardiansStat
 
   @override
   Stream<InviteGuardiansState> mapEventToState(InviteGuardiansEvent event) async* {
-    if(event is OnSendInviteTapped) {
+    if (event is OnSendInviteTapped) {
       yield state.copyWith(pageState: PageState.loading);
       var result = await SendGuardianInviteUseCase().run(state.selectedGuardians);
       yield InviteGuardiansStateMapper().mapResultToState(state, result);
     } else if (event is InviteGuardianClearPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     }
   }
 }

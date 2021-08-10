@@ -106,7 +106,7 @@ class SecurityScreen extends StatelessWidget {
                               value: state.isSecureBiometric!,
                               onChanged: state.isSecurePasscode!
                                   ? (_) {
-                                      BlocProvider.of<SecurityBloc>(context)..add(const OnBiometricPressed());
+                                      BlocProvider.of<SecurityBloc>(context).add(const OnBiometricPressed());
                                     }
                                   : null,
                               activeTrackColor: AppColors.canopy,

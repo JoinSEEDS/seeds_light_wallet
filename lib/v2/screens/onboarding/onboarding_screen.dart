@@ -2,22 +2,21 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:seeds/i18n/onboarding.i18n.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/onboarding/components/pages/onboarding_page_1.dart';
 import 'package:seeds/v2/screens/onboarding/components/pages/onboarding_page_2.dart';
+
 import 'components/pages/onboarding_page_3.dart';
-import 'package:seeds/i18n/onboarding.i18n.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return OnboardingState();
-  }
+  State<StatefulWidget> createState() => OnboardingState();
 }
 
 class OnboardingState extends State<OnboardingScreen> {
@@ -58,9 +57,9 @@ class OnboardingState extends State<OnboardingScreen> {
         CarouselSlider(
           carouselController: _controller,
           items: [
-            FirstPage(),
-            SecondPage(),
-            ThirdPage(),
+            const FirstPage(),
+            const SecondPage(),
+            const ThirdPage(),
           ],
           options: CarouselOptions(
             height: height * 0.91,
@@ -74,18 +73,19 @@ class OnboardingState extends State<OnboardingScreen> {
             const SizedBox(
               width: 20,
             ),
-            _selectedIndex != 0
-                ? Container(
-                    alignment: Alignment.centerLeft,
-                    width: 100,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () {
-                        onPageChangeBackward(_selectedIndex, CarouselPageChangedReason.manual);
-                      },
-                    ),
-                  )
-                : const SizedBox(width: 100),
+            if (_selectedIndex != 0)
+              Container(
+                alignment: Alignment.centerLeft,
+                width: 100,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    onPageChangeBackward(_selectedIndex, CarouselPageChangedReason.manual);
+                  },
+                ),
+              )
+            else
+              const SizedBox(width: 100),
             Expanded(
               child: DotsIndicator(
                 dotsCount: 3,
@@ -101,27 +101,29 @@ class OnboardingState extends State<OnboardingScreen> {
                 ),
               ),
             ),
-            _selectedIndex == 2
-                ? Container(
-                    width: 100,
-                    child: TextButton(
-                      child: Text(
-                        "Join Now".i18n,
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                      onPressed: () {
-                        NavigationService.of(context).navigateTo(Routes.login, null, true);
-                      },
-                    ))
-                : Container(
-                    alignment: Alignment.centerRight,
-                    width: 100,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_forward),
-                      onPressed: () {
-                        onPageChangeForward(_selectedIndex, CarouselPageChangedReason.manual);
-                      },
-                    )),
+            if (_selectedIndex == 2)
+              Container(
+                  width: 100,
+                  child: TextButton(
+                    onPressed: () {
+                      NavigationService.of(context).navigateTo(Routes.login, null, true);
+                    },
+                    child: Text(
+                      "Join Now".i18n,
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ))
+            else
+              Container(
+                alignment: Alignment.centerRight,
+                width: 100,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    onPageChangeForward(_selectedIndex, CarouselPageChangedReason.manual);
+                  },
+                ),
+              ),
             const SizedBox(
               width: 20,
             )

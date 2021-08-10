@@ -49,7 +49,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       title: "Profile".i18n,
       icon: 'assets/images/navigation_bar/user_profile.svg',
       iconSelected: 'assets/images/navigation_bar/user_profile_selected.svg',
-      screen: ProfileScreen(),
+      screen: const ProfileScreen(),
       index: 2,
     ),
   ];

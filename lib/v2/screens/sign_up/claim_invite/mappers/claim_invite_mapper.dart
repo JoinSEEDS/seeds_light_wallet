@@ -36,7 +36,7 @@ class ClaimInviteMapper extends StateMapper {
             claimInviteView: ClaimInviteView.fail, // gray screen
             pageCommand: ShowErrorMessage(''), // dialog
             errorMessage: 'Invite of %s was already claimed by %s'.i18n.fill(
-              ["${inviteModel.sponsor}", "${inviteModel.account}"],
+              [inviteModel.sponsor ?? '', inviteModel.account ?? ''],
             ),
           ),
         );
