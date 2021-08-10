@@ -9,8 +9,6 @@ import 'package:seeds/providers/services/http_service.dart';
 import 'package:seeds/providers/services/links_service.dart';
 import 'package:seeds/screens/onboarding/claim_code.dart';
 import 'package:seeds/screens/onboarding/continue_recovery.dart';
-import 'package:seeds/screens/onboarding/create_account.dart';
-import 'package:seeds/screens/onboarding/create_account_account_name.dart';
 import 'package:seeds/screens/onboarding/import_account.dart';
 import 'package:seeds/screens/onboarding/onboarding_state_machine.dart';
 import 'package:seeds/screens/onboarding/request_recovery.dart';
@@ -301,29 +299,9 @@ class _JoinProcessState extends State<JoinProcess> {
         backCallback = () => machine.transition(Events.claimInviteCanceled);
         break;
       case States.createAccountEnterName:
-        currentScreen = CreateAccount(
-          inviteSecret: inviteSecret,
-          initialName: nickname,
-          onSubmit: (nickName) => machine.transition(
-            Events.createAccountNameEntered,
-            data: {
-              "nickname": nickName,
-            },
-          ),
-        );
         backCallback = () => machine.transition(Events.createAccountCanceled);
         break;
       case States.createAccountAccountName:
-        currentScreen = CreateAccountAccountName(
-          nickname: nickname,
-          onSubmit: (accountName, nickName) => machine.transition(
-            Events.createAccountRequestedFinal,
-            data: {
-              "accountName": accountName,
-              "nickname": nickName,
-            },
-          ),
-        );
         backCallback = () => machine.transition(Events.createAccountAccountNameBack);
         break;
       case States.creatingAccount:

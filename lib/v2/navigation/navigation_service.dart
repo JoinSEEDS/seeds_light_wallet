@@ -114,11 +114,6 @@ class NavigationService {
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
     Routes.signup: (_) => const SignupScreen(null),
-    // Routes.importAccount: (_) => ImportAccount(),
-    // Routes.createAccount: (args) => CreateAccount(args),
-    // Routes.showInvite: (args) => ShowInvite(args),
-    // Routes.claimCode: (_) => ClaimCode(),
-    // Routes.welcome: (args) => Welcome(args),
   };
 
   final appRoutes = {
