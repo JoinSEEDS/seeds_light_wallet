@@ -43,41 +43,40 @@ class ProposalDetailsBottom extends StatelessWidget {
                   ),
                 ),
               ),
-            state.shouldShowVoteModule
-                ? Column(
-                    children: [
-                      if (state.tokens!.amount > 0)
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Slider(
-                                value: state.voteAmount.toDouble(),
-                                min: -state.tokens!.amount.toDouble(),
-                                max: state.tokens!.amount.toDouble(),
-                                divisions: 200,
-                                label: '${state.voteAmount}',
-                                onChanged: (newValue) {
-                                  BlocProvider.of<ProposalDetailsBloc>(context)
-                                      .add(OnVoteAmountChanged(newValue.round()));
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      const CurrentVoteChoiceLabel(),
-                      Padding(
-                        padding: const EdgeInsets.all(horizontalEdgePadding),
-                        child: FlatButtonLong(
-                          enabled: true,
-                          title: 'Vote'.i18n,
-                          onPressed: () {
-                            BlocProvider.of<ProposalDetailsBloc>(context).add(const OnVoteButtonPressed());
-                          },
-                        ),
-                      ),
-                    ],
-                  )
-                : const SizedBox(height: 200),
+            if (state.shouldShowVoteModule)
+              Column(
+                children: [
+                  if (state.tokens!.amount > 0)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Slider(
+                            value: state.voteAmount.toDouble(),
+                            min: -state.tokens!.amount.toDouble(),
+                            max: state.tokens!.amount.toDouble(),
+                            divisions: 200,
+                            label: '${state.voteAmount}',
+                            onChanged: (newValue) {
+                              BlocProvider.of<ProposalDetailsBloc>(context).add(OnVoteAmountChanged(newValue.round()));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  const CurrentVoteChoiceLabel(),
+                  Padding(
+                    padding: const EdgeInsets.all(horizontalEdgePadding),
+                    child: FlatButtonLong(
+                      title: 'Vote'.i18n,
+                      onPressed: () {
+                        BlocProvider.of<ProposalDetailsBloc>(context).add(const OnVoteButtonPressed());
+                      },
+                    ),
+                  ),
+                ],
+              )
+            else
+              const SizedBox(height: 200),
           ],
         );
       },

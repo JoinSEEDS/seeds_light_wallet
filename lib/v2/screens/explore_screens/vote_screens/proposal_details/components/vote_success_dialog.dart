@@ -10,6 +10,7 @@ class VoteSuccessDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDialog(
       icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
+      singleLargeButtonTitle: 'Done',
       children: [
         Text('Thank you!', style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 24.0),
@@ -20,7 +21,6 @@ class VoteSuccessDialog extends StatelessWidget {
         ),
         const SizedBox(height: 16.0),
       ],
-      singleLargeButtonTitle: 'Done',
     );
   }
 }

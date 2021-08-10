@@ -14,17 +14,6 @@ class GuardianModel {
   final String? nickname;
   final String? image;
 
-  GuardianModel.fromMap(Map<String, dynamic> data)
-      : this(
-          uid: data[UID_KEY],
-          status: fromStatusName(data[GUARDIANS_STATUS_KEY]),
-          type: fromTypeName(data[TYPE_KEY]),
-          dateCreated: data[GUARDIANS_DATE_CREATED_KEY],
-          lastUpdated: data[GUARDIANS_DATE_UPDATED_KEY],
-          recoveryStartedDate: data[RECOVERY_STARTED_DATE_KEY],
-          recoveryApprovedDate: data[RECOVERY_APPROVED_DATE_KEY],
-        );
-
   GuardianModel({
     required this.uid,
     required this.status,
@@ -36,6 +25,17 @@ class GuardianModel {
     this.nickname,
     this.image,
   });
+
+  GuardianModel.fromMap(Map<String, dynamic> data)
+      : this(
+          uid: data[UID_KEY],
+          status: fromStatusName(data[GUARDIANS_STATUS_KEY]),
+          type: fromTypeName(data[TYPE_KEY]),
+          dateCreated: data[GUARDIANS_DATE_CREATED_KEY],
+          lastUpdated: data[GUARDIANS_DATE_UPDATED_KEY],
+          recoveryStartedDate: data[RECOVERY_STARTED_DATE_KEY],
+          recoveryApprovedDate: data[RECOVERY_APPROVED_DATE_KEY],
+        );
 
   GuardianModel copyWith({
     String? uid,

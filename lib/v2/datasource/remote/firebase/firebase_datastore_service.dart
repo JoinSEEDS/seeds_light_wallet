@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class FirebaseDataStoreService {
-  FirebaseDataStoreService._();
-
   factory FirebaseDataStoreService() => _instance;
+
+  FirebaseDataStoreService._();
 
   static final FirebaseDataStoreService _instance = FirebaseDataStoreService._();
 

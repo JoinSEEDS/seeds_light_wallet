@@ -58,14 +58,14 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   /// Will fail when it's already set up - in that case, call cancelGuardians first.
   ///
   Future<Result> initGuardians(List<String> guardians) async {
-    print('[eos] init guardians: ' + guardians.toString());
+    print('[eos] init guardians: $guardians');
 
     var accountName = settingsStorage.accountName;
 
     var actions = [
       Action()
         ..account = account_guards
-        ..name = action_name_init
+        ..name = actionNameInit
         ..data = {
           'user_account': accountName,
           'guardian_accounts': guardians,
@@ -73,18 +73,18 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         }
     ];
 
-    actions.forEach((action) => {
-          action.authorization = [
-            Authorization()
-              ..actor = accountName
-              ..permission = permission_active
-          ]
-        });
+    for (var action in actions) {
+      action.authorization = [
+        Authorization()
+          ..actor = accountName
+          ..permission = permissionActive
+      ];
+    }
 
     var transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return response["transaction_id"];
             }))
@@ -104,17 +104,17 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     var actions = [
       Action()
         ..account = account_guards
-        ..name = action_name_claim
+        ..name = actionNameClaim
         ..data = {'user_account': userAccount}
     ];
 
-    actions.forEach((action) => {
-          action.authorization = [
-            Authorization()
-              ..actor = account_guards
-              ..permission = permission_application
-          ]
-        });
+    for (var action in actions) {
+      action.authorization = [
+        Authorization()
+          ..actor = account_guards
+          ..permission = permissionApplication
+      ];
+    }
 
     var transaction = Transaction()
       ..actions = [
@@ -122,7 +122,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
       ];
 
     return EOSClient(baseURL, 'v1', privateKeys: [onboardingPrivateKey])
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return response["transaction_id"];
             }))
@@ -140,11 +140,11 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     var actions = [
       Action()
         ..account = account_guards
-        ..name = action_name_cancel
+        ..name = actionNameCancel
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_owner
+            ..permission = permissionOwner
         ]
         ..data = {'user_account': accountName}
     ];
@@ -152,7 +152,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     var transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return response["transaction_id"];
             }))
@@ -174,11 +174,11 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     var actions = [
       Action()
         ..account = account_guards
-        ..name = action_name_recover
+        ..name = actionNameRecover
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_owner
+            ..permission = permissionOwner
         ]
         ..data = {
           'guardian_account': accountName,
@@ -190,7 +190,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     var transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return response["transaction_id"];
             }))
@@ -224,7 +224,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     var actions = [
       Action()
         ..account = account_eosio
-        ..name = action_name_updateauth
+        ..name = actionNameUpdateauth
         ..data = {
           'account': accountName,
           'permission': permission.permName,
@@ -233,18 +233,18 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         }
     ];
 
-    actions.forEach((action) => {
-          action.authorization = [
-            Authorization()
-              ..actor = accountName
-              ..permission = permission_owner
-          ]
-        });
+    for (var action in actions) {
+      action.authorization = [
+        Authorization()
+          ..actor = accountName
+          ..permission = permissionOwner
+      ];
+    }
 
     var transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return response["transaction_id"];
             }))
@@ -252,14 +252,14 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   }
 
   Future<Result<dynamic>> getAccountRecovery(String accountName) async {
-    print('[http] get account recovery' + accountName);
+    print('[http] get account recovery $accountName');
 
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
     String request = createRequest(
         code: account_guards,
         scope: account_guards,
-        table: table_recover,
+        table: tableRecover,
         lowerBound: accountName,
         upperBound: accountName);
 
@@ -280,7 +280,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     String request = createRequest(
       code: account_guards,
       scope: account_guards,
-      table: table_guards,
+      table: tableGuards,
       lowerBound: accountName,
       upperBound: accountName,
     );

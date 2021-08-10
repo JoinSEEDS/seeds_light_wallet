@@ -13,10 +13,9 @@ class PlantedRepository extends NetworkRepository {
     var request = createRequest(
         code: account_harvest,
         scope: account_harvest,
-        table: table_balances,
+        table: tableBalances,
         lowerBound: userAccount,
-        upperBound: userAccount,
-        limit: 1);
+        upperBound: userAccount);
 
     return http
         .post(plantedURL, headers: headers, body: request)

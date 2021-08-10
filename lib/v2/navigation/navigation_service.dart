@@ -88,7 +88,7 @@ class NavigationService {
   StreamController<String>? streamRouteListener;
 
   final onboardingRoutes = {
-    Routes.login: (_) => LoginScreen(),
+    Routes.login: (_) => const LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
@@ -208,7 +208,7 @@ class NavigationService {
     return (Route<dynamic> route) {
       //print("Route: ${route.settings.name}" + " modal: ${route is ModalRoute} handlepop: ${route.willHandlePopInternally}");
       if (route.settings.name == '/' && name != '/') {
-        print('pop error: Route name not found: ' + name);
+        print('pop error: Route name not found: $name');
       }
       return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
           route.settings.name == '/';

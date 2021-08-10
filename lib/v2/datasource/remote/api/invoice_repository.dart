@@ -15,13 +15,13 @@ class InvoiceRepository extends EosRepository {
     Map<String, String> data = {
       'from': esr.ESRConstants.PlaceholderName,
       'to': accountName,
-      'quantity': '${quantity.toStringAsFixed(4)}',
+      'quantity': quantity.toStringAsFixed(4),
       'memo': memo ?? ''
     };
 
     esr.Action action = esr.Action()
       ..account = account_token
-      ..name = action_name_transfer
+      ..name = actionNameTransfer
       ..authorization = auth
       ..data = data;
 

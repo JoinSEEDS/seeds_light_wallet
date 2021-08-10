@@ -33,10 +33,6 @@ class UserInputNumberFormatter extends TextInputFormatter {
       extentOffset: result.length,
     );
 
-    return TextEditingValue(
-      text: result,
-      selection: newSelection,
-      composing: TextRange.empty,
-    );
+    return TextEditingValue(text: result, selection: newSelection);
   }
 }

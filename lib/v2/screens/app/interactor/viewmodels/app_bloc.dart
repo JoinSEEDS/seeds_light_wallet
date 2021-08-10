@@ -63,13 +63,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield StopGuardianRecoveryStateMapper().mapResultToState(state, result);
     } else if (event is ClearAppPageCommand) {
       yield state.copyWith(
-        pageCommand: null,
         showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
       );
     } else if (event is OnDismissGuardianRecoveryTapped) {
       // Update Deep Link Bloc State
       _deeplinkBloc.add(const OnGuardianRecoveryRequestSeen());
-      yield state.copyWith(pageCommand: null, showGuardianApproveOrDenyScreen: null);
+      yield state.copyWith();
     } else if (event is OnApproveGuardianRecoveryTapped) {
       // Update Deep Link Bloc State
       _deeplinkBloc.add(const OnGuardianRecoveryRequestSeen());

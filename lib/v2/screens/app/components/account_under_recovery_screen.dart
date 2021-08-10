@@ -15,6 +15,10 @@ class AccountUnderRecoveryScreen extends StatelessWidget {
     return Center(
       child: SingleChildScrollView(
         child: CustomDialog(
+          singleLargeButtonTitle: 'Cancel Recovery',
+          onSingleLargeButtonPressed: () async {
+            BlocProvider.of<AppBloc>(context).add(const OnStopGuardianActiveRecoveryTapped());
+          },
           children: [
             Container(
               height: 200,
@@ -45,10 +49,6 @@ class AccountUnderRecoveryScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
           ],
-          singleLargeButtonTitle: 'Cancel Recovery',
-          onSingleLargeButtonPressed: () async {
-            BlocProvider.of<AppBloc>(context).add(const OnStopGuardianActiveRecoveryTapped());
-          },
         ),
       ),
     );

@@ -15,14 +15,14 @@ class VotesAbstainSlash extends CustomPainter {
       ..moveTo(size.width * 0.6461538, size.height * 0.3538462)
       ..lineTo(size.width * 0.3384615, size.height * 0.6615385);
 
-    Paint paint_stroke = Paint()
+    Paint paintStroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.03076923
       ..color = const Color(0xff87928B).withOpacity(1.0)
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawPath(path, paint_stroke);
+    canvas.drawPath(path, paintStroke);
 
     Paint paint1 = Paint()
       ..style = PaintingStyle.fill

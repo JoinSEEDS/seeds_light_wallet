@@ -66,7 +66,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
 
     var batch = FirebaseFirestore.instance.batch();
 
-    usersToInvite.forEach((guardian) {
+    for (var guardian in usersToInvite) {
       var data = <String, Object>{
         UID_KEY: guardian.account,
         TYPE_KEY: GuardianType.myGuardian.name,
@@ -98,7 +98,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
       batch.set(otherUserRef, <String, dynamic>{}, SetOptions(merge: true));
       batch.set(currentUserRef, data, SetOptions(merge: true));
       batch.set(otherUserGuardianRef, dataOther, SetOptions(merge: true));
-    });
+    }
 
     return batch.commit().then((value) {
       return ValueResult(value);
@@ -191,17 +191,18 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
         .where(TYPE_KEY, isEqualTo: GuardianType.myGuardian.name)
         .get();
 
-    myGuardians.docs.forEach((QueryDocumentSnapshot guardian) {
+    for (var guardian in myGuardians.docs) {
       batch.set(
           usersCollection
               // ignore: cast_nullable_to_non_nullable
-              .doc(GuardianModel.fromMap(guardian.data() as Map<String, dynamic>).uid)
+              .doc(GuardianModel.fromMap(guardian.data()).uid)
               .collection(GUARDIANS_COLLECTION_KEY)
               .doc(guardian.id),
           data,
           SetOptions(merge: true));
       batch.set(guardian.reference, data, SetOptions(merge: true));
-    });
+    }
+
     return batch.commit();
   }
 
@@ -254,9 +255,9 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
 
 // Manage guardian Ids
 String _createGuardianId({required String currentUserId, required String otherUserId}) {
-  return currentUserId + '-' + otherUserId;
+  return '$currentUserId-$otherUserId';
 }
 
 String _createImGuardianForId({required String currentUserId, required String otherUserId}) {
-  return otherUserId + '-' + currentUserId;
+  return '$otherUserId-$currentUserId';
 }

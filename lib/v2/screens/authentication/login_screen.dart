@@ -11,6 +11,8 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 
 /// Login SCREEN
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   static const int approxWidgetHeight = 450;
 
   @override

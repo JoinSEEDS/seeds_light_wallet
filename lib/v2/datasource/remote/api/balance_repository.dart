@@ -12,11 +12,13 @@ class BalanceRepository extends NetworkRepository {
   Future<Result<dynamic>> getTokenBalance(String userAccount, TokenModel token) {
     print('[http] get seeds getTokenBalance $userAccount for ${token.symbol}');
 
-    final String request = '''{
+    final String request = '''
+    {
       "code":"${token.contract}",
       "account":"$userAccount",
       "symbol":"${token.symbol}" 
-    }''';
+    }
+    ''';
 
     final balanceURL = Uri.parse('$baseURL/v1/chain/get_currency_balance');
 

@@ -16,7 +16,7 @@ class FiatRateModel {
 
   double? usdTo(double usdValue, String currency) {
     num? rate = rates[currency];
-    if(rate != null) {
+    if (rate != null) {
       return usdValue * rate;
     } else {
       return null;
@@ -25,7 +25,7 @@ class FiatRateModel {
 
   double? toUSD(double currencyValue, String currency) {
     num? rate = rates[currency];
-    if(rate != null) {
+    if (rate != null) {
       // ignore: unnecessary_statements
       rate > 0 ? currencyValue / rate : 0;
     } else {
@@ -41,7 +41,7 @@ class FiatRateModel {
       rates = rates.map((key, value) => MapEntry(key, value / rate));
       rates[base] = 1.0;
     } else {
-      print("error - can't rebase to " + symbol);
+      print("error - can't rebase to $symbol");
     }
   }
 }
