@@ -9,7 +9,7 @@ class ScoreModel {
 
   factory ScoreModel.fromJson({required Map<String, dynamic> json, String fieldName = "rank"}) {
     if (json['rows'].isNotEmpty) {
-      Map<String, dynamic> item = json['rows'][0];
+      final Map<String, dynamic> item = json['rows'][0];
       return ScoreModel(
         value: item[fieldName],
       );

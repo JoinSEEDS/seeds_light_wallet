@@ -62,8 +62,8 @@ String entropyToMnemonic(String entropyString) {
   final bits = entropyBits + checksumBits;
   final regex = RegExp(r".{1,11}", caseSensitive: false);
   final chunks = regex.allMatches(bits).map((match) => match.group(0)!).toList(growable: false);
-  List<String> wordlist = WORDLIST;
-  String words = chunks.map((binary) => wordlist[_binaryToByte(binary)]).join('-');
+  final List<String> wordlist = WORDLIST;
+  final String words = chunks.map((binary) => wordlist[_binaryToByte(binary)]).join('-');
   return words;
 }
 

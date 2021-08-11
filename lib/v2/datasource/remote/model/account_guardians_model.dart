@@ -6,8 +6,8 @@ class UserGuardiansModel {
 
   factory UserGuardiansModel.fromTableRows(List<dynamic> rows) {
     if (rows.isNotEmpty && rows[0]['account'].isNotEmpty) {
-      List<String> guardians = List<String>.from(rows[0]['guardians']);
-      int timeDelaySec = rows[0]['time_delay_sec'];
+      final List<String> guardians = List<String>.from(rows[0]['guardians']);
+      final int timeDelaySec = rows[0]['time_delay_sec'];
       return UserGuardiansModel(guardians: guardians, timeDelaySec: timeDelaySec);
     } else {
       return UserGuardiansModel(guardians: [], timeDelaySec: 0);

@@ -6,8 +6,8 @@ class FirebaseMessageTokenRepository extends FirebaseDatabaseService {
   Future<void> setFirebaseMessageToken(String? userId) async {
     // Users can have multiple tokens. Ex: Multiple devices.
     if (PushNotificationService().token != null) {
-      var tokens = <String?>[PushNotificationService().token];
-      var data = <String, Object>{
+      final tokens = <String?>[PushNotificationService().token];
+      final data = <String, Object>{
         FIREBASE_MESSAGE_TOKENS_KEY: FieldValue.arrayUnion(tokens),
       };
 
@@ -19,8 +19,8 @@ class FirebaseMessageTokenRepository extends FirebaseDatabaseService {
 
   Future<void> removeFirebaseMessageToken(String userId) async {
     if (PushNotificationService().token != null) {
-      var tokens = <String?>[PushNotificationService().token];
-      var data = <String, Object>{
+      final tokens = <String?>[PushNotificationService().token];
+      final data = <String, Object>{
         FIREBASE_MESSAGE_TOKENS_KEY: FieldValue.arrayRemove(tokens),
       };
 

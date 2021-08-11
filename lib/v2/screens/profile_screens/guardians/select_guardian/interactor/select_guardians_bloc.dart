@@ -14,7 +14,7 @@ class SelectGuardiansBloc extends Bloc<SelectGuardiansEvent, SelectGuardiansStat
       if (state.myGuardians.length + state.selectedGuardians.length >= MAX_GUARDIANS_ALLOWED) {
         yield state.copyWith(pageCommand: ShowMaxUserCountSelected("Max Guardians number selected"));
       } else {
-        var mutableSet = <MemberModel>{};
+        final mutableSet = <MemberModel>{};
 
         mutableSet.addAll(state.selectedGuardians);
         mutableSet.add(event.user);
@@ -22,7 +22,7 @@ class SelectGuardiansBloc extends Bloc<SelectGuardiansEvent, SelectGuardiansStat
         yield state.copyWith(selectedGuardians: mutableSet);
       }
     } else if (event is OnUserRemoved) {
-      var mutableSet = <MemberModel>{};
+      final mutableSet = <MemberModel>{};
       mutableSet.addAll(state.selectedGuardians);
       mutableSet.remove(event.user);
 

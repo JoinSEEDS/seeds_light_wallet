@@ -32,9 +32,9 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
     if (event is OnLoadTokenBalances) {
       yield state.copyWith(pageState: PageState.loading);
 
-      var potentialTokens = TokenModel.AllTokens;
+      final potentialTokens = TokenModel.AllTokens;
 
-      var result = await LoadTokenBalancesUseCase().run(potentialTokens);
+      final result = await LoadTokenBalancesUseCase().run(potentialTokens);
 
       yield TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
     } else if (event is OnSelectedTokenChanged) {

@@ -45,7 +45,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
       yield state.copyWith(hasNotification: event.value);
     }
     if (event is OnLoadingGuardians) {
-      bool isGuardianInitialized = await isGuardianContractInitialized.first;
+      final bool isGuardianInitialized = await isGuardianContractInitialized.first;
       yield GuardianStateMapper().mapResultToState(isGuardianInitialized, event.guardians, state);
     }
     if (event is OnGuardiansCardTapped) {

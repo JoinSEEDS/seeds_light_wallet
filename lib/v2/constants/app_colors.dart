@@ -121,7 +121,7 @@ class AppColors {
       hash = str.codeUnitAt(i) + ((hash << 5) - hash);
       hash = hash & hash; // Convert to 32bit integer
     }
-    var shortened = hash.abs() % 360;
+    final shortened = hash.abs() % 360;
     return HSLColor.fromAHSL(1.0, shortened.toDouble(), 0.3, 0.6).toColor();
   }
 }

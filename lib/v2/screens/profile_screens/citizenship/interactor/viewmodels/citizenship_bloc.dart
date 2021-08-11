@@ -16,8 +16,8 @@ class CitizenshipBloc extends Bloc<CitizenshipEvent, CitizenshipState> {
         yield state.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
       } else {
         yield state.copyWith(pageState: PageState.loading, profile: event.profile, score: event.score);
-        var referredAccountResults = await GetReferredAccountsUseCase().run();
-        var citizenshipDataResults = await GetCitizenshipDataUseCase().run();
+        final referredAccountResults = await GetReferredAccountsUseCase().run();
+        final citizenshipDataResults = await GetCitizenshipDataUseCase().run();
         yield SetValuesStateMapper().mapResultToState(state, referredAccountResults, citizenshipDataResults);
       }
     }

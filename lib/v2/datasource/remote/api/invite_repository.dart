@@ -19,10 +19,10 @@ class InviteRepository extends NetworkRepository with EosRepository {
   }) async {
     print('[eos] create invite $inviteHash ($quantity)');
 
-    var sowQuantity = 5;
-    var transferQuantity = quantity - sowQuantity;
+    final sowQuantity = 5;
+    final transferQuantity = quantity - sowQuantity;
 
-    var transaction = buildFreeTransaction([
+    final transaction = buildFreeTransaction([
       Action()
         ..account = account_token
         ..name = actionNameTransfer
@@ -66,12 +66,12 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    var request = createRequest(code: account_accounts, scope: account_accounts, table: tableUsers, limit: 1000);
+    final request = createRequest(code: account_accounts, scope: account_accounts, table: tableUsers, limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              List<dynamic> allAccounts = body['rows'].toList();
+              final List<dynamic> allAccounts = body['rows'].toList();
               return allAccounts.map((item) => MemberModel.fromJson(item)).toList();
             }))
         .catchError((error) => mapHttpError(error));
@@ -80,10 +80,10 @@ class InviteRepository extends NetworkRepository with EosRepository {
   Future<Result> findInvite(String inviteHash) async {
     print('[http] find invite by hash');
 
-    var inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+    final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
     // 'https://node.hypha.earth/v1/chain/get_table_rows'; // todo: Why is this still Hypha when config has changed?
 
-    var request = createRequest(
+    final request = createRequest(
         code: account_join,
         scope: account_join,
         table: tableInvites,
@@ -95,7 +95,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
     return http
         .post(inviteURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              List<dynamic> invite = body['rows'].toList();
+              final List<dynamic> invite = body['rows'].toList();
               return invite.map((item) => InviteModel.fromJson(item)).toList();
             }))
         .catchError((error) => mapHttpError(error));

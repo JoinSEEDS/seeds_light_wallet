@@ -26,7 +26,7 @@ class ExploreScreen extends StatelessWidget {
       child: BlocConsumer<ExploreBloc, ExploreState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
-          var pageCommand = state.pageCommand;
+          final pageCommand = state.pageCommand;
           BlocProvider.of<ExploreBloc>(context).add(const ClearExplorePageCommand());
           if (pageCommand is NavigateToRoute) {
             NavigationService.of(context).navigateTo(pageCommand.route);

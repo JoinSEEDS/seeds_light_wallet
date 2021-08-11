@@ -59,7 +59,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
     if (event is OnStopGuardianActiveRecoveryTapped) {
       yield state.copyWith(pageState: PageState.loading);
-      var result = await StopGuardianRecoveryUseCase().stopRecovery();
+      final result = await StopGuardianRecoveryUseCase().stopRecovery();
       yield StopGuardianRecoveryStateMapper().mapResultToState(state, result);
     } else if (event is ClearAppPageCommand) {
       yield state.copyWith(
@@ -73,7 +73,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       // Update Deep Link Bloc State
       _deeplinkBloc.add(const OnGuardianRecoveryRequestSeen());
       yield state.copyWith(pageState: PageState.loading);
-      var result = await ApproveGuardianRecoveryUseCase()
+      final result = await ApproveGuardianRecoveryUseCase()
           .approveGuardianRecovery(event.data.guardianAccount, event.data.publicKey);
       yield ApproveGuardianRecoveryStateMapper().mapResultToState(state, result);
     } else if (event is OnApproveGuardianRecoveryDeepLink) {

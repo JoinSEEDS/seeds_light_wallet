@@ -16,7 +16,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
   Future<Result> findInvite(String inviteHash) async {
     final inviteURL = '$hyphaURL/v1/chain/get_table_rows';
 
-    var request = createRequest(
+    final request = createRequest(
         code: account_join,
         scope: account_join,
         table: tableInvites,
@@ -82,7 +82,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
     required String displayName,
     required EOSPrivateKey privateKey,
   }) async {
-    EOSPublicKey publicKey = privateKey.toEOSPublicKey();
+    final EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
     final applicationAccount = onboardingAccountName;
 

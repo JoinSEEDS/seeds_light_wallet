@@ -11,12 +11,12 @@ class ProfileValuesStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
     } else {
       // results.retainWhere((Result i) => i.isValue); // seems like a bug if there's 1 bad result it will do the wrong thing
-      ProfileModel? profile = results[0].valueOrNull;
+      final ProfileModel? profile = results[0].valueOrNull;
       final isCitizen = settingsStorage.isCitizen;
       final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
 
       if (isCitizen) {
-        var score = ScoresViewModel(
+        final score = ScoresViewModel(
           contributionScore: results[1].valueOrNull,
           communityScore: results[2].valueOrNull,
           reputationScore: results[3].valueOrNull,
@@ -26,7 +26,7 @@ class ProfileValuesStateMapper extends StateMapper {
         return currentState.copyWith(pageState: PageState.success, profile: profile, score: score);
       }
 
-      var score = ScoresViewModel(
+      final score = ScoresViewModel(
         contributionScore: results[1].valueOrNull,
         communityScore: results[2].valueOrNull,
         reputationScore: results[3].valueOrNull,

@@ -8,10 +8,10 @@ import 'package:seeds/v2/i18n/explore_screens/invite/invite.i18n.dart';
 
 class SeedsAmountChangeMapper extends StateMapper {
   InviteState mapResultToState(InviteState currentState, RatesState rateState, String quantity) {
-    double parsedQuantity = double.tryParse(quantity) ?? 0;
-    double currentAvailable = currentState.availableBalance?.quantity ?? 0;
+    final double parsedQuantity = double.tryParse(quantity) ?? 0;
+    final double currentAvailable = currentState.availableBalance?.quantity ?? 0;
 
-    String? alertMessage = _handleAlertMessage(currentAvailable, parsedQuantity);
+    final String? alertMessage = _handleAlertMessage(currentAvailable, parsedQuantity);
 
     return currentState.copyWith(
       fiatAmount: rateState.fromSeedsToFiat(parsedQuantity, settingsStorage.selectedFiatCurrency).fiatFormatted,

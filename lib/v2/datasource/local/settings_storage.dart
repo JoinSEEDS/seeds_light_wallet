@@ -188,7 +188,7 @@ class _SettingsStorage {
   }
 
   String? _migrateFromPrefs(String key) {
-    String? value = _preferences.get(key) as String?;
+    final String? value = _preferences.get(key) as String?;
     if (value != null) {
       _secureStorage.write(key: key, value: value);
       _preferences.remove(key);
@@ -275,7 +275,7 @@ class _SettingsStorage {
   }
 
   String getPlatformCurrency() {
-    var format = NumberFormat.simpleCurrency(locale: Platform.localeName);
+    final format = NumberFormat.simpleCurrency(locale: Platform.localeName);
     return format.currencyName ?? 'USD';
   }
 }

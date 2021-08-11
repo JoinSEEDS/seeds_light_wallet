@@ -36,7 +36,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     // Check if permissions are already set?
     // ignore: unnecessary_cast
-    for (Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts as List<dynamic>) {
+    for (final Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts as List<dynamic>) {
       if (acct['permission']['actor'] == account_guards) {
         print('permission already set, doing nothing');
         return currentPermissions;
@@ -60,9 +60,9 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   Future<Result> initGuardians(List<String> guardians) async {
     print('[eos] init guardians: $guardians');
 
-    var accountName = settingsStorage.accountName;
+    final accountName = settingsStorage.accountName;
 
-    var actions = [
+    final actions = [
       Action()
         ..account = account_guards
         ..name = actionNameInit
@@ -73,7 +73,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         }
     ];
 
-    for (var action in actions) {
+    for (final action in actions) {
       action.authorization = [
         Authorization()
           ..actor = accountName
@@ -81,7 +81,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
       ];
     }
 
-    var transaction = buildFreeTransaction(actions, accountName);
+    final transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
         .pushTransaction(transaction)
@@ -101,14 +101,14 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   Future<Result> claimRecoveredAccount(String userAccount) async {
     print('[eos] claim recovered account $userAccount');
 
-    var actions = [
+    final actions = [
       Action()
         ..account = account_guards
         ..name = actionNameClaim
         ..data = {'user_account': userAccount}
     ];
 
-    for (var action in actions) {
+    for (final action in actions) {
       action.authorization = [
         Authorization()
           ..actor = account_guards
@@ -116,7 +116,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
       ];
     }
 
-    var transaction = Transaction()
+    final transaction = Transaction()
       ..actions = [
         ...actions,
       ];
@@ -134,10 +134,10 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   /// This cancels any recovery currently in process, and removes all guardians
   ///
   Future<Result> cancelGuardians() async {
-    var accountName = settingsStorage.accountName;
+    final accountName = settingsStorage.accountName;
     print('[eos] cancel recovery $accountName');
 
-    var actions = [
+    final actions = [
       Action()
         ..account = account_guards
         ..name = actionNameCancel
@@ -149,7 +149,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         ..data = {'user_account': accountName}
     ];
 
-    var transaction = buildFreeTransaction(actions, accountName);
+    final transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
         .pushTransaction(transaction)
@@ -169,9 +169,9 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   Future<Result> recoverAccount(String userAccount, String publicKey) async {
     print('[eos] recover account $userAccount');
 
-    var accountName = settingsStorage.accountName;
+    final accountName = settingsStorage.accountName;
 
-    var actions = [
+    final actions = [
       Action()
         ..account = account_guards
         ..name = actionNameRecover
@@ -187,7 +187,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         }
     ];
 
-    var transaction = buildFreeTransaction(actions, accountName);
+    final transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
         .pushTransaction(transaction)
@@ -199,7 +199,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
   Future<Result<dynamic>> _getAccountPermissions() async {
     print('[http] get account permissions');
-    var accountName = settingsStorage.accountName;
+    final accountName = settingsStorage.accountName;
 
     final url = Uri.parse('$baseURL/v1/chain/get_account');
     final body = '{ "account_name": "$accountName" }';
@@ -207,7 +207,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     return http
         .post(url, headers: headers, body: body)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              List<dynamic> allAccounts = body['permissions'].toList();
+              final List<dynamic> allAccounts = body['permissions'].toList();
               return allAccounts.map((item) => Permission.fromJson(item)).toList();
             }))
         .catchError((error) => mapHttpError(error));
@@ -216,12 +216,12 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   Future<dynamic> _updatePermission(Permission permission) async {
     print('[eos] update permission ${permission.permName}');
 
-    var permissionsMap = _requiredAuthToJson(permission.requiredAuth!);
+    final permissionsMap = _requiredAuthToJson(permission.requiredAuth!);
 
     print('converted JSPN: ${permissionsMap.toString()}');
-    var accountName = settingsStorage.accountName;
+    final accountName = settingsStorage.accountName;
 
-    var actions = [
+    final actions = [
       Action()
         ..account = account_eosio
         ..name = actionNameUpdateauth
@@ -233,7 +233,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         }
     ];
 
-    for (var action in actions) {
+    for (final action in actions) {
       action.authorization = [
         Authorization()
           ..actor = accountName
@@ -241,7 +241,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
       ];
     }
 
-    var transaction = buildFreeTransaction(actions, accountName);
+    final transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
         .pushTransaction(transaction)
@@ -256,7 +256,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
-    String request = createRequest(
+    final String request = createRequest(
         code: account_guards,
         scope: account_guards,
         table: tableRecover,
@@ -266,7 +266,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     return http
         .post(Uri.parse(requestURL), headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              var rows = body["rows"] as List<dynamic>;
+              final rows = body["rows"] as List<dynamic>;
               return UserRecoversModel.fromTableRows(rows);
             }))
         .catchError((error) => mapHttpError(error));
@@ -277,7 +277,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
-    String request = createRequest(
+    final String request = createRequest(
       code: account_guards,
       scope: account_guards,
       table: tableGuards,
@@ -288,7 +288,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     return http
         .post(Uri.parse(requestURL), headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              var rows = body["rows"] as List<dynamic>;
+              final rows = body["rows"] as List<dynamic>;
               return UserGuardiansModel.fromTableRows(rows);
             }))
         .catchError((error) => mapHttpError(error));
@@ -297,21 +297,21 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
   Future<Result<dynamic>> generateRecoveryRequest(String accountName, String publicKey) async {
     print('[ESR] generateRecoveryRequest: $accountName publicKey: ($publicKey)');
 
-    List<esr.Authorization> auth = [esr.ESRConstants.PlaceholderAuth];
+    final List<esr.Authorization> auth = [esr.ESRConstants.PlaceholderAuth];
 
-    Map<String, String> data = {
+    final Map<String, String> data = {
       'guardian_account': esr.ESRConstants.PlaceholderName,
       'user_account': accountName,
       'new_public_key': publicKey,
     };
 
-    esr.Action action = esr.Action()
+    final esr.Action action = esr.Action()
       ..account = account_guards
       ..name = 'recover'
       ..authorization = auth
       ..data = data;
 
-    esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: action, chainId: chain_id);
+    final esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: action, chainId: chain_id);
 
     return esr.SigningRequestManager.create(args,
             options: esr.defaultSigningRequestEncodingOptions(

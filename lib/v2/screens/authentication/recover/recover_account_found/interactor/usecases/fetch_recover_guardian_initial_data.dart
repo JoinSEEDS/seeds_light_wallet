@@ -24,11 +24,11 @@ class FetchRecoverGuardianInitialDataUseCase {
       settingsStorage.enableRecoveryMode(accountName: accountName, privateKey: recoveryPrivateKey);
     }
 
-    String publicKey = EOSPrivateKey.fromString(recoveryPrivateKey).toEOSPublicKey().toString();
+    final String publicKey = EOSPrivateKey.fromString(recoveryPrivateKey).toEOSPublicKey().toString();
     print("public $publicKey");
 
-    Result accountRecovery = await _guardiansRepository.getAccountRecovery(accountName);
-    Result accountGuardians = await _guardiansRepository.getAccountGuardians(accountName);
+    final Result accountRecovery = await _guardiansRepository.getAccountRecovery(accountName);
+    final Result accountGuardians = await _guardiansRepository.getAccountGuardians(accountName);
     Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey);
 
     // Check
@@ -36,7 +36,7 @@ class FetchRecoverGuardianInitialDataUseCase {
 
     List<Result> membersData = [];
     if (accountGuardians.isValue) {
-      UserGuardiansModel guardians = accountGuardians.asValue!.value;
+      final UserGuardiansModel guardians = accountGuardians.asValue!.value;
       membersData = await _getMembersData(guardians.guardians);
     }
 
@@ -44,17 +44,17 @@ class FetchRecoverGuardianInitialDataUseCase {
   }
 
   Future<List<Result>> _getMembersData(List<String> guardians) async {
-    Iterable<Future<Result>> futures = guardians.map((String e) => _membersRepository.getMemberByAccountName(e));
-    List<Result> results = await Future.wait(futures);
-    Iterable<Result<dynamic>> filtered = results.where((Result element) => element.isValue);
+    final Iterable<Future<Result>> futures = guardians.map((String e) => _membersRepository.getMemberByAccountName(e));
+    final List<Result> results = await Future.wait(futures);
+    final Iterable<Result<dynamic>> filtered = results.where((Result element) => element.isValue);
 
     return filtered.toList();
   }
 
   Future<Result<dynamic>> generateFirebaseDynamicLink(Result<dynamic> link) async {
     if (link.isValue) {
-      String linkValue = link.asValue!.value;
-      var guardianLink = await _createFirebaseDynamicLinkUseCase.createDynamicLink(guardian_target_link, linkValue);
+      final String linkValue = link.asValue!.value;
+      final guardianLink = await _createFirebaseDynamicLinkUseCase.createDynamicLink(guardian_target_link, linkValue);
       return guardianLink;
     } else {
       return link;

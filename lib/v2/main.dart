@@ -87,7 +87,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        var navigationService = NavigationService.of(context);
+        final navigationService = NavigationService.of(context);
         switch (state.authStatus) {
           case AuthStatus.emptyAccount:
           case AuthStatus.recoveryMode:

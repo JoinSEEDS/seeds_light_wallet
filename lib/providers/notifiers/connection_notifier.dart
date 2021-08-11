@@ -31,13 +31,13 @@ class ConnectionNotifier extends ChangeNotifier {
   }
 
   Future<void> discoverEndpoints() async {
-    var checks = <Future>[];
+    final checks = <Future>[];
 
-    for (var endpoint in availableEndpoints) {
+    for (final endpoint in availableEndpoints) {
       checks.add(checkEndpoint(endpoint));
     }
 
-    var responses = await Future.wait(checks);
+    final responses = await Future.wait(checks);
 
     responses.sort((a, b) => a.ping - b.ping);
 
@@ -49,11 +49,11 @@ class ConnectionNotifier extends ChangeNotifier {
 
   Future<Endpoint> checkEndpoint(String endpoint) async {
     try {
-      var ping = Stopwatch()..start();
-      var res = await get(Uri.parse('$endpoint/v2/health'));
+      final ping = Stopwatch()..start();
+      final res = await get(Uri.parse('$endpoint/v2/health'));
       ping.stop();
       if (res.statusCode == 200) {
-        var endpointPing = ping.elapsedMilliseconds;
+        final endpointPing = ping.elapsedMilliseconds;
         return Endpoint(endpoint, endpointPing);
       } else {
         return Endpoint(endpoint, infinitePing);

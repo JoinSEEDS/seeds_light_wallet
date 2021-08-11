@@ -10,12 +10,12 @@ class MembersRepository extends NetworkRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    var request = createRequest(code: account_accounts, scope: account_accounts, table: tableUsers, limit: 1000);
+    final request = createRequest(code: account_accounts, scope: account_accounts, table: tableUsers, limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              List<dynamic> allAccounts = body['rows'].toList();
+              final List<dynamic> allAccounts = body['rows'].toList();
               return allAccounts.map((item) => MemberModel.fromJson(item)).toList();
             }))
         .catchError((error) => mapHttpError(error));
@@ -26,12 +26,12 @@ class MembersRepository extends NetworkRepository {
     print('[http] getMembersWithFilter $filter ');
     assert(filter.length > 2);
 
-    var lowerBound = filter;
-    var upperBound = filter.padRight(12, 'z');
+    final lowerBound = filter;
+    final upperBound = filter.padRight(12, 'z');
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    var request = createRequest(
+    final request = createRequest(
         code: account_accounts,
         scope: account_accounts,
         table: tableUsers,
@@ -42,7 +42,7 @@ class MembersRepository extends NetworkRepository {
     return http
         .post(membersURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              List<dynamic> allAccounts = body['rows'].toList();
+              final List<dynamic> allAccounts = body['rows'].toList();
               return allAccounts.map((item) => MemberModel.fromJson(item)).toList();
             }))
         .catchError((error) => mapHttpError(error));
@@ -56,7 +56,7 @@ class MembersRepository extends NetworkRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    var request = createRequest(
+    final request = createRequest(
         code: account_accounts,
         scope: account_accounts,
         table: tableUsers,
@@ -66,7 +66,7 @@ class MembersRepository extends NetworkRepository {
     return http
         .post(membersURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              List<dynamic> allAccounts = body['rows'].toList();
+              final List<dynamic> allAccounts = body['rows'].toList();
               if (allAccounts.isNotEmpty) {
                 return MemberModel.fromJson(allAccounts[0]);
               } else {

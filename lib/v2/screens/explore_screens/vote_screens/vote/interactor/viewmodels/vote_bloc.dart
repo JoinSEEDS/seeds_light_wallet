@@ -33,7 +33,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
   Stream<VoteState> mapEventToState(VoteEvent event) async* {
     if (event is StartCycleCountdown) {
       yield state.copyWith(pageState: PageState.loading);
-      Result result = await GetNextMoonPhaseUseCase().run();
+      final Result result = await GetNextMoonPhaseUseCase().run();
       yield NextMoonPhaseStateMapper().mapResultToState(state, result);
       yield* _mapStartTimerToState();
     }

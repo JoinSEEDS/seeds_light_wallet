@@ -8,13 +8,13 @@ class VotesUpArrow extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
+    final Paint paint = Paint()
       ..style = PaintingStyle.fill
       ..color = circleColor;
 
     canvas.drawCircle(Offset(size.width * 0.5000000, size.height * 0.5000000), size.width * 0.5000000, paint);
 
-    Path path1 = Path()
+    final Path path1 = Path()
       ..moveTo(size.width * 0.3285311, size.height * 0.4207500)
       ..lineTo(size.width * 0.4828536, size.height * 0.2575129)
       ..cubicTo(size.width * 0.4923214, size.height * 0.2474957, size.width * 0.5076786, size.height * 0.2474957,
@@ -38,7 +38,7 @@ class VotesUpArrow extends CustomPainter {
           size.width * 0.3285311, size.height * 0.4207500)
       ..close();
 
-    Paint paint1 = Paint()
+    final Paint paint1 = Paint()
       ..style = PaintingStyle.fill
       ..color = arrowColor;
 

@@ -7,7 +7,7 @@ class BiometricsAvailablesUseCase {
   final BiometricsService _service = BiometricsService(LocalAuthentication());
 
   Future<Result<List<AuthType>>> run() async {
-    List<AuthType> supportedAndSorted = [];
+    final List<AuthType> supportedAndSorted = [];
     try {
       final isAvailable = await _service.checkBiometrics();
       if (isAvailable) {

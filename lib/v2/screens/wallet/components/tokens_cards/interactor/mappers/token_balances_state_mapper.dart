@@ -10,30 +10,30 @@ class TokenBalancesStateMapper {
   TokenBalancesState mapResultToState(TokenBalancesState currentState, List<TokenModel> tokens, List<Result> results) {
     assert(tokens.length == results.length, "invalid results");
 
-    List<TokenBalanceViewModel> available = [];
+    final List<TokenBalanceViewModel> available = [];
 
-    Iterable<TokenModel> whitelist =
+    final Iterable<TokenModel> whitelist =
         TokenModel.AllTokens.where((element) => settingsStorage.tokensWhitelist.contains(element.id));
 
-    List<TokenModel> blacklist = []; // user has chosen to hide this token
+    final List<TokenModel> blacklist = []; // user has chosen to hide this token
 
-    List<String> newWhitelist = [];
+    final List<String> newWhitelist = [];
 
     for (int i = 0; i < tokens.length; i++) {
-      var token = tokens[i];
-      var result = results[i];
-      bool whitelisted = whitelist.contains(token);
+      final token = tokens[i];
+      final result = results[i];
+      final bool whitelisted = whitelist.contains(token);
       if (whitelisted || !blacklist.contains(token)) {
         if (results[i].isError) {
           print("error loading ${token.symbol} - show existing balance.");
-          var existingBalance = currentState.balanceViewModelForToken(token.id);
+          final existingBalance = currentState.balanceViewModelForToken(token.id);
           if (existingBalance != null || whitelisted) {
-            var viewModel = existingBalance ?? TokenBalanceViewModel(token, null, errorLoading: true);
+            final viewModel = existingBalance ?? TokenBalanceViewModel(token, null, errorLoading: true);
             available.add(viewModel);
             newWhitelist.add(token.id);
           }
         } else {
-          BalanceModel balance = result.asValue?.value as BalanceModel;
+          final BalanceModel balance = result.asValue?.value as BalanceModel;
           if (whitelisted || balance.quantity > 0) {
             available.add(TokenBalanceViewModel(token, balance));
             newWhitelist.add(token.id);

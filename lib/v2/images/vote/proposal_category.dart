@@ -6,12 +6,12 @@ class ProposalCategory extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
+    final Paint paint = Paint()
       ..color = AppColors.orangeYellow
       ..style = PaintingStyle.fill
       ..strokeWidth = 1;
 
-    Path path = Path()
+    final Path path = Path()
       ..moveTo(0, 0)
       ..lineTo(0, size.height)
       ..lineTo(size.width - 1, size.height)

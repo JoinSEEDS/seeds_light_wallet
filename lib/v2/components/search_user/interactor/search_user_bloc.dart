@@ -39,7 +39,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
 
       if (event.searchQuery.length > _minTextLengthBeforeValidSearch) {
         yield state.copyWith(pageState: PageState.loading);
-        var result = await SearchForMemberUseCase().run(event.searchQuery);
+        final result = await SearchForMemberUseCase().run(event.searchQuery);
         yield SearchUserStateMapper().mapResultToState(state, result, state.noShowUsers);
       }
     } else if (event is ClearIconTapped) {

@@ -13,7 +13,7 @@ class GetProposalsDataUseCase {
   final ProposalsRepository _proposalsRepository = ProposalsRepository();
 
   Future<List<Result>> run(ProposalType proposalType) {
-    var futures = [
+    final futures = [
       _profileRepository.getProfile(settingsStorage.accountName),
       _proposalsRepository.getProposals(proposalType),
       _proposalsRepository.getSupportLevels(_alliance),

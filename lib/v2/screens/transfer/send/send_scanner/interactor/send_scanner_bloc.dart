@@ -18,14 +18,14 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
     if (event is ExecuteScanResult) {
       yield state.copyWith(pageState: PageState.loading);
 
-      Result result = await ProcessScanResultUseCase().run(event.scanResult);
+      final Result result = await ProcessScanResultUseCase().run(event.scanResult);
 
       if (result is ErrorResult) {
         yield state.copyWith(pageState: PageState.failure, errorMessage: result.error.toString());
       } else {
-        var value = result.asValue!.value as ScanQrCodeResultData;
+        final value = result.asValue!.value as ScanQrCodeResultData;
 
-        var args = SendConfirmationArguments(
+        final args = SendConfirmationArguments(
           account: value.accountName,
           name: value.name,
           data: value.data,

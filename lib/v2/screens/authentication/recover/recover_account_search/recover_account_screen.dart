@@ -39,7 +39,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
       child: BlocConsumer<RecoverAccountBloc, RecoverAccountState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
-          var pageCommand = state.pageCommand;
+          final pageCommand = state.pageCommand;
           if (pageCommand is NavigateToRecoverAccountFound) {
             NavigationService.of(context).navigateTo(Routes.recoverAccountFound, pageCommand.userAccount);
           }

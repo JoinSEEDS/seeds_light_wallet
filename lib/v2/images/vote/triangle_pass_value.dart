@@ -6,11 +6,11 @@ class TrianglePassValue extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
+    final Paint paint = Paint()
       ..color = AppColors.green1
       ..style = PaintingStyle.fill;
 
-    Path path = Path()
+    final Path path = Path()
       ..moveTo(0, 0)
       ..lineTo(size.width / 2, size.height)
       ..lineTo(size.width, 0)

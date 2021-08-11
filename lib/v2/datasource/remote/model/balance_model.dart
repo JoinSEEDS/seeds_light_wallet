@@ -18,7 +18,7 @@ class BalanceModel {
     if (json.isEmpty || json[0].isEmpty) {
       return const BalanceModel(0, hasBalance: false);
     } else {
-      var amount = double.parse((json[0] as String).split(' ').first);
+      final amount = double.parse((json[0] as String).split(' ').first);
       return BalanceModel(amount);
     }
   }

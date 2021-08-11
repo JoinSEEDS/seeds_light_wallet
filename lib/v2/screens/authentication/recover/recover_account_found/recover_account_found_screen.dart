@@ -25,14 +25,14 @@ class RecoverAccountFoundScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: cast_nullable_to_non_nullable
-    String userAccount = ModalRoute.of(context)!.settings.arguments as String;
+    final String userAccount = ModalRoute.of(context)!.settings.arguments as String;
     return BlocProvider(
         create: (_) =>
             RecoverAccountFoundBloc(userAccount, BlocProvider.of<AuthenticationBloc>(context))..add(FetchInitialData()),
         child: BlocConsumer<RecoverAccountFoundBloc, RecoverAccountFoundState>(
             listenWhen: (_, current) => current.pageCommand != null,
             listener: (context, state) {
-              var pageCommand = state.pageCommand;
+              final pageCommand = state.pageCommand;
               BlocProvider.of<RecoverAccountFoundBloc>(context).add(const ClearRecoverPageCommand());
 
               if (pageCommand is ShowLinkCopied) {

@@ -28,7 +28,7 @@ class UserInputNumberFormatter extends TextInputFormatter {
     result = onlyDotsValue.substring(0, lastIndexOfDot).replaceAll('.', '') +
         onlyDotsValue.substring(lastIndexOfDot, onlyDotsValue.length).toString();
 
-    TextSelection newSelection = newValue.selection.copyWith(
+    final TextSelection newSelection = newValue.selection.copyWith(
       baseOffset: result.length,
       extentOffset: result.length,
     );

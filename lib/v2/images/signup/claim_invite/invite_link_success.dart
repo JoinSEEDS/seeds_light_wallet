@@ -7,14 +7,14 @@ class InviteLinkSuccess extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint3Fill = Paint()
+    final Paint paint3Fill = Paint()
       ..style = PaintingStyle.fill
       ..color = AppColors.white;
 
     canvas.drawCircle(
         Offset(size.width * 0.5000000, size.height * 0.5000000), (size.width + 10) * 0.4838710, paint3Fill);
 
-    Path path_0 = Path()
+    final Path path_0 = Path()
       ..moveTo(size.width, size.height * 0.5000000)
       ..cubicTo(
           size.width, size.height * 0.7761429, size.width * 0.7761429, size.height, size.width * 0.5000000, size.height)
@@ -33,7 +33,7 @@ class InviteLinkSuccess extends CustomPainter {
           size.width * 0.08500000, size.height * 0.5000000)
       ..close();
 
-    Paint paint0Fill = Paint()
+    final Paint paint0Fill = Paint()
       ..style = PaintingStyle.fill
       ..shader = ui.Gradient.linear(
           Offset(size.width * -10.29307, size.height * 1.046056),
@@ -43,18 +43,18 @@ class InviteLinkSuccess extends CustomPainter {
 
     canvas.drawPath(path_0, paint0Fill);
 
-    Paint paint2Fill = Paint()
+    final Paint paint2Fill = Paint()
       ..style = PaintingStyle.fill
       ..color = AppColors.white;
 
     canvas.drawCircle(Offset(size.width * 0.5000000, size.height * 0.5000000), size.width * 0.4285714, paint2Fill);
 
-    Path path_1 = Path()
+    final Path path_1 = Path()
       ..moveTo(size.width * 0.7096774, size.height * 0.4032258)
       ..lineTo(size.width * 0.4092742, size.height * 0.6612903)
       ..lineTo(size.width * 0.2580645, size.height * 0.5146629);
 
-    Paint paint1Stroke = Paint()
+    final Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02857143
       ..color = AppColors.green1
@@ -63,7 +63,7 @@ class InviteLinkSuccess extends CustomPainter {
 
     canvas.drawPath(path_1, paint1Stroke);
 
-    Paint paint2Stroke = Paint()
+    final Paint paint2Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02857143
       ..color = AppColors.green1

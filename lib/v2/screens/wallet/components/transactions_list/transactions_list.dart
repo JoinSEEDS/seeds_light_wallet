@@ -53,7 +53,7 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
                     itemCount: state.transactions.length,
                     itemBuilder: (_, index) {
                       final account = settingsStorage.accountName;
-                      var model = state.transactions[index];
+                      final model = state.transactions[index];
                       return TransactionInfoRow(
                         key: Key(model.transactionId),
                         callback: () {

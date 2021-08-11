@@ -10,7 +10,7 @@ class FirebaseDataStoreService {
   static final FirebaseDataStoreService _instance = FirebaseDataStoreService._();
 
   Future<TaskSnapshot> uploadPic(File selectedUserImage, String userAccount) {
-    var firebaseStorageRef = FirebaseStorage.instance
+    final firebaseStorageRef = FirebaseStorage.instance
         .ref()
         .child('product')
         .child(userAccount)

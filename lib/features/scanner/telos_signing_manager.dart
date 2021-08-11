@@ -22,13 +22,13 @@ extension TelosSigningManager on SigningRequestManager {
   }
 
   Future<List<Action>> fetchActions({String? account, String permission = "active"}) async {
-    var abis = await fetchAbis();
+    final abis = await fetchAbis();
 
-    var auth = Authorization();
+    final auth = Authorization();
     auth.actor = account;
     auth.permission = permission;
 
-    var actions = resolveActions(abis, auth);
+    final actions = resolveActions(abis, auth);
 
     return actions;
   }
