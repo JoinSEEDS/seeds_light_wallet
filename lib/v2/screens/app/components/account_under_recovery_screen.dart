@@ -6,6 +6,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/app_bloc.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/app_event.dart';
+import 'package:seeds/v2/i18n/app/app.i18.dart';
 
 class AccountUnderRecoveryScreen extends StatelessWidget {
   const AccountUnderRecoveryScreen({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class AccountUnderRecoveryScreen extends StatelessWidget {
     return Center(
       child: SingleChildScrollView(
         child: CustomDialog(
-          singleLargeButtonTitle: 'Cancel Recovery',
+          singleLargeButtonTitle: 'Cancel Recovery'.i18n,
           onSingleLargeButtonPressed: () async {
             BlocProvider.of<AppBloc>(context).add(const OnStopGuardianActiveRecoveryTapped());
           },
@@ -35,15 +36,16 @@ class AccountUnderRecoveryScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'Recovery Mode Initiated',
+              'Recovery Mode Initiated'.i18n,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline6,
             ),
             const SizedBox(height: 30),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                'Someone has initiated the Recovery process for your account. If you did not request to recover your account please select cancel recovery.',
+                'Someone has initiated the Recovery process for your account. If you did not request to recover your account please select cancel recovery.'
+                    .i18n,
                 textAlign: TextAlign.center,
               ),
             ),
