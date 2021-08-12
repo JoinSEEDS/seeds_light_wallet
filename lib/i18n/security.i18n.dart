@@ -1,5 +1,3 @@
-
-
 import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
@@ -21,7 +19,7 @@ extension Localization on String {
           'Choose 3 - 5 friends and/or family members to help you recover your account in case.':
               "Elija de 3 a 5 amigos y / o familiares para ayudarlo a recuperar su cuenta en caso de que lo necesite.",
           'Secure with Pin': "Asegurar con Pin",
-          'Secure your account with a 6-digit pincode': "Asegure su cuenta con un código PIN de 6 dígitos",
+          'Secure your account with a 4-digit pincode': "Asegure su cuenta con un código PIN de 4 dígitos",
           'Secure with Touch/Face ID': "Seguro con Touch / Face ID",
           "Secure your account with your fingerprint. This will be used to sign-in and open your wallet.":
               "Asegure su cuenta con su huella digital. Esto se utilizará para iniciar sesión y abrir su billetera."
