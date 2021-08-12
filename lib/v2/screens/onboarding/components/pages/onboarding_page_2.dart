@@ -16,9 +16,7 @@ class SecondPage extends StatelessWidget {
       topLeaf1: Positioned(
         left: 40,
         top: 40,
-        child: SvgPicture.asset(
-          'assets/images/onboarding/leaves/pointing_left/medium_light_leaf.svg',
-        ),
+        child: SvgPicture.asset('assets/images/onboarding/leaves/pointing_left/medium_light_leaf.svg'),
       ),
       bottomLeaf1: Positioned(
         bottom: 70,
@@ -31,9 +29,7 @@ class SecondPage extends StatelessWidget {
       bottomLeaf2: Positioned(
         right: 60,
         top: 60,
-        child: SvgPicture.asset(
-          'assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.svg',
-        ),
+        child: SvgPicture.asset('assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.svg'),
       ),
     );
   }

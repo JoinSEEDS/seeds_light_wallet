@@ -33,16 +33,12 @@ class ThirdPage extends StatelessWidget {
       bottomLeaf1: Positioned(
         right: 100,
         bottom: 90,
-        child: SvgPicture.asset(
-          'assets/images/onboarding/leaves/pointing_left/small_light_leaf.svg',
-        ),
+        child: SvgPicture.asset('assets/images/onboarding/leaves/pointing_left/small_light_leaf.svg'),
       ),
       bottomLeaf2: Positioned(
         left: 30,
         top: 20,
-        child: SvgPicture.asset(
-          'assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.svg',
-        ),
+        child: SvgPicture.asset('assets/images/onboarding/leaves/pointing_left/medium_dark_leaf.svg'),
       ),
     );
   }

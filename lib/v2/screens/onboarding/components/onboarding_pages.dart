@@ -26,13 +26,11 @@ class OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: height * 0.54,
+    return Column(
+      children: [
+        Expanded(
+          flex: 3,
+          child: Container(
             decoration: const BoxDecoration(
               color: AppColors.lightGreen4,
               borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(300, 50)),
@@ -45,47 +43,36 @@ class OnboardingPage extends StatelessWidget {
                   children: [
                     topLeaf1,
                     topLeaf2 ?? const SizedBox.shrink(),
-                    Image.asset(
-                      onboardingImage,
-                    ),
+                    Image.asset(onboardingImage),
                   ],
                 ),
               ),
             ),
           ),
-          SizedBox(
-            height: topPadding,
-          ),
-          Center(
-            child: Container(
-              height: 310,
-              padding: const EdgeInsets.only(right: 40, left: 40),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  bottomLeaf1,
-                  bottomLeaf2,
-                  Column(
-                    children: [
-                      Text(
-                        title.i18n,
-                        style: Theme.of(context).textTheme.headline3,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        subTitle.i18n,
-                        style: Theme.of(context).textTheme.button,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+        ),
+        SizedBox(height: topPadding),
+        Expanded(
+          flex: 2,
+          child: Container(
+            height: 310,
+            padding: const EdgeInsets.only(right: 40, left: 40),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                bottomLeaf1,
+                bottomLeaf2,
+                Column(
+                  children: [
+                    Text(title.i18n, style: Theme.of(context).textTheme.headline3),
+                    const SizedBox(height: 30),
+                    Text(subTitle.i18n, style: Theme.of(context).textTheme.button),
+                  ],
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
