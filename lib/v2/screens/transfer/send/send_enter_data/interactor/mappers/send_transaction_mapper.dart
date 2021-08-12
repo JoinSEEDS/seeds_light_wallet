@@ -1,12 +1,13 @@
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
+import 'package:seeds/v2/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/v2/domain-shared/event_bus/events.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/v2/main.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
 import 'package:seeds/v2/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
-import 'package:seeds/v2/utils/EventBusEvent.dart';
+
 import 'package:seeds/v2/utils/rate_states_extensions.dart';
 import 'package:seeds/v2/utils/double_extension.dart';
 
