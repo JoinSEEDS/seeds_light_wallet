@@ -47,7 +47,7 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                           margin: EdgeInsets.only(
                               left: i.token == state.availableTokens.first.token ? 0 : 10.0,
                               right: i.token == state.availableTokens.last.token ? 0 : 10.0),
-                          child: CurrencyInfoCardWidget(tokenBalance: i),
+                          child: CurrencyInfoCard(i),
                         ),
                     ],
                     options: CarouselOptions(
