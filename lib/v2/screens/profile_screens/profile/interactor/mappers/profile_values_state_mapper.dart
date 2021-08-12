@@ -4,11 +4,12 @@ import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/profile_state.dart';
+import 'package:seeds/v2/i18n/profile_screens/profile/profile.i18n.dart';
 
 class ProfileValuesStateMapper extends StateMapper {
   ProfileState mapResultToState(ProfileState currentState, List<Result> results) {
     if (areAllResultsError(results)) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page'.i18n);
     } else {
       // results.retainWhere((Result i) => i.isValue); // seems like a bug if there's 1 bad result it will do the wrong thing
       final ProfileModel? profile = results[0].valueOrNull;
