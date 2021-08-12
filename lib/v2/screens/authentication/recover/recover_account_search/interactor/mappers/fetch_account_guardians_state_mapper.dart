@@ -1,7 +1,7 @@
 import 'package:seeds/v2/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/v2/i18n/import_key/import_key.i18n.dart';
+import 'package:seeds/v2/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_state.dart';
 
 class FetchAccountRecoveryStateMapper extends StateMapper {
@@ -14,7 +14,7 @@ class FetchAccountRecoveryStateMapper extends StateMapper {
         return currentState.copyWith(
             pageState: PageState.success,
             isGuardianActive: false,
-            errorMessage: 'Only accounts protected by guardians are accessible for recovery');
+            errorMessage: 'Only accounts protected by guardians are accessible for recovery'.i18n);
       } else {
         return currentState.copyWith(
           isValidAccount: false,
