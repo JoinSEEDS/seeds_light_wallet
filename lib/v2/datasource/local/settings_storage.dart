@@ -143,10 +143,10 @@ class _SettingsStorage {
     _secureStorage = const FlutterSecureStorage();
 
     // on iOS secure storage items are not deleted on app uninstall - must be deleted manually
-    if (_preferences.getBool(IS_FIRST_RUN) ?? true) {
+    if (accountName.isEmpty && (_preferences.getBool(IS_FIRST_RUN) ?? true)) {
       await _secureStorage.deleteAll();
-      await _preferences.setBool(IS_FIRST_RUN, false);
     }
+    await _preferences.setBool(IS_FIRST_RUN, false);
 
     await _secureStorage.readAll().then((values) {
       _privateKey = values[PRIVATE_KEY];
