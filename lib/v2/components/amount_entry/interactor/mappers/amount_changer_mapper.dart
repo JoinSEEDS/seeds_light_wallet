@@ -35,9 +35,9 @@ class AmountChangeMapper extends StateMapper {
 String handleAmountToSendBack(
     {required CurrencyInput currentCurrencyInput, required String textInput, required String fiatToSeeds}) {
   switch (currentCurrencyInput) {
-    case CurrencyInput.SEEDS:
+    case CurrencyInput.seeds:
       return textInput;
-    case CurrencyInput.FIAT:
+    case CurrencyInput.fiat:
       return fiatToSeeds.replaceAll(',', '');
   }
 }
