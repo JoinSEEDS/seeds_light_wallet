@@ -24,15 +24,13 @@ class VoteScreen extends StatelessWidget {
               preferredSize: const Size.fromHeight(kToolbarHeight),
               child: Container(
                 decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: AppColors.lightGreen2),
-                  ),
+                  border: Border(bottom: BorderSide(color: AppColors.lightGreen2)),
                 ),
                 child: TabBar(
                     indicatorSize: TabBarIndicatorSize.label,
                     unselectedLabelStyle: Theme.of(context).textTheme.buttonOpacityEmphasis,
                     labelStyle: Theme.of(context).textTheme.buttonLowEmphasis,
-                    tabs: [for (var i in proposalTypes) Tab(child: Text(i.type.i18n))]),
+                    tabs: [for (var i in proposalTypes) Tab(child: FittedBox(child: Text(i.type.i18n)))]),
               ),
             ),
           ),
