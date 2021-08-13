@@ -17,7 +17,7 @@ class TransactionsListBloc extends Bloc<TransactionsListEvent, TransactionsListS
     _tickerSubscription = Stream.periodic(const Duration(seconds: 20), (x) => x).listen((counter) {
       add(OnTransactionDisplayTick(counter));
     });
-    eventBusSubscription = eventBus.on<TransactionSentEventBusEvent>().listen((event) async {
+    eventBusSubscription = eventBus.on<OnNewTransactionEventBus>().listen((event) async {
       await Future.delayed(const Duration(milliseconds: 500)); // the blockchain needs 0.5 seconds to process
       add(OnLoadTransactionsList());
     });
