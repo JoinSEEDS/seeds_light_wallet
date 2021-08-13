@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
-import 'package:seeds/v2/components/search_user/search_user_widget.dart';
+import 'package:seeds/v2/components/search_user/search_user.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
@@ -54,7 +54,7 @@ class SelectGuardiansScreen extends StatelessWidget {
                               : const SelectedGuardiansWidget(),
                         ),
                         Expanded(
-                          child: SearchUserWidget(
+                          child: SearchUser(
                             noShowUsers: state.noShowGuardians,
                             resultCallBack: (selectedUser) {
                               BlocProvider.of<SelectGuardiansBloc>(context).add(OnUserSelected(selectedUser));
