@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/i18n/components/components.i18n.dart';
 
 /// Copy Link
 ///
@@ -32,7 +33,7 @@ class ShareLinkRow extends StatelessWidget {
           color: AppColors.white,
           onPressed: () {
             Clipboard.setData(ClipboardData(text: link))
-                .then((_) => SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show());
+                .then((_) => SnackBarInfo("Copied".i18n, ScaffoldMessenger.of(context)).show());
           },
         )
       ],

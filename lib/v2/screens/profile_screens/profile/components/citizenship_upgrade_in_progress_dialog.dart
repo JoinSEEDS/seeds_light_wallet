@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
@@ -15,7 +15,7 @@ class CitizenshipUpgradeInProgressDialog extends StatelessWidget {
     return CustomDialog(
       icon: const Image(image: AssetImage("assets/images/profile/celebration_icon.png")),
       children: [
-        Text('Upgrading account ...', style: Theme.of(context).textTheme.button1),
+        Text('Upgrading account ...'.i18n, style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 18.0),
         Center(
           child: Container(

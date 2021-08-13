@@ -14,7 +14,7 @@ class FiatRateModel {
     }
   }
 
-  double? usdTo(double usdValue, String currency) {
+  double? usdToCurrency(double usdValue, String currency) {
     final num? rate = rates[currency];
     if (rate != null) {
       return usdValue * rate;
@@ -23,11 +23,10 @@ class FiatRateModel {
     }
   }
 
-  double? toUSD(double currencyValue, String currency) {
+  double? currencyToUSD(double currencyValue, String currency) {
     final num? rate = rates[currency];
     if (rate != null) {
-      // ignore: unnecessary_statements
-      rate > 0 ? currencyValue / rate : 0;
+      return rate > 0 ? currencyValue / rate : 0;
     } else {
       return null;
     }

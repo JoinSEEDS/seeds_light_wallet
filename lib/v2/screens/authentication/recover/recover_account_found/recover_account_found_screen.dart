@@ -18,6 +18,7 @@ import 'package:seeds/v2/screens/authentication/recover/recover_account_found/in
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
 import 'package:share/share.dart';
+import 'package:seeds/v2/i18n/authentication/recover/recover.i18n.dart';
 
 class RecoverAccountFoundScreen extends StatelessWidget {
   const RecoverAccountFoundScreen({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
               BlocProvider.of<RecoverAccountFoundBloc>(context).add(const ClearRecoverPageCommand());
 
               if (pageCommand is ShowLinkCopied) {
-                SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
+                SnackBarInfo("Copied".i18n, ScaffoldMessenger.of(context)).show();
               } else if (pageCommand is ShowErrorMessage) {
                 SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
               } else if (pageCommand is CancelRecoveryProcess) {
@@ -46,9 +47,9 @@ class RecoverAccountFoundScreen extends StatelessWidget {
             builder: (context, state) {
               return Scaffold(
                   appBar: AppBar(
-                    title: const Padding(
-                      padding: EdgeInsets.only(left: 16),
-                      child: Text("Recover Account"),
+                    title: Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Text("Recover Account".i18n),
                     ),
                     automaticallyImplyLeading: false,
                     actions: [
@@ -87,7 +88,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
                         child: TextFormFieldCustom(
                           enabled: false,
-                          labelText: 'Link to Activate Key Guardians',
+                          labelText: 'Link to Activate Key Guardians'.i18n,
                           suffixIcon: const SizedBox.shrink(),
                           controller: TextEditingController(text: state.linkToActivateGuardians?.toString()),
                         ),
@@ -119,7 +120,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                         const SizedBox(width: 24),
                         Flexible(
                           child: Text(
-                            "Guardians have accepted your request to recover your account",
+                            "Guardians have accepted your request to recover your account".i18n,
                             style: Theme.of(context).textTheme.buttonLowEmphasis,
                           ),
                         ),
@@ -146,7 +147,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: FlatButtonLong(
-                        title: "Cancel Process",
+                        title: "Cancel Process".i18n,
                         onPressed: () {
                           BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnCancelProcessTap());
                         }),
@@ -160,7 +161,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(horizontalEdgePadding),
                 child: FlatButtonLong(
                   enabled: state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT,
-                  title: "Claim account",
+                  title: "Claim account".i18n,
                   onPressed: () {
                     BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnClaimAccountTap());
                   },
@@ -175,7 +176,8 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          "All three of your Key Guardians have accepted your request to recover your account. \n You account will be unlocked in 24hrs. ",
+                          "All three of your Key Guardians have accepted your request to recover your account. \n You account will be unlocked in 24hrs. "
+                              .i18n,
                           style: Theme.of(context).textTheme.subtitle2LowEmphasis,
                           textAlign: TextAlign.center,
                         ),
@@ -215,14 +217,19 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 14),
                             child: Text(
-                              "Hours Left",
+                              "Hours Left".i18n,
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                           )
                         ],
                       ),
                       if (state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT)
-                        Text('Account recovered ' '${state.userAccount}')
+                        Row(
+                          children: [
+                            Text('Account recovered '.i18n),
+                            Text(state.userAccount),
+                          ],
+                        )
                       else
                         const SizedBox.shrink(),
                       const SizedBox(height: 150),

@@ -5,7 +5,7 @@ import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/qr_code_generator_widget.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
-
+import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 import 'interactor/viewmodels/receive_detail_arguments.dart';
 
 class ReceiveDetailQrCodeScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-        appBar: AppBar(title: const Text("Scan QR Code")),
+        appBar: AppBar(title: Text("Scan QR Code".i18n)),
         body: Stack(
           children: [
             Container(
@@ -35,7 +35,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     ShareLinkRow(
-                      label: 'Share Link to Invoice',
+                      label: 'Share Link to Invoice'.i18n,
                       link: arguments.invoiceLink,
                     ),
                     const SizedBox(height: 4),
@@ -44,7 +44,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     BalanceRow(
-                      label: "Total",
+                      label: "Total".i18n,
                       fiatAmount: arguments.receiveTotalFiat,
                       seedsAmount: arguments.receiveTotalSeeds,
                     ),
@@ -55,7 +55,13 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     if (arguments.description != null)
-                      Align(alignment: Alignment.centerLeft, child: Text('Memo: ' '${arguments.description!}'))
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'Memo: '.i18n, children: <TextSpan>[TextSpan(text: arguments.description)]),
+                        ),
+                      )
                     else
                       const SizedBox.shrink(),
                     const SizedBox(height: 150),
@@ -68,7 +74,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: FlatButtonLong(
-                  title: 'Done',
+                  title: 'Done'.i18n,
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();

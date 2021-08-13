@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/i18n/passcode.i18n.dart';
+import 'package:seeds/v2/i18n/authentication/verification/verification.i18n.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 

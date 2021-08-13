@@ -6,7 +6,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
@@ -99,7 +99,7 @@ class CitizenshipCard extends StatelessWidget {
                                       Flexible(
                                         child: Text(
                                             state.profile!.status == ProfileStatus.visitor
-                                                ? 'Resident'
+                                                ? 'Resident'.i18n
                                                 : 'Citizen'.i18n,
                                             style: Theme.of(context).textTheme.headline6Green),
                                       ),

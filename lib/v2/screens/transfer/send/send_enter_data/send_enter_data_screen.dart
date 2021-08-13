@@ -14,7 +14,7 @@ import 'package:seeds/v2/components/text_form_field_light.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/i18n/plant_seeds.i18n.dart';
+import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send/send_enter_data/components/send_confirmation_dialog.dart';
@@ -108,7 +108,7 @@ class SendEnterDataScreen extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 16, top: 10),
                                 child: Text(
-                                  "Send to",
+                                  "Send to".i18n,
                                   style: Theme.of(context).textTheme.subtitle1,
                                 ),
                               ),
@@ -134,8 +134,8 @@ class SendEnterDataScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     TextFormFieldLight(
-                                      labelText: "Memo",
-                                      hintText: "Add a note",
+                                      labelText: "Memo".i18n,
+                                      hintText: "Add a note".i18n,
                                       maxLength: 150,
                                       onChanged: (String value) {
                                         BlocProvider.of<SendEnterDataPageBloc>(context)
@@ -144,7 +144,7 @@ class SendEnterDataScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 16),
                                     BalanceRow(
-                                      label: "Available Balance",
+                                      label: "Available Balance".i18n,
                                       fiatAmount: state.availableBalanceFiat ?? "",
                                       seedsAmount: state.availableBalance ?? "",
                                     ),
@@ -160,7 +160,7 @@ class SendEnterDataScreen extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
-                              title: 'Next',
+                              title: 'Next'.i18n,
                               enabled: state.isNextButtonEnabled,
                               onPressed: () {
                                 BlocProvider.of<SendEnterDataPageBloc>(context).add(OnNextButtonTapped());

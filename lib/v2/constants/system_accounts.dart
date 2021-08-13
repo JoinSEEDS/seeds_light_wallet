@@ -1,15 +1,16 @@
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
+import 'package:seeds/v2/i18n/constans/constans.i18n.dart';
 
 // Seeds system accounts with special icons. Harvest account, onboarding account, etc. 
 
 // TODO(n13): get correct icons from figma
 class SystemAccounts {
   static final onboardingContract =
-      const MemberModel(account: 'join.seeds', nickname: 'Onboarding Contract', image: 'assets/images/community.svg');
+      MemberModel(account: 'join.seeds', nickname: 'Onboarding Contract'.i18n, image: 'assets/images/community.svg');
   static final exchangeContract =
-      const MemberModel(account: 'tlosto.seeds', nickname: 'Exchange Contract', image: 'assets/images/exchange.svg');
+      MemberModel(account: 'tlosto.seeds', nickname: 'Exchange Contract'.i18n, image: 'assets/images/exchange.svg');
   static final harvestContract =
-      const MemberModel(account: 'harvst.seeds', nickname: 'Harvest Contract', image: 'assets/images/harvest.svg');
+      MemberModel(account: 'harvst.seeds', nickname: 'Harvest Contract'.i18n, image: 'assets/images/harvest.svg');
 
   static MemberModel? getSystemAccount(String accountName) {
     if (accountName == 'join.seeds') {

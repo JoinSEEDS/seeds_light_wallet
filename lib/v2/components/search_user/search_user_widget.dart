@@ -9,6 +9,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/i18n/components/components.i18n.dart';
 
 class SearchUserWidget extends StatelessWidget {
   final ValueSetter<MemberModel> resultCallBack;
@@ -59,7 +60,7 @@ class SearchUserWidget extends StatelessWidget {
                       enabledBorder: _searchBorder,
                       focusedBorder: _searchBorder,
                       border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-                      hintText: 'Search...'),
+                      hintText: 'Search...'.i18n),
                 ),
               ),
               const SizedBox(height: 16),
@@ -81,9 +82,9 @@ class SearchUserWidget extends StatelessWidget {
         return SearchUsersList(resultCallBack: resultCallBack);
       case PageState.success:
         if (state.users.isEmpty) {
-          return const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Center(child: Text("No users found.")),
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(child: Text("No users found.".i18n)),
           );
         } else {
           return SearchUsersList(resultCallBack: resultCallBack);

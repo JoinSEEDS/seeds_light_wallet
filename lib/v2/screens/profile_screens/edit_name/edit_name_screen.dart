@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/edit_name.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/edit_name/edit_name.i18n.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
