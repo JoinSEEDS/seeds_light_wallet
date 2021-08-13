@@ -74,7 +74,7 @@ class GuardiansScreen extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: Text("Im Guardian For".i18n),
+                              child: Text("I'm Guardian For".i18n),
                             )
                           ],
                         ),
