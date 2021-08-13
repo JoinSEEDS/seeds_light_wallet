@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/security.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/security/security.i18n.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
@@ -95,7 +95,7 @@ class SecurityScreen extends StatelessWidget {
                             );
                           },
                         ),
-                        description: 'Secure your account with a 6-digit pincode'.i18n,
+                        description: 'Secure your account with a 4-digit pincode'.i18n,
                       ),
                       SecurityCard(
                         icon: const Icon(Icons.fingerprint),

@@ -9,7 +9,7 @@ extension Localization on String {
           'Already have a Seeds Account?': 'Ya tienes una cuenta de Seeeds?',
           'Import private key': 'Importar clave privada',
           'Lost your key?': 'Perdiste tu llave?',
-          'Recover': 'Recuperar',
+          ' Recover ': ' Recuperar ',
           'your account here': 'tu cuenta aqui',
         }
       };

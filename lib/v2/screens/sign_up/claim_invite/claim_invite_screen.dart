@@ -7,7 +7,7 @@ import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/screens/sign_up/claim_invite/components/invite_link_fail_dialog.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
-import 'package:seeds/v2/i18n/sign_up/claim_invite.i18n.dart';
+import 'package:seeds/v2/i18n/sign_up/sign_up.i18n.dart';
 import 'components/processing_invitation_screen.dart';
 
 class ClaimInviteScreen extends StatefulWidget {

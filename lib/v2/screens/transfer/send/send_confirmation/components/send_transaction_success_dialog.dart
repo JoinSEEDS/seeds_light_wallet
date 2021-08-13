@@ -7,6 +7,7 @@ import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
@@ -43,7 +44,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
         child: CustomDialog(
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
           onSingleLargeButtonPressed: onCloseButtonPressed,
-          singleLargeButtonTitle: 'Close',
+          singleLargeButtonTitle: 'Close'.i18n,
           children: [
             const SizedBox(height: 6),
             Row(
@@ -58,13 +59,13 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             ),
             Text(fiatAmount != null ? fiatAmount! : "", style: Theme.of(context).textTheme.subtitle2),
             const SizedBox(height: 30.0),
-            DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To"),
+            DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To".i18n),
             const SizedBox(height: 30.0),
-            DialogRow(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "From"),
+            DialogRow(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "From".i18n),
             const SizedBox(height: 30.0),
             Row(
               children: [
-                Text('Date:  ', style: Theme.of(context).textTheme.subtitle2),
+                Text('Date:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Text(
                   DateFormat('dd MMMM yyyy').format(DateTime.now()),
@@ -74,7 +75,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             ),
             Row(
               children: [
-                Text('Transaction ID:  ', style: Theme.of(context).textTheme.subtitle2),
+                Text('Transaction ID:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
@@ -90,7 +91,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                     Clipboard.setData(ClipboardData(text: transactionID)).then(
                       (_) {
                         ScaffoldMessenger.maybeOf(context)!
-                            .showSnackBar(const SnackBar(content: Text("Copied"), duration: Duration(seconds: 1)));
+                            .showSnackBar(SnackBar(content: Text("Copied".i18n), duration: const Duration(seconds: 1)));
                       },
                     );
                   },
@@ -99,7 +100,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
             ),
             Row(
               children: [
-                Text('Status:  ', style: Theme.of(context).textTheme.subtitle2),
+                Text('Status:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Container(
                   decoration: const BoxDecoration(
@@ -107,7 +108,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4, right: 8, left: 8),
                     child: Text(
-                      "Successful",
+                      "Successful".i18n,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
