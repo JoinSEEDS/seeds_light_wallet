@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/wallet/components/receive_send_buttons.dart';
 import 'package:seeds/v2/screens/wallet/components/tokens_cards/tokens_cards.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions_list/transactions_list.dart';
 import 'package:seeds/v2/screens/wallet/components/wallet_appbar.dart';
@@ -39,8 +38,6 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                 children: [
                   const SizedBox(height: 15),
                   const TokenCards(),
-                  const SizedBox(height: 20),
-                  const ReceiveSendButtons(),
                   const SizedBox(height: 20),
                   const TransactionsList(),
                 ],
