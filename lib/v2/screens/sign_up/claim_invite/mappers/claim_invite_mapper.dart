@@ -1,10 +1,10 @@
-import 'package:seeds/i18n/claim_code.i18n.dart';
 import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/datasource/remote/model/invite_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
+import 'package:seeds/v2/i18n/sign_up/sign_up.i18n.dart';
 
 class ClaimInviteMapper extends StateMapper {
   SignupState mapValidateInviteCodeToState(SignupState currentState, Result result) {
@@ -35,7 +35,7 @@ class ClaimInviteMapper extends StateMapper {
           claimInviteState: claimInviteCurrentState.copyWith(
             claimInviteView: ClaimInviteView.fail, // gray screen
             pageCommand: ShowErrorMessage(''), // dialog
-            errorMessage: 'Invite of %s was already claimed by %s'.i18n.fill(
+            errorMessage: 'Invite was already claimed'.i18n.fill(
               [inviteModel.sponsor ?? '', inviteModel.account ?? ''],
             ),
           ),

@@ -4,7 +4,9 @@ extension Localization on String {
   static final _t = Translations.byLocale('en_us') +
       {
         'es_es': {
-          'Scan QR Code': 'Escanear código QR',
+          'Onboarding Contract': 'Contrato De Incorporación',
+          'Exchange Contract': 'Contrato De Intercambio',
+          'Harvest Contract': 'Contrato De Cosecha',
         }
       };
 
