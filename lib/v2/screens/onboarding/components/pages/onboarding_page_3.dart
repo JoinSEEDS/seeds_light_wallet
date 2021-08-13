@@ -12,23 +12,15 @@ class ThirdPage extends StatelessWidget {
     return OnboardingPage(
       onboardingImage: "assets/images/onboarding/onboarding3.png",
       topPadding: 50,
-      title: "Regenerative Economy".i18n,
+      title: "Regenerative\nEconomy".i18n,
       subTitle:
-          "Unite with a global movement of organisations and people to regenerate our planet and heal our economy."
+          "Unite with a global movement of\norganisations and people to regenerate our\nplanet and heal our economy."
               .i18n,
       topLeaf1: Positioned(
         right: -20,
         top: -90,
         child: SvgPicture.asset(
           'assets/images/onboarding/leaves/pointing_right/big_light_leaf.svg',
-          color: AppColors.lightGreen3,
-        ),
-      ),
-      topLeaf2: Positioned(
-        right: -20,
-        top: 160,
-        child: SvgPicture.asset(
-          'assets/images/onboarding/leaves/pointing_left/small_light_leaf.svg',
           color: AppColors.lightGreen3,
         ),
       ),

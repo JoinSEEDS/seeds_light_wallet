@@ -56,19 +56,23 @@ class OnboardingPage extends StatelessWidget {
           child: Container(
             height: 310,
             padding: const EdgeInsets.only(right: 40, left: 40),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                bottomLeaf1,
-                bottomLeaf2,
-                Column(
-                  children: [
-                    Text(title.i18n, style: Theme.of(context).textTheme.headline3),
-                    const SizedBox(height: 30),
-                    Text(subTitle.i18n, style: Theme.of(context).textTheme.button),
-                  ],
-                ),
-              ],
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  bottomLeaf1,
+                  bottomLeaf2,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title.i18n, style: Theme.of(context).textTheme.headline3),
+                      const SizedBox(height: 30),
+                      Text(subTitle.i18n, style: Theme.of(context).textTheme.button),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

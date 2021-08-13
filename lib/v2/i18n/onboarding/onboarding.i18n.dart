@@ -5,15 +5,15 @@ extension Localization on String {
       {
         'es_es': {
           'Join Now': 'Únete ahora',
-          "Better \nThan Free Transcations": 'Mejor \nQue Transcciones Gratis',
-          "Make payments globally without any fees. Earn rewards when you support ‘Regenerative’ organisations and people.":
-              "Realiza pagos a nivel mundial sin ningún cargo. Obtenga recompensas cuando apoye a organizaciones y personas 'regenerativas'.",
-          "Citizen Campaigns": 'Campañas ciudadanas',
-          "Participate and vote directly on social and environmental impact projects you care about.":
-              'Participa y vota directamente en proyectos de impacto social y ambiental que te interesen.',
-          "Regenerative Economy": 'Economía Regenerativa',
-          "Unite with a global movement of organisations and people to regenerate our planet and heal our economy.":
-              'Únete a un movimiento global de organizaciones y personas para regenerar nuestro planeta y sanar nuestra economía.',
+          "Better\nThan Free\nTransactions": 'Mejor\nQue Transacciones\nGratis',
+          "Make payments globally without any fees.\nEarn rewards when you support\n‘Regenerative’ organisations and people.":
+              "Realiza pagos a nivel mundial sin ningún cargo.\nObtenga recompensas cuando apoye a\norganizaciones y personas 'regenerativas'.",
+          "Citizen\nCampaigns": 'Campañas\nciudadanas',
+          "Participate and vote directly on social and\nenvironmental impact projects you care\nabout.":
+              'Participa y vota directamente en proyectos de\nimpacto social y ambiental que te\ninteresen.',
+          "Regenerative\nEconomy": 'Economía\nRegenerativa',
+          "Unite with a global movement of\norganisations and people to regenerate our\nplanet and heal our economy.":
+              'Únete a un movimiento global de\norganizaciones y personas para regenerar nuestro\nplaneta y sanar nuestra economía.',
         }
       };
 

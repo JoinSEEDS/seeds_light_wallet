@@ -11,9 +11,9 @@ class FirstPage extends StatelessWidget {
     return OnboardingPage(
       onboardingImage: "assets/images/onboarding/onboarding5.png",
       topPadding: 30,
-      title: "Better \nThan Free Transcations".i18n,
+      title: "Better\nThan Free\nTransactions".i18n,
       subTitle:
-          "Make payments globally without any fees. Earn rewards when you support ‘Regenerative’ organisations and people."
+          "Make payments globally without any fees.\nEarn rewards when you support\n‘Regenerative’ organisations and people."
               .i18n,
       topLeaf1: Positioned(
         right: 80,
