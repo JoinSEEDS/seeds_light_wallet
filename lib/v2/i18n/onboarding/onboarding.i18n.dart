@@ -10,10 +10,10 @@ extension Localization on String {
               "Realiza pagos a nivel mundial sin ningún cargo.\nObtenga recompensas cuando apoye a\norganizaciones y personas 'regenerativas'.",
           "Citizen\nCampaigns": 'Campañas\nciudadanas',
           "Participate and vote directly on social and\nenvironmental impact projects you care\nabout.":
-              'Participa y vota directamente en proyectos de\nimpacto social y ambiental que te\ninteresen.',
+              'Participa y vota directamente en proyectos\nde impacto social y ambiental que te\ninteresen.',
           "Regenerative\nEconomy": 'Economía\nRegenerativa',
           "Unite with a global movement of\norganisations and people to regenerate our\nplanet and heal our economy.":
-              'Únete a un movimiento global de\norganizaciones y personas para regenerar nuestro\nplaneta y sanar nuestra economía.',
+              'Únete a un movimiento global de\norganizaciones y personas para regenerar\nnuestro planeta y sanar nuestra economía.',
         }
       };
 

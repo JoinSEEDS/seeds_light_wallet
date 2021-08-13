@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/i18n/onboarding.i18n.dart';
+import 'package:seeds/v2/i18n/onboarding/onboarding.i18n.dart';
 
 class OnboardingPage extends StatelessWidget {
   final String onboardingImage;
@@ -28,50 +28,48 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          flex: 3,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: AppColors.lightGreen4,
-              borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(300, 50)),
-            ),
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 20, top: 90, right: 40, left: 40),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    topLeaf1,
-                    topLeaf2 ?? const SizedBox.shrink(),
-                    Image.asset(onboardingImage),
-                  ],
-                ),
+        Container(
+          height: MediaQuery.of(context).size.height / 2,
+          decoration: const BoxDecoration(
+            color: AppColors.lightGreen4,
+            borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(300, 50)),
+          ),
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.only(bottom: 20, top: 90, right: 40, left: 40),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  topLeaf1,
+                  topLeaf2 ?? const SizedBox.shrink(),
+                  Image.asset(onboardingImage),
+                ],
               ),
             ),
           ),
         ),
-        SizedBox(height: topPadding),
+        // SizedBox(height: topPadding),
         Expanded(
-          flex: 2,
           child: Container(
-            height: 310,
             padding: const EdgeInsets.only(right: 40, left: 40),
-            child: FittedBox(
-              fit: BoxFit.fitWidth,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  bottomLeaf1,
-                  bottomLeaf2,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title.i18n, style: Theme.of(context).textTheme.headline3),
-                      const SizedBox(height: 30),
-                      Text(subTitle.i18n, style: Theme.of(context).textTheme.button),
-                    ],
-                  ),
-                ],
+            child: Center(
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    bottomLeaf1,
+                    bottomLeaf2,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(title.i18n, style: Theme.of(context).textTheme.headline3),
+                        const SizedBox(height: 30),
+                        Text(subTitle.i18n, style: Theme.of(context).textTheme.button),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
