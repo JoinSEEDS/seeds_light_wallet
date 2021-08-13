@@ -95,7 +95,7 @@ class SecurityScreen extends StatelessWidget {
                             );
                           },
                         ),
-                        description: 'Secure your account with a 6-digit pincode'.i18n,
+                        description: 'Secure your account with a 4-digit pincode'.i18n,
                       ),
                       SecurityCard(
                         icon: const Icon(Icons.fingerprint),
