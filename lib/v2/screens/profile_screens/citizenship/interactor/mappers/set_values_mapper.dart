@@ -7,7 +7,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_state.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
-import 'package:seeds/v2/i18n/app/app.i18.dart';
+import 'package:seeds/v2/i18n/profile_screens/citizenship/citizenship.i18n.dart';
 
 class SetValuesStateMapper extends StateMapper {
   CitizenshipState mapResultToState(

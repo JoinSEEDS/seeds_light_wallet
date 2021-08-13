@@ -11,7 +11,7 @@ import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/interactor/viewmodels/bloc.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:seeds/v2/components/circular_progress_item.dart';
-import 'package:seeds/i18n/citizenship.18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/citizenship/citizenship.i18n.dart';
 
 class VisitorView extends StatefulWidget {
   const VisitorView({Key? key}) : super(key: key);

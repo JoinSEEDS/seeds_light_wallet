@@ -8,7 +8,7 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
-import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 /// PROFILE MIDDLE

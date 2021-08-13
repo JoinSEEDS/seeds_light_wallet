@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/set_currency.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/set_currency//set_currency.i18n.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';

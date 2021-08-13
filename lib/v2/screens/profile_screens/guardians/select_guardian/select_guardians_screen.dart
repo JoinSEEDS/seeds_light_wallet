@@ -5,6 +5,7 @@ import 'package:seeds/v2/components/search_user/search_user_widget.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/components/selected_guardians_widget.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/interactor/select_guardians_bloc.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/page_commands.dart';
@@ -63,7 +64,7 @@ class SelectGuardiansScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(horizontalEdgePadding),
                           child: FlatButtonLong(
-                            title: 'Next',
+                            title: 'Next'.i18n,
                             onPressed: state.selectedGuardians.isNotEmpty
                                 ? () => {
                                       NavigationService.of(context)
