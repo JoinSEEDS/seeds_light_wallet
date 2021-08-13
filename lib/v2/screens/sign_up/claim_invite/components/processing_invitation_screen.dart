@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/i18n/sign_up/sign_up.i18n.dart';
 import 'package:seeds/v2/images/signup/claim_invite/invite_link_success.dart';
 import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
 
@@ -27,7 +28,7 @@ class ProcessingInvitationScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       Text(
-                        'Processing your invitation...',
+                        'Processing your invitation...'.i18n,
                         style: Theme.of(context).textTheme.headline7,
                       )
                     ],
@@ -40,7 +41,7 @@ class ProcessingInvitationScreen extends StatelessWidget {
                         painter: InviteLinkSuccess(),
                       ),
                       const SizedBox(height: 30),
-                      Text('Success!', style: Theme.of(context).textTheme.headline7),
+                      Text('Success!'.i18n, style: Theme.of(context).textTheme.headline7),
                     ],
                   ),
               ],

@@ -9,6 +9,7 @@ import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_light.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'interactor/receive_enter_data_bloc.dart';
 import 'interactor/viewmodels/page_commands.dart';
@@ -24,7 +25,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
       create: (context) =>
           ReceiveEnterDataBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
-          appBar: AppBar(title: const Text("Receive")),
+          appBar: AppBar(title: Text("Receive".i18n)),
           body: BlocConsumer<ReceiveEnterDataBloc, ReceiveEnterDataState>(
               listenWhen: (_, current) => current.pageCommand != null,
               listener: (BuildContext context, ReceiveEnterDataState state) {
@@ -34,7 +35,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                   BlocProvider.of<ReceiveEnterDataBloc>(context).add(const ClearReceiveEnterDataState());
                 }
                 if (state.pageCommand is ShowTransactionFail) {
-                  SnackBarInfo('Receive creation failed, please try again.', ScaffoldMessenger.of(context)).show();
+                  SnackBarInfo('Receive creation failed, please try again.'.i18n, ScaffoldMessenger.of(context)).show();
                 }
               },
               builder: (context, ReceiveEnterDataState state) {
@@ -64,8 +65,8 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     TextFormFieldLight(
-                                      labelText: "Memo",
-                                      hintText: "Add a note",
+                                      labelText: "Memo".i18n,
+                                      hintText: "Add a note".i18n,
                                       maxLength: blockChainMaxChars,
                                       onChanged: (String value) {
                                         BlocProvider.of<ReceiveEnterDataBloc>(context)
@@ -74,7 +75,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 16),
                                     BalanceRow(
-                                      label: "Available Balance",
+                                      label: "Available Balance".i18n,
                                       fiatAmount: state.availableBalanceFiat,
                                       seedsAmount: state.availableBalanceSeeds,
                                     ),
@@ -89,7 +90,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: FlatButtonLong(
-                              title: 'Next',
+                              title: 'Next'.i18n,
                               enabled: state.isNextButtonEnabled,
                               onPressed: () {
                                 BlocProvider.of<ReceiveEnterDataBloc>(context).add(const OnNextButtonTapped());

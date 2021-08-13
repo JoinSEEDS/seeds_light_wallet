@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:seeds/v2/i18n/onboarding/onboarding.i18n.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import '../onboarding_pages.dart';
 
@@ -11,9 +12,10 @@ class ThirdPage extends StatelessWidget {
     return OnboardingPage(
       onboardingImage: "assets/images/onboarding/onboarding3.png",
       topPadding: 50,
-      title: "Regenerative Economy",
+      title: "Regenerative Economy".i18n,
       subTitle:
-          "Unite with a global movement of organisations and people to regenerate our planet and heal our economy.",
+          "Unite with a global movement of organisations and people to regenerate our planet and heal our economy."
+              .i18n,
       topLeaf1: Positioned(
         right: -20,
         top: -90,

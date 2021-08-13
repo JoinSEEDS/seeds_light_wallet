@@ -4,14 +4,14 @@ import 'package:seeds/v2/components/amount_entry/interactor/mappers/handle_info_
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
-enum CurrencyInput { FIAT, SEEDS }
+enum CurrencyInput { fiat, seeds }
 
 extension DecimalPrecision on CurrencyInput {
   int toDecimalPrecision() {
     switch (this) {
-      case CurrencyInput.FIAT:
+      case CurrencyInput.fiat:
         return 2;
-      case CurrencyInput.SEEDS:
+      case CurrencyInput.seeds:
         return 4;
     }
   }
@@ -79,9 +79,9 @@ class AmountEntryState extends Equatable {
 
   factory AmountEntryState.initial(RatesState ratesState) {
     return AmountEntryState(
-        currentCurrencyInput: CurrencyInput.SEEDS,
+        currentCurrencyInput: CurrencyInput.seeds,
         ratesState: ratesState,
-        infoRowText: handleInfoRowText(currentCurrencyInput: CurrencyInput.SEEDS, fiatToSeeds: "0", seedsToFiat: "0"),
+        infoRowText: handleInfoRowText(currentCurrencyInput: CurrencyInput.seeds, fiatToSeeds: "0", seedsToFiat: "0"),
         enteringCurrencyName: currencySeedsCode,
         seedsAmount: "0",
         fiatToSeeds: "0",

@@ -5,6 +5,7 @@ import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
   final String amount;
@@ -47,8 +48,8 @@ class SendConfirmationDialog extends StatelessWidget {
         onSendButtonPressed.call();
         Navigator.of(context).pop();
       },
-      leftButtonTitle: "Edit",
-      rightButtonTitle: "Send",
+      leftButtonTitle: "Edit".i18n,
+      rightButtonTitle: "Send".i18n,
       children: [
         const SizedBox(height: 6),
         Row(
@@ -63,13 +64,14 @@ class SendConfirmationDialog extends StatelessWidget {
         ),
         Text(fiatAmount != null ? fiatAmount! : "", style: Theme.of(context).textTheme.subtitle2),
         const SizedBox(height: 30.0),
-        DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To"),
+        DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To".i18n),
         const SizedBox(height: 24.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Network Fee", textAlign: TextAlign.left, style: Theme.of(context).textTheme.subtitle2),
-            Text("Always Free and Instant!", textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
+            Text("Network Fee".i18n, textAlign: TextAlign.left, style: Theme.of(context).textTheme.subtitle2),
+            Text("Always Free and Instant!".i18n,
+                textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
           ],
         ),
         const SizedBox(height: 40.0),
@@ -77,7 +79,7 @@ class SendConfirmationDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Memo", textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
+              Text("Memo".i18n, textAlign: TextAlign.right, style: Theme.of(context).textTheme.subtitle2),
               const SizedBox(width: 16.0),
               Flexible(
                 child: Text(memo!,

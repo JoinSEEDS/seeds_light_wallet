@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/profile_state.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/i18n/profile_screens/profile/profile.i18n.dart';
 
 class CitizenshipUpgradeButton extends StatelessWidget {
   final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
@@ -25,7 +26,7 @@ class CitizenshipUpgradeButton extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           onPressed: onPressed,
           child: Text(
-            'Upgrade To Resident',
+            'Upgrade To Resident'.i18n,
             style: Theme.of(context).textTheme.subtitle3,
           ),
         );
@@ -39,7 +40,7 @@ class CitizenshipUpgradeButton extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           onPressed: onPressed,
           child: Text(
-            'Upgrade To Citizen',
+            'Upgrade To Citizen'.i18n,
             style: Theme.of(context).textTheme.subtitle3,
           ),
         );

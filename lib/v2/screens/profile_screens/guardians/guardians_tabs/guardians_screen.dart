@@ -8,6 +8,7 @@ import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
+import 'package:seeds/v2/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/im_guardian_for_tab.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_tab.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/guardians_bloc.dart';
@@ -59,21 +60,26 @@ class GuardiansScreen extends StatelessWidget {
                           : Padding(
                               padding: const EdgeInsets.only(left: 32),
                               child: FlatButtonLong(
-                                title: "+ Add Guardians",
+                                title: "+ Add Guardians".i18n,
                                 onPressed: () {
                                   BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
                                 },
                               )),
                       appBar: AppBar(
-                        bottom: const TabBar(
+                        bottom: TabBar(
                           tabs: [
                             Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Text("My Guardians"),
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text("My Guardians".i18n),
                             ),
                             Padding(
+<<<<<<< HEAD
                               padding: EdgeInsets.all(16.0),
                               child: Text("I'm Guardian For"),
+=======
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text("Im Guardian For".i18n),
+>>>>>>> 93eba87012687f47dd36fbb483581a5621f6f449
                             )
                           ],
                         ),
@@ -83,7 +89,7 @@ class GuardiansScreen extends StatelessWidget {
                             Navigator.of(context).pop();
                           },
                         ),
-                        title: const Text("Key Guardians"),
+                        title: Text("Key Guardians".i18n),
                       ),
                       body: state.pageState == PageState.loading
                           ? const FullPageLoadingIndicator()
@@ -117,19 +123,24 @@ void _showRecoveryStartedBottomSheet(BuildContext context, GuardianModel guardia
             Padding(
               padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: Center(
-                  child: Text(
-                "A motion to Recover your Key has been initiated by ${guardian.nickname}",
-                style: const TextStyle(color: Colors.black, fontSize: 16),
-              )),
+                child: RichText(
+                  text: TextSpan(
+                      text: 'A motion to Recover your Key has been initiated by '.i18n,
+                      style: Theme.of(context).textTheme.button,
+                      children: <TextSpan>[
+                        TextSpan(text: guardian.nickname, style: Theme.of(context).textTheme.button)
+                      ]),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             TextButton.icon(
               onPressed: () {
                 _showStopRecoveryConfirmationDialog(guardian, context);
               },
-              label: const Text(
-                "Stop this Recovery",
-                style: TextStyle(color: Colors.blue),
+              label: Text(
+                "Stop this Recovery".i18n,
+                style: const TextStyle(color: Colors.blue),
               ),
               icon: const Icon(Icons.cancel_rounded, color: AppColors.darkGreen3),
             ),
@@ -145,12 +156,12 @@ void _showStopRecoveryConfirmationDialog(GuardianModel guardian, BuildContext co
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        content:
-            const Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
+        content: Text("Are you sure you want to stop key recovery process".i18n,
+            style: const TextStyle(color: Colors.black)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('No: Dismiss'),
+            child: Text('No: Dismiss'.i18n),
           ),
           TextButton(
             onPressed: () {
@@ -158,7 +169,7 @@ void _showStopRecoveryConfirmationDialog(GuardianModel guardian, BuildContext co
               Navigator.pop(context);
               Navigator.pop(context);
             },
-            child: const Text("Yes: Stop Key Recovery"),
+            child: Text("Yes: Stop Key Recovery".i18n),
           )
         ],
       );

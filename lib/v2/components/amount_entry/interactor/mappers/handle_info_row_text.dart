@@ -8,9 +8,9 @@ String handleInfoRowText({
   required String seedsToFiat,
 }) {
   switch (currentCurrencyInput) {
-    case CurrencyInput.FIAT:
+    case CurrencyInput.fiat:
       return "$fiatToSeeds $currencySeedsCode";
-    case CurrencyInput.SEEDS:
+    case CurrencyInput.seeds:
       return "$seedsToFiat ${settingsStorage.selectedFiatCurrency}";
   }
 }

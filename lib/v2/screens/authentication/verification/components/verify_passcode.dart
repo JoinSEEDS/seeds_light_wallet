@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/i18n/passcode.i18n.dart';
+import 'package:seeds/v2/i18n/authentication/verification/verification.i18n.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/authentication/verification/components/passcode_created_dialog.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
@@ -53,7 +53,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
                 SnackBar(
                   backgroundColor: AppColors.canopy,
                   content: Text(
-                    'Pincode does not match',
+                    'Pincode does not match'.i18n,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
