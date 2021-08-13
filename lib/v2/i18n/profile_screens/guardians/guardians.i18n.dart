@@ -6,7 +6,7 @@ extension Localization on String {
         'es_es': {
           "+ Add Guardians": '+ Agregar Guardianes',
           "My Guardians": 'Mis Guardianes',
-          "Im Guardian For": 'Soy Guardián De',
+          "I'm Guardian For": 'Soy Guardián De',
           "Key Guardians": 'Guardianes De llave',
           "A motion to Recover your Key has been initiated by ":
               'Una moción para recuperar su llave ha sido iniciada por ',
