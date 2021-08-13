@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/wallet.i18n.dart';
+import 'package:seeds/v2/i18n/wallet/wallet.i18n.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
