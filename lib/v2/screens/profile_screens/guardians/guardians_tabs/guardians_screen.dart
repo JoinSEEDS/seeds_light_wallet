@@ -20,6 +20,8 @@ import 'components/remove_guardian_confirmation_dialog.dart';
 
 /// GuardiansScreen SCREEN
 class GuardiansScreen extends StatelessWidget {
+  const GuardiansScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -27,7 +29,7 @@ class GuardiansScreen extends StatelessWidget {
         child: BlocListener<GuardiansBloc, GuardiansState>(
             listenWhen: (_, current) => current.pageCommand != null,
             listener: (context, state) {
-              var pageCommand = state.pageCommand;
+              final pageCommand = state.pageCommand;
               BlocProvider.of<GuardiansBloc>(context).add(ClearPageCommand());
 
               if (pageCommand is NavigateToRouteWithArguments) {
@@ -75,7 +77,6 @@ class GuardiansScreen extends StatelessWidget {
                             )
                           ],
                         ),
-                        automaticallyImplyLeading: true,
                         leading: IconButton(
                           icon: const Icon(Icons.arrow_back),
                           onPressed: () {
@@ -100,42 +101,39 @@ void _showRecoveryStartedBottomSheet(BuildContext context, GuardianModel guardia
   showModalBottomSheet<void>(
     context: context,
     builder: (BuildContext context) {
-      return Container(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16.0, bottom: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Center(
-                child: Container(
-                  child: const SizedBox(height: 2, width: 40),
-                  color: Colors.black,
-                ),
+      return Padding(
+        padding: const EdgeInsets.only(top: 16.0, bottom: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Center(
+              child: Container(
+                color: Colors.black,
+                child: const SizedBox(height: 2, width: 40),
               ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                child: Center(
-                    child: Text(
-                  "A motion to Recover your Key has been initiated by ${guardian.nickname}",
-                  style: const TextStyle(color: Colors.black, fontSize: 16),
-                )),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: Center(
+                  child: Text(
+                "A motion to Recover your Key has been initiated by ${guardian.nickname}",
+                style: const TextStyle(color: Colors.black, fontSize: 16),
+              )),
+            ),
+            const SizedBox(height: 20),
+            TextButton.icon(
+              onPressed: () {
+                _showStopRecoveryConfirmationDialog(guardian, context);
+              },
+              label: const Text(
+                "Stop this Recovery",
+                style: TextStyle(color: Colors.blue),
               ),
-              const SizedBox(height: 20),
-              TextButton.icon(
-                onPressed: () {
-                  _showStopRecoveryConfirmationDialog(guardian, context);
-                },
-                label: const Text(
-                  "Stop this Recovery",
-                  style: TextStyle(color: Colors.blue),
-                ),
-                icon: const Icon(Icons.cancel_rounded, color: AppColors.darkGreen3),
-              ),
-            ],
-          ),
+              icon: const Icon(Icons.cancel_rounded, color: AppColors.darkGreen3),
+            ),
+          ],
         ),
       );
     },
@@ -151,18 +149,16 @@ void _showStopRecoveryConfirmationDialog(GuardianModel guardian, BuildContext co
             const Text("Are you sure you want to stop key recovery process", style: TextStyle(color: Colors.black)),
         actions: [
           TextButton(
+            onPressed: () => Navigator.pop(context),
             child: const Text('No: Dismiss'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
           ),
           TextButton(
-            child: const Text("Yes: Stop Key Recovery"),
             onPressed: () {
               BlocProvider.of<GuardiansBloc>(context).add(OnStopRecoveryForUser());
               Navigator.pop(context);
               Navigator.pop(context);
             },
+            child: const Text("Yes: Stop Key Recovery"),
           )
         ],
       );

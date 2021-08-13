@@ -22,7 +22,7 @@ class SeedsAppTheme {
       indicatorColor: AppColors.green1,
       sliderTheme: const SliderThemeData(
         thumbColor: AppColors.white,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+        thumbShape: RoundSliderThumbShape(),
         trackHeight: 4.0,
         activeTrackColor: AppColors.green1,
         inactiveTrackColor: AppColors.lightGreen6,
@@ -51,7 +51,7 @@ class SeedsAppTheme {
       indicatorColor: AppColors.green1,
       sliderTheme: const SliderThemeData(
         thumbColor: AppColors.white,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+        thumbShape: RoundSliderThumbShape(),
         trackHeight: 4.0,
         activeTrackColor: AppColors.green1,
         inactiveTrackColor: AppColors.lightGreen6,
@@ -231,62 +231,36 @@ class SeedsInputDecorationTheme {
   static InputDecorationTheme get lightTheme => InputDecorationTheme(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            width: 1,
-            color: AppColors.black,
-          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            width: 1,
-            color: AppColors.black,
-          ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            width: 1,
-            color: AppColors.red,
-          ),
+          borderSide: const BorderSide(color: AppColors.red),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            width: 1,
-            color: AppColors.red,
-          ),
+          borderSide: const BorderSide(color: AppColors.red),
         ),
       );
 
   static InputDecorationTheme get darkTheme => InputDecorationTheme(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            width: 1,
-            color: AppColors.darkGreen2,
-          ),
+          borderSide: const BorderSide(color: AppColors.darkGreen2),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            width: 1,
-            color: AppColors.darkGreen2,
-          ),
+          borderSide: const BorderSide(color: AppColors.darkGreen2),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            width: 1,
-            color: AppColors.red,
-          ),
+          borderSide: const BorderSide(color: AppColors.red),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            width: 1,
-            color: AppColors.red,
-          ),
+          borderSide: const BorderSide(color: AppColors.red),
         ),
       );
 }

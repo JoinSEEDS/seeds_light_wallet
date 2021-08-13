@@ -13,13 +13,12 @@ class FullPageLoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-            child: Lottie.asset(
+    return Center(
+        child: Lottie.asset(
       'assets/animations/forest.json',
       width: width,
       height: height,
       fit: BoxFit.fill,
-    )));
+    ));
   }
 }

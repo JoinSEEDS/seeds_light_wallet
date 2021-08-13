@@ -1,5 +1,5 @@
 import 'package:seeds/i18n/claim_code.i18n.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/datasource/remote/model/invite_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
@@ -36,7 +36,7 @@ class ClaimInviteMapper extends StateMapper {
             claimInviteView: ClaimInviteView.fail, // gray screen
             pageCommand: ShowErrorMessage(''), // dialog
             errorMessage: 'Invite of %s was already claimed by %s'.i18n.fill(
-              ["${inviteModel.sponsor}", "${inviteModel.account}"],
+              [inviteModel.sponsor ?? '', inviteModel.account ?? ''],
             ),
           ),
         );

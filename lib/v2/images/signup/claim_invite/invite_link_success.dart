@@ -7,14 +7,14 @@ class InviteLinkSuccess extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint_3_fill = Paint()
+    final Paint paint3Fill = Paint()
       ..style = PaintingStyle.fill
       ..color = AppColors.white;
 
     canvas.drawCircle(
-        Offset(size.width * 0.5000000, size.height * 0.5000000), (size.width + 10) * 0.4838710, paint_3_fill);
+        Offset(size.width * 0.5000000, size.height * 0.5000000), (size.width + 10) * 0.4838710, paint3Fill);
 
-    Path path_0 = Path()
+    final Path path_0 = Path()
       ..moveTo(size.width, size.height * 0.5000000)
       ..cubicTo(
           size.width, size.height * 0.7761429, size.width * 0.7761429, size.height, size.width * 0.5000000, size.height)
@@ -33,7 +33,7 @@ class InviteLinkSuccess extends CustomPainter {
           size.width * 0.08500000, size.height * 0.5000000)
       ..close();
 
-    Paint paint_0_fill = Paint()
+    final Paint paint0Fill = Paint()
       ..style = PaintingStyle.fill
       ..shader = ui.Gradient.linear(
           Offset(size.width * -10.29307, size.height * 1.046056),
@@ -41,36 +41,36 @@ class InviteLinkSuccess extends CustomPainter {
           [AppColors.green2, const Color(0xff2D953B).withOpacity(0)],
           [0, 1]);
 
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
-    Paint paint_2_fill = Paint()
+    final Paint paint2Fill = Paint()
       ..style = PaintingStyle.fill
       ..color = AppColors.white;
 
-    canvas.drawCircle(Offset(size.width * 0.5000000, size.height * 0.5000000), size.width * 0.4285714, paint_2_fill);
+    canvas.drawCircle(Offset(size.width * 0.5000000, size.height * 0.5000000), size.width * 0.4285714, paint2Fill);
 
-    Path path_1 = Path()
+    final Path path_1 = Path()
       ..moveTo(size.width * 0.7096774, size.height * 0.4032258)
       ..lineTo(size.width * 0.4092742, size.height * 0.6612903)
       ..lineTo(size.width * 0.2580645, size.height * 0.5146629);
 
-    Paint paint_1_stroke = Paint()
+    final Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02857143
       ..color = AppColors.green1
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawPath(path_1, paint_1_stroke);
+    canvas.drawPath(path_1, paint1Stroke);
 
-    Paint paint_2_stroke = Paint()
+    final Paint paint2Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02857143
       ..color = AppColors.green1
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawCircle(Offset(size.width * 0.5000000, size.height * 0.5000000), size.width * 0.4285714, paint_2_stroke);
+    canvas.drawCircle(Offset(size.width * 0.5000000, size.height * 0.5000000), size.width * 0.4285714, paint2Stroke);
   }
 
   @override

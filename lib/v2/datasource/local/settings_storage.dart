@@ -6,9 +6,9 @@ import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _SettingsStorage {
-  _SettingsStorage._();
-
   factory _SettingsStorage() => _instance;
+
+  _SettingsStorage._();
 
   static final _SettingsStorage _instance = _SettingsStorage._();
 
@@ -138,7 +138,7 @@ class _SettingsStorage {
   late SharedPreferences _preferences;
   late FlutterSecureStorage _secureStorage;
 
-  void initialise() async {
+  Future<void> initialise() async {
     _preferences = await SharedPreferences.getInstance();
     _secureStorage = const FlutterSecureStorage();
 
@@ -188,7 +188,7 @@ class _SettingsStorage {
   }
 
   String? _migrateFromPrefs(String key) {
-    String? value = _preferences.get(key) as String?;
+    final String? value = _preferences.get(key) as String?;
     if (value != null) {
       _secureStorage.write(key: key, value: value);
       _preferences.remove(key);
@@ -275,7 +275,7 @@ class _SettingsStorage {
   }
 
   String getPlatformCurrency() {
-    var format = NumberFormat.simpleCurrency(locale: Platform.localeName);
+    final format = NumberFormat.simpleCurrency(locale: Platform.localeName);
     return format.currencyName ?? 'USD';
   }
 }

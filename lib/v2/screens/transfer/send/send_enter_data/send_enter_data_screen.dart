@@ -25,69 +25,67 @@ import 'package:seeds/v2/screens/transfer/send/send_enter_data/interactor/viewmo
 
 /// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {
+  const SendEnterDataScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final MemberModel memberModel = ModalRoute.of(context)!.settings.arguments! as MemberModel;
-    RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+    final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
-        create: (_) => SendEnterDataPageBloc(memberModel, rates)..add(InitSendDataArguments()),
-        child: BlocListener<SendEnterDataPageBloc, SendEnterDataPageState>(
-          listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) {
-            PageCommand? command = state.pageCommand;
+      create: (_) => SendEnterDataPageBloc(memberModel, rates)..add(InitSendDataArguments()),
+      child: BlocListener<SendEnterDataPageBloc, SendEnterDataPageState>(
+        listenWhen: (_, current) => current.pageCommand != null,
+        listener: (context, state) {
+          final PageCommand? command = state.pageCommand;
 
-            BlocProvider.of<SendEnterDataPageBloc>(context).add(ClearPageCommand());
+          BlocProvider.of<SendEnterDataPageBloc>(context).add(ClearPageCommand());
 
-            if (command is ShowSendConfirmDialog) {
-              showDialog<void>(
-                context: context,
-                barrierDismissible: false, // user must tap button
-                builder: (BuildContext buildContext) => SendConfirmationDialog(
-                  onSendButtonPressed: () {
-                    BlocProvider.of<SendEnterDataPageBloc>(context).add(OnSendButtonTapped());
+          if (command is ShowSendConfirmDialog) {
+            showDialog<void>(
+              context: context,
+              barrierDismissible: false, // user must tap button
+              builder: (BuildContext buildContext) => SendConfirmationDialog(
+                onSendButtonPressed: () {
+                  BlocProvider.of<SendEnterDataPageBloc>(context).add(OnSendButtonTapped());
+                },
+                amount: command.amount,
+                currency: command.currency,
+                fiatAmount: command.fiatAmount,
+                toAccount: command.toAccount,
+                toImage: command.toImage,
+                toName: command.toName,
+                memo: command.memo,
+              ),
+            );
+          } else if (command is ShowTransactionSuccess) {
+            showDialog<void>(
+              context: context,
+              barrierDismissible: false, // user must tap button
+              builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
+                  onCloseButtonPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
-                  amount: command.amount,
                   currency: command.currency,
+                  amount: command.amount,
                   fiatAmount: command.fiatAmount,
+                  fromAccount: command.fromAccount,
+                  fromImage: command.fromImage,
+                  fromName: command.fromName,
                   toAccount: command.toAccount,
                   toImage: command.toImage,
                   toName: command.toName,
-                  memo: command.memo,
-                ),
-              );
-            } else if (command is ShowTransactionSuccess) {
-              showDialog<void>(
-                context: context,
-                barrierDismissible: false, // user must tap button
-                builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
-                    onCloseButtonPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                    },
-                    currency: command.currency,
-                    amount: command.amount,
-                    fiatAmount: command.fiatAmount,
-                    fromAccount: command.fromAccount,
-                    fromImage: command.fromImage,
-                    fromName: command.fromName,
-                    toAccount: command.toAccount,
-                    toImage: command.toImage,
-                    toName: command.toName,
-                    transactionID: command.transactionId),
-              );
-            }
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text("Send".i18n),
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-            ),
-            extendBodyBehindAppBar: true,
-            body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(buildWhen: (context, state) {
-              return state.pageCommand == null;
-            }, builder: (context, SendEnterDataPageState state) {
+                  transactionID: command.transactionId),
+            );
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(title: Text("Send".i18n), backgroundColor: Colors.transparent),
+          extendBodyBehindAppBar: true,
+          body: BlocBuilder<SendEnterDataPageBloc, SendEnterDataPageState>(
+            buildWhen: (_, current) => current.pageCommand == null,
+            builder: (context, state) {
               switch (state.pageState) {
                 case PageState.initial:
                   return const SizedBox.shrink();
@@ -176,8 +174,10 @@ class SendEnterDataScreen extends StatelessWidget {
                 default:
                   return const SizedBox.shrink();
               }
-            }),
+            },
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

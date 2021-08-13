@@ -22,7 +22,7 @@ class ProfileBottom extends StatelessWidget {
     return BlocListener<ProfileBloc, ProfileState>(
       listenWhen: (_, current) => current.pageCommand != null,
       listener: (context, state) {
-        var pageCommand = state.pageCommand;
+        final pageCommand = state.pageCommand;
 
         if (pageCommand is ShowLogoutDialog) {
           BlocProvider.of<ProfileBloc>(context).add(const ClearShowLogoutDialog());
@@ -44,7 +44,7 @@ class ProfileBottom extends StatelessWidget {
               );
             },
           );
-        } else if (pageCommand is ShowProcessingCitizenshipUpgrade){
+        } else if (pageCommand is ShowProcessingCitizenshipUpgrade) {
           showDialog<void>(
             context: context,
             barrierDismissible: false,
@@ -55,8 +55,7 @@ class ProfileBottom extends StatelessWidget {
               );
             },
           );
-        }
-        else if (pageCommand is ShowErrorMessage) {
+        } else if (pageCommand is ShowErrorMessage) {
           Navigator.pop(context, CitizenshipUpgradeInProgressDialog);
           SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
         }

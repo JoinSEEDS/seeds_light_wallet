@@ -91,7 +91,7 @@ class AppColors {
   static const tagGreen3 = Color(0xFF113119);
   static const tagBlue = Color(0xFF264D33);
   static final muddyYellow = const Color(0xFFE59900).withOpacity(0.15);
-  static const subtitle = Color(0xCC52CC);
+  static const subtitle = Color(0x00cc52cc);
 
   // DEPRECATED COLORS. DO NOT USE THESE COLORS ANYMORE
   static const purple = Color(0xFF5719FF);
@@ -121,7 +121,7 @@ class AppColors {
       hash = str.codeUnitAt(i) + ((hash << 5) - hash);
       hash = hash & hash; // Convert to 32bit integer
     }
-    var shortened = hash.abs() % 360;
+    final shortened = hash.abs() % 360;
     return HSLColor.fromAHSL(1.0, shortened.toDouble(), 0.3, 0.6).toColor();
   }
 }

@@ -30,14 +30,14 @@ class _ProposalDetailsScreenState extends State<ProposalDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ProposalsArgsData? proposalsArgsData = ModalRoute.of(context)?.settings.arguments as ProposalsArgsData?;
+    final ProposalsArgsData? proposalsArgsData = ModalRoute.of(context)?.settings.arguments as ProposalsArgsData?;
     return Scaffold(
       body: BlocProvider(
         create: (_) => ProposalDetailsBloc(proposalsArgsData!)..add(const OnLoadProposalData()),
         child: BlocConsumer<ProposalDetailsBloc, ProposalDetailsState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) async {
-            var pageCommand = state.pageCommand;
+            final pageCommand = state.pageCommand;
             // Delay to avoid error when list is not drawed yet
             // because of (loading->success) transition
             if (pageCommand is ReturnToTopScreen) {
@@ -45,7 +45,7 @@ class _ProposalDetailsScreenState extends State<ProposalDetailsScreen> {
               await _scrollController.animateTo(0,
                   duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
             } else if (pageCommand is ShowConfimVote) {
-              bool? isConfirmed = await showDialog<bool?>(
+              final bool? isConfirmed = await showDialog<bool?>(
                 context: context,
                 barrierDismissible: false,
                 builder: (_) => const ConfirmVoteDialog(),

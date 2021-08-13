@@ -19,17 +19,17 @@ class InviteRepository extends NetworkRepository with EosRepository {
   }) async {
     print('[eos] create invite $inviteHash ($quantity)');
 
-    var sowQuantity = 5;
-    var transferQuantity = quantity - sowQuantity;
+    final sowQuantity = 5;
+    final transferQuantity = quantity - sowQuantity;
 
-    var transaction = buildFreeTransaction([
+    final transaction = buildFreeTransaction([
       Action()
         ..account = account_token
-        ..name = action_name_transfer
+        ..name = actionNameTransfer
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_active
+            ..permission = permissionActive
         ]
         ..data = {
           'from': accountName,
@@ -39,11 +39,11 @@ class InviteRepository extends NetworkRepository with EosRepository {
         },
       Action()
         ..account = account_join
-        ..name = action_name_invite
+        ..name = actionNameInvite
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_active
+            ..permission = permissionActive
         ]
         ..data = {
           'sponsor': accountName,
@@ -54,7 +54,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
     ], accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
@@ -66,12 +66,12 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    var request = createRequest(code: account_accounts, scope: account_accounts, table: table_users, limit: 1000);
+    final request = createRequest(code: account_accounts, scope: account_accounts, table: tableUsers, limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              List<dynamic> allAccounts = body['rows'].toList();
+              final List<dynamic> allAccounts = body['rows'].toList();
               return allAccounts.map((item) => MemberModel.fromJson(item)).toList();
             }))
         .catchError((error) => mapHttpError(error));
@@ -80,23 +80,22 @@ class InviteRepository extends NetworkRepository with EosRepository {
   Future<Result> findInvite(String inviteHash) async {
     print('[http] find invite by hash');
 
-    var inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+    final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
     // 'https://node.hypha.earth/v1/chain/get_table_rows'; // todo: Why is this still Hypha when config has changed?
 
-    var request = createRequest(
+    final request = createRequest(
         code: account_join,
         scope: account_join,
-        table: table_invites,
+        table: tableInvites,
         lowerBound: inviteHash,
         upperBound: inviteHash,
         indexPosition: 2,
-        keyType: "sha256",
-        limit: 1);
+        keyType: "sha256");
 
     return http
         .post(inviteURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              List<dynamic> invite = body['rows'].toList();
+              final List<dynamic> invite = body['rows'].toList();
               return invite.map((item) => InviteModel.fromJson(item)).toList();
             }))
         .catchError((error) => mapHttpError(error));

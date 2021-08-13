@@ -37,10 +37,9 @@ class _FirebaseRemoteConfigService {
   };
 
   // RemoteConfig _remoteConfig;
+  factory _FirebaseRemoteConfigService() => _instance;
 
   _FirebaseRemoteConfigService._();
-
-  factory _FirebaseRemoteConfigService() => _instance;
 
   static final _FirebaseRemoteConfigService _instance = _FirebaseRemoteConfigService._();
 

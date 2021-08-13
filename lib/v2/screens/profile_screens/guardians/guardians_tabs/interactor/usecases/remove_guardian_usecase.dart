@@ -27,16 +27,16 @@ class RemoveGuardianUseCase {
   }
 
   Future<Result> _onCancelGuardiansSuccess(String friendId) async {
-    var accountName = settingsStorage.accountName;
+    final accountName = settingsStorage.accountName;
 
-    List<GuardianModel> guardiansQuery = await _firebaseRepository.getGuardiansForUser(accountName).first;
+    final List<GuardianModel> guardiansQuery = await _firebaseRepository.getGuardiansForUser(accountName).first;
     print('cancelResult success');
     guardiansQuery.retainWhere((GuardianModel element) => element.type == GuardianType.myGuardian);
 
     if (guardiansQuery.length > 3) {
       print('guardiansQuery.docs.length IS > 3');
-      var guardians = guardiansQuery.map((e) => e.uid).toList();
-      return await _guardiansRepository.initGuardians(guardians).then((value) {
+      final guardians = guardiansQuery.map((e) => e.uid).toList();
+      return _guardiansRepository.initGuardians(guardians).then((value) {
         if (value.isError) {
           return value;
         } else {

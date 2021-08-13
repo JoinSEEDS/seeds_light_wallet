@@ -68,7 +68,8 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
               cancelButton: const SizedBox.shrink(),
               deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
               passwordDigits: 4,
-              title: Text( (state.isCreateMode ?? false) ? 'Re-enter Pincode' : 'Enter Pincode'.i18n, style: Theme.of(context).textTheme.subtitle2),
+              title: Text((state.isCreateMode ?? false) ? 'Re-enter Pincode' : 'Enter Pincode'.i18n,
+                  style: Theme.of(context).textTheme.subtitle2),
               backgroundColor: AppColors.primary,
               shouldTriggerVerification: _verificationNotifier.stream,
               passwordEnteredCallback: (passcode) =>
@@ -85,9 +86,9 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
                               return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
                             }),
                           ),
+                          onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric()),
                           child: Text('Use biometric to unlock'.i18n,
-                              textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
-                          onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric())),
+                              textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2)),
                     )
                   : const SizedBox.shrink(),
               circleUIConfig: const CircleUIConfig(circleSize: 14),

@@ -6,11 +6,11 @@ import 'package:seeds/v2/datasource/remote/model/vote_model.dart';
 
 class GetVoteUseCase {
   Future<Result> run(int proposalId, String account) async {
-    var box = await Hive.openBox<VoteModel>("votes.1.box");
-    var cache = CacheRepository<VoteModel>(box);
+    final box = await Hive.openBox<VoteModel>("votes.1.box");
+    final cache = CacheRepository<VoteModel>(box);
     VoteModel? voteModel = cache.get(proposalId);
     if (voteModel == null) {
-      var result = await ProposalsRepository().getVote(proposalId, account);
+      final result = await ProposalsRepository().getVote(proposalId, account);
       if (result.isValue) {
         voteModel = result.asValue!.value as VoteModel;
         if (voteModel.isVoted) {

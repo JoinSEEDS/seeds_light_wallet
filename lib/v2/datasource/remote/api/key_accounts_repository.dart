@@ -6,7 +6,7 @@ class KeyAccountsRepository extends NetworkRepository {
   Future<Result<dynamic>> getKeyAccountsMongo(String publicKey) {
     print('[http] get seeds getKeyAccountsMongo ');
 
-    var body = '''
+    final body = '''
         {
           "collection": "pub_keys",
           "query": {
@@ -21,9 +21,9 @@ class KeyAccountsRepository extends NetworkRepository {
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               print('result: $body');
 
-              var items = List<Map<String, dynamic>>.from(body['items'])
+              final items = List<Map<String, dynamic>>.from(body['items'])
                   .where((item) => item['permission'] == 'active' || item['permission'] == 'owner');
-              var result = items.map<String>((item) => item['account']).toSet().toList();
+              final result = items.map<String>((item) => item['account']).toSet().toList();
 
               result.sort();
 

@@ -42,14 +42,14 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       } else {
         yield state.copyWith(pageState: PageState.loading);
 
-        var result = await InitGuardiansUseCase().initGuardians(event.myGuardians);
+        final result = await InitGuardiansUseCase().initGuardians(event.myGuardians);
 
         yield InitGuardiansStateMapper().mapResultToState(state, result);
       }
     } else if (event is ClearPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     } else if (event is OnAddGuardiansTapped) {
-      List<GuardianModel> results = await guardians.first;
+      final List<GuardianModel> results = await guardians.first;
       results.retainWhere((element) => element.type == GuardianType.myGuardian);
 
       yield state.copyWith(
@@ -80,15 +80,15 @@ class GuardiansBloc extends Bloc<GuardiansEvent, GuardiansState> {
       await _repository.stopRecoveryForUser(settingsStorage.accountName);
     } else if (event is OnRemoveGuardianTapped) {
       yield state.copyWith(pageState: PageState.loading);
-      var result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
+      final result = await RemoveGuardianUseCase().removeGuardian(event.guardian);
       yield RemoveGuardianStateMapper().mapResultToState(state, result);
     } else if (event is InitOnboardingGuardian) {
       yield OnboardingDialogsStateMapper().mapResultToState(state, 1);
     } else if (event is OnNextGuardianOnboardingTapped) {
-      int index = state.indexDialog + 1;
+      final int index = state.indexDialog + 1;
       yield OnboardingDialogsStateMapper().mapResultToState(state, index);
     } else if (event is OnPreviousGuardianOnboardingTapped) {
-      int index = state.indexDialog - 1;
+      final int index = state.indexDialog - 1;
       yield OnboardingDialogsStateMapper().mapResultToState(state, index);
     } else if (event is OnGuardianReadyForActivation) {
       yield ActivateGuardianStateMapper().mapResultToState(state, event.myGuardians);

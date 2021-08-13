@@ -34,14 +34,14 @@ class TextFormFieldLight extends StatelessWidget {
         decoration: InputDecoration(
           counterText: "",
           suffixIcon: suffixIcon,
-          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.darkGreen3, width: 1)),
+          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.darkGreen3)),
           hintText: hintText,
           labelText: labelText,
           labelStyle: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
           hintStyle: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
           contentPadding: const EdgeInsets.all(16.0),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.darkGreen3, width: 1)),
+          enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.darkGreen3)),
         ),
       ),
     );

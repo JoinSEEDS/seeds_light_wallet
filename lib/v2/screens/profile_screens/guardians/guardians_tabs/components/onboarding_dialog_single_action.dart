@@ -23,40 +23,44 @@ class OnboardingDialogSingleAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
-        child: CustomDialog(children: [
-          Container(
-            height: 200,
-            width: 250,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
-              image: DecorationImage(image: AssetImage(image), fit: BoxFit.fitWidth),
+        child: CustomDialog(
+          singleLargeButtonTitle: buttonTitle,
+          onSingleLargeButtonPressed: onNext,
+          children: [
+            Container(
+              height: 200,
+              width: 250,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: const BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
+                image: DecorationImage(image: AssetImage(image), fit: BoxFit.fitWidth),
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          DotsIndicator(
-            dotsCount: 4,
-            position: indexDialong.toDouble() - 1,
-            decorator: const DotsDecorator(
-              spacing: EdgeInsets.all(2.0),
-              size: Size(10.0, 2.0),
-              shape: Border(),
-              color: AppColors.grey3,
-              activeColor: AppColors.green1,
-              activeSize: Size(18.0, 2.0),
-              activeShape: Border(),
+            const SizedBox(height: 20),
+            DotsIndicator(
+              dotsCount: 4,
+              position: indexDialong.toDouble() - 1,
+              decorator: const DotsDecorator(
+                spacing: EdgeInsets.all(2.0),
+                size: Size(10.0, 2.0),
+                shape: Border(),
+                color: AppColors.grey3,
+                activeColor: AppColors.green1,
+                activeSize: Size(18.0, 2.0),
+                activeShape: Border(),
+              ),
             ),
-          ),
-          const SizedBox(height: 30),
-          Container(
-            height: 130,
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Text(
-              description,
-              textAlign: TextAlign.center,
+            const SizedBox(height: 30),
+            Container(
+              height: 130,
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Text(
+                description,
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-        ], singleLargeButtonTitle: buttonTitle, onSingleLargeButtonPressed: onNext),
+          ],
+        ),
       ),
     );
   }

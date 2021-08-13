@@ -10,10 +10,10 @@ class CreateInviteUseCase {
   final CreateFirebaseDynamicLinkUseCase _firebaseDynamicLinkUseCase = CreateFirebaseDynamicLinkUseCase();
 
   Future<List<Result>> run({required double amount, required String mnemonic}) {
-    String secret = secretFromMnemonic(mnemonic);
-    String hash = hashFromSecret(secret);
+    final String secret = secretFromMnemonic(mnemonic);
+    final String hash = hashFromSecret(secret);
 
-    var futures = [
+    final futures = [
       _inviteRepository.createInvite(
         quantity: amount,
         inviteHash: hash,

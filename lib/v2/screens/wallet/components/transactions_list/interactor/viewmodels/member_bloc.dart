@@ -17,19 +17,19 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
   @override
   Stream<MemberState> mapEventToState(MemberEvent event) async* {
     if (event is OnLoadMemberData) {
-      var account = event.account;
+      final account = event.account;
 
       // handle special system accounts
       if (SystemAccounts.isSystemAccount(account)) {
-        yield state.copyWith(pageState: PageState.success, member: SystemAccounts.getSystemAccount(account)!);
+        yield state.copyWith(pageState: PageState.success, member: SystemAccounts.getSystemAccount(account));
         return;
       }
 
       yield state.copyWith(pageState: PageState.loading);
-      var box = await Hive.openBox('members_box');
+      final box = await Hive.openBox('members_box');
 
       // If we have a cached item, use it
-      MemberModelCacheItem? cacheItem = box.get(account);
+      final MemberModelCacheItem? cacheItem = box.get(account);
       if (cacheItem != null) {
         yield state.copyWith(pageState: PageState.success, member: cacheItem.member);
         if (cacheItem.refreshTimeStamp < DateTime.now().millisecondsSinceEpoch) {
@@ -41,7 +41,7 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
 
       // store result in cache
       if (!result.isError && result.asValue != null && result.asValue!.value is MemberModel) {
-        MemberModel member = result.asValue!.value;
+        final MemberModel member = result.asValue!.value;
         await box.put(
             account,
             MemberModelCacheItem(

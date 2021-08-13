@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/datasource/remote/model/token_model.dart';
+import 'package:seeds/v2/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/v2/domain-shared/event_bus/events.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/main.dart';
 import 'package:seeds/v2/screens/wallet/components/tokens_cards/interactor/mappers/token_balances_state_mapper.dart';
 import 'package:seeds/v2/screens/wallet/components/tokens_cards/interactor/usecases/load_token_balances_use_case.dart';
 import 'package:seeds/v2/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_event.dart';
 import 'package:seeds/v2/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_state.dart';
-import 'package:seeds/v2/utils/EventBusEvent.dart';
 
 /// --- BLOC
 class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
@@ -32,9 +32,9 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
     if (event is OnLoadTokenBalances) {
       yield state.copyWith(pageState: PageState.loading);
 
-      var potentialTokens = TokenModel.AllTokens;
+      final potentialTokens = TokenModel.AllTokens;
 
-      var result = await LoadTokenBalancesUseCase().run(potentialTokens);
+      final result = await LoadTokenBalancesUseCase().run(potentialTokens);
 
       yield TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
     } else if (event is OnSelectedTokenChanged) {

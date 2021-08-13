@@ -8,7 +8,7 @@ class RateStateMapper extends StateMapper {
     if (rates.isEmpty) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Cannot fetch rates...');
     } else {
-      Map<String?, String?> available = rates.map((key, value) => MapEntry(key, key));
+      final Map<String?, String?> available = rates.map((key, value) => MapEntry(key, key));
       final prefix = List<String>.from(topCurrencies.where((i) {
         if (available[i] != null) {
           available.remove(i);

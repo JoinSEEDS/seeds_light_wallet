@@ -2,10 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/features/biometrics/auth_state.dart';
-import 'package:seeds/features/biometrics/auth_type.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/mappers/auth_state_state_mapper.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/mappers/auth_types_state_mapper.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/model/auth_state.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/model/auth_type.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/usecases/biometric_auth_use_case.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/usecases/biometrics_availables_use_case.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_event.dart';
@@ -95,7 +95,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
       yield state.copyWith(isCreateView: false, newPasscode: event.passcode);
     }
     if (event is ResetShowSnack) {
-      yield state.copyWith(showInfoSnack: null);
+      yield state.copyWith();
     }
     if (event is TryAgainBiometric) {
       if (state.preferred == AuthType.fingerprint || state.preferred == AuthType.face) {

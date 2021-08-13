@@ -53,7 +53,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is OnLogout) {
       // copy account before clear data
-      var account = settingsStorage.accountName;
+      final account = settingsStorage.accountName;
       // Clear data
       settingsStorage.removeAccount();
       // User logout --> re-start auth status

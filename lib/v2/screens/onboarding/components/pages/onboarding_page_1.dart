@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/v2/screens/onboarding/components/onboarding_pages.dart';
 
 class FirstPage extends StatelessWidget {
+  const FirstPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return OnboardingPage(

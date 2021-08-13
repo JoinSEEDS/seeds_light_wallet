@@ -6,8 +6,8 @@ class CurrentRemainingTime {
 
   String get daysFormatted => "$days";
   String get hoursFormatted => "$hours";
-  String get minFormatted => (min < 10 ? "0" : "") + "$min";
-  String get secFormatted => (sec < 10 ? "0" : "") + "$sec";
+  String get minFormatted => "${min < 10 ? "0" : ""}${"$min"}";
+  String get secFormatted => "${sec < 10 ? "0" : ""}${"$sec"}";
 
   const CurrentRemainingTime({
     required this.days,

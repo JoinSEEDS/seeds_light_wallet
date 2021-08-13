@@ -17,13 +17,13 @@ class SearchUsersList extends StatelessWidget {
         child: ListView.builder(
             itemCount: state.users.length,
             itemBuilder: (BuildContext context, int index) {
-              MemberModel user = state.users[index];
+              final MemberModel user = state.users[index];
               return SearchResultRow(
                 key: Key(user.account),
                 account: user.account,
                 name: user.nickname,
                 imageUrl: user.image,
-                resultCallBack: (){
+                resultCallBack: () {
                   resultCallBack(user);
                 },
               );

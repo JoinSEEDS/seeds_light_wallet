@@ -12,12 +12,12 @@ class PlantedModel {
   String get formattedQuantity => '${quantity.seedsFormatted} $currencySeedsCode';
 
   /// Returns the rounded amount in seeds
-  String get roundedQuantity => '${quantity.seedsFormatted}';
+  String get roundedQuantity => quantity.seedsFormatted;
 
   factory PlantedModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
-      var value = json['rows'][0]['planted'] ?? 0.toString();
-      var amount = double.parse(value.split(' ').first);
+      final value = json['rows'][0]['planted'] ?? 0.toString();
+      final amount = double.parse(value.split(' ').first);
       return PlantedModel(amount);
     } else {
       return const PlantedModel(0);

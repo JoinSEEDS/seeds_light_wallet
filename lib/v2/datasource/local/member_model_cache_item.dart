@@ -13,7 +13,7 @@ class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
 
   @override
   MemberModelCacheItem read(BinaryReader reader) {
-    var fields = [];
+    final fields = [];
     reader.readByte();
     fields.add(reader.readString());
     reader.readByte();

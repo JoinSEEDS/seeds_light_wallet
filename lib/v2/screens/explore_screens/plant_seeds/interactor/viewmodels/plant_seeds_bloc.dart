@@ -17,7 +17,7 @@ class PlantSeedsBloc extends Bloc<PlantSeedsEvent, PlantSeedsState> {
   Stream<PlantSeedsState> mapEventToState(PlantSeedsEvent event) async* {
     if (event is LoadUserBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      List<Result> results = await GetAvailableBalanceAndPlantedDataUseCase().run();
+      final List<Result> results = await GetAvailableBalanceAndPlantedDataUseCase().run();
       yield UserBalanceAndPlantedStateMapper().mapResultToState(state, results, state.ratesState);
     }
     if (event is OnAmountChange) {
@@ -25,7 +25,7 @@ class PlantSeedsBloc extends Bloc<PlantSeedsEvent, PlantSeedsState> {
     }
     if (event is OnPlantSeedsButtonTapped) {
       yield state.copyWith(pageState: PageState.loading, isAutoFocus: false);
-      Result result = await PlantSeedsUseCase().run(amount: state.quantity);
+      final Result result = await PlantSeedsUseCase().run(amount: state.quantity);
       yield PlantSeedsResultMapper().mapResultToState(state, result);
     }
   }

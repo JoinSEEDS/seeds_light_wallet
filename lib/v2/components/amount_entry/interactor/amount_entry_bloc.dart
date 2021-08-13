@@ -15,7 +15,7 @@ class AmountEntryBloc extends Bloc<AmountEntryEvent, AmountEntryState> {
     } else if (event is OnAmountChange) {
       yield AmountChangeMapper().mapResultToState(state, event.amountChanged);
     } else if (event is ClearPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     }
   }
 }

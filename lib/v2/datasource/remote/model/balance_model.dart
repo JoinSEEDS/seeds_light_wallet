@@ -12,13 +12,13 @@ class BalanceModel {
   String get formattedQuantity => '${quantity.seedsFormatted} $currencySeedsCode';
 
   /// Returns the rounded amount in seeds
-  String get roundedQuantity => '${quantity.seedsFormatted}';
+  String get roundedQuantity => quantity.seedsFormatted;
 
   factory BalanceModel.fromJson(List<dynamic> json) {
     if (json.isEmpty || json[0].isEmpty) {
       return const BalanceModel(0, hasBalance: false);
     } else {
-      var amount = double.parse((json[0] as String).split(' ').first);
+      final amount = double.parse((json[0] as String).split(' ').first);
       return BalanceModel(amount);
     }
   }

@@ -26,8 +26,8 @@ class ExploreScreen extends StatelessWidget {
       child: BlocConsumer<ExploreBloc, ExploreState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
-          var pageCommand = state.pageCommand;
-          BlocProvider.of<ExploreBloc>(context)..add(const ClearExplorePageCommand());
+          final pageCommand = state.pageCommand;
+          BlocProvider.of<ExploreBloc>(context).add(const ClearExplorePageCommand());
           if (pageCommand is NavigateToRoute) {
             NavigationService.of(context).navigateTo(pageCommand.route);
           }
@@ -86,7 +86,6 @@ class ExploreScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Row(
-                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
                       child: ExploreCard(

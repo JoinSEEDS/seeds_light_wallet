@@ -13,7 +13,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   Stream<WalletState> mapEventToState(WalletEvent event) async* {
     if (event is OnLoadWalletData) {
       yield state.copyWith(pageState: PageState.loading);
-      var results = await GetUserAccountUseCase().run();
+      final results = await GetUserAccountUseCase().run();
       yield UserAccountStateMapper().mapResultToState(state, results);
     }
   }

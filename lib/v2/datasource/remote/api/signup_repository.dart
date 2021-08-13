@@ -1,11 +1,12 @@
 import 'package:async/async.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/constants/config.dart';
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/network_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/invite_model.dart';
@@ -15,17 +16,16 @@ class SignupRepository extends EosRepository with NetworkRepository {
   Future<Result> findInvite(String inviteHash) async {
     final inviteURL = '$hyphaURL/v1/chain/get_table_rows';
 
-    var request = createRequest(
+    final request = createRequest(
         code: account_join,
         scope: account_join,
-        table: table_invites,
+        table: tableInvites,
         lowerBound: inviteHash,
         upperBound: inviteHash,
         indexPosition: 2,
-        keyType: 'sha256',
-        limit: 1);
+        keyType: 'sha256');
 
-    return await http
+    return http
         .post(Uri.parse(inviteURL), headers: headers, body: request)
         .then(
           (http.Response response) => mapHttpResponse(response, (dynamic body) {
@@ -64,7 +64,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
 
     final requestBody = '{ "account_name": "$username" }';
 
-    return await http
+    return http
         .post(
           Uri.parse(keyAccountsURL),
           body: requestBody,
@@ -82,18 +82,18 @@ class SignupRepository extends EosRepository with NetworkRepository {
     required String displayName,
     required EOSPrivateKey privateKey,
   }) async {
-    EOSPublicKey publicKey = privateKey.toEOSPublicKey();
+    final EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
-    final applicationAccount = Config.onboardingAccountName;
+    final applicationAccount = onboardingAccountName;
 
     final actions = <Action>[
       Action()
         ..account = applicationAccount
-        ..name = action_name_accept_new
+        ..name = actionNameAcceptnew
         ..authorization = <Authorization>[
           Authorization()
             ..actor = applicationAccount
-            ..permission = permission_application
+            ..permission = permissionApplication
         ]
         ..data = {
           'account': accountName,
@@ -106,7 +106,7 @@ class SignupRepository extends EosRepository with NetworkRepository {
     final transaction = Transaction()..actions = actions;
 
     try {
-      final dynamic response = await buildEosClient().pushTransaction(transaction, broadcast: true);
+      final dynamic response = await buildEosClient().pushTransaction(transaction);
 
       return mapEosResponse(response, (dynamic map) {
         return response['transaction_id'];

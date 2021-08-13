@@ -1,4 +1,4 @@
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/blocs/deeplink/model/deep_link_data.dart';
 import 'package:seeds/v2/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/v2/blocs/deeplink/model/invite_link_data.dart';
@@ -12,12 +12,12 @@ class DeepLinkStateMapper extends StateMapper {
     if (result.isError) {
       return currentState;
     } else {
-      var deepLinkData = result.asValue!.value as DeepLinkData;
+      final deepLinkData = result.asValue!.value as DeepLinkData;
 
       switch (deepLinkData.deepLinkPlaceHolder) {
         case DeepLinkPlaceHolder.LINK_GUARDIANS:
-          var newPublicKey = deepLinkData.data["new_public_key"];
-          var userAccount = deepLinkData.data["user_account"];
+          final newPublicKey = deepLinkData.data["new_public_key"];
+          final userAccount = deepLinkData.data["user_account"];
 
           return currentState.copyWith(
             showGuardianApproveOrDenyScreen: GuardianRecoveryRequestData(
@@ -28,7 +28,7 @@ class DeepLinkStateMapper extends StateMapper {
         case DeepLinkPlaceHolder.LINK_INVITE:
           if (settingsStorage.accountName.isNullOrEmpty) {
             // handle invite link. Send user to memonic screen.
-            var mnemonic = deepLinkData.data["Mnemonic"];
+            final mnemonic = deepLinkData.data["Mnemonic"];
             return currentState.copyWith(inviteLinkData: InviteLinkData(mnemonic));
           } else {
             //  If user is logged in, Ignore invite link

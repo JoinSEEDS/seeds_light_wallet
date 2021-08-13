@@ -31,13 +31,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is LoadProfileValues) {
       yield state.copyWith(pageState: PageState.loading);
-      var results = await GetProfileValuesUseCase().run();
+      final results = await GetProfileValuesUseCase().run();
       yield ProfileValuesStateMapper().mapResultToState(state, results);
     }
     if (event is OnUpdateProfileImage) {
       yield state.copyWith(pageState: PageState.loading);
-      var urlResult = await SaveImageUseCase().run(file: event.file);
-      var result = await UpdateProfileImageUseCase().run(imageUrl: urlResult.asValue!.value, profile: state.profile!);
+      final urlResult = await SaveImageUseCase().run(file: event.file);
+      final result = await UpdateProfileImageUseCase().run(imageUrl: urlResult.asValue!.value, profile: state.profile!);
       yield UpdateProfileImageStateMapper().mapResultToState(state, result);
     }
     if (event is OnNameChanged) {
@@ -57,7 +57,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       settingsStorage.savePrivateKeyBackedUp(true);
     }
     if (event is ClearShowLogoutDialog) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     }
     if (event is ResetShowLogoutButton) {
       yield state.copyWith(showLogoutButton: false);
@@ -67,12 +67,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
     if (event is OnActivateResidentButtonTapped) {
       yield state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade());
-      Result result = await MakeResidentUseCase().run();
+      final Result result = await MakeResidentUseCase().run();
       yield UpgradeCitizenshipResultMapper().mapResultToState(state, result, false);
     }
     if (event is OnActivateCitizenButtonTapped) {
       yield state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade());
-      Result result = await MakeCitizenUseCase().run();
+      final Result result = await MakeCitizenUseCase().run();
       yield UpgradeCitizenshipResultMapper().mapResultToState(state, result, true);
     }
   }

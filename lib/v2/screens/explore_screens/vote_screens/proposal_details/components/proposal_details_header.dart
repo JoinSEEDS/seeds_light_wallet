@@ -10,7 +10,7 @@ class ProposalDetailsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
     return BlocBuilder<ProposalDetailsBloc, ProposalDetailsState>(
       buildWhen: (previous, current) => previous.currentIndex != current.currentIndex,
       builder: (context, state) {

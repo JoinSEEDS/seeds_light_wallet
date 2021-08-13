@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
@@ -38,12 +38,11 @@ class CreateUsernameState extends Equatable {
   factory CreateUsernameState.initial() {
     return const CreateUsernameState(
       pageState: PageState.initial,
-      username: null,
     );
   }
 
   factory CreateUsernameState.loading(CreateUsernameState currentState) {
-    return currentState.copyWith(pageState: PageState.loading, errorMessage: null);
+    return currentState.copyWith(pageState: PageState.loading);
   }
 
   factory CreateUsernameState.error(CreateUsernameState currentState, String errorMessage) {

@@ -8,8 +8,8 @@ class GetAvailableBalanceAndPlantedDataUseCase {
   final PlantedRepository _plantedRepository = PlantedRepository();
 
   Future<List<Result>> run() {
-    var account = settingsStorage.accountName;
-    var futures = [
+    final account = settingsStorage.accountName;
+    final futures = [
       _balanceRepository.getBalance(account),
       _plantedRepository.getPlanted(account),
     ];

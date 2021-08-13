@@ -11,11 +11,11 @@ class ProposalDataStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
     } else {
       results.retainWhere((Result i) => i.isValue);
-      var values = results.map((Result i) => i.asValue!.value).toList();
+      final values = results.map((Result i) => i.asValue!.value).toList();
 
-      ProfileModel? profileModel = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
-      VoteModel? voteModel = values.firstWhere((i) => i is VoteModel, orElse: () => null);
-      VoiceModel? voiceModel = values.firstWhere((i) => i is VoiceModel, orElse: () => null);
+      final ProfileModel? profileModel = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
+      final VoteModel? voteModel = values.firstWhere((i) => i is VoteModel, orElse: () => null);
+      final VoiceModel? voiceModel = values.firstWhere((i) => i is VoiceModel, orElse: () => null);
 
       return currentState.copyWith(
         pageState: PageState.success,

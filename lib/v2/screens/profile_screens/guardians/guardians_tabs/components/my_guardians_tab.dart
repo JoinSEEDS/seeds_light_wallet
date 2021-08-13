@@ -20,15 +20,15 @@ class MyGuardiansTab extends StatelessWidget {
         stream: BlocProvider.of<GuardiansBloc>(context).guardians,
         builder: (context, AsyncSnapshot<List<GuardianModel>> snapshot) {
           if (snapshot.hasData) {
-            var myGuardians = snapshot.data!.where((element) => element.type == GuardianType.myGuardian);
-            var alreadyGuardians = myGuardians.where((element) => element.status == GuardianStatus.alreadyGuardian);
+            final myGuardians = snapshot.data!.where((element) => element.type == GuardianType.myGuardian);
+            final alreadyGuardians = myGuardians.where((element) => element.status == GuardianStatus.alreadyGuardian);
 
             if (myGuardians.isEmpty) {
               return const NoGuardiansWidget(
                 message: "You have added no user to become your guardian yet. Once you do, the request will show here.",
               );
             } else {
-              List<Widget> items = [];
+              final List<Widget> items = [];
 
               items.add(Expanded(
                   child: MyGuardiansListWidget(
@@ -37,8 +37,8 @@ class MyGuardiansTab extends StatelessWidget {
               )));
 
               if (alreadyGuardians.length < 3) {
-                items.add(Container(
-                  child: Padding(
+                items.add(
+                  Padding(
                     padding: const EdgeInsets.only(left: 56.0, right: 56, top: 16, bottom: 100),
                     child: Center(
                       child: Text(
@@ -48,7 +48,7 @@ class MyGuardiansTab extends StatelessWidget {
                       ),
                     ),
                   ),
-                ));
+                );
               } else {
                 items.add(StreamBuilder<bool>(
                     stream: BlocProvider.of<GuardiansBloc>(context).isGuardianContractInitialized,

@@ -44,8 +44,8 @@ class VoteStatusLabel extends StatelessWidget {
                           TextSpan(text: ' Voted with '.i18n, style: Theme.of(context).textTheme.subtitle2Green2),
                           TextSpan(
                               text: state.vote!.amount == 1
-                                  ? '${state.vote!.amount} ' + 'vote '.i18n
-                                  : '${state.vote!.amount} ' + 'votes'.i18n,
+                                  ? '${state.vote!.amount} ' 'vote '.i18n
+                                  : '${state.vote!.amount} ' 'votes'.i18n,
                               style: Theme.of(context).textTheme.subtitle2),
                         ],
                       ),
@@ -67,8 +67,8 @@ class VoteStatusLabel extends StatelessWidget {
                               style: Theme.of(context).textTheme.subtitle2Green2),
                           TextSpan(
                               text: state.voteAmount == 1
-                                  ? '${state.voteAmount} ' + 'vote '.i18n
-                                  : '${state.voteAmount} ' + 'votes'.i18n,
+                                  ? '${state.voteAmount} ' 'vote '.i18n
+                                  : '${state.voteAmount} ' 'votes'.i18n,
                               style: Theme.of(context).textTheme.subtitle2),
                         ],
                       ),

@@ -7,7 +7,7 @@ class ArrowNextProposal extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Path path = Path()
+    final Path path = Path()
       ..moveTo(size.width * 0.5000071, size.height * 0.6836714)
       ..lineTo(size.width * 0.6836821, size.height * 0.5000000)
       ..moveTo(size.width * 0.6836821, size.height * 0.5000000)
@@ -25,20 +25,20 @@ class ArrowNextProposal extends CustomPainter {
           size.width * 0.9591893, size.height * 0.5000000)
       ..close();
 
-    Paint paint_stroke = Paint()
+    final Paint paintStroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.07142857
       ..color = AppColors.white
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawPath(path, paint_stroke);
+    canvas.drawPath(path, paintStroke);
 
-    Paint paint_fill = Paint()
+    final Paint paintFill = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.transparent;
 
-    canvas.drawPath(path, paint_fill);
+    canvas.drawPath(path, paintFill);
   }
 
   @override

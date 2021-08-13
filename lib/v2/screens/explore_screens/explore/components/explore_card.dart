@@ -25,7 +25,6 @@ class ExploreCard extends StatelessWidget {
           width: 158.0,
           height: 158.0,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 4.0),
               Container(

@@ -8,46 +8,47 @@ import 'package:seeds/v2/domain-shared/app_constants.dart';
 abstract class EosRepository {
   String cpuPrivateKey = '5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a';
   String onboardingPrivateKey = '5JhM4vypLzLdDtHo67TR5RtmsYm2mr8F2ugqcrCzfrMPLvo8cQW';
+  String onboardingAccountName = 'join.seeds';
 
   // Actions
-  String action_name_against = 'against';
-  String action_name_cancel = 'cancel';
-  String action_name_favour = 'favour';
-  String action_name_init = 'init';
-  String action_name_claim = 'claim';
-  String action_name_invite = 'invite';
-  String action_name_transfer = 'transfer';
-  String action_name_updateauth = 'updateauth';
-  String action_name_update = 'update';
-  String action_name_makeresident = 'makeresident';
-  String action_name_canresident = 'canresident';
-  String action_name_makecitizen = 'makecitizen';
-  String action_name_cancitizen = 'cancitizen';
-  String action_name_accept_new = 'acceptnew';
-  String action_name_recover = 'recover';
+  String actionNameAgainst = 'against';
+  String actionNameCancel = 'cancel';
+  String actionNameFavour = 'favour';
+  String actionNameInit = 'init';
+  String actionNameClaim = 'claim';
+  String actionNameInvite = 'invite';
+  String actionNameTransfer = 'transfer';
+  String actionNameUpdateauth = 'updateauth';
+  String actionNameUpdate = 'update';
+  String actionNameMakeresident = 'makeresident';
+  String actionNameCanresident = 'canresident';
+  String actionNameMakecitizen = 'makecitizen';
+  String actionNameCakecitizen = 'cancitizen';
+  String actionNameAcceptnew = 'acceptnew';
+  String actionNameRecover = 'recover';
 
   // Authorizations
-  String permission_active = 'active';
-  String permission_owner = 'owner';
-  String permission_application = 'application';
+  String permissionActive = 'active';
+  String permissionOwner = 'owner';
+  String permissionApplication = 'application';
 
   Transaction buildFreeTransaction(List<Action> actions, String? accountName) {
-    var freeAuth = <Authorization>[
+    final freeAuth = <Authorization>[
       Authorization()
         ..actor = account_harvest
         ..permission = 'payforcpu',
       Authorization()
         ..actor = accountName
-        ..permission = permission_active
+        ..permission = permissionActive
     ];
 
-    var freeAction = Action()
+    final freeAction = Action()
       ..account = account_harvest
       ..name = 'payforcpu'
       ..authorization = freeAuth
       ..data = {'account': accountName};
 
-    var transaction = Transaction()
+    final transaction = Transaction()
       ..actions = [
         freeAction,
         ...actions,
@@ -63,7 +64,7 @@ abstract class EosRepository {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');
     if (response['transaction_id'] != null) {
       print('Model Class: $modelMapper');
-      var map = Map<String, dynamic>.from(response);
+      final map = Map<String, dynamic>.from(response);
       return ValueResult(modelMapper(map));
     } else {
       print('ErrorResult: response[transaction_id] is null');
@@ -72,7 +73,7 @@ abstract class EosRepository {
   }
 
   Result mapEosError(error) {
-    print('mapEosError: ' + error.toString());
+    print('mapEosError: $error');
     return ErrorResult(error);
   }
 }

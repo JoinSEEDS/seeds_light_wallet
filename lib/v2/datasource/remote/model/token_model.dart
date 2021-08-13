@@ -10,7 +10,8 @@ class TokenModel extends Equatable {
   final String backgroundImage;
   final String logo;
   final String balanceSubTitle;
-  String get id => contract + "#" + symbol;
+
+  String get id => "$contract#$symbol";
 
   const TokenModel({
     required this.chainName,

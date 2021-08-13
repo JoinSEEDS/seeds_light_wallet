@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/features/biometrics/auth_type.dart';
-import 'package:seeds/features/biometrics/auth_state.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/model/auth_type.dart';
+import 'package:seeds/v2/screens/authentication/verification/interactor/model/auth_state.dart';
 
 /// STATE
 class VerificationState extends Equatable {

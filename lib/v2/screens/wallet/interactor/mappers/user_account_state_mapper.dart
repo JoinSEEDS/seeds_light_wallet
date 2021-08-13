@@ -10,8 +10,8 @@ class UserAccountStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
     } else {
       results.retainWhere((Result i) => i.isValue);
-      var values = results.map((Result i) => i.asValue!.value).toList();
-      ProfileModel? profile = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
+      final values = results.map((Result i) => i.asValue!.value).toList();
+      final ProfileModel? profile = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
 
       if (profile != null && profile.status == ProfileStatus.citizen) {
         // Here is the first time the get user profile is called in the app

@@ -11,11 +11,13 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 
 /// Login SCREEN
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   static const int approxWidgetHeight = 450;
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    final double height = MediaQuery.of(context).size.height;
     return Scaffold(
       bottomSheet: Padding(
         padding: const EdgeInsets.all(16),

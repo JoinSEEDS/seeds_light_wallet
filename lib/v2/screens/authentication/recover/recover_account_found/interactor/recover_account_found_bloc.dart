@@ -41,8 +41,8 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
     if (event is FetchInitialData) {
       yield state.copyWith(pageState: PageState.loading);
 
-      RecoverGuardianInitialDTO result = await FetchRecoverGuardianInitialDataUseCase().run(state.userAccount);
-      var newState = FetchRecoverRecoveryStateMapper().mapResultToState(state, result);
+      final RecoverGuardianInitialDTO result = await FetchRecoverGuardianInitialDataUseCase().run(state.userAccount);
+      final newState = FetchRecoverRecoveryStateMapper().mapResultToState(state, result);
       yield newState;
       if (newState.recoveryStatus == RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD) {
         yield* _mapStartTimerToState();
@@ -56,7 +56,7 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
       }
     } else if (event is OnClaimAccountTap) {
       yield state.copyWith(pageState: PageState.loading);
-      var result = await ResetUserAccountUseCase().run(state.userAccount);
+      final result = await ResetUserAccountUseCase().run(state.userAccount);
       if (result.isValue) {
         // The private key was saved in the settings storage when the user data for this bloc was loaded
         settingsStorage.finishRecoveryProcess();
@@ -69,7 +69,7 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
     } else if (event is OnRefreshTap) {
       add(FetchInitialData());
     } else if (event is ClearRecoverPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     } else if (event is OnCancelProcessTap) {
       settingsStorage.cancelRecoveryProcess();
       yield state.copyWith(pageCommand: CancelRecoveryProcess());

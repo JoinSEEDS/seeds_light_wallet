@@ -7,17 +7,17 @@ import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 class GetInitialDeepLinkUseCase {
   Future<Result> run(Uri newLink) async {
-    var splitUri = newLink.query.split('=');
-    var placeHolder = splitUri[0];
-    var linkData = splitUri[1];
+    final splitUri = newLink.query.split('=');
+    final placeHolder = splitUri[0];
+    final linkData = splitUri[1];
 
     var deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_UNKNOWN;
     if (placeHolder.contains("guardian")) {
-      SeedsESR request = SeedsESR(uri: linkData);
+      final SeedsESR request = SeedsESR(uri: linkData);
 
       await request.resolve(account: settingsStorage.accountName);
-      var action = request.actions.first;
-      var data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
+      final action = request.actions.first;
+      final data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
 
       deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_GUARDIANS;
       return ValueResult(DeepLinkData(data, deepLinkPlaceHolder));

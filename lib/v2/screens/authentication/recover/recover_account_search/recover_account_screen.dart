@@ -39,7 +39,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
       child: BlocConsumer<RecoverAccountBloc, RecoverAccountState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
-          var pageCommand = state.pageCommand;
+          final pageCommand = state.pageCommand;
           if (pageCommand is NavigateToRecoverAccountFound) {
             NavigationService.of(context).navigateTo(Routes.recoverAccountFound, pageCommand.userAccount);
           }
@@ -81,31 +81,32 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                       });
                     },
                   ),
-                  state.isValidAccount
-                      ? Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.darkGreen2,
-                            borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                          ),
-                          child: SearchResultRow(
-                            imageUrl: state.accountImage,
-                            account: state.userName!,
-                            name: state.accountName,
-                            resultCallBack: () =>
-                                BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
+                  if (state.isValidAccount)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.darkGreen2,
+                        borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+                      ),
+                      child: SearchResultRow(
+                        imageUrl: state.accountImage,
+                        account: state.userName!,
+                        name: state.accountName,
+                        resultCallBack: () => BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
+                      ),
+                    )
+                  else
+                    const SizedBox.shrink(),
                   const SizedBox(height: 30),
-                  state.errorMessage != null
-                      ? Center(
-                          child: Text(
-                            state.errorMessage!,
-                            style: Theme.of(context).textTheme.subtitle3Red,
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      : const SizedBox.shrink(),
+                  if (state.errorMessage != null)
+                    Center(
+                      child: Text(
+                        state.errorMessage!,
+                        style: Theme.of(context).textTheme.subtitle3Red,
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  else
+                    const SizedBox.shrink(),
                 ],
               ),
             ),

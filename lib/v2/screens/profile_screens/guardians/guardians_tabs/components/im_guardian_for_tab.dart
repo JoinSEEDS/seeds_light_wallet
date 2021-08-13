@@ -17,7 +17,7 @@ class ImGuardianForTab extends StatelessWidget {
         stream: BlocProvider.of<GuardiansBloc>(context).guardians,
         builder: (context, AsyncSnapshot<List<GuardianModel>> snapshot) {
           if (snapshot.hasData) {
-            var myGuardians = snapshot.data!.where((element) => element.type == GuardianType.imGuardian);
+            final myGuardians = snapshot.data!.where((element) => element.type == GuardianType.imGuardian);
 
             if (myGuardians.isEmpty) {
               return const NoGuardiansWidget(

@@ -16,6 +16,8 @@ import 'interactor/viewmodels/receive_enter_data_events.dart';
 import 'interactor/viewmodels/receive_enter_data_state.dart';
 
 class ReceiveEnterDataScreen extends StatelessWidget {
+  const ReceiveEnterDataScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -26,7 +28,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
           body: BlocConsumer<ReceiveEnterDataBloc, ReceiveEnterDataState>(
               listenWhen: (_, current) => current.pageCommand != null,
               listener: (BuildContext context, ReceiveEnterDataState state) {
-                var pageCommand = state.pageCommand;
+                final pageCommand = state.pageCommand;
                 if (pageCommand is NavigateToReceiveDetails) {
                   NavigationService.of(context).navigateTo(Routes.receiveQR, pageCommand.receiveDetailArguments);
                   BlocProvider.of<ReceiveEnterDataBloc>(context).add(const ClearReceiveEnterDataState());

@@ -62,10 +62,10 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
       child: BlocConsumer<ProposalsListBloc, ProposalsListState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) async {
-          var pageCommand = state.pageCommand;
+          final pageCommand = state.pageCommand;
           _proposalsBloc.add(const ClearProposalsListPageCommand());
           if (pageCommand is NavigateToRouteWithArguments<ProposalsArgsData>) {
-            int? index = await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+            final int? index = await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
             if (index != null) {
               // 420 is the height of this proposal card
               // ignore: unawaited_futures
@@ -89,32 +89,33 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
                   controller: _scrollController,
                   slivers: [
                     if (widget.proposalType.index == 0 || widget.proposalType.index == 1)
-                      const SliverPersistentHeader(floating: true, pinned: false, delegate: VotingCycleEndCard()),
-                    state.proposals.isEmpty
-                        ? SliverFillRemaining(
-                            child: Center(
-                              child: Text('No proposals to show, yet', style: Theme.of(context).textTheme.button),
-                            ),
-                          )
-                        : SliverPadding(
-                            padding: EdgeInsets.only(
-                                top: widget.proposalType.index != 0 && widget.proposalType.index != 1 ? 16 : 0),
-                            sliver: SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) {
-                                  if (index >= state.proposals.length) {
-                                    return const LoadingIndicatorList();
-                                  } else {
-                                    return ProposalCard(
-                                      proposal: state.proposals[index],
-                                      onTap: () => _proposalsBloc.add(OnProposalCardTapped(index)),
-                                    );
-                                  }
-                                },
-                                childCount: state.hasReachedMax ? state.proposals.length : state.proposals.length + 1,
-                              ),
-                            ),
+                      const SliverPersistentHeader(floating: true, delegate: VotingCycleEndCard()),
+                    if (state.proposals.isEmpty)
+                      SliverFillRemaining(
+                        child: Center(
+                          child: Text('No proposals to show, yet', style: Theme.of(context).textTheme.button),
+                        ),
+                      )
+                    else
+                      SliverPadding(
+                        padding: EdgeInsets.only(
+                            top: widget.proposalType.index != 0 && widget.proposalType.index != 1 ? 16 : 0),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              if (index >= state.proposals.length) {
+                                return const LoadingIndicatorList();
+                              } else {
+                                return ProposalCard(
+                                  proposal: state.proposals[index],
+                                  onTap: () => _proposalsBloc.add(OnProposalCardTapped(index)),
+                                );
+                              }
+                            },
+                            childCount: state.hasReachedMax ? state.proposals.length : state.proposals.length + 1,
                           ),
+                        ),
+                      ),
                   ],
                 ),
               );
