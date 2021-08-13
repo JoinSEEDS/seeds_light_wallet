@@ -6,6 +6,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
+import 'package:seeds/v2/i18n/authentication/recover/recover.i18n.dart';
 
 class FetchRecoverRecoveryStateMapper extends StateMapper {
   RecoverAccountFoundState mapResultToState(RecoverAccountFoundState currentState, RecoverGuardianInitialDTO result) {
@@ -70,7 +71,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
     } else {
       return currentState.copyWith(
         pageState: PageState.failure,
-        errorMessage: "Oops, Something went wrong, try again later.",
+        errorMessage: "Oops, Something went wrong, try again later.".i18n,
       );
     }
   }

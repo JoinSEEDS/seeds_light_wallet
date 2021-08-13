@@ -8,6 +8,7 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/transfer/send/send_scanner/interactor/send_scanner_bloc.dart';
 import 'package:seeds/v2/screens/transfer/send/send_scanner/interactor/viewmodels/scanner_events.dart';
 import 'package:seeds/v2/screens/transfer/send/send_scanner/interactor/viewmodels/send_scanner_state.dart';
+import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 
 /// SendScannerScreen SCREEN
 class SendScannerScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Scan QR Code")),
+      appBar: AppBar(title: Text("Scan QR Code".i18n)),
       body: BlocProvider(
         create: (_) => _sendPageBloc,
         child: BlocListener<SendPageBloc, SendPageState>(
@@ -49,7 +50,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
           child: Column(
             children: [
               const SizedBox(height: 32),
-              Text("Scan QR Code to Send", style: Theme.of(context).textTheme.button),
+              Text("Scan QR Code to Send".i18n, style: Theme.of(context).textTheme.button),
               const SizedBox(height: 82),
               _scannerScreen,
               BlocBuilder<SendPageBloc, SendPageState>(

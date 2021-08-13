@@ -1,37 +1,31 @@
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 
 extension RatesStateExtensions on RatesState {
-  double _seedsTo(double seedsValue, String currencySymbol) {
-    final double? usdValue = rate?.toUSD(seedsValue);
-
+  /// Returns a double that represents the amount of seeds in a given fiat currency
+  double fromSeedsToFiat(double seedsAmount, String currencySymbol) {
+    // Convert seeds to USD
+    final double? usdValue = rate?.seedsToUSD(seedsAmount);
     if (usdValue != null) {
-      return fiatRate?.usdTo(usdValue, currencySymbol) ?? double.nan;
+      // Convert the seeds (USD amount) in the new currency
+      return fiatRate?.usdToCurrency(usdValue, currencySymbol) ?? double.nan;
     } else {
       return double.nan;
     }
   }
 
-  double _toSeeds(double currencyValue, String currencySymbol) {
+  /// Returns a double representing the amount of given fiat currency in seeds
+  double fromFiatToSeeds(double currencyAmount, String currencySymbol) {
     if (currencySymbol == "USD") {
-      return rate?.toSeeds(currencyValue) ?? double.nan;
+      return rate?.usdToSeeds(currencyAmount) ?? double.nan;
     } else {
-      final double? currencyRate = fiatRate?.usdTo(currencyValue, currencySymbol);
-
-      if (currencyRate != null) {
-        return rate?.toSeeds(currencyRate) ?? double.nan;
+      // Convert that currency value to USD value
+      final double? usdValue = fiatRate?.currencyToUSD(currencyAmount, currencySymbol);
+      if (usdValue != null) {
+        // Convert the currency (USD amount) in seeds
+        return rate?.usdToSeeds(usdValue) ?? double.nan;
       } else {
         return double.nan;
       }
     }
-  }
-
-  /// Returns a double that represents the amount of seeds in a given fiat currency
-  double fromSeedsToFiat(double seedsAmount, String currencySymbol) {
-    return _seedsTo(seedsAmount, currencySymbol);
-  }
-
-  /// Returns a double representing the amount of given fiat currency in seeds
-  double fromFiatToSeeds(double currencyAmount, String currencySymbol) {
-    return _toSeeds(currencyAmount, currencySymbol);
   }
 }

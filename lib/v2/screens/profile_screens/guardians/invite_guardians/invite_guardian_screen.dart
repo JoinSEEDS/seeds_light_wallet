@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/guardians.i18n.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/search_result_row.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
@@ -9,6 +8,7 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/invite_guardians_bloc.dart';
+import 'package:seeds/v2/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_events.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_state.dart';
 
@@ -36,7 +36,7 @@ class InviteGuardians extends StatelessWidget {
         child: BlocBuilder<InviteGuardiansBloc, InviteGuardiansState>(
           builder: (context, state) {
             return Scaffold(
-              appBar: AppBar(title: const Text("Invite Guardians")),
+              appBar: AppBar(title: Text("Invite Guardians".i18n)),
               body: Column(
                 children: [
                   const SizedBox(height: 24),
@@ -68,7 +68,7 @@ class InviteGuardians extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: FlatButtonLong(
-                      title: 'Send Invite',
+                      title: 'Send Invite'.i18n,
                       onPressed: () {
                         BlocProvider.of<InviteGuardiansBloc>(context).add(OnSendInviteTapped());
                       },

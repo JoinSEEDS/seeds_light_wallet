@@ -4,11 +4,11 @@ class RateModel {
 
   const RateModel(this.seedsPerUSD);
 
-  double? toUSD(double seedsAmount) {
+  double? seedsToUSD(double seedsAmount) {
     return seedsPerUSD > 0 ? seedsAmount / seedsPerUSD : null;
   }
 
-  double? toSeeds(double usdAmount) {
+  double? usdToSeeds(double usdAmount) {
     return seedsPerUSD > 0 ? usdAmount * seedsPerUSD : null;
   }
 

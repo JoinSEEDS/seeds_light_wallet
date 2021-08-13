@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/i18n/guardians.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';

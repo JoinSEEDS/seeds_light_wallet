@@ -8,29 +8,32 @@ import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 class CurrencyChangeMapper extends StateMapper {
   AmountEntryState mapResultToState(AmountEntryState currentState) {
-    final input = currentState.currentCurrencyInput == CurrencyInput.SEEDS ? CurrencyInput.FIAT : CurrencyInput.SEEDS;
+    final input = currentState.currentCurrencyInput == CurrencyInput.seeds ? CurrencyInput.fiat : CurrencyInput.seeds;
 
     return currentState.copyWith(
+      currentCurrencyInput: input,
+      infoRowText: handleInfoRowText(
         currentCurrencyInput: input,
-        infoRowText: handleInfoRowText(
-          currentCurrencyInput: input,
-          fiatToSeeds: currentState.fiatToSeeds,
-          seedsToFiat: currentState.seedsToFiat,
-        ),
-        enteringCurrencyName: handleEnteringCurrencyName(input),
-        pageCommand: SendTextInputDataBack(handleAmountToSendBack(
+        fiatToSeeds: currentState.fiatToSeeds,
+        seedsToFiat: currentState.seedsToFiat,
+      ),
+      enteringCurrencyName: handleEnteringCurrencyName(input),
+      pageCommand: SendTextInputDataBack(
+        handleAmountToSendBack(
           currentCurrencyInput: input,
           textInput: currentState.textInput,
           fiatToSeeds: currentState.fiatToSeeds,
-        )));
+        ),
+      ),
+    );
   }
 }
 
 String handleEnteringCurrencyName(CurrencyInput currentCurrencyInput) {
   switch (currentCurrencyInput) {
-    case CurrencyInput.FIAT:
+    case CurrencyInput.fiat:
       return settingsStorage.selectedFiatCurrency;
-    case CurrencyInput.SEEDS:
+    case CurrencyInput.seeds:
       return currencySeedsCode;
   }
 }

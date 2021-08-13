@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:seeds/v2/i18n/onboarding/onboarding.i18n.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import '../onboarding_pages.dart';
 
@@ -11,8 +12,8 @@ class SecondPage extends StatelessWidget {
     return OnboardingPage(
       onboardingImage: "assets/images/onboarding/onboarding1.png",
       topPadding: 50,
-      title: "Citizen Campaigns",
-      subTitle: "Participate and vote directly on social and environmental impact projects you care about.",
+      title: "Citizen Campaigns".i18n,
+      subTitle: "Participate and vote directly on social and environmental impact projects you care about.".i18n,
       topLeaf1: Positioned(
         left: 40,
         top: 40,
