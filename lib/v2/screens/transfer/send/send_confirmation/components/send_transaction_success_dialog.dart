@@ -53,7 +53,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 Text(amount, style: Theme.of(context).textTheme.headline4),
                 Padding(
                   padding: const EdgeInsets.only(top: 14, left: 4),
-                  child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2),
+                  child: Text(currency, style: Theme.of(context).textTheme.subtitle2),
                 ),
               ],
             ),
