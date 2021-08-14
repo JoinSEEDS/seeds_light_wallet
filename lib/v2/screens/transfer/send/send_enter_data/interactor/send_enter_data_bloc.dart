@@ -48,7 +48,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
     } else if (event is OnSendButtonTapped) {
       yield state.copyWith(pageState: PageState.loading, showSendingAnimation: true);
 
-      final Result result = await SendTransactionUseCase().run("transfer", 'token.seeds', {
+      final Result result = await SendTransactionUseCase().run(actionName: "transfer", account: 'token.seeds', data: {
         'from': settingsStorage.accountName,
         'to': state.sendTo.account,
         'quantity': '${state.quantity.toStringAsFixed(4)} $currencySeedsCode',

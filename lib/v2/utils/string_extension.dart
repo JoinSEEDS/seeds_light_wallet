@@ -10,6 +10,12 @@ extension StringExtension on String {
   String get symbolFromAmount {
     return split(" ")[1];
   }
+
+  // convert blockchain quantity to double, e.g. "1.0000 SEEDS"
+  double get quantityAsDouble {
+    final parts = split(' ');
+    return double.parse(parts[0]);
+  }
 }
 
 extension NullableStringExtension on String? {

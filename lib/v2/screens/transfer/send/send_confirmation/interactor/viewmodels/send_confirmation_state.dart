@@ -6,10 +6,10 @@ import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/view
 
 class SendConfirmationState extends Equatable {
   final PageState pageState;
-  final ShowTransactionSuccess? pageCommand;
+  final TransactionPageCommand? pageCommand;
   final String? errorMessage;
   final String account;
-  final String name;
+  final String actionName;
   final Map<String, dynamic> data;
   final List<SendInfoLineItems> lineItems;
 
@@ -18,7 +18,7 @@ class SendConfirmationState extends Equatable {
     this.pageCommand,
     this.errorMessage,
     required this.account,
-    required this.name,
+    required this.actionName,
     required this.lineItems,
     required this.data,
   });
@@ -28,10 +28,10 @@ class SendConfirmationState extends Equatable {
 
   SendConfirmationState copyWith({
     PageState? pageState,
-    ShowTransactionSuccess? pageCommand,
+    TransactionPageCommand? pageCommand,
     String? errorMessage,
     String? account,
-    String? name,
+    String? actionName,
     List<SendInfoLineItems>? lineItems,
     Map<String, dynamic>? data,
   }) {
@@ -40,7 +40,7 @@ class SendConfirmationState extends Equatable {
       pageCommand: pageCommand,
       errorMessage: errorMessage,
       account: account ?? this.account,
-      name: name ?? this.name,
+      actionName: actionName ?? this.actionName,
       lineItems: lineItems ?? this.lineItems,
       data: data ?? this.data,
     );
@@ -50,7 +50,7 @@ class SendConfirmationState extends Equatable {
     return SendConfirmationState(
       pageState: PageState.initial,
       account: arguments.account,
-      name: arguments.name,
+      actionName: arguments.name,
       data: arguments.data,
       lineItems: [],
     );

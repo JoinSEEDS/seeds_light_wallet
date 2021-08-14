@@ -55,7 +55,7 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
                       final account = settingsStorage.accountName;
                       final model = state.transactions[index];
                       return TransactionInfoRow(
-                        key: Key(model.transactionId),
+                        key: Key(model.transactionId ?? "index_$index"),
                         callback: () {
                           // TODO(n13): Implement callback - show tx detail
                           print("Not implemented");

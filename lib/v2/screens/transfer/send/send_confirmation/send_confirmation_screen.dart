@@ -8,6 +8,7 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
+import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/send_custom_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/transaction_details.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/send_confirmation_bloc.dart';
@@ -15,7 +16,6 @@ import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/view
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_events.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_state.dart';
-
 import 'package:seeds/v2/utils/cap_utils.dart';
 
 /// SendConfirmation SCREEN
@@ -41,25 +41,29 @@ class SendConfirmationScreen extends StatelessWidget {
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (BuildContext context, SendConfirmationState state) {
             final pageCommand = state.pageCommand;
-            if (pageCommand is ShowTransactionSuccess) {
+            if (pageCommand is ShowTransferSuccess) {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false, // user must tap button
-                builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
-                    onCloseButtonPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                    },
-                    currency: pageCommand.currency,
-                    amount: pageCommand.amount,
-                    fiatAmount: pageCommand.fiatAmount,
-                    fromAccount: pageCommand.fromAccount,
-                    fromImage: pageCommand.fromImage,
-                    fromName: pageCommand.fromName,
-                    toAccount: pageCommand.toAccount,
-                    toImage: pageCommand.toImage,
-                    toName: pageCommand.toName,
-                    transactionID: pageCommand.transactionId),
+                builder: (BuildContext buildContext) => SendTransactionSuccessDialog.fromPageCommand(
+                  onCloseButtonPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  pageCommand: pageCommand,
+                ),
+              );
+            } else if (pageCommand is ShowTransactionSuccess) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false, // user must tap button
+                builder: (BuildContext buildContext) => SendCustomTransactionSuccessDialog(
+                  transaction: pageCommand.transactionModel,
+                  onCloseButtonPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                ),
               );
             }
           },
@@ -83,7 +87,7 @@ class SendConfirmationScreen extends StatelessWidget {
                               TransactionDetails(
                                 /// This needs to change to use the token icon. right now its hard coded to seeds
                                 image: SvgPicture.asset("assets/images/seeds_logo.svg"),
-                                title: state.name.inCaps,
+                                title: state.actionName.inCaps,
                                 beneficiary: state.account,
                               ),
                               const SizedBox(height: 42),

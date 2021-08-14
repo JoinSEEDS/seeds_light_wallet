@@ -6,8 +6,9 @@ import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
+import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
+import 'package:seeds/v2/utils/double_extension.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
@@ -36,6 +37,22 @@ class SendTransactionSuccessDialog extends StatelessWidget {
     required this.transactionID,
     required this.onCloseButtonPressed,
   }) : super(key: key);
+
+  factory SendTransactionSuccessDialog.fromPageCommand({required VoidCallback onCloseButtonPressed, required ShowTransferSuccess pageCommand}) {
+    return SendTransactionSuccessDialog(
+      onCloseButtonPressed: onCloseButtonPressed,
+      currency: pageCommand.transactionModel.symbol,
+      amount: pageCommand.transactionModel.doubleQuantity.seedsFormatted,
+      fiatAmount: pageCommand.fiatQuantity.fiatFormatted,
+      fromAccount: pageCommand.transactionModel.from,
+      fromImage: pageCommand.from?.image ?? "",
+      fromName: pageCommand.from?.nickname ?? pageCommand.transactionModel.from,
+      toAccount: pageCommand.transactionModel.to,
+      toImage: pageCommand.to?.image ?? "",
+      toName: pageCommand.to?.nickname ?? pageCommand.transactionModel.to,
+      transactionID: pageCommand.transactionModel.transactionId ?? "",
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

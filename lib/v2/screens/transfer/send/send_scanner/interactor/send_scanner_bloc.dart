@@ -21,13 +21,14 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
       final Result result = await ProcessScanResultUseCase().run(event.scanResult);
 
       if (result is ErrorResult) {
+        print("qr error"); // TODO test this case
         yield state.copyWith(pageState: PageState.failure, errorMessage: result.error.toString());
       } else {
-        final value = result.asValue!.value as ScanQrCodeResultData;
+        final value = result.asValue!.value as ScanESRResultData;
 
         final args = SendConfirmationArguments(
           account: value.accountName,
-          name: value.name,
+          name: value.actionName,
           data: value.data,
         );
 
