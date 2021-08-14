@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/v2/datasource/remote/model/custom_transaction_model.dart';
+import 'package:seeds/v2/utils/string_extension.dart';
 
 class TransactionModel extends Equatable {
   final String from;
@@ -6,9 +8,10 @@ class TransactionModel extends Equatable {
   final String quantity;
   final String memo;
   final String timestamp;
-  final String transactionId;
+  final String? transactionId;
 
   String get symbol => quantity.split(" ")[1];
+  double get doubleQuantity => quantity.quantityAsDouble;
 
   const TransactionModel(
       {required this.from,
@@ -44,7 +47,30 @@ class TransactionModel extends Equatable {
     );
   }
 
-  factory TransactionModel.fromTxData(Map<String, dynamic> data, String transactionId) {
+  static TransactionModel? fromTransaction(CustomTransactionModel customModel) {
+    if (customModel.action == "transfer") {
+      final data = customModel.data;
+      final String? from = data['from'];
+      final String? to = data['to'];
+      final String? quantity = data['quantity'];
+      final String memo = data['memo'] ?? "";
+      final String timestamp = "0";
+      if (from != null && to != null && quantity != null) {
+        return TransactionModel(
+          from: from,
+          to: to,
+          quantity: quantity,
+          memo: memo,
+          timestamp: timestamp,
+          transactionId: customModel.transactionId,
+        );
+      }
+    }
+
+    return null;
+  }
+
+  factory TransactionModel.fromTxDa1ta(Map<String, dynamic> data, String transactionId) {
     return TransactionModel(
       from: data['from'],
       to: data['to'],
