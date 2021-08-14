@@ -6,6 +6,7 @@ import 'package:seeds/v2/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/voice_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/v2/datasource/remote/model/vote_model.dart';
+import 'package:seeds/v2/datasource/remote/util/CacheKeys.dart';
 
 class GetProposalDataUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
@@ -27,8 +28,8 @@ class GetProposalDataUseCase {
   }
 
   Future<Result> _fetchVote(int proposalId, String account) async {
-    final box = await Hive.openBox<VoteModel>("votes.1.box");
-    VoteModel? voteModel = box.get(proposalId);
+    final box = await Hive.openBox<VoteModel>("votes.2.box");
+    VoteModel? voteModel = box.get(CacheKeys.voteCacheKey(account, proposalId));
     if (voteModel == null) {
       final result = await _proposalsRepository.getVote(proposalId, account);
       if (result.isValue) {
