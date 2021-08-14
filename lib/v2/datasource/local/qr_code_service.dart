@@ -24,8 +24,9 @@ Result processResolvedRequest(_SeedsESR esr) {
   final Action action = esr.actions.first;
   if (_canProcess(action)) {
     final Map<String, dynamic> data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
-    print(" processResolvedRequest : Success QR code");
-    return ValueResult(ScanQrCodeResultData(data: data, accountName: action.account, name: action.name));
+    print(
+        " processResolvedRequest: Success QR contract: ${action.account} action: ${action.name} data: ${action.data!}");
+    return ValueResult(ScanESRResultData(data: data, accountName: action.account, actionName: action.name));
   } else {
     print("processResolvedRequest: canProcess is false: ");
     return ErrorResult("Invalid QR code");
