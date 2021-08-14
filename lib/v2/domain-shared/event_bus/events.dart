@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
 
 /// --- EVENT BUS EVENTS
 ///
@@ -10,5 +11,6 @@ abstract class BusEvent<T> {
 }
 
 class OnNewTransactionEventBus extends BusEvent<OnNewTransactionEventBus> {
-  const OnNewTransactionEventBus();
+  final TransactionModel? transactionModel;
+  const OnNewTransactionEventBus(this.transactionModel);
 }

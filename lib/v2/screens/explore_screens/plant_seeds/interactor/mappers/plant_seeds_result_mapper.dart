@@ -9,7 +9,6 @@ import 'package:seeds/v2/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart'
 class PlantSeedsResultMapper extends StateMapper {
   PlantSeedsState mapResultToState(PlantSeedsState currentState, Result result) {
     if (result.isError) {
-      // Transaction fail show snackbar fail
       print('Error transaction hash not retrieved');
       return currentState.copyWith(
         pageState: PageState.success,
@@ -17,9 +16,7 @@ class PlantSeedsResultMapper extends StateMapper {
         isPlantSeedsButtonEnabled: false,
       );
     } else {
-      // Transaction success show plant seeds success dialog
-      eventBus.fire(const OnNewTransactionEventBus());
-
+      eventBus.fire(const OnNewTransactionEventBus(null));
       return currentState.copyWith(pageState: PageState.success, pageCommand: ShowPlantSeedsSuccess());
     }
   }
