@@ -4,13 +4,18 @@ import 'package:eosdart/eosdart.dart';
 import 'package:seeds/v2/datasource/remote/api/eos_repository.dart';
 
 class SendTransactionRepository extends EosRepository {
-  Future<Result> sendTransaction(String? name, String account, Map<String, dynamic> data, String accountName) async {
+  Future<Result> sendTransaction({
+    required String actionName,
+    required String account,
+    required Map<String, dynamic> data,
+    required String accountName,
+  }) async {
     print('[eos] sendTransaction');
 
     final actions = [
       Action()
         ..account = account
-        ..name = name
+        ..name = actionName
         ..data = data
     ];
     for (final action in actions) {
