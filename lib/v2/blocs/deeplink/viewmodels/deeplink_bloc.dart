@@ -1,14 +1,27 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:seeds/v2/blocs/deeplink/mappers/deep_link_state_mapper.dart';
 import 'package:seeds/v2/blocs/deeplink/usecase/get_initial_deep_link_use_case.dart';
+import 'package:seeds/v2/blocs/deeplink/usecase/get_signing_request_use_case.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_event.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_state.dart';
+import 'package:uni_links/uni_links.dart';
 
 /// --- BLOC
 class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
+  StreamSubscription? _sub;
+
   DeeplinkBloc() : super(DeeplinkState.initial()) {
     initDynamicLinks();
+    initSigningRequests();
+  }
+
+  @override
+  Future<void> close() {
+    _sub?.cancel();
+    return super.close();
   }
 
   @override
@@ -20,6 +33,9 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
       yield state.copyWith();
     } else if (event is ClearDeepLink) {
       yield DeeplinkState.initial();
+    } else if (event is HandleIncomingSigningRequest) {
+      final result = await GetSigningRequestUseCase().run(event.link);
+      yield DeepLinkStateMapper().mapSigningRequestToState(state, result);
     }
   }
 
@@ -40,5 +56,25 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
     if (deepLink != null) {
       add(HandleIncomingFirebaseDeepLink(deepLink));
     }
+  }
+
+  Future<void> initSigningRequests() async {
+    try {
+      final initialLink = await getInitialUri();
+
+      if (initialLink != null) {
+        add(HandleIncomingSigningRequest(initialLink));
+      }
+    } catch (err) {
+      print("initial link error: $err");
+    }
+
+    _sub = uriLinkStream.listen((Uri? uri) {
+      if (uri != null) {
+        add(HandleIncomingSigningRequest(uri));
+      }
+    }, onError: (err) {
+      print("ESR Error: ${err.toString()}");
+    });
   }
 }
