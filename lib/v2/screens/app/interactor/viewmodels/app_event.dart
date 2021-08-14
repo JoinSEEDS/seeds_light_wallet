@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/v2/blocs/deeplink/model/guardian_recovery_request_data.dart';
+import 'package:seeds/v2/datasource/local/models/scan_qr_code_result_data.dart';
 
 /// --- EVENTS
 @immutable
@@ -71,4 +72,13 @@ class OnApproveGuardianRecoveryDeepLink extends AppEvent {
 
   @override
   String toString() => 'OnApproveGuardianRecoveryDeepLink';
+}
+
+class OnSigningRequest extends AppEvent {
+  final ScanESRResultData esr;
+
+  const OnSigningRequest(this.esr);
+
+  @override
+  String toString() => 'OnSigningRequest';
 }
