@@ -32,3 +32,12 @@ class ClearDeepLink extends DeeplinkEvent {
   @override
   String toString() => 'ClearDeepLink';
 }
+
+class HandleIncomingSigningRequest extends DeeplinkEvent {
+  final Uri link;
+
+  const HandleIncomingSigningRequest(this.link);
+
+  @override
+  String toString() => 'HandleIncomingSigningRequest';
+}
