@@ -7,7 +7,7 @@ import 'package:seeds/v2/datasource/remote/util/CacheKeys.dart';
 
 class GetVoteUseCase {
   Future<Result> run(int proposalId, String account) async {
-    final box = await Hive.openBox<VoteModel>("votes.2.box");
+    final box = await Hive.openBox<VoteModel>(CacheKeys.proposalVotesCacheName);
     final cache = CacheRepository<VoteModel>(box);
     VoteModel? voteModel = box.get(CacheKeys.voteCacheKey(account, proposalId));
     if (voteModel == null) {

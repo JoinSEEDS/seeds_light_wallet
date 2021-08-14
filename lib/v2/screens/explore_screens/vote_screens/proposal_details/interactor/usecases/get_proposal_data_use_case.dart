@@ -28,7 +28,7 @@ class GetProposalDataUseCase {
   }
 
   Future<Result> _fetchVote(int proposalId, String account) async {
-    final box = await Hive.openBox<VoteModel>("votes.2.box");
+    final box = await Hive.openBox<VoteModel>(CacheKeys.proposalVotesCacheName);
     VoteModel? voteModel = box.get(CacheKeys.voteCacheKey(account, proposalId));
     if (voteModel == null) {
       final result = await _proposalsRepository.getVote(proposalId, account);
