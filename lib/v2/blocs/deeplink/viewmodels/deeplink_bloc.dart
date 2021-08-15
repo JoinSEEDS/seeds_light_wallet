@@ -11,7 +11,7 @@ import 'package:uni_links/uni_links.dart';
 
 /// --- BLOC
 class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
-  StreamSubscription? _sub;
+  StreamSubscription? _linkStreamSubscription;
 
   DeeplinkBloc() : super(DeeplinkState.initial()) {
     initDynamicLinks();
@@ -20,7 +20,7 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
 
   @override
   Future<void> close() {
-    _sub?.cancel();
+    _linkStreamSubscription?.cancel();
     return super.close();
   }
 
@@ -60,7 +60,7 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
 
   Future<void> initSigningRequests() async {
     try {
-      final initialLink = await getInitialUri();
+      final initialLink = await getInitialLink();
 
       if (initialLink != null) {
         add(HandleIncomingSigningRequest(initialLink));
@@ -69,7 +69,7 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
       print("initial link error: $err");
     }
 
-    _sub = uriLinkStream.listen((Uri? uri) {
+    _linkStreamSubscription = linkStream.listen((String? uri) {
       if (uri != null) {
         add(HandleIncomingSigningRequest(uri));
       }

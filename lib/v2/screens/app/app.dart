@@ -111,8 +111,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             } else if (pageCommand is ShowMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-            } else if (pageCommand is ProcessSigningRequest) {
-              // TODO(gguij002): Is this needed?
+            } else if (pageCommand is NavigateToRouteWithArguments) {
+              print("ESR page command ${pageCommand.route}");
+              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+              // } else if (state.signingRequest != null) {
+              //   // add(OnSigningRequest());
             }
           },
           builder: (context, state) {
@@ -123,6 +126,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 return const AccountUnderRecoveryScreen();
               } else if (state.showGuardianApproveOrDenyScreen != null) {
                 return GuardianApproveOrDenyScreen(data: state.showGuardianApproveOrDenyScreen!);
+//               } else if (state.signingRequest != null) {
+// // todo
               } else {
                 return PageView(
                   controller: _pageController,

@@ -16,7 +16,7 @@ class DeeplinkState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [guardianRecoveryRequestData, inviteLinkData];
+  List<Object?> get props => [guardianRecoveryRequestData, inviteLinkData, signingRequest];
 
   DeeplinkState copyWith({
     GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen,

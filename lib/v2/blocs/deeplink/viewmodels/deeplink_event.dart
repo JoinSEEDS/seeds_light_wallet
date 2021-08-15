@@ -34,7 +34,7 @@ class ClearDeepLink extends DeeplinkEvent {
 }
 
 class HandleIncomingSigningRequest extends DeeplinkEvent {
-  final Uri link;
+  final String link;
 
   const HandleIncomingSigningRequest(this.link);
 

@@ -9,9 +9,9 @@ import 'package:seeds/v2/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 
 class GetSigningRequestUseCase {
-  Future<Result> run(Uri uri) async {
+  Future<Result> run(String uri) async {
     try {
-      final SeedsESR esr = SeedsESR(uri: uri.toString());
+      final SeedsESR esr = SeedsESR(uri: uri);
       return esr
           .resolve(account: settingsStorage.accountName)
           .then((value) => processResolvedRequest(esr))

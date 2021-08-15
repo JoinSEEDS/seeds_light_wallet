@@ -26,7 +26,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc(this._deeplinkBloc)
       : super(AppState.initial(
           showGuardianApproveOrDenyScreen: _deeplinkBloc.state.guardianRecoveryRequestData,
-          signingRequest: _deeplinkBloc.state.signingRequest,
+          // signingRequest: _deeplinkBloc.state.signingRequest,
         )) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
@@ -43,6 +43,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         add(OnSigningRequest(deepLinkState.signingRequest!));
       }
     });
+
+    if (_deeplinkBloc.state.signingRequest != null) {
+      print("initial signing request ${_deeplinkBloc.state.signingRequest!}");
+      add(OnSigningRequest(_deeplinkBloc.state.signingRequest!));
+    }
   }
 
   @override
