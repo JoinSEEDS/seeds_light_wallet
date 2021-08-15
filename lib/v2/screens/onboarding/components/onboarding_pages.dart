@@ -36,7 +36,7 @@ class OnboardingPage extends StatelessWidget {
           ),
           child: Center(
             child: Container(
-              padding: const EdgeInsets.only(bottom: 20, top: 90, right: 40, left: 40),
+              padding: const EdgeInsets.only(bottom: 20, top: 50, right: 40, left: 40),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -48,10 +48,9 @@ class OnboardingPage extends StatelessWidget {
             ),
           ),
         ),
-        // SizedBox(height: topPadding),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.only(right: 40, left: 40),
+            padding: const EdgeInsets.only(right: 40, left: 40, bottom: 20),
             child: Center(
               child: FittedBox(
                 fit: BoxFit.fitWidth,
