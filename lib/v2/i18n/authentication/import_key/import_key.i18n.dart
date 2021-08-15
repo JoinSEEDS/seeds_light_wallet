@@ -6,8 +6,8 @@ extension Localization on String {
         'es_es': {
           'Private key': 'Llave privada',
           'Private Key cannot be empty': 'Llave privada no puede estar vacía',
-          'If you already have a Seeds account, please enter your private key and your account will be imported automatically.':
-              'Si ya tienes una cuenta de Seeds, por favor, ingresa tu llave privada activa y tu cuenta se importará automáticamente.',
+          'If you already have a Seeds account-enter active private key and account will be imported automatically.':
+          'Si ya tienes una cuenta de Seeds - ingresa tu llave privada activa y tu cuenta se importará automáticamente',
           'Search': 'Buscar',
           'Private key is not valid': 'Llave privada no es válida',
           'No accounts found': 'No se encontraron cuentas',

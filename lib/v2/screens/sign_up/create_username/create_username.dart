@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/edit_name.i18n.dart';
+import 'package:seeds/v2/i18n/sign_up/sign_up.i18n.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
@@ -53,7 +53,8 @@ class _CreateUsernameState extends State<CreateUsername> {
 
             if (state.createUsernameState.pageState == PageState.failure) {
               SnackBarInfo(
-                      state.createUsernameState.errorMessage ?? 'Oops, something went wrong. Please try again later.',
+                      state.createUsernameState.errorMessage ??
+                          'Oops, something went wrong. Please try again later.'.i18n,
                       ScaffoldMessenger.of(context))
                   .show();
             }
@@ -91,9 +92,8 @@ class _CreateUsernameState extends State<CreateUsername> {
                       const SizedBox(height: 10),
                       Expanded(
                         child: Text(
-                          "Note: Usernames must be 12 characters long. "
-                          "\n\n Usernames can only contain characters a-z (all lowercase), 1 - 5 (no 0’s), and no special characters or full stops. "
-                          "\n\n **Reminder! Your account name cannot be changed or deleted and will be public for other users to see.**",
+                          "Note: Usernames must be 12 characters long.\n\n Usernames can only contain characters a-z (all lowercase), 1 - 5 (no 0’s), and no special characters or full stops. \n\n **Reminder! Your account name cannot be changed or deleted and will be public for other users to see.**"
+                              .i18n,
                           style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                         ),
                       ),

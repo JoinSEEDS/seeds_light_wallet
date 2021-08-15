@@ -10,6 +10,7 @@ import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/compon
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/components/no_guardian_widget.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/guardians_bloc.dart';
 import 'package:seeds/v2/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
+import 'package:seeds/v2/i18n/profile_screens/guardians/guardians.i18n.dart';
 
 class MyGuardiansTab extends StatelessWidget {
   const MyGuardiansTab({Key? key}) : super(key: key);
@@ -24,8 +25,9 @@ class MyGuardiansTab extends StatelessWidget {
             final alreadyGuardians = myGuardians.where((element) => element.status == GuardianStatus.alreadyGuardian);
 
             if (myGuardians.isEmpty) {
-              return const NoGuardiansWidget(
-                message: "You have added no user to become your guardian yet. Once you do, the request will show here.",
+              return NoGuardiansWidget(
+                message:
+                    "You have added no user to become your guardian yet. Once you do, the request will show here.".i18n,
               );
             } else {
               final List<Widget> items = [];
@@ -42,7 +44,7 @@ class MyGuardiansTab extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 56.0, right: 56, top: 16, bottom: 100),
                     child: Center(
                       child: Text(
-                        "IMPORTANT: You need a minimum of 3 Guardians to secure your backup key",
+                        "IMPORTANT: You need a minimum of 3 Guardians to secure your backup key".i18n,
                         style: Theme.of(context).textTheme.subtitle3Red,
                         textAlign: TextAlign.center,
                       ),
@@ -55,9 +57,9 @@ class MyGuardiansTab extends StatelessWidget {
                     builder: (context, isGuardiansInitialized) {
                       if (isGuardiansInitialized.hasData) {
                         if (isGuardiansInitialized.data!) {
-                          return const Padding(
-                            padding: EdgeInsets.all(24),
-                            child: Text("Your guardians are active!"),
+                          return Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Text("Your guardians are active!".i18n),
                           );
                         } else {
                           BlocProvider.of<GuardiansBloc>(context).add(OnGuardianReadyForActivation(myGuardians));

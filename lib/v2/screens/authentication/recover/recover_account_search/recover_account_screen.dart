@@ -14,6 +14,7 @@ import 'package:seeds/v2/screens/authentication/recover/recover_account_search/i
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_state.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
+import 'package:seeds/v2/i18n/authentication/recover/recover.i18n.dart';
 
 class RecoverAccountScreen extends StatefulWidget {
   const RecoverAccountScreen({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
             bottomSheet: Padding(
               padding: const EdgeInsets.all(horizontalEdgePadding),
               child: FlatButtonLong(
-                title: 'Next',
+                title: 'Next'.i18n,
                 enabled: state.isGuardianActive,
                 onPressed: () {
                   BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped());
@@ -65,7 +66,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                   TextFormFieldCustom(
                     maxLength: 12,
                     counterText: null,
-                    labelText: "Username",
+                    labelText: "Username".i18n,
                     controller: _keyController,
                     suffixIcon: QuadStateClipboardIconButton(
                       isChecked: state.isGuardianActive,

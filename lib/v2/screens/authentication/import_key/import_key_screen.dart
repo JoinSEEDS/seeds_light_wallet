@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/i18n/import_key/import_key.i18n.dart';
+import 'package:seeds/v2/i18n/authentication/import_key/import_key.i18n.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';

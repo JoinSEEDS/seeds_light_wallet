@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/i18n/support.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/support/support.i18n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SupportScreen extends StatelessWidget {

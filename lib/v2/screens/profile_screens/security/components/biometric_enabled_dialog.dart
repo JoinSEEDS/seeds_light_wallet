@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/i18n/security.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/security/security.i18n.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
