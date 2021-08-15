@@ -11,7 +11,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/i18n/components/components.i18n.dart';
 
-class SearchUserWidget extends StatelessWidget {
+class SearchUser extends StatelessWidget {
   final ValueSetter<MemberModel> resultCallBack;
   final List<String>? noShowUsers;
   final _controller = TextEditingController();
@@ -20,7 +20,7 @@ class SearchUserWidget extends StatelessWidget {
     borderSide: BorderSide(color: AppColors.darkGreen2, width: 2.0),
   );
 
-  SearchUserWidget({Key? key, required this.resultCallBack, this.noShowUsers}) : super(key: key);
+  SearchUser({Key? key, required this.resultCallBack, this.noShowUsers}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
