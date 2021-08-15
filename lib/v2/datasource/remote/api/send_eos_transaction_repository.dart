@@ -7,25 +7,24 @@ class SendTransactionRepository extends EosRepository {
   Future<Result> sendTransaction(String? name, String account, Map<String, dynamic> data, String accountName) async {
     print('[eos] sendTransaction');
 
-    var actions = [
+    final actions = [
       Action()
         ..account = account
         ..name = name
         ..data = data
     ];
+    for (final action in actions) {
+      action.authorization = [
+        Authorization()
+          ..actor = accountName
+          ..permission = permissionActive
+      ];
+    }
 
-    actions.forEach((action) => {
-          action.authorization = [
-            Authorization()
-              ..actor = accountName
-              ..permission = permission_active
-          ]
-        });
-
-    var transaction = buildFreeTransaction(actions, accountName);
+    final transaction = buildFreeTransaction(actions, accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return response["transaction_id"];
             }))

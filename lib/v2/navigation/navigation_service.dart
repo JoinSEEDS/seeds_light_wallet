@@ -2,16 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/screens/app/ecosystem/dho/dho.dart';
-import 'package:seeds/screens/app/ecosystem/guardians/guardians.dart';
-import 'package:seeds/screens/app/ecosystem/invites/invites.dart';
-import 'package:seeds/screens/app/profile/image_viewer.dart';
-import 'package:seeds/screens/app/profile/logout.dart';
-import 'package:seeds/screens/app/wallet/receive.dart';
-import 'package:seeds/screens/app/wallet/receive_confirmation.dart';
-import 'package:seeds/screens/app/wallet/receive_custom.dart';
-import 'package:seeds/screens/app/wallet/transfer/transfer_form.dart';
-import 'package:seeds/screens/onboarding/join_process.dart';
 import 'package:seeds/v2/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/v2/screens/authentication/login_screen.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
@@ -45,39 +35,29 @@ import 'package:seeds/v2/screens/wallet/wallet_screen.dart';
 import 'package:seeds/widgets/page_not_found.dart';
 
 class Routes {
-  static final transferForm = 'TransferForm';
   static final onboarding = 'Onboarding';
-  static final joinProcess = 'JoinProcess';
   static final createAccount = 'CreateAccount';
   static final showInvite = 'ShowInvite';
   static final claimCode = 'ClaimCode';
   static final welcome = 'Welcome';
   static final transfer = 'Transfer';
   static final sendEnterData = 'SendEnterData';
-  static final invites = 'Invites';
   static final createInvite = 'CreateInvite';
   static final vote = 'vote';
   static final proposalDetails = 'ProposalDetails';
   static final overview = 'Overview';
   static final explore = 'Explore';
   static final wallet = 'Wallet';
-  static final logout = 'Logout';
-  static final imageViewer = 'ImageViewer';
   static final plantSeeds = 'plantSeeds';
   static final sendConfirmationScreen = 'SendConfirmationScreen';
   static final scanQRCode = 'ScanQRCode';
   static final receiveScreen = "receiveScreen";
   static final receiveEnterDataScreen = "receiveEnterDataScreen";
-  static final receive = 'Receive';
-  static final receiveConfirmation = 'ReceiveConfirmation';
-  static final receiveCustom = 'ReceiveCustom';
   static final receiveQR = 'ReceiveQR';
   static final selectGuardians = 'SelectGuardians';
   static final inviteGuardians = 'InviteGuardians';
   static final inviteGuardiansSent = 'InviteGuardiansSent';
   static final guardianTabs = 'GuardianTabs';
-  static final dho = 'DHO';
-  static final guardians = 'Guardians';
   static final support = 'Support';
   static final security = 'Security';
   static final editName = 'EditName';
@@ -108,47 +88,30 @@ class NavigationService {
   StreamController<String>? streamRouteListener;
 
   final onboardingRoutes = {
-    Routes.joinProcess: (_) => JoinProcess(),
-    Routes.login: (_) => LoginScreen(),
+    Routes.login: (_) => const LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
     Routes.signup: (_) => const SignupScreen(null),
-    // Routes.importAccount: (_) => ImportAccount(),
-    // Routes.createAccount: (args) => CreateAccount(args),
-    // Routes.showInvite: (args) => ShowInvite(args),
-    // Routes.claimCode: (_) => ClaimCode(),
-    // Routes.welcome: (args) => Welcome(args),
   };
 
   final appRoutes = {
-    Routes.profile: (_) => ProfileScreen(),
-    Routes.transferForm: (args) => TransferForm(args),
-    Routes.transfer: (_) => SendSearchUserScreen(),
-    Routes.sendEnterData: (_) => SendEnterDataScreen(),
-    Routes.invites: (_) => Invites(),
+    Routes.profile: (_) => const ProfileScreen(),
+    Routes.transfer: (_) => const SendSearchUserScreen(),
+    Routes.sendEnterData: (_) => const SendEnterDataScreen(),
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
-    Routes.logout: (_) => Logout(),
-    Routes.imageViewer: (args) => ImageViewer(
-          arguments: args,
-        ),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
-    Routes.scanQRCode: (_) => SendScannerScreen(),
-    Routes.receiveScreen: (_) => ReceiveScreen(),
-    Routes.receiveEnterDataScreen: (_) => ReceiveEnterDataScreen(),
-    Routes.receive: (_) => const Receive(),
-    Routes.receiveConfirmation: (args) => ReceiveConfirmation(cart: args),
-    Routes.receiveCustom: (_) => const ReceiveCustom(),
+    Routes.scanQRCode: (_) => const SendScannerScreen(),
+    Routes.receiveScreen: (_) => const ReceiveScreen(),
+    Routes.receiveEnterDataScreen: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
-    Routes.selectGuardians: (_) => SelectGuardiansScreen(),
-    Routes.inviteGuardians: (args) => InviteGuardians(),
-    Routes.inviteGuardiansSent: (_) => InviteGuardiansSentScreen(),
-    Routes.guardianTabs: (_) => GuardiansScreen(),
-    Routes.dho: (_) => DHO(),
-    Routes.guardians: (_) => Guardians(),
+    Routes.selectGuardians: (_) => const SelectGuardiansScreen(),
+    Routes.inviteGuardians: (args) => const InviteGuardians(),
+    Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
+    Routes.guardianTabs: (_) => const GuardiansScreen(),
     Routes.support: (_) => const SupportScreen(),
     Routes.security: (_) => const SecurityScreen(),
     Routes.editName: (_) => const EditNameScreen(),
@@ -156,6 +119,13 @@ class NavigationService {
     Routes.citizenship: (_) => const CitizenshipScreen(),
     Routes.contribution: (_) => const ContributionScreen(),
     Routes.verification: (_) => const VerificationScreen(),
+  };
+
+  // iOS: full screen routes pop up from the bottom and disappear vertically too
+  // On iOS that's a standard full screen dialog
+  // Has no effect on Android.
+  final fullScreenRoutes = {
+    Routes.verification,
   };
 
   final ecosystemRoutes = {
@@ -199,13 +169,14 @@ class NavigationService {
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    var routeName = settings.name;
-    var arguments = settings.arguments;
+    final routeName = settings.name;
+    final arguments = settings.arguments;
 
     if (appRoutes[routeName!] != null) {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => appRoutes[routeName]!(arguments),
+        fullscreenDialog: fullScreenRoutes.contains(routeName),
       );
     } else if (onboardingRoutes[routeName] != null) {
       return MaterialPageRoute(
@@ -237,7 +208,7 @@ class NavigationService {
     return (Route<dynamic> route) {
       //print("Route: ${route.settings.name}" + " modal: ${route is ModalRoute} handlepop: ${route.willHandlePopInternally}");
       if (route.settings.name == '/' && name != '/') {
-        print('pop error: Route name not found: ' + name);
+        print('pop error: Route name not found: $name');
       }
       return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
           route.settings.name == '/';

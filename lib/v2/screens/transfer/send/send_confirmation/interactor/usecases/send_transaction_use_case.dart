@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/send_eos_transaction_repository.dart';
+import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
 
 class SendTransactionUseCase {
@@ -14,9 +15,9 @@ class SendTransactionUseCase {
       if (value.isError) {
         return value;
       } else {
-        List<Result> profiles = await getProfileData(data['to'], fromAccount);
-
-        return ValueResult(SendTransactionResponse(profiles, value));
+        final List<Result> profiles = await getProfileData(data['to'], fromAccount);
+        final transactionModel = TransactionModel.fromTxData(data, value.asValue!.value);
+        return ValueResult(SendTransactionResponse(profiles, value, transactionModel));
       }
     }).catchError((error) {
       return ErrorResult("Error Sending Transaction");
@@ -24,9 +25,9 @@ class SendTransactionUseCase {
   }
 
   Future<List<Result>> getProfileData(String toAccount, fromAccount) async {
-    Future<Result> toAccountResult = _profileRepository.getProfile(toAccount);
-    Future<Result> fromAccountResult = _profileRepository.getProfile(fromAccount);
+    final Future<Result> toAccountResult = _profileRepository.getProfile(toAccount);
+    final Future<Result> fromAccountResult = _profileRepository.getProfile(fromAccount);
 
-    return await Future.wait([toAccountResult, fromAccountResult]);
+    return Future.wait([toAccountResult, fromAccountResult]);
   }
 }

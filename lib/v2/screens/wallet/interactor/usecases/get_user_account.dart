@@ -6,7 +6,8 @@ class GetUserAccountUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
 
   Future<List<Result>> run() {
-    var futures = [
+    // TODO(raul): why this return a list ??
+    final futures = [
       _profileRepository.getProfile(settingsStorage.accountName),
     ];
     return Future.wait(futures);

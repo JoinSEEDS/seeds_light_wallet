@@ -9,7 +9,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 
 /// --- BLOC
 class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
-  final num _MIN_TEXT_LENGTH_BEFORE_VALID_SEARCH = 2;
+  final num _minTextLengthBeforeValidSearch = 2;
 
   SearchUserBloc(List<String>? noShowUsers) : super(SearchUserState.initial(noShowUsers));
 
@@ -21,9 +21,9 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
     final nonDebounceStream = events.where((event) => event is ClearIconTapped);
 
     final debounceStream =
-        events.where((event) => event is OnSearchChange).debounceTime(const Duration(milliseconds: 500));
+        events.where((event) => event is OnSearchChange).debounceTime(const Duration(milliseconds: 300));
 
-    // Debounce 500 MS to avoid making search network calls each time the user types
+    // Debounce to avoid making search network calls each time the user types
     // switchMap: To remove the previous event. Every time a new Stream is created, the previous Stream is discarded.
     return MergeStream([nonDebounceStream, debounceStream]).switchMap(transitionFn);
   }
@@ -37,9 +37,9 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
         yield state.copyWith(searchBarIcon: Icons.clear);
       }
 
-      if (event.searchQuery.length > _MIN_TEXT_LENGTH_BEFORE_VALID_SEARCH) {
+      if (event.searchQuery.length > _minTextLengthBeforeValidSearch) {
         yield state.copyWith(pageState: PageState.loading);
-        var result = await SearchForMemberUseCase().run(event.searchQuery);
+        final result = await SearchForMemberUseCase().run(event.searchQuery);
         yield SearchUserStateMapper().mapResultToState(state, result, state.noShowUsers);
       }
     } else if (event is ClearIconTapped) {

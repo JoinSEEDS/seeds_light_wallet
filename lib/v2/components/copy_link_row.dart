@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
+import 'package:seeds/v2/i18n/components/components.i18n.dart';
 
 /// Copy Link
 ///
@@ -12,12 +13,11 @@ class ShareLinkRow extends StatelessWidget {
   final String label;
   final String link;
 
-  const ShareLinkRow({required this.label, required this.link});
+  const ShareLinkRow({Key? key, required this.label, required this.link}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.max,
       children: [
         Text(label, style: Theme.of(context).textTheme.subtitle2HighEmphasis),
         const SizedBox(width: 16),
@@ -32,11 +32,8 @@ class ShareLinkRow extends StatelessWidget {
           icon: const Icon(Icons.copy),
           color: AppColors.white,
           onPressed: () {
-            Clipboard.setData(ClipboardData(text: link)).then(
-              (value) {
-                SnackBarInfo("Copied", ScaffoldMessenger.of(context)).show();
-              },
-            );
+            Clipboard.setData(ClipboardData(text: link))
+                .then((_) => SnackBarInfo("Copied".i18n, ScaffoldMessenger.of(context)).show());
           },
         )
       ],

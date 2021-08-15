@@ -11,41 +11,44 @@ class GuardianDialogSingleAction extends StatelessWidget {
   final String title;
   const GuardianDialogSingleAction(
       {Key? key,
-        required this.image,
-        required this.description,
-        this.onButtonTab,
-        required this.buttonTitle,
-        required this.title})
+      required this.image,
+      required this.description,
+      this.onButtonTab,
+      required this.buttonTitle,
+      required this.title})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
-        child: CustomDialog(children: [
-          Container(
-            height: 200,
-            width: 250,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
-              image: DecorationImage(image: AssetImage(image,), fit: BoxFit.fitWidth),
+        child: CustomDialog(
+          singleLargeButtonTitle: buttonTitle,
+          onSingleLargeButtonPressed: onButtonTab,
+          children: [
+            Container(
+              height: 200,
+              width: 250,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: const BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
+                image: DecorationImage(image: AssetImage(image), fit: BoxFit.fitWidth),
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            title, textAlign: TextAlign.center, style: Theme.of(context).textTheme.headline6,
-          ),
-          const SizedBox(height: 30),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Text(
-              description,
+            const SizedBox(height: 20),
+            Text(
+              title,
               textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline6,
             ),
-          ),
-          const SizedBox(height: 20),
-        ], singleLargeButtonTitle: buttonTitle, onSingleLargeButtonPressed: onButtonTab),
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Text(description, textAlign: TextAlign.center),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

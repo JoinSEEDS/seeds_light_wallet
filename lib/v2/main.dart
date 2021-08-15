@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:seeds/utils/old_toolbox/toolbox_app.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_state.dart';
@@ -33,15 +32,15 @@ bool get isInDebugMode {
 }
 
 /// Reports [error] along with its [stackTrace] to ?????
-Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
+Future<void> _reportError(dynamic error, dynamic stackTrace) async {
   // TODO(gguij002): find better error reporting
   print('Caught error: $error');
 }
 
-void main(List<String> args) async {
+Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  settingsStorage.initialise();
+  await settingsStorage.initialise();
   await PushNotificationService().initialise();
   await remoteConfigurations.initialise();
   Bloc.observer = SimpleBlocObserver();
@@ -68,7 +67,7 @@ void main(List<String> args) async {
         }).sendPort,
       );
 
-      runZonedGuarded<Future<Null>>(() async {
+      runZonedGuarded<Future<void>>(() async {
         runApp(const SeedsApp());
       }, (error, stackTrace) async {
         print('Zone caught an error');
@@ -85,7 +84,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        var navigationService = NavigationService.of(context);
+        final navigationService = NavigationService.of(context);
         switch (state.authStatus) {
           case AuthStatus.emptyAccount:
           case AuthStatus.recoveryMode:
@@ -93,14 +92,14 @@ class MainScreen extends StatelessWidget {
               builder: (context, deepLinkState) {
                 if (deepLinkState.inviteLinkData != null) {
                   return SeedsMaterialApp(
-                    home: SignupScreen(deepLinkState.inviteLinkData!.Mnemonic),
+                    home: SignupScreen(deepLinkState.inviteLinkData!.mnemonic),
                   );
                 } else {
                   return SeedsMaterialApp(
                     home: state.authStatus == AuthStatus.emptyAccount
                         ? const OnboardingScreen()
                         : SeedsMaterialApp(
-                            home: LoginScreen(),
+                            home: const LoginScreen(),
                           ),
                     navigatorKey: navigationService.onboardingNavigatorKey,
                     onGenerateRoute: navigationService.onGenerateRoute,
@@ -113,15 +112,13 @@ class MainScreen extends StatelessWidget {
           case AuthStatus.locked:
             return SeedsMaterialApp(home: const VerificationScreen());
           case AuthStatus.unlocked:
-            return ToolboxApp(
-              child: SeedsMaterialApp(
-                navigatorKey: navigationService.appNavigatorKey,
-                onGenerateRoute: navigationService.onGenerateRoute,
-                home: const App(),
-              ),
+            return SeedsMaterialApp(
+              navigatorKey: navigationService.appNavigatorKey,
+              onGenerateRoute: navigationService.onGenerateRoute,
+              home: const App(),
             );
           default:
-            return SeedsMaterialApp(home: SplashScreen());
+            return SeedsMaterialApp(home: const SplashScreen());
         }
       },
     );

@@ -5,14 +5,12 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/i18n/security.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/security/security.i18n.dart';
 import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/security_state.dart';
 
 class GuardianSecurityCard extends StatelessWidget {
   final GuardiansStatus? guardiansStatus;
-
   final GestureTapCallback? onTap;
-
   final bool hasNotification;
 
   const GuardianSecurityCard({Key? key, this.guardiansStatus, this.onTap, this.hasNotification = false})
@@ -24,28 +22,13 @@ class GuardianSecurityCard extends StatelessWidget {
 
     switch (guardiansStatus) {
       case GuardiansStatus.active:
-        guardianStatus = const Text(
-          "Active",
-          style: TextStyle(
-            color: AppColors.green1,
-          ),
-        );
+        guardianStatus = Text("Active".i18n, style: const TextStyle(color: AppColors.green1));
         break;
       case GuardiansStatus.inactive:
-        guardianStatus = const Text(
-          'Inactive',
-          style: TextStyle(
-            color: AppColors.red,
-          ),
-        );
+        guardianStatus = Text('Inactive'.i18n, style: const TextStyle(color: AppColors.red));
         break;
       case GuardiansStatus.readyToActivate:
-        guardianStatus = const Text(
-          'Ready To Activate',
-          style: TextStyle(
-            color: AppColors.orange,
-          ),
-        );
+        guardianStatus = Text('Ready To Activate'.i18n, style: const TextStyle(color: AppColors.orange));
         break;
       default:
         guardianStatus = Container(height: 16, width: 16, child: const Center(child: CircularProgressIndicator()));
@@ -92,10 +75,8 @@ class GuardianSecurityCard extends StatelessWidget {
                                       style: Theme.of(context).textTheme.button,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  hasNotification ? const NotificationBadge() : const SizedBox.shrink()
+                                  const SizedBox(width: 10),
+                                  if (hasNotification) const NotificationBadge()
                                 ],
                               ),
                             ),

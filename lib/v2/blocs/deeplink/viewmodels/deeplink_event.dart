@@ -25,3 +25,10 @@ class OnGuardianRecoveryRequestSeen extends DeeplinkEvent {
   @override
   String toString() => 'OnGuardianRecoveryRequestSeen';
 }
+
+class ClearDeepLink extends DeeplinkEvent {
+  const ClearDeepLink();
+
+  @override
+  String toString() => 'ClearDeepLink';
+}

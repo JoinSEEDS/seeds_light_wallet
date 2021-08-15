@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/i18n/security.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/security/security.i18n.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
@@ -11,6 +11,7 @@ class BiometricEnabledDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDialog(
       icon: const Icon(Icons.fingerprint, size: 52, color: AppColors.green1),
+      singleLargeButtonTitle: 'Got it, thanks!'.i18n,
       children: [
         Text('Touch ID/ Face ID'.i18n, style: Theme.of(context).textTheme.button1),
         const SizedBox(height: 24.0),
@@ -22,7 +23,6 @@ class BiometricEnabledDialog extends StatelessWidget {
         ),
         const SizedBox(height: 16.0),
       ],
-      singleLargeButtonTitle: 'Got it, thanks!'.i18n,
     );
   }
 }

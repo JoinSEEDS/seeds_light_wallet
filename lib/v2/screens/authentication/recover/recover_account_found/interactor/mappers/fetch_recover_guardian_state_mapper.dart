@@ -6,13 +6,14 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
+import 'package:seeds/v2/i18n/authentication/recover/recover.i18n.dart';
 
 class FetchRecoverRecoveryStateMapper extends StateMapper {
   RecoverAccountFoundState mapResultToState(RecoverAccountFoundState currentState, RecoverGuardianInitialDTO result) {
-    List<Result> members = result.membersData;
-    Result linkResult = result.link;
-    Result userRecoversModel = result.userRecoversModel;
-    Result accountGuardians = result.accountGuardians;
+    final List<Result> members = result.membersData;
+    final Result linkResult = result.link;
+    final Result userRecoversModel = result.userRecoversModel;
+    final Result accountGuardians = result.accountGuardians;
 
     Uri? link;
     if (linkResult.isValue) {
@@ -36,11 +37,11 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         link != null &&
         userRecoversModelData != null &&
         userGuardiansModel != null) {
-      List<MemberModel> guardians = members.map((e) => e.asValue!.value as MemberModel).toList();
-      var confirmedGuardianSignatures = userRecoversModelData.alreadySignedGuardians.length;
+      final List<MemberModel> guardians = members.map((e) => e.asValue!.value as MemberModel).toList();
+      final confirmedGuardianSignatures = userRecoversModelData.alreadySignedGuardians.length;
 
       // check how long we have to wait before we can claim (24h delay is standard)
-      var timeLockSeconds = userRecoversModelData.completeTimestamp + userGuardiansModel.timeDelaySec;
+      final timeLockSeconds = userRecoversModelData.completeTimestamp + userGuardiansModel.timeDelaySec;
 
       RecoveryStatus recoveryStatus;
       // for 3 signers, we need 2/3 signatures. For 4 or 5 signers, we need 3+ signatures.
@@ -70,7 +71,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
     } else {
       return currentState.copyWith(
         pageState: PageState.failure,
-        errorMessage: "Oops, Something went wrong, try again later.",
+        errorMessage: "Oops, Something went wrong, try again later.".i18n,
       );
     }
   }

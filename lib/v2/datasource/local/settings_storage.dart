@@ -6,9 +6,9 @@ import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _SettingsStorage {
-  _SettingsStorage._();
-
   factory _SettingsStorage() => _instance;
+
+  _SettingsStorage._();
 
   static final _SettingsStorage _instance = _SettingsStorage._();
 
@@ -26,6 +26,9 @@ class _SettingsStorage {
   static const IN_RECOVERY_MODE = 'in_recovery_mode';
   static const GUARDIAN_TUTORIAL_SHOWN = 'guardian_tutorial_shown';
   static const TOKENS_WHITELIST = 'tokens_whitelist';
+  static const IS_CITIZEN = 'is_citizen';
+  static const IS_CITIZEN_DEFAULT = false;
+  static const IS_FIRST_RUN = "is_first_run";
 
   String? _privateKey;
   String? _passcode;
@@ -58,6 +61,8 @@ class _SettingsStorage {
   bool get guardianTutorialShown => _preferences.getBool(GUARDIAN_TUTORIAL_SHOWN)!;
 
   List<String> get tokensWhitelist => _preferences.getStringList(TOKENS_WHITELIST) ?? [SeedsToken.id];
+
+  bool get isCitizen => _preferences.getBool(IS_CITIZEN) ?? IS_CITIZEN_DEFAULT;
 
   set inRecoveryMode(bool value) => _preferences.setBool(IN_RECOVERY_MODE, value);
 
@@ -124,12 +129,25 @@ class _SettingsStorage {
     _preferences.setStringList(TOKENS_WHITELIST, tokensList);
   }
 
+  set isCitizen(bool? value) {
+    if (value != null) {
+      _preferences.setBool(IS_CITIZEN, value);
+    }
+  }
+
   late SharedPreferences _preferences;
   late FlutterSecureStorage _secureStorage;
 
-  void initialise() async {
+  Future<void> initialise() async {
     _preferences = await SharedPreferences.getInstance();
     _secureStorage = const FlutterSecureStorage();
+
+    // on iOS secure storage items are not deleted on app uninstall - must be deleted manually
+    if (_preferences.getBool(IS_FIRST_RUN) ?? true) {
+      await _secureStorage.deleteAll();
+      await _preferences.setBool(IS_FIRST_RUN, false);
+    }
+
     await _secureStorage.readAll().then((values) {
       _privateKey = values[PRIVATE_KEY];
       _privateKey ??= _migrateFromPrefs(PRIVATE_KEY);
@@ -170,7 +188,7 @@ class _SettingsStorage {
   }
 
   String? _migrateFromPrefs(String key) {
-    String? value = _preferences.get(key) as String?;
+    final String? value = _preferences.get(key) as String?;
     if (value != null) {
       _secureStorage.write(key: key, value: value);
       _preferences.remove(key);
@@ -228,6 +246,10 @@ class _SettingsStorage {
     backupReminderCount++;
   }
 
+  void saveIsCitizen(bool value) {
+    isCitizen = value;
+  }
+
   void removeAccount() {
     _preferences.remove(ACCOUNT_NAME);
     _secureStorage.delete(key: ACCOUNT_NAME);
@@ -245,11 +267,15 @@ class _SettingsStorage {
     _secureStorage.delete(key: BACKUP_LATEST_REMINDER);
     _backupLatestReminder = 0;
     _secureStorage.delete(key: BACKUP_REMINDER_COUNT);
+    _preferences.remove(IS_CITIZEN);
+    _preferences.remove(TOKENS_WHITELIST);
+    _preferences.remove(GUARDIAN_TUTORIAL_SHOWN);
+    _preferences.remove(IN_RECOVERY_MODE);
     _backupReminderCount = 0;
   }
 
   String getPlatformCurrency() {
-    var format = NumberFormat.simpleCurrency(locale: Platform.localeName);
+    final format = NumberFormat.simpleCurrency(locale: Platform.localeName);
     return format.currencyName ?? 'USD';
   }
 }

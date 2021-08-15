@@ -7,6 +7,7 @@ import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
+import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/transaction_details.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/send_confirmation_bloc.dart';
@@ -39,7 +40,7 @@ class SendConfirmationScreen extends StatelessWidget {
         body: BlocListener<SendConfirmationBloc, SendConfirmationState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (BuildContext context, SendConfirmationState state) {
-            var pageCommand = state.pageCommand;
+            final pageCommand = state.pageCommand;
             if (pageCommand is ShowTransactionSuccess) {
               showDialog<void>(
                 context: context,
@@ -115,9 +116,9 @@ class SendConfirmationScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(16),
                         child: FlatButtonLong(
-                          title: 'Confirm and Send',
+                          title: 'Confirm and Send'.i18n,
                           onPressed: () {
-                            RatesState rates = BlocProvider.of<RatesBloc>(context).state;
+                            final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
                             BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent(rates));
                           },
                         ),

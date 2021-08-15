@@ -1,3 +1,4 @@
+import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
@@ -8,15 +9,18 @@ class UserAccountStateMapper extends StateMapper {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
     } else {
-      print('UserAccountStateMapper mapResultsToState length=${results.length}');
       results.retainWhere((Result i) => i.isValue);
-      var values = results.map((Result i) => i.asValue!.value).toList();
-      ProfileModel? profile = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
+      final values = results.map((Result i) => i.asValue!.value).toList();
+      final ProfileModel? profile = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
 
-      return currentState.copyWith(
-        pageState: PageState.success,
-        profile: profile,
-      );
+      if (profile != null && profile.status == ProfileStatus.citizen) {
+        // Here is the first time the get user profile is called in the app
+        // so we need save here the is citizen status in the settingsStorage
+        // to avoid show shimmer again in the citizenship module
+        settingsStorage.saveIsCitizen(true);
+      }
+
+      return currentState.copyWith(pageState: PageState.success, profile: profile);
     }
   }
 }

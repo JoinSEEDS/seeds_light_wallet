@@ -15,7 +15,7 @@ class EditNameBloc extends Bloc<EditNameEvent, EditNameState> {
     }
     if (event is SubmitName) {
       yield state.copyWith(pageState: PageState.loading);
-      var result = await UpdateProfileUseCase().run(newName: state.name, profile: event.profile!);
+      final result = await UpdateProfileUseCase().run(newName: state.name, profile: event.profile!);
 
       yield UpdateProfileStateMapper().mapResultToState(state, result);
     }

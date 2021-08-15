@@ -11,10 +11,10 @@ import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/interactor/viewmodels/bloc.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:seeds/v2/components/circular_progress_item.dart';
-import 'package:seeds/i18n/citizenship.18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/citizenship/citizenship.i18n.dart';
 
 class ResidentView extends StatefulWidget {
-  const ResidentView();
+  const ResidentView({Key? key}) : super(key: key);
 
   @override
   _ResidentViewState createState() => _ResidentViewState();
@@ -66,12 +66,12 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
           ..addListener(() {
             setState(() => _age = _ageAnimation.value.toInt());
           });
-        _seedsAnimation = Tween<double>(begin: 0, end: state.score!.plantedScore?.toDouble()).animate(_controller)
+        _seedsAnimation = Tween<double>(begin: 0, end: state.plantedSeeds?.toDouble()).animate(_controller)
           ..addListener(() {
             setState(() => _seeds = _seedsAnimation.value.toInt());
           });
         _transactionsAnimation =
-            Tween<double>(begin: 0, end: state.score!.transactionScore?.toDouble()).animate(_controller)
+            Tween<double>(begin: 0, end: state.seedsTransactionsCount?.toDouble()).animate(_controller)
               ..addListener(() {
                 setState(() => _transactions = _transactionsAnimation.value.toInt());
               });
@@ -139,7 +139,6 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                         StepProgressIndicator(
                           totalSteps: 100,
                           currentStep: _timeLine,
-                          size: 4,
                           padding: 0,
                           selectedColor: AppColors.green1,
                           unselectedColor: AppColors.primary,
@@ -205,13 +204,13 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                       circleRadius: 30,
                       title: 'Transactions with Seeds'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,
-                      rate: '${_transactions}/$citizen_required_seeds_transactions',
+                      rate: '$_transactions/$citizen_required_seeds_transactions',
                       rateStyle: Theme.of(context).textTheme.subtitle1!,
                     ),
                     CircularProgressItem(
                       icon: SvgPicture.asset('assets/images/citizenship/community.svg'),
                       totalStep: citizen_required_visitors_invited,
-                      currentStep: _visitors,
+                      currentStep: _visitors ~/ 100,
                       circleRadius: 30,
                       title: 'Invited Users'.i18n,
                       titleStyle: Theme.of(context).textTheme.subtitle3,

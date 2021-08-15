@@ -16,12 +16,13 @@ class ProfileAvatar extends StatelessWidget {
   final BoxDecoration? decoration;
 
   const ProfileAvatar({
+    Key? key,
     this.decoration,
     required this.size,
     this.image,
     this.nickname,
     required this.account,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class ProfileAvatar extends StatelessWidget {
     } else if (image != null && image!.endsWith('.svg')) {
       return SvgPicture.asset(image!, fit: BoxFit.scaleDown);
     } else {
-      var shortName =
+      final shortName =
           nickname != null && nickname!.isNotEmpty && nickname != 'Seeds Account' && nickname != 'Telos Account'
               ? nickname!.substring(0, 2).toUpperCase()
               : account.substring(0, 2).toUpperCase();

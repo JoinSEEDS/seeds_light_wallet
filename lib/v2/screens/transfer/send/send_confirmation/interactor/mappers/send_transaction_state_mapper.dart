@@ -15,19 +15,19 @@ class SendTransactionStateMapper extends StateMapper {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
-      var resultResponse = result.asValue!.value as SendTransactionResponse;
-      var transactionId = resultResponse.transactionId.asValue!.value as String;
+      final resultResponse = result.asValue!.value as SendTransactionResponse;
+      final transactionId = resultResponse.transactionId.asValue!.value as String;
 
-      String quantity = currentState.data['quantity'].toString();
-      var currency = quantity.split(' ')[0];
-      double parsedQuantity = double.parse(quantity.split(' ')[0]);
+      final String quantity = currentState.data['quantity'].toString();
+      final currency = quantity.split(' ')[0];
+      final double parsedQuantity = double.parse(quantity.split(' ')[0]);
 
-      var selectedFiat = settingsStorage.selectedFiatCurrency;
-      String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
+      final selectedFiat = settingsStorage.selectedFiatCurrency;
+      final String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
 
       if (areAllResultsSuccess(resultResponse.profiles)) {
-        var toAccount = resultResponse.profiles[0].asValue!.value as ProfileModel;
-        var fromAccount = resultResponse.profiles[1].asValue!.value as ProfileModel;
+        final toAccount = resultResponse.profiles[0].asValue!.value as ProfileModel;
+        final fromAccount = resultResponse.profiles[1].asValue!.value as ProfileModel;
 
         return currentState.copyWith(
           pageState: PageState.success,
@@ -44,8 +44,8 @@ class SendTransactionStateMapper extends StateMapper {
               transactionId: transactionId),
         );
       } else {
-        var fromAccount = currentState.data["from"];
-        var toAccount = currentState.data["to"];
+        final fromAccount = currentState.data["from"];
+        final toAccount = currentState.data["to"];
 
         return currentState.copyWith(
           pageState: PageState.success,

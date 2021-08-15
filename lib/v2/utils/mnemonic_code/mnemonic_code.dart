@@ -1,8 +1,10 @@
-import 'dart:math';
 import 'dart:convert';
-import 'package:convert/convert.dart';
+import 'dart:math';
 import 'dart:typed_data';
+
+import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart' show sha256;
+
 import 'hex.dart';
 import 'words_list.dart';
 
@@ -17,7 +19,7 @@ int _binaryToByte(String binary) {
 }
 
 String _bytesToBinary(Uint8List bytes) {
-  return bytes.map((byte) => byte.toRadixString(2).padLeft(8, '0')).join('');
+  return bytes.map((byte) => byte.toRadixString(2).padLeft(8, '0')).join();
 }
 
 String _deriveChecksumBits(Uint8List entropy) {
@@ -58,10 +60,10 @@ String entropyToMnemonic(String entropyString) {
   final entropyBits = _bytesToBinary(entropy);
   final checksumBits = _deriveChecksumBits(entropy);
   final bits = entropyBits + checksumBits;
-  final regex = RegExp(r".{1,11}", caseSensitive: false, multiLine: false);
+  final regex = RegExp(r".{1,11}", caseSensitive: false);
   final chunks = regex.allMatches(bits).map((match) => match.group(0)!).toList(growable: false);
-  List<String> wordlist = WORDLIST;
-  String words = chunks.map((binary) => wordlist[_binaryToByte(binary)]).join('-');
+  final List<String> wordlist = WORDLIST;
+  final String words = chunks.map((binary) => wordlist[_binaryToByte(binary)]).join('-');
   return words;
 }
 

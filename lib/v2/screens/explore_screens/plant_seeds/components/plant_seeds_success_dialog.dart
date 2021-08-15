@@ -20,6 +20,11 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
       },
       child: CustomDialog(
         icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
+        singleLargeButtonTitle: 'Close'.i18n,
+        onSingleLargeButtonPressed: () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        },
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -46,11 +51,6 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
             style: Theme.of(context).textTheme.button,
           ),
         ],
-        singleLargeButtonTitle: 'Close'.i18n,
-        onSingleLargeButtonPressed: () {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-        },
       ),
     );
   }

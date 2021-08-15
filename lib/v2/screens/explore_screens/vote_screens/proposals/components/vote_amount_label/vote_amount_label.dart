@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'interactor/viewmodels/bloc.dart';
 import 'package:seeds/v2/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
+
+import 'interactor/viewmodels/bloc.dart';
 
 class VoteAmountLabel extends StatelessWidget {
   final int proposalId;

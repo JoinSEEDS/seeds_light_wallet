@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balance_view_model.dart';
+import 'package:seeds/v2/i18n/wallet/wallet.i18n.dart';
 
 class CurrencyInfoCardWidget extends StatelessWidget {
   final TokenBalanceViewModel tokenBalance;
@@ -49,7 +50,7 @@ class CurrencyInfoCardWidget extends StatelessWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                Text("Balance", style: Theme.of(context).textTheme.subtitle2!.copyWith(color: textColor)),
+                Text("Balance".i18n, style: Theme.of(context).textTheme.subtitle2!.copyWith(color: textColor)),
                 const SizedBox(
                   height: 6,
                 ),

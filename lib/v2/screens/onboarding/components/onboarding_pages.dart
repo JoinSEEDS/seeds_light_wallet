@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/i18n/onboarding.i18n.dart';
+import 'package:seeds/v2/i18n/onboarding/onboarding.i18n.dart';
 
 class OnboardingPage extends StatelessWidget {
   final String onboardingImage;
@@ -26,66 +26,54 @@ class OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: height * 0.54,
-            decoration: const BoxDecoration(
-              color: AppColors.lightGreen4,
-              borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(300, 50)),
+    return Column(
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height / 2,
+          decoration: const BoxDecoration(
+            color: AppColors.lightGreen4,
+            borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(300, 50)),
+          ),
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.only(bottom: 20, top: 50, right: 40, left: 40),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  topLeaf1,
+                  topLeaf2 ?? const SizedBox.shrink(),
+                  Image.asset(onboardingImage),
+                ],
+              ),
             ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.only(right: 40, left: 40, bottom: 20),
             child: Center(
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 20, top: 90, right: 40, left: 40),
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    topLeaf1,
-                    topLeaf2 ?? const SizedBox.shrink(),
-                    Image.asset(
-                      onboardingImage,
+                    bottomLeaf1,
+                    bottomLeaf2,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(title.i18n, style: Theme.of(context).textTheme.headline3),
+                        const SizedBox(height: 30),
+                        Text(subTitle.i18n, style: Theme.of(context).textTheme.button),
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          SizedBox(
-            height: topPadding,
-          ),
-          Center(
-            child: Container(
-              height: 310,
-              padding: const EdgeInsets.only(right: 40, left: 40),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  bottomLeaf1,
-                  bottomLeaf2,
-                  Column(
-                    children: [
-                      Text(
-                        title.i18n,
-                        style: Theme.of(context).textTheme.headline3,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        subTitle.i18n,
-                        style: Theme.of(context).textTheme.button,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

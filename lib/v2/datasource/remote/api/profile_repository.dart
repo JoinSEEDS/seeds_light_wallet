@@ -16,13 +16,12 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
 
-    var request = createRequest(
+    final request = createRequest(
       code: account_accounts,
       scope: account_accounts,
-      table: table_users,
+      table: tableUsers,
       lowerBound: accountName,
       upperBound: accountName,
-      limit: 1,
     );
 
     return http
@@ -45,14 +44,14 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   }) async {
     print('[eos] update profile');
 
-    var transaction = buildFreeTransaction([
+    final transaction = buildFreeTransaction([
       Action()
         ..account = account_accounts
-        ..name = action_name_update
+        ..name = actionNameUpdate
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_active
+            ..permission = permissionActive
         ]
         ..data = {
           'user': accountName,
@@ -67,7 +66,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     ], accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
@@ -85,13 +84,12 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final scoreURL = Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows');
 
-    var request = createRequest(
+    final request = createRequest(
       code: contractName,
       scope: scope ?? contractName,
       table: tableName,
-      lowerBound: '$account',
-      upperBound: '$account',
-      limit: 1,
+      lowerBound: account,
+      upperBound: account,
     );
 
     return http
@@ -105,12 +103,12 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getReferredAccounts(String accountName) {
     print('[http] get Referred Accounts $accountName');
 
-    var request = createRequest(
+    final request = createRequest(
       code: account_accounts,
       scope: account_accounts,
-      table: table_refs,
-      lowerBound: '$accountName',
-      upperBound: '$accountName',
+      table: tableRefs,
+      lowerBound: accountName,
+      upperBound: accountName,
       indexPosition: 2,
       limit: 100,
     );
@@ -127,14 +125,14 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> plantSeeds({required double amount, required String accountName}) async {
     print('[eos] plant seeds ($amount)');
 
-    var transaction = buildFreeTransaction([
+    final transaction = buildFreeTransaction([
       Action()
         ..account = account_token
-        ..name = action_name_transfer
+        ..name = actionNameTransfer
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_active
+            ..permission = permissionActive
         ]
         ..data = {
           'from': accountName,
@@ -145,7 +143,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     ], accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
@@ -169,24 +167,27 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   }
 
   Future<Result> citizenshipAction({required String accountName, required bool isMake, required bool isCitizen}) async {
-    print('[eos] ' + (isMake ? "make" : "can") + " " + (isCitizen ? "citizen" : "resident"));
+    final String isMakeText = isMake ? "make" : "can";
+    final String isCitizenText = isMake ? "citizen" : "resident";
 
-    var actionName = isMake
+    print('[eos] $isMakeText $isCitizenText');
+
+    final actionName = isMake
         ? isCitizen
-            ? action_name_makecitizen
-            : action_name_makeresident
+            ? actionNameMakecitizen
+            : actionNameMakeresident
         : isCitizen
-            ? action_name_cancitizen
-            : action_name_canresident;
+            ? actionNameCakecitizen
+            : actionNameCanresident;
 
-    var transaction = buildFreeTransaction([
+    final transaction = buildFreeTransaction([
       Action()
         ..account = account_accounts
         ..name = actionName
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_active
+            ..permission = permissionActive
         ]
         ..data = {
           'user': accountName,
@@ -194,17 +195,18 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     ], accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
   }
 
+  /// Not being used for the moment
   Future<Result> isDHOMember(String accountName) {
     print('[http] is $accountName DHO member');
 
-    var request = '{"json": true, "code": "trailservice","scope": "$accountName","table": "voters"}';
+    final request = '{"json": true, "code": "trailservice","scope": "$accountName","table": "voters"}';
 
     return http
         .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),

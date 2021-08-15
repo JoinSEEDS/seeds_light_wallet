@@ -11,15 +11,15 @@ class BalanceRow extends StatelessWidget {
   final String fiatAmount;
 
   const BalanceRow({
+    Key? key,
     required this.label,
     required this.seedsAmount,
     required this.fiatAmount,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
@@ -37,7 +37,7 @@ class BalanceRow extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
           child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Text(fiatAmount + " " + settingsStorage.selectedFiatCurrency,
+            Text("$fiatAmount ${settingsStorage.selectedFiatCurrency}",
                 style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
           ]),
         )

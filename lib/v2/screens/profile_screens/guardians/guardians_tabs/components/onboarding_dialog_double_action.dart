@@ -29,6 +29,10 @@ class OnboardingDialogDoubleAction extends StatelessWidget {
     return Center(
       child: SingleChildScrollView(
         child: CustomDialog(
+          rightButtonTitle: rightButtonTitle,
+          onRightButtonPressed: onRightButtonTab,
+          leftButtonTitle: leftButtonTitle,
+          onLeftButtonPressed: onLeftButtonTab,
           children: [
             Container(
               height: 200,
@@ -63,10 +67,6 @@ class OnboardingDialogDoubleAction extends StatelessWidget {
               ),
             ),
           ],
-          rightButtonTitle: rightButtonTitle,
-          onRightButtonPressed: onRightButtonTab,
-          leftButtonTitle: leftButtonTitle,
-          onLeftButtonPressed: onLeftButtonTab,
         ),
       ),
     );

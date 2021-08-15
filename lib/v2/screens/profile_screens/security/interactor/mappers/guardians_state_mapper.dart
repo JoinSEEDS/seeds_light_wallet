@@ -7,8 +7,8 @@ import 'package:seeds/v2/screens/profile_screens/security/interactor/viewmodels/
 
 class GuardianStateMapper extends StateMapper {
   SecurityState mapResultToState(bool isGuardianActive, Iterable<GuardianModel> data, SecurityState currentState) {
-    var myGuardians = data.where((element) => element.type == GuardianType.myGuardian);
-    var alreadyGuardians = myGuardians.where((element) => element.status == GuardianStatus.alreadyGuardian);
+    final myGuardians = data.where((element) => element.type == GuardianType.myGuardian);
+    final alreadyGuardians = myGuardians.where((element) => element.status == GuardianStatus.alreadyGuardian);
 
     GuardiansStatus guardianState;
 

@@ -1,69 +1,70 @@
 import 'dart:math';
 
+import 'package:seeds/v2/datasource/remote/model/planted_model.dart';
 import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
+import 'package:seeds/v2/datasource/remote/model/seeds_history_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_state.dart';
 import 'package:seeds/v2/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
+import 'package:seeds/v2/i18n/profile_screens/citizenship/citizenship.i18n.dart';
 
 class SetValuesStateMapper extends StateMapper {
-  CitizenshipState mapResultToState(CitizenshipState currentState, List<Result> results) {
+  CitizenshipState mapResultToState(
+      CitizenshipState currentState, List<Result> referredAccountResults, List<Result> citizenshipDataResults) {
     // Accounts found, but errors fetching data happened.
-    if (areAllResultsError(results) && results.isNotEmpty) {
-      return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Accounts");
+    if (referredAccountResults.isNotEmpty && areAllResultsError(referredAccountResults)) {
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Accounts".i18n);
+    } else if (areAllResultsError(citizenshipDataResults)) {
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Citizenship Data'.i18n);
     } else {
+      citizenshipDataResults.retainWhere((Result i) => i.isValue);
+      final values = citizenshipDataResults.map((Result i) => i.asValue!.value).toList();
+
+      final PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null);
+      final SeedsHistoryModel? seedsHistory = values.firstWhere((i) => i is SeedsHistoryModel, orElse: () => null);
+
+      final int planted = plantedSeeds?.quantity.toInt() ?? 0;
+      final int transactions = seedsHistory?.totalNumberOfTransactions ?? 0;
+
       double timeline = 0;
-      ProfileModel profile = currentState.profile!;
-      ScoresViewModel score = currentState.score!;
-      List<ProfileModel> profiles = results.map((i) => i.asValue!.value as ProfileModel).toList();
+      final ProfileModel profile = currentState.profile!;
+      final ScoresViewModel score = currentState.score!;
+      final List<ProfileModel> profiles = referredAccountResults.map((i) => i.asValue!.value as ProfileModel).toList();
+
+      final int reputation = score.reputationScore?.value ?? 0;
 
       // Define timeline
       if (profile.status == ProfileStatus.visitor) {
         // Timeline to resident
-        // If the scores are greater than those required, use the required ones instead to avoid errors in the formula.
-        int reputation = min(score.reputationScore?.value ?? 0, resident_required_reputation);
-        int visitors = profiles.isNotEmpty ? resident_required_visitors_invited : 0;
-        int planted = min(score.plantedScore?.value ?? 0, resident_required_planted_seeds);
-        int transactions = min(score.transactionScore?.value ?? 0, resident_required_seeds_transactions);
-        // Timeline to resident formula
-        timeline = ((reputation / resident_required_reputation) +
-                (visitors / resident_required_visitors_invited) +
-                (planted / resident_required_planted_seeds) +
-                (transactions / resident_required_seeds_transactions)) /
+        timeline = ((min(reputation, resident_required_reputation) / resident_required_reputation) +
+                (min(profiles.length, resident_required_visitors_invited) / resident_required_visitors_invited) +
+                (min(planted, resident_required_planted_seeds) / resident_required_planted_seeds) +
+                (min(transactions, resident_required_seeds_transactions) / resident_required_seeds_transactions)) /
             4 *
             100;
       } else {
         // Timeline to citizen
-        // If the scores are greater than those required, use the required ones instead to avoid errors in the formula.
-        int reputation = min(score.reputationScore?.value ?? 0, citizen_required_reputation);
-        int planted = min(score.plantedScore?.value ?? 0, citizen_required_planted_seeds);
-        int transactions = min(score.transactionScore?.value ?? 0, citizen_required_seeds_transactions);
-        int residents =
-            profiles.where((i) => i.status == ProfileStatus.resident).length > citizen_required_residents_invited
-                ? citizen_required_residents_invited
-                : profiles.where((i) => i.status == ProfileStatus.resident).length;
-        int visitors =
-            profiles.where((i) => i.status == ProfileStatus.visitor).length > citizen_required_visitors_invited
-                ? citizen_required_visitors_invited
-                : profiles.where((i) => i.status == ProfileStatus.visitor).length;
-        int age = min(profile.accountAge, citizen_required_account_age);
-
-        // Timeline to citizen formula
-        timeline = ((reputation / citizen_required_reputation) +
-                (planted / citizen_required_planted_seeds) +
-                (transactions / citizen_required_seeds_transactions) +
-                (residents / citizen_required_residents_invited) +
-                (age / citizen_required_account_age) +
-                (visitors / citizen_required_visitors_invited)) /
+        final int residentsInvited =
+            profiles.where((i) => i.status == ProfileStatus.resident || i.status == ProfileStatus.citizen).length;
+        timeline = ((min(reputation, citizen_required_reputation) / citizen_required_reputation) +
+                (min(planted, citizen_required_planted_seeds) / citizen_required_planted_seeds) +
+                (min(transactions, citizen_required_seeds_transactions) / citizen_required_seeds_transactions) +
+                (min(residentsInvited, citizen_required_residents_invited) / citizen_required_residents_invited) +
+                (min(profile.accountAge, citizen_required_account_age) / citizen_required_account_age) +
+                (min(profiles.length, citizen_required_visitors_invited) / citizen_required_visitors_invited)) /
             6 *
             100;
       }
 
       return currentState.copyWith(
         pageState: PageState.success,
+        plantedSeeds: plantedSeeds?.quantity,
+        seedsTransactionsCount: seedsHistory?.totalNumberOfTransactions,
         progressTimeline: timeline,
-        invitedVisitors: profiles.where((i) => i.status == ProfileStatus.visitor).length,
-        invitedResidents: profiles.where((i) => i.status == ProfileStatus.resident).length,
+        invitedVisitors: profiles.length,
+        invitedResidents:
+            profiles.where((i) => i.status == ProfileStatus.citizen || i.status == ProfileStatus.resident).length,
       );
     }
   }

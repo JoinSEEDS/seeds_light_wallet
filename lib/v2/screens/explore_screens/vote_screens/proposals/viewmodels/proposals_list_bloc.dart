@@ -17,16 +17,16 @@ class ProposalsListBloc extends Bloc<ProposalsListEvent, ProposalsListState> {
   Stream<ProposalsListState> mapEventToState(ProposalsListEvent event) async* {
     if (event is InitialLoadProposals) {
       yield state.copyWith(pageState: PageState.loading);
-      List<Result> results = await GetProposalsDataUseCase().run(state.currentType);
+      final List<Result> results = await GetProposalsDataUseCase().run(state.currentType);
       yield ProposalsStateMapper().mapResultToState(currentState: state, results: results);
     }
     if (event is OnUserProposalsScroll) {
-      List<Result> results = await GetProposalsDataUseCase().run(state.currentType);
+      final List<Result> results = await GetProposalsDataUseCase().run(state.currentType);
       yield ProposalsStateMapper().mapResultToState(currentState: state, results: results, isScroll: true);
     }
     if (event is OnUserProposalsRefresh) {
       yield state.copyWith(pageState: PageState.loading);
-      List<Result> results = await GetProposalsDataUseCase().run(state.currentType);
+      final List<Result> results = await GetProposalsDataUseCase().run(state.currentType);
       yield ProposalsStateMapper().mapResultToState(currentState: state, results: results);
     }
     if (event is OnProposalCardTapped) {
@@ -38,7 +38,7 @@ class ProposalsListBloc extends Bloc<ProposalsListEvent, ProposalsListState> {
       );
     }
     if (event is ClearProposalsListPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     }
   }
 }

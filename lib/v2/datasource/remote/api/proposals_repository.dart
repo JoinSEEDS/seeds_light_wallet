@@ -16,11 +16,11 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> getMoonPhases() async {
     print('[http] get moon phases');
 
-    var ms = DateTime.now().toUtc().millisecondsSinceEpoch;
-    var request = createRequest(
+    final ms = DateTime.now().toUtc().millisecondsSinceEpoch;
+    final request = createRequest(
       code: account_cycle,
       scope: account_cycle,
-      table: table_moonphases,
+      table: tableMoonphases,
       limit: 4,
       keyType: '',
       lowerBound: '${(ms / 1000).round()}',
@@ -39,10 +39,10 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> getProposals(ProposalType proposalType) async {
     print('[http] get proposals type - ${proposalType.type}');
 
-    var request = createRequest(
+    final request = createRequest(
       code: account_funds,
       scope: account_funds,
-      table: table_props,
+      table: tableProps,
       lowerBound: proposalType.lowerUpperBound,
       upperBound: proposalType.lowerUpperBound,
       limit: 100,
@@ -55,10 +55,11 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     return http
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              List<ProposalModel> result = body['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList();
+              final List<ProposalModel> result =
+                  body['rows'].map<ProposalModel>((i) => ProposalModel.fromJson(i)).toList();
               if (proposalType.filterByStage != null) {
                 result.retainWhere((e) => e.stage == proposalType.filterByStage);
-              } 
+              }
               return result;
             }))
         .catchError((error) => mapHttpError(error));
@@ -67,7 +68,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> getSupportLevels(String scope) async {
     print('[http] get suppor leves for scope: $scope');
 
-    var request = createRequest(code: account_funds, scope: scope, table: table_support, limit: 1);
+    final request = createRequest(code: account_funds, scope: scope, table: tableSupport);
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
@@ -82,10 +83,10 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> getVote(int proposalId, String account) async {
     print('[http] get vote for proposal: $proposalId');
 
-    var request = createRequest(
+    final request = createRequest(
       code: account_funds,
       scope: '$proposalId',
-      table: table_votes,
+      table: tableVotes,
       lowerBound: account,
       upperBound: account,
       limit: 10,
@@ -104,20 +105,20 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> voteProposal({required int id, required int amount, required String accountName}) async {
     print('[eos] vote proposal $id ($amount)');
 
-    var transaction = buildFreeTransaction([
+    final transaction = buildFreeTransaction([
       Action()
         ..account = account_funds
-        ..name = amount.isNegative ? action_name_against : action_name_favour
+        ..name = amount.isNegative ? actionNameAgainst : actionNameFavour
         ..authorization = [
           Authorization()
             ..actor = accountName
-            ..permission = permission_active
+            ..permission = permissionActive
         ]
         ..data = {'user': accountName, 'id': id, 'amount': amount.abs()}
     ], accountName);
 
     return buildEosClient()
-        .pushTransaction(transaction, broadcast: true)
+        .pushTransaction(transaction)
         .then((dynamic response) => mapEosResponse(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))

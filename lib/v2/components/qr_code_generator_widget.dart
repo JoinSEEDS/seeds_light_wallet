@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
+import 'package:seeds/v2/i18n/components/components.i18n.dart';
 
 class QrCodeGeneratorWidget extends StatelessWidget {
   final String data;
@@ -16,13 +17,8 @@ class QrCodeGeneratorWidget extends StatelessWidget {
       backgroundColor: AppColors.white,
       foregroundColor: AppColors.black,
       errorStateBuilder: (_, err) {
-        return Container(
-          child: const Center(
-            child: Text('Uh oh! Something went wrong...', textAlign: TextAlign.center),
-          ),
-        );
+        return Center(child: Text('Oops, Something Went Wrong'.i18n, textAlign: TextAlign.center));
       },
     );
   }
-
 }

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/components/shimmer_circle.dart';
 import 'package:seeds/v2/components/shimmer_rectangle.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/i18n/profile.i18n.dart';
+import 'package:seeds/v2/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/profile_screens/profile/components/edit_profile_pic_bottom_sheet/edit_profile_pic_bottom_sheet.dart';
@@ -70,7 +70,7 @@ class ProfileHeader extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(Icons.edit_outlined),
                                 onPressed: () async {
-                                  var newName =
+                                  final newName =
                                       await NavigationService.of(context).navigateTo(Routes.editName, state.profile);
                                   if (newName != null) {
                                     BlocProvider.of<ProfileBloc>(context).add(OnNameChanged(newName as String));
@@ -79,12 +79,13 @@ class ProfileHeader extends StatelessWidget {
                               ),
                             ],
                           ),
-                          state.pageState == PageState.loading || state.pageState == PageState.initial
-                              ? const ShimmerRectangle(size: Size(94, 21))
-                              : Text(
-                                  state.profile?.statusString.i18n ?? '',
-                                  style: Theme.of(context).textTheme.headline7LowEmphasis,
-                                ),
+                          if (state.pageState == PageState.loading || state.pageState == PageState.initial)
+                            const ShimmerRectangle(size: Size(94, 21))
+                          else
+                            Text(
+                              state.profile?.statusString.i18n ?? '',
+                              style: Theme.of(context).textTheme.headline7LowEmphasis,
+                            ),
                         ],
                       ),
                     ),

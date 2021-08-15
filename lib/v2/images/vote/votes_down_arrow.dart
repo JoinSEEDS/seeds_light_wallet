@@ -8,13 +8,13 @@ class VotesDownArrow extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
+    final Paint paint = Paint()
       ..style = PaintingStyle.fill
       ..color = circleColor;
 
     canvas.drawCircle(Offset(size.width * 0.5000000, size.height * 0.5000000), size.width * 0.5000000, paint);
 
-    Path path1 = Path()
+    final Path path1 = Path()
       ..moveTo(size.width * 0.6800400, size.height * 0.5792500)
       ..lineTo(size.width * 0.5180050, size.height * 0.7424850)
       ..cubicTo(size.width * 0.5080600, size.height * 0.7525050, size.width * 0.4919390, size.height * 0.7525050,
@@ -38,7 +38,7 @@ class VotesDownArrow extends CustomPainter {
           size.width * 0.6800400, size.height * 0.5792500)
       ..close();
 
-    Paint paint1 = Paint()
+    final Paint paint1 = Paint()
       ..style = PaintingStyle.fill
       ..color = arrowColor;
 

@@ -60,13 +60,13 @@ class SelectGuardiansState extends Equatable {
       guardian = 'Guardians';
     }
 
-    List<String> noShowGuardians = myGuardians.map((GuardianModel e) => e.uid).toList();
+    final List<String> noShowGuardians = myGuardians.map((GuardianModel e) => e.uid).toList();
     noShowGuardians.add(settingsStorage.accountName);
 
     return SelectGuardiansState(
       pageState: PageState.initial,
       selectedGuardians: {},
-      pageTitle: "Select up to ${MAX_GUARDIANS_ALLOWED - myGuardians.length} ${guardian} to invite",
+      pageTitle: "Select up to ${MAX_GUARDIANS_ALLOWED - myGuardians.length} $guardian to invite",
       myGuardians: myGuardians,
       noShowGuardians: noShowGuardians,
     );

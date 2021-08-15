@@ -4,9 +4,9 @@ import 'package:seeds/v2/datasource/remote/firebase/firebase_remote_config.dart'
 const guardianInviteReceived = 'guardianInviteReceived';
 
 class PushNotificationService {
-  PushNotificationService._();
-
   factory PushNotificationService() => _instance;
+
+  PushNotificationService._();
 
   static final PushNotificationService _instance = PushNotificationService._();
 
@@ -21,13 +21,13 @@ class PushNotificationService {
       // If the application has been opened from a terminated state
       await FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
         if (message != null) {
-          print("FirebaseMessaging getInitialMessage: ${message}");
+          print("FirebaseMessaging getInitialMessage: $message");
         }
       });
       await _firebaseMessaging.subscribeToTopic("PUSH_RC");
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        print("FirebaseMessaging onMessage -> " + message.data.toString());
+        print("FirebaseMessaging onMessage -> ${message.data}");
         // If remote config changed, set them to stale. And fetch new config
         if (message.data.containsKey("CONFIG_STATE")) {
           remoteConfigurations.refresh();
@@ -40,7 +40,7 @@ class PushNotificationService {
       // It must not be an anonymous function. It must be a top-level function
       // (e.g. not a class method which requires initialization).
       FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
-      
+
       // For testing purposes print the Firebase Messaging token.
       token = await _firebaseMessaging.getToken();
       print('FirebaseMessaging token: $token');
@@ -52,15 +52,7 @@ class PushNotificationService {
   }
 
   Future<void> requestingPermissionForIOS() async {
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+    final NotificationSettings settings = await _firebaseMessaging.requestPermission();
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
     } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {

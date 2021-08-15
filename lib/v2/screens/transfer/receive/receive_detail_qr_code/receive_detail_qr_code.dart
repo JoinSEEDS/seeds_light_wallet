@@ -5,21 +5,21 @@ import 'package:seeds/v2/components/divider_jungle.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/qr_code_generator_widget.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
-
+import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 import 'interactor/viewmodels/receive_detail_arguments.dart';
 
 class ReceiveDetailQrCodeScreen extends StatelessWidget {
   final ReceiveDetailArguments arguments;
 
-  const ReceiveDetailQrCodeScreen(this.arguments);
+  const ReceiveDetailQrCodeScreen(this.arguments, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-        appBar: AppBar(title: const Text("Scan QR Code")),
+        appBar: AppBar(title: Text("Scan QR Code".i18n)),
         body: Stack(
           children: [
             Container(
@@ -30,13 +30,13 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 30),
                     QrCodeGeneratorWidget(
-                      data: arguments.InvoiceLink,
+                      data: arguments.invoiceLink,
                       size: width * 0.8,
                     ),
                     const SizedBox(height: 20),
                     ShareLinkRow(
-                      label: 'Share Link to Invoice',
-                      link: arguments.InvoiceLink,
+                      label: 'Share Link to Invoice'.i18n,
+                      link: arguments.invoiceLink,
                     ),
                     const SizedBox(height: 4),
                     const DividerJungle(
@@ -44,9 +44,9 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     BalanceRow(
-                      label: "Total",
-                      fiatAmount: arguments.ReceiveTotalFiat,
-                      seedsAmount: arguments.ReceiveTotalSeeds,
+                      label: "Total".i18n,
+                      fiatAmount: arguments.receiveTotalFiat,
+                      seedsAmount: arguments.receiveTotalSeeds,
                     ),
                     const SizedBox(height: 4),
                     const DividerJungle(
@@ -54,9 +54,16 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                       height: 10,
                     ),
                     const SizedBox(height: 4),
-                    arguments.description != null
-                        ? Align(alignment: Alignment.centerLeft, child: Text("Description: " + arguments.description!))
-                        : const SizedBox.shrink(),
+                    if (arguments.description != null)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'Memo: '.i18n, children: <TextSpan>[TextSpan(text: arguments.description)]),
+                        ),
+                      )
+                    else
+                      const SizedBox.shrink(),
                     const SizedBox(height: 150),
                   ],
                 ),
@@ -67,8 +74,7 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: FlatButtonLong(
-                  title: 'Done',
-                  enabled: true,
+                  title: 'Done'.i18n,
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();

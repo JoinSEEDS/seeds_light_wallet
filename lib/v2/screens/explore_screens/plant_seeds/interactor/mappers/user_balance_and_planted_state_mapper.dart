@@ -15,11 +15,11 @@ class UserBalanceAndPlantedStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page'.i18n);
     } else {
       results.retainWhere((i) => i.isValue);
-      var values = results.map((i) => i.asValue!.value).toList();
+      final values = results.map((i) => i.asValue!.value).toList();
 
-      BalanceModel? balance = values.firstWhere((element) => element is BalanceModel, orElse: () => null);
-      PlantedModel? plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
-      String? selectedFiat = settingsStorage.selectedFiatCurrency;
+      final BalanceModel? balance = values.firstWhere((element) => element is BalanceModel, orElse: () => null);
+      final PlantedModel? plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
+      final String selectedFiat = settingsStorage.selectedFiatCurrency;
 
       return currentState.copyWith(
         pageState: PageState.success,

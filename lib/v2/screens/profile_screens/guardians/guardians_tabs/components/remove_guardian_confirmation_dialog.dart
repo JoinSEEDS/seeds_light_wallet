@@ -3,6 +3,7 @@ import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/datasource/remote/model/firebase_models/guardian_model.dart';
+import 'package:seeds/v2/i18n/profile_screens/guardians/guardians.i18n.dart';
 
 class RemoveGuardianConfirmationDialog extends StatelessWidget {
   final GuardianModel guardian;
@@ -30,21 +31,29 @@ class RemoveGuardianConfirmationDialog extends StatelessWidget {
           color: AppColors.blue,
         ),
       ),
+      rightButtonTitle: "Accept".i18n,
+      onRightButtonPressed: onConfirm,
+      leftButtonTitle: "Decline".i18n,
+      onLeftButtonPressed: onDismiss,
       children: [
         const SizedBox(height: 20),
-        Text("Remove Guardian?", style: Theme.of(context).textTheme.headline6),
+        Text("Remove Guardian?".i18n, style: Theme.of(context).textTheme.headline6),
         const SizedBox(height: 30),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Text("Are you sure you want to remove ${guardian.nickname} as your Guardian?",
-              style: Theme.of(context).textTheme.subtitle2, textAlign: TextAlign.center),
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+                text: 'Are you sure you want to remove '.i18n,
+                style: Theme.of(context).textTheme.subtitle2,
+                children: <TextSpan>[
+                  TextSpan(text: guardian.nickname, style: Theme.of(context).textTheme.subtitle2),
+                  TextSpan(text: ' as your Guardian?'.i18n, style: Theme.of(context).textTheme.subtitle2)
+                ]),
+          ),
         ),
         const SizedBox(height: 20),
       ],
-      rightButtonTitle: "Accept",
-      onRightButtonPressed: onConfirm,
-      leftButtonTitle: "Decline",
-      onLeftButtonPressed: onDismiss,
     );
   }
 }

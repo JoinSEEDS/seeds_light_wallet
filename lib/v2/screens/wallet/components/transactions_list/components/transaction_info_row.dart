@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/member_bloc.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/member_events.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/member_state.dart';
@@ -63,9 +63,10 @@ class TransactionInfoRow extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 40),
-                                incoming
-                                    ? Text('+', style: Theme.of(context).textTheme.subtitle1Green1)
-                                    : Text('-', style: Theme.of(context).textTheme.subtitle1Red2),
+                                if (incoming)
+                                  Text('+', style: Theme.of(context).textTheme.subtitle1Green1)
+                                else
+                                  Text('-', style: Theme.of(context).textTheme.subtitle1Red2),
                                 const SizedBox(width: 4),
                                 Text(amount.seedsFormatted, style: Theme.of(context).textTheme.button),
                               ],

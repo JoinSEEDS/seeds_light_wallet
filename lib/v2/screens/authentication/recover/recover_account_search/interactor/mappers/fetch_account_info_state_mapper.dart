@@ -1,7 +1,7 @@
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/v2/i18n/import_key/import_key.i18n.dart';
+import 'package:seeds/v2/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/v2/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_state.dart';
 
 class FetchAccountInfoStateMapper extends StateMapper {
@@ -13,7 +13,7 @@ class FetchAccountInfoStateMapper extends StateMapper {
         isValidAccount: false,
       );
     } else {
-      var accountInfo = userInfo.asValue?.value as MemberModel?;
+      final accountInfo = userInfo.asValue?.value as MemberModel?;
 
       if (accountInfo != null) {
         return currentState.copyWith(
@@ -28,7 +28,7 @@ class FetchAccountInfoStateMapper extends StateMapper {
         return currentState.copyWith(
           pageState: PageState.success,
           isValidAccount: false,
-          errorMessage: 'Account is not valid',
+          errorMessage: 'Account is not valid'.i18n,
         );
       }
     }

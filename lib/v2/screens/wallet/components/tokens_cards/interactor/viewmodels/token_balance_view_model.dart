@@ -10,5 +10,5 @@ class TokenBalanceViewModel {
   const TokenBalanceViewModel(this.token, this.balance, {this.errorLoading = false});
 
   String get displayQuantity =>
-      errorLoading || balance == null ? "..." : balance!.quantity.seedsFormatted + " " + token.symbol;
+      errorLoading || balance == null ? "..." : '${balance!.quantity.seedsFormatted}  ${token.symbol}';
 }

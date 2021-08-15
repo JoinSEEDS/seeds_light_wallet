@@ -11,8 +11,8 @@ class SnackBarInfo extends SnackBar {
             children: [
               Expanded(child: Text(title, textAlign: TextAlign.center)),
               InkWell(
-                child: const Icon(Icons.close),
                 onTap: () => scaffoldMessengerState.hideCurrentSnackBar(),
+                child: const Icon(Icons.close),
               ),
             ],
           ),

@@ -27,29 +27,29 @@ class TextFormFieldCustom extends StatelessWidget {
   final String? errorText;
   final String? counterText;
 
-  const TextFormFieldCustom({
-    Key? key,
-    this.autofocus = false,
-    this.focusNode,
-    this.nextFocus,
-    this.onFieldSubmitted,
-    this.textInputAction = TextInputAction.next,
-    this.keyboardType = TextInputType.text,
-    this.controller,
-    this.onChanged,
-    this.textCapitalization = TextCapitalization.none,
-    this.inputFormatters,
-    this.maxLength,
-    this.maxLines = 1,
-    this.enabled,
-    this.validator,
-    this.suffixIcon,
-    this.hintText,
-    this.labelText,
-    this.disabledLabelColor,
-    this.errorText,
-    this.counterText = ""
-  }) : super(key: key);
+  const TextFormFieldCustom(
+      {Key? key,
+      this.autofocus = false,
+      this.focusNode,
+      this.nextFocus,
+      this.onFieldSubmitted,
+      this.textInputAction = TextInputAction.next,
+      this.keyboardType = TextInputType.text,
+      this.controller,
+      this.onChanged,
+      this.textCapitalization = TextCapitalization.none,
+      this.inputFormatters,
+      this.maxLength,
+      this.maxLines = 1,
+      this.enabled,
+      this.validator,
+      this.suffixIcon,
+      this.hintText,
+      this.labelText,
+      this.disabledLabelColor,
+      this.errorText,
+      this.counterText = ""})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class TextFormFieldCustom extends StatelessWidget {
         style: Theme.of(context).textTheme.subtitle2,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
-          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.canopy, width: 1.0)),
+          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.canopy)),
           counterText: counterText,
           hintText: hintText,
           labelText: labelText,

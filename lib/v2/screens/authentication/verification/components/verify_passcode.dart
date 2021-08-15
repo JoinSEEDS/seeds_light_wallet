@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
-import 'package:seeds/i18n/passcode.i18n.dart';
+import 'package:seeds/v2/i18n/authentication/verification/verification.i18n.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/screens/authentication/verification/components/passcode_created_dialog.dart';
 import 'package:seeds/v2/screens/authentication/verification/interactor/viewmodels/verification_bloc.dart';
@@ -53,7 +53,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
                 SnackBar(
                   backgroundColor: AppColors.canopy,
                   content: Text(
-                    'Pincode does not match',
+                    'Pincode does not match'.i18n,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
@@ -62,19 +62,20 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
             },
           ),
         ],
-        child: PasscodeScreen(
-          cancelButton: const SizedBox.shrink(),
-          deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
-          passwordDigits: 4,
-          title: Text('Re-enter Pincode'.i18n, style: Theme.of(context).textTheme.subtitle2),
-          backgroundColor: AppColors.primary,
-          shouldTriggerVerification: _verificationNotifier.stream,
-          passwordEnteredCallback: (passcode) =>
-              BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
-          isValidCallback: () => BlocProvider.of<VerificationBloc>(context).add(const OnValidVerifyPasscode()),
-          bottomWidget: BlocBuilder<VerificationBloc, VerificationState>(
-            builder: (context, state) {
-              return !state.authError! && settingsStorage.biometricActive!
+        child: BlocBuilder<VerificationBloc, VerificationState>(
+          builder: (context, state) {
+            return PasscodeScreen(
+              cancelButton: const SizedBox.shrink(),
+              deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
+              passwordDigits: 4,
+              title: Text((state.isCreateMode ?? false) ? 'Re-enter Pincode' : 'Enter Pincode'.i18n,
+                  style: Theme.of(context).textTheme.subtitle2),
+              backgroundColor: AppColors.primary,
+              shouldTriggerVerification: _verificationNotifier.stream,
+              passwordEnteredCallback: (passcode) =>
+                  BlocProvider.of<VerificationBloc>(context).add(OnVerifyPasscode(passcode: passcode)),
+              isValidCallback: () => BlocProvider.of<VerificationBloc>(context).add(const OnValidVerifyPasscode()),
+              bottomWidget: !state.authError! && settingsStorage.biometricActive!
                   ? Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: OutlinedButton(
@@ -85,14 +86,14 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
                               return RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0));
                             }),
                           ),
+                          onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric()),
                           child: Text('Use biometric to unlock'.i18n,
-                              textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2),
-                          onPressed: () => BlocProvider.of<VerificationBloc>(context).add(const TryAgainBiometric())),
+                              textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle2)),
                     )
-                  : const SizedBox.shrink();
-            },
-          ),
-          circleUIConfig: const CircleUIConfig(circleSize: 14),
+                  : const SizedBox.shrink(),
+              circleUIConfig: const CircleUIConfig(circleSize: 14),
+            );
+          },
         ),
       ),
     );

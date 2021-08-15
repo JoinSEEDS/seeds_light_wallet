@@ -48,7 +48,7 @@ class ProposalModel {
   String get againstPercent => total > 0 ? '${((against * 100) / total).toStringAsFixed(0)} %' : '0 %';
 
   String get createdAt {
-    var created = DateTime.fromMillisecondsSinceEpoch(creationDate * 1000);
+    final created = DateTime.fromMillisecondsSinceEpoch(creationDate * 1000);
     if (DateTime.now().difference(created) > const Duration(days: 7)) {
       return DateFormat.yMd(Platform.localeName.split('_').first).format(created);
     } else {

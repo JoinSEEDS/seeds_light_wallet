@@ -8,27 +8,33 @@ import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/transfer/send/send_scanner/interactor/send_scanner_bloc.dart';
 import 'package:seeds/v2/screens/transfer/send/send_scanner/interactor/viewmodels/scanner_events.dart';
 import 'package:seeds/v2/screens/transfer/send/send_scanner/interactor/viewmodels/send_scanner_state.dart';
+import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 
 /// SendScannerScreen SCREEN
 class SendScannerScreen extends StatefulWidget {
+  const SendScannerScreen({Key? key}) : super(key: key);
+
   @override
   _SendScannerScreenState createState() => _SendScannerScreenState();
 }
 
 class _SendScannerScreenState extends State<SendScannerScreen> {
   late ScannerWidget _scannerScreen;
-  final _sendPageBloc = SendPageBloc();
+  late SendPageBloc _sendPageBloc;
 
   @override
   void initState() {
     super.initState();
-    _scannerScreen = ScannerWidget(resultCallBack: onResult);
+    _sendPageBloc = SendPageBloc();
+    _scannerScreen = ScannerWidget(resultCallBack: (scanResult) async {
+      _sendPageBloc.add(ExecuteScanResult(scanResult: scanResult));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Scan QR Code")),
+      appBar: AppBar(title: Text("Scan QR Code".i18n)),
       body: BlocProvider(
         create: (_) => _sendPageBloc,
         child: BlocListener<SendPageBloc, SendPageState>(
@@ -36,7 +42,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
           listener: (context, SendPageState state) {
             _scannerScreen.stop();
 
-            var pageCommand = state.pageCommand;
+            final pageCommand = state.pageCommand;
             if (pageCommand is NavigateToRouteWithArguments) {
               NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
             }
@@ -44,7 +50,7 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
           child: Column(
             children: [
               const SizedBox(height: 32),
-              Text("Scan QR Code to Send", style: Theme.of(context).textTheme.button),
+              Text("Scan QR Code to Send".i18n, style: Theme.of(context).textTheme.button),
               const SizedBox(height: 82),
               _scannerScreen,
               BlocBuilder<SendPageBloc, SendPageState>(
@@ -61,18 +67,19 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                       return Padding(
                         padding: const EdgeInsets.all(32),
                         child: Container(
-                            padding: const EdgeInsets.all(16),
-                            width: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                state.errorMessage!,
-                                style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
-                                textAlign: TextAlign.center,
-                              ),
+                          padding: const EdgeInsets.all(16),
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                              color: AppColors.black, borderRadius: BorderRadius.all(Radius.circular(8))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              state.errorMessage!,
+                              style: Theme.of(context).textTheme.subtitle2!.copyWith(color: AppColors.orangeYellow),
+                              textAlign: TextAlign.center,
                             ),
-                            decoration: const BoxDecoration(
-                                color: AppColors.black, borderRadius: BorderRadius.all(Radius.circular(8)))),
+                          ),
+                        ),
                       );
                     default:
                       return const SizedBox.shrink();
@@ -84,9 +91,5 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> onResult(String scanResult) async {
-    _sendPageBloc.add(ExecuteScanResult(scanResult: scanResult));
   }
 }

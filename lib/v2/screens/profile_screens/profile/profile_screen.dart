@@ -11,6 +11,8 @@ import 'package:seeds/v2/screens/profile_screens/profile/interactor/viewmodels/b
 
 /// PROFILE SCREEN
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -23,27 +25,34 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return BlocProvider(
-      create: (_) => ProfileBloc()..add(LoadProfileValues()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(settingsStorage.accountName),
-          actions: [
-            IconButton(
-              icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
-              onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
-            ),
-          ],
-        ),
-        body: ListView(
-          children: [
-            const ProfileHeader(),
-            const DividerJungle(thickness: 2),
-            const ProfileMiddle(),
-            const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: DividerJungle(thickness: 2)),
-            const ProfileBottom(),
-          ],
-        ),
-      ),
-    );
+        create: (_) => ProfileBloc()..add(LoadProfileValues()),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(settingsStorage.accountName),
+            actions: [
+              IconButton(
+                icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
+                onPressed: () => NavigationService.of(context).navigateTo(Routes.scanQRCode),
+              ),
+            ],
+          ),
+          body: BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) => RefreshIndicator(
+                    onRefresh: () async {
+                      print("refresh... profile");
+                      BlocProvider.of<ProfileBloc>(context).add(LoadProfileValues());
+                    },
+                    child: ListView(
+                      children: [
+                        const ProfileHeader(),
+                        const DividerJungle(thickness: 2),
+                        const ProfileMiddle(),
+                        const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16), child: DividerJungle(thickness: 2)),
+                        const ProfileBottom(),
+                      ],
+                    ),
+                  )),
+        ));
   }
 }

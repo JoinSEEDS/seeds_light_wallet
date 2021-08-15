@@ -14,14 +14,16 @@ class DeeplinkBloc extends Bloc<DeeplinkEvent, DeeplinkState> {
   @override
   Stream<DeeplinkState> mapEventToState(DeeplinkEvent event) async* {
     if (event is HandleIncomingFirebaseDeepLink) {
-      var result = await GetInitialDeepLinkUseCase().run(event.newLink);
+      final result = await GetInitialDeepLinkUseCase().run(event.newLink);
       yield DeepLinkStateMapper().mapResultToState(state, result);
     } else if (event is OnGuardianRecoveryRequestSeen) {
-      yield state.copyWith(showGuardianApproveOrDenyScreen: null);
+      yield state.copyWith();
+    } else if (event is ClearDeepLink) {
+      yield DeeplinkState.initial();
     }
   }
 
-  void initDynamicLinks() async {
+  Future<void> initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink(
         onError: (error) async {},
         onSuccess: (dynamicLink) async {

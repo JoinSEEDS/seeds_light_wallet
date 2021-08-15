@@ -35,14 +35,9 @@ class CardListTile extends StatelessWidget {
           leading: Icon(leadingIcon),
           title: Row(
             children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.buttonLowEmphasis,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              hasNotification ? const NotificationBadge() : const SizedBox.shrink()
+              Text(title, style: Theme.of(context).textTheme.buttonLowEmphasis),
+              const SizedBox(width: 10),
+              if (hasNotification) const NotificationBadge() else const SizedBox.shrink()
             ],
           ),
           trailing: trailing,

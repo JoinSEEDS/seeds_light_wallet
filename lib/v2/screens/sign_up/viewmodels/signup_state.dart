@@ -1,56 +1,45 @@
 part of 'signup_bloc.dart';
 
+enum SignupScreens { claimInvite, displayName, username }
+
 class SignupState extends Equatable {
+  final SignupScreens signupScreens;
+  final ClaimInviteState claimInviteState;
+  final DisplayNameState displayNameState;
+  final CreateUsernameState createUsernameState;
+
   const SignupState({
-    required this.pageContent,
+    required this.signupScreens,
     required this.claimInviteState,
     required this.displayNameState,
     required this.createUsernameState,
-    required this.addPhoneNumberState,
   });
-
-  final ClaimInviteState claimInviteState;
-  final PageContent pageContent;
-  final DisplayNameState displayNameState;
-  final CreateUsernameState createUsernameState;
-  final AddPhoneNumberState addPhoneNumberState;
-
-  factory SignupState.initial() => SignupState(
-        pageContent: PageContent.CLAIM_INVITE,
-        claimInviteState: ClaimInviteState.initial(),
-        displayNameState: DisplayNameState.initial(),
-        createUsernameState: CreateUsernameState.initial(),
-        addPhoneNumberState: AddPhoneNumberState.initial(),
-      );
-
-  SignupState copyWith({
-    PageContent? pageContent,
-    ClaimInviteState? claimInviteState,
-    DisplayNameState? displayNameState,
-    CreateUsernameState? createUsernameState,
-    AddPhoneNumberState? addPhoneNumberState,
-  }) =>
-      SignupState(
-        pageContent: pageContent ?? this.pageContent,
-        claimInviteState: claimInviteState ?? this.claimInviteState,
-        displayNameState: displayNameState ?? this.displayNameState,
-        createUsernameState: createUsernameState ?? this.createUsernameState,
-        addPhoneNumberState: addPhoneNumberState ?? this.addPhoneNumberState,
-      );
 
   @override
   List<Object?> get props => [
-        pageContent,
+        signupScreens,
         claimInviteState.props,
         displayNameState,
         createUsernameState,
-        addPhoneNumberState,
       ];
-}
 
-enum PageContent {
-  CLAIM_INVITE,
-  DISPLAY_NAME,
-  USERNAME,
-  PHONE_NUMBER,
+  SignupState copyWith({
+    SignupScreens? signupScreens,
+    ClaimInviteState? claimInviteState,
+    DisplayNameState? displayNameState,
+    CreateUsernameState? createUsernameState,
+  }) =>
+      SignupState(
+        signupScreens: signupScreens ?? this.signupScreens,
+        claimInviteState: claimInviteState ?? this.claimInviteState,
+        displayNameState: displayNameState ?? this.displayNameState,
+        createUsernameState: createUsernameState ?? this.createUsernameState,
+      );
+
+  factory SignupState.initial() => SignupState(
+        signupScreens: SignupScreens.claimInvite,
+        claimInviteState: ClaimInviteState.initial(),
+        displayNameState: DisplayNameState.initial(),
+        createUsernameState: CreateUsernameState.initial(),
+      );
 }
