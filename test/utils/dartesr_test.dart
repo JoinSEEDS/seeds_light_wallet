@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seeds/features/scanner/telos_signing_manager.dart';
+import 'package:seeds/v2/datasource/local/util/seeds_esr.dart';
 
 void main() {
   group('dartesr', () {

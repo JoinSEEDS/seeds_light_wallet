@@ -4,9 +4,9 @@ import 'package:async/async.dart';
 import 'package:dart_esr/dart_esr.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:seeds/features/scanner/telos_signing_manager.dart';
 import 'package:seeds/v2/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/datasource/local/util/seeds_esr.dart';
 
 class GetSigningRequestUseCase {
   Future<Result> run(String uri) async {
