@@ -16,3 +16,8 @@ class ExecuteScanResult extends SendPageEvent {
   @override
   String toString() => 'ExecuteScanResult: { scanResult: $scanResult }';
 }
+
+class ClearPageCommand extends SendPageEvent {
+  @override
+  String toString() => 'ClearPageCommand: {}';
+}
