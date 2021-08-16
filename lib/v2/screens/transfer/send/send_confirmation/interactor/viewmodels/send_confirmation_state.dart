@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
@@ -12,6 +13,8 @@ class SendConfirmationState extends Equatable {
   final String actionName;
   final Map<String, dynamic> data;
   final List<SendInfoLineItems> lineItems;
+
+  bool get isTransfer => actionName == transfer_action;
 
   const SendConfirmationState({
     required this.pageState,

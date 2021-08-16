@@ -11,13 +11,13 @@ abstract class EosRepository {
   String onboardingAccountName = 'join.seeds';
 
   // Actions
+  String actionNameTransfer = transfer_action;
   String actionNameAgainst = 'against';
   String actionNameCancel = 'cancel';
   String actionNameFavour = 'favour';
   String actionNameInit = 'init';
   String actionNameClaim = 'claim';
   String actionNameInvite = 'invite';
-  String actionNameTransfer = 'transfer';
   String actionNameUpdateauth = 'updateauth';
   String actionNameUpdate = 'update';
   String actionNameMakeresident = 'makeresident';

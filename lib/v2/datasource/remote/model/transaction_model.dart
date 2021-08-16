@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/custom_transaction_model.dart';
+import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/widgets/read_times_tamp.dart';
 
@@ -49,7 +50,7 @@ class TransactionModel extends Equatable {
   }
 
   static TransactionModel? fromTransaction(CustomTransactionModel customModel) {
-    if (customModel.action == "transfer") {
+    if (customModel.action == transfer_action) {
       final data = customModel.data;
       final String? from = data['from'];
       final String? to = data['to'];
