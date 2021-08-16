@@ -10,8 +10,6 @@ class SendTransactionRepository extends EosRepository {
     required Map<String, dynamic> data,
     required String accountName,
   }) async {
-    print('[eos] sendTransaction');
-
     final actions = [
       Action()
         ..account = account
@@ -25,6 +23,8 @@ class SendTransactionRepository extends EosRepository {
           ..permission = permissionActive
       ];
     }
+
+    print("[eos] send transaction ${actions[0].toString()}");
 
     final transaction = buildFreeTransaction(actions, accountName);
 
