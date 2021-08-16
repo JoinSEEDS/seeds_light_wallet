@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/blocs/deeplink/model/guardian_recovery_request_data.dart';
-import 'package:seeds/v2/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 
