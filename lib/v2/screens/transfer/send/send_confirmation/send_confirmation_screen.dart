@@ -34,7 +34,7 @@ class SendConfirmationScreen extends StatelessWidget {
             leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).popUntil((route) => route.isFirst);
           },
         )),
         body: BlocListener<SendConfirmationBloc, SendConfirmationState>(
