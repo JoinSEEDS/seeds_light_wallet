@@ -9,11 +9,11 @@ import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 
-class SendCustomTransactionSuccessDialog extends StatelessWidget {
+class CustomTransactionSuccessDialog extends StatelessWidget {
   final CustomTransactionModel transaction;
   final VoidCallback onCloseButtonPressed;
 
-  const SendCustomTransactionSuccessDialog({
+  const CustomTransactionSuccessDialog({
     Key? key,
     required this.transaction,
     required this.onCloseButtonPressed,
