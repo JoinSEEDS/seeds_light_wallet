@@ -23,7 +23,7 @@ class SendTransactionMapper extends StateMapper {
       final selectedFiat = settingsStorage.selectedFiatCurrency;
       final String fiatAmount = currentState.ratesState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
 
-      eventBus.fire(TransactionSentEventBusEvent(resultResponse.transactionModel));
+      eventBus.fire(OnNewTransactionEventBus(resultResponse.transactionModel));
 
       if (areAllResultsSuccess(resultResponse.profiles)) {
         final toAccount = resultResponse.profiles[0].asValue!.value as ProfileModel;

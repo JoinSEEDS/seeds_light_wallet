@@ -8,10 +8,7 @@ class CreateInvoiceResultMapper extends StateMapper {
   ReceiveEnterDataState mapResultToState(ReceiveEnterDataState currentState, Result result) {
     if (result.isError) {
       print('Error invoice hash not retrieved');
-      return currentState.copyWith(
-        pageState: PageState.success,
-        pageCommand: ShowTransactionFail(),
-      );
+      return currentState.copyWith(pageState: PageState.success, pageCommand: ShowTransactionFail());
     } else {
       return currentState.copyWith(
         pageState: PageState.success,
