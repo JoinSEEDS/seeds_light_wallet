@@ -43,7 +43,7 @@ class AmountEntryWidget extends StatelessWidget {
                       child: TextFormField(
                         textAlign: TextAlign.end,
                         style: Theme.of(context).textTheme.headline4,
-                        keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         decoration: const InputDecoration(
                           hintText: "0.0",
                           border: InputBorder.none,
