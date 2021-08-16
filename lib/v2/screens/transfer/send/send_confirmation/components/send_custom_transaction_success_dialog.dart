@@ -32,9 +32,14 @@ class SendCustomTransactionSuccessDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(transaction.action, style: Theme.of(context).textTheme.headline4),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 4),
-                  child: Text("On ${transaction.account}", style: Theme.of(context).textTheme.subtitle2),
+                  child: Text(transaction.account, style: Theme.of(context).textTheme.subtitle2),
                 ),
               ],
             ),
@@ -60,12 +65,13 @@ class SendCustomTransactionSuccessDialog extends StatelessWidget {
                     .toList(),
               ],
             ),
+            const SizedBox(height: 30.0),
             Row(
               children: [
-                Text('Date:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text('Date1:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Text(
-                  DateFormat('dd MMMM yyyy').format(DateTime.now()),
+                  DateFormat('dd MMMM yyyy at HH:mm').format(transaction.timestamp ?? DateTime.now()),
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
               ],
