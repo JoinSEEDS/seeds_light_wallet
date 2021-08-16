@@ -19,8 +19,8 @@ class SendTransactionUseCase {
         return value;
       } else {
         final String transactionId = value.asValue!.value;
-        final transactionModel =
-            CustomTransactionModel(account: account, action: actionName, data: data, transactionId: transactionId);
+        final transactionModel = CustomTransactionModel(
+            account: account, action: actionName, data: data, transactionId: transactionId, timestamp: DateTime.now().toUtc());
         final transferModel = TransactionModel.fromTransaction(transactionModel);
         List<Result> profiles = [];
         if (transferModel != null) {
