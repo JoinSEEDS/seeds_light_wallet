@@ -39,5 +39,5 @@ class HandleIncomingSigningRequest extends DeeplinkEvent {
   const HandleIncomingSigningRequest(this.link);
 
   @override
-  String toString() => 'HandleIncomingSigningRequest';
+  String toString() => 'HandleIncomingSigningRequest: $link';
 }
