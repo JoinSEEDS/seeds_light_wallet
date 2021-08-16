@@ -16,6 +16,12 @@ class SeedsESR {
     actions = await manager.fetchActions(account: account);
   }
 
+  // TODO(n13): Remove this method and replace it with something more sensible. This is using the already resolved
+  // ESR object and creating a lightweight action data object out of the first action, so be passed around to
+  // other components.
+  // Better ways to do that
+  // Pass around the whole ESR object, or an Action object.
+  // instead of canProcess, have an isValid accessor on the ESR and handle this case in the mappers.
   Result processResolvedRequest() {
     final Action action = actions.first;
     if (_canProcess(action)) {
@@ -29,6 +35,7 @@ class SeedsESR {
     }
   }
 
+  // TODO(n13): Remove - see above.
   bool _canProcess(Action action) {
     return action.account!.isNotEmpty && action.name!.isNotEmpty;
   }
