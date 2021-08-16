@@ -10,10 +10,25 @@ class CustomTransactionModel {
   List<SendInfoLineItems> get lineItems =>
       data.entries.map((e) => SendInfoLineItems(label: e.key, text: e.value.toString())).toList();
 
-  CustomTransactionModel(
-      {required this.account, required this.action, required this.data, this.transactionId, this.timestamp});
+  CustomTransactionModel({
+    required this.account,
+    required this.action,
+    required this.data,
+    this.transactionId,
+    this.timestamp,
+  });
+
   factory CustomTransactionModel.fromTxData(
-      String account, String action, Map<String, dynamic> data, String transactionId) {
-    return CustomTransactionModel(account: account, action: action, data: data, transactionId: transactionId);
+    String account,
+    String action,
+    Map<String, dynamic> data,
+    String transactionId,
+  ) {
+    return CustomTransactionModel(
+      account: account,
+      action: action,
+      data: data,
+      transactionId: transactionId,
+    );
   }
 }
