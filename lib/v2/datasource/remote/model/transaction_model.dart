@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/v2/datasource/remote/model/custom_transaction_model.dart';
 import 'package:seeds/v2/utils/string_extension.dart';
+import 'package:seeds/widgets/read_times_tamp.dart';
 
 class TransactionModel extends Equatable {
   final String from;
   final String to;
   final String quantity;
   final String memo;
-  final String timestamp;
+  final DateTime timestamp;
   final String? transactionId;
 
   String get symbol => quantity.split(" ")[1];
@@ -30,7 +31,7 @@ class TransactionModel extends Equatable {
       to: json['act']['data']['to'],
       quantity: json['act']['data']['quantity'],
       memo: json['act']['data']['memo'],
-      timestamp: json['@timestamp'],
+      timestamp: parseTimestamp(json['@timestamp']),
       transactionId: json['trx_id'],
     );
   }
@@ -41,7 +42,7 @@ class TransactionModel extends Equatable {
       to: json['act']['data']['to'],
       quantity: json['act']['data']['quantity'],
       memo: json['act']['data']['memo'],
-      timestamp: json['block_time'],
+      timestamp: parseTimestamp(json['block_time']),
       transactionId: json['trx_id'],
       //json["block_num"], // can add this later - neat but changes cache structure
     );
@@ -54,14 +55,13 @@ class TransactionModel extends Equatable {
       final String? to = data['to'];
       final String? quantity = data['quantity'];
       final String memo = data['memo'] ?? "";
-      final String timestamp = "0";
       if (from != null && to != null && quantity != null) {
         return TransactionModel(
           from: from,
           to: to,
           quantity: quantity,
           memo: memo,
-          timestamp: timestamp,
+          timestamp: customModel.timestamp ?? DateTime.now().toUtc(),
           transactionId: customModel.transactionId,
         );
       }
@@ -76,7 +76,7 @@ class TransactionModel extends Equatable {
       to: data['to'],
       quantity: data['quantity'],
       memo: data['memo'],
-      timestamp: '0',
+      timestamp: DateTime.now().toUtc(),
       transactionId: transactionId,
     );
   }
