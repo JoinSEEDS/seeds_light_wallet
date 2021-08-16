@@ -11,7 +11,7 @@ import 'package:seeds/v2/design/app_theme.dart';
 
 class TransactionInfoRow extends StatelessWidget {
   final String profileAccount;
-  final String timestamp;
+  final DateTime timestamp;
   final String amount;
   final bool incoming;
   final GestureTapCallback callback;
