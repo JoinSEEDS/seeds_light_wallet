@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/local/util/seeds_esr.dart';
 
+/// Use case to handle an incoming ESR - EOSIO Signing Request
 class GetSigningRequestUseCase {
   Future<Result> run(String uri) async {
     try {
