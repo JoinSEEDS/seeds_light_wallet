@@ -11,7 +11,6 @@ class AppState extends Equatable {
   final bool hasNotification;
   final bool showGuardianRecoveryAlert;
   final GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen;
-  // final ScanESRResultData? signingRequest;
 
   const AppState({
     required this.pageState,
@@ -20,7 +19,6 @@ class AppState extends Equatable {
     required this.hasNotification,
     required this.showGuardianRecoveryAlert,
     required this.showGuardianApproveOrDenyScreen,
-    // this.signingRequest,
   });
 
   @override
@@ -31,7 +29,6 @@ class AppState extends Equatable {
         hasNotification,
         showGuardianRecoveryAlert,
         showGuardianApproveOrDenyScreen,
-        // signingRequest,
       ];
 
   AppState copyWith({
@@ -41,7 +38,6 @@ class AppState extends Equatable {
     bool? hasNotification,
     bool? showGuardianRecoveryAlert,
     GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen,
-    // ScanESRResultData? signingRequest,
   }) {
     return AppState(
       pageState: pageState ?? this.pageState,
@@ -50,13 +46,11 @@ class AppState extends Equatable {
       hasNotification: hasNotification ?? this.hasNotification,
       showGuardianRecoveryAlert: showGuardianRecoveryAlert ?? this.showGuardianRecoveryAlert,
       showGuardianApproveOrDenyScreen: showGuardianApproveOrDenyScreen,
-      // signingRequest: signingRequest ?? this.signingRequest,
     );
   }
 
   factory AppState.initial({
     GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen,
-    // ScanESRResultData? signingRequest,
   }) {
     return AppState(
       pageState: PageState.initial,
@@ -64,7 +58,6 @@ class AppState extends Equatable {
       hasNotification: false,
       showGuardianRecoveryAlert: false,
       showGuardianApproveOrDenyScreen: showGuardianApproveOrDenyScreen,
-      // signingRequest: signingRequest,
     );
   }
 }
