@@ -26,10 +26,6 @@ class ConnectionNotifier extends ChangeNotifier {
     'https://api.eos.miami',
   ];
 
-  void init() {
-    discoverEndpoints();
-  }
-
   Future<void> discoverEndpoints() async {
     final checks = <Future>[];
 

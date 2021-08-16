@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:seeds/providers/providers.dart';
 
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/main.dart';
+import 'package:seeds/v2/navigation/navigation_service.dart';
 
 class SeedsMaterialApp extends MaterialApp {
   SeedsMaterialApp({Key? key, required home, navigatorKey, onGenerateRoute})
@@ -45,7 +45,10 @@ class SeedsApp extends StatelessWidget {
         BlocProvider<RatesBloc>(create: (_) => RatesBloc()),
         BlocProvider<DeeplinkBloc>(create: (_) => DeeplinkBloc()),
       ],
-      child: MultiProvider(providers: providers, child: const MainScreen()),
+      child: MultiProvider(
+        providers: [Provider(create: (_) => NavigationService())],
+        child: const MainScreen(),
+      ),
     );
   }
 }
