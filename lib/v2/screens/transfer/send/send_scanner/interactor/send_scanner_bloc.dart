@@ -23,7 +23,7 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
       if (result is ErrorResult) {
         yield state.copyWith(pageState: PageState.failure, errorMessage: result.error.toString());
       } else {
-        final value = result.asValue!.value as ScanESRResultData;
+        final value = result.asValue!.value as ScanQrCodeResultData;
 
         final args = SendConfirmationArguments(
           account: value.accountName,

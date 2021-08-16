@@ -22,7 +22,7 @@ class SeedsESR {
       final Map<String, dynamic> data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
       print(
           " processResolvedRequest: Success QR contract: ${action.account} action: ${action.name} data: ${action.data!}");
-      return ValueResult(ScanESRResultData(data: data, accountName: action.account, actionName: action.name));
+      return ValueResult(ScanQrCodeResultData(data: data, accountName: action.account, actionName: action.name));
     } else {
       print("processResolvedRequest: canProcess is false: ");
       return ErrorResult("Unable to process this request");

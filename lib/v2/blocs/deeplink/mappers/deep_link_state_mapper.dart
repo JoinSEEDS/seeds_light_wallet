@@ -46,7 +46,7 @@ class DeepLinkStateMapper extends StateMapper {
     if (result.isError) {
       return currentState;
     } else {
-      final esr = result.asValue!.value as ScanESRResultData;
+      final esr = result.asValue!.value as ScanQrCodeResultData;
       if (!settingsStorage.accountName.isNullOrEmpty) {
         // handle invite link. Send user to memonic screen.
         return currentState.copyWith(signingRequest: esr);

@@ -7,7 +7,7 @@ import 'package:seeds/v2/datasource/local/models/scan_qr_code_result_data.dart';
 class DeeplinkState extends Equatable {
   final GuardianRecoveryRequestData? guardianRecoveryRequestData;
   final InviteLinkData? inviteLinkData;
-  final ScanESRResultData? signingRequest;
+  final ScanQrCodeResultData? signingRequest;
 
   const DeeplinkState({
     this.guardianRecoveryRequestData,
@@ -21,7 +21,7 @@ class DeeplinkState extends Equatable {
   DeeplinkState copyWith({
     GuardianRecoveryRequestData? showGuardianApproveOrDenyScreen,
     InviteLinkData? inviteLinkData,
-    ScanESRResultData? signingRequest,
+    ScanQrCodeResultData? signingRequest,
   }) {
     return DeeplinkState(
         guardianRecoveryRequestData: showGuardianApproveOrDenyScreen,
