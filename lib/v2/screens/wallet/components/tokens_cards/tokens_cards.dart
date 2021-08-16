@@ -4,12 +4,16 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/wallet/components/receive_send_buttons.dart';
 import 'package:seeds/v2/screens/wallet/components/tokens_cards/components/currency_info_card.dart';
 import 'package:seeds/v2/screens/wallet/interactor/viewmodels/wallet_bloc.dart';
 import 'package:seeds/v2/screens/wallet/interactor/viewmodels/wallet_state.dart';
+import 'package:seeds/v2/utils/rate_states_extensions.dart';
+
 import 'interactor/viewmodels/token_balances_bloc.dart';
 import 'interactor/viewmodels/token_balances_event.dart';
 import 'interactor/viewmodels/token_balances_state.dart';
@@ -37,17 +41,22 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
         },
         child: BlocBuilder<TokenBalancesBloc, TokenBalancesState>(
           builder: (context, state) {
+            final RatesState rateState = BlocProvider.of<RatesBloc>(context).state;
             return Column(
               children: [
                 SingleChildScrollView(
                   child: CarouselSlider(
                     items: [
-                      for (var i in state.availableTokens)
+                      for (var tokenBalanceViewModel in state.availableTokens)
                         Container(
                           margin: EdgeInsets.only(
-                              left: i.token == state.availableTokens.first.token ? 0 : 10.0,
-                              right: i.token == state.availableTokens.last.token ? 0 : 10.0),
-                          child: CurrencyInfoCard(i),
+                              left: tokenBalanceViewModel.token == state.availableTokens.first.token ? 0 : 10.0,
+                              right: tokenBalanceViewModel.token == state.availableTokens.last.token ? 0 : 10.0),
+                          child: CurrencyInfoCard(
+                            tokenBalanceViewModel,
+                            fiatBalance: rateState.fiatValueString(
+                                tokenBalanceViewModel.token, tokenBalanceViewModel.balance?.quantity),
+                          ),
                         ),
                     ],
                     options: CarouselOptions(

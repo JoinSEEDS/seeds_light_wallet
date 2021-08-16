@@ -42,4 +42,5 @@ class RatesState extends Equatable {
   factory RatesState.initial() {
     return const RatesState(pageState: PageState.initial);
   }
+  
 }
