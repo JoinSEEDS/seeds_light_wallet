@@ -63,7 +63,7 @@ abstract class EosRepository {
   Result mapEosResponse(dynamic response, Function modelMapper) {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');
     if (response['transaction_id'] != null) {
-      print('Model Class: $modelMapper');
+      print('Model Class: ${modelMapper.toString()}');
       final map = Map<String, dynamic>.from(response);
       return ValueResult(modelMapper(map));
     } else {
