@@ -70,6 +70,6 @@ const LocalScaleToken = TokenModel(
   symbol: "LSCL",
   name: "LocalScale",
   backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
-  logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
+  logo: 'assets/images/wallet/currency_info_cards/lscl/lscl_logo.jpg',
   balanceSubTitle: 'Wallet Balance',
 );
