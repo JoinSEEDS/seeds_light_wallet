@@ -1,16 +1,11 @@
-
-
 import 'package:i18n_extension/i18n_extension.dart';
 
 extension Localization on String {
   static final _t = Translations.byLocale('en_us') +
       {
         'es_es': {
-          'Support': 'Soporte',
-          'If you have any questions or concerns, Please find our':
-              'Si tiene alguna pregunta o inquietud, busque nuestro',
-          'Channel in': 'Canal en',
-          'here.': 'aqui.',
+          'Page Not Found': 'Página no encontrada',
+          'The page you are looking for is not available': 'La página que buscas no está disponible',
         }
       };
 

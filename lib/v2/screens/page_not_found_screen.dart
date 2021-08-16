@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:seeds/i18n/widgets.i18n.dart';
+import 'package:seeds/v2/i18n/page_no_found.i18n.dart';
 
 class PageNotFoundScreen extends StatelessWidget {
   final String routeName;
