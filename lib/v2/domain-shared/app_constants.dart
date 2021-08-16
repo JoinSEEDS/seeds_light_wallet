@@ -1,5 +1,5 @@
 /// Some URLs
-const String url_buy_seeds = 'https://www.joinseeds.com/buy-seeds?acc=';
+const String url_buy_seeds = 'https://www.joinseeds.earth/buy-seeds?acc=';
 
 /// Firebase Dynamic Link Parameters
 const String domain_app_uri_prefix = 'https://seedswallet.page.link';
