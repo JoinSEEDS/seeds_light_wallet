@@ -10,8 +10,7 @@ abstract class BusEvent<T> {
   String toString() => 'EventBus { $T }';
 }
 
-class TransactionSentEventBusEvent extends BusEvent<TransactionSentEventBusEvent> {
-  final TransactionModel? transaction;
-
-  const TransactionSentEventBusEvent(this.transaction);
+class OnNewTransactionEventBus extends BusEvent<OnNewTransactionEventBus> {
+  final TransactionModel? transactionModel;
+  const OnNewTransactionEventBus(this.transactionModel);
 }

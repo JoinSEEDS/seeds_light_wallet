@@ -19,14 +19,14 @@ class SendScannerScreen extends StatefulWidget {
 }
 
 class _SendScannerScreenState extends State<SendScannerScreen> {
-  late ScannerWidget _scannerScreen;
+  late ScannerWidget _scannerWidget;
   late SendPageBloc _sendPageBloc;
 
   @override
   void initState() {
     super.initState();
     _sendPageBloc = SendPageBloc();
-    _scannerScreen = ScannerWidget(resultCallBack: (scanResult) async {
+    _scannerWidget = ScannerWidget(resultCallBack: (scanResult) async {
       _sendPageBloc.add(ExecuteScanResult(scanResult: scanResult));
     });
   }
@@ -40,7 +40,8 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
         child: BlocListener<SendPageBloc, SendPageState>(
           listenWhen: (_, current) => current.pageState == PageState.success && current.pageCommand != null,
           listener: (context, SendPageState state) {
-            _scannerScreen.stop();
+            _scannerWidget.stop();
+            BlocProvider.of<SendPageBloc>(context).add(ClearPageCommand());
 
             final pageCommand = state.pageCommand;
             if (pageCommand is NavigateToRouteWithArguments) {
@@ -52,16 +53,16 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
               const SizedBox(height: 32),
               Text("Scan QR Code to Send".i18n, style: Theme.of(context).textTheme.button),
               const SizedBox(height: 82),
-              _scannerScreen,
+              _scannerWidget,
               BlocBuilder<SendPageBloc, SendPageState>(
                 buildWhen: (context, SendPageState state) => state.pageState != PageState.success,
                 builder: (context, SendPageState state) {
                   switch (state.pageState) {
                     case PageState.initial:
-                      _scannerScreen.scan();
+                      _scannerWidget.scan();
                       return const SizedBox.shrink();
                     case PageState.loading:
-                      _scannerScreen.showLoading();
+                      _scannerWidget.showLoading();
                       return const SizedBox.shrink();
                     case PageState.failure:
                       return Padding(

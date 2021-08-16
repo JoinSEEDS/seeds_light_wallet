@@ -86,7 +86,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 24, left: 24),
                   child: Text(
-                    "If you already have a Seeds account-enter active private key and account will be imported automatically."
+                    "If you already have a Seeds account, please enter your private key and your account will be imported automatically."
                         .i18n,
                     style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                     textAlign: TextAlign.center,

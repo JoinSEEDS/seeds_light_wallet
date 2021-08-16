@@ -15,7 +15,7 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
   StreamSubscription? eventBusSubscription;
 
   TokenBalancesBloc() : super(TokenBalancesState.initial()) {
-    eventBusSubscription = eventBus.on<TransactionSentEventBusEvent>().listen((event) async {
+    eventBusSubscription = eventBus.on<OnNewTransactionEventBus>().listen((event) async {
       await Future.delayed(const Duration(milliseconds: 500)); // the blockchain needs 0.5 seconds to process
       add(const OnLoadTokenBalances());
     });
