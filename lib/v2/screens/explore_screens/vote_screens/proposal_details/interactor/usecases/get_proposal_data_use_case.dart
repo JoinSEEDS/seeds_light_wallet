@@ -6,7 +6,7 @@ import 'package:seeds/v2/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/voice_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/v2/datasource/remote/model/vote_model.dart';
-import 'package:seeds/v2/datasource/remote/util/CacheKeys.dart';
+import 'package:seeds/v2/datasource/local/cache_keys.dart';
 
 class GetProposalDataUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();

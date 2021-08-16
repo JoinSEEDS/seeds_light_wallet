@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:seeds/v2/datasource/local/cache_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/v2/datasource/remote/model/vote_model.dart';
-import 'package:seeds/v2/datasource/remote/util/CacheKeys.dart';
+import 'package:seeds/v2/datasource/local/cache_keys.dart';
 
 class GetVoteUseCase {
   Future<Result> run(int proposalId, String account) async {
