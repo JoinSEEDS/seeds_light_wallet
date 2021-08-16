@@ -40,7 +40,7 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
         }
       }
     } else if (event is ClearPageCommand) {
-      yield state.copyWith(pageCommand: null);
+      yield state.copyWith();
     }
   }
 }
