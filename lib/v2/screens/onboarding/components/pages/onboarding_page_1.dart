@@ -13,7 +13,7 @@ class FirstPage extends StatelessWidget {
       topPadding: 30,
       title: "Better\nThan Free\nTransactions".i18n,
       subTitle:
-          "Make payments globally without any fees.\nEarn rewards when you support\n‘Regenerative’ organisations and people."
+          "Make payments globally without any fees.\nEarn rewards when you support\n‘Regenerative’ organizations and people."
               .i18n,
       topLeaf1: Positioned(
         right: 80,

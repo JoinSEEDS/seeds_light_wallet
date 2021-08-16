@@ -14,7 +14,7 @@ class ThirdPage extends StatelessWidget {
       topPadding: 50,
       title: "Regenerative\nEconomy".i18n,
       subTitle:
-          "Unite with a global movement of\norganisations and people to regenerate our\nplanet and heal our economy."
+          "Unite with a global movement of\norganizations and people to regenerate our\nplanet and heal our economy."
               .i18n,
       topLeaf1: Positioned(
         right: -20,
