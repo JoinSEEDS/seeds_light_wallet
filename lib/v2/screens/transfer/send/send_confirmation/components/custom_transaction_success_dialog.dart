@@ -68,10 +68,10 @@ class CustomTransactionSuccessDialog extends StatelessWidget {
             const SizedBox(height: 30.0),
             Row(
               children: [
-                Text('Date1:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
+                Text('Date:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Text(
-                  DateFormat('dd MMMM yyyy at HH:mm').format(transaction.timestamp ?? DateTime.now()),
+                  DateFormat('dd MMMM yyyy HH:mm').format(transaction.timestamp?.toLocal() ?? DateTime.now()),
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
               ],
