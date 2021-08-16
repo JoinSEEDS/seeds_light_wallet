@@ -12,12 +12,10 @@ class GetSigningRequestUseCase {
           .resolve(account: settingsStorage.accountName)
           .then((value) => esr.processResolvedRequest())
           .catchError((onError) {
-        print(" processQrCode : Error processing QR code");
-        return ErrorResult("Error processing QR code");
+        return ErrorResult("Error processing EOSIO Signing Request (ESR)");
       });
     } catch (error) {
-      print("error handling esr or invalid esr: $uri");
-      return ErrorResult('ESR link is invalid');
+      return ErrorResult('ESR link is invalid: $uri');
     }
   }
 }
