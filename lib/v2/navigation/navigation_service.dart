@@ -32,7 +32,7 @@ import 'package:seeds/v2/screens/transfer/send/send_enter_data/send_enter_data_s
 import 'package:seeds/v2/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/v2/screens/transfer/send/send_search_user/send_search_user_screen.dart';
 import 'package:seeds/v2/screens/wallet/wallet_screen.dart';
-import 'package:seeds/widgets/page_not_found.dart';
+import 'package:seeds/v2/screens/page_not_found_screen.dart';
 
 class Routes {
   static final onboarding = 'Onboarding';
@@ -196,10 +196,7 @@ class NavigationService {
     } else {
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => PageNotFound(
-          routeName: settings.name!,
-          args: settings.arguments,
-        ),
+        builder: (_) => PageNotFoundScreen(routeName: settings.name!, args: settings.arguments),
       );
     }
   }

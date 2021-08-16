@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/member_bloc.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/member_events.dart';
 import 'package:seeds/v2/screens/wallet/components/transactions_list/interactor/viewmodels/member_state.dart';
-import 'package:seeds/widgets/read_times_tamp.dart';
-import 'package:seeds/widgets/transaction_avatar.dart';
+import 'package:seeds/v2/utils/read_times_tamp.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 
 class TransactionInfoRow extends StatelessWidget {
@@ -39,7 +39,7 @@ class TransactionInfoRow extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 10, bottom: 10, right: 20, left: 20),
                 child: Row(
                   children: <Widget>[
-                    TransactionAvatar(
+                    ProfileAvatar(
                       size: 60,
                       account: profileAccount,
                       nickname: state.displayName,
