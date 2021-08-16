@@ -3,7 +3,7 @@ import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/i18n/sign_up/sign_up.i18n.dart';
 import 'package:seeds/v2/images/signup/claim_invite/invite_link_success.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/viewmodels/states/claim_invite_state.dart';
 
 class ProcessingInvitationScreen extends StatelessWidget {
   final ClaimInviteView view;

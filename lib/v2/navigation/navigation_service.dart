@@ -23,7 +23,7 @@ import 'package:seeds/v2/screens/profile_screens/profile/profile_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/v2/screens/profile_screens/support/support_screen.dart';
-import 'package:seeds/v2/screens/sign_up/signup_screen.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/v2/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:seeds/v2/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/v2/screens/transfer/receive/receive_selection/receive_screen.dart';

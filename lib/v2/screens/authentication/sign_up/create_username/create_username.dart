@@ -9,8 +9,8 @@ import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/states/create_username_state.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/viewmodels/states/create_username_state.dart';
 import 'package:seeds/v2/utils/debouncer.dart';
 
 class CreateUsername extends StatefulWidget {
