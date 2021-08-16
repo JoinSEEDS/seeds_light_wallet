@@ -7,6 +7,7 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/snack_bar_info.dart';
 import 'package:seeds/v2/components/text_form_field_light.dart';
+import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
@@ -57,6 +58,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                   BlocProvider.of<ReceiveEnterDataBloc>(context)
                                       .add(OnAmountChange(amountChanged: value));
                                 },
+                                token: SeedsToken,
                                 autoFocus: state.isAutoFocus,
                               ),
                               const SizedBox(height: 36),

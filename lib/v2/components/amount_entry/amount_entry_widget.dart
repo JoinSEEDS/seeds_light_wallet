@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/components/amount_entry/interactor/viewmodels/page_command.dart';
+import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/domain-shared/user_input_decimal_precision.dart';
 import 'package:seeds/v2/domain-shared/user_input_number_formatter.dart';
@@ -15,15 +16,21 @@ import 'interactor/viewmodels/amount_entry_state.dart';
 
 class AmountEntryWidget extends StatelessWidget {
   final ValueSetter<String> onValueChange;
+  final TokenModel token;
   final bool autoFocus;
 
-  const AmountEntryWidget({Key? key, required this.onValueChange, required this.autoFocus}) : super(key: key);
+  const AmountEntryWidget({
+    Key? key,
+    required this.onValueChange,
+    required this.token,
+    required this.autoFocus,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
-      create: (_) => AmountEntryBloc(rates),
+      create: (_) => AmountEntryBloc(rates, token),
       child: BlocListener<AmountEntryBloc, AmountEntryState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -88,8 +95,9 @@ class AmountEntryWidget extends StatelessWidget {
                                   height: 60,
                                   width: 60,
                                 ),
-                                onPressed: () =>
-                                    {BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())},
+                                onPressed: () => rates.canConvert(token)
+                                    ? {BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())}
+                                    : null,
                               ),
                             ),
                           )
@@ -99,7 +107,7 @@ class AmountEntryWidget extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  state.infoRowText,
+                  rates.canConvert(token) ? state.infoRowText : "",
                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                 ),
               ],

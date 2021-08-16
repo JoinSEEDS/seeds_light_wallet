@@ -8,7 +8,7 @@ import 'package:seeds/v2/domain-shared/ui_constants.dart';
 
 class CurrencyChangeMapper extends StateMapper {
   AmountEntryState mapResultToState(AmountEntryState currentState) {
-    final input = currentState.currentCurrencyInput == CurrencyInput.seeds ? CurrencyInput.fiat : CurrencyInput.seeds;
+    final input = currentState.currentCurrencyInput == CurrencyInput.token ? CurrencyInput.fiat : CurrencyInput.token;
 
     return currentState.copyWith(
       currentCurrencyInput: input,
@@ -33,7 +33,7 @@ String handleEnteringCurrencyName(CurrencyInput currentCurrencyInput) {
   switch (currentCurrencyInput) {
     case CurrencyInput.fiat:
       return settingsStorage.selectedFiatCurrency;
-    case CurrencyInput.seeds:
+    case CurrencyInput.token:
       return currencySeedsCode;
   }
 }

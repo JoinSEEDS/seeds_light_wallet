@@ -16,18 +16,27 @@ class SendEnterDataStateMapper extends StateMapper {
       final BalanceModel balance = result.asValue!.value as BalanceModel;
       final double parsedQuantity = double.parse(quantity);
 
-      final selectedFiat = settingsStorage.selectedFiatCurrency;
-      final String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
+      final hasFiat = rateState.canConvert(currentState.token);
 
-      final String availableBalanceFiat = rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted;
+      if (hasFiat) {
+        final selectedFiat = settingsStorage.selectedFiatCurrency;
+        final String fiatAmount = rateState.fromSeedsToFiat(parsedQuantity, selectedFiat).fiatFormatted;
+        final String availableBalanceFiat = rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted;
 
-      return currentState.copyWith(
-        pageState: PageState.success,
-        fiatAmount: fiatAmount,
-        availableBalance: balance.formattedQuantity,
-        availableBalanceFiat: availableBalanceFiat,
-        balance: balance,
-      );
+        return currentState.copyWith(
+          pageState: PageState.success,
+          balance: balance,
+          availableBalance: balance.formattedQuantity,
+          fiatAmount: fiatAmount,
+          availableBalanceFiat: availableBalanceFiat,
+        );
+      } else {
+        return currentState.copyWith(
+          pageState: PageState.success,
+          balance: balance,
+          availableBalance: balance.formattedQuantity,
+        );
+      }
     }
   }
 }

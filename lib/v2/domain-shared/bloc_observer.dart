@@ -25,21 +25,29 @@ import 'package:bloc/bloc.dart';
 /// }
 /// ```
 class SimpleBlocObserver extends BlocObserver {
+  static const bool enable_trace = true;
+
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
-    print(event);
+    if (enable_trace) {
+      print(event);
+    }
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    print(transition);
+    if (enable_trace) {
+      print(transition);
+    }
   }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    print(error);
+    if (enable_trace) {
+      print(error);
+    }
     super.onError(bloc, error, stackTrace);
   }
 }

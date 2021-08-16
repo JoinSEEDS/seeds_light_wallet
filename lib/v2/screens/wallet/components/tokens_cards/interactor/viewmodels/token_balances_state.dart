@@ -10,6 +10,8 @@ class TokenBalancesState extends Equatable {
   final List<TokenBalanceViewModel> availableTokens;
   final int selectedIndex;
 
+  TokenModel get selectedToken => availableTokens[selectedIndex].token;
+
   const TokenBalancesState({
     required this.pageState,
     this.errorMessage,

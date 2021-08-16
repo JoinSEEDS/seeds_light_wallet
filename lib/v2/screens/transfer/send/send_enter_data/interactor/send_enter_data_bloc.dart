@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
+import 'package:seeds/v2/datasource/remote/model/token_model.dart';
 import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
@@ -17,8 +18,11 @@ import 'package:seeds/v2/screens/transfer/send/send_enter_data/interactor/viewmo
 
 /// --- BLOC
 class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPageState> {
-  SendEnterDataPageBloc(MemberModel memberModel, RatesState rates)
-      : super(SendEnterDataPageState.initial(memberModel, rates));
+  SendEnterDataPageBloc({
+    required MemberModel member,
+    required RatesState rates,
+    required TokenModel token,
+  }) : super(SendEnterDataPageState.initial(member, rates, token));
 
   @override
   Stream<SendEnterDataPageState> mapEventToState(SendEnterDataPageEvent event) async* {
@@ -49,13 +53,15 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
     } else if (event is OnSendButtonTapped) {
       yield state.copyWith(pageState: PageState.loading, showSendingAnimation: true);
 
+      final token = state.token;
+
       final Result result = await SendTransactionUseCase().run(
         actionName: transfer_action,
-        account: 'token.seeds',
+        account: token.contract,
         data: {
           'from': settingsStorage.accountName,
           'to': state.sendTo.account,
-          'quantity': '${state.quantity.toStringAsFixed(4)} $currencySeedsCode',
+          'quantity': '${state.quantity.toStringAsFixed(token.precision)} ${token.symbol}',
           'memo': state.memo,
         },
       );
