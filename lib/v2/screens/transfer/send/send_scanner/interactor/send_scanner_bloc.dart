@@ -30,6 +30,7 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
           account: value.accountName,
           name: value.actionName,
           data: value.data,
+          pops: 3,
         );
 
         yield state.copyWith(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:seeds/v2/components/full_page_loading_indicator.dart';
 import 'package:seeds/v2/components/send_loading_indicator.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
@@ -47,8 +48,9 @@ class SendConfirmationScreen extends StatelessWidget {
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendTransactionSuccessDialog.fromPageCommand(
                   onCloseButtonPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
+                    for (int i = 0; i < state.popsOnDone; i++) {
+                      Navigator.of(context).pop();
+                    }
                   },
                   pageCommand: pageCommand,
                 ),
@@ -60,8 +62,9 @@ class SendConfirmationScreen extends StatelessWidget {
                 builder: (BuildContext buildContext) => CustomTransactionSuccessDialog(
                   transaction: pageCommand.transactionModel,
                   onCloseButtonPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
+                    for (int i = 0; i < state.popsOnDone; i++) {
+                      Navigator.of(context).pop();
+                    }
                   },
                 ),
               );
@@ -73,7 +76,7 @@ class SendConfirmationScreen extends StatelessWidget {
                 case PageState.initial:
                   return const SizedBox.shrink();
                 case PageState.loading:
-                  return const SendLoadingIndicator();
+                  return state.isTransfer ? const SendLoadingIndicator() : const FullPageLoadingIndicator();
                 case PageState.failure:
                   return const FullPageErrorIndicator();
                 case PageState.success:

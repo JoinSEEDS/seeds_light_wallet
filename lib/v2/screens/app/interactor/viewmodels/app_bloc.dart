@@ -97,6 +97,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         account: event.esr.accountName,
         name: event.esr.actionName,
         data: event.esr.data,
+        pops: 2,
       );
       yield state.copyWith(
         pageState: PageState.success,
