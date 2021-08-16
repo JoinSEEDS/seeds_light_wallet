@@ -10,6 +10,7 @@ class TokenModel extends Equatable {
   final String backgroundImage;
   final String logo;
   final String balanceSubTitle;
+  final int precision;
 
   String get id => "$contract#$symbol";
 
@@ -21,10 +22,15 @@ class TokenModel extends Equatable {
     required this.backgroundImage,
     required this.logo,
     required this.balanceSubTitle,
+    this.precision = 4,
   });
 
   @override
   List<Object?> get props => [chainName, contract, symbol];
+
+  String getAssetString(double quantity) {
+    return "${quantity.toStringAsFixed(precision)} ${this.symbol}";
+  }
 }
 
 const SeedsToken = TokenModel(
