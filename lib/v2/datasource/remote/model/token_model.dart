@@ -29,7 +29,7 @@ class TokenModel extends Equatable {
   List<Object?> get props => [chainName, contract, symbol];
 
   String getAssetString(double quantity) {
-    return "${quantity.toStringAsFixed(precision)} ${this.symbol}";
+    return "${quantity.toStringAsFixed(precision)} $symbol";
   }
 }
 
