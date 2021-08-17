@@ -148,6 +148,8 @@ flutter:
     - assets/images/wallet/app_bar/appbar_seeds_text.svg
     - assets/images/wallet/currency_info_cards/seeds/logo.jpg
     - assets/images/wallet/currency_info_cards/seeds/background.jpg
+    - assets/images/wallet/currency_info_cards/lscl/background.jpg
+    - assets/images/wallet/currency_info_cards/lscl/logo.jpg
     - assets/images/wallet/currency_info_cards/planted_seeds/background.jpg
     - assets/images/wallet/currency_info_cards/planted_seeds/logo.jpg
     - assets/images/wallet/currency_info_cards/hypha/background.jpg
