@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/v2/screens/app/interactor/viewmodels/connection_notifier.dart';
-import 'package:seeds/screens/app/ecosystem/ecosystem.dart';
-import 'package:seeds/screens/app/wallet/wallet.dart';
 import 'package:seeds/v2/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/v2/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/bloc.dart';
@@ -185,5 +183,34 @@ extension NavigatorStateExtension on NavigatorState {
       return true;
     });
     return isCurrent;
+  }
+}
+
+/// Gery I'm going to leave these 2 widgets below here for now, the reason is
+/// that apparently they use navigation keys I'm not sure if we will
+/// continue to use this navigation approach with keys, so I leave them here
+/// for the moment until we correctly define the service by navagion.
+class Wallet extends StatelessWidget {
+  const Wallet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: NavigationService.of(context).walletNavigatorKey,
+      initialRoute: Routes.wallet,
+      onGenerateRoute: NavigationService.of(context).onGenerateRoute,
+    );
+  }
+}
+
+class Ecosystem extends StatelessWidget {
+  const Ecosystem({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: NavigationService.of(context).ecosystemNavigatorKey,
+      initialRoute: Routes.explore,
+      onGenerateRoute: NavigationService.of(context).onGenerateRoute,
+    );
   }
 }
