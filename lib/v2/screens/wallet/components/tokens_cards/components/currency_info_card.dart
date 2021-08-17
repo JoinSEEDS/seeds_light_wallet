@@ -5,12 +5,19 @@ import 'package:seeds/v2/screens/wallet/components/tokens_cards/interactor/viewm
 
 class CurrencyInfoCard extends StatelessWidget {
   final TokenBalanceViewModel tokenBalance;
+  final String fiatBalance;
   final double? cardWidth;
   final double? cardHeight;
   final Color? textColor;
 
-  const CurrencyInfoCard(this.tokenBalance, {Key? key, this.cardWidth, this.cardHeight, this.textColor})
-      : super(key: key);
+  const CurrencyInfoCard(
+    this.tokenBalance, {
+    Key? key,
+    this.fiatBalance = "",
+    this.cardWidth,
+    this.cardHeight,
+    this.textColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +59,7 @@ class CurrencyInfoCard extends StatelessWidget {
                 Text(tokenBalance.displayQuantity,
                     style: Theme.of(context).textTheme.headline5!.copyWith(color: textColor)),
                 const SizedBox(height: 6),
-                Text("", style: Theme.of(context).textTheme.subtitle2!.copyWith(color: textColor))
+                Text(fiatBalance, style: Theme.of(context).textTheme.subtitle3.copyWith(color: textColor))
               ],
             ),
           )

@@ -4,6 +4,8 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
+import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/wallet/components/receive_send_buttons.dart';
@@ -42,12 +44,15 @@ class _TokenCardsState extends State<TokenCards> with AutomaticKeepAliveClientMi
                 SingleChildScrollView(
                   child: CarouselSlider(
                     items: [
-                      for (var i in state.availableTokens)
+                      for (var tokenBalanceViewModel in state.availableTokens)
                         Container(
                           margin: EdgeInsets.only(
-                              left: i.token == state.availableTokens.first.token ? 0 : 10.0,
-                              right: i.token == state.availableTokens.last.token ? 0 : 10.0),
-                          child: CurrencyInfoCard(i),
+                              left: tokenBalanceViewModel.token == state.availableTokens.first.token ? 0 : 10.0,
+                              right: tokenBalanceViewModel.token == state.availableTokens.last.token ? 0 : 10.0),
+                          child: CurrencyInfoCard(
+                            tokenBalanceViewModel,
+                            fiatBalance: tokenBalanceViewModel.fiatValueString(BlocProvider.of<RatesBloc>(context).state),
+                          ),
                         ),
                     ],
                     options: CarouselOptions(
