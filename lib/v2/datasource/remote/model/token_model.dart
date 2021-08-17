@@ -62,6 +62,7 @@ const HyphaToken = TokenModel(
   backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
   logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
+  precision: 2,
 );
 
 const LocalScaleToken = TokenModel(
