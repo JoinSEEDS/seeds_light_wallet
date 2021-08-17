@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/v2/i18n/sign_up/sign_up.i18n.dart';
+import 'package:seeds/v2/i18n/authentication/sign_up/sign_up.i18n.dart';
 import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';

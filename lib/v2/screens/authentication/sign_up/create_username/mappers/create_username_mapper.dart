@@ -2,7 +2,7 @@ import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/screens/authentication/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/v2/screens/authentication/sign_up/viewmodels/states/create_username_state.dart';
-import 'package:seeds/v2/i18n/sign_up/sign_up.i18n.dart';
+import 'package:seeds/v2/i18n/authentication/sign_up/sign_up.i18n.dart';
 
 class CreateUsernameMapper extends StateMapper {
   SignupState mapValidateUsernameToState(SignupState currentState, Result result) {
