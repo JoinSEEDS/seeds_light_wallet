@@ -2,9 +2,9 @@ import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/datasource/remote/model/invite_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/states/claim_invite_state.dart';
-import 'package:seeds/v2/i18n/sign_up/sign_up.i18n.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/viewmodels/states/claim_invite_state.dart';
+import 'package:seeds/v2/i18n/authentication/sign_up/sign_up.i18n.dart';
 
 class ClaimInviteMapper extends StateMapper {
   SignupState mapValidateInviteCodeToState(SignupState currentState, Result result) {

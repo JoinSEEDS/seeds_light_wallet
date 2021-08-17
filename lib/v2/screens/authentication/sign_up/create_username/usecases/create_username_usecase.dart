@@ -1,9 +1,9 @@
 import 'package:async/async.dart';
 import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/datasource/remote/api/signup_repository.dart';
-import 'package:seeds/v2/screens/sign_up/create_username/mappers/create_username_mapper.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/states/create_username_state.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/create_username/mappers/create_username_mapper.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/viewmodels/states/create_username_state.dart';
 
 class CreateUsernameUseCase {
   CreateUsernameUseCase({required SignupRepository signupRepository}) : _signupRepository = signupRepository;

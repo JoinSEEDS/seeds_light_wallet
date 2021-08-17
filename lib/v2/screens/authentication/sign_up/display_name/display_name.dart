@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/v2/i18n/sign_up/sign_up.i18n.dart';
+import 'package:seeds/v2/i18n/authentication/sign_up/sign_up.i18n.dart';
 import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/text_form_field_custom.dart';
 import 'package:seeds/v2/design/app_theme.dart';
-import 'package:seeds/v2/screens/sign_up/viewmodels/bloc.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/viewmodels/bloc.dart';
 
 class DisplayName extends StatefulWidget {
   const DisplayName({Key? key}) : super(key: key);
