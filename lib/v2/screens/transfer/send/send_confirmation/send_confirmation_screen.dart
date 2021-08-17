@@ -9,7 +9,7 @@ import 'package:seeds/v2/components/flat_button_long.dart';
 import 'package:seeds/v2/components/full_page_error_indicator.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
-import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/custom_transaction_success_diaog.dart';
+import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/generic_transaction_success_diaog.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/transaction_details.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/send_confirmation_bloc.dart';
@@ -59,7 +59,7 @@ class SendConfirmationScreen extends StatelessWidget {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false, // user must tap button
-                builder: (BuildContext buildContext) => CustomTransactionSuccessDialog(
+                builder: (BuildContext buildContext) => GenericTransactionSuccessDialog(
                   transaction: pageCommand.transactionModel,
                   onCloseButtonPressed: () {
                     for (int i = 0; i < state.popsOnDone; i++) {

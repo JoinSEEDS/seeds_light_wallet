@@ -15,7 +15,7 @@ import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
-import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/custom_transaction_success_diaog.dart';
+import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/generic_transaction_success_diaog.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send/send_enter_data/components/send_confirmation_dialog.dart';
@@ -75,7 +75,7 @@ class SendEnterDataScreen extends StatelessWidget {
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button
-              builder: (BuildContext buildContext) => CustomTransactionSuccessDialog(
+              builder: (BuildContext buildContext) => GenericTransactionSuccessDialog(
                 transaction: command.transactionModel,
                 onCloseButtonPressed: () {
                   Navigator.of(context).pop();
