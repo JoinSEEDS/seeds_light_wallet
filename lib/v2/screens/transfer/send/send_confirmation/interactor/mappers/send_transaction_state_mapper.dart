@@ -20,6 +20,9 @@ class SendTransactionStateMapper extends StateMapper {
     }
   }
 
+  // TODO(n13): move this from here and put it in its own class - something to distinguish between
+  // known and generic (unknown) types of transactions results. Now we have generic and transfer, could
+  // add invite, guardians, etc - all transactions we know about.
   static TransactionPageCommand transactionResultPageCommand(
       SendTransactionResponse resultResponse, RatesState rateState) {
     if (resultResponse.isTransfer) {
