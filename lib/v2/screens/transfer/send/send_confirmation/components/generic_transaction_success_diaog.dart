@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:seeds/v2/datasource/remote/model/generic_transaction_model.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
-import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
 
@@ -125,4 +124,3 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
     );
   }
 }
-
