@@ -35,7 +35,7 @@ class SendConfirmationScreen extends StatelessWidget {
             leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).popUntil((route) => route.isFirst);
           },
         )),
         body: BlocListener<SendConfirmationBloc, SendConfirmationState>(
@@ -48,9 +48,7 @@ class SendConfirmationScreen extends StatelessWidget {
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => SendTransactionSuccessDialog.fromPageCommand(
                   onCloseButtonPressed: () {
-                    for (int i = 0; i < state.popsOnDone; i++) {
-                      Navigator.of(context).pop();
-                    }
+                    Navigator.of(context).popUntil((route) => route.isFirst);
                   },
                   pageCommand: pageCommand,
                 ),
@@ -62,9 +60,7 @@ class SendConfirmationScreen extends StatelessWidget {
                 builder: (BuildContext buildContext) => GenericTransactionSuccessDialog(
                   transaction: pageCommand.transactionModel,
                   onCloseButtonPressed: () {
-                    for (int i = 0; i < state.popsOnDone; i++) {
-                      Navigator.of(context).pop();
-                    }
+                    Navigator.of(context).popUntil((route) => route.isFirst);
                   },
                 ),
               );
