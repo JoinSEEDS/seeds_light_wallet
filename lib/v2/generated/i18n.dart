@@ -15,14 +15,12 @@ class S implements WidgetsLocalizations {
 
   static S current;
 
-  static const GeneratedLocalizationsDelegate delegate =
-    GeneratedLocalizationsDelegate();
+  static const GeneratedLocalizationsDelegate delegate = GeneratedLocalizationsDelegate();
 
   static S of(BuildContext context) => Localizations.of<S>(context, S);
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
-
 }
 
 class $en extends S {
@@ -63,7 +61,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
           S.current = const $en();
           return SynchronousFuture<S>(S.current);
         default:
-          // NO-OP.
+        // NO-OP.
       }
     }
     S.current = const S();
@@ -100,7 +98,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   ///
   bool _isSupported(Locale locale, bool withCountry) {
     if (locale != null) {
-      for (var supportedLocale in supportedLocales) {
+      for (final supportedLocale in supportedLocales) {
         // Language must always match both locales.
         if (supportedLocale.languageCode != locale.languageCode) {
           continue;
@@ -122,7 +120,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
 }
 
 String getLang(Locale l) => l == null
-  ? null
-  : l.countryCode != null && l.countryCode.isEmpty
-    ? l.languageCode
-    : l.toString();
+    ? null
+    : l.countryCode != null && l.countryCode.isEmpty
+        ? l.languageCode
+        : l.toString();
