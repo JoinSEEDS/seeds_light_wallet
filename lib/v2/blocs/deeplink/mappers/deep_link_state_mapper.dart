@@ -1,3 +1,4 @@
+import 'package:seeds/v2/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/v2/utils/string_extension.dart';
 import 'package:seeds/v2/blocs/deeplink/model/deep_link_data.dart';
 import 'package:seeds/v2/blocs/deeplink/model/guardian_recovery_request_data.dart';
@@ -37,6 +38,21 @@ class DeepLinkStateMapper extends StateMapper {
         case DeepLinkPlaceHolder.LINK_UNKNOWN:
           // Don't know how to handle this link. Return current state
           return currentState;
+      }
+    }
+  }
+
+  DeeplinkState mapSigningRequestToState(DeeplinkState currentState, Result result) {
+    if (result.isError) {
+      return currentState;
+    } else {
+      final esr = result.asValue!.value as ScanQrCodeResultData;
+      if (!settingsStorage.accountName.isNullOrEmpty) {
+        // handle invite link. Send user to memonic screen.
+        return currentState.copyWith(signingRequest: esr);
+      } else {
+        //  If user is not logged in, Ignore esr link
+        return currentState;
       }
     }
   }
