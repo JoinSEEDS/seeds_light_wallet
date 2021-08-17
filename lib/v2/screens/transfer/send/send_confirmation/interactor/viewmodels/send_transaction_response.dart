@@ -8,7 +8,7 @@ class TransferData {}
 class SendTransactionResponse {
   final GenericTransactionModel transactionModel;
   final List<Result>? profiles;
-
+  
   bool get isTransfer => TransactionModel.fromTransaction(transactionModel) != null;
   TransactionModel? get transferTransactionModel => TransactionModel.fromTransaction(transactionModel);
   ProfileModel? get parseToUser => profiles?[0].asValue?.value as ProfileModel?;

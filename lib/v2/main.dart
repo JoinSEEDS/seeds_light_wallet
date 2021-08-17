@@ -19,11 +19,11 @@ import 'package:seeds/v2/domain-shared/bloc_observer.dart';
 import 'package:seeds/v2/navigation/navigation_service.dart';
 import 'package:seeds/v2/screens/app/app.dart';
 import 'package:seeds/v2/screens/authentication/login_screen.dart';
+import 'package:seeds/v2/screens/authentication/splash_screen.dart';
+import 'package:seeds/v2/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/v2/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/v2/screens/onboarding/onboarding_screen.dart';
-import 'package:seeds/v2/screens/sign_up/signup_screen.dart';
 import 'package:seeds/v2/seeds_material_app.dart';
-import 'package:seeds/v2/screens/splash_screen.dart';
 
 bool get isInDebugMode {
   var inDebugMode = false;
