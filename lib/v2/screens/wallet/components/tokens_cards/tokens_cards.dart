@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/screens/wallet/components/receive_send_buttons.dart';

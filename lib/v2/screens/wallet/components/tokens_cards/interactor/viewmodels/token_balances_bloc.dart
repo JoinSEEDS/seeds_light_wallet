@@ -15,9 +15,13 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
   StreamSubscription? eventBusSubscription;
 
   TokenBalancesBloc() : super(TokenBalancesState.initial()) {
-    eventBusSubscription = eventBus.on<OnNewTransactionEventBus>().listen((event) async {
-      await Future.delayed(const Duration(milliseconds: 500)); // the blockchain needs 0.5 seconds to process
-      add(const OnLoadTokenBalances());
+    eventBusSubscription = eventBus.on().listen((event) async {
+      if (event is OnNewTransactionEventBus) {
+        await Future.delayed(const Duration(milliseconds: 500)); // the blockchain needs 0.5 seconds to process
+        add(const OnLoadTokenBalances());
+      } else if (event is OnFiatCurrencyChangedEventBus) {
+        add(const OnFiatCurrencyChanged());
+      }
     });
   }
 
@@ -39,6 +43,9 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
       yield TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
     } else if (event is OnSelectedTokenChanged) {
       yield state.copyWith(selectedIndex: event.index);
+    } else if (event is OnFiatCurrencyChanged) {
+      yield state.copyWith(pageState: PageState.loading);
+      yield state.copyWith(pageState: PageState.success);
     }
   }
 }

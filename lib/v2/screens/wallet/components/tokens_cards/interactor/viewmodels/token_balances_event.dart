@@ -16,6 +16,13 @@ class OnLoadTokenBalances extends TokenBalancesEvent {
   String toString() => 'OnLoadTokenBalances';
 }
 
+class OnFiatCurrencyChanged extends TokenBalancesEvent {
+  const OnFiatCurrencyChanged();
+
+  @override
+  String toString() => 'OnFiatCurrencyChanged';
+}
+
 class OnSelectedTokenChanged extends TokenBalancesEvent {
   final int index;
 
