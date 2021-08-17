@@ -13,7 +13,6 @@ class SendConfirmationState extends Equatable {
   final String actionName;
   final Map<String, dynamic> data;
   final List<SendInfoLineItems> lineItems;
-  final int popsOnDone;
 
   bool get isTransfer => actionName == transfer_action;
 
@@ -25,11 +24,10 @@ class SendConfirmationState extends Equatable {
     required this.actionName,
     required this.lineItems,
     required this.data,
-    required this.popsOnDone,
   });
 
   @override
-  List<Object?> get props => [pageState, pageCommand, errorMessage, account, actionName, data, popsOnDone];
+  List<Object?> get props => [pageState, pageCommand, errorMessage, account, actionName, data];
 
   SendConfirmationState copyWith({
     PageState? pageState,
@@ -49,7 +47,6 @@ class SendConfirmationState extends Equatable {
       actionName: actionName ?? this.actionName,
       lineItems: lineItems ?? this.lineItems,
       data: data ?? this.data,
-      popsOnDone: popsOnDone ?? this.popsOnDone,
     );
   }
 
@@ -60,7 +57,6 @@ class SendConfirmationState extends Equatable {
       actionName: arguments.name,
       data: arguments.data,
       lineItems: [],
-      popsOnDone: arguments.pops,
     );
   }
 }
