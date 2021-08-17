@@ -1,7 +1,7 @@
 class ScanQrCodeResultData {
   final Map<String, dynamic> data;
   final String accountName;
-  final String name;
+  final String actionName;
 
-  ScanQrCodeResultData({required this.data, required this.accountName, required this.name});
+  ScanQrCodeResultData({required this.data, required this.accountName, required this.actionName});
 }

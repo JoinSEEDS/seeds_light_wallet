@@ -19,13 +19,14 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
           pageState: PageState.success,
           lineItems:
               state.data.entries.map((e) => SendInfoLineItems(label: e.key.inCaps, text: e.value.toString())).toList(),
-          name: state.name,
+          actionName: state.actionName,
           account: state.account,
           data: state.data);
     } else if (event is SendTransactionEvent) {
       yield state.copyWith(pageState: PageState.loading);
 
-      final Result result = await SendTransactionUseCase().run(state.name, state.account, state.data);
+      final Result result =
+          await SendTransactionUseCase().run(actionName: state.actionName, account: state.account, data: state.data);
 
       yield SendTransactionStateMapper().mapResultToState(state, result, event.rates);
     }

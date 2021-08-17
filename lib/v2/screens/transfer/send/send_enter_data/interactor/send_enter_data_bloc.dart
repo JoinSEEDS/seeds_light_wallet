@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/model/member_model.dart';
+import 'package:seeds/v2/domain-shared/app_constants.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
@@ -48,12 +49,16 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
     } else if (event is OnSendButtonTapped) {
       yield state.copyWith(pageState: PageState.loading, showSendingAnimation: true);
 
-      final Result result = await SendTransactionUseCase().run("transfer", 'token.seeds', {
-        'from': settingsStorage.accountName,
-        'to': state.sendTo.account,
-        'quantity': '${state.quantity.toStringAsFixed(4)} $currencySeedsCode',
-        'memo': state.memo,
-      });
+      final Result result = await SendTransactionUseCase().run(
+        actionName: transfer_action,
+        account: 'token.seeds',
+        data: {
+          'from': settingsStorage.accountName,
+          'to': state.sendTo.account,
+          'quantity': '${state.quantity.toStringAsFixed(4)} $currencySeedsCode',
+          'memo': state.memo,
+        },
+      );
 
       yield SendTransactionMapper().mapResultToState(state, result);
     } else if (event is ClearPageCommand) {

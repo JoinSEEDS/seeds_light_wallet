@@ -15,6 +15,7 @@ import 'package:seeds/v2/datasource/remote/model/member_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
+import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/generic_transaction_success_diaog.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/v2/screens/transfer/send/send_enter_data/components/send_confirmation_dialog.dart';
@@ -57,26 +58,31 @@ class SendEnterDataScreen extends StatelessWidget {
                 memo: command.memo,
               ),
             );
+          } else if (command is ShowTransferSuccess) {
+            showDialog<void>(
+              context: context,
+              barrierDismissible: false, // user must tap button
+              builder: (BuildContext buildContext) => SendTransactionSuccessDialog.fromPageCommand(
+                onCloseButtonPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                pageCommand: command,
+              ),
+            );
           } else if (command is ShowTransactionSuccess) {
             showDialog<void>(
               context: context,
               barrierDismissible: false, // user must tap button
-              builder: (BuildContext buildContext) => SendTransactionSuccessDialog(
-                  onCloseButtonPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                  currency: command.currency,
-                  amount: command.amount,
-                  fiatAmount: command.fiatAmount,
-                  fromAccount: command.fromAccount,
-                  fromImage: command.fromImage,
-                  fromName: command.fromName,
-                  toAccount: command.toAccount,
-                  toImage: command.toImage,
-                  toName: command.toName,
-                  transactionID: command.transactionId),
+              builder: (BuildContext buildContext) => GenericTransactionSuccessDialog(
+                transaction: command.transactionModel,
+                onCloseButtonPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+              ),
             );
           }
         },

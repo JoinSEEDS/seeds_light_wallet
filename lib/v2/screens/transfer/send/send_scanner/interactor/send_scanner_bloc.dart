@@ -29,7 +29,7 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
 
           final args = SendConfirmationArguments(
             account: value.accountName,
-            name: value.name,
+            name: value.actionName,
             data: value.data,
           );
 
