@@ -8,7 +8,8 @@ extension Localization on String {
           'Invite a Friend': 'Invita un amigo',
           'Plant Seeds': 'Seeds plantadas',
           'Vote': 'Votar',
-          'Uh oh! Something went wrong...': '¡UH oh! Algo salió mal...'
+          'Uh oh! Something went wrong...': '¡UH oh! Algo salió mal...',
+          'Get Seeds': "Conseguir Seeds",
         }
       };
 
