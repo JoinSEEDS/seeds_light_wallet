@@ -9,6 +9,15 @@ class TokenBalanceViewModel {
 
   const TokenBalanceViewModel(this.token, this.balance, {this.errorLoading = false});
 
-  String get displayQuantity =>
-      errorLoading || balance == null ? "..." : '${balance!.quantity.seedsFormatted}  ${token.symbol}';
+  String get displayQuantity {
+    if (errorLoading || balance == null) {
+      return "...";
+    } else {
+      if (token.precision == 2) {
+        return "${twoDigitNumberFormat.format(balance!.quantity)} ${token.symbol}";
+      } else {
+        return '${balance!.quantity.seedsFormatted}  ${token.symbol}';
+      }
+    }
+  }
 }
