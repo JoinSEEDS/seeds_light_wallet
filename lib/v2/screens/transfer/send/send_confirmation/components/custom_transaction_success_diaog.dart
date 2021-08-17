@@ -2,58 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:seeds/v2/datasource/remote/model/generic_transaction_model.dart';
 import 'package:seeds/v2/design/app_theme.dart';
 import 'package:seeds/v2/components/custom_dialog.dart';
 import 'package:seeds/v2/components/profile_avatar.dart';
 import 'package:seeds/v2/constants/app_colors.dart';
 import 'package:seeds/v2/i18n/transfer/transfer.i18n.dart';
-import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
-import 'package:seeds/v2/utils/double_extension.dart';
 
-class SendTransactionSuccessDialog extends StatelessWidget {
-  final String amount;
-  final String currency;
-  final String? fiatAmount;
-  final String? toImage;
-  final String? toName;
-  final String toAccount;
-  final String? fromImage;
-  final String? fromName;
-  final String fromAccount;
-  final String transactionID;
+class CustomTransactionSuccessDialog extends StatelessWidget {
+  final GenericTransactionModel transaction;
   final VoidCallback onCloseButtonPressed;
 
-  const SendTransactionSuccessDialog({
+  const CustomTransactionSuccessDialog({
     Key? key,
-    required this.amount,
-    required this.currency,
-    this.fiatAmount,
-    this.toImage,
-    this.toName,
-    required this.toAccount,
-    this.fromImage,
-    this.fromName,
-    required this.fromAccount,
-    required this.transactionID,
+    required this.transaction,
     required this.onCloseButtonPressed,
   }) : super(key: key);
-
-  factory SendTransactionSuccessDialog.fromPageCommand(
-      {required VoidCallback onCloseButtonPressed, required ShowTransferSuccess pageCommand}) {
-    return SendTransactionSuccessDialog(
-      onCloseButtonPressed: onCloseButtonPressed,
-      currency: pageCommand.transactionModel.symbol,
-      amount: pageCommand.transactionModel.doubleQuantity.seedsFormatted,
-      fiatAmount: pageCommand.fiatQuantity.fiatFormatted,
-      fromAccount: pageCommand.transactionModel.from,
-      fromImage: pageCommand.from?.image ?? "",
-      fromName: pageCommand.from?.nickname ?? pageCommand.transactionModel.from,
-      toAccount: pageCommand.transactionModel.to,
-      toImage: pageCommand.to?.image ?? "",
-      toName: pageCommand.to?.nickname ?? pageCommand.transactionModel.to,
-      transactionID: pageCommand.transactionModel.transactionId ?? "",
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,29 +28,50 @@ class SendTransactionSuccessDialog extends StatelessWidget {
           onSingleLargeButtonPressed: onCloseButtonPressed,
           singleLargeButtonTitle: 'Close'.i18n,
           children: [
-            const SizedBox(height: 6),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(amount, style: Theme.of(context).textTheme.headline4),
+                Text(transaction.action, style: Theme.of(context).textTheme.headline4),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 14, left: 4),
-                  child: Text(currency, style: Theme.of(context).textTheme.subtitle2),
+                  padding: const EdgeInsets.only(top: 20, left: 4),
+                  child: Text(transaction.account, style: Theme.of(context).textTheme.subtitle2),
                 ),
               ],
             ),
-            Text(fiatAmount != null ? fiatAmount! : "", style: Theme.of(context).textTheme.subtitle2),
             const SizedBox(height: 30.0),
-            DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To".i18n),
-            const SizedBox(height: 30.0),
-            DialogRow(imageUrl: fromImage, account: fromAccount, name: fromName, toOrFromText: "From".i18n),
+            Column(
+              children: <Widget>[
+                ...transaction.lineItems
+                    .map(
+                      (e) => Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              e.label!,
+                              style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                            ),
+                            Text(e.text.toString(), style: Theme.of(context).textTheme.subtitle2),
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ],
+            ),
             const SizedBox(height: 30.0),
             Row(
               children: [
                 Text('Date:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Text(
-                  DateFormat('dd MMMM yyyy').format(DateTime.now()),
+                  DateFormat('dd MMMM yyyy HH:mm').format(transaction.timestamp?.toLocal() ?? DateTime.now()),
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
               ],
@@ -97,7 +82,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
-                    transactionID,
+                    transaction.transactionId ?? "",
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
@@ -106,7 +91,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                   icon: const Icon(Icons.copy),
                   color: AppColors.lightGreen6,
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(text: transactionID)).then(
+                    Clipboard.setData(ClipboardData(text: transaction.transactionId ?? "No transaction ID")).then(
                       (_) {
                         ScaffoldMessenger.maybeOf(context)!
                             .showSnackBar(SnackBar(content: Text("Copied".i18n), duration: const Duration(seconds: 1)));

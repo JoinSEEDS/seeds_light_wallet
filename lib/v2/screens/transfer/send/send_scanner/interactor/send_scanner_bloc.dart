@@ -16,31 +16,27 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
   @override
   Stream<SendPageState> mapEventToState(SendPageEvent event) async* {
     if (event is ExecuteScanResult) {
-      // If we are loading, dont handle any upcoming commands
-      if (state.pageState != PageState.loading) {
-        yield state.copyWith(pageState: PageState.loading);
+      yield state.copyWith(pageState: PageState.loading);
 
-        final Result result = await ProcessScanResultUseCase().run(event.scanResult);
+      final Result result = await ProcessScanResultUseCase().run(event.scanResult);
 
-        if (result is ErrorResult) {
-          yield state.copyWith(pageState: PageState.failure, errorMessage: result.error.toString());
-        } else {
-          final value = result.asValue!.value as ScanQrCodeResultData;
+      if (result is ErrorResult) {
+        yield state.copyWith(pageState: PageState.failure, errorMessage: result.error.toString());
+      } else {
+        final value = result.asValue!.value as ScanQrCodeResultData;
 
-          final args = SendConfirmationArguments(
-            account: value.accountName,
-            name: value.name,
-            data: value.data,
-          );
+        final args = SendConfirmationArguments(
+          account: value.accountName,
+          name: value.actionName,
+          data: value.data,
+          pops: 3,
+        );
 
-          yield state.copyWith(
-            pageState: PageState.success,
-            pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmationScreen, arguments: args),
-          );
-        }
+        yield state.copyWith(
+          pageState: PageState.success,
+          pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmationScreen, arguments: args),
+        );
       }
-    } else if (event is ClearPageCommand) {
-      yield state.copyWith();
     }
   }
 }

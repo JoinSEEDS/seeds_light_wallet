@@ -1,42 +1,30 @@
+import 'package:seeds/v2/datasource/remote/model/generic_transaction_model.dart';
+import 'package:seeds/v2/datasource/remote/model/profile_model.dart';
+import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
 import 'package:seeds/v2/domain-shared/page_command.dart';
 
-class ShowTransactionSuccess extends PageCommand {
-  final String amount;
-  final String currency;
-  final String? fiatAmount;
-  final String? toImage;
-  final String? toName;
-  final String toAccount;
-  final String? fromImage;
-  final String? fromName;
-  final String fromAccount;
-  final String transactionId;
+abstract class TransactionPageCommand extends PageCommand {}
+
+class ShowTransactionSuccess extends TransactionPageCommand {
+  final GenericTransactionModel transactionModel;
 
   ShowTransactionSuccess({
-    required this.amount,
-    required this.currency,
-    this.fiatAmount,
-    this.toImage,
-    this.toName,
-    required this.toAccount,
-    this.fromImage,
-    this.fromName,
-    required this.fromAccount,
-    required this.transactionId,
+    required this.transactionModel,
   });
+}
 
-  ShowTransactionSuccess.withoutServerUserData({
-    required String amount,
-    required String currency,
-    required String toAccount,
-    required String fromAccount,
-    required String transactionId,
-    String? fiatAmount,
-  }) : this(
-            amount: amount,
-            currency: currency,
-            toAccount: toAccount,
-            fromAccount: fromAccount,
-            transactionId: transactionId,
-            fiatAmount: fiatAmount);
+class ShowTransferSuccess extends TransactionPageCommand {
+  final TransactionModel transactionModel;
+  ProfileModel? from;
+  ProfileModel? to;
+  double quantity;
+  double fiatQuantity;
+
+  ShowTransferSuccess({
+    required this.transactionModel,
+    this.from,
+    this.to,
+    required this.quantity,
+    required this.fiatQuantity,
+  });
 }

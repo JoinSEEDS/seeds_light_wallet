@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
 import 'package:seeds/v2/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/v2/datasource/remote/api/send_eos_transaction_repository.dart';
+import 'package:seeds/v2/datasource/remote/model/generic_transaction_model.dart';
 import 'package:seeds/v2/datasource/remote/model/transaction_model.dart';
 import 'package:seeds/v2/screens/transfer/send/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
 
@@ -10,14 +11,26 @@ class SendTransactionUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
   final fromAccount = settingsStorage.accountName;
 
-  Future<Result> run(String? toName, String account, Map<String, dynamic> data) {
-    return _sendTransactionRepository.sendTransaction(toName, account, data, fromAccount).then((Result value) async {
+  Future<Result> run({required String actionName, required String account, required Map<String, dynamic> data}) {
+    return _sendTransactionRepository
+        .sendTransaction(actionName: actionName, account: account, data: data, accountName: fromAccount)
+        .then((Result value) async {
       if (value.isError) {
         return value;
       } else {
-        final List<Result> profiles = await getProfileData(data['to'], fromAccount);
-        final transactionModel = TransactionModel.fromTxData(data, value.asValue!.value);
-        return ValueResult(SendTransactionResponse(profiles, value, transactionModel));
+        final String transactionId = value.asValue!.value;
+        final transactionModel = GenericTransactionModel(
+            account: account,
+            action: actionName,
+            data: data,
+            transactionId: transactionId,
+            timestamp: DateTime.now().toUtc());
+        final transferModel = TransactionModel.fromTransaction(transactionModel);
+        List<Result> profiles = [];
+        if (transferModel != null) {
+          profiles = await getProfileData(transferModel.to, fromAccount);
+        }
+        return ValueResult(SendTransactionResponse(transactionModel: transactionModel, profiles: profiles));
       }
     }).catchError((error) {
       return ErrorResult("Error Sending Transaction");
@@ -27,7 +40,6 @@ class SendTransactionUseCase {
   Future<List<Result>> getProfileData(String toAccount, fromAccount) async {
     final Future<Result> toAccountResult = _profileRepository.getProfile(toAccount);
     final Future<Result> fromAccountResult = _profileRepository.getProfile(fromAccount);
-
     return Future.wait([toAccountResult, fromAccountResult]);
   }
 }
