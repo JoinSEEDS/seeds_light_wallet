@@ -44,4 +44,3 @@ For iOS App store release, we build with XCode - but before running the XCode bu
 
 2 - Build with XCode for App store distrubution as usual
 
-x
