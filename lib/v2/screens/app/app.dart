@@ -109,8 +109,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             } else if (pageCommand is ShowMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-            } else if (pageCommand is ProcessSigningRequest) {
-              // TODO(gguij002): Is this needed?
+            } else if (pageCommand is NavigateToRouteWithArguments) {
+              NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
             }
           },
           builder: (context, state) {
