@@ -49,7 +49,7 @@ const HusdToken = TokenModel(
   symbol: "HUSD",
   name: "HUSD",
   backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
-  logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
+  logo: 'assets/images/wallet/currency_info_cards/husd/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
   precision: 2,
 );
