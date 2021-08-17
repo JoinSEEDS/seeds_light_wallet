@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/v2/datasource/local/settings_storage.dart';
+import 'package:seeds/v2/domain-shared/event_bus/event_bus.dart';
+import 'package:seeds/v2/domain-shared/event_bus/events.dart';
 import 'package:seeds/v2/domain-shared/page_state.dart';
 import 'package:seeds/v2/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/v2/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
@@ -47,6 +49,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       // Change the state to trigger repaint
       yield state.copyWith(pageState: PageState.loading);
       yield state.copyWith(pageState: PageState.success);
+      eventBus.fire(const OnFiatCurrencyChangedEventBus());
     }
     if (event is OnProfileLogoutButtonPressed) {
       yield state.copyWith(pageCommand: ShowLogoutDialog());
