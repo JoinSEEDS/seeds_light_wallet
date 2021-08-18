@@ -48,8 +48,8 @@ const HusdToken = TokenModel(
   contract: "husd.hypha",
   symbol: "HUSD",
   name: "HUSD",
-  backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
-  logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
+  backgroundImage: 'assets/images/wallet/currency_info_cards/husd/background.jpg',
+  logo: 'assets/images/wallet/currency_info_cards/husd/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
   precision: 2,
 );
@@ -70,7 +70,7 @@ const LocalScaleToken = TokenModel(
   contract: "token.local",
   symbol: "LSCL",
   name: "LocalScale",
-  backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
-  logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
+  backgroundImage: 'assets/images/wallet/currency_info_cards/lscl/background.jpg',
+  logo: 'assets/images/wallet/currency_info_cards/lscl/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
 );
