@@ -4,6 +4,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
+import 'package:seeds/images/vote/double_sided_arrow.dart';
 import 'package:seeds/images/vote/proposal_category.dart';
 import 'package:seeds/images/vote/triangle_pass_value.dart';
 import 'package:seeds/images/vote/votes_down_arrow.dart';
@@ -64,14 +65,16 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                             children: [
                               Row(
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(right: 6.0),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 6.0),
                                     child: CustomPaint(
-                                      size: Size(28, 28),
-                                      painter: VotesUpArrow(
-                                        circleColor: AppColors.lightGreen3,
-                                        arrowColor: AppColors.green3,
-                                      ),
+                                      size: const Size(28, 28),
+                                      painter: widget.proposal.stage == 'staged'
+                                          ? const DoubleSidedArrow()
+                                          : const VotesUpArrow(
+                                              circleColor: AppColors.lightGreen3,
+                                              arrowColor: AppColors.green3,
+                                            ),
                                     ),
                                   ),
                                   Flexible(
