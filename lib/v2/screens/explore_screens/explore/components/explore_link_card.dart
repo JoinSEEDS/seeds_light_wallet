@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
+import 'package:seeds/v2/i18n/explore_screens/explore/explore.i18n.dart';
+import 'package:seeds/v2/design/app_theme.dart';
 
 class ExploreLinkCard extends StatelessWidget {
   final String backgroundImage;
@@ -20,6 +22,10 @@ class ExploreLinkCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
           image: DecorationImage(image: AssetImage(backgroundImage), fit: BoxFit.cover),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50),
+          child: Center(child: Text("Get Seeds".i18n, style: Theme.of(context).textTheme.buttonWhiteL)),
         ),
       ),
     );
