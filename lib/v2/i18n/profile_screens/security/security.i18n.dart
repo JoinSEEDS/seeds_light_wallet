@@ -17,9 +17,9 @@ extension Localization on String {
           'Touch ID/ Face ID': 'Identifición de Toque/ Identifición de Rostro',
           'When Touch ID/Face ID has been set up, any biometric saved in your device will be able to login into the Seeds Light Wallet. You will not be able to use this feature for transactions.':
               "Cuando se haya configurado Identifición de Toque/ Identifición de Rostro, cualquier biométrico guardado en su dispositivo podrá iniciar sesión en Seeds Light Wallet. No podrá utilizar esta función para transacciones.",
-          "Active": '',
-          'Inactive': '',
-          'Ready To Activate': '',
+          "Active": 'Activo',
+          'Inactive': 'Inactivo',
+          'Ready To Activate': 'Listo Para Activar',
           'Key Guardians': "Guardianes De LLave",
           'Choose 3 - 5 friends and/or family members to help you recover your account in case.':
               "Elija de 3 a 5 amigos y/ o familiares para ayudarlo a recuperar su cuenta en caso de que lo necesite.",

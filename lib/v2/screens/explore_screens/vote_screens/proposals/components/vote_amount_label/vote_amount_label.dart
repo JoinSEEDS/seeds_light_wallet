@@ -36,13 +36,27 @@ class VoteAmountLabel extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                   child: state.amount > 0
-                      ? Text('+${state.amount} ' 'voted'.i18n,
-                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen)
-                      : Text(
-                          '${state.amount} ' 'voted'.i18n,
-                          style: state.amount == 0
-                              ? Theme.of(context).textTheme.subtitle3Opacity
-                              : Theme.of(context).textTheme.subtitle3OpacityEmphasisRed,
+                      ? Row(
+                          children: [
+                            Text('+${state.amount} ', style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen),
+                            Text('voted'.i18n, style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen)
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            Text(
+                              '${state.amount} ',
+                              style: state.amount == 0
+                                  ? Theme.of(context).textTheme.subtitle3Opacity
+                                  : Theme.of(context).textTheme.subtitle3OpacityEmphasisRed,
+                            ),
+                            Text(
+                              'voted'.i18n,
+                              style: state.amount == 0
+                                  ? Theme.of(context).textTheme.subtitle3Opacity
+                                  : Theme.of(context).textTheme.subtitle3OpacityEmphasisRed,
+                            )
+                          ],
                         ),
                 ),
               );

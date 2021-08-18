@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/v2/domain-shared/ui_constants.dart';
 import 'package:seeds/v2/images/vote/proposal_category.dart';
 import 'package:seeds/v2/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
+import 'package:seeds/v2/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 
 class ProposalDetailsHeader extends StatelessWidget {
   const ProposalDetailsHeader({Key? key}) : super(key: key);
@@ -60,7 +61,7 @@ class ProposalDetailsHeader extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                     child: Text(
-                      state.proposals[state.currentIndex].campaignTypeLabel,
+                      state.proposals[state.currentIndex].campaignTypeLabel.i18n,
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                   ),

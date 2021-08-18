@@ -9,7 +9,7 @@ extension Localization on String {
           "Upgrading account ...": 'Actualizando cuenta ...',
           'Visitor': 'Visitante',
           'Resident': 'Residente',
-          'to': 'a',
+          'to': 'A',
           'Citizen': 'Ciudadano',
           'You are on the way from': 'Estás en el camino de',
           'View your progress': 'Ver tu progreso',

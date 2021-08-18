@@ -15,7 +15,9 @@ extension Localization on String {
           'In favour': 'A favor',
           'Votes': 'votos',
           'Against': 'En contra',
-          'voted': 'votos'
+          'voted': 'votos',
+          'alliance': 'Alianza',
+          'Campaign': 'Campaña',
         }
       };
 
