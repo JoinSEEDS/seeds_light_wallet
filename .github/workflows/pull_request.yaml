@@ -59,7 +59,7 @@ jobs:
 #      - run: flutter pub get
 #      - name: build iOS package
 #        run: |
-#          flutter build ios --release --no-codesign --no-sound-null-safety lib/v2/main.dart
+#          flutter build ios --release --no-codesign --no-sound-null-safety lib/main.dart
   build-Android:
     name: Build Android package
     runs-on: ubuntu-latest
@@ -74,4 +74,4 @@ jobs:
       - run: flutter pub get
       - name: Build apk package
         run: |
-          flutter build apk --no-sound-null-safety --debug lib/v2/main.dart
+          flutter build apk --no-sound-null-safety --debug lib/main.dart
