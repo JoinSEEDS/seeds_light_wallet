@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seeds/v2/datasource/local/util/seeds_esr.dart';
+import 'package:seeds/datasource/local/util/seeds_esr.dart';
 
 void main() {
   group('dartesr', () {
