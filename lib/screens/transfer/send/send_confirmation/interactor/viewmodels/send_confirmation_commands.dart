@@ -17,14 +17,14 @@ class ShowTransferSuccess extends TransactionPageCommand {
   final TransactionModel transactionModel;
   ProfileModel? from;
   ProfileModel? to;
-  String fiatSymbol;
   double fiatQuantity;
+  String fiatSymbol;
 
   ShowTransferSuccess({
     required this.transactionModel,
     this.from,
     this.to,
-    required this.fiatSymbol,
     required this.fiatQuantity,
+    required this.fiatSymbol,
   });
 }

@@ -13,8 +13,8 @@ import 'package:seeds/utils/double_extension.dart';
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
   final String tokenSymbol;
-  final String fiatCurrency;
   final String? fiatAmount;
+  final String fiatCurrency;
   final String? toImage;
   final String? toName;
   final String toAccount;
