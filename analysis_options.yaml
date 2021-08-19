@@ -20,15 +20,7 @@ analyzer:
     sdk_version_async_exported_from_core: ignore
   exclude:
     - flutter/** # Do not analyze the Flutter repository in the CI environment
-#    - lib/constants/**
-#    - lib/features/**
     - lib/generated/**
-#    - lib/providers/**
-#    - lib/i18/**
-#    - lib/models/**
-#    - lib/screens/**
-#    - lib/utils/**
-#    - lib/widgets/**
 
 linter:
   rules:
