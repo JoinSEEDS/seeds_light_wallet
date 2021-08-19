@@ -10,7 +10,7 @@ String handleInfoRowText({
   switch (currentCurrencyInput) {
     case CurrencyInput.fiat:
       return "$fiatToSeeds $currencySeedsCode";
-    case CurrencyInput.seeds:
+    case CurrencyInput.token:
       return "$seedsToFiat ${settingsStorage.selectedFiatCurrency}";
   }
 }

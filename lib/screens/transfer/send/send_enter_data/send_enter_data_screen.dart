@@ -12,6 +12,7 @@ import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_light.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
@@ -25,15 +26,23 @@ import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodel
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
 
 /// SendEnterDataScreen SCREEN
+class SendEnterDataArguments {
+  final MemberModel member;
+  final TokenModel token;
+  SendEnterDataArguments(this.member, this.token);
+}
+
+/// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {
   const SendEnterDataScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final MemberModel memberModel = ModalRoute.of(context)!.settings.arguments! as MemberModel;
+    final arguments = ModalRoute.of(context)!.settings.arguments! as SendEnterDataArguments;
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
-      create: (_) => SendEnterDataPageBloc(memberModel, rates)..add(InitSendDataArguments()),
+      create: (_) => SendEnterDataPageBloc(member: arguments.member, rates: rates, token: arguments.token)
+        ..add(InitSendDataArguments()),
       child: BlocListener<SendEnterDataPageBloc, SendEnterDataPageState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -120,9 +129,9 @@ class SendEnterDataScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               SearchResultRow(
-                                account: memberModel.account,
-                                imageUrl: memberModel.image,
-                                name: memberModel.nickname,
+                                account: arguments.member.account,
+                                imageUrl: arguments.member.image,
+                                name: arguments.member.nickname,
                               ),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
@@ -130,6 +139,7 @@ class SendEnterDataScreen extends StatelessWidget {
                                   BlocProvider.of<SendEnterDataPageBloc>(context)
                                       .add(OnAmountChange(amountChanged: value));
                                 },
+                                token: arguments.token,
                                 autoFocus: state.pageState == PageState.initial,
                               ),
                               const SizedBox(height: 24),

@@ -4,9 +4,10 @@ import 'package:seeds/components/amount_entry/interactor/mappers/amount_changer_
 import 'package:seeds/components/amount_entry/interactor/mappers/currency_change_mapper.dart';
 import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_events.dart';
 import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_state.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 
 class AmountEntryBloc extends Bloc<AmountEntryEvent, AmountEntryState> {
-  AmountEntryBloc(RatesState rates) : super(AmountEntryState.initial(rates));
+  AmountEntryBloc(RatesState rates, TokenModel token) : super(AmountEntryState.initial(rates, token));
 
   @override
   Stream<AmountEntryState> mapEventToState(AmountEntryEvent event) async* {

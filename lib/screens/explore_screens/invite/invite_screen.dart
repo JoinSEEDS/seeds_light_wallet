@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
@@ -67,6 +68,7 @@ class InviteScreen extends StatelessWidget {
                               onValueChange: (value) {
                                 BlocProvider.of<InviteBloc>(context).add(OnAmountChange(amountChanged: value));
                               },
+                              token: SeedsToken,
                               autoFocus: state.isAutoFocus,
                             ),
                             const SizedBox(height: 24),

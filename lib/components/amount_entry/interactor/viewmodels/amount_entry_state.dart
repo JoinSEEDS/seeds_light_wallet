@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/components/amount_entry/interactor/mappers/handle_info_row_text.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
 
-enum CurrencyInput { fiat, seeds }
+enum CurrencyInput { fiat, token }
 
 extension DecimalPrecision on CurrencyInput {
   int toDecimalPrecision() {
     switch (this) {
       case CurrencyInput.fiat:
         return 2;
-      case CurrencyInput.seeds:
+      case CurrencyInput.token:
         return 4;
     }
   }
@@ -21,6 +21,7 @@ class AmountEntryState extends Equatable {
   final CurrencyInput currentCurrencyInput;
   final RatesState ratesState;
   final PageCommand? pageCommand;
+  final TokenModel token;
   final String infoRowText;
   final String enteringCurrencyName;
   final String seedsAmount;
@@ -31,10 +32,11 @@ class AmountEntryState extends Equatable {
   const AmountEntryState({
     required this.currentCurrencyInput,
     required this.ratesState,
+    this.pageCommand,
+    required this.token,
     required this.infoRowText,
     required this.enteringCurrencyName,
     required this.seedsAmount,
-    this.pageCommand,
     required this.fiatToSeeds,
     required this.seedsToFiat,
     required this.textInput,
@@ -51,11 +53,13 @@ class AmountEntryState extends Equatable {
         textInput,
         infoRowText,
         enteringCurrencyName,
+        token,
       ];
 
   AmountEntryState copyWith({
     CurrencyInput? currentCurrencyInput,
     RatesState? ratesState,
+    TokenModel? token,
     String? infoRowText,
     String? enteringCurrencyName,
     String? seedsAmount,
@@ -74,15 +78,17 @@ class AmountEntryState extends Equatable {
       fiatToSeeds: fiatToSeeds ?? this.fiatToSeeds,
       seedsToFiat: seedsToFiat ?? this.seedsToFiat,
       textInput: textInput ?? this.textInput,
+      token: token ?? this.token,
     );
   }
 
-  factory AmountEntryState.initial(RatesState ratesState) {
+  factory AmountEntryState.initial(RatesState ratesState, TokenModel token) {
     return AmountEntryState(
-        currentCurrencyInput: CurrencyInput.seeds,
+        currentCurrencyInput: CurrencyInput.token,
         ratesState: ratesState,
-        infoRowText: handleInfoRowText(currentCurrencyInput: CurrencyInput.seeds, fiatToSeeds: "0", seedsToFiat: "0"),
-        enteringCurrencyName: currencySeedsCode,
+        token: token,
+        infoRowText: handleInfoRowText(currentCurrencyInput: CurrencyInput.token, fiatToSeeds: "0", seedsToFiat: "0"),
+        enteringCurrencyName: token.symbol,
         seedsAmount: "0",
         fiatToSeeds: "0",
         seedsToFiat: "0",

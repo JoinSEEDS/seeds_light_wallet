@@ -7,6 +7,7 @@ import 'package:seeds/domain-shared/page_state.dart';
 
 class SendEnterDataPageState extends Equatable {
   final PageState pageState;
+  final TokenModel token;
   final PageCommand? pageCommand;
   final String? errorMessage;
   final MemberModel sendTo;
@@ -24,6 +25,7 @@ class SendEnterDataPageState extends Equatable {
 
   const SendEnterDataPageState({
     required this.pageState,
+    required this.token,
     this.pageCommand,
     this.errorMessage,
     required this.sendTo,
@@ -43,6 +45,7 @@ class SendEnterDataPageState extends Equatable {
   @override
   List<Object?> get props => [
         pageState,
+        token,
         pageCommand,
         errorMessage,
         sendTo,
@@ -61,6 +64,7 @@ class SendEnterDataPageState extends Equatable {
 
   SendEnterDataPageState copyWith({
     PageState? pageState,
+    TokenModel? token,
     PageCommand? pageCommand,
     String? errorMessage,
     MemberModel? sendTo,
@@ -78,6 +82,7 @@ class SendEnterDataPageState extends Equatable {
   }) {
     return SendEnterDataPageState(
       pageState: pageState ?? this.pageState,
+      token: token ?? this.token,
       pageCommand: pageCommand,
       errorMessage: errorMessage,
       sendTo: sendTo ?? this.sendTo,
@@ -95,11 +100,12 @@ class SendEnterDataPageState extends Equatable {
     );
   }
 
-  factory SendEnterDataPageState.initial(MemberModel memberModel, RatesState ratesState) {
+  factory SendEnterDataPageState.initial(MemberModel memberModel, RatesState ratesState, TokenModel token) {
     return SendEnterDataPageState(
       pageState: PageState.initial,
       sendTo: memberModel,
       ratesState: ratesState,
+      token: token,
       isNextButtonEnabled: false,
       quantity: 0,
       memo: '',

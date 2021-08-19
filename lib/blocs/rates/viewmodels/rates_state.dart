@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/fiat_rate_model.dart';
 import 'package:seeds/datasource/remote/model/rate_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 /// --- STATES
@@ -42,4 +43,9 @@ class RatesState extends Equatable {
   factory RatesState.initial() {
     return const RatesState(pageState: PageState.initial);
   }
+
+  bool canConvert(TokenModel token) {
+    return token == SeedsToken;
+  }
+
 }
