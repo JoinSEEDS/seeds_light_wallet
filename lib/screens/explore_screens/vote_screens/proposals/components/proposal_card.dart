@@ -224,6 +224,19 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
           ),
           if (widget.proposal.stage != 'staged')
             Positioned(top: 10.0, right: 26.0, child: VoteAmountLabel(widget.proposal.id)),
+          if (widget.proposal.stage == 'done')
+            Positioned(
+              top: 10.0,
+              left: 26.0,
+              child: Container(
+                decoration: BoxDecoration(color: AppColors.darkGreen2, borderRadius: BorderRadius.circular(6.0)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                  child: Text(widget.proposal.status.toUpperCase(),
+                      style: Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen),
+                ),
+              ),
+            )
         ],
       ),
     );
