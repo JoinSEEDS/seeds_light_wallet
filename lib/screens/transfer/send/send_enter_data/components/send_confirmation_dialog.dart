@@ -4,12 +4,12 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
   final String amount;
-  final String currency;
+  final String tokenSymbol;
+  final String fiatCurrency;
   final String? fiatAmount;
   final String? toImage;
   final String? toName;
@@ -19,8 +19,9 @@ class SendConfirmationDialog extends StatelessWidget {
 
   const SendConfirmationDialog({
     Key? key,
-    required this.currency,
     required this.amount,
+    required this.tokenSymbol,
+    required this.fiatCurrency,
     this.fiatAmount,
     this.toImage,
     this.toName,
@@ -58,11 +59,11 @@ class SendConfirmationDialog extends StatelessWidget {
             Text(amount, style: Theme.of(context).textTheme.headline4),
             Padding(
               padding: const EdgeInsets.only(top: 14, left: 4),
-              child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2),
+              child: Text(tokenSymbol, style: Theme.of(context).textTheme.subtitle2),
             ),
           ],
         ),
-        Text(fiatAmount != null ? fiatAmount! : "", style: Theme.of(context).textTheme.subtitle2),
+        Text(fiatAmount != null ? "$fiatAmount $fiatCurrency" : "", style: Theme.of(context).textTheme.subtitle2),
         const SizedBox(height: 30.0),
         DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To".i18n),
         const SizedBox(height: 24.0),

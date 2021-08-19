@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
@@ -38,11 +39,12 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
         shouldAutoFocusEnterField: false,
         pageCommand: ShowSendConfirmDialog(
           amount: state.quantity.toString(),
+          tokenSymbol: SeedsToken.symbol,
           toAccount: state.sendTo.account,
           memo: state.memo,
           toName: state.sendTo.nickname,
           toImage: state.sendTo.image,
-          currency: settingsStorage.selectedFiatCurrency,
+          fiatCurrency: settingsStorage.selectedFiatCurrency,
           fiatAmount: state.fiatAmount,
         ),
       );
