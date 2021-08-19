@@ -25,7 +25,7 @@ class ReceiveSendButtons extends StatelessWidget {
                   child: MaterialButton(
                     padding: const EdgeInsets.only(top: 14, bottom: 14),
                     onPressed: state.selectedIndex == 0
-                        ? () => NavigationService.of(context).navigateTo(Routes.transfer)
+                        ? () => NavigationService.of(context).navigateTo(Routes.transfer, state.selectedToken)
                         : null,
                     color: AppColors.green1,
                     disabledColor: AppColors.green1,

@@ -11,8 +11,6 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_light.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
@@ -21,16 +19,10 @@ import 'package:seeds/screens/transfer/send/send_confirmation/components/send_tr
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/components/send_confirmation_dialog.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/send_enter_data_bloc.dart';
+import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_arguments.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_events.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/show_send_confirm_dialog_data.dart';
-
-/// SendEnterDataScreen SCREEN
-class SendEnterDataArguments {
-  final MemberModel member;
-  final TokenModel token;
-  SendEnterDataArguments(this.member, this.token);
-}
 
 /// SendEnterDataScreen SCREEN
 class SendEnterDataScreen extends StatelessWidget {
