@@ -1,7 +1,7 @@
 name: Danger JS
 on: [pull_request]
 jobs:
-  test:
+  danger:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
