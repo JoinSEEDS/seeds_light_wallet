@@ -12,8 +12,9 @@ import 'package:seeds/utils/double_extension.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
-  final String currency;
+  final String tokenSymbol;
   final String? fiatAmount;
+  final String fiatCurrency;
   final String? toImage;
   final String? toName;
   final String toAccount;
@@ -26,8 +27,9 @@ class SendTransactionSuccessDialog extends StatelessWidget {
   const SendTransactionSuccessDialog({
     Key? key,
     required this.amount,
-    required this.currency,
+    required this.tokenSymbol,
     this.fiatAmount,
+    required this.fiatCurrency,
     this.toImage,
     this.toName,
     required this.toAccount,
@@ -42,9 +44,10 @@ class SendTransactionSuccessDialog extends StatelessWidget {
       {required VoidCallback onCloseButtonPressed, required ShowTransferSuccess pageCommand}) {
     return SendTransactionSuccessDialog(
       onCloseButtonPressed: onCloseButtonPressed,
-      currency: pageCommand.transactionModel.symbol,
       amount: pageCommand.transactionModel.doubleQuantity.seedsFormatted,
+      tokenSymbol: pageCommand.transactionModel.symbol,
       fiatAmount: pageCommand.fiatQuantity.fiatFormatted,
+      fiatCurrency: pageCommand.fiatSymbol,
       fromAccount: pageCommand.transactionModel.from,
       fromImage: pageCommand.from?.image ?? "",
       fromName: pageCommand.from?.nickname ?? pageCommand.transactionModel.from,
@@ -71,11 +74,11 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 Text(amount, style: Theme.of(context).textTheme.headline4),
                 Padding(
                   padding: const EdgeInsets.only(top: 14, left: 4),
-                  child: Text(currency, style: Theme.of(context).textTheme.subtitle2),
+                  child: Text(tokenSymbol, style: Theme.of(context).textTheme.subtitle2),
                 ),
               ],
             ),
-            Text(fiatAmount != null ? fiatAmount! : "", style: Theme.of(context).textTheme.subtitle2),
+            Text(fiatAmount != null ? "$fiatAmount $fiatCurrency" : "", style: Theme.of(context).textTheme.subtitle2),
             const SizedBox(height: 30.0),
             DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To".i18n),
             const SizedBox(height: 30.0),
