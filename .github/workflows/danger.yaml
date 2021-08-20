@@ -18,7 +18,6 @@ jobs:
         run: |
           ruby --version
           gem --version
-          bundler --version
 
       - name: cache gems
         uses: actions/cache@v1
