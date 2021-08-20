@@ -59,7 +59,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       await Share.share(settingsStorage.privateKey!);
       settingsStorage.savePrivateKeyBackedUp(true);
     }
-    if (event is ClearShowLogoutDialog) {
+    if (event is ClearProfielPageCommand) {
       yield state.copyWith();
     }
     if (event is ResetShowLogoutButton) {
@@ -77,6 +77,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       yield state.copyWith(pageCommand: ShowProcessingCitizenshipUpgrade());
       final Result result = await MakeCitizenUseCase().run();
       yield UpgradeCitizenshipResultMapper().mapResultToState(state, result, true);
+    }
+    if (event is OnSwitchAccountButtonTapped) {
+      yield state.copyWith(pageCommand: ShowSwitchAccount());
     }
   }
 

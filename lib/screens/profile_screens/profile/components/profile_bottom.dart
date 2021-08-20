@@ -23,9 +23,8 @@ class ProfileBottom extends StatelessWidget {
       listenWhen: (_, current) => current.pageCommand != null,
       listener: (context, state) {
         final pageCommand = state.pageCommand;
-
+        BlocProvider.of<ProfileBloc>(context).add(const ClearProfielPageCommand());
         if (pageCommand is ShowLogoutDialog) {
-          BlocProvider.of<ProfileBloc>(context).add(const ClearShowLogoutDialog());
           showDialog<void>(
             context: context,
             builder: (_) {
