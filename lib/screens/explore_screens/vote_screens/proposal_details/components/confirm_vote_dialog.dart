@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
-
+//
 class ConfirmVoteDialog extends StatelessWidget {
   const ConfirmVoteDialog({Key? key}) : super(key: key);
 
