@@ -20,7 +20,6 @@ analyzer:
     sdk_version_async_exported_from_core: ignore
   exclude:
     - flutter/** # Do not analyze the Flutter repository in the CI environment
-    - lib/generated/**
 
 linter:
   rules:
