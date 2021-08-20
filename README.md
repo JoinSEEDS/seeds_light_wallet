@@ -14,7 +14,7 @@ A payment platform and financial ecosystem to empower humanity and heal our plan
 git clone https://github.com/7flash/flutter_seeds_wallet.git
 cd flutter_seeds_wallet
 flutter pub get
-flutter run --no-sound-null-safety lib/v2/main.dart
+flutter run --no-sound-null-safety lib/main.dart
 ```
 
 ### Sound null safety is off
@@ -33,14 +33,14 @@ git config core.hooksPath .githooks/
 
 Create an app bundle and upload to Google Play
 
-```flutter build appbundle --no-sound-null-safety lib/v2/main.dart```
+```flutter build appbundle --no-sound-null-safety lib/main.dart```
 
 ### Build for iOS 
 
 For iOS App store release, we build with XCode - but before running the XCode build, we need to run the flutter build for iOS.
 
 1 - Build for iOS flutter
-```flutter build ios --no-sound-null-safety lib/v2/main.dart```
+```flutter build ios --no-sound-null-safety lib/main.dart```
 
 2 - Build with XCode for App store distrubution as usual
 
