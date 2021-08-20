@@ -20,7 +20,7 @@ class UserBalanceStateMapper extends StateMapper {
         pageState: PageState.success,
         fiatAmount: rateState.fromSeedsToFiat(0, selectedFiat).fiatFormatted,
         availableBalance: balance,
-        availableBalanceFiat: rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted,
+        availableBalanceFiat: rateState.fromSeedsToFiat(balance.quantity, selectedFiat),
       );
     }
   }

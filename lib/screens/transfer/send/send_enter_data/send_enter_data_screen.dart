@@ -11,6 +11,7 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_light.dart';
+import 'package:seeds/datasource/local/models/amount_view_model.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -151,8 +152,8 @@ class SendEnterDataScreen extends StatelessWidget {
                                     const SizedBox(height: 16),
                                     BalanceRow(
                                       label: "Available Balance".i18n,
-                                      fiatAmount: state.availableBalanceFiat ?? "",
-                                      seedsAmount: state.availableBalance ?? "",
+                                      fiatAmount: AmountViewModel.fromFiat(state.availableBalanceFiat),
+                                      tokenAmount: AmountViewModel.fromToken(state.availableBalance),
                                     ),
                                     const SizedBox(height: 100),
                                   ],

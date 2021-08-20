@@ -10,12 +10,11 @@ class ReceiveEnterDataState extends Equatable {
   final PageCommand? pageCommand;
   final String? errorMessage;
   final RatesState ratesState;
-  final String fiatAmount;
-  final String seedsAmount;
+  final double fiatAmount;
   final String? description;
   final BalanceModel? availableBalance;
-  final String availableBalanceSeeds;
-  final String availableBalanceFiat;
+  final double? availableBalanceSeeds;
+  final double? availableBalanceFiat;
   final bool isNextButtonEnabled;
   final double quantity;
   final String? invoiceLink;
@@ -28,14 +27,13 @@ class ReceiveEnterDataState extends Equatable {
     required this.ratesState,
     required this.fiatAmount,
     this.availableBalance,
-    required this.availableBalanceFiat,
-    required this.availableBalanceSeeds,
+    this.availableBalanceFiat,
+    this.availableBalanceSeeds,
     required this.isNextButtonEnabled,
     this.description,
     required this.quantity,
     this.invoiceLink,
     required this.isAutoFocus,
-    required this.seedsAmount,
   });
 
   @override
@@ -52,7 +50,6 @@ class ReceiveEnterDataState extends Equatable {
         description,
         quantity,
         invoiceLink,
-        seedsAmount,
         isAutoFocus
       ];
 
@@ -61,11 +58,11 @@ class ReceiveEnterDataState extends Equatable {
     PageCommand? pageCommand,
     String? errorMessage,
     RatesState? ratesState,
-    String? fiatAmount,
+    double? fiatAmount,
     BalanceModel? availableBalance,
-    String? availableBalanceFiat,
+    double? availableBalanceFiat,
     bool? isNextButtonEnabled,
-    String? availableBalanceSeeds,
+    double? availableBalanceSeeds,
     String? description,
     double? quantity,
     String? invoiceLink,
@@ -86,20 +83,18 @@ class ReceiveEnterDataState extends Equatable {
       quantity: quantity ?? this.quantity,
       invoiceLink: invoiceLink ?? this.invoiceLink,
       isAutoFocus: isAutoFocus ?? this.isAutoFocus,
-      seedsAmount: seedsAmount ?? this.seedsAmount,
     );
   }
 
   factory ReceiveEnterDataState.initial(RatesState ratesState) {
     return ReceiveEnterDataState(
-      availableBalanceSeeds: '',
-      availableBalanceFiat: '',
+      availableBalanceSeeds: 0,
+      availableBalanceFiat: 0,
       pageState: PageState.initial,
       ratesState: ratesState,
-      fiatAmount: 0.toString(),
+      fiatAmount: 0,
       isNextButtonEnabled: false,
       quantity: 0,
-      seedsAmount: '',
       isAutoFocus: true,
     );
   }

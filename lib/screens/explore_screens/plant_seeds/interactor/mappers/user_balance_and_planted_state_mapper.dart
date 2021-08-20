@@ -25,9 +25,9 @@ class UserBalanceAndPlantedStateMapper extends StateMapper {
         pageState: PageState.success,
         fiatAmount: rateState.fromSeedsToFiat(0, selectedFiat).fiatFormatted,
         availableBalance: balance,
-        availableBalanceFiat: rateState.fromSeedsToFiat(balance?.quantity ?? 0, selectedFiat).fiatFormatted,
-        plantedBalance: plantedSeeds?.formattedQuantity,
-        plantedBalanceFiat: rateState.fromSeedsToFiat(plantedSeeds?.quantity ?? 0, selectedFiat).fiatFormatted,
+        availableBalanceFiat: rateState.fromSeedsToFiat(balance?.quantity ?? 0, selectedFiat),
+        plantedBalance: plantedSeeds?.quantity,
+        plantedBalanceFiat: rateState.fromSeedsToFiat(plantedSeeds?.quantity ?? 0, selectedFiat),
       );
     }
   }

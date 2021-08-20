@@ -15,7 +15,7 @@ class InviteState extends Equatable {
   final bool isAutoFocus;
   final String fiatAmount;
   final BalanceModel? availableBalance;
-  final String? availableBalanceFiat;
+  final double? availableBalanceFiat;
   final bool isCreateInviteButtonEnabled;
   final double quantity;
   final String? alertMessage;
@@ -64,7 +64,7 @@ class InviteState extends Equatable {
     bool? isAutoFocus,
     String? fiatAmount,
     BalanceModel? availableBalance,
-    String? availableBalanceFiat,
+    double? availableBalanceFiat,
     bool? isCreateInviteButtonEnabled,
     double? quantity,
     String? alertMessage,

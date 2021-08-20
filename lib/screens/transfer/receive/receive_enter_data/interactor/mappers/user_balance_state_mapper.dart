@@ -5,7 +5,6 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_state.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
-import 'package:seeds/utils/double_extension.dart';
 
 class UserBalanceStateMapper extends StateMapper {
   ReceiveEnterDataState mapResultToState(ReceiveEnterDataState currentState, Result result) {
@@ -19,8 +18,8 @@ class UserBalanceStateMapper extends StateMapper {
       return currentState.copyWith(
           pageState: PageState.success,
           availableBalance: balance,
-          availableBalanceFiat: rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted,
-          availableBalanceSeeds: balance.quantity.seedsFormatted);
+          availableBalanceFiat: rateState.fromSeedsToFiat(balance.quantity, selectedFiat),
+          availableBalanceSeeds: balance.quantity);
     }
   }
 }

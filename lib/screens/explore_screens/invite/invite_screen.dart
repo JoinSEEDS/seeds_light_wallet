@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/datasource/local/models/amount_view_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
@@ -74,8 +75,8 @@ class InviteScreen extends StatelessWidget {
                             const SizedBox(height: 24),
                             BalanceRow(
                               label: 'Available Balance'.i18n,
-                              fiatAmount: state.availableBalanceFiat ?? '',
-                              seedsAmount: state.availableBalance?.formattedQuantity ?? '',
+                              fiatAmount: AmountViewModel.fromFiat(state.availableBalanceFiat),
+                              tokenAmount: AmountViewModel.fromToken(state.availableBalance?.quantity),
                             ),
                           ],
                         ),

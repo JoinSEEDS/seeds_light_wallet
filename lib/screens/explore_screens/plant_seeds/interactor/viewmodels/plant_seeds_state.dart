@@ -15,9 +15,9 @@ class PlantSeedsState extends Equatable {
   final bool isAutoFocus;
   final String fiatAmount;
   final BalanceModel? availableBalance;
-  final String? availableBalanceFiat;
-  final String? plantedBalance;
-  final String? plantedBalanceFiat;
+  final double? availableBalanceFiat;
+  final double? plantedBalance;
+  final double? plantedBalanceFiat;
   final bool isPlantSeedsButtonEnabled;
   final double quantity;
   final bool showAlert;
@@ -63,9 +63,9 @@ class PlantSeedsState extends Equatable {
     bool? isAutoFocus,
     String? fiatAmount,
     BalanceModel? availableBalance,
-    String? availableBalanceFiat,
-    String? plantedBalance,
-    String? plantedBalanceFiat,
+    double? availableBalanceFiat,
+    double? plantedBalance,
+    double? plantedBalanceFiat,
     bool? isPlantSeedsButtonEnabled,
     double? quantity,
     bool? showAlert,

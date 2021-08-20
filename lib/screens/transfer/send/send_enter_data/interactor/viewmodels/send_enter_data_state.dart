@@ -13,8 +13,8 @@ class SendEnterDataPageState extends Equatable {
   final String? fiatAmount;
   final RatesState ratesState;
   final BalanceModel? balance;
-  final String? availableBalance;
-  final String? availableBalanceFiat;
+  final double? availableBalance;
+  final double? availableBalanceFiat;
   final bool isNextButtonEnabled;
   final double quantity;
   final String memo;
@@ -66,8 +66,8 @@ class SendEnterDataPageState extends Equatable {
     MemberModel? sendTo,
     String? fiatAmount,
     RatesState? ratesState,
-    String? availableBalance,
-    String? availableBalanceFiat,
+    double? availableBalance,
+    double? availableBalanceFiat,
     BalanceModel? balance,
     bool? isNextButtonEnabled,
     double? quantity,

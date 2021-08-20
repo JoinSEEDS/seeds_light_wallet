@@ -4,6 +4,7 @@ import 'package:seeds/components/copy_link_row.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/qr_code_generator_widget.dart';
+import 'package:seeds/datasource/local/models/amount_view_model.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'interactor/viewmodels/receive_detail_arguments.dart';
@@ -45,8 +46,8 @@ class ReceiveDetailQrCodeScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     BalanceRow(
                       label: "Total".i18n,
-                      fiatAmount: arguments.receiveTotalFiat,
-                      seedsAmount: arguments.receiveTotalSeeds,
+                      fiatAmount: AmountViewModel.fromFiat(arguments.receiveTotalFiat),
+                      tokenAmount: AmountViewModel.fromToken(arguments.receiveTotalSeeds),
                     ),
                     const SizedBox(height: 4),
                     const DividerJungle(

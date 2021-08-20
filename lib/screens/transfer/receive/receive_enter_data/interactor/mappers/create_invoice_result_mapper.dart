@@ -16,7 +16,7 @@ class CreateInvoiceResultMapper extends StateMapper {
           receiveDetailArguments: ReceiveDetailArguments(
             receiveTotalFiat: currentState.fiatAmount,
             invoiceLink: result.asValue!.value,
-            receiveTotalSeeds: currentState.quantity.toString(),
+            receiveTotalSeeds: currentState.quantity,
             description: currentState.description,
           ),
         ),
