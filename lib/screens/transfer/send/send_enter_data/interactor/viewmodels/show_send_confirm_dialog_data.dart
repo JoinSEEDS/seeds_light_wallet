@@ -2,8 +2,9 @@ import 'package:seeds/domain-shared/page_command.dart';
 
 class ShowSendConfirmDialog extends PageCommand {
   final String amount;
-  final String currency;
   final String? fiatAmount;
+  final String fiatCurrency;
+  final String tokenSymbol;
   final String? toImage;
   final String? toName;
   final String toAccount;
@@ -11,7 +12,8 @@ class ShowSendConfirmDialog extends PageCommand {
 
   ShowSendConfirmDialog({
     required this.amount,
-    required this.currency,
+    required this.tokenSymbol,
+    required this.fiatCurrency,
     this.fiatAmount,
     this.toImage,
     this.toName,
