@@ -194,28 +194,6 @@ flutter:
     # w800 Extra-bold
     # w900 Black, the most thick
 
-    #DEPRECATED - DO NOT USE (worksans)
-    - family: worksans
-      fonts:
-        - asset: assets/fonts/worksans/WorkSans-Thin.ttf
-          weight: 100
-        - asset: assets/fonts/worksans/WorkSans-Light.ttf
-          weight: 200
-        - asset: assets/fonts/worksans/WorkSans-Regular.ttf
-          weight: 300
-        - asset: assets/fonts/worksans/WorkSans-SemiBold.ttf
-          weight: 400
-        - asset: assets/fonts/worksans/WorkSans-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/worksans/WorkSans-Bold.ttf
-          weight: 600
-        - asset: assets/fonts/worksans/WorkSans-SemiBold.ttf
-          weight: 700
-        - asset: assets/fonts/worksans/WorkSans-ExtraBold.ttf
-          weight: 800
-        - asset: assets/fonts/worksans/WorkSans-Black.ttf
-          weight: 900
-
     - family: SFProDisplay
       fonts:
         - asset: assets/fonts/SFProDisplay/SFProDisplay-Thin.ttf
