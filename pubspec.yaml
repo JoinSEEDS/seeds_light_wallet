@@ -67,7 +67,7 @@ dependencies:
   dotted_border: ^2.0.0-nullsafety.0
   pedantic: ^1.9.2
   flutter_pagewise: ^2.0.1
-  qr_code_scanner: ^0.5.2
+  qr_code_scanner: ^0.4.0
   collection: ^1.15.0-nullsafety.4
   mask_text_input_formatter: ^2.0.0
   lottie: ^1.0.1
