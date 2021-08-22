@@ -41,7 +41,7 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
           ),
           const SizedBox(height: 4.0),
           Text(
-            '\$ ${BlocProvider.of<PlantSeedsBloc>(context).state.fiatAmount} ${settingsStorage.selectedFiatCurrency}',
+            '${BlocProvider.of<PlantSeedsBloc>(context).state.fiatAmount} ${settingsStorage.selectedFiatCurrency}',
             style: Theme.of(context).textTheme.subtitle2,
           ),
           const SizedBox(height: 30.0),

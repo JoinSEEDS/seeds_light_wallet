@@ -32,7 +32,7 @@ class SendTransactionStateMapper extends StateMapper {
         transactionModel: transfer,
         from: resultResponse.parseFromUser,
         to: resultResponse.parseToUser,
-        quantity: transfer.doubleQuantity,
+        fiatSymbol: settingsStorage.selectedFiatCurrency,
         fiatQuantity: fiatQuantity,
       );
     } else {
