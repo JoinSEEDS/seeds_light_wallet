@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -12,9 +14,9 @@ class ReceiveEnterDataState extends Equatable {
   final RatesState ratesState;
   final double fiatAmount;
   final String? description;
-  final BalanceModel? availableBalance;
-  final double? availableBalanceSeeds;
-  final double? availableBalanceFiat;
+  final BalanceModel? availableBalance; // TODO(n13): this seems redundant with available Balance Seeds?!
+  final TokenDataModel? availableBalanceSeeds;
+  final FiatDataModel? availableBalanceFiat;
   final bool isNextButtonEnabled;
   final double quantity;
   final String? invoiceLink;
@@ -60,9 +62,9 @@ class ReceiveEnterDataState extends Equatable {
     RatesState? ratesState,
     double? fiatAmount,
     BalanceModel? availableBalance,
-    double? availableBalanceFiat,
+    FiatDataModel? availableBalanceFiat,
     bool? isNextButtonEnabled,
-    double? availableBalanceSeeds,
+    TokenDataModel? availableBalanceSeeds,
     String? description,
     double? quantity,
     String? invoiceLink,
@@ -88,8 +90,8 @@ class ReceiveEnterDataState extends Equatable {
 
   factory ReceiveEnterDataState.initial(RatesState ratesState) {
     return ReceiveEnterDataState(
-      availableBalanceSeeds: 0,
-      availableBalanceFiat: 0,
+      availableBalanceSeeds: TokenDataModel(0),
+      availableBalanceFiat: FiatDataModel(0),
       pageState: PageState.initial,
       ratesState: ratesState,
       fiatAmount: 0,

@@ -9,7 +9,6 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/snack_bar_info.dart';
-import 'package:seeds/datasource/local/models/amount_view_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
@@ -77,14 +76,14 @@ class PlantSeedsScreen extends StatelessWidget {
                             const SizedBox(height: 24),
                             BalanceRow(
                               label: 'Available Balance'.i18n,
-                              fiatAmount: AmountViewModel.fromFiat(state.availableBalanceFiat),
-                              tokenAmount: AmountViewModel.fromToken(state.availableBalance?.quantity),
+                              fiatAmount: state.availableBalanceFiat,
+                              tokenAmount: state.availableBalance,
                             ),
                             const DividerJungle(height: 24),
                             BalanceRow(
                               label: 'Planted Balance'.i18n,
-                              fiatAmount: AmountViewModel.fromFiat(state.plantedBalanceFiat),
-                              tokenAmount: AmountViewModel.fromToken(state.plantedBalance),
+                              fiatAmount: state.plantedBalanceFiat,
+                              tokenAmount: state.plantedBalance,
                             ),
                           ],
                         ),

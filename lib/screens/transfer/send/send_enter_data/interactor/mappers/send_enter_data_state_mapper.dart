@@ -1,4 +1,6 @@
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -24,8 +26,8 @@ class SendEnterDataStateMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         fiatAmount: fiatAmount,
-        availableBalance: balance.quantity,
-        availableBalanceFiat: availableBalanceFiat,
+        availableBalance: TokenDataModel(balance.quantity),
+        availableBalanceFiat: FiatDataModel(availableBalanceFiat),
         balance: balance,
       );
     }

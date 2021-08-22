@@ -8,7 +8,7 @@ import 'package:seeds/utils/double_extension.dart';
 class SeedsAmountChangeMapper extends StateMapper {
   PlantSeedsState mapResultToState(PlantSeedsState currentState, RatesState rateState, String quantity) {
     final double parsedQuantity = double.tryParse(quantity) ?? 0;
-    final double currentAvailable = currentState.availableBalance?.quantity ?? 0;
+    final double currentAvailable = currentState.availableBalance?.amount ?? 0;
     final String selectedFiat = settingsStorage.selectedFiatCurrency;
 
     return currentState.copyWith(

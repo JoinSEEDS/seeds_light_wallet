@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
-import 'package:seeds/datasource/remote/model/balance_model.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
@@ -14,10 +15,10 @@ class PlantSeedsState extends Equatable {
   final RatesState ratesState;
   final bool isAutoFocus;
   final String fiatAmount;
-  final BalanceModel? availableBalance;
-  final double? availableBalanceFiat;
-  final double? plantedBalance;
-  final double? plantedBalanceFiat;
+  final TokenDataModel? availableBalance;
+  final FiatDataModel? availableBalanceFiat;
+  final TokenDataModel? plantedBalance;
+  final FiatDataModel? plantedBalanceFiat;
   final bool isPlantSeedsButtonEnabled;
   final double quantity;
   final bool showAlert;
@@ -62,10 +63,10 @@ class PlantSeedsState extends Equatable {
     RatesState? ratesState,
     bool? isAutoFocus,
     String? fiatAmount,
-    BalanceModel? availableBalance,
-    double? availableBalanceFiat,
-    double? plantedBalance,
-    double? plantedBalanceFiat,
+    TokenDataModel? availableBalance,
+    FiatDataModel? availableBalanceFiat,
+    TokenDataModel? plantedBalance,
+    FiatDataModel? plantedBalanceFiat,
     bool? isPlantSeedsButtonEnabled,
     double? quantity,
     bool? showAlert,

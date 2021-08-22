@@ -7,7 +7,6 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/components/text_form_field_light.dart';
-import 'package:seeds/datasource/local/models/amount_view_model.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
@@ -77,8 +76,8 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                     const SizedBox(height: 16),
                                     BalanceRow(
                                       label: "Available Balance".i18n,
-                                      fiatAmount: AmountViewModel.fromFiat(state.availableBalanceFiat),
-                                      tokenAmount: AmountViewModel.fromToken(state.availableBalanceSeeds),
+                                      fiatAmount: state.availableBalanceFiat,
+                                      tokenAmount: state.availableBalanceSeeds,
                                     ),
                                   ],
                                 ),

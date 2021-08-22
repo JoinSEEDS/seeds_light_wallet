@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/datasource/local/models/amount_view_model.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/design/app_theme.dart';
 
 /// Available Amount
@@ -7,8 +8,8 @@ import 'package:seeds/design/app_theme.dart';
 /// Used to show available amount or planted amount in a row together with Fiat Conversion
 class BalanceRow extends StatelessWidget {
   final String label;
-  final AmountViewModel tokenAmount;
-  final AmountViewModel fiatAmount;
+  final TokenDataModel? tokenAmount;
+  final FiatDataModel? fiatAmount;
 
   const BalanceRow({
     Key? key,
@@ -31,13 +32,13 @@ class BalanceRow extends StatelessWidget {
             Expanded(
                 child: Container(
                     alignment: Alignment.centerRight,
-                    child: Text(tokenAmount.asFormattedString(), style: Theme.of(context).textTheme.subtitle1)))
+                    child: Text(tokenAmount?.asFormattedString() ?? "", style: Theme.of(context).textTheme.subtitle1)))
           ],
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
           child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Text(fiatAmount.asFormattedString(), style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
+            Text(fiatAmount?.asFormattedString() ?? "", style: Theme.of(context).textTheme.subtitle2OpacityEmphasis)
           ]),
         )
       ],
