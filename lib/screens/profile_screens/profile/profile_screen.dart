@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
           final pageCommand = state.pageCommand;
-          BlocProvider.of<ProfileBloc>(context).add(const ClearProfielPageCommand());
+          BlocProvider.of<ProfileBloc>(context).add(const ClearProfilePageCommand());
           if (pageCommand is ShowSwitchAccount) {
             showModalBottomSheet(
               shape: const RoundedRectangleBorder(

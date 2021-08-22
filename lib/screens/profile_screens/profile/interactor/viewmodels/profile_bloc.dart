@@ -59,7 +59,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       await Share.share(settingsStorage.privateKey!);
       settingsStorage.savePrivateKeyBackedUp(true);
     }
-    if (event is ClearProfielPageCommand) {
+    if (event is ClearProfilePageCommand) {
       yield state.copyWith();
     }
     if (event is ResetShowLogoutButton) {

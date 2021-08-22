@@ -62,11 +62,11 @@ class OnSavePrivateKeyButtonPressed extends ProfileEvent {
   String toString() => 'OnSavePrivateKeyButtonPressed';
 }
 
-class ClearProfielPageCommand extends ProfileEvent {
-  const ClearProfielPageCommand();
+class ClearProfilePageCommand extends ProfileEvent {
+  const ClearProfilePageCommand();
 
   @override
-  String toString() => 'ClearProfielPageCommand';
+  String toString() => 'ClearProfilePageCommand';
 }
 
 class ResetShowLogoutButton extends ProfileEvent {
