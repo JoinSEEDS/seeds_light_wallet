@@ -4,10 +4,10 @@ extension Localization on String {
   static final _t = Translations.byLocale('en_us') +
       {
         'es_es': {
-          'Created by:': 'Creada por',
+          'Created by': 'Creada por',
           'Recipient: %s ': 'Recipiente: %s ',
           'Requested: %s ': 'Monto solicitado: %s ',
-          'Type: %s ': 'Tipo %s ',
+          'Type: %s ': 'Tipo: %s ',
           'Alliance': 'Alliance',
           'Campaign': 'Campaign',
           'Status: %s ': 'Estado: %s ',
@@ -30,7 +30,7 @@ extension Localization on String {
           ' Citizen ': ' Ciudadano ',
           'to vote on proposals.': 'para votar en propuestas.',
           'You have already': 'Ya has',
-          ' Voted with': ' Votado con',
+          ' Voted with ': ' Votado con ',
           'Voting': 'Votar',
           'You have already used your': 'Ya has usado tus',
           ' Trust Tokens ': ' Fichas de confianza ',
@@ -41,11 +41,20 @@ extension Localization on String {
           'I': 'Me',
           ' refrain ': ' abstengo ',
           'from voting': 'de votar',
-          ' against ': 'en contra',
+          ' against ': ' en contra ',
           'this proposal': 'de esta propuesta',
+          'Cancel': 'Cancelar',
+          'Confirm your Vote': 'Confirma tu Voto',
+          'Your trust tokens cannot be reallocated afterwards so please be sure of your vote!':
+              'Sus tokens de confianza no se pueden reasignar después, ¡Por Favor asegúrese de su voto!',
+          'Done': 'Hecho',
+          'Thank you!': '¡Gracias!',
+          'Thank you for coming and contributing your voice to the collective decision making process. Please make sure to come back at the start of the next Voting Cycle to empower more people!':
+              'Gracias por venir y contribuir con su voz al proceso de toma de decisiones colectivas. ¡Asegúrese de regresar al comienzo del próximo ciclo de votación para empoderar a más personas!',
         }
       };
 
   String get i18n => localize(this, _t);
+
   String fill(List<Object> params) => localizeFill(this, params);
 }

@@ -216,7 +216,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                   painter: const ProposalCategory(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-                    child: Text(widget.proposal.campaignTypeLabel, style: Theme.of(context).textTheme.subtitle2),
+                    child: Text(widget.proposal.campaignTypeLabel.i18n, style: Theme.of(context).textTheme.subtitle2),
                   ),
                 ),
               ],

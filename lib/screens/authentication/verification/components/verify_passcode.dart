@@ -68,7 +68,7 @@ class _VerifyPasscodeState extends State<VerifyPasscode> {
               cancelButton: const SizedBox.shrink(),
               deleteButton: Text('Delete'.i18n, style: Theme.of(context).textTheme.subtitle2),
               passwordDigits: 4,
-              title: Text((state.isCreateMode ?? false) ? 'Re-enter Pincode' : 'Enter Pincode'.i18n,
+              title: Text((state.isCreateMode ?? false) ? 'Re-enter Pincode'.i18n : 'Enter Pincode'.i18n,
                   style: Theme.of(context).textTheme.subtitle2),
               backgroundColor: AppColors.primary,
               shouldTriggerVerification: _verificationNotifier.stream,
