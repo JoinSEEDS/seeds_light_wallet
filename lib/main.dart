@@ -29,7 +29,7 @@ bool get isInDebugMode {
   var inDebugMode = false;
   assert(inDebugMode = true);
   return inDebugMode;
-}
+}//
 
 /// Reports [error] along with its [stackTrace] to ?????
 Future<void> _reportError(dynamic error, dynamic stackTrace) async {
