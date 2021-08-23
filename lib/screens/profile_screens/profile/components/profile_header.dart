@@ -32,7 +32,7 @@ class ProfileHeader extends StatelessWidget {
                         onTap: () async {
                           final file = await showModalBottomSheet(
                             context: context,
-                            builder: (context) => const EditProfilePicBottomSheet(),
+                            builder: (_) => const EditProfilePicBottomSheet(),
                           );
                           if (file != null) {
                             BlocProvider.of<ProfileBloc>(context).add(OnUpdateProfileImage(file as File));

@@ -9,3 +9,5 @@ class ShowCitizenshipUpgradeSuccess extends PageCommand {
 }
 
 class ShowProcessingCitizenshipUpgrade extends PageCommand {}
+
+class ShowSwitchAccount extends PageCommand {}

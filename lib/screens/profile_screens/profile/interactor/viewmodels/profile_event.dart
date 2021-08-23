@@ -62,11 +62,11 @@ class OnSavePrivateKeyButtonPressed extends ProfileEvent {
   String toString() => 'OnSavePrivateKeyButtonPressed';
 }
 
-class ClearShowLogoutDialog extends ProfileEvent {
-  const ClearShowLogoutDialog();
+class ClearProfilePageCommand extends ProfileEvent {
+  const ClearProfilePageCommand();
 
   @override
-  String toString() => 'ClearShowLogoutDialog';
+  String toString() => 'ClearProfilePageCommand';
 }
 
 class ResetShowLogoutButton extends ProfileEvent {
@@ -99,3 +99,9 @@ class OnActivateCitizenButtonTapped extends ProfileEvent {
   String toString() => 'OnActivateCitizenButtonTapped';
 }
 
+class OnSwitchAccountButtonTapped extends ProfileEvent {
+  const OnSwitchAccountButtonTapped();
+
+  @override
+  String toString() => 'OnSwitchAccountButtonTapped';
+}
