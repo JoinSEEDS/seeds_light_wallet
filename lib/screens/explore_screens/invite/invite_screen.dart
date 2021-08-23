@@ -74,8 +74,8 @@ class InviteScreen extends StatelessWidget {
                             const SizedBox(height: 24),
                             BalanceRow(
                               label: 'Available Balance'.i18n,
-                              fiatAmount: state.availableBalanceFiat ?? '',
-                              seedsAmount: state.availableBalance?.formattedQuantity ?? '',
+                              fiatAmount: state.availableBalanceFiat,
+                              tokenAmount: state.availableBalance,
                             ),
                           ],
                         ),
