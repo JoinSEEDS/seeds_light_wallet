@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -43,7 +44,9 @@ Future<void> main(List<String> args) async {
   await settingsStorage.initialise();
   await PushNotificationService().initialise();
   await remoteConfigurations.initialise();
-  Bloc.observer = SimpleBlocObserver();
+  if (!kReleaseMode) {
+    Bloc.observer = DebugBlocObserver();
+  }
   await Hive.initFlutter();
   Hive.registerAdapter(MemberModelCacheItemAdapter());
   Hive.registerAdapter(VoteModelAdapter());
