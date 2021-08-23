@@ -1,5 +1,10 @@
 import 'package:hive/hive.dart';
 
+const String proposalVotesCacheBox = 'proposalVotesBox';
+const String membersCacheBox = 'membersBox';
+
+String buildVoteKey(String account, int proposalId) => '${account}_$proposalId';
+
 class CacheRepository<T> {
   final Box _box;
 

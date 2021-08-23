@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:seeds/constants/system_accounts.dart';
+import 'package:seeds/datasource/local/cache_repository.dart';
 import 'package:seeds/datasource/local/member_model_cache_item.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -26,10 +27,10 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
       }
 
       yield state.copyWith(pageState: PageState.loading);
-      final box = await Hive.openBox('members_box');
-
+      final box = await Hive.openBox<MemberModelCacheItem>(membersCacheBox);
+      final cache = CacheRepository<MemberModelCacheItem>(box);
       // If we have a cached item, use it
-      final MemberModelCacheItem? cacheItem = box.get(account);
+      final MemberModelCacheItem? cacheItem = cache.get(account);
       if (cacheItem != null) {
         yield state.copyWith(pageState: PageState.success, member: cacheItem.member);
         if (cacheItem.refreshTimeStamp < DateTime.now().millisecondsSinceEpoch) {
@@ -42,7 +43,7 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
       // store result in cache
       if (!result.isError && result.asValue != null && result.asValue!.value is MemberModel) {
         final MemberModel member = result.asValue!.value;
-        await box.put(
+        await cache.add(
             account,
             MemberModelCacheItem(
                 member, DateTime.now().millisecondsSinceEpoch + Duration.millisecondsPerMinute * cacheExpiryMinutes));
