@@ -1,8 +1,13 @@
 import 'package:hive/hive.dart';
 
+// Hive box names
+
 const String proposalVotesCacheBox = 'proposalVotesBox';
 const String membersCacheBox = 'membersBox';
 
+/// Vote cache needs to support multiple accounts.
+/// The vote cache needs to store what account the vote was for.
+///
 String buildVoteKey(String account, int proposalId) => '${account}_$proposalId';
 
 class CacheRepository<T> {
