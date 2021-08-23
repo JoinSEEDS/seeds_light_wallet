@@ -58,7 +58,10 @@ class AmountEntryWidget extends StatelessWidget {
                         )),
                         inputFormatters: [
                           UserInputNumberFormatter(),
-                          DecimalTextInputFormatter(decimalRange: state.currentCurrencyInput.toDecimalPrecision())
+                          DecimalTextInputFormatter(
+                              decimalRange: state.currentCurrencyInput == CurrencyInput.fiat
+                                  ? state.fiatAmount?.precision ?? 0
+                                  : state.tokenAmount.precision)
                         ],
                       ),
                     ),
@@ -88,8 +91,10 @@ class AmountEntryWidget extends StatelessWidget {
                                   height: 60,
                                   width: 60,
                                 ),
-                                onPressed: () =>
-                                    {BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())},
+                                onPressed: state.switchCurrencyEnabled
+                                    ? () =>
+                                        BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())
+                                    : null,
                               ),
                             ),
                           )
@@ -99,7 +104,9 @@ class AmountEntryWidget extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  state.infoRowText,
+                  state.currentCurrencyInput == CurrencyInput.fiat
+                      ? state.tokenAmount.asFormattedString()
+                      : state.fiatAmount?.asFormattedString() ?? "",
                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                 ),
               ],

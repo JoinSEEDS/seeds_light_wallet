@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/utils/read_times_tamp.dart';
 import 'package:seeds/utils/string_extension.dart';
@@ -13,7 +15,8 @@ class TransactionModel extends Equatable {
   final String? transactionId;
 
   String get symbol => quantity.split(" ")[1];
-  double get doubleQuantity => quantity.quantityAsDouble;
+  //double get doubleQuantity => quantity.quantityAsDouble;
+  TokenDataModel get dataModel => TokenDataModel(quantity.quantityAsDouble, token: TokenModel.fromSymbol(symbol));
 
   const TransactionModel(
       {required this.from,

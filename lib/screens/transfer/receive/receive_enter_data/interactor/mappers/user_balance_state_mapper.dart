@@ -15,12 +15,13 @@ class UserBalanceStateMapper extends StateMapper {
       final BalanceModel balance = result.asValue!.value as BalanceModel;
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
       final RatesState rateState = currentState.ratesState;
+      final availableTokenBalance = TokenDataModel(balance.quantity, token: settingsStorage.selectedToken);
 
       return currentState.copyWith(
         pageState: PageState.success,
         availableBalance: balance,
-        availableBalanceFiat: rateState.seedsToFiat(balance.quantity, selectedFiat),
-        availableBalanceSeeds: TokenDataModel(balance.quantity),
+        availableBalanceFiat: rateState.tokenToFiat(availableTokenBalance, selectedFiat),
+        availableBalanceSeeds: availableTokenBalance,
       );
     }
   }

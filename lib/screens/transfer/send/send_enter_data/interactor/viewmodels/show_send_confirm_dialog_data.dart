@@ -1,10 +1,10 @@
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 
 class ShowSendConfirmDialog extends PageCommand {
-  final String amount;
-  final String? fiatAmount;
-  final String fiatCurrency;
-  final String tokenSymbol;
+  final TokenDataModel amount;
+  final FiatDataModel? fiatAmount;
   final String? toImage;
   final String? toName;
   final String toAccount;
@@ -12,8 +12,6 @@ class ShowSendConfirmDialog extends PageCommand {
 
   ShowSendConfirmDialog({
     required this.amount,
-    required this.tokenSymbol,
-    required this.fiatCurrency,
     this.fiatAmount,
     this.toImage,
     this.toName,

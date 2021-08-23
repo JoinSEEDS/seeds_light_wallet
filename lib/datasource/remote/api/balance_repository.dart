@@ -5,10 +5,6 @@ import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 
 class BalanceRepository extends NetworkRepository {
-  Future<Result<dynamic>> getBalance(String userAccount) {
-    return getTokenBalance(userAccount, SeedsToken);
-  }
-
   Future<Result<dynamic>> getTokenBalance(String userAccount, TokenModel token) {
     print('[http] get seeds getTokenBalance $userAccount for ${token.symbol}');
 

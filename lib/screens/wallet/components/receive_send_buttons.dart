@@ -21,12 +21,10 @@ class ReceiveSendButtons extends StatelessWidget {
             children: [
               Expanded(
                 child: Opacity(
-                  opacity: state.selectedIndex == 0 ? 1 : 0.3,
+                  opacity: 1,
                   child: MaterialButton(
                     padding: const EdgeInsets.only(top: 14, bottom: 14),
-                    onPressed: state.selectedIndex == 0
-                        ? () => NavigationService.of(context).navigateTo(Routes.transfer)
-                        : null,
+                    onPressed: () => NavigationService.of(context).navigateTo(Routes.transfer),
                     color: AppColors.green1,
                     disabledColor: AppColors.green1,
                     shape: const RoundedRectangleBorder(
@@ -54,12 +52,10 @@ class ReceiveSendButtons extends StatelessWidget {
               const SizedBox(width: 20),
               Expanded(
                 child: Opacity(
-                  opacity: state.selectedIndex == 0 ? 1 : 0.3,
+                  opacity: 1,
                   child: MaterialButton(
                     padding: const EdgeInsets.only(top: 14, bottom: 14),
-                    onPressed: state.selectedIndex == 0
-                        ? () => NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen)
-                        : null,
+                    onPressed: () => NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen),
                     color: AppColors.green1,
                     disabledColor: AppColors.green1,
                     shape: const RoundedRectangleBorder(

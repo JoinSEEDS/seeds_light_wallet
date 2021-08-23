@@ -3,6 +3,7 @@ import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/planted_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_state.dart';
@@ -25,9 +26,9 @@ class UserBalanceAndPlantedStateMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         fiatAmount: rateState.fromSeedsToFiat(0, selectedFiat).fiatFormatted,
-        availableBalance: TokenDataModel.from(balance?.quantity),
+        availableBalance: TokenDataModel.from(balance?.quantity, token: SeedsToken),
         availableBalanceFiat: rateState.seedsToFiat(balance?.quantity ?? 0, selectedFiat),
-        plantedBalance: TokenDataModel.from(plantedSeeds?.quantity),
+        plantedBalance: TokenDataModel.from(plantedSeeds?.quantity, token: SeedsToken),
         plantedBalanceFiat: rateState.seedsToFiat(plantedSeeds?.quantity ?? 0, selectedFiat),
       );
     }

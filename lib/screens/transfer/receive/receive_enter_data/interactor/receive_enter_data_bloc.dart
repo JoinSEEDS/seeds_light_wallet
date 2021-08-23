@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
@@ -19,17 +20,18 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
   Stream<ReceiveEnterDataState> mapEventToState(ReceiveEnterDataEvents event) async* {
     if (event is LoadUserBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result result = await GetAvailableBalanceUseCase().run();
+      final Result result = await GetAvailableBalanceUseCase(settingsStorage.selectedToken).run();
       yield UserBalanceStateMapper().mapResultToState(state, result);
     } else if (event is OnAmountChange) {
       final double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;
 
-      final double seedsToFiat = state.ratesState.fromSeedsToFiat(parsedQuantity, settingsStorage.selectedFiatCurrency);
+      final seedsToFiat = state.ratesState.tokenToFiat(
+          TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken), settingsStorage.selectedFiatCurrency);
 
       if (parsedQuantity > 0) {
-        yield state.copyWith(isNextButtonEnabled: true, quantity: parsedQuantity, fiatAmount: seedsToFiat);
+        yield state.copyWith(isNextButtonEnabled: true, quantity: parsedQuantity, fiatAmount: seedsToFiat?.amount);
       } else {
-        yield state.copyWith(isNextButtonEnabled: false, quantity: parsedQuantity, fiatAmount: seedsToFiat);
+        yield state.copyWith(isNextButtonEnabled: false, quantity: parsedQuantity, fiatAmount: seedsToFiat?.amount);
       }
     } else if (event is OnDescriptionChange) {
       yield state.copyWith(description: event.description);

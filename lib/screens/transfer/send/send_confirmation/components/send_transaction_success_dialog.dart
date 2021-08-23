@@ -8,7 +8,6 @@ import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
-import 'package:seeds/utils/double_extension.dart';
 
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
@@ -44,10 +43,10 @@ class SendTransactionSuccessDialog extends StatelessWidget {
       {required VoidCallback onCloseButtonPressed, required ShowTransferSuccess pageCommand}) {
     return SendTransactionSuccessDialog(
       onCloseButtonPressed: onCloseButtonPressed,
-      amount: pageCommand.transactionModel.doubleQuantity.seedsFormatted,
+      amount: pageCommand.transactionModel.dataModel.amountString(),
       tokenSymbol: pageCommand.transactionModel.symbol,
-      fiatAmount: pageCommand.fiatQuantity.fiatFormatted,
-      fiatCurrency: pageCommand.fiatSymbol,
+      fiatAmount: pageCommand.fiatQuantity?.amountString(),
+      fiatCurrency: pageCommand.fiatQuantity?.symbol ?? "",
       fromAccount: pageCommand.transactionModel.from,
       fromImage: pageCommand.from?.image ?? "",
       fromName: pageCommand.from?.nickname ?? pageCommand.transactionModel.from,

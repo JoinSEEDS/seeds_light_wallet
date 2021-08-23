@@ -27,12 +27,11 @@ class SendTransactionStateMapper extends StateMapper {
       SendTransactionResponse resultResponse, RatesState rateState) {
     if (resultResponse.isTransfer) {
       final transfer = resultResponse.transferTransactionModel!;
-      final fiatQuantity = rateState.fromSeedsToFiat(transfer.doubleQuantity, settingsStorage.selectedFiatCurrency);
+      final fiatQuantity = rateState.tokenToFiat(transfer.dataModel, settingsStorage.selectedFiatCurrency);
       return ShowTransferSuccess(
         transactionModel: transfer,
         from: resultResponse.parseFromUser,
         to: resultResponse.parseToUser,
-        fiatSymbol: settingsStorage.selectedFiatCurrency,
         fiatQuantity: fiatQuantity,
       );
     } else {

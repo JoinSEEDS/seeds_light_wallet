@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_bloc.dart';
 
@@ -35,7 +35,7 @@ class PlantSeedsSuccessDialog extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 12, left: 4),
-                child: Text(currencySeedsCode, style: Theme.of(context).textTheme.subtitle2),
+                child: Text(SeedsToken.symbol, style: Theme.of(context).textTheme.subtitle2),
               ),
             ],
           ),

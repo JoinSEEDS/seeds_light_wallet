@@ -1,3 +1,5 @@
+import 'package:seeds/utils/double_extension.dart';
+
 abstract class AmountDataModel {
   final double amount;
   final String symbol;
@@ -11,5 +13,9 @@ abstract class AmountDataModel {
 
   String asFormattedString() {
     return "${amount.toStringAsFixed(precision)} $symbol";
+  }
+
+  String amountString() {
+    return amount.seedsFormatted;
   }
 }

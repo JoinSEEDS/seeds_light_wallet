@@ -7,9 +7,9 @@ import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/invite_model.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
 
 class InviteRepository extends NetworkRepository with EosRepository {
   Future<Result> createInvite({
@@ -34,7 +34,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
         ..data = {
           'from': accountName,
           'to': account_join,
-          'quantity': '${quantity.toStringAsFixed(4)} $currencySeedsCode',
+          'quantity': '${quantity.toStringAsFixed(4)} ${SeedsToken.symbol}',
           'memo': '',
         },
       Action()
@@ -47,8 +47,8 @@ class InviteRepository extends NetworkRepository with EosRepository {
         ]
         ..data = {
           'sponsor': accountName,
-          'transfer_quantity': '${transferQuantity.toStringAsFixed(4)} $currencySeedsCode',
-          'sow_quantity': '${sowQuantity.toStringAsFixed(4)} $currencySeedsCode',
+          'transfer_quantity': '${transferQuantity.toStringAsFixed(4)} ${SeedsToken.symbol}',
+          'sow_quantity': '${sowQuantity.toStringAsFixed(4)} ${SeedsToken.symbol}',
           'invite_hash': inviteHash,
         }
     ], accountName);

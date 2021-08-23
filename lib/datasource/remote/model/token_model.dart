@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class TokenModel extends Equatable {
-  static const AllTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken];
+  static const AllTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken, TelosToken];
 
   final String chainName;
   final String contract;
@@ -24,6 +24,10 @@ class TokenModel extends Equatable {
     required this.balanceSubTitle,
     this.precision = 4,
   });
+
+  factory TokenModel.fromSymbol(String symbol) {
+    return AllTokens.firstWhere((e) => e.symbol == symbol);
+  }
 
   @override
   List<Object?> get props => [chainName, contract, symbol];
@@ -72,5 +76,15 @@ const LocalScaleToken = TokenModel(
   name: "LocalScale",
   backgroundImage: 'assets/images/wallet/currency_info_cards/lscl/background.jpg',
   logo: 'assets/images/wallet/currency_info_cards/lscl/logo.jpg',
+  balanceSubTitle: 'Wallet Balance',
+);
+
+const TelosToken = TokenModel(
+  chainName: "Telos",
+  contract: "eosio.token",
+  symbol: "TLOS",
+  name: "Telos",
+  backgroundImage: 'assets/images/wallet/currency_info_cards/hypha/background.jpg',
+  logo: 'assets/images/wallet/currency_info_cards/hypha/logo.jpg',
   balanceSubTitle: 'Wallet Balance',
 );

@@ -1,3 +1,4 @@
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_model.dart';
@@ -17,14 +18,12 @@ class ShowTransferSuccess extends TransactionPageCommand {
   final TransactionModel transactionModel;
   ProfileModel? from;
   ProfileModel? to;
-  double fiatQuantity;
-  String fiatSymbol;
+  FiatDataModel? fiatQuantity;
 
   ShowTransferSuccess({
     required this.transactionModel,
     this.from,
     this.to,
     required this.fiatQuantity,
-    required this.fiatSymbol,
   });
 }
