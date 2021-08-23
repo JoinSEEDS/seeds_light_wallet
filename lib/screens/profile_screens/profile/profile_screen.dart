@@ -36,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
           if (pageCommand is ShowSwitchAccount) {
             showModalBottomSheet(
               shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
               ),
               context: context,
               builder: (_) => BlocProvider.value(

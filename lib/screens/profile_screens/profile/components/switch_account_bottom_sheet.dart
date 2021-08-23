@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 class SwithAccountBottomSheet extends StatelessWidget {
@@ -37,10 +38,13 @@ class SwithAccountBottomSheet extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(state.profile!.account),
+                        Text(state.profile!.account, style: Theme.of(context).textTheme.buttonHighEmphasis),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(state.profile?.nickname ?? ''),
+                          child: Text(
+                            state.profile?.nickname ?? '',
+                            style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                          ),
                         )
                       ],
                     ),
