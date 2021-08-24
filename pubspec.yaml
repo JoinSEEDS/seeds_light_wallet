@@ -17,14 +17,12 @@ dependencies:
   flutter_bloc: ^7.0.0
   equatable: ^2.0.0
   url_launcher: ^6.0.3
-  step_progress_indicator: ^1.0.0-nullsafety.0
+  step_progress_indicator: ^1.0.1
   uni_links: ^0.5.1
-  intro_views_flutter: ^3.0.0
   intl: ^0.17.0
   flutter_localizations:
     sdk: flutter
   i18n_extension: ^4.0.0
-  cupertino_icons: ^1.0.2
   http: ^0.13.1
   shared_preferences: ^2.0.5
   flutter_secure_storage: ^4.1.0
@@ -32,7 +30,6 @@ dependencies:
   timeago: ^3.0.2
   cached_network_image: ^3.0.0
   passcode_screen: ^2.0.0
-  percent_indicator: ^3.0.1
   flutter_svg: ^0.22.0
   firebase_dynamic_links: ^2.0.7
   firebase_messaging: ^10.0.0
@@ -40,18 +37,15 @@ dependencies:
   firebase_storage: ^10.0.2
   cloud_firestore: ^2.2.1
   firebase_remote_config: ^0.10.0+1
-  liquid_pull_to_refresh: ^3.0.0
   shimmer: ^2.0.0
   share: ^2.0.1
   provider: ^5.0.0
-  photo_view: ^0.12.0
-  image_cropper: ^1.2.1
-  carousel_slider: ^4.0.0-nullsafety.0
+  image_cropper: ^1.4.1
+  carousel_slider: ^4.0.0
   dots_indicator: ^2.0.0
   permission_handler: ^8.0.1
   qr_flutter: ^4.0.0
   image_picker: ^0.8.2
-  oktoast: ^3.0.0
   eosdart:
     git: 
       url: https://github.com/JoinSEEDS/eosdart.git
@@ -60,15 +54,10 @@ dependencies:
     git:
       url: https://github.com/JoinSEEDS/dart-esr.git
       ref: flutter_2_nns
-      
-  webview_flutter: ^2.0.2
-  rubber: ^1.0.0
-  path_provider: ^2.0.1
-  dotted_border: ^2.0.0-nullsafety.0
-  pedantic: ^1.9.2
-  flutter_pagewise: ^2.0.1
+
+  pedantic: ^1.11.1
   qr_code_scanner: ^0.4.0
-  collection: ^1.15.0-nullsafety.4
+  collection: ^1.15.0
   mask_text_input_formatter: ^2.0.0
   lottie: ^1.0.1
   hive: ^2.0.4
