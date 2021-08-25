@@ -151,7 +151,7 @@ flutter:
     - assets/images/wallet/currency_info_cards/husd/background.jpg
     - assets/images/wallet/currency_info_cards/seeds/background.jpg
     - assets/images/wallet/currency_info_cards/lscl/background.jpg
-    - assets/images/wallet/currency_info_cards/lscl/logo.jpg
+    - assets/images/wallet/currency_info_cards/lscl/logo.png
     - assets/images/wallet/currency_info_cards/planted_seeds/background.jpg
     - assets/images/wallet/currency_info_cards/planted_seeds/logo.jpg
     - assets/images/wallet/currency_info_cards/hypha/background.jpg
