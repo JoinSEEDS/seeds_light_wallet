@@ -7,7 +7,7 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_bottom.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_header.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_middle.dart';
-import 'package:seeds/screens/profile_screens/profile/components/switch_account_bottom_sheet.dart';
+import 'package:seeds/screens/profile_screens/profile/components/switch_account_bottom_sheet/switch_account_bottom_sheet.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
 
@@ -34,16 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
           final pageCommand = state.pageCommand;
           BlocProvider.of<ProfileBloc>(context).add(const ClearProfilePageCommand());
           if (pageCommand is ShowSwitchAccount) {
-            showModalBottomSheet(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-              ),
-              context: context,
-              builder: (_) => BlocProvider.value(
-                value: BlocProvider.of<ProfileBloc>(context),
-                child: const SwithAccountBottomSheet(),
-              ),
-            );
+            const SwithAccountBottomSheet().show(context);
           }
         },
         builder: (context, state) {
