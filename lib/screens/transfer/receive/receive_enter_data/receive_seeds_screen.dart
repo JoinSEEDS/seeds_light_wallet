@@ -77,7 +77,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                     BalanceRow(
                                       label: "Available Balance".i18n,
                                       fiatAmount: state.availableBalanceFiat,
-                                      seedsAmount: state.availableBalanceSeeds,
+                                      tokenAmount: state.availableBalanceSeeds,
                                     ),
                                   ],
                                 ),

@@ -152,8 +152,8 @@ class SendEnterDataScreen extends StatelessWidget {
                                     const SizedBox(height: 16),
                                     BalanceRow(
                                       label: "Available Balance".i18n,
-                                      fiatAmount: state.availableBalanceFiat ?? "",
-                                      seedsAmount: state.availableBalance ?? "",
+                                      fiatAmount: state.availableBalanceFiat,
+                                      tokenAmount: state.availableBalance,
                                     ),
                                     const SizedBox(height: 100),
                                   ],

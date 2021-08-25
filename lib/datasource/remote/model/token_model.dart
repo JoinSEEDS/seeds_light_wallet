@@ -71,6 +71,6 @@ const LocalScaleToken = TokenModel(
   symbol: "LSCL",
   name: "LocalScale",
   backgroundImage: 'assets/images/wallet/currency_info_cards/lscl/background.jpg',
-  logo: 'assets/images/wallet/currency_info_cards/lscl/logo.jpg',
+  logo: 'assets/images/wallet/currency_info_cards/lscl/logo.png',
   balanceSubTitle: 'Wallet Balance',
 );

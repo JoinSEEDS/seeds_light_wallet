@@ -5,7 +5,7 @@ extension Localization on String {
       {
         'es_es': {
           "Scan QR Code": 'Escanear Código QR',
-          'Share Link to Invoice': 'Compartir enlace a la factura',
+          'Share Link to Invoice': 'Compartir el enlace de factura',
           "Total": 'Total',
           'Memo:': 'Memo:',
           'Done': 'Hecho',

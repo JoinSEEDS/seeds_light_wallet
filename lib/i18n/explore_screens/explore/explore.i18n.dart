@@ -6,7 +6,7 @@ extension Localization on String {
         'es_es': {
           'Explore': 'Explorar',
           'Invite a Friend': 'Invita un amigo',
-          'Plant Seeds': 'Seeds plantadas',
+          'Plant Seeds': 'Plantar Seeds',
           'Vote': 'Votar',
           'Uh oh! Something went wrong...': '¡UH oh! Algo salió mal...',
           'Get Seeds': "Conseguir Seeds",
