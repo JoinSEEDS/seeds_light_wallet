@@ -4,7 +4,7 @@ extension Localization on String {
   static final _t = Translations.byLocale('en_us') +
       {
         'es_es': {
-          'Private key': 'Llave privada',
+          'Private Key': 'Llave Privada',
           'Private Key cannot be empty': 'Llave privada no puede estar vacía',
           'If you already have a Seeds account, please enter your private key and your account will be imported automatically.':
               'Si ya tienes una cuenta de Seeds, por favor, ingresa tu llave privada activa y tu cuenta se importará automáticamente.',

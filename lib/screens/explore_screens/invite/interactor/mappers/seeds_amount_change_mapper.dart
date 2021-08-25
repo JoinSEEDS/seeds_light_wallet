@@ -9,7 +9,7 @@ import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
 class SeedsAmountChangeMapper extends StateMapper {
   InviteState mapResultToState(InviteState currentState, RatesState rateState, String quantity) {
     final double parsedQuantity = double.tryParse(quantity) ?? 0;
-    final double currentAvailable = currentState.availableBalance?.quantity ?? 0;
+    final double currentAvailable = currentState.availableBalance?.amount ?? 0;
 
     final String? alertMessage = _handleAlertMessage(currentAvailable, parsedQuantity);
 

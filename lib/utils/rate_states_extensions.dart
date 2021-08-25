@@ -1,4 +1,5 @@
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 
 extension RatesStateExtensions on RatesState {
   /// Returns a double that represents the amount of seeds in a given fiat currency
@@ -10,6 +11,18 @@ extension RatesStateExtensions on RatesState {
       return fiatRate?.usdToCurrency(usdValue, currencySymbol) ?? double.nan;
     } else {
       return double.nan;
+    }
+  }
+
+  FiatDataModel? seedsToFiat(double seedsAmount, String currencySymbol) {
+    // Convert seeds to USD
+    final double? usdValue = rate?.seedsToUSD(seedsAmount);
+    if (usdValue != null) {
+      // Convert the seeds (USD amount) in the new currency
+      final double? res = fiatRate?.usdToCurrency(usdValue, currencySymbol);
+      return res != null ? FiatDataModel(res, fiatSymbol: currencySymbol) : null;
+    } else {
+      return null;
     }
   }
 

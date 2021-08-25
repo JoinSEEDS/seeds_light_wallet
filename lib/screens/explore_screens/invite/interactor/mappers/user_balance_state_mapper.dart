@@ -1,4 +1,5 @@
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -19,8 +20,8 @@ class UserBalanceStateMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         fiatAmount: rateState.fromSeedsToFiat(0, selectedFiat).fiatFormatted,
-        availableBalance: balance,
-        availableBalanceFiat: rateState.fromSeedsToFiat(balance.quantity, selectedFiat).fiatFormatted,
+        availableBalance: TokenDataModel(balance.quantity),
+        availableBalanceFiat: rateState.seedsToFiat(balance.quantity, selectedFiat),
       );
     }
   }

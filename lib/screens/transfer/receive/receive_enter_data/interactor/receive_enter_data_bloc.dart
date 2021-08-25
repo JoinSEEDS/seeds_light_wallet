@@ -6,7 +6,6 @@ import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_c
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/usecases/receive_seeds_invoice_use_case.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_events.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_state.dart';
-import 'package:seeds/utils/double_extension.dart';
 import 'package:async/async.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
 import 'mappers/create_invoice_result_mapper.dart';
@@ -25,8 +24,7 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
     } else if (event is OnAmountChange) {
       final double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;
 
-      final String seedsToFiat =
-          state.ratesState.fromSeedsToFiat(parsedQuantity, settingsStorage.selectedFiatCurrency).fiatFormatted;
+      final double seedsToFiat = state.ratesState.fromSeedsToFiat(parsedQuantity, settingsStorage.selectedFiatCurrency);
 
       if (parsedQuantity > 0) {
         yield state.copyWith(isNextButtonEnabled: true, quantity: parsedQuantity, fiatAmount: seedsToFiat);
@@ -41,7 +39,7 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
       yield CreateInvoiceResultMapper().mapResultToState(state, result);
     } else if (event is ClearReceiveEnterDataState) {
       yield state.copyWith(
-        fiatAmount: 0.toString(),
+        fiatAmount: 0,
         isNextButtonEnabled: false,
         quantity: 0,
         seedsAmount: 0.toString(),

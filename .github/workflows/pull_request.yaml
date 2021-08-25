@@ -4,20 +4,6 @@ on:
     branches:
     - master
 jobs:
-#  workflow:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2 # (1)
-#      - name: Setup Flutter # (2)
-#        run: |
-#          git clone https://github.com/flutter/flutter.git --depth 1
-#          echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
-#      - name: Run Checks # (3)
-#        run: |
-#          flutter pub get
-#          flutter format lib/** --set-exit-if-changed
-#          flutter analyze --no-pub
-
   lint-and-test:
     runs-on: ubuntu-latest
     steps:
@@ -26,40 +12,12 @@ jobs:
         with:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
-      #   with:
-      #     channel: 'stable'
-      # - name: Upgrade flutter
-      #   run: |
-      #     flutter channel stable
-      #     flutter upgrade
-      # - name: Install packages
-      #   run: |
-      #     ls
-      #     flutter pub get
         with:
           flutter-version: '2.0.3'
       - run: flutter pub get
       - name: Lint
         run: |
           flutter analyze
-#      - name: Unit test
-#        run: |
-#          flutter test
-#  build-iOS:
-#    name: Build iOS package
-#    runs-on: macOS-latest
-#    steps:
-#      - uses: actions/checkout@v1
-#      - uses: actions/setup-java@v1
-#        with:
-#          java-version: '12.x'
-#      - uses: subosito/flutter-action@v1
-#        with:
-#          flutter-version: '2.2.0'
-#      - run: flutter pub get
-#      - name: build iOS package
-#        run: |
-#          flutter build ios --release --no-codesign --no-sound-null-safety lib/main.dart
   build-Android:
     name: Build Android package
     runs-on: ubuntu-latest
