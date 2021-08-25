@@ -70,7 +70,7 @@ const LocalScaleToken = TokenModel(
   contract: "token.local",
   symbol: "LSCL",
   name: "LocalScale",
-  backgroundImage: 'assets/images/wallet/currency_info_cards/lscl/background.jpeg',
+  backgroundImage: 'assets/images/wallet/currency_info_cards/lscl/background.jpg',
   logo: 'assets/images/wallet/currency_info_cards/lscl/logo.png',
   balanceSubTitle: 'Wallet Balance',
 );
