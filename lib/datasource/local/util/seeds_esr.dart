@@ -3,7 +3,6 @@ import 'package:dart_esr/dart_esr.dart';
 import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:async/async.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
-import 'package:seeds/screens/app/interactor/viewmodels/connection_notifier.dart';
 
 class SeedsESR {
   late SigningRequestManager manager;
