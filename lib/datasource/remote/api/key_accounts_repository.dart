@@ -17,7 +17,7 @@ class KeyAccountsRepository extends NetworkRepository {
         ''';
 
     return http
-        .post(Uri.parse('https://mongo-api.hypha.earth/find'), headers: headers, body: body)
+        .post(Uri.parse(mongodbURL), headers: headers, body: body)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               print('result: $body');
 

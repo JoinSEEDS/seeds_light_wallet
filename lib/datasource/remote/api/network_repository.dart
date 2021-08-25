@@ -7,6 +7,7 @@ abstract class NetworkRepository {
   String baseURL = remoteConfigurations.defaultEndPointUrl;
   String v2historyURL = remoteConfigurations.defaultV2EndPointUrl;
   String hyphaURL = remoteConfigurations.hyphaEndPoint;
+  String mongodbURL = remoteConfigurations.hyphaEndPoint;
   String fxApiKey = "thesecretapikey989";
   Map<String, String> headers = {'Content-type': 'application/json'};
 

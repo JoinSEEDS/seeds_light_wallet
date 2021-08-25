@@ -17,6 +17,7 @@ const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDe
 const String _termsAndConditionsDefaultUrl = 'https://www.joinseeds.com/seeds-app-terms-and-conditions.html';
 const String _privacyPolicyUrl = 'https://www.joinseeds.com/seeds-app-privacy-policy.html';
 const String _hyphaEndPointUrl = 'https://node.hypha.earth';
+const String _mongodbURL = 'https://mongo-api.hypha.earth/find';
 const String _explorerUrl = 'https://telos.bloks.io';
 const String _dhoExplorerUrl = 'https://dho.hypha.earth';
 const String _defaultEndPointUrl = "https://api.telosfoundation.io";
@@ -81,6 +82,8 @@ class _FirebaseRemoteConfigService {
   String get privacyPolicy => _privacyPolicyUrl; //_remoteConfig.getString(_privacyPolicyKey);
 
   String get hyphaEndPoint => _hyphaEndPointUrl; //_remoteConfig.getString(_hyphaEndPointUrl);
+
+  String get mongodbURL => _mongodbURL; //_remoteConfig.getString(_mongodbURL);
 
   String get explorerUrl => _explorerUrl; //_remoteConfig.getString(_explorerUrlKey);
 
