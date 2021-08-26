@@ -1,3 +1,4 @@
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
@@ -35,7 +36,7 @@ class TokenBalancesStateMapper {
         } else {
           final BalanceModel balance = result.asValue?.value as BalanceModel;
           if (whitelisted || balance.quantity > 0) {
-            available.add(TokenBalanceViewModel(token, balance));
+            available.add(TokenBalanceViewModel(token, TokenDataModel(balance.quantity, token: token)));
             newWhitelist.add(token.id);
           }
         }
