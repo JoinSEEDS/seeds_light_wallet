@@ -29,6 +29,10 @@ extension RatesStateExtensions on RatesState {
         final double? res = fiatRate?.usdToCurrency(usdValue, currencySymbol);
         return res != null ? FiatDataModel(res, fiatSymbol: currencySymbol) : null;
       }
+    } else if (tokenAmount.symbol == HusdToken.symbol) {
+      final double usdValue = tokenAmount.amount;
+      final double? res = fiatRate?.usdToCurrency(usdValue, currencySymbol);
+      return res != null ? FiatDataModel(res, fiatSymbol: currencySymbol) : null;
     }
     return null;
   }
