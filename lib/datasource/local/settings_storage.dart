@@ -10,14 +10,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 const String _kAccountName = 'accountName';
 const String _kPrivateKey = 'privateKey';
 const String _kPasscode = 'passcode';
-const String _kPasscodeActive = 'passcodeActive';
-const String _kBiometricActive = 'biometricActive';
-const String _kPrivateKeyBackedUp = 'privateKeyBackedUp';
-const String _kSelectedFiatCurrency = 'selectedFiatCurrency';
-const String _kInRecoveryMode = 'inRecoveryMode';
-const String _kTokensWhiteList = 'tokensWhiteList';
-const String _kIsCitizen = 'isCitizen';
-const String _kIsFirstRun = "isFirstRun";
+const String _kPasscodeActive = 'passcode_active';
+const String _kBiometricActive = 'biometric_active';
+const String _kPrivateKeyBackedUp = 'private_key_backed_up';
+const String _kSelectedFiatCurrency = 'selected_fiat_currency';
+const String _kInRecoveryMode = 'in_recovery_mode';
+const String _kTokensWhiteList = 'tokens_whitelist';
+const String _kIsCitizen = 'is_citizen';
+const String _kIsFirstRun = 'is_first_run';
 
 // Defaults
 const bool _kPasscodeActiveDefault = true;
