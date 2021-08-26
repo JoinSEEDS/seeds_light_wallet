@@ -1,23 +1,49 @@
 import 'package:hive/hive.dart';
+import 'package:seeds/datasource/local/member_model_cache_item.dart';
+import 'package:seeds/datasource/remote/model/vote_model.dart';
 
-class CacheRepository<T> {
-  final Box _box;
+// Hive box names
 
-  const CacheRepository(Box box) : _box = box;
+const String _proposalVotesBox = 'proposalVotesBox';
+const String _membersBox = 'membersBox';
 
-  bool get boxIsClosed => !_box.isOpen;
+// Cache Repo
+class CacheRepository {
+  const CacheRepository();
 
-  T? get(dynamic id) {
-    if (boxIsClosed) {
+  bool _boxIsClosed(Box box) => !box.isOpen;
+
+  Future<MemberModelCacheItem?> getMemberCacheItem(String account) async {
+    final box = await Hive.openBox<MemberModelCacheItem>(_membersBox);
+    if (_boxIsClosed(box)) {
       return null;
     }
-    return _box.get(id);
+    return box.get(account);
   }
 
-  Future<void> add(dynamic id, T object) async {
-    if (boxIsClosed) {
+  Future<void> saveMemberCacheItem(String account, MemberModelCacheItem memberModelCacheItem) async {
+    final box = await Hive.openBox<MemberModelCacheItem>(_membersBox);
+    if (_boxIsClosed(box)) {
       return;
     }
-    await _box.put(id, object);
+    await box.put(account, memberModelCacheItem);
+  }
+
+  Future<VoteModel?> getProposalVote(String account, int proposalId) async {
+    final box = await Hive.openBox<VoteModel>(_proposalVotesBox);
+    if (_boxIsClosed(box)) {
+      return null;
+    }
+    // Vote cache needs to support multiple accounts.
+    // The vote cache needs to store what account the vote was for.
+    return box.get('${account}_$proposalId');
+  }
+
+  Future<void> saveProposalVote(int proposalId, VoteModel voteModel) async {
+    final box = await Hive.openBox<VoteModel>(_proposalVotesBox);
+    if (_boxIsClosed(box)) {
+      return;
+    }
+    await box.put(proposalId, voteModel);
   }
 }

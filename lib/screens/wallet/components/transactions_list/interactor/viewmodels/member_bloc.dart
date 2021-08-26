@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:seeds/constants/system_accounts.dart';
+import 'package:seeds/datasource/local/cache_repository.dart';
 import 'package:seeds/datasource/local/member_model_cache_item.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -9,7 +9,7 @@ import 'package:seeds/screens/wallet/components/transactions_list/interactor/use
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/member_events.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/member_state.dart';
 
-const cacheExpiryMinutes = 30;
+const int _cacheExpiryMinutes = 30;
 
 class MemberBloc extends Bloc<MemberEvent, MemberState> {
   MemberBloc(String accountName) : super(MemberState.initial(accountName));
@@ -26,10 +26,10 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
       }
 
       yield state.copyWith(pageState: PageState.loading);
-      final box = await Hive.openBox('members_box');
+      final CacheRepository cacheRepository = const CacheRepository();
 
       // If we have a cached item, use it
-      final MemberModelCacheItem? cacheItem = box.get(account);
+      final cacheItem = await cacheRepository.getMemberCacheItem(account);
       if (cacheItem != null) {
         yield state.copyWith(pageState: PageState.success, member: cacheItem.member);
         if (cacheItem.refreshTimeStamp < DateTime.now().millisecondsSinceEpoch) {
@@ -42,10 +42,10 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
       // store result in cache
       if (!result.isError && result.asValue != null && result.asValue!.value is MemberModel) {
         final MemberModel member = result.asValue!.value;
-        await box.put(
+        await cacheRepository.saveMemberCacheItem(
             account,
             MemberModelCacheItem(
-                member, DateTime.now().millisecondsSinceEpoch + Duration.millisecondsPerMinute * cacheExpiryMinutes));
+                member, DateTime.now().millisecondsSinceEpoch + Duration.millisecondsPerMinute * _cacheExpiryMinutes));
       }
 
       yield MemberStateMapper().mapResultToState(state, result);
