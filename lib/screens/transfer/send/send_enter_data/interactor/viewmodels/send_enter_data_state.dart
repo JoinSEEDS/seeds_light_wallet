@@ -16,7 +16,6 @@ class SendEnterDataPageState extends Equatable {
   final TokenDataModel quantity;
   final FiatDataModel? fiatAmount;
   final RatesState ratesState;
-  // final BalanceModel? balance;
   final TokenDataModel? availableBalance;
   final FiatDataModel? availableBalanceFiat;
   final bool isNextButtonEnabled;
@@ -35,7 +34,6 @@ class SendEnterDataPageState extends Equatable {
     this.availableBalance,
     this.availableBalanceFiat,
     required this.isNextButtonEnabled,
-    // this.balance,
     required this.quantity,
     required this.memo,
     required this.shouldAutoFocusEnterField,
@@ -54,7 +52,6 @@ class SendEnterDataPageState extends Equatable {
         availableBalance,
         availableBalanceFiat,
         isNextButtonEnabled,
-        // balance,
         quantity,
         memo,
         shouldAutoFocusEnterField,
@@ -71,7 +68,6 @@ class SendEnterDataPageState extends Equatable {
     RatesState? ratesState,
     TokenDataModel? availableBalance,
     FiatDataModel? availableBalanceFiat,
-    // BalanceModel? balance,
     bool? isNextButtonEnabled,
     TokenDataModel? quantity,
     String? memo,
@@ -88,7 +84,6 @@ class SendEnterDataPageState extends Equatable {
       ratesState: ratesState ?? this.ratesState,
       availableBalance: availableBalance ?? this.availableBalance,
       availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
-      // balance: balance ?? this.balance,
       isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled,
       quantity: quantity ?? this.quantity,
       memo: memo ?? this.memo,
