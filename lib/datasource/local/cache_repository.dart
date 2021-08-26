@@ -4,7 +4,7 @@ import 'package:seeds/datasource/remote/model/vote_model.dart';
 
 // Hive box names
 
-const String _proposalVoteBox = 'proposalVoteBox';
+const String _proposalVotesBox = 'proposalVotesBox';
 const String _membersBox = 'membersBox';
 
 // Cache Repo
@@ -30,7 +30,7 @@ class CacheRepository {
   }
 
   Future<VoteModel?> getProposalVote(String account, int proposalId) async {
-    final box = await Hive.openBox<VoteModel>(_proposalVoteBox);
+    final box = await Hive.openBox<VoteModel>(_proposalVotesBox);
     if (_boxIsClosed(box)) {
       return null;
     }
@@ -40,7 +40,7 @@ class CacheRepository {
   }
 
   Future<void> saveProposalVote(int proposalId, VoteModel voteModel) async {
-    final box = await Hive.openBox<VoteModel>(_proposalVoteBox);
+    final box = await Hive.openBox<VoteModel>(_proposalVotesBox);
     if (_boxIsClosed(box)) {
       return;
     }
