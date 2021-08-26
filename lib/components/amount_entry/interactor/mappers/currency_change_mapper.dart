@@ -27,7 +27,6 @@ String handleEnteringCurrencyName(CurrencyInput currentCurrencyInput) {
     case CurrencyInput.fiat:
       return settingsStorage.selectedFiatCurrency;
     case CurrencyInput.token:
-      print("currency input: ${settingsStorage.selectedToken.symbol}");
       return settingsStorage.selectedToken.symbol;
   }
 }
