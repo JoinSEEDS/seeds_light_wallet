@@ -57,7 +57,9 @@ class _SettingsStorage {
 
   String get selectedFiatCurrency => _preferences.getString(SELECTED_FIAT_CURRENCY) ?? getPlatformCurrency();
 
-  TokenModel get selectedToken => TokenModel.fromSymbol(_preferences.getString(SELECTED_TOKEN) ?? SeedsToken.symbol);
+  // TokenModel get selectedToken => TokenModel.fromSymbol(_preferences.getString(SELECTED_TOKEN) ?? SeedsToken.symbol);
+  // TODO(n13): Hard coded for now
+  TokenModel get selectedToken => TokenModel.fromSymbol(SeedsToken.symbol);
 
   bool get inRecoveryMode => _preferences.getBool(IN_RECOVERY_MODE) ?? false;
 
