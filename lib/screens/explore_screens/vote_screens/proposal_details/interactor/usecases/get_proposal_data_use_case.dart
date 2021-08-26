@@ -1,5 +1,4 @@
 import 'package:async/async.dart';
-import 'package:hive/hive.dart';
 import 'package:seeds/datasource/local/cache_repository.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
@@ -28,15 +27,14 @@ class GetProposalDataUseCase {
   }
 
   Future<Result> _fetchVote(int proposalId, String account) async {
-    final box = await Hive.openBox<VoteModel>(proposalVotesCacheBox);
-    final cache = CacheRepository<VoteModel>(box);
-    VoteModel? voteModel = cache.get(buildVoteKey(account, proposalId));
+    final cacheRepository = const CacheRepository();
+    VoteModel? voteModel = await cacheRepository.getProposalVote(account, proposalId);
     if (voteModel == null) {
       final result = await _proposalsRepository.getVote(proposalId, account);
       if (result.isValue) {
         voteModel = result.asValue!.value as VoteModel;
         if (voteModel.isVoted) {
-          await cache.add(proposalId, voteModel);
+          await cacheRepository.saveProposalVote(proposalId, voteModel);
         }
       }
     }
