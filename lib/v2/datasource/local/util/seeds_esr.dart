@@ -1,5 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dart_esr/dart_esr.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/v2/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:async/async.dart';
 
@@ -44,7 +45,7 @@ class SeedsESR {
 extension TelosSigningManager on SigningRequestManager {
   static SigningRequestManager from(String? uri) {
     return SigningRequestManager.from(uri,
-        options: defaultSigningRequestEncodingOptions(nodeUrl: 'https://api.eos.miami'));
+        options: defaultSigningRequestEncodingOptions(nodeUrl: remoteConfigurations.defaultEndPointUrl));
   }
 
   Future<List<Action>> fetchActions({String? account, String permission = "active"}) async {
