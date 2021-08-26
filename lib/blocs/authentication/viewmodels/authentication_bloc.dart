@@ -22,6 +22,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is UnlockWallet) {
       yield state.copyWith(authStatus: AuthStatus.unlocked);
     }
+    if (event is OnCreateAccount) {
+      settingsStorage.saveAccount(event.account, event.privateKey);
+      // New account --> re-start auth status
+      add(const InitAuthStatus());
+      // Set fcm token must be last instruction to allow login, even if there is an error here.
+      await FirebaseMessageTokenRepository().setFirebaseMessageToken(settingsStorage.accountName);
+    }
     if (event is OnImportAccount) {
       settingsStorage.saveAccount(event.account, event.privateKey);
       settingsStorage.privateKeyBackedUp = true;
@@ -30,11 +37,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       // Set fcm token must be last instruction to allow login, even if there is an error here.
       await FirebaseMessageTokenRepository().setFirebaseMessageToken(event.account);
     }
-    if (event is OnCreateAccount) {
+    if (event is OnRecoverAccount) {
+      settingsStorage.saveAccount(event.account, event.privateKey);
+      settingsStorage.privateKeyBackedUp = true;
       // New account --> re-start auth status
       add(const InitAuthStatus());
       // Set fcm token must be last instruction to allow login, even if there is an error here.
-      await FirebaseMessageTokenRepository().setFirebaseMessageToken(settingsStorage.accountName);
+      await FirebaseMessageTokenRepository().setFirebaseMessageToken(event.account);
     }
     if (event is EnablePasscode) {
       settingsStorage.savePasscode(event.newPasscode);
