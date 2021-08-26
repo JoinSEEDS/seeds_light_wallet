@@ -233,7 +233,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                   child: Text(
-                    widget.proposal.status.toUpperCase(),
+                    widget.proposal.status.i18n.toUpperCase(),
                     style: widget.proposal.status == 'rejected'
                         ? Theme.of(context).textTheme.subtitle3OpacityEmphasisRed
                         : Theme.of(context).textTheme.subtitle3OpacityEmphasisGreen,

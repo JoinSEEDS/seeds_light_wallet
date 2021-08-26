@@ -15,10 +15,12 @@ extension Localization on String {
           'In favour': 'A favor',
           'Votes': 'votos',
           'Against': 'En contra',
-          '+%s voted' : '+%s votos',
+          '+%s voted': '+%s votos',
           '%s voted': '%s votos',
           'alliance': 'Alianza',
           'Campaign': 'Campaña',
+          'passed': 'aprobada',
+          'rejected': 'rechazada',
         }
       };
 
