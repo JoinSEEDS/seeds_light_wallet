@@ -26,10 +26,10 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
       }
 
       yield state.copyWith(pageState: PageState.loading);
-      final CacheRepository _cacheRepository = const CacheRepository();
+      final CacheRepository cacheRepository = const CacheRepository();
 
       // If we have a cached item, use it
-      final cacheItem = await _cacheRepository.getMemberCacheItem(account);
+      final cacheItem = await cacheRepository.getMemberCacheItem(account);
       if (cacheItem != null) {
         yield state.copyWith(pageState: PageState.success, member: cacheItem.member);
         if (cacheItem.refreshTimeStamp < DateTime.now().millisecondsSinceEpoch) {
@@ -42,7 +42,7 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
       // store result in cache
       if (!result.isError && result.asValue != null && result.asValue!.value is MemberModel) {
         final MemberModel member = result.asValue!.value;
-        await _cacheRepository.saveMemberCacheItem(
+        await cacheRepository.saveMemberCacheItem(
             account,
             MemberModelCacheItem(
                 member, DateTime.now().millisecondsSinceEpoch + Duration.millisecondsPerMinute * _cacheExpiryMinutes));
