@@ -23,6 +23,7 @@ class _SettingsStorage {
   static const BACKUP_LATEST_REMINDER = 'backup_latest_reminder';
   static const BACKUP_REMINDER_COUNT = 'backup_reminder_count';
   static const SELECTED_FIAT_CURRENCY = 'selected_fiat_currency';
+  static const SELECTED_TOKEN = 'selected_token';
   static const IN_RECOVERY_MODE = 'in_recovery_mode';
   static const GUARDIAN_TUTORIAL_SHOWN = 'guardian_tutorial_shown';
   static const TOKENS_WHITELIST = 'tokens_whitelist';
@@ -55,6 +56,8 @@ class _SettingsStorage {
   int get backupReminderCount => _backupReminderCount ?? 0;
 
   String get selectedFiatCurrency => _preferences.getString(SELECTED_FIAT_CURRENCY) ?? getPlatformCurrency();
+
+  TokenModel get selectedToken => TokenModel.fromSymbol(_preferences.getString(SELECTED_TOKEN) ?? SeedsToken.symbol);
 
   bool get inRecoveryMode => _preferences.getBool(IN_RECOVERY_MODE) ?? false;
 
@@ -116,6 +119,12 @@ class _SettingsStorage {
   set selectedFiatCurrency(String? value) {
     if (value != null) {
       _preferences.setString(SELECTED_FIAT_CURRENCY, value);
+    }
+  }
+
+  set selectedToken(TokenModel? token) {
+    if (token != null) {
+      _preferences.setString(SELECTED_TOKEN, token.symbol);
     }
   }
 
@@ -235,6 +244,10 @@ class _SettingsStorage {
 
   void saveSelectedFiatCurrency(String value) {
     selectedFiatCurrency = value;
+  }
+
+  void saveSelectedToken(TokenModel token) {
+    selectedToken = token;
   }
 
   void saveGuardianTutorialShown(bool value) {
