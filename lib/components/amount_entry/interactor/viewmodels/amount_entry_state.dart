@@ -12,7 +12,6 @@ class AmountEntryState extends Equatable {
   final CurrencyInput currentCurrencyInput;
   final RatesState ratesState;
   final PageCommand? pageCommand;
-  // final String infoRowText;
   final String enteringCurrencyName;
   final TokenDataModel tokenAmount;
   final FiatDataModel? fiatAmount;
@@ -23,12 +22,10 @@ class AmountEntryState extends Equatable {
   const AmountEntryState({
     required this.currentCurrencyInput,
     required this.ratesState,
-    // required this.infoRowText,
     required this.enteringCurrencyName,
     required this.tokenAmount,
     this.pageCommand,
     required this.fiatAmount,
-    // required this.seedsToFiat,
     required this.textInput,
   });
 
@@ -38,22 +35,18 @@ class AmountEntryState extends Equatable {
         ratesState,
         tokenAmount,
         pageCommand,
-        // seedsToFiat,
         fiatAmount,
         textInput,
-        // infoRowText,
         enteringCurrencyName,
       ];
 
   AmountEntryState copyWith({
     CurrencyInput? currentCurrencyInput,
     RatesState? ratesState,
-    // String? infoRowText,
     String? enteringCurrencyName,
     TokenDataModel? tokenAmount,
     PageCommand? pageCommand,
     FiatDataModel? fiatAmount,
-    // String? seedsToFiat,
     String? textInput,
   }) {
     return AmountEntryState(
@@ -61,10 +54,8 @@ class AmountEntryState extends Equatable {
       ratesState: ratesState ?? this.ratesState,
       tokenAmount: tokenAmount ?? this.tokenAmount,
       enteringCurrencyName: enteringCurrencyName ?? this.enteringCurrencyName,
-      // infoRowText: infoRowText ?? this.infoRowText,
       pageCommand: pageCommand,
       fiatAmount: fiatAmount ?? this.fiatAmount,
-      // seedsToFiat: seedsToFiat ?? this.seedsToFiat,
       textInput: textInput ?? this.textInput,
     );
   }
