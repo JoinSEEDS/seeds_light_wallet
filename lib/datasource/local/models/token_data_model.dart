@@ -14,6 +14,8 @@ class TokenDataModel extends AmountDataModel {
 
   static TokenDataModel? from(double? amount, {TokenModel token = SeedsToken}) =>
       amount != null ? TokenDataModel(amount, token: token) : null;
+
+  static TokenDataModel fromSelected(double amount) => TokenDataModel(amount, token: settingsStorage.selectedToken);
 }
 
 extension FormatterTokenModel on TokenDataModel {

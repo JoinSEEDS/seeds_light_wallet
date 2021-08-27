@@ -37,6 +37,22 @@ extension RatesStateExtensions on RatesState {
     return null;
   }
 
+  TokenDataModel? fiatToToken(FiatDataModel fiatAmount, String tokenSymbol) {
+    // Convert seeds to USD
+    final double? usdValue = fiatRate?.currencyToUSD(fiatAmount.amount, fiatAmount.symbol);
+    if (usdValue != null) {
+      if (tokenSymbol == SeedsToken.symbol) {
+        final double? seedsValue = rate?.usdToSeeds(usdValue);
+        if (seedsValue != null) {
+          return TokenDataModel.fromSelected(seedsValue);
+        }
+      } else if (tokenSymbol == HusdToken.symbol) {
+        return TokenDataModel(usdValue, token: HusdToken);
+      }
+    }
+    return null;
+  }
+
   /// Returns a double representing the amount of given fiat currency in seeds
   double fromFiatToSeeds(double currencyAmount, String currencySymbol) {
     if (currencySymbol == "USD") {
