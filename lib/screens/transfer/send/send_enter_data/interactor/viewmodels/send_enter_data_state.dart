@@ -12,7 +12,7 @@ class SendEnterDataPageState extends Equatable {
   final PageCommand? pageCommand;
   final String? errorMessage;
   final MemberModel sendTo;
-  final TokenDataModel quantity;
+  final TokenDataModel tokenAmount;
   final FiatDataModel? fiatAmount;
   final RatesState ratesState;
   final TokenDataModel? availableBalance;
@@ -33,7 +33,7 @@ class SendEnterDataPageState extends Equatable {
     this.availableBalance,
     this.availableBalanceFiat,
     required this.isNextButtonEnabled,
-    required this.quantity,
+    required this.tokenAmount,
     required this.memo,
     required this.shouldAutoFocusEnterField,
     required this.showAlert,
@@ -51,7 +51,7 @@ class SendEnterDataPageState extends Equatable {
         availableBalance,
         availableBalanceFiat,
         isNextButtonEnabled,
-        quantity,
+        tokenAmount,
         memo,
         shouldAutoFocusEnterField,
         showAlert,
@@ -68,7 +68,7 @@ class SendEnterDataPageState extends Equatable {
     TokenDataModel? availableBalance,
     FiatDataModel? availableBalanceFiat,
     bool? isNextButtonEnabled,
-    TokenDataModel? quantity,
+    TokenDataModel? tokenAmount,
     String? memo,
     bool? shouldAutoFocusEnterField,
     bool? showAlert,
@@ -84,7 +84,7 @@ class SendEnterDataPageState extends Equatable {
       availableBalance: availableBalance ?? this.availableBalance,
       availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
       isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled,
-      quantity: quantity ?? this.quantity,
+      tokenAmount: tokenAmount ?? this.tokenAmount,
       memo: memo ?? this.memo,
       shouldAutoFocusEnterField: shouldAutoFocusEnterField ?? this.shouldAutoFocusEnterField,
       showAlert: showAlert ?? this.showAlert,
@@ -98,7 +98,7 @@ class SendEnterDataPageState extends Equatable {
       sendTo: memberModel,
       ratesState: ratesState,
       isNextButtonEnabled: false,
-      quantity: TokenDataModel(0, token: settingsStorage.selectedToken),
+      tokenAmount: TokenDataModel(0, token: settingsStorage.selectedToken),
       memo: '',
       shouldAutoFocusEnterField: true,
       showAlert: false,

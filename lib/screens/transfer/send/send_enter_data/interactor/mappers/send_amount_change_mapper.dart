@@ -18,7 +18,7 @@ class SendAmountChangeMapper extends StateMapper {
     return currentState.copyWith(
       fiatAmount: fiatAmount,
       isNextButtonEnabled: parsedQuantity > 0 && parsedQuantity < currentAvailable,
-      quantity: tokenAmount,
+      tokenAmount: tokenAmount,
       showAlert: parsedQuantity > currentAvailable,
     );
   }
