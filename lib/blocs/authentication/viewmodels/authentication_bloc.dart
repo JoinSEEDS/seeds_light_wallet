@@ -55,7 +55,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       // copy account before clear data
       final account = settingsStorage.accountName;
       // Clear data
-      settingsStorage.removeAccount();
+      await settingsStorage.removeAccount();
       // User logout --> re-start auth status
       add(const InitAuthStatus());
       // Remove fcm token must be last instruction to allow logout, even if there is an error here.
