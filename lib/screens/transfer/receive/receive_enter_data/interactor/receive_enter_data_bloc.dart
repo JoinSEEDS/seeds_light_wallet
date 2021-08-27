@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -24,27 +25,28 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
       yield UserBalanceStateMapper().mapResultToState(state, result);
     } else if (event is OnAmountChange) {
       final double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;
+      final tokenAmount = TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken);
+      final fiatAmount = state.ratesState.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency);
 
-      final seedsToFiat = state.ratesState.tokenToFiat(
-          TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken), settingsStorage.selectedFiatCurrency);
-
-      if (parsedQuantity > 0) {
-        yield state.copyWith(isNextButtonEnabled: true, quantity: parsedQuantity, fiatAmount: seedsToFiat?.amount);
-      } else {
-        yield state.copyWith(isNextButtonEnabled: false, quantity: parsedQuantity, fiatAmount: seedsToFiat?.amount);
-      }
+      yield state.copyWith(
+        isNextButtonEnabled: parsedQuantity > 0,
+        tokenAmount: tokenAmount,
+        fiatAmount: fiatAmount,
+      );
     } else if (event is OnDescriptionChange) {
       yield state.copyWith(description: event.description);
     } else if (event is OnNextButtonTapped) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result result = await ReceiveSeedsInvoiceUseCase().run(amount: state.quantity, memo: state.description);
+      final Result result = await ReceiveSeedsInvoiceUseCase().run(
+        tokenAmount: state.tokenAmount,
+        memo: state.description,
+      );
       yield CreateInvoiceResultMapper().mapResultToState(state, result);
     } else if (event is ClearReceiveEnterDataState) {
       yield state.copyWith(
-        fiatAmount: 0,
+        fiatAmount: FiatDataModel(0),
         isNextButtonEnabled: false,
-        quantity: 0,
-        seedsAmount: 0.toString(),
+        tokenAmount: TokenDataModel.fromSelected(0),
         isAutoFocus: false,
       );
     }

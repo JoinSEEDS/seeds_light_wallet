@@ -4,22 +4,6 @@ import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 
 extension RatesStateExtensions on RatesState {
-  /// Returns a double that represents the amount of seeds in a given fiat currency
-  double fromSeedsToFiat(double seedsAmount, String currencySymbol) {
-    // Convert seeds to USD
-    final double? usdValue = rate?.seedsToUSD(seedsAmount);
-    if (usdValue != null) {
-      // Convert the seeds (USD amount) in the new currency
-      return fiatRate?.usdToCurrency(usdValue, currencySymbol) ?? double.nan;
-    } else {
-      return double.nan;
-    }
-  }
-
-  FiatDataModel? seedsToFiat(double seedsAmount, String currencySymbol) {
-    return tokenToFiat(TokenDataModel(seedsAmount), currencySymbol);
-  }
-
   FiatDataModel? tokenToFiat(TokenDataModel tokenAmount, String currencySymbol) {
     // Convert seeds to USD
     if (tokenAmount.symbol == SeedsToken.symbol) {
@@ -33,6 +17,22 @@ extension RatesStateExtensions on RatesState {
       final double usdValue = tokenAmount.amount;
       final double? res = fiatRate?.usdToCurrency(usdValue, currencySymbol);
       return res != null ? FiatDataModel(res, fiatSymbol: currencySymbol) : null;
+    }
+    return null;
+  }
+
+  TokenDataModel? fiatToToken(FiatDataModel fiatAmount, String tokenSymbol) {
+    // Convert seeds to USD
+    final double? usdValue = fiatRate?.currencyToUSD(fiatAmount.amount, fiatAmount.symbol);
+    if (usdValue != null) {
+      if (tokenSymbol == SeedsToken.symbol) {
+        final double? seedsValue = rate?.usdToSeeds(usdValue);
+        if (seedsValue != null) {
+          return TokenDataModel.fromSelected(seedsValue);
+        }
+      } else if (tokenSymbol == HusdToken.symbol) {
+        return TokenDataModel(usdValue, token: HusdToken);
+      }
     }
     return null;
   }

@@ -11,8 +11,11 @@ class AmountEntryBloc extends Bloc<AmountEntryEvent, AmountEntryState> {
   @override
   Stream<AmountEntryState> mapEventToState(AmountEntryEvent event) async* {
     if (event is OnCurrencySwitchButtonTapped) {
+      print("on OnCurrencySwitchButtonTapped");
       yield CurrencyChangeMapper().mapResultToState(state);
+      add(OnAmountChange(amountChanged: state.textInput));
     } else if (event is OnAmountChange) {
+      print("on amount changed ${event.amountChanged}");
       yield AmountChangeMapper().mapResultToState(state, event.amountChanged);
     } else if (event is ClearPageCommand) {
       yield state.copyWith();

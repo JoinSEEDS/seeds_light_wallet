@@ -7,7 +7,6 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_state.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
-import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
 
 class UserBalanceAndPlantedStateMapper extends StateMapper {
@@ -22,13 +21,17 @@ class UserBalanceAndPlantedStateMapper extends StateMapper {
       final PlantedModel? plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
 
+      final availableBalance = TokenDataModel.fromSeedsOrNull(balance?.quantity);
+      final tokenAmount = TokenDataModel.fromSeeds(0);
+      final plantedAmount = TokenDataModel.fromSeeds(plantedSeeds?.quantity ?? 0);
+
       return currentState.copyWith(
         pageState: PageState.success,
-        fiatAmount: rateState.fromSeedsToFiat(0, selectedFiat).fiatFormatted,
-        availableBalance: TokenDataModel.from(balance?.quantity),
-        availableBalanceFiat: rateState.seedsToFiat(balance?.quantity ?? 0, selectedFiat),
-        plantedBalance: TokenDataModel.from(plantedSeeds?.quantity),
-        plantedBalanceFiat: rateState.seedsToFiat(plantedSeeds?.quantity ?? 0, selectedFiat),
+        fiatAmount: rateState.tokenToFiat(tokenAmount, selectedFiat),
+        availableBalance: availableBalance,
+        availableBalanceFiat: availableBalance != null ? rateState.tokenToFiat(availableBalance, selectedFiat) : null,
+        plantedBalance: TokenDataModel.fromSeedsOrNull(plantedSeeds?.quantity),
+        plantedBalanceFiat: rateState.tokenToFiat(plantedAmount, selectedFiat),
       );
     }
   }

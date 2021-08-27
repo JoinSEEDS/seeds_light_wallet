@@ -14,13 +14,13 @@ class PlantSeedsState extends Equatable {
   final String? errorMessage;
   final RatesState ratesState;
   final bool isAutoFocus;
-  final String fiatAmount;
+  final TokenDataModel tokenAmount;
+  final FiatDataModel fiatAmount;
   final TokenDataModel? availableBalance;
   final FiatDataModel? availableBalanceFiat;
   final TokenDataModel? plantedBalance;
   final FiatDataModel? plantedBalanceFiat;
   final bool isPlantSeedsButtonEnabled;
-  final double quantity;
   final bool showAlert;
 
   const PlantSeedsState({
@@ -35,7 +35,7 @@ class PlantSeedsState extends Equatable {
     this.plantedBalance,
     this.plantedBalanceFiat,
     required this.isPlantSeedsButtonEnabled,
-    required this.quantity,
+    required this.tokenAmount,
     required this.showAlert,
   });
 
@@ -52,7 +52,7 @@ class PlantSeedsState extends Equatable {
         plantedBalance,
         plantedBalanceFiat,
         isPlantSeedsButtonEnabled,
-        quantity,
+        tokenAmount,
         showAlert,
       ];
 
@@ -62,13 +62,13 @@ class PlantSeedsState extends Equatable {
     String? errorMessage,
     RatesState? ratesState,
     bool? isAutoFocus,
-    String? fiatAmount,
+    TokenDataModel? tokenAmount,
+    FiatDataModel? fiatAmount,
     TokenDataModel? availableBalance,
     FiatDataModel? availableBalanceFiat,
     TokenDataModel? plantedBalance,
     FiatDataModel? plantedBalanceFiat,
     bool? isPlantSeedsButtonEnabled,
-    double? quantity,
     bool? showAlert,
   }) {
     return PlantSeedsState(
@@ -83,7 +83,7 @@ class PlantSeedsState extends Equatable {
       plantedBalance: plantedBalance ?? this.plantedBalance,
       plantedBalanceFiat: plantedBalanceFiat ?? this.plantedBalanceFiat,
       isPlantSeedsButtonEnabled: isPlantSeedsButtonEnabled ?? this.isPlantSeedsButtonEnabled,
-      quantity: quantity ?? this.quantity,
+      tokenAmount: tokenAmount ?? this.tokenAmount,
       showAlert: showAlert ?? this.showAlert,
     );
   }
@@ -93,9 +93,9 @@ class PlantSeedsState extends Equatable {
       pageState: PageState.initial,
       ratesState: ratesState,
       isAutoFocus: true,
-      fiatAmount: 0.toString(),
+      tokenAmount: TokenDataModel.fromSeeds(0),
+      fiatAmount: FiatDataModel(0),
       isPlantSeedsButtonEnabled: false,
-      quantity: 0,
       showAlert: false,
     );
   }

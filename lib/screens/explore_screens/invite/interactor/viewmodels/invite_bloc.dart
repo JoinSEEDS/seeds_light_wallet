@@ -30,7 +30,7 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
       final String mnemonicSecretCode = generateMnemonic();
       yield state.copyWith(pageState: PageState.loading, isAutoFocus: false, mnemonicSecretCode: mnemonicSecretCode);
       final List<Result> results =
-          await CreateInviteUseCase().run(amount: state.quantity, mnemonic: mnemonicSecretCode);
+          await CreateInviteUseCase().run(amount: state.tokenAmount.amount, mnemonic: mnemonicSecretCode);
       yield CreateInviteResultStateMapper().mapResultsToState(state, results);
     }
     if (event is OnShareInviteLinkButtonPressed) {

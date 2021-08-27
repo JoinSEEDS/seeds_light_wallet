@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
 
 class TokenModel extends Equatable {
   static const AllTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken];
@@ -28,6 +29,11 @@ class TokenModel extends Equatable {
   factory TokenModel.fromSymbol(String symbol) {
     return AllTokens.firstWhere((e) => e.symbol == symbol);
   }
+
+  static TokenModel? fromSymbolOrNull(String symbol) {
+    return AllTokens.firstWhereOrNull((e) => e.symbol == symbol);
+  }
+
   @override
   List<Object?> get props => [chainName, contract, symbol];
 

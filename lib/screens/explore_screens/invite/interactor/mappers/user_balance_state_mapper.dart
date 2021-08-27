@@ -6,7 +6,6 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_state.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
-import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
 
 class UserBalanceStateMapper extends StateMapper {
@@ -15,13 +14,14 @@ class UserBalanceStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance".i18n);
     } else {
       final BalanceModel balance = result.asValue!.value as BalanceModel;
+      final availableBalance = TokenDataModel.fromSeeds(balance.quantity);
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
 
       return currentState.copyWith(
         pageState: PageState.success,
-        fiatAmount: rateState.fromSeedsToFiat(0, selectedFiat).fiatFormatted,
-        availableBalance: TokenDataModel(balance.quantity),
-        availableBalanceFiat: rateState.seedsToFiat(balance.quantity, selectedFiat),
+        // fiatAmount: rateState.tokenToFiat(0, selectedFiat), // I don't understand what this is doing
+        availableBalance: availableBalance,
+        availableBalanceFiat: rateState.tokenToFiat(availableBalance, selectedFiat),
       );
     }
   }
