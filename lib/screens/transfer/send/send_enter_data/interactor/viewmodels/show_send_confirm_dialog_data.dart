@@ -3,7 +3,7 @@ import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 
 class ShowSendConfirmDialog extends PageCommand {
-  final TokenDataModel amount;
+  final TokenDataModel tokenAmount;
   final FiatDataModel? fiatAmount;
   final String? toImage;
   final String? toName;
@@ -11,7 +11,7 @@ class ShowSendConfirmDialog extends PageCommand {
   final String? memo;
 
   ShowSendConfirmDialog({
-    required this.amount,
+    required this.tokenAmount,
     this.fiatAmount,
     this.toImage,
     this.toName,

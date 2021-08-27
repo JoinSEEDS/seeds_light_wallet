@@ -9,7 +9,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
-  final TokenDataModel amount;
+  final TokenDataModel tokenAmount;
   final FiatDataModel? fiatAmount;
   final String? toImage;
   final String? toName;
@@ -19,7 +19,7 @@ class SendConfirmationDialog extends StatelessWidget {
 
   const SendConfirmationDialog({
     Key? key,
-    required this.amount,
+    required this.tokenAmount,
     this.fiatAmount,
     this.toImage,
     this.toName,
@@ -54,10 +54,10 @@ class SendConfirmationDialog extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(amount.amountString(), style: Theme.of(context).textTheme.headline4),
+            Text(tokenAmount.amountString(), style: Theme.of(context).textTheme.headline4),
             Padding(
               padding: const EdgeInsets.only(top: 14, left: 4),
-              child: Text(amount.symbol, style: Theme.of(context).textTheme.subtitle2),
+              child: Text(tokenAmount.symbol, style: Theme.of(context).textTheme.subtitle2),
             ),
           ],
         ),

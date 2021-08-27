@@ -36,7 +36,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
         pageState: PageState.success,
         shouldAutoFocusEnterField: false,
         pageCommand: ShowSendConfirmDialog(
-          amount: state.quantity,
+          tokenAmount: state.quantity,
           toAccount: state.sendTo.account,
           memo: state.memo,
           toName: state.sendTo.nickname,
