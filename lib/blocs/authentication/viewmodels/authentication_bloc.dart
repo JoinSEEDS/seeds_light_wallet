@@ -31,7 +31,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is OnImportAccount) {
       settingsStorage.saveAccount(event.account, event.privateKey);
-      settingsStorage.privateKeyBackedUp = true;
+      settingsStorage.privateKeyBackedUp = false;
       // New account --> re-start auth status
       add(const InitAuthStatus());
       // Set fcm token must be last instruction to allow login, even if there is an error here.
@@ -39,7 +39,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is OnRecoverAccount) {
       settingsStorage.saveAccount(event.account, event.privateKey);
-      settingsStorage.privateKeyBackedUp = true;
+      settingsStorage.privateKeyBackedUp = false;
       // New account --> re-start auth status
       add(const InitAuthStatus());
       // Set fcm token must be last instruction to allow login, even if there is an error here.
