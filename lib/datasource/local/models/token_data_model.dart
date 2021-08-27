@@ -17,6 +17,8 @@ class TokenDataModel extends AmountDataModel {
 }
 
 extension FormatterTokenModel on TokenDataModel {
+// Convenience method: directly get a FIAT converted string from a token model
+// tokenModel.fiatString(...) => "12.34 EUR"
   String? fiatString(RatesState rateState) {
     return rateState.tokenToFiat(this, settingsStorage.selectedFiatCurrency)?.asFormattedString();
   }

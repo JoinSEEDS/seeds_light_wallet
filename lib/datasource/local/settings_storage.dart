@@ -124,10 +124,8 @@ class _SettingsStorage {
     }
   }
 
-  set selectedToken(TokenModel? token) {
-    if (token != null) {
-      _preferences.setString(SELECTED_TOKEN, token.symbol);
-    }
+  set selectedToken(TokenModel token) {
+    _preferences.setString(SELECTED_TOKEN, token.symbol);
   }
 
   set guardianTutorialShown(bool? shown) {
