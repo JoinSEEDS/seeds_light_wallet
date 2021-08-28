@@ -24,7 +24,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
     if (event is InitSendDataArguments) {
       yield state.copyWith(pageState: PageState.loading, showSendingAnimation: false);
 
-      final Result result = await GetAvailableBalanceUseCase().run();
+      final Result result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
 
       yield SendEnterDataStateMapper().mapResultToState(state, result, state.ratesState, "0");
     } else if (event is OnMemoChange) {

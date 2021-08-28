@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/mappers/seeds_amount_change_mapper.dart';
@@ -20,7 +21,7 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
   Stream<InviteState> mapEventToState(InviteEvent event) async* {
     if (event is LoadUserBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result result = await GetAvailableBalanceUseCase().run();
+      final Result result = await GetAvailableBalanceUseCase().run(SeedsToken);
       yield UserBalanceStateMapper().mapResultToState(state, result, state.ratesState);
     }
     if (event is OnAmountChange) {

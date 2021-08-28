@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/qr_code_generator_widget.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/bloc.dart';
 

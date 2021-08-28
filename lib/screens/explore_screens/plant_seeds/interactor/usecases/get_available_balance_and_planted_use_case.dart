@@ -10,7 +10,7 @@ class GetAvailableBalanceAndPlantedDataUseCase {
   Future<List<Result>> run() {
     final account = settingsStorage.accountName;
     final futures = [
-      _balanceRepository.getBalance(account),
+      _balanceRepository.getTokenBalance(account),
       _plantedRepository.getPlanted(account),
     ];
     return Future.wait(futures);

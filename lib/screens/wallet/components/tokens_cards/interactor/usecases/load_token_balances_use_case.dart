@@ -7,7 +7,7 @@ class LoadTokenBalancesUseCase {
   Future<List<Result>> run(List<TokenModel> tokens) {
     final account = settingsStorage.accountName;
     final List<Future<Result<dynamic>>> list =
-        List.of(tokens.map((item) => BalanceRepository().getTokenBalance(account, item)));
+        List.of(tokens.map((item) => BalanceRepository().getTokenBalance(account, token: item)));
     return Future.wait(list);
   }
 }

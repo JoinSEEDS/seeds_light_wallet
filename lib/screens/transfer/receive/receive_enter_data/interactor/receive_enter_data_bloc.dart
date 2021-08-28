@@ -21,7 +21,7 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
   Stream<ReceiveEnterDataState> mapEventToState(ReceiveEnterDataEvents event) async* {
     if (event is LoadUserBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result result = await GetAvailableBalanceUseCase().run();
+      final Result result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
       yield UserBalanceStateMapper().mapResultToState(state, result);
     } else if (event is OnAmountChange) {
       final double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;
