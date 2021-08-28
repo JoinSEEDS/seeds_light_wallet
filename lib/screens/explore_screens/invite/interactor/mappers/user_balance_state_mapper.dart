@@ -19,7 +19,6 @@ class UserBalanceStateMapper extends StateMapper {
 
       return currentState.copyWith(
         pageState: PageState.success,
-        // fiatAmount: rateState.tokenToFiat(0, selectedFiat), // I don't understand what this is doing
         availableBalance: availableBalance,
         availableBalanceFiat: rateState.tokenToFiat(availableBalance, selectedFiat),
       );
