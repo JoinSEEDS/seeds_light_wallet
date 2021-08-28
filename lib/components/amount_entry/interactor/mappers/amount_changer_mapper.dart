@@ -12,8 +12,8 @@ class AmountChangeMapper extends StateMapper {
     print("quantity: $parsedQuantity");
     final selectedFiat = settingsStorage.selectedFiatCurrency;
 
-    TokenDataModel? tokenAmount; // = TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken);
-    FiatDataModel? fiatAmount; // = TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken);
+    TokenDataModel? tokenAmount;
+    FiatDataModel? fiatAmount;
 
     if (currentState.currentCurrencyInput == CurrencyInput.fiat) {
       fiatAmount = FiatDataModel(parsedQuantity, fiatSymbol: settingsStorage.selectedFiatCurrency);
