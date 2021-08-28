@@ -98,7 +98,7 @@ class InviteState extends Equatable {
       isAutoFocus: true,
       fiatAmount: FiatDataModel(0),
       isCreateInviteButtonEnabled: false,
-      tokenAmount: TokenDataModel.fromSeeds(0),
+      tokenAmount: TokenDataModel(0),
       showCloseDialogButton: false,
     );
   }

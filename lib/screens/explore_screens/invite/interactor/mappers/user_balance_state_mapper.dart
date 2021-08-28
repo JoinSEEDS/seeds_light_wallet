@@ -14,7 +14,7 @@ class UserBalanceStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance".i18n);
     } else {
       final BalanceModel balance = result.asValue!.value as BalanceModel;
-      final availableBalance = TokenDataModel.fromSeeds(balance.quantity);
+      final availableBalance = TokenDataModel(balance.quantity);
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
 
       return currentState.copyWith(

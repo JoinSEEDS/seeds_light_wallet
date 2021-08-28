@@ -5,18 +5,13 @@ import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
 
 class TokenDataModel extends AmountDataModel {
-  TokenDataModel(double amount, {required TokenModel token})
+  TokenDataModel(double amount, {TokenModel token = SeedsToken})
       : super(
           amount: amount,
           symbol: token.symbol,
           precision: token.precision,
         );
 
-  static TokenDataModel fromSeeds(double amount) => TokenDataModel(amount, token: SeedsToken);
-
-  static TokenDataModel? fromSeedsOrNull(double? amount) =>
-      amount != null ? TokenDataModel(amount, token: SeedsToken) : null;
-      
   static TokenDataModel? from(double? amount, {TokenModel token = SeedsToken}) =>
       amount != null ? TokenDataModel(amount, token: token) : null;
 

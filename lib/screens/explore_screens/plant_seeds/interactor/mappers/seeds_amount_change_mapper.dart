@@ -8,7 +8,7 @@ import 'package:seeds/utils/rate_states_extensions.dart';
 class SeedsAmountChangeMapper extends StateMapper {
   PlantSeedsState mapResultToState(PlantSeedsState currentState, RatesState rateState, String quantity) {
     final double parsedQuantity = double.tryParse(quantity) ?? 0;
-    final tokenAmount = TokenDataModel.fromSeeds(parsedQuantity);
+    final tokenAmount = TokenDataModel(parsedQuantity);
     final double currentAvailable = currentState.availableBalance?.amount ?? 0;
     final String selectedFiat = settingsStorage.selectedFiatCurrency;
 

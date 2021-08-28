@@ -12,7 +12,7 @@ class SeedsAmountChangeMapper extends StateMapper {
     final double currentAvailable = currentState.availableBalance?.amount ?? 0;
 
     final String? alertMessage = _handleAlertMessage(currentAvailable, parsedQuantity);
-    final tokenAmount = TokenDataModel.fromSeeds(parsedQuantity);
+    final tokenAmount = TokenDataModel(parsedQuantity);
 
     return currentState.copyWith(
       tokenAmount: tokenAmount,

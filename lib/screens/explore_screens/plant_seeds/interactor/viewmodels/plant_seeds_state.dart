@@ -93,7 +93,7 @@ class PlantSeedsState extends Equatable {
       pageState: PageState.initial,
       ratesState: ratesState,
       isAutoFocus: true,
-      tokenAmount: TokenDataModel.fromSeeds(0),
+      tokenAmount: TokenDataModel(0),
       fiatAmount: FiatDataModel(0),
       isPlantSeedsButtonEnabled: false,
       showAlert: false,

@@ -21,16 +21,16 @@ class UserBalanceAndPlantedStateMapper extends StateMapper {
       final PlantedModel? plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
 
-      final availableBalance = TokenDataModel.fromSeedsOrNull(balance?.quantity);
-      final tokenAmount = TokenDataModel.fromSeeds(0);
-      final plantedAmount = TokenDataModel.fromSeeds(plantedSeeds?.quantity ?? 0);
+      final availableBalance = TokenDataModel.from(balance?.quantity);
+      final tokenAmount = TokenDataModel(0);
+      final plantedAmount = TokenDataModel(plantedSeeds?.quantity ?? 0);
 
       return currentState.copyWith(
         pageState: PageState.success,
         fiatAmount: rateState.tokenToFiat(tokenAmount, selectedFiat),
         availableBalance: availableBalance,
         availableBalanceFiat: availableBalance != null ? rateState.tokenToFiat(availableBalance, selectedFiat) : null,
-        plantedBalance: TokenDataModel.fromSeedsOrNull(plantedSeeds?.quantity),
+        plantedBalance: TokenDataModel.from(plantedSeeds?.quantity),
         plantedBalanceFiat: rateState.tokenToFiat(plantedAmount, selectedFiat),
       );
     }
