@@ -1,4 +1,5 @@
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
@@ -30,12 +31,15 @@ class SendTransactionStateMapper extends StateMapper {
     if (resultResponse.isTransfer) {
       final transfer = resultResponse.transferTransactionModel!;
 
+      FiatDataModel? fiatAmount;
+
+      // transfer.symbol could be any token as - it could be an ESR request
+      // try to get a fiat conversion rate here.
       final TokenModel? token = TokenModel.fromSymbolOrNull(transfer.symbol);
-
-      final TokenDataModel? tokenAmount = token != null ? TokenDataModel(transfer.doubleQuantity, token: token) : null;
-
-      final fiatAmount =
-          tokenAmount != null ? rateState.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency) : null;
+      if (token != null) {
+        final TokenDataModel tokenAmount = TokenDataModel(transfer.doubleQuantity, token: token);
+        fiatAmount = rateState.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency);
+      }
 
       return ShowTransferSuccess(
         transactionModel: transfer,
