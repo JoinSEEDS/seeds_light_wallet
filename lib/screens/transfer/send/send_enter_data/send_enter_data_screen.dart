@@ -49,10 +49,8 @@ class SendEnterDataScreen extends StatelessWidget {
                 onSendButtonPressed: () {
                   BlocProvider.of<SendEnterDataPageBloc>(context).add(OnSendButtonTapped());
                 },
-                amount: command.amount,
-                tokenSymbol: command.tokenSymbol,
+                tokenAmount: command.tokenAmount,
                 fiatAmount: command.fiatAmount,
-                fiatCurrency: command.fiatCurrency,
                 toAccount: command.toAccount,
                 toImage: command.toImage,
                 toName: command.toName,

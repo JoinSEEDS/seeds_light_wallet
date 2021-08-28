@@ -1,5 +1,8 @@
+import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/datasource/local/models/amount_data_model.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
+import 'package:seeds/utils/rate_states_extensions.dart';
 
 class TokenDataModel extends AmountDataModel {
   TokenDataModel(double amount, {TokenModel token = SeedsToken})
@@ -11,4 +14,14 @@ class TokenDataModel extends AmountDataModel {
 
   static TokenDataModel? from(double? amount, {TokenModel token = SeedsToken}) =>
       amount != null ? TokenDataModel(amount, token: token) : null;
+
+  static TokenDataModel fromSelected(double amount) => TokenDataModel(amount, token: settingsStorage.selectedToken);
+}
+
+extension FormatterTokenModel on TokenDataModel {
+// Convenience method: directly get a FIAT converted string from a token model
+// tokenModel.fiatString(...) => "12.34 EUR"
+  String? fiatString(RatesState rateState) {
+    return rateState.tokenToFiat(this, settingsStorage.selectedFiatCurrency)?.asFormattedString();
+  }
 }

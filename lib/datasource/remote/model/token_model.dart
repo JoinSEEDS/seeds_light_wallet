@@ -25,6 +25,9 @@ class TokenModel extends Equatable {
     this.precision = 4,
   });
 
+  factory TokenModel.fromSymbol(String symbol) {
+    return AllTokens.firstWhere((e) => e.symbol == symbol);
+  }
   @override
   List<Object?> get props => [chainName, contract, symbol];
 
