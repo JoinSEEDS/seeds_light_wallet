@@ -18,7 +18,7 @@ class InvoiceRepository extends EosRepository {
     final Map<String, String> data = {
       'from': esr.ESRConstants.PlaceholderName,
       'to': accountName,
-      'quantity': token.getAssetString(tokenAmount.amount),
+      'quantity': tokenAmount.asFormattedString(),
       'memo': memo ?? ''
     };
 
