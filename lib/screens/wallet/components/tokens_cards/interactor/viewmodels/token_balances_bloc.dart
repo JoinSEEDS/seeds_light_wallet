@@ -41,7 +41,7 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
 
       final result = await LoadTokenBalancesUseCase().run(potentialTokens);
 
-      yield TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
+      yield await TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
     } else if (event is OnSelectedTokenChanged) {
       yield state.copyWith(selectedIndex: event.index);
       settingsStorage.selectedToken = state.availableTokens[event.index].token;
