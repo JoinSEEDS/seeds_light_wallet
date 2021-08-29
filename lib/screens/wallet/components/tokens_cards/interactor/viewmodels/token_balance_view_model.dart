@@ -7,8 +7,6 @@ class TokenBalanceViewModel {
   final TokenDataModel? tokenData;
   final bool errorLoading;
 
-  TokenModel get tokenModel => TokenModel.fromSymbol(token.symbol);
-
   const TokenBalanceViewModel(this.token, this.tokenData, {this.errorLoading = false});
 
   String get displayQuantity {
