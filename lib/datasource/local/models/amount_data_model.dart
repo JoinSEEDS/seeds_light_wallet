@@ -1,4 +1,3 @@
-
 abstract class AmountDataModel {
   final double amount;
   final String symbol;
@@ -15,4 +14,8 @@ abstract class AmountDataModel {
     return "${amount.toStringAsFixed(precision)} $symbol";
   }
 
+  // full precision string without symbol, e.g. "10.0000"
+  String asFixedString() {
+    return amount.toStringAsFixed(precision);
+  }
 }
