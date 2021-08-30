@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/divider_jungle.dart';
-import 'package:seeds/components/shimmer_rectangle.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
+import 'package:seeds/screens/profile_screens/profile/components/profile_list_tile.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 /// PROFILE MIDDLE
@@ -21,45 +19,25 @@ class ProfileMiddle extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: ListTile(
-                horizontalTitleGap: 0,
-                leading: SvgPicture.asset('assets/images/profile/contribution_icon.svg'),
-                title: Text('Contribution Score'.i18n, style: Theme.of(context).textTheme.button),
-                trailing: state.pageState == PageState.loading || state.pageState == PageState.initial
-                    ? const ShimmerRectangle(size: Size(52, 21))
-                    : Text(
-                        '${state.score?.contributionScore?.value ?? '00'}/99',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline7LowEmphasis,
-                      ),
-                onTap: () {
-                  NavigationService.of(context).navigateTo(Routes.contribution, state.score);
-                },
-              ),
+            ProfileListTile(
+              leading: SvgPicture.asset('assets/images/profile/contribution_icon.svg'),
+              title: 'Contribution Score'.i18n,
+              trailing: '${state.score?.contributionScore?.value ?? '00'}/99',
+              onTap: () {
+                NavigationService.of(context).navigateTo(Routes.contribution, state.score);
+              },
             ),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: DividerJungle(thickness: 2)),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: ListTile(
-                horizontalTitleGap: 0,
-                leading: const Icon(Icons.attach_money_sharp, color: AppColors.green1),
-                title: Text(
-                  'Currency'.i18n,
-                  style: Theme.of(context).textTheme.button,
-                ),
-                trailing: Text(
-                  settingsStorage.selectedFiatCurrency,
-                  style: Theme.of(context).textTheme.headline7,
-                ),
-                onTap: () async {
-                  final bool? shouldRebuild = await NavigationService.of(context).navigateTo(Routes.setCurrency);
-                  if (shouldRebuild != null && shouldRebuild) {
-                    BlocProvider.of<ProfileBloc>(context).add(const OnCurrencyChanged());
-                  }
-                },
-              ),
+            ProfileListTile(
+              leading: const Icon(Icons.attach_money_sharp, color: AppColors.green1),
+              title: 'Currency'.i18n,
+              trailing: settingsStorage.selectedFiatCurrency,
+              onTap: () async {
+                final bool? shouldRebuild = await NavigationService.of(context).navigateTo(Routes.setCurrency);
+                if (shouldRebuild != null && shouldRebuild) {
+                  BlocProvider.of<ProfileBloc>(context).add(const OnCurrencyChanged());
+                }
+              },
             ),
           ],
         );
