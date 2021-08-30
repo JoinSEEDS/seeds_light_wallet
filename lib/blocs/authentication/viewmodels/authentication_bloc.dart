@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/authentication/mappers/auth_status_state_mapper.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_message_token_repository.dart';
 
 /// --- BLOC
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -48,8 +47,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       settingsStorage.biometricActive = false;
     }
     if (event is OnLogout) {
-      // copy account before clear data
-      final account = settingsStorage.accountName;
       // Clear data
       await settingsStorage.removeAccount();
       // User logout --> re-start auth status
