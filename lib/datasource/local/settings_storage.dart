@@ -14,6 +14,7 @@ const String _kPasscodeActive = 'passcode_active';
 const String _kBiometricActive = 'biometric_active';
 const String _kPrivateKeyBackedUp = 'private_key_backed_up';
 const String _kSelectedFiatCurrency = 'selected_fiat_currency';
+const String _kSelectedToken = 'selected_token';
 const String _kInRecoveryMode = 'in_recovery_mode';
 const String _kTokensWhiteList = 'tokens_whitelist';
 const String _kIsCitizen = 'is_citizen';
@@ -52,6 +53,10 @@ class _SettingsStorage {
   bool get privateKeyBackedUp => _privateKeyBackedUp ?? false;
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
+
+  //TokenModel get selectedToken => TokenModel.fromSymbol(_preferences.getString(_kSelectedToken) ?? SeedsToken.symbol);
+  // TODO(n13): Hard coded for now
+  TokenModel get selectedToken => TokenModel.fromSymbol(SeedsToken.symbol);
 
   bool get inRecoveryMode => _preferences.getBool(_kInRecoveryMode) ?? false;
 
@@ -100,6 +105,10 @@ class _SettingsStorage {
     if (value != null) {
       _preferences.setString(_kSelectedFiatCurrency, value);
     }
+  }
+
+  set selectedToken(TokenModel token) {
+    _preferences.setString(_kSelectedToken, token.symbol);
   }
 
   set tokensWhitelist(List<String> tokensList) {

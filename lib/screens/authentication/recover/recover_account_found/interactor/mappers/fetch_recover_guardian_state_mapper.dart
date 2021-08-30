@@ -15,25 +15,18 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
     final Result userRecoversModel = result.userRecoversModel;
     final Result accountGuardians = result.accountGuardians;
 
-    Uri? link;
-    if (linkResult.isValue) {
-      link = linkResult.asValue!.value;
-    }
+    final Uri? link = linkResult.asValue?.value;
+    final UserRecoversModel? userRecoversModelData = userRecoversModel.asValue?.value;
+    final UserGuardiansModel? userGuardiansModel = accountGuardians.asValue?.value;
 
-    UserRecoversModel? userRecoversModelData;
-    if (userRecoversModel.isValue) {
-      userRecoversModelData = userRecoversModel.asValue!.value;
-    }
+    final hasFetchedGuardians = areAllResultsSuccess(members);
+    final hasGuardians = members.isNotEmpty;
 
-    UserGuardiansModel? userGuardiansModel;
-    if (accountGuardians.isValue) {
-      userGuardiansModel = accountGuardians.asValue!.value;
-    }
-
-    // Check that we have all data needed from the server and is valid. We need data from multiple services and any of them can fail.
+    // Check that we have all data needed from the server and it is valid.
+    // We need data from multiple services and any of them can fail.
     // This is the minimum required data to proceed
-    if (areAllResultsSuccess(members) &&
-        members.isNotEmpty &&
+    if (hasFetchedGuardians &&
+        hasGuardians &&
         link != null &&
         userRecoversModelData != null &&
         userGuardiansModel != null) {
@@ -68,10 +61,15 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         alreadySignedGuardians: userRecoversModelData.alreadySignedGuardians,
         timeLockSeconds: timeLockSeconds,
       );
+    } else if (hasFetchedGuardians && !hasGuardians) {
+      return currentState.copyWith(
+        pageState: PageState.failure,
+        errorMessage: "There are no guardians for this account.".i18n,
+      );
     } else {
       return currentState.copyWith(
         pageState: PageState.failure,
-        errorMessage: "Oops, Something went wrong, try again later.".i18n,
+        errorMessage: "Oops! Something went wrong, try again later.".i18n,
       );
     }
   }

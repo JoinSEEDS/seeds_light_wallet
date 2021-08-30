@@ -13,15 +13,25 @@ const String _dhoExplorerUrlKey = 'dho_explore_url';
 const String _defaultEndPointUrlKey = 'default_end_point';
 const String _defaultV2EndPointUrlKey = 'default_v2_end_point';
 
-const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
 const String _termsAndConditionsDefaultUrl = 'https://www.joinseeds.com/seeds-app-terms-and-conditions.html';
 const String _privacyPolicyUrl = 'https://www.joinseeds.com/seeds-app-privacy-policy.html';
-const String _hyphaEndPointUrl = 'https://node.hypha.earth';
 const String _explorerUrl = 'https://telos.bloks.io';
 const String _dhoExplorerUrl = 'https://dho.hypha.earth';
+
+// MAINNET CONFIG
+const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
+const String _hyphaEndPointUrl = 'https://node.hypha.earth';
 const String _defaultEndPointUrl = "https://api.telosfoundation.io";
 // we need a separate endpoint for v2/history as most nodes don't support v2
 const String _defaultV2EndpointUrl = "https://api.telosfoundation.io";
+
+const bool testnetMode = false;
+
+// TESTNET CONFIG
+const String _testnet_eosEndpoints = '[ { "url": "https://test.hypha.earth", "isDefault": true } ]';
+const String _testnet_hyphaEndPointUrl = 'https://test.hypha.earth';
+const String _testnet_defaultEndPointUrl = "https://test.hypha.earth";
+const String _testnet_defaultV2EndpointUrl = "https://api-test.telosfoundation.io";
 
 class _FirebaseRemoteConfigService {
   final defaults = <String, dynamic>{
@@ -80,19 +90,24 @@ class _FirebaseRemoteConfigService {
 
   String get privacyPolicy => _privacyPolicyUrl; //_remoteConfig.getString(_privacyPolicyKey);
 
-  String get hyphaEndPoint => _hyphaEndPointUrl; //_remoteConfig.getString(_hyphaEndPointUrl);
+  String get hyphaEndPoint =>
+      testnetMode ? _testnet_hyphaEndPointUrl : _hyphaEndPointUrl; //_remoteConfig.getString(_hyphaEndPointUrl);
 
   String get explorerUrl => _explorerUrl; //_remoteConfig.getString(_explorerUrlKey);
 
   String get dhoExplorerUrl => _explorerUrl; //_dhoExplorerUrl;//_remoteConfig.getString(_dhoExplorerUrlKey);
 
-  String get defaultEndPointUrl => _defaultEndPointUrl; //_remoteConfig.getString(_defaultEndPointUrlKey);
+  String get defaultEndPointUrl => testnetMode
+      ? _testnet_defaultEndPointUrl
+      : _defaultEndPointUrl; //_remoteConfig.getString(_defaultEndPointUrlKey);
 
-  String get defaultV2EndPointUrl => _defaultV2EndpointUrl; //_remoteConfig.getString(_defaultEndPointUrlKey);
+  String get defaultV2EndPointUrl => testnetMode
+      ? _testnet_defaultV2EndpointUrl
+      : _defaultV2EndpointUrl; //_remoteConfig.getString(_defaultEndPointUrlKey);
 
   //_remoteConfig.getString(_activeEOSEndpointKey)
-  FirebaseEosServer get activeEOSServerUrl =>
-      parseEosServers(_eosEndpoints)!.firstWhere((FirebaseEosServer element) => element.isDefault!);
+  FirebaseEosServer get activeEOSServerUrl => parseEosServers(testnetMode ? _testnet_eosEndpoints : _eosEndpoints)!
+      .firstWhere((FirebaseEosServer element) => element.isDefault!);
 }
 
 // A function that converts a response body into a List<FirebaseEosServer>.

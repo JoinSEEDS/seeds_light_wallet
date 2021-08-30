@@ -27,8 +27,11 @@ class AmountEntryWidget extends StatelessWidget {
       child: BlocListener<AmountEntryBloc, AmountEntryState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
-          // ignore: cast_nullable_to_non_nullable
-          onValueChange((state.pageCommand as SendTextInputDataBack).textToSend);
+          final pageCommand = state.pageCommand;
+
+          if (pageCommand is SendTextInputDataBack) {
+            onValueChange(pageCommand.textToSend);
+          }
 
           BlocProvider.of<AmountEntryBloc>(context).add(ClearPageCommand());
         },
@@ -58,7 +61,10 @@ class AmountEntryWidget extends StatelessWidget {
                         )),
                         inputFormatters: [
                           UserInputNumberFormatter(),
-                          DecimalTextInputFormatter(decimalRange: state.currentCurrencyInput.toDecimalPrecision())
+                          DecimalTextInputFormatter(
+                              decimalRange: state.currentCurrencyInput == CurrencyInput.fiat
+                                  ? state.fiatAmount?.precision ?? 0
+                                  : state.tokenAmount.precision)
                         ],
                       ),
                     ),
@@ -88,8 +94,10 @@ class AmountEntryWidget extends StatelessWidget {
                                   height: 60,
                                   width: 60,
                                 ),
-                                onPressed: () =>
-                                    {BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())},
+                                onPressed: state.switchCurrencyEnabled
+                                    ? () =>
+                                        BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())
+                                    : null,
                               ),
                             ),
                           )
@@ -99,7 +107,9 @@ class AmountEntryWidget extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  state.infoRowText,
+                  state.currentCurrencyInput == CurrencyInput.fiat
+                      ? state.tokenAmount.asFormattedString()
+                      : state.fiatAmount?.asFormattedString() ?? "",
                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                 ),
               ],
