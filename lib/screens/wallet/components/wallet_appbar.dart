@@ -20,6 +20,7 @@ class WalletAppBar extends StatelessWidget implements PreferredSizeWidget {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         return AppBar(
+          //ignore: avoid_redundant_argument_values
           backgroundColor: testnetMode ? Colors.yellow.withOpacity(0.1) : null,
           actions: [
             const SizedBox(width: horizontalEdgePadding),
