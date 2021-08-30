@@ -15,11 +15,14 @@ class SendAmountChangeMapper extends StateMapper {
 
     final double currentAvailable = currentState.availableBalance?.amount ?? 0;
 
+    final bool enoughBalance = parsedQuantity <= currentAvailable ||
+        currentState.availableBalance?.asFormattedString() == tokenAmount.asFormattedString();
+
     return currentState.copyWith(
       fiatAmount: fiatAmount,
-      isNextButtonEnabled: parsedQuantity > 0 && parsedQuantity <= currentAvailable,
+      isNextButtonEnabled: parsedQuantity > 0 && enoughBalance,
       tokenAmount: tokenAmount,
-      showAlert: parsedQuantity > currentAvailable,
+      showAlert: !enoughBalance,
     );
   }
 }
