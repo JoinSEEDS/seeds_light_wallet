@@ -9,9 +9,7 @@ class TokenBalanceViewModel {
   final bool errorLoading;
   Color? dominantColor;
 
-  TokenModel get tokenModel => TokenModel.fromSymbol(token.symbol);
-
-  TokenBalanceViewModel(this.token, this.tokenData, {this.dominantColor, this.errorLoading = false});
+  const TokenBalanceViewModel(this.token, this.tokenData, {this.errorLoading = false});
 
   String get displayQuantity {
     if (errorLoading || tokenData == null) {
