@@ -27,14 +27,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       settingsStorage.privateKeyBackedUp = true;
       // New account --> re-start auth status
       add(const InitAuthStatus());
-      // Set fcm token must be last instruction to allow login, even if there is an error here.
-      await FirebaseMessageTokenRepository().setFirebaseMessageToken(event.account);
     }
     if (event is OnCreateAccount) {
       // New account --> re-start auth status
       add(const InitAuthStatus());
-      // Set fcm token must be last instruction to allow login, even if there is an error here.
-      await FirebaseMessageTokenRepository().setFirebaseMessageToken(settingsStorage.accountName);
     }
     if (event is EnablePasscode) {
       settingsStorage.savePasscode(event.newPasscode);
@@ -58,8 +54,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       await settingsStorage.removeAccount();
       // User logout --> re-start auth status
       add(const InitAuthStatus());
-      // Remove fcm token must be last instruction to allow logout, even if there is an error here.
-      await FirebaseMessageTokenRepository().removeFirebaseMessageToken(account);
     }
   }
 }

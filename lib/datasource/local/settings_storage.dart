@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_message_token_repository.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,7 +67,12 @@ class _SettingsStorage {
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
-  set accountName(String? value) => _preferences.setString(_kAccountName, value ?? '');
+  set accountName(String? value) {
+    final String newAccountName = value ?? '';
+    final String oldAccountName = accountName;
+    _preferences.setString(_kAccountName, newAccountName);
+    _updateFirebaseToken(oldAccountName, newAccountName);
+  }
 
   set privateKey(String? value) {
     _secureStorage.write(key: _kPrivateKey, value: value);
@@ -170,7 +176,7 @@ class _SettingsStorage {
 
   void enableRecoveryMode({required String accountName, String? privateKey}) {
     inRecoveryMode = true;
-    this.accountName = accountName;
+    accountName = accountName;
     this.privateKey = privateKey;
   }
 
@@ -196,6 +202,7 @@ class _SettingsStorage {
   void saveIsCitizen(bool value) => isCitizen = value;
 
   Future<void> removeAccount() async {
+    _updateFirebaseToken(accountName, "");
     await _preferences.clear();
     await _secureStorage.deleteAll();
     _privateKey = null;
@@ -207,6 +214,15 @@ class _SettingsStorage {
   String getPlatformCurrency() {
     final format = NumberFormat.simpleCurrency(locale: Platform.localeName);
     return format.currencyName ?? currencyDefaultCode;
+  }
+
+  void _updateFirebaseToken(String oldAccount, String newAccount) {
+    if (oldAccount.isNotEmpty) {
+      FirebaseMessageTokenRepository().removeFirebaseMessageToken(oldAccount);
+    }
+    if (newAccount.isNotEmpty) {
+      FirebaseMessageTokenRepository().setFirebaseMessageToken(newAccount);
+    }
   }
 }
 
