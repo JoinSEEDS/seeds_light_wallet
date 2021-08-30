@@ -1,18 +1,9 @@
-import 'package:seeds/utils/double_extension.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-
 /// The available balance of seeds
 class BalanceModel {
   final double quantity;
   final bool hasBalance;
 
   const BalanceModel(this.quantity, {this.hasBalance = true});
-
-  /// Returns the rounded amount in seeds with its symbol
-  String get formattedQuantity => '${quantity.seedsFormatted} $currencySeedsCode';
-
-  /// Returns the rounded amount in seeds
-  String get roundedQuantity => quantity.seedsFormatted;
 
   factory BalanceModel.fromJson(List<dynamic> json) {
     if (json.isEmpty || json[0].isEmpty) {
