@@ -1,3 +1,4 @@
+import 'package:pedantic/pedantic.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_message_token_repository.dart';
 
@@ -34,9 +35,9 @@ class CancelRecoveryProcessUseCase extends AccountUseCase {
 }
 
 class RemoveAccountUseCase extends AccountUseCase {
-  void run() {
+  Future<void> run() async {
     final String oldAccountName = settingsStorage.accountName;
-    settingsStorage.removeAccount();
-    updateFirebaseToken(oldAccount: oldAccountName);
+    await settingsStorage.removeAccount();
+    unawaited(updateFirebaseToken(oldAccount: oldAccountName));
   }
 }

@@ -49,7 +49,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is OnLogout) {
       // Clear data
-      RemoveAccountUseCase().run();
+      await RemoveAccountUseCase().run();
       // User logout --> re-start auth status
       add(const InitAuthStatus());
     }
