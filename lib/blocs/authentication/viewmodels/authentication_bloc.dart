@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/authentication/mappers/auth_status_state_mapper.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
 
 /// --- BLOC
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -48,7 +49,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is OnLogout) {
       // Clear data
-      await settingsStorage.removeAccount();
+      RemoveAccountUseCase().run();
       // User logout --> re-start auth status
       add(const InitAuthStatus());
     }

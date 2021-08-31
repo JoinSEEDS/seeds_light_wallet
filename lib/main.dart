@@ -14,12 +14,9 @@ import 'package:seeds/blocs/deeplink/viewmodels/deeplink_state.dart';
 import 'package:seeds/datasource/local/member_model_cache_item.dart';
 import 'package:seeds/datasource/local/models/vote_model_adapter.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_message_token_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_push_notification_service.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/bloc_observer.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
@@ -53,11 +50,6 @@ Future<void> main(List<String> args) async {
   await Hive.initFlutter();
   Hive.registerAdapter(MemberModelCacheItemAdapter());
   Hive.registerAdapter(VoteModelAdapter());
-
-  eventBus.on<OnAccountChangeEventBus>().listen((event) async {
-    print("account changed $event");
-    await FirebaseMessageTokenRepository().updateFirebaseToken(event.oldAccountName, event.newAccountName);
-  });
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     if (isInDebugMode) {

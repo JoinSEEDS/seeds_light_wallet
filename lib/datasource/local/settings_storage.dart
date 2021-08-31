@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
-import 'package:seeds/domain-shared/event_bus/event_bus.dart';
-import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -68,14 +66,8 @@ class _SettingsStorage {
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
-  set accountName(String? value) {
-    final String newAccountName = value ?? '';
-    final String oldAccountName = accountName;
-    _preferences.setString(_kAccountName, newAccountName);
-    eventBus.fire(OnAccountChangeEventBus(
-      oldAccountName: oldAccountName,
-      newAccountName: newAccountName,
-    ));
+  set _accountName(String? value) {
+    _preferences.setString(_kAccountName, value ?? '');
   }
 
   set privateKey(String? value) {
@@ -178,24 +170,18 @@ class _SettingsStorage {
     return value;
   }
 
-  void enableRecoveryMode({required String accountName, String? privateKey}) {
-    inRecoveryMode = true;
-    this.accountName = accountName;
-    this.privateKey = privateKey;
-  }
-
   void finishRecoveryProcess() => inRecoveryMode = false;
 
   void cancelRecoveryProcess() {
     inRecoveryMode = false;
-    accountName = null;
+    _accountName = null;
     privateKey = null;
   }
 
   void savePasscode(String? passcode) => this.passcode = passcode;
 
   void saveAccount(String accountName, String privateKey) {
-    this.accountName = accountName;
+    _accountName = accountName;
     this.privateKey = privateKey;
   }
 
@@ -206,7 +192,6 @@ class _SettingsStorage {
   void saveIsCitizen(bool value) => isCitizen = value;
 
   Future<void> removeAccount() async {
-    eventBus.fire(OnAccountChangeEventBus(oldAccountName: accountName));
     await _preferences.clear();
     await _secureStorage.deleteAll();
     _privateKey = null;
