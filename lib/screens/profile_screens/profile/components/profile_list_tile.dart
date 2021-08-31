@@ -38,7 +38,7 @@ class ProfileListTile extends StatelessWidget {
                         children: [
                           ShimmerRectangle(size: titleText.textSize),
                           const Spacer(),
-                          const ShimmerRectangle(size: Size(52, 21)),
+                          ShimmerRectangle(size: trailingText.textSize),
                         ],
                       ),
                     ),
