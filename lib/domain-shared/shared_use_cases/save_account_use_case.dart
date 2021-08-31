@@ -16,7 +16,7 @@ abstract class AccountUseCase {
 }
 
 class SaveAccountUseCase extends AccountUseCase {
-  void run(String accountName, String privateKey) {
+  void run({required String accountName, required String privateKey}) {
     final String oldAccountName = settingsStorage.accountName;
     settingsStorage.saveAccount(accountName, privateKey);
     updateFirebaseToken(oldAccount: oldAccountName, newAccount: accountName);

@@ -5,7 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
 import 'package:seeds/screens/authentication/sign_up/create_username/mappers/create_account_mapper.dart';
 import 'package:seeds/screens/authentication/sign_up/create_username/usecases/create_account_usecase.dart';
 import 'package:seeds/screens/authentication/sign_up/claim_invite/mappers/claim_invite_mapper.dart';
@@ -170,7 +170,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     );
 
     if (!result.isError) {
-      settingsStorage.saveAccount(username, privateKey.toString());
+      SaveAccountUseCase().run(accountName: username, privateKey: privateKey.toString());
     }
 
     yield CreateAccountMapper().mapOnCreateAccountTappedToState(currentState, result);

@@ -23,7 +23,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield state.copyWith(authStatus: AuthStatus.unlocked);
     }
     if (event is OnImportAccount) {
-      settingsStorage.saveAccount(event.account, event.privateKey);
+      SaveAccountUseCase().run(accountName: event.account, privateKey: event.privateKey);
       settingsStorage.privateKeyBackedUp = true;
       // New account --> re-start auth status
       add(const InitAuthStatus());
