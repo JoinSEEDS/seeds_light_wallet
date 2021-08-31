@@ -18,3 +18,12 @@ class OnNewTransactionEventBus extends BusEvent<OnNewTransactionEventBus> {
 class OnFiatCurrencyChangedEventBus extends BusEvent<OnNewTransactionEventBus> {
   const OnFiatCurrencyChangedEventBus();
 }
+
+class OnAccountChangeEventBus extends BusEvent<OnNewTransactionEventBus> {
+  final String oldAccountName;
+  final String newAccountName;
+  const OnAccountChangeEventBus({required this.oldAccountName, this.newAccountName = ""});
+
+  @override
+  String toString() => 'OnAccountChangeEventBus $oldAccountName => $newAccountName';
+}

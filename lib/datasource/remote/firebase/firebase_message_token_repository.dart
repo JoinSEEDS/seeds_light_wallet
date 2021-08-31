@@ -29,4 +29,17 @@ class FirebaseMessageTokenRepository extends FirebaseDatabaseService {
       print('Error retrieving firebase messaging token');
     }
   }
+
+  Future<void> updateFirebaseToken(String oldAccount, String newAccount) async {
+    if (oldAccount != newAccount) {
+      if (oldAccount.isNotEmpty) {
+        print("removing message token for $oldAccount");
+        await FirebaseMessageTokenRepository().removeFirebaseMessageToken(oldAccount);
+      }
+      if (newAccount.isNotEmpty) {
+        print("adding message token for $oldAccount");
+        await FirebaseMessageTokenRepository().setFirebaseMessageToken(newAccount);
+      }
+    }
+  }
 }
