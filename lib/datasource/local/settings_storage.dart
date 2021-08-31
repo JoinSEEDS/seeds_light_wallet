@@ -176,7 +176,7 @@ class _SettingsStorage {
 
   void enableRecoveryMode({required String accountName, String? privateKey}) {
     inRecoveryMode = true;
-    accountName = accountName;
+    this.accountName = accountName;
     this.privateKey = privateKey;
   }
 
