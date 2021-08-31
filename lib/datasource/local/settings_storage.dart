@@ -66,9 +66,7 @@ class _SettingsStorage {
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
-  set _accountName(String? value) {
-    _preferences.setString(_kAccountName, value ?? '');
-  }
+  set _accountName(String? value) => _preferences.setString(_kAccountName, value ?? '');
 
   set privateKey(String? value) {
     _secureStorage.write(key: _kPrivateKey, value: value);
