@@ -50,7 +50,9 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
           return Scaffold(
             appBar: AppBar(
               title: InkWell(
-                onTap: () => BlocProvider.of<ProfileBloc>(context).add(const OnSwitchAccountButtonTapped()),
+                onTap: state.showShimmer
+                    ? null
+                    : () => BlocProvider.of<ProfileBloc>(context).add(const OnSwitchAccountButtonTapped()),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(

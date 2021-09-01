@@ -4,7 +4,7 @@ import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/profile_screens/profile/components/card_list_tile.dart';
+import 'package:seeds/screens/profile_screens/profile/components/profile_list_tile_card.dart';
 import 'package:seeds/screens/profile_screens/profile/components/logout_dialog.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
@@ -68,7 +68,7 @@ class ProfileBottom extends StatelessWidget {
             BlocBuilder<ProfileBloc, ProfileState>(
               buildWhen: (previous, current) => previous.hasSecurityNotification != current.hasSecurityNotification,
               builder: (context, state) {
-                return CardListTile(
+                return ProfileListTileCard(
                   hasNotification: state.hasSecurityNotification,
                   leadingIcon: Icons.verified_user_outlined,
                   title: 'Security'.i18n,
@@ -78,14 +78,14 @@ class ProfileBottom extends StatelessWidget {
               },
             ),
             const SizedBox(height: 8.0),
-            CardListTile(
+            ProfileListTileCard(
               leadingIcon: Icons.support,
               title: 'Support'.i18n,
               trailing: const Icon(Icons.arrow_forward_ios_sharp),
               onTap: () => NavigationService.of(context).navigateTo(Routes.support),
             ),
             const SizedBox(height: 120.0),
-            CardListTile(
+            ProfileListTileCard(
               leadingIcon: Icons.logout,
               title: 'Logout'.i18n,
               trailing: const SizedBox.shrink(),
