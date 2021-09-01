@@ -7,6 +7,7 @@ const String _activeEOSEndpointKey = 'eos_enpoints';
 const String _hyphaEndPointKey = 'hypha_end_point';
 const String _defaultEndPointUrlKey = 'default_end_point';
 const String _defaultV2EndPointUrlKey = 'default_v2_end_point';
+const String _featureFlagImportAccount = 'feature_flag_import_account';
 
 // MAINNET CONFIG
 const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
@@ -35,6 +36,7 @@ class _FirebaseRemoteConfigService {
   static final _FirebaseRemoteConfigService _instance = _FirebaseRemoteConfigService._();
 
   final defaults = <String, dynamic>{
+    _featureFlagImportAccount: false,
     _activeEOSEndpointKey: _eosEndpoints,
     _hyphaEndPointKey: _hyphaEndPointUrl,
     _defaultEndPointUrlKey: _defaultEndPointUrl,
@@ -66,6 +68,8 @@ class _FirebaseRemoteConfigService {
 
     refresh();
   }
+
+  bool get featureFlagImportAccountEnabled => _remoteConfig.getBool(_featureFlagImportAccount);
 
   String get hyphaEndPoint => testnetMode ? _testnet_hyphaEndPointUrl : _remoteConfig.getString(_hyphaEndPointUrl);
 
