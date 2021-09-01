@@ -20,6 +20,7 @@ class ProfileMiddle extends StatelessWidget {
         return Column(
           children: [
             ProfileListTile(
+              showShimmer: state.showShimmer,
               leading: SvgPicture.asset('assets/images/profile/contribution_icon.svg'),
               title: 'Contribution Score'.i18n,
               trailing: '${state.score?.contributionScore?.value ?? '00'}/99',
