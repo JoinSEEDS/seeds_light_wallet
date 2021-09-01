@@ -50,7 +50,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       }
 
       // Save the private key and account
-      settingsStorage.saveAccount(currentState.userAccount, result.privateKey);
+      settingsStorage.saveAccountFromWaitingForRecover(currentState.userAccount, result.privateKey);
 
       return currentState.copyWith(
         pageState: PageState.success,
