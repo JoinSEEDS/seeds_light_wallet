@@ -51,8 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
           return Scaffold(
             appBar: AppBar(
               title: remoteConfigurations.featureFlagImportAccountEnabled
-                  ? Text(settingsStorage.accountName)
-                  : InkWell(
+                  ? InkWell(
                       onTap: () => BlocProvider.of<ProfileBloc>(context).add(const OnSwitchAccountButtonTapped()),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -61,7 +60,8 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                           children: [Text(settingsStorage.accountName), const Icon(Icons.keyboard_arrow_down)],
                         ),
                       ),
-                    ),
+                    )
+                  : Text(settingsStorage.accountName),
               actions: [
                 IconButton(
                   icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
