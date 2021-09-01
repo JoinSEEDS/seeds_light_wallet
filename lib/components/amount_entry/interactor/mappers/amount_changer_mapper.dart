@@ -9,7 +9,6 @@ import 'package:seeds/utils/rate_states_extensions.dart';
 class AmountChangeMapper extends StateMapper {
   AmountEntryState mapResultToState(AmountEntryState currentState, String quantity) {
     final double parsedQuantity = double.tryParse(quantity) ?? 0;
-    print("quantity: $parsedQuantity");
     final selectedFiat = settingsStorage.selectedFiatCurrency;
 
     TokenDataModel? tokenAmount;

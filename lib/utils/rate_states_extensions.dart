@@ -28,7 +28,7 @@ extension RatesStateExtensions on RatesState {
       if (tokenSymbol == SeedsToken.symbol) {
         final double? seedsValue = rate?.usdToSeeds(usdValue);
         if (seedsValue != null) {
-          return TokenDataModel.fromSelected(seedsValue);
+          return TokenDataModel(seedsValue);
         }
       } else if (tokenSymbol == HusdToken.symbol) {
         return TokenDataModel(usdValue, token: HusdToken);
