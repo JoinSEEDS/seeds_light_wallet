@@ -1,22 +1,13 @@
 import 'dart:convert';
 
-// import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/firebase_eos_servers.dart';
 
-const String _featureFlagGuardianKey = 'feature_guardians';
 const String _activeEOSEndpointKey = 'eos_enpoints';
-const String _termsAndConditionsUrlKey = 'terms_and_conditions_url';
-const String _privacyPolicyKey = 'privacy_policy';
 const String _hyphaEndPointKey = 'hypha_end_point';
-const String _explorerUrlKey = 'explore_url';
-const String _dhoExplorerUrlKey = 'dho_explore_url';
 const String _defaultEndPointUrlKey = 'default_end_point';
 const String _defaultV2EndPointUrlKey = 'default_v2_end_point';
-
-const String _termsAndConditionsDefaultUrl = 'https://www.joinseeds.com/seeds-app-terms-and-conditions.html';
-const String _privacyPolicyUrl = 'https://www.joinseeds.com/seeds-app-privacy-policy.html';
-const String _explorerUrl = 'https://telos.bloks.io';
-const String _dhoExplorerUrl = 'https://dho.hypha.earth';
+const String _featureFlagImportAccount = 'feature_flag_import_account';
 
 // MAINNET CONFIG
 const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
@@ -25,93 +16,77 @@ const String _defaultEndPointUrl = "https://api.telosfoundation.io";
 // we need a separate endpoint for v2/history as most nodes don't support v2
 const String _defaultV2EndpointUrl = "https://api.telosfoundation.io";
 
+// DO NOT PUSH TO PROD WITH THIS SET TO TRUE. This is used for testing purposes only
 const bool testnetMode = false;
 
-// TESTNET CONFIG
+// TESTNET CONFIG: Used for testing purposes.
 const String _testnet_eosEndpoints = '[ { "url": "https://test.hypha.earth", "isDefault": true } ]';
 const String _testnet_hyphaEndPointUrl = 'https://test.hypha.earth';
 const String _testnet_defaultEndPointUrl = "https://test.hypha.earth";
 const String _testnet_defaultV2EndpointUrl = "https://api-test.telosfoundation.io";
+// END - TESTNET CONFIG
 
 class _FirebaseRemoteConfigService {
-  final defaults = <String, dynamic>{
-    _featureFlagGuardianKey: false,
-    _activeEOSEndpointKey: _eosEndpoints,
-    _termsAndConditionsUrlKey: _termsAndConditionsDefaultUrl,
-    _privacyPolicyKey: _privacyPolicyUrl,
-    _hyphaEndPointKey: _hyphaEndPointUrl,
-    _explorerUrlKey: _explorerUrl,
-    _dhoExplorerUrlKey: _dhoExplorerUrl,
-    _defaultEndPointUrlKey: _defaultEndPointUrl,
-    _defaultV2EndPointUrlKey: _defaultV2EndpointUrl
-  };
+  late RemoteConfig _remoteConfig;
 
-  // RemoteConfig _remoteConfig;
   factory _FirebaseRemoteConfigService() => _instance;
 
   _FirebaseRemoteConfigService._();
 
   static final _FirebaseRemoteConfigService _instance = _FirebaseRemoteConfigService._();
 
-  void refresh() {
-    // Config has not been init yet. Dont call this function.
-    // if (_remoteConfig == null) {
-    //   return;
-    // }
+  final defaults = <String, dynamic>{
+    _featureFlagImportAccount: false,
+    _activeEOSEndpointKey: _eosEndpoints,
+    _hyphaEndPointKey: _hyphaEndPointUrl,
+    _defaultEndPointUrlKey: _defaultEndPointUrl,
+    _defaultV2EndPointUrlKey: _defaultV2EndpointUrl
+  };
 
-    // _remoteConfig.fetch().then((value) {
-    //   print(" _remoteConfig fetch worked");
-    //   _remoteConfig.activate().then((bool value) {
-    //     print(" _remoteConfig activate worked params were activated " + value.toString());
-    //   }).onError((error, stackTrace) {
-    //     print(" _remoteConfig activate failed");
-    //   });
-    // }).onError((error, stackTrace) {
-    //   print(" _remoteConfig fetch failed");
-    // });
+  void refresh() {
+    _remoteConfig.fetch().then((value) {
+      print(" _remoteConfig fetch worked");
+      _remoteConfig.activate().then((bool value) {
+        print(" _remoteConfig activate worked params were activated $value");
+      }).onError((error, stackTrace) {
+        print(" _remoteConfig activate failed");
+      });
+    }).onError((error, stackTrace) {
+      print(" _remoteConfig fetch failed");
+    });
   }
 
   Future initialise() async {
-    // _remoteConfig = await RemoteConfig.instance;
-    //
-    // /// Maximum age of a cached config before it is considered stale. we set to 60 secs since we store important data.
-    // await _remoteConfig.setConfigSettings(RemoteConfigSettings(
-    //   minimumFetchInterval: const Duration(seconds: 60),
-    //   fetchTimeout: const Duration(seconds: 60),
-    // ));
-    //
-    // await _remoteConfig.setDefaults(defaults);
-    // refresh();
+    _remoteConfig = RemoteConfig.instance;
+    await _remoteConfig.setDefaults(defaults);
+
+    /// Maximum age of a cached config before it is considered stale. we set to 60 secs since we store important data.
+    await _remoteConfig.setConfigSettings(RemoteConfigSettings(
+      minimumFetchInterval: const Duration(seconds: 60),
+      fetchTimeout: const Duration(seconds: 60),
+    ));
+
+    refresh();
   }
 
-  bool get featureFlagGuardiansEnabled => false; //_remoteConfig.getBool(_featureFlagGuardianKey);
+  bool get featureFlagImportAccountEnabled => _remoteConfig.getBool(_featureFlagImportAccount);
 
-  String get termsAndConditions => _termsAndConditionsDefaultUrl; //_remoteConfig.getString(_termsAndConditionsUrlKey);
+  String get hyphaEndPoint => testnetMode ? _testnet_hyphaEndPointUrl : _remoteConfig.getString(_hyphaEndPointUrl);
 
-  String get privacyPolicy => _privacyPolicyUrl; //_remoteConfig.getString(_privacyPolicyKey);
+  String get defaultEndPointUrl =>
+      testnetMode ? _testnet_defaultEndPointUrl : _remoteConfig.getString(_defaultEndPointUrlKey);
 
-  String get hyphaEndPoint =>
-      testnetMode ? _testnet_hyphaEndPointUrl : _hyphaEndPointUrl; //_remoteConfig.getString(_hyphaEndPointUrl);
+  String get defaultV2EndPointUrl =>
+      testnetMode ? _testnet_defaultV2EndpointUrl : _remoteConfig.getString(_defaultV2EndPointUrlKey);
 
-  String get explorerUrl => _explorerUrl; //_remoteConfig.getString(_explorerUrlKey);
-
-  String get dhoExplorerUrl => _explorerUrl; //_dhoExplorerUrl;//_remoteConfig.getString(_dhoExplorerUrlKey);
-
-  String get defaultEndPointUrl => testnetMode
-      ? _testnet_defaultEndPointUrl
-      : _defaultEndPointUrl; //_remoteConfig.getString(_defaultEndPointUrlKey);
-
-  String get defaultV2EndPointUrl => testnetMode
-      ? _testnet_defaultV2EndpointUrl
-      : _defaultV2EndpointUrl; //_remoteConfig.getString(_defaultEndPointUrlKey);
-
-  //_remoteConfig.getString(_activeEOSEndpointKey)
-  FirebaseEosServer get activeEOSServerUrl => parseEosServers(testnetMode ? _testnet_eosEndpoints : _eosEndpoints)!
-      .firstWhere((FirebaseEosServer element) => element.isDefault!);
+  FirebaseEosServer get activeEOSServerUrl =>
+      parseEosServers(testnetMode ? _testnet_eosEndpoints : _remoteConfig.getString(_activeEOSEndpointKey)).firstWhere(
+          (FirebaseEosServer element) => element.isDefault!,
+          orElse: () => parseEosServers(_remoteConfig.getString(_eosEndpoints)).first);
 }
 
 // A function that converts a response body into a List<FirebaseEosServer>.
-List<FirebaseEosServer>? parseEosServers(String responseBody) {
+List<FirebaseEosServer> parseEosServers(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
   return parsed.map<FirebaseEosServer>((json) => FirebaseEosServer.fromJson(json)).toList();
