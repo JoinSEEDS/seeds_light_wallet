@@ -5,11 +5,8 @@ import 'package:seeds/datasource/remote/model/firebase_eos_servers.dart';
 
 const String _activeEOSEndpointKey = 'eos_enpoints';
 const String _hyphaEndPointKey = 'hypha_end_point';
-const String _dhoExplorerUrlKey = 'dho_explore_url';
 const String _defaultEndPointUrlKey = 'default_end_point';
 const String _defaultV2EndPointUrlKey = 'default_v2_end_point';
-
-const String _dhoExplorerUrl = 'https://dho.hypha.earth';
 
 // MAINNET CONFIG
 const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
@@ -40,7 +37,6 @@ class _FirebaseRemoteConfigService {
   final defaults = <String, dynamic>{
     _activeEOSEndpointKey: _eosEndpoints,
     _hyphaEndPointKey: _hyphaEndPointUrl,
-    _dhoExplorerUrlKey: _dhoExplorerUrl,
     _defaultEndPointUrlKey: _defaultEndPointUrl,
     _defaultV2EndPointUrlKey: _defaultV2EndpointUrl
   };
