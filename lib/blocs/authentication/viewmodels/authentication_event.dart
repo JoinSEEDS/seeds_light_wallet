@@ -27,6 +27,14 @@ class SuccessOnResumeAuth extends AuthenticationEvent {
   String toString() => 'SuccessOnResumeAuth';
 }
 
+class OnCreateAccount extends AuthenticationEvent {
+  final String account;
+  final String privateKey;
+  const OnCreateAccount({required this.account, required this.privateKey});
+  @override
+  String toString() => 'OnCreateAccount { account: $account }';
+}
+
 class OnImportAccount extends AuthenticationEvent {
   final String account;
   final String privateKey;
@@ -35,10 +43,12 @@ class OnImportAccount extends AuthenticationEvent {
   String toString() => 'OnImportAccount { account: $account }';
 }
 
-class OnCreateAccount extends AuthenticationEvent {
-  const OnCreateAccount();
+class OnRecoverAccount extends AuthenticationEvent {
+  final String account;
+  final String privateKey;
+  const OnRecoverAccount({required this.account, required this.privateKey});
   @override
-  String toString() => 'OnCreateAccount';
+  String toString() => 'OnRecoverAccount { account: $account }';
 }
 
 class UnlockWallet extends AuthenticationEvent {
