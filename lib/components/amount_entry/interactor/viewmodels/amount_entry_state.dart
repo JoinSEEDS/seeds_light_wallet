@@ -56,7 +56,7 @@ class AmountEntryState extends Equatable {
   }
 
   factory AmountEntryState.initial(RatesState ratesState, {required TokenDataModel tokenDataModel}) {
-    final tokenData = tokenDataModel; // TokenDataModel(0, token: settingsStorage.selectedToken);
+    final tokenData = tokenDataModel;
     final fiatData = ratesState.tokenToFiat(tokenData, settingsStorage.selectedFiatCurrency);
     return AmountEntryState(
         currentCurrencyInput: CurrencyInput.token,
