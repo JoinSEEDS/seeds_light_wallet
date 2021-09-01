@@ -7,20 +7,28 @@ const String _activeEOSEndpointKey = 'eos_enpoints';
 const String _hyphaEndPointKey = 'hypha_end_point';
 const String _dhoExplorerUrlKey = 'dho_explore_url';
 const String _defaultEndPointUrlKey = 'default_end_point';
+const String _defaultV2EndPointUrlKey = 'default_v2_end_point';
 
+const String _dhoExplorerUrl = 'https://dho.hypha.earth';
+
+// MAINNET CONFIG
 const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
 const String _hyphaEndPointUrl = 'https://node.hypha.earth';
-const String _dhoExplorerUrl = 'https://dho.hypha.earth';
 const String _defaultEndPointUrl = "https://api.telosfoundation.io";
+// we need a separate endpoint for v2/history as most nodes don't support v2
+const String _defaultV2EndpointUrl = "https://api.telosfoundation.io";
+
+// DO NOT PUSH TO PROD WITH THIS SET TO TRUE. This is used for testing purposes only
+const bool testnetMode = false;
+
+// TESTNET CONFIG: Used for testing purposes.
+const String _testnet_eosEndpoints = '[ { "url": "https://test.hypha.earth", "isDefault": true } ]';
+const String _testnet_hyphaEndPointUrl = 'https://test.hypha.earth';
+const String _testnet_defaultEndPointUrl = "https://test.hypha.earth";
+const String _testnet_defaultV2EndpointUrl = "https://api-test.telosfoundation.io";
+// END - TESTNET CONFIG
 
 class _FirebaseRemoteConfigService {
-  final defaults = <String, dynamic>{
-    _activeEOSEndpointKey: _eosEndpoints,
-    _hyphaEndPointKey: _hyphaEndPointUrl,
-    _dhoExplorerUrlKey: _dhoExplorerUrl,
-    _defaultEndPointUrlKey: _defaultEndPointUrl,
-  };
-
   late RemoteConfig _remoteConfig;
 
   factory _FirebaseRemoteConfigService() => _instance;
@@ -28,6 +36,14 @@ class _FirebaseRemoteConfigService {
   _FirebaseRemoteConfigService._();
 
   static final _FirebaseRemoteConfigService _instance = _FirebaseRemoteConfigService._();
+
+  final defaults = <String, dynamic>{
+    _activeEOSEndpointKey: _eosEndpoints,
+    _hyphaEndPointKey: _hyphaEndPointUrl,
+    _dhoExplorerUrlKey: _dhoExplorerUrl,
+    _defaultEndPointUrlKey: _defaultEndPointUrl,
+    _defaultV2EndPointUrlKey: _defaultV2EndpointUrl
+  };
 
   void refresh() {
     _remoteConfig.fetch().then((value) {
@@ -55,12 +71,17 @@ class _FirebaseRemoteConfigService {
     refresh();
   }
 
-  String get hyphaEndPoint => _remoteConfig.getString(_hyphaEndPointUrl);
+  String get hyphaEndPoint => testnetMode ? _testnet_hyphaEndPointUrl : _remoteConfig.getString(_hyphaEndPointUrl);
 
-  String get defaultEndPointUrl => _remoteConfig.getString(_defaultEndPointUrlKey);
+  String get defaultEndPointUrl =>
+      testnetMode ? _testnet_defaultEndPointUrl : _remoteConfig.getString(_defaultEndPointUrlKey);
 
-  FirebaseEosServer get activeEOSServerUrl => parseEosServers(_remoteConfig.getString(_activeEOSEndpointKey))
-      .firstWhere((FirebaseEosServer element) => element.isDefault!,
+  String get defaultV2EndPointUrl =>
+      testnetMode ? _testnet_defaultV2EndpointUrl : _remoteConfig.getString(_defaultV2EndPointUrlKey);
+
+  FirebaseEosServer get activeEOSServerUrl =>
+      parseEosServers(testnetMode ? _testnet_eosEndpoints : _remoteConfig.getString(_activeEOSEndpointKey)).firstWhere(
+          (FirebaseEosServer element) => element.isDefault!,
           orElse: () => parseEosServers(_remoteConfig.getString(_eosEndpoints)).first);
 }
 

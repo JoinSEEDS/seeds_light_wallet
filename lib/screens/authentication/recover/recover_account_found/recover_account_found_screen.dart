@@ -74,7 +74,12 @@ class RecoverAccountFoundScreen extends StatelessWidget {
       case PageState.loading:
         return const FullPageLoadingIndicator();
       case PageState.failure:
-        return FullPageErrorIndicator(errorMessage: state.errorMessage);
+        return FullPageErrorIndicator(
+            errorMessage: state.errorMessage,
+            buttonTitle: "Cancel Process".i18n,
+            buttonOnPressed: () {
+              BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnCancelProcessTap());
+            });
       case PageState.success:
         switch (state.recoveryStatus) {
           case RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN:
