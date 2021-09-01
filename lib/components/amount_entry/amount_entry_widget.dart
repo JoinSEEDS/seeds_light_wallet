@@ -91,19 +91,22 @@ class AmountEntryWidget extends StatelessWidget {
                           Positioned(
                             bottom: -16,
                             left: 70,
-                            child: Container(
-                              height: 60,
-                              width: 60,
-                              child: IconButton(
-                                icon: SvgPicture.asset(
-                                  'assets/images/currency_switch_button.svg',
-                                  height: 60,
-                                  width: 60,
+                            child: Opacity(
+                              opacity: state.switchCurrencyEnabled ? 1 : 0.5,
+                              child: Container(
+                                height: 60,
+                                width: 60,
+                                child: IconButton(
+                                  icon: SvgPicture.asset(
+                                    'assets/images/currency_switch_button.svg',
+                                    height: 60,
+                                    width: 60,
+                                  ),
+                                  onPressed: state.switchCurrencyEnabled
+                                      ? () =>
+                                          BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())
+                                      : null,
                                 ),
-                                onPressed: state.switchCurrencyEnabled
-                                    ? () =>
-                                        BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())
-                                    : null,
                               ),
                             ),
                           )
