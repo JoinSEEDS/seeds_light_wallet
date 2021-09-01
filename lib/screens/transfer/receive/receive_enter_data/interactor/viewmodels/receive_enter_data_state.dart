@@ -5,13 +5,14 @@ import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/utils/rate_states_extensions.dart';
 
 /// --- STATE
 class ReceiveEnterDataState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final String? errorMessage;
-  final FiatDataModel fiatAmount;
+  final FiatDataModel? fiatAmount;
   final TokenDataModel tokenAmount;
   final TokenDataModel? availableBalanceToken;
   final FiatDataModel? availableBalanceFiat;
@@ -83,14 +84,15 @@ class ReceiveEnterDataState extends Equatable {
   }
 
   factory ReceiveEnterDataState.initial(RatesState ratesState) {
+    final tokenAmount = TokenDataModel.fromSelected(0);
     return ReceiveEnterDataState(
-      availableBalanceToken: TokenDataModel(0, token: settingsStorage.selectedToken),
-      availableBalanceFiat: FiatDataModel(0),
+      availableBalanceToken: tokenAmount,
+      availableBalanceFiat: ratesState.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency),
       pageState: PageState.initial,
       ratesState: ratesState,
-      fiatAmount: FiatDataModel(0),
+      fiatAmount: ratesState.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency),
       isNextButtonEnabled: false,
-      tokenAmount: TokenDataModel(0, token: settingsStorage.selectedToken),
+      tokenAmount: tokenAmount,
       isAutoFocus: true,
     );
   }
