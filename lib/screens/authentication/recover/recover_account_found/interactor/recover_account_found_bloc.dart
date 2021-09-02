@@ -6,7 +6,7 @@ import 'package:seeds/blocs/authentication/viewmodels/authentication_event.dart'
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/shared_use_cases/cancel_recovery_use_case%20copy%204.dart';
+import 'package:seeds/domain-shared/shared_use_cases/cancel_recovery_use_case.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/mappers/fetch_recover_guardian_state_mapper.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/mappers/remaining_time_state_mapper.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
