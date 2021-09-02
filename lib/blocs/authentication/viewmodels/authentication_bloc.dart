@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/authentication/mappers/auth_status_state_mapper.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/domain-shared/shared_use_cases/remove_account_use_case%20copy%203.dart';
+import 'package:seeds/domain-shared/shared_use_cases/remove_account_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
 
 /// --- BLOC
