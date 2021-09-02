@@ -4,7 +4,6 @@ import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
 import 'package:seeds/screens/authentication/sign_up/create_username/mappers/create_account_mapper.dart';
@@ -24,20 +23,17 @@ part 'signup_event.dart';
 part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
-  final AuthenticationBloc _authenticationBloc;
   final DeeplinkBloc deeplinkBloc;
   final ClaimInviteUseCase _claimInviteUseCase;
   final CreateUsernameUseCase _createUsernameUseCase;
   final CreateAccountUseCase _createAccountUseCase;
 
   SignupBloc({
-    required AuthenticationBloc authenticationBloc,
     required ClaimInviteUseCase claimInviteUseCase,
     required CreateUsernameUseCase createUsernameUseCase,
     required CreateAccountUseCase createAccountUseCase,
     required this.deeplinkBloc,
-  })  : _authenticationBloc = authenticationBloc,
-        _claimInviteUseCase = claimInviteUseCase,
+  })  : _claimInviteUseCase = claimInviteUseCase,
         _createUsernameUseCase = createUsernameUseCase,
         _createAccountUseCase = createAccountUseCase,
         super(SignupState.initial());

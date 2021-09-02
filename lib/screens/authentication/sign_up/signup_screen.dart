@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/datasource/remote/api/signup_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_user_repository.dart';
@@ -20,7 +19,6 @@ class SignupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => SignupBloc(
-        authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
         deeplinkBloc: BlocProvider.of<DeeplinkBloc>(context),
         claimInviteUseCase: ClaimInviteUseCase(SignupRepository()),
         createUsernameUseCase: CreateUsernameUseCase(signupRepository: SignupRepository()),
