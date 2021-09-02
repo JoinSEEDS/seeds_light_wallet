@@ -181,7 +181,8 @@ class _SettingsStorage {
     this.privateKey = privateKey;
   }
 
-  void saveAccountFromWaitingForRecover(String accountName, String privateKey) {
+  void saveAccountRecoveryMode({required String accountName, String? privateKey}) {
+    inRecoveryMode = true;
     _accountName = accountName;
     this.privateKey = privateKey;
   }
