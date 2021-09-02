@@ -166,6 +166,12 @@ class _SettingsStorage {
     return value;
   }
 
+  void saveAccountRecoveryMode({required String accountName, String? privateKey}) {
+    inRecoveryMode = true;
+    _accountName = accountName;
+    this.privateKey = privateKey;
+  }
+
   void finishRecoveryProcess() => inRecoveryMode = false;
 
   void cancelRecoveryProcess() {
@@ -177,12 +183,6 @@ class _SettingsStorage {
   void savePasscode(String? passcode) => this.passcode = passcode;
 
   void saveAccount(String accountName, String privateKey) {
-    _accountName = accountName;
-    this.privateKey = privateKey;
-  }
-
-  void saveAccountRecoveryMode({required String accountName, String? privateKey}) {
-    inRecoveryMode = true;
     _accountName = accountName;
     this.privateKey = privateKey;
   }
