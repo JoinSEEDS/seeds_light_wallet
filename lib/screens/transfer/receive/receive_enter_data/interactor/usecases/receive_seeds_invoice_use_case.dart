@@ -11,7 +11,7 @@ class ReceiveSeedsInvoiceUseCase {
     return _invoiceRepository.createInvoice(
       tokenAmount: tokenAmount,
       accountName: settingsStorage.accountName,
-      token: TokenModel.fromSymbol(tokenAmount.symbol),
+      tokenContract: TokenModel.fromSymbol(tokenAmount.symbol).contract,
       memo: memo,
     );
   }

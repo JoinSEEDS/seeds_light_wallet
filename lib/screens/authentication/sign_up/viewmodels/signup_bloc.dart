@@ -4,8 +4,8 @@ import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/screens/authentication/sign_up/create_username/mappers/create_account_mapper.dart';
 import 'package:seeds/screens/authentication/sign_up/create_username/usecases/create_account_usecase.dart';
 import 'package:seeds/screens/authentication/sign_up/claim_invite/mappers/claim_invite_mapper.dart';
@@ -23,17 +23,20 @@ part 'signup_event.dart';
 part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
+  final AuthenticationBloc _authenticationBloc;
   final DeeplinkBloc deeplinkBloc;
   final ClaimInviteUseCase _claimInviteUseCase;
   final CreateUsernameUseCase _createUsernameUseCase;
   final CreateAccountUseCase _createAccountUseCase;
 
   SignupBloc({
+    required AuthenticationBloc authenticationBloc,
     required ClaimInviteUseCase claimInviteUseCase,
     required CreateUsernameUseCase createUsernameUseCase,
     required CreateAccountUseCase createAccountUseCase,
     required this.deeplinkBloc,
-  })  : _claimInviteUseCase = claimInviteUseCase,
+  })  : _authenticationBloc = authenticationBloc,
+        _claimInviteUseCase = claimInviteUseCase,
         _createUsernameUseCase = createUsernameUseCase,
         _createAccountUseCase = createAccountUseCase,
         super(SignupState.initial());
@@ -170,7 +173,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     );
 
     if (!result.isError) {
-      settingsStorage.saveAccount(username, privateKey.toString());
+      _authenticationBloc.add(OnCreateAccount(account: username, privateKey: privateKey.toString()));
     }
 
     yield CreateAccountMapper().mapOnCreateAccountTappedToState(currentState, result);

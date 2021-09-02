@@ -5,12 +5,11 @@ import 'package:dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
-import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 
 class InvoiceRepository extends EosRepository {
   Future<Result<dynamic>> createInvoice(
-      {required TokenDataModel tokenAmount, required String accountName, required TokenModel token, String? memo}) {
+      {required TokenDataModel tokenAmount, required String accountName, required String tokenContract, String? memo}) {
     print('[ESR] create invite accountName: $accountName quantity: ${tokenAmount.asFormattedString()}');
 
     final List<esr.Authorization> auth = [esr.ESRConstants.PlaceholderAuth];
@@ -23,7 +22,7 @@ class InvoiceRepository extends EosRepository {
     };
 
     final esr.Action action = esr.Action()
-      ..account = token.contract
+      ..account = tokenContract
       ..name = actionNameTransfer
       ..authorization = auth
       ..data = data;
