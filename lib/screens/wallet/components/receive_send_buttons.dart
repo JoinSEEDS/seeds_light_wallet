@@ -14,6 +14,7 @@ class ReceiveSendButtons extends StatelessWidget {
     return BlocBuilder<TokenBalancesBloc, TokenBalancesState>(
       buildWhen: (previous, current) => previous.selectedIndex != current.selectedIndex,
       builder: (context, state) {
+        final tokenColor = state.selectedToken.dominantColor;
         return Container(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Row(
@@ -23,8 +24,8 @@ class ReceiveSendButtons extends StatelessWidget {
                 child: MaterialButton(
                   padding: const EdgeInsets.only(top: 14, bottom: 14),
                   onPressed: () => NavigationService.of(context).navigateTo(Routes.transfer),
-                  color: AppColors.green1,
-                  disabledColor: AppColors.green1,
+                  color: tokenColor ?? AppColors.green1,
+                  disabledColor: tokenColor ?? AppColors.green1,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(4),
@@ -51,8 +52,8 @@ class ReceiveSendButtons extends StatelessWidget {
                 child: MaterialButton(
                   padding: const EdgeInsets.only(top: 14, bottom: 14),
                   onPressed: () => NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen),
-                  color: AppColors.green1,
-                  disabledColor: AppColors.green1,
+                  color: tokenColor ?? AppColors.green1,
+                  disabledColor: tokenColor ?? AppColors.green1,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(50),

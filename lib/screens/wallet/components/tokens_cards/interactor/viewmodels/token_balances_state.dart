@@ -10,6 +10,8 @@ class TokenBalancesState extends Equatable {
   final List<TokenBalanceViewModel> availableTokens;
   final int selectedIndex;
 
+  TokenBalanceViewModel get selectedToken => availableTokens[selectedIndex];
+
   const TokenBalancesState({
     required this.pageState,
     this.errorMessage,
@@ -37,7 +39,7 @@ class TokenBalancesState extends Equatable {
   }
 
   factory TokenBalancesState.initial() {
-    return const TokenBalancesState(
+    return TokenBalancesState(
       selectedIndex: 0,
       pageState: PageState.initial,
       availableTokens: [TokenBalanceViewModel(SeedsToken, null)],
