@@ -9,6 +9,7 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/snack_bar_info.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
@@ -66,6 +67,7 @@ class PlantSeedsScreen extends StatelessWidget {
                             Text('Plant amount'.i18n, style: Theme.of(context).textTheme.headline6),
                             const SizedBox(height: 16),
                             AmountEntryWidget(
+                              tokenDataModel: TokenDataModel(0),
                               onValueChange: (value) {
                                 BlocProvider.of<PlantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
                               },

@@ -22,13 +22,20 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is UnlockWallet) {
       yield state.copyWith(authStatus: AuthStatus.unlocked);
     }
+    if (event is OnCreateAccount) {
+      settingsStorage.saveAccount(event.account, event.privateKey);
+      // New account --> re-start auth status
+      add(const InitAuthStatus());
+    }
     if (event is OnImportAccount) {
       SaveAccountUseCase().run(accountName: event.account, privateKey: event.privateKey);
       settingsStorage.privateKeyBackedUp = true;
       // New account --> re-start auth status
       add(const InitAuthStatus());
     }
-    if (event is OnCreateAccount) {
+    if (event is OnRecoverAccount) {
+      settingsStorage.saveAccount(event.account, event.privateKey);
+      settingsStorage.privateKeyBackedUp = false;
       // New account --> re-start auth status
       add(const InitAuthStatus());
     }

@@ -12,7 +12,6 @@ class AmountEntryState extends Equatable {
   final CurrencyInput currentCurrencyInput;
   final RatesState ratesState;
   final PageCommand? pageCommand;
-  final String enteringCurrencyName;
   final TokenDataModel tokenAmount;
   final FiatDataModel? fiatAmount;
   final String textInput;
@@ -22,7 +21,6 @@ class AmountEntryState extends Equatable {
   const AmountEntryState({
     required this.currentCurrencyInput,
     required this.ratesState,
-    required this.enteringCurrencyName,
     required this.tokenAmount,
     this.pageCommand,
     required this.fiatAmount,
@@ -37,13 +35,11 @@ class AmountEntryState extends Equatable {
         pageCommand,
         fiatAmount,
         textInput,
-        enteringCurrencyName,
       ];
 
   AmountEntryState copyWith({
     CurrencyInput? currentCurrencyInput,
     RatesState? ratesState,
-    String? enteringCurrencyName,
     TokenDataModel? tokenAmount,
     PageCommand? pageCommand,
     FiatDataModel? fiatAmount,
@@ -53,20 +49,18 @@ class AmountEntryState extends Equatable {
       currentCurrencyInput: currentCurrencyInput ?? this.currentCurrencyInput,
       ratesState: ratesState ?? this.ratesState,
       tokenAmount: tokenAmount ?? this.tokenAmount,
-      enteringCurrencyName: enteringCurrencyName ?? this.enteringCurrencyName,
       pageCommand: pageCommand,
       fiatAmount: fiatAmount ?? this.fiatAmount,
       textInput: textInput ?? this.textInput,
     );
   }
 
-  factory AmountEntryState.initial(RatesState ratesState) {
-    final tokenData = TokenDataModel(0, token: settingsStorage.selectedToken);
+  factory AmountEntryState.initial(RatesState ratesState, {required TokenDataModel tokenDataModel}) {
+    final tokenData = tokenDataModel;
     final fiatData = ratesState.tokenToFiat(tokenData, settingsStorage.selectedFiatCurrency);
     return AmountEntryState(
         currentCurrencyInput: CurrencyInput.token,
         ratesState: ratesState,
-        enteringCurrencyName: settingsStorage.selectedToken.symbol,
         tokenAmount: tokenData,
         fiatAmount: fiatData,
         textInput: "0");

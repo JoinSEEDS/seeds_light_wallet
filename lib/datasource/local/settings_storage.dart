@@ -54,9 +54,7 @@ class _SettingsStorage {
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
 
-  //TokenModel get selectedToken => TokenModel.fromSymbol(_preferences.getString(_kSelectedToken) ?? SeedsToken.symbol);
-  // TODO(n13): Hard coded for now
-  TokenModel get selectedToken => TokenModel.fromSymbol(SeedsToken.symbol);
+  TokenModel get selectedToken => TokenModel.fromSymbol(_preferences.getString(_kSelectedToken) ?? SeedsToken.symbol);
 
   bool get inRecoveryMode => _preferences.getBool(_kInRecoveryMode) ?? false;
 
@@ -180,6 +178,11 @@ class _SettingsStorage {
 
   void saveAccount(String accountName, String privateKey) {
     _accountName = accountName;
+    this.privateKey = privateKey;
+  }
+
+  void saveAccountFromWaitingForRecover(String accountName, String privateKey) {
+    this.accountName = accountName;
     this.privateKey = privateKey;
   }
 

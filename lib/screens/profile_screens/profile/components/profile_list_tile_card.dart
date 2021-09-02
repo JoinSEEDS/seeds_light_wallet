@@ -4,15 +4,14 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/design/app_theme.dart';
 
-/// CARD LIST TILE
-class CardListTile extends StatelessWidget {
+class ProfileListTileCard extends StatelessWidget {
   final IconData leadingIcon;
   final String title;
   final Widget trailing;
   final VoidCallback onTap;
   final bool hasNotification;
 
-  const CardListTile({
+  const ProfileListTileCard({
     Key? key,
     required this.leadingIcon,
     required this.title,
