@@ -1,5 +1,8 @@
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
@@ -27,13 +30,22 @@ class SendTransactionStateMapper extends StateMapper {
       SendTransactionResponse resultResponse, RatesState rateState) {
     if (resultResponse.isTransfer) {
       final transfer = resultResponse.transferTransactionModel!;
-      final fiatQuantity = rateState.fromSeedsToFiat(transfer.doubleQuantity, settingsStorage.selectedFiatCurrency);
+
+      FiatDataModel? fiatAmount;
+
+      // transfer.symbol could be any token as - it could be an ESR request
+      // try to get a fiat conversion rate here.
+      final TokenModel? token = TokenModel.fromSymbolOrNull(transfer.symbol);
+      if (token != null) {
+        final TokenDataModel tokenAmount = TokenDataModel(transfer.doubleQuantity, token: token);
+        fiatAmount = rateState.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency);
+      }
+
       return ShowTransferSuccess(
         transactionModel: transfer,
         from: resultResponse.parseFromUser,
         to: resultResponse.parseToUser,
-        fiatSymbol: settingsStorage.selectedFiatCurrency,
-        fiatQuantity: fiatQuantity,
+        fiatAmount: fiatAmount,
       );
     } else {
       return ShowTransactionSuccess(

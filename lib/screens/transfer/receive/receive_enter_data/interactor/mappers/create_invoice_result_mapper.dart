@@ -14,9 +14,9 @@ class CreateInvoiceResultMapper extends StateMapper {
         pageState: PageState.success,
         pageCommand: NavigateToReceiveDetails(
           receiveDetailArguments: ReceiveDetailArguments(
-            receiveTotalFiat: currentState.fiatAmount,
+            fiatAmount: currentState.fiatAmount,
             invoiceLink: result.asValue!.value,
-            receiveTotalSeeds: currentState.quantity,
+            tokenAmount: currentState.tokenAmount,
             description: currentState.description,
           ),
         ),

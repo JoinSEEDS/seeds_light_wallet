@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/components/amount_entry/interactor/viewmodels/page_command.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/user_input_decimal_precision.dart';
 import 'package:seeds/domain-shared/user_input_number_formatter.dart';
@@ -14,16 +15,19 @@ import 'interactor/viewmodels/amount_entry_events.dart';
 import 'interactor/viewmodels/amount_entry_state.dart';
 
 class AmountEntryWidget extends StatelessWidget {
+  final TokenDataModel tokenDataModel;
   final ValueSetter<String> onValueChange;
   final bool autoFocus;
 
-  const AmountEntryWidget({Key? key, required this.onValueChange, required this.autoFocus}) : super(key: key);
+  const AmountEntryWidget(
+      {Key? key, required this.tokenDataModel, required this.onValueChange, required this.autoFocus})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
-      create: (_) => AmountEntryBloc(rates),
+      create: (_) => AmountEntryBloc(rates, tokenDataModel),
       child: BlocListener<AmountEntryBloc, AmountEntryState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -76,7 +80,9 @@ class AmountEntryWidget extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                state.enteringCurrencyName,
+                                state.currentCurrencyInput == CurrencyInput.token
+                                    ? state.tokenAmount.symbol
+                                    : state.fiatAmount?.symbol ?? "",
                                 style: Theme.of(context).textTheme.subtitle2,
                               ),
                               const SizedBox(height: 18)
