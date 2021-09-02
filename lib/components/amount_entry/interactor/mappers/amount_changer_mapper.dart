@@ -9,7 +9,6 @@ import 'package:seeds/utils/rate_states_extensions.dart';
 class AmountChangeMapper extends StateMapper {
   AmountEntryState mapResultToState(AmountEntryState currentState, String quantity) {
     final double parsedQuantity = double.tryParse(quantity) ?? 0;
-    print("quantity: $parsedQuantity");
     final selectedFiat = settingsStorage.selectedFiatCurrency;
 
     TokenDataModel? tokenAmount;
@@ -17,9 +16,9 @@ class AmountChangeMapper extends StateMapper {
 
     if (currentState.currentCurrencyInput == CurrencyInput.fiat) {
       fiatAmount = FiatDataModel(parsedQuantity, fiatSymbol: settingsStorage.selectedFiatCurrency);
-      tokenAmount = currentState.ratesState.fiatToToken(fiatAmount, settingsStorage.selectedToken.symbol);
+      tokenAmount = currentState.ratesState.fiatToToken(fiatAmount, currentState.tokenAmount.symbol);
     } else {
-      tokenAmount = TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken);
+      tokenAmount = currentState.tokenAmount.copyWith(parsedQuantity);
       fiatAmount = currentState.ratesState.tokenToFiat(tokenAmount, selectedFiat);
     }
 

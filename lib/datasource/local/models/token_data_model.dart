@@ -27,6 +27,10 @@ class TokenDataModel extends AmountDataModel {
   String amountStringWithSymbol() {
     return "${amount.seedsFormatted} $symbol";
   }
+
+  TokenDataModel copyWith(double amount) {
+    return TokenDataModel(amount, token: TokenModel.fromSymbol(symbol));
+  }
 }
 
 extension FormatterTokenModel on TokenDataModel {
