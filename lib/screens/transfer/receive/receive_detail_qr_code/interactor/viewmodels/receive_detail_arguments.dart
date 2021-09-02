@@ -5,7 +5,7 @@ class ReceiveDetailArguments {
   final String? description;
   final String invoiceLink;
   final TokenDataModel tokenAmount;
-  final FiatDataModel fiatAmount;
+  final FiatDataModel? fiatAmount;
 
   const ReceiveDetailArguments({
     required this.tokenAmount,
