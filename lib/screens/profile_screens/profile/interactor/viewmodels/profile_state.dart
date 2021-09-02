@@ -40,6 +40,8 @@ class ProfileState extends Equatable {
         citizenshipUpgradeStatus,
       ];
 
+  bool get showShimmer => pageState == PageState.loading || pageState == PageState.initial;
+
   ProfileState copyWith({
     PageState? pageState,
     String? errorMessage,
