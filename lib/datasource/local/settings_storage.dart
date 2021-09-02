@@ -187,6 +187,11 @@ class _SettingsStorage {
     this.privateKey = privateKey;
   }
 
+  void saveAccountFromWaitingForRecover(String accountName, String privateKey) {
+    this.accountName = accountName;
+    this.privateKey = privateKey;
+  }
+
   void savePrivateKeyBackedUp(bool value) => privateKeyBackedUp = value;
 
   void saveSelectedFiatCurrency(String value) => selectedFiatCurrency = value;

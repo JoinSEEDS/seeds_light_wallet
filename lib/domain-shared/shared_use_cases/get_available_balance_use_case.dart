@@ -7,6 +7,10 @@ class GetAvailableBalanceUseCase {
   final BalanceRepository _balanceRepository = BalanceRepository();
 
   Future<Result> run(TokenModel token) {
-    return _balanceRepository.getTokenBalance(settingsStorage.accountName, token: token);
+    return _balanceRepository.getTokenBalance(
+      settingsStorage.accountName,
+      tokenContract: token.contract,
+      symbol: token.symbol,
+    );
   }
 }

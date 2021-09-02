@@ -11,6 +11,8 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/search_result_row.dart';
 import 'package:seeds/components/send_loading_indicator.dart';
 import 'package:seeds/components/text_form_field_light.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -125,6 +127,7 @@ class SendEnterDataScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
+                                tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),
                                 onValueChange: (value) {
                                   BlocProvider.of<SendEnterDataPageBloc>(context)
                                       .add(OnAmountChange(amountChanged: value));

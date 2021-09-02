@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
-import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/quadstate_clipboard_icon_button.dart';
@@ -57,10 +56,6 @@ class _CreateUsernameState extends State<CreateUsername> {
                           'Oops, something went wrong. Please try again later.'.i18n,
                       ScaffoldMessenger.of(context))
                   .show();
-            }
-
-            if (state.createUsernameState.pageState == PageState.success) {
-              BlocProvider.of<AuthenticationBloc>(context).add(const OnCreateAccount());
             }
           },
           builder: (context, state) {
