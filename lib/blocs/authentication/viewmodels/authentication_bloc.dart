@@ -24,7 +24,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield state.copyWith(authStatus: AuthStatus.unlocked);
     }
     if (event is OnCreateAccount) {
-      settingsStorage.saveAccount(event.account, event.privateKey);
+      SaveAccountUseCase().run(accountName: event.account, privateKey: event.privateKey);
       // New account --> re-start auth status
       add(const InitAuthStatus());
     }
@@ -35,7 +35,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       add(const InitAuthStatus());
     }
     if (event is OnRecoverAccount) {
-      settingsStorage.saveAccount(event.account, event.privateKey);
+      // TODO(RaulUrtecho): - This is redundant - user was already saved when recovery was started.
+      // also a recovery is 1:1 tied to a user account so the account can't change
+      // the key we use as argument here comes from settingsStorage and goes back there.
+      SaveAccountUseCase().run(accountName: event.account, privateKey: event.privateKey);
       settingsStorage.privateKeyBackedUp = false;
       // New account --> re-start auth status
       add(const InitAuthStatus());

@@ -22,7 +22,6 @@ class FetchRecoverGuardianInitialDataUseCase {
       recoveryPrivateKey = settingsStorage.privateKey!;
     } else {
       recoveryPrivateKey = EOSPrivateKey.fromRandom().toString();
-      settingsStorage.inRecoveryMode = true;
       StartRecoveryUseCase().run(accountName: accountName, privateKey: recoveryPrivateKey);
     }
 
