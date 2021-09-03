@@ -72,11 +72,11 @@ class _SettingsStorage {
 
   set _accountName(String? value) {
     _preferences.setString(_kAccountName, value ?? '');
-    // retrieve accounts list
+    // Retrieve accounts list
     final List<String> accts = accountsList;
-    // add new account
+    // Add new account
     accts.add(accountName);
-    // save updated accounts list
+    // Save updated accounts list
     _preferences.setStringList(_kAccountsList, accts);
   }
 
@@ -193,13 +193,13 @@ class _SettingsStorage {
   Future<void> saveAccount(String accountName, String privateKey) async {
     _accountName = accountName;
     _privateKey = privateKey;
-    // Retrieve provate keys list
+    // Retrieve private keys list
     final List<String> pkeys = (await _secureStorage.read(key: _kPrivateKeysList))?.split(',') ?? [];
-    // add new private key
+    // Add new private key
     pkeys.add(privateKey);
-    // save updated private keys list
+    // Save updated private keys list
     await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(","));
-    // update local field
+    // Update local field
     _privateKeysList = pkeys;
   }
 
