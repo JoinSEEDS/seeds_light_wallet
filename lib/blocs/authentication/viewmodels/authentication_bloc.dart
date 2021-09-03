@@ -2,7 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/authentication/mappers/auth_status_state_mapper.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_message_token_repository.dart';
+import 'package:seeds/domain-shared/shared_use_cases/remove_account_use_case.dart';
+import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
 
 /// --- BLOC
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -23,27 +24,24 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield state.copyWith(authStatus: AuthStatus.unlocked);
     }
     if (event is OnCreateAccount) {
-      settingsStorage.saveAccount(event.account, event.privateKey);
+      SaveAccountUseCase().run(accountName: event.account, privateKey: event.privateKey);
       // New account --> re-start auth status
       add(const InitAuthStatus());
-      // Set fcm token must be last instruction to allow login, even if there is an error here.
-      await FirebaseMessageTokenRepository().setFirebaseMessageToken(settingsStorage.accountName);
     }
     if (event is OnImportAccount) {
-      settingsStorage.saveAccount(event.account, event.privateKey);
+      SaveAccountUseCase().run(accountName: event.account, privateKey: event.privateKey);
       settingsStorage.privateKeyBackedUp = true;
       // New account --> re-start auth status
       add(const InitAuthStatus());
-      // Set fcm token must be last instruction to allow login, even if there is an error here.
-      await FirebaseMessageTokenRepository().setFirebaseMessageToken(event.account);
     }
     if (event is OnRecoverAccount) {
-      settingsStorage.saveAccount(event.account, event.privateKey);
+      // TODO(RaulUrtecho): - This is redundant - user was already saved when recovery was started.
+      // also a recovery is 1:1 tied to a user account so the account can't change
+      // the key we use as argument here comes from settingsStorage and goes back there.
+      SaveAccountUseCase().run(accountName: event.account, privateKey: event.privateKey);
       settingsStorage.privateKeyBackedUp = false;
       // New account --> re-start auth status
       add(const InitAuthStatus());
-      // Set fcm token must be last instruction to allow login, even if there is an error here.
-      await FirebaseMessageTokenRepository().setFirebaseMessageToken(event.account);
     }
     if (event is EnablePasscode) {
       settingsStorage.savePasscode(event.newPasscode);
@@ -61,14 +59,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       settingsStorage.biometricActive = false;
     }
     if (event is OnLogout) {
-      // copy account before clear data
-      final account = settingsStorage.accountName;
       // Clear data
-      await settingsStorage.removeAccount();
+      await RemoveAccountUseCase().run();
       // User logout --> re-start auth status
       add(const InitAuthStatus());
-      // Remove fcm token must be last instruction to allow logout, even if there is an error here.
-      await FirebaseMessageTokenRepository().removeFirebaseMessageToken(account);
     }
   }
 }

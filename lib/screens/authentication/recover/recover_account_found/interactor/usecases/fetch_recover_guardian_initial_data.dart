@@ -8,6 +8,7 @@ import 'package:seeds/datasource/remote/api/members_repository.dart';
 import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
+import 'package:seeds/domain-shared/shared_use_cases/start_recovery_use_case.dart';
 
 class FetchRecoverGuardianInitialDataUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
@@ -21,7 +22,7 @@ class FetchRecoverGuardianInitialDataUseCase {
       recoveryPrivateKey = settingsStorage.privateKey!;
     } else {
       recoveryPrivateKey = EOSPrivateKey.fromRandom().toString();
-      settingsStorage.enableRecoveryMode(accountName: accountName, privateKey: recoveryPrivateKey);
+      StartRecoveryUseCase().run(accountName: accountName, privateKey: recoveryPrivateKey);
     }
 
     final String publicKey = EOSPrivateKey.fromString(recoveryPrivateKey).toEOSPublicKey().toString();

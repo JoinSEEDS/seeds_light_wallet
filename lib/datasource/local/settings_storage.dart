@@ -64,7 +64,7 @@ class _SettingsStorage {
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
-  set accountName(String? value) => _preferences.setString(_kAccountName, value ?? '');
+  set _accountName(String? value) => _preferences.setString(_kAccountName, value ?? '');
 
   set privateKey(String? value) {
     _secureStorage.write(key: _kPrivateKey, value: value);
@@ -168,7 +168,7 @@ class _SettingsStorage {
 
   void enableRecoveryMode({required String accountName, String? privateKey}) {
     inRecoveryMode = true;
-    this.accountName = accountName;
+    _accountName = accountName;
     this.privateKey = privateKey;
   }
 
@@ -176,19 +176,14 @@ class _SettingsStorage {
 
   void cancelRecoveryProcess() {
     inRecoveryMode = false;
-    accountName = null;
+    _accountName = null;
     privateKey = null;
   }
 
   void savePasscode(String? passcode) => this.passcode = passcode;
 
   void saveAccount(String accountName, String privateKey) {
-    this.accountName = accountName;
-    this.privateKey = privateKey;
-  }
-
-  void saveAccountFromWaitingForRecover(String accountName, String privateKey) {
-    this.accountName = accountName;
+    _accountName = accountName;
     this.privateKey = privateKey;
   }
 

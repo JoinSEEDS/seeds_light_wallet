@@ -3,7 +3,7 @@ import 'package:seeds/datasource/remote/firebase/firebase_database_repository.da
 import 'package:seeds/datasource/remote/firebase/firebase_push_notification_service.dart';
 
 class FirebaseMessageTokenRepository extends FirebaseDatabaseService {
-  Future<void> setFirebaseMessageToken(String? userId) async {
+  Future<void> setFirebaseMessageToken(String userId) async {
     // Users can have multiple tokens. Ex: Multiple devices.
     if (PushNotificationService().token != null) {
       final tokens = <String?>[PushNotificationService().token];
