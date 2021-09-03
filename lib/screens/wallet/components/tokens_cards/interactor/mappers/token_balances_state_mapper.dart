@@ -1,3 +1,5 @@
+import 'package:seeds/datasource/local/ColorPalletteRepository.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
@@ -7,7 +9,8 @@ import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmode
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_state.dart';
 
 class TokenBalancesStateMapper {
-  TokenBalancesState mapResultToState(TokenBalancesState currentState, List<TokenModel> tokens, List<Result> results) {
+  Future<TokenBalancesState> mapResultToState(
+      TokenBalancesState currentState, List<TokenModel> tokens, List<Result> results) async {
     assert(tokens.length == results.length, "invalid results");
 
     final List<TokenBalanceViewModel> available = [];
@@ -35,10 +38,18 @@ class TokenBalancesStateMapper {
         } else {
           final BalanceModel balance = result.asValue?.value as BalanceModel;
           if (whitelisted || balance.quantity > 0) {
-            available.add(TokenBalanceViewModel(token, balance));
+            available.add(TokenBalanceViewModel(token, TokenDataModel(balance.quantity, token: token)));
             newWhitelist.add(token.id);
           }
         }
+      }
+    }
+
+    // load colors
+    final repo = ColorPaletteRepository();
+    for (final TokenBalanceViewModel viewModel in available) {
+      if (viewModel.token != SeedsToken) {
+        viewModel.dominantColor = await repo.getImagePaletteCached(viewModel.token.backgroundImage);
       }
     }
 

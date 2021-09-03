@@ -6,6 +6,7 @@ import 'package:seeds/blocs/authentication/viewmodels/authentication_event.dart'
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/shared_use_cases/cancel_recovery_use_case.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/mappers/fetch_recover_guardian_state_mapper.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/mappers/remaining_time_state_mapper.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
@@ -60,7 +61,7 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
       if (result.isValue) {
         // The private key was saved in the settings storage when the user data for this bloc was loaded
         settingsStorage.finishRecoveryProcess();
-        _authenticationBloc.add(OnImportAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
+        _authenticationBloc.add(OnRecoverAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
       } else {
         yield state.copyWith(pageCommand: ShowErrorMessage("Oops, Something went wrong. Try again later"));
       }
@@ -71,7 +72,7 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
     } else if (event is ClearRecoverPageCommand) {
       yield state.copyWith();
     } else if (event is OnCancelProcessTap) {
-      settingsStorage.cancelRecoveryProcess();
+      CancelRecoveryProcessUseCase().run();
       yield state.copyWith(pageCommand: CancelRecoveryProcess());
     }
   }

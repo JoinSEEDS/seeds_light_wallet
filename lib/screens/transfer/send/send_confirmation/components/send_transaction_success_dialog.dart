@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/profile_avatar.dart';
@@ -13,8 +14,7 @@ import 'package:seeds/utils/double_extension.dart';
 class SendTransactionSuccessDialog extends StatelessWidget {
   final String amount;
   final String tokenSymbol;
-  final String? fiatAmount;
-  final String fiatCurrency;
+  final FiatDataModel? fiatAmount;
   final String? toImage;
   final String? toName;
   final String toAccount;
@@ -29,7 +29,6 @@ class SendTransactionSuccessDialog extends StatelessWidget {
     required this.amount,
     required this.tokenSymbol,
     this.fiatAmount,
-    required this.fiatCurrency,
     this.toImage,
     this.toName,
     required this.toAccount,
@@ -46,8 +45,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
       onCloseButtonPressed: onCloseButtonPressed,
       amount: pageCommand.transactionModel.doubleQuantity.seedsFormatted,
       tokenSymbol: pageCommand.transactionModel.symbol,
-      fiatAmount: pageCommand.fiatQuantity.fiatFormatted,
-      fiatCurrency: pageCommand.fiatSymbol,
+      fiatAmount: pageCommand.fiatAmount,
       fromAccount: pageCommand.transactionModel.from,
       fromImage: pageCommand.from?.image ?? "",
       fromName: pageCommand.from?.nickname ?? pageCommand.transactionModel.from,
@@ -78,7 +76,7 @@ class SendTransactionSuccessDialog extends StatelessWidget {
                 ),
               ],
             ),
-            Text(fiatAmount != null ? "$fiatAmount $fiatCurrency" : "", style: Theme.of(context).textTheme.subtitle2),
+            Text(fiatAmount?.asFormattedString() ?? "", style: Theme.of(context).textTheme.subtitle2),
             const SizedBox(height: 30.0),
             DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To".i18n),
             const SizedBox(height: 30.0),

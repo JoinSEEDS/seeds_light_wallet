@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/datasource/remote/model/balance_model.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -12,13 +12,12 @@ class SendEnterDataPageState extends Equatable {
   final PageCommand? pageCommand;
   final String? errorMessage;
   final MemberModel sendTo;
-  final String? fiatAmount;
+  final TokenDataModel tokenAmount;
+  final FiatDataModel? fiatAmount;
   final RatesState ratesState;
-  final BalanceModel? balance;
   final TokenDataModel? availableBalance;
   final FiatDataModel? availableBalanceFiat;
   final bool isNextButtonEnabled;
-  final double quantity;
   final String memo;
   final bool shouldAutoFocusEnterField;
   final bool showAlert;
@@ -34,8 +33,7 @@ class SendEnterDataPageState extends Equatable {
     this.availableBalance,
     this.availableBalanceFiat,
     required this.isNextButtonEnabled,
-    this.balance,
-    required this.quantity,
+    required this.tokenAmount,
     required this.memo,
     required this.shouldAutoFocusEnterField,
     required this.showAlert,
@@ -53,8 +51,7 @@ class SendEnterDataPageState extends Equatable {
         availableBalance,
         availableBalanceFiat,
         isNextButtonEnabled,
-        balance,
-        quantity,
+        tokenAmount,
         memo,
         shouldAutoFocusEnterField,
         showAlert,
@@ -66,13 +63,12 @@ class SendEnterDataPageState extends Equatable {
     PageCommand? pageCommand,
     String? errorMessage,
     MemberModel? sendTo,
-    String? fiatAmount,
+    FiatDataModel? fiatAmount,
     RatesState? ratesState,
     TokenDataModel? availableBalance,
     FiatDataModel? availableBalanceFiat,
-    BalanceModel? balance,
     bool? isNextButtonEnabled,
-    double? quantity,
+    TokenDataModel? tokenAmount,
     String? memo,
     bool? shouldAutoFocusEnterField,
     bool? showAlert,
@@ -87,9 +83,8 @@ class SendEnterDataPageState extends Equatable {
       ratesState: ratesState ?? this.ratesState,
       availableBalance: availableBalance ?? this.availableBalance,
       availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
-      balance: balance ?? this.balance,
       isNextButtonEnabled: isNextButtonEnabled ?? this.isNextButtonEnabled,
-      quantity: quantity ?? this.quantity,
+      tokenAmount: tokenAmount ?? this.tokenAmount,
       memo: memo ?? this.memo,
       shouldAutoFocusEnterField: shouldAutoFocusEnterField ?? this.shouldAutoFocusEnterField,
       showAlert: showAlert ?? this.showAlert,
@@ -103,7 +98,7 @@ class SendEnterDataPageState extends Equatable {
       sendTo: memberModel,
       ratesState: ratesState,
       isNextButtonEnabled: false,
-      quantity: 0,
+      tokenAmount: TokenDataModel(0, token: settingsStorage.selectedToken),
       memo: '',
       shouldAutoFocusEnterField: true,
       showAlert: false,

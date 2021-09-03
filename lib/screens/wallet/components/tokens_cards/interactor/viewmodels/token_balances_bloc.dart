@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
@@ -40,9 +41,10 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
 
       final result = await LoadTokenBalancesUseCase().run(potentialTokens);
 
-      yield TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
+      yield await TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
     } else if (event is OnSelectedTokenChanged) {
       yield state.copyWith(selectedIndex: event.index);
+      settingsStorage.selectedToken = state.availableTokens[event.index].token;
     } else if (event is OnFiatCurrencyChanged) {
       yield state.copyWith(pageState: PageState.loading);
       yield state.copyWith(pageState: PageState.success);

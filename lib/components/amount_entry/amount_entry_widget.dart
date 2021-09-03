@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/components/amount_entry/interactor/viewmodels/page_command.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/user_input_decimal_precision.dart';
 import 'package:seeds/domain-shared/user_input_number_formatter.dart';
@@ -14,21 +15,27 @@ import 'interactor/viewmodels/amount_entry_events.dart';
 import 'interactor/viewmodels/amount_entry_state.dart';
 
 class AmountEntryWidget extends StatelessWidget {
+  final TokenDataModel tokenDataModel;
   final ValueSetter<String> onValueChange;
   final bool autoFocus;
 
-  const AmountEntryWidget({Key? key, required this.onValueChange, required this.autoFocus}) : super(key: key);
+  const AmountEntryWidget(
+      {Key? key, required this.tokenDataModel, required this.onValueChange, required this.autoFocus})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
     return BlocProvider(
-      create: (_) => AmountEntryBloc(rates),
+      create: (_) => AmountEntryBloc(rates, tokenDataModel),
       child: BlocListener<AmountEntryBloc, AmountEntryState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
-          // ignore: cast_nullable_to_non_nullable
-          onValueChange((state.pageCommand as SendTextInputDataBack).textToSend);
+          final pageCommand = state.pageCommand;
+
+          if (pageCommand is SendTextInputDataBack) {
+            onValueChange(pageCommand.textToSend);
+          }
 
           BlocProvider.of<AmountEntryBloc>(context).add(ClearPageCommand());
         },
@@ -58,7 +65,10 @@ class AmountEntryWidget extends StatelessWidget {
                         )),
                         inputFormatters: [
                           UserInputNumberFormatter(),
-                          DecimalTextInputFormatter(decimalRange: state.currentCurrencyInput.toDecimalPrecision())
+                          DecimalTextInputFormatter(
+                              decimalRange: state.currentCurrencyInput == CurrencyInput.fiat
+                                  ? state.fiatAmount?.precision ?? 0
+                                  : state.tokenAmount.precision)
                         ],
                       ),
                     ),
@@ -70,7 +80,9 @@ class AmountEntryWidget extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                state.enteringCurrencyName,
+                                state.currentCurrencyInput == CurrencyInput.token
+                                    ? state.tokenAmount.symbol
+                                    : state.fiatAmount?.symbol ?? "",
                                 style: Theme.of(context).textTheme.subtitle2,
                               ),
                               const SizedBox(height: 18)
@@ -79,17 +91,22 @@ class AmountEntryWidget extends StatelessWidget {
                           Positioned(
                             bottom: -16,
                             left: 70,
-                            child: Container(
-                              height: 60,
-                              width: 60,
-                              child: IconButton(
-                                icon: SvgPicture.asset(
-                                  'assets/images/currency_switch_button.svg',
-                                  height: 60,
-                                  width: 60,
+                            child: Opacity(
+                              opacity: state.switchCurrencyEnabled ? 1 : 0.5,
+                              child: Container(
+                                height: 60,
+                                width: 60,
+                                child: IconButton(
+                                  icon: SvgPicture.asset(
+                                    'assets/images/currency_switch_button.svg',
+                                    height: 60,
+                                    width: 60,
+                                  ),
+                                  onPressed: state.switchCurrencyEnabled
+                                      ? () =>
+                                          BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())
+                                      : null,
                                 ),
-                                onPressed: () =>
-                                    {BlocProvider.of<AmountEntryBloc>(context).add(OnCurrencySwitchButtonTapped())},
                               ),
                             ),
                           )
@@ -99,7 +116,9 @@ class AmountEntryWidget extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  state.infoRowText,
+                  state.currentCurrencyInput == CurrencyInput.fiat
+                      ? state.tokenAmount.asFormattedString()
+                      : state.fiatAmount?.asFormattedString() ?? "",
                   style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                 ),
               ],

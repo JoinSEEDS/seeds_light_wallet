@@ -1,9 +1,9 @@
-import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/datasource/remote/model/user_recover_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
 import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
@@ -15,25 +15,18 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
     final Result userRecoversModel = result.userRecoversModel;
     final Result accountGuardians = result.accountGuardians;
 
-    Uri? link;
-    if (linkResult.isValue) {
-      link = linkResult.asValue!.value;
-    }
+    final Uri? link = linkResult.asValue?.value;
+    final UserRecoversModel? userRecoversModelData = userRecoversModel.asValue?.value;
+    final UserGuardiansModel? userGuardiansModel = accountGuardians.asValue?.value;
 
-    UserRecoversModel? userRecoversModelData;
-    if (userRecoversModel.isValue) {
-      userRecoversModelData = userRecoversModel.asValue!.value;
-    }
+    final hasFetchedGuardians = areAllResultsSuccess(members);
+    final hasGuardians = members.isNotEmpty;
 
-    UserGuardiansModel? userGuardiansModel;
-    if (accountGuardians.isValue) {
-      userGuardiansModel = accountGuardians.asValue!.value;
-    }
-
-    // Check that we have all data needed from the server and is valid. We need data from multiple services and any of them can fail.
+    // Check that we have all data needed from the server and it is valid.
+    // We need data from multiple services and any of them can fail.
     // This is the minimum required data to proceed
-    if (areAllResultsSuccess(members) &&
-        members.isNotEmpty &&
+    if (hasFetchedGuardians &&
+        hasGuardians &&
         link != null &&
         userRecoversModelData != null &&
         userGuardiansModel != null) {
@@ -57,7 +50,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       }
 
       // Save the private key and account
-      settingsStorage.saveAccount(currentState.userAccount, result.privateKey);
+      SaveAccountUseCase().run(accountName: currentState.userAccount, privateKey: result.privateKey);
 
       return currentState.copyWith(
         pageState: PageState.success,
@@ -68,10 +61,15 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         alreadySignedGuardians: userRecoversModelData.alreadySignedGuardians,
         timeLockSeconds: timeLockSeconds,
       );
+    } else if (hasFetchedGuardians && !hasGuardians) {
+      return currentState.copyWith(
+        pageState: PageState.failure,
+        errorMessage: "There are no guardians for this account.".i18n,
+      );
     } else {
       return currentState.copyWith(
         pageState: PageState.failure,
-        errorMessage: "Oops, Something went wrong, try again later.".i18n,
+        errorMessage: "Oops! Something went wrong, try again later.".i18n,
       );
     }
   }

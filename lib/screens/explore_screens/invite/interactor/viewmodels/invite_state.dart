@@ -14,11 +14,11 @@ class InviteState extends Equatable {
   final String? errorMessage;
   final RatesState ratesState;
   final bool isAutoFocus;
-  final String fiatAmount;
+  final TokenDataModel tokenAmount;
+  final FiatDataModel fiatAmount;
   final TokenDataModel? availableBalance;
   final FiatDataModel? availableBalanceFiat;
   final bool isCreateInviteButtonEnabled;
-  final double quantity;
   final String? alertMessage;
   final String? mnemonicSecretCode;
   final String? dynamicSecretLink;
@@ -30,11 +30,11 @@ class InviteState extends Equatable {
     this.errorMessage,
     required this.ratesState,
     required this.isAutoFocus,
+    required this.tokenAmount,
     required this.fiatAmount,
     this.availableBalance,
     this.availableBalanceFiat,
     required this.isCreateInviteButtonEnabled,
-    required this.quantity,
     this.alertMessage,
     this.mnemonicSecretCode,
     this.dynamicSecretLink,
@@ -52,7 +52,7 @@ class InviteState extends Equatable {
         availableBalance,
         availableBalanceFiat,
         isCreateInviteButtonEnabled,
-        quantity,
+        tokenAmount,
         alertMessage,
         showCloseDialogButton,
       ];
@@ -63,11 +63,11 @@ class InviteState extends Equatable {
     String? errorMessage,
     RatesState? ratesState,
     bool? isAutoFocus,
-    String? fiatAmount,
+    TokenDataModel? tokenAmount,
+    FiatDataModel? fiatAmount,
     TokenDataModel? availableBalance,
     FiatDataModel? availableBalanceFiat,
     bool? isCreateInviteButtonEnabled,
-    double? quantity,
     String? alertMessage,
     String? mnemonicSecretCode,
     String? dynamicSecretLink,
@@ -79,11 +79,11 @@ class InviteState extends Equatable {
       errorMessage: errorMessage,
       ratesState: ratesState ?? this.ratesState,
       isAutoFocus: isAutoFocus ?? this.isAutoFocus,
+      tokenAmount: tokenAmount ?? this.tokenAmount,
       fiatAmount: fiatAmount ?? this.fiatAmount,
       availableBalance: availableBalance ?? this.availableBalance,
       availableBalanceFiat: availableBalanceFiat ?? this.availableBalanceFiat,
       isCreateInviteButtonEnabled: isCreateInviteButtonEnabled ?? this.isCreateInviteButtonEnabled,
-      quantity: quantity ?? this.quantity,
       alertMessage: alertMessage,
       mnemonicSecretCode: mnemonicSecretCode ?? this.mnemonicSecretCode,
       dynamicSecretLink: dynamicSecretLink ?? this.dynamicSecretLink,
@@ -96,9 +96,9 @@ class InviteState extends Equatable {
       pageState: PageState.initial,
       ratesState: ratesState,
       isAutoFocus: true,
-      fiatAmount: 0.toString(),
+      fiatAmount: FiatDataModel(0),
       isCreateInviteButtonEnabled: false,
-      quantity: 0,
+      tokenAmount: TokenDataModel(0),
       showCloseDialogButton: false,
     );
   }

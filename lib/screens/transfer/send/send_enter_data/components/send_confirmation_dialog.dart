@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/profile_avatar.dart';
@@ -7,10 +9,8 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 
 class SendConfirmationDialog extends StatelessWidget {
-  final String amount;
-  final String tokenSymbol;
-  final String fiatCurrency;
-  final String? fiatAmount;
+  final TokenDataModel tokenAmount;
+  final FiatDataModel? fiatAmount;
   final String? toImage;
   final String? toName;
   final String toAccount;
@@ -19,9 +19,7 @@ class SendConfirmationDialog extends StatelessWidget {
 
   const SendConfirmationDialog({
     Key? key,
-    required this.amount,
-    required this.tokenSymbol,
-    required this.fiatCurrency,
+    required this.tokenAmount,
     this.fiatAmount,
     this.toImage,
     this.toName,
@@ -56,14 +54,14 @@ class SendConfirmationDialog extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(amount, style: Theme.of(context).textTheme.headline4),
+            Text(tokenAmount.amountString(), style: Theme.of(context).textTheme.headline4),
             Padding(
               padding: const EdgeInsets.only(top: 14, left: 4),
-              child: Text(tokenSymbol, style: Theme.of(context).textTheme.subtitle2),
+              child: Text(tokenAmount.symbol, style: Theme.of(context).textTheme.subtitle2),
             ),
           ],
         ),
-        Text(fiatAmount != null ? "$fiatAmount $fiatCurrency" : "", style: Theme.of(context).textTheme.subtitle2),
+        Text(fiatAmount?.asFormattedString() ?? "", style: Theme.of(context).textTheme.subtitle2),
         const SizedBox(height: 30.0),
         DialogRow(imageUrl: toImage, account: toAccount, name: toName, toOrFromText: "To".i18n),
         const SizedBox(height: 24.0),

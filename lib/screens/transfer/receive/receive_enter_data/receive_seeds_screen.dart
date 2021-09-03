@@ -7,6 +7,8 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/components/text_form_field_light.dart';
+import 'package:seeds/datasource/local/models/token_data_model.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
@@ -53,6 +55,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                             children: [
                               const SizedBox(height: 100),
                               AmountEntryWidget(
+                                tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),
                                 onValueChange: (value) {
                                   BlocProvider.of<ReceiveEnterDataBloc>(context)
                                       .add(OnAmountChange(amountChanged: value));
@@ -77,7 +80,7 @@ class ReceiveEnterDataScreen extends StatelessWidget {
                                     BalanceRow(
                                       label: "Available Balance".i18n,
                                       fiatAmount: state.availableBalanceFiat,
-                                      tokenAmount: state.availableBalanceSeeds,
+                                      tokenAmount: state.availableBalanceToken,
                                     ),
                                   ],
                                 ),

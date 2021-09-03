@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/i18n/wallet/wallet.i18n.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -31,7 +32,9 @@ class _TransactionsListState extends State<TransactionsList> with AutomaticKeepA
         Container(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Row(children: [
-            Expanded(child: Text('Transactions History'.i18n, style: Theme.of(context).textTheme.headline7LowEmphasis)),
+            Expanded(
+                child: Text(testnetMode ? 'Transactions TESTNET' : 'Transactions History'.i18n,
+                    style: Theme.of(context).textTheme.headline7LowEmphasis)),
           ]),
         ),
         const SizedBox(height: 6),
