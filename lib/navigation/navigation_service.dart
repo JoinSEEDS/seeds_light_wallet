@@ -106,7 +106,7 @@ class NavigationService {
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(),
-    Routes.receiveEnterDataScreen: (_) => const ReceiveEnterDataScreen(),
+    Routes.receiveEnterDataScreen: (args) => ReceiveEnterDataScreen(args),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => const SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => const InviteGuardians(),

@@ -9,6 +9,7 @@ import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/components/text_form_field_light.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
@@ -19,13 +20,14 @@ import 'interactor/viewmodels/receive_enter_data_events.dart';
 import 'interactor/viewmodels/receive_enter_data_state.dart';
 
 class ReceiveEnterDataScreen extends StatelessWidget {
-  const ReceiveEnterDataScreen({Key? key}) : super(key: key);
+  final TokenParameters tokenParameters;
+  const ReceiveEnterDataScreen(this.tokenParameters, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          ReceiveEnterDataBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
+          ReceiveEnterDataBloc(BlocProvider.of<RatesBloc>(context).state)..add(LoadUserBalance(tokenParameters)),
       child: Scaffold(
           appBar: AppBar(title: Text("Receive".i18n)),
           body: BlocConsumer<ReceiveEnterDataBloc, ReceiveEnterDataState>(

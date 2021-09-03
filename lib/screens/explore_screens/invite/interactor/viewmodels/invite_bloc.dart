@@ -21,7 +21,7 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
   Stream<InviteState> mapEventToState(InviteEvent event) async* {
     if (event is LoadUserBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result result = await GetAvailableBalanceUseCase().run(SeedsToken);
+      final Result result = await GetAvailableBalanceUseCase().run(SeedsToken.parameters());
       yield UserBalanceStateMapper().mapResultToState(state, result, state.ratesState);
     }
     if (event is OnAmountChange) {

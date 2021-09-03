@@ -1,6 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
 
+class TokenParameters {
+  final String symbol;
+  final String contract;
+  final int precision;
+  const TokenParameters(this.symbol, this.contract, this.precision);
+}
+
 class TokenModel extends Equatable {
   static const AllTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken, StarsToken];
 
@@ -39,6 +46,10 @@ class TokenModel extends Equatable {
 
   String getAssetString(double quantity) {
     return "${quantity.toStringAsFixed(precision)} $symbol";
+  }
+
+  TokenParameters parameters() {
+    return TokenParameters(symbol, contract, precision);
   }
 }
 

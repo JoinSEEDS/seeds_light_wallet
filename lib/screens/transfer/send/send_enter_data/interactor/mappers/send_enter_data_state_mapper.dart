@@ -1,5 +1,4 @@
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -14,7 +13,8 @@ class SendEnterDataStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
       final BalanceModel balance = result.asValue!.value as BalanceModel;
-      final availableBalance = TokenDataModel(balance.quantity, token: settingsStorage.selectedToken);
+      final availableBalance = currentState.tokenAmount.copyWith(balance.quantity);
+      // final availableBalance = TokenDataModel(balance.quantity, token: settingsStorage.selectedToken);
 
       return currentState.copyWith(
         pageState: PageState.success,

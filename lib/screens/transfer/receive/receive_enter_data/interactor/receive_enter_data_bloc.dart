@@ -15,17 +15,17 @@ import 'mappers/user_balance_state_mapper.dart';
 
 /// --- BLOC
 class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterDataState> {
-  ReceiveEnterDataBloc(RatesState rates) : super(ReceiveEnterDataState.initial(rates));
+  ReceiveEnterDataBloc(RatesState rates, TokenDataModel initial) : super(ReceiveEnterDataState.initial(rates, initial));
 
   @override
   Stream<ReceiveEnterDataState> mapEventToState(ReceiveEnterDataEvents event) async* {
     if (event is LoadUserBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
+      final Result result = await GetAvailableBalanceUseCase().run(event.tokenParameters);
       yield UserBalanceStateMapper().mapResultToState(state, result);
     } else if (event is OnAmountChange) {
       final double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;
-      final tokenAmount = TokenDataModel(parsedQuantity, token: settingsStorage.selectedToken);
+      final tokenAmount = state.tokenAmount.copyWith(parsedQuantity);
       final fiatAmount = state.ratesState.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency);
 
       yield state.copyWith(
@@ -46,7 +46,7 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
       yield state.copyWith(
         fiatAmount: FiatDataModel(0),
         isNextButtonEnabled: false,
-        tokenAmount: TokenDataModel.fromSelected(0),
+        tokenAmount: state.tokenAmount.copyWith(0),
         isAutoFocus: false,
       );
     }

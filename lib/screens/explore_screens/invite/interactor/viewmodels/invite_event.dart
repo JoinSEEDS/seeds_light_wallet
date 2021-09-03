@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:seeds/datasource/remote/model/token_model.dart';
 
 /// --- EVENTS
 @immutable
@@ -10,7 +11,8 @@ abstract class InviteEvent extends Equatable {
 }
 
 class LoadUserBalance extends InviteEvent {
-  const LoadUserBalance();
+  final TokenParameters tokenParameters;
+  const LoadUserBalance(this.tokenParameters);
   @override
   String toString() => 'LoadUserBalance';
 }

@@ -83,16 +83,15 @@ class ReceiveEnterDataState extends Equatable {
     );
   }
 
-  factory ReceiveEnterDataState.initial(RatesState ratesState) {
-    final tokenAmount = TokenDataModel.fromSelected(0);
+  factory ReceiveEnterDataState.initial(RatesState ratesState, TokenDataModel initialTokenAmount) {
     return ReceiveEnterDataState(
-      availableBalanceToken: tokenAmount,
-      availableBalanceFiat: ratesState.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency),
+      availableBalanceToken: initialTokenAmount,
+      availableBalanceFiat: ratesState.tokenToFiat(initialTokenAmount, settingsStorage.selectedFiatCurrency),
       pageState: PageState.initial,
       ratesState: ratesState,
-      fiatAmount: ratesState.tokenToFiat(tokenAmount, settingsStorage.selectedFiatCurrency),
+      fiatAmount: ratesState.tokenToFiat(initialTokenAmount, settingsStorage.selectedFiatCurrency),
       isNextButtonEnabled: false,
-      tokenAmount: tokenAmount,
+      tokenAmount: initialTokenAmount,
       isAutoFocus: true,
     );
   }

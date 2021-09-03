@@ -1,5 +1,4 @@
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -13,7 +12,7 @@ class UserBalanceStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
       final balance = result.asValue!.value as BalanceModel;
-      final availableBalance = TokenDataModel.fromSelected(balance.quantity);
+      final availableBalance = currentState.tokenAmount.copyWith(balance.quantity);
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
       final RatesState rateState = currentState.ratesState;
       return currentState.copyWith(
