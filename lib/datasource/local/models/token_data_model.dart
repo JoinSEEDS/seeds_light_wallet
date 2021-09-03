@@ -18,14 +18,20 @@ class TokenDataModel extends AmountDataModel {
 
   static TokenDataModel fromSelected(double amount) => TokenDataModel(amount, token: settingsStorage.selectedToken);
 
-  // formatted number, no symbol, example "10.00"
+  // display formatted number, no symbol, example "10.00", "10,000,000.00"
   String amountString() {
-    return amount.seedsFormatted;
+    if (precision == 4) {
+      return fourDigitNumberFormat.format(amount);
+    } else if (precision == 2) {
+      return twoDigitNumberFormat.format(amount);
+    } else {
+      return asFixedString();
+    }
   }
 
-  // number and symbol, for display purposes, example "10.00 SEEDS"
+  // display formatted number and symbol, example "10.00 SEEDS", "1,234.56 SEEDS"
   String amountStringWithSymbol() {
-    return "${amount.seedsFormatted} $symbol";
+    return "${amountString()} $symbol";
   }
 
   TokenDataModel copyWith(double amount) {
