@@ -199,6 +199,8 @@ class _SettingsStorage {
     pkeys.add(privateKey);
     // save updated private keys list
     await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(","));
+    // update local field
+    _privateKeysList = pkeys;
   }
 
   void savePrivateKeyBackedUp(bool value) => privateKeyBackedUp = value;
