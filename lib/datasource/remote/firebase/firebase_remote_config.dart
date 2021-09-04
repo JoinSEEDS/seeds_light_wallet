@@ -71,7 +71,7 @@ class _FirebaseRemoteConfigService {
 
   bool get featureFlagImportAccountEnabled => _remoteConfig.getBool(_featureFlagImportAccount);
 
-  String get hyphaEndPoint => testnetMode ? _testnet_hyphaEndPointUrl : _remoteConfig.getString(_hyphaEndPointUrl);
+  String get hyphaEndPoint => testnetMode ? _testnet_hyphaEndPointUrl : _hyphaEndPointUrl;
 
   String get defaultEndPointUrl =>
       testnetMode ? _testnet_defaultEndPointUrl : _remoteConfig.getString(_defaultEndPointUrlKey);
