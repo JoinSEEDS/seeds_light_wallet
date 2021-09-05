@@ -49,7 +49,7 @@ class _SettingsStorage {
 
   String? get privateKey => _privateKey;
 
-  List<String>? get privateKeysList => _privateKeysList;
+  List<String> get privateKeysList => _privateKeysList ?? [];
 
   String? get passcode => _passcode;
 
@@ -147,7 +147,7 @@ class _SettingsStorage {
     await _preferences.setBool(_kIsFirstRun, false);
 
     await _secureStorage.readAll().then((values) {
-      _privateKeysList = values[_kPrivateKeysList]?.split(',') ?? [];
+      _privateKeysList = values[_kPrivateKeysList]?.split(',');
 
       _privateKey = values[_kPrivateKey];
       _privateKey ??= _migrateFromPrefs(_kPrivateKey); // <-- privateKey in not in pref
@@ -205,8 +205,7 @@ class _SettingsStorage {
   Future<void> saveAccount(String accountName, String privateKey) async {
     _accountName = accountName;
     _privateKey = privateKey;
-    // Retrieve private keys list
-    final List<String> pkeys = (await _secureStorage.read(key: _kPrivateKeysList))?.split(',') ?? [];
+    final List<String> pkeys = _privateKeysList ?? [];
     // If new private key --> add to list
     if (!pkeys.contains(privateKey)) {
       pkeys.add(privateKey);
