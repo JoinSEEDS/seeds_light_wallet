@@ -59,8 +59,6 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
       yield state.copyWith(pageState: PageState.loading);
       final result = await ResetUserAccountUseCase().run(state.userAccount);
       if (result.isValue) {
-        // The private key was saved in the settings storage when the user data for this bloc was loaded
-        settingsStorage.finishRecoveryProcess();
         _authenticationBloc.add(const OnRecoverAccount());
       } else {
         yield state.copyWith(pageCommand: ShowErrorMessage("Oops, Something went wrong. Try again later"));
