@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // Keys
 const String _kAccountName = 'accountName';
 const String _kAccountsList = 'accountsList';
+const String _kPrivateKey = 'privateKey';
 const String _kPrivateKeysList = 'privateKeysList';
 const String _kPasscode = 'passcode';
 const String _kPasscodeActive = 'passcode_active';
@@ -56,7 +57,7 @@ class _SettingsStorage {
 
   bool? get biometricActive => _biometricActive;
 
-  bool get privateKeyBackedUp => _privateKeyBackedUp ?? false; // <-- I don't see this being used anywhere in the app
+  bool get privateKeyBackedUp => _privateKeyBackedUp ?? false; // <-- No used, need re-add PR 182
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
 
@@ -74,8 +75,10 @@ class _SettingsStorage {
     _preferences.setString(_kAccountName, value ?? '');
     // Retrieve accounts list
     final List<String> accts = accountsList;
-    // Add new account
-    accts.add(accountName);
+    // If new account add to list
+    if (!accountsList.contains(value)) {
+      accts.add(accountName);
+    }
     // Save updated accounts list
     _preferences.setStringList(_kAccountsList, accts);
   }
@@ -96,6 +99,13 @@ class _SettingsStorage {
     _secureStorage.write(key: _kBiometricActive, value: value.toString());
     if (value != null) {
       _biometricActive = value;
+    }
+  }
+
+  set privateKey(String? value) {
+    _secureStorage.write(key: _kPrivateKey, value: value);
+    if (value != null) {
+      _privateKey = value;
     }
   }
 
@@ -138,11 +148,12 @@ class _SettingsStorage {
 
     await _secureStorage.readAll().then((values) {
       _privateKeysList = values[_kPrivateKeysList]?.split(',') ?? [];
-      _privateKey = privateKeysList?.first;
-      _privateKey ??= _migrateFromPrefs(_kPrivateKeysList); // <-- Migrate what? we don't save private key in pref
+
+      _privateKey = values[_kPrivateKey];
+      _privateKey ??= _migrateFromPrefs(_kPrivateKey); // <-- privateKey in not in pref
 
       _passcode = values[_kPasscode];
-      _passcode ??= _migrateFromPrefs(_kPasscode); // <-- same here passcode is not saved in pref
+      _passcode ??= _migrateFromPrefs(_kPasscode); // <-- passcode is not in pref
 
       if (values.containsKey(_kPasscodeActive)) {
         _passcodeActive = values[_kPasscodeActive] == 'true';
@@ -164,6 +175,7 @@ class _SettingsStorage {
     });
   }
 
+  // Used to migrate old settings versions
   String? _migrateFromPrefs(String key) {
     final String? value = _preferences.get(key) as String?;
     if (value != null) {
@@ -195,8 +207,10 @@ class _SettingsStorage {
     _privateKey = privateKey;
     // Retrieve private keys list
     final List<String> pkeys = (await _secureStorage.read(key: _kPrivateKeysList))?.split(',') ?? [];
-    // Add new private key
-    pkeys.add(privateKey);
+    // If new private key add to list
+    if (!pkeys.contains(privateKey)) {
+      pkeys.add(privateKey);
+    }
     // Save updated private keys list
     await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(","));
     // Update local field
