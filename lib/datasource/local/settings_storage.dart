@@ -78,9 +78,9 @@ class _SettingsStorage {
     // If new account --> add to list
     if (!accountsList.contains(value)) {
       accts.add(accountName);
+      // Save updated accounts list
+      _preferences.setStringList(_kAccountsList, accts);
     }
-    // Save updated accounts list
-    _preferences.setStringList(_kAccountsList, accts);
   }
 
   set passcode(String? value) {
@@ -210,11 +210,11 @@ class _SettingsStorage {
     // If new private key --> add to list
     if (!pkeys.contains(privateKey)) {
       pkeys.add(privateKey);
+      // Save updated private keys list
+      await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(","));
+      // Update local field
+      _privateKeysList = pkeys;
     }
-    // Save updated private keys list
-    await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(","));
-    // Update local field
-    _privateKeysList = pkeys;
   }
 
   void savePrivateKeyBackedUp(bool value) => privateKeyBackedUp = value;
