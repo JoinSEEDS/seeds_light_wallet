@@ -1,5 +1,5 @@
 import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/datasource/remote/model/proposals_model.dart';
+import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';

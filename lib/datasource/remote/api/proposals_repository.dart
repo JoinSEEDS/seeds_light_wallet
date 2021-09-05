@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/moon_phase_model.dart';
-import 'package:seeds/datasource/remote/model/proposals_model.dart';
+import 'package:seeds/datasource/remote/model/proposal_model.dart';
+import 'package:seeds/datasource/remote/model/referendum_model.dart';
 import 'package:seeds/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
@@ -13,7 +14,7 @@ import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
 class ProposalsRepository extends NetworkRepository with EosRepository {
-  Future<Result> getMoonPhases() async {
+  Future<Result> getMoonPhases() {
     print('[http] get moon phases');
 
     final ms = DateTime.now().toUtc().millisecondsSinceEpoch;
@@ -36,7 +37,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getProposals(ProposalType proposalType) async {
+  Future<Result> getProposals(ProposalType proposalType) {
     print('[http] get proposals type - ${proposalType.type}');
 
     final request = createRequest(
@@ -65,7 +66,30 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getSupportLevels(String scope) async {
+  Future<Result> getReferendums(ProposalType proposalType) {
+    print('[http] get referendums: stage = [${proposalType.filterByStage}]');
+
+    final request = createRequest(
+      code: account_rules,
+      scope: proposalType.filterByStage ?? '',
+      table: tableReferendums,
+      limit: 100,
+      reverse: proposalType.isReverse,
+    );
+
+    final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    return http
+        .post(proposalsURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              final List<ReferendumModel> result =
+                  body['rows'].map<ReferendumModel>((i) => ReferendumModel.fromJson(i)).toList();
+              return result;
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> getSupportLevels(String scope) {
     print('[http] get suppor leves for scope: $scope');
 
     final request = createRequest(code: account_funds, scope: scope, table: tableSupport);
@@ -80,7 +104,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getVote(int proposalId, String account) async {
+  Future<Result> getVote(int proposalId, String account) {
     print('[http] get vote for proposal: $proposalId');
 
     final request = createRequest(
@@ -102,7 +126,29 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> voteProposal({required int id, required int amount, required String accountName}) async {
+  Future<Result> getReferendumVote(int referendumId, String account) {
+    print('[http] get vote for referendum: $referendumId');
+
+    final request = createRequest(
+      code: account_rules,
+      scope: '$referendumId',
+      table: tableVotes,
+      lowerBound: account,
+      upperBound: account,
+      limit: 10,
+    );
+
+    final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    return http
+        .post(proposalsURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              return VoteModel.fromJson(body);
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> voteProposal({required int id, required int amount, required String accountName}) {
     print('[eos] vote proposal $id ($amount)');
 
     final transaction = buildFreeTransaction([
@@ -115,6 +161,29 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
             ..permission = permissionActive
         ]
         ..data = {'user': accountName, 'id': id, 'amount': amount.abs()}
+    ], accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
+  Future<Result> voteReferendum({required int id, required int amount, required String accountName}) {
+    print('[eos] vote referendum $id ($amount)');
+
+    final transaction = buildFreeTransaction([
+      Action()
+        ..account = account_rules
+        ..name = amount.isNegative ? actionNameAgainst : actionNameFavour
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = permissionActive
+        ]
+        ..data = {'voter': accountName, 'referendum_id': id, 'amount': amount.abs()}
     ], accountName);
 
     return buildEosClient()

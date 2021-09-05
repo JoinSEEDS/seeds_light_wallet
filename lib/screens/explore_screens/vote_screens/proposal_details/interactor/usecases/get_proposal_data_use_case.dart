@@ -4,7 +4,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/datasource/remote/api/voice_repository.dart';
-import 'package:seeds/datasource/remote/model/proposals_model.dart';
+import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
 
 class GetProposalDataUseCase {

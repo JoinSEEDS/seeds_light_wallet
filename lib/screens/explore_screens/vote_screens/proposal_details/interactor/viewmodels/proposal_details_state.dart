@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/datasource/remote/model/proposals_model.dart';
+import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/voice_model.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';

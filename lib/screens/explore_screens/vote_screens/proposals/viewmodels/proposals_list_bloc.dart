@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
+import 'package:seeds/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -17,6 +18,8 @@ class ProposalsListBloc extends Bloc<ProposalsListEvent, ProposalsListState> {
   Stream<ProposalsListState> mapEventToState(ProposalsListEvent event) async* {
     if (event is InitialLoadProposals) {
       yield state.copyWith(pageState: PageState.loading);
+      final res = await ProposalsRepository().getReferendums(state.currentType);
+      print(res);
       final List<Result> results = await GetProposalsDataUseCase().run(state.currentType);
       yield ProposalsStateMapper().mapResultToState(currentState: state, results: results);
     }
