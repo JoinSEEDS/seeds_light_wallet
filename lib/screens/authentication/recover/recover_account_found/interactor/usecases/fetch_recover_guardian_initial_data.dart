@@ -41,7 +41,7 @@ class FetchRecoverGuardianInitialDataUseCase {
       membersData = await _getMembersData(guardians.guardians);
     }
 
-    return RecoverGuardianInitialDTO(link, membersData, accountRecovery, accountGuardians, recoveryPrivateKey);
+    return RecoverGuardianInitialDTO(link, membersData, accountRecovery, accountGuardians);
   }
 
   Future<List<Result>> _getMembersData(List<String> guardians) async {
@@ -68,13 +68,11 @@ class RecoverGuardianInitialDTO {
   final List<Result> membersData;
   final Result userRecoversModel;
   final Result accountGuardians;
-  final String privateKey;
 
   RecoverGuardianInitialDTO(
     this.link,
     this.membersData,
     this.userRecoversModel,
     this.accountGuardians,
-    this.privateKey,
   );
 }

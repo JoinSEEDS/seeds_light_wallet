@@ -3,7 +3,6 @@ import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/datasource/remote/model/user_recover_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
 import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
@@ -49,8 +48,12 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         recoveryStatus = RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN;
       }
 
-      // Save the private key and account
-      SaveAccountUseCase().run(accountName: currentState.userAccount, privateKey: result.privateKey);
+      // (Gery)
+      // I know that the private key is already saved or the existing one
+      // is used at the beginning of this process, so it is redundant here.
+      // But, could you confirm me if it is REALLY NESSESARY to save the accountName here?
+
+      // SaveAccountUseCase().run(accountName: currentState.userAccount, privateKey: result.privateKey);
 
       return currentState.copyWith(
         pageState: PageState.success,

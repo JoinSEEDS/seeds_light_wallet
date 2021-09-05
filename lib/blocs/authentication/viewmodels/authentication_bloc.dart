@@ -35,10 +35,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       add(const InitAuthStatus());
     }
     if (event is OnRecoverAccount) {
-      // TODO(RaulUrtecho): - This is redundant - user was already saved when recovery was started.
-      // also a recovery is 1:1 tied to a user account so the account can't change
-      // the key we use as argument here comes from settingsStorage and goes back there.
-      SaveAccountUseCase().run(accountName: event.account, privateKey: event.privateKey);
+      settingsStorage.finishRecoveryProcess();
       settingsStorage.privateKeyBackedUp = false;
       // New account --> re-start auth status
       add(const InitAuthStatus());
