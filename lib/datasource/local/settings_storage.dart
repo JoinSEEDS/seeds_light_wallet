@@ -75,7 +75,7 @@ class _SettingsStorage {
     _preferences.setString(_kAccountName, value ?? '');
     // Retrieve accounts list
     final List<String> accts = accountsList;
-    // If new account add to list
+    // If new account --> add to list
     if (!accountsList.contains(value)) {
       accts.add(accountName);
     }
@@ -207,7 +207,7 @@ class _SettingsStorage {
     _privateKey = privateKey;
     // Retrieve private keys list
     final List<String> pkeys = (await _secureStorage.read(key: _kPrivateKeysList))?.split(',') ?? [];
-    // If new private key add to list
+    // If new private key --> add to list
     if (!pkeys.contains(privateKey)) {
       pkeys.add(privateKey);
     }
