@@ -150,7 +150,7 @@ class _SettingsStorage {
       _privateKeysList = values[_kPrivateKeysList]?.split(',');
 
       _privateKey = values[_kPrivateKey];
-      _privateKey ??= _migrateFromPrefs(_kPrivateKey); // <-- privateKey in not in pref
+      _privateKey ??= _migrateFromPrefs(_kPrivateKey); // <-- privateKey is not in pref
 
       _passcode = values[_kPasscode];
       _passcode ??= _migrateFromPrefs(_kPasscode); // <-- passcode is not in pref
