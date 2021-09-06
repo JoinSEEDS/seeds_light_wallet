@@ -37,7 +37,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is OnRecoverAccount) {
       settingsStorage.finishRecoveryProcess();
       settingsStorage.privateKeyBackedUp = false;
-      // New account --> re-start auth status
+      // Recovery mode false --> re-start auth status
       add(const InitAuthStatus());
     }
     if (event is EnablePasscode) {
