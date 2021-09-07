@@ -16,9 +16,12 @@ class NextMoonPhaseStateMapper extends StateMapper {
 
       final MoonPhaseModel? nextNewMoon = moonPhases.singleWhereOrNull((i) => i.phaseName == _new_moon);
 
-      final int remainingTimeStamp = DateTime.parse(nextNewMoon!.time).toLocal().millisecondsSinceEpoch;
-
-      return currentState.copyWith(remainingTimeStamp: remainingTimeStamp);
+      if (nextNewMoon != null) {
+        final int remainingTimeStamp = DateTime.parse('${nextNewMoon.time}Z').toLocal().millisecondsSinceEpoch;
+        return currentState.copyWith(remainingTimeStamp: remainingTimeStamp);
+      } else {
+        return currentState.copyWith(pageState: PageState.failure, errorMessage: 'Error loading next moon cycle'.i18n);
+      }
     }
   }
 }
