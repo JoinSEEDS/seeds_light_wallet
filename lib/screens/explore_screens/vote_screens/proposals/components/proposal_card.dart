@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/remote/model/proposals_model.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/utils/cap_utils.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 import 'package:seeds/images/vote/double_sided_arrow.dart';
 import 'package:seeds/images/vote/proposal_category.dart';
@@ -216,7 +217,8 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                   painter: const ProposalCategory(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-                    child: Text(widget.proposal.campaignTypeLabel.i18n, style: Theme.of(context).textTheme.subtitle2),
+                    child: Text(widget.proposal.campaignTypeLabel.i18n.inCaps,
+                        style: Theme.of(context).textTheme.subtitle2),
                   ),
                 ),
               ],
