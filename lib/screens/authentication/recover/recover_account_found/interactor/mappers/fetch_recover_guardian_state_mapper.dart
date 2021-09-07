@@ -48,13 +48,6 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         recoveryStatus = RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN;
       }
 
-      // (Gery)
-      // I know that the private key is already saved or the existing one
-      // is used at the beginning of this process, so it is redundant here.
-      // But, could you confirm me if it is REALLY NESSESARY to save the accountName here?
-
-      // SaveAccountUseCase().run(accountName: currentState.userAccount, privateKey: result.privateKey);
-
       return currentState.copyWith(
         pageState: PageState.success,
         linkToActivateGuardians: link,
