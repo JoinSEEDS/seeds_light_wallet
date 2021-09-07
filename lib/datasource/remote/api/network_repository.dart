@@ -16,6 +16,7 @@ abstract class NetworkRepository {
   String tableInvites = 'invites';
   String tableMoonphases = 'moonphases';
   String tableProps = 'props';
+  String tableReferendums = 'referendums';
   String tableRefs = 'refs';
   String tableSupport = 'support';
   String tableUsers = 'users';

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/datasource/remote/model/proposals_model.dart';
+import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/utils/cap_utils.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';

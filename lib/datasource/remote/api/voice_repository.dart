@@ -5,8 +5,8 @@ import 'package:seeds/datasource/remote/model/voice_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 
 class VoiceRepository extends NetworkRepository {
-  Future<Result> getCampaignVoice(String userAccount) async {
-    print('[http] get seeds getCampaignVoice $userAccount');
+  Future<Result> getCampaignVoice(String userAccount) {
+    print('[http] get campaign voice: $userAccount');
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
@@ -20,14 +20,33 @@ class VoiceRepository extends NetworkRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getAllianceVoice(String userAccount) async {
-    print('[http] get seeds getAllianceVoice $userAccount');
+  Future<Result> getAllianceVoice(String userAccount) {
+    print('[http] get alliance voice: $userAccount');
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
         code: account_funds,
         scope: account_alliance,
         table: tableVoice,
+        lowerBound: userAccount,
+        upperBound: userAccount);
+
+    return http
+        .post(voiceURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              return VoiceModel.fromJson(body);
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> getReferendumVoice(String userAccount) {
+    print("[http] get referendum voice: $userAccount");
+    final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    final request = createRequest(
+        code: account_rules,
+        scope: account_rules,
+        table: tableBalances,
         lowerBound: userAccount,
         upperBound: userAccount);
 
