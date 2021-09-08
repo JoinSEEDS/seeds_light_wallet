@@ -63,7 +63,7 @@ class VoteStatusLabel extends StatelessWidget {
                         children: [
                           TextSpan(text: 'Voting'.i18n, style: Theme.of(context).textTheme.subtitle2),
                           TextSpan(
-                              text: ' - ${state.proposals[state.currentIndex].campaignTypeLabel}: ',
+                              text: ' - ${state.proposals[state.currentIndex].categoryTypeLabel}: ',
                               style: Theme.of(context).textTheme.subtitle2Green2),
                           TextSpan(
                               text: state.voteAmount == 1

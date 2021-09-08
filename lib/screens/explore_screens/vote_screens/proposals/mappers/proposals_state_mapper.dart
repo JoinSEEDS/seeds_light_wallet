@@ -4,6 +4,7 @@ import 'package:seeds/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_list_state.dart';
 
 const String _alliance = 'alliance';
@@ -23,8 +24,9 @@ class ProposalsStateMapper extends StateMapper {
       results.retainWhere((Result i) => i.isValue);
       final values = results.map((Result i) => i.asValue!.value).toList();
       final ProfileModel? profile = values.firstWhere((i) => i is ProfileModel, orElse: () => null);
-      final List<ProposalModel> proposals = values.firstWhere((i) => i is List<ProposalModel>, orElse: () => null);
-      List<ProposalModel> newProposals;
+      final List<ProposalModel> proposalsModel = values.firstWhere((i) => i is List<ProposalModel>, orElse: () => null);
+      final List<ProposalViewModel> proposals = proposalsModel.map((i) => ProposalViewModel.fromProposal(i)).toList();
+      List<ProposalViewModel> newProposals;
 
       if (isScroll) {
         // Add the new proposals to current proposals

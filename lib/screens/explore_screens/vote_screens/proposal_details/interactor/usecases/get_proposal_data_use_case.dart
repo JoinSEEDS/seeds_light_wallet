@@ -4,15 +4,15 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/datasource/remote/api/voice_repository.dart';
-import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 
 class GetProposalDataUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
   final ProposalsRepository _proposalsRepository = ProposalsRepository();
   final VoiceRepository _voiceRepository = VoiceRepository();
 
-  Future<List<Result>> run(ProposalModel proposal) {
+  Future<List<Result>> run(ProposalViewModel proposal) {
     final userAccount = settingsStorage.accountName;
     final _getVoice = proposal.campaignType == 'alliance'
         ? _voiceRepository.getAllianceVoice(userAccount)

@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/voice_model.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
 
 enum VoteStatus { canVote, alreadyVoted, notCitizen }
@@ -15,7 +15,7 @@ class ProposalDetailsState extends Equatable {
   final PageCommand? pageCommand;
   final String? errorMessage;
   final int currentIndex;
-  final List<ProposalModel> proposals;
+  final List<ProposalViewModel> proposals;
   final bool showNextButton;
   final bool isCitizen;
   final int voteAmount;
@@ -76,7 +76,7 @@ class ProposalDetailsState extends Equatable {
     PageCommand? pageCommand,
     String? errorMessage,
     int? currentIndex,
-    List<ProposalModel>? proposals,
+    List<ProposalViewModel>? proposals,
     bool? showNextButton,
     bool? isCitizen,
     int? voteAmount,

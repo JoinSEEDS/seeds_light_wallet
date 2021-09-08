@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 import 'package:seeds/utils/cap_utils.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 import 'package:seeds/images/vote/double_sided_arrow.dart';
@@ -15,7 +15,7 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'vote_amount_label/vote_amount_label.dart';
 
 class ProposalCard extends StatefulWidget {
-  final ProposalModel proposal;
+  final ProposalViewModel proposal;
   final VoidCallback onTap;
 
   const ProposalCard({Key? key, required this.proposal, required this.onTap}) : super(key: key);
@@ -217,7 +217,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                   painter: const ProposalCategory(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-                    child: Text(widget.proposal.campaignTypeLabel.i18n.inCaps,
+                    child: Text(widget.proposal.categoryTypeLabel.i18n.inCaps,
                         style: Theme.of(context).textTheme.subtitle2),
                   ),
                 ),
