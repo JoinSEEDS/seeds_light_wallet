@@ -8,7 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Keys
 const String _kAccountName = 'accountName';
+const String _kAccountsList = 'accountsList';
 const String _kPrivateKey = 'privateKey';
+const String _kPrivateKeysList = 'privateKeysList';
 const String _kPasscode = 'passcode';
 const String _kPasscodeActive = 'passcode_active';
 const String _kBiometricActive = 'biometric_active';
@@ -29,6 +31,7 @@ class _SettingsStorage {
   late SharedPreferences _preferences;
   late FlutterSecureStorage _secureStorage;
   String? _privateKey;
+  List<String>? _privateKeysList;
   String? _passcode;
   bool? _passcodeActive;
   bool? _biometricActive;
@@ -42,7 +45,11 @@ class _SettingsStorage {
 
   String get accountName => _preferences.getString(_kAccountName) ?? '';
 
+  List<String> get accountsList => _preferences.getStringList(_kAccountsList) ?? [];
+
   String? get privateKey => _privateKey;
+
+  List<String> get privateKeysList => _privateKeysList ?? [];
 
   String? get passcode => _passcode;
 
@@ -50,7 +57,7 @@ class _SettingsStorage {
 
   bool? get biometricActive => _biometricActive;
 
-  bool get privateKeyBackedUp => _privateKeyBackedUp ?? false;
+  bool get privateKeyBackedUp => _privateKeyBackedUp ?? false; // <-- No used, need re-add PR 182
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
 
@@ -64,12 +71,15 @@ class _SettingsStorage {
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
-  set _accountName(String? value) => _preferences.setString(_kAccountName, value ?? '');
-
-  set privateKey(String? value) {
-    _secureStorage.write(key: _kPrivateKey, value: value);
-    if (value != null) {
-      _privateKey = value;
+  set _accountName(String? value) {
+    _preferences.setString(_kAccountName, value ?? '');
+    // Retrieve accounts list
+    final List<String> accts = accountsList;
+    // If new account --> add to list
+    if (!accountsList.contains(value)) {
+      accts.add(accountName);
+      // Save updated accounts list
+      _preferences.setStringList(_kAccountsList, accts);
     }
   }
 
@@ -89,6 +99,13 @@ class _SettingsStorage {
     _secureStorage.write(key: _kBiometricActive, value: value.toString());
     if (value != null) {
       _biometricActive = value;
+    }
+  }
+
+  set privateKey(String? value) {
+    _secureStorage.write(key: _kPrivateKey, value: value);
+    if (value != null) {
+      _privateKey = value;
     }
   }
 
@@ -130,11 +147,13 @@ class _SettingsStorage {
     await _preferences.setBool(_kIsFirstRun, false);
 
     await _secureStorage.readAll().then((values) {
+      _privateKeysList = values[_kPrivateKeysList]?.split(',');
+
       _privateKey = values[_kPrivateKey];
-      _privateKey ??= _migrateFromPrefs(_kPrivateKey);
+      _privateKey ??= _migrateFromPrefs(_kPrivateKey); // <-- privateKey is not in pref
 
       _passcode = values[_kPasscode];
-      _passcode ??= _migrateFromPrefs(_kPasscode);
+      _passcode ??= _migrateFromPrefs(_kPasscode); // <-- passcode is not in pref
 
       if (values.containsKey(_kPasscodeActive)) {
         _passcodeActive = values[_kPasscodeActive] == 'true';
@@ -156,6 +175,7 @@ class _SettingsStorage {
     });
   }
 
+  // Used to migrate old settings versions
   String? _migrateFromPrefs(String key) {
     final String? value = _preferences.get(key) as String?;
     if (value != null) {
@@ -182,9 +202,18 @@ class _SettingsStorage {
 
   void savePasscode(String? passcode) => this.passcode = passcode;
 
-  void saveAccount(String accountName, String privateKey) {
+  Future<void> saveAccount(String accountName, String privateKey) async {
     _accountName = accountName;
-    this.privateKey = privateKey;
+    _privateKey = privateKey;
+    final List<String> pkeys = _privateKeysList ?? [];
+    // If new private key --> add to list
+    if (!pkeys.contains(privateKey)) {
+      pkeys.add(privateKey);
+      // Save updated private keys list
+      await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(","));
+      // Update local field
+      _privateKeysList = pkeys;
+    }
   }
 
   void savePrivateKeyBackedUp(bool value) => privateKeyBackedUp = value;
@@ -197,6 +226,7 @@ class _SettingsStorage {
     await _preferences.clear();
     await _secureStorage.deleteAll();
     _privateKey = null;
+    _privateKeysList = null;
     _passcode = null;
     _passcodeActive = _kPasscodeActiveDefault;
     _biometricActive = _kBiometricActiveDefault;
