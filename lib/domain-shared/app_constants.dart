@@ -19,6 +19,7 @@ const String account_guards = 'guard.seeds';
 const String account_harvest = 'harvst.seeds';
 const String account_join = 'join.seeds';
 const String account_token = 'token.seeds';
+const String account_rules = 'rules.seeds';
 const String history_seeds = 'histry.seeds';
 
 /// Actions

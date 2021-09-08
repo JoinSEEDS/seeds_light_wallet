@@ -1,5 +1,5 @@
 import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/datasource/remote/model/proposals_model.dart';
+import 'package:seeds/datasource/remote/model/proposal_model.dart';
 
 class ProposalsArgsData {
   final ProfileModel profile;

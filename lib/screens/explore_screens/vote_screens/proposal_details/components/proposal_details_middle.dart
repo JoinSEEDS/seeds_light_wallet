@@ -8,6 +8,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/comp
 import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:flutter/gestures.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/utils/cap_utils.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
 
 class ProposalDetailsMiddle extends StatelessWidget {
@@ -107,22 +108,17 @@ class ProposalDetailsMiddle extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Type: %s '.i18n.fill([
-                      if (state.proposals[state.currentIndex].campaignType == 'alliance')
-                        "Alliance".i18n
-                      else
-                        "Campaign".i18n
-                    ]),
+                    'Type: %s '.i18n.fill([state.proposals[state.currentIndex].campaignType.i18n.inCaps]),
                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Status: %s '.i18n.fill([(state.proposals[state.currentIndex].status)]),
+                    'Status: %s '.i18n.fill([(state.proposals[state.currentIndex].status.inCaps)]),
                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Stage: %s '.i18n.fill([(state.proposals[state.currentIndex].stage)]),
+                    'Stage: %s '.i18n.fill([(state.proposals[state.currentIndex].stage.inCaps)]),
                     style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
                   ),
                   const SizedBox(height: 8),
