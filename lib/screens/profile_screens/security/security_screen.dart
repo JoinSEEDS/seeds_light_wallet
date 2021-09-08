@@ -88,7 +88,7 @@ class SecurityScreen extends StatelessWidget {
                           title: '12-word Recovery Phrase',
                           description:
                               'Write down in a secret place your 12-word phrase so you can easily recover and access your account.',
-                          onTap: () => Share.share(settingsStorage.privateKey!),
+                          onTap: () {},
                         )
                       else
                         const SizedBox.shrink(),
