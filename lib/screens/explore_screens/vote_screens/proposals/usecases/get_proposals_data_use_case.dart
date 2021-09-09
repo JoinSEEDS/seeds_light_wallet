@@ -16,9 +16,11 @@ class GetProposalsDataUseCase {
     final futures = [
       _profileRepository.getProfile(settingsStorage.accountName),
       _proposalsRepository.getProposals(proposalType),
-      _proposalsRepository.getSupportLevels(_alliance),
-      _proposalsRepository.getSupportLevels(_campaign),
-      _proposalsRepository.getSupportLevels(_milestone),
+      _proposalsRepository.getReferendums(proposalType),
+      _proposalsRepository.getSupportLevel(_alliance),
+      _proposalsRepository.getSupportLevel(_campaign),
+      _proposalsRepository.getSupportLevel(_milestone),
+      _proposalsRepository.getQuorumLevel('quorum.high'),
     ];
     return Future.wait(futures);
   }

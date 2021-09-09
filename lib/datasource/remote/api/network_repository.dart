@@ -11,6 +11,7 @@ abstract class NetworkRepository {
   Map<String, String> headers = {'Content-type': 'application/json'};
 
   String tableBalances = 'balances';
+  String tableConfig = 'config';
   String tableGuards = 'guards';
   String tableHarvest = 'harvest';
   String tableInvites = 'invites';
