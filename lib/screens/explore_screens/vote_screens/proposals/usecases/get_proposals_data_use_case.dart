@@ -20,7 +20,6 @@ class GetProposalsDataUseCase {
       _proposalsRepository.getSupportLevel(_alliance),
       _proposalsRepository.getSupportLevel(_campaign),
       _proposalsRepository.getSupportLevel(_milestone),
-      _proposalsRepository.getQuorumLevel('quorum.high'),
     ];
     return Future.wait(futures);
   }

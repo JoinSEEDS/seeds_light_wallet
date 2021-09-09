@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/proposal_model.dart';
-import 'package:seeds/datasource/remote/model/quorum_level_model.dart';
 import 'package:seeds/datasource/remote/model/referendum_model.dart';
 import 'package:seeds/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -46,7 +45,6 @@ class ProposalsStateMapper extends StateMapper {
       final SupportLevelModel allianceLevel = supportLevels[0].first;
       final SupportLevelModel campaingLevel = supportLevels[1].first;
       final SupportLevelModel milestoneLevel = supportLevels[2].first;
-      final List<QuorumLevelModel> quorumLevel = values.whereType<List<QuorumLevelModel>>().toList().first;
 
       final updatedProposals = newProposals.map((i) {
         if (i.campaignType == _alliance) {
@@ -56,7 +54,7 @@ class ProposalsStateMapper extends StateMapper {
         } else if (i.campaignType == _milestone) {
           i = i.copyWith(milestoneLevel.voiceNeeded);
         } else if (i.campaignType == _referendum) {
-          i = i.copyWith(quorumLevel.first.value);
+          i = i.copyWith(campaingLevel.voiceNeeded);
         }
         return i;
       }).toList();

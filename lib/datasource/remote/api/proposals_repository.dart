@@ -6,7 +6,6 @@ import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/moon_phase_model.dart';
 import 'package:seeds/datasource/remote/model/proposal_model.dart';
-import 'package:seeds/datasource/remote/model/quorum_level_model.dart';
 import 'package:seeds/datasource/remote/model/referendum_model.dart';
 import 'package:seeds/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
@@ -101,32 +100,6 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return body['rows'].map<SupportLevelModel>((i) => SupportLevelModel.fromJson(i)).toList();
-            }))
-        .catchError((error) => mapHttpError(error));
-  }
-
-  Future<Result> getQuorumLevel(String impact) {
-    print('[http] get quorum level for impact: $impact');
-
-    final request = createRequest(
-      code: account_settgs,
-      scope: account_settgs,
-      table: tableConfig,
-      lowerBound: 'quorum.h',
-      upperBound: 'quorumzzzzzz',
-      keyType: '',
-      limit: 10,
-    );
-
-    final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
-
-    return http
-        .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              final List<QuorumLevelModel> result =
-                  body['rows'].map<QuorumLevelModel>((i) => QuorumLevelModel.fromJson(i)).toList();
-              result.retainWhere((i) => i.param == impact);
-              return result;
             }))
         .catchError((error) => mapHttpError(error));
   }
