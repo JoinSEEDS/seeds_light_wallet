@@ -14,30 +14,49 @@ class GetProposalDataUseCase {
 
   Future<List<Result>> run(ProposalViewModel proposal) {
     final userAccount = settingsStorage.accountName;
-    final _getVoice = proposal.campaignType == 'alliance'
-        ? _voiceRepository.getAllianceVoice(userAccount)
-        : _voiceRepository.getCampaignVoice(userAccount);
+    final _getVoice = _getVoiceCall(categoryTypeLabel: proposal.categoryTypeLabel, userAccount: userAccount);
 
     final futures = [
       _profileRepository.getProfile(proposal.creator),
-      _fetchVote(proposal.id, userAccount),
+      _fetchVote(proposal, userAccount),
       _getVoice,
     ];
     return Future.wait(futures);
   }
 
-  Future<Result> _fetchVote(int proposalId, String account) async {
-    final cacheRepository = const CacheRepository();
-    VoteModel? voteModel = await cacheRepository.getProposalVote(account, proposalId);
-    if (voteModel == null) {
-      final result = await _proposalsRepository.getVote(proposalId, account);
+  Future<Result> _fetchVote(ProposalViewModel proposal, String account) async {
+    late Result result;
+    VoteModel? voteModel;
+    if (proposal.categoryTypeLabel == 'referendum') {
+      result = await _proposalsRepository.getReferendumVote(proposal.id, account);
       if (result.isValue) {
         voteModel = result.asValue!.value as VoteModel;
-        if (voteModel.isVoted) {
-          await cacheRepository.saveProposalVote(proposalId, voteModel);
+      }
+    } else {
+      final cacheRepository = const CacheRepository();
+      voteModel = await cacheRepository.getProposalVote(account, proposal.id);
+      if (voteModel == null) {
+        result = await _proposalsRepository.getProposalVote(proposal.id, account);
+        if (result.isValue) {
+          voteModel = result.asValue!.value as VoteModel;
+          if (voteModel.isVoted) {
+            await cacheRepository.saveProposalVote(proposal.id, voteModel);
+          }
         }
       }
     }
-    return ValueResult(voteModel);
+    return result;
+  }
+
+  Future<Result> _getVoiceCall({required String categoryTypeLabel, required String userAccount}) {
+    if (categoryTypeLabel == 'campaing') {
+      return _voiceRepository.getCampaignVoice(userAccount);
+    } else if (categoryTypeLabel == 'milestone') {
+      return _voiceRepository.getMilestoneVoice(userAccount);
+    } else if (categoryTypeLabel == 'alliance') {
+      return _voiceRepository.getAllianceVoice(userAccount);
+    } else {
+      return _voiceRepository.getReferendumVoice(userAccount);
+    }
   }
 }

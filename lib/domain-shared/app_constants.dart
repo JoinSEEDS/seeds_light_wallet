@@ -11,7 +11,6 @@ const String ios_app_store_id = '1507143650';
 
 /// Accounts
 const String account_accounts = 'accts.seeds';
-const String account_alliance = 'alliance';
 const String account_cycle = 'cycle.seeds';
 const String account_eosio = 'eosio';
 const String account_funds = 'funds.seeds';

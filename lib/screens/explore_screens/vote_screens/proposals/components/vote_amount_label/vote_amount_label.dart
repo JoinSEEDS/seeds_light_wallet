@@ -4,18 +4,19 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 
 import 'interactor/viewmodels/bloc.dart';
 
 class VoteAmountLabel extends StatelessWidget {
-  final int proposalId;
+  final ProposalViewModel proposal;
 
-  const VoteAmountLabel(this.proposalId, {Key? key}) : super(key: key);
+  const VoteAmountLabel(this.proposal, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => VoteAmountLabelBloc()..add(LoadVoteAmount(proposalId)),
+      create: (_) => VoteAmountLabelBloc()..add(LoadVoteAmount(proposal)),
       child: BlocBuilder<VoteAmountLabelBloc, VoteAmountLabelState>(
         builder: (context, state) {
           switch (state.pageState) {

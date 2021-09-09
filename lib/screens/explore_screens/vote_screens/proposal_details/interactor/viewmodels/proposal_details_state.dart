@@ -63,12 +63,14 @@ class ProposalDetailsState extends Equatable {
   }
 
   bool get shouldShowNexProposalButton {
+    final isVoted = vote?.isVoted ?? false;
     final hasMoreItems = currentIndex < proposals.length - 1;
-    return (showNextButton || vote!.isVoted || !isCitizen || proposals[currentIndex].stage != 'active') && hasMoreItems;
+    return (showNextButton || isVoted || !isCitizen || proposals[currentIndex].stage != 'active') && hasMoreItems;
   }
 
   bool get shouldShowVoteModule {
-    return !showNextButton && !vote!.isVoted && isCitizen && proposals[currentIndex].stage == 'active';
+    final isVoted = vote?.isVoted ?? false;
+    return !showNextButton && !isVoted && isCitizen && proposals[currentIndex].stage == 'active';
   }
 
   ProposalDetailsState copyWith({
