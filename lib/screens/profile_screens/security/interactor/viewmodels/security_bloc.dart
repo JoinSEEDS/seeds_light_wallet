@@ -4,6 +4,7 @@ import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_database_guardians_repository.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
@@ -20,7 +21,7 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
 
   SecurityBloc({required AuthenticationBloc authenticationBloc})
       : _authenticationBloc = authenticationBloc,
-        super(SecurityState.initial()) {
+        super(SecurityState.initial(remoteConfigurations.featureFlagExportRecoveryPhraseEnabled)) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value: value)));
