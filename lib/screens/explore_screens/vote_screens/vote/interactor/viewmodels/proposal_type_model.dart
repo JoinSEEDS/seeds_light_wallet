@@ -44,7 +44,7 @@ const List<ProposalType> proposalTypes = [
     index: 1,
     type: 'Upcoming',
     proposalStage: 'staged',
-    referendumStage: 'testing',
+    referendumStage: 'staged',
     indexPosition: 3,
     isReverse: false,
   ),

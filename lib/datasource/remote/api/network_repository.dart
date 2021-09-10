@@ -23,6 +23,7 @@ abstract class NetworkRepository {
   String tableUsers = 'users';
   String tableVoice = 'voice';
   String tableVotes = 'votes';
+  String tableVoters = 'voters';
   String tableRecover = 'recovers';
   String tableTotals = 'totals';
 
