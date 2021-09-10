@@ -67,11 +67,11 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   }
 
   Future<Result> getReferendums(ProposalType proposalType) {
-    print('[http] get referendums: stage = [${proposalType.referendumStage}]');
+    print('[http] get referendums: stage = [${proposalType.filterByStage}]');
 
     final request = createRequest(
       code: account_rules,
-      scope: proposalType.referendumStage,
+      scope: proposalType.filterByStage ?? '',
       table: tableReferendums,
       limit: 100,
       reverse: proposalType.isReverse,
