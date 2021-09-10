@@ -132,7 +132,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: account_rules,
       scope: '$referendumId',
-      table: tableVoters,
+      table: tableVotes,
       lowerBound: account,
       upperBound: account,
       limit: 10,
