@@ -205,6 +205,7 @@ class _SettingsStorage {
   Future<void> saveAccount(String accountName, String privateKey) async {
     _accountName = accountName;
     _privateKey = privateKey;
+    this.privateKey = privateKey;
     final List<String> pkeys = _privateKeysList ?? [];
     // If new private key --> add to list
     if (!pkeys.contains(privateKey)) {
