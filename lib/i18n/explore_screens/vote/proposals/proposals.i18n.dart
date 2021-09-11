@@ -21,6 +21,25 @@ extension Localization on String {
           'Campaign': 'Campaña',
           'passed': 'aprobada',
           'rejected': 'rechazada',
+        },
+        'pt_br': {
+          'No proposals to show, yet': 'Não há propostas para mostrar ainda',
+          'Error loading proposals': 'Erro ao carregar propostas',
+          'Voting cycle ends in': 'Ciclo de votação termina em',
+          'days': 'dias',
+          'hrs': 'hrs',
+          'mins': 'mins',
+          'sec': 'segs',
+          'Error loading next moon cycle': 'Erro ao carregar o próximo ciclo lunar',
+          'In favour': 'A favor',
+          'Votes': 'Votos',
+          'Against': 'Contra',
+          '+%s voted': '+%s votos',
+          '%s voted': '%s votos',
+          'alliance': 'Aliança',
+          'Campaign': 'Campanha',
+          'passed': 'aprovada',
+          'rejected': 'rejeitada',
         }
       };
 

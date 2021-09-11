@@ -27,6 +27,31 @@ extension Localization on String {
           "Enter your full name. You will be able to change this later in your profile settings.":
               'Ingrese su nombre completo. Podrás cambiar esto más tarde en la configuración de tu perfil.',
           'Next': 'Próximo',
+        },
+        'pt_br': {
+          'Scan QR Code': 'Escanear código QR',
+          "Close": "Fechar",
+          'Invite Code Error': 'Erro de código de convite',
+          'This invite code has already been claimed! Please check with the person who invited you.':
+              'Este código de convite já foi utilizado! Consulte a pessoa que lhe convidou.',
+          'Processing your invitation...': 'Processando seu convite...',
+          'Success!': 'Sucesso!',
+          'No invites found, try another code': 'Convite não encontrado, tente outro código',
+          'Invite was already claimed': 'O convite já foi usado',
+          'Oops, something went wrong. Please try again later.':
+              'Ops! Algo deu errado. Por favor, tente mais tarde.',
+          "Note: Usernames must be 12 characters long.\n\n Usernames can only contain characters a-z (all lowercase), 1 - 5 (no 0’s), and no special characters or full stops. \n\n **Reminder! Your account name cannot be changed or deleted and will be public for other users to see.**":
+              "Nota: Os nomes de usuário precisam ter 12 caracteres.\n\n Os nomes de usuário só podem conter caracteres de a-z (todos em minúsculas), 1-5 (sem 0’s), e sem caracteres especiais nem pontos. \n\n **Lembre-se! O nome de sua conta não pode ser alterado ou excluído e será público para outros usuários verem.** ",
+          "Username": 'Nome De Usuário',
+          'Create account': 'Criar conta',
+          'Failed to create the account. Please try again later.':
+              'Falha ao criar a conta. Por favor, tente novamente.',
+          'The username is already taken.': 'Este nome de usuário já está em uso.',
+          'Full Name': 'Nome completo',
+          'Name cannot be empty': 'O nome não pode estar vazio',
+          "Enter your full name. You will be able to change this later in your profile settings.":
+              'Digite seu nome completo. Pode alterá-lo mais tarde na configuração de seu perfil.',
+          'Next': 'Próximo',
         }
       };
 

@@ -8,6 +8,12 @@ extension Localization on String {
           'Save Changes': 'Guardar cambios',
           'Name': 'Nombre',
           'Please enter a smaller name': 'Ingrese un nombre más pequeño',
+        },
+        'pt_br': {
+          'Edit Name': 'Editar nome',
+          'Save Changes': 'Salvar Alterações',
+          'Name': 'Nome',
+          'Please enter a smaller name': 'Por favor, insira um nome menor',
         }
       };
 

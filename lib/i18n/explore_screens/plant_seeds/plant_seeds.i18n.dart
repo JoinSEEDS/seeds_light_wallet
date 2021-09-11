@@ -15,6 +15,19 @@ extension Localization on String {
           'Plant failed, try again.': 'Error al plantar, inténte de nuevo',
           'Not enough balance': 'No hay suficiente balance',
           'Error Loading Page': 'Error Cargando La página'
+        },
+        'pt_br': {
+          'Plant': 'Plantar',
+          'Plant amount': 'Quantidade para plantar',
+          'Available Balance': 'Salto disponível',
+          'Planted Balance': 'Saldo plandado',
+          'Plant Seeds': 'Plantar Seeds',
+          'Congratulations\nYour seeds were planted successfully!':
+          'Parabéns\nSeus Seeds foram plantadoss com sucesso!',
+          'Close': 'Fechar',
+          'Plant failed, try again.': 'Erro ao plantar, tente novamente',
+          'Not enough balance': 'Não há saldo suficiente',
+          'Error Loading Page': 'Erro Carregando a Página'
         }
       };
 

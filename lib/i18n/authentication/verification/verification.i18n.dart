@@ -13,6 +13,17 @@ extension Localization on String {
           'Pincode created successfully.': 'Código de acceso creado satisfactoriamente.',
           'Close': 'Cerrar',
           'Pincode does not match': 'El código PIN no coincide',
+        },
+        'pt_br': {
+          'Delete': 'Excluir',
+          'Re-enter Pincode': 'Re-digitar código de acesso',
+          'Enter Pincode': 'Digite código de acesso',
+          'Create Pincode': 'Criar código de acesso',
+          'Use biometric to unlock': 'Desbloquear com biometria',
+          'Succesful': 'Sucedido',
+          'Pincode created successfully.': 'Código de acceso criado com sucesso.',
+          'Close': 'Fechar',
+          'Pincode does not match': 'O código PIN não coincide',
         }
       };
 

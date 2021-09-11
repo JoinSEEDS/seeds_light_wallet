@@ -7,6 +7,11 @@ extension Localization on String {
           'Onboarding Contract': 'Contrato De Incorporación',
           'Exchange Contract': 'Contrato De Intercambio',
           'Harvest Contract': 'Contrato De Cosecha',
+        },
+        'pt_br': {
+          'Onboarding Contract': 'Contrato De Onboarding',
+          'Exchange Contract': 'Contrato De Liquidação',
+          'Harvest Contract': 'Contrato De Colheita',
         }
       };
 

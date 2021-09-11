@@ -17,6 +17,21 @@ extension Localization on String {
           'Minimum 5 Seeds required to invite': 'Mínimo 5 Seeds requeridas para invitar',
           'Uh oh! Something went wrong...': '¡UH oh! Algo salió mal...',
           'Error loading current balance': 'Error cargando el balance actual'
+        },
+        'pt_br': {
+          'Invite': 'Convidar',
+          'Invite creation failed, try again.': 'Erro ao criar o convite, tente novamente.',
+          'Invite amount': 'Quantidade para enviar',
+          'Available Balance': 'Saldo disponível',
+          'Create invite': 'Criar convite',
+          'Share this link with the person you want to invite!':
+          'Compartinhe esse link com a pessoa que quer convidar!',
+          'Share': 'Compartilhar',
+          'Close': 'Fechar',
+          'Not enough balance': 'Não há saldo suficiente',
+          'Minimum 5 Seeds required to invite': 'Mínimo de 5 Seeds requeridos para convidar',
+          'Uh oh! Something went wrong...': 'Ops! Algo deu errado...',
+          'Error loading current balance': 'Erro carregando o saldo atual'
         }
       };
 

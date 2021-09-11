@@ -10,7 +10,16 @@ extension Localization on String {
           'Reputation': 'Reputación',
           'Planted': 'Plantadas',
           'Transactions': 'Transacciones',
+        },
+        'pt_br': {
+          'Contribution Score': 'Score de contribuição',
+          'Contribution': 'Contribuição',
+          'Community': 'Comunidade',
+          'Reputation': 'Reputação',
+          'Planted': 'Plantação',
+          'Transactions': 'Transações',
         }
+
       };
 
   String get i18n => localize(this, _t);
