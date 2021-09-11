@@ -49,6 +49,7 @@ class RecoveryPhraseScreen extends StatelessWidget {
                             child: TextField(
                               autocorrect: false,
                               enabled: false,
+                              controller: TextEditingController(text: state.words[index]),
                               decoration: InputDecoration(
                                 floatingLabelBehavior: FloatingLabelBehavior.always,
                                 labelText: (index + 1).toString(),
