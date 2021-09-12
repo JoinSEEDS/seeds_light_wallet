@@ -27,24 +27,10 @@ class RecoveryPhraseState extends Equatable {
     return RecoveryPhraseState(pageState: pageState ?? this.pageState, words: words ?? this.words);
   }
 
-  factory RecoveryPhraseState.initial() {
-    final mockedWords = List.of({
-      'words',
-      'words1',
-      'words2',
-      'words3',
-      'words4',
-      'words5',
-      'words6',
-      'words7',
-      'words8',
-      'words9',
-      'words10',
-      'words11',
-    });
+  factory RecoveryPhraseState.initial(List<String> words) {
     return RecoveryPhraseState(
       pageState: PageState.initial,
-      words: mockedWords,
+      words: words,
     );
   }
 }
