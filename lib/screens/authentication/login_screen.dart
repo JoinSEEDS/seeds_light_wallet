@@ -71,7 +71,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   FlatButtonLongOutlined(
                     onPressed: () => NavigationService.of(context).navigateTo(Routes.importKey),
-                    title: "Import private key".i18n,
+                    title: "Import Account",
                   )
                 ],
               ),
