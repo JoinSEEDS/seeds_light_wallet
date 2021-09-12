@@ -88,7 +88,9 @@ class SecurityScreen extends StatelessWidget {
                           title: '12-word Recovery Phrase',
                           description:
                               'Write down in a secret place your 12-word phrase so you can easily recover and access your account.',
-                          onTap: () {},
+                          onTap: () {
+                            NavigationService.of(context).navigateTo(Routes.recoveryPhrase);
+                          },
                         )
                       else
                         const SizedBox.shrink(),
