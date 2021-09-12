@@ -1,12 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
+import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
-import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
-import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/import_key_bloc.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_events.dart';
@@ -41,7 +41,22 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
           return Scaffold(
             bottomSheet: Padding(
               padding: const EdgeInsets.all(16),
-              child: FlatButtonLong(title: 'Search'.i18n, onPressed: () => _onSubmitted(), enabled: state.enableButton),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.subtitle2,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'Click here',
+                        style: const TextStyle(color: AppColors.green1),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+
+                          }),
+                    const TextSpan(text: '  if you want to import using your 12-word Recovery Phrase. '),
+                  ],
+                ),
+              ),
             ),
             appBar: AppBar(),
             body: Column(
