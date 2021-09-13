@@ -82,7 +82,7 @@ class SendConfirmationDialog extends StatelessWidget {
               const SizedBox(width: 16.0),
               Flexible(
                 child: Text(memo!,
-                    maxLines: 3,
+                    maxLines: 5,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.right,
                     style: Theme.of(context).textTheme.subtitle2),
