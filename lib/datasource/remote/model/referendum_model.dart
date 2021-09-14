@@ -14,7 +14,7 @@ class ReferendumModel {
   final String image;
   final String url;
 
-  ReferendumModel({
+  const ReferendumModel({
     required this.id,
     required this.createdAt,
     required this.settingValue,

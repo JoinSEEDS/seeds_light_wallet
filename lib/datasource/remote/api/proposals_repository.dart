@@ -44,8 +44,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
       code: account_funds,
       scope: account_funds,
       table: tableProps,
-      lowerBound: proposalType.lowerUpperBound,
-      upperBound: proposalType.lowerUpperBound,
+      lowerBound: proposalType.proposalStage,
+      upperBound: proposalType.proposalStage,
       limit: 100,
       indexPosition: proposalType.indexPosition,
       reverse: proposalType.isReverse,
@@ -89,8 +89,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getSupportLevels(String scope) {
-    print('[http] get suppor leves for scope: $scope');
+  Future<Result> getSupportLevel(String scope) {
+    print('[http] get support level for scope: $scope');
 
     final request = createRequest(code: account_funds, scope: scope, table: tableSupport);
 
@@ -104,7 +104,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getVote(int proposalId, String account) {
+  Future<Result> getProposalVote(int proposalId, String account) {
     print('[http] get vote for proposal: $proposalId');
 
     final request = createRequest(
@@ -136,6 +136,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
       lowerBound: account,
       upperBound: account,
       limit: 10,
+      keyType: '',
     );
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');

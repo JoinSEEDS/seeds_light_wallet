@@ -97,30 +97,51 @@ class ProposalDetailsMiddle extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Recipient: %s '.i18n.fill([(state.proposals[state.currentIndex].recipient)]),
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Requested: %s '.i18n.fill([(state.proposals[state.currentIndex].quantity)]),
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Type: %s '.i18n.fill([state.proposals[state.currentIndex].campaignType.i18n.inCaps]),
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Status: %s '.i18n.fill([(state.proposals[state.currentIndex].status.inCaps)]),
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Stage: %s '.i18n.fill([(state.proposals[state.currentIndex].stage.inCaps)]),
-                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                  ),
+                  if (state.proposals[state.currentIndex].stage.isEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Setting: %s '.i18n.fill([(state.proposals[state.currentIndex].settingName)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'New Value: %s'.i18n.fill([(state.proposals[state.currentIndex].settingValue)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                      ],
+                    ),
+                  if (state.proposals[state.currentIndex].stage.isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Recipient: %s '.i18n.fill([(state.proposals[state.currentIndex].recipient)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Requested: %s '.i18n.fill([(state.proposals[state.currentIndex].quantity)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Type: %s '.i18n.fill([state.proposals[state.currentIndex].campaignType.i18n.inCaps]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Status: %s '.i18n.fill([(state.proposals[state.currentIndex].status.inCaps)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Stage: %s '.i18n.fill([(state.proposals[state.currentIndex].stage.inCaps)]),
+                          style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        ),
+                      ],
+                    ),
                   const SizedBox(height: 8),
                   RichText(
                     text: TextSpan(

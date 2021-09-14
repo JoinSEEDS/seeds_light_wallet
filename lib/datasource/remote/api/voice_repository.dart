@@ -10,7 +10,12 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: account_funds, scope: account_funds, table: tableVoice, lowerBound: userAccount, upperBound: userAccount);
+      code: account_funds,
+      scope: account_funds,
+      table: tableVoice,
+      lowerBound: userAccount,
+      upperBound: userAccount,
+    );
 
     return http
         .post(voiceURL, headers: headers, body: request)
@@ -25,11 +30,32 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: account_funds,
-        scope: account_alliance,
-        table: tableVoice,
-        lowerBound: userAccount,
-        upperBound: userAccount);
+      code: account_funds,
+      scope: 'alliance',
+      table: tableVoice,
+      lowerBound: userAccount,
+      upperBound: userAccount,
+    );
+
+    return http
+        .post(voiceURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              return VoiceModel.fromJson(body);
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> getMilestoneVoice(String userAccount) {
+    print('[http] get milestone voice: $userAccount');
+    final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    final request = createRequest(
+      code: account_funds,
+      scope: 'milestone',
+      table: tableVoice,
+      lowerBound: userAccount,
+      upperBound: userAccount,
+    );
 
     return http
         .post(voiceURL, headers: headers, body: request)
