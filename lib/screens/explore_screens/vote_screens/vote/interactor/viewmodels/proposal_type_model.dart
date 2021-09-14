@@ -57,15 +57,3 @@ const List<ProposalType> proposalTypes = [
     isReverse: true,
   ),
 ];
-
-// Proposals
-// 'Open': {'stage': 'active', 'status': 'open'},
-// 'Evaluate': {'stage': 'active', 'status': 'evaluate', 'reverse': 'true'},
-// 'Passed': {'stage': 'done', 'status': 'passed', 'reverse': 'true'},
-// 'Failed': {'stage': 'done', 'status': 'rejected', 'reverse': 'true'},
-
-// Referendums
-// 'Open': {'referendumStage': 'active'},
-// 'Evaluate': {'referendumStage': 'testing', 'reverse': 'true'},
-// 'Passed': { "referendumStage": "passed", 'reverse': 'true'},
-// 'Failed': { "referendumStage": "failed", 'reverse': 'true'},

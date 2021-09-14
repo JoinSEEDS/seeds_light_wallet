@@ -10,7 +10,7 @@ class GetVoteUseCase {
   Future<Result> run(ProposalViewModel proposal, String account) async {
     late Result result;
     VoteModel? voteModel;
-    if (proposal.categoryTypeLabel == 'referendum') {
+    if (proposal.proposalCategory == ProposalCategory.referendum) {
       result = await _proposalsRepository.getReferendumVote(proposal.id, account);
       if (result.isValue) {
         voteModel = result.asValue!.value as VoteModel;
