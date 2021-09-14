@@ -26,7 +26,7 @@ extension Localization on String {
               'Participe e vote diretamente em projetos\nde impacto social e ambiental que te\ninteressem.',
           "Regenerative\nEconomy": 'Economia\nRegenerativa',
           "Unite with a global movement of\norganizations and people to regenerate our\nplanet and heal our economy.":
-              'Una-se a un movimento global de\organizações e pessoas para regenerar\nosso planeta e curar nossa economia.',
+              'Una-se a un movimento global de\norganizações e pessoas para regenerar\nosso planeta e curar nossa economia.',
         }
       };
 
