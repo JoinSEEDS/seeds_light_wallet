@@ -10,6 +10,7 @@ import 'package:seeds/screens/authentication/verification/verification_screen.da
 import 'package:seeds/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
@@ -50,6 +51,7 @@ class Routes {
   static final explore = 'Explore';
   static final wallet = 'Wallet';
   static final plantSeeds = 'plantSeeds';
+  static final unPlantSeeds = 'unPlantSeeds';
   static final sendConfirmationScreen = 'SendConfirmationScreen';
   static final scanQRCode = 'ScanQRCode';
   static final receiveScreen = "receiveScreen";
@@ -105,6 +107,7 @@ class NavigationService {
     Routes.vote: (_) => const VoteScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
+    Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(),
