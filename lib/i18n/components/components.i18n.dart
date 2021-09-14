@@ -8,6 +8,12 @@ extension Localization on String {
           "No users found.": 'No se encontraron usuarios.',
           "Copied": 'Copiado',
           "Oops, Something Went Wrong": 'Ups! Algo salió mal',
+        },
+        'pt_br': {
+          'Search...': 'Buscar...',
+          "No users found.": 'Nenhum usuário encontrado.',
+          "Copied": 'Copiado',
+          "Oops, Something Went Wrong": 'Ops! Algo deu errado',
         }
       };
 
