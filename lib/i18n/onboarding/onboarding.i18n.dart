@@ -17,7 +17,8 @@ extension Localization on String {
         },
         'pt_br': {
           'Join Now': 'Entrar agora',
-          "Better\nThan Free\nTransactions": 'Transações\nMelhores do que\nDe Graça',
+          "Better\nThan Free\nTransactions":
+              'Transações\nMelhores do que\nDe Graça',
           "Make payments globally without any fees.\nEarn rewards when you support\n‘Regenerative’ organizations and people.":
               "Realize pagamentos globalmente sem taxas.\nObtenha recompensas enquanto apoia\npessoas e organizações 'regenerativas'.",
           "Citizen\nCampaigns": 'Campanhas\nde Cidadãos',

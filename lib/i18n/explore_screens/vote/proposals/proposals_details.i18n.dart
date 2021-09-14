@@ -24,7 +24,8 @@ extension Localization on String {
           'Vote ': 'Voto ',
           'Votes': 'Votos',
           'Confirm': 'Confirmar',
-          'Voting for this proposal is not open yet.': 'La votación para esta propuesta aún no está abierta.',
+          'Voting for this proposal is not open yet.':
+              'La votación para esta propuesta aún no está abierta.',
           'View Next Proposal': 'Ver siguiente propuesta',
           'You must be a': 'Debes ser un',
           ' Citizen ': ' Ciudadano ',
@@ -73,7 +74,8 @@ extension Localization on String {
           'Vote ': 'Voto ',
           'Votes': 'Votos',
           'Confirm': 'Confirmar',
-          'Voting for this proposal is not open yet.': 'A votação para essa proposta ainda não está aberta.',
+          'Voting for this proposal is not open yet.':
+              'A votação para essa proposta ainda não está aberta.',
           'View Next Proposal': 'Ver proposta seguinte',
           'You must be a': 'Você precisa ser um',
           ' Citizen ': ' Cidadão ',

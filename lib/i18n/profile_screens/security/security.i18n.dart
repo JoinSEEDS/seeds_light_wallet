@@ -9,7 +9,8 @@ extension Localization on String {
           'Export your private key so you can easily recover and access your account.':
               "Exporte su clave privada para que pueda recuperar y acceder fácilmente a su cuenta.",
           'Secure with Pin': "Asegurar con Pin",
-          'Secure your account with a 6-digit pincode': "Asegure su cuenta con un código PIN de 6 dígitos",
+          'Secure your account with a 6-digit pincode':
+              "Asegure su cuenta con un código PIN de 6 dígitos",
           'Secure with Touch/Face ID': "Seguro con Touch / Face ID",
           "Secure your account with your fingerprint. This will be used to sign-in and open your wallet.":
               "Asegure su cuenta con su huella digital. Esto se utilizará para iniciar sesión y abrir su billetera.",
@@ -30,8 +31,10 @@ extension Localization on String {
           'Export your private key so you can easily recover and access your account.':
               "Exporte sua chave privada para poder recuperar e acessar facilmente sua conta.",
           'Secure with Pin': "Aumentar a segurança com Pin",
-          'Secure your account with a 6-digit pincode': "Aumente a segurança da sua conta com um código PIN de 6 dígitos",
-          'Secure with Touch/Face ID': "Aumentar a segurança com Touch / Face ID",
+          'Secure your account with a 6-digit pincode':
+              "Aumente a segurança da sua conta com um código PIN de 6 dígitos",
+          'Secure with Touch/Face ID':
+              "Aumentar a segurança com Touch / Face ID",
           "Secure your account with your fingerprint. This will be used to sign-in and open your wallet.":
               "Aumente a segurança de sua conta com biometria. Esse formato será usado para destravar sua carteira.",
           'Got it, thanks!': 'Entendido, obrigado!',

@@ -10,7 +10,7 @@ extension Localization on String {
           'Planted Balance': 'Balance de plantadas',
           'Plant Seeds': 'Plantar Seeds',
           'Congratulations\nYour seeds were planted successfully!':
-          'Felicitacines\nSus Seeds fueron plantadas exitosamente!',
+              'Felicitacines\nSus Seeds fueron plantadas exitosamente!',
           'Close': 'Cerrar',
           'Plant failed, try again.': 'Error al plantar, inténte de nuevo',
           'Not enough balance': 'No hay suficiente balance',
@@ -23,7 +23,7 @@ extension Localization on String {
           'Planted Balance': 'Saldo plandado',
           'Plant Seeds': 'Plantar Seeds',
           'Congratulations\nYour seeds were planted successfully!':
-          'Parabéns\nSeus Seeds foram plantadoss com sucesso!',
+              'Parabéns\nSeus Seeds foram plantadoss com sucesso!',
           'Close': 'Fechar',
           'Plant failed, try again.': 'Erro ao plantar, tente novamente',
           'Not enough balance': 'Não há saldo suficiente',

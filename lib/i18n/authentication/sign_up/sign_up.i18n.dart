@@ -11,7 +11,8 @@ extension Localization on String {
               '¡Este código de invitación ya ha sido reclamado! Consulte con la persona que lo invitó.',
           'Processing your invitation...': 'Procesando su invitación...',
           'Success!': 'Éxito!',
-          'No invites found, try another code': 'No se encontró la invitación, intenta otro código',
+          'No invites found, try another code':
+              'No se encontró la invitación, intenta otro código',
           'Invite was already claimed': 'La invitación ya se reclamó',
           'Oops, something went wrong. Please try again later.':
               'Ups! Algo salió mal. Por favor, inténtelo de nuevo más tarde.',
@@ -21,7 +22,8 @@ extension Localization on String {
           'Create account': 'Crear cuenta',
           'Failed to create the account. Please try again later.':
               'No se pudo crear la cuenta. Por favor, inténtelo de nuevo más tarde.',
-          'The username is already taken.': 'El nombre de usuario ya está en uso.',
+          'The username is already taken.':
+              'El nombre de usuario ya está en uso.',
           'Full Name': 'Nombre completo',
           'Name cannot be empty': 'El nombre no puede estar vacío',
           "Enter your full name. You will be able to change this later in your profile settings.":
@@ -36,7 +38,8 @@ extension Localization on String {
               'Este código de convite já foi utilizado! Consulte a pessoa que lhe convidou.',
           'Processing your invitation...': 'Processando seu convite...',
           'Success!': 'Sucesso!',
-          'No invites found, try another code': 'Convite não encontrado, tente outro código',
+          'No invites found, try another code':
+              'Convite não encontrado, tente outro código',
           'Invite was already claimed': 'O convite já foi usado',
           'Oops, something went wrong. Please try again later.':
               'Ops! Algo deu errado. Por favor, tente mais tarde.',
@@ -46,7 +49,8 @@ extension Localization on String {
           'Create account': 'Criar conta',
           'Failed to create the account. Please try again later.':
               'Falha ao criar a conta. Por favor, tente novamente.',
-          'The username is already taken.': 'Este nome de usuário já está em uso.',
+          'The username is already taken.':
+              'Este nome de usuário já está em uso.',
           'Full Name': 'Nome completo',
           'Name cannot be empty': 'O nome não pode estar vazio',
           "Enter your full name. You will be able to change this later in your profile settings.":

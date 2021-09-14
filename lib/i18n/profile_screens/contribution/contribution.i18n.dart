@@ -19,7 +19,6 @@ extension Localization on String {
           'Planted': 'Plantação',
           'Transactions': 'Transações',
         }
-
       };
 
   String get i18n => localize(this, _t);

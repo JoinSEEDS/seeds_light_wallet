@@ -15,8 +15,10 @@ extension Localization on String {
               'Los tres Guardianes han aceptado su solicitud para recuperar su cuenta. \n Su cuenta se desbloqueará en 24 horas.',
           "Hours Left": 'Horas restantes',
           'Account recovered ': 'Cuenta recuperada',
-          "There are no guardians for this account.": 'No hay guardianes para esta cuenta.',
-          "Oops! Something went wrong, try again later.": 'Ups! Algo salió mal, por favor trate mas tarde.',
+          "There are no guardians for this account.":
+              'No hay guardianes para esta cuenta.',
+          "Oops! Something went wrong, try again later.":
+              'Ups! Algo salió mal, por favor trate mas tarde.',
           'Next': 'Próximo',
           "Username": 'Nombre de usuario',
           "Error Loading Guardians": "Error al cargar guardianes",
@@ -37,8 +39,10 @@ extension Localization on String {
               'Todos os três guardiões aceitaram seu pedido de recuperação. \n Sua conta será desbloqueada em 24 horas.',
           "Hours Left": 'Horas restantes',
           'Account recovered ': 'Conta recuperada',
-          "There are no guardians for this account.": 'Não há guardiões para essa conta..',
-          "Oops! Something went wrong, try again later.": 'Ops! Algo deu errado, por favor tente mais tarde.',
+          "There are no guardians for this account.":
+              'Não há guardiões para essa conta..',
+          "Oops! Something went wrong, try again later.":
+              'Ops! Algo deu errado, por favor tente mais tarde.',
           'Next': 'Próximo',
           "Username": 'Nome de usuario',
           "Error Loading Guardians": "Erro ao carrregar guardiões",

@@ -17,7 +17,8 @@ extension Localization on String {
           'Residents Invited': 'Residentes Invitados',
           'Reputation Points': 'Puntos de reputación',
           'Error Loading Accounts': 'Error al cargar cuentas',
-          'Error Loading Citizenship Data': 'Error al cargar datos de ciudadanía',
+          'Error Loading Citizenship Data':
+              'Error al cargar datos de ciudadanía',
         },
         'pt_br': {
           'Visitor': 'Visitante',
@@ -33,7 +34,8 @@ extension Localization on String {
           'Residents Invited': 'Residentes convidados',
           'Reputation Points': 'Pontos de reputação',
           'Error Loading Accounts': 'Erro ao carregar contas',
-          'Error Loading Citizenship Data': 'Erro ao carregar dados de cidadania',
+          'Error Loading Citizenship Data':
+              'Erro ao carregar dados de cidadania',
         }
       };
 
