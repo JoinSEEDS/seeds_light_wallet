@@ -13,14 +13,28 @@ class GetProposalsDataUseCase {
   final ProposalsRepository _proposalsRepository = ProposalsRepository();
 
   Future<List<Result>> run(ProposalType proposalType) {
-    final futures = [
-      _profileRepository.getProfile(settingsStorage.accountName),
-      _proposalsRepository.getProposals(proposalType),
-      _proposalsRepository.getReferendums(proposalType),
-      _proposalsRepository.getSupportLevel(_alliance),
-      _proposalsRepository.getSupportLevel(_campaign),
-      _proposalsRepository.getSupportLevel(_milestone),
-    ];
+    late final List<Future<Result>> futures;
+    if (proposalType.referendumStage.length > 1) {
+      // For History section referendums need 2 request for passed and failed
+      futures = [
+        _profileRepository.getProfile(settingsStorage.accountName),
+        _proposalsRepository.getProposals(proposalType),
+        _proposalsRepository.getReferendums(proposalType.referendumStage.first, proposalType.isReverse),
+        _proposalsRepository.getReferendums(proposalType.referendumStage.last, proposalType.isReverse),
+        _proposalsRepository.getSupportLevel(_alliance),
+        _proposalsRepository.getSupportLevel(_campaign),
+        _proposalsRepository.getSupportLevel(_milestone),
+      ];
+    } else {
+      futures = [
+        _profileRepository.getProfile(settingsStorage.accountName),
+        _proposalsRepository.getProposals(proposalType),
+        _proposalsRepository.getReferendums(proposalType.referendumStage.first, proposalType.isReverse),
+        _proposalsRepository.getSupportLevel(_alliance),
+        _proposalsRepository.getSupportLevel(_campaign),
+        _proposalsRepository.getSupportLevel(_milestone),
+      ];
+    }
     return Future.wait(futures);
   }
 }

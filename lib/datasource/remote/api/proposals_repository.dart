@@ -65,15 +65,15 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getReferendums(ProposalType proposalType) {
-    print('[http] get referendums: stage = [${proposalType.referendumStage}]');
+  Future<Result> getReferendums(String scope, bool isReverse) {
+    print('[http] get referendums: stage = [$scope]');
 
     final request = createRequest(
       code: account_rules,
-      scope: proposalType.referendumStage,
+      scope: scope,
       table: tableReferendums,
       limit: 100,
-      reverse: proposalType.isReverse,
+      reverse: isReverse,
     );
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');

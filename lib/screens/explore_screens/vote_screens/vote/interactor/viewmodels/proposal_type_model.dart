@@ -9,7 +9,7 @@ class ProposalType {
   final String proposalStage;
 
   /// Request param
-  final String referendumStage;
+  final List<String> referendumStage;
 
   /// Request param
   final int indexPosition;
@@ -35,7 +35,7 @@ const List<ProposalType> proposalTypes = [
     index: 0,
     type: 'Open',
     proposalStage: 'open',
-    referendumStage: 'active',
+    referendumStage: ['active'],
     indexPosition: 2,
     isReverse: false,
     filterByStage: 'active',
@@ -44,7 +44,7 @@ const List<ProposalType> proposalTypes = [
     index: 1,
     type: 'Upcoming',
     proposalStage: 'staged',
-    referendumStage: 'staged',
+    referendumStage: ['staged'],
     indexPosition: 3,
     isReverse: false,
   ),
@@ -52,7 +52,7 @@ const List<ProposalType> proposalTypes = [
     index: 2,
     type: 'History',
     proposalStage: 'done',
-    referendumStage: 'passed',
+    referendumStage: ['passed', 'failed'],
     indexPosition: 3,
     isReverse: true,
   ),
