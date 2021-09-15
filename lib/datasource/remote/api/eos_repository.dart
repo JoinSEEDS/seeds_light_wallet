@@ -26,6 +26,7 @@ abstract class EosRepository {
   String actionNameCakecitizen = 'cancitizen';
   String actionNameAcceptnew = 'acceptnew';
   String actionNameRecover = 'recover';
+  String actionNameUnplant = 'unplant';
 
   // Authorizations
   String permissionActive = 'active';
