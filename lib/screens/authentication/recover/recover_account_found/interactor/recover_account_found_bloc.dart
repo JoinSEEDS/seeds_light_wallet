@@ -11,6 +11,7 @@ import 'package:seeds/screens/authentication/recover/recover_account_found/inter
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/mappers/remaining_time_state_mapper.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/reset_user_account_use_case.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/current_remaining_time.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_events.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
@@ -53,7 +54,10 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
         yield RemainingTimeStateMapper().mapResultToState(state);
       } else {
         await _tickerSubscription?.cancel();
-        yield state.copyWith(recoveryStatus: RecoveryStatus.READY_TO_CLAIM_ACCOUNT);
+        yield state.copyWith(
+          recoveryStatus: RecoveryStatus.READY_TO_CLAIM_ACCOUNT,
+          currentRemainingTime: const CurrentRemainingTime(days: 0, hours: 0, min: 0, sec: 0),
+        );
       }
     } else if (event is OnClaimAccountTap) {
       yield state.copyWith(pageState: PageState.loading);

@@ -228,8 +228,12 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                           )
                         ],
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       if (state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT)
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('Account recovered '.i18n),
                             Text(state.userAccount),
