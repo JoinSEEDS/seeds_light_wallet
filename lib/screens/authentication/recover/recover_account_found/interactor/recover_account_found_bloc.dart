@@ -23,12 +23,12 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
   final AuthenticationBloc _authenticationBloc;
   StreamSubscription<int>? _tickerSubscription;
 
-  Stream<int> _tick(int ticks) {
-    return Stream.periodic(const Duration(seconds: 1), (x) => ticks - x - 1).take(ticks);
+  Stream<int> _tick() {
+    return Stream.periodic(const Duration(seconds: 1), (x) => x);
   }
 
   Stream<RecoverAccountFoundState> _mapStartTimerToState() async* {
-    _tickerSubscription = _tick(state.timeLockSeconds).listen((timer) => add(Tick(timer)));
+    _tickerSubscription = _tick().listen((timer) => add(Tick(timer)));
   }
 
   @override
@@ -49,8 +49,8 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
         yield* _mapStartTimerToState();
       }
     } else if (event is Tick) {
-      if (event.timer >= DateTime.now().millisecondsSinceEpoch ~/ 1000) {
-        yield RemainingTimeStateMapper().mapResultToState(state, event.timer);
+      if (state.timeRemaining > 0) {
+        yield RemainingTimeStateMapper().mapResultToState(state);
       } else {
         await _tickerSubscription?.cancel();
         yield state.copyWith(recoveryStatus: RecoveryStatus.READY_TO_CLAIM_ACCOUNT);
