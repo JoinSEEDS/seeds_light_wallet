@@ -228,7 +228,7 @@ class RecoverAccountFoundScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       if (state.recoveryStatus == RecoveryStatus.READY_TO_CLAIM_ACCOUNT)
