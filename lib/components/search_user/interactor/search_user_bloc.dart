@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:seeds/components/search_user/interactor/mappers/search_user_state_mapper.dart';
+import 'package:seeds/components/search_user/interactor/usecases/search_for_telos_use_case.dart';
 import 'package:seeds/components/search_user/interactor/usecases/search_for_user_use_case.dart';
 import 'package:seeds/components/search_user/interactor/viewmodels/search_user_events.dart';
 import 'package:seeds/components/search_user/interactor/viewmodels/search_user_state.dart';
@@ -39,8 +40,12 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
 
       if (event.searchQuery.length > _minTextLengthBeforeValidSearch) {
         yield state.copyWith(pageState: PageState.loading);
-        final result = await SearchForMemberUseCase().run(event.searchQuery);
-        yield SearchUserStateMapper().mapResultToState(state, result, state.noShowUsers);
+        final futures = [
+          SearchForMemberUseCase().run(event.searchQuery),
+          SearchForTelosUseCase().run(event.searchQuery),
+        ];
+        final results = await Future.wait(futures);
+        yield SearchUserStateMapper().mapResultToState(state, results[0], results[1], state.noShowUsers);
       }
     } else if (event is ClearIconTapped) {
       yield SearchUserState.initial(state.noShowUsers);

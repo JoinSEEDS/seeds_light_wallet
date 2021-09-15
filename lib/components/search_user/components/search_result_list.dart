@@ -22,7 +22,7 @@ class SearchUsersList extends StatelessWidget {
                 key: Key(user.account),
                 account: user.account,
                 name: user.nickname,
-                imageUrl: user.image,
+                imageUrl: user.isSeedsUser ? user.image : "assets/images/send/telos_logo.png",
                 resultCallBack: () {
                   resultCallBack(user);
                 },
