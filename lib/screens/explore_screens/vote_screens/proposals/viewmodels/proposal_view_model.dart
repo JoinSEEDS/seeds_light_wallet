@@ -149,7 +149,7 @@ class ProposalViewModel {
       description: referendum.description,
       image: referendum.image,
       url: referendum.url,
-      status: '',
+      status: referendum.scope,
       stage: '',
       creationDate: referendum.createdAt,
       campaignType: describeEnum(ProposalCategory.referendum),

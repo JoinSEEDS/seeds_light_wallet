@@ -81,8 +81,10 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     return http
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              // The referendums do not have a status field as do the proposals, so the scope must be added
+              // to each referendum, which also acts as a status field.
               final List<ReferendumModel> result =
-                  body['rows'].map<ReferendumModel>((i) => ReferendumModel.fromJson(i)).toList();
+                  body['rows'].map<ReferendumModel>((i) => ReferendumModel.fromJson(i, scope)).toList();
               return result;
             }))
         .catchError((error) => mapHttpError(error));

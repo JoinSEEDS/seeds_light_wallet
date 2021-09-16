@@ -14,6 +14,7 @@ const String _cmp_funding = 'cmp.funding';
 const String _cmp_invite = 'cmp.invite';
 const String _milestone = 'milestone';
 const String _referendum = 'referendum';
+const int oneReferendumList = 1;
 
 class ProposalsStateMapper extends StateMapper {
   ProposalsListState mapResultToState({
@@ -31,7 +32,7 @@ class ProposalsStateMapper extends StateMapper {
       final List<List<ReferendumModel>> referendumsLists = values.whereType<List<ReferendumModel>>().toList();
       List<ReferendumModel> referendumsModel = [];
       // For History section referendums need 2 request for passed and failed (2 lists)
-      if (referendumsLists.length > 1) {
+      if (referendumsLists.length > oneReferendumList) {
         referendumsModel = referendumsLists.first + referendumsLists.last;
       } else {
         referendumsModel = referendumsLists.first;

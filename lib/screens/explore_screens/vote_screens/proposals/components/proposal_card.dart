@@ -227,7 +227,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
           ),
           if (widget.proposal.stage != 'staged')
             Positioned(top: 10.0, right: 26.0, child: VoteAmountLabel(widget.proposal)),
-          if (widget.proposal.stage == 'done')
+          if (widget.proposal.stage == 'done' || widget.proposal.stage.isEmpty)
             Positioned(
               top: 10.0,
               left: 26.0,
