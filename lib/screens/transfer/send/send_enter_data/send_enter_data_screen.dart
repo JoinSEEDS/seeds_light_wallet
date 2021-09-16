@@ -16,6 +16,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_diaog.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/send_transaction_success_dialog.dart';
@@ -144,7 +145,7 @@ class SendEnterDataScreen extends StatelessWidget {
                                     TextFormFieldLight(
                                       labelText: "Memo".i18n,
                                       hintText: "Add a note".i18n,
-                                      maxLength: 150,
+                                      maxLength: blockChainMaxChars,
                                       onChanged: (String value) {
                                         BlocProvider.of<SendEnterDataPageBloc>(context)
                                             .add(OnMemoChange(memoChanged: value));
