@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/amount_entry/amount_entry_widget.dart';
+import 'package:seeds/components/balance_row.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'components/unplant_seeds_amount_entry.dart';
 import 'interactor/viewmodels/unplant_seeds_bloc.dart';
 import 'interactor/viewmodels/unplant_seeds_state.dart';
 
@@ -43,11 +46,18 @@ class UnplantSeedsScreen extends StatelessWidget {
                             const SizedBox(height: 16),
                             Text('Unplant amount', style: Theme.of(context).textTheme.headline6),
                             const SizedBox(height: 16),
-                            AmountEntryWidget(
+                            UnplantSeedsAmountEntry(
                               tokenDataModel: TokenDataModel(0),
                               onValueChange: (value) {},
                               autoFocus: false,
                             ),
+                            const SizedBox(
+                              height: 100,
+                            ),
+                            BalanceRow(
+                                label: "Planted Balance TODO",
+                                tokenAmount: TokenDataModel(0),
+                                fiatAmount: FiatDataModel(0))
                           ],
                         ),
                       ),
