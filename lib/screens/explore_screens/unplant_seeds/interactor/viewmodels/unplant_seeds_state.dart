@@ -8,7 +8,6 @@ import 'package:seeds/domain-shared/page_state.dart';
 class UnplantSeedsState extends Equatable {
   final PageState pageState;
   final RatesState ratesState;
-  final double unplantAMount;
   final TokenDataModel unplantedInputAmount;
   final FiatDataModel unplantedInputAmountFiat;
   final bool onFocus;
@@ -21,7 +20,6 @@ class UnplantSeedsState extends Equatable {
   const UnplantSeedsState(
       {required this.pageState,
       required this.ratesState,
-      required this.unplantAMount,
       required this.unplantedInputAmountFiat,
       required this.onFocus,
       this.plantedBalance,
@@ -35,7 +33,6 @@ class UnplantSeedsState extends Equatable {
   List<Object?> get props => [
         pageState,
         ratesState,
-        unplantAMount,
         onFocus,
         plantedBalance,
         plantedBalanceFiat,
@@ -53,7 +50,7 @@ class UnplantSeedsState extends Equatable {
     bool? onFocus,
     TokenDataModel? plantedBalance,
     FiatDataModel? plantedBalanceFiat,
-    bool? isPlantSeedsButtonEnabled,
+    bool? isUnplantSeedsButtonEnabled,
     bool? showAlert,
     FiatDataModel? unplantedInputAmountFiat,
     TokenDataModel? unplantedInputAmount,
@@ -62,11 +59,10 @@ class UnplantSeedsState extends Equatable {
     return UnplantSeedsState(
         pageState: pageState ?? this.pageState,
         ratesState: ratesState ?? this.ratesState,
-        unplantAMount: unplantAmount ?? this.unplantAMount,
         onFocus: onFocus ?? this.onFocus,
         plantedBalance: plantedBalance ?? this.plantedBalance,
         plantedBalanceFiat: plantedBalanceFiat ?? this.plantedBalanceFiat,
-        isUnplantSeedsButtonEnabled: isPlantSeedsButtonEnabled ?? this.isUnplantSeedsButtonEnabled,
+        isUnplantSeedsButtonEnabled: isUnplantSeedsButtonEnabled ?? this.isUnplantSeedsButtonEnabled,
         showAlert: showAlert ?? this.showAlert,
         unplantedInputAmountFiat: unplantedInputAmountFiat ?? this.unplantedInputAmountFiat,
         unplantedInputAmount: unplantedInputAmount ?? this.unplantedInputAmount,
@@ -78,7 +74,6 @@ class UnplantSeedsState extends Equatable {
       pageState: PageState.success,
       ratesState: ratesState,
       onFocus: true,
-      unplantAMount: 0.0,
       unplantedInputAmountFiat: FiatDataModel(0),
       showAlert: false,
       isUnplantSeedsButtonEnabled: false,
