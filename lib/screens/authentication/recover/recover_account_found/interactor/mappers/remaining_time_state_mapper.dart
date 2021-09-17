@@ -12,9 +12,9 @@ const int _hourSecond = 60 * 60;
 const int _minuteSecond = 60;
 
 class RemainingTimeStateMapper {
-  RecoverAccountFoundState mapResultToState(RecoverAccountFoundState currentState, int remainingTime) {
+  RecoverAccountFoundState mapResultToState(RecoverAccountFoundState currentState) {
     int days = 0, hours = 0, min = 0;
-    int remainingTimeStamp = (remainingTime - DateTime.now().millisecondsSinceEpoch) ~/ 1000;
+    int remainingTimeStamp = currentState.timeRemaining;
 
     ///Calculate the number of days remaining.
     if (remainingTimeStamp >= _daySecond) {
@@ -40,7 +40,6 @@ class RemainingTimeStateMapper {
 
     return currentState.copyWith(
       pageState: PageState.success,
-      timeLockSeconds: remainingTime,
       currentRemainingTime: CurrentRemainingTime(
         days: days,
         hours: hours,

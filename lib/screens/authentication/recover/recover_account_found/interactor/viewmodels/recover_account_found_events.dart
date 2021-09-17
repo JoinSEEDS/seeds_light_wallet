@@ -48,13 +48,13 @@ class StartCycleCountdown extends RecoverAccountFoundEvent {
 }
 
 class Tick extends RecoverAccountFoundEvent {
-  final int timer;
+  final int count;
 
-  const Tick(this.timer);
-
-  @override
-  List<Object> get props => [timer];
+  const Tick(this.count);
 
   @override
-  String toString() => 'Tick { remaining seconds: $timer }';
+  List<Object> get props => [count];
+
+  @override
+  String toString() => 'Tick { $count }';
 }
