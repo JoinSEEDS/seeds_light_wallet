@@ -150,6 +150,32 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
+  Future<Result> unplantSeeds({required double amount, required String accountName}) async {
+    print('[eos] unplant seeds ($amount)');
+
+    final transaction = buildFreeTransaction([
+      Action()
+        ..account = account_harvest
+        ..name = actionNameUnplant
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = permissionActive
+        ]
+        ..data = {
+          'from': accountName,
+          'quantity': '${amount.toStringAsFixed(4)} $currencySeedsCode',
+        }
+    ], accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
   Future<Result> makeCitizen(String accountName) async {
     return citizenshipAction(accountName: accountName, isMake: true, isCitizen: true);
   }

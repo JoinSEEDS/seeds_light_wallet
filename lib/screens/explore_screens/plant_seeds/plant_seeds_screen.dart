@@ -12,6 +12,7 @@ import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/bloc.dart';
@@ -59,7 +60,7 @@ class PlantSeedsScreen extends StatelessWidget {
                   children: [
                     SingleChildScrollView(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                         height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
                         child: Column(
                           children: [
@@ -92,7 +93,7 @@ class PlantSeedsScreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(horizontalEdgePadding),
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: FlatButtonLong(

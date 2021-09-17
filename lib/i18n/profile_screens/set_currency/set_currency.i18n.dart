@@ -6,6 +6,10 @@ extension Localization on String {
         "es_es": {
           "Select Currency": "Selecionar moneda",
           'Search..': "Buscar..",
+        },
+        "pt_br": {
+          "Select Currency": "Selecione a moeda",
+          'Search..': "Buscar...",
         }
       };
 
