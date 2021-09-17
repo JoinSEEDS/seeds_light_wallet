@@ -18,6 +18,7 @@ const String _kPrivateKeyBackedUp = 'private_key_backed_up';
 const String _kSelectedFiatCurrency = 'selected_fiat_currency';
 const String _kSelectedToken = 'selected_token';
 const String _kInRecoveryMode = 'in_recovery_mode';
+const String _kRecoveryLink = 'recovery_link';
 const String _kTokensWhiteList = 'tokens_whitelist';
 const String _kIsCitizen = 'is_citizen';
 const String _kIsFirstRun = 'is_first_run';
@@ -65,11 +66,16 @@ class _SettingsStorage {
 
   bool get inRecoveryMode => _preferences.getBool(_kInRecoveryMode) ?? false;
 
+  String get recoveryLink => _preferences.getString(_kRecoveryLink) ?? '';
+
   List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [SeedsToken.id];
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? _kIsCitizenDefault;
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
+
+  set recoveryLink(String? value) =>
+      value == null ? _preferences.remove(_kRecoveryLink) : _preferences.setString(_kRecoveryLink, value);
 
   set _accountName(String? value) {
     _preferences.setString(_kAccountName, value ?? '');
@@ -186,18 +192,23 @@ class _SettingsStorage {
     return value;
   }
 
-  void enableRecoveryMode({required String accountName, String? privateKey}) {
+  void enableRecoveryMode({required String accountName, required String privateKey, required String recoveryLink}) {
     inRecoveryMode = true;
     _accountName = accountName;
+    this.recoveryLink = recoveryLink;
     this.privateKey = privateKey;
   }
 
-  void finishRecoveryProcess() => inRecoveryMode = false;
+  void finishRecoveryProcess() {
+    inRecoveryMode = false;
+    recoveryLink = null;
+  }
 
   void cancelRecoveryProcess() {
     inRecoveryMode = false;
     _accountName = null;
     privateKey = null;
+    recoveryLink = null;
   }
 
   void savePasscode(String? passcode) => this.passcode = passcode;
