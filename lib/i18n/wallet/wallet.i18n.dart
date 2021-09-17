@@ -8,6 +8,12 @@ extension Localization on String {
           'Transactions History': 'Historia de transacciones',
           'Receive': 'Recibir',
           'Send': 'Enviar',
+        },
+        'pt_br': {
+          "Balance": 'Saldo',
+          'Transactions History': 'Historico de transações',
+          'Receive': 'Receber',
+          'Send': 'Enviar',
         }
       };
 

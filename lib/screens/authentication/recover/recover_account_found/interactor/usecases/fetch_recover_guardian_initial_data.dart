@@ -16,7 +16,7 @@ class FetchRecoverGuardianInitialDataUseCase {
   final CreateFirebaseDynamicLinkUseCase _createFirebaseDynamicLinkUseCase = CreateFirebaseDynamicLinkUseCase();
 
   Future<RecoverGuardianInitialDTO> run(String accountName) async {
-    print("FetchRecoverGuardianInitialDataUseCase accountName pKey");
+    print("FetchRecoverGuardianInitialDataUseCase $accountName pKey");
     final String recoveryPrivateKey;
     if (settingsStorage.privateKey != null && settingsStorage.inRecoveryMode) {
       recoveryPrivateKey = settingsStorage.privateKey!;
