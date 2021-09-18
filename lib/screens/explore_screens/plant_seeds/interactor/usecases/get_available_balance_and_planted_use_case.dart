@@ -13,6 +13,7 @@ class GetAvailableBalanceAndPlantedDataUseCase {
     final futures = [
       _balanceRepository.getTokenBalance(account, tokenContract: SeedsToken.contract, symbol: SeedsToken.symbol),
       _plantedRepository.getPlanted(account),
+      _plantedRepository.getRefunds(account),
     ];
     return Future.wait(futures);
   }
