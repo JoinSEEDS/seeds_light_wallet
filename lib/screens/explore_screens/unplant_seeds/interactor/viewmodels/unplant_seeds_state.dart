@@ -15,7 +15,8 @@ class UnplantSeedsState extends Equatable {
   final TokenDataModel? plantedBalance;
   final FiatDataModel? plantedBalanceFiat;
   final bool isUnplantSeedsButtonEnabled;
-  final bool showAlert;
+  final bool showOverBalanceAlert;
+  final bool showMinPlantedBalanceAlert;
   final TextEditingController controller;
   final PageCommand? pageCommand;
 
@@ -27,7 +28,8 @@ class UnplantSeedsState extends Equatable {
       this.plantedBalance,
       this.plantedBalanceFiat,
       required this.isUnplantSeedsButtonEnabled,
-      required this.showAlert,
+      required this.showOverBalanceAlert,
+      required this.showMinPlantedBalanceAlert,
       required this.unplantedInputAmount,
       required this.controller,
       this.pageCommand});
@@ -40,11 +42,12 @@ class UnplantSeedsState extends Equatable {
         plantedBalance,
         plantedBalanceFiat,
         isUnplantSeedsButtonEnabled,
-        showAlert,
+        showOverBalanceAlert,
         unplantedInputAmountFiat,
         unplantedInputAmount,
         controller,
         pageCommand,
+        showMinPlantedBalanceAlert,
       ];
 
   UnplantSeedsState copyWith({
@@ -55,7 +58,8 @@ class UnplantSeedsState extends Equatable {
     TokenDataModel? plantedBalance,
     FiatDataModel? plantedBalanceFiat,
     bool? isUnplantSeedsButtonEnabled,
-    bool? showAlert,
+    bool? showOverBalanceAlert,
+    bool? showMinPlantedBalanceAlert,
     FiatDataModel? unplantedInputAmountFiat,
     TokenDataModel? unplantedInputAmount,
     TextEditingController? controller,
@@ -68,7 +72,8 @@ class UnplantSeedsState extends Equatable {
         plantedBalance: plantedBalance ?? this.plantedBalance,
         plantedBalanceFiat: plantedBalanceFiat ?? this.plantedBalanceFiat,
         isUnplantSeedsButtonEnabled: isUnplantSeedsButtonEnabled ?? this.isUnplantSeedsButtonEnabled,
-        showAlert: showAlert ?? this.showAlert,
+        showOverBalanceAlert: showOverBalanceAlert ?? this.showOverBalanceAlert,
+        showMinPlantedBalanceAlert: showMinPlantedBalanceAlert ?? this.showMinPlantedBalanceAlert,
         unplantedInputAmountFiat: unplantedInputAmountFiat ?? this.unplantedInputAmountFiat,
         unplantedInputAmount: unplantedInputAmount ?? this.unplantedInputAmount,
         controller: controller ?? this.controller,
@@ -81,7 +86,8 @@ class UnplantSeedsState extends Equatable {
       ratesState: ratesState,
       onFocus: true,
       unplantedInputAmountFiat: FiatDataModel(0),
-      showAlert: false,
+      showOverBalanceAlert: false,
+      showMinPlantedBalanceAlert: false,
       isUnplantSeedsButtonEnabled: false,
       unplantedInputAmount: TokenDataModel(0),
       controller: TextEditingController(),

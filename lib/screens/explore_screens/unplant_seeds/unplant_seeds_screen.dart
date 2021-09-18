@@ -89,7 +89,9 @@ class UnplantSeedsScreen extends StatelessWidget {
                             const SizedBox(
                               height: 24,
                             ),
-                            AlertInputValue('Not enough balance', isVisible: state.showAlert),
+                            AlertInputValue('Not enough balance', isVisible: state.showOverBalanceAlert),
+                            AlertInputValue('Need to keep at least 5 planted seeds',
+                                isVisible: state.showMinPlantedBalanceAlert),
                             const SizedBox(
                               height: 60,
                             ),
