@@ -6,7 +6,7 @@ import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/referendum_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-enum ProposalCategory { campaing, alliance, milestone, referendum }
+enum ProposalCategory { campaign, alliance, milestone, referendum }
 
 class ProposalViewModel {
   final int id;
@@ -74,7 +74,7 @@ class ProposalViewModel {
 
   ProposalCategory get proposalCategory {
     if (campaignType == 'cmp.funding' || campaignType == 'cmp.invite') {
-      return ProposalCategory.campaing;
+      return ProposalCategory.campaign;
     } else if (campaignType == describeEnum(ProposalCategory.alliance)) {
       return ProposalCategory.alliance;
     } else if (campaignType == describeEnum(ProposalCategory.milestone)) {
@@ -82,7 +82,7 @@ class ProposalViewModel {
     } else if (campaignType == describeEnum(ProposalCategory.referendum)) {
       return ProposalCategory.referendum;
     } else {
-      return ProposalCategory.campaing;
+      return ProposalCategory.campaign;
     }
   }
 

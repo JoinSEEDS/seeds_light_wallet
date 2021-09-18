@@ -49,7 +49,7 @@ class GetProposalDataUseCase {
   }
 
   Future<Result> _getVoiceCall({required ProposalCategory proposalCategory, required String userAccount}) {
-    if (proposalCategory == ProposalCategory.campaing) {
+    if (proposalCategory == ProposalCategory.campaign) {
       return _voiceRepository.getCampaignVoice(userAccount);
     } else if (proposalCategory == ProposalCategory.milestone) {
       return _voiceRepository.getMilestoneVoice(userAccount);
