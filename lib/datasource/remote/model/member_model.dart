@@ -20,7 +20,7 @@ class MemberModel extends Equatable {
     return MemberModel(
       account: account,
       nickname: "",
-      image: "",
+      image: "assets/images/send/telos_logo.png",
       isSeedsUser: false,
     );
   }
