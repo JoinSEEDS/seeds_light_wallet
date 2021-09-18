@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/mappers/amount_changer_mapper.dart';
@@ -25,7 +26,9 @@ class UnplantSeedsBloc extends Bloc<UnplantSeedsEvent, UnplantSeedsState> {
     } else if (event is OnAmountChange) {
       yield AmountChangerMapper().mapResultToState(state, event.amountChanged);
     } else if (event is OnMaxButtonTap) {
-      yield AmountChangerMapper().mapResultToState(state, event.maxAmount);
+      final double plantedBalance = state.plantedBalance?.amount ?? 0;
+      final double maxAmount = plantedBalance - minPlanted ;
+      yield AmountChangerMapper().mapResultToState(state, maxAmount.toString());
     } else if (event is OnUnplantSeedsButtonTap) {
       yield state.copyWith(pageState: PageState.loading, onFocus: false);
       final Result result = await UnplantSeedsUseCase().run(amount: state.unplantedInputAmount.amount);

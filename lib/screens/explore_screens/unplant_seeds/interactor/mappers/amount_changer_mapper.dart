@@ -29,7 +29,7 @@ class AmountChangerMapper extends StateMapper {
       isUnplantSeedsButtonEnabled:
           parsedQuantity > 0 && parsedQuantity <= currentAvailable && parsedQuantity <= (currentAvailable - minPlanted),
       showOverBalanceAlert: parsedQuantity > currentAvailable,
-      showMinPlantedBalanceAlert: parsedQuantity >= (currentAvailable - minPlanted),
+      showMinPlantedBalanceAlert: parsedQuantity > (currentAvailable - minPlanted),
     );
   }
 }
