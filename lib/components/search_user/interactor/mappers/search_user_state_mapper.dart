@@ -14,11 +14,6 @@ class SearchUserStateMapper extends StateMapper {
 
       if (seedsMembersResult.isValue) {
         seedsUsers = seedsMembersResult.asValue?.value as List<MemberModel>;
-        if (noShowUsers != null) {
-          for (final noShowUser in noShowUsers) {
-            seedsUsers.removeWhere((element) => element.account == noShowUser);
-          }
-        }
       }
 
       if (telosResult.isValue) {
@@ -28,6 +23,11 @@ class SearchUserStateMapper extends StateMapper {
       }
 
       final users = seedsUsers + telosUsers;
+      if (noShowUsers != null) {
+        for (final noShowUser in noShowUsers) {
+          users.removeWhere((element) => element.account == noShowUser);
+        }
+      }
 
       return currentState.copyWith(pageState: PageState.success, users: users);
     }
