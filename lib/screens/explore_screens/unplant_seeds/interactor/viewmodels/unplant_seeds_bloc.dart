@@ -3,8 +3,10 @@ import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/mappers/amount_changer_mapper.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/mappers/unplant_seeds_mapper.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/mappers/user_planted_balance_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/usecases/get_planted_balance_use_case.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/usecases/unplant_seeds_use_case.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_event.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_state.dart';
 
@@ -24,6 +26,10 @@ class UnplantSeedsBloc extends Bloc<UnplantSeedsEvent, UnplantSeedsState> {
       yield AmountChangerMapper().mapResultToState(state, event.amountChanged);
     } else if (event is OnMaxButtonTap) {
       yield AmountChangerMapper().mapResultToState(state, event.maxAmount);
+    } else if (event is OnUnplantSeedsButtonTap) {
+      yield state.copyWith(pageState: PageState.loading, onFocus: false);
+      final Result result = await UnplantSeedsUseCase().run(amount: state.unplantedInputAmount.amount);
+      yield UnplantSeedsResultMapper().mapResultToState(state, result);
     }
   }
 }

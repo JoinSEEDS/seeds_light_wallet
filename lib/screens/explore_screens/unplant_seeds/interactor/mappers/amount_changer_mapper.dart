@@ -13,7 +13,7 @@ class AmountChangerMapper extends StateMapper {
 
     TokenDataModel? tokenAmount;
     FiatDataModel? fiatAmount;
-
+    final double currentAvailable = currentState.plantedBalance?.amount ?? 0;
     tokenAmount = currentState.unplantedInputAmount.copyWith(parsedQuantity);
     fiatAmount = currentState.ratesState.tokenToFiat(tokenAmount, selectedFiat);
 
@@ -21,9 +21,11 @@ class AmountChangerMapper extends StateMapper {
         TextEditingValue(text: quantity, selection: TextSelection.fromPosition(TextPosition(offset: quantity.length)));
 
     return currentState.copyWith(
-      unplantedInputAmount: tokenAmount,
-      unplantedInputAmountFiat: fiatAmount,
-      controller: TextEditingController.fromValue(newAmountController),
-    );
+        onFocus: false,
+        unplantedInputAmount: tokenAmount,
+        unplantedInputAmountFiat: fiatAmount,
+        controller: TextEditingController.fromValue(newAmountController),
+        isUnplantSeedsButtonEnabled: parsedQuantity > 0 && parsedQuantity <= currentAvailable,
+        showAlert: parsedQuantity > currentAvailable);
   }
 }

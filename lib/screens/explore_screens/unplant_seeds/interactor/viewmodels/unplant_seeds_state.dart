@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
+import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 class UnplantSeedsState extends Equatable {
@@ -16,6 +17,7 @@ class UnplantSeedsState extends Equatable {
   final bool isUnplantSeedsButtonEnabled;
   final bool showAlert;
   final TextEditingController controller;
+  final PageCommand? pageCommand;
 
   const UnplantSeedsState(
       {required this.pageState,
@@ -27,7 +29,8 @@ class UnplantSeedsState extends Equatable {
       required this.isUnplantSeedsButtonEnabled,
       required this.showAlert,
       required this.unplantedInputAmount,
-      required this.controller});
+      required this.controller,
+      this.pageCommand});
 
   @override
   List<Object?> get props => [
@@ -41,6 +44,7 @@ class UnplantSeedsState extends Equatable {
         unplantedInputAmountFiat,
         unplantedInputAmount,
         controller,
+        pageCommand,
       ];
 
   UnplantSeedsState copyWith({
@@ -55,6 +59,7 @@ class UnplantSeedsState extends Equatable {
     FiatDataModel? unplantedInputAmountFiat,
     TokenDataModel? unplantedInputAmount,
     TextEditingController? controller,
+    PageCommand? pageCommand,
   }) {
     return UnplantSeedsState(
         pageState: pageState ?? this.pageState,
@@ -66,7 +71,8 @@ class UnplantSeedsState extends Equatable {
         showAlert: showAlert ?? this.showAlert,
         unplantedInputAmountFiat: unplantedInputAmountFiat ?? this.unplantedInputAmountFiat,
         unplantedInputAmount: unplantedInputAmount ?? this.unplantedInputAmount,
-        controller: controller ?? this.controller);
+        controller: controller ?? this.controller,
+        pageCommand: pageCommand);
   }
 
   factory UnplantSeedsState.initial(RatesState ratesState) {
