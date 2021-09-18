@@ -15,7 +15,7 @@ abstract class EosRepository {
   String actionNameCancel = 'cancel';
   String actionNameFavour = 'favour';
   String actionNameInit = 'init';
-  String actionNameClaim = 'claim';
+  String actionNameClaimAccount = 'claim';
   String actionNameInvite = 'invite';
   String actionNameTransfer = 'transfer';
   String actionNameUpdateauth = 'updateauth';
@@ -27,6 +27,7 @@ abstract class EosRepository {
   String actionNameAcceptnew = 'acceptnew';
   String actionNameRecover = 'recover';
   String actionNameUnplant = 'unplant';
+  String actionNameClaimUnplantedSeeds = 'claimrefund';
 
   // Authorizations
   String permissionActive = 'active';

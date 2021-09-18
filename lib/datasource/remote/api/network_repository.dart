@@ -26,6 +26,7 @@ abstract class NetworkRepository {
   String tableVoters = 'voters';
   String tableRecover = 'recovers';
   String tableTotals = 'totals';
+  String tableRefunds = 'refunds';
 
   Result mapHttpResponse(http.Response response, Function modelMapper) {
     switch (response.statusCode) {

@@ -104,7 +104,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     final actions = [
       Action()
         ..account = account_guards
-        ..name = actionNameClaim
+        ..name = actionNameClaimAccount
         ..data = {'user_account': userAccount}
     ];
 
