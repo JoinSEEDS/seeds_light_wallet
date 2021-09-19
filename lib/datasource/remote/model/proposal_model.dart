@@ -1,10 +1,3 @@
-import 'dart:io';
-
-import 'package:intl/intl.dart';
-import 'package:timeago/timeago.dart' as timeago;
-
-enum FundType { allies, gift, millest, unknown }
-
 class ProposalModel {
   final int id;
   final String creator;
@@ -34,36 +27,6 @@ class ProposalModel {
   final String reward;
   final int campaignId;
 
-  /// local UI field
-  final int voiceNeeded;
-
-  /// Percentage to advance 0-1 scale
-  double get voiceNeededBarPercent => ((voiceNeeded * 100) / total) / 100;
-
-  /// Percentage in favour 0-1 scale
-  double get favourAgainstBarPercent => total == 0 ? 0 : (favour.toDouble() / total.toDouble());
-
-  String get favourPercent => total > 0 ? '${((favour * 100) / total).toStringAsFixed(0)} %' : '0 %';
-
-  String get againstPercent => total > 0 ? '${((against * 100) / total).toStringAsFixed(0)} %' : '0 %';
-
-  String get createdAt {
-    final created = DateTime.fromMillisecondsSinceEpoch(creationDate * 1000);
-    if (DateTime.now().difference(created) > const Duration(days: 7)) {
-      return DateFormat.yMd(Platform.localeName.split('_').first).format(created);
-    } else {
-      return timeago.format(created);
-    }
-  }
-
-  FundType get fundType {
-    return FundType.values.firstWhere((i) => '$i' == fund.split('.').first, orElse: () => FundType.unknown);
-  }
-
-  String get campaignTypeLabel {
-    return campaignType == 'cmp.funding' || campaignType == 'cmp.invite' ? 'Campaign' : campaignType;
-  }
-
   ProposalModel({
     required this.id,
     required this.creator,
@@ -92,41 +55,7 @@ class ProposalModel {
     required this.planted,
     required this.reward,
     required this.campaignId,
-    this.voiceNeeded = 0,
   });
-
-  ProposalModel copyWith(int voiceNeeded) {
-    return ProposalModel(
-      id: id,
-      creator: creator,
-      recipient: recipient,
-      quantity: quantity,
-      staked: staked,
-      executed: executed,
-      total: total,
-      favour: favour,
-      against: against,
-      title: title,
-      summary: summary,
-      description: description,
-      image: image,
-      url: url,
-      status: status,
-      stage: stage,
-      fund: fund,
-      creationDate: creationDate,
-      payPercentages: payPercentages,
-      passedCycle: passedCycle,
-      age: age,
-      currentPayout: currentPayout,
-      campaignType: campaignType,
-      maxAmountPerInvite: maxAmountPerInvite,
-      planted: planted,
-      reward: reward,
-      campaignId: campaignId,
-      voiceNeeded: voiceNeeded,
-    );
-  }
 
   factory ProposalModel.fromJson(Map<String, dynamic> json) {
     return ProposalModel(

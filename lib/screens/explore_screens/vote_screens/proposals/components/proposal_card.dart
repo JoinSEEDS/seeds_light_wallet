@@ -6,7 +6,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/
 import 'package:seeds/utils/cap_utils.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 import 'package:seeds/images/vote/double_sided_arrow.dart';
-import 'package:seeds/images/vote/proposal_category.dart';
+import 'package:seeds/images/vote/category_label.dart';
 import 'package:seeds/images/vote/triangle_pass_value.dart';
 import 'package:seeds/images/vote/votes_down_arrow.dart';
 import 'package:seeds/images/vote/votes_up_arrow.dart';
@@ -215,10 +215,10 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
             child: Row(
               children: [
                 CustomPaint(
-                  painter: const ProposalCategory(),
+                  painter: const CategoryLabel(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-                    child: Text(widget.proposal.categoryTypeLabel.i18n.inCaps,
+                    child: Text(widget.proposal.proposalCategoryLabel.i18n.inCaps,
                         style: Theme.of(context).textTheme.subtitle2),
                   ),
                 ),
@@ -227,7 +227,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
           ),
           if (widget.proposal.stage != 'staged')
             Positioned(top: 10.0, right: 26.0, child: VoteAmountLabel(widget.proposal)),
-          if (widget.proposal.stage == 'done')
+          if (widget.proposal.stage == 'done' || widget.proposal.stage.isEmpty)
             Positioned(
               top: 10.0,
               left: 26.0,

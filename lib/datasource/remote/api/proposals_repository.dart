@@ -23,7 +23,6 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
       scope: account_cycle,
       table: tableMoonphases,
       limit: 4,
-      keyType: '',
       lowerBound: '${(ms / 1000).round()}',
     );
 
@@ -66,15 +65,15 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getReferendums(ProposalType proposalType) {
-    print('[http] get referendums: stage = [${proposalType.filterByStage}]');
+  Future<Result> getReferendums(String scope, bool isReverse) {
+    print('[http] get referendums: stage = [$scope]');
 
     final request = createRequest(
       code: account_rules,
-      scope: proposalType.filterByStage ?? '',
+      scope: scope,
       table: tableReferendums,
       limit: 100,
-      reverse: proposalType.isReverse,
+      reverse: isReverse,
     );
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
@@ -82,8 +81,10 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     return http
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              // The referendums do not have a status field as do the proposals, so the scope must be added
+              // to each referendum, which also acts as a status field.
               final List<ReferendumModel> result =
-                  body['rows'].map<ReferendumModel>((i) => ReferendumModel.fromJson(i)).toList();
+                  body['rows'].map<ReferendumModel>((i) => ReferendumModel.fromJson(i, scope)).toList();
               return result;
             }))
         .catchError((error) => mapHttpError(error));
@@ -110,7 +111,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: account_funds,
       scope: '$proposalId',
-      table: tableVotes,
+      table: tableProposalVotes,
       lowerBound: account,
       upperBound: account,
       limit: 10,
@@ -132,11 +133,10 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: account_rules,
       scope: '$referendumId',
-      table: tableVotes,
+      table: tableReferendumVoters,
       lowerBound: account,
       upperBound: account,
       limit: 10,
-      keyType: '',
     );
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');

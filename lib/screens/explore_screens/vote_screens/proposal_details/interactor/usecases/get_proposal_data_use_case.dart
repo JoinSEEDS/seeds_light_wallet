@@ -14,7 +14,7 @@ class GetProposalDataUseCase {
 
   Future<List<Result>> run(ProposalViewModel proposal) {
     final userAccount = settingsStorage.accountName;
-    final _getVoice = _getVoiceCall(categoryTypeLabel: proposal.categoryTypeLabel, userAccount: userAccount);
+    final _getVoice = _getVoiceCall(proposalCategory: proposal.proposalCategory, userAccount: userAccount);
 
     final futures = [
       _profileRepository.getProfile(proposal.creator),
@@ -27,7 +27,7 @@ class GetProposalDataUseCase {
   Future<Result> _fetchVote(ProposalViewModel proposal, String account) async {
     late Result result;
     VoteModel? voteModel;
-    if (proposal.categoryTypeLabel == 'referendum') {
+    if (proposal.proposalCategory == ProposalCategory.referendum) {
       result = await _proposalsRepository.getReferendumVote(proposal.id, account);
       if (result.isValue) {
         voteModel = result.asValue!.value as VoteModel;
@@ -48,12 +48,12 @@ class GetProposalDataUseCase {
     return result;
   }
 
-  Future<Result> _getVoiceCall({required String categoryTypeLabel, required String userAccount}) {
-    if (categoryTypeLabel == 'campaing') {
+  Future<Result> _getVoiceCall({required ProposalCategory proposalCategory, required String userAccount}) {
+    if (proposalCategory == ProposalCategory.campaign) {
       return _voiceRepository.getCampaignVoice(userAccount);
-    } else if (categoryTypeLabel == 'milestone') {
+    } else if (proposalCategory == ProposalCategory.milestone) {
       return _voiceRepository.getMilestoneVoice(userAccount);
-    } else if (categoryTypeLabel == 'alliance') {
+    } else if (proposalCategory == ProposalCategory.alliance) {
       return _voiceRepository.getAllianceVoice(userAccount);
     } else {
       return _voiceRepository.getReferendumVoice(userAccount);
