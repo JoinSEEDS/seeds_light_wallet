@@ -19,7 +19,11 @@ class RecoveryPhraseScreen extends StatelessWidget {
         appBar: AppBar(title: const Text('12-word Recovery Phrase')),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(16),
-          child: FlatButtonLong(title: 'I’ve written it down', onPressed: (){}),
+          child: FlatButtonLong(
+              title: 'I’ve written it down',
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
         ),
         body: BlocProvider(
             create: (context) => RecoveryPhraseBloc(),
@@ -49,6 +53,7 @@ class RecoveryPhraseScreen extends StatelessWidget {
                             child: TextField(
                               autocorrect: false,
                               enabled: false,
+                              controller: TextEditingController(text: state.words[index]),
                               decoration: InputDecoration(
                                 floatingLabelBehavior: FloatingLabelBehavior.always,
                                 labelText: (index + 1).toString(),
