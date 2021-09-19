@@ -69,7 +69,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
         ..data = {
           'user_account': accountName,
           'guardian_accounts': guardians,
-          'time_delay_sec': const Duration(minutes: 3).inSeconds,
+          'time_delay_sec': guardianRecoveryTimeDelaySec,
         }
     ];
 
