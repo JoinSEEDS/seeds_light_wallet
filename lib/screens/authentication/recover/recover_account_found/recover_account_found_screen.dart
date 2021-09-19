@@ -45,25 +45,30 @@ class RecoverAccountFoundScreen extends StatelessWidget {
               }
             },
             builder: (context, state) {
-              return Scaffold(
-                  appBar: AppBar(
-                    title: Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text("Recover Account".i18n),
+              return WillPopScope(
+                onWillPop: () async {
+                  return false;
+                },
+                child: Scaffold(
+                    appBar: AppBar(
+                      title: Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text("Recover Account".i18n),
+                      ),
+                      automaticallyImplyLeading: false,
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                              icon: const Icon(Icons.refresh),
+                              onPressed: () {
+                                BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnRefreshTap());
+                              }),
+                        )
+                      ],
                     ),
-                    automaticallyImplyLeading: false,
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                            icon: const Icon(Icons.refresh),
-                            onPressed: () {
-                              BlocProvider.of<RecoverAccountFoundBloc>(context).add(OnRefreshTap());
-                            }),
-                      )
-                    ],
-                  ),
-                  body: buildBody(state, context));
+                    body: buildBody(state, context)),
+              );
             }));
   }
 

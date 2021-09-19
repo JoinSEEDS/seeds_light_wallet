@@ -4,9 +4,10 @@ import 'package:seeds/datasource/remote/model/user_recover_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
+import 'package:seeds/domain-shared/shared_use_cases/start_recovery_use_case.dart';
+import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
-import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 
 class FetchRecoverRecoveryStateMapper extends StateMapper {
   RecoverAccountFoundState mapResultToState(RecoverAccountFoundState currentState, RecoverGuardianInitialDTO result) {
@@ -48,6 +49,13 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       } else {
         recoveryStatus = RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN;
       }
+
+      /// Save Recovery values
+      StartRecoveryUseCase().run(
+        accountName: currentState.userAccount,
+        privateKey: result.privateKey,
+        recoveryLink: link.toString(),
+      );
 
       // Save the private key and account
       SaveAccountUseCase().run(accountName: currentState.userAccount, privateKey: result.privateKey);
