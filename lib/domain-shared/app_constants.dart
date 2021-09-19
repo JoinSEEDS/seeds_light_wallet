@@ -11,7 +11,6 @@ const String ios_app_store_id = '1507143650';
 
 /// Accounts
 const String account_accounts = 'accts.seeds';
-const String account_alliance = 'alliance';
 const String account_cycle = 'cycle.seeds';
 const String account_eosio = 'eosio';
 const String account_funds = 'funds.seeds';
@@ -20,6 +19,7 @@ const String account_harvest = 'harvst.seeds';
 const String account_join = 'join.seeds';
 const String account_token = 'token.seeds';
 const String account_rules = 'rules.seeds';
+const String account_settgs = 'settgs.seeds';
 const String history_seeds = 'histry.seeds';
 
 /// Actions

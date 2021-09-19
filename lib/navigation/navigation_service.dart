@@ -10,6 +10,7 @@ import 'package:seeds/screens/authentication/verification/verification_screen.da
 import 'package:seeds/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
@@ -20,6 +21,7 @@ import 'package:seeds/screens/profile_screens/guardians/invite_guardians/invite_
 import 'package:seeds/screens/profile_screens/guardians/invite_guardians_sent/invite_guardians_sent_screen.dart';
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/select_guardians_screen.dart';
 import 'package:seeds/screens/profile_screens/profile/profile_screen.dart';
+import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_screen.dart';
 import 'package:seeds/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/screens/profile_screens/support/support_screen.dart';
@@ -49,6 +51,7 @@ class Routes {
   static final explore = 'Explore';
   static final wallet = 'Wallet';
   static final plantSeeds = 'plantSeeds';
+  static final unPlantSeeds = 'unPlantSeeds';
   static final sendConfirmationScreen = 'SendConfirmationScreen';
   static final scanQRCode = 'ScanQRCode';
   static final receiveScreen = "receiveScreen";
@@ -71,6 +74,7 @@ class Routes {
   static final recoverAccount = 'recoverAccount';
   static final recoverAccountFound = 'recoverAccountFound';
   static final profile = 'profile';
+  static final recoveryPhrase = 'recoveryPhrase';
 }
 
 class NavigationService {
@@ -103,6 +107,7 @@ class NavigationService {
     Routes.vote: (_) => const VoteScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
+    Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(),
@@ -119,6 +124,7 @@ class NavigationService {
     Routes.citizenship: (_) => const CitizenshipScreen(),
     Routes.contribution: (_) => const ContributionScreen(),
     Routes.verification: (_) => const VerificationScreen(),
+    Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
   };
 
   // iOS: full screen routes pop up from the bottom and disappear vertically too

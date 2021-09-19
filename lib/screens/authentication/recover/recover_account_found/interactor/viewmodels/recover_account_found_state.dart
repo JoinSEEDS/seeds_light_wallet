@@ -13,9 +13,11 @@ class RecoverAccountFoundState extends Equatable {
   final List<MemberModel> userGuardiansData;
   final int confirmedGuardianSignatures;
   final RecoveryStatus recoveryStatus;
-  final int timeLockSeconds;
+  final int timeLockExpirySeconds;
   final CurrentRemainingTime? currentRemainingTime;
   final PageCommand? pageCommand;
+
+  int get timeRemaining => timeLockExpirySeconds - DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
   const RecoverAccountFoundState({
     required this.pageState,
@@ -25,7 +27,7 @@ class RecoverAccountFoundState extends Equatable {
     required this.confirmedGuardianSignatures,
     required this.recoveryStatus,
     required this.alreadySignedGuardians,
-    required this.timeLockSeconds,
+    required this.timeLockExpirySeconds,
     this.currentRemainingTime,
     required this.userAccount,
     this.pageCommand,
@@ -40,9 +42,10 @@ class RecoverAccountFoundState extends Equatable {
         confirmedGuardianSignatures,
         recoveryStatus,
         alreadySignedGuardians,
-        timeLockSeconds,
+        timeLockExpirySeconds,
         userAccount,
         pageCommand,
+        currentRemainingTime,
       ];
 
   RecoverAccountFoundState copyWith({
@@ -54,7 +57,7 @@ class RecoverAccountFoundState extends Equatable {
     int? confirmedGuardianSignatures,
     List<String>? alreadySignedGuardians,
     RecoveryStatus? recoveryStatus,
-    int? timeLockSeconds,
+    int? timeLockExpirySeconds,
     CurrentRemainingTime? currentRemainingTime,
     PageCommand? pageCommand,
   }) {
@@ -66,7 +69,7 @@ class RecoverAccountFoundState extends Equatable {
       confirmedGuardianSignatures: confirmedGuardianSignatures ?? this.confirmedGuardianSignatures,
       recoveryStatus: recoveryStatus ?? this.recoveryStatus,
       alreadySignedGuardians: alreadySignedGuardians ?? this.alreadySignedGuardians,
-      timeLockSeconds: timeLockSeconds ?? this.timeLockSeconds,
+      timeLockExpirySeconds: timeLockExpirySeconds ?? this.timeLockExpirySeconds,
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
       userAccount: userAccount,
       pageCommand: pageCommand,
@@ -81,7 +84,7 @@ class RecoverAccountFoundState extends Equatable {
       confirmedGuardianSignatures: 0,
       recoveryStatus: RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN,
       alreadySignedGuardians: [],
-      timeLockSeconds: 0,
+      timeLockExpirySeconds: 0,
       userAccount: userAccount,
     );
   }

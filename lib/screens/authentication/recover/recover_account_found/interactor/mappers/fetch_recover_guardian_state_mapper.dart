@@ -3,9 +3,11 @@ import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/datasource/remote/model/user_recover_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
+import 'package:seeds/domain-shared/shared_use_cases/start_recovery_use_case.dart';
+import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
-import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 
 class FetchRecoverRecoveryStateMapper extends StateMapper {
   RecoverAccountFoundState mapResultToState(RecoverAccountFoundState currentState, RecoverGuardianInitialDTO result) {
@@ -33,13 +35,13 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
       final confirmedGuardianSignatures = userRecoversModelData.alreadySignedGuardians.length;
 
       // check how long we have to wait before we can claim (24h delay is standard)
-      final timeLockSeconds = userRecoversModelData.completeTimestamp + userGuardiansModel.timeDelaySec;
+      final timeLockExpirySeconds = userRecoversModelData.completeTimestamp + userGuardiansModel.timeDelaySec;
 
       RecoveryStatus recoveryStatus;
       // for 3 signers, we need 2/3 signatures. For 4 or 5 signers, we need 3+ signatures.
       if ((userGuardiansModel.guardians.length == 3 && confirmedGuardianSignatures >= 2) ||
           (userGuardiansModel.guardians.length > 3 && confirmedGuardianSignatures >= 3)) {
-        if (timeLockSeconds <= DateTime.now().millisecondsSinceEpoch / 1000) {
+        if (timeLockExpirySeconds <= DateTime.now().millisecondsSinceEpoch / 1000) {
           recoveryStatus = RecoveryStatus.READY_TO_CLAIM_ACCOUNT;
         } else {
           recoveryStatus = RecoveryStatus.WAITING_FOR_24_HOUR_COOL_PERIOD;
@@ -48,6 +50,16 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         recoveryStatus = RecoveryStatus.WAITING_FOR_GUARDIANS_TO_SIGN;
       }
 
+      /// Save Recovery values
+      StartRecoveryUseCase().run(
+        accountName: currentState.userAccount,
+        privateKey: result.privateKey,
+        recoveryLink: link.toString(),
+      );
+
+      // Save the private key and account
+      SaveAccountUseCase().run(accountName: currentState.userAccount, privateKey: result.privateKey);
+
       return currentState.copyWith(
         pageState: PageState.success,
         linkToActivateGuardians: link,
@@ -55,7 +67,7 @@ class FetchRecoverRecoveryStateMapper extends StateMapper {
         confirmedGuardianSignatures: confirmedGuardianSignatures,
         recoveryStatus: recoveryStatus,
         alreadySignedGuardians: userRecoversModelData.alreadySignedGuardians,
-        timeLockSeconds: timeLockSeconds,
+        timeLockExpirySeconds: timeLockExpirySeconds,
       );
     } else if (hasFetchedGuardians && !hasGuardians) {
       return currentState.copyWith(

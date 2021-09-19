@@ -8,7 +8,6 @@ import 'package:seeds/datasource/remote/api/members_repository.dart';
 import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
-import 'package:seeds/domain-shared/shared_use_cases/start_recovery_use_case.dart';
 
 class FetchRecoverGuardianInitialDataUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
@@ -16,24 +15,10 @@ class FetchRecoverGuardianInitialDataUseCase {
   final CreateFirebaseDynamicLinkUseCase _createFirebaseDynamicLinkUseCase = CreateFirebaseDynamicLinkUseCase();
 
   Future<RecoverGuardianInitialDTO> run(String accountName) async {
-    print("FetchRecoverGuardianInitialDataUseCase accountName pKey");
-    final String recoveryPrivateKey;
-    if (settingsStorage.privateKey != null && settingsStorage.inRecoveryMode) {
-      recoveryPrivateKey = settingsStorage.privateKey!;
-    } else {
-      recoveryPrivateKey = EOSPrivateKey.fromRandom().toString();
-      StartRecoveryUseCase().run(accountName: accountName, privateKey: recoveryPrivateKey);
-    }
-
-    final String publicKey = EOSPrivateKey.fromString(recoveryPrivateKey).toEOSPublicKey().toString();
-    print("public $publicKey");
+    print("FetchRecoverGuardianInitialDataUseCase $accountName pKey");
 
     final Result accountRecovery = await _guardiansRepository.getAccountRecovery(accountName);
     final Result accountGuardians = await _guardiansRepository.getAccountGuardians(accountName);
-    Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey);
-
-    // Check
-    link = await generateFirebaseDynamicLink(link);
 
     List<Result> membersData = [];
     if (accountGuardians.isValue) {
@@ -41,7 +26,11 @@ class FetchRecoverGuardianInitialDataUseCase {
       membersData = await _getMembersData(guardians.guardians);
     }
 
-    return RecoverGuardianInitialDTO(link, membersData, accountRecovery, accountGuardians);
+    if (settingsStorage.privateKey != null && settingsStorage.inRecoveryMode) {
+      return _continueWithRecovery(accountRecovery, accountGuardians, membersData);
+    } else {
+      return _startNewRecovery(accountRecovery, accountGuardians, membersData, accountName);
+    }
   }
 
   Future<List<Result>> _getMembersData(List<String> guardians) async {
@@ -61,6 +50,45 @@ class FetchRecoverGuardianInitialDataUseCase {
       return link;
     }
   }
+
+  /// USER already started a recovery. Fetch the values from storage
+  RecoverGuardianInitialDTO _continueWithRecovery(
+    Result accountRecovery,
+    Result accountGuardians,
+    List<Result> membersData,
+  ) {
+    return RecoverGuardianInitialDTO(
+      link: ValueResult(Uri.parse(settingsStorage.recoveryLink)),
+      membersData: membersData,
+      userRecoversModel: accountRecovery,
+      accountGuardians: accountGuardians,
+      privateKey: settingsStorage.privateKey!,
+    );
+  }
+
+  /// USER does not have an active recovery. Create new recovery values.
+  Future<RecoverGuardianInitialDTO> _startNewRecovery(
+    Result accountRecovery,
+    Result accountGuardians,
+    List<Result> membersData,
+    String accountName,
+  ) async {
+    final String recoveryPrivateKey = EOSPrivateKey.fromRandom().toString();
+    final String publicKey = EOSPrivateKey.fromString(recoveryPrivateKey).toEOSPublicKey().toString();
+    print("public $publicKey");
+
+    Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey);
+
+    // Check
+    link = await generateFirebaseDynamicLink(link);
+
+    return RecoverGuardianInitialDTO(
+        link: link,
+        membersData: membersData,
+        userRecoversModel: accountRecovery,
+        accountGuardians: accountGuardians,
+        privateKey: recoveryPrivateKey);
+  }
 }
 
 class RecoverGuardianInitialDTO {
@@ -68,11 +96,13 @@ class RecoverGuardianInitialDTO {
   final List<Result> membersData;
   final Result userRecoversModel;
   final Result accountGuardians;
+  final String privateKey;
 
-  RecoverGuardianInitialDTO(
-    this.link,
-    this.membersData,
-    this.userRecoversModel,
-    this.accountGuardians,
-  );
+  RecoverGuardianInitialDTO({
+    required this.link,
+    required this.membersData,
+    required this.userRecoversModel,
+    required this.accountGuardians,
+    required this.privateKey,
+  });
 }

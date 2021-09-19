@@ -97,13 +97,19 @@ class SendConfirmationScreen extends StatelessWidget {
                                         (e) => Padding(
                                           padding: const EdgeInsets.only(top: 16),
                                           child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               Text(
                                                 e.label!,
                                                 style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                                               ),
-                                              Text(e.text.toString(), style: Theme.of(context).textTheme.subtitle2),
+                                              const SizedBox(width: 4),
+                                              Flexible(
+                                                  child: Text(e.text.toString(),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle2)),
                                             ],
                                           ),
                                         ),

@@ -1,8 +1,8 @@
 import 'package:flutter/rendering.dart';
 import 'package:seeds/constants/app_colors.dart';
 
-class ProposalCategory extends CustomPainter {
-  const ProposalCategory();
+class CategoryLabel extends CustomPainter {
+  const CategoryLabel();
 
   @override
   void paint(Canvas canvas, Size size) {

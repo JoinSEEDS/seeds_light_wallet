@@ -13,25 +13,27 @@ class ReferendumModel {
   final String description;
   final String image;
   final String url;
+  // The scope its jus to handle UI status label
+  final String scope;
 
-  ReferendumModel({
-    required this.id,
-    required this.createdAt,
-    required this.settingValue,
-    required this.total,
-    required this.favour,
-    required this.against,
-    required this.settingName,
-    required this.creator,
-    required this.staked,
-    required this.title,
-    required this.summary,
-    required this.description,
-    required this.image,
-    required this.url,
-  });
+  const ReferendumModel(
+      {required this.id,
+      required this.createdAt,
+      required this.settingValue,
+      required this.total,
+      required this.favour,
+      required this.against,
+      required this.settingName,
+      required this.creator,
+      required this.staked,
+      required this.title,
+      required this.summary,
+      required this.description,
+      required this.image,
+      required this.url,
+      required this.scope});
 
-  factory ReferendumModel.fromJson(Map<String, dynamic> json) {
+  factory ReferendumModel.fromJson(Map<String, dynamic> json, String scope) {
     return ReferendumModel(
       id: json["referendum_id"],
       createdAt: json["created_at"],
@@ -47,6 +49,7 @@ class ReferendumModel {
       description: json["description"],
       image: json["image"],
       url: json["url"],
+      scope: scope == 'failed' ? 'rejected' : scope,
     );
   }
 }

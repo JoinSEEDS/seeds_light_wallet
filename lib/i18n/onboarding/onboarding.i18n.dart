@@ -14,6 +14,19 @@ extension Localization on String {
           "Regenerative\nEconomy": 'Economía\nRegenerativa',
           "Unite with a global movement of\norganizations and people to regenerate our\nplanet and heal our economy.":
               'Únete a un movimiento global de\norganizaciones y personas para regenerar\nnuestro planeta y sanar nuestra economía.',
+        },
+        'pt_br': {
+          'Join Now': 'Entrar agora',
+          "Better\nThan Free\nTransactions":
+              'Transações\nMelhores do que\nDe Graça',
+          "Make payments globally without any fees.\nEarn rewards when you support\n‘Regenerative’ organizations and people.":
+              "Realize pagamentos globalmente sem taxas.\nObtenha recompensas enquanto apoia\npessoas e organizações 'regenerativas'.",
+          "Citizen\nCampaigns": 'Campanhas\nde Cidadãos',
+          "Participate and vote directly on social and\nenvironmental impact projects you care\nabout.":
+              'Participe e vote diretamente em projetos\nde impacto social e ambiental que te\ninteressem.',
+          "Regenerative\nEconomy": 'Economia\nRegenerativa',
+          "Unite with a global movement of\norganizations and people to regenerate our\nplanet and heal our economy.":
+              'Una-se a un movimento global de\norganizações e pessoas para regenerar\nosso planeta e curar nossa economia.',
         }
       };
 

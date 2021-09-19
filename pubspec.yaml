@@ -148,6 +148,8 @@ flutter:
     - assets/images/wallet/currency_info_cards/hypha/logo.jpg
     - assets/images/wallet/currency_info_cards/stars/background.jpg
     - assets/images/wallet/currency_info_cards/stars/logo.jpg
+    - assets/images/wallet/currency_info_cards/tlos/background.png
+    - assets/images/wallet/currency_info_cards/tlos/logo.png
     - assets/images/profile/lotus.svg
     - assets/images/profile/logout_icon.svg
     - assets/images/profile/contribution_icon.svg
@@ -169,6 +171,7 @@ flutter:
     - assets/images/receive/receive_input_seeds.svg
     - assets/images/receive/merchant.svg
     - assets/images/currency_switch_button.svg
+    - assets/images/send/telos_logo.png
     - assets/images/transfer/seeds_icon.svg
     - assets/images/transfer/arrow_up.svg
     - assets/animations/forest.json

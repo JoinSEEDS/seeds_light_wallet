@@ -10,6 +10,14 @@ extension Localization on String {
           'Vote': 'Votar',
           'Uh oh! Something went wrong...': '¡UH oh! Algo salió mal...',
           'Get Seeds': "Conseguir Seeds",
+        },
+        'pt_br': {
+          'Explore': 'Explorar',
+          'Invite a Friend': 'Convide um amigo',
+          'Plant Seeds': 'Plantar Seeds',
+          'Vote': 'Votar',
+          'Uh oh! Something went wrong...': 'Ops! Algo deu errado...',
+          'Get Seeds': "Obter Seeds",
         }
       };
 

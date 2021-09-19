@@ -9,6 +9,13 @@ extension Localization on String {
           'Upcoming': 'Proximas',
           'History': 'Historial',
           'No proposals to show, yet': 'Aún no hay propuestas para mostrar',
+        },
+        'pt_br': {
+          'Vote': 'Votar',
+          'Open': 'Abertas',
+          'Upcoming': 'Próximas',
+          'History': 'Histórico',
+          'No proposals to show, yet': 'Nenhuma proposta para mostrar ainda',
         }
       };
 

@@ -12,6 +12,16 @@ extension Localization on String {
           'Private key is not valid': 'Llave privada no es válida',
           'No accounts found': 'No se encontraron cuentas',
           'Error Loading Accounts': 'Error al cargar cuentas',
+        },
+        'pt_br': {
+          'Private Key': 'Chave Privada',
+          'Private Key cannot be empty': 'A chave privada não pode estar vazia',
+          'If you already have a Seeds account, please enter your private key and your account will be imported automatically.':
+              'Se você já tem uma conta Seeds, por favor, digite sua chave privada e sua conta será importada automaticamente.',
+          'Search': 'Buscar',
+          'Private key is not valid': 'A chave privada não é válida',
+          'No accounts found': 'Nenhuma conta encontrada',
+          'Error Loading Accounts': 'Erro ao carregar contas',
         }
       };
 
