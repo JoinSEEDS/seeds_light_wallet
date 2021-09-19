@@ -11,10 +11,11 @@ import 'words_list.dart';
 /// Taken from Bip39 package
 
 const int _SIZE_BYTE = 255;
+const _INVALID_CHECKSUM = 'Invalid mnemonic checksum';
+const _INVALID_MNEMONIC = 'Invalid mnemonic';
+const _INVALID_ENTROPY = 'Invalid entropy';
 
 typedef RandomBytes = Uint8List Function(int size);
-
-const _INVALID_ENTROPY = 'Invalid entropy';
 
 int _binaryToByte(String binary) {
   return int.parse(binary, radix: 2);
@@ -44,7 +45,7 @@ Uint8List _randomBytes(int size) {
 /// Default separator dash (-)
 String generateMnemonic({int strength = 48, RandomBytes randomBytes = _randomBytes}) {
   assert(strength % 16 == 0);
-  final entropy = randomBytes(strength ~/ 8);
+  final Uint8List entropy = randomBytes(strength ~/ 8);
   return entropyToMnemonic(HEX.encode(entropy));
 }
 
@@ -75,4 +76,46 @@ String secretFromMnemonic(String mnemonic) {
 
 String hashFromSecret(String secret) {
   return sha256.convert(hex.decode(secret)).toString();
+}
+
+String mnemonicToEntropy(mnemonic) {
+  var words = mnemonic.split('-');
+  print(words);
+  if (words.length % 3 != 0) {
+    throw new ArgumentError(_INVALID_MNEMONIC);
+  }
+  final wordlist = WORDLIST;
+  // convert word indices to 11 bit binary strings
+  final bits = words.map((word) {
+    final index = wordlist.indexOf(word);
+    if (index == -1) {
+      throw new ArgumentError(_INVALID_MNEMONIC);
+    }
+    return index.toRadixString(2).padLeft(11, '0');
+  }).join('');
+  // split the binary string into ENT/CS
+  final dividerIndex = (bits.length / 33).floor() * 32;
+  final entropyBits = bits.substring(0, dividerIndex);
+  final checksumBits = bits.substring(dividerIndex);
+
+  // calculate the checksum and compare
+  final regex = RegExp(r".{1,8}");
+  final entropyBytes = Uint8List.fromList(
+      regex.allMatches(entropyBits).map((match) => _binaryToByte(match.group(0)!)).toList(growable: false));
+  if (entropyBytes.length < 16) {
+    throw StateError(_INVALID_ENTROPY);
+  }
+  if (entropyBytes.length > 32) {
+    throw StateError(_INVALID_ENTROPY);
+  }
+  if (entropyBytes.length % 4 != 0) {
+    throw StateError(_INVALID_ENTROPY);
+  }
+  final newChecksum = _deriveChecksumBits(entropyBytes);
+  if (newChecksum != checksumBits) {
+    throw StateError(_INVALID_CHECKSUM);
+  }
+  return entropyBytes.map((byte) {
+    return byte.toRadixString(16).padLeft(2, '0');
+  }).join('');
 }
