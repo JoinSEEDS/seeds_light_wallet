@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_event.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/cancel_recovery_use_case.dart';
@@ -63,9 +62,7 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
       yield state.copyWith(pageState: PageState.loading);
       final result = await ResetUserAccountUseCase().run(state.userAccount);
       if (result.isValue) {
-        // The private key was saved in the settings storage when the user data for this bloc was loaded
-        settingsStorage.finishRecoveryProcess();
-        _authenticationBloc.add(OnRecoverAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
+        _authenticationBloc.add(const OnRecoverAccount());
       } else {
         yield state.copyWith(pageCommand: ShowErrorMessage("Oops, Something went wrong. Try again later"));
       }
