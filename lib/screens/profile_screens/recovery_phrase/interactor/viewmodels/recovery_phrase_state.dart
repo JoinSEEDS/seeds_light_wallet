@@ -9,6 +9,8 @@ class RecoveryPhraseState extends Equatable {
   final PageState pageState;
   final List<String> words;
 
+  String get printableWords => words.toString();
+
   const RecoveryPhraseState({
     required this.pageState,
     required this.words,

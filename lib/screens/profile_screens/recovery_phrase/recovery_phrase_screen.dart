@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/design/app_theme.dart';
@@ -33,9 +35,24 @@ class RecoveryPhraseScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Text(
-                        'Get a pen and paper before you start. Write down or copy these words in the right order and save them somewhere safe.',
-                        style: Theme.of(context).textTheme.subtitle3,
+                      RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.subtitle2,
+                          children: <TextSpan>[
+                            const TextSpan(text: 'Get a pen and paper before you start. \nWrite down or '),
+                            TextSpan(
+                                text: 'copy ',
+                                style: Theme.of(context).textTheme.subtitle2Green2,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Clipboard.setData(ClipboardData(text: state.printableWords));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Copied')),
+                                    );
+                                  }),
+                            const TextSpan(text: ' these words in the right order and save them somewhere safe. '),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 24),
                       GridView.count(
