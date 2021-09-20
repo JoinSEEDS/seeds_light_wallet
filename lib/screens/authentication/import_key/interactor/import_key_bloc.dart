@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
@@ -31,6 +32,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
     } else if (event is AccountSelected) {
       _authenticationBloc.add(OnImportAccount(account: event.account, privateKey: state.privateKey.toString()));
     } else if (event is OnPrivateKeyChange) {
+      settingsStorage.inRecoveryMode = false;
       yield state.copyWith(enableButton: event.privateKeyChanged.isNotEmpty);
     }
   }
