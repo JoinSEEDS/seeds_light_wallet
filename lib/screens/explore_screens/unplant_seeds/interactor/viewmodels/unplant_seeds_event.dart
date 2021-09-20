@@ -33,3 +33,8 @@ class OnMaxButtonTap extends UnplantSeedsEvent {
   @override
   String toString() => 'OnMaxButtonTap { OnAmountChange: $maxAmount }';
 }
+
+class OnUnplantSeedsButtonTap extends UnplantSeedsEvent {
+  @override
+  String toString() => 'OnUnplantSeedsButtonTap';
+}

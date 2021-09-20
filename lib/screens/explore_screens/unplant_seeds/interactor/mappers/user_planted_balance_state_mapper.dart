@@ -1,6 +1,7 @@
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/planted_model.dart';
+import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_state.dart';
@@ -18,6 +19,7 @@ class UserPlantedBalanceStateMapper extends StateMapper {
       final plantedAmount = TokenDataModel(plantedSeeds.quantity);
 
       return currentState.copyWith(
+        showMinPlantedBalanceAlert: plantedSeeds.quantity <= minPlanted,
         pageState: PageState.success,
         plantedBalance: TokenDataModel.from(plantedSeeds.quantity),
         plantedBalanceFiat: currentState.ratesState.tokenToFiat(plantedAmount, selectedFiat),
