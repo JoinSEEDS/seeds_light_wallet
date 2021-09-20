@@ -47,9 +47,11 @@ class UnplantSeedsSuccessDialog extends StatelessWidget {
             unplantedInputAmountFiat.asFormattedString(),
             style: Theme.of(context).textTheme.subtitle2,
           ),
-          const SizedBox(height: 30.0),
+          const SizedBox(height: 20.0),
+          Text("Successfully Unplanted!", textAlign: TextAlign.center, style: Theme.of(context).textTheme.headline6),
+          const SizedBox(height: 20.0),
           Text(
-            'Congratulations\nYour seeds were unplanted successfully!'.i18n,
+            'Unplanting Seeds takes 12 weeks in total, with 8.33% of requested amount released each week.',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.button,
           ),
