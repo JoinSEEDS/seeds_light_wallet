@@ -2,7 +2,11 @@ import 'package:async/async.dart';
 import 'package:seeds/datasource/remote/api/members_repository.dart';
 
 class SearchForMemberUseCase {
-  Future<Result> run(String searchQuery) {
-    return MembersRepository().getMembersWithFilter(searchQuery);
+  Future<List<Result>> run(String searchQuery) {
+    final futures = [
+      MembersRepository().getMembersWithFilter(searchQuery),
+      MembersRepository().getTelosAccounts(searchQuery),
+    ];
+    return Future.wait(futures);
   }
 }
