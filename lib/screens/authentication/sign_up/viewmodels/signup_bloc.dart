@@ -174,9 +174,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     );
 
     if (!result.isError) {
-      _authenticationBloc.add(OnCreateAccount(account: username, privateKey: privateKey.toString()));
       /// In case there was a recovery in place. We cancel it.
       StopRecoveryUseCase().run();
+      _authenticationBloc.add(OnCreateAccount(account: username, privateKey: privateKey.toString()));
     }
 
     yield CreateAccountMapper().mapOnCreateAccountTappedToState(currentState, result);
