@@ -12,7 +12,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   final num _minTextLengthBeforeValidSearch = 2;
 
   SearchUserBloc(List<String>? noShowUsers) : super(SearchUserState.initial(noShowUsers));
-
+  // ignore: deprecated_member_use
   @override
   Stream<Transition<SearchUserEvent, SearchUserState>> transformEvents(
     Stream<SearchUserEvent> events,
