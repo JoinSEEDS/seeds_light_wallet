@@ -144,7 +144,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     return http
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              return VoteModel.fromJson(body);
+              return VoteModel.fromJsonReferendum(body);
             }))
         .catchError((error) => mapHttpError(error));
   }
