@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/profile_screens/security/security.i18n.dart';
-import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/profile_screens/security/components/security_card.dart';
+import 'package:seeds/i18n/profile_screens/security/security.i18n.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/security/components/biometric_enabled_dialog.dart';
+import 'package:seeds/screens/profile_screens/security/components/security_card.dart';
 import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
 import 'package:share/share.dart';
+
 import 'components/guardian_security_card.dart';
 
 class SecurityScreen extends StatelessWidget {
@@ -81,6 +82,18 @@ class SecurityScreen extends StatelessWidget {
                           );
                         },
                       ),
+                      if (state.shouldShowExportRecoveryPhrase)
+                        SecurityCard(
+                          icon: const Icon(Icons.insert_drive_file),
+                          title: '12-word Recovery Phrase',
+                          description:
+                              'Write down in a secret place your 12-word phrase so you can easily recover and access your account.',
+                          onTap: () {
+                            NavigationService.of(context).navigateTo(Routes.recoveryPhrase);
+                          },
+                        )
+                      else
+                        const SizedBox.shrink(),
                       SecurityCard(
                         icon: const Icon(Icons.lock_outline),
                         title: 'Secure with Pin'.i18n,

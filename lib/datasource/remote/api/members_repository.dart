@@ -48,6 +48,20 @@ class MembersRepository extends NetworkRepository {
         .catchError((error) => mapHttpError(error));
   }
 
+  // for now this returns 0 or 1 results
+  Future<Result<dynamic>> getTelosAccounts(String filter) async {
+    print('[http] getTelosAccounts');
+    final url = Uri.parse('$baseURL/v1/chain/get_account');
+    final body = '{ "account_name": "$filter" }';
+
+    return http
+        .post(url, headers: headers, body: body)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              return [MemberModel.fromTelosAccount(filter)];
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
   /// accountName must be greater than 2 or we return empty list of users.
   /// This will return one account if found or null if not found.
   Future<Result> getMemberByAccountName(String accountName) {

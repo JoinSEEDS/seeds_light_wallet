@@ -1,4 +1,4 @@
-import 'package:seeds/datasource/local/ColorPalletteRepository.dart';
+import 'package:seeds/datasource/local/color_pallette_repository.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';

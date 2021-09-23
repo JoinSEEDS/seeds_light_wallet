@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_event.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/cancel_recovery_use_case.dart';
@@ -11,6 +10,7 @@ import 'package:seeds/screens/authentication/recover/recover_account_found/inter
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/mappers/remaining_time_state_mapper.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/fetch_recover_guardian_initial_data.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/usecases/reset_user_account_use_case.dart';
+import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/current_remaining_time.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_events.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
@@ -23,12 +23,12 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
   final AuthenticationBloc _authenticationBloc;
   StreamSubscription<int>? _tickerSubscription;
 
-  Stream<int> _tick(int ticks) {
-    return Stream.periodic(const Duration(seconds: 1), (x) => ticks - x - 1).take(ticks);
+  Stream<int> _tick() {
+    return Stream.periodic(const Duration(seconds: 1), (x) => x);
   }
 
   Stream<RecoverAccountFoundState> _mapStartTimerToState() async* {
-    _tickerSubscription = _tick(state.timeLockSeconds).listen((timer) => add(Tick(timer)));
+    _tickerSubscription = _tick().listen((timer) => add(Tick(timer)));
   }
 
   @override
@@ -49,19 +49,20 @@ class RecoverAccountFoundBloc extends Bloc<RecoverAccountFoundEvent, RecoverAcco
         yield* _mapStartTimerToState();
       }
     } else if (event is Tick) {
-      if (event.timer >= DateTime.now().millisecondsSinceEpoch ~/ 1000) {
-        yield RemainingTimeStateMapper().mapResultToState(state, event.timer);
+      if (state.timeRemaining > 0) {
+        yield RemainingTimeStateMapper().mapResultToState(state);
       } else {
         await _tickerSubscription?.cancel();
-        yield state.copyWith(recoveryStatus: RecoveryStatus.READY_TO_CLAIM_ACCOUNT);
+        yield state.copyWith(
+          recoveryStatus: RecoveryStatus.READY_TO_CLAIM_ACCOUNT,
+          currentRemainingTime: const CurrentRemainingTime(days: 0, hours: 0, min: 0, sec: 0),
+        );
       }
     } else if (event is OnClaimAccountTap) {
       yield state.copyWith(pageState: PageState.loading);
       final result = await ResetUserAccountUseCase().run(state.userAccount);
       if (result.isValue) {
-        // The private key was saved in the settings storage when the user data for this bloc was loaded
-        settingsStorage.finishRecoveryProcess();
-        _authenticationBloc.add(OnRecoverAccount(account: state.userAccount, privateKey: settingsStorage.privateKey!));
+        _authenticationBloc.add(const OnRecoverAccount());
       } else {
         yield state.copyWith(pageCommand: ShowErrorMessage("Oops, Something went wrong. Try again later"));
       }

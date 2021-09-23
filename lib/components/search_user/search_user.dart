@@ -34,6 +34,7 @@ class SearchUser extends StatelessWidget {
                 padding: const EdgeInsets.only(right: horizontalEdgePadding, left: horizontalEdgePadding, top: 10),
                 child: TextField(
                   autofocus: true,
+                  autocorrect: false,
                   controller: _controller,
                   onChanged: (String value) {
                     BlocProvider.of<SearchUserBloc>(context).add(OnSearchChange(searchQuery: value));

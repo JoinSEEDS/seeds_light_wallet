@@ -11,7 +11,9 @@ import 'words_list.dart';
 /// Taken from Bip39 package
 
 const int _SIZE_BYTE = 255;
+
 typedef RandomBytes = Uint8List Function(int size);
+
 const _INVALID_ENTROPY = 'Invalid entropy';
 
 int _binaryToByte(String binary) {

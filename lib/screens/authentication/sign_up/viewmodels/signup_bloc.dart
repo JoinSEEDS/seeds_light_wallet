@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:seeds/domain-shared/shared_use_cases/stop_recovery_use_case.dart';
 import 'package:seeds/screens/authentication/sign_up/create_username/mappers/create_account_mapper.dart';
 import 'package:seeds/screens/authentication/sign_up/create_username/usecases/create_account_usecase.dart';
 import 'package:seeds/screens/authentication/sign_up/claim_invite/mappers/claim_invite_mapper.dart';
@@ -173,6 +174,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     );
 
     if (!result.isError) {
+      /// In case there was a recovery in place. We cancel it.
+      StopRecoveryUseCase().run();
       _authenticationBloc.add(OnCreateAccount(account: username, privateKey: privateKey.toString()));
     }
 

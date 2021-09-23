@@ -97,7 +97,15 @@ class ExploreScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 20),
-                    const Expanded(child: SizedBox.shrink()),
+                    Expanded(
+                      child: ExploreCard(
+                        onTap: () {
+                          BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.unPlantSeeds));
+                        },
+                        title: 'Unplant Seeds'.i18n,
+                        icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 150),

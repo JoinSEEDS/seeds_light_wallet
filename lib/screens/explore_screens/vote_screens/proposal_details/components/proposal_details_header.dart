@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/images/vote/proposal_category.dart';
+import 'package:seeds/utils/cap_utils.dart';
+import 'package:seeds/images/vote/category_label.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 
@@ -57,11 +58,11 @@ class ProposalDetailsHeader extends StatelessWidget {
                 left: 0,
                 child: CustomPaint(
                   size: const Size(100, 40),
-                  painter: const ProposalCategory(),
+                  painter: const CategoryLabel(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                     child: Text(
-                      state.proposals[state.currentIndex].campaignTypeLabel.i18n,
+                      state.proposals[state.currentIndex].proposalCategoryLabel.i18n.inCaps,
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                   ),

@@ -5,7 +5,13 @@ extension Localization on String {
       {
         'es_es': {
           'Page Not Found': 'Página no encontrada',
-          'The page you are looking for is not available': 'La página que buscas no está disponible',
+          'The page you are looking for is not available':
+              'La página que buscas no está disponible',
+        },
+        'pt_br': {
+          'Page Not Found': 'Página não encontrada',
+          'The page you are looking for is not available':
+              'A página que está buscando não está disponível',
         }
       };
 

@@ -4,7 +4,7 @@ class SupportLevelModel {
   final int totaVoiceCast;
   final int voiceNeeded;
 
-  SupportLevelModel({
+  const SupportLevelModel({
     required this.propcycle,
     required this.numProposals,
     required this.totaVoiceCast,

@@ -11,6 +11,15 @@ extension Localization on String {
           'Lost your key?': 'Perdiste tu llave?',
           ' Recover ': ' Recuperar ',
           'your account here': 'tu cuenta aqui',
+        },
+        'pt_br': {
+          'First time here?': 'Primeira vez aqui?',
+          'Claim invite code': 'Utilizar um codigo de convite',
+          'Already have a Seeds Account?': 'Já tem uma conta Seeeds?',
+          'Import private key': 'Importar chave privada',
+          'Lost your key?': 'Perdeu sua chave?',
+          ' Recover ': ' Recuperar ',
+          'your account here': 'sua conta aqui',
         }
       };
 

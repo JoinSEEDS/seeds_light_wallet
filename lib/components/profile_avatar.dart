@@ -41,6 +41,8 @@ class ProfileAvatar extends StatelessWidget {
       return CachedNetworkImage(imageUrl: image!, fit: BoxFit.cover);
     } else if (image != null && image!.endsWith('.svg')) {
       return SvgPicture.asset(image!, fit: BoxFit.scaleDown);
+    } else if (image != null && image!.startsWith("asset")) {
+      return Image.asset(image!);
     } else {
       final shortName =
           nickname != null && nickname!.isNotEmpty && nickname != 'Seeds Account' && nickname != 'Telos Account'
