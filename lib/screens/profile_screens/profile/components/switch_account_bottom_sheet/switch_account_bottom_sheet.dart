@@ -114,7 +114,6 @@ class SwithAccountBottomSheet extends StatelessWidget {
 
   void show(BuildContext context) {
     showModalBottomSheet(
-      barrierColor: Colors.black87,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
       ),
