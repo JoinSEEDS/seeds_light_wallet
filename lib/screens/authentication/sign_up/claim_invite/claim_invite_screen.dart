@@ -4,10 +4,11 @@ import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_event.dart';
 import 'package:seeds/components/scanner/scanner_widget.dart';
 import 'package:seeds/domain-shared/page_command.dart';
+import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
 import 'package:seeds/screens/authentication/sign_up/claim_invite/components/invite_link_fail_dialog.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/states/claim_invite_state.dart';
-import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
+
 import 'components/processing_invitation_screen.dart';
 
 class ClaimInviteScreen extends StatefulWidget {

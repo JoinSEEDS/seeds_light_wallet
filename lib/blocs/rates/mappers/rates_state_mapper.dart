@@ -1,8 +1,8 @@
+import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/datasource/remote/model/fiat_rate_model.dart';
 import 'package:seeds/datasource/remote/model/rate_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 
 class RatesStateMapper extends StateMapper {
   RatesState mapResultToState(RatesState currentState, List<Result> results) {

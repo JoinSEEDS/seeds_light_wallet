@@ -2,25 +2,24 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/domain-shared/shared_use_cases/stop_recovery_use_case.dart';
-import 'package:seeds/screens/authentication/sign_up/create_username/mappers/create_account_mapper.dart';
-import 'package:seeds/screens/authentication/sign_up/create_username/usecases/create_account_usecase.dart';
 import 'package:seeds/screens/authentication/sign_up/claim_invite/mappers/claim_invite_mapper.dart';
 import 'package:seeds/screens/authentication/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
+import 'package:seeds/screens/authentication/sign_up/create_username/mappers/create_account_mapper.dart';
+import 'package:seeds/screens/authentication/sign_up/create_username/usecases/create_account_usecase.dart';
 import 'package:seeds/screens/authentication/sign_up/create_username/usecases/create_username_usecase.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/states/claim_invite_state.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/states/create_username_state.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/states/display_name_state.dart';
 import 'package:seeds/utils/mnemonic_code/mnemonic_code.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart_ecc/eosdart_ecc.dart';
 
 part 'signup_event.dart';
-
 part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {

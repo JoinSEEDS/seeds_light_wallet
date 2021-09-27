@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
@@ -10,7 +11,6 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/comp
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
-import 'package:flutter/material.dart';
 
 class ProposalDetailsScreen extends StatefulWidget {
   const ProposalDetailsScreen({Key? key}) : super(key: key);

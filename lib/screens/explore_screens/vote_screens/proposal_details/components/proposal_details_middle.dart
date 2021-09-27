@@ -1,15 +1,15 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/components/selectable_text_with_links.dart';
-import 'package:url_launcher/url_launcher.dart' as launcher;
-import 'package:flutter/gestures.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/utils/cap_utils.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/components/selectable_text_with_links.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
+import 'package:seeds/utils/cap_utils.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class ProposalDetailsMiddle extends StatelessWidget {
   const ProposalDetailsMiddle({Key? key}) : super(key: key);

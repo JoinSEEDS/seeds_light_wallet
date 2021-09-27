@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/circular_progress_item.dart';
-import 'package:seeds/i18n/profile_screens/contribution/contribution.i18n.dart';
-import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
+import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/i18n/profile_screens/contribution/contribution.i18n.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -54,9 +54,9 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
             _contributionAnimation =
                 Tween<double>(begin: 0, end: (state.score!.contributionScore?.value ?? 0).toDouble())
                     .animate(_controller)
-                      ..addListener(() {
-                        setState(() => _contribution = _contributionAnimation.value.toInt());
-                      });
+                  ..addListener(() {
+                    setState(() => _contribution = _contributionAnimation.value.toInt());
+                  });
             _communityAnimation =
                 Tween<double>(begin: 0, end: (state.score!.communityScore?.value ?? 0).toDouble()).animate(_controller)
                   ..addListener(() {
@@ -75,9 +75,9 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
             _transactionsAnimation =
                 Tween<double>(begin: 0, end: (state.score!.transactionScore?.value ?? 0).toDouble())
                     .animate(_controller)
-                      ..addListener(() {
-                        setState(() => _transactions = _transactionsAnimation.value.toInt());
-                      });
+                  ..addListener(() {
+                    setState(() => _transactions = _transactionsAnimation.value.toInt());
+                  });
             _controller.forward();
           },
           builder: (context, state) {

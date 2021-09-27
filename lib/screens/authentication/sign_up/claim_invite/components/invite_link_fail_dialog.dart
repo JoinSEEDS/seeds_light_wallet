@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
 
 class InviteLinkFailDialog extends StatelessWidget {
   const InviteLinkFailDialog({Key? key}) : super(key: key);

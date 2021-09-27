@@ -1,7 +1,7 @@
+import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/transaction_model.dart';
-import 'package:async/async.dart';
 
 class TransactionsListRepository extends NetworkRepository {
   Future<Result> getTransactions(String userAccount) async {

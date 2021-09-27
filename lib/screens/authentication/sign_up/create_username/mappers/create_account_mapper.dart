@@ -1,7 +1,7 @@
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/authentication/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
+import 'package:seeds/screens/authentication/sign_up/viewmodels/bloc.dart';
 
 class CreateAccountMapper extends StateMapper {
   SignupState mapOnCreateAccountTappedToState(SignupState currentState, Result result) {
