@@ -116,20 +116,16 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                                       ),
                                     ),
                                   ),
-                                  if (widget.proposal.stage.isNotEmpty)
-                                    LayoutBuilder(
-                                      builder: (_, constrains) {
-                                        // If voice needed > total show 100% else show percent.
-                                        // triangle position - triangle middle width - left margin
-                                        final leftPadding = widget.proposal.total < widget.proposal.voiceNeeded
-                                            ? constrains.maxWidth - 6 - 16
-                                            : constrains.maxWidth * widget.proposal.voiceNeededBarPercent - 6 - 16;
-                                        return Padding(
-                                          padding: EdgeInsets.only(left: leftPadding, top: 20),
-                                          child: const CustomPaint(size: Size(12, 8), painter: TrianglePassValue()),
-                                        );
-                                      },
-                                    ),
+                                  LayoutBuilder(
+                                    builder: (_, constrains) {
+                                      // leftPadding = unity triangle position - triangle middle width - left margin
+                                      final leftPadding = constrains.maxWidth * unityThreshold - 6 - 16;
+                                      return Padding(
+                                        padding: EdgeInsets.only(left: leftPadding, top: 20),
+                                        child: const CustomPaint(size: Size(12, 8), painter: TrianglePassValue()),
+                                      );
+                                    },
+                                  ),
                                 ],
                               ),
                               Padding(
