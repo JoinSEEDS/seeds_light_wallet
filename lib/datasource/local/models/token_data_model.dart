@@ -2,8 +2,8 @@ import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/datasource/local/models/amount_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
-import 'package:seeds/utils/rate_states_extensions.dart';
 import 'package:seeds/utils/double_extension.dart';
+import 'package:seeds/utils/rate_states_extensions.dart';
 
 class TokenDataModel extends AmountDataModel {
   TokenDataModel(double amount, {TokenModel token = SeedsToken})

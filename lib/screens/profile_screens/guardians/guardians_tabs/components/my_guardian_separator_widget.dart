@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_status.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 
 class GuardianListSeparatorWidget extends StatelessWidget {

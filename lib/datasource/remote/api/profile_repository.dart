@@ -6,9 +6,9 @@ import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/datasource/remote/model/referred_accounts_model.dart';
 import 'package:seeds/datasource/remote/model/score_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
-import 'package:seeds/datasource/remote/model/referred_accounts_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 

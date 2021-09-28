@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/domain-shared/page_command.dart';
+import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/profile_screens/profile/components/profile_list_tile_card.dart';
 import 'package:seeds/screens/profile_screens/profile/components/logout_dialog.dart';
+import 'package:seeds/screens/profile_screens/profile/components/profile_list_tile_card.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
 

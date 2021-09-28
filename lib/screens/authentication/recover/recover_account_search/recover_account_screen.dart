@@ -8,13 +8,13 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/recover_account_bloc.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_events.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_page_command.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/interactor/viewmodels/recover_account_state.dart';
 import 'package:seeds/utils/debouncer.dart';
-import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 
 class RecoverAccountScreen extends StatefulWidget {
   const RecoverAccountScreen({Key? key}) : super(key: key);

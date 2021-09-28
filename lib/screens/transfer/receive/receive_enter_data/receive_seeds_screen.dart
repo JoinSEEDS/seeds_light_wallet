@@ -9,10 +9,11 @@ import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/components/text_form_field_light.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+
 import 'interactor/receive_enter_data_bloc.dart';
 import 'interactor/viewmodels/page_commands.dart';
 import 'interactor/viewmodels/receive_enter_data_events.dart';

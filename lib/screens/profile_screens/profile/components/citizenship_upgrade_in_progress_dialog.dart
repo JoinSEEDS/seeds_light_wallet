@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 
 class CitizenshipUpgradeInProgressDialog extends StatelessWidget {
   const CitizenshipUpgradeInProgressDialog({

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/utils/read_times_tamp.dart';
-import 'package:seeds/utils/string_extension.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/member_bloc.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/member_events.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/member_state.dart';
-import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/utils/read_times_tamp.dart';
+import 'package:seeds/utils/string_extension.dart';
 
 class TransactionInfoRow extends StatelessWidget {
   final String profileAccount;

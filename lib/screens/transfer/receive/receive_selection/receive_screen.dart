@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/components/receive_selection_card.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 
 /// Receive selection screen
 class ReceiveScreen extends StatelessWidget {

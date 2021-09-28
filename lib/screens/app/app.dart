@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/screens/app/interactor/viewmodels/connection_notifier.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/bloc.dart';
@@ -10,6 +8,7 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/notification_badge.dart';
 import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -19,6 +18,7 @@ import 'package:seeds/screens/app/components/account_under_recovery_screen.dart'
 import 'package:seeds/screens/app/components/guardian_approve_or_deny_recovery_screen.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/app/interactor/viewmodels/connection_notifier.dart';
 import 'package:seeds/screens/profile_screens/profile/profile_screen.dart';
 
 class App extends StatefulWidget {

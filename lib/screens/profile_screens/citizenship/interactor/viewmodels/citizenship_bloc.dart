@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/screens/profile_screens/citizenship/interactor/mappers/set_values_mapper.dart';
 import 'package:seeds/screens/profile_screens/citizenship/interactor/usecases/get_citizenship_data_use_case.dart';
 import 'package:seeds/screens/profile_screens/citizenship/interactor/usecases/get_referred_accounts_use_case.dart';
-import 'package:seeds/screens/profile_screens/citizenship/interactor/mappers/set_values_mapper.dart';
 import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC

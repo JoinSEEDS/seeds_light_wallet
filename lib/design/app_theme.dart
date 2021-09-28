@@ -10,8 +10,9 @@ class SeedsAppTheme {
       brightness: Brightness.light,
       canvasColor: AppColors.primary,
       appBarTheme: const AppBarTheme(
+        backgroundColor: AppColors.primary,
         elevation: 0.0,
-        textTheme: TextTheme(headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)), // headline7
+        titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600), // headline7
       ),
       inputDecorationTheme: SeedsInputDecorationTheme.lightTheme,
       snackBarTheme: const SnackBarThemeData(
@@ -39,8 +40,9 @@ class SeedsAppTheme {
       brightness: Brightness.dark,
       canvasColor: AppColors.primary,
       appBarTheme: const AppBarTheme(
+        backgroundColor: AppColors.primary,
         elevation: 0.0,
-        textTheme: TextTheme(headline6: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)), // headline7
+        titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600), // headline7
       ),
       inputDecorationTheme: SeedsInputDecorationTheme.darkTheme,
       snackBarTheme: const SnackBarThemeData(

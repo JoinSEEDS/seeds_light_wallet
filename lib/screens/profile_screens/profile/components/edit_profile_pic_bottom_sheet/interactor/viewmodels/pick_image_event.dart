@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:meta/meta.dart';
 
 /// --- EVENTS
 @immutable
