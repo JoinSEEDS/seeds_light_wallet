@@ -82,12 +82,12 @@ class SecurityScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      if (state.shouldShowExportRecoveryPhrase)
+                      if (true)
                         SecurityCard(
                           icon: const Icon(Icons.insert_drive_file),
-                          title: '12-word Recovery Phrase',
+                          title: '16-word Recovery Phrase',
                           description:
-                              'Write down in a secret place your 12-word phrase so you can easily recover and access your account.',
+                              'Write down in a secret place your 16-word phrase so you can easily recover and access your account.',
                           onTap: () {
                             NavigationService.of(context).navigateTo(Routes.recoveryPhrase);
                           },

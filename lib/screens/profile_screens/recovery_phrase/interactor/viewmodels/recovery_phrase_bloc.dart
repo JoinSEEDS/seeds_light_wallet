@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:seeds/screens/profile_screens/recovery_phrase/interactor/usecases/generate_words_use_case.dart';
+import 'package:seeds/screens/profile_screens/recovery_phrase/interactor/usecases/generate_recovery_words_use_case.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/interactor/viewmodels/recovery_phrase_state.dart';
 import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/bloc.dart';
 
@@ -9,7 +9,7 @@ import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/blo
 const TWELVE_WORDS = 128;
 
 class RecoveryPhraseBloc extends Bloc<SecurityEvent, RecoveryPhraseState> {
-  RecoveryPhraseBloc() : super(RecoveryPhraseState.initial(GenerateWordsUseCase().run()));
+  RecoveryPhraseBloc() : super(RecoveryPhraseState.initial(GenerateRecoveryWordsUseCase().run()));
 
   @override
   Stream<RecoveryPhraseState> mapEventToState(SecurityEvent event) {
