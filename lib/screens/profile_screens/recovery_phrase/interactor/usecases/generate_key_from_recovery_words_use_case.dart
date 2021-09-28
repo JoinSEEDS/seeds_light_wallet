@@ -5,6 +5,7 @@ import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:seeds/utils/mnemonic_code/hex.dart';
 import 'package:seeds/utils/mnemonic_code/mnemonic_code.dart';
 
+/// Uses 16 words recovery phrase to generate the private key.
 class GenerateKeyFromRecoveryPhraseUseCase {
   EOSPrivateKey run(List<String> recoveryPhrase) {
     final String entropyValue = mnemonicToEntropy(recoveryPhrase);
