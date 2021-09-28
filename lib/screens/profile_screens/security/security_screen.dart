@@ -82,8 +82,7 @@ class SecurityScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      // ignore: prefer_if_elements_to_conditional_expressions
-                      true ?
+                      if (state.shouldShowExportRecoveryPhrase)
                         SecurityCard(
                           icon: const Icon(Icons.insert_drive_file),
                           title: '16-word Recovery Phrase',
@@ -92,7 +91,9 @@ class SecurityScreen extends StatelessWidget {
                           onTap: () {
                             NavigationService.of(context).navigateTo(Routes.recoveryPhrase);
                           },
-                        ) : const SizedBox.shrink(),
+                        )
+                      else
+                        const SizedBox.shrink(),
                       SecurityCard(
                         icon: const Icon(Icons.lock_outline),
                         title: 'Secure with Pin'.i18n,
