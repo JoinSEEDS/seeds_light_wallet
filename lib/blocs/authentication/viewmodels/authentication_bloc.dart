@@ -4,6 +4,7 @@ import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/shared_use_cases/remove_account_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
+import 'package:seeds/domain-shared/shared_use_cases/switch_account_use_case.dart';
 
 /// --- BLOC
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -38,6 +39,12 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       settingsStorage.finishRecoveryProcess();
       settingsStorage.privateKeyBackedUp = false;
       // Recovered account --> re-start auth status
+      add(const InitAuthStatus());
+    }
+    if (event is OnSwitchAccount) {
+      SwitchAccountUseCase().run(event.account);
+      settingsStorage.privateKeyBackedUp = true;
+      // New account --> re-start auth status
       add(const InitAuthStatus());
     }
     if (event is EnablePasscode) {

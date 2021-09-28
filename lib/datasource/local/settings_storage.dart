@@ -78,11 +78,15 @@ class _SettingsStorage {
       value == null ? _preferences.remove(_kRecoveryLink) : _preferences.setString(_kRecoveryLink, value);
 
   set _accountName(String? value) {
+    // When start import account, cancel recovery funtion is fired, so
+    // this should set the current accountName to null, but ...
+    // if null arrives here the account name is saved with empty string (I think this is a bad practice)
     _preferences.setString(_kAccountName, value ?? '');
     // Retrieve accounts list
     final List<String> accts = accountsList;
     // If new account --> add to list
-    if (!accountsList.contains(value)) {
+    // but check accountName is not a empty string to add
+    if (!accountsList.contains(value) && accountName.isNotEmpty) {
       accts.add(accountName);
       // Save updated accounts list
       _preferences.setStringList(_kAccountsList, accts);
@@ -226,6 +230,13 @@ class _SettingsStorage {
       // Update local field
       _privateKeysList = pkeys;
     }
+  }
+
+  void switchAccount(String accountName) {
+    _accountName = accountName;
+    _passcode = null;
+    _passcodeActive = _kPasscodeActiveDefault;
+    _biometricActive = _kBiometricActiveDefault;
   }
 
   void savePrivateKeyBackedUp(bool value) => privateKeyBackedUp = value;
