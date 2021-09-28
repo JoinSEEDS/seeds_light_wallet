@@ -27,9 +27,7 @@ class VoteScreen extends StatelessWidget {
                 onPressed: () {
                   NavigationService.of(context).navigateTo(Routes.delegate);
                 },
-                icon: SvgPicture.asset(
-                  'assets/images/explore/delegate.svg',
-                ),
+                icon: SvgPicture.asset('assets/images/explore/delegate.svg'),
               ),
               const SizedBox(width: horizontalEdgePadding)
             ],
