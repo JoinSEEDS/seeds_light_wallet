@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/vote/vote.i18n.dart';
@@ -23,12 +24,14 @@ class VoteScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             actions: [
-              IconButton(
-                onPressed: () {
-                  NavigationService.of(context).navigateTo(Routes.delegate);
-                },
-                icon: SvgPicture.asset('assets/images/explore/delegate.svg'),
-              ),
+              if (remoteConfigurations.featureFlagDelegate)
+                const SizedBox.shrink()
+              else
+                IconButton(
+                    onPressed: () {
+                      NavigationService.of(context).navigateTo(Routes.delegate);
+                    },
+                    icon: SvgPicture.asset('assets/images/explore/delegate.svg')),
               const SizedBox(width: horizontalEdgePadding)
             ],
             title: Text('Vote'.i18n),
