@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/vote/vote.i18n.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/proposals_list.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
@@ -19,6 +22,15 @@ class VoteScreen extends StatelessWidget {
         length: proposalTypes.length,
         child: Scaffold(
           appBar: AppBar(
+            actions: [
+              IconButton(
+                onPressed: () {
+                  NavigationService.of(context).navigateTo(Routes.delegate);
+                },
+                icon: SvgPicture.asset('assets/images/explore/delegate.svg'),
+              ),
+              const SizedBox(width: horizontalEdgePadding)
+            ],
             title: Text('Vote'.i18n),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(kToolbarHeight),
