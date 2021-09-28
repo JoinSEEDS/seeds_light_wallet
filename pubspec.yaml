@@ -130,6 +130,7 @@ flutter:
     - assets/images/navigation_bar/wallet_selected.svg
     - assets/images/navigation_bar/user_profile_selected.svg
     - assets/images/explore/hypha_dho_card.jpg
+    - assets/images/explore/delegate.svg
     - assets/images/explore/get_seeds_card.jpg
     - assets/images/wallet/arrow_up.svg
     - assets/images/wallet/arrow_down.svg
