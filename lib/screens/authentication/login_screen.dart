@@ -6,7 +6,6 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/flat_button_long_outlined.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/domain-shared/shared_use_cases/recovery_phrase_use_case.dart';
 import 'package:seeds/i18n/authentication/login.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 

@@ -3,6 +3,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/utils/mnemonic_code/hex.dart';
 import 'package:seeds/utils/mnemonic_code/mnemonic_code.dart';
 
+/// Uses the private key to generate 16 words recovery phrase
 class GenerateRecoveryPhraseUseCase {
   List<String> run() {
     // Construct the EOS private key from string
