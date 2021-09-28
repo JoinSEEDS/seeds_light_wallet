@@ -44,11 +44,9 @@ class OnImportAccount extends AuthenticationEvent {
 }
 
 class OnRecoverAccount extends AuthenticationEvent {
-  final String account;
-  final String privateKey;
-  const OnRecoverAccount({required this.account, required this.privateKey});
+  const OnRecoverAccount();
   @override
-  String toString() => 'OnRecoverAccount { account: $account }';
+  String toString() => 'OnRecoverAccount';
 }
 
 class UnlockWallet extends AuthenticationEvent {

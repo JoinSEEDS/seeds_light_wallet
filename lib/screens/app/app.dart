@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/connection_notifier.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
@@ -71,10 +72,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case AppLifecycleState.inactive:
         break;
       case AppLifecycleState.paused:
-        // Enable the flag that indicates is in OnResumeAuth
-        BlocProvider.of<AuthenticationBloc>(context).add(const InitOnResumeAuth());
-        // Navigate to verification screen (verify mode) on app resume
-        Navigator.of(_navigatorKey.currentContext!).pushNamedIfNotCurrent(Routes.verification);
+        if (settingsStorage.passcodeActive ?? false) {
+          // Enable the flag that indicates is in OnResumeAuth
+          BlocProvider.of<AuthenticationBloc>(context).add(const InitOnResumeAuth());
+          // Navigate to verification screen (verify mode) on app resume
+          Navigator.of(_navigatorKey.currentContext!).pushNamedIfNotCurrent(Routes.verification);
+        }
         break;
       case AppLifecycleState.resumed:
         _connectionNotifier.discoverEndpoints();

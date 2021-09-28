@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:seeds/components/flat_button_long.dart';
@@ -49,104 +51,109 @@ class CustomDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(
-                left: _padding, top: _avatarRadius + _padding - 10, right: _padding, bottom: _padding + 10),
-            margin: const EdgeInsets.only(top: _avatarRadius),
-            decoration:
-                BoxDecoration(color: AppColors.tagGreen3, borderRadius: BorderRadius.circular(18.0), boxShadow: const [
-              BoxShadow(offset: Offset(0, 10), blurRadius: 10),
-            ]),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: children,
-                ),
-                if (leftButtonTitle.isNotEmpty || rightButtonTitle.isNotEmpty)
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+      child: Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.only(
+                  left: _padding, top: _avatarRadius + _padding - 10, right: _padding, bottom: _padding + 10),
+              margin: const EdgeInsets.only(top: _avatarRadius),
+              decoration: BoxDecoration(
+                  color: AppColors.tagGreen3,
+                  borderRadius: BorderRadius.circular(18.0),
+                  boxShadow: const [
+                    BoxShadow(offset: Offset(0, 10), blurRadius: 10),
+                  ]),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
                   Column(
-                    children: [
-                      const SizedBox(height: 30),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Row(
-                          children: [
-                            if (leftButtonTitle.isNotEmpty)
-                              Expanded(
-                                child: FlatButtonLongOutlined(
-                                  title: leftButtonTitle,
-                                  onPressed: onLeftButtonPressed,
-                                ),
-                              ),
-                            if (leftButtonTitle.isNotEmpty) const SizedBox(width: 10),
-                            if (rightButtonTitle.isNotEmpty)
-                              Expanded(
-                                child: FlatButtonLong(
-                                  title: rightButtonTitle,
-                                  onPressed: onRightButtonPressed,
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    ],
+                    mainAxisSize: MainAxisSize.min,
+                    children: children,
                   ),
-                if (leftButtonTitle.isEmpty && rightButtonTitle.isEmpty && singleLargeButtonTitle.isNotEmpty)
-                  Column(
-                    children: [
-                      const SizedBox(height: 30),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: FlatButtonLong(
-                          title: singleLargeButtonTitle,
-                          onPressed: onSingleLargeButtonPressed ?? () => Navigator.pop(context),
+                  if (leftButtonTitle.isNotEmpty || rightButtonTitle.isNotEmpty)
+                    Column(
+                      children: [
+                        const SizedBox(height: 30),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Row(
+                            children: [
+                              if (leftButtonTitle.isNotEmpty)
+                                Expanded(
+                                  child: FlatButtonLongOutlined(
+                                    title: leftButtonTitle,
+                                    onPressed: onLeftButtonPressed,
+                                  ),
+                                ),
+                              if (leftButtonTitle.isNotEmpty) const SizedBox(width: 10),
+                              if (rightButtonTitle.isNotEmpty)
+                                Expanded(
+                                  child: FlatButtonLong(
+                                    title: rightButtonTitle,
+                                    onPressed: onRightButtonPressed,
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-              ],
+                      ],
+                    ),
+                  if (leftButtonTitle.isEmpty && rightButtonTitle.isEmpty && singleLargeButtonTitle.isNotEmpty)
+                    Column(
+                      children: [
+                        const SizedBox(height: 30),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: FlatButtonLong(
+                            title: singleLargeButtonTitle,
+                            onPressed: onSingleLargeButtonPressed ?? () => Navigator.pop(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
             ),
-          ),
-          if (icon != null)
-            Positioned(
-              left: _padding,
-              right: _padding,
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: _avatarRadius,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.green1.withOpacity(0.20),
-                        offset: const Offset(0.0, 1.0),
-                        blurRadius: 6.0,
+            if (icon != null)
+              Positioned(
+                left: _padding,
+                right: _padding,
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: _avatarRadius,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.green1.withOpacity(0.20),
+                          offset: const Offset(0.0, 1.0),
+                          blurRadius: 6.0,
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(_avatarRadius)),
+                      child: Padding(
+                        padding: EdgeInsets.all(iconPadding ?? 8.0),
+                        child: icon,
                       ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(_avatarRadius)),
-                    child: Padding(
-                      padding: EdgeInsets.all(iconPadding ?? 8.0),
-                      child: icon,
                     ),
                   ),
                 ),
-              ),
-            )
-          else
-            const SizedBox.shrink()
-        ],
+              )
+            else
+              const SizedBox.shrink()
+          ],
+        ),
       ),
     );
   }

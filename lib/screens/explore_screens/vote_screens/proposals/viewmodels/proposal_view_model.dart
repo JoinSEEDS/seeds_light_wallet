@@ -6,6 +6,8 @@ import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/referendum_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+const double unityThreshold = 0.9;
+
 enum ProposalCategory { campaign, alliance, milestone, referendum }
 
 class ProposalViewModel {
@@ -50,9 +52,6 @@ class ProposalViewModel {
     required this.campaignType,
     this.voiceNeeded = 0,
   });
-
-  /// Percentage to advance 0-1 scale
-  double get voiceNeededBarPercent => ((voiceNeeded * 100) / total) / 100;
 
   /// Percentage in favour 0-1 scale
   double get favourAgainstBarPercent => total == 0 ? 0 : (favour.toDouble() / total.toDouble());
