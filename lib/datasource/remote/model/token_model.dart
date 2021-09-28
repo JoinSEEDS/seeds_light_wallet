@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 
 class TokenModel extends Equatable {
   static const AllTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken, StarsToken, TelosToken];

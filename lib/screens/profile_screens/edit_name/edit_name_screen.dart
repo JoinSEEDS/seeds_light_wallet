@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/i18n/profile_screens/edit_name/edit_name.i18n.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
+import 'package:seeds/components/text_form_field_custom.dart';
+import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/i18n/profile_screens/edit_name/edit_name.i18n.dart';
 import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/bloc.dart';
 
 class EditNameScreen extends StatefulWidget {

@@ -2,8 +2,8 @@ import 'package:collection/collection.dart' show IterableExtension;
 import 'package:seeds/datasource/remote/model/moon_phase_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_state.dart';
 import 'package:seeds/i18n/explore_screens/vote/vote.i18n.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_state.dart';
 
 const String _new_moon = 'New Moon';
 

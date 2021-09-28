@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:seeds/i18n/profile_screens/security/security.i18n.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/i18n/profile_screens/security/security.i18n.dart';
 
 class BiometricEnabledDialog extends StatelessWidget {
   const BiometricEnabledDialog({Key? key}) : super(key: key);

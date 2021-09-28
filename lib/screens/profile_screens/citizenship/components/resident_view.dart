@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:seeds/components/circular_progress_item.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/profile_avatar.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/i18n/profile_screens/citizenship/citizenship.i18n.dart';
 import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/bloc.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:seeds/components/circular_progress_item.dart';
-import 'package:seeds/i18n/profile_screens/citizenship/citizenship.i18n.dart';
 
 class ResidentView extends StatefulWidget {
   const ResidentView({Key? key}) : super(key: key);

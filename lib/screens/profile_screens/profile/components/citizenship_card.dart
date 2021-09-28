@@ -6,10 +6,10 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 
 import 'citizenship_upgrade_button.dart';

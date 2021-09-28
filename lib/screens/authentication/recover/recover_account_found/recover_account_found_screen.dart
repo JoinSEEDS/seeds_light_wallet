@@ -12,13 +12,13 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/components/guardian_row_widget.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/recover_account_found_bloc.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_events.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_page_command.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/interactor/viewmodels/recover_account_found_state.dart';
 import 'package:share/share.dart';
-import 'package:seeds/i18n/authentication/recover/recover.i18n.dart';
 
 class RecoverAccountFoundScreen extends StatelessWidget {
   const RecoverAccountFoundScreen({Key? key}) : super(key: key);

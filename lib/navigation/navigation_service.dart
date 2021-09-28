@@ -6,6 +6,7 @@ import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
+import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
@@ -13,6 +14,7 @@ import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dar
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
+import 'package:seeds/screens/page_not_found_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
@@ -25,7 +27,6 @@ import 'package:seeds/screens/profile_screens/recovery_phrase/recovery_phrase_sc
 import 'package:seeds/screens/profile_screens/security/security_screen.dart';
 import 'package:seeds/screens/profile_screens/set_currency/set_currency_screen.dart';
 import 'package:seeds/screens/profile_screens/support/support_screen.dart';
-import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/receive_detail_qr_code.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.dart';
@@ -34,7 +35,6 @@ import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_scre
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
 import 'package:seeds/screens/wallet/wallet_screen.dart';
-import 'package:seeds/screens/page_not_found_screen.dart';
 
 class Routes {
   static final onboarding = 'Onboarding';

@@ -5,6 +5,7 @@ analyzer:
     implicit-casts: true
     implicit-dynamic: true
   errors:
+    avoid_print: ignore
     # treat missing required parameters as a warning (not a hint)
     missing_required_param: warning
     # treat missing returns as a warning (not a hint)
