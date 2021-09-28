@@ -52,13 +52,13 @@ String generateMnemonic({int strength = 48, RandomBytes randomBytes = _randomByt
 String entropyToMnemonic(String entropyString) {
   final entropy = Uint8List.fromList(HEX.decode(entropyString));
   if (entropy.length < 2) {
-    throw ArgumentError(_INVALID_ENTROPY);
+    throw ArgumentError("$_INVALID_ENTROPY length is ${entropy.length}");
   }
   if (entropy.length > 32) {
-    throw ArgumentError(_INVALID_ENTROPY);
+    throw ArgumentError("$_INVALID_ENTROPY length is ${entropy.length}");
   }
   if (entropy.length % 2 != 0) {
-    throw ArgumentError(_INVALID_ENTROPY);
+    throw ArgumentError("$_INVALID_ENTROPY length is ${entropy.length}");
   }
   final entropyBits = _bytesToBinary(entropy);
   final checksumBits = _deriveChecksumBits(entropy);
@@ -79,17 +79,17 @@ String hashFromSecret(String secret) {
 }
 
 String mnemonicToEntropy(mnemonic) {
-  var words = mnemonic.split('-');
+  final words = mnemonic.split('-');
   print(words);
   if (words.length % 3 != 0) {
-    throw new ArgumentError(_INVALID_MNEMONIC);
+    throw ArgumentError(_INVALID_MNEMONIC);
   }
   final wordlist = WORDLIST;
   // convert word indices to 11 bit binary strings
   final bits = words.map((word) {
     final index = wordlist.indexOf(word);
     if (index == -1) {
-      throw new ArgumentError(_INVALID_MNEMONIC);
+      throw ArgumentError(_INVALID_MNEMONIC);
     }
     return index.toRadixString(2).padLeft(11, '0');
   }).join('');
@@ -117,5 +117,5 @@ String mnemonicToEntropy(mnemonic) {
   }
   return entropyBytes.map((byte) {
     return byte.toRadixString(16).padLeft(2, '0');
-  }).join('');
+  }).join();
 }
