@@ -9,7 +9,7 @@ import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/blo
 const TWELVE_WORDS = 128;
 
 class RecoveryPhraseBloc extends Bloc<SecurityEvent, RecoveryPhraseState> {
-  RecoveryPhraseBloc() : super(RecoveryPhraseState.initial(GenerateRecoveryWordsUseCase().run()));
+  RecoveryPhraseBloc() : super(RecoveryPhraseState.initial(GenerateRecoveryPhraseUseCase().run()));
 
   @override
   Stream<RecoveryPhraseState> mapEventToState(SecurityEvent event) {

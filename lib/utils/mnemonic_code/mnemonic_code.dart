@@ -78,21 +78,20 @@ String hashFromSecret(String secret) {
   return sha256.convert(hex.decode(secret)).toString();
 }
 
-String mnemonicToEntropy(mnemonic) {
-  final words = mnemonic.split('-');
-  print(words);
-  if (words.length % 3 != 0) {
+String mnemonicToEntropy(List<String> recoveryPhrase) {
+  print(recoveryPhrase);
+  if (recoveryPhrase.length % 3 != 0) {
     throw ArgumentError(_INVALID_MNEMONIC);
   }
   final wordlist = WORDLIST;
   // convert word indices to 11 bit binary strings
-  final bits = words.map((word) {
+  final bits = recoveryPhrase.map((word) {
     final index = wordlist.indexOf(word);
     if (index == -1) {
       throw ArgumentError(_INVALID_MNEMONIC);
     }
     return index.toRadixString(2).padLeft(11, '0');
-  }).join('');
+  }).join();
   // split the binary string into ENT/CS
   final dividerIndex = (bits.length / 33).floor() * 32;
   final entropyBits = bits.substring(0, dividerIndex);
