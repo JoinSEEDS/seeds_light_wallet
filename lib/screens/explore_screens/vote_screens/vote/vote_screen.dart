@@ -24,7 +24,7 @@ class VoteScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             actions: [
-              if (remoteConfigurations.featureFlagDelegate)
+              if (VoteBloc().state.shouldHideDelegateIcon)
                 const SizedBox.shrink()
               else
                 IconButton(
