@@ -89,27 +89,19 @@ class UnplantSeedsScreen extends StatelessWidget {
                                     .add(OnMaxButtonTap(maxAmount: state.plantedBalance?.amount.toString() ?? '0'));
                               },
                             ),
-                            const SizedBox(
-                              height: 24,
-                            ),
+                            const SizedBox(height: 24),
                             AlertInputValue('Not enough balance', isVisible: state.showOverBalanceAlert),
                             AlertInputValue('Need to keep at least 5 planted seeds',
                                 isVisible: state.showMinPlantedBalanceAlert),
-                            const SizedBox(
-                              height: 60,
-                            ),
+                            const SizedBox(height: 60),
                             ClaimUnplantSeedsBalanceRow(
                                 onTapClaim: () {},
                                 isClaimButtonEnable: false,
                                 tokenAmount: TokenDataModel(0),
                                 fiatAmount: FiatDataModel(0)),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
                             const DividerJungle(),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
                             BalanceRow(
                                 label: "Planted Balance",
                                 tokenAmount: state.plantedBalance,
