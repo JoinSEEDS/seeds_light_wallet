@@ -8,14 +8,14 @@ class VoteState extends Equatable {
   final String? errorMessage;
   final int remainingTimeStamp;
   final CurrentRemainingTime? currentRemainingTime;
-  final bool shouldHideDelegateIcon;
+  final bool shouldShowDelegateIcon;
 
   const VoteState({
     required this.pageState,
     this.errorMessage,
     required this.remainingTimeStamp,
     this.currentRemainingTime,
-    required this.shouldHideDelegateIcon,
+    required this.shouldShowDelegateIcon,
   });
 
   @override
@@ -24,7 +24,7 @@ class VoteState extends Equatable {
         errorMessage,
         remainingTimeStamp,
         currentRemainingTime,
-        shouldHideDelegateIcon,
+        shouldShowDelegateIcon,
       ];
 
   VoteState copyWith({
@@ -32,19 +32,19 @@ class VoteState extends Equatable {
     String? errorMessage,
     int? remainingTimeStamp,
     CurrentRemainingTime? currentRemainingTime,
-    bool? shouldHideDelegateIcon,
+    bool? shouldShowDelegateIcon,
   }) {
     return VoteState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       remainingTimeStamp: remainingTimeStamp ?? this.remainingTimeStamp,
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
-      shouldHideDelegateIcon: shouldHideDelegateIcon ?? this.shouldHideDelegateIcon,
+      shouldShowDelegateIcon: shouldShowDelegateIcon ?? this.shouldShowDelegateIcon,
     );
   }
 
   factory VoteState.initial(bool featureFlagDelegateEnabled) {
     return VoteState(
-        pageState: PageState.initial, remainingTimeStamp: 0, shouldHideDelegateIcon: featureFlagDelegateEnabled);
+        pageState: PageState.initial, remainingTimeStamp: 0, shouldShowDelegateIcon: featureFlagDelegateEnabled);
   }
 }

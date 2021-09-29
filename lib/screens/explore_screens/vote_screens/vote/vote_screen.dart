@@ -23,14 +23,14 @@ class VoteScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             actions: [
-              if (VoteBloc().state.shouldHideDelegateIcon)
-                const SizedBox.shrink()
-              else
+              if (VoteBloc().state.shouldShowDelegateIcon)
                 IconButton(
                     onPressed: () {
                       NavigationService.of(context).navigateTo(Routes.delegate);
                     },
-                    icon: SvgPicture.asset('assets/images/explore/delegate.svg')),
+                    icon: SvgPicture.asset('assets/images/explore/delegate.svg'))
+              else
+                const SizedBox.shrink(),
               const SizedBox(width: horizontalEdgePadding)
             ],
             title: Text('Vote'.i18n),
