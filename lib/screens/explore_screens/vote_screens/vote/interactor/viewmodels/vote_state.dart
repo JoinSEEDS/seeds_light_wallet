@@ -32,14 +32,14 @@ class VoteState extends Equatable {
     String? errorMessage,
     int? remainingTimeStamp,
     CurrentRemainingTime? currentRemainingTime,
-    bool? shouldShowDelegateIcon,
+    bool? shouldHideDelegateIcon,
   }) {
     return VoteState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       remainingTimeStamp: remainingTimeStamp ?? this.remainingTimeStamp,
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
-      shouldHideDelegateIcon: shouldShowDelegateIcon ?? this.shouldHideDelegateIcon,
+      shouldHideDelegateIcon: shouldHideDelegateIcon ?? this.shouldHideDelegateIcon,
     );
   }
 
