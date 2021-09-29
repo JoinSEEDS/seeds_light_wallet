@@ -45,8 +45,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       add(const InitAuthStatus());
     }
     if (event is EnablePasscode) {
-      settingsStorage.savePasscode(event.newPasscode);
-      settingsStorage.passcodeActive = true;
+      settingsStorage.enablePasscode(event.newPasscode);
     }
     if (event is DisablePasscode) {
       settingsStorage.disablePasscode();

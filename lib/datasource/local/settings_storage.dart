@@ -217,7 +217,10 @@ class _SettingsStorage {
     recoveryLink = null;
   }
 
-  void savePasscode(String? passcode) => this.passcode = passcode;
+  void enablePasscode(String? passcode) {
+    this.passcode = passcode;
+    passcodeActive = true;
+  }
 
   void disablePasscode() {
     passcode = null;
