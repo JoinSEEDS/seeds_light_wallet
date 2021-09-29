@@ -27,6 +27,7 @@ const String _kIsFirstRun = 'is_first_run';
 const bool _kPasscodeActiveDefault = true;
 const bool _kBiometricActiveDefault = false;
 const bool _kIsCitizenDefault = false;
+const bool _kPrivateKeyBackedUpDefult = false;
 
 class _SettingsStorage {
   late SharedPreferences _preferences;
@@ -180,7 +181,7 @@ class _SettingsStorage {
       if (values.containsKey(_kPrivateKeyBackedUp)) {
         _privateKeyBackedUp = values[_kPrivateKeyBackedUp] == 'true';
       } else {
-        _privateKeyBackedUp = false;
+        _privateKeyBackedUp = _kPrivateKeyBackedUpDefult;
       }
     });
   }
@@ -196,7 +197,7 @@ class _SettingsStorage {
     return value;
   }
 
-  void enableRecoveryMode({required String accountName, required String privateKey, required String recoveryLink}) {
+  void startRecoveryProcess({required String accountName, required String privateKey, required String recoveryLink}) {
     inRecoveryMode = true;
     _accountName = accountName;
     this.recoveryLink = recoveryLink;
@@ -204,6 +205,7 @@ class _SettingsStorage {
   }
 
   void finishRecoveryProcess() {
+    privateKeyBackedUp = false;
     inRecoveryMode = false;
     recoveryLink = null;
   }
@@ -217,7 +219,14 @@ class _SettingsStorage {
 
   void savePasscode(String? passcode) => this.passcode = passcode;
 
+  void disablePasscode() {
+    passcode = null;
+    passcodeActive = false;
+    biometricActive = false;
+  }
+
   Future<void> saveAccount(String accountName, String privateKey) async {
+    privateKeyBackedUp = false;
     _accountName = accountName;
     _privateKey = privateKey;
     this.privateKey = privateKey;
@@ -233,6 +242,7 @@ class _SettingsStorage {
   }
 
   void switchAccount(String accountName) {
+    privateKeyBackedUp = false;
     _accountName = accountName;
     _passcode = null;
     _passcodeActive = _kPasscodeActiveDefault;

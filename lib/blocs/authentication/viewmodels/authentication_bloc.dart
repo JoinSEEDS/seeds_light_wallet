@@ -31,19 +31,16 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is OnImportAccount) {
       SaveAccountUseCase().run(accountName: event.account, privateKey: event.privateKey);
-      settingsStorage.privateKeyBackedUp = true;
       // New account --> re-start auth status
       add(const InitAuthStatus());
     }
     if (event is OnRecoverAccount) {
       settingsStorage.finishRecoveryProcess();
-      settingsStorage.privateKeyBackedUp = false;
       // Recovered account --> re-start auth status
       add(const InitAuthStatus());
     }
     if (event is OnSwitchAccount) {
       SwitchAccountUseCase().run(event.account);
-      settingsStorage.privateKeyBackedUp = true;
       // New account --> re-start auth status
       add(const InitAuthStatus());
     }
@@ -52,9 +49,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       settingsStorage.passcodeActive = true;
     }
     if (event is DisablePasscode) {
-      settingsStorage.passcode = null;
-      settingsStorage.passcodeActive = false;
-      settingsStorage.biometricActive = false;
+      settingsStorage.disablePasscode();
     }
     if (event is EnableBiometric) {
       settingsStorage.biometricActive = true;
