@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
-import 'package:seeds/screens/authentication/import_words/interactor/import_words_bloc.dart';
-import 'package:seeds/screens/authentication/import_words/interactor/viewmodels/import_words_events.dart';
-import 'package:seeds/screens/authentication/import_words/interactor/viewmodels/import_words_state.dart';
+import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
+import 'package:seeds/screens/authentication/import_key/interactor/import_key_bloc.dart';
+import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_events.dart';
 import 'package:seeds/utils/mnemonic_code/words_list.dart';
+
+import 'interactor/viewmodels/import_key_state.dart';
 
 const NUMBER_OF_WORDS = 12;
 const NUMBER_OF_COLUMNS = 3;
@@ -17,24 +20,24 @@ class ImportWordsScreen extends StatefulWidget {
   const ImportWordsScreen({Key? key}) : super(key: key);
 
   @override
-  _ImportWordsScreenState createState() => _ImportWordsScreenState();
+  _ImportKeyScreenState createState() => _ImportKeyScreenState();
 }
 
-class _ImportWordsScreenState extends State<ImportWordsScreen> {
-  late ImportWordsBloc _importWordsBloc;
+class _ImportKeyScreenState extends State<ImportWordsScreen> {
+  late ImportKeyBloc _importKeyBloc;
 
   @override
   void initState() {
     super.initState();
-    _importWordsBloc = ImportWordsBloc(BlocProvider.of<AuthenticationBloc>(context));
+    _importKeyBloc = ImportKeyBloc(BlocProvider.of<AuthenticationBloc>(context));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => _importWordsBloc,
-      child: BlocBuilder<ImportWordsBloc, ImportWordsState>(
-        builder: (context, ImportWordsState state) {
+      create: (_) => _importKeyBloc,
+      child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
+        builder: (context, ImportKeyState state) {
           return Scaffold(
             bottomSheet: Padding(
               padding: const EdgeInsets.all(16),
@@ -44,6 +47,7 @@ class _ImportWordsScreenState extends State<ImportWordsScreen> {
             body: Padding(
               padding: const EdgeInsets.all(horizontalEdgePadding),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     "Enter your 12-Word Recovery Phrase to recover your account.",
@@ -74,7 +78,7 @@ class _ImportWordsScreenState extends State<ImportWordsScreen> {
                                 enableSuggestions: false,
                                 enabled: true,
                                 onChanged: (value) {
-                                  BlocProvider.of<ImportWordsBloc>(context)
+                                  BlocProvider.of<ImportKeyBloc>(context)
                                       .add(OnWordChange(word: value, wordIndex: index));
                                 },
                                 keyboardType: TextInputType.visiblePassword,
@@ -94,7 +98,7 @@ class _ImportWordsScreenState extends State<ImportWordsScreen> {
                               });
                             },
                             onSelected: (String selection) {
-                              BlocProvider.of<ImportWordsBloc>(context)
+                              BlocProvider.of<ImportKeyBloc>(context)
                                   .add(OnWordChange(word: selection, wordIndex: index));
                             },
                           ),
@@ -102,8 +106,18 @@ class _ImportWordsScreenState extends State<ImportWordsScreen> {
                       }),
                     ),
                   ),
-                  // const SizedBox(height: 24),
-                  // const Expanded(child: ImportKeyAccountsWidget()),
+
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 24, left: 24),
+                  //   child: Text(
+                  //     "If you already have a Seeds account, please enter your private key and your account will be imported automatically."
+                  //         .i18n,
+                  //     style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                  //     textAlign: TextAlign.center,
+                  //   ),
+                  // ),
+                  const SizedBox(height: 24),
+                  const Expanded(child: ImportKeyAccountsWidget()),
                 ],
               ),
             ),
@@ -115,6 +129,6 @@ class _ImportWordsScreenState extends State<ImportWordsScreen> {
 
   void _onSubmitted() {
     FocusScope.of(context).unfocus();
-    _importWordsBloc.add(const FindAccountFromWords());
+    _importKeyBloc.add(const FindAccountFromWords());
   }
 }

@@ -8,6 +8,7 @@ class ImportKeyState extends Equatable {
   final String? privateKey;
   final List<ProfileModel> accounts;
   final bool enableButton;
+  final Map<int, String> words;
 
   const ImportKeyState({
     required this.pageState,
@@ -15,7 +16,12 @@ class ImportKeyState extends Equatable {
     required this.accounts,
     this.privateKey,
     required this.enableButton,
+    required this.words,
   });
+
+  bool get areAllWordsEntered {
+    return words.length == 12 && !words.containsValue('');
+  }
 
   @override
   List<Object?> get props => [
@@ -24,6 +30,7 @@ class ImportKeyState extends Equatable {
         privateKey,
         accounts,
         enableButton,
+        words,
       ];
 
   ImportKeyState copyWith({
@@ -32,6 +39,7 @@ class ImportKeyState extends Equatable {
     List<ProfileModel>? accounts,
     String? privateKey,
     bool? enableButton,
+    Map<int, String>? words,
   }) {
     return ImportKeyState(
       pageState: pageState ?? this.pageState,
@@ -39,6 +47,7 @@ class ImportKeyState extends Equatable {
       accounts: accounts ?? this.accounts,
       privateKey: privateKey ?? this.privateKey,
       enableButton: enableButton ?? this.enableButton,
+      words: words ?? this.words,
     );
   }
 
@@ -47,6 +56,7 @@ class ImportKeyState extends Equatable {
       pageState: PageState.initial,
       accounts: [],
       enableButton: false,
+      words: {},
     );
   }
 }

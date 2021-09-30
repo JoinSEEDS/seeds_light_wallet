@@ -35,6 +35,13 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       _authenticationBloc.add(OnImportAccount(account: event.account, privateKey: state.privateKey.toString()));
     } else if (event is OnPrivateKeyChange) {
       yield state.copyWith(enableButton: event.privateKeyChanged.isNotEmpty);
+    } else if (event is OnWordChange) {
+      final words = state.words;
+      words[event.wordIndex] = event.word;
+      yield state.copyWith(words: words);
+      yield state.copyWith(enableButton: state.areAllWordsEntered);
+    } else if (event is FindAccountFromWords) {
+      // TODO(gguij002): Add use case to fetch key from words
     }
   }
 }

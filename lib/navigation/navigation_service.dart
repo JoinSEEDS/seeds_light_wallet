@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
-import 'package:seeds/screens/authentication/import_words/import_words_screen.dart';
+import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
