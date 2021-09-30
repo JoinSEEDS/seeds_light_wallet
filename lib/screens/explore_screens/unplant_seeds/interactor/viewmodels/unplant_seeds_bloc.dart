@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
@@ -12,7 +13,8 @@ import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodel
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_state.dart';
 
 class UnplantSeedsBloc extends Bloc<UnplantSeedsEvent, UnplantSeedsState> {
-  UnplantSeedsBloc(RatesState rates) : super(UnplantSeedsState.initial(rates));
+  UnplantSeedsBloc(RatesState rates)
+      : super(UnplantSeedsState.initial(rates, remoteConfigurations.featureFlagDelegateEnabled));
 
   @override
   Stream<UnplantSeedsState> mapEventToState(UnplantSeedsEvent event) async* {
@@ -27,7 +29,7 @@ class UnplantSeedsBloc extends Bloc<UnplantSeedsEvent, UnplantSeedsState> {
       yield AmountChangerMapper().mapResultToState(state, event.amountChanged);
     } else if (event is OnMaxButtonTap) {
       final double plantedBalance = state.plantedBalance?.amount ?? 0;
-      final double maxAmount = plantedBalance - minPlanted ;
+      final double maxAmount = plantedBalance - minPlanted;
       yield AmountChangerMapper().mapResultToState(state, maxAmount.toString());
     } else if (event is OnUnplantSeedsButtonTap) {
       yield state.copyWith(pageState: PageState.loading, onFocus: false);

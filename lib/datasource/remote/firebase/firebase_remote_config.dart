@@ -10,6 +10,7 @@ const String _defaultV2EndPointUrlKey = 'default_v2_end_point';
 const String _featureFlagImportAccount = 'feature_flag_import_account';
 const String _featureFlagExportRecoveryPhrase = 'feature_flag_export_recovery_phrase';
 const String _featureFlagDelegate = 'feature_flag_delegate';
+const String _featureFlagClaimUnplantedSeeds = 'feature_flag_unplant_claim_seeds';
 
 // MAINNET CONFIG
 const String _eosEndpoints = '[ { "url": "https://api.telosfoundation.io", "isDefault": true } ]';
@@ -41,6 +42,7 @@ class _FirebaseRemoteConfigService {
     _featureFlagImportAccount: false,
     _featureFlagExportRecoveryPhrase: false,
     _featureFlagDelegate: false,
+    _featureFlagClaimUnplantedSeeds: false,
     _activeEOSEndpointKey: _eosEndpoints,
     _hyphaEndPointKey: _hyphaEndPointUrl,
     _defaultEndPointUrlKey: _defaultEndPointUrl,
@@ -76,6 +78,7 @@ class _FirebaseRemoteConfigService {
   bool get featureFlagImportAccountEnabled => _remoteConfig.getBool(_featureFlagImportAccount);
   bool get featureFlagExportRecoveryPhraseEnabled => _remoteConfig.getBool(_featureFlagExportRecoveryPhrase);
   bool get featureFlagDelegateEnabled => _remoteConfig.getBool(_featureFlagDelegate);
+  bool get featureFlagClaimUnplantedSeedsEnabled => _remoteConfig.getBool(_featureFlagClaimUnplantedSeeds);
 
   String get hyphaEndPoint => testnetMode ? _testnet_hyphaEndPointUrl : _remoteConfig.getString(_hyphaEndPointKey);
 
