@@ -70,8 +70,8 @@ class LoginScreen extends StatelessWidget {
                   Text("Already have a Seeds Account?".i18n, style: Theme.of(context).textTheme.subtitle2),
                   const SizedBox(height: 10),
                   FlatButtonLongOutlined(
-                    onPressed: () => NavigationService.of(context).navigateTo(Routes.importKey),
-                    title: "Import private key".i18n,
+                    onPressed: () => NavigationService.of(context).navigateTo(Routes.importWords),
+                    title: "Import Account".i18n,
                   )
                 ],
               ),
