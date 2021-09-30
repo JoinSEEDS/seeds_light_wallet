@@ -52,7 +52,8 @@ class ImportKeyState extends Equatable {
   }
 
   factory ImportKeyState.initial() {
-    return const ImportKeyState(
+    // ignore: prefer_const_constructors
+    return ImportKeyState(
       pageState: PageState.initial,
       accounts: [],
       enableButton: false,

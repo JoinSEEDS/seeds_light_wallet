@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +7,7 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
-import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/import_key_bloc.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_events.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_state.dart';
@@ -104,17 +105,27 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
                         );
                       }),
                     ),
-
-                    Padding(
-                      padding: const EdgeInsets.only(right: 24, left: 24),
-                      child: Text(
-                        "If you already have a Seeds account, please enter your private key and your account will be imported automatically."
-                            .i18n,
-                        style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    // const SizedBox(height: 24),
+                    const SizedBox(height: 24),
+                    if (state.words.isEmpty)
+                      RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.subtitle2,
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'Tap here ',
+                                style: Theme.of(context).textTheme.subtitle2Green2,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.of(context).pop();
+                                    NavigationService.of(context).navigateTo(Routes.importKey);
+                                  }),
+                            const TextSpan(text: ' if you want to import using your Private Key. '),
+                          ],
+                        ),
+                      )
+                    else
+                      const SizedBox.shrink(),
+                    const SizedBox(height: 24),
                     // const Expanded(child: ImportKeyAccountsWidget()),
                   ],
                 ),
