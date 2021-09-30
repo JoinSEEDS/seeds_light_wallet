@@ -235,9 +235,6 @@ class _SettingsStorage {
   void switchAccount(String accountName) {
     privateKeyBackedUp = false;
     _accountName = accountName;
-    _passcode = null;
-    _passcodeActive = true;
-    _biometricActive = false;
   }
 
   void savePrivateKeyBackedUp(bool value) => privateKeyBackedUp = value;
