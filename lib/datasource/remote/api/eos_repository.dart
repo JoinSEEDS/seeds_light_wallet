@@ -37,9 +37,9 @@ abstract class EosRepository {
   String permissionApplication = 'application';
 
   // Voice scopes
-  static const voiceScopes = [
+  List<String> voiceScopes = [
     "alliance",
-    "funds.seeds",
+    "funds.seeds", // Note: this is the campaign voice scope
     "milestone",
     // "referendum", // referendum delegation not working on the contract side at the moment
   ];

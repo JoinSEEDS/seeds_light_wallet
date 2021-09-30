@@ -198,8 +198,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> setDelegate({required String accountName, required String delegateTo}) {
     print('[eos] set delegate $accountName -> $delegateTo');
 
-    final List<Action> delegateActions = List.from(EosRepository.voiceScopes
-        .map((scope) => createDelegateAction(delegator: accountName, delegatee: delegateTo, scope: scope)));
+    final List<Action> delegateActions = List.from(
+        voiceScopes.map((scope) => _createDelegateAction(delegator: accountName, delegatee: delegateTo, scope: scope)));
 
     final transaction = buildFreeTransaction(delegateActions, accountName);
 
@@ -214,8 +214,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> undelegate({required String accountName}) {
     print('[eos] undelegate all delegations for $accountName');
 
-    final List<Action> undelegateActions = List.from(
-        EosRepository.voiceScopes.map((scope) => createUndelegateAction(delegator: accountName, scope: scope)));
+    final List<Action> undelegateActions =
+        List.from(voiceScopes.map((scope) => _createUndelegateAction(delegator: accountName, scope: scope)));
 
     final transaction = buildFreeTransaction(undelegateActions, accountName);
 
@@ -227,7 +227,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
-  Action createDelegateAction({
+  Action _createDelegateAction({
     required String delegator,
     required String delegatee,
     required String scope,
@@ -246,7 +246,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
           'scope': scope,
         };
 
-  Action createUndelegateAction({
+  Action _createUndelegateAction({
     required String delegator,
     required String scope,
   }) =>
