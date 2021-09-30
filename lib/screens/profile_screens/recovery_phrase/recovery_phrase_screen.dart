@@ -9,7 +9,7 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/interactor/viewmodels/recovery_phrase_bloc.dart';
 import 'package:seeds/screens/profile_screens/recovery_phrase/interactor/viewmodels/recovery_phrase_state.dart';
 
-const NUMBER_OF_WORDS = 16;
+const NUMBER_OF_WORDS = 12;
 const NUMBER_OF_COLUMNS = 3;
 
 class RecoveryPhraseScreen extends StatelessWidget {
@@ -18,7 +18,7 @@ class RecoveryPhraseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('16-word Recovery Phrase')),
+        appBar: AppBar(title: const Text('12-word Recovery Phrase')),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(16),
           child: FlatButtonLong(

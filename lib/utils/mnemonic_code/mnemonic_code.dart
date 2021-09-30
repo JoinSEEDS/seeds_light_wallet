@@ -32,7 +32,7 @@ String _deriveChecksumBits(Uint8List entropy) {
   return _bytesToBinary(Uint8List.fromList(hash.bytes)).substring(0, cs);
 }
 
-Uint8List _randomBytes(int size) {
+Uint8List randomBytes(int size) {
   final rng = Random.secure();
   final bytes = Uint8List(size);
   for (var i = 0; i < size; i++) {
@@ -43,7 +43,7 @@ Uint8List _randomBytes(int size) {
 
 /// One word is equals to 8 bits of strength, the minumun is 16 (2 words).
 /// Default separator dash (-)
-String generateMnemonic({int strength = 48, RandomBytes randomBytes = _randomBytes}) {
+String generateMnemonic({int strength = 48, RandomBytes randomBytes = randomBytes}) {
   assert(strength % 16 == 0);
   final Uint8List entropy = randomBytes(strength ~/ 8);
   return entropyToMnemonic(HEX.encode(entropy));
