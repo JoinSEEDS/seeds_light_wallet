@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/components/full_page_loading_indicator.dart';
-import 'package:seeds/components/send_loading_indicator.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
+import 'package:seeds/components/full_page_loading_indicator.dart';
+import 'package:seeds/components/send_loading_indicator.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/components/generic_transaction_success_diaog.dart';
@@ -107,9 +107,7 @@ class SendConfirmationScreen extends StatelessWidget {
                                               const SizedBox(width: 4),
                                               Flexible(
                                                   child: Text(e.text.toString(),
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .subtitle2)),
+                                                      style: Theme.of(context).textTheme.subtitle2)),
                                             ],
                                           ),
                                         ),

@@ -194,4 +194,72 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
             }))
         .catchError((error) => mapEosError(error));
   }
+
+  Future<Result> setDelegate({required String accountName, required String delegateTo}) {
+    print('[eos] set delegate $accountName -> $delegateTo');
+
+    final List<Action> delegateActions = List.from(
+        voiceScopes.map((scope) => _createDelegateAction(delegator: accountName, delegatee: delegateTo, scope: scope)));
+
+    final transaction = buildFreeTransaction(delegateActions, accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
+  Future<Result> undelegate({required String accountName}) {
+    print('[eos] undelegate all delegations for $accountName');
+
+    final List<Action> undelegateActions =
+        List.from(voiceScopes.map((scope) => _createUndelegateAction(delegator: accountName, scope: scope)));
+
+    final transaction = buildFreeTransaction(undelegateActions, accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
+  Action _createDelegateAction({
+    required String delegator,
+    required String delegatee,
+    required String scope,
+  }) =>
+      Action()
+        ..account = account_funds
+        ..name = proposalActionNameDelegate
+        ..authorization = [
+          Authorization()
+            ..actor = delegator
+            ..permission = permissionActive
+        ]
+        ..data = {
+          'delegator': delegator,
+          'delegatee': delegatee,
+          'scope': scope,
+        };
+
+  Action _createUndelegateAction({
+    required String delegator,
+    required String scope,
+  }) =>
+      Action()
+        ..account = account_funds
+        ..name = proposalActionNameUndelegate
+        ..authorization = [
+          Authorization()
+            ..actor = delegator
+            ..permission = permissionActive
+        ]
+        ..data = {
+          'delegator': delegator,
+          'scope': scope,
+        };
 }

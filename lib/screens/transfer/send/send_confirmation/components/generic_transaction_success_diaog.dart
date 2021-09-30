@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 
 class GenericTransactionSuccessDialog extends StatelessWidget {

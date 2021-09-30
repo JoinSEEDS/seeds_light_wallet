@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/rates/mappers/rates_state_mapper.dart';
-import 'package:seeds/blocs/rates/viewmodels/bloc.dart';
 import 'package:seeds/blocs/rates/usecases/get_rates_use_case.dart';
+import 'package:seeds/blocs/rates/viewmodels/bloc.dart';
 
 /// --- BLOC
 class RatesBloc extends Bloc<RatesEvent, RatesState> {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:seeds/screens/onboarding/components/onboarding_pages.dart';
 import 'package:seeds/i18n/onboarding/onboarding.i18n.dart';
+import 'package:seeds/screens/onboarding/components/onboarding_pages.dart';
 
 class FirstPage extends StatelessWidget {
   const FirstPage({Key? key}) : super(key: key);

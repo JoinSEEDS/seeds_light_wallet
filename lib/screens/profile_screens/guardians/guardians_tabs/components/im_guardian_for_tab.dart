@@ -4,10 +4,10 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
 import 'package:seeds/datasource/remote/model/firebase_models/guardian_type.dart';
+import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardian_list_widget.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/no_guardian_widget.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/guardians_bloc.dart';
-import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 
 class ImGuardianForTab extends StatelessWidget {
   const ImGuardianForTab({Key? key}) : super(key: key);

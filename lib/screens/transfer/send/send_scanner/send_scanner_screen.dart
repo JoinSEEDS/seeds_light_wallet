@@ -4,11 +4,11 @@ import 'package:seeds/components/scanner/scanner_widget.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/interactor/send_scanner_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/interactor/viewmodels/scanner_events.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/interactor/viewmodels/send_scanner_state.dart';
-import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 
 /// SendScannerScreen SCREEN
 class SendScannerScreen extends StatefulWidget {

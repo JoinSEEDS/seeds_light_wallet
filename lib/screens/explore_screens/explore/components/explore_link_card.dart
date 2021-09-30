@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/explore/explore.i18n.dart';
-import 'package:seeds/design/app_theme.dart';
 
 class ExploreLinkCard extends StatelessWidget {
   final String backgroundImage;

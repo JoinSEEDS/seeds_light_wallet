@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/utils/string_extension.dart';
 
 class UsernameGenerated extends PageCommand {}
 

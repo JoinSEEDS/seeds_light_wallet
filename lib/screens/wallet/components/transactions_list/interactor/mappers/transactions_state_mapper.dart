@@ -1,5 +1,5 @@
-import 'package:seeds/domain-shared/page_state.dart';
 import 'package:async/async.dart';
+import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_state.dart';
 
 class TransactionsListStateMapper {

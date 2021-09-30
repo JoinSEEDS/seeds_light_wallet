@@ -5,9 +5,9 @@ import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/planted_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_state.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
-import 'package:seeds/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
 
 class UserBalanceAndPlantedStateMapper extends StateMapper {
   PlantSeedsState mapResultToState(PlantSeedsState currentState, List<Result> results, RatesState rateState) {

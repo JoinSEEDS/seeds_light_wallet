@@ -1,5 +1,5 @@
-import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/utils/double_extension.dart';
 
 /// The seeds planted
 class PlantedModel {

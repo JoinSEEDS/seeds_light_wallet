@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/i18n/authentication/verification/verification.i18n.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/i18n/authentication/verification/verification.i18n.dart';
 
 class PasscodeCreatedDialog extends StatelessWidget {
   const PasscodeCreatedDialog({Key? key}) : super(key: key);
