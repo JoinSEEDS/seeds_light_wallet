@@ -23,21 +23,16 @@ const String _kTokensWhiteList = 'tokens_whitelist';
 const String _kIsCitizen = 'is_citizen';
 const String _kIsFirstRun = 'is_first_run';
 
-// Defaults
-const bool _kPasscodeActiveDefault = true;
-const bool _kBiometricActiveDefault = false;
-const bool _kIsCitizenDefault = false;
-const bool _kPrivateKeyBackedUpDefult = false;
-
 class _SettingsStorage {
   late SharedPreferences _preferences;
   late FlutterSecureStorage _secureStorage;
+  // These fields below are initialized from
+  // secure storage, to avoid call a Future often
   String? _privateKey;
   List<String>? _privateKeysList;
   String? _passcode;
   bool? _passcodeActive;
   bool? _biometricActive;
-  bool? _privateKeyBackedUp;
 
   factory _SettingsStorage() => _instance;
 
@@ -59,7 +54,7 @@ class _SettingsStorage {
 
   bool? get biometricActive => _biometricActive;
 
-  bool get privateKeyBackedUp => _privateKeyBackedUp ?? false; // <-- No used, need re-add PR 182
+  bool get privateKeyBackedUp => _preferences.getBool(_kPrivateKeyBackedUp) ?? false; // <-- No used, need re-add PR 182
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
 
@@ -71,7 +66,7 @@ class _SettingsStorage {
 
   List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [SeedsToken.id];
 
-  bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? _kIsCitizenDefault;
+  bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
@@ -121,9 +116,8 @@ class _SettingsStorage {
   }
 
   set privateKeyBackedUp(bool? value) {
-    _secureStorage.write(key: _kPrivateKeyBackedUp, value: value.toString());
     if (value != null) {
-      _privateKeyBackedUp = value;
+      _preferences.setBool(_kPrivateKeyBackedUp, value);
     }
   }
 
@@ -169,19 +163,13 @@ class _SettingsStorage {
       if (values.containsKey(_kPasscodeActive)) {
         _passcodeActive = values[_kPasscodeActive] == 'true';
       } else {
-        _passcodeActive = _kPasscodeActiveDefault;
+        _passcodeActive = true;
       }
 
       if (values.containsKey(_kBiometricActive)) {
         _biometricActive = values[_kBiometricActive] == 'true';
       } else {
-        _biometricActive = _kBiometricActiveDefault;
-      }
-
-      if (values.containsKey(_kPrivateKeyBackedUp)) {
-        _privateKeyBackedUp = values[_kPrivateKeyBackedUp] == 'true';
-      } else {
-        _privateKeyBackedUp = _kPrivateKeyBackedUpDefult;
+        _biometricActive = false;
       }
     });
   }
@@ -228,7 +216,7 @@ class _SettingsStorage {
     biometricActive = false;
   }
 
-  Future<void> saveAccount(String accountName, String privateKey) async {
+  Future<void> saveAccount({required String accountName, required String privateKey}) async {
     privateKeyBackedUp = false;
     _accountName = accountName;
     _privateKey = privateKey;
@@ -248,8 +236,8 @@ class _SettingsStorage {
     privateKeyBackedUp = false;
     _accountName = accountName;
     _passcode = null;
-    _passcodeActive = _kPasscodeActiveDefault;
-    _biometricActive = _kBiometricActiveDefault;
+    _passcodeActive = true;
+    _biometricActive = false;
   }
 
   void savePrivateKeyBackedUp(bool value) => privateKeyBackedUp = value;
@@ -264,8 +252,8 @@ class _SettingsStorage {
     _privateKey = null;
     _privateKeysList = null;
     _passcode = null;
-    _passcodeActive = _kPasscodeActiveDefault;
-    _biometricActive = _kBiometricActiveDefault;
+    _passcodeActive = true;
+    _biometricActive = false;
   }
 
   String getPlatformCurrency() {
