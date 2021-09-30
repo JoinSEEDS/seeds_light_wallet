@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -192,11 +193,16 @@ class _SettingsStorage {
     return value;
   }
 
-  void enableRecoveryMode({required String accountName, required String privateKey, required String recoveryLink}) {
+  // TODO SAVE WORDS
+  void enableRecoveryMode({
+    required String accountName,
+    required AuthDataModel authData,
+    required String recoveryLink,
+  }) {
     inRecoveryMode = true;
     _accountName = accountName;
     this.recoveryLink = recoveryLink;
-    this.privateKey = privateKey;
+    this.privateKey = authData.eOSPrivateKey.toString();
   }
 
   void finishRecoveryProcess() {
@@ -204,6 +210,7 @@ class _SettingsStorage {
     recoveryLink = null;
   }
 
+  // TODO remove words
   void cancelRecoveryProcess() {
     inRecoveryMode = false;
     _accountName = null;
@@ -213,14 +220,15 @@ class _SettingsStorage {
 
   void savePasscode(String? passcode) => this.passcode = passcode;
 
-  Future<void> saveAccount(String accountName, String privateKey) async {
+  // TODO save words
+  Future<void> saveAccount(String accountName, AuthDataModel authData) async {
     _accountName = accountName;
-    _privateKey = privateKey;
-    this.privateKey = privateKey;
+    _privateKey = authData.eOSPrivateKey.toString();
+    this.privateKey = authData.eOSPrivateKey.toString();
     final List<String> pkeys = _privateKeysList ?? [];
     // If new private key --> add to list
-    if (!pkeys.contains(privateKey)) {
-      pkeys.add(privateKey);
+    if (!pkeys.contains(authData)) {
+      pkeys.add(authData.eOSPrivateKey.toString());
       // Save updated private keys list
       await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(","));
       // Update local field

@@ -8,6 +8,8 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:seeds/datasource/local/models/auth_data_model.dart';
+import 'package:seeds/domain-shared/shared_use_cases/generate_random_key_and_words_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/stop_recovery_use_case.dart';
 import 'package:seeds/screens/authentication/sign_up/claim_invite/mappers/claim_invite_mapper.dart';
 import 'package:seeds/screens/authentication/sign_up/claim_invite/usecases/claim_invite_usecase.dart';
@@ -162,20 +164,20 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     final displayName = state.displayNameState.displayName;
     final username = state.createUsernameState.username;
 
-    final EOSPrivateKey privateKey = EOSPrivateKey.fromRandom();
+    final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
 
     final Result result = await _createAccountUseCase.run(
       inviteSecret: inviteSecret,
       displayName: displayName!,
       username: username!,
-      privateKey: privateKey,
+      authData: authData,
       phoneNumber: '',
     );
 
     if (!result.isError) {
       /// In case there was a recovery in place. We cancel it.
       StopRecoveryUseCase().run();
-      _authenticationBloc.add(OnCreateAccount(account: username, privateKey: privateKey.toString()));
+      _authenticationBloc.add(OnCreateAccount(account: username, authData: authData));
     }
 
     yield CreateAccountMapper().mapOnCreateAccountTappedToState(currentState, result);

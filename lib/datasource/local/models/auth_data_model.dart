@@ -6,4 +6,12 @@ class AuthDataModel {
   final List<String> words;
 
   AuthDataModel(this.eOSPrivateKey, this.words);
+
+  static AuthDataModel fromKeyAndWords(String key, List<String> words) {
+    return AuthDataModel(EOSPrivateKey.fromString(key), words);
+  }
+
+  static AuthDataModel fromKeyAndNoWords(String key) {
+    return AuthDataModel(EOSPrivateKey.fromString(key), []);
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:seeds/datasource/local/models/auth_data_model.dart';
 
 /// --- EVENTS
 @immutable
@@ -29,16 +30,16 @@ class SuccessOnResumeAuth extends AuthenticationEvent {
 
 class OnCreateAccount extends AuthenticationEvent {
   final String account;
-  final String privateKey;
-  const OnCreateAccount({required this.account, required this.privateKey});
+  final AuthDataModel authData;
+  const OnCreateAccount({required this.account, required this.authData});
   @override
   String toString() => 'OnCreateAccount { account: $account }';
 }
 
 class OnImportAccount extends AuthenticationEvent {
   final String account;
-  final String privateKey;
-  const OnImportAccount({required this.account, required this.privateKey});
+  final AuthDataModel authData;
+  const OnImportAccount({required this.account, required this.authData});
   @override
   String toString() => 'OnImportAccount { account: $account }';
 }
