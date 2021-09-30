@@ -36,6 +36,7 @@ class ProfileMiddle extends StatelessWidget {
               onTap: () async {
                 final bool? shouldRebuild = await NavigationService.of(context).navigateTo(Routes.setCurrency);
                 if (shouldRebuild != null && shouldRebuild) {
+                  // ignore: use_build_context_synchronously
                   BlocProvider.of<ProfileBloc>(context).add(const OnCurrencyChanged());
                 }
               },

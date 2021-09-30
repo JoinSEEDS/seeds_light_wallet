@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 class TokenModel extends Equatable {
-  static const AllTokens = [SeedsToken, HusdToken, HyphaToken, LocalScaleToken, StarsToken, TelosToken];
+  static const allTokens = [seedsToken, husdToken, hyphaToken, localScaleToken, starsToken, telosToken];
 
   final String chainName;
   final String contract;
@@ -27,11 +27,11 @@ class TokenModel extends Equatable {
   });
 
   factory TokenModel.fromSymbol(String symbol) {
-    return AllTokens.firstWhere((e) => e.symbol == symbol);
+    return allTokens.firstWhere((e) => e.symbol == symbol);
   }
 
   static TokenModel? fromSymbolOrNull(String symbol) {
-    return AllTokens.firstWhereOrNull((e) => e.symbol == symbol);
+    return allTokens.firstWhereOrNull((e) => e.symbol == symbol);
   }
 
   @override
@@ -42,7 +42,7 @@ class TokenModel extends Equatable {
   }
 }
 
-const SeedsToken = TokenModel(
+const seedsToken = TokenModel(
   chainName: "Telos",
   contract: "token.seeds",
   symbol: "SEEDS",
@@ -52,7 +52,7 @@ const SeedsToken = TokenModel(
   balanceSubTitle: 'Wallet Balance',
 );
 
-const HusdToken = TokenModel(
+const husdToken = TokenModel(
   chainName: "Telos",
   contract: "husd.hypha",
   symbol: "HUSD",
@@ -63,7 +63,7 @@ const HusdToken = TokenModel(
   precision: 2,
 );
 
-const HyphaToken = TokenModel(
+const hyphaToken = TokenModel(
   chainName: "Telos",
   contract: "token.hypha",
   symbol: "HYPHA",
@@ -74,7 +74,7 @@ const HyphaToken = TokenModel(
   precision: 2,
 );
 
-const LocalScaleToken = TokenModel(
+const localScaleToken = TokenModel(
   chainName: "Telos",
   contract: "token.local",
   symbol: "LSCL",
@@ -84,7 +84,7 @@ const LocalScaleToken = TokenModel(
   balanceSubTitle: 'Wallet Balance',
 );
 
-const StarsToken = TokenModel(
+const starsToken = TokenModel(
   chainName: "Telos",
   contract: "star.seeds",
   symbol: "STARS",
@@ -94,7 +94,7 @@ const StarsToken = TokenModel(
   balanceSubTitle: 'Wallet Balance',
 );
 
-const TelosToken = TokenModel(
+const telosToken = TokenModel(
   chainName: "Telos",
   contract: "eosio.token",
   symbol: "TLOS",

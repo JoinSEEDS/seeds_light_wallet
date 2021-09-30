@@ -66,6 +66,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                               final clipboardData = await Clipboard.getData('text/plain');
                               final clipboardText = clipboardData?.text ?? '';
                               _keyController.text = clipboardText;
+                              // ignore: use_build_context_synchronously
                               BlocProvider.of<ImportKeyBloc>(context)
                                   .add(OnPrivateKeyChange(privateKeyChanged: clipboardText));
                               _onSubmitted();

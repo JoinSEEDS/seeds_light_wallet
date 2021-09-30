@@ -42,7 +42,7 @@ class TokenBalancesState extends Equatable {
     return TokenBalancesState(
       selectedIndex: 0,
       pageState: PageState.initial,
-      availableTokens: [TokenBalanceViewModel(SeedsToken, null)],
+      availableTokens: [TokenBalanceViewModel(seedsToken, null)],
     );
   }
 }

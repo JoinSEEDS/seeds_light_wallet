@@ -50,7 +50,7 @@ class TransactionModel extends Equatable {
   }
 
   static TransactionModel? fromTransaction(GenericTransactionModel genericModel) {
-    if (genericModel.action == transfer_action) {
+    if (genericModel.action == transferAction) {
       final data = genericModel.data;
       final String? from = data['from'];
       final String? to = data['to'];

@@ -10,8 +10,8 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: account_funds,
-      scope: account_funds,
+      code: accountFunds,
+      scope: accountFunds,
       table: tableVoice,
       lowerBound: userAccount,
       upperBound: userAccount,
@@ -30,7 +30,7 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: account_funds,
+      code: accountFunds,
       scope: 'alliance',
       table: tableVoice,
       lowerBound: userAccount,
@@ -50,7 +50,7 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: account_funds,
+      code: accountFunds,
       scope: 'milestone',
       table: tableVoice,
       lowerBound: userAccount,
@@ -70,8 +70,8 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: account_rules,
-        scope: account_rules,
+        code: accountRules,
+        scope: accountRules,
         table: tableBalances,
         lowerBound: userAccount,
         upperBound: userAccount);

@@ -41,7 +41,7 @@ abstract class NetworkRepository {
     }
   }
 
-  Result mapHttpError(error) {
+  Result mapHttpError(dynamic error) {
     print('mapHttpError: $error');
     return ErrorResult(error);
   }

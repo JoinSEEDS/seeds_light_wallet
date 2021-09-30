@@ -47,7 +47,7 @@ abstract class EosRepository {
   Transaction buildFreeTransaction(List<Action> actions, String? accountName) {
     final freeAuth = <Authorization>[
       Authorization()
-        ..actor = account_harvest
+        ..actor = accountHarvest
         ..permission = 'payforcpu',
       Authorization()
         ..actor = accountName
@@ -55,7 +55,7 @@ abstract class EosRepository {
     ];
 
     final freeAction = Action()
-      ..account = account_harvest
+      ..account = accountHarvest
       ..name = 'payforcpu'
       ..authorization = freeAuth
       ..data = {'account': accountName};
@@ -84,7 +84,7 @@ abstract class EosRepository {
     }
   }
 
-  Result mapEosError(error) {
+  Result mapEosError(dynamic error) {
     print('mapEosError: $error');
     return ErrorResult(error);
   }

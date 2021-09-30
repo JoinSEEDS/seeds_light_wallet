@@ -48,7 +48,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
       yield state.copyWith(pageState: PageState.loading, showSendingAnimation: true);
 
       final Result result = await SendTransactionUseCase().run(
-        actionName: transfer_action,
+        actionName: transferAction,
         account: settingsStorage.selectedToken.contract,
         data: {
           'from': settingsStorage.accountName,

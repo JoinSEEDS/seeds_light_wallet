@@ -11,7 +11,7 @@ class GetInitialDeepLinkUseCase {
     final placeHolder = splitUri[0];
     final linkData = splitUri[1];
 
-    var deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_UNKNOWN;
+    var deepLinkPlaceHolder = DeepLinkPlaceHolder.linkUnknown;
     if (placeHolder.contains("guardian")) {
       final SeedsESR request = SeedsESR(uri: linkData);
 
@@ -19,16 +19,16 @@ class GetInitialDeepLinkUseCase {
       final action = request.actions.first;
       final data = Map<String, dynamic>.from(action.data as Map<dynamic, dynamic>);
 
-      deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_GUARDIANS;
+      deepLinkPlaceHolder = DeepLinkPlaceHolder.linkGuardians;
       return ValueResult(DeepLinkData(data, deepLinkPlaceHolder));
     } else if (placeHolder.contains("invite")) {
-      deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_INVITE;
+      deepLinkPlaceHolder = DeepLinkPlaceHolder.linkInvite;
       return ValueResult(DeepLinkData(
         {"Mnemonic": linkData},
         deepLinkPlaceHolder,
       ));
     } else {
-      deepLinkPlaceHolder = DeepLinkPlaceHolder.LINK_UNKNOWN;
+      deepLinkPlaceHolder = DeepLinkPlaceHolder.linkUnknown;
       return ValueResult(DeepLinkData(
         {},
         deepLinkPlaceHolder,

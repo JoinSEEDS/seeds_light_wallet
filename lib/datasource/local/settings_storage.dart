@@ -62,13 +62,13 @@ class _SettingsStorage {
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
 
-  TokenModel get selectedToken => TokenModel.fromSymbol(_preferences.getString(_kSelectedToken) ?? SeedsToken.symbol);
+  TokenModel get selectedToken => TokenModel.fromSymbol(_preferences.getString(_kSelectedToken) ?? seedsToken.symbol);
 
   bool get inRecoveryMode => _preferences.getBool(_kInRecoveryMode) ?? false;
 
   String get recoveryLink => _preferences.getString(_kRecoveryLink) ?? '';
 
-  List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [SeedsToken.id];
+  List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [seedsToken.id];
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? _kIsCitizenDefault;
 
@@ -77,6 +77,7 @@ class _SettingsStorage {
   set recoveryLink(String? value) =>
       value == null ? _preferences.remove(_kRecoveryLink) : _preferences.setString(_kRecoveryLink, value);
 
+  // ignore: avoid_setters_without_getters
   set _accountName(String? value) {
     _preferences.setString(_kAccountName, value ?? '');
     // Retrieve accounts list
@@ -211,6 +212,7 @@ class _SettingsStorage {
     recoveryLink = null;
   }
 
+  // ignore: use_setters_to_change_properties
   void savePasscode(String? passcode) => this.passcode = passcode;
 
   Future<void> saveAccount(String accountName, String privateKey) async {
@@ -228,10 +230,13 @@ class _SettingsStorage {
     }
   }
 
+  // ignore: use_setters_to_change_properties
   void savePrivateKeyBackedUp(bool value) => privateKeyBackedUp = value;
 
+  // ignore: use_setters_to_change_properties
   void saveSelectedFiatCurrency(String value) => selectedFiatCurrency = value;
 
+  // ignore: use_setters_to_change_properties
   void saveIsCitizen(bool value) => isCitizen = value;
 
   Future<void> removeAccount() async {

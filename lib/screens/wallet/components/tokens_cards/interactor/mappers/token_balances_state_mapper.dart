@@ -16,7 +16,7 @@ class TokenBalancesStateMapper {
     final List<TokenBalanceViewModel> available = [];
 
     final Iterable<TokenModel> whitelist =
-        TokenModel.AllTokens.where((element) => settingsStorage.tokensWhitelist.contains(element.id));
+        TokenModel.allTokens.where((element) => settingsStorage.tokensWhitelist.contains(element.id));
 
     final List<TokenModel> blacklist = []; // user has chosen to hide this token
 
@@ -48,7 +48,7 @@ class TokenBalancesStateMapper {
     // load colors
     final repo = ColorPaletteRepository();
     for (final TokenBalanceViewModel viewModel in available) {
-      if (viewModel.token != SeedsToken) {
+      if (viewModel.token != seedsToken) {
         viewModel.dominantColor = await repo.getImagePaletteCached(viewModel.token.backgroundImage);
       }
     }

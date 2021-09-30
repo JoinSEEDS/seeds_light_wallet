@@ -19,8 +19,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     final ms = DateTime.now().toUtc().millisecondsSinceEpoch;
     final request = createRequest(
-      code: account_cycle,
-      scope: account_cycle,
+      code: accountCycle,
+      scope: accountCycle,
       table: tableMoonphases,
       limit: 4,
       lowerBound: '${(ms / 1000).round()}',
@@ -40,8 +40,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get proposals type - ${proposalType.type}');
 
     final request = createRequest(
-      code: account_funds,
-      scope: account_funds,
+      code: accountFunds,
+      scope: accountFunds,
       table: tableProps,
       lowerBound: proposalType.proposalStage,
       upperBound: proposalType.proposalStage,
@@ -69,7 +69,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get referendums: stage = [$scope]');
 
     final request = createRequest(
-      code: account_rules,
+      code: accountRules,
       scope: scope,
       table: tableReferendums,
       limit: 100,
@@ -93,7 +93,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> getSupportLevel(String scope) {
     print('[http] get support level for scope: $scope');
 
-    final request = createRequest(code: account_funds, scope: scope, table: tableSupport);
+    final request = createRequest(code: accountFunds, scope: scope, table: tableSupport);
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
@@ -109,7 +109,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get vote for proposal: $proposalId');
 
     final request = createRequest(
-      code: account_funds,
+      code: accountFunds,
       scope: '$proposalId',
       table: tableProposalVotes,
       lowerBound: account,
@@ -131,7 +131,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get vote for referendum: $referendumId');
 
     final request = createRequest(
-      code: account_rules,
+      code: accountRules,
       scope: '$referendumId',
       table: tableReferendumVoters,
       lowerBound: account,
@@ -154,7 +154,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = account_funds
+        ..account = accountFunds
         ..name = amount.isNegative ? actionNameAgainst : actionNameFavour
         ..authorization = [
           Authorization()
@@ -177,7 +177,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = account_rules
+        ..account = accountRules
         ..name = amount.isNegative ? actionNameAgainst : actionNameFavour
         ..authorization = [
           Authorization()
@@ -233,7 +233,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     required String scope,
   }) =>
       Action()
-        ..account = account_funds
+        ..account = accountFunds
         ..name = proposalActionNameDelegate
         ..authorization = [
           Authorization()
@@ -251,7 +251,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     required String scope,
   }) =>
       Action()
-        ..account = account_funds
+        ..account = accountFunds
         ..name = proposalActionNameUndelegate
         ..authorization = [
           Authorization()

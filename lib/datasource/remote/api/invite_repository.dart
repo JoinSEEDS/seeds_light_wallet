@@ -24,7 +24,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = account_token
+        ..account = accountToken
         ..name = actionNameTransfer
         ..authorization = [
           Authorization()
@@ -33,12 +33,12 @@ class InviteRepository extends NetworkRepository with EosRepository {
         ]
         ..data = {
           'from': accountName,
-          'to': account_join,
+          'to': accountJoin,
           'quantity': '${quantity.toStringAsFixed(4)} $currencySeedsCode',
           'memo': '',
         },
       Action()
-        ..account = account_join
+        ..account = accountJoin
         ..name = actionNameInvite
         ..authorization = [
           Authorization()
@@ -66,7 +66,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    final request = createRequest(code: account_accounts, scope: account_accounts, table: tableUsers, limit: 1000);
+    final request = createRequest(code: accountAccounts, scope: accountAccounts, table: tableUsers, limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
@@ -84,8 +84,8 @@ class InviteRepository extends NetworkRepository with EosRepository {
     // 'https://node.hypha.earth/v1/chain/get_table_rows'; // todo: Why is this still Hypha when config has changed?
 
     final request = createRequest(
-        code: account_join,
-        scope: account_join,
+        code: accountJoin,
+        scope: accountJoin,
         table: tableInvites,
         lowerBound: inviteHash,
         upperBound: inviteHash,

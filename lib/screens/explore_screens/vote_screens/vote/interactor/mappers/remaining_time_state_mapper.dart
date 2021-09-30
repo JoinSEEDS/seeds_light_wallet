@@ -13,7 +13,9 @@ const int _minuteSecond = 60;
 
 class RemainingTimeStateMapper {
   VoteState mapResultToState(VoteState currentState, int remainingTime) {
-    int days = 0, hours = 0, min = 0;
+    int days = 0;
+    int hours = 0;
+    int min = 0;
     int remainingTimeStamp = (remainingTime - DateTime.now().millisecondsSinceEpoch) ~/ 1000;
 
     ///Calculate the number of days remaining.

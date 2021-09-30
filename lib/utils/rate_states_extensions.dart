@@ -6,14 +6,14 @@ import 'package:seeds/datasource/remote/model/token_model.dart';
 extension RatesStateExtensions on RatesState {
   FiatDataModel? tokenToFiat(TokenDataModel tokenAmount, String currencySymbol) {
     // Convert seeds to USD
-    if (tokenAmount.symbol == SeedsToken.symbol) {
+    if (tokenAmount.symbol == seedsToken.symbol) {
       final double? usdValue = rate?.seedsToUSD(tokenAmount.amount);
       if (usdValue != null) {
         // Convert the seeds (USD amount) in the new currency
         final double? res = fiatRate?.usdToCurrency(usdValue, currencySymbol);
         return res != null ? FiatDataModel(res, fiatSymbol: currencySymbol) : null;
       }
-    } else if (tokenAmount.symbol == HusdToken.symbol) {
+    } else if (tokenAmount.symbol == husdToken.symbol) {
       final double usdValue = tokenAmount.amount;
       final double? res = fiatRate?.usdToCurrency(usdValue, currencySymbol);
       return res != null ? FiatDataModel(res, fiatSymbol: currencySymbol) : null;
@@ -25,13 +25,13 @@ extension RatesStateExtensions on RatesState {
     // Convert seeds to USD
     final double? usdValue = fiatRate?.currencyToUSD(fiatAmount.amount, fiatAmount.symbol);
     if (usdValue != null) {
-      if (tokenSymbol == SeedsToken.symbol) {
+      if (tokenSymbol == seedsToken.symbol) {
         final double? seedsValue = rate?.usdToSeeds(usdValue);
         if (seedsValue != null) {
           return TokenDataModel(seedsValue);
         }
-      } else if (tokenSymbol == HusdToken.symbol) {
-        return TokenDataModel(usdValue, token: HusdToken);
+      } else if (tokenSymbol == husdToken.symbol) {
+        return TokenDataModel(usdValue, token: husdToken);
       }
     }
     return null;

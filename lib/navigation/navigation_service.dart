@@ -145,6 +145,7 @@ class NavigationService {
     Routes.wallet: (_) => const WalletScreen(),
   };
 
+  // ignore: use_setters_to_change_properties
   void addListener(StreamController<String> listener) {
     streamRouteListener = listener;
   }

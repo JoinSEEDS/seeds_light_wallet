@@ -11,8 +11,8 @@ class PlantedRepository extends NetworkRepository {
     final plantedURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: account_harvest,
-        scope: account_harvest,
+        code: accountHarvest,
+        scope: accountHarvest,
         table: tableBalances,
         lowerBound: userAccount,
         upperBound: userAccount);

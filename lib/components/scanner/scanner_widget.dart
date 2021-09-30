@@ -69,7 +69,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
     });
   }
 
-  Widget buildStateView(state) {
+  Widget buildStateView(ScannerState state) {
     switch (state.scanStatus) {
       case ScanStatus.scan:
         _handledQrCode = false;
