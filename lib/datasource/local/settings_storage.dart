@@ -26,7 +26,7 @@ const String _kIsFirstRun = 'is_first_run';
 class _SettingsStorage {
   late SharedPreferences _preferences;
   late FlutterSecureStorage _secureStorage;
-  // These fields below are initialized from
+  // These nullable fields below are initialized from
   // secure storage, to avoid call a Future often
   String? _privateKey;
   List<String>? _privateKeysList;
