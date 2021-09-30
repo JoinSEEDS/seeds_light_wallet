@@ -106,7 +106,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                     ),
                   )
                 else
-                  SizedBox.shrink(),
+                  const SizedBox.shrink(),
                 const SizedBox(height: 24),
                 const Expanded(child: ImportKeyAccountsWidget()),
               ],
