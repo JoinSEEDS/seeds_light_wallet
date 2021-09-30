@@ -3,14 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/alert_input_value.dart';
 import 'package:seeds/components/balance_row.dart';
+import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/snack_bar_info.dart';
+import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'components/claim_unplant_seeds_balance_row.dart';
 import 'components/unplant_seeds_amount_entry.dart';
 import 'components/unplant_seeds_success_dialog.dart';
 import 'interactor/viewmodels/unplant_seeds_bloc.dart';
@@ -86,15 +89,19 @@ class UnplantSeedsScreen extends StatelessWidget {
                                     .add(OnMaxButtonTap(maxAmount: state.plantedBalance?.amount.toString() ?? '0'));
                               },
                             ),
-                            const SizedBox(
-                              height: 24,
-                            ),
+                            const SizedBox(height: 24),
                             AlertInputValue('Not enough balance', isVisible: state.showOverBalanceAlert),
                             AlertInputValue('Need to keep at least 5 planted seeds',
                                 isVisible: state.showMinPlantedBalanceAlert),
-                            const SizedBox(
-                              height: 60,
-                            ),
+                            const SizedBox(height: 60),
+                            ClaimUnplantSeedsBalanceRow(
+                                onTapClaim: () {},
+                                isClaimButtonEnable: false,
+                                tokenAmount: TokenDataModel(0),
+                                fiatAmount: FiatDataModel(0)),
+                            const SizedBox(height: 10),
+                            const DividerJungle(),
+                            const SizedBox(height: 10),
                             BalanceRow(
                                 label: "Planted Balance",
                                 tokenAmount: state.plantedBalance,

@@ -28,11 +28,21 @@ abstract class EosRepository {
   String actionNameAcceptnew = 'acceptnew';
   String actionNameRecover = 'recover';
   String actionNameUnplant = 'unplant';
+  String proposalActionNameDelegate = 'delegate';
+  String proposalActionNameUndelegate = 'undelegate';
 
   // Authorizations
   String permissionActive = 'active';
   String permissionOwner = 'owner';
   String permissionApplication = 'application';
+
+  // Voice scopes
+  List<String> voiceScopes = [
+    "alliance",
+    "funds.seeds", // Note: this is the campaign voice scope
+    "milestone",
+    // "referendum", // referendum delegation not working on the contract side at the moment
+  ];
 
   Transaction buildFreeTransaction(List<Action> actions, String? accountName) {
     final freeAuth = <Authorization>[
