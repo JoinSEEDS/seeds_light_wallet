@@ -36,10 +36,8 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
     } else if (event is OnPrivateKeyChange) {
       yield state.copyWith(enableButton: event.privateKeyChanged.isNotEmpty);
     } else if (event is OnWordChange) {
-      final words = state.words;
-      words[event.wordIndex] = event.word;
-      yield state.copyWith(words: words);
-      yield state.copyWith(enableButton: state.areAllWordsEntered);
+      state.words[event.wordIndex] = event.word;
+      yield state.copyWith(words: state.words, enableButton: state.areAllWordsEntered);
     } else if (event is FindAccountFromWords) {
       // TODO(gguij002): Add use case to fetch key from words
     }

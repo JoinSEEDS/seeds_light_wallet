@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/flat_button_long_outlined.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/authentication/login.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -70,7 +71,15 @@ class LoginScreen extends StatelessWidget {
                   Text("Already have a Seeds Account?".i18n, style: Theme.of(context).textTheme.subtitle2),
                   const SizedBox(height: 10),
                   FlatButtonLongOutlined(
-                    onPressed: () => NavigationService.of(context).navigateTo(Routes.importWords),
+                    onPressed: () {
+                      /// We use remoteConfigurations directly here because this page doesnt have blocs.
+                      /// !!!Please do not copy this pattern!!!
+                      if (true) {
+                        NavigationService.of(context).navigateTo(Routes.importWords);
+                      } else {
+                        NavigationService.of(context).navigateTo(Routes.importKey);
+                      }
+                    },
                     title: "Import Account".i18n,
                   )
                 ],

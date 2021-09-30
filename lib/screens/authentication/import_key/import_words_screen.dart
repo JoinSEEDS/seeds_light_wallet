@@ -9,9 +9,8 @@ import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/import_key_bloc.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_events.dart';
+import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_state.dart';
 import 'package:seeds/utils/mnemonic_code/words_list.dart';
-
-import 'interactor/viewmodels/import_key_state.dart';
 
 const NUMBER_OF_WORDS = 12;
 const NUMBER_OF_COLUMNS = 3;
@@ -46,20 +45,20 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
             appBar: AppBar(),
             body: Padding(
               padding: const EdgeInsets.all(horizontalEdgePadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "Enter your 12-Word Recovery Phrase to recover your account.",
-                    style: Theme.of(context).textTheme.subtitle3,
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(height: 24),
-                  Form(
-                    child: GridView.count(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      "Enter your 12-Word Recovery Phrase to recover your account.",
+                      style: Theme.of(context).textTheme.subtitle3,
+                      textAlign: TextAlign.left,
+                    ),
+                    const SizedBox(height: 24),
+                    GridView.count(
                       padding: const EdgeInsets.only(top: 16),
                       // to disable GridView's scrolling
-                      // physics: const NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       crossAxisCount: NUMBER_OF_COLUMNS,
                       childAspectRatio: NUMBER_OF_COLUMNS / 2,
@@ -105,20 +104,20 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
                         );
                       }),
                     ),
-                  ),
 
-                  // Padding(
-                  //   padding: const EdgeInsets.only(right: 24, left: 24),
-                  //   child: Text(
-                  //     "If you already have a Seeds account, please enter your private key and your account will be imported automatically."
-                  //         .i18n,
-                  //     style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                  //     textAlign: TextAlign.center,
-                  //   ),
-                  // ),
-                  const SizedBox(height: 24),
-                  const Expanded(child: ImportKeyAccountsWidget()),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24, left: 24),
+                      child: Text(
+                        "If you already have a Seeds account, please enter your private key and your account will be imported automatically."
+                            .i18n,
+                        style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    // const SizedBox(height: 24),
+                    // const Expanded(child: ImportKeyAccountsWidget()),
+                  ],
+                ),
               ),
             ),
           );
