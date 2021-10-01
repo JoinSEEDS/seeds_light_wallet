@@ -70,12 +70,12 @@ class SecurityState extends Equatable {
     );
   }
 
-  factory SecurityState.initial(bool featureFlagExportRecoveryPhraseEnabled) {
+  factory SecurityState.initial(bool shouldShowRecoveryWordsFeature) {
     return SecurityState(
       pageState: PageState.initial,
       currentChoice: CurrentChoice.initial,
       hasNotification: false,
-      shouldShowExportRecoveryPhrase: featureFlagExportRecoveryPhraseEnabled,
+      shouldShowExportRecoveryPhrase: shouldShowRecoveryWordsFeature
     );
   }
 }
