@@ -4,6 +4,7 @@ import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/shared_use_cases/remove_account_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
+import 'package:seeds/domain-shared/shared_use_cases/switch_account_use_case.dart';
 
 /// --- BLOC
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -30,24 +31,24 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
     if (event is OnImportAccount) {
       SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
-      settingsStorage.privateKeyBackedUp = true;
       // New account --> re-start auth status
       add(const InitAuthStatus());
     }
     if (event is OnRecoverAccount) {
       settingsStorage.finishRecoveryProcess();
-      settingsStorage.privateKeyBackedUp = false;
       // Recovered account --> re-start auth status
       add(const InitAuthStatus());
     }
+    if (event is OnSwitchAccount) {
+      SwitchAccountUseCase().run(event.account);
+      // New account --> re-start auth status
+      add(const InitAuthStatus());
+    }
     if (event is EnablePasscode) {
-      settingsStorage.savePasscode(event.newPasscode);
-      settingsStorage.passcodeActive = true;
+      settingsStorage.enablePasscode(event.newPasscode);
     }
     if (event is DisablePasscode) {
-      settingsStorage.passcode = null;
-      settingsStorage.passcodeActive = false;
-      settingsStorage.biometricActive = false;
+      settingsStorage.disablePasscode();
     }
     if (event is EnableBiometric) {
       settingsStorage.biometricActive = true;

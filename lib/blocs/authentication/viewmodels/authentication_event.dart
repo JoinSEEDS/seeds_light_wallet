@@ -50,6 +50,14 @@ class OnRecoverAccount extends AuthenticationEvent {
   String toString() => 'OnRecoverAccount';
 }
 
+class OnSwitchAccount extends AuthenticationEvent {
+  final String account;
+
+  const OnSwitchAccount(this.account);
+  @override
+  String toString() => 'OnSwitchAccount { account: $account }';
+}
+
 class UnlockWallet extends AuthenticationEvent {
   const UnlockWallet();
   @override

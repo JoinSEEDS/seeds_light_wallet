@@ -24,20 +24,16 @@ const String _kTokensWhiteList = 'tokens_whitelist';
 const String _kIsCitizen = 'is_citizen';
 const String _kIsFirstRun = 'is_first_run';
 
-// Defaults
-const bool _kPasscodeActiveDefault = true;
-const bool _kBiometricActiveDefault = false;
-const bool _kIsCitizenDefault = false;
-
 class _SettingsStorage {
   late SharedPreferences _preferences;
   late FlutterSecureStorage _secureStorage;
+  // These nullable fields below are initialized from
+  // secure storage, to avoid call a Future often
   String? _privateKey;
   List<String>? _privateKeysList;
   String? _passcode;
   bool? _passcodeActive;
   bool? _biometricActive;
-  bool? _privateKeyBackedUp;
 
   factory _SettingsStorage() => _instance;
 
@@ -59,7 +55,7 @@ class _SettingsStorage {
 
   bool? get biometricActive => _biometricActive;
 
-  bool get privateKeyBackedUp => _privateKeyBackedUp ?? false; // <-- No used, need re-add PR 182
+  bool get privateKeyBackedUp => _preferences.getBool(_kPrivateKeyBackedUp) ?? false; // <-- No used, need re-add PR 182
 
   String get selectedFiatCurrency => _preferences.getString(_kSelectedFiatCurrency) ?? getPlatformCurrency();
 
@@ -71,7 +67,7 @@ class _SettingsStorage {
 
   List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [SeedsToken.id];
 
-  bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? _kIsCitizenDefault;
+  bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
@@ -79,11 +75,15 @@ class _SettingsStorage {
       value == null ? _preferences.remove(_kRecoveryLink) : _preferences.setString(_kRecoveryLink, value);
 
   set _accountName(String? value) {
+    // When start import account, cancel recovery funtion is fired, so
+    // this should set the current accountName to null, but ...
+    // if null arrives here the account name is saved with empty string (I think this is a bad practice)
     _preferences.setString(_kAccountName, value ?? '');
     // Retrieve accounts list
     final List<String> accts = accountsList;
     // If new account --> add to list
-    if (!accountsList.contains(value)) {
+    // but check accountName is not a empty string to add
+    if (!accountsList.contains(value) && accountName.isNotEmpty) {
       accts.add(accountName);
       // Save updated accounts list
       _preferences.setStringList(_kAccountsList, accts);
@@ -117,9 +117,8 @@ class _SettingsStorage {
   }
 
   set privateKeyBackedUp(bool? value) {
-    _secureStorage.write(key: _kPrivateKeyBackedUp, value: value.toString());
     if (value != null) {
-      _privateKeyBackedUp = value;
+      _preferences.setBool(_kPrivateKeyBackedUp, value);
     }
   }
 
@@ -165,19 +164,13 @@ class _SettingsStorage {
       if (values.containsKey(_kPasscodeActive)) {
         _passcodeActive = values[_kPasscodeActive] == 'true';
       } else {
-        _passcodeActive = _kPasscodeActiveDefault;
+        _passcodeActive = true;
       }
 
       if (values.containsKey(_kBiometricActive)) {
         _biometricActive = values[_kBiometricActive] == 'true';
       } else {
-        _biometricActive = _kBiometricActiveDefault;
-      }
-
-      if (values.containsKey(_kPrivateKeyBackedUp)) {
-        _privateKeyBackedUp = values[_kPrivateKeyBackedUp] == 'true';
-      } else {
-        _privateKeyBackedUp = false;
+        _biometricActive = false;
       }
     });
   }
@@ -194,7 +187,7 @@ class _SettingsStorage {
   }
 
   // TODO SAVE WORDS
-  void enableRecoveryMode({
+  void startRecoveryProcess({
     required String accountName,
     required AuthDataModel authData,
     required String recoveryLink,
@@ -206,6 +199,7 @@ class _SettingsStorage {
   }
 
   void finishRecoveryProcess() {
+    privateKeyBackedUp = false;
     inRecoveryMode = false;
     recoveryLink = null;
   }
@@ -218,11 +212,21 @@ class _SettingsStorage {
     recoveryLink = null;
   }
 
-  void savePasscode(String? passcode) => this.passcode = passcode;
+  void enablePasscode(String? passcode) {
+    this.passcode = passcode;
+    passcodeActive = true;
+  }
+
+  void disablePasscode() {
+    passcode = null;
+    passcodeActive = false;
+    biometricActive = false;
+  }
 
   // TODO save words
   Future<void> saveAccount(String accountName, AuthDataModel authData) async {
     _accountName = accountName;
+    privateKeyBackedUp = false;
     _privateKey = authData.eOSPrivateKey.toString();
     this.privateKey = authData.eOSPrivateKey.toString();
     final List<String> pkeys = _privateKeysList ?? [];
@@ -234,6 +238,11 @@ class _SettingsStorage {
       // Update local field
       _privateKeysList = pkeys;
     }
+  }
+
+  void switchAccount(String accountName) {
+    privateKeyBackedUp = false;
+    _accountName = accountName;
   }
 
   void savePrivateKeyBackedUp(bool value) => privateKeyBackedUp = value;
@@ -248,8 +257,8 @@ class _SettingsStorage {
     _privateKey = null;
     _privateKeysList = null;
     _passcode = null;
-    _passcodeActive = _kPasscodeActiveDefault;
-    _biometricActive = _kBiometricActiveDefault;
+    _passcodeActive = true;
+    _biometricActive = false;
   }
 
   String getPlatformCurrency() {
