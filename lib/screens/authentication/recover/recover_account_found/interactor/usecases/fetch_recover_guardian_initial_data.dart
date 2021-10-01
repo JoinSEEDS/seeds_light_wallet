@@ -64,6 +64,7 @@ class FetchRecoverGuardianInitialDataUseCase {
       membersData: membersData,
       userRecoversModel: accountRecovery,
       accountGuardians: accountGuardians,
+      // TODO(gguij002): The words must come from the settings storage
       authData: AuthDataModel.fromKeyAndWords(settingsStorage.privateKey!, "words-words".split('-')),
     );
   }

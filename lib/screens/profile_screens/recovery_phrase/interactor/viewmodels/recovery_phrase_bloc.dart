@@ -8,6 +8,7 @@ import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/blo
 const TWELVE_WORDS = 128;
 
 class RecoveryPhraseBloc extends Bloc<SecurityEvent, RecoveryPhraseState> {
+  // TODO(gguij002): The words must come from the settings storage
   RecoveryPhraseBloc()
       : super(RecoveryPhraseState.initial(
             "film-survey-erase-lake-field-convince-ceiling-series-grunt-foil-weird-miracle".split("-")));

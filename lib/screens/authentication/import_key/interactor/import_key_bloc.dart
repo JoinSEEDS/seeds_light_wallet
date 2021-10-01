@@ -33,6 +33,7 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       /// In case there was a recovery in place. We cancel it.
       StopRecoveryUseCase().run();
 
+      /// The user entered the app using the Key and not the words. We dont have access to the words.
       _authenticationBloc.add(
         OnImportAccount(account: event.account, authData: AuthDataModel.fromKeyAndNoWords(state.privateKey.toString())),
       );

@@ -231,7 +231,7 @@ class _SettingsStorage {
     this.privateKey = authData.eOSPrivateKey.toString();
     final List<String> pkeys = _privateKeysList ?? [];
     // If new private key --> add to list
-    if (!pkeys.contains(authData)) {
+    if (!pkeys.contains(authData.eOSPrivateKey.toString())) {
       pkeys.add(authData.eOSPrivateKey.toString());
       // Save updated private keys list
       await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(","));
