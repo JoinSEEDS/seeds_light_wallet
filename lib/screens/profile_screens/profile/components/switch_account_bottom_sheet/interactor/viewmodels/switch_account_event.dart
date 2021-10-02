@@ -16,10 +16,10 @@ class FindAccountsByKey extends SwitchAccountEvent {
 }
 
 class OnAccountSelected extends SwitchAccountEvent {
-  final String account;
+  final ProfileModel profile;
 
-  const OnAccountSelected({required this.account});
+  const OnAccountSelected(this.profile);
 
   @override
-  String toString() => 'OnAccountSelected: { account: $account }';
+  String toString() => 'OnAccountSelected: { profile: $profile }';
 }

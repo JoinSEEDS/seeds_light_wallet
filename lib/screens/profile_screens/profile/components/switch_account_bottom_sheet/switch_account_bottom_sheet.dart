@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/components/snack_bar_info.dart';
@@ -16,7 +17,7 @@ class SwithAccountBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SwitchAccountBloc()..add(const FindAccountsByKey()),
+      create: (_) => SwitchAccountBloc(BlocProvider.of<AuthenticationBloc>(context))..add(const FindAccountsByKey()),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
@@ -78,13 +79,15 @@ class SwithAccountBottomSheet extends StatelessWidget {
                                   activeColor: AppColors.green3,
                                   value: i,
                                   groupValue: state.currentAcccout,
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    BlocProvider.of<SwitchAccountBloc>(context).add(OnAccountSelected(value!));
+                                  },
                                 ),
                               ],
                             ),
                           ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          padding: const EdgeInsets.only(top: 10.0, bottom: 40.0),
                           child: InkWell(
                             onTap: () {},
                             child: Row(
@@ -98,7 +101,6 @@ class SwithAccountBottomSheet extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 30.0),
                       ],
                     );
                   default:

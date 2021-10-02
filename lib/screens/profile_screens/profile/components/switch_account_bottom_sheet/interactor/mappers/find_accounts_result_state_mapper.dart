@@ -1,3 +1,4 @@
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
@@ -20,7 +21,10 @@ class FindAccountsResultStateMapper extends StateMapper {
           .map((Result result) => result.asValue!.value as ProfileModel)
           .toList();
 
-      return currentState.copyWith(pageState: PageState.success, accounts: profiles, currentAcccout: profiles.first);
+      final currentAccount =
+          profiles.singleWhere((i) => i.account == settingsStorage.accountName, orElse: () => profiles.first);
+
+      return currentState.copyWith(pageState: PageState.success, accounts: profiles, currentAcccout: currentAccount);
     }
   }
 }
