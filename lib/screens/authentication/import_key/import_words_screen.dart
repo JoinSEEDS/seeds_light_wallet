@@ -93,7 +93,7 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
                               if (textEditingValue.text == '') {
                                 return const Iterable<String>.empty();
                               }
-                              return WORDLIST.where((String option) {
+                              return wordList.where((String option) {
                                 return option.startsWith(textEditingValue.text.toLowerCase());
                               });
                             },
