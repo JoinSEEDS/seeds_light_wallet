@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/stop_recovery_use_case.dart';
 import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
@@ -32,7 +33,10 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       /// In case there was a recovery in place. We cancel it.
       StopRecoveryUseCase().run();
 
-      _authenticationBloc.add(OnImportAccount(account: event.account, privateKey: state.privateKey.toString()));
+      /// The user entered the app using the Key and not the words. We dont have access to the words.
+      _authenticationBloc.add(
+        OnImportAccount(account: event.account, authData: AuthDataModel.fromKeyAndNoWords(state.privateKey.toString())),
+      );
     } else if (event is OnPrivateKeyChange) {
       yield state.copyWith(enableButton: event.privateKeyChanged.isNotEmpty);
     } else if (event is OnWordChange) {

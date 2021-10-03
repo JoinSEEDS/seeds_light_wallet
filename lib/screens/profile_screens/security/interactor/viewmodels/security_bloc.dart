@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
@@ -21,7 +22,8 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
 
   SecurityBloc({required AuthenticationBloc authenticationBloc})
       : _authenticationBloc = authenticationBloc,
-        super(SecurityState.initial(remoteConfigurations.featureFlagExportRecoveryPhraseEnabled)) {
+        super(SecurityState.initial(remoteConfigurations.featureFlagExportRecoveryPhraseEnabled &&
+            settingsStorage.getRecoveryWords.isNotEmpty)) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value: value)));

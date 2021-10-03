@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 enum CurrentChoice { initial, passcodeCard, biometricCard }
@@ -29,10 +30,10 @@ class RecoveryPhraseState extends Equatable {
     return RecoveryPhraseState(pageState: pageState ?? this.pageState, words: words ?? this.words);
   }
 
-  factory RecoveryPhraseState.initial(List<String> words) {
+  factory RecoveryPhraseState.initial(AuthDataModel authData) {
     return RecoveryPhraseState(
       pageState: PageState.initial,
-      words: words,
+      words: authData.words,
     );
   }
 }

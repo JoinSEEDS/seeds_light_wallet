@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,7 @@ const String _kAccountName = 'accountName';
 const String _kAccountsList = 'accountsList';
 const String _kPrivateKey = 'privateKey';
 const String _kPrivateKeysList = 'privateKeysList';
+const String _kRecoveryWords = 'recoveryWords';
 const String _kPasscode = 'passcode';
 const String _kPasscodeActive = 'passcode_active';
 const String _kBiometricActive = 'biometric_active';
@@ -26,6 +28,7 @@ const String _kIsFirstRun = 'is_first_run';
 class _SettingsStorage {
   late SharedPreferences _preferences;
   late FlutterSecureStorage _secureStorage;
+
   // These nullable fields below are initialized from
   // secure storage, to avoid call a Future often
   String? _privateKey;
@@ -33,6 +36,7 @@ class _SettingsStorage {
   String? _passcode;
   bool? _passcodeActive;
   bool? _biometricActive;
+  List<String> _recoveryWords = [];
 
   factory _SettingsStorage() => _instance;
 
@@ -45,6 +49,9 @@ class _SettingsStorage {
   List<String> get accountsList => _preferences.getStringList(_kAccountsList) ?? [];
 
   String? get privateKey => _privateKey;
+
+  /// Get a list of recovery words
+  List<String> get getRecoveryWords => _recoveryWords;
 
   List<String> get privateKeysList => _privateKeysList ?? [];
 
@@ -67,6 +74,8 @@ class _SettingsStorage {
   List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [seedsToken.id];
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
+
+  List<String> get recoveryWords => _recoveryWords;
 
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
@@ -113,6 +122,15 @@ class _SettingsStorage {
     _secureStorage.write(key: _kPrivateKey, value: value);
     if (value != null) {
       _privateKey = value;
+    }
+  }
+
+  set recoveryWords(List<String>? words) {
+    if (words != null) {
+      _secureStorage.write(key: _kRecoveryWords, value: words.join('-'));
+      _recoveryWords = words;
+    } else {
+      _secureStorage.write(key: _kRecoveryWords, value: null);
     }
   }
 
@@ -167,6 +185,10 @@ class _SettingsStorage {
         _passcodeActive = true;
       }
 
+      if (values.containsKey(_kRecoveryWords)) {
+        _recoveryWords = values[_kRecoveryWords]!.split('-');
+      }
+
       if (values.containsKey(_kBiometricActive)) {
         _biometricActive = values[_kBiometricActive] == 'true';
       } else {
@@ -186,11 +208,16 @@ class _SettingsStorage {
     return value;
   }
 
-  void startRecoveryProcess({required String accountName, required String privateKey, required String recoveryLink}) {
+  void startRecoveryProcess({
+    required String accountName,
+    required AuthDataModel authData,
+    required String recoveryLink,
+  }) {
     inRecoveryMode = true;
     _accountName = accountName;
     this.recoveryLink = recoveryLink;
-    this.privateKey = privateKey;
+    privateKey = authData.eOSPrivateKey.toString();
+    recoveryWords = authData.words;
   }
 
   void finishRecoveryProcess() {
@@ -204,6 +231,7 @@ class _SettingsStorage {
     _accountName = null;
     privateKey = null;
     recoveryLink = null;
+    recoveryWords = null;
   }
 
   void enablePasscode(String? passcode) {
@@ -217,15 +245,17 @@ class _SettingsStorage {
     biometricActive = false;
   }
 
-  Future<void> saveAccount({required String accountName, required String privateKey}) async {
-    privateKeyBackedUp = false;
+  Future<void> saveAccount(String accountName, AuthDataModel authData) async {
     _accountName = accountName;
-    _privateKey = privateKey;
-    this.privateKey = privateKey;
+    privateKeyBackedUp = false;
+    _privateKey = authData.eOSPrivateKey.toString();
+    privateKey = authData.eOSPrivateKey.toString();
+    recoveryWords = authData.words;
+
     final List<String> pkeys = _privateKeysList ?? [];
     // If new private key --> add to list
-    if (!pkeys.contains(privateKey)) {
-      pkeys.add(privateKey);
+    if (!pkeys.contains(authData.eOSPrivateKey.toString())) {
+      pkeys.add(authData.eOSPrivateKey.toString());
       // Save updated private keys list
       await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(","));
       // Update local field
@@ -255,6 +285,7 @@ class _SettingsStorage {
     _passcode = null;
     _passcodeActive = true;
     _biometricActive = false;
+    _recoveryWords = [];
   }
 
   String getPlatformCurrency() {

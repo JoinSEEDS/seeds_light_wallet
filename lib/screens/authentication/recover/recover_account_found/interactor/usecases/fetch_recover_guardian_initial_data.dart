@@ -1,13 +1,13 @@
 import 'package:async/async.dart';
 
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart_ecc/eosdart_ecc.dart';
+import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/guardians_repository.dart';
 import 'package:seeds/datasource/remote/api/members_repository.dart';
 import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/shared_use_cases/cerate_firebase_dynamic_link_use_case.dart';
+import 'package:seeds/domain-shared/shared_use_cases/generate_random_key_and_words_use_case.dart';
 
 class FetchRecoverGuardianInitialDataUseCase {
   final GuardiansRepository _guardiansRepository = GuardiansRepository();
@@ -62,7 +62,7 @@ class FetchRecoverGuardianInitialDataUseCase {
       membersData: membersData,
       userRecoversModel: accountRecovery,
       accountGuardians: accountGuardians,
-      privateKey: settingsStorage.privateKey!,
+      authData: AuthDataModel.fromKeyAndWords(settingsStorage.privateKey!, settingsStorage.getRecoveryWords),
     );
   }
 
@@ -73,8 +73,8 @@ class FetchRecoverGuardianInitialDataUseCase {
     List<Result> membersData,
     String accountName,
   ) async {
-    final String recoveryPrivateKey = EOSPrivateKey.fromRandom().toString();
-    final String publicKey = EOSPrivateKey.fromString(recoveryPrivateKey).toEOSPublicKey().toString();
+    final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
+    final String publicKey = authData.eOSPrivateKey.toEOSPublicKey().toString();
     print("public $publicKey");
 
     Result link = await _guardiansRepository.generateRecoveryRequest(accountName, publicKey);
@@ -87,7 +87,7 @@ class FetchRecoverGuardianInitialDataUseCase {
         membersData: membersData,
         userRecoversModel: accountRecovery,
         accountGuardians: accountGuardians,
-        privateKey: recoveryPrivateKey);
+        authData: authData);
   }
 }
 
@@ -96,13 +96,13 @@ class RecoverGuardianInitialDTO {
   final List<Result> membersData;
   final Result userRecoversModel;
   final Result accountGuardians;
-  final String privateKey;
+  final AuthDataModel authData;
 
   RecoverGuardianInitialDTO({
     required this.link,
     required this.membersData,
     required this.userRecoversModel,
     required this.accountGuardians,
-    required this.privateKey,
+    required this.authData,
   });
 }
