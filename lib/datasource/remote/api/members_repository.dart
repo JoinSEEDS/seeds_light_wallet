@@ -10,7 +10,7 @@ class MembersRepository extends NetworkRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    final request = createRequest(code: account_accounts, scope: account_accounts, table: tableUsers, limit: 1000);
+    final request = createRequest(code: accountAccounts, scope: accountAccounts, table: tableUsers, limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
@@ -32,8 +32,8 @@ class MembersRepository extends NetworkRepository {
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: account_accounts,
-        scope: account_accounts,
+        code: accountAccounts,
+        scope: accountAccounts,
         table: tableUsers,
         lowerBound: lowerBound,
         upperBound: upperBound,
@@ -71,8 +71,8 @@ class MembersRepository extends NetworkRepository {
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: account_accounts,
-        scope: account_accounts,
+        code: accountAccounts,
+        scope: accountAccounts,
         table: tableUsers,
         lowerBound: accountName,
         upperBound: accountName);

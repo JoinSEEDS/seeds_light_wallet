@@ -4,7 +4,7 @@ import 'package:seeds/datasource/remote/api/profile_repository.dart';
 
 class MakeCitizenUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
-  var account = settingsStorage.accountName;
+  final String account = settingsStorage.accountName;
 
   Future<Result> run() {
     return _profileRepository.makeCitizen(account);

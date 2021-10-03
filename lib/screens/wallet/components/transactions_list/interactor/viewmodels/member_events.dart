@@ -12,4 +12,3 @@ class OnLoadMemberData extends MemberEvent {
   @override
   List<Object> get props => [account];
 }
-

@@ -28,7 +28,7 @@ class SendTransactionUseCase {
         final transferModel = TransactionModel.fromTransaction(transactionModel);
         List<Result> profiles = [];
         if (transferModel != null) {
-          profiles = await getProfileData(transferModel.to, fromAccount);
+          profiles = await getProfileData(toAccount: transferModel.to, fromAccount: fromAccount);
         }
         return ValueResult(SendTransactionResponse(transactionModel: transactionModel, profiles: profiles));
       }
@@ -37,7 +37,7 @@ class SendTransactionUseCase {
     });
   }
 
-  Future<List<Result>> getProfileData(String toAccount, fromAccount) async {
+  Future<List<Result>> getProfileData({required String toAccount, required String fromAccount}) async {
     final Future<Result> toAccountResult = _profileRepository.getProfile(toAccount);
     final Future<Result> fromAccountResult = _profileRepository.getProfile(fromAccount);
     return Future.wait([toAccountResult, fromAccountResult]);

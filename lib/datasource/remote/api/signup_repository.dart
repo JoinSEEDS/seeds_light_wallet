@@ -17,8 +17,8 @@ class SignupRepository extends EosRepository with NetworkRepository {
     final inviteURL = '$hyphaURL/v1/chain/get_table_rows';
 
     final request = createRequest(
-        code: account_join,
-        scope: account_join,
+        code: accountJoin,
+        scope: accountJoin,
         table: tableInvites,
         lowerBound: inviteHash,
         upperBound: inviteHash,

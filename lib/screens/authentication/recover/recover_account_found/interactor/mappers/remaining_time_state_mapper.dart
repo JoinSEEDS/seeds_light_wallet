@@ -13,7 +13,9 @@ const int _minuteSecond = 60;
 
 class RemainingTimeStateMapper {
   RecoverAccountFoundState mapResultToState(RecoverAccountFoundState currentState) {
-    int days = 0, hours = 0, min = 0;
+    int days = 0;
+    int hours = 0;
+    int min = 0;
     int remainingTimeStamp = currentState.timeRemaining;
 
     ///Calculate the number of days remaining.

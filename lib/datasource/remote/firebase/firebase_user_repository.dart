@@ -13,7 +13,7 @@ class FirebaseUserRepository extends FirebaseDatabaseService {
             ));
   }
 
-  Future<void> saveUserPhoneNumber(String userId, phoneNumber) {
+  Future<void> saveUserPhoneNumber({required String userId, required String phoneNumber}) {
     final Map<String, Object> data = {
       USER_PHONE_NUMBER_KEY: phoneNumber,
     };

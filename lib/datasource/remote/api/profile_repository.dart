@@ -17,8 +17,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     print('[http] get seeds getProfile $accountName');
 
     final request = createRequest(
-      code: account_accounts,
-      scope: account_accounts,
+      code: accountAccounts,
+      scope: accountAccounts,
       table: tableUsers,
       lowerBound: accountName,
       upperBound: accountName,
@@ -46,7 +46,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = account_accounts
+        ..account = accountAccounts
         ..name = actionNameUpdate
         ..authorization = [
           Authorization()
@@ -75,7 +75,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
   Future<Result> getScore({
     required String account,
-    String contractName = account_harvest,
+    String contractName = accountHarvest,
     String? scope,
     required String tableName,
     String fieldName = "rank",
@@ -104,8 +104,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     print('[http] get Referred Accounts $accountName');
 
     final request = createRequest(
-      code: account_accounts,
-      scope: account_accounts,
+      code: accountAccounts,
+      scope: accountAccounts,
       table: tableRefs,
       lowerBound: accountName,
       upperBound: accountName,
@@ -127,7 +127,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = account_token
+        ..account = accountToken
         ..name = actionNameTransfer
         ..authorization = [
           Authorization()
@@ -136,7 +136,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         ]
         ..data = {
           'from': accountName,
-          'to': account_harvest,
+          'to': accountHarvest,
           'quantity': '${amount.toStringAsFixed(4)} $currencySeedsCode',
           'memo': '',
         }
@@ -155,7 +155,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = account_harvest
+        ..account = accountHarvest
         ..name = actionNameUnplant
         ..authorization = [
           Authorization()
@@ -208,7 +208,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = account_accounts
+        ..account = accountAccounts
         ..name = actionName
         ..authorization = [
           Authorization()

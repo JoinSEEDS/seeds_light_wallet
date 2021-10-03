@@ -36,9 +36,10 @@ class CreateUsernameMapper extends StateMapper {
 
   String _generateUsername(String fullname) {
     String suggestedUsername = fullname.toLowerCase().trim().split('').map((character) {
+      // ignore: unnecessary_raw_strings
       final legalChar = RegExp(r'[a-z]|1|2|3|4|5').allMatches(character).isNotEmpty;
 
-      return legalChar ? character.toString() : '';
+      return legalChar ? character : '';
     }).join();
 
     suggestedUsername = suggestedUsername.padRight(12, '1');

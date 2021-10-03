@@ -46,7 +46,7 @@ class FetchRecoverGuardianInitialDataUseCase {
   Future<Result<dynamic>> generateFirebaseDynamicLink(Result<dynamic> link) async {
     if (link.isValue) {
       final String linkValue = link.asValue!.value;
-      final guardianLink = await _createFirebaseDynamicLinkUseCase.createDynamicLink(guardian_target_link, linkValue);
+      final guardianLink = await _createFirebaseDynamicLinkUseCase.createDynamicLink(guardianTargetLink, linkValue);
       return guardianLink;
     } else {
       return link;

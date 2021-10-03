@@ -22,12 +22,16 @@ class VisitorView extends StatefulWidget {
 
 class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _timeLineAnimation,
-      _reputationAnimation,
-      _visitorsAnimation,
-      _seedsAnimation,
-      _transactionsAnimation;
-  int _timeLine = 0, _reputation = 0, _visitors = 0, _seeds = 0, _transactions = 0;
+  late Animation<double> _timeLineAnimation;
+  late Animation<double> _reputationAnimation;
+  late Animation<double> _visitorsAnimation;
+  late Animation<double> _seedsAnimation;
+  late Animation<double> _transactionsAnimation;
+  int _timeLine = 0;
+  int _reputation = 0;
+  int _visitors = 0;
+  int _seeds = 0;
+  int _transactions = 0;
 
   @override
   void initState() {

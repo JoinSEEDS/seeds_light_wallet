@@ -51,6 +51,7 @@ class _ProposalDetailsScreenState extends State<ProposalDetailsScreen> {
                 builder: (_) => const ConfirmVoteDialog(),
               );
               if (isConfirmed != null && isConfirmed) {
+                // ignore: use_build_context_synchronously
                 BlocProvider.of<ProposalDetailsBloc>(context).add(const OnConfirmVoteButtonPressed());
               }
             } else if (pageCommand is VoteSuccess) {

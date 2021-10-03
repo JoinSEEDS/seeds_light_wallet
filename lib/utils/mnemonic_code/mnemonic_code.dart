@@ -10,6 +10,7 @@ import 'words_list.dart';
 
 /// Taken from Bip39 package
 
+<<<<<<< HEAD
 const int _SIZE_BYTE = 255;
 const _INVALID_CHECKSUM = 'Invalid mnemonic checksum';
 const _INVALID_MNEMONIC = 'Invalid mnemonic';
@@ -17,6 +18,14 @@ const _INVALID_ENTROPY = 'Invalid entropy';
 
 typedef RandomBytes = Uint8List Function(int size);
 
+=======
+const int _sizeByte = 255;
+
+typedef RandomBytes = Uint8List Function(int size);
+
+const _invalidEntropy = 'Invalid entropy';
+
+>>>>>>> dc1e2bfc4dba8f21226f89f0df9946ddd0dad7ce
 int _binaryToByte(String binary) {
   return int.parse(binary, radix: 2);
 }
@@ -36,7 +45,7 @@ Uint8List randomBytes(int size) {
   final rng = Random.secure();
   final bytes = Uint8List(size);
   for (var i = 0; i < size; i++) {
-    bytes[i] = rng.nextInt(_SIZE_BYTE);
+    bytes[i] = rng.nextInt(_sizeByte);
   }
   return bytes;
 }
@@ -52,6 +61,7 @@ String generateMnemonic({int strength = 48, RandomBytes randomBytes = randomByte
 String entropyToMnemonic(String entropyString) {
   final entropy = Uint8List.fromList(HEX.decode(entropyString));
   if (entropy.length < 2) {
+<<<<<<< HEAD
     throw ArgumentError("$_INVALID_ENTROPY length is ${entropy.length}");
   }
   if (entropy.length > 32) {
@@ -59,13 +69,23 @@ String entropyToMnemonic(String entropyString) {
   }
   if (entropy.length % 2 != 0) {
     throw ArgumentError("$_INVALID_ENTROPY length is ${entropy.length}");
+=======
+    throw ArgumentError(_invalidEntropy);
+  }
+  if (entropy.length > 32) {
+    throw ArgumentError(_invalidEntropy);
+  }
+  if (entropy.length % 2 != 0) {
+    throw ArgumentError(_invalidEntropy);
+>>>>>>> dc1e2bfc4dba8f21226f89f0df9946ddd0dad7ce
   }
   final entropyBits = _bytesToBinary(entropy);
   final checksumBits = _deriveChecksumBits(entropy);
   final bits = entropyBits + checksumBits;
+  // ignore: unnecessary_raw_strings
   final regex = RegExp(r".{1,11}", caseSensitive: false);
   final chunks = regex.allMatches(bits).map((match) => match.group(0)!).toList(growable: false);
-  final List<String> wordlist = WORDLIST;
+  final List<String> wordlist = wordList;
   final String words = chunks.map((binary) => wordlist[_binaryToByte(binary)]).join('-');
   return words;
 }
