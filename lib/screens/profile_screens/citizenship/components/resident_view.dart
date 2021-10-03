@@ -22,14 +22,20 @@ class ResidentView extends StatefulWidget {
 
 class _ResidentViewState extends State<ResidentView> with TickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _timeLineAnimation,
-      _reputationAnimation,
-      _residentsAnimation,
-      _ageAnimation,
-      _seedsAnimation,
-      _transactionsAnimation,
-      _visitorsAnimation;
-  int _timeLine = 0, _reputation = 0, _residents = 0, _age = 0, _seeds = 0, _transactions = 0, _visitors = 0;
+  late Animation<double> _timeLineAnimation;
+  late Animation<double> _reputationAnimation;
+  late Animation<double> _residentsAnimation;
+  late Animation<double> _ageAnimation;
+  late Animation<double> _seedsAnimation;
+  late Animation<double> _transactionsAnimation;
+  late Animation<double> _visitorsAnimation;
+  int _timeLine = 0;
+  int _reputation = 0;
+  int _residents = 0;
+  int _age = 0;
+  int _seeds = 0;
+  int _transactions = 0;
+  int _visitors = 0;
 
   @override
   void initState() {
@@ -66,7 +72,7 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
           ..addListener(() {
             setState(() => _age = _ageAnimation.value.toInt());
           });
-        _seedsAnimation = Tween<double>(begin: 0, end: state.plantedSeeds?.toDouble()).animate(_controller)
+        _seedsAnimation = Tween<double>(begin: 0, end: state.plantedSeeds).animate(_controller)
           ..addListener(() {
             setState(() => _seeds = _seedsAnimation.value.toInt());
           });

@@ -34,6 +34,7 @@ class CreateUsernameUseCase {
 
     if (username.isNullOrEmpty) {
       return 'Please select a username';
+      // ignore: unnecessary_raw_strings
     } else if (RegExp(r'0|6|7|8|9').allMatches(username!).isNotEmpty) {
       return 'Only numbers 1-5 can be used.';
     } else if (username.toLowerCase() != username) {

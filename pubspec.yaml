@@ -26,7 +26,7 @@ dependencies:
   http: ^0.13.1
   shared_preferences: ^2.0.5
   flutter_secure_storage: ^4.1.0
-  local_auth: ^1.1.1
+  local_auth: ^1.1.8
   timeago: ^3.0.2
   cached_network_image: ^3.0.0
   passcode_screen: ^2.0.0
@@ -43,7 +43,6 @@ dependencies:
   image_cropper: ^1.4.1
   carousel_slider: ^4.0.0
   dots_indicator: ^2.0.0
-  permission_handler: ^8.0.1
   qr_flutter: ^4.0.0
   image_picker: ^0.8.2
   eosdart:
@@ -55,7 +54,6 @@ dependencies:
       url: https://github.com/JoinSEEDS/dart-esr.git
       ref: flutter_2_nns
 
-  pedantic: ^1.11.1
   qr_code_scanner: ^0.4.0
   collection: ^1.15.0
   mask_text_input_formatter: ^2.0.0
@@ -69,6 +67,7 @@ dev_dependencies:
     sdk: flutter
   test: any
   mockito: ^5.0.7
+  lint: ^1.7.2
 
 flutter_icons:
   android: "app_icon"

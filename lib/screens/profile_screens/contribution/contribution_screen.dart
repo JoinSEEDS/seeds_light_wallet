@@ -21,12 +21,16 @@ class ContributionScreen extends StatefulWidget {
 
 class _ContributionScreenState extends State<ContributionScreen> with TickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _contributionAnimation,
-      _communityAnimation,
-      _reputationAnimation,
-      _seedsAnimation,
-      _transactionsAnimation;
-  int _contribution = 0, _community = 0, _reputation = 0, _seeds = 0, _transactions = 0;
+  late Animation<double> _contributionAnimation;
+  late Animation<double> _communityAnimation;
+  late Animation<double> _reputationAnimation;
+  late Animation<double> _seedsAnimation;
+  late Animation<double> _transactionsAnimation;
+  int _contribution = 0;
+  int _community = 0;
+  int _reputation = 0;
+  int _seeds = 0;
+  int _transactions = 0;
 
   @override
   void initState() {

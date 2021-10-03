@@ -34,6 +34,7 @@ class ProfileHeader extends StatelessWidget {
                             builder: (_) => const EditProfilePicBottomSheet(),
                           );
                           if (file != null) {
+                            // ignore: use_build_context_synchronously
                             BlocProvider.of<ProfileBloc>(context).add(OnUpdateProfileImage(file as File));
                           }
                         },
@@ -76,6 +77,7 @@ class ProfileHeader extends StatelessWidget {
                                     final newName =
                                         await NavigationService.of(context).navigateTo(Routes.editName, state.profile);
                                     if (newName != null) {
+                                      // ignore: use_build_context_synchronously
                                       BlocProvider.of<ProfileBloc>(context).add(OnNameChanged(newName as String));
                                     }
                                   },

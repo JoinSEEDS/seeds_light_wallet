@@ -22,10 +22,10 @@ const String _defaultV2EndpointUrl = "https://api.telosfoundation.io";
 const bool testnetMode = false;
 
 // TESTNET CONFIG: Used for testing purposes.
-const String _testnet_eosEndpoints = '[ { "url": "https://test.hypha.earth", "isDefault": true } ]';
-const String _testnet_hyphaEndPointUrl = 'https://test.hypha.earth';
-const String _testnet_defaultEndPointUrl = "https://test.hypha.earth";
-const String _testnet_defaultV2EndpointUrl = "https://api-test.telosfoundation.io";
+const String _testnetEosEndpoints = '[ { "url": "https://test.hypha.earth", "isDefault": true } ]';
+const String _testnetHyphaEndPointUrl = 'https://test.hypha.earth';
+const String _testnetDefaultEndPointUrl = "https://test.hypha.earth";
+const String _testnetDefaultV2EndpointUrl = "https://api-test.telosfoundation.io";
 // END - TESTNET CONFIG
 
 class _FirebaseRemoteConfigService {
@@ -77,16 +77,16 @@ class _FirebaseRemoteConfigService {
   bool get featureFlagExportRecoveryPhraseEnabled => _remoteConfig.getBool(_featureFlagExportRecoveryPhrase);
   bool get featureFlagDelegateEnabled => _remoteConfig.getBool(_featureFlagDelegate);
 
-  String get hyphaEndPoint => testnetMode ? _testnet_hyphaEndPointUrl : _remoteConfig.getString(_hyphaEndPointKey);
+  String get hyphaEndPoint => testnetMode ? _testnetHyphaEndPointUrl : _remoteConfig.getString(_hyphaEndPointKey);
 
   String get defaultEndPointUrl =>
-      testnetMode ? _testnet_defaultEndPointUrl : _remoteConfig.getString(_defaultEndPointUrlKey);
+      testnetMode ? _testnetDefaultEndPointUrl : _remoteConfig.getString(_defaultEndPointUrlKey);
 
   String get defaultV2EndPointUrl =>
-      testnetMode ? _testnet_defaultV2EndpointUrl : _remoteConfig.getString(_defaultV2EndPointUrlKey);
+      testnetMode ? _testnetDefaultV2EndpointUrl : _remoteConfig.getString(_defaultV2EndPointUrlKey);
 
   FirebaseEosServer get activeEOSServerUrl =>
-      parseEosServers(testnetMode ? _testnet_eosEndpoints : _remoteConfig.getString(_activeEOSEndpointKey)).firstWhere(
+      parseEosServers(testnetMode ? _testnetEosEndpoints : _remoteConfig.getString(_activeEOSEndpointKey)).firstWhere(
           (FirebaseEosServer element) => element.isDefault!,
           orElse: () => parseEosServers(_remoteConfig.getString(_eosEndpoints)).first);
 }

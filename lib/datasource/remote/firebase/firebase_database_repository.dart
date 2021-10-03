@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 const String FIREBASE_DATABASE_USERS_TOKEN = 'users';

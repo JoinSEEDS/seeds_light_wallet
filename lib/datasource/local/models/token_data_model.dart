@@ -6,16 +6,17 @@ import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
 
 class TokenDataModel extends AmountDataModel {
-  TokenDataModel(double amount, {TokenModel token = SeedsToken})
+  TokenDataModel(double amount, {TokenModel token = seedsToken})
       : super(
           amount: amount,
           symbol: token.symbol,
           precision: token.precision,
         );
 
-  static TokenDataModel? from(double? amount, {TokenModel token = SeedsToken}) =>
+  static TokenDataModel? from(double? amount, {TokenModel token = seedsToken}) =>
       amount != null ? TokenDataModel(amount, token: token) : null;
 
+  // ignore: prefer_constructors_over_static_methods
   static TokenDataModel fromSelected(double amount) => TokenDataModel(amount, token: settingsStorage.selectedToken);
 
   // display formatted number, no symbol, example "10.00", "10,000,000.00"

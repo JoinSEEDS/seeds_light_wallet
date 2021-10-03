@@ -14,7 +14,7 @@ class SendConfirmationState extends Equatable {
   final Map<String, dynamic> data;
   final List<SendInfoLineItems> lineItems;
 
-  bool get isTransfer => actionName == transfer_action;
+  bool get isTransfer => actionName == transferAction;
 
   const SendConfirmationState({
     required this.pageState,

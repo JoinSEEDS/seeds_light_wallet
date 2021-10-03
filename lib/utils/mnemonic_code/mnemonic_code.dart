@@ -10,11 +10,11 @@ import 'words_list.dart';
 
 /// Taken from Bip39 package
 
-const int _SIZE_BYTE = 255;
+const int _sizeByte = 255;
 
 typedef RandomBytes = Uint8List Function(int size);
 
-const _INVALID_ENTROPY = 'Invalid entropy';
+const _invalidEntropy = 'Invalid entropy';
 
 int _binaryToByte(String binary) {
   return int.parse(binary, radix: 2);
@@ -35,7 +35,7 @@ Uint8List _randomBytes(int size) {
   final rng = Random.secure();
   final bytes = Uint8List(size);
   for (var i = 0; i < size; i++) {
-    bytes[i] = rng.nextInt(_SIZE_BYTE);
+    bytes[i] = rng.nextInt(_sizeByte);
   }
   return bytes;
 }
@@ -51,20 +51,21 @@ String generateMnemonic({int strength = 48, RandomBytes randomBytes = _randomByt
 String entropyToMnemonic(String entropyString) {
   final entropy = Uint8List.fromList(HEX.decode(entropyString));
   if (entropy.length < 2) {
-    throw ArgumentError(_INVALID_ENTROPY);
+    throw ArgumentError(_invalidEntropy);
   }
   if (entropy.length > 32) {
-    throw ArgumentError(_INVALID_ENTROPY);
+    throw ArgumentError(_invalidEntropy);
   }
   if (entropy.length % 2 != 0) {
-    throw ArgumentError(_INVALID_ENTROPY);
+    throw ArgumentError(_invalidEntropy);
   }
   final entropyBits = _bytesToBinary(entropy);
   final checksumBits = _deriveChecksumBits(entropy);
   final bits = entropyBits + checksumBits;
+  // ignore: unnecessary_raw_strings
   final regex = RegExp(r".{1,11}", caseSensitive: false);
   final chunks = regex.allMatches(bits).map((match) => match.group(0)!).toList(growable: false);
-  final List<String> wordlist = WORDLIST;
+  final List<String> wordlist = wordList;
   final String words = chunks.map((binary) => wordlist[_binaryToByte(binary)]).join('-');
   return words;
 }

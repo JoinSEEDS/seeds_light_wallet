@@ -14,7 +14,7 @@ class OnLoadTransactionsList extends TransactionsListEvent {
 
 class OnTransactionDisplayTick extends TransactionsListEvent {
   final int count;
-  
+
   OnTransactionDisplayTick(this.count);
 
   @override

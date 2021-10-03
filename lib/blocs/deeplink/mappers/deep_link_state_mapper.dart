@@ -15,7 +15,7 @@ class DeepLinkStateMapper extends StateMapper {
       final deepLinkData = result.asValue!.value as DeepLinkData;
 
       switch (deepLinkData.deepLinkPlaceHolder) {
-        case DeepLinkPlaceHolder.LINK_GUARDIANS:
+        case DeepLinkPlaceHolder.linkGuardians:
           final newPublicKey = deepLinkData.data["new_public_key"];
           final userAccount = deepLinkData.data["user_account"];
 
@@ -25,7 +25,7 @@ class DeepLinkStateMapper extends StateMapper {
               publicKey: newPublicKey,
             ),
           );
-        case DeepLinkPlaceHolder.LINK_INVITE:
+        case DeepLinkPlaceHolder.linkInvite:
           if (settingsStorage.accountName.isNullOrEmpty) {
             // handle invite link. Send user to memonic screen.
             final mnemonic = deepLinkData.data["Mnemonic"];
@@ -34,7 +34,7 @@ class DeepLinkStateMapper extends StateMapper {
             //  If user is logged in, Ignore invite link
             return currentState;
           }
-        case DeepLinkPlaceHolder.LINK_UNKNOWN:
+        case DeepLinkPlaceHolder.linkUnknown:
           // Don't know how to handle this link. Return current state
           return currentState;
       }

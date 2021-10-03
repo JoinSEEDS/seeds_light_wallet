@@ -37,7 +37,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     // Check if permissions are already set?
     // ignore: unnecessary_cast
     for (final Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts as List<dynamic>) {
-      if (acct['permission']['actor'] == account_guards) {
+      if (acct['permission']['actor'] == accountGuards) {
         print('permission already set, doing nothing');
         return currentPermissions;
       }
@@ -45,7 +45,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     ownerPermission.requiredAuth.accounts.add({
       'weight': ownerPermission.requiredAuth.threshold,
-      'permission': {'actor': account_guards, 'permission': 'eosio.code'}
+      'permission': {'actor': accountGuards, 'permission': 'eosio.code'}
     });
 
     return await _updatePermission(ownerPermission);
@@ -64,7 +64,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final actions = [
       Action()
-        ..account = account_guards
+        ..account = accountGuards
         ..name = actionNameInit
         ..data = {
           'user_account': accountName,
@@ -103,7 +103,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final actions = [
       Action()
-        ..account = account_guards
+        ..account = accountGuards
         ..name = actionNameClaim
         ..data = {'user_account': userAccount}
     ];
@@ -111,7 +111,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     for (final action in actions) {
       action.authorization = [
         Authorization()
-          ..actor = account_guards
+          ..actor = accountGuards
           ..permission = permissionApplication
       ];
     }
@@ -139,7 +139,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final actions = [
       Action()
-        ..account = account_guards
+        ..account = accountGuards
         ..name = actionNameCancel
         ..authorization = [
           Authorization()
@@ -173,7 +173,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final actions = [
       Action()
-        ..account = account_guards
+        ..account = accountGuards
         ..name = actionNameRecover
         ..authorization = [
           Authorization()
@@ -223,7 +223,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final actions = [
       Action()
-        ..account = account_eosio
+        ..account = accountEosio
         ..name = actionNameUpdateauth
         ..data = {
           'account': accountName,
@@ -257,8 +257,8 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
     final String request = createRequest(
-        code: account_guards,
-        scope: account_guards,
+        code: accountGuards,
+        scope: accountGuards,
         table: tableRecover,
         lowerBound: accountName,
         upperBound: accountName);
@@ -278,8 +278,8 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
     final String request = createRequest(
-      code: account_guards,
-      scope: account_guards,
+      code: accountGuards,
+      scope: accountGuards,
       table: tableGuards,
       lowerBound: accountName,
       upperBound: accountName,
@@ -306,12 +306,12 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     };
 
     final esr.Action action = esr.Action()
-      ..account = account_guards
+      ..account = accountGuards
       ..name = 'recover'
       ..authorization = auth
       ..data = data;
 
-    final esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: action, chainId: chain_id);
+    final esr.SigningRequestCreateArguments args = esr.SigningRequestCreateArguments(action: action, chainId: chainId);
 
     return esr.SigningRequestManager.create(args,
             options: esr.defaultSigningRequestEncodingOptions(
