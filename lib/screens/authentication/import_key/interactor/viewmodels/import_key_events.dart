@@ -36,3 +36,20 @@ class OnPrivateKeyChange extends ImportKeyEvent {
   @override
   String toString() => 'OnPrivateKeyChange: { inputChange: $privateKeyChanged }';
 }
+
+class OnWordChange extends ImportKeyEvent {
+  final String word;
+  final int wordIndex;
+
+  const OnWordChange({required this.word, required this.wordIndex});
+
+  @override
+  String toString() => 'OnWordChange: { word: $word index: $wordIndex}';
+}
+
+class FindAccountFromWords extends ImportKeyEvent {
+  const FindAccountFromWords();
+
+  @override
+  String toString() => 'FindAccountFromWords ';
+}

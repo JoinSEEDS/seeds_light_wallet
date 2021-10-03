@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
+import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
@@ -71,6 +72,7 @@ class Routes {
   static final contribution = 'Contribution';
   static final login = "Login";
   static final importKey = "ImportKey";
+  static final importWords = 'ImportWords';
   static final verification = "verification";
   static final signup = 'signUp';
   static final recoverAccount = 'recoverAccount';
@@ -96,6 +98,7 @@ class NavigationService {
   final onboardingRoutes = {
     Routes.login: (_) => const LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
+    Routes.importWords: (_) => const ImportWordsScreen(),
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
     Routes.signup: (_) => const SignupScreen(null),
