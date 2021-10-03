@@ -1,7 +1,5 @@
 import 'package:async/async.dart';
 
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/guardians_repository.dart';

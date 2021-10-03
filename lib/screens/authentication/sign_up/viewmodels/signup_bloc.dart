@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:eosdart_ecc/eosdart_ecc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
@@ -22,6 +20,7 @@ import 'package:seeds/screens/authentication/sign_up/viewmodels/states/display_n
 import 'package:seeds/utils/mnemonic_code/mnemonic_code.dart';
 
 part 'signup_event.dart';
+
 part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {

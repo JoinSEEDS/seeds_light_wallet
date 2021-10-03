@@ -9,23 +9,13 @@ import 'hex.dart';
 import 'words_list.dart';
 
 /// Taken from Bip39 package
-
-<<<<<<< HEAD
-const int _SIZE_BYTE = 255;
-const _INVALID_CHECKSUM = 'Invalid mnemonic checksum';
-const _INVALID_MNEMONIC = 'Invalid mnemonic';
-const _INVALID_ENTROPY = 'Invalid entropy';
-
-typedef RandomBytes = Uint8List Function(int size);
-
-=======
 const int _sizeByte = 255;
-
-typedef RandomBytes = Uint8List Function(int size);
-
+const _invalidChecksum = 'Invalid mnemonic checksum';
+const _invalidMnemonic = 'Invalid mnemonic';
 const _invalidEntropy = 'Invalid entropy';
 
->>>>>>> dc1e2bfc4dba8f21226f89f0df9946ddd0dad7ce
+typedef RandomBytes = Uint8List Function(int size);
+
 int _binaryToByte(String binary) {
   return int.parse(binary, radix: 2);
 }
@@ -61,23 +51,13 @@ String generateMnemonic({int strength = 48, RandomBytes randomBytes = randomByte
 String entropyToMnemonic(String entropyString) {
   final entropy = Uint8List.fromList(HEX.decode(entropyString));
   if (entropy.length < 2) {
-<<<<<<< HEAD
-    throw ArgumentError("$_INVALID_ENTROPY length is ${entropy.length}");
+    throw ArgumentError("$_invalidEntropy length is ${entropy.length}");
   }
   if (entropy.length > 32) {
-    throw ArgumentError("$_INVALID_ENTROPY length is ${entropy.length}");
+    throw ArgumentError("$_invalidEntropy length is ${entropy.length}");
   }
   if (entropy.length % 2 != 0) {
-    throw ArgumentError("$_INVALID_ENTROPY length is ${entropy.length}");
-=======
-    throw ArgumentError(_invalidEntropy);
-  }
-  if (entropy.length > 32) {
-    throw ArgumentError(_invalidEntropy);
-  }
-  if (entropy.length % 2 != 0) {
-    throw ArgumentError(_invalidEntropy);
->>>>>>> dc1e2bfc4dba8f21226f89f0df9946ddd0dad7ce
+    throw ArgumentError("$_invalidEntropy length is ${entropy.length}");
   }
   final entropyBits = _bytesToBinary(entropy);
   final checksumBits = _deriveChecksumBits(entropy);
@@ -101,14 +81,14 @@ String hashFromSecret(String secret) {
 String mnemonicToEntropy(List<String> recoveryPhrase) {
   print(recoveryPhrase);
   if (recoveryPhrase.length % 3 != 0) {
-    throw ArgumentError(_INVALID_MNEMONIC);
+    throw ArgumentError(_invalidMnemonic);
   }
-  final wordlist = WORDLIST;
+  final wordlist = wordList;
   // convert word indices to 11 bit binary strings
   final bits = recoveryPhrase.map((word) {
     final index = wordlist.indexOf(word);
     if (index == -1) {
-      throw ArgumentError(_INVALID_MNEMONIC);
+      throw ArgumentError(_invalidMnemonic);
     }
     return index.toRadixString(2).padLeft(11, '0');
   }).join();
@@ -118,21 +98,22 @@ String mnemonicToEntropy(List<String> recoveryPhrase) {
   final checksumBits = bits.substring(dividerIndex);
 
   // calculate the checksum and compare
+  // ignore: unnecessary_raw_strings
   final regex = RegExp(r".{1,8}");
   final entropyBytes = Uint8List.fromList(
       regex.allMatches(entropyBits).map((match) => _binaryToByte(match.group(0)!)).toList(growable: false));
   if (entropyBytes.length < 16) {
-    throw StateError(_INVALID_ENTROPY);
+    throw StateError(_invalidEntropy);
   }
   if (entropyBytes.length > 32) {
-    throw StateError(_INVALID_ENTROPY);
+    throw StateError(_invalidEntropy);
   }
   if (entropyBytes.length % 4 != 0) {
-    throw StateError(_INVALID_ENTROPY);
+    throw StateError(_invalidEntropy);
   }
   final newChecksum = _deriveChecksumBits(entropyBytes);
   if (newChecksum != checksumBits) {
-    throw StateError(_INVALID_CHECKSUM);
+    throw StateError(_invalidChecksum);
   }
   return entropyBytes.map((byte) {
     return byte.toRadixString(16).padLeft(2, '0');

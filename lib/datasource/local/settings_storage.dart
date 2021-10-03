@@ -75,6 +75,8 @@ class _SettingsStorage {
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 
+  List<String> get recoveryWords => _recoveryWords;
+
   set inRecoveryMode(bool value) => _preferences.setBool(_kInRecoveryMode, value);
 
   set recoveryLink(String? value) =>
@@ -123,10 +125,10 @@ class _SettingsStorage {
     }
   }
 
-  set recoveryWords(AuthDataModel? authData) {
-    if(authData != null) {
-      _secureStorage.write(key: _kRecoveryWords, value: authData.words.join('-'));
-      _recoveryWords = authData.words;
+  set recoveryWords(List<String>? words) {
+    if (words != null) {
+      _secureStorage.write(key: _kRecoveryWords, value: words.join('-'));
+      _recoveryWords = words;
     } else {
       _secureStorage.write(key: _kRecoveryWords, value: null);
     }
@@ -215,7 +217,7 @@ class _SettingsStorage {
     _accountName = accountName;
     this.recoveryLink = recoveryLink;
     privateKey = authData.eOSPrivateKey.toString();
-    recoveryWords = authData;
+    recoveryWords = authData.words;
   }
 
   void finishRecoveryProcess() {
@@ -248,7 +250,7 @@ class _SettingsStorage {
     privateKeyBackedUp = false;
     _privateKey = authData.eOSPrivateKey.toString();
     privateKey = authData.eOSPrivateKey.toString();
-    recoveryWords = authData;
+    recoveryWords = authData.words;
 
     final List<String> pkeys = _privateKeysList ?? [];
     // If new private key --> add to list

@@ -7,11 +7,9 @@ class AuthDataModel {
 
   AuthDataModel(this.eOSPrivateKey, this.words);
 
-  static AuthDataModel fromKeyAndWords(String key, List<String> words) {
-    return AuthDataModel(EOSPrivateKey.fromString(key), words);
-  }
+  AuthDataModel.fromKeyAndWords(String key, this.words) : eOSPrivateKey = EOSPrivateKey.fromString(key);
 
-  static AuthDataModel fromKeyAndNoWords(String key) {
-    return AuthDataModel(EOSPrivateKey.fromString(key), []);
-  }
+  AuthDataModel.fromKeyAndNoWords(String key)
+      : eOSPrivateKey = EOSPrivateKey.fromString(key),
+        words = [];
 }
