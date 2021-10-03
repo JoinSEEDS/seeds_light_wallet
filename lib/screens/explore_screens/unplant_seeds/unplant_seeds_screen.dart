@@ -94,11 +94,12 @@ class UnplantSeedsScreen extends StatelessWidget {
                             AlertInputValue('Need to keep at least 5 planted seeds',
                                 isVisible: state.showMinPlantedBalanceAlert),
                             const SizedBox(height: 60),
-                            ClaimUnplantSeedsBalanceRow(
-                                onTapClaim: () {},
-                                isClaimButtonEnable: false,
-                                tokenAmount: TokenDataModel(0),
-                                fiatAmount: FiatDataModel(0)),
+                            if (state.showUnclaimedBalance)
+                              ClaimUnplantSeedsBalanceRow(
+                                  onTapClaim: () {},
+                                  isClaimButtonEnable: false,
+                                  tokenAmount: TokenDataModel(0),
+                                  fiatAmount: FiatDataModel(0)),
                             const SizedBox(height: 10),
                             const DividerJungle(),
                             const SizedBox(height: 10),

@@ -19,6 +19,7 @@ class UnplantSeedsState extends Equatable {
   final bool showMinPlantedBalanceAlert;
   final TextEditingController controller;
   final PageCommand? pageCommand;
+  final bool showUnclaimedBalance;
 
   const UnplantSeedsState(
       {required this.pageState,
@@ -32,7 +33,8 @@ class UnplantSeedsState extends Equatable {
       required this.showMinPlantedBalanceAlert,
       required this.unplantedInputAmount,
       required this.controller,
-      this.pageCommand});
+      this.pageCommand,
+      required this.showUnclaimedBalance});
 
   @override
   List<Object?> get props => [
@@ -48,6 +50,7 @@ class UnplantSeedsState extends Equatable {
         controller,
         pageCommand,
         showMinPlantedBalanceAlert,
+        showUnclaimedBalance,
       ];
 
   UnplantSeedsState copyWith({
@@ -64,23 +67,26 @@ class UnplantSeedsState extends Equatable {
     TokenDataModel? unplantedInputAmount,
     TextEditingController? controller,
     PageCommand? pageCommand,
+    bool? showUnclaimedBalance,
   }) {
     return UnplantSeedsState(
-        pageState: pageState ?? this.pageState,
-        ratesState: ratesState ?? this.ratesState,
-        onFocus: onFocus ?? this.onFocus,
-        plantedBalance: plantedBalance ?? this.plantedBalance,
-        plantedBalanceFiat: plantedBalanceFiat ?? this.plantedBalanceFiat,
-        isUnplantSeedsButtonEnabled: isUnplantSeedsButtonEnabled ?? this.isUnplantSeedsButtonEnabled,
-        showOverBalanceAlert: showOverBalanceAlert ?? this.showOverBalanceAlert,
-        showMinPlantedBalanceAlert: showMinPlantedBalanceAlert ?? this.showMinPlantedBalanceAlert,
-        unplantedInputAmountFiat: unplantedInputAmountFiat ?? this.unplantedInputAmountFiat,
-        unplantedInputAmount: unplantedInputAmount ?? this.unplantedInputAmount,
-        controller: controller ?? this.controller,
-        pageCommand: pageCommand);
+      pageState: pageState ?? this.pageState,
+      ratesState: ratesState ?? this.ratesState,
+      onFocus: onFocus ?? this.onFocus,
+      plantedBalance: plantedBalance ?? this.plantedBalance,
+      plantedBalanceFiat: plantedBalanceFiat ?? this.plantedBalanceFiat,
+      isUnplantSeedsButtonEnabled: isUnplantSeedsButtonEnabled ?? this.isUnplantSeedsButtonEnabled,
+      showOverBalanceAlert: showOverBalanceAlert ?? this.showOverBalanceAlert,
+      showMinPlantedBalanceAlert: showMinPlantedBalanceAlert ?? this.showMinPlantedBalanceAlert,
+      unplantedInputAmountFiat: unplantedInputAmountFiat ?? this.unplantedInputAmountFiat,
+      unplantedInputAmount: unplantedInputAmount ?? this.unplantedInputAmount,
+      controller: controller ?? this.controller,
+      pageCommand: pageCommand,
+      showUnclaimedBalance: showUnclaimedBalance ?? this.showUnclaimedBalance,
+    );
   }
 
-  factory UnplantSeedsState.initial(RatesState ratesState) {
+  factory UnplantSeedsState.initial(RatesState ratesState, bool featureFlagDelegateEnabled) {
     return UnplantSeedsState(
       pageState: PageState.success,
       ratesState: ratesState,
@@ -91,6 +97,7 @@ class UnplantSeedsState extends Equatable {
       isUnplantSeedsButtonEnabled: false,
       unplantedInputAmount: TokenDataModel(0),
       controller: TextEditingController(),
+      showUnclaimedBalance: featureFlagDelegateEnabled,
     );
   }
 }
