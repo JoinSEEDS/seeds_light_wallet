@@ -99,9 +99,7 @@ class UnplantSeedsScreen extends StatelessWidget {
                                   onTapClaim: () {},
                                   isClaimButtonEnable: false,
                                   tokenAmount: TokenDataModel(0),
-                                  fiatAmount: FiatDataModel(0))
-                            else
-                              const SizedBox.shrink(),
+                                  fiatAmount: FiatDataModel(0)),
                             const SizedBox(height: 10),
                             const DividerJungle(),
                             const SizedBox(height: 10),

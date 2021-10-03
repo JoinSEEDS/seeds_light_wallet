@@ -14,7 +14,7 @@ import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodel
 
 class UnplantSeedsBloc extends Bloc<UnplantSeedsEvent, UnplantSeedsState> {
   UnplantSeedsBloc(RatesState rates)
-      : super(UnplantSeedsState.initial(rates, remoteConfigurations.featureFlagDelegateEnabled));
+      : super(UnplantSeedsState.initial(rates, remoteConfigurations.featureFlagClaimUnplantedSeedsEnabled));
 
   @override
   Stream<UnplantSeedsState> mapEventToState(UnplantSeedsEvent event) async* {
