@@ -44,9 +44,7 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
               padding: const EdgeInsets.all(16),
               child: FlatButtonLong(
                 title: 'Search'.i18n,
-                onPressed: () {
-                  _onSearchButtonTapped();
-                },
+                onPressed: () => _onSearchButtonTapped(),
                 enabled: state.enableButton,
               ),
             ),

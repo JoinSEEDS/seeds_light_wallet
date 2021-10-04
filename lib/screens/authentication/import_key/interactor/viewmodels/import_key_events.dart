@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
 
 /// --- EVENTS
 @immutable
