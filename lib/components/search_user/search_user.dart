@@ -7,7 +7,6 @@ import 'package:seeds/components/search_user/interactor/viewmodels/search_user_e
 import 'package:seeds/components/search_user/interactor/viewmodels/search_user_state.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/components/components.i18n.dart';
