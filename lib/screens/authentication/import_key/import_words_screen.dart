@@ -8,6 +8,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
+import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/import_key_bloc.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_events.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_state.dart';
@@ -41,7 +42,13 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
           return Scaffold(
             bottomSheet: Padding(
               padding: const EdgeInsets.all(16),
-              child: FlatButtonLong(title: 'Search'.i18n, onPressed: () => _onSubmitted(), enabled: state.enableButton),
+              child: FlatButtonLong(
+                title: 'Search'.i18n,
+                onPressed: () {
+                  _onSearchButtonTapped();
+                },
+                enabled: state.enableButton,
+              ),
             ),
             appBar: AppBar(),
             body: Padding(
@@ -106,7 +113,7 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
                       }),
                     ),
                     const SizedBox(height: 24),
-                    if (state.words.isEmpty)
+                    if (state.userEnteredWords.isEmpty)
                       RichText(
                         text: TextSpan(
                           style: Theme.of(context).textTheme.subtitle2,
@@ -126,7 +133,7 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
                     else
                       const SizedBox.shrink(),
                     const SizedBox(height: 24),
-                    // const Expanded(child: ImportKeyAccountsWidget()),
+                    const ImportKeyAccountsWidget(),
                   ],
                 ),
               ),
@@ -137,7 +144,7 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
     );
   }
 
-  void _onSubmitted() {
+  void _onSearchButtonTapped() {
     FocusScope.of(context).unfocus();
     _importKeyBloc.add(const FindAccountFromWords());
   }

@@ -7,6 +7,7 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
@@ -109,7 +110,11 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                 else
                   const SizedBox.shrink(),
                 const SizedBox(height: 24),
-                const Expanded(child: ImportKeyAccountsWidget()),
+                const Expanded(
+                    child: Padding(
+                  padding: EdgeInsets.all(horizontalEdgePadding),
+                  child: ImportKeyAccountsWidget(),
+                )),
               ],
             ),
           );
@@ -127,7 +132,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
   void _onSubmitted() {
     FocusScope.of(context).unfocus();
     if (_formImportKey.currentState!.validate()) {
-      _importKeyBloc.add(FindAccountByKey(userKey: _keyController.text));
+      _importKeyBloc.add(FindAccountByKey(privateKey: _keyController.text, words: []));
     }
   }
 }

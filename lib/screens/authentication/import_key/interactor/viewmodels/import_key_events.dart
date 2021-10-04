@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:seeds/datasource/local/models/auth_data_model.dart';
 
 /// --- EVENTS
 @immutable
@@ -11,9 +12,10 @@ abstract class ImportKeyEvent extends Equatable {
 }
 
 class FindAccountByKey extends ImportKeyEvent {
-  final String userKey;
+  final String privateKey;
+  final List<String> words;
 
-  const FindAccountByKey({required this.userKey});
+  const FindAccountByKey({required this.privateKey, required this.words});
 
   @override
   String toString() => 'FindAccountByKey';

@@ -9,8 +9,10 @@ import 'package:seeds/screens/profile_screens/security/interactor/viewmodels/blo
 /// --- BLOC
 class RecoveryPhraseBloc extends Bloc<SecurityEvent, RecoveryPhraseState> {
   RecoveryPhraseBloc()
-      : super(RecoveryPhraseState.initial(
-            AuthDataModel.fromKeyAndWords(settingsStorage.privateKey!, settingsStorage.getRecoveryWords)));
+      : super(RecoveryPhraseState.initial(AuthDataModel.fromKeyAndWords(
+          settingsStorage.privateKey!,
+          settingsStorage.getRecoveryWords,
+        )));
 
   @override
   Stream<RecoveryPhraseState> mapEventToState(SecurityEvent event) {
