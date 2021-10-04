@@ -14,6 +14,7 @@ import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_screen.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/delegate_a_user_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
 import 'package:seeds/screens/page_not_found_screen.dart';
@@ -47,6 +48,7 @@ class Routes {
   static final transfer = 'Transfer';
   static final sendEnterData = 'SendEnterData';
   static final delegate = 'delegate';
+  static final delegateAUser = 'delegateAUser';
   static final createInvite = 'CreateInvite';
   static final vote = 'vote';
   static final proposalDetails = 'ProposalDetails';
@@ -111,6 +113,7 @@ class NavigationService {
     Routes.createInvite: (_) => const InviteScreen(),
     Routes.vote: (_) => const VoteScreen(),
     Routes.delegate: (_) => const DelegateScreen(),
+    Routes.delegateAUser: (_) => const DelegateAUserScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
