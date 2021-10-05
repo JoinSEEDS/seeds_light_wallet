@@ -24,42 +24,40 @@ class ImportKeyAccountsWidget extends StatelessWidget {
             return const SizedBox.shrink();
           case PageState.success:
             return ListView(
+                shrinkWrap: true,
                 children: state.accounts
-                    .map((ProfileModel? profile) => Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                            onTap: () {
-                              context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account));
-                            },
-                            child: Ink(
-                              decoration: BoxDecoration(
-                                color: AppColors.lightGreen2,
-                                borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 8, bottom: 8),
-                                child: ListTile(
-                                  leading: ProfileAvatar(
-                                    size: 60,
-                                    image: profile!.image,
-                                    account: profile.account,
-                                    nickname: profile.nickname,
-                                  ),
-                                  title: Text(
-                                    profile.nickname ?? '',
-                                    style: Theme.of(context).textTheme.button,
-                                  ),
-                                  subtitle: Text(
-                                    profile.account,
-                                    style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                                  ),
-                                  trailing: const Icon(Icons.navigate_next),
-                                ),
-                              ),
+                    .map((ProfileModel? profile) => InkWell(
+                      borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+                      onTap: () {
+                        context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account));
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          color: AppColors.lightGreen2,
+                          borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8, bottom: 8),
+                          child: ListTile(
+                            leading: ProfileAvatar(
+                              size: 60,
+                              image: profile!.image,
+                              account: profile.account,
+                              nickname: profile.nickname,
                             ),
+                            title: Text(
+                              profile.nickname ?? '',
+                              style: Theme.of(context).textTheme.button,
+                            ),
+                            subtitle: Text(
+                              profile.account,
+                              style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                            ),
+                            trailing: const Icon(Icons.navigate_next),
                           ),
-                        ))
+                        ),
+                      ),
+                    ))
                     .toList());
           case PageState.loading:
             return const FullPageLoadingIndicator();

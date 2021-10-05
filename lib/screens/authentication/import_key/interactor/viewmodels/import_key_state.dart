@@ -1,53 +1,54 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 class ImportKeyState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
-  final String? privateKey;
+  final AuthDataModel? authData;
   final List<ProfileModel> accounts;
   final bool enableButton;
-  final Map<int, String> words;
+  final Map<int, String> userEnteredWords;
 
   const ImportKeyState({
     required this.pageState,
     this.errorMessage,
     required this.accounts,
-    this.privateKey,
+    this.authData,
     required this.enableButton,
-    required this.words,
+    required this.userEnteredWords,
   });
 
   bool get areAllWordsEntered {
-    return words.length == 12 && !words.containsValue('');
+    return userEnteredWords.length == 12 && !userEnteredWords.containsValue('');
   }
 
   @override
   List<Object?> get props => [
         pageState,
         errorMessage,
-        privateKey,
+        authData,
         accounts,
         enableButton,
-        words,
+        userEnteredWords,
       ];
 
   ImportKeyState copyWith({
     PageState? pageState,
     String? errorMessage,
     List<ProfileModel>? accounts,
-    String? privateKey,
+    AuthDataModel? authData,
     bool? enableButton,
-    Map<int, String>? words,
+    Map<int, String>? userEnteredWords,
   }) {
     return ImportKeyState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       accounts: accounts ?? this.accounts,
-      privateKey: privateKey ?? this.privateKey,
+      authData: authData ?? this.authData,
       enableButton: enableButton ?? this.enableButton,
-      words: words ?? this.words,
+      userEnteredWords: userEnteredWords ?? this.userEnteredWords,
     );
   }
 
@@ -57,7 +58,7 @@ class ImportKeyState extends Equatable {
       pageState: PageState.initial,
       accounts: [],
       enableButton: false,
-      words: {},
+      userEnteredWords: {},
     );
   }
 }
