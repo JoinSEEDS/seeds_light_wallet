@@ -1,13 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:seeds/constants/app_colors.dart';
 
 class CategoryLabel extends CustomPainter {
-  const CategoryLabel();
+  final Color? color;
+
+   const CategoryLabel( {this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = AppColors.orangeYellow
+      ..color = color ?? AppColors.orangeYellow
       ..style = PaintingStyle.fill
       ..strokeWidth = 1;
 
