@@ -1,7 +1,7 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -54,7 +54,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       eventBus.fire(const OnFiatCurrencyChangedEventBus());
     }
     if (event is OnProfileLogoutButtonPressed) {
-      if(ShouldShowRecoveryPhraseFeatureUseCase().shouldShowRecoveryPhrase()) {
+      if (ShouldShowRecoveryPhraseFeatureUseCase().shouldShowRecoveryPhrase()) {
         yield state.copyWith(pageCommand: ShowLogoutRecoveryPhraseDialog());
       } else {
         yield state.copyWith(pageCommand: ShowLogoutDialog());
