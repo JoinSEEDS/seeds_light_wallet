@@ -12,6 +12,7 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/components/components.i18n.dart';
 
 class SearchUser extends StatelessWidget {
+  final String? title;
   final ValueSetter<MemberModel> resultCallBack;
   final List<String>? noShowUsers;
   final _controller = TextEditingController();
@@ -20,7 +21,7 @@ class SearchUser extends StatelessWidget {
     borderSide: BorderSide(color: AppColors.darkGreen2, width: 2.0),
   );
 
-  SearchUser({Key? key, required this.resultCallBack, this.noShowUsers}) : super(key: key);
+  SearchUser({Key? key, required this.resultCallBack, this.noShowUsers, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,19 @@ class SearchUser extends StatelessWidget {
                       hintText: 'Search...'.i18n),
                 ),
               ),
+              if (title != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        Text(title!,style: Theme.of(context).textTheme.subtitle2),
+                      ],
+                    ),
+                  ),
+                ),
               const SizedBox(height: 16),
               searchResults(context, state),
             ],
