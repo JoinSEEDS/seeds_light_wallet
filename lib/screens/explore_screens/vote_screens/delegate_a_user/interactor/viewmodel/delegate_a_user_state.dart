@@ -4,32 +4,32 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 class DelegateAUserState extends Equatable {
+  final PageCommand? pageCommand;
   final PageState pageState;
   final Set<MemberModel> selectedDelegate;
-  final PageCommand? pageCommand;
 
   const DelegateAUserState({
+    this.pageCommand,
     required this.pageState,
     required this.selectedDelegate,
-    this.pageCommand,
   });
 
   @override
   List<Object?> get props => [
+        pageCommand,
         pageState,
         selectedDelegate,
-        pageCommand,
       ];
 
   DelegateAUserState copyWith({
+    PageCommand? pageCommand,
     PageState? pageState,
     Set<MemberModel>? selectedDelegate,
-    PageCommand? pageCommand,
   }) {
     return DelegateAUserState(
+      pageCommand: pageCommand,
       pageState: pageState ?? this.pageState,
       selectedDelegate: selectedDelegate ?? this.selectedDelegate,
-      pageCommand: pageCommand,
     );
   }
 
