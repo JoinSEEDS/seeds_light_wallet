@@ -23,6 +23,8 @@ class FindAccountsResultStateMapper extends StateMapper {
 
       final currentAccount =
           profiles.singleWhere((i) => i.account == settingsStorage.accountName, orElse: () => profiles.first);
+      profiles.remove(currentAccount);
+      profiles.insert(0, currentAccount);
 
       return currentState.copyWith(pageState: PageState.success, accounts: profiles, currentAcccout: currentAccount);
     }
