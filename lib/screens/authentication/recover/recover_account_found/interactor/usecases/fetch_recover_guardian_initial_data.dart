@@ -62,7 +62,7 @@ class FetchRecoverGuardianInitialDataUseCase {
       membersData: membersData,
       userRecoversModel: accountRecovery,
       accountGuardians: accountGuardians,
-      authData: AuthDataModel.fromKeyAndWords(settingsStorage.privateKey!, settingsStorage.getRecoveryWords),
+      authData: AuthDataModel.fromKeyAndWords(settingsStorage.privateKey!, settingsStorage.recoveryWords),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/profile/components/logout_dialog.dart';
+import 'package:seeds/screens/profile_screens/profile/components/logout_recovery_phrase_dialog.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_list_tile_card.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/page_commands.dart';
@@ -29,6 +30,16 @@ class ProfileBottom extends StatelessWidget {
             context: context,
             builder: (_) {
               return BlocProvider.value(value: BlocProvider.of<ProfileBloc>(context), child: const LogoutDialog());
+            },
+          ).whenComplete(() => BlocProvider.of<ProfileBloc>(context).add(const ResetShowLogoutButton()));
+        } else if (pageCommand is ShowLogoutRecoveryPhraseDialog) {
+          showDialog<void>(
+            context: context,
+            builder: (_) {
+              return BlocProvider.value(
+                value: BlocProvider.of<ProfileBloc>(context),
+                child: const LogoutRecoveryPhraseDialog(),
+              );
             },
           ).whenComplete(() => BlocProvider.of<ProfileBloc>(context).add(const ResetShowLogoutButton()));
         } else if (pageCommand is ShowCitizenshipUpgradeSuccess) {

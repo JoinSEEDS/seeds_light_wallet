@@ -50,9 +50,6 @@ class _SettingsStorage {
 
   String? get privateKey => _privateKey;
 
-  /// Get a list of recovery words
-  List<String> get getRecoveryWords => _recoveryWords;
-
   List<String> get privateKeysList => _privateKeysList ?? [];
 
   String? get passcode => _passcode;

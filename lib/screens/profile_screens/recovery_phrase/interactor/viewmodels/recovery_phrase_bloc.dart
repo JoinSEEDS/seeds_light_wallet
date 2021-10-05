@@ -11,7 +11,7 @@ class RecoveryPhraseBloc extends Bloc<SecurityEvent, RecoveryPhraseState> {
   RecoveryPhraseBloc()
       : super(RecoveryPhraseState.initial(AuthDataModel.fromKeyAndWords(
           settingsStorage.privateKey!,
-          settingsStorage.getRecoveryWords,
+          settingsStorage.recoveryWords,
         )));
 
   @override

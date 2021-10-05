@@ -62,6 +62,13 @@ class OnSavePrivateKeyButtonPressed extends ProfileEvent {
   String toString() => 'OnSavePrivateKeyButtonPressed';
 }
 
+class OnSaveRecoveryPhraseButtonPressed extends ProfileEvent {
+  const OnSaveRecoveryPhraseButtonPressed();
+
+  @override
+  String toString() => 'OnSaveRecoveryPhraseButtonPressed';
+}
+
 class ClearProfilePageCommand extends ProfileEvent {
   const ClearProfilePageCommand();
 
