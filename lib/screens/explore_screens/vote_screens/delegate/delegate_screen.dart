@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/delegate_card.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_event.dart';
@@ -31,7 +32,13 @@ class DelegateScreen extends StatelessWidget {
                 return const FullPageErrorIndicator();
               case PageState.success:
                 return Column(
-                  children: <Widget>[DelegateCard(onTap: () {}, activeDelegate: state.activeDelegate)],
+                  children: <Widget>[
+                    DelegateCard(
+                        onTap: () {
+                          NavigationService.of(context).navigateTo(Routes.delegateAUser);
+                        },
+                        activeDelegate: state.activeDelegate)
+                  ],
                 );
               default:
                 return const SizedBox.shrink();

@@ -14,7 +14,16 @@ class OnUserSelected extends DelegateAUserEvent {
   OnUserSelected(this.user);
 
   @override
-  String toString() => 'OnUserSelected: { OnUserSelected: $user }';
+  String toString() => 'OnUserSelected: { User: $user }';
+}
+
+class OnConfirmDelegateTab extends DelegateAUserEvent {
+  final MemberModel user;
+
+  OnConfirmDelegateTab(this.user);
+
+  @override
+  String toString() => 'OnConfirmDelegateTab: { User: $user }';
 }
 
 class ClearPageCommand extends DelegateAUserEvent {
