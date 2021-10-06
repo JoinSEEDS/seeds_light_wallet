@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/search_user/search_user.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 
@@ -22,6 +23,7 @@ class SendSearchUserScreen extends StatelessWidget {
         ],
       ),
       body: SearchUser(
+        noShowUsers: [settingsStorage.accountName],
         resultCallBack: (selectedUser) {
           print('onResult: ${selectedUser.account}');
           NavigationService.of(context).navigateTo(Routes.sendEnterData, selectedUser);
