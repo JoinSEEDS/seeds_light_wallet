@@ -19,7 +19,9 @@ import 'package:seeds/screens/app/components/guardian_approve_or_deny_recovery_s
 import 'package:seeds/screens/app/interactor/viewmodels/app_page_commands.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/connection_notifier.dart';
+import 'package:seeds/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/screens/profile_screens/profile/profile_screen.dart';
+import 'package:seeds/screens/wallet/wallet_screen.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -34,14 +36,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       title: "Wallet".i18n,
       icon: 'assets/images/navigation_bar/wallet.svg',
       iconSelected: 'assets/images/navigation_bar/wallet_selected.svg',
-      screen: const Wallet(),
+      screen: const WalletScreen(),
       index: 0,
     ),
     AppScreenItem(
       title: "Explore".i18n,
       icon: 'assets/images/navigation_bar/explore.svg',
       iconSelected: 'assets/images/navigation_bar/explore_selected.svg',
-      screen: const Ecosystem(),
+      screen: const ExploreScreen(),
       index: 1,
     ),
     AppScreenItem(
@@ -186,34 +188,5 @@ extension NavigatorStateExtension on NavigatorState {
       return true;
     });
     return isCurrent;
-  }
-}
-
-/// Gery I'm going to leave these 2 widgets below here for now, the reason is
-/// that apparently they use navigation keys I'm not sure if we will
-/// continue to use this navigation approach with keys, so I leave them here
-/// for the moment until we correctly define the service by navagion.
-class Wallet extends StatelessWidget {
-  const Wallet({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      key: NavigationService.of(context).walletNavigatorKey,
-      initialRoute: Routes.wallet,
-      onGenerateRoute: NavigationService.of(context).onGenerateRoute,
-    );
-  }
-}
-
-class Ecosystem extends StatelessWidget {
-  const Ecosystem({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      key: NavigationService.of(context).ecosystemNavigatorKey,
-      initialRoute: Routes.explore,
-      onGenerateRoute: NavigationService.of(context).onGenerateRoute,
-    );
   }
 }
