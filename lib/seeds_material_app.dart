@@ -24,6 +24,7 @@ class SeedsMaterialApp extends MaterialApp {
           supportedLocales: [
             const Locale('en', 'US'),
             const Locale('es', 'ES'),
+            const Locale('pt', "BR"),
           ],
           //debugShowCheckedModeBanner: false,
           //debugShowMaterialGrid: true,
