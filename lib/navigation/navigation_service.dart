@@ -81,12 +81,7 @@ class Routes {
 
 class NavigationService {
   final GlobalKey<NavigatorState> onboardingNavigatorKey = GlobalKey<NavigatorState>();
-
   final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
-
-  final GlobalKey<NavigatorState> walletNavigatorKey = GlobalKey<NavigatorState>();
-
-  final GlobalKey<NavigatorState> ecosystemNavigatorKey = GlobalKey<NavigatorState>();
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
