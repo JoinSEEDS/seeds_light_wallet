@@ -4,6 +4,7 @@ import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
+import 'package:seeds/datasource/remote/model/delegate_model.dart';
 import 'package:seeds/datasource/remote/model/moon_phase_model.dart';
 import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/referendum_model.dart';
@@ -209,6 +210,30 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
+  }
+
+  // return DelegateModel or null if no delegate
+  Future<Result> getDelegate(String account) {
+    print('[http] get delegate for $account');
+
+    final scope = voiceScopes[0];
+
+    final request = createRequest(
+      code: accountRules,
+      scope: scope,
+      table: tableDelegates,
+      lowerBound: account,
+      upperBound: account,
+    );
+
+    final url = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    return http
+        .post(url, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              return DelegateModel.fromJson(body, scope);
+            }))
+        .catchError((error) => mapHttpError(error));
   }
 
   Future<Result> undelegate({required String accountName}) {
