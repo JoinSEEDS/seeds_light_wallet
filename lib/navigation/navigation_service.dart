@@ -9,7 +9,6 @@ import 'package:seeds/screens/authentication/recover/recover_account_found/recov
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
-import 'package:seeds/screens/explore_screens/explore/explore_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
@@ -37,7 +36,6 @@ import 'package:seeds/screens/transfer/send/send_confirmation/send_confirmation_
 import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
-import 'package:seeds/screens/wallet/wallet_screen.dart';
 
 class Routes {
   static final onboarding = 'Onboarding';
@@ -53,8 +51,6 @@ class Routes {
   static final vote = 'vote';
   static final proposalDetails = 'ProposalDetails';
   static final overview = 'Overview';
-  static final explore = 'Explore';
-  static final wallet = 'Wallet';
   static final plantSeeds = 'plantSeeds';
   static final unPlantSeeds = 'unPlantSeeds';
   static final sendConfirmationScreen = 'SendConfirmationScreen';
@@ -85,12 +81,7 @@ class Routes {
 
 class NavigationService {
   final GlobalKey<NavigatorState> onboardingNavigatorKey = GlobalKey<NavigatorState>();
-
   final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
-
-  final GlobalKey<NavigatorState> walletNavigatorKey = GlobalKey<NavigatorState>();
-
-  final GlobalKey<NavigatorState> ecosystemNavigatorKey = GlobalKey<NavigatorState>();
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
       Provider.of<NavigationService>(context, listen: listen);
@@ -143,14 +134,6 @@ class NavigationService {
     Routes.verification,
   };
 
-  final ecosystemRoutes = {
-    Routes.explore: (_) => const ExploreScreen(),
-  };
-
-  final walletRoutes = {
-    Routes.wallet: (_) => const WalletScreen(),
-  };
-
   // ignore: use_setters_to_change_properties
   void addListener(StreamController<String> listener) {
     streamRouteListener = listener;
@@ -165,10 +148,6 @@ class NavigationService {
 
     if (appRoutes[routeName] != null) {
       navigatorKey = appNavigatorKey;
-    } else if (walletRoutes[routeName] != null) {
-      navigatorKey = walletNavigatorKey;
-    } else if (ecosystemRoutes[routeName] != null) {
-      navigatorKey = ecosystemNavigatorKey;
     } else if (onboardingRoutes[routeName] != null) {
       navigatorKey = onboardingNavigatorKey;
     }
@@ -198,16 +177,6 @@ class NavigationService {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => onboardingRoutes[routeName]!(arguments),
-      );
-    } else if (ecosystemRoutes[routeName] != null) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (_) => ecosystemRoutes[routeName]!(arguments),
-      );
-    } else if (walletRoutes[routeName] != null) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (_) => walletRoutes[routeName]!(arguments),
       );
     } else {
       return MaterialPageRoute(
