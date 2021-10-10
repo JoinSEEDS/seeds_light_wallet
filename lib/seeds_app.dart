@@ -30,23 +30,23 @@ class SeedsApp extends StatelessWidget {
           child: Builder(
             builder: (context) {
               final navigator = NavigationService.of(context);
-              return I18n(
-                child: MaterialApp(
-                  localizationsDelegates: [
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  supportedLocales: [
-                    const Locale('en', 'US'),
-                    const Locale('es', 'ES'),
-                    const Locale('pt', "BR"),
-                  ],
-                  theme: SeedsAppTheme.darkTheme,
-                  navigatorKey: navigator.appNavigatorKey,
-                  onGenerateRoute: navigator.onGenerateRoute,
-                  builder: (context, child) {
-                    return BlocListener<AuthenticationBloc, AuthenticationState>(
+              return MaterialApp(
+                localizationsDelegates: [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: [
+                  const Locale('en', 'US'),
+                  const Locale('es', 'ES'),
+                  const Locale('pt', "BR"),
+                ],
+                theme: SeedsAppTheme.darkTheme,
+                navigatorKey: navigator.appNavigatorKey,
+                onGenerateRoute: navigator.onGenerateRoute,
+                builder: (context, child) {
+                  return I18n(
+                    child: BlocListener<AuthenticationBloc, AuthenticationState>(
                       listener: (context, state) {
                         switch (state.authStatus) {
                           case AuthStatus.emptyAccount:
@@ -71,9 +71,9 @@ class SeedsApp extends StatelessWidget {
                         }
                       },
                       child: child,
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               );
             },
           ),
