@@ -19,7 +19,6 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/deleg
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
 import 'package:seeds/screens/onboarding/onboarding_screen.dart';
-import 'package:seeds/screens/page_not_found_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
@@ -162,10 +161,7 @@ class NavigationService {
         fullscreenDialog: _fullScreenRoutes.contains(settings.name),
       );
     } else {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (_) => PageNotFoundScreen(routeName: settings.name!, args: settings.arguments),
-      );
+      return MaterialPageRoute(builder: (_) => const LoadingScreen());
     }
   }
 

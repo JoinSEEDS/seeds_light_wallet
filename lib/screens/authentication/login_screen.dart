@@ -10,11 +10,11 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/authentication/login.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 
+const int _approxWidgetHeight = 450;
+
 /// Login SCREEN
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
-
-  static const int approxWidgetHeight = 450;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: max(0, min(height * 0.4, height - approxWidgetHeight)),
+              height: max(0, min(height * 0.4, height - _approxWidgetHeight)),
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitWidth,

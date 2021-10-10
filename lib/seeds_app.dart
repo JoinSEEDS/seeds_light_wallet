@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:provider/provider.dart';
-
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_state.dart';
@@ -44,7 +43,7 @@ class SeedsApp extends StatelessWidget {
                 theme: SeedsAppTheme.darkTheme,
                 navigatorKey: navigator.appNavigatorKey,
                 onGenerateRoute: navigator.onGenerateRoute,
-                builder: (context, child) {
+                builder: (_, child) {
                   return I18n(
                     child: BlocListener<AuthenticationBloc, AuthenticationState>(
                       listenWhen: (previous, current) => previous.authStatus != current.authStatus,
