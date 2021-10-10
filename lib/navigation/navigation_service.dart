@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
-import 'package:seeds/screens/authentication/loading_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
+import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
@@ -41,7 +41,7 @@ import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_sc
 
 class Routes {
   static const onboarding = 'Onboarding';
-  static const loading = 'loading';
+  static const splash = 'splash';
   static const app = 'app';
   static const login = 'Login';
   static const importKey = 'ImportKey';
@@ -87,7 +87,7 @@ class NavigationService {
   final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
   final _appRoutes = {
     Routes.onboarding: (_) => const OnboardingScreen(),
-    Routes.loading: () => const LoadingScreen(),
+    Routes.splash: () => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.importWords: (_) => const ImportWordsScreen(),
@@ -161,7 +161,7 @@ class NavigationService {
         fullscreenDialog: _fullScreenRoutes.contains(settings.name),
       );
     } else {
-      return MaterialPageRoute(builder: (_) => const LoadingScreen());
+      return MaterialPageRoute(builder: (_) => const SplashScreen());
     }
   }
 

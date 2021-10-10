@@ -66,7 +66,7 @@ class SeedsApp extends StatelessWidget {
                             navigator.pushAndRemoveAll(Routes.app);
                             break;
                           default:
-                            navigator.pushAndRemoveAll(Routes.loading);
+                            navigator.pushAndRemoveAll(Routes.splash);
                             break;
                         }
                       },
