@@ -47,6 +47,7 @@ class SeedsApp extends StatelessWidget {
                 builder: (context, child) {
                   return I18n(
                     child: BlocListener<AuthenticationBloc, AuthenticationState>(
+                      listenWhen: (previous, current) => previous.authStatus != current.authStatus,
                       listener: (context, state) {
                         switch (state.authStatus) {
                           case AuthStatus.emptyAccount:
