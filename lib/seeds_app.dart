@@ -48,7 +48,7 @@ class SeedsApp extends StatelessWidget {
                   return I18n(
                     child: BlocListener<AuthenticationBloc, AuthenticationState>(
                       listenWhen: (previous, current) => previous.authStatus != current.authStatus,
-                      listener: (context, state) {
+                      listener: (_, state) {
                         switch (state.authStatus) {
                           case AuthStatus.emptyAccount:
                             navigator.pushAndRemoveAll(Routes.onboarding);

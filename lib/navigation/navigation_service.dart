@@ -44,10 +44,10 @@ class Routes {
   static const onboarding = 'Onboarding';
   static const loading = 'loading';
   static const app = 'app';
-  static const login = "Login";
-  static const importKey = "ImportKey";
+  static const login = 'Login';
+  static const importKey = 'ImportKey';
   static const importWords = 'ImportWords';
-  static const verification = "verification";
+  static const verification = 'verification';
   static const signup = 'signUp';
   static const recoverAccount = 'recoverAccount';
   static const recoveryPhrase = 'recoveryPhrase';
@@ -68,8 +68,8 @@ class Routes {
   static const unPlantSeeds = 'unPlantSeeds';
   static const sendConfirmationScreen = 'SendConfirmationScreen';
   static const scanQRCode = 'ScanQRCode';
-  static const receiveScreen = "receiveScreen";
-  static const receiveEnterDataScreen = "receiveEnterDataScreen";
+  static const receiveScreen = 'receiveScreen';
+  static const receiveEnterDataScreen = 'receiveEnterDataScreen';
   static const receiveQR = 'ReceiveQR';
   static const profile = 'profile';
   static const selectGuardians = 'SelectGuardians';
@@ -79,7 +79,7 @@ class Routes {
   static const support = 'Support';
   static const security = 'Security';
   static const editName = 'EditName';
-  static const setCurrency = "SetCurrency";
+  static const setCurrency = 'SetCurrency';
   static const citizenship = 'CitizenShip';
   static const contribution = 'Contribution';
 }
