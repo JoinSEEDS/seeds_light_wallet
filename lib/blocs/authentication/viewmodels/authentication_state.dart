@@ -4,6 +4,7 @@ enum AuthStatus {
   initial,
   emptyAccount,
   emptyPasscode,
+  inviteLink,
   locked,
   unlocked,
   recoveryMode,

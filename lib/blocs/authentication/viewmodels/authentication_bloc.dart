@@ -24,6 +24,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is UnlockWallet) {
       yield state.copyWith(authStatus: AuthStatus.unlocked);
     }
+    if (event is OnInviteLinkRecived) {
+      yield state.copyWith(authStatus: AuthStatus.inviteLink);
+    }
     if (event is OnCreateAccount) {
       SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
       // New account --> re-start auth status
