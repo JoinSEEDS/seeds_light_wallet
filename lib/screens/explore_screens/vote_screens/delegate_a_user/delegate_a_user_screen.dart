@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/search_user/search_user.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/component/delegate_a_user_confirmation_dialog.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/component/delegate_a_user_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/interactor/delegate_a_user_bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/interactor/viewmodel/delegate_a_user_events.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/interactor/viewmodel/delegate_a_user_page_commands.dart';
@@ -27,6 +28,17 @@ class DelegateAUserScreen extends StatelessWidget {
                 return BlocProvider.value(
                   value: BlocProvider.of<DelegateAUserBloc>(context),
                   child: DelegateAUserConfirmationDialog(selectedDelegate: pageCommand.selectedDelegate),
+                );
+              },
+            );
+          } else if (pageCommand is ShowDelegateUserSuccess) {
+            showDialog<void>(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) {
+                return BlocProvider.value(
+                  value: BlocProvider.of<DelegateAUserBloc>(context),
+                  child: const DelegateAUserSuccessDialog(),
                 );
               },
             );

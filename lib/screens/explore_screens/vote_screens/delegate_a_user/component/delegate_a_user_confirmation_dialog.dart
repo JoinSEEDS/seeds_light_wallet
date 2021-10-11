@@ -28,12 +28,10 @@ class DelegateAUserConfirmationDialog extends StatelessWidget {
           rightButtonTitle: "Yes I'm sure  ",
           onLeftButtonPressed: () {
             Navigator.of(context).pop();
-            Navigator.of(context).pop();
-            BlocProvider.of<DelegateAUserBloc>(context).add(OnConfirmDelegateTab(selectedDelegate));
           },
           onRightButtonPressed: () {
             Navigator.of(context).pop();
-            Navigator.of(context).pop();
+            BlocProvider.of<DelegateAUserBloc>(context).add(OnConfirmDelegateTab(selectedDelegate));
           },
           children: [
             Row(
