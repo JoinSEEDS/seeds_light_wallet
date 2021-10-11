@@ -41,7 +41,7 @@ class DelegateCard extends StatelessWidget {
                 ),
                 CustomPaint(
                   size: const Size(100, 40),
-                  painter: const CategoryLabel(),
+                  painter: const CategoryLabel(color: AppColors.tagBlue),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                     child: Text(
@@ -52,7 +52,7 @@ class DelegateCard extends StatelessWidget {
                 ),
                 CustomPaint(
                   size: const Size(100, 40),
-                  painter: const CategoryLabel(),
+                  painter: const CategoryLabel(color: AppColors.subtitle),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                     child: Text(
