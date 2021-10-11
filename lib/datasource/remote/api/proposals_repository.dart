@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
@@ -216,10 +217,10 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result> getDelegate(String account) {
     print('[http] get delegate for $account');
 
-    final scope = voiceScopes[0];
+    final scope = voiceScopes[1];
 
     final request = createRequest(
-      code: accountRules,
+      code: accountFunds,
       scope: scope,
       table: tableDelegates,
       lowerBound: account,
@@ -231,7 +232,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     return http
         .post(url, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              return DelegateModel.fromJson(body, scope);
+              return DelegateModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }
