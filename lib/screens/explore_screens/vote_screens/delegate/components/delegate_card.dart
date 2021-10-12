@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/datasource/remote/model/delegate_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/images/vote/category_label.dart';
-import 'delegate_row.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/delegate_row.dart';
 
 class DelegateCard extends StatelessWidget {
   final VoidCallback onTap;
   final bool activeDelegate;
+  final DelegateModel? delegate;
 
-  const DelegateCard({Key? key, required this.onTap, required this.activeDelegate}) : super(key: key);
+  const DelegateCard({Key? key, required this.onTap, required this.activeDelegate, this.delegate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,20 +70,14 @@ class DelegateCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Trust Tokens Used/Available"),
-                  const Text("Todo / 99"),
-                ],
+                children: [const Text("Trust Tokens Used/Available"), const Text("Todo / 99")],
               ),
             ),
             const SizedBox(height: 30.0),
             if (activeDelegate)
-              const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                  child: DelegateRow(
-                    account: 'TODO',
-                    nickname: 'TODO',
-                  ))
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                  child: DelegateRow(account: delegate!.delegatee, nickname: delegate!.delegatee))
             else
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
