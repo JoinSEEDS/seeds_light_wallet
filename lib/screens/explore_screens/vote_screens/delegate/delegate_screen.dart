@@ -7,12 +7,11 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/delegate_card.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/remove_delegate_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_event.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_page_commands.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_state.dart';
-
-import 'components/remove_delegate_success_dialog.dart';
-import 'interactor/viewmodels/delegate_page_commands.dart';
 
 class DelegateScreen extends StatelessWidget {
   const DelegateScreen({Key? key}) : super(key: key);

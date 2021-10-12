@@ -3,7 +3,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/images/vote/category_label.dart';
-import 'delegate_row.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/delegate_row.dart';
 
 class DelegateCard extends StatelessWidget {
   final VoidCallback onTap;
