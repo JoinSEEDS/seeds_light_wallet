@@ -14,10 +14,7 @@ class DelegateBloc extends Bloc<DelegateEvent, DelegateState> {
     if (event is LoadDelegateData) {
       yield state.copyWith(pageState: PageState.loading);
       final Result results = await DelegateLoadDataUseCase().run();
-      yield DelegateLoadDataStateMapper().mapResultToState(
-        state,
-        results,
-      );
+      yield DelegateLoadDataStateMapper().mapResultToState(state, results);
     }
   }
 }

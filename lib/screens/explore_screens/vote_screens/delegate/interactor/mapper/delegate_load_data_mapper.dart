@@ -6,13 +6,11 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/v
 class DelegateLoadDataStateMapper extends StateMapper {
   DelegateState mapResultToState(DelegateState currentState, Result result) {
     if (result.isError) {
-      return currentState.copyWith(
-        pageState: PageState.failure,
-      );
+      return currentState.copyWith(pageState: PageState.failure);
     } else {
       final DelegateModel delegate = result.asValue!.value as DelegateModel;
 
-      if (delegate.delegatee == '') {
+      if (delegate.delegatee.isEmpty) {
         return currentState.copyWith(pageState: PageState.success, activeDelegate: false, delegate: delegate);
       } else {
         return currentState.copyWith(pageState: PageState.success, activeDelegate: true, delegate: delegate);
