@@ -1,20 +1,14 @@
 class DelegateModel {
-  final String delegator;
   final String delegatee;
-  final String scope;
 
-  const DelegateModel({required this.delegator, required this.delegatee, required this.scope});
+  const DelegateModel(this.delegatee);
 
-  static DelegateModel? fromJson(Map<String, dynamic>? json, String scope) {
+  factory DelegateModel.fromJson(Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
       final item = json['rows'].first;
-      return DelegateModel(
-        delegator: item['delegator'],
-        delegatee: item['delegatee'],
-        scope: scope,
-      );
+      return DelegateModel(item['dlegatee']);
     } else {
-      return null;
+      return const DelegateModel('');
     }
   }
 }

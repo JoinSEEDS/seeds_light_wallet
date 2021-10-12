@@ -6,3 +6,5 @@ class ShowDelegateConfirmation extends PageCommand {
 
   ShowDelegateConfirmation(this.selectedDelegate);
 }
+
+class ShowDelegateUserSuccess extends PageCommand {}

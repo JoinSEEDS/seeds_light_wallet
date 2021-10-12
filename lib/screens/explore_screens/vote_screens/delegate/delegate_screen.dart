@@ -63,7 +63,8 @@ class DelegateScreen extends StatelessWidget {
                         onTap: () {
                           NavigationService.of(context).navigateTo(Routes.delegateAUser);
                         },
-                        activeDelegate: state.activeDelegate)
+                        activeDelegate: state.activeDelegate,
+                        delegate: state.delegate)
                   ],
                 );
               default:
