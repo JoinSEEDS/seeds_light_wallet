@@ -24,7 +24,7 @@ class VoteScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               actions: [
-                if (state.shouldShowDelegateIcon)
+                if (true)
                   IconButton(
                       onPressed: () {
                         NavigationService.of(context).navigateTo(Routes.delegate);
