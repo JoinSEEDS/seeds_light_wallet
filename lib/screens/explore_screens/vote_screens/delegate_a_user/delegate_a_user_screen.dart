@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/search_user/search_user.dart';
+import 'package:seeds/domain-shared/profile_citizenship_status.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/component/delegate_a_user_confirmation_dialog.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/component/delegate_a_user_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/interactor/delegate_a_user_bloc.dart';
@@ -57,6 +58,7 @@ class DelegateAUserScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: SearchUser(
+                            filterByCitizenshipStatus: ProfileCitizenshipStatus.citizen,
                             noShowUsers: state.noShowUsers,
                             title: "Citizens",
                             resultCallBack: (selectedUser) {
