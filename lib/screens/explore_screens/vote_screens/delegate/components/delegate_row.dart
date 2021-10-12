@@ -5,8 +5,10 @@ import 'package:seeds/design/app_theme.dart';
 class DelegateRow extends StatelessWidget {
   final String account;
   final String nickname;
+  final VoidCallback onTapRemove;
 
-  const DelegateRow({Key? key, required this.account, required this.nickname}) : super(key: key);
+  const DelegateRow({Key? key, required this.account, required this.nickname, required this.onTapRemove})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,8 @@ class DelegateRow extends StatelessWidget {
           ),
         ),
         TextButton(
-            onPressed: () {}, child: Text("Remove", style: Theme.of(context).textTheme.subtitle3OpacityEmphasisRed))
+            onPressed: onTapRemove,
+            child: Text("Remove", style: Theme.of(context).textTheme.subtitle3OpacityEmphasisRed))
       ],
     );
   }

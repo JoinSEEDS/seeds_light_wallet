@@ -8,8 +8,10 @@ import 'delegate_row.dart';
 class DelegateCard extends StatelessWidget {
   final VoidCallback onTap;
   final bool activeDelegate;
+  final VoidCallback onTapRemove;
 
-  const DelegateCard({Key? key, required this.onTap, required this.activeDelegate}) : super(key: key);
+  const DelegateCard({Key? key, required this.onTap, required this.activeDelegate, required this.onTapRemove})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +78,10 @@ class DelegateCard extends StatelessWidget {
             ),
             const SizedBox(height: 30.0),
             if (activeDelegate)
-              const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                   child: DelegateRow(
+                    onTapRemove: onTapRemove,
                     account: 'TODO',
                     nickname: 'TODO',
                   ))
