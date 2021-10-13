@@ -12,9 +12,13 @@ class DelegateCard extends StatelessWidget {
   final VoidCallback onTapRemove;
   final DelegateModel? delegate;
 
-  const DelegateCard(
-      {Key? key, required this.onTap, required this.activeDelegate, required this.onTapRemove, this.delegate})
-      : super(key: key);
+  const DelegateCard({
+    Key? key,
+    required this.onTap,
+    required this.activeDelegate,
+    required this.onTapRemove,
+    this.delegate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
