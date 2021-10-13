@@ -17,19 +17,31 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
 
   ImportKeyBloc(this._authenticationBloc) : super(ImportKeyState.initial());
 
+  final debugMode = false;
+
   @override
   Stream<ImportKeyState> mapEventToState(ImportKeyEvent event) async* {
     if (event is FindAccountByKey) {
       yield state.copyWith(pageState: PageState.loading);
 
-      final publicKey = CheckPrivateKeyUseCase().isKeyValid(event.privateKey);
+      var privateKey = event.privateKey;
+      String? publicKey = CheckPrivateKeyUseCase().isKeyValid(event.privateKey);
+
+      if (debugMode && event.privateKey.startsWith("EOS")) {
+        // this is a public key - support this for debugging our key search
+        // this is so we can paste public keys and see if they are found
+        // so we can debug users keys without getting their private keys
+        final cpuPrivateKey = '5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a';
+        privateKey = cpuPrivateKey;
+        publicKey = event.privateKey;
+      }
 
       if (publicKey == null || publicKey.isEmpty) {
         yield state.copyWith(pageState: PageState.failure, errorMessage: "Private key is not valid".i18n);
       } else {
         final results = await ImportKeyUseCase().run(publicKey);
         yield ImportKeyStateMapper()
-            .mapResultsToState(state, results, AuthDataModel.fromKeyAndWords(event.privateKey, event.words));
+            .mapResultsToState(state, results, AuthDataModel.fromKeyAndWords(privateKey, event.words));
       }
     } else if (event is AccountSelected) {
       /// In case there was a recovery in place. We cancel it.
