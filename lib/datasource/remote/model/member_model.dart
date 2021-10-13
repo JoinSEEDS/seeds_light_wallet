@@ -1,24 +1,29 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/serialization_helpers.dart';
-import 'package:seeds/domain-shared/profile_citizenship_status.dart';
+import 'package:seeds/domain-shared/user_citizenship_status.dart';
 
 class MemberModel extends Equatable {
   final String account;
   final String nickname;
   final String image;
   final bool isSeedsUser;
-  final ProfileCitizenshipStatus? status;
+  final UserCitizenshipStatus? citizenshipStatus;
 
-  const MemberModel(
-      {required this.account, required this.nickname, required this.image, this.isSeedsUser = true, this.status});
+  const MemberModel({
+    required this.account,
+    required this.nickname,
+    required this.image,
+    this.isSeedsUser = true,
+    this.citizenshipStatus,
+  });
 
   factory MemberModel.fromJson(Map<String, dynamic> json) {
     return MemberModel(
       account: json['account'],
       nickname: json['nickname'],
       image: json['image'],
-      status: enumFromString<ProfileCitizenshipStatus>(
-          ProfileCitizenshipStatus.values, hasEmptyValue<String>('status', json)),
+      citizenshipStatus: enumFromString<UserCitizenshipStatus>(
+          UserCitizenshipStatus.values, hasEmptyValue<String>('status', json)),
     );
   }
 
@@ -28,10 +33,10 @@ class MemberModel extends Equatable {
       nickname: "",
       image: "assets/images/send/telos_logo.png",
       isSeedsUser: false,
-      status: ProfileCitizenshipStatus.unknown,
+      citizenshipStatus: UserCitizenshipStatus.unknown,
     );
   }
 
   @override
-  List<Object?> get props => [account, nickname, image, status];
+  List<Object?> get props => [account, nickname, image, citizenshipStatus];
 }

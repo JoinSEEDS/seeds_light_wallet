@@ -29,8 +29,8 @@ class SearchUserStateMapper extends StateMapper {
         }
       }
 
-      if (currentState.filterByCitizenshipStatus != null) {
-        users.removeWhere((element) => element.status != currentState.filterByCitizenshipStatus);
+      if (currentState.showOnlyCitizenshipStatus != null) {
+        users.removeWhere((element) => element.citizenshipStatus != currentState.showOnlyCitizenshipStatus);
       }
 
       return currentState.copyWith(pageState: PageState.success, users: users);

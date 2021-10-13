@@ -6,13 +6,13 @@ import 'package:seeds/components/search_user/interactor/usecases/search_for_user
 import 'package:seeds/components/search_user/interactor/viewmodels/search_user_events.dart';
 import 'package:seeds/components/search_user/interactor/viewmodels/search_user_state.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/profile_citizenship_status.dart';
+import 'package:seeds/domain-shared/user_citizenship_status.dart';
 
 /// --- BLOC
 class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
   final num _minTextLengthBeforeValidSearch = 2;
 
-  SearchUserBloc(List<String>? noShowUsers, ProfileCitizenshipStatus? filterByCitizenshipStatus)
+  SearchUserBloc(List<String>? noShowUsers, UserCitizenshipStatus? filterByCitizenshipStatus)
       : super(SearchUserState.initial(noShowUsers, filterByCitizenshipStatus));
 
   @override
@@ -46,7 +46,7 @@ class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
         yield SearchUserStateMapper().mapResultToState(state, results[0], results[1], state.noShowUsers);
       }
     } else if (event is ClearIconTapped) {
-      yield SearchUserState.initial(state.noShowUsers, state.filterByCitizenshipStatus);
+      yield SearchUserState.initial(state.noShowUsers, state.showOnlyCitizenshipStatus);
     }
   }
 }

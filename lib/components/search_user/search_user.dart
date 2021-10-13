@@ -8,13 +8,13 @@ import 'package:seeds/components/search_user/interactor/viewmodels/search_user_s
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/domain-shared/profile_citizenship_status.dart';
+import 'package:seeds/domain-shared/user_citizenship_status.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/components/components.i18n.dart';
 
 class SearchUser extends StatelessWidget {
   final String? title;
-  final ProfileCitizenshipStatus? filterByCitizenshipStatus;
+  final UserCitizenshipStatus? filterByCitizenshipStatus;
   final ValueSetter<MemberModel> resultCallBack;
   final List<String>? noShowUsers;
   final _controller = TextEditingController();
