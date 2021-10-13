@@ -67,7 +67,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
     if (event is OnSaveRecoveryPhraseButtonPressed) {
       yield state.copyWith(showLogoutButton: true);
-      await Share.share(settingsStorage.recoveryWords.join('-'));
+      await Share.share(settingsStorage.recoveryWords.join(' '));
       settingsStorage.savePrivateKeyBackedUp(true);
     }
     if (event is ClearProfilePageCommand) {

@@ -128,6 +128,7 @@ class _SettingsStorage {
       _recoveryWords = words;
     } else {
       _secureStorage.write(key: _kRecoveryWords, value: null);
+      _recoveryWords = [];
     }
   }
 

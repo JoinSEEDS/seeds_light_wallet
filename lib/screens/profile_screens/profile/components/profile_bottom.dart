@@ -29,7 +29,10 @@ class ProfileBottom extends StatelessWidget {
           showDialog<void>(
             context: context,
             builder: (_) {
-              return BlocProvider.value(value: BlocProvider.of<ProfileBloc>(context), child: const LogoutDialog());
+              return BlocProvider.value(
+                value: BlocProvider.of<ProfileBloc>(context),
+                child: const LogoutDialog(),
+              );
             },
           ).whenComplete(() => BlocProvider.of<ProfileBloc>(context).add(const ResetShowLogoutButton()));
         } else if (pageCommand is ShowLogoutRecoveryPhraseDialog) {
