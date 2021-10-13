@@ -16,9 +16,7 @@ class DelegateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Delegate'),
-      ),
+      appBar: AppBar(title: const Text('Delegate')),
       body: BlocProvider(
         create: (context) => DelegateBloc()..add(const LoadDelegateData()),
         child: BlocConsumer<DelegateBloc, DelegateState>(
@@ -36,14 +34,14 @@ class DelegateScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
                   child: Column(
                     children: <Widget>[
-                      const SizedBox(height: 30 ),
+                      const SizedBox(height: 30),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
                             'Delegating your vote means to entrust the power of your vote to another Citizen.  Please choose your delegate carefully!',
                             style: Theme.of(context).textTheme.subtitle2),
                       ),
-                      const SizedBox(height: 30 ),
+                      const SizedBox(height: 30),
                       DelegateCard(
                           onTap: () {
                             NavigationService.of(context).navigateTo(Routes.delegateAUser);

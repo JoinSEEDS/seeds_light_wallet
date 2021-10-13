@@ -41,7 +41,7 @@ class DelegateCard extends StatelessWidget {
           if (activeDelegate)
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                child: DelegateRow(account: delegate!.delegatee, nickname: delegate!.delegatee))
+                child: DelegateRow(account: delegate?.delegatee ?? '', nickname: delegate?.delegatee ?? ''))
           else
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
