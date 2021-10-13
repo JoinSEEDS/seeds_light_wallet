@@ -33,10 +33,7 @@ class DelegateScreen extends StatelessWidget {
                 context: context,
                 barrierDismissible: false,
                 builder: (_) {
-                  return BlocProvider.value(
-                    value: BlocProvider.of<DelegateBloc>(context),
-                    child: const RemoveDelegateSuccessDialog(),
-                  );
+                  return const RemoveDelegateSuccessDialog();
                 },
               );
             } else if (pageCommand is ShowErrorMessage) {
