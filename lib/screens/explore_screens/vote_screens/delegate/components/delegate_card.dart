@@ -23,95 +23,59 @@ class DelegateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding, vertical: 20),
-      child: Container(
-        width: width,
-        decoration: BoxDecoration(
-          color: AppColors.darkGreen2,
-          borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-        ),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomPaint(
-                  size: const Size(100, 40),
-                  painter: const CategoryLabel(),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-                    child: Text(
-                      'Campaign',
-                      style: Theme.of(context).textTheme.subtitle2,
-                    ),
-                  ),
-                ),
-                CustomPaint(
-                  size: const Size(100, 40),
-                  painter: const CategoryLabel(color: AppColors.tagBlue),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-                    child: Text(
-                      'Alliance',
-                      style: Theme.of(context).textTheme.subtitle2,
-                    ),
-                  ),
-                ),
-                CustomPaint(
-                  size: const Size(100, 40),
-                  painter: const CategoryLabel(color: AppColors.subtitle),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-                    child: Text(
-                      'Referendum',
-                      style: Theme.of(context).textTheme.subtitle2,
-                    ),
-                  ),
-                ),
-              ],
+    return Container(
+      width: width,
+      decoration: BoxDecoration(
+        color: AppColors.darkGreen2,
+        borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
+          CustomPaint(
+            size: const Size(100, 40),
+            painter: const CategoryLabel(color: AppColors.lightGreen3),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+              child: Text(
+                'Delegate',
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
             ),
-            const SizedBox(height: 30.0),
+          ),
+          const SizedBox(height: 10.0),
+          if (activeDelegate)
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                child: DelegateRow(
+                  account: delegate?.delegatee ?? '',
+                  nickname: delegate?.delegatee ?? '',
+                  onTapRemove: onTapRemove,
+                ))
+          else
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [const Text("Trust Tokens Used/Available"), const Text("Todo / 99")],
-              ),
-            ),
-            const SizedBox(height: 30.0),
-            if (activeDelegate)
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                  child: DelegateRow(
-                    account: delegate!.delegatee,
-                    nickname: delegate!.delegatee,
-                    onTapRemove: onTapRemove,
-                  ))
-            else
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                child: TextButton(
-                  onPressed: onTap,
-                  child: Row(
-                    children: [
-                      Text(
-                        "Delegate Trust",
-                        style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis,
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: AppColors.green2,
-                        size: 16,
-                      )
-                    ],
-                  ),
+              child: TextButton(
+                onPressed: onTap,
+                child: Row(
+                  children: [
+                    Text(
+                      "Choose Delegate",
+                      style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis,
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: AppColors.green2,
+                      size: 16,
+                    )
+                  ],
                 ),
               ),
-            const SizedBox(height: 20.0),
-          ],
-        ),
+            ),
+          const SizedBox(height: 10.0),
+        ],
       ),
     );
   }
