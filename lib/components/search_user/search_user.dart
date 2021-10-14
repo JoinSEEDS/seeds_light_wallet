@@ -9,10 +9,12 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/domain-shared/user_citizenship_status.dart';
 import 'package:seeds/i18n/components/components.i18n.dart';
 
 class SearchUser extends StatelessWidget {
   final String? title;
+  final UserCitizenshipStatus? filterByCitizenshipStatus;
   final ValueSetter<MemberModel> resultCallBack;
   final List<String>? noShowUsers;
   final _controller = TextEditingController();
@@ -21,12 +23,13 @@ class SearchUser extends StatelessWidget {
     borderSide: BorderSide(color: AppColors.darkGreen2, width: 2.0),
   );
 
-  SearchUser({Key? key, required this.resultCallBack, this.noShowUsers, this.title}) : super(key: key);
+  SearchUser({Key? key, required this.resultCallBack, this.noShowUsers, this.title, this.filterByCitizenshipStatus})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SearchUserBloc>(
-      create: (_) => SearchUserBloc(noShowUsers),
+      create: (_) => SearchUserBloc(noShowUsers, filterByCitizenshipStatus),
       child: BlocBuilder<SearchUserBloc, SearchUserState>(
         builder: (context, SearchUserState state) {
           return Column(
@@ -73,7 +76,7 @@ class SearchUser extends StatelessWidget {
                     child: Column(
                       children: [
                         const SizedBox(height: 20),
-                        Text(title!,style: Theme.of(context).textTheme.subtitle2),
+                        Text(title!, style: Theme.of(context).textTheme.subtitle2),
                       ],
                     ),
                   ),
