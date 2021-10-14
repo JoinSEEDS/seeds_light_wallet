@@ -17,15 +17,15 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
 
   ImportKeyBloc(this._authenticationBloc) : super(ImportKeyState.initial());
 
-  final debugMode = false;
+  final debugMode = true;
 
   @override
   Stream<ImportKeyState> mapEventToState(ImportKeyEvent event) async* {
     if (event is FindAccountByKey) {
       yield state.copyWith(pageState: PageState.loading);
 
-      var privateKey = event.privateKey;
-      String? publicKey = CheckPrivateKeyUseCase().isKeyValid(event.privateKey);
+      var privateKey = "";
+      String? publicKey;
 
       if (debugMode && event.privateKey.startsWith("EOS")) {
         // this is a public key - support this for debugging our key search
@@ -34,6 +34,9 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
         final cpuPrivateKey = '5Hy2cvMbrusscGnusLWqYuXyM8fZ65G7DTzs4nDXyiV5wo77n9a';
         privateKey = cpuPrivateKey;
         publicKey = event.privateKey;
+      } else {
+        privateKey = event.privateKey;
+        publicKey = CheckPrivateKeyUseCase().isKeyValid(event.privateKey);
       }
 
       if (publicKey == null || publicKey.isEmpty) {
