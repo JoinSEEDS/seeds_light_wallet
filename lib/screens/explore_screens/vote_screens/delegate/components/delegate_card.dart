@@ -9,9 +9,16 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/d
 class DelegateCard extends StatelessWidget {
   final VoidCallback onTap;
   final bool activeDelegate;
+  final VoidCallback onTapRemove;
   final DelegateModel? delegate;
 
-  const DelegateCard({Key? key, required this.onTap, required this.activeDelegate, this.delegate}) : super(key: key);
+  const DelegateCard({
+    Key? key,
+    required this.onTap,
+    required this.activeDelegate,
+    required this.onTapRemove,
+    this.delegate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +48,11 @@ class DelegateCard extends StatelessWidget {
           if (activeDelegate)
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                child: DelegateRow(account: delegate?.delegatee ?? '', nickname: delegate?.delegatee ?? ''))
+                child: DelegateRow(
+                  account: delegate?.delegatee ?? '',
+                  nickname: delegate?.delegatee ?? '',
+                  onTapRemove: onTapRemove,
+                ))
           else
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),

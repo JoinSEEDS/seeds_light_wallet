@@ -3,27 +3,18 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 
 class KeyAccountsRepository extends NetworkRepository {
-  Future<Result<dynamic>> getKeyAccountsMongo(String publicKey) {
-    print('[http] get seeds getKeyAccountsMongo ');
+  Future<Result<dynamic>> getKeyAccounts(String publicKey) {
+    print('[http] getKeyAccounts');
 
-    final body = '''
-        {
-          "collection": "pub_keys",
-          "query": {
-            "public_key": "$publicKey"\n    
-          },
-          "limit": 100
-        }
-        ''';
+    final url = Uri.parse('$baseURL/v1/history/get_key_accounts');
+    final body = '{ "public_key": "$publicKey" }';
 
     return http
-        .post(Uri.parse('https://mongo-api.hypha.earth/find'), headers: headers, body: body)
+        .post(url, headers: headers, body: body)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               print('result: $body');
 
-              final items = List<Map<String, dynamic>>.from(body['items'])
-                  .where((item) => item['permission'] == 'active' || item['permission'] == 'owner');
-              final result = items.map<String>((item) => item['account']).toSet().toList();
+              final result = List<String>.from(body['account_names']);
 
               result.sort();
 

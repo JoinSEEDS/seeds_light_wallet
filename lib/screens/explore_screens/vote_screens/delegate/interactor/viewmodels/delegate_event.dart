@@ -15,3 +15,15 @@ class LoadDelegateData extends DelegateEvent {
   @override
   String toString() => 'LoadDelegateData';
 }
+
+class RemoveDelegate extends DelegateEvent {
+  const RemoveDelegate();
+
+  @override
+  String toString() => 'LoadDelegateData';
+}
+
+class ClearPageCommand extends DelegateEvent {
+  @override
+  String toString() => 'ClearPageCommand';
+}
