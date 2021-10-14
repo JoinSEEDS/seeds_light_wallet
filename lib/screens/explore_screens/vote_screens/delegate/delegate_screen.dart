@@ -24,6 +24,7 @@ class DelegateScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) => DelegateBloc()..add(const LoadDelegateData()),
         child: BlocConsumer<DelegateBloc, DelegateState>(
+          listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
             final pageCommand = state.pageCommand;
 

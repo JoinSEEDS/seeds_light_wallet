@@ -25,21 +25,16 @@ class DelegateAUserConfirmationDialog extends StatelessWidget {
         child: CustomDialog(
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
           leftButtonTitle: "Cancel",
-          rightButtonTitle: "Yes I'm sure  ",
+          rightButtonTitle: "Yes I'm sure",
           onLeftButtonPressed: () {
             Navigator.of(context).pop();
           },
           onRightButtonPressed: () {
-            Navigator.of(context).pop();
             BlocProvider.of<DelegateAUserBloc>(context).add(OnConfirmDelegateTab(selectedDelegate));
+            Navigator.of(context).pop();
           },
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Delegate Confirmation', style: Theme.of(context).textTheme.headline6),
-              ],
-            ),
+            Text('Delegate Confirmation', style: Theme.of(context).textTheme.headline6),
             const SizedBox(height: 30.0),
             Text(
                 'By selecting this Citizen as your delegate you are entrusting your Trust Tokens to them to vote with.',

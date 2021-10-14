@@ -13,7 +13,7 @@ class DelegateAUserBloc extends Bloc<DelegateAUserEvent, DelegateAUserState> {
   @override
   Stream<DelegateAUserState> mapEventToState(DelegateAUserEvent event) async* {
     if (event is OnUserSelected) {
-      yield state.copyWith(pageState: PageState.success, pageCommand: ShowDelegateConfirmation(event.user));
+      yield state.copyWith(pageCommand: ShowDelegateConfirmation(event.user));
     } else if (event is OnConfirmDelegateTab) {
       yield state.copyWith(pageState: PageState.loading);
       final Result result = await DelegateAUserUseCase().run(delegateTo: event.user.account);
