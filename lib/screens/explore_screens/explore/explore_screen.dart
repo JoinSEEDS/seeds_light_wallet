@@ -60,7 +60,7 @@ class ExploreScreen extends StatelessWidget {
                     Expanded(
                       child: ExploreCard(
                         onTap: () {
-                          BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.createInvite));
+                          BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.createInvite));
                         },
                         title: 'Invite a Friend'.i18n,
                         icon: const Padding(
@@ -73,7 +73,7 @@ class ExploreScreen extends StatelessWidget {
                     Expanded(
                       child: ExploreCard(
                         onTap: () {
-                          BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.vote));
+                          BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.vote));
                         },
                         title: 'Vote'.i18n,
                         icon: const Padding(
@@ -90,7 +90,7 @@ class ExploreScreen extends StatelessWidget {
                     Expanded(
                       child: ExploreCard(
                         onTap: () {
-                          BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.plantSeeds));
+                          BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.plantSeeds));
                         },
                         title: 'Plant Seeds'.i18n,
                         icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),
@@ -100,7 +100,7 @@ class ExploreScreen extends StatelessWidget {
                     Expanded(
                       child: ExploreCard(
                         onTap: () {
-                          BlocProvider.of<ExploreBloc>(context).add(OnExploreCardTapped(Routes.unPlantSeeds));
+                          BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.unPlantSeeds));
                         },
                         title: 'Unplant Seeds'.i18n,
                         icon: const CustomPaint(size: Size(31, 41), painter: PlantSeeds()),

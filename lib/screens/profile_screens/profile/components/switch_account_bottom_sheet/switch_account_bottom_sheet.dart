@@ -9,6 +9,7 @@ import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/images/profile/add_account_circle.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/profile/components/switch_account_bottom_sheet/interactor/viewmodels/switch_account_bloc.dart';
 
 class SwithAccountBottomSheet extends StatelessWidget {
@@ -56,7 +57,9 @@ class SwithAccountBottomSheet extends StatelessWidget {
                                   return Padding(
                                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                                     child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        NavigationService.of(context).navigateTo(Routes.importKey);
+                                      },
                                       child: Row(
                                         children: [
                                           const CustomPaint(size: Size(60, 60), painter: AddAccountCircle()),

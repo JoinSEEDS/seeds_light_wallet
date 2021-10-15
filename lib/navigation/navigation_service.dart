@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
+import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
@@ -16,7 +18,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_scr
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/delegate_a_user_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
-import 'package:seeds/screens/page_not_found_screen.dart';
+import 'package:seeds/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
@@ -38,67 +40,61 @@ import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dar
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
 
 class Routes {
-  static final onboarding = 'Onboarding';
-  static final createAccount = 'CreateAccount';
-  static final showInvite = 'ShowInvite';
-  static final claimCode = 'ClaimCode';
-  static final welcome = 'Welcome';
-  static final transfer = 'Transfer';
-  static final sendEnterData = 'SendEnterData';
-  static final delegate = 'delegate';
-  static final delegateAUser = 'delegateAUser';
-  static final createInvite = 'CreateInvite';
-  static final vote = 'vote';
-  static final proposalDetails = 'ProposalDetails';
-  static final overview = 'Overview';
-  static final plantSeeds = 'plantSeeds';
-  static final unPlantSeeds = 'unPlantSeeds';
-  static final sendConfirmationScreen = 'SendConfirmationScreen';
-  static final scanQRCode = 'ScanQRCode';
-  static final receiveScreen = "receiveScreen";
-  static final receiveEnterDataScreen = "receiveEnterDataScreen";
-  static final receiveQR = 'ReceiveQR';
-  static final selectGuardians = 'SelectGuardians';
-  static final inviteGuardians = 'InviteGuardians';
-  static final inviteGuardiansSent = 'InviteGuardiansSent';
-  static final guardianTabs = 'GuardianTabs';
-  static final support = 'Support';
-  static final security = 'Security';
-  static final editName = 'EditName';
-  static final setCurrency = "SetCurrency";
-  static final citizenship = 'CitizenShip';
-  static final contribution = 'Contribution';
-  static final login = "Login";
-  static final importKey = "ImportKey";
-  static final importWords = 'ImportWords';
-  static final verification = "verification";
-  static final signup = 'signUp';
-  static final recoverAccount = 'recoverAccount';
-  static final recoverAccountFound = 'recoverAccountFound';
-  static final profile = 'profile';
-  static final recoveryPhrase = 'recoveryPhrase';
+  static const onboarding = 'Onboarding';
+  static const splash = 'splash';
+  static const app = 'app';
+  static const login = 'Login';
+  static const importKey = 'ImportKey';
+  static const importWords = 'ImportWords';
+  static const verification = 'verification';
+  static const signup = 'signUp';
+  static const recoverAccount = 'recoverAccount';
+  static const recoveryPhrase = 'recoveryPhrase';
+  static const recoverAccountFound = 'recoverAccountFound';
+  static const createAccount = 'CreateAccount';
+  static const showInvite = 'ShowInvite';
+  static const claimCode = 'ClaimCode';
+  static const welcome = 'Welcome';
+  static const transfer = 'Transfer';
+  static const sendEnterData = 'SendEnterData';
+  static const delegate = 'delegate';
+  static const delegateAUser = 'delegateAUser';
+  static const createInvite = 'CreateInvite';
+  static const vote = 'vote';
+  static const proposalDetails = 'ProposalDetails';
+  static const overview = 'Overview';
+  static const plantSeeds = 'plantSeeds';
+  static const unPlantSeeds = 'unPlantSeeds';
+  static const sendConfirmationScreen = 'SendConfirmationScreen';
+  static const scanQRCode = 'ScanQRCode';
+  static const receiveScreen = 'receiveScreen';
+  static const receiveEnterDataScreen = 'receiveEnterDataScreen';
+  static const receiveQR = 'ReceiveQR';
+  static const profile = 'profile';
+  static const selectGuardians = 'SelectGuardians';
+  static const inviteGuardians = 'InviteGuardians';
+  static const inviteGuardiansSent = 'InviteGuardiansSent';
+  static const guardianTabs = 'GuardianTabs';
+  static const support = 'Support';
+  static const security = 'Security';
+  static const editName = 'EditName';
+  static const setCurrency = 'SetCurrency';
+  static const citizenship = 'CitizenShip';
+  static const contribution = 'Contribution';
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> onboardingNavigatorKey = GlobalKey<NavigatorState>();
   final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
-
-  static NavigationService of(BuildContext context, {bool listen = false}) =>
-      Provider.of<NavigationService>(context, listen: listen);
-
-  StreamController<String>? streamRouteListener;
-
-  final onboardingRoutes = {
+  final _appRoutes = {
+    Routes.onboarding: (_) => const OnboardingScreen(),
+    Routes.splash: () => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
     Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.importWords: (_) => const ImportWordsScreen(),
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
-    Routes.signup: (_) => const SignupScreen(null),
-  };
-
-  final appRoutes = {
-    Routes.profile: (_) => const ProfileScreen(),
+    Routes.signup: (_) => const SignupScreen(),
+    Routes.app: (_) => const App(),
     Routes.transfer: (_) => const SendSearchUserScreen(),
     Routes.sendEnterData: (_) => const SendEnterDataScreen(),
     Routes.createInvite: (_) => const InviteScreen(),
@@ -117,6 +113,7 @@ class NavigationService {
     Routes.inviteGuardians: (args) => const InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
     Routes.guardianTabs: (_) => const GuardiansScreen(),
+    Routes.profile: (_) => const ProfileScreen(),
     Routes.support: (_) => const SupportScreen(),
     Routes.security: (_) => const SecurityScreen(),
     Routes.editName: (_) => const EditNameScreen(),
@@ -126,74 +123,49 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
   };
-
   // iOS: full screen routes pop up from the bottom and disappear vertically too
   // On iOS that's a standard full screen dialog
   // Has no effect on Android.
-  final fullScreenRoutes = {
+  final _fullScreenRoutes = {
     Routes.verification,
   };
+  StreamController<String>? _streamRouteListener;
+
+  static NavigationService of(BuildContext context, {bool listen = false}) =>
+      Provider.of<NavigationService>(context, listen: listen);
 
   // ignore: use_setters_to_change_properties
   void addListener(StreamController<String> listener) {
-    streamRouteListener = listener;
+    _streamRouteListener = listener;
   }
 
   Future<dynamic> navigateTo(String routeName, [Object? arguments, bool replace = false]) async {
-    late GlobalKey<NavigatorState> navigatorKey;
-
-    if (streamRouteListener != null) {
-      streamRouteListener!.add(routeName);
+    if (_streamRouteListener != null) {
+      _streamRouteListener?.add(routeName);
     }
 
-    if (appRoutes[routeName] != null) {
-      navigatorKey = appNavigatorKey;
-    } else if (onboardingRoutes[routeName] != null) {
-      navigatorKey = onboardingNavigatorKey;
-    }
-
-    if (navigatorKey.currentState == null) {
-      await Future.delayed(const Duration(milliseconds: 100));
-    }
-
-    if (replace) {
-      return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: arguments);
-    } else {
-      return navigatorKey.currentState!.pushNamed(routeName, arguments: arguments);
+    if (_appRoutes[routeName] != null) {
+      if (replace) {
+        return appNavigatorKey.currentState?.pushReplacementNamed(routeName, arguments: arguments);
+      } else {
+        return appNavigatorKey.currentState?.pushNamed(routeName, arguments: arguments);
+      }
     }
   }
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    final routeName = settings.name;
-    final arguments = settings.arguments;
-
-    if (appRoutes[routeName!] != null) {
+    if (_appRoutes[settings.name!] != null) {
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => appRoutes[routeName]!(arguments),
-        fullscreenDialog: fullScreenRoutes.contains(routeName),
-      );
-    } else if (onboardingRoutes[routeName] != null) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (context) => onboardingRoutes[routeName]!(arguments),
+        builder: (_) => _appRoutes[settings.name]!(settings.arguments),
+        fullscreenDialog: _fullScreenRoutes.contains(settings.name),
       );
     } else {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (_) => PageNotFoundScreen(routeName: settings.name!, args: settings.arguments),
-      );
+      return MaterialPageRoute(builder: (_) => const SplashScreen());
     }
   }
 
-  static RoutePredicate predicateForName(String name) {
-    return (Route<dynamic> route) {
-      //print("Route: ${route.settings.name}" + " modal: ${route is ModalRoute} handlepop: ${route.willHandlePopInternally}");
-      if (route.settings.name == '/' && name != '/') {
-        print('pop error: Route name not found: $name');
-      }
-      return !route.willHandlePopInternally && route is ModalRoute && route.settings.name == name ||
-          route.settings.name == '/';
-    };
+  Future<dynamic> pushAndRemoveAll(String routeName, [Object? arguments]) async {
+    return appNavigatorKey.currentState?.pushNamedAndRemoveUntil(routeName, (route) => false);
   }
 }
