@@ -65,21 +65,15 @@ class DelegateAUserScreen extends StatelessWidget {
                   return Scaffold(
                     appBar: AppBar(title: const Text("Delegate A User")),
                     body: Column(
-                      children: <Widget>[
+                      children: [
                         Expanded(
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: SearchUser(
-                                  filterByCitizenshipStatus: UserCitizenshipStatus.citizen,
-                                  noShowUsers: state.noShowUsers,
-                                  title: "Citizens",
-                                  resultCallBack: (selectedUser) {
-                                    BlocProvider.of<DelegateAUserBloc>(context).add(OnUserSelected(selectedUser));
-                                  },
-                                ),
-                              ),
-                            ],
+                          child: SearchUser(
+                            filterByCitizenshipStatus: UserCitizenshipStatus.citizen,
+                            noShowUsers: state.noShowUsers,
+                            title: "Citizens",
+                            resultCallBack: (selectedUser) {
+                              BlocProvider.of<DelegateAUserBloc>(context).add(OnUserSelected(selectedUser));
+                            },
                           ),
                         ),
                       ],
