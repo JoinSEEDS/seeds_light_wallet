@@ -82,6 +82,7 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
                                 autocorrect: false,
                                 enableSuggestions: false,
                                 enabled: true,
+                                textInputAction: index < 11 ? TextInputAction.next : TextInputAction.done,
                                 onChanged: (value) {
                                   BlocProvider.of<ImportKeyBloc>(context)
                                       .add(OnWordChange(word: value, wordIndex: index));
@@ -103,6 +104,7 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
                               });
                             },
                             onSelected: (String selection) {
+                              FocusScope.of(context).nextFocus();
                               BlocProvider.of<ImportKeyBloc>(context)
                                   .add(OnWordChange(word: selection, wordIndex: index));
                             },
