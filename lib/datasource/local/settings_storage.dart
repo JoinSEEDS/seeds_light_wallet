@@ -224,7 +224,8 @@ class _SettingsStorage {
     recoveryLink = null;
   }
 
-  // Notice this funtion its also called on import
+  // Notice this function it's also called on import
+  // to cancel any recover process previously started
   void cancelRecoveryProcess() {
     inRecoveryMode = false;
     _accountName = null;
