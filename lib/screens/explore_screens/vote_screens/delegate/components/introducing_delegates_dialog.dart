@@ -13,9 +13,7 @@ class IntroducingDelegatesDialog extends StatelessWidget {
       },
       child: CustomDialog(
         singleLargeButtonTitle: "Dismiss",
-        onSingleLargeButtonPressed: () {
-          Navigator.of(context).pop();
-        },
+        onSingleLargeButtonPressed: () => Navigator.of(context).pop(),
         children: [
           Text('Introducing Delegates!', style: Theme.of(context).textTheme.headline6),
           const SizedBox(height: 30.0),

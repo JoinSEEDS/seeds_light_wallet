@@ -32,17 +32,13 @@ class DelegateScreen extends StatelessWidget {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
-                builder: (_) {
-                  return const RemoveDelegateSuccessDialog();
-                },
+                builder: (_) => const RemoveDelegateSuccessDialog(),
               );
             } else if (pageCommand is ShowOnboardingDelegate) {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
-                builder: (_) {
-                  return const IntroducingDelegatesDialog();
-                },
+                builder: (_) => const IntroducingDelegatesDialog(),
               );
             } else if (pageCommand is ShowErrorMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
