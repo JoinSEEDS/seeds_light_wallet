@@ -45,6 +45,10 @@ abstract class EosRepository {
   ];
 
   Transaction buildFreeTransaction(List<Action> actions, String? accountName) {
+    if (testnetMode) {
+      return Transaction()..actions = actions;
+    }
+
     final freeAuth = <Authorization>[
       Authorization()
         ..actor = accountHarvest
