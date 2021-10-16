@@ -224,6 +224,7 @@ class _SettingsStorage {
     recoveryLink = null;
   }
 
+  // Notice this funtion its also called on import
   void cancelRecoveryProcess() {
     inRecoveryMode = false;
     _accountName = null;
