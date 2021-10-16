@@ -24,6 +24,7 @@ const String _kRecoveryLink = 'recovery_link';
 const String _kTokensWhiteList = 'tokens_whitelist';
 const String _kIsCitizen = 'is_citizen';
 const String _kIsFirstRun = 'is_first_run';
+const String _kIsFirstTimeDelegate = 'is_first_time_delegate';
 
 class _SettingsStorage {
   late SharedPreferences _preferences;
@@ -71,6 +72,8 @@ class _SettingsStorage {
   List<String> get tokensWhitelist => _preferences.getStringList(_kTokensWhiteList) ?? [seedsToken.id];
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
+
+  bool get onboardingDelegate => _preferences.getBool(_kIsFirstTimeDelegate) ?? false;
 
   List<String> get recoveryWords => _recoveryWords;
 
@@ -155,6 +158,12 @@ class _SettingsStorage {
   set isCitizen(bool? value) {
     if (value != null) {
       _preferences.setBool(_kIsCitizen, value);
+    }
+  }
+
+  set onboardingDelegate(bool? value) {
+    if (value != null) {
+      _preferences.setBool(_kIsFirstTimeDelegate, value);
     }
   }
 
@@ -274,6 +283,9 @@ class _SettingsStorage {
 
   // ignore: use_setters_to_change_properties
   void saveIsCitizen(bool value) => isCitizen = value;
+
+  // ignore: use_setters_to_change_properties
+  void saveOnBoardingDelegate(bool value) => onboardingDelegate = value;
 
   Future<void> removeAccount() async {
     await _preferences.clear();

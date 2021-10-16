@@ -8,6 +8,7 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/delegate_card.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/introducing_delegates_dialog.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/remove_delegate_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_event.dart';
@@ -33,6 +34,14 @@ class DelegateScreen extends StatelessWidget {
                 barrierDismissible: false,
                 builder: (_) {
                   return const RemoveDelegateSuccessDialog();
+                },
+              );
+            } else if (pageCommand is ShowOnboardingDelegate) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) {
+                  return const IntroducingDelegatesDialog();
                 },
               );
             } else if (pageCommand is ShowErrorMessage) {

@@ -20,7 +20,14 @@ class RemoveDelegate extends DelegateEvent {
   const RemoveDelegate();
 
   @override
-  String toString() => 'LoadDelegateData';
+  String toString() => 'RemoveDelegate';
+}
+
+class InitOnboardingDelegate extends DelegateEvent {
+  const InitOnboardingDelegate();
+
+  @override
+  String toString() => 'InitOnboardingDelegate';
 }
 
 class ClearPageCommand extends DelegateEvent {
