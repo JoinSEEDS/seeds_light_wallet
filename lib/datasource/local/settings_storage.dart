@@ -73,7 +73,7 @@ class _SettingsStorage {
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 
-  bool get onboardingDelegate => _preferences.getBool(_kIsFirstTimeOnDelegateScreen) ?? false;
+  bool get isFirstTimeOnDelegateScreen  => _preferences.getBool(_kIsFirstTimeOnDelegateScreen) ?? false;
 
   List<String> get recoveryWords => _recoveryWords;
 

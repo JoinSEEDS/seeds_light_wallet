@@ -13,7 +13,7 @@ class DelegateLoadDataStateMapper extends StateMapper {
       final DelegateModel delegate = result.asValue!.value as DelegateModel;
 
       if (delegate.delegatee.isEmpty) {
-        if (settingsStorage.onboardingDelegate) {
+        if (settingsStorage.isFirstTimeOnDelegateScreen) {
           return currentState.copyWith(pageState: PageState.success, activeDelegate: false, delegate: delegate);
         } else {
           settingsStorage.saveFirstTimeOnDelegateScreen(true);
