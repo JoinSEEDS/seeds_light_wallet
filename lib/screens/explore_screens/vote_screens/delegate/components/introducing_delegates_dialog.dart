@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_bloc.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_state.dart';
 
 class IntroducingDelegatesDialog extends StatelessWidget {
   const IntroducingDelegatesDialog({Key? key}) : super(key: key);
