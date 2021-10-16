@@ -5,6 +5,7 @@ import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -18,7 +19,9 @@ class SwithAccountBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SwitchAccountBloc(BlocProvider.of<AuthenticationBloc>(context))..add(const FindAccountsByKey()),
+      create: (_) => SwitchAccountBloc(
+          BlocProvider.of<AuthenticationBloc>(context), remoteConfigurations.featureFlagExportRecoveryPhraseEnabled)
+        ..add(const FindAccountsByKey()),
       child: DraggableScrollableSheet(
           expand: false,
           builder: (context, scrollController) {
@@ -58,7 +61,11 @@ class SwithAccountBottomSheet extends StatelessWidget {
                                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                                     child: InkWell(
                                       onTap: () {
-                                        NavigationService.of(context).navigateTo(Routes.importKey);
+                                        if (state.isRecoverPharseEnabled) {
+                                          NavigationService.of(context).navigateTo(Routes.importWords);
+                                        } else {
+                                          NavigationService.of(context).navigateTo(Routes.importKey);
+                                        }
                                       },
                                       child: Row(
                                         children: [

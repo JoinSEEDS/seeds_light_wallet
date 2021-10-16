@@ -17,7 +17,8 @@ part 'switch_account_state.dart';
 
 class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
   final AuthenticationBloc _authenticationBloc;
-  SwitchAccountBloc(this._authenticationBloc) : super(SwitchAccountState.initial());
+  SwitchAccountBloc(this._authenticationBloc, isRecoverPharseEnabled)
+      : super(SwitchAccountState.initial(isRecoverPharseEnabled));
 
   @override
   Stream<SwitchAccountState> mapEventToState(SwitchAccountEvent event) async* {
