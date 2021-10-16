@@ -123,7 +123,7 @@ class _SettingsStorage {
   }
 
   set recoveryWords(List<String>? words) {
-    if (words != null) {
+    if (words != null && words.isNotEmpty) {
       _secureStorage.write(key: _kRecoveryWords, value: words.join('-'));
       _recoveryWords = words;
     } else {
