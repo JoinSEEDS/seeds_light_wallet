@@ -49,11 +49,11 @@ class VoteState extends Equatable {
     );
   }
 
-  factory VoteState.initial(bool featureFlagDelegateEnabled) {
+  factory VoteState.initial(bool featureFlagDelegateEnabled, bool isCitizen) {
     return VoteState(
         pageState: PageState.initial,
         remainingTimeStamp: 0,
         shouldShowDelegateIcon: featureFlagDelegateEnabled,
-        isCitizen: settingsStorage.isCitizen);
+        isCitizen: isCitizen);
   }
 }
