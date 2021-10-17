@@ -62,10 +62,10 @@ class Routes {
   static const proposalDetails = 'proposalDetails';
   static const plantSeeds = 'plantSeeds';
   static const unPlantSeeds = 'unPlantSeeds';
-  static const sendConfirmationScreen = 'sendConfirmationScreen';
+  static const sendConfirmation = 'sendConfirmationScreen';
   static const scanQRCode = 'scanQRCode';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
-  static const receiveEnterDataScreen = 'receiveEnterDataScreen';
+  static const receiveEnterData = 'receiveEnterDataScreen';
   static const receiveQR = 'seceiveQR';
   static const profile = 'profile';
   static const selectGuardians = 'selectGuardians';
@@ -101,10 +101,10 @@ class NavigationService {
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
-    Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
+    Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
-    Routes.receiveEnterDataScreen: (_) => const ReceiveEnterDataScreen(),
+    Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => const SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => const InviteGuardians(),
