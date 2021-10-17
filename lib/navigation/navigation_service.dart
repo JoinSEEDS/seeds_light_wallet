@@ -40,6 +40,7 @@ import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_scre
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
 
+/// Add only current routes in the app and that are used by [NavigationService]
 class Routes {
   static const onboarding = 'Onboarding';
   static const splash = 'splash';
@@ -52,10 +53,6 @@ class Routes {
   static const recoverAccount = 'recoverAccount';
   static const recoveryPhrase = 'recoveryPhrase';
   static const recoverAccountFound = 'recoverAccountFound';
-  static const createAccount = 'CreateAccount';
-  static const showInvite = 'ShowInvite';
-  static const claimCode = 'ClaimCode';
-  static const welcome = 'Welcome';
   static const transfer = 'Transfer';
   static const sendEnterData = 'SendEnterData';
   static const delegate = 'delegate';
@@ -63,12 +60,11 @@ class Routes {
   static const createInvite = 'CreateInvite';
   static const vote = 'vote';
   static const proposalDetails = 'ProposalDetails';
-  static const overview = 'Overview';
   static const plantSeeds = 'plantSeeds';
   static const unPlantSeeds = 'unPlantSeeds';
   static const sendConfirmationScreen = 'SendConfirmationScreen';
   static const scanQRCode = 'ScanQRCode';
-  static const receiveScreen = 'receiveScreen';
+  static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterDataScreen = 'receiveEnterDataScreen';
   static const receiveQR = 'ReceiveQR';
   static const profile = 'profile';
@@ -107,7 +103,7 @@ class NavigationService {
     Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
     Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
-    Routes.receiveScreen: (_) => const ReceiveScreen(),
+    Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveEnterDataScreen: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => const SelectGuardiansScreen(),
