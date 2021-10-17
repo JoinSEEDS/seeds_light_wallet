@@ -62,10 +62,10 @@ class Routes {
   static const proposalDetails = 'proposalDetails';
   static const plantSeeds = 'plantSeeds';
   static const unPlantSeeds = 'unPlantSeeds';
-  static const sendConfirmation = 'sendConfirmationScreen';
+  static const sendConfirmation = 'sendConfirmation';
   static const scanQRCode = 'scanQRCode';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
-  static const receiveEnterData = 'receiveEnterDataScreen';
+  static const receiveEnterData = 'receiveEnterData';
   static const receiveQR = 'seceiveQR';
   static const profile = 'profile';
   static const selectGuardians = 'selectGuardians';
