@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/current_remaining_time.dart';
 
