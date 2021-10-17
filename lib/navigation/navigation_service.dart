@@ -42,42 +42,42 @@ import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_sc
 
 /// Add only current routes in the app and that are used by [NavigationService]
 class Routes {
-  static const onboarding = 'Onboarding';
+  static const onboarding = 'onboarding';
   static const splash = 'splash';
   static const app = 'app';
-  static const login = 'Login';
-  static const importKey = 'ImportKey';
-  static const importWords = 'ImportWords';
+  static const login = 'login';
+  static const importKey = 'importKey';
+  static const importWords = 'importWords';
   static const verification = 'verification';
   static const signup = 'signUp';
   static const recoverAccount = 'recoverAccount';
   static const recoveryPhrase = 'recoveryPhrase';
   static const recoverAccountFound = 'recoverAccountFound';
-  static const transfer = 'Transfer';
-  static const sendEnterData = 'SendEnterData';
+  static const transfer = 'transfer';
+  static const sendEnterData = 'sendEnterData';
   static const delegate = 'delegate';
   static const delegateAUser = 'delegateAUser';
-  static const createInvite = 'CreateInvite';
+  static const createInvite = 'createInvite';
   static const vote = 'vote';
-  static const proposalDetails = 'ProposalDetails';
+  static const proposalDetails = 'proposalDetails';
   static const plantSeeds = 'plantSeeds';
   static const unPlantSeeds = 'unPlantSeeds';
-  static const sendConfirmationScreen = 'SendConfirmationScreen';
-  static const scanQRCode = 'ScanQRCode';
+  static const sendConfirmationScreen = 'sendConfirmationScreen';
+  static const scanQRCode = 'scanQRCode';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterDataScreen = 'receiveEnterDataScreen';
-  static const receiveQR = 'ReceiveQR';
+  static const receiveQR = 'seceiveQR';
   static const profile = 'profile';
-  static const selectGuardians = 'SelectGuardians';
-  static const inviteGuardians = 'InviteGuardians';
-  static const inviteGuardiansSent = 'InviteGuardiansSent';
-  static const guardianTabs = 'GuardianTabs';
-  static const support = 'Support';
-  static const security = 'Security';
-  static const editName = 'EditName';
-  static const setCurrency = 'SetCurrency';
-  static const citizenship = 'CitizenShip';
-  static const contribution = 'Contribution';
+  static const selectGuardians = 'selectGuardians';
+  static const inviteGuardians = 'inviteGuardians';
+  static const inviteGuardiansSent = 'inviteGuardiansSent';
+  static const guardianTabs = 'guardianTabs';
+  static const support = 'support';
+  static const security = 'security';
+  static const editName = 'editName';
+  static const setCurrency = 'setCurrency';
+  static const citizenship = 'citizenShip';
+  static const contribution = 'contribution';
 }
 
 class NavigationService {
