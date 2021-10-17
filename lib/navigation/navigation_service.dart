@@ -49,7 +49,7 @@ class Routes {
   static const importKey = 'importKey';
   static const importWords = 'importWords';
   static const verification = 'verification';
-  static const signup = 'signUp';
+  static const signup = 'signup';
   static const recoverAccount = 'recoverAccount';
   static const recoveryPhrase = 'recoveryPhrase';
   static const recoverAccountFound = 'recoverAccountFound';
