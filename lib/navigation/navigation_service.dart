@@ -66,7 +66,7 @@ class Routes {
   static const scanQRCode = 'scanQRCode';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
-  static const receiveQR = 'seceiveQR';
+  static const receiveQR = 'receiveQR';
   static const profile = 'profile';
   static const selectGuardians = 'selectGuardians';
   static const inviteGuardians = 'inviteGuardians';
@@ -76,7 +76,7 @@ class Routes {
   static const security = 'security';
   static const editName = 'editName';
   static const setCurrency = 'setCurrency';
-  static const citizenship = 'citizenShip';
+  static const citizenship = 'citizenship';
   static const contribution = 'contribution';
 }
 
