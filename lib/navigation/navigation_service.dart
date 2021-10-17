@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
@@ -129,6 +130,10 @@ class NavigationService {
   final _fullScreenRoutes = {
     Routes.verification,
   };
+  // iOS transition: Pages that slides in from the right and exits in reverse.
+  final _cupertinoRoutes = {
+    Routes.citizenship,
+  };
   StreamController<String>? _streamRouteListener;
 
   static NavigationService of(BuildContext context, {bool listen = false}) =>
@@ -155,11 +160,21 @@ class NavigationService {
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     if (_appRoutes[settings.name!] != null) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (_) => _appRoutes[settings.name]!(settings.arguments),
-        fullscreenDialog: _fullScreenRoutes.contains(settings.name),
-      );
+      if (_cupertinoRoutes.contains(settings.name)) {
+        // Pages that slides in from the right and exits in reverse
+        return CupertinoPageRoute(
+          settings: settings,
+          builder: (_) => _appRoutes[settings.name]!(settings.arguments),
+          fullscreenDialog: _fullScreenRoutes.contains(settings.name),
+        );
+      } else {
+        // Pages slides the route upwards and fades it in, and exits in reverse
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => _appRoutes[settings.name]!(settings.arguments),
+          fullscreenDialog: _fullScreenRoutes.contains(settings.name),
+        );
+      }
     } else {
       return MaterialPageRoute(builder: (_) => const SplashScreen());
     }
