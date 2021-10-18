@@ -22,7 +22,7 @@ class ReceiveScreen extends StatelessWidget {
                   child: ReceiveSelectionCard(
                     icon: SvgPicture.asset('assets/images/receive/receive_input_seeds.svg'),
                     title: "Input Seeds or Other Currency".i18n,
-                    onTap: () => NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen),
+                    onTap: () => NavigationService.of(context).navigateTo(Routes.receiveEnterData),
                   ),
                 ),
                 const SizedBox(width: 20),
