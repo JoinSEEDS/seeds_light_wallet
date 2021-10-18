@@ -51,7 +51,7 @@ class ReceiveSendButtons extends StatelessWidget {
               Expanded(
                 child: MaterialButton(
                   padding: const EdgeInsets.only(top: 14, bottom: 14),
-                  onPressed: () => NavigationService.of(context).navigateTo(Routes.receiveEnterDataScreen),
+                  onPressed: () => NavigationService.of(context).navigateTo(Routes.receiveEnterData),
                   color: tokenColor ?? AppColors.green1,
                   disabledColor: tokenColor ?? AppColors.green1,
                   shape: const RoundedRectangleBorder(

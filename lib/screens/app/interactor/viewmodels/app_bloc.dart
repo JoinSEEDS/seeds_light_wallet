@@ -94,7 +94,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       );
       yield state.copyWith(
         pageState: PageState.success,
-        pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmationScreen, arguments: args),
+        pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmation, arguments: args),
       );
     }
   }

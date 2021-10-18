@@ -43,7 +43,7 @@ class DelegateAUserState extends Equatable {
     final List<String> noShowUsers = [settingsStorage.accountName];
 
     return DelegateAUserState(
-      pageState: PageState.initial,
+      pageState: PageState.success,
       selectedDelegate: {},
       noShowUsers: noShowUsers,
     );
