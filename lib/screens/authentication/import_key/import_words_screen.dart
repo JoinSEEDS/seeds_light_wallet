@@ -134,6 +134,7 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
                       const SizedBox.shrink(),
                     const SizedBox(height: 24),
                     const ImportKeyAccountsWidget(),
+                    const SizedBox(height: 200),
                   ],
                 ),
               ),
