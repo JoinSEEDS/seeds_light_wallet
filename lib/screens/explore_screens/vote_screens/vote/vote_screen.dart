@@ -25,11 +25,19 @@ class VoteScreen extends StatelessWidget {
             appBar: AppBar(
               actions: [
                 if (state.shouldShowDelegateIcon)
-                  IconButton(
-                      onPressed: () {
-                        NavigationService.of(context).navigateTo(Routes.delegate);
-                      },
-                      icon: SvgPicture.asset('assets/images/explore/delegate.svg')),
+                  state.isCitizen
+                      ? IconButton(
+                          onPressed: () {
+                            NavigationService.of(context).navigateTo(Routes.delegate);
+                          },
+                          icon: SvgPicture.asset('assets/images/explore/delegate.svg'))
+                      : IconButton(
+                          icon: SvgPicture.asset(
+                            'assets/images/explore/delegate.svg',
+                            color: AppColors.grey,
+                          ),
+                          onPressed: () {},
+                        ),
                 const SizedBox(width: horizontalEdgePadding)
               ],
               title: Text('Vote'.i18n),
