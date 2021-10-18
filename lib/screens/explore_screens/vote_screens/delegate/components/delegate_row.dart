@@ -6,15 +6,21 @@ class DelegateRow extends StatelessWidget {
   final String account;
   final String nickname;
   final VoidCallback onTapRemove;
+  final String? avatarImage;
 
-  const DelegateRow({Key? key, required this.account, required this.nickname, required this.onTapRemove})
-      : super(key: key);
+  const DelegateRow({
+    Key? key,
+    required this.account,
+    required this.nickname,
+    required this.onTapRemove,
+    this.avatarImage,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileAvatar(size: 40, account: account, nickname: nickname),
+        ProfileAvatar(size: 40, account: account, nickname: nickname, image: avatarImage),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 16, right: 8),
