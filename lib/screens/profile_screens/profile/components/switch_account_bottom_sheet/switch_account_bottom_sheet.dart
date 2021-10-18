@@ -59,7 +59,7 @@ class SwithAccountBottomSheet extends StatelessWidget {
                             itemBuilder: (_, index) {
                               if (index == state.accounts.length) {
                                 return Padding(
-                                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                                  padding: const EdgeInsets.only(top: 10.0, bottom: 30.0),
                                   child: InkWell(
                                     onTap: () {
                                       if (state.isRecoverPharseEnabled) {
