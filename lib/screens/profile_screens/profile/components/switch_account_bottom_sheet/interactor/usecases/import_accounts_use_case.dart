@@ -9,10 +9,10 @@ class ImportAccountsUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
 
   Future<List<Result>> run(List<String> publicKeys) async {
-    final List<Future<Result>> getKeyAccounts =
+    final List<Future<Result>> getKeyAccountsFutures =
         publicKeys.map((i) => _keyAccountsRepository.getKeyAccounts(i)).toList();
 
-    final List<Result> keyAccountsResponse = await Future.wait(getKeyAccounts);
+    final List<Result> keyAccountsResponse = await Future.wait(getKeyAccountsFutures);
     if (keyAccountsResponse.singleWhereOrNull((i) => i.isError) != null) {
       return keyAccountsResponse;
     } else {
@@ -24,9 +24,9 @@ class ImportAccountsUseCase {
       savedAccounts.removeWhere((i) => keyAccounts.contains(i));
       final List<String> accounts = keyAccounts + savedAccounts;
 
-      final List<Future<Result>> futures = accounts.map((i) => _profileRepository.getProfile(i)).toList();
+      final List<Future<Result>> getProfileFutures = accounts.map((i) => _profileRepository.getProfile(i)).toList();
 
-      return Future.wait(futures);
+      return Future.wait(getProfileFutures);
     }
   }
 }
