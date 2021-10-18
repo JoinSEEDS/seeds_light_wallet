@@ -126,7 +126,7 @@ class _SettingsStorage {
   }
 
   set recoveryWords(List<String>? words) {
-    if (words != null) {
+    if (words != null && words.isNotEmpty) {
       _secureStorage.write(key: _kRecoveryWords, value: words.join('-'));
       _recoveryWords = words;
     } else {
@@ -231,6 +231,8 @@ class _SettingsStorage {
     recoveryLink = null;
   }
 
+  // Notice this function it's also called on import
+  // to cancel any recover process previously started
   void cancelRecoveryProcess() {
     inRecoveryMode = false;
     _accountName = null;

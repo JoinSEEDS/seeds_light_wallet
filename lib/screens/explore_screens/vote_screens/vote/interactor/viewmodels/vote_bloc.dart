@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/mappers/remaining_time_state_mapper.dart';
@@ -14,7 +15,7 @@ import '../mappers/next_moon_phase_state_mapper.dart';
 class VoteBloc extends Bloc<VoteEvent, VoteState> {
   StreamSubscription<int>? _tickerSubscription;
 
-  VoteBloc() : super(VoteState.initial(remoteConfigurations.featureFlagDelegateEnabled));
+  VoteBloc() : super(VoteState.initial(remoteConfigurations.featureFlagDelegateEnabled, settingsStorage.isCitizen));
 
   Stream<int> _tick(int ticks) {
     return Stream.periodic(const Duration(seconds: 1), (x) => ticks - x - 1).take(ticks);

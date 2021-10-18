@@ -30,6 +30,13 @@ class InitOnboardingDelegate extends DelegateEvent {
   String toString() => 'InitOnboardingDelegate';
 }
 
+class RemoveDelegateTap extends DelegateEvent {
+  const RemoveDelegateTap();
+
+  @override
+  String toString() => 'RemoveDelegateTap';
+}
+
 class ClearPageCommand extends DelegateEvent {
   @override
   String toString() => 'ClearPageCommand';

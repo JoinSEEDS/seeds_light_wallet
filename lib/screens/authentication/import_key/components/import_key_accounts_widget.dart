@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -27,44 +26,46 @@ class ImportKeyAccountsWidget extends StatelessWidget {
                 shrinkWrap: true,
                 children: state.accounts
                     .map((ProfileModel? profile) => InkWell(
-                      borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                      onTap: () {
-                        context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account));
-                      },
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          color: AppColors.lightGreen2,
                           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8, bottom: 8),
-                          child: ListTile(
-                            leading: ProfileAvatar(
-                              size: 60,
-                              image: profile!.image,
-                              account: profile.account,
-                              nickname: profile.nickname,
+                          onTap: () {
+                            context.read<ImportKeyBloc>().add(AccountSelected(account: profile!.account));
+                          },
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              color: AppColors.lightGreen2,
+                              borderRadius: BorderRadius.circular(defaultCardBorderRadius),
                             ),
-                            title: Text(
-                              profile.nickname ?? '',
-                              style: Theme.of(context).textTheme.button,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8, bottom: 8),
+                              child: ListTile(
+                                leading: ProfileAvatar(
+                                  size: 60,
+                                  image: profile!.image,
+                                  account: profile.account,
+                                  nickname: profile.nickname,
+                                ),
+                                title: Text(
+                                  profile.nickname ?? '',
+                                  style: Theme.of(context).textTheme.button,
+                                ),
+                                subtitle: Text(
+                                  profile.account,
+                                  style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                                ),
+                                trailing: const Icon(Icons.navigate_next),
+                              ),
                             ),
-                            subtitle: Text(
-                              profile.account,
-                              style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                            ),
-                            trailing: const Icon(Icons.navigate_next),
                           ),
-                        ),
-                      ),
-                    ))
+                        ))
                     .toList());
           case PageState.loading:
             return const FullPageLoadingIndicator();
           case PageState.failure:
-            return FullPageErrorIndicator(
-              errorMessage: state.errorMessage,
-            );
+            return Center(
+                child: Text(
+              state.errorMessage ?? "Oops, Something went wrong",
+              style: Theme.of(context).textTheme.subtitle1Red2,
+            ));
           default:
             return const SizedBox.shrink();
         }

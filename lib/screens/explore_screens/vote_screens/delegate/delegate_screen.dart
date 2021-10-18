@@ -9,11 +9,11 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/delegate_card.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/introducing_delegates_dialog.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/remove_delegate_success_dialog.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_event.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_page_commands.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_state.dart';
+import 'components/remove_delegate_confirmation_dialog.dart';
 
 class DelegateScreen extends StatelessWidget {
   const DelegateScreen({Key? key}) : super(key: key);
@@ -28,11 +28,11 @@ class DelegateScreen extends StatelessWidget {
           listener: (context, state) {
             final pageCommand = state.pageCommand;
 
-            if (pageCommand is ShowDelegateRemovalSuccess) {
+            if (pageCommand is ShowDelegateRemovalConfirmation) {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
-                builder: (_) => const RemoveDelegateSuccessDialog(),
+                builder: (_) => const RemoveDelegateConfirmationDialog(),
               );
             } else if (pageCommand is ShowOnboardingDelegate) {
               showDialog<void>(
@@ -69,7 +69,7 @@ class DelegateScreen extends StatelessWidget {
                       const SizedBox(height: 30),
                       DelegateCard(
                           onTapRemove: () {
-                            BlocProvider.of<DelegateBloc>(context).add(const RemoveDelegate());
+                            BlocProvider.of<DelegateBloc>(context).add(const RemoveDelegateTap());
                           },
                           onTap: () {
                             NavigationService.of(context).navigateTo(Routes.delegateAUser);

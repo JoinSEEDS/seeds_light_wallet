@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seeds/screens/app/app.dart';
@@ -39,48 +40,44 @@ import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_scre
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
 
+/// Add only current routes in the app and that are used by [NavigationService]
 class Routes {
-  static const onboarding = 'Onboarding';
+  static const onboarding = 'onboarding';
   static const splash = 'splash';
   static const app = 'app';
-  static const login = 'Login';
-  static const importKey = 'ImportKey';
-  static const importWords = 'ImportWords';
+  static const login = 'login';
+  static const importKey = 'importKey';
+  static const importWords = 'importWords';
   static const verification = 'verification';
-  static const signup = 'signUp';
+  static const signup = 'signup';
   static const recoverAccount = 'recoverAccount';
   static const recoveryPhrase = 'recoveryPhrase';
   static const recoverAccountFound = 'recoverAccountFound';
-  static const createAccount = 'CreateAccount';
-  static const showInvite = 'ShowInvite';
-  static const claimCode = 'ClaimCode';
-  static const welcome = 'Welcome';
-  static const transfer = 'Transfer';
-  static const sendEnterData = 'SendEnterData';
+  static const transfer = 'transfer';
+  static const sendEnterData = 'sendEnterData';
   static const delegate = 'delegate';
   static const delegateAUser = 'delegateAUser';
-  static const createInvite = 'CreateInvite';
+  static const createInvite = 'createInvite';
   static const vote = 'vote';
-  static const proposalDetails = 'ProposalDetails';
-  static const overview = 'Overview';
+  static const proposalDetails = 'proposalDetails';
   static const plantSeeds = 'plantSeeds';
   static const unPlantSeeds = 'unPlantSeeds';
-  static const sendConfirmationScreen = 'SendConfirmationScreen';
-  static const scanQRCode = 'ScanQRCode';
-  static const receiveScreen = 'receiveScreen';
-  static const receiveEnterDataScreen = 'receiveEnterDataScreen';
-  static const receiveQR = 'ReceiveQR';
+  static const sendConfirmation = 'sendConfirmation';
+  static const scanQRCode = 'scanQRCode';
+  static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
+  static const receiveEnterData = 'receiveEnterData';
+  static const receiveQR = 'receiveQR';
   static const profile = 'profile';
-  static const selectGuardians = 'SelectGuardians';
-  static const inviteGuardians = 'InviteGuardians';
-  static const inviteGuardiansSent = 'InviteGuardiansSent';
-  static const guardianTabs = 'GuardianTabs';
-  static const support = 'Support';
-  static const security = 'Security';
-  static const editName = 'EditName';
-  static const setCurrency = 'SetCurrency';
-  static const citizenship = 'CitizenShip';
-  static const contribution = 'Contribution';
+  static const selectGuardians = 'selectGuardians';
+  static const inviteGuardians = 'inviteGuardians';
+  static const inviteGuardiansSent = 'inviteGuardiansSent';
+  static const guardianTabs = 'guardianTabs';
+  static const support = 'support';
+  static const security = 'security';
+  static const editName = 'editName';
+  static const setCurrency = 'setCurrency';
+  static const citizenship = 'citizenship';
+  static const contribution = 'contribution';
 }
 
 class NavigationService {
@@ -104,10 +101,10 @@ class NavigationService {
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
-    Routes.sendConfirmationScreen: (args) => const SendConfirmationScreen(),
+    Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
-    Routes.receiveScreen: (_) => const ReceiveScreen(),
-    Routes.receiveEnterDataScreen: (_) => const ReceiveEnterDataScreen(),
+    Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
+    Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
     Routes.selectGuardians: (_) => const SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => const InviteGuardians(),
@@ -128,6 +125,10 @@ class NavigationService {
   // Has no effect on Android.
   final _fullScreenRoutes = {
     Routes.verification,
+  };
+  // iOS transition: Pages that slides in from the right and exits in reverse.
+  final _cupertinoRoutes = {
+    Routes.citizenship,
   };
   StreamController<String>? _streamRouteListener;
 
@@ -155,11 +156,21 @@ class NavigationService {
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     if (_appRoutes[settings.name!] != null) {
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (_) => _appRoutes[settings.name]!(settings.arguments),
-        fullscreenDialog: _fullScreenRoutes.contains(settings.name),
-      );
+      if (_cupertinoRoutes.contains(settings.name)) {
+        // Pages that slides in from the right and exits in reverse
+        return CupertinoPageRoute(
+          settings: settings,
+          builder: (_) => _appRoutes[settings.name]!(settings.arguments),
+          fullscreenDialog: _fullScreenRoutes.contains(settings.name),
+        );
+      } else {
+        // Pages slides the route upwards and fades it in, and exits in reverse
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => _appRoutes[settings.name]!(settings.arguments),
+          fullscreenDialog: _fullScreenRoutes.contains(settings.name),
+        );
+      }
     } else {
       return MaterialPageRoute(builder: (_) => const SplashScreen());
     }

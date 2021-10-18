@@ -35,7 +35,7 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
 
           yield state.copyWith(
             pageState: PageState.success,
-            pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmationScreen, arguments: args),
+            pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmation, arguments: args),
           );
         }
       }

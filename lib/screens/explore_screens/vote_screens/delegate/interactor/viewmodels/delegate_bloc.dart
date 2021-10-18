@@ -18,6 +18,8 @@ class DelegateBloc extends Bloc<DelegateEvent, DelegateState> {
       yield state.copyWith(pageState: PageState.loading);
       final Result results = await DelegateLoadDataUseCase().run();
       yield DelegateLoadDataStateMapper().mapResultToState(state, results);
+    } else if (event is RemoveDelegateTap) {
+      yield state.copyWith(pageCommand: ShowDelegateRemovalConfirmation());
     } else if (event is RemoveDelegate) {
       yield state.copyWith(pageState: PageState.loading);
       final Result result = await RemoveDelegateUseCase().run();
