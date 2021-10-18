@@ -24,6 +24,8 @@ class DelegateBloc extends Bloc<DelegateEvent, DelegateState> {
       yield state.copyWith(pageState: PageState.loading);
       final Result result = await RemoveDelegateUseCase().run();
       yield RemoveDelegateResultMapper().mapResultToState(state, result);
+    } else if (event is ShowOnboardingDelegate){
+      yield state.copyWith(pageCommand: ShowOnboardingDelegate());
     }
   }
 }

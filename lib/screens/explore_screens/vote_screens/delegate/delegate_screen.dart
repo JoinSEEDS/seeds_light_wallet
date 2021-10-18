@@ -8,11 +8,12 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/delegate_card.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/remove_delegate_confirmation_dialog.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/components/introducing_delegates_dialog.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_event.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_page_commands.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_state.dart';
+import 'components/remove_delegate_confirmation_dialog.dart';
 
 class DelegateScreen extends StatelessWidget {
   const DelegateScreen({Key? key}) : super(key: key);
@@ -24,7 +25,6 @@ class DelegateScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) => DelegateBloc()..add(const LoadDelegateData()),
         child: BlocConsumer<DelegateBloc, DelegateState>(
-          listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
             final pageCommand = state.pageCommand;
 
@@ -34,8 +34,16 @@ class DelegateScreen extends StatelessWidget {
                 barrierDismissible: false,
                 builder: (_) {
                   return BlocProvider.value(
-                      value: BlocProvider.of<DelegateBloc>(context), child: const RemoveDelegateConfirmationDialog());
+                    value: BlocProvider.of<DelegateBloc>(context),
+                    child: const RemoveDelegateConfirmationDialog(),
+                  );
                 },
+              );
+            } else if (pageCommand is ShowOnboardingDelegate) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => const IntroducingDelegatesDialog(),
               );
             } else if (pageCommand is ShowErrorMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
