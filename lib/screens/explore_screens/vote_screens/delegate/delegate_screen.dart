@@ -32,7 +32,12 @@ class DelegateScreen extends StatelessWidget {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
-                builder: (_) => const RemoveDelegateConfirmationDialog(),
+                builder: (_) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<DelegateBloc>(context),
+                    child: const RemoveDelegateConfirmationDialog(),
+                  );
+                },
               );
             } else if (pageCommand is ShowOnboardingDelegate) {
               showDialog<void>(
