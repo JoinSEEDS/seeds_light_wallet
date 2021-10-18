@@ -30,11 +30,13 @@ class DelegateBloc extends Bloc<DelegateEvent, DelegateState> {
           yield DelegateLoadDataStateMapper().mapResultToState(state, result);
         }
       }
+    } else if (event is RemoveDelegateTap) {
+      yield state.copyWith(pageCommand: ShowDelegateRemovalConfirmation());
     } else if (event is RemoveDelegate) {
       yield state.copyWith(pageState: PageState.loading);
       final Result result = await RemoveDelegateUseCase().run();
       yield RemoveDelegateResultMapper().mapResultToState(state, result);
-    } else if (event is ShowOnboardingDelegate){
+    } else if (event is ShowOnboardingDelegate) {
       yield state.copyWith(pageCommand: ShowOnboardingDelegate());
     }
   }
