@@ -176,6 +176,34 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
+  Future<Result> claimRefund({required String accountName, required List<int> requestIds}) async {
+    print('[eos] claimrefund from: $accountName $requestIds');
+
+    final transaction = buildFreeTransaction(
+        List.from(requestIds.map(
+          (id) => Action()
+            ..account = accountHarvest
+            ..name = actionNameClaimRefund
+            ..authorization = [
+              Authorization()
+                ..actor = accountName
+                ..permission = permissionActive
+            ]
+            ..data = {
+              'from': accountName,
+              'request_id': '$id',
+            },
+        )),
+        accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
   Future<Result> makeCitizen(String accountName) async {
     return citizenshipAction(accountName: accountName, isMake: true, isCitizen: true);
   }
