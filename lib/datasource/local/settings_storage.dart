@@ -73,7 +73,7 @@ class _SettingsStorage {
 
   bool get isCitizen => _preferences.getBool(_kIsCitizen) ?? false;
 
-  bool get isFirstTimeOnDelegateScreen  => _preferences.getBool(_kIsFirstTimeOnDelegateScreen) ?? false;
+  bool get isFirstTimeOnDelegateScreen => _preferences.getBool(_kIsFirstTimeOnDelegateScreen) ?? false;
 
   List<String> get recoveryWords => _recoveryWords;
 
@@ -273,6 +273,12 @@ class _SettingsStorage {
   void switchAccount(String accountName) {
     privateKeyBackedUp = false;
     _accountName = accountName;
+    _preferences.remove(_kPrivateKeyBackedUp);
+    _preferences.remove(_kSelectedFiatCurrency);
+    _preferences.remove(_kSelectedToken);
+    _preferences.remove(_kTokensWhiteList);
+    _preferences.remove(_kIsCitizen);
+    _preferences.remove(_kIsFirstTimeOnDelegateScreen);
   }
 
   // ignore: use_setters_to_change_properties
