@@ -22,7 +22,7 @@ class DelegateAUserSuccessDialog extends StatelessWidget {
           icon: SvgPicture.asset('assets/images/security/success_outlined_icon.svg'),
           singleLargeButtonTitle: "Dismiss",
           onSingleLargeButtonPressed: () {
-            Navigator.popUntil(context, ModalRoute.withName('/'));
+            Navigator.popUntil(context, ModalRoute.withName('app'));
             NavigationService.of(context).navigateTo(Routes.vote);
             NavigationService.of(context).navigateTo(Routes.delegate);
           },
