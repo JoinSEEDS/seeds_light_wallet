@@ -24,7 +24,7 @@ class DelegateBloc extends Bloc<DelegateEvent, DelegateState> {
         final DelegateModel delegate = result.asValue!.value;
 
         if (delegate.delegatee.isNotEmpty) {
-          final Result memberResult = await LoadDelegateAsMemberUseCase().run(delegate: delegate.delegatee);
+          final Result memberResult = await LoadDelegateAsMemberUseCase().run(delegateAccount: delegate.delegatee);
           yield DelegateLoadDataStateMapper().mapResultToState(state, memberResult);
         } else {
           yield DelegateLoadDataStateMapper().mapResultToState(state, result);
