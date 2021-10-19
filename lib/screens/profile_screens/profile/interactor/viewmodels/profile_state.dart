@@ -16,6 +16,7 @@ class ProfileState extends Equatable {
   final bool showLogoutButton;
   final bool hasSecurityNotification;
   final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
+  final bool isImportAccountEnabled;
 
   const ProfileState({
     required this.pageState,
@@ -26,6 +27,7 @@ class ProfileState extends Equatable {
     required this.showLogoutButton,
     required this.hasSecurityNotification,
     required this.citizenshipUpgradeStatus,
+    required this.isImportAccountEnabled,
   });
 
   @override
@@ -38,6 +40,7 @@ class ProfileState extends Equatable {
         showLogoutButton,
         hasSecurityNotification,
         citizenshipUpgradeStatus,
+        isImportAccountEnabled,
       ];
 
   bool get showShimmer => pageState == PageState.loading || pageState == PageState.initial;
@@ -51,6 +54,7 @@ class ProfileState extends Equatable {
     bool? showLogoutButton,
     bool? hasSecurityNotification,
     CitizenshipUpgradeStatus? citizenshipUpgradeStatus,
+    bool? isImportAccountEnabled,
   }) {
     return ProfileState(
       pageState: pageState ?? this.pageState,
@@ -61,14 +65,16 @@ class ProfileState extends Equatable {
       showLogoutButton: showLogoutButton ?? this.showLogoutButton,
       hasSecurityNotification: hasSecurityNotification ?? this.hasSecurityNotification,
       citizenshipUpgradeStatus: citizenshipUpgradeStatus ?? this.citizenshipUpgradeStatus,
+      isImportAccountEnabled: isImportAccountEnabled ?? this.isImportAccountEnabled,
     );
   }
 
-  factory ProfileState.initial() {
-    return const ProfileState(
+  factory ProfileState.initial(bool isImportAccountEnabled) {
+    return ProfileState(
         pageState: PageState.initial,
         showLogoutButton: false,
         hasSecurityNotification: false,
-        citizenshipUpgradeStatus: CitizenshipUpgradeStatus.notReady);
+        citizenshipUpgradeStatus: CitizenshipUpgradeStatus.notReady,
+        isImportAccountEnabled: isImportAccountEnabled);
   }
 }

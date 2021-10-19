@@ -25,7 +25,7 @@ import 'package:share/share.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   late StreamSubscription<bool> _hasGuardianNotificationPending;
 
-  ProfileBloc() : super(ProfileState.initial()) {
+  ProfileBloc(bool isImportAccountEnabled) : super(ProfileState.initial(isImportAccountEnabled)) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value)));
