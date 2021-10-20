@@ -33,6 +33,26 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
+  // TODO: Unify this code with _getAccountPermissions in guardians repo
+  // Returns the first active key permission - String
+  Future<Result> getAccountPublicKey(String accountName) async {
+    print('[http] getAccountPublicKey');
+
+    final url = Uri.parse('$host/v1/chain/get_account');
+    final body = '{ "account_name": "$accountName" }';
+
+    return http
+        .post(url, headers: headers, body: body)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              final List<dynamic> allAccounts = body['permissions'].toList();
+              final permissions = allAccounts.map((item) => Permission.fromJson(item)).toList();
+              final Permission activePermission = permissions.firstWhere((element) => element.permName == "active");
+              final RequiredAuth activeAuth = activePermission.requiredAuth;
+              return activeAuth.keys.first.key;
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
   Future<Result> updateProfile({
     required String nickname,
     required String image,

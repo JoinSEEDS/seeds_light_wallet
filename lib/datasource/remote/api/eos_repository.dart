@@ -11,6 +11,8 @@ abstract class EosRepository {
   String onboardingAccountName = 'join.seeds';
   int guardianRecoveryTimeDelaySec = const Duration(hours: 24).inSeconds;
 
+  String? get host => remoteConfigurations.activeEOSServerUrl.url;
+
   // Actions
   String actionNameAgainst = 'against';
   String actionNameCancel = 'cancel';
