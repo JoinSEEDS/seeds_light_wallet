@@ -37,7 +37,7 @@ class InviteGuardiansSentScreen extends StatelessWidget {
                   child: FlatButtonLong(
                     title: 'Ok'.i18n,
                     onPressed: () => {
-                      Navigator.popUntil(context, ModalRoute.withName('/')),
+                      Navigator.popUntil(context, ModalRoute.withName('app')),
                       NavigationService.of(context).navigateTo(Routes.security),
                       NavigationService.of(context).navigateTo(Routes.guardianTabs)
                     },
