@@ -33,7 +33,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  // TODO: Unify this code with _getAccountPermissions in guardians repo
+  // TODO(Raul): Unify this code with _getAccountPermissions in guardians repo
   // Returns the first active key permission - String
   Future<Result> getAccountPublicKey(String accountName) async {
     print('[http] getAccountPublicKey');
