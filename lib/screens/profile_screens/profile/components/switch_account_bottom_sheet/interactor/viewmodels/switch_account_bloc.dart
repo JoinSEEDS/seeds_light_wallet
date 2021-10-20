@@ -17,17 +17,19 @@ part 'switch_account_state.dart';
 
 class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
   final AuthenticationBloc _authenticationBloc;
-  SwitchAccountBloc(this._authenticationBloc) : super(SwitchAccountState.initial());
+  SwitchAccountBloc(this._authenticationBloc, isRecoverPharseEnabled)
+      : super(SwitchAccountState.initial(isRecoverPharseEnabled));
 
   @override
   Stream<SwitchAccountState> mapEventToState(SwitchAccountEvent event) async* {
     if (event is FindAccountsByKey) {
       yield state.copyWith(pageState: PageState.loading);
-      final publicKey = CheckPrivateKeyUseCase().isKeyValid(settingsStorage.privateKey!);
-      if (publicKey == null || publicKey.isEmpty) {
+      final List<String?> publicKeys =
+          settingsStorage.privateKeysList.map((i) => CheckPrivateKeyUseCase().isKeyValid(i)).toList();
+      if (publicKeys.contains(null) || publicKeys.contains('')) {
         yield state.copyWith(pageState: PageState.failure, errorMessage: "Private key is not valid".i18n);
       } else {
-        final results = await ImportAccountsUseCase().run(publicKey);
+        final results = await ImportAccountsUseCase().run(publicKeys as List<String>);
         yield FindAccountsResultStateMapper().mapResultsToState(state, results);
       }
     } else if (event is OnAccountSelected) {

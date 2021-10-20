@@ -38,7 +38,7 @@ class SeedsApp extends StatelessWidget {
                 supportedLocales: [
                   const Locale('en', 'US'),
                   const Locale('es', 'ES'),
-                  const Locale('pt', "BR"),
+                  const Locale('pt', 'BR'),
                 ],
                 theme: SeedsAppTheme.darkTheme,
                 navigatorKey: navigator.appNavigatorKey,

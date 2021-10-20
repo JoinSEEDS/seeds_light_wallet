@@ -5,12 +5,14 @@ class SwitchAccountState extends Equatable {
   final String? errorMessage;
   final List<ProfileModel> accounts;
   final ProfileModel? currentAcccout;
+  final bool isRecoverPharseEnabled;
 
   const SwitchAccountState({
     required this.pageState,
     this.errorMessage,
     required this.accounts,
     this.currentAcccout,
+    required this.isRecoverPharseEnabled,
   });
 
   @override
@@ -19,6 +21,7 @@ class SwitchAccountState extends Equatable {
         errorMessage,
         accounts,
         currentAcccout,
+        isRecoverPharseEnabled,
       ];
 
   SwitchAccountState copyWith({
@@ -26,16 +29,22 @@ class SwitchAccountState extends Equatable {
     String? errorMessage,
     List<ProfileModel>? accounts,
     ProfileModel? currentAcccout,
+    bool? isRecoverPharseEnabled,
   }) {
     return SwitchAccountState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       accounts: accounts ?? this.accounts,
       currentAcccout: currentAcccout,
+      isRecoverPharseEnabled: isRecoverPharseEnabled ?? this.isRecoverPharseEnabled,
     );
   }
 
-  factory SwitchAccountState.initial() {
-    return const SwitchAccountState(pageState: PageState.initial, accounts: []);
+  factory SwitchAccountState.initial(bool isRecoverPharseEnabled) {
+    return SwitchAccountState(
+      pageState: PageState.initial,
+      accounts: [],
+      isRecoverPharseEnabled: isRecoverPharseEnabled,
+    );
   }
 }

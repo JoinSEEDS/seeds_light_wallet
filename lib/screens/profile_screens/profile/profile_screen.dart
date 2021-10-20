@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/divider_jungle.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_bottom.dart';
 import 'package:seeds/screens/profile_screens/profile/components/profile_header.dart';
@@ -26,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return BlocProvider(
-      create: (_) => ProfileBloc()..add(LoadProfileValues()),
+      create: (_) => ProfileBloc(remoteConfigurations.featureFlagImportAccountEnabled)..add(LoadProfileValues()),
       child: BlocConsumer<ProfileBloc, ProfileState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -39,16 +40,18 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: InkWell(
-                onTap: () => BlocProvider.of<ProfileBloc>(context).add(const OnSwitchAccountButtonTapped()),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [Text(settingsStorage.accountName), const Icon(Icons.keyboard_arrow_down)],
-                  ),
-                ),
-              ),
+              title: state.isImportAccountEnabled
+                  ? InkWell(
+                      onTap: () => BlocProvider.of<ProfileBloc>(context).add(const OnSwitchAccountButtonTapped()),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [Text(settingsStorage.accountName), const Icon(Icons.keyboard_arrow_down)],
+                        ),
+                      ),
+                    )
+                  : Text(settingsStorage.accountName),
               actions: [
                 IconButton(
                   icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),
