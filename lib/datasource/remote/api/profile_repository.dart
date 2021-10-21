@@ -176,6 +176,10 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
+  /// This claims unplanted Seeds that are ready to be sent back to the user
+  /// Each time a user unplants, a new unplant request is created, with a new request ID
+  /// This allows to claim on any number of refunds. The chain will decide how much is ready
+  /// to be unplanted and send the funds back to the user.
   Future<Result> claimRefund({required String accountName, required List<int> requestIds}) async {
     print('[eos] claimrefund from: $accountName $requestIds');
 
