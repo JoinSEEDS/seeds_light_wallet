@@ -238,7 +238,6 @@ class _SettingsStorage {
     _accountName = null;
     privateKey = null;
     recoveryLink = null;
-    recoveryWords = null;
   }
 
   void enablePasscode(String? passcode) {
@@ -257,7 +256,9 @@ class _SettingsStorage {
     privateKeyBackedUp = false;
     _privateKey = authData.eOSPrivateKey.toString();
     privateKey = authData.eOSPrivateKey.toString();
-    recoveryWords = authData.words;
+    if (authData.words.isNotEmpty) {
+      recoveryWords = authData.words;
+    }
 
     final List<String> pkeys = _privateKeysList ?? [];
     // If new private key --> add to list
@@ -270,9 +271,14 @@ class _SettingsStorage {
     }
   }
 
-  void switchAccount(String accountName) {
+  void switchAccount(String accountName, AuthDataModel authData) {
     privateKeyBackedUp = false;
     _accountName = accountName;
+    _privateKey = authData.eOSPrivateKey.toString();
+    privateKey = authData.eOSPrivateKey.toString();
+    if (authData.words.isNotEmpty) {
+      recoveryWords = authData.words;
+    }
     _preferences.remove(_kPrivateKeyBackedUp);
     _preferences.remove(_kSelectedFiatCurrency);
     _preferences.remove(_kSelectedToken);

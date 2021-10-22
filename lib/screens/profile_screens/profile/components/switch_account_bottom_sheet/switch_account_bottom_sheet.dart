@@ -24,7 +24,6 @@ class SwithAccountBottomSheet extends StatelessWidget {
         ..add(const FindAccountsByKey()),
       child: DraggableScrollableSheet(
         expand: false,
-        initialChildSize: 1,
         builder: (context, scrollController) {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -55,6 +54,8 @@ class SwithAccountBottomSheet extends StatelessWidget {
                       case PageState.success:
                         return Expanded(
                           child: ListView.builder(
+                            shrinkWrap: true,
+                            controller: scrollController,
                             itemCount: state.accounts.length + 1,
                             itemBuilder: (_, index) {
                               if (index == state.accounts.length) {
@@ -141,6 +142,7 @@ class SwithAccountBottomSheet extends StatelessWidget {
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
       ),
       context: context,
+      isScrollControlled: true,
       builder: (_) => this,
     );
   }

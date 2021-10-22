@@ -43,7 +43,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       add(const InitAuthStatus());
     }
     if (event is OnSwitchAccount) {
-      SwitchAccountUseCase().run(event.account);
+      SwitchAccountUseCase().run(event.account, event.authData);
       // New account --> re-start auth status
       add(const InitAuthStatus());
     }
