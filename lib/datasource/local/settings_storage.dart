@@ -256,10 +256,10 @@ class _SettingsStorage {
     if (words.isNotEmpty && newWords.isNotEmpty) {
       final List<String> wordsList = _recoveryWords;
       // If new words --> add to list
-      if (wordsList.contains(newWords)) {
+      if (!wordsList.contains(newWords)) {
         wordsList.add(newWords);
         // Save updated private keys list
-        await _secureStorage.write(key: _kPrivateKeysList, value: wordsList.join(','));
+        await _secureStorage.write(key: _kRecoveryWords, value: wordsList.join(','));
         // Update local field
         _recoveryWords = wordsList;
       }
