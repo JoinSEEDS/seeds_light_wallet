@@ -175,7 +175,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
     if (!result.isError) {
       /// In case there was a recovery in place. We cancel it.
-      StopRecoveryUseCase().run();
+      /// This will clean all data
+      await StopRecoveryUseCase().run();
       _authenticationBloc.add(OnCreateAccount(account: username, authData: authData));
     }
 

@@ -33,11 +33,10 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
       }
     } else if (event is AccountSelected) {
       /// In case there was a recovery in place. We cancel it.
-      StopRecoveryUseCase().run();
+      /// This will clean all data
+      await StopRecoveryUseCase().run();
 
-      _authenticationBloc.add(
-        OnImportAccount(account: event.account, authData: state.authData!),
-      );
+      _authenticationBloc.add(OnImportAccount(account: event.account, authData: state.authData!));
     } else if (event is OnPrivateKeyChange) {
       yield state.copyWith(enableButton: event.privateKeyChanged.isNotEmpty);
     } else if (event is OnWordChange) {
