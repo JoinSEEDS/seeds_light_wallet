@@ -28,12 +28,12 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield state.copyWith(authStatus: AuthStatus.inviteLink);
     }
     if (event is OnCreateAccount) {
-      SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
+      await SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
       // New account --> re-start auth status
       add(const InitAuthStatus());
     }
     if (event is OnImportAccount) {
-      SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
+      await SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
       // New account --> re-start auth status
       add(const InitAuthStatus());
     }
