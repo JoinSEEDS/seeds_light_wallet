@@ -7,7 +7,7 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
-import 'package:seeds/domain-shared/shared_use_cases/is_12_words_account_use_case.dart';
+import 'package:seeds/domain-shared/shared_use_cases/is_current_key_12_words_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/mappers/profile_values_state_mapper.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/mappers/update_profile_image_state_mapper.dart';
@@ -68,7 +68,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
     if (event is OnSaveRecoveryPhraseButtonPressed) {
       yield state.copyWith(showLogoutButton: true);
-      final String words = IsCurrentKey12WordstUseCase().getWordsList().join(' ');
+      final String words = IsCurrentKey12WordsUseCase().getWordsList().join(' ');
       await Share.share(words);
       settingsStorage.savePrivateKeyBackedUp(true);
     }

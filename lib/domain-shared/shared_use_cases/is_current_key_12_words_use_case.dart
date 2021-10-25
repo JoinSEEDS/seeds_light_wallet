@@ -1,7 +1,7 @@
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/screens/authentication/import_key/interactor/usecases/generate_key_from_recovery_words_use_case.dart';
 
-class IsCurrentKey12WordstUseCase {
+class IsCurrentKey12WordsUseCase {
   List<String> getWordsList() {
     final String privateKey = settingsStorage.privateKey!;
 
