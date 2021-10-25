@@ -63,10 +63,11 @@ class SwithAccountBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 10.0, bottom: 30.0),
                                   child: InkWell(
                                     onTap: () {
+                                      // Pass true to import screens to indicate from switch accounts
                                       if (state.isRecoverPharseEnabled) {
-                                        NavigationService.of(context).navigateTo(Routes.importWords);
+                                        NavigationService.of(context).navigateTo(Routes.importWords, true);
                                       } else {
-                                        NavigationService.of(context).navigateTo(Routes.importKey);
+                                        NavigationService.of(context).navigateTo(Routes.importKey, true);
                                       }
                                     },
                                     child: Row(
@@ -84,40 +85,46 @@ class SwithAccountBottomSheet extends StatelessWidget {
                               }
                               return Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                                child: Row(
-                                  children: [
-                                    ProfileAvatar(
-                                      size: 60,
-                                      image: state.accounts[index].image,
-                                      nickname: state.accounts[index].nickname,
-                                      account: state.accounts[index].account,
-                                    ),
-                                    const SizedBox(width: 8.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(state.accounts[index].account,
-                                              style: Theme.of(context).textTheme.buttonHighEmphasis),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 8.0),
-                                            child: Text(
-                                              state.accounts[index].nickname ?? '',
-                                              style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                                            ),
-                                          )
-                                        ],
+                                child: InkWell(
+                                  onTap: state.currentAcccout == state.accounts[index]
+                                      ? null
+                                      : () {
+                                          BlocProvider.of<SwitchAccountBloc>(context)
+                                              .add(OnAccountSelected(state.accounts[index]));
+                                        },
+                                  child: Row(
+                                    children: [
+                                      ProfileAvatar(
+                                        size: 60,
+                                        image: state.accounts[index].image,
+                                        nickname: state.accounts[index].nickname,
+                                        account: state.accounts[index].account,
                                       ),
-                                    ),
-                                    Radio<ProfileModel>(
-                                      activeColor: AppColors.green3,
-                                      value: state.accounts[index],
-                                      groupValue: state.currentAcccout,
-                                      onChanged: (value) {
-                                        BlocProvider.of<SwitchAccountBloc>(context).add(OnAccountSelected(value!));
-                                      },
-                                    ),
-                                  ],
+                                      const SizedBox(width: 8.0),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(state.accounts[index].account,
+                                                style: Theme.of(context).textTheme.buttonHighEmphasis),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 8.0),
+                                              child: Text(
+                                                state.accounts[index].nickname ?? '',
+                                                style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Radio<ProfileModel>(
+                                        activeColor: AppColors.green3,
+                                        value: state.accounts[index],
+                                        groupValue: state.currentAcccout,
+                                        onChanged: (_) {},
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             },

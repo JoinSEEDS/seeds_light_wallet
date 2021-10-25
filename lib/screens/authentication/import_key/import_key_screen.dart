@@ -17,7 +17,9 @@ import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/im
 import 'interactor/viewmodels/import_key_state.dart';
 
 class ImportKeyScreen extends StatefulWidget {
-  const ImportKeyScreen({Key? key}) : super(key: key);
+  final bool? fromSwitchAccount;
+
+  const ImportKeyScreen(this.fromSwitchAccount, {Key? key}) : super(key: key);
 
   @override
   _ImportKeyScreenState createState() => _ImportKeyScreenState();
@@ -31,8 +33,21 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
   @override
   void initState() {
     super.initState();
-    _importKeyBloc = ImportKeyBloc(BlocProvider.of<AuthenticationBloc>(context));
+    _importKeyBloc = ImportKeyBloc(BlocProvider.of<AuthenticationBloc>(context), widget.fromSwitchAccount ?? false);
     _keyController.text = '';
+  }
+
+  @override
+  void dispose() {
+    _keyController.dispose();
+    super.dispose();
+  }
+
+  void _onSubmitted() {
+    FocusScope.of(context).unfocus();
+    if (_formImportKey.currentState!.validate()) {
+      _importKeyBloc.add(FindAccountByKey(privateKey: _keyController.text, words: []));
+    }
   }
 
   @override
@@ -61,10 +76,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                           autofocus: true,
                           labelText: 'Private Key'.i18n,
                           suffixIcon: IconButton(
-                            icon: const Icon(
-                              Icons.paste,
-                              color: AppColors.white,
-                            ),
+                            icon: const Icon(Icons.paste, color: AppColors.white),
                             onPressed: () async {
                               final clipboardData = await Clipboard.getData('text/plain');
                               final clipboardText = clipboardData?.text ?? '';
@@ -106,33 +118,19 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                         ],
                       ),
                     ),
-                  )
-                else
-                  const SizedBox.shrink(),
+                  ),
                 const SizedBox(height: 24),
                 const Expanded(
-                    child: Padding(
-                  padding: EdgeInsets.all(horizontalEdgePadding),
-                  child: ImportKeyAccountsWidget(),
-                )),
+                  child: Padding(
+                    padding: EdgeInsets.all(horizontalEdgePadding),
+                    child: ImportKeyAccountsWidget(),
+                  ),
+                ),
               ],
             ),
           );
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _keyController.dispose();
-    super.dispose();
-  }
-
-  void _onSubmitted() {
-    FocusScope.of(context).unfocus();
-    if (_formImportKey.currentState!.validate()) {
-      _importKeyBloc.add(FindAccountByKey(privateKey: _keyController.text, words: []));
-    }
   }
 }

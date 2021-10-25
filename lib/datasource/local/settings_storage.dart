@@ -213,8 +213,8 @@ class _SettingsStorage {
     recoveryLink = null;
   }
 
-  /// Notice this function it's also called on `Import` and
-  /// `Singup`. To cancel any recover process previously started
+  /// Notice this function it's also called on `Import (login screen)`
+  /// and `Singup`. To cancel any recover process previously started
   Future<void> cancelRecoveryProcess() async {
     await _preferences.clear();
     await _secureStorage.deleteAll();
@@ -273,12 +273,12 @@ class _SettingsStorage {
     await _saveRecoverWords(authData.words);
   }
 
+  /// Update current accout name, private key and remove some pref
   Future<void> switchAccount(String accountName, AuthDataModel authData) async {
     privateKeyBackedUp = false;
     _accountName = accountName;
     await Future.wait([
       _savePrivateKey(authData.eOSPrivateKey.toString()),
-      _saveRecoverWords(authData.words),
       _preferences.remove(_kPrivateKeyBackedUp),
       _preferences.remove(_kSelectedFiatCurrency),
       _preferences.remove(_kSelectedToken),

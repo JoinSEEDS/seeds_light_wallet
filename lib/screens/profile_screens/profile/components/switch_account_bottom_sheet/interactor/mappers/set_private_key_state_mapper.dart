@@ -2,7 +2,6 @@ import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/authentication/import_key/interactor/usecases/generate_key_from_recovery_words_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/components/switch_account_bottom_sheet/interactor/viewmodels/switch_account_bloc.dart';
 
 class SetFoundPrivateKeyStateMapper extends StateMapper {
@@ -18,13 +17,7 @@ class SetFoundPrivateKeyStateMapper extends StateMapper {
       // the index will be the same to get the target private key
       final String privateKey = settingsStorage.privateKeysList[privateKeyIndex];
 
-      ///-------IS PRIVATE KEY 12 WORDS TYPE
-      AuthDataModel authDataModel = GenerateKeyFromRecoveryWordsUseCase().run(settingsStorage.recoveryWords);
-      final bool is12WordsAccount = privateKey == authDataModel.eOSPrivateKey.toString();
-      if (!is12WordsAccount) {
-        authDataModel = AuthDataModel.fromKeyAndNoWords(privateKey);
-      }
-      return currentState.copyWith(authDataModel: authDataModel);
+      return currentState.copyWith(authDataModel: AuthDataModel.fromKeyAndNoWords(privateKey));
     }
   }
 }
