@@ -279,7 +279,6 @@ class _SettingsStorage {
     _accountName = accountName;
     await Future.wait([
       _savePrivateKey(authData.eOSPrivateKey.toString()),
-      _preferences.remove(_kPrivateKeyBackedUp),
       _preferences.remove(_kSelectedFiatCurrency),
       _preferences.remove(_kSelectedToken),
       _preferences.remove(_kTokensWhiteList),
