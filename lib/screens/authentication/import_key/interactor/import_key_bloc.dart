@@ -13,6 +13,10 @@ import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/im
 
 /// --- BLOC
 class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
+  /// It indicates if cancel recover process will be used.
+  ///
+  /// cancel recover should not be executed if it is switch account,
+  /// since it removes preferences and secure storage.
   final bool isFromSwitchAccount;
   final AuthenticationBloc _authenticationBloc;
 
