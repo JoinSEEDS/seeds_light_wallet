@@ -88,7 +88,7 @@ class ProfileHeader extends StatelessWidget {
                             const ShimmerRectangle(size: Size(94, 21))
                           else
                             Text(
-                              state.profile?.statusString.i18n ?? '',
+                              state.accountStatus.i18n,
                               style: Theme.of(context).textTheme.headline7LowEmphasis,
                             ),
                         ],

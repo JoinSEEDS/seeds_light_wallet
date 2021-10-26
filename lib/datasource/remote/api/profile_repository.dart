@@ -4,6 +4,7 @@ import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
+import 'package:seeds/datasource/remote/api/organization_model.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/referred_accounts_model.dart';
@@ -291,6 +292,29 @@ class ProfileRepository extends NetworkRepository with EosRepository {
             headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return (body['rows'] as List).isNotEmpty;
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> getOrganizationAccount(String accountName) {
+    print('[http] get organization account');
+
+    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    final request = createRequest(
+      code: accountOrgs,
+      scope: accountOrgs,
+      lowerBound: accountName,
+      upperBound: accountName,
+      table: tableOrganization,
+      limit: 10,
+    );
+
+    return http
+        .post(membersURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              final List<dynamic> allAccounts = body['rows'].toList();
+              return allAccounts.map((i) => OrganizationModel.fromJson(i)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }

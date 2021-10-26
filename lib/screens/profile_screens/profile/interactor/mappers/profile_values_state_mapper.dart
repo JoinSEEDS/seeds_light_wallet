@@ -1,4 +1,5 @@
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/api/organization_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
@@ -13,7 +14,7 @@ class ProfileValuesStateMapper extends StateMapper {
     } else {
       // results.retainWhere((Result i) => i.isValue); // seems like a bug if there's 1 bad result it will do the wrong thing
       final ProfileModel? profile = results[0].valueOrNull;
-      final isCitizen = settingsStorage.isCitizen;
+      final bool isCitizen = settingsStorage.isCitizen;
       final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
 
       if (isCitizen) {
@@ -35,17 +36,21 @@ class ProfileValuesStateMapper extends StateMapper {
         transactionScore: results[5].valueOrNull,
       );
 
-      results[6].isValue
+      final organization = results[6].asValue?.value as List<OrganizationModel>;
+
+      results[7].isValue
           ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canResident
-          : results[7].isValue
+          : results[8].isValue
               ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canCitizen
               : citizenshipUpgradeStatus = CitizenshipUpgradeStatus.notReady;
 
       return currentState.copyWith(
-          pageState: PageState.success,
-          profile: profile,
-          score: score,
-          citizenshipUpgradeStatus: citizenshipUpgradeStatus);
+        pageState: PageState.success,
+        profile: profile,
+        score: score,
+        isOrganization: organization.isNotEmpty,
+        citizenshipUpgradeStatus: citizenshipUpgradeStatus,
+      );
     }
   }
 }

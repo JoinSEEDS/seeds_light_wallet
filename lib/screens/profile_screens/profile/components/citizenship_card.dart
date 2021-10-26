@@ -21,7 +21,7 @@ class CitizenshipCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
-        if (settingsStorage.isCitizen) {
+        if (settingsStorage.isCitizen || state.isOrganization) {
           return const SizedBox.shrink();
         } else {
           switch (state.pageState) {

@@ -60,12 +60,9 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
               ],
             ),
             body: BlocBuilder<ProfileBloc, ProfileState>(
-              builder: (context, state) {
+              builder: (context, _) {
                 return RefreshIndicator(
-                  onRefresh: () async {
-                    print("refresh... profile");
-                    BlocProvider.of<ProfileBloc>(context).add(LoadProfileValues());
-                  },
+                  onRefresh: () async => BlocProvider.of<ProfileBloc>(context).add(LoadProfileValues()),
                   child: ListView(
                     children: [
                       const ProfileHeader(),
