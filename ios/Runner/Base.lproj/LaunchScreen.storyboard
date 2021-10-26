@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,29 +13,30 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1121" height="957"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" insetsLayoutMarginsFromSafeArea="NO" image="seeds_flower" translatesAutoresizingMaskIntoConstraints="NO" id="gir-gQ-EON">
-                                <rect key="frame" x="0.0" y="510" width="414" height="386"/>
+                                <rect key="frame" x="164" y="571" width="793" height="386"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="386" id="ELf-G2-YKD"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="793" id="Yun-fX-a9d"/>
                                 </constraints>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="seeds_logo_font" translatesAutoresizingMaskIntoConstraints="NO" id="1iV-24-3Kc">
-                                <rect key="frame" x="122" y="252" width="170" height="53.5"/>
+                                <rect key="frame" x="475.5" y="252" width="170" height="53.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="170" id="FLj-6E-8u4"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Light Wallet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8KV-I4-MJd">
-                                <rect key="frame" x="159.5" y="328.5" width="95" height="22"/>
+                                <rect key="frame" x="513" y="328.5" width="95" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="seeds_mark" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
-                                <rect key="frame" x="167" y="155" width="80" height="80"/>
+                                <rect key="frame" x="520.5" y="155" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="lBT-oY-t7D"/>
                                     <constraint firstAttribute="width" secondItem="YRO-k0-Ey4" secondAttribute="height" multiplier="1:1" id="pu5-qa-4Yv"/>
@@ -46,24 +47,25 @@
                         <color key="backgroundColor" red="0.058823529411764705" green="0.14901960784313725" blue="0.090196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="n1N-js-ueT" secondAttribute="centerX" id="1a2-6s-vTC"/>
+                            <constraint firstItem="gir-gQ-EON" firstAttribute="centerX" secondItem="n1N-js-ueT" secondAttribute="centerX" id="1h3-7V-etI"/>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="top" secondItem="n1N-js-ueT" secondAttribute="top" constant="111" id="3F8-Au-ha6"/>
                             <constraint firstItem="1iV-24-3Kc" firstAttribute="top" secondItem="YRO-k0-Ey4" secondAttribute="bottom" constant="17" id="9aX-nZ-d9L"/>
                             <constraint firstItem="8KV-I4-MJd" firstAttribute="top" secondItem="1iV-24-3Kc" secondAttribute="bottom" constant="23" id="FxE-SJ-S4I"/>
-                            <constraint firstItem="gir-gQ-EON" firstAttribute="leading" secondItem="n1N-js-ueT" secondAttribute="leading" id="LSE-Ae-UWL"/>
                             <constraint firstAttribute="bottom" secondItem="gir-gQ-EON" secondAttribute="bottom" id="OFS-CX-nhw"/>
-                            <constraint firstItem="n1N-js-ueT" firstAttribute="trailing" secondItem="gir-gQ-EON" secondAttribute="trailing" id="ZXt-GS-3Is"/>
                             <constraint firstItem="8KV-I4-MJd" firstAttribute="centerX" secondItem="n1N-js-ueT" secondAttribute="centerX" id="bib-J6-3jN"/>
                             <constraint firstItem="1iV-24-3Kc" firstAttribute="centerX" secondItem="n1N-js-ueT" secondAttribute="centerX" id="url-oX-f9A"/>
                         </constraints>
                     </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="1121" height="957"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-446.37681159420293" y="293.97321428571428"/>
+            <point key="canvasLocation" x="396.37681159420293" y="47.209821428571423"/>
         </scene>
     </scenes>
     <resources>
-        <image name="seeds_flower" width="375" height="346"/>
+        <image name="seeds_flower" width="1048.5" height="524.5"/>
         <image name="seeds_logo_font" width="175.5" height="53.5"/>
         <image name="seeds_mark" width="67" height="80"/>
     </resources>
