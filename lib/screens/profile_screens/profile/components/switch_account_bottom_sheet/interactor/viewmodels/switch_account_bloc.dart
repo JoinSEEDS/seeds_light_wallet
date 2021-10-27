@@ -37,9 +37,7 @@ class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
       }
     } else if (event is OnAccountSelected) {
       yield state.copyWith(currentAcccout: event.profile);
-      // Get public key from account name
       final result = await GetPublicKeyFromAccountUseCase().run(event.profile.account);
-      // Get private key from public key
       yield SetFoundPrivateKeyStateMapper().mapResultToState(state, result);
       // Only refresh the current accountName and the privateKey, then fire auth.
       _authenticationBloc.add(OnSwitchAccount(event.profile.account, state.authDataModel!));
