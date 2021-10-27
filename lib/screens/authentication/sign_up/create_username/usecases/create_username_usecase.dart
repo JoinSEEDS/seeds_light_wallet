@@ -18,7 +18,7 @@ class CreateUsernameUseCase {
 
       final Result result = await _signupRepository.isUsernameTaken(username);
 
-      yield CreateUsernameMapper().mapValidateUsernameToState(currentState, result);
+      yield CreateUsernameMapper().mapValidateUsernameToState(currentState, username, result);
     } else {
       yield currentState.copyWith(
           createUsernameState: CreateUsernameState.error(currentState.createUsernameState, validationError));
