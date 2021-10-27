@@ -78,6 +78,8 @@ class VoteStatusLabel extends StatelessWidget {
                   ],
                 ),
               );
+            case VoteStatus.activeDelegate:
+              return const Text("You cannot vote if you have a delegate");
             default:
               return const SizedBox.shrink();
           }

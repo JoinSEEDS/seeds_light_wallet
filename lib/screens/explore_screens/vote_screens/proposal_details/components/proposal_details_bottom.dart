@@ -43,6 +43,7 @@ class ProposalDetailsBottom extends StatelessWidget {
                   ),
                 ),
               ),
+            // set this to false if delgate
             if (state.shouldShowVoteModule)
               Column(
                 children: [

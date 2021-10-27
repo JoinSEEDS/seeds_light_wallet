@@ -7,7 +7,7 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
 
-enum VoteStatus { canVote, alreadyVoted, notCitizen }
+enum VoteStatus { canVote, alreadyVoted, notCitizen, activeDelegate }
 
 /// --- STATE
 class ProposalDetailsState extends Equatable {
