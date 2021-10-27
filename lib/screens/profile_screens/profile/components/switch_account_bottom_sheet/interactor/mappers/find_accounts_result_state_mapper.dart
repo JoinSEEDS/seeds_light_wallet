@@ -6,7 +6,7 @@ import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
 import 'package:seeds/screens/profile_screens/profile/components/switch_account_bottom_sheet/interactor/viewmodels/switch_account_bloc.dart';
 
 class FindAccountsResultStateMapper extends StateMapper {
-  SwitchAccountState mapResultsToState(SwitchAccountState currentState, List<Result> results, List<String> publicKeys) {
+  SwitchAccountState mapResultsToState(SwitchAccountState currentState, List<Result> results, List<Keys> keys) {
     // No account found. Show error
     if (results.isEmpty) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "No accounts found".i18n);
@@ -29,7 +29,7 @@ class FindAccountsResultStateMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         accounts: profiles,
-        publicKeys: publicKeys,
+        keys: keys,
         currentAcccout: currentAccount,
       );
     }

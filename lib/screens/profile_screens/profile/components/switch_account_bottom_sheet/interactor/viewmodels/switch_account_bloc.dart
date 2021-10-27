@@ -27,13 +27,15 @@ class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
   Stream<SwitchAccountState> mapEventToState(SwitchAccountEvent event) async* {
     if (event is FindAccountsByKey) {
       yield state.copyWith(pageState: PageState.loading);
-      final List<String?> publicKeys =
-          settingsStorage.privateKeysList.map((i) => CheckPrivateKeyUseCase().isKeyValid(i)).toList();
+      final List<Keys> keys = settingsStorage.privateKeysList
+          .map((i) => Keys(publicKey: CheckPrivateKeyUseCase().isKeyValid(i), privateKey: i))
+          .toList();
+      final List<String?> publicKeys = keys.map((i) => i.publicKey).toList();
       if (publicKeys.contains(null) || publicKeys.contains('')) {
         yield state.copyWith(pageState: PageState.failure, errorMessage: "Private key is not valid".i18n);
       } else {
         final results = await ImportAccountsUseCase().run(publicKeys as List<String>);
-        yield FindAccountsResultStateMapper().mapResultsToState(state, results, publicKeys);
+        yield FindAccountsResultStateMapper().mapResultsToState(state, results, keys);
       }
     } else if (event is OnAccountSelected) {
       yield state.copyWith(currentAcccout: event.profile);
@@ -43,4 +45,10 @@ class SwitchAccountBloc extends Bloc<SwitchAccountEvent, SwitchAccountState> {
       _authenticationBloc.add(OnSwitchAccount(event.profile.account, state.authDataModel!));
     }
   }
+}
+
+class Keys {
+  final String? publicKey;
+  final String privateKey;
+  const Keys({required this.publicKey, required this.privateKey});
 }
