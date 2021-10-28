@@ -8,11 +8,8 @@ import 'package:seeds/screens/explore_screens/manage_invites/interactor/manage_i
 import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewmodels/manage_invites_state.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/im_guardian_for_tab.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_tab.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/guardians_bloc.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_state.dart';
 
-/// GuardiansScreen SCREEN
+/// manage Invites SCREEN
 class ManageInvitesScreen extends StatelessWidget {
   const ManageInvitesScreen({Key? key}) : super(key: key);
 
