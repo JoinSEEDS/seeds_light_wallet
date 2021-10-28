@@ -6,8 +6,6 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/interactor/manage_invites_bloc.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewmodels/manage_invites_state.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/im_guardian_for_tab.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardians_tab.dart';
 
 /// manage Invites SCREEN
 class ManageInvitesScreen extends StatelessWidget {
@@ -54,10 +52,10 @@ class ManageInvitesScreen extends StatelessWidget {
                   ),
                   body: state.pageState == PageState.loading
                       ? const FullPageLoadingIndicator()
-                      : const TabBarView(
+                      : TabBarView(
                           children: [
-                            MyGuardiansTab(),
-                            ImGuardianForTab(),
+                            Container(),
+                            Container(),
                           ],
                         )));
         }));
