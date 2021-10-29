@@ -13,6 +13,7 @@ import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
+import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_screen.dart';
@@ -72,6 +73,7 @@ class Routes {
   static const inviteGuardians = 'inviteGuardians';
   static const inviteGuardiansSent = 'inviteGuardiansSent';
   static const guardianTabs = 'guardianTabs';
+  static const manageInvites = 'manageInvites';
   static const support = 'support';
   static const security = 'security';
   static const editName = 'editName';
@@ -110,6 +112,7 @@ class NavigationService {
     Routes.inviteGuardians: (args) => const InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
     Routes.guardianTabs: (_) => const GuardiansScreen(),
+    Routes.manageInvites: (_) => const ManageInvitesScreen(),
     Routes.profile: (_) => const ProfileScreen(),
     Routes.support: (_) => const SupportScreen(),
     Routes.security: (_) => const SecurityScreen(),
