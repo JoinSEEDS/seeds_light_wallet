@@ -299,8 +299,6 @@ class ProfileRepository extends NetworkRepository with EosRepository {
   Future<Result> getOrganizationAccount(String accountName) {
     print('[http] get organization account');
 
-    final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
-
     final request = createRequest(
       code: accountOrgs,
       scope: accountOrgs,
@@ -311,7 +309,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     );
 
     return http
-        .post(membersURL, headers: headers, body: request)
+        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               final List<dynamic> allAccounts = body['rows'].toList();
               return allAccounts.map((i) => OrganizationModel.fromJson(i)).toList();
