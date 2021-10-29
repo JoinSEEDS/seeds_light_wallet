@@ -12,18 +12,30 @@ import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/invite/components/invite_link_dialog.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/bloc.dart';
 
 /// INVITE SCREEN
 class InviteScreen extends StatelessWidget {
   const InviteScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => InviteBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
+      create: (context) =>
+      InviteBloc(BlocProvider
+          .of<RatesBloc>(context)
+          .state)
+        ..add(const LoadUserBalance()),
       child: Scaffold(
-        appBar: AppBar(title: Text('Invite'.i18n)),
+        appBar: AppBar(
+          title: Text('Invite'.i18n),
+          actions: [IconButton(onPressed: () {
+            NavigationService.of(context).navigateTo(Routes.manageInvites);
+          }, icon: const Icon(Icons.settings))
+          ],
+        ),
         body: BlocConsumer<InviteBloc, InviteState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
@@ -58,11 +70,19 @@ class InviteScreen extends StatelessWidget {
                     SingleChildScrollView(
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height - Scaffold
+                            .of(context)
+                            .appBarMaxHeight!,
                         child: Column(
                           children: [
                             const SizedBox(height: 16),
-                            Text('Invite amount'.i18n, style: Theme.of(context).textTheme.headline6),
+                            Text('Invite amount'.i18n, style: Theme
+                                .of(context)
+                                .textTheme
+                                .headline6),
                             const SizedBox(height: 16),
                             AmountEntryWidget(
                               tokenDataModel: TokenDataModel(0),

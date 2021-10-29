@@ -30,6 +30,7 @@ abstract class EosRepository {
   String actionNameAcceptnew = 'acceptnew';
   String actionNameRecover = 'recover';
   String actionNameUnplant = 'unplant';
+  String actionNameClaimRefund = 'claimrefund';
   String proposalActionNameDelegate = 'delegate';
   String proposalActionNameUndelegate = 'undelegate';
 

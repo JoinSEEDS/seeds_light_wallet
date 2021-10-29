@@ -84,8 +84,7 @@ class _SettingsStorage {
 
   // ignore: avoid_setters_without_getters
   set _accountName(String? value) {
-    // When start import account, cancel recovery funtion is fired, so
-    // this should set the current accountName to null, but ...
+    // When start cancelRecoveryProcess funtion is fired a null value is recived.
     // if null arrives here the account name is saved with empty string (I think this is a bad practice)
     _preferences.setString(_kAccountName, value ?? '');
     // Retrieve accounts list
@@ -115,23 +114,6 @@ class _SettingsStorage {
     _secureStorage.write(key: _kBiometricActive, value: value.toString());
     if (value != null) {
       _biometricActive = value;
-    }
-  }
-
-  set privateKey(String? value) {
-    _secureStorage.write(key: _kPrivateKey, value: value);
-    if (value != null) {
-      _privateKey = value;
-    }
-  }
-
-  set recoveryWords(List<String>? words) {
-    if (words != null && words.isNotEmpty) {
-      _secureStorage.write(key: _kRecoveryWords, value: words.join('-'));
-      _recoveryWords = words;
-    } else {
-      _secureStorage.write(key: _kRecoveryWords, value: null);
-      _recoveryWords = [];
     }
   }
 
@@ -191,7 +173,7 @@ class _SettingsStorage {
       }
 
       if (values.containsKey(_kRecoveryWords)) {
-        _recoveryWords = values[_kRecoveryWords]!.split('-');
+        _recoveryWords = values[_kRecoveryWords]!.split(',');
       }
 
       if (values.containsKey(_kBiometricActive)) {
@@ -213,16 +195,16 @@ class _SettingsStorage {
     return value;
   }
 
-  void startRecoveryProcess({
+  Future<void> startRecoveryProcess({
     required String accountName,
     required AuthDataModel authData,
     required String recoveryLink,
-  }) {
+  }) async {
     inRecoveryMode = true;
     _accountName = accountName;
     this.recoveryLink = recoveryLink;
-    privateKey = authData.eOSPrivateKey.toString();
-    recoveryWords = authData.words;
+    await _savePrivateKey(authData.eOSPrivateKey.toString());
+    await _saveRecoverWords(authData.words);
   }
 
   void finishRecoveryProcess() {
@@ -231,14 +213,12 @@ class _SettingsStorage {
     recoveryLink = null;
   }
 
-  // Notice this function it's also called on import
-  // to cancel any recover process previously started
-  void cancelRecoveryProcess() {
-    inRecoveryMode = false;
+  /// Notice this function it's also called on `Import` and
+  /// `Singup`. To cancel any recover process previously started
+  Future<void> cancelRecoveryProcess() async {
+    await _preferences.clear();
+    await _secureStorage.deleteAll();
     _accountName = null;
-    privateKey = null;
-    recoveryLink = null;
-    recoveryWords = null;
   }
 
   void enablePasscode(String? passcode) {
@@ -252,22 +232,45 @@ class _SettingsStorage {
     biometricActive = false;
   }
 
+  Future<void> _savePrivateKey(String privateKey) async {
+    if (privateKey.isNotEmpty) {
+      // Update storage privateKey
+      await _secureStorage.write(key: _kPrivateKey, value: privateKey);
+      // Update local privateKey
+      _privateKey = privateKey;
+      // Verify if its a new privateKey
+      final List<String> pkeys = _privateKeysList ?? [];
+      // If new private key --> add to list
+      if (!pkeys.contains(privateKey)) {
+        pkeys.add(privateKey);
+        // Save updated private keys list
+        await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(','));
+        // Update local private keys list
+        _privateKeysList = pkeys;
+      }
+    }
+  }
+
+  Future<void> _saveRecoverWords(List<String> words) async {
+    final String newWords = words.join('-');
+    if (words.isNotEmpty && newWords.isNotEmpty) {
+      final List<String> wordsList = _recoveryWords;
+      // If new words --> add to list
+      if (!wordsList.contains(newWords)) {
+        wordsList.add(newWords);
+        // Save updated private keys list
+        await _secureStorage.write(key: _kRecoveryWords, value: wordsList.join(','));
+        // Update local field
+        _recoveryWords = wordsList;
+      }
+    }
+  }
+
   Future<void> saveAccount(String accountName, AuthDataModel authData) async {
     _accountName = accountName;
     privateKeyBackedUp = false;
-    _privateKey = authData.eOSPrivateKey.toString();
-    privateKey = authData.eOSPrivateKey.toString();
-    recoveryWords = authData.words;
-
-    final List<String> pkeys = _privateKeysList ?? [];
-    // If new private key --> add to list
-    if (!pkeys.contains(authData.eOSPrivateKey.toString())) {
-      pkeys.add(authData.eOSPrivateKey.toString());
-      // Save updated private keys list
-      await _secureStorage.write(key: _kPrivateKeysList, value: pkeys.join(","));
-      // Update local field
-      _privateKeysList = pkeys;
-    }
+    await _savePrivateKey(authData.eOSPrivateKey.toString());
+    await _saveRecoverWords(authData.words);
   }
 
   void switchAccount(String accountName) {

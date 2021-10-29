@@ -4,6 +4,7 @@ import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
+import 'package:seeds/datasource/remote/api/organization_model.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/referred_accounts_model.dart';
@@ -196,6 +197,38 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
+  /// This claims unplanted Seeds that are ready to be sent back to the user
+  /// Each time a user unplants, a new unplant request is created, with a new request ID
+  /// This allows to claim on any number of refunds. The chain will decide how much is ready
+  /// to be unplanted and send the funds back to the user.
+  Future<Result> claimRefund({required String accountName, required List<int> requestIds}) async {
+    print('[eos] claimrefund from: $accountName $requestIds');
+
+    final transaction = buildFreeTransaction(
+        List.from(requestIds.map(
+          (id) => Action()
+            ..account = accountHarvest
+            ..name = actionNameClaimRefund
+            ..authorization = [
+              Authorization()
+                ..actor = accountName
+                ..permission = permissionActive
+            ]
+            ..data = {
+              'from': accountName,
+              'request_id': '$id',
+            },
+        )),
+        accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
+  }
+
   Future<Result> makeCitizen(String accountName) async {
     return citizenshipAction(accountName: accountName, isMake: true, isCitizen: true);
   }
@@ -259,6 +292,27 @@ class ProfileRepository extends NetworkRepository with EosRepository {
             headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return (body['rows'] as List).isNotEmpty;
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result> getOrganizationAccount(String accountName) {
+    print('[http] get organization account');
+
+    final request = createRequest(
+      code: accountOrgs,
+      scope: accountOrgs,
+      lowerBound: accountName,
+      upperBound: accountName,
+      table: tableOrganization,
+      limit: 10,
+    );
+
+    return http
+        .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              final List<dynamic> allAccounts = body['rows'].toList();
+              return allAccounts.map((i) => OrganizationModel.fromJson(i)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }

@@ -9,10 +9,11 @@ enum CitizenshipUpgradeStatus { notReady, canResident, canCitizen }
 /// --- STATE
 class ProfileState extends Equatable {
   final PageState pageState;
+  final PageCommand? pageCommand;
   final String? errorMessage;
   final ProfileModel? profile;
   final ScoresViewModel? score;
-  final PageCommand? pageCommand;
+  final bool isOrganization;
   final bool showLogoutButton;
   final bool hasSecurityNotification;
   final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
@@ -20,10 +21,11 @@ class ProfileState extends Equatable {
 
   const ProfileState({
     required this.pageState,
+    this.pageCommand,
     this.errorMessage,
     this.profile,
     this.score,
-    this.pageCommand,
+    required this.isOrganization,
     required this.showLogoutButton,
     required this.hasSecurityNotification,
     required this.citizenshipUpgradeStatus,
@@ -33,10 +35,11 @@ class ProfileState extends Equatable {
   @override
   List<Object?> get props => [
         pageState,
+        pageCommand,
         errorMessage,
         profile,
         score,
-        pageCommand,
+        isOrganization,
         showLogoutButton,
         hasSecurityNotification,
         citizenshipUpgradeStatus,
@@ -45,12 +48,15 @@ class ProfileState extends Equatable {
 
   bool get showShimmer => pageState == PageState.loading || pageState == PageState.initial;
 
+  String get accountStatus => isOrganization ? 'Organization' : profile?.statusString ?? '';
+
   ProfileState copyWith({
     PageState? pageState,
+    PageCommand? pageCommand,
     String? errorMessage,
     ProfileModel? profile,
     ScoresViewModel? score,
-    PageCommand? pageCommand,
+    bool? isOrganization,
     bool? showLogoutButton,
     bool? hasSecurityNotification,
     CitizenshipUpgradeStatus? citizenshipUpgradeStatus,
@@ -58,10 +64,11 @@ class ProfileState extends Equatable {
   }) {
     return ProfileState(
       pageState: pageState ?? this.pageState,
+      pageCommand: pageCommand,
       errorMessage: errorMessage,
       profile: profile ?? this.profile,
       score: score ?? this.score,
-      pageCommand: pageCommand,
+      isOrganization: isOrganization ?? this.isOrganization,
       showLogoutButton: showLogoutButton ?? this.showLogoutButton,
       hasSecurityNotification: hasSecurityNotification ?? this.hasSecurityNotification,
       citizenshipUpgradeStatus: citizenshipUpgradeStatus ?? this.citizenshipUpgradeStatus,
@@ -71,10 +78,12 @@ class ProfileState extends Equatable {
 
   factory ProfileState.initial(bool isImportAccountEnabled) {
     return ProfileState(
-        pageState: PageState.initial,
-        showLogoutButton: false,
-        hasSecurityNotification: false,
-        citizenshipUpgradeStatus: CitizenshipUpgradeStatus.notReady,
-        isImportAccountEnabled: isImportAccountEnabled);
+      pageState: PageState.initial,
+      isOrganization: false,
+      showLogoutButton: false,
+      hasSecurityNotification: false,
+      citizenshipUpgradeStatus: CitizenshipUpgradeStatus.notReady,
+      isImportAccountEnabled: isImportAccountEnabled,
+    );
   }
 }
