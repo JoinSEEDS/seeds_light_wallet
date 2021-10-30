@@ -40,18 +40,16 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: state.isImportAccountEnabled
-                  ? InkWell(
-                      onTap: () => BlocProvider.of<ProfileBloc>(context).add(const OnSwitchAccountButtonTapped()),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [Text(settingsStorage.accountName), const Icon(Icons.keyboard_arrow_down)],
-                        ),
-                      ),
-                    )
-                  : Text(settingsStorage.accountName),
+              title: InkWell(
+                onTap: () => BlocProvider.of<ProfileBloc>(context).add(const OnSwitchAccountButtonTapped()),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [Text(settingsStorage.accountName), const Icon(Icons.keyboard_arrow_down)],
+                  ),
+                ),
+              ),
               actions: [
                 IconButton(
                   icon: SvgPicture.asset('assets/images/wallet/app_bar/scan_qr_code_icon.svg'),

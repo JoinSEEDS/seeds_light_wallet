@@ -58,8 +58,8 @@ class OnRecoverAccount extends AuthenticationEvent {
 
 class OnSwitchAccount extends AuthenticationEvent {
   final String account;
-
-  const OnSwitchAccount(this.account);
+  final AuthDataModel authData;
+  const OnSwitchAccount(this.account, this.authData);
   @override
   String toString() => 'OnSwitchAccount { account: $account }';
 }

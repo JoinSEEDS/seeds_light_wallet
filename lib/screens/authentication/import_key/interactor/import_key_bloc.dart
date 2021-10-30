@@ -13,9 +13,14 @@ import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/im
 
 /// --- BLOC
 class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
+  /// It indicates if cancel recover process will be used.
+  ///
+  /// cancel recover should not be executed if it is switch account,
+  /// since it removes preferences and secure storage.
+  final bool isFromSwitchAccount;
   final AuthenticationBloc _authenticationBloc;
 
-  ImportKeyBloc(this._authenticationBloc) : super(ImportKeyState.initial());
+  ImportKeyBloc(this._authenticationBloc, this.isFromSwitchAccount) : super(ImportKeyState.initial());
 
   @override
   Stream<ImportKeyState> mapEventToState(ImportKeyEvent event) async* {
@@ -32,9 +37,11 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
             .mapResultsToState(state, results, AuthDataModel.fromKeyAndWords(event.privateKey, event.words));
       }
     } else if (event is AccountSelected) {
-      /// In case there was a recovery in place. We cancel it.
-      /// This will clean all data
-      await StopRecoveryUseCase().run();
+      if (!isFromSwitchAccount) {
+        /// In case there was a recovery in place. We cancel it.
+        /// This will clean all data
+        await StopRecoveryUseCase().run();
+      }
 
       _authenticationBloc.add(OnImportAccount(account: event.account, authData: state.authData!));
     } else if (event is OnPrivateKeyChange) {
