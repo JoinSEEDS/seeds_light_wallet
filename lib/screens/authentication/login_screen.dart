@@ -43,6 +43,7 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
+        top: false,
         child: SingleChildScrollView(
           child: Column(
             children: [
