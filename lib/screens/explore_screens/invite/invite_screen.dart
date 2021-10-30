@@ -54,7 +54,7 @@ class InviteScreen extends StatelessWidget {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             }
           },
-          builder: (context, InviteState state) {
+          builder: (context, state) {
             switch (state.pageState) {
               case PageState.initial:
                 return const SizedBox.shrink();
