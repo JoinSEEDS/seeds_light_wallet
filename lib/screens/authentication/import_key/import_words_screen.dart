@@ -17,31 +17,14 @@ import 'package:seeds/utils/mnemonic_code/words_list.dart';
 const NUMBER_OF_WORDS = 12;
 const NUMBER_OF_COLUMNS = 3;
 
-class ImportWordsScreen extends StatefulWidget {
+class ImportWordsScreen extends StatelessWidget {
   const ImportWordsScreen({Key? key}) : super(key: key);
 
   @override
-  _ImportKeyScreenState createState() => _ImportKeyScreenState();
-}
-
-class _ImportKeyScreenState extends State<ImportWordsScreen> {
-  late ImportKeyBloc _importKeyBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _importKeyBloc = ImportKeyBloc(BlocProvider.of<AuthenticationBloc>(context));
-  }
-
-  void _onSearchButtonTapped() {
-    FocusScope.of(context).unfocus();
-    _importKeyBloc.add(const FindAccountFromWords());
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final bool fromSwitchAccount = ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     return BlocProvider(
-      create: (_) => _importKeyBloc,
+      create: (context) => ImportKeyBloc(BlocProvider.of<AuthenticationBloc>(context), fromSwitchAccount),
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
         builder: (context, state) {
           return Scaffold(
@@ -49,7 +32,10 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
               padding: const EdgeInsets.all(16),
               child: FlatButtonLong(
                 title: 'Search'.i18n,
-                onPressed: () => _onSearchButtonTapped(),
+                onPressed: () {
+                  FocusScope.of(context).unfocus();
+                  BlocProvider.of<ImportKeyBloc>(context).add(const FindAccountFromWords());
+                },
                 enabled: state.enableButton,
               ),
             ),
@@ -125,13 +111,14 @@ class _ImportKeyScreenState extends State<ImportWordsScreen> {
                             style: Theme.of(context).textTheme.subtitle2,
                             children: <TextSpan>[
                               TextSpan(
-                                  text: 'Tap here ',
-                                  style: Theme.of(context).textTheme.subtitle2Green2,
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.of(context).pop();
-                                      NavigationService.of(context).navigateTo(Routes.importKey);
-                                    }),
+                                text: 'Tap here ',
+                                style: Theme.of(context).textTheme.subtitle2Green2,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.of(context).pop();
+                                    NavigationService.of(context).navigateTo(Routes.importKey, fromSwitchAccount);
+                                  },
+                              ),
                               const TextSpan(text: ' if you want to import using your Private Key. '),
                             ],
                           ),

@@ -21,6 +21,7 @@ const String accountToken = 'token.seeds';
 const String accountRules = 'rules.seeds';
 const String accountSettgs = 'settgs.seeds';
 const String historySeeds = 'histry.seeds';
+const String accountOrgs = 'orgs.seeds';
 
 /// Actions
 const String transferAction = 'transfer';

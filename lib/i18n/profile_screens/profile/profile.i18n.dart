@@ -11,6 +11,7 @@ extension Localization on String {
           'Resident': 'Residente',
           'to': 'A',
           'Citizen': 'Ciudadano',
+          'Organization': 'Organización',
           'You are on the way from': 'Estás en el camino de',
           'View your progress': 'Ver tu progreso',
           'Congratulations!': '¡Felicidades!',
@@ -32,8 +33,7 @@ extension Localization on String {
           'Choose Picture': 'Escoger foto',
           'Take a picture': 'Tomar foto',
           'Error Loading Page': 'Error Al Cargar Página',
-          'Fail to upgrade citizenship status.':
-              'Fallo al actualizar el estado de ciudadanía.'
+          'Fail to upgrade citizenship status.': 'Fallo al actualizar el estado de ciudadanía.'
         },
         'pt_br': {
           'Upgrade To Resident': 'Atualizar para Residente',
@@ -43,6 +43,7 @@ extension Localization on String {
           'Resident': 'Residente',
           'to': 'para',
           'Citizen': 'Cidadão',
+          'Organization': 'Organização',
           'You are on the way from': 'Você está a caminho de',
           'View your progress': 'Ver seu progresso',
           'Congratulations!': 'Parabéns!',
@@ -64,8 +65,7 @@ extension Localization on String {
           'Choose Picture': 'Escolher foto',
           'Take a picture': 'Tirar foto',
           'Error Loading Page': 'Erro ao carregar página',
-          'Fail to upgrade citizenship status.':
-              'Falha ao atualizar status de cidadania.'
+          'Fail to upgrade citizenship status.': 'Falha ao atualizar status de cidadania.'
         }
       };
 

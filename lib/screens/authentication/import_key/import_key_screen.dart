@@ -17,7 +17,9 @@ import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/im
 import 'interactor/viewmodels/import_key_state.dart';
 
 class ImportKeyScreen extends StatefulWidget {
-  const ImportKeyScreen({Key? key}) : super(key: key);
+  final bool? fromSwitchAccount;
+
+  const ImportKeyScreen(this.fromSwitchAccount, {Key? key}) : super(key: key);
 
   @override
   _ImportKeyScreenState createState() => _ImportKeyScreenState();
@@ -31,7 +33,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
   @override
   void initState() {
     super.initState();
-    _importKeyBloc = ImportKeyBloc(BlocProvider.of<AuthenticationBloc>(context));
+    _importKeyBloc = ImportKeyBloc(BlocProvider.of<AuthenticationBloc>(context), widget.fromSwitchAccount ?? false);
     _keyController.text = '';
   }
 

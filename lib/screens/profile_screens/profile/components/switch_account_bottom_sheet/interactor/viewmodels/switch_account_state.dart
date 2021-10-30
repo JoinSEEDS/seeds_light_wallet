@@ -5,6 +5,8 @@ class SwitchAccountState extends Equatable {
   final String? errorMessage;
   final List<ProfileModel> accounts;
   final ProfileModel? currentAcccout;
+  final List<Keys> keys;
+  final AuthDataModel? authDataModel;
   final bool isRecoverPharseEnabled;
 
   const SwitchAccountState({
@@ -12,6 +14,8 @@ class SwitchAccountState extends Equatable {
     this.errorMessage,
     required this.accounts,
     this.currentAcccout,
+    required this.keys,
+    this.authDataModel,
     required this.isRecoverPharseEnabled,
   });
 
@@ -21,6 +25,8 @@ class SwitchAccountState extends Equatable {
         errorMessage,
         accounts,
         currentAcccout,
+        keys,
+        authDataModel,
         isRecoverPharseEnabled,
       ];
 
@@ -29,6 +35,8 @@ class SwitchAccountState extends Equatable {
     String? errorMessage,
     List<ProfileModel>? accounts,
     ProfileModel? currentAcccout,
+    List<Keys>? keys,
+    AuthDataModel? authDataModel,
     bool? isRecoverPharseEnabled,
   }) {
     return SwitchAccountState(
@@ -36,6 +44,8 @@ class SwitchAccountState extends Equatable {
       errorMessage: errorMessage,
       accounts: accounts ?? this.accounts,
       currentAcccout: currentAcccout,
+      keys: keys ?? this.keys,
+      authDataModel: authDataModel,
       isRecoverPharseEnabled: isRecoverPharseEnabled ?? this.isRecoverPharseEnabled,
     );
   }
@@ -44,6 +54,7 @@ class SwitchAccountState extends Equatable {
     return SwitchAccountState(
       pageState: PageState.initial,
       accounts: [],
+      keys: [],
       isRecoverPharseEnabled: isRecoverPharseEnabled,
     );
   }

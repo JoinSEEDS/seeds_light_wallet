@@ -6,6 +6,7 @@ import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/domain-shared/shared_use_cases/get_words_from_private_key_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/guardian_notification_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/should_show_recovery_phrase_features_use_case.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/mappers/profile_values_state_mapper.dart';
@@ -67,7 +68,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
     if (event is OnSaveRecoveryPhraseButtonPressed) {
       yield state.copyWith(showLogoutButton: true);
-      await Share.share(settingsStorage.recoveryWords.join(' '));
+      final String words = GetWordsFromPrivateKey().run().join(' ');
+      await Share.share(words);
       settingsStorage.savePrivateKeyBackedUp(true);
     }
     if (event is ClearProfilePageCommand) {

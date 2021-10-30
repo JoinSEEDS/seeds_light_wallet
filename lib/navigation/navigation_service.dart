@@ -13,6 +13,7 @@ import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';
+import 'package:seeds/screens/explore_screens/manage_invites/manage_invites_screen.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/plant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/unplant_seeds_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_screen.dart';
@@ -72,6 +73,7 @@ class Routes {
   static const inviteGuardians = 'inviteGuardians';
   static const inviteGuardiansSent = 'inviteGuardiansSent';
   static const guardianTabs = 'guardianTabs';
+  static const manageInvites = 'manageInvites';
   static const support = 'support';
   static const security = 'security';
   static const editName = 'editName';
@@ -84,9 +86,9 @@ class NavigationService {
   final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
   final _appRoutes = {
     Routes.onboarding: (_) => const OnboardingScreen(),
-    Routes.splash: () => const SplashScreen(),
+    Routes.splash: (_) => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
-    Routes.importKey: (_) => const ImportKeyScreen(),
+    Routes.importKey: (args) => ImportKeyScreen(args),
     Routes.importWords: (_) => const ImportWordsScreen(),
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
@@ -110,6 +112,7 @@ class NavigationService {
     Routes.inviteGuardians: (args) => const InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
     Routes.guardianTabs: (_) => const GuardiansScreen(),
+    Routes.manageInvites: (_) => const ManageInvitesScreen(),
     Routes.profile: (_) => const ProfileScreen(),
     Routes.support: (_) => const SupportScreen(),
     Routes.security: (_) => const SecurityScreen(),

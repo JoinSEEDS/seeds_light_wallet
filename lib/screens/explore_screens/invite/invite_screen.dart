@@ -12,18 +12,28 @@ import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/invite/components/invite_link_dialog.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/bloc.dart';
 
 /// INVITE SCREEN
 class InviteScreen extends StatelessWidget {
   const InviteScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => InviteBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
-        appBar: AppBar(title: Text('Invite'.i18n)),
+        appBar: AppBar(
+          title: Text('Invite'.i18n),
+          actions: [
+            IconButton(
+              onPressed: () => NavigationService.of(context).navigateTo(Routes.manageInvites),
+              icon: const Icon(Icons.settings),
+            )
+          ],
+        ),
         body: BlocConsumer<InviteBloc, InviteState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
