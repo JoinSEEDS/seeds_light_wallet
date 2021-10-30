@@ -56,55 +56,57 @@ class PlantSeedsScreen extends StatelessWidget {
               case PageState.failure:
                 return const FullPageErrorIndicator();
               case PageState.success:
-                return Stack(
-                  children: [
-                    SingleChildScrollView(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                        height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 16),
-                            Text('Plant amount'.i18n, style: Theme.of(context).textTheme.headline6),
-                            const SizedBox(height: 16),
-                            AmountEntryWidget(
-                              tokenDataModel: TokenDataModel(0),
-                              onValueChange: (value) {
-                                BlocProvider.of<PlantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
-                              },
-                              autoFocus: state.isAutoFocus,
-                            ),
-                            const SizedBox(height: 24),
-                            AlertInputValue('Not enough balance'.i18n, isVisible: state.showAlert),
-                            const SizedBox(height: 24),
-                            BalanceRow(
-                              label: 'Available Balance'.i18n,
-                              fiatAmount: state.availableBalanceFiat,
-                              tokenAmount: state.availableBalance,
-                            ),
-                            const DividerJungle(height: 24),
-                            BalanceRow(
-                              label: 'Planted Balance'.i18n,
-                              fiatAmount: state.plantedBalanceFiat,
-                              tokenAmount: state.plantedBalance,
-                            ),
-                          ],
+                return SafeArea(
+                  child: Stack(
+                    children: [
+                      SingleChildScrollView(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                          height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 16),
+                              Text('Plant amount'.i18n, style: Theme.of(context).textTheme.headline6),
+                              const SizedBox(height: 16),
+                              AmountEntryWidget(
+                                tokenDataModel: TokenDataModel(0),
+                                onValueChange: (value) {
+                                  BlocProvider.of<PlantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
+                                },
+                                autoFocus: state.isAutoFocus,
+                              ),
+                              const SizedBox(height: 24),
+                              AlertInputValue('Not enough balance'.i18n, isVisible: state.showAlert),
+                              const SizedBox(height: 24),
+                              BalanceRow(
+                                label: 'Available Balance'.i18n,
+                                fiatAmount: state.availableBalanceFiat,
+                                tokenAmount: state.availableBalance,
+                              ),
+                              const DividerJungle(height: 24),
+                              BalanceRow(
+                                label: 'Planted Balance'.i18n,
+                                fiatAmount: state.plantedBalanceFiat,
+                                tokenAmount: state.plantedBalance,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(horizontalEdgePadding),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: FlatButtonLong(
-                          title: 'Plant Seeds'.i18n,
-                          enabled: state.isPlantSeedsButtonEnabled,
-                          onPressed: () =>
-                              BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
+                      Padding(
+                        padding: const EdgeInsets.all(horizontalEdgePadding),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: FlatButtonLong(
+                            title: 'Plant Seeds'.i18n,
+                            enabled: state.isPlantSeedsButtonEnabled,
+                            onPressed: () =>
+                                BlocProvider.of<PlantSeedsBloc>(context).add(const OnPlantSeedsButtonTapped()),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               default:
                 return const SizedBox.shrink();

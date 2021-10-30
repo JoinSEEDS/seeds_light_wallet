@@ -36,11 +36,24 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
   }
 
   @override
+  void dispose() {
+    _keyController.dispose();
+    super.dispose();
+  }
+
+  void _onSubmitted() {
+    FocusScope.of(context).unfocus();
+    if (_formImportKey.currentState!.validate()) {
+      _importKeyBloc.add(FindAccountByKey(privateKey: _keyController.text, words: []));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => _importKeyBloc,
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
-        builder: (context, ImportKeyState state) {
+        builder: (context, state) {
           return Scaffold(
             bottomSheet: Padding(
               padding: const EdgeInsets.all(16),
@@ -61,10 +74,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                           autofocus: true,
                           labelText: 'Private Key'.i18n,
                           suffixIcon: IconButton(
-                            icon: const Icon(
-                              Icons.paste,
-                              color: AppColors.white,
-                            ),
+                            icon: const Icon(Icons.paste, color: AppColors.white),
                             onPressed: () async {
                               final clipboardData = await Clipboard.getData('text/plain');
                               final clipboardText = clipboardData?.text ?? '';
@@ -106,33 +116,19 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
                         ],
                       ),
                     ),
-                  )
-                else
-                  const SizedBox.shrink(),
+                  ),
                 const SizedBox(height: 24),
                 const Expanded(
-                    child: Padding(
-                  padding: EdgeInsets.all(horizontalEdgePadding),
-                  child: ImportKeyAccountsWidget(),
-                )),
+                  child: Padding(
+                    padding: EdgeInsets.all(horizontalEdgePadding),
+                    child: ImportKeyAccountsWidget(),
+                  ),
+                ),
               ],
             ),
           );
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _keyController.dispose();
-    super.dispose();
-  }
-
-  void _onSubmitted() {
-    FocusScope.of(context).unfocus();
-    if (_formImportKey.currentState!.validate()) {
-      _importKeyBloc.add(FindAccountByKey(privateKey: _keyController.text, words: []));
-    }
   }
 }
