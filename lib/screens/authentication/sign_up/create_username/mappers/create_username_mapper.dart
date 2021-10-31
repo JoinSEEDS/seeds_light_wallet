@@ -5,12 +5,15 @@ import 'package:seeds/screens/authentication/sign_up/viewmodels/bloc.dart';
 import 'package:seeds/screens/authentication/sign_up/viewmodels/states/create_username_state.dart';
 
 class CreateUsernameMapper extends StateMapper {
-  SignupState mapValidateUsernameToState(SignupState currentState, Result result) {
+  SignupState mapValidateUsernameToState(SignupState currentState, String username, Result result) {
     final createUsernameCurrentState = currentState.createUsernameState;
 
     if (result.isError) {
       // Error means username is not taken and is available for the user to take it
-      final newState = createUsernameCurrentState.copyWith(pageState: PageState.success);
+      final newState = createUsernameCurrentState.copyWith(
+        username: username,
+        pageState: PageState.success,
+      );
 
       return currentState.copyWith(createUsernameState: newState);
     }
