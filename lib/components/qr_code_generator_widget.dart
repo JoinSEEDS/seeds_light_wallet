@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:seeds/design/app_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/components/components.i18n.dart';
 
 class QrCodeGeneratorWidget extends StatelessWidget {

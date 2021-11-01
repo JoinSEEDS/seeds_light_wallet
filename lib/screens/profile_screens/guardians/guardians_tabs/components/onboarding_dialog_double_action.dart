@@ -1,7 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/components/custom_dialog.dart';
-import 'package:seeds/design/app_colors.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 class OnboardingDialogDoubleAction extends StatelessWidget {

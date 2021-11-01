@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/images/vote/category_label.dart';
