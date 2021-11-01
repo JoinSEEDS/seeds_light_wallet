@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seeds/components/flat_button_long.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/i18n/components/components.i18n.dart';
 
 class FullPageErrorIndicator extends StatelessWidget {

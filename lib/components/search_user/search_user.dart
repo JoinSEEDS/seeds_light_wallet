@@ -5,8 +5,8 @@ import 'package:seeds/components/search_user/components/search_result_list.dart'
 import 'package:seeds/components/search_user/interactor/search_user_bloc.dart';
 import 'package:seeds/components/search_user/interactor/viewmodels/search_user_events.dart';
 import 'package:seeds/components/search_user/interactor/viewmodels/search_user_state.dart';
-import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/domain-shared/user_citizenship_status.dart';

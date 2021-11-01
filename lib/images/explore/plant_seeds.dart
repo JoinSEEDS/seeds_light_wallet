@@ -1,5 +1,5 @@
 import 'package:flutter/rendering.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 
 class PlantSeeds extends CustomPainter {
   const PlantSeeds();
@@ -2810,43 +2810,67 @@ class PlantSeeds extends CustomPainter {
           size.width * 0.5206121, size.height * 0.6182744)
       ..cubicTo(size.width * 0.5206303, size.height * 0.6182047, size.width * 0.5206030, size.height * 0.6183140,
           size.width * 0.5205424, size.height * 0.6184884)
-      ..cubicTo(size.width * 0.5205152, size.height * 0.6185744, size.width * 0.5204394, size.height * 0.6188000, size.width * 0.5203121, size.height * 0.6190977)
-      ..cubicTo(size.width * 0.5202545, size.height * 0.6192349, size.width * 0.5198939, size.height * 0.6201070, size.width * 0.5191394, size.height * 0.6211279)
-      ..cubicTo(size.width * 0.5188242, size.height * 0.6215581, size.width * 0.5178121, size.height * 0.6228977, size.width * 0.5158818, size.height * 0.6241767)
-      ..cubicTo(size.width * 0.5138667, size.height * 0.6255116, size.width * 0.5086030, size.height * 0.6281070, size.width * 0.5016515, size.height * 0.6265093)
-      ..cubicTo(size.width * 0.4958273, size.height * 0.6251721, size.width * 0.4933030, size.height * 0.6217860, size.width * 0.4926939, size.height * 0.6209209)
-      ..cubicTo(size.width * 0.4918333, size.height * 0.6197023, size.width * 0.4914697, size.height * 0.6186512, size.width * 0.4913364, size.height * 0.6182442)
+      ..cubicTo(size.width * 0.5205152, size.height * 0.6185744, size.width * 0.5204394, size.height * 0.6188000,
+          size.width * 0.5203121, size.height * 0.6190977)
+      ..cubicTo(size.width * 0.5202545, size.height * 0.6192349, size.width * 0.5198939, size.height * 0.6201070,
+          size.width * 0.5191394, size.height * 0.6211279)
+      ..cubicTo(size.width * 0.5188242, size.height * 0.6215581, size.width * 0.5178121, size.height * 0.6228977,
+          size.width * 0.5158818, size.height * 0.6241767)
+      ..cubicTo(size.width * 0.5138667, size.height * 0.6255116, size.width * 0.5086030, size.height * 0.6281070,
+          size.width * 0.5016515, size.height * 0.6265093)
+      ..cubicTo(size.width * 0.4958273, size.height * 0.6251721, size.width * 0.4933030, size.height * 0.6217860,
+          size.width * 0.4926939, size.height * 0.6209209)
+      ..cubicTo(size.width * 0.4918333, size.height * 0.6197023, size.width * 0.4914697, size.height * 0.6186512,
+          size.width * 0.4913364, size.height * 0.6182442)
       ..lineTo(size.width * 0.5207364, size.height * 0.6126047)
-      ..cubicTo(size.width * 0.5205909, size.height * 0.6121651, size.width * 0.5202152, size.height * 0.6110884, size.width * 0.5193424, size.height * 0.6098512)
-      ..cubicTo(size.width * 0.5187212, size.height * 0.6089698, size.width * 0.5161848, size.height * 0.6055744, size.width * 0.5103455, size.height * 0.6042326)
-      ..cubicTo(size.width * 0.5033818, size.height * 0.6026302, size.width * 0.4981030, size.height * 0.6052302, size.width * 0.4960758, size.height * 0.6065767)
-      ..cubicTo(size.width * 0.4941303, size.height * 0.6078651, size.width * 0.4931030, size.height * 0.6092186, size.width * 0.4927727, size.height * 0.6096698)
-      ..cubicTo(size.width * 0.4919879, size.height * 0.6107326, size.width * 0.4915970, size.height * 0.6116651, size.width * 0.4915061, size.height * 0.6118767)
-      ..cubicTo(size.width * 0.4913485, size.height * 0.6122488, size.width * 0.4912394, size.height * 0.6125605, size.width * 0.4911818, size.height * 0.6127395)
-      ..cubicTo(size.width * 0.4910606, size.height * 0.6131000, size.width * 0.4909758, size.height * 0.6134186, size.width * 0.4909455, size.height * 0.6135233)
-      ..cubicTo(size.width * 0.4908000, size.height * 0.6140581, size.width * 0.4909606, size.height * 0.6134326, size.width * 0.4911273, size.height * 0.6129698)
+      ..cubicTo(size.width * 0.5205909, size.height * 0.6121651, size.width * 0.5202152, size.height * 0.6110884,
+          size.width * 0.5193424, size.height * 0.6098512)
+      ..cubicTo(size.width * 0.5187212, size.height * 0.6089698, size.width * 0.5161848, size.height * 0.6055744,
+          size.width * 0.5103455, size.height * 0.6042326)
+      ..cubicTo(size.width * 0.5033818, size.height * 0.6026302, size.width * 0.4981030, size.height * 0.6052302,
+          size.width * 0.4960758, size.height * 0.6065767)
+      ..cubicTo(size.width * 0.4941303, size.height * 0.6078651, size.width * 0.4931030, size.height * 0.6092186,
+          size.width * 0.4927727, size.height * 0.6096698)
+      ..cubicTo(size.width * 0.4919879, size.height * 0.6107326, size.width * 0.4915970, size.height * 0.6116651,
+          size.width * 0.4915061, size.height * 0.6118767)
+      ..cubicTo(size.width * 0.4913485, size.height * 0.6122488, size.width * 0.4912394, size.height * 0.6125605,
+          size.width * 0.4911818, size.height * 0.6127395)
+      ..cubicTo(size.width * 0.4910606, size.height * 0.6131000, size.width * 0.4909758, size.height * 0.6134186,
+          size.width * 0.4909455, size.height * 0.6135233)
+      ..cubicTo(size.width * 0.4908000, size.height * 0.6140581, size.width * 0.4909606, size.height * 0.6134326,
+          size.width * 0.4911273, size.height * 0.6129698)
       ..lineTo(size.width * 0.5203273, size.height * 0.6191930)
       ..close()
       ..moveTo(size.width * 0.4913364, size.height * 0.6182442)
-      ..cubicTo(size.width * 0.4913061, size.height * 0.6181465, size.width * 0.4914000, size.height * 0.6184070, size.width * 0.4914212, size.height * 0.6194581)
-      ..cubicTo(size.width * 0.4914303, size.height * 0.6199605, size.width * 0.4914242, size.height * 0.6204698, size.width * 0.4914182, size.height * 0.6211767)
-      ..cubicTo(size.width * 0.4914121, size.height * 0.6218186, size.width * 0.4914061, size.height * 0.6226535, size.width * 0.4914394, size.height * 0.6235023)
+      ..cubicTo(size.width * 0.4913061, size.height * 0.6181465, size.width * 0.4914000, size.height * 0.6184070,
+          size.width * 0.4914212, size.height * 0.6194581)
+      ..cubicTo(size.width * 0.4914303, size.height * 0.6199605, size.width * 0.4914242, size.height * 0.6204698,
+          size.width * 0.4914182, size.height * 0.6211767)
+      ..cubicTo(size.width * 0.4914121, size.height * 0.6218186, size.width * 0.4914061, size.height * 0.6226535,
+          size.width * 0.4914394, size.height * 0.6235023)
       ..lineTo(size.width * 0.5217273, size.height * 0.6228186)
-      ..cubicTo(size.width * 0.5217152, size.height * 0.6224442, size.width * 0.5217152, size.height * 0.6219977, size.width * 0.5217212, size.height * 0.6213395)
-      ..cubicTo(size.width * 0.5217242, size.height * 0.6207442, size.width * 0.5217364, size.height * 0.6199256, size.width * 0.5217212, size.height * 0.6191023)
-      ..cubicTo(size.width * 0.5216879, size.height * 0.6175047, size.width * 0.5215576, size.height * 0.6151233, size.width * 0.5207364, size.height * 0.6126047)
+      ..cubicTo(size.width * 0.5217152, size.height * 0.6224442, size.width * 0.5217152, size.height * 0.6219977,
+          size.width * 0.5217212, size.height * 0.6213395)
+      ..cubicTo(size.width * 0.5217242, size.height * 0.6207442, size.width * 0.5217364, size.height * 0.6199256,
+          size.width * 0.5217212, size.height * 0.6191023)
+      ..cubicTo(size.width * 0.5216879, size.height * 0.6175047, size.width * 0.5215576, size.height * 0.6151233,
+          size.width * 0.5207364, size.height * 0.6126047)
       ..lineTo(size.width * 0.4913364, size.height * 0.6182442)
       ..close()
       ..moveTo(size.width * 0.4914394, size.height * 0.6235023)
-      ..cubicTo(size.width * 0.4916394, size.height * 0.6287140, size.width * 0.4916364, size.height * 0.6339581, size.width * 0.4915091, size.height * 0.6392535)
+      ..cubicTo(size.width * 0.4916394, size.height * 0.6287140, size.width * 0.4916364, size.height * 0.6339581,
+          size.width * 0.4915091, size.height * 0.6392535)
       ..lineTo(size.width * 0.5218061, size.height * 0.6396814)
-      ..cubicTo(size.width * 0.5219394, size.height * 0.6341140, size.width * 0.5219455, size.height * 0.6284884, size.width * 0.5217273, size.height * 0.6228186)
+      ..cubicTo(size.width * 0.5219394, size.height * 0.6341140, size.width * 0.5219455, size.height * 0.6284884,
+          size.width * 0.5217273, size.height * 0.6228186)
       ..lineTo(size.width * 0.4914394, size.height * 0.6235023)
       ..close()
       ..moveTo(size.width * 0.4915091, size.height * 0.6392535)
-      ..cubicTo(size.width * 0.4913212, size.height * 0.6470395, size.width * 0.4908697, size.height * 0.6548465, size.width * 0.4904061, size.height * 0.6628372)
+      ..cubicTo(size.width * 0.4913212, size.height * 0.6470395, size.width * 0.4908697, size.height * 0.6548465,
+          size.width * 0.4904061, size.height * 0.6628372)
       ..lineTo(size.width * 0.5206788, size.height * 0.6638744)
-      ..cubicTo(size.width * 0.5211394, size.height * 0.6559326, size.width * 0.5216121, size.height * 0.6478233, size.width * 0.5218061, size.height * 0.6396814)
+      ..cubicTo(size.width * 0.5211394, size.height * 0.6559326, size.width * 0.5216121, size.height * 0.6478233,
+          size.width * 0.5218061, size.height * 0.6396814)
       ..lineTo(size.width * 0.4915091, size.height * 0.6392535)
       ..close()
       ..moveTo(size.width * 0.4904061, size.height * 0.6628372)
@@ -2856,279 +2880,459 @@ class PlantSeeds extends CustomPainter {
       ..lineTo(size.width * 0.4904061, size.height * 0.6628372)
       ..close()
       ..moveTo(size.width * 0.4903758, size.height * 0.6633163)
-      ..cubicTo(size.width * 0.4890606, size.height * 0.6859907, size.width * 0.4871394, size.height * 0.7083093, size.width * 0.4832909, size.height * 0.7304674)
+      ..cubicTo(size.width * 0.4890606, size.height * 0.6859907, size.width * 0.4871394, size.height * 0.7083093,
+          size.width * 0.4832909, size.height * 0.7304674)
       ..lineTo(size.width * 0.5133273, size.height * 0.7335395)
-      ..cubicTo(size.width * 0.5173485, size.height * 0.7104000, size.width * 0.5193152, size.height * 0.6873070, size.width * 0.5206485, size.height * 0.6643512)
+      ..cubicTo(size.width * 0.5173485, size.height * 0.7104000, size.width * 0.5193152, size.height * 0.6873070,
+          size.width * 0.5206485, size.height * 0.6643512)
       ..lineTo(size.width * 0.4903758, size.height * 0.6633163)
       ..close()
       ..moveTo(size.width * 0.4832909, size.height * 0.7304674)
-      ..cubicTo(size.width * 0.4821758, size.height * 0.7368884, size.width * 0.4810909, size.height * 0.7428581, size.width * 0.4794727, size.height * 0.7486814)
+      ..cubicTo(size.width * 0.4821758, size.height * 0.7368884, size.width * 0.4810909, size.height * 0.7428581,
+          size.width * 0.4794727, size.height * 0.7486814)
       ..lineTo(size.width * 0.5091091, size.height * 0.7535326)
-      ..cubicTo(size.width * 0.5110030, size.height * 0.7467186, size.width * 0.5122182, size.height * 0.7399209, size.width * 0.5133273, size.height * 0.7335395)
+      ..cubicTo(size.width * 0.5110030, size.height * 0.7467186, size.width * 0.5122182, size.height * 0.7399209,
+          size.width * 0.5133273, size.height * 0.7335395)
       ..lineTo(size.width * 0.4832909, size.height * 0.7304674)
       ..close()
       ..moveTo(size.width * 0.4794727, size.height * 0.7486814)
-      ..cubicTo(size.width * 0.4790515, size.height * 0.7502023, size.width * 0.4786515, size.height * 0.7515465, size.width * 0.4781727, size.height * 0.7532256)
+      ..cubicTo(size.width * 0.4790515, size.height * 0.7502023, size.width * 0.4786515, size.height * 0.7515465,
+          size.width * 0.4781727, size.height * 0.7532256)
       ..lineTo(size.width * 0.5077758, size.height * 0.7581930)
-      ..cubicTo(size.width * 0.5081697, size.height * 0.7568070, size.width * 0.5086788, size.height * 0.7550860, size.width * 0.5091091, size.height * 0.7535326)
+      ..cubicTo(size.width * 0.5081697, size.height * 0.7568070, size.width * 0.5086788, size.height * 0.7550860,
+          size.width * 0.5091091, size.height * 0.7535326)
       ..lineTo(size.width * 0.4794727, size.height * 0.7486814)
       ..close()
       ..moveTo(size.width * 0.4781727, size.height * 0.7532256)
-      ..cubicTo(size.width * 0.4773576, size.height * 0.7560860, size.width * 0.4764758, size.height * 0.7593628, size.width * 0.4759576, size.height * 0.7628279)
+      ..cubicTo(size.width * 0.4773576, size.height * 0.7560860, size.width * 0.4764758, size.height * 0.7593628,
+          size.width * 0.4759576, size.height * 0.7628279)
       ..lineTo(size.width * 0.5060636, size.height * 0.7654791)
-      ..cubicTo(size.width * 0.5063970, size.height * 0.7632442, size.width * 0.5069970, size.height * 0.7609209, size.width * 0.5077758, size.height * 0.7581930)
+      ..cubicTo(size.width * 0.5063970, size.height * 0.7632442, size.width * 0.5069970, size.height * 0.7609209,
+          size.width * 0.5077758, size.height * 0.7581930)
       ..lineTo(size.width * 0.4781727, size.height * 0.7532256)
       ..close()
       ..moveTo(size.width * 0.4759576, size.height * 0.7628279)
-      ..cubicTo(size.width * 0.4748485, size.height * 0.7702465, size.width * 0.4750697, size.height * 0.7728837, size.width * 0.4732636, size.height * 0.7760000)
+      ..cubicTo(size.width * 0.4748485, size.height * 0.7702465, size.width * 0.4750697, size.height * 0.7728837,
+          size.width * 0.4732636, size.height * 0.7760000)
       ..lineTo(size.width * 0.5009576, size.height * 0.7854442)
-      ..cubicTo(size.width * 0.5052515, size.height * 0.7780256, size.width * 0.5054818, size.height * 0.7693581, size.width * 0.5060636, size.height * 0.7654791)
+      ..cubicTo(size.width * 0.5052515, size.height * 0.7780256, size.width * 0.5054818, size.height * 0.7693581,
+          size.width * 0.5060636, size.height * 0.7654791)
       ..lineTo(size.width * 0.4759576, size.height * 0.7628279)
       ..close()
       ..moveTo(size.width * 0.4732636, size.height * 0.7760000)
-      ..cubicTo(size.width * 0.4736818, size.height * 0.7752814, size.width * 0.4759303, size.height * 0.7715419, size.width * 0.4820576, size.height * 0.7700419)
-      ..cubicTo(size.width * 0.4889636, size.height * 0.7683535, size.width * 0.4941152, size.height * 0.7710000, size.width * 0.4956364, size.height * 0.7719395)
-      ..cubicTo(size.width * 0.4973030, size.height * 0.7729651, size.width * 0.4981545, size.height * 0.7739860, size.width * 0.4983121, size.height * 0.7741698)
-      ..cubicTo(size.width * 0.4984636, size.height * 0.7743512, size.width * 0.4985636, size.height * 0.7744860, size.width * 0.4986152, size.height * 0.7745581)
-      ..cubicTo(size.width * 0.4986697, size.height * 0.7746326, size.width * 0.4986970, size.height * 0.7746767, size.width * 0.4987030, size.height * 0.7746860)
-      ..cubicTo(size.width * 0.4987091, size.height * 0.7746930, size.width * 0.4986727, size.height * 0.7746395, size.width * 0.4986061, size.height * 0.7745163)
-      ..cubicTo(size.width * 0.4985455, size.height * 0.7743977, size.width * 0.4984758, size.height * 0.7742581, size.width * 0.4984091, size.height * 0.7741140)
-      ..cubicTo(size.width * 0.4982455, size.height * 0.7737698, size.width * 0.4981879, size.height * 0.7736093, size.width * 0.4982545, size.height * 0.7737884)
+      ..cubicTo(size.width * 0.4736818, size.height * 0.7752814, size.width * 0.4759303, size.height * 0.7715419,
+          size.width * 0.4820576, size.height * 0.7700419)
+      ..cubicTo(size.width * 0.4889636, size.height * 0.7683535, size.width * 0.4941152, size.height * 0.7710000,
+          size.width * 0.4956364, size.height * 0.7719395)
+      ..cubicTo(size.width * 0.4973030, size.height * 0.7729651, size.width * 0.4981545, size.height * 0.7739860,
+          size.width * 0.4983121, size.height * 0.7741698)
+      ..cubicTo(size.width * 0.4984636, size.height * 0.7743512, size.width * 0.4985636, size.height * 0.7744860,
+          size.width * 0.4986152, size.height * 0.7745581)
+      ..cubicTo(size.width * 0.4986697, size.height * 0.7746326, size.width * 0.4986970, size.height * 0.7746767,
+          size.width * 0.4987030, size.height * 0.7746860)
+      ..cubicTo(size.width * 0.4987091, size.height * 0.7746930, size.width * 0.4986727, size.height * 0.7746395,
+          size.width * 0.4986061, size.height * 0.7745163)
+      ..cubicTo(size.width * 0.4985455, size.height * 0.7743977, size.width * 0.4984758, size.height * 0.7742581,
+          size.width * 0.4984091, size.height * 0.7741140)
+      ..cubicTo(size.width * 0.4982455, size.height * 0.7737698, size.width * 0.4981879, size.height * 0.7736093,
+          size.width * 0.4982545, size.height * 0.7737884)
       ..lineTo(size.width * 0.4691182, size.height * 0.7801767)
-      ..cubicTo(size.width * 0.4693545, size.height * 0.7808070, size.width * 0.4702212, size.height * 0.7829116, size.width * 0.4714424, size.height * 0.7848442)
-      ..cubicTo(size.width * 0.4717788, size.height * 0.7853744, size.width * 0.4722667, size.height * 0.7860907, size.width * 0.4729061, size.height * 0.7868465)
-      ..cubicTo(size.width * 0.4734242, size.height * 0.7874581, size.width * 0.4746394, size.height * 0.7888256, size.width * 0.4766606, size.height * 0.7900721)
-      ..cubicTo(size.width * 0.4785394, size.height * 0.7912279, size.width * 0.4840364, size.height * 0.7939698, size.width * 0.4912667, size.height * 0.7922000)
-      ..cubicTo(size.width * 0.4977182, size.height * 0.7906209, size.width * 0.5002697, size.height * 0.7866302, size.width * 0.5009576, size.height * 0.7854442)
+      ..cubicTo(size.width * 0.4693545, size.height * 0.7808070, size.width * 0.4702212, size.height * 0.7829116,
+          size.width * 0.4714424, size.height * 0.7848442)
+      ..cubicTo(size.width * 0.4717788, size.height * 0.7853744, size.width * 0.4722667, size.height * 0.7860907,
+          size.width * 0.4729061, size.height * 0.7868465)
+      ..cubicTo(size.width * 0.4734242, size.height * 0.7874581, size.width * 0.4746394, size.height * 0.7888256,
+          size.width * 0.4766606, size.height * 0.7900721)
+      ..cubicTo(size.width * 0.4785394, size.height * 0.7912279, size.width * 0.4840364, size.height * 0.7939698,
+          size.width * 0.4912667, size.height * 0.7922000)
+      ..cubicTo(size.width * 0.4977182, size.height * 0.7906209, size.width * 0.5002697, size.height * 0.7866302,
+          size.width * 0.5009576, size.height * 0.7854442)
       ..lineTo(size.width * 0.4732636, size.height * 0.7760000)
       ..close()
       ..moveTo(size.width * 0.4654061, size.height * 0.8102256)
-      ..cubicTo(size.width * 0.4661242, size.height * 0.8136349, size.width * 0.4665242, size.height * 0.8170140, size.width * 0.4670606, size.height * 0.8210628)
+      ..cubicTo(size.width * 0.4661242, size.height * 0.8136349, size.width * 0.4665242, size.height * 0.8170140,
+          size.width * 0.4670606, size.height * 0.8210628)
       ..lineTo(size.width * 0.4972061, size.height * 0.8187023)
-      ..cubicTo(size.width * 0.4967212, size.height * 0.8150395, size.width * 0.4962182, size.height * 0.8107814, size.width * 0.4953242, size.height * 0.8065209)
+      ..cubicTo(size.width * 0.4967212, size.height * 0.8150395, size.width * 0.4962182, size.height * 0.8107814,
+          size.width * 0.4953242, size.height * 0.8065209)
       ..lineTo(size.width * 0.4654061, size.height * 0.8102256)
       ..close()
       ..moveTo(size.width * 0.4670606, size.height * 0.8210628)
-      ..cubicTo(size.width * 0.4669970, size.height * 0.8205721, size.width * 0.4669909, size.height * 0.8201465, size.width * 0.4670000, size.height * 0.8204186)
-      ..cubicTo(size.width * 0.4670030, size.height * 0.8204767, size.width * 0.4670061, size.height * 0.8205674, size.width * 0.4670091, size.height * 0.8207326)
-      ..cubicTo(size.width * 0.4670182, size.height * 0.8210279, size.width * 0.4670333, size.height * 0.8214837, size.width * 0.4670545, size.height * 0.8219488)
-      ..cubicTo(size.width * 0.4670758, size.height * 0.8223698, size.width * 0.4671121, size.height * 0.8230209, size.width * 0.4671909, size.height * 0.8236558)
-      ..cubicTo(size.width * 0.4672242, size.height * 0.8239256, size.width * 0.4673061, size.height * 0.8245442, size.width * 0.4675000, size.height * 0.8252581)
-      ..cubicTo(size.width * 0.4675848, size.height * 0.8255698, size.width * 0.4678061, size.height * 0.8263535, size.width * 0.4682879, size.height * 0.8272860)
-      ..cubicTo(size.width * 0.4685273, size.height * 0.8277535, size.width * 0.4690061, size.height * 0.8285977, size.width * 0.4698424, size.height * 0.8295465)
-      ..cubicTo(size.width * 0.4705788, size.height * 0.8303814, size.width * 0.4723667, size.height * 0.8321930, size.width * 0.4756394, size.height * 0.8334488)
+      ..cubicTo(size.width * 0.4669970, size.height * 0.8205721, size.width * 0.4669909, size.height * 0.8201465,
+          size.width * 0.4670000, size.height * 0.8204186)
+      ..cubicTo(size.width * 0.4670030, size.height * 0.8204767, size.width * 0.4670061, size.height * 0.8205674,
+          size.width * 0.4670091, size.height * 0.8207326)
+      ..cubicTo(size.width * 0.4670182, size.height * 0.8210279, size.width * 0.4670333, size.height * 0.8214837,
+          size.width * 0.4670545, size.height * 0.8219488)
+      ..cubicTo(size.width * 0.4670758, size.height * 0.8223698, size.width * 0.4671121, size.height * 0.8230209,
+          size.width * 0.4671909, size.height * 0.8236558)
+      ..cubicTo(size.width * 0.4672242, size.height * 0.8239256, size.width * 0.4673061, size.height * 0.8245442,
+          size.width * 0.4675000, size.height * 0.8252581)
+      ..cubicTo(size.width * 0.4675848, size.height * 0.8255698, size.width * 0.4678061, size.height * 0.8263535,
+          size.width * 0.4682879, size.height * 0.8272860)
+      ..cubicTo(size.width * 0.4685273, size.height * 0.8277535, size.width * 0.4690061, size.height * 0.8285977,
+          size.width * 0.4698424, size.height * 0.8295465)
+      ..cubicTo(size.width * 0.4705788, size.height * 0.8303814, size.width * 0.4723667, size.height * 0.8321930,
+          size.width * 0.4756394, size.height * 0.8334488)
       ..lineTo(size.width * 0.4891909, size.height * 0.8126488)
-      ..cubicTo(size.width * 0.4924485, size.height * 0.8139000, size.width * 0.4942212, size.height * 0.8157000, size.width * 0.4949455, size.height * 0.8165209)
-      ..cubicTo(size.width * 0.4957667, size.height * 0.8174535, size.width * 0.4962303, size.height * 0.8182767, size.width * 0.4964576, size.height * 0.8187163)
-      ..cubicTo(size.width * 0.4969121, size.height * 0.8195977, size.width * 0.4971091, size.height * 0.8203093, size.width * 0.4971697, size.height * 0.8205372)
-      ..cubicTo(size.width * 0.4972545, size.height * 0.8208488, size.width * 0.4973000, size.height * 0.8210884, size.width * 0.4973182, size.height * 0.8211977)
-      ..cubicTo(size.width * 0.4973394, size.height * 0.8213233, size.width * 0.4973515, size.height * 0.8214093, size.width * 0.4973576, size.height * 0.8214442)
-      ..cubicTo(size.width * 0.4973667, size.height * 0.8215163, size.width * 0.4973545, size.height * 0.8214279, size.width * 0.4973364, size.height * 0.8210977)
-      ..cubicTo(size.width * 0.4973242, size.height * 0.8208163, size.width * 0.4973152, size.height * 0.8205140, size.width * 0.4973061, size.height * 0.8202047)
-      ..cubicTo(size.width * 0.4973030, size.height * 0.8200674, size.width * 0.4972970, size.height * 0.8198953, size.width * 0.4972909, size.height * 0.8197512)
-      ..cubicTo(size.width * 0.4972879, size.height * 0.8196791, size.width * 0.4972848, size.height * 0.8195744, size.width * 0.4972788, size.height * 0.8194605)
-      ..cubicTo(size.width * 0.4972758, size.height * 0.8194279, size.width * 0.4972606, size.height * 0.8190953, size.width * 0.4972061, size.height * 0.8187023)
+      ..cubicTo(size.width * 0.4924485, size.height * 0.8139000, size.width * 0.4942212, size.height * 0.8157000,
+          size.width * 0.4949455, size.height * 0.8165209)
+      ..cubicTo(size.width * 0.4957667, size.height * 0.8174535, size.width * 0.4962303, size.height * 0.8182767,
+          size.width * 0.4964576, size.height * 0.8187163)
+      ..cubicTo(size.width * 0.4969121, size.height * 0.8195977, size.width * 0.4971091, size.height * 0.8203093,
+          size.width * 0.4971697, size.height * 0.8205372)
+      ..cubicTo(size.width * 0.4972545, size.height * 0.8208488, size.width * 0.4973000, size.height * 0.8210884,
+          size.width * 0.4973182, size.height * 0.8211977)
+      ..cubicTo(size.width * 0.4973394, size.height * 0.8213233, size.width * 0.4973515, size.height * 0.8214093,
+          size.width * 0.4973576, size.height * 0.8214442)
+      ..cubicTo(size.width * 0.4973667, size.height * 0.8215163, size.width * 0.4973545, size.height * 0.8214279,
+          size.width * 0.4973364, size.height * 0.8210977)
+      ..cubicTo(size.width * 0.4973242, size.height * 0.8208163, size.width * 0.4973152, size.height * 0.8205140,
+          size.width * 0.4973061, size.height * 0.8202047)
+      ..cubicTo(size.width * 0.4973030, size.height * 0.8200674, size.width * 0.4972970, size.height * 0.8198953,
+          size.width * 0.4972909, size.height * 0.8197512)
+      ..cubicTo(size.width * 0.4972879, size.height * 0.8196791, size.width * 0.4972848, size.height * 0.8195744,
+          size.width * 0.4972788, size.height * 0.8194605)
+      ..cubicTo(size.width * 0.4972758, size.height * 0.8194279, size.width * 0.4972606, size.height * 0.8190953,
+          size.width * 0.4972061, size.height * 0.8187023)
       ..lineTo(size.width * 0.4670606, size.height * 0.8210628)
       ..close()
       ..moveTo(size.width * 0.4756394, size.height * 0.8334512)
-      ..cubicTo(size.width * 0.4775636, size.height * 0.8341884, size.width * 0.4821394, size.height * 0.8355209, size.width * 0.4876333, size.height * 0.8340209)
-      ..cubicTo(size.width * 0.4932152, size.height * 0.8324953, size.width * 0.4956758, size.height * 0.8291651, size.width * 0.4965667, size.height * 0.8275628)
-      ..cubicTo(size.width * 0.4974636, size.height * 0.8259535, size.width * 0.4976758, size.height * 0.8245651, size.width * 0.4977485, size.height * 0.8240140)
-      ..cubicTo(size.width * 0.4978364, size.height * 0.8233372, size.width * 0.4978333, size.height * 0.8227837, size.width * 0.4978273, size.height * 0.8224860)
-      ..cubicTo(size.width * 0.4978212, size.height * 0.8221651, size.width * 0.4978000, size.height * 0.8218953, size.width * 0.4977879, size.height * 0.8217605)
-      ..cubicTo(size.width * 0.4977818, size.height * 0.8216860, size.width * 0.4977758, size.height * 0.8216186, size.width * 0.4977727, size.height * 0.8215814)
-      ..cubicTo(size.width * 0.4977697, size.height * 0.8215326, size.width * 0.4977667, size.height * 0.8215233, size.width * 0.4977667, size.height * 0.8215140)
-      ..cubicTo(size.width * 0.4977424, size.height * 0.8212256, size.width * 0.4978455, size.height * 0.8220186, size.width * 0.4977242, size.height * 0.8230000)
+      ..cubicTo(size.width * 0.4775636, size.height * 0.8341884, size.width * 0.4821394, size.height * 0.8355209,
+          size.width * 0.4876333, size.height * 0.8340209)
+      ..cubicTo(size.width * 0.4932152, size.height * 0.8324953, size.width * 0.4956758, size.height * 0.8291651,
+          size.width * 0.4965667, size.height * 0.8275628)
+      ..cubicTo(size.width * 0.4974636, size.height * 0.8259535, size.width * 0.4976758, size.height * 0.8245651,
+          size.width * 0.4977485, size.height * 0.8240140)
+      ..cubicTo(size.width * 0.4978364, size.height * 0.8233372, size.width * 0.4978333, size.height * 0.8227837,
+          size.width * 0.4978273, size.height * 0.8224860)
+      ..cubicTo(size.width * 0.4978212, size.height * 0.8221651, size.width * 0.4978000, size.height * 0.8218953,
+          size.width * 0.4977879, size.height * 0.8217605)
+      ..cubicTo(size.width * 0.4977818, size.height * 0.8216860, size.width * 0.4977758, size.height * 0.8216186,
+          size.width * 0.4977727, size.height * 0.8215814)
+      ..cubicTo(size.width * 0.4977697, size.height * 0.8215326, size.width * 0.4977667, size.height * 0.8215233,
+          size.width * 0.4977667, size.height * 0.8215140)
+      ..cubicTo(size.width * 0.4977424, size.height * 0.8212256, size.width * 0.4978455, size.height * 0.8220186,
+          size.width * 0.4977242, size.height * 0.8230000)
       ..lineTo(size.width * 0.4675545, size.height * 0.8208163)
-      ..cubicTo(size.width * 0.4674667, size.height * 0.8215233, size.width * 0.4674788, size.height * 0.8221000, size.width * 0.4674879, size.height * 0.8223674)
-      ..cubicTo(size.width * 0.4674970, size.height * 0.8226674, size.width * 0.4675182, size.height * 0.8229209, size.width * 0.4675273, size.height * 0.8230302)
-      ..cubicTo(size.width * 0.4675636, size.height * 0.8234488, size.width * 0.4675333, size.height * 0.8231279, size.width * 0.4675273, size.height * 0.8228884)
-      ..cubicTo(size.width * 0.4675242, size.height * 0.8227209, size.width * 0.4675212, size.height * 0.8222860, size.width * 0.4675939, size.height * 0.8217163)
-      ..cubicTo(size.width * 0.4676515, size.height * 0.8212698, size.width * 0.4678424, size.height * 0.8199721, size.width * 0.4686970, size.height * 0.8184326)
-      ..cubicTo(size.width * 0.4695515, size.height * 0.8168977, size.width * 0.4719606, size.height * 0.8136163, size.width * 0.4774727, size.height * 0.8121116)
-      ..cubicTo(size.width * 0.4828939, size.height * 0.8106302, size.width * 0.4873788, size.height * 0.8119535, size.width * 0.4891909, size.height * 0.8126488)
+      ..cubicTo(size.width * 0.4674667, size.height * 0.8215233, size.width * 0.4674788, size.height * 0.8221000,
+          size.width * 0.4674879, size.height * 0.8223674)
+      ..cubicTo(size.width * 0.4674970, size.height * 0.8226674, size.width * 0.4675182, size.height * 0.8229209,
+          size.width * 0.4675273, size.height * 0.8230302)
+      ..cubicTo(size.width * 0.4675636, size.height * 0.8234488, size.width * 0.4675333, size.height * 0.8231279,
+          size.width * 0.4675273, size.height * 0.8228884)
+      ..cubicTo(size.width * 0.4675242, size.height * 0.8227209, size.width * 0.4675212, size.height * 0.8222860,
+          size.width * 0.4675939, size.height * 0.8217163)
+      ..cubicTo(size.width * 0.4676515, size.height * 0.8212698, size.width * 0.4678424, size.height * 0.8199721,
+          size.width * 0.4686970, size.height * 0.8184326)
+      ..cubicTo(size.width * 0.4695515, size.height * 0.8168977, size.width * 0.4719606, size.height * 0.8136163,
+          size.width * 0.4774727, size.height * 0.8121116)
+      ..cubicTo(size.width * 0.4828939, size.height * 0.8106302, size.width * 0.4873788, size.height * 0.8119535,
+          size.width * 0.4891909, size.height * 0.8126488)
       ..lineTo(size.width * 0.4756394, size.height * 0.8334512)
       ..close()
       ..moveTo(size.width * 0.4977242, size.height * 0.8230000)
-      ..cubicTo(size.width * 0.4980000, size.height * 0.8207698, size.width * 0.4980455, size.height * 0.8186465, size.width * 0.4980455, size.height * 0.8168209)
+      ..cubicTo(size.width * 0.4980000, size.height * 0.8207698, size.width * 0.4980455, size.height * 0.8186465,
+          size.width * 0.4980455, size.height * 0.8168209)
       ..lineTo(size.width * 0.4677424, size.height * 0.8168209)
-      ..cubicTo(size.width * 0.4677424, size.height * 0.8183907, size.width * 0.4676970, size.height * 0.8196651, size.width * 0.4675545, size.height * 0.8208163)
+      ..cubicTo(size.width * 0.4677424, size.height * 0.8183907, size.width * 0.4676970, size.height * 0.8196651,
+          size.width * 0.4675545, size.height * 0.8208163)
       ..lineTo(size.width * 0.4977242, size.height * 0.8230000)
       ..close()
       ..moveTo(size.width * 0.4980455, size.height * 0.8168209)
-      ..cubicTo(size.width * 0.4980455, size.height * 0.8132791, size.width * 0.4977576, size.height * 0.8098047, size.width * 0.4975091, size.height * 0.8067512)
-      ..cubicTo(size.width * 0.4972515, size.height * 0.8035767, size.width * 0.4970333, size.height * 0.8008279, size.width * 0.4970333, size.height * 0.7981372)
+      ..cubicTo(size.width * 0.4980455, size.height * 0.8132791, size.width * 0.4977576, size.height * 0.8098047,
+          size.width * 0.4975091, size.height * 0.8067512)
+      ..cubicTo(size.width * 0.4972515, size.height * 0.8035767, size.width * 0.4970333, size.height * 0.8008279,
+          size.width * 0.4970333, size.height * 0.7981372)
       ..lineTo(size.width * 0.4667303, size.height * 0.7981372)
-      ..cubicTo(size.width * 0.4667303, size.height * 0.8016721, size.width * 0.4670182, size.height * 0.8051442, size.width * 0.4672636, size.height * 0.8081977)
-      ..cubicTo(size.width * 0.4675212, size.height * 0.8113698, size.width * 0.4677424, size.height * 0.8141233, size.width * 0.4677424, size.height * 0.8168209)
+      ..cubicTo(size.width * 0.4667303, size.height * 0.8016721, size.width * 0.4670182, size.height * 0.8051442,
+          size.width * 0.4672636, size.height * 0.8081977)
+      ..cubicTo(size.width * 0.4675212, size.height * 0.8113698, size.width * 0.4677424, size.height * 0.8141233,
+          size.width * 0.4677424, size.height * 0.8168209)
       ..lineTo(size.width * 0.4980455, size.height * 0.8168209)
       ..close()
       ..moveTo(size.width * 0.4970333, size.height * 0.7981372)
-      ..cubicTo(size.width * 0.4970333, size.height * 0.7975488, size.width * 0.4969788, size.height * 0.7970256, size.width * 0.4969667, size.height * 0.7969047)
-      ..cubicTo(size.width * 0.4969273, size.height * 0.7965023, size.width * 0.4969576, size.height * 0.7967930, size.width * 0.4969667, size.height * 0.7969744)
-      ..cubicTo(size.width * 0.4969727, size.height * 0.7970581, size.width * 0.4969848, size.height * 0.7972930, size.width * 0.4969788, size.height * 0.7976000)
-      ..cubicTo(size.width * 0.4969758, size.height * 0.7976674, size.width * 0.4969788, size.height * 0.7987140, size.width * 0.4965970, size.height * 0.7999907)
-      ..cubicTo(size.width * 0.4964970, size.height * 0.8003209, size.width * 0.4958636, size.height * 0.8026628, size.width * 0.4933788, size.height * 0.8049070)
-      ..cubicTo(size.width * 0.4918939, size.height * 0.8062465, size.width * 0.4892061, size.height * 0.8080302, size.width * 0.4851273, size.height * 0.8087256)
-      ..cubicTo(size.width * 0.4809485, size.height * 0.8094372, size.width * 0.4773636, size.height * 0.8086651, size.width * 0.4750212, size.height * 0.8077605)
-      ..cubicTo(size.width * 0.4712273, size.height * 0.8062930, size.width * 0.4694000, size.height * 0.8040186, size.width * 0.4691636, size.height * 0.8037442)
-      ..cubicTo(size.width * 0.4685667, size.height * 0.8030395, size.width * 0.4682000, size.height * 0.8024419, size.width * 0.4680485, size.height * 0.8021837)
-      ..cubicTo(size.width * 0.4677242, size.height * 0.8016302, size.width * 0.4675333, size.height * 0.8011860, size.width * 0.4674818, size.height * 0.8010698)
-      ..cubicTo(size.width * 0.4674061, size.height * 0.8008884, size.width * 0.4673545, size.height * 0.8007535, size.width * 0.4673333, size.height * 0.8006953)
-      ..cubicTo(size.width * 0.4672909, size.height * 0.8005837, size.width * 0.4672758, size.height * 0.8005279, size.width * 0.4672939, size.height * 0.8005907)
+      ..cubicTo(size.width * 0.4970333, size.height * 0.7975488, size.width * 0.4969788, size.height * 0.7970256,
+          size.width * 0.4969667, size.height * 0.7969047)
+      ..cubicTo(size.width * 0.4969273, size.height * 0.7965023, size.width * 0.4969576, size.height * 0.7967930,
+          size.width * 0.4969667, size.height * 0.7969744)
+      ..cubicTo(size.width * 0.4969727, size.height * 0.7970581, size.width * 0.4969848, size.height * 0.7972930,
+          size.width * 0.4969788, size.height * 0.7976000)
+      ..cubicTo(size.width * 0.4969758, size.height * 0.7976674, size.width * 0.4969788, size.height * 0.7987140,
+          size.width * 0.4965970, size.height * 0.7999907)
+      ..cubicTo(size.width * 0.4964970, size.height * 0.8003209, size.width * 0.4958636, size.height * 0.8026628,
+          size.width * 0.4933788, size.height * 0.8049070)
+      ..cubicTo(size.width * 0.4918939, size.height * 0.8062465, size.width * 0.4892061, size.height * 0.8080302,
+          size.width * 0.4851273, size.height * 0.8087256)
+      ..cubicTo(size.width * 0.4809485, size.height * 0.8094372, size.width * 0.4773636, size.height * 0.8086651,
+          size.width * 0.4750212, size.height * 0.8077605)
+      ..cubicTo(size.width * 0.4712273, size.height * 0.8062930, size.width * 0.4694000, size.height * 0.8040186,
+          size.width * 0.4691636, size.height * 0.8037442)
+      ..cubicTo(size.width * 0.4685667, size.height * 0.8030395, size.width * 0.4682000, size.height * 0.8024419,
+          size.width * 0.4680485, size.height * 0.8021837)
+      ..cubicTo(size.width * 0.4677242, size.height * 0.8016302, size.width * 0.4675333, size.height * 0.8011860,
+          size.width * 0.4674818, size.height * 0.8010698)
+      ..cubicTo(size.width * 0.4674061, size.height * 0.8008884, size.width * 0.4673545, size.height * 0.8007535,
+          size.width * 0.4673333, size.height * 0.8006953)
+      ..cubicTo(size.width * 0.4672909, size.height * 0.8005837, size.width * 0.4672758, size.height * 0.8005279,
+          size.width * 0.4672939, size.height * 0.8005907)
       ..lineTo(size.width * 0.4966939, size.height * 0.7949512)
-      ..cubicTo(size.width * 0.4966394, size.height * 0.7947907, size.width * 0.4965667, size.height * 0.7945674, size.width * 0.4964788, size.height * 0.7943302)
-      ..cubicTo(size.width * 0.4964364, size.height * 0.7942116, size.width * 0.4963636, size.height * 0.7940256, size.width * 0.4962697, size.height * 0.7938070)
-      ..cubicTo(size.width * 0.4962030, size.height * 0.7936488, size.width * 0.4959970, size.height * 0.7931744, size.width * 0.4956576, size.height * 0.7926000)
-      ..cubicTo(size.width * 0.4955000, size.height * 0.7923326, size.width * 0.4951303, size.height * 0.7917256, size.width * 0.4945273, size.height * 0.7910163)
-      ..cubicTo(size.width * 0.4942879, size.height * 0.7907349, size.width * 0.4924545, size.height * 0.7884605, size.width * 0.4886576, size.height * 0.7869907)
-      ..cubicTo(size.width * 0.4863121, size.height * 0.7860837, size.width * 0.4827242, size.height * 0.7853116, size.width * 0.4785485, size.height * 0.7860233)
-      ..cubicTo(size.width * 0.4744667, size.height * 0.7867209, size.width * 0.4717758, size.height * 0.7885023, size.width * 0.4702909, size.height * 0.7898442)
-      ..cubicTo(size.width * 0.4678030, size.height * 0.7920907, size.width * 0.4671667, size.height * 0.7944372, size.width * 0.4670667, size.height * 0.7947744)
-      ..cubicTo(size.width * 0.4666788, size.height * 0.7960628, size.width * 0.4666818, size.height * 0.7971302, size.width * 0.4666788, size.height * 0.7972209)
-      ..cubicTo(size.width * 0.4666727, size.height * 0.7975558, size.width * 0.4666848, size.height * 0.7978209, size.width * 0.4666909, size.height * 0.7979442)
-      ..cubicTo(size.width * 0.4667061, size.height * 0.7981977, size.width * 0.4667273, size.height * 0.7984186, size.width * 0.4667333, size.height * 0.7984744)
-      ..cubicTo(size.width * 0.4667576, size.height * 0.7987209, size.width * 0.4667333, size.height * 0.7984698, size.width * 0.4667485, size.height * 0.7986419)
-      ..cubicTo(size.width * 0.4667606, size.height * 0.7987674, size.width * 0.4667303, size.height * 0.7985093, size.width * 0.4667303, size.height * 0.7981372)
+      ..cubicTo(size.width * 0.4966394, size.height * 0.7947907, size.width * 0.4965667, size.height * 0.7945674,
+          size.width * 0.4964788, size.height * 0.7943302)
+      ..cubicTo(size.width * 0.4964364, size.height * 0.7942116, size.width * 0.4963636, size.height * 0.7940256,
+          size.width * 0.4962697, size.height * 0.7938070)
+      ..cubicTo(size.width * 0.4962030, size.height * 0.7936488, size.width * 0.4959970, size.height * 0.7931744,
+          size.width * 0.4956576, size.height * 0.7926000)
+      ..cubicTo(size.width * 0.4955000, size.height * 0.7923326, size.width * 0.4951303, size.height * 0.7917256,
+          size.width * 0.4945273, size.height * 0.7910163)
+      ..cubicTo(size.width * 0.4942879, size.height * 0.7907349, size.width * 0.4924545, size.height * 0.7884605,
+          size.width * 0.4886576, size.height * 0.7869907)
+      ..cubicTo(size.width * 0.4863121, size.height * 0.7860837, size.width * 0.4827242, size.height * 0.7853116,
+          size.width * 0.4785485, size.height * 0.7860233)
+      ..cubicTo(size.width * 0.4744667, size.height * 0.7867209, size.width * 0.4717758, size.height * 0.7885023,
+          size.width * 0.4702909, size.height * 0.7898442)
+      ..cubicTo(size.width * 0.4678030, size.height * 0.7920907, size.width * 0.4671667, size.height * 0.7944372,
+          size.width * 0.4670667, size.height * 0.7947744)
+      ..cubicTo(size.width * 0.4666788, size.height * 0.7960628, size.width * 0.4666818, size.height * 0.7971302,
+          size.width * 0.4666788, size.height * 0.7972209)
+      ..cubicTo(size.width * 0.4666727, size.height * 0.7975558, size.width * 0.4666848, size.height * 0.7978209,
+          size.width * 0.4666909, size.height * 0.7979442)
+      ..cubicTo(size.width * 0.4667061, size.height * 0.7981977, size.width * 0.4667273, size.height * 0.7984186,
+          size.width * 0.4667333, size.height * 0.7984744)
+      ..cubicTo(size.width * 0.4667576, size.height * 0.7987209, size.width * 0.4667333, size.height * 0.7984698,
+          size.width * 0.4667485, size.height * 0.7986419)
+      ..cubicTo(size.width * 0.4667606, size.height * 0.7987674, size.width * 0.4667303, size.height * 0.7985093,
+          size.width * 0.4667303, size.height * 0.7981372)
       ..lineTo(size.width * 0.4970333, size.height * 0.7981372)
       ..close()
       ..moveTo(size.width * 0.4672939, size.height * 0.8005907)
-      ..cubicTo(size.width * 0.4679788, size.height * 0.8026860, size.width * 0.4688121, size.height * 0.8048023, size.width * 0.4694121, size.height * 0.8063930)
-      ..cubicTo(size.width * 0.4700606, size.height * 0.8081186, size.width * 0.4705485, size.height * 0.8095070, size.width * 0.4708848, size.height * 0.8108395)
+      ..cubicTo(size.width * 0.4679788, size.height * 0.8026860, size.width * 0.4688121, size.height * 0.8048023,
+          size.width * 0.4694121, size.height * 0.8063930)
+      ..cubicTo(size.width * 0.4700606, size.height * 0.8081186, size.width * 0.4705485, size.height * 0.8095070,
+          size.width * 0.4708848, size.height * 0.8108395)
       ..lineTo(size.width * 0.5006273, size.height * 0.8063814)
-      ..cubicTo(size.width * 0.5000182, size.height * 0.8039930, size.width * 0.4992182, size.height * 0.8017860, size.width * 0.4985212, size.height * 0.7999349)
-      ..cubicTo(size.width * 0.4977727, size.height * 0.7979465, size.width * 0.4972000, size.height * 0.7965047, size.width * 0.4966939, size.height * 0.7949512)
+      ..cubicTo(size.width * 0.5000182, size.height * 0.8039930, size.width * 0.4992182, size.height * 0.8017860,
+          size.width * 0.4985212, size.height * 0.7999349)
+      ..cubicTo(size.width * 0.4977727, size.height * 0.7979465, size.width * 0.4972000, size.height * 0.7965047,
+          size.width * 0.4966939, size.height * 0.7949512)
       ..lineTo(size.width * 0.4672939, size.height * 0.8005907)
       ..close()
       ..moveTo(size.width * 0.4708848, size.height * 0.8108395)
-      ..cubicTo(size.width * 0.4741000, size.height * 0.8234721, size.width * 0.4764455, size.height * 0.8357512, size.width * 0.4773697, size.height * 0.8482558)
+      ..cubicTo(size.width * 0.4741000, size.height * 0.8234721, size.width * 0.4764455, size.height * 0.8357512,
+          size.width * 0.4773697, size.height * 0.8482558)
       ..lineTo(size.width * 0.5076242, size.height * 0.8469372)
-      ..cubicTo(size.width * 0.5065970, size.height * 0.8330721, size.width * 0.5040152, size.height * 0.8197000, size.width * 0.5006273, size.height * 0.8063814)
+      ..cubicTo(size.width * 0.5065970, size.height * 0.8330721, size.width * 0.5040152, size.height * 0.8197000,
+          size.width * 0.5006273, size.height * 0.8063814)
       ..lineTo(size.width * 0.4708848, size.height * 0.8108395)
       ..close()
       ..moveTo(size.width * 0.4773697, size.height * 0.8482558)
-      ..cubicTo(size.width * 0.4775697, size.height * 0.8509581, size.width * 0.4780212, size.height * 0.8563326, size.width * 0.4784545, size.height * 0.8604070)
-      ..cubicTo(size.width * 0.4786576, size.height * 0.8622930, size.width * 0.4789030, size.height * 0.8643744, size.width * 0.4791697, size.height * 0.8656907)
-      ..cubicTo(size.width * 0.4792182, size.height * 0.8659372, size.width * 0.4793818, size.height * 0.8667512, size.width * 0.4797273, size.height * 0.8676442)
-      ..cubicTo(size.width * 0.4797303, size.height * 0.8676558, size.width * 0.4803788, size.height * 0.8696163, size.width * 0.4822939, size.height * 0.8715302)
-      ..cubicTo(size.width * 0.4830818, size.height * 0.8723163, size.width * 0.4867333, size.height * 0.8758163, size.width * 0.4935939, size.height * 0.8760744)
-      ..cubicTo(size.width * 0.5012273, size.height * 0.8763605, size.width * 0.5054788, size.height * 0.8724930, size.width * 0.5066455, size.height * 0.8712512)
-      ..cubicTo(size.width * 0.5079970, size.height * 0.8698140, size.width * 0.5085848, size.height * 0.8684837, size.width * 0.5087758, size.height * 0.8680372)
-      ..cubicTo(size.width * 0.5090333, size.height * 0.8674326, size.width * 0.5091788, size.height * 0.8669256, size.width * 0.5092545, size.height * 0.8666349)
-      ..cubicTo(size.width * 0.5094091, size.height * 0.8660465, size.width * 0.5094788, size.height * 0.8655512, size.width * 0.5095121, size.height * 0.8652930)
-      ..cubicTo(size.width * 0.5095848, size.height * 0.8647372, size.width * 0.5096152, size.height * 0.8641884, size.width * 0.5096333, size.height * 0.8637674)
+      ..cubicTo(size.width * 0.4775697, size.height * 0.8509581, size.width * 0.4780212, size.height * 0.8563326,
+          size.width * 0.4784545, size.height * 0.8604070)
+      ..cubicTo(size.width * 0.4786576, size.height * 0.8622930, size.width * 0.4789030, size.height * 0.8643744,
+          size.width * 0.4791697, size.height * 0.8656907)
+      ..cubicTo(size.width * 0.4792182, size.height * 0.8659372, size.width * 0.4793818, size.height * 0.8667512,
+          size.width * 0.4797273, size.height * 0.8676442)
+      ..cubicTo(size.width * 0.4797303, size.height * 0.8676558, size.width * 0.4803788, size.height * 0.8696163,
+          size.width * 0.4822939, size.height * 0.8715302)
+      ..cubicTo(size.width * 0.4830818, size.height * 0.8723163, size.width * 0.4867333, size.height * 0.8758163,
+          size.width * 0.4935939, size.height * 0.8760744)
+      ..cubicTo(size.width * 0.5012273, size.height * 0.8763605, size.width * 0.5054788, size.height * 0.8724930,
+          size.width * 0.5066455, size.height * 0.8712512)
+      ..cubicTo(size.width * 0.5079970, size.height * 0.8698140, size.width * 0.5085848, size.height * 0.8684837,
+          size.width * 0.5087758, size.height * 0.8680372)
+      ..cubicTo(size.width * 0.5090333, size.height * 0.8674326, size.width * 0.5091788, size.height * 0.8669256,
+          size.width * 0.5092545, size.height * 0.8666349)
+      ..cubicTo(size.width * 0.5094091, size.height * 0.8660465, size.width * 0.5094788, size.height * 0.8655512,
+          size.width * 0.5095121, size.height * 0.8652930)
+      ..cubicTo(size.width * 0.5095848, size.height * 0.8647372, size.width * 0.5096152, size.height * 0.8641884,
+          size.width * 0.5096333, size.height * 0.8637674)
       ..lineTo(size.width * 0.4793455, size.height * 0.8630186)
-      ..cubicTo(size.width * 0.4793364, size.height * 0.8632581, size.width * 0.4793303, size.height * 0.8632070, size.width * 0.4793576, size.height * 0.8629977)
-      ..cubicTo(size.width * 0.4793697, size.height * 0.8629116, size.width * 0.4794152, size.height * 0.8625535, size.width * 0.4795424, size.height * 0.8620651)
-      ..cubicTo(size.width * 0.4796061, size.height * 0.8618233, size.width * 0.4797364, size.height * 0.8613605, size.width * 0.4799818, size.height * 0.8607860)
-      ..cubicTo(size.width * 0.4801576, size.height * 0.8603744, size.width * 0.4807333, size.height * 0.8590674, size.width * 0.4820697, size.height * 0.8576465)
-      ..cubicTo(size.width * 0.4832212, size.height * 0.8564209, size.width * 0.4874545, size.height * 0.8525605, size.width * 0.4950727, size.height * 0.8528465)
-      ..cubicTo(size.width * 0.5019182, size.height * 0.8531023, size.width * 0.5055545, size.height * 0.8565930, size.width * 0.5063242, size.height * 0.8573651)
-      ..cubicTo(size.width * 0.5074848, size.height * 0.8585233, size.width * 0.5080727, size.height * 0.8595744, size.width * 0.5082758, size.height * 0.8599465)
-      ..cubicTo(size.width * 0.5085394, size.height * 0.8604372, size.width * 0.5087030, size.height * 0.8608395, size.width * 0.5087879, size.height * 0.8610581)
-      ..cubicTo(size.width * 0.5089545, size.height * 0.8614930, size.width * 0.5090394, size.height * 0.8618186, size.width * 0.5090636, size.height * 0.8619070)
-      ..cubicTo(size.width * 0.5090818, size.height * 0.8619744, size.width * 0.5090909, size.height * 0.8620256, size.width * 0.5091000, size.height * 0.8620535)
-      ..cubicTo(size.width * 0.5091061, size.height * 0.8620837, size.width * 0.5091091, size.height * 0.8621023, size.width * 0.5091091, size.height * 0.8621047)
-      ..cubicTo(size.width * 0.5091121, size.height * 0.8621116, size.width * 0.5091061, size.height * 0.8620860, size.width * 0.5090970, size.height * 0.8620256)
-      ..cubicTo(size.width * 0.5090848, size.height * 0.8619651, size.width * 0.5090727, size.height * 0.8618837, size.width * 0.5090545, size.height * 0.8617791)
-      ..cubicTo(size.width * 0.5090242, size.height * 0.8615651, size.width * 0.5089848, size.height * 0.8612930, size.width * 0.5089424, size.height * 0.8609605)
-      ..cubicTo(size.width * 0.5088545, size.height * 0.8602907, size.width * 0.5087576, size.height * 0.8594581, size.width * 0.5086576, size.height * 0.8585093)
-      ..cubicTo(size.width * 0.5082485, size.height * 0.8546837, size.width * 0.5078152, size.height * 0.8495140, size.width * 0.5076242, size.height * 0.8469372)
+      ..cubicTo(size.width * 0.4793364, size.height * 0.8632581, size.width * 0.4793303, size.height * 0.8632070,
+          size.width * 0.4793576, size.height * 0.8629977)
+      ..cubicTo(size.width * 0.4793697, size.height * 0.8629116, size.width * 0.4794152, size.height * 0.8625535,
+          size.width * 0.4795424, size.height * 0.8620651)
+      ..cubicTo(size.width * 0.4796061, size.height * 0.8618233, size.width * 0.4797364, size.height * 0.8613605,
+          size.width * 0.4799818, size.height * 0.8607860)
+      ..cubicTo(size.width * 0.4801576, size.height * 0.8603744, size.width * 0.4807333, size.height * 0.8590674,
+          size.width * 0.4820697, size.height * 0.8576465)
+      ..cubicTo(size.width * 0.4832212, size.height * 0.8564209, size.width * 0.4874545, size.height * 0.8525605,
+          size.width * 0.4950727, size.height * 0.8528465)
+      ..cubicTo(size.width * 0.5019182, size.height * 0.8531023, size.width * 0.5055545, size.height * 0.8565930,
+          size.width * 0.5063242, size.height * 0.8573651)
+      ..cubicTo(size.width * 0.5074848, size.height * 0.8585233, size.width * 0.5080727, size.height * 0.8595744,
+          size.width * 0.5082758, size.height * 0.8599465)
+      ..cubicTo(size.width * 0.5085394, size.height * 0.8604372, size.width * 0.5087030, size.height * 0.8608395,
+          size.width * 0.5087879, size.height * 0.8610581)
+      ..cubicTo(size.width * 0.5089545, size.height * 0.8614930, size.width * 0.5090394, size.height * 0.8618186,
+          size.width * 0.5090636, size.height * 0.8619070)
+      ..cubicTo(size.width * 0.5090818, size.height * 0.8619744, size.width * 0.5090909, size.height * 0.8620256,
+          size.width * 0.5091000, size.height * 0.8620535)
+      ..cubicTo(size.width * 0.5091061, size.height * 0.8620837, size.width * 0.5091091, size.height * 0.8621023,
+          size.width * 0.5091091, size.height * 0.8621047)
+      ..cubicTo(size.width * 0.5091121, size.height * 0.8621116, size.width * 0.5091061, size.height * 0.8620860,
+          size.width * 0.5090970, size.height * 0.8620256)
+      ..cubicTo(size.width * 0.5090848, size.height * 0.8619651, size.width * 0.5090727, size.height * 0.8618837,
+          size.width * 0.5090545, size.height * 0.8617791)
+      ..cubicTo(size.width * 0.5090242, size.height * 0.8615651, size.width * 0.5089848, size.height * 0.8612930,
+          size.width * 0.5089424, size.height * 0.8609605)
+      ..cubicTo(size.width * 0.5088545, size.height * 0.8602907, size.width * 0.5087576, size.height * 0.8594581,
+          size.width * 0.5086576, size.height * 0.8585093)
+      ..cubicTo(size.width * 0.5082485, size.height * 0.8546837, size.width * 0.5078152, size.height * 0.8495140,
+          size.width * 0.5076242, size.height * 0.8469372)
       ..lineTo(size.width * 0.4773697, size.height * 0.8482558)
       ..close()
       ..moveTo(size.width * 0.5096333, size.height * 0.8637674)
-      ..cubicTo(size.width * 0.5101545, size.height * 0.8513977, size.width * 0.5100697, size.height * 0.8407884, size.width * 0.5120515, size.height * 0.8298442)
+      ..cubicTo(size.width * 0.5101545, size.height * 0.8513977, size.width * 0.5100697, size.height * 0.8407884,
+          size.width * 0.5120515, size.height * 0.8298442)
       ..lineTo(size.width * 0.4820394, size.height * 0.8266419)
-      ..cubicTo(size.width * 0.4797636, size.height * 0.8391907, size.width * 0.4798182, size.height * 0.8517837, size.width * 0.4793455, size.height * 0.8630186)
+      ..cubicTo(size.width * 0.4797636, size.height * 0.8391907, size.width * 0.4798182, size.height * 0.8517837,
+          size.width * 0.4793455, size.height * 0.8630186)
       ..lineTo(size.width * 0.5096333, size.height * 0.8637674)
       ..close()
       ..moveTo(size.width * 0.5120515, size.height * 0.8298442)
-      ..cubicTo(size.width * 0.5134242, size.height * 0.8222814, size.width * 0.5152576, size.height * 0.8154116, size.width * 0.5170455, size.height * 0.8071814)
+      ..cubicTo(size.width * 0.5134242, size.height * 0.8222814, size.width * 0.5152576, size.height * 0.8154116,
+          size.width * 0.5170455, size.height * 0.8071814)
       ..lineTo(size.width * 0.4871545, size.height * 0.8033581)
-      ..cubicTo(size.width * 0.4856152, size.height * 0.8104535, size.width * 0.4834636, size.height * 0.8187767, size.width * 0.4820394, size.height * 0.8266419)
+      ..cubicTo(size.width * 0.4856152, size.height * 0.8104535, size.width * 0.4834636, size.height * 0.8187767,
+          size.width * 0.4820394, size.height * 0.8266419)
       ..lineTo(size.width * 0.5120515, size.height * 0.8298442)
       ..close()
       ..moveTo(size.width * 0.4990818, size.height * 0.8022279)
-      ..cubicTo(size.width * 0.4992667, size.height * 0.8288047, size.width * 0.5009242, size.height * 0.8553953, size.width * 0.5029273, size.height * 0.8816791)
+      ..cubicTo(size.width * 0.4992667, size.height * 0.8288047, size.width * 0.5009242, size.height * 0.8553953,
+          size.width * 0.5029273, size.height * 0.8816791)
       ..lineTo(size.width * 0.5331788, size.height * 0.8803209)
-      ..cubicTo(size.width * 0.5311848, size.height * 0.8541674, size.width * 0.5295667, size.height * 0.8280605, size.width * 0.5293848, size.height * 0.8021047)
+      ..cubicTo(size.width * 0.5311848, size.height * 0.8541674, size.width * 0.5295667, size.height * 0.8280605,
+          size.width * 0.5293848, size.height * 0.8021047)
       ..lineTo(size.width * 0.4990818, size.height * 0.8022279)
       ..close()
       ..moveTo(size.width * 0.5029273, size.height * 0.8816791)
-      ..cubicTo(size.width * 0.5037242, size.height * 0.8921116, size.width * 0.5053576, size.height * 0.9025093, size.width * 0.5067061, size.height * 0.9122628)
-      ..cubicTo(size.width * 0.5080788, size.height * 0.9221860, size.width * 0.5091909, size.height * 0.9316674, size.width * 0.5091909, size.height * 0.9411279)
+      ..cubicTo(size.width * 0.5037242, size.height * 0.8921116, size.width * 0.5053576, size.height * 0.9025093,
+          size.width * 0.5067061, size.height * 0.9122628)
+      ..cubicTo(size.width * 0.5080788, size.height * 0.9221860, size.width * 0.5091909, size.height * 0.9316674,
+          size.width * 0.5091909, size.height * 0.9411279)
       ..lineTo(size.width * 0.5394939, size.height * 0.9411279)
-      ..cubicTo(size.width * 0.5394939, size.height * 0.9303651, size.width * 0.5382303, size.height * 0.9198581, size.width * 0.5368424, size.height * 0.9098093)
-      ..cubicTo(size.width * 0.5354273, size.height * 0.8995930, size.width * 0.5339182, size.height * 0.8900349, size.width * 0.5331788, size.height * 0.8803209)
+      ..cubicTo(size.width * 0.5394939, size.height * 0.9303651, size.width * 0.5382303, size.height * 0.9198581,
+          size.width * 0.5368424, size.height * 0.9098093)
+      ..cubicTo(size.width * 0.5354273, size.height * 0.8995930, size.width * 0.5339182, size.height * 0.8900349,
+          size.width * 0.5331788, size.height * 0.8803209)
       ..lineTo(size.width * 0.5029273, size.height * 0.8816791)
       ..close()
       ..moveTo(size.width * 0.5091909, size.height * 0.9411279)
-      ..cubicTo(size.width * 0.5091909, size.height * 0.9437814, size.width * 0.5090758, size.height * 0.9464628, size.width * 0.5089485, size.height * 0.9493744)
-      ..cubicTo(size.width * 0.5088242, size.height * 0.9522186, size.width * 0.5086879, size.height * 0.9552953, size.width * 0.5086879, size.height * 0.9584116)
+      ..cubicTo(size.width * 0.5091909, size.height * 0.9437814, size.width * 0.5090758, size.height * 0.9464628,
+          size.width * 0.5089485, size.height * 0.9493744)
+      ..cubicTo(size.width * 0.5088242, size.height * 0.9522186, size.width * 0.5086879, size.height * 0.9552953,
+          size.width * 0.5086879, size.height * 0.9584116)
       ..lineTo(size.width * 0.5389909, size.height * 0.9584116)
-      ..cubicTo(size.width * 0.5389909, size.height * 0.9557512, size.width * 0.5391061, size.height * 0.9530674, size.width * 0.5392333, size.height * 0.9501558)
-      ..cubicTo(size.width * 0.5393576, size.height * 0.9473116, size.width * 0.5394939, size.height * 0.9442372, size.width * 0.5394939, size.height * 0.9411279)
+      ..cubicTo(size.width * 0.5389909, size.height * 0.9557512, size.width * 0.5391061, size.height * 0.9530674,
+          size.width * 0.5392333, size.height * 0.9501558)
+      ..cubicTo(size.width * 0.5393576, size.height * 0.9473116, size.width * 0.5394939, size.height * 0.9442372,
+          size.width * 0.5394939, size.height * 0.9411279)
       ..lineTo(size.width * 0.5091909, size.height * 0.9411279)
       ..close()
       ..moveTo(size.width * 0.5086879, size.height * 0.9584116)
-      ..cubicTo(size.width * 0.5086879, size.height * 0.9586698, size.width * 0.5087000, size.height * 0.9590047, size.width * 0.5087000, size.height * 0.9590651)
-      ..cubicTo(size.width * 0.5087061, size.height * 0.9592256, size.width * 0.5087091, size.height * 0.9593674, size.width * 0.5087121, size.height * 0.9595093)
-      ..cubicTo(size.width * 0.5087152, size.height * 0.9598558, size.width * 0.5087061, size.height * 0.9599698, size.width * 0.5087121, size.height * 0.9599047)
-      ..cubicTo(size.width * 0.5087121, size.height * 0.9598837, size.width * 0.5087424, size.height * 0.9595698, size.width * 0.5088697, size.height * 0.9590930)
-      ..cubicTo(size.width * 0.5089091, size.height * 0.9589349, size.width * 0.5093030, size.height * 0.9572488, size.width * 0.5108970, size.height * 0.9554023)
-      ..cubicTo(size.width * 0.5117727, size.height * 0.9543837, size.width * 0.5136576, size.height * 0.9525628, size.width * 0.5170242, size.height * 0.9513651)
-      ..cubicTo(size.width * 0.5208364, size.height * 0.9500070, size.width * 0.5248545, size.height * 0.9500488, size.width * 0.5281545, size.height * 0.9509163)
-      ..cubicTo(size.width * 0.5310121, size.height * 0.9516674, size.width * 0.5328303, size.height * 0.9528907, size.width * 0.5336667, size.height * 0.9535186)
-      ..cubicTo(size.width * 0.5345818, size.height * 0.9542093, size.width * 0.5351576, size.height * 0.9548302, size.width * 0.5354333, size.height * 0.9551512)
+      ..cubicTo(size.width * 0.5086879, size.height * 0.9586698, size.width * 0.5087000, size.height * 0.9590047,
+          size.width * 0.5087000, size.height * 0.9590651)
+      ..cubicTo(size.width * 0.5087061, size.height * 0.9592256, size.width * 0.5087091, size.height * 0.9593674,
+          size.width * 0.5087121, size.height * 0.9595093)
+      ..cubicTo(size.width * 0.5087152, size.height * 0.9598558, size.width * 0.5087061, size.height * 0.9599698,
+          size.width * 0.5087121, size.height * 0.9599047)
+      ..cubicTo(size.width * 0.5087121, size.height * 0.9598837, size.width * 0.5087424, size.height * 0.9595698,
+          size.width * 0.5088697, size.height * 0.9590930)
+      ..cubicTo(size.width * 0.5089091, size.height * 0.9589349, size.width * 0.5093030, size.height * 0.9572488,
+          size.width * 0.5108970, size.height * 0.9554023)
+      ..cubicTo(size.width * 0.5117727, size.height * 0.9543837, size.width * 0.5136576, size.height * 0.9525628,
+          size.width * 0.5170242, size.height * 0.9513651)
+      ..cubicTo(size.width * 0.5208364, size.height * 0.9500070, size.width * 0.5248545, size.height * 0.9500488,
+          size.width * 0.5281545, size.height * 0.9509163)
+      ..cubicTo(size.width * 0.5310121, size.height * 0.9516674, size.width * 0.5328303, size.height * 0.9528907,
+          size.width * 0.5336667, size.height * 0.9535186)
+      ..cubicTo(size.width * 0.5345818, size.height * 0.9542093, size.width * 0.5351576, size.height * 0.9548302,
+          size.width * 0.5354333, size.height * 0.9551512)
       ..lineTo(size.width * 0.5102212, size.height * 0.9680512)
-      ..cubicTo(size.width * 0.5105636, size.height * 0.9684465, size.width * 0.5130848, size.height * 0.9715372, size.width * 0.5183303, size.height * 0.9729163)
-      ..cubicTo(size.width * 0.5217455, size.height * 0.9738140, size.width * 0.5258697, size.height * 0.9738512, size.width * 0.5297758, size.height * 0.9724605)
-      ..cubicTo(size.width * 0.5332394, size.height * 0.9712279, size.width * 0.5352121, size.height * 0.9693419, size.width * 0.5361667, size.height * 0.9682349)
-      ..cubicTo(size.width * 0.5379152, size.height * 0.9662070, size.width * 0.5384273, size.height * 0.9642372, size.width * 0.5385636, size.height * 0.9637302)
-      ..cubicTo(size.width * 0.5387818, size.height * 0.9629023, size.width * 0.5388758, size.height * 0.9621674, size.width * 0.5389242, size.height * 0.9616930)
-      ..cubicTo(size.width * 0.5390727, size.height * 0.9602163, size.width * 0.5389909, size.height * 0.9577651, size.width * 0.5389909, size.height * 0.9584116)
+      ..cubicTo(size.width * 0.5105636, size.height * 0.9684465, size.width * 0.5130848, size.height * 0.9715372,
+          size.width * 0.5183303, size.height * 0.9729163)
+      ..cubicTo(size.width * 0.5217455, size.height * 0.9738140, size.width * 0.5258697, size.height * 0.9738512,
+          size.width * 0.5297758, size.height * 0.9724605)
+      ..cubicTo(size.width * 0.5332394, size.height * 0.9712279, size.width * 0.5352121, size.height * 0.9693419,
+          size.width * 0.5361667, size.height * 0.9682349)
+      ..cubicTo(size.width * 0.5379152, size.height * 0.9662070, size.width * 0.5384273, size.height * 0.9642372,
+          size.width * 0.5385636, size.height * 0.9637302)
+      ..cubicTo(size.width * 0.5387818, size.height * 0.9629023, size.width * 0.5388758, size.height * 0.9621674,
+          size.width * 0.5389242, size.height * 0.9616930)
+      ..cubicTo(size.width * 0.5390727, size.height * 0.9602163, size.width * 0.5389909, size.height * 0.9577651,
+          size.width * 0.5389909, size.height * 0.9584116)
       ..lineTo(size.width * 0.5086879, size.height * 0.9584116)
       ..close()
       ..moveTo(size.width * 0.4653697, size.height * 0.8655186)
-      ..cubicTo(size.width * 0.4691818, size.height * 0.8856605, size.width * 0.4687515, size.height * 0.9062395, size.width * 0.4687515, size.height * 0.9279419)
+      ..cubicTo(size.width * 0.4691818, size.height * 0.8856605, size.width * 0.4687515, size.height * 0.9062395,
+          size.width * 0.4687515, size.height * 0.9279419)
       ..lineTo(size.width * 0.4990545, size.height * 0.9279419)
-      ..cubicTo(size.width * 0.4990545, size.height * 0.9069326, size.width * 0.4995576, size.height * 0.8843744, size.width * 0.4953606, size.height * 0.8621791)
+      ..cubicTo(size.width * 0.4990545, size.height * 0.9069326, size.width * 0.4995576, size.height * 0.8843744,
+          size.width * 0.4953606, size.height * 0.8621791)
       ..lineTo(size.width * 0.4653697, size.height * 0.8655186)
       ..close()
       ..moveTo(size.width * 0.4687515, size.height * 0.9279419)
-      ..cubicTo(size.width * 0.4687515, size.height * 0.9371814, size.width * 0.4690515, size.height * 0.9451814, size.width * 0.4680848, size.height * 0.9532558)
+      ..cubicTo(size.width * 0.4687515, size.height * 0.9371814, size.width * 0.4690515, size.height * 0.9451814,
+          size.width * 0.4680848, size.height * 0.9532558)
       ..lineTo(size.width * 0.4982606, size.height * 0.9553837)
-      ..cubicTo(size.width * 0.4993939, size.height * 0.9459209, size.width * 0.4990545, size.height * 0.9362884, size.width * 0.4990545, size.height * 0.9279419)
+      ..cubicTo(size.width * 0.4993939, size.height * 0.9459209, size.width * 0.4990545, size.height * 0.9362884,
+          size.width * 0.4990545, size.height * 0.9279419)
       ..lineTo(size.width * 0.4687515, size.height * 0.9279419)
       ..close()
       ..moveTo(size.width * 0.4680848, size.height * 0.9532558)
-      ..cubicTo(size.width * 0.4678061, size.height * 0.9555884, size.width * 0.4673212, size.height * 0.9605395, size.width * 0.4669697, size.height * 0.9637651)
-      ..cubicTo(size.width * 0.4667697, size.height * 0.9655837, size.width * 0.4666273, size.height * 0.9667233, size.width * 0.4665606, size.height * 0.9671070)
-      ..cubicTo(size.width * 0.4665333, size.height * 0.9672651, size.width * 0.4665818, size.height * 0.9669279, size.width * 0.4667273, size.height * 0.9664349)
-      ..cubicTo(size.width * 0.4667758, size.height * 0.9662814, size.width * 0.4668667, size.height * 0.9659837, size.width * 0.4670212, size.height * 0.9656093)
-      ..cubicTo(size.width * 0.4671212, size.height * 0.9653628, size.width * 0.4674848, size.height * 0.9644791, size.width * 0.4682394, size.height * 0.9634465)
-      ..cubicTo(size.width * 0.4686061, size.height * 0.9629442, size.width * 0.4694303, size.height * 0.9618907, size.width * 0.4708727, size.height * 0.9608093)
-      ..cubicTo(size.width * 0.4722576, size.height * 0.9597744, size.width * 0.4754364, size.height * 0.9578140, size.width * 0.4803485, size.height * 0.9575395)
-      ..cubicTo(size.width * 0.4857091, size.height * 0.9572419, size.width * 0.4896667, size.height * 0.9591163, size.width * 0.4918000, size.height * 0.9606512)
-      ..cubicTo(size.width * 0.4937182, size.height * 0.9620326, size.width * 0.4946879, size.height * 0.9634558, size.width * 0.4950788, size.height * 0.9640791)
-      ..cubicTo(size.width * 0.4958970, size.height * 0.9653791, size.width * 0.4961879, size.height * 0.9664860, size.width * 0.4962576, size.height * 0.9667442)
-      ..cubicTo(size.width * 0.4963727, size.height * 0.9671767, size.width * 0.4964303, size.height * 0.9675186, size.width * 0.4964545, size.height * 0.9676884)
-      ..cubicTo(size.width * 0.4965091, size.height * 0.9680326, size.width * 0.4965242, size.height * 0.9682767, size.width * 0.4965242, size.height * 0.9683186)
-      ..cubicTo(size.width * 0.4965333, size.height * 0.9684349, size.width * 0.4965273, size.height * 0.9684279, size.width * 0.4965273, size.height * 0.9681977)
+      ..cubicTo(size.width * 0.4678061, size.height * 0.9555884, size.width * 0.4673212, size.height * 0.9605395,
+          size.width * 0.4669697, size.height * 0.9637651)
+      ..cubicTo(size.width * 0.4667697, size.height * 0.9655837, size.width * 0.4666273, size.height * 0.9667233,
+          size.width * 0.4665606, size.height * 0.9671070)
+      ..cubicTo(size.width * 0.4665333, size.height * 0.9672651, size.width * 0.4665818, size.height * 0.9669279,
+          size.width * 0.4667273, size.height * 0.9664349)
+      ..cubicTo(size.width * 0.4667758, size.height * 0.9662814, size.width * 0.4668667, size.height * 0.9659837,
+          size.width * 0.4670212, size.height * 0.9656093)
+      ..cubicTo(size.width * 0.4671212, size.height * 0.9653628, size.width * 0.4674848, size.height * 0.9644791,
+          size.width * 0.4682394, size.height * 0.9634465)
+      ..cubicTo(size.width * 0.4686061, size.height * 0.9629442, size.width * 0.4694303, size.height * 0.9618907,
+          size.width * 0.4708727, size.height * 0.9608093)
+      ..cubicTo(size.width * 0.4722576, size.height * 0.9597744, size.width * 0.4754364, size.height * 0.9578140,
+          size.width * 0.4803485, size.height * 0.9575395)
+      ..cubicTo(size.width * 0.4857091, size.height * 0.9572419, size.width * 0.4896667, size.height * 0.9591163,
+          size.width * 0.4918000, size.height * 0.9606512)
+      ..cubicTo(size.width * 0.4937182, size.height * 0.9620326, size.width * 0.4946879, size.height * 0.9634558,
+          size.width * 0.4950788, size.height * 0.9640791)
+      ..cubicTo(size.width * 0.4958970, size.height * 0.9653791, size.width * 0.4961879, size.height * 0.9664860,
+          size.width * 0.4962576, size.height * 0.9667442)
+      ..cubicTo(size.width * 0.4963727, size.height * 0.9671767, size.width * 0.4964303, size.height * 0.9675186,
+          size.width * 0.4964545, size.height * 0.9676884)
+      ..cubicTo(size.width * 0.4965091, size.height * 0.9680326, size.width * 0.4965242, size.height * 0.9682767,
+          size.width * 0.4965242, size.height * 0.9683186)
+      ..cubicTo(size.width * 0.4965333, size.height * 0.9684349, size.width * 0.4965273, size.height * 0.9684279,
+          size.width * 0.4965273, size.height * 0.9681977)
       ..lineTo(size.width * 0.4662242, size.height * 0.9681977)
-      ..cubicTo(size.width * 0.4662242, size.height * 0.9685512, size.width * 0.4662303, size.height * 0.9689791, size.width * 0.4662545, size.height * 0.9694000)
-      ..cubicTo(size.width * 0.4662667, size.height * 0.9695953, size.width * 0.4662939, size.height * 0.9699605, size.width * 0.4663576, size.height * 0.9703930)
-      ..cubicTo(size.width * 0.4663909, size.height * 0.9706047, size.width * 0.4664545, size.height * 0.9709837, size.width * 0.4665788, size.height * 0.9714465)
-      ..cubicTo(size.width * 0.4666576, size.height * 0.9717326, size.width * 0.4669576, size.height * 0.9728605, size.width * 0.4677818, size.height * 0.9741744)
-      ..cubicTo(size.width * 0.4681788, size.height * 0.9748070, size.width * 0.4691515, size.height * 0.9762349, size.width * 0.4710727, size.height * 0.9776163)
-      ..cubicTo(size.width * 0.4732121, size.height * 0.9791558, size.width * 0.4771758, size.height * 0.9810326, size.width * 0.4825394, size.height * 0.9807349)
-      ..cubicTo(size.width * 0.4874576, size.height * 0.9804605, size.width * 0.4906424, size.height * 0.9784977, size.width * 0.4920303, size.height * 0.9774581)
-      ..cubicTo(size.width * 0.4934788, size.height * 0.9763744, size.width * 0.4943091, size.height * 0.9753140, size.width * 0.4946818, size.height * 0.9748047)
-      ..cubicTo(size.width * 0.4954455, size.height * 0.9737558, size.width * 0.4958182, size.height * 0.9728535, size.width * 0.4959333, size.height * 0.9725767)
-      ..cubicTo(size.width * 0.4960970, size.height * 0.9721744, size.width * 0.4962030, size.height * 0.9718419, size.width * 0.4962606, size.height * 0.9716488)
-      ..cubicTo(size.width * 0.4964576, size.height * 0.9709860, size.width * 0.4965636, size.height * 0.9703791, size.width * 0.4965970, size.height * 0.9701767)
-      ..cubicTo(size.width * 0.4967818, size.height * 0.9691186, size.width * 0.4969848, size.height * 0.9673674, size.width * 0.4971667, size.height * 0.9657116)
-      ..cubicTo(size.width * 0.4975727, size.height * 0.9619930, size.width * 0.4979848, size.height * 0.9576814, size.width * 0.4982606, size.height * 0.9553837)
+      ..cubicTo(size.width * 0.4662242, size.height * 0.9685512, size.width * 0.4662303, size.height * 0.9689791,
+          size.width * 0.4662545, size.height * 0.9694000)
+      ..cubicTo(size.width * 0.4662667, size.height * 0.9695953, size.width * 0.4662939, size.height * 0.9699605,
+          size.width * 0.4663576, size.height * 0.9703930)
+      ..cubicTo(size.width * 0.4663909, size.height * 0.9706047, size.width * 0.4664545, size.height * 0.9709837,
+          size.width * 0.4665788, size.height * 0.9714465)
+      ..cubicTo(size.width * 0.4666576, size.height * 0.9717326, size.width * 0.4669576, size.height * 0.9728605,
+          size.width * 0.4677818, size.height * 0.9741744)
+      ..cubicTo(size.width * 0.4681788, size.height * 0.9748070, size.width * 0.4691515, size.height * 0.9762349,
+          size.width * 0.4710727, size.height * 0.9776163)
+      ..cubicTo(size.width * 0.4732121, size.height * 0.9791558, size.width * 0.4771758, size.height * 0.9810326,
+          size.width * 0.4825394, size.height * 0.9807349)
+      ..cubicTo(size.width * 0.4874576, size.height * 0.9804605, size.width * 0.4906424, size.height * 0.9784977,
+          size.width * 0.4920303, size.height * 0.9774581)
+      ..cubicTo(size.width * 0.4934788, size.height * 0.9763744, size.width * 0.4943091, size.height * 0.9753140,
+          size.width * 0.4946818, size.height * 0.9748047)
+      ..cubicTo(size.width * 0.4954455, size.height * 0.9737558, size.width * 0.4958182, size.height * 0.9728535,
+          size.width * 0.4959333, size.height * 0.9725767)
+      ..cubicTo(size.width * 0.4960970, size.height * 0.9721744, size.width * 0.4962030, size.height * 0.9718419,
+          size.width * 0.4962606, size.height * 0.9716488)
+      ..cubicTo(size.width * 0.4964576, size.height * 0.9709860, size.width * 0.4965636, size.height * 0.9703791,
+          size.width * 0.4965970, size.height * 0.9701767)
+      ..cubicTo(size.width * 0.4967818, size.height * 0.9691186, size.width * 0.4969848, size.height * 0.9673674,
+          size.width * 0.4971667, size.height * 0.9657116)
+      ..cubicTo(size.width * 0.4975727, size.height * 0.9619930, size.width * 0.4979848, size.height * 0.9576814,
+          size.width * 0.4982606, size.height * 0.9553837)
       ..lineTo(size.width * 0.4680848, size.height * 0.9532558)
       ..close();
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/passcode_screen.dart';
-import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/design/app_colors.dart';
 import 'package:seeds/i18n/authentication/verification/verification.i18n.dart';
 import 'package:seeds/screens/authentication/verification/interactor/viewmodels/bloc.dart';
 
