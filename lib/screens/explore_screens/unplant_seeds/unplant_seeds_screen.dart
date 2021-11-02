@@ -8,7 +8,6 @@ import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
 import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/snack_bar_info.dart';
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -98,8 +97,8 @@ class UnplantSeedsScreen extends StatelessWidget {
                               ClaimUnplantSeedsBalanceRow(
                                   onTapClaim: () {},
                                   isClaimButtonEnable: false,
-                                  tokenAmount: TokenDataModel(0),
-                                  fiatAmount: FiatDataModel(0)),
+                                  tokenAmount: state.availableClaimBalance,
+                                  fiatAmount: state.availableClaimBalanceFiat),
                             const SizedBox(height: 10),
                             const DividerJungle(),
                             const SizedBox(height: 10),

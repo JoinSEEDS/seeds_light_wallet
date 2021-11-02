@@ -20,7 +20,8 @@ class UnplantSeedsBloc extends Bloc<UnplantSeedsEvent, UnplantSeedsState> {
   Stream<UnplantSeedsState> mapEventToState(UnplantSeedsEvent event) async* {
     if (event is LoadUserPlantedBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result results = await GetPlantedBalanceUseCase().run();
+      final results = await GetPlantedBalanceUseCase().run();
+
       yield UserPlantedBalanceStateMapper().mapResultToState(
         state,
         results,

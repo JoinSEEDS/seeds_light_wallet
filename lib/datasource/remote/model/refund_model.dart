@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class RefundModel extends Equatable {
   final int requestId;
   final int refundId;
-  final double amount;
+  final String amount;
   final int requestTime;
   final int weeksDelay;
 
