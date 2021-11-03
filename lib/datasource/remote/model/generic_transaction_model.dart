@@ -5,9 +5,6 @@ class GenericTransactionModel {
   final String? transactionId;
   final DateTime? timestamp;
 
-  // List<SendInfoLineItems> get lineItems =>
-  //     data.entries.map((e) => SendInfoLineItems(label: e.key, text: e.value.toString())).toList();
-
   GenericTransactionModel({
     required this.transaction,
     this.transactionId,
