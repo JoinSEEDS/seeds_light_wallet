@@ -9,7 +9,6 @@ class SendConfirmationState extends Equatable {
   final TransactionPageCommand? pageCommand;
   final String? errorMessage;
   final EOSTransaction transaction;
-  // final List<SendInfoLineItems> lineItems;
 
   bool get isTransfer => transaction.isTransfer;
 
