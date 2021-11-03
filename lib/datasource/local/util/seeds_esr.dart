@@ -30,7 +30,7 @@ class SeedsESR {
       print("processResolvedRequest: Success QR");
       return ValueResult(ScanQrCodeResultData(transaction: eosTransaction));
     } else {
-      print("processResolvedRequest: canProcess is false: ");
+      print("processResolvedRequest: ESR transaction invalid ${actions.length} $actions");
       return ErrorResult("Unable to process this request");
     }
   }
