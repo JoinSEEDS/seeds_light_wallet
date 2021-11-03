@@ -17,6 +17,7 @@ import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmod
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_events.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_state.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_info_line_items.dart';
 import 'package:seeds/utils/cap_utils.dart';
 
 /// SendConfirmation SCREEN
@@ -58,7 +59,7 @@ class SendConfirmationScreen extends StatelessWidget {
                 context: context,
                 barrierDismissible: false, // user must tap button
                 builder: (BuildContext buildContext) => GenericTransactionSuccessDialog(
-                  transaction: pageCommand.transactionModel,
+                  transactionModel: pageCommand.transactionModel,
                   onCloseButtonPressed: () {
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   },
@@ -86,13 +87,17 @@ class SendConfirmationScreen extends StatelessWidget {
                               TransactionDetails(
                                 /// This needs to change to use the token icon. right now its hard coded to seeds
                                 image: SvgPicture.asset("assets/images/seeds_logo.svg"),
-                                title: state.actionName.inCaps,
-                                beneficiary: state.account,
+                                // TODO(n13): This needs to show all transaction
+                                // Showing only the first transaction here to have a smaller PR
+                                // And still functioning code
+                                title: state.transaction.actions.first.actionName.inCaps,
+                                beneficiary: state.transaction.actions.first.accountName,
                               ),
                               const SizedBox(height: 42),
                               Column(
                                 children: <Widget>[
-                                  ...state.lineItems
+                                  // TODO(n13): Only showing the first action here, should show all actions
+                                  ...SendInfoLineItems.fromAction(state.transaction.actions.first)
                                       .map(
                                         (e) => Padding(
                                           padding: const EdgeInsets.only(top: 16),

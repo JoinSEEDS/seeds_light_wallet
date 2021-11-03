@@ -4,22 +4,26 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/constants/app_colors.dart';
+import 'package:seeds/datasource/local/models/eos_action.dart';
 import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_info_line_items.dart';
 
 class GenericTransactionSuccessDialog extends StatelessWidget {
-  final GenericTransactionModel transaction;
+  final GenericTransactionModel transactionModel;
   final VoidCallback onCloseButtonPressed;
 
   const GenericTransactionSuccessDialog({
     Key? key,
-    required this.transaction,
+    required this.transactionModel,
     required this.onCloseButtonPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // TODO(n13): make this work for list of actions, not just first action
+    final EOSAction eosAction = transactionModel.transaction.actions.first;
     return Center(
       child: SingleChildScrollView(
         child: CustomDialog(
@@ -30,7 +34,10 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(transaction.action, style: Theme.of(context).textTheme.headline4),
+                Text(
+                  eosAction.actionName,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
               ],
             ),
             Row(
@@ -38,14 +45,14 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 4),
-                  child: Text(transaction.account, style: Theme.of(context).textTheme.subtitle2),
+                  child: Text(eosAction.accountName, style: Theme.of(context).textTheme.subtitle2),
                 ),
               ],
             ),
             const SizedBox(height: 30.0),
             Column(
               children: <Widget>[
-                ...transaction.lineItems
+                ...SendInfoLineItems.fromAction(eosAction)
                     .map(
                       (e) => Padding(
                         padding: const EdgeInsets.only(top: 16),
@@ -70,7 +77,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                 Text('Date:  '.i18n, style: Theme.of(context).textTheme.subtitle2),
                 const SizedBox(width: 16),
                 Text(
-                  DateFormat('dd MMMM yyyy HH:mm').format(transaction.timestamp?.toLocal() ?? DateTime.now()),
+                  DateFormat('dd MMMM yyyy HH:mm').format(transactionModel.timestamp?.toLocal() ?? DateTime.now()),
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
               ],
@@ -81,7 +88,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
-                    transaction.transactionId ?? "",
+                    transactionModel.transactionId ?? "",
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
@@ -90,7 +97,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                   icon: const Icon(Icons.copy),
                   color: AppColors.lightGreen6,
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(text: transaction.transactionId ?? "No transaction ID")).then(
+                    Clipboard.setData(ClipboardData(text: transactionModel.transactionId ?? "No transaction ID")).then(
                       (_) {
                         ScaffoldMessenger.maybeOf(context)!
                             .showSnackBar(SnackBar(content: Text("Copied".i18n), duration: const Duration(seconds: 1)));

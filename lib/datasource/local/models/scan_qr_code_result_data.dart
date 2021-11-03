@@ -1,7 +1,7 @@
-class ScanQrCodeResultData {
-  final Map<String, dynamic> data;
-  final String accountName;
-  final String actionName;
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
 
-  ScanQrCodeResultData({required this.data, required this.accountName, required this.actionName});
+class ScanQrCodeResultData {
+  final EOSTransaction transaction;
+
+  ScanQrCodeResultData({required this.transaction});
 }

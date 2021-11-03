@@ -1,11 +1,9 @@
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
+
 class SendConfirmationArguments {
-  final String account;
-  final String name;
-  final Map<String, dynamic> data;
+  final EOSTransaction transaction;
 
   SendConfirmationArguments({
-    required this.account,
-    required this.name,
-    required this.data,
+    required this.transaction,
   });
 }

@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dart_esr/dart_esr.dart';
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 
@@ -24,21 +25,14 @@ class SeedsESR {
   // Pass around the whole ESR object, or an Action object.
   // instead of canProcess, have an isValid accessor on the ESR and handle this case in the mappers.
   Result processResolvedRequest() {
-    final Action action = actions.first;
-    if (_canProcess(action)) {
-      final Map<String, dynamic> data = Map<String, dynamic>.from(action.data! as Map<dynamic, dynamic>);
-      print(
-          " processResolvedRequest: Success QR contract: ${action.account} action: ${action.name} data: ${action.data!}");
-      return ValueResult(ScanQrCodeResultData(data: data, accountName: action.account, actionName: action.name));
+    final EOSTransaction eosTransaction = EOSTransaction.fromActionsList(actions);
+    if (eosTransaction.isValid) {
+      print("processResolvedRequest: Success QR");
+      return ValueResult(ScanQrCodeResultData(transaction: eosTransaction));
     } else {
       print("processResolvedRequest: canProcess is false: ");
       return ErrorResult("Unable to process this request");
     }
-  }
-
-  // TODO(n13): Remove - see above.
-  bool _canProcess(Action action) {
-    return action.account!.isNotEmpty && action.name!.isNotEmpty;
   }
 }
 

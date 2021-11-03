@@ -1,19 +1,15 @@
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_info_line_items.dart';
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
 
 class GenericTransactionModel {
-  final String account;
-  final String action;
-  final Map<String, dynamic> data;
+  final EOSTransaction transaction;
   final String? transactionId;
   final DateTime? timestamp;
 
-  List<SendInfoLineItems> get lineItems =>
-      data.entries.map((e) => SendInfoLineItems(label: e.key, text: e.value.toString())).toList();
+  // List<SendInfoLineItems> get lineItems =>
+  //     data.entries.map((e) => SendInfoLineItems(label: e.key, text: e.value.toString())).toList();
 
   GenericTransactionModel({
-    required this.account,
-    required this.action,
-    required this.data,
+    required this.transaction,
     this.transactionId,
     this.timestamp,
   });
@@ -25,9 +21,7 @@ class GenericTransactionModel {
     String transactionId,
   ) {
     return GenericTransactionModel(
-      account: account,
-      action: action,
-      data: data,
+      transaction: EOSTransaction.fromAction(account: account, actionName: action, data: data),
       transactionId: transactionId,
     );
   }

@@ -28,9 +28,7 @@ class SendPageBloc extends Bloc<SendPageEvent, SendPageState> {
           final value = result.asValue!.value as ScanQrCodeResultData;
 
           final args = SendConfirmationArguments(
-            account: value.accountName,
-            name: value.actionName,
-            data: value.data,
+            transaction: value.transaction,
           );
 
           yield state.copyWith(
