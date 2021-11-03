@@ -10,16 +10,4 @@ class GenericTransactionModel {
     this.transactionId,
     this.timestamp,
   });
-
-  factory GenericTransactionModel.fromTxData(
-    String account,
-    String action,
-    Map<String, dynamic> data,
-    String transactionId,
-  ) {
-    return GenericTransactionModel(
-      transaction: EOSTransaction.fromAction(account: account, actionName: action, data: data),
-      transactionId: transactionId,
-    );
-  }
 }

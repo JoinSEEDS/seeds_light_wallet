@@ -70,15 +70,4 @@ class TransactionModel extends Equatable {
 
     return null;
   }
-
-  factory TransactionModel.fromTxData(Map<String, dynamic> data, String transactionId) {
-    return TransactionModel(
-      from: data['from'],
-      to: data['to'],
-      quantity: data['quantity'],
-      memo: data['memo'],
-      timestamp: DateTime.now().toUtc(),
-      transactionId: transactionId,
-    );
-  }
 }
