@@ -18,16 +18,25 @@ class UserPlantedBalanceStateMapper extends StateMapper {
       final PlantedModel plantedSeeds = results[0].asValue!.value as PlantedModel;
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
       final plantedAmount = TokenDataModel(plantedSeeds.quantity);
-
-      double availableTotalClaim = 0;
       final List<RefundModel> refunds;
       final List<int> availableRequestIds = [];
-
+      final int millisecondsPerWeek = 24 * 60 * 60 * 1000;
       refunds = results[1].asValue?.value as List<RefundModel>;
+      bool enableClaimButton = false;
+      double availableTotalClaim = 0;
 
       for (final element in refunds) {
-        availableTotalClaim = availableTotalClaim + double.parse(element.amount.replaceAll('SEEDS', ''));
-        availableRequestIds.add(element.requestId);
+        final int claimDate = (element.requestTime * 1000) + (element.weeksDelay * millisecondsPerWeek);
+
+        if (DateTime.now().millisecondsSinceEpoch > claimDate) {
+          availableTotalClaim = availableTotalClaim + double.parse(element.amount.replaceAll('SEEDS', ''));
+          if (availableRequestIds.isEmpty) {
+            enableClaimButton = true;
+            availableRequestIds.add(element.requestId);
+          } else if (availableRequestIds.last != element.requestId) {
+            availableRequestIds.add(element.requestId);
+          }
+        }
       }
 
       return currentState.copyWith(
@@ -39,6 +48,7 @@ class UserPlantedBalanceStateMapper extends StateMapper {
         availableClaimBalanceFiat:
             currentState.ratesState.tokenToFiat(TokenDataModel(availableTotalClaim), selectedFiat),
         availableRequestIds: availableRequestIds,
+        isClaimButtonEnabled: enableClaimButton,
       );
     }
   }
