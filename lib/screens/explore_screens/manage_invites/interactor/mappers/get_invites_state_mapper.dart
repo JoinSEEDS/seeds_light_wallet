@@ -3,6 +3,7 @@ import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/interactor/usecases/load_invites_use_case.dart';
+import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewdata/InvitesItemsData.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewmodels/manage_invites_state.dart';
 
 class GetInvitesStateMapper extends StateMapper {
@@ -29,11 +30,4 @@ class GetInvitesStateMapper extends StateMapper {
 
     return InvitesItemsData(e, firstMach);
   }
-}
-
-class InvitesItemsData {
-  final InviteModel invite;
-  final ProfileModel? profileModel;
-
-  InvitesItemsData(this.invite, this.profileModel);
 }
