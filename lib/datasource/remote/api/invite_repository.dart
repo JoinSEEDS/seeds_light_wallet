@@ -100,4 +100,28 @@ class InviteRepository extends NetworkRepository with EosRepository {
             }))
         .catchError((error) => mapHttpError(error));
   }
+
+  Future<Result> getInvites(String userAccount) async {
+    print('[http] find all invites');
+
+    final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    final request = createRequest(
+      code: accountJoin,
+      scope: accountJoin,
+      table: tableInvites,
+      limit: 200,
+      indexPosition: 3,
+      lowerBound: userAccount,
+      upperBound: userAccount,
+    );
+
+    return http
+        .post(inviteURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+              final List<dynamic> invites = body['rows'].toList();
+              return invites.map((item) => InviteModel.fromJson(item)).toList();
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
 }
