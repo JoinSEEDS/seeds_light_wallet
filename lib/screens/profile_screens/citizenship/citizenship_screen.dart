@@ -9,6 +9,7 @@ import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/prof
 /// CITIZENSHIP SCREEN
 class CitizenshipScreen extends StatelessWidget {
   const CitizenshipScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final ProfileValuesArguments args = ModalRoute.of(context)!.settings.arguments! as ProfileValuesArguments;
@@ -16,7 +17,9 @@ class CitizenshipScreen extends StatelessWidget {
       create: (_) => CitizenshipBloc()..add(SetValues(profile: args.profile, score: args.scores)),
       child: Scaffold(
         appBar: AppBar(),
-        body: args.profile.status == ProfileStatus.visitor ? const VisitorView() : const ResidentView(),
+        body: SafeArea(
+          child: args.profile.status == ProfileStatus.visitor ? const VisitorView() : const ResidentView(),
+        ),
       ),
     );
   }

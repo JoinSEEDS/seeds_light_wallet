@@ -42,51 +42,51 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: max(0, min(height * 0.4, height - _approxWidgetHeight)),
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.fitWidth,
-                  image: AssetImage("assets/images/login/background.png"),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: max(0, min(height * 0.4, height - _approxWidgetHeight)),
+                decoration: const BoxDecoration(
+                  image: DecorationImage(fit: BoxFit.fitWidth, image: AssetImage("assets/images/login/background.png")),
                 ),
               ),
-            ),
-            SvgPicture.asset("assets/images/login/seeds_light_wallet_logo.svg"),
-            const SizedBox(height: 80),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("First time here?".i18n, style: Theme.of(context).textTheme.subtitle2),
-                  const SizedBox(height: 10),
-                  FlatButtonLong(
-                    onPressed: () => NavigationService.of(context).navigateTo(Routes.signup),
-                    title: "Claim invite code".i18n,
-                  ),
-                  const SizedBox(height: 40),
-                  Text("Already have a Seeds Account?".i18n, style: Theme.of(context).textTheme.subtitle2),
-                  const SizedBox(height: 10),
-                  FlatButtonLongOutlined(
-                    onPressed: () {
-                      /// We use remoteConfigurations directly here because this page doesnt have blocs.
-                      /// !!!Please do not copy this pattern!!!
-                      if (remoteConfigurations.featureFlagExportRecoveryPhraseEnabled) {
-                        NavigationService.of(context).navigateTo(Routes.importWords);
-                      } else {
-                        NavigationService.of(context).navigateTo(Routes.importKey);
-                      }
-                    },
-                    title: "Import Account".i18n,
-                  )
-                ],
+              SvgPicture.asset("assets/images/login/seeds_light_wallet_logo.svg"),
+              const SizedBox(height: 80),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("First time here?".i18n, style: Theme.of(context).textTheme.subtitle2),
+                    const SizedBox(height: 10),
+                    FlatButtonLong(
+                      onPressed: () => NavigationService.of(context).navigateTo(Routes.signup),
+                      title: "Claim invite code".i18n,
+                    ),
+                    const SizedBox(height: 40),
+                    Text("Already have a Seeds Account?".i18n, style: Theme.of(context).textTheme.subtitle2),
+                    const SizedBox(height: 10),
+                    FlatButtonLongOutlined(
+                      onPressed: () {
+                        /// We use remoteConfigurations directly here because this page doesnt have blocs.
+                        /// !!!Please do not copy this pattern!!!
+                        if (remoteConfigurations.featureFlagExportRecoveryPhraseEnabled) {
+                          NavigationService.of(context).navigateTo(Routes.importWords);
+                        } else {
+                          NavigationService.of(context).navigateTo(Routes.importKey);
+                        }
+                      },
+                      title: "Import Account".i18n,
+                    )
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 80),
-          ],
+              const SizedBox(height: 80),
+            ],
+          ),
         ),
       ),
     );

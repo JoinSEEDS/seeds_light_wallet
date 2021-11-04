@@ -91,90 +91,92 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
               case PageState.failure:
                 return const FullPageErrorIndicator();
               case PageState.success:
-                return ListView(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularStepProgressIndicator(
-                          totalSteps: 99,
-                          currentStep: _contribution,
-                          stepSize: 2.5,
-                          selectedColor: AppColors.green1,
-                          unselectedColor: AppColors.darkGreen2,
-                          padding: 0,
-                          width: 195,
-                          height: 195,
-                          selectedStepSize: 2.5,
-                          roundedCap: (_, __) => true,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Contribution'.i18n,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    style: Theme.of(context).textTheme.headline7),
-                                const SizedBox(height: 8.0),
-                                Text('$_contribution/99', style: Theme.of(context).textTheme.headline3),
-                              ],
+                return SafeArea(
+                  child: ListView(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularStepProgressIndicator(
+                            totalSteps: 99,
+                            currentStep: _contribution,
+                            stepSize: 2.5,
+                            selectedColor: AppColors.green1,
+                            unselectedColor: AppColors.darkGreen2,
+                            padding: 0,
+                            width: 195,
+                            height: 195,
+                            selectedStepSize: 2.5,
+                            roundedCap: (_, __) => true,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Contribution'.i18n,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      style: Theme.of(context).textTheme.headline7),
+                                  const SizedBox(height: 8.0),
+                                  Text('$_contribution/99', style: Theme.of(context).textTheme.headline3),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    GridView.count(
-                      padding: const EdgeInsets.symmetric(vertical: 30.0),
-                      shrinkWrap: true,
-                      primary: false,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 25,
-                      crossAxisCount: 2,
-                      children: <Widget>[
-                        CircularProgressItem(
-                          icon: SvgPicture.asset('assets/images/contribution/community.svg'),
-                          totalStep: 99,
-                          currentStep: _community,
-                          circleRadius: 40,
-                          title: 'Community'.i18n,
-                          titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
-                          rate: '$_community',
-                          rateStyle: Theme.of(context).textTheme.headline4!,
-                        ),
-                        CircularProgressItem(
-                          icon: SvgPicture.asset('assets/images/contribution/reputation.svg'),
-                          totalStep: 99,
-                          currentStep: _reputation,
-                          circleRadius: 40,
-                          title: 'Reputation'.i18n,
-                          titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
-                          rate: '$_reputation',
-                          rateStyle: Theme.of(context).textTheme.headline4!,
-                        ),
-                        CircularProgressItem(
-                          icon: SvgPicture.asset('assets/images/contribution/planted.svg'),
-                          totalStep: 99,
-                          currentStep: _seeds,
-                          circleRadius: 40,
-                          title: 'Planted'.i18n,
-                          titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
-                          rate: '$_seeds',
-                          rateStyle: Theme.of(context).textTheme.headline4!,
-                        ),
-                        CircularProgressItem(
-                          icon: SvgPicture.asset('assets/images/contribution/transaction.svg'),
-                          totalStep: 99,
-                          currentStep: _transactions,
-                          circleRadius: 40,
-                          title: 'Transactions'.i18n,
-                          titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
-                          rate: '$_transactions',
-                          rateStyle: Theme.of(context).textTheme.headline4!,
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      GridView.count(
+                        padding: const EdgeInsets.symmetric(vertical: 30.0),
+                        shrinkWrap: true,
+                        primary: false,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 25,
+                        crossAxisCount: 2,
+                        children: <Widget>[
+                          CircularProgressItem(
+                            icon: SvgPicture.asset('assets/images/contribution/community.svg'),
+                            totalStep: 99,
+                            currentStep: _community,
+                            circleRadius: 40,
+                            title: 'Community'.i18n,
+                            titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
+                            rate: '$_community',
+                            rateStyle: Theme.of(context).textTheme.headline4!,
+                          ),
+                          CircularProgressItem(
+                            icon: SvgPicture.asset('assets/images/contribution/reputation.svg'),
+                            totalStep: 99,
+                            currentStep: _reputation,
+                            circleRadius: 40,
+                            title: 'Reputation'.i18n,
+                            titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
+                            rate: '$_reputation',
+                            rateStyle: Theme.of(context).textTheme.headline4!,
+                          ),
+                          CircularProgressItem(
+                            icon: SvgPicture.asset('assets/images/contribution/planted.svg'),
+                            totalStep: 99,
+                            currentStep: _seeds,
+                            circleRadius: 40,
+                            title: 'Planted'.i18n,
+                            titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
+                            rate: '$_seeds',
+                            rateStyle: Theme.of(context).textTheme.headline4!,
+                          ),
+                          CircularProgressItem(
+                            icon: SvgPicture.asset('assets/images/contribution/transaction.svg'),
+                            totalStep: 99,
+                            currentStep: _transactions,
+                            circleRadius: 40,
+                            title: 'Transactions'.i18n,
+                            titleStyle: Theme.of(context).textTheme.buttonLowEmphasis,
+                            rate: '$_transactions',
+                            rateStyle: Theme.of(context).textTheme.headline4!,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 );
               default:
                 return const SizedBox.shrink();
