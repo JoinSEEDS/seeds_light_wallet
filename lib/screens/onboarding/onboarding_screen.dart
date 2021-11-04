@@ -46,77 +46,73 @@ class OnboardingState extends State<OnboardingScreen> {
     final double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Column(
-        children: [
-          CarouselSlider(
-            carouselController: _controller,
-            items: [
-              const FirstPage(),
-              const SecondPage(),
-              const ThirdPage(),
-            ],
-            options: CarouselOptions(
-              height: height * 0.91,
-              viewportFraction: 1,
-              enableInfiniteScroll: false,
-              onPageChanged: (index, _) => setState(() => _selectedIndex = index),
-            ),
-          ),
-          Row(
-            children: [
-              const SizedBox(width: 20),
-              if (_selectedIndex != 0)
-                Container(
-                  alignment: Alignment.centerLeft,
-                  width: 100,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => onPageChangeBackward(),
-                  ),
-                )
-              else
-                const SizedBox(width: 100),
-              Expanded(
-                child: DotsIndicator(
-                  dotsCount: 3,
-                  position: _selectedIndex.toDouble(),
-                  decorator: const DotsDecorator(
-                    spacing: EdgeInsets.all(2.0),
-                    size: Size(10.0, 2.0),
-                    shape: Border(),
-                    color: AppColors.darkGreen2,
-                    activeColor: AppColors.green1,
-                    activeSize: Size(18.0, 2.0),
-                    activeShape: Border(),
-                  ),
-                ),
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: [
+            CarouselSlider(
+              carouselController: _controller,
+              items: [const FirstPage(), const SecondPage(), const ThirdPage()],
+              options: CarouselOptions(
+                height: height * 0.91,
+                viewportFraction: 1,
+                enableInfiniteScroll: false,
+                onPageChanged: (index, _) => setState(() => _selectedIndex = index),
               ),
-              if (_selectedIndex == 2)
-                Container(
-                  width: 100,
-                  child: TextButton(
-                    onPressed: () {
-                      NavigationService.of(context).navigateTo(Routes.login, null, true);
-                    },
-                    child: Text(
-                      "Join Now".i18n,
-                      style: Theme.of(context).textTheme.subtitle1,
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  const SizedBox(width: 20),
+                  if (_selectedIndex != 0)
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: 100,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () => onPageChangeBackward(),
+                      ),
+                    )
+                  else
+                    const SizedBox(width: 100),
+                  Expanded(
+                    child: DotsIndicator(
+                      dotsCount: 3,
+                      position: _selectedIndex.toDouble(),
+                      decorator: const DotsDecorator(
+                        spacing: EdgeInsets.all(2.0),
+                        size: Size(10.0, 2.0),
+                        shape: Border(),
+                        color: AppColors.darkGreen2,
+                        activeColor: AppColors.green1,
+                        activeSize: Size(18.0, 2.0),
+                        activeShape: Border(),
+                      ),
                     ),
                   ),
-                )
-              else
-                Container(
-                  alignment: Alignment.centerRight,
-                  width: 100,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_forward),
-                    onPressed: () => onPageChangeForward(),
-                  ),
-                ),
-              const SizedBox(width: 20)
-            ],
-          )
-        ],
+                  if (_selectedIndex == 2)
+                    Container(
+                      width: 100,
+                      child: TextButton(
+                        onPressed: () => NavigationService.of(context).navigateTo(Routes.login, null, true),
+                        child: Text("Join Now".i18n, style: Theme.of(context).textTheme.subtitle1),
+                      ),
+                    )
+                  else
+                    Container(
+                      alignment: Alignment.centerRight,
+                      width: 100,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_forward),
+                        onPressed: () => onPageChangeForward(),
+                      ),
+                    ),
+                  const SizedBox(width: 20)
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

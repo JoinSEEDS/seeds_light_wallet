@@ -55,7 +55,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
     return BlocProvider(
       create: (_) => _importKeyBloc,
       child: BlocBuilder<ImportKeyBloc, ImportKeyState>(
-        builder: (context, ImportKeyState state) {
+        builder: (context, state) {
           return Scaffold(
             bottomSheet: Padding(
               padding: const EdgeInsets.all(16),
