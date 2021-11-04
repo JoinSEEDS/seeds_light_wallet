@@ -20,6 +20,7 @@ abstract class EosRepository {
   String actionNameInit = 'init';
   String actionNameClaim = 'claim';
   String actionNameInvite = 'invite';
+  String actionNameCancelInvite = 'cancel';
   String actionNameTransfer = 'transfer';
   String actionNameUpdateauth = 'updateauth';
   String actionNameUpdate = 'update';
