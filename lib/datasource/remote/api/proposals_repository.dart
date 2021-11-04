@@ -213,15 +213,13 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
-  // return DelegateModel or null if no delegate
-  Future<Result> getDelegate(String account) {
+  // return DelegateModel
+  Future<Result> getDelegate(String account, String voiceScope) {
     print('[http] get delegate for $account');
-
-    final scope = voiceScopes[1];
 
     final request = createRequest(
       code: accountFunds,
-      scope: scope,
+      scope: voiceScope,
       table: tableDelegates,
       lowerBound: account,
       upperBound: account,
