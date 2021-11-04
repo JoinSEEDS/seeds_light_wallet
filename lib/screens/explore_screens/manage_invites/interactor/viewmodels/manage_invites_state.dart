@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/explore_screens/manage_invites/interactor/mappers/get_invites_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewdata/InvitesItemsData.dart';
 
 class ManageInvitesState extends Equatable {
   final PageState pageState;
@@ -10,8 +10,7 @@ class ManageInvitesState extends Equatable {
 
   Iterable<InvitesItemsData> get claimedInvites => invitesItemData.where((element) => element.invite.isClaimed);
 
-  Iterable<InvitesItemsData> get unclaimedInvites =>
-      invitesItemData.where((element) => !element.invite.isClaimed);
+  Iterable<InvitesItemsData> get unclaimedInvites => invitesItemData.where((element) => !element.invite.isClaimed);
 
   @override
   List<Object?> get props => [
