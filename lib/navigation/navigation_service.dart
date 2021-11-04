@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
@@ -135,8 +135,7 @@ class NavigationService {
   };
   StreamController<String>? _streamRouteListener;
 
-  static NavigationService of(BuildContext context, {bool listen = false}) =>
-      Provider.of<NavigationService>(context, listen: listen);
+  static NavigationService of(BuildContext context) => RepositoryProvider.of<NavigationService>(context);
 
   // ignore: use_setters_to_change_properties
   void addListener(StreamController<String> listener) {

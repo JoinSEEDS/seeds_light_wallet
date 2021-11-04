@@ -18,18 +18,16 @@ class RecoveryPhraseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('12-word Recovery Phrase')),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(16),
-          child: FlatButtonLong(
-              title: 'I’ve written it down',
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-        ),
-        body: BlocProvider(
-            create: (context) => RecoveryPhraseBloc(),
-            child: BlocBuilder<RecoveryPhraseBloc, RecoveryPhraseState>(builder: (context, state) {
+      appBar: AppBar(title: const Text('12-word Recovery Phrase')),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16),
+        child: FlatButtonLong(title: 'I’ve written it down', onPressed: () => Navigator.of(context).pop()),
+      ),
+      body: SafeArea(
+        child: BlocProvider(
+          create: (_) => RecoveryPhraseBloc(),
+          child: BlocBuilder<RecoveryPhraseBloc, RecoveryPhraseState>(
+            builder: (context, state) {
               return Padding(
                 padding: const EdgeInsets.all(horizontalEdgePadding),
                 child: SingleChildScrollView(
@@ -46,9 +44,7 @@ class RecoveryPhraseScreen extends StatelessWidget {
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Clipboard.setData(ClipboardData(text: state.printableWords));
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Copied')),
-                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Copied')));
                                   }),
                             const TextSpan(text: ' these words in the right order and save them somewhere safe. '),
                           ],
@@ -84,6 +80,10 @@ class RecoveryPhraseScreen extends StatelessWidget {
                   ),
                 ),
               );
-            })));
+            },
+          ),
+        ),
+      ),
+    );
   }
 }

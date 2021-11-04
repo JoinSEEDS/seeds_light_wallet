@@ -25,8 +25,10 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
   void initState() {
     super.initState();
     _setCurrencyBloc = SetCurrencyBloc()
-      ..add(LoadCurrencies(rates: BlocProvider.of<RatesBloc>(context).state.fiatRate!.rates));
-    _queryController.addListener(_onQueryChanged);
+      ..add(LoadCurrencies(BlocProvider.of<RatesBloc>(context).state.fiatRate?.rates ?? {}));
+    _queryController.addListener(() {
+      _setCurrencyBloc.add(OnQueryChanged(_queryController.text));
+    });
   }
 
   @override
@@ -43,10 +45,7 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                 controller: _queryController,
                 textCapitalization: TextCapitalization.characters,
                 hintText: "Search..".i18n,
-                suffixIcon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.search),
-                ),
+                suffixIcon: const Icon(Icons.search),
               ),
             ),
             Expanded(
@@ -60,22 +59,24 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
                     case PageState.failure:
                       return const FullPageErrorIndicator();
                     case PageState.success:
-                      return ListView.builder(
-                        itemCount: state.queryCurrenciesResults!.length,
-                        itemBuilder: (ctx, index) => ListTile(
-                          key: Key(state.queryCurrenciesResults![index].code),
-                          leading: Text(state.queryCurrenciesResults![index].flagEmoji,
-                              style: Theme.of(context).textTheme.headline4),
-                          title: Text(
-                            state.queryCurrenciesResults![index].code,
-                            style: Theme.of(context).textTheme.button,
+                      return SafeArea(
+                        child: ListView.builder(
+                          itemCount: state.queryCurrenciesResults!.length,
+                          itemBuilder: (_, index) => ListTile(
+                            key: Key(state.queryCurrenciesResults![index].code),
+                            leading: Text(state.queryCurrenciesResults![index].flagEmoji,
+                                style: Theme.of(context).textTheme.headline4),
+                            title: Text(
+                              state.queryCurrenciesResults![index].code,
+                              style: Theme.of(context).textTheme.button,
+                            ),
+                            subtitle: Text(state.queryCurrenciesResults![index].name,
+                                style: Theme.of(context).textTheme.subtitle4),
+                            onTap: () {
+                              settingsStorage.saveSelectedFiatCurrency(state.queryCurrenciesResults![index].code);
+                              Navigator.of(context).pop(true);
+                            },
                           ),
-                          subtitle: Text(state.queryCurrenciesResults![index].name,
-                              style: Theme.of(context).textTheme.subtitle4),
-                          onTap: () {
-                            settingsStorage.saveSelectedFiatCurrency(state.queryCurrenciesResults![index].code);
-                            Navigator.of(context).pop(true);
-                          },
                         ),
                       );
                     default:
@@ -88,9 +89,5 @@ class _SetCurrencyScreenState extends State<SetCurrencyScreen> {
         ),
       ),
     );
-  }
-
-  void _onQueryChanged() {
-    _setCurrencyBloc.add(OnQueryChanged(query: _queryController.text));
   }
 }

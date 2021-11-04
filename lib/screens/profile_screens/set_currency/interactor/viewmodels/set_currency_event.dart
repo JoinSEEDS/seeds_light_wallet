@@ -12,7 +12,7 @@ abstract class SetCurrencyEvent extends Equatable {
 class LoadCurrencies extends SetCurrencyEvent {
   final Map<String?, num> rates;
 
-  const LoadCurrencies({required this.rates});
+  const LoadCurrencies(this.rates);
 
   @override
   List<Object> get props => [rates];
@@ -24,7 +24,7 @@ class LoadCurrencies extends SetCurrencyEvent {
 class OnQueryChanged extends SetCurrencyEvent {
   final String query;
 
-  const OnQueryChanged({required this.query});
+  const OnQueryChanged(this.query);
 
   @override
   List<Object> get props => [query];

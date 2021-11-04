@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:i18n_extension/i18n_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_state.dart';
@@ -15,14 +14,14 @@ class SeedsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()..add(const InitAuthStatus())),
-        BlocProvider<RatesBloc>(create: (_) => RatesBloc()),
-        BlocProvider<DeeplinkBloc>(create: (_) => DeeplinkBloc()),
-      ],
-      child: Provider(
-        create: (_) => NavigationService(),
+    return RepositoryProvider(
+      create: (_) => NavigationService(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()..add(const InitAuthStatus())),
+          BlocProvider<RatesBloc>(create: (_) => RatesBloc()),
+          BlocProvider<DeeplinkBloc>(create: (_) => DeeplinkBloc()),
+        ],
         child: BlocListener<DeeplinkBloc, DeeplinkState>(
           listenWhen: (previous, current) => previous.inviteLinkData == null && current.inviteLinkData != null,
           listener: (context, _) => BlocProvider.of<AuthenticationBloc>(context).add(const OnInviteLinkRecived()),

@@ -1,7 +1,7 @@
 name: seeds
 description: SEEDS Wallet
 
-version: 2.3.0+56
+version: 2.3.1+57
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -39,7 +39,6 @@ dependencies:
   firebase_remote_config: ^0.10.0+1
   shimmer: ^2.0.0
   share: ^2.0.1
-  provider: ^5.0.0
   image_cropper: ^1.4.1
   carousel_slider: ^4.0.0
   dots_indicator: ^2.0.0

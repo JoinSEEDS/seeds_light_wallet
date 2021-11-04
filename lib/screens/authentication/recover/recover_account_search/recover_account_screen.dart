@@ -36,7 +36,7 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => RecoverAccountBloc(),
+      create: (_) => RecoverAccountBloc(),
       child: BlocConsumer<RecoverAccountBloc, RecoverAccountState>(
         listenWhen: (_, current) => current.pageCommand != null,
         listener: (context, state) {
@@ -53,62 +53,55 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
               child: FlatButtonLong(
                 title: 'Next'.i18n,
                 enabled: state.isGuardianActive,
-                onPressed: () {
-                  BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped());
-                },
+                onPressed: () => BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
               ),
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TextFormFieldCustom(
-                    maxLength: 12,
-                    counterText: null,
-                    labelText: "Username".i18n,
-                    controller: _keyController,
-                    suffixIcon: QuadStateClipboardIconButton(
-                      isChecked: state.isGuardianActive,
-                      onClear: () {
-                        _keyController.clear();
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    TextFormFieldCustom(
+                      maxLength: 12,
+                      counterText: null,
+                      labelText: "Username".i18n,
+                      controller: _keyController,
+                      suffixIcon: QuadStateClipboardIconButton(
+                        isChecked: state.isGuardianActive,
+                        onClear: () => _keyController.clear(),
+                        isLoading: state.pageState == PageState.loading,
+                        canClear: _keyController.text.isNotEmpty,
+                      ),
+                      onChanged: (value) {
+                        _debouncer
+                            .run(() => BlocProvider.of<RecoverAccountBloc>(context).add(OnUsernameChanged(value)));
                       },
-                      isLoading: state.pageState == PageState.loading,
-                      canClear: _keyController.text.isNotEmpty,
                     ),
-                    onChanged: (String value) {
-                      _debouncer.run(() {
-                        BlocProvider.of<RecoverAccountBloc>(context).add(OnUsernameChanged(value));
-                      });
-                    },
-                  ),
-                  if (state.isValidAccount)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.darkGreen2,
-                        borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+                    if (state.isValidAccount)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.darkGreen2,
+                          borderRadius: BorderRadius.circular(defaultCardBorderRadius),
+                        ),
+                        child: SearchResultRow(
+                          imageUrl: state.accountImage,
+                          account: state.userName!,
+                          name: state.accountName,
+                          resultCallBack: () => BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
+                        ),
                       ),
-                      child: SearchResultRow(
-                        imageUrl: state.accountImage,
-                        account: state.userName!,
-                        name: state.accountName,
-                        resultCallBack: () => BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
+                    const SizedBox(height: 30),
+                    if (state.errorMessage != null)
+                      Center(
+                        child: Text(
+                          state.errorMessage!,
+                          style: Theme.of(context).textTheme.subtitle3Red,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    )
-                  else
-                    const SizedBox.shrink(),
-                  const SizedBox(height: 30),
-                  if (state.errorMessage != null)
-                    Center(
-                      child: Text(
-                        state.errorMessage!,
-                        style: Theme.of(context).textTheme.subtitle3Red,
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  else
-                    const SizedBox.shrink(),
-                ],
+                  ],
+                ),
               ),
             ),
           );

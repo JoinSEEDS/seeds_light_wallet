@@ -40,92 +40,94 @@ class ImportWordsScreen extends StatelessWidget {
               ),
             ),
             appBar: AppBar(),
-            body: Padding(
-              padding: const EdgeInsets.all(horizontalEdgePadding),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      "Enter your 12-Word Recovery Phrase to recover your account.",
-                      style: Theme.of(context).textTheme.subtitle3,
-                      textAlign: TextAlign.left,
-                    ),
-                    const SizedBox(height: 24),
-                    GridView.count(
-                      padding: const EdgeInsets.only(top: 16),
-                      // to disable GridView's scrolling
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      crossAxisCount: NUMBER_OF_COLUMNS,
-                      childAspectRatio: NUMBER_OF_COLUMNS / 2,
-                      children: List.generate(NUMBER_OF_WORDS, (index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                              left: (index % NUMBER_OF_COLUMNS == 0) ? 0 : 8,
-                              right: ((index + 1) % NUMBER_OF_COLUMNS == 0) ? 0 : 8),
-                          child: Autocomplete<String>(
-                            fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
-                                FocusNode focusNode, VoidCallback onFieldSubmitted) {
-                              return TextField(
-                                controller: textEditingController,
-                                focusNode: focusNode,
-                                autocorrect: false,
-                                enableSuggestions: false,
-                                enabled: true,
-                                textInputAction: index < 11 ? TextInputAction.next : TextInputAction.done,
-                                onChanged: (value) {
-                                  BlocProvider.of<ImportKeyBloc>(context)
-                                      .add(OnWordChange(word: value, wordIndex: index));
-                                },
-                                keyboardType: TextInputType.visiblePassword,
-                                decoration: InputDecoration(
-                                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                                  labelText: (index + 1).toString(),
-                                  border: const OutlineInputBorder(),
-                                ),
-                              );
-                            },
-                            optionsBuilder: (TextEditingValue textEditingValue) {
-                              if (textEditingValue.text == '') {
-                                return const Iterable<String>.empty();
-                              }
-                              return wordList.where((String option) {
-                                return option.startsWith(textEditingValue.text.toLowerCase());
-                              });
-                            },
-                            onSelected: (String selection) {
-                              FocusScope.of(context).nextFocus();
-                              BlocProvider.of<ImportKeyBloc>(context)
-                                  .add(OnWordChange(word: selection, wordIndex: index));
-                            },
-                          ),
-                        );
-                      }),
-                    ),
-                    const SizedBox(height: 24),
-                    if (state.userEnteredWords.isEmpty)
-                      RichText(
-                        text: TextSpan(
-                          style: Theme.of(context).textTheme.subtitle2,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Tap here ',
-                              style: Theme.of(context).textTheme.subtitle2Green2,
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.of(context).pop();
-                                  NavigationService.of(context).navigateTo(Routes.importKey, fromSwitchAccount);
-                                },
-                            ),
-                            const TextSpan(text: ' if you want to import using your Private Key. '),
-                          ],
-                        ),
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(horizontalEdgePadding),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        "Enter your 12-Word Recovery Phrase to recover your account.",
+                        style: Theme.of(context).textTheme.subtitle3,
+                        textAlign: TextAlign.left,
                       ),
-                    const SizedBox(height: 24),
-                    const ImportKeyAccountsWidget(),
-                    const SizedBox(height: 200),
-                  ],
+                      const SizedBox(height: 24),
+                      GridView.count(
+                        padding: const EdgeInsets.only(top: 16),
+                        // to disable GridView's scrolling
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        crossAxisCount: NUMBER_OF_COLUMNS,
+                        childAspectRatio: NUMBER_OF_COLUMNS / 2,
+                        children: List.generate(NUMBER_OF_WORDS, (index) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                                left: (index % NUMBER_OF_COLUMNS == 0) ? 0 : 8,
+                                right: ((index + 1) % NUMBER_OF_COLUMNS == 0) ? 0 : 8),
+                            child: Autocomplete<String>(
+                              fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
+                                  FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                                return TextField(
+                                  controller: textEditingController,
+                                  focusNode: focusNode,
+                                  autocorrect: false,
+                                  enableSuggestions: false,
+                                  enabled: true,
+                                  textInputAction: index < 11 ? TextInputAction.next : TextInputAction.done,
+                                  onChanged: (value) {
+                                    BlocProvider.of<ImportKeyBloc>(context)
+                                        .add(OnWordChange(word: value, wordIndex: index));
+                                  },
+                                  keyboardType: TextInputType.visiblePassword,
+                                  decoration: InputDecoration(
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    labelText: (index + 1).toString(),
+                                    border: const OutlineInputBorder(),
+                                  ),
+                                );
+                              },
+                              optionsBuilder: (TextEditingValue textEditingValue) {
+                                if (textEditingValue.text == '') {
+                                  return const Iterable<String>.empty();
+                                }
+                                return wordList.where((String option) {
+                                  return option.startsWith(textEditingValue.text.toLowerCase());
+                                });
+                              },
+                              onSelected: (String selection) {
+                                FocusScope.of(context).nextFocus();
+                                BlocProvider.of<ImportKeyBloc>(context)
+                                    .add(OnWordChange(word: selection, wordIndex: index));
+                              },
+                            ),
+                          );
+                        }),
+                      ),
+                      const SizedBox(height: 24),
+                      if (state.userEnteredWords.isEmpty)
+                        RichText(
+                          text: TextSpan(
+                            style: Theme.of(context).textTheme.subtitle2,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Tap here ',
+                                style: Theme.of(context).textTheme.subtitle2Green2,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.of(context).pop();
+                                    NavigationService.of(context).navigateTo(Routes.importKey, fromSwitchAccount);
+                                  },
+                              ),
+                              const TextSpan(text: ' if you want to import using your Private Key. '),
+                            ],
+                          ),
+                        ),
+                      const SizedBox(height: 24),
+                      const ImportKeyAccountsWidget(),
+                      const SizedBox(height: 200),
+                    ],
+                  ),
                 ),
               ),
             ),

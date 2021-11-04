@@ -25,21 +25,23 @@ class VerificationScreen extends StatelessWidget {
         // User can only pop without auth if it is on security screen
         onWillPop: () async => _securityBloc != null,
         child: Scaffold(
-          body: BlocBuilder<VerificationBloc, VerificationState>(
-            builder: (context, state) {
-              switch (state.pageState) {
-                case PageState.initial:
-                  return const SizedBox.shrink();
-                case PageState.loading:
-                  return const FullPageLoadingIndicator();
-                case PageState.failure:
-                  return const FullPageErrorIndicator();
-                case PageState.success:
-                  return state.isCreateView! ? const CreatePasscode() : const VerifyPasscode();
-                default:
-                  return const SizedBox.shrink();
-              }
-            },
+          body: SafeArea(
+            child: BlocBuilder<VerificationBloc, VerificationState>(
+              builder: (context, state) {
+                switch (state.pageState) {
+                  case PageState.initial:
+                    return const SizedBox.shrink();
+                  case PageState.loading:
+                    return const FullPageLoadingIndicator();
+                  case PageState.failure:
+                    return const FullPageErrorIndicator();
+                  case PageState.success:
+                    return state.isCreateView! ? const CreatePasscode() : const VerifyPasscode();
+                  default:
+                    return const SizedBox.shrink();
+                }
+              },
+            ),
           ),
         ),
       ),
