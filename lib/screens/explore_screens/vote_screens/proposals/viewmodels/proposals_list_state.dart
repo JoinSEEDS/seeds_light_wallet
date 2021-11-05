@@ -1,11 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
+part of '../viewmodels/proposals_list_bloc.dart';
 
-/// --- STATE
 class ProposalsListState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;

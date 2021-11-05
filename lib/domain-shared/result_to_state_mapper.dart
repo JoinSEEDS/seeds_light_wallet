@@ -12,3 +12,7 @@ class StateMapper {
     return results.where((Result element) => element.isError).isEmpty;
   }
 }
+
+extension ValueResult<T> on Result<T> {
+  T? get valueOrNull => isValue ? asValue!.value : null;
+}

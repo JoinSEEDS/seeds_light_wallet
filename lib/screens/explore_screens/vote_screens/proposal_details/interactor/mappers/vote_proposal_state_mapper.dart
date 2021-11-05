@@ -2,7 +2,7 @@ import 'package:seeds/datasource/remote/model/vote_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/page_commands.dart';
-import '../viewmodels/proposal_details_state.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/proposal_details_bloc.dart';
 
 class VoteProposalStateMapper extends StateMapper {
   ProposalDetailsState mapResultsToState(ProposalDetailsState currentState, Result result) {

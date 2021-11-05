@@ -1,8 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/current_remaining_time.dart';
+part of 'vote_bloc.dart';
 
-/// --- STATE
 class VoteState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
@@ -10,6 +7,7 @@ class VoteState extends Equatable {
   final CurrentRemainingTime? currentRemainingTime;
   final bool shouldShowDelegateIcon;
   final bool isCitizen;
+  final List<CategoryDelegate> currentDelegates;
 
   const VoteState({
     required this.pageState,
@@ -18,6 +16,7 @@ class VoteState extends Equatable {
     this.currentRemainingTime,
     required this.shouldShowDelegateIcon,
     required this.isCitizen,
+    required this.currentDelegates,
   });
 
   @override
@@ -28,6 +27,7 @@ class VoteState extends Equatable {
         currentRemainingTime,
         shouldShowDelegateIcon,
         isCitizen,
+        currentDelegates,
       ];
 
   VoteState copyWith({
@@ -37,6 +37,7 @@ class VoteState extends Equatable {
     CurrentRemainingTime? currentRemainingTime,
     bool? shouldShowDelegateIcon,
     bool? isCitizen,
+    List<CategoryDelegate>? currentDelegates,
   }) {
     return VoteState(
       pageState: pageState ?? this.pageState,
@@ -45,14 +46,17 @@ class VoteState extends Equatable {
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
       shouldShowDelegateIcon: shouldShowDelegateIcon ?? this.shouldShowDelegateIcon,
       isCitizen: isCitizen ?? this.isCitizen,
+      currentDelegates: currentDelegates ?? this.currentDelegates,
     );
   }
 
   factory VoteState.initial(bool featureFlagDelegateEnabled, bool isCitizen) {
     return VoteState(
-        pageState: PageState.initial,
-        remainingTimeStamp: 0,
-        shouldShowDelegateIcon: featureFlagDelegateEnabled,
-        isCitizen: isCitizen);
+      pageState: PageState.initial,
+      remainingTimeStamp: 0,
+      shouldShowDelegateIcon: featureFlagDelegateEnabled,
+      isCitizen: isCitizen,
+      currentDelegates: [],
+    );
   }
 }

@@ -7,7 +7,7 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_list_state.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_list_bloc.dart';
 
 const String _alliance = 'alliance';
 const String _cmp_funding = 'cmp.funding';
