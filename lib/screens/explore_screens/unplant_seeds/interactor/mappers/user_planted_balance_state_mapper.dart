@@ -27,7 +27,7 @@ class UserPlantedBalanceStateMapper extends StateMapper {
       final List<RefundModel> refunds = values.firstWhere((i) => i is List<RefundModel>, orElse: () => []);
 
       for (final element in refunds) {
-        availableTotalClaim = availableTotalClaim + double.parse(element.amount.replaceAll('SEEDS', ''));
+        availableTotalClaim = availableTotalClaim + element.amount;
         availableRequestIds.add(element.requestId);
       }
 
