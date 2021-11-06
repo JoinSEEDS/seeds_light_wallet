@@ -23,17 +23,15 @@ class InviteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-      InviteBloc(BlocProvider
-          .of<RatesBloc>(context)
-          .state)
-        ..add(const LoadUserBalance()),
+      create: (context) => InviteBloc(BlocProvider.of<RatesBloc>(context).state)..add(const LoadUserBalance()),
       child: Scaffold(
         appBar: AppBar(
           title: Text('Invite'.i18n),
-          actions: [IconButton(onPressed: () {
-            NavigationService.of(context).navigateTo(Routes.manageInvites);
-          }, icon: const Icon(Icons.settings))
+          actions: [
+            IconButton(
+              onPressed: () => NavigationService.of(context).navigateTo(Routes.manageInvites),
+              icon: const Icon(Icons.settings),
+            )
           ],
         ),
         body: BlocConsumer<InviteBloc, InviteState>(
@@ -56,7 +54,7 @@ class InviteScreen extends StatelessWidget {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             }
           },
-          builder: (context, InviteState state) {
+          builder: (context, state) {
             switch (state.pageState) {
               case PageState.initial:
                 return const SizedBox.shrink();
@@ -65,56 +63,51 @@ class InviteScreen extends StatelessWidget {
               case PageState.failure:
                 return const FullPageErrorIndicator();
               case PageState.success:
-                return Stack(
-                  children: [
-                    SingleChildScrollView(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height - Scaffold
-                            .of(context)
-                            .appBarMaxHeight!,
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 16),
-                            Text('Invite amount'.i18n, style: Theme
-                                .of(context)
-                                .textTheme
-                                .headline6),
-                            const SizedBox(height: 16),
-                            AmountEntryWidget(
-                              tokenDataModel: TokenDataModel(0),
-                              onValueChange: (value) {
-                                BlocProvider.of<InviteBloc>(context).add(OnAmountChange(amountChanged: value));
-                              },
-                              autoFocus: state.isAutoFocus,
-                            ),
-                            const SizedBox(height: 24),
-                            AlertInputValue(state.alertMessage ?? '', isVisible: state.alertMessage != null),
-                            const SizedBox(height: 24),
-                            BalanceRow(
-                              label: 'Available Balance'.i18n,
-                              fiatAmount: state.availableBalanceFiat,
-                              tokenAmount: state.availableBalance,
-                            ),
-                          ],
+                return SafeArea(
+                  child: Stack(
+                    children: [
+                      SingleChildScrollView(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 16),
+                              Text('Invite amount'.i18n, style: Theme.of(context).textTheme.headline6),
+                              const SizedBox(height: 16),
+                              AmountEntryWidget(
+                                tokenDataModel: TokenDataModel(0),
+                                onValueChange: (value) {
+                                  BlocProvider.of<InviteBloc>(context).add(OnAmountChange(amountChanged: value));
+                                },
+                                autoFocus: state.isAutoFocus,
+                              ),
+                              const SizedBox(height: 24),
+                              AlertInputValue(state.alertMessage ?? '', isVisible: state.alertMessage != null),
+                              const SizedBox(height: 24),
+                              BalanceRow(
+                                label: 'Available Balance'.i18n,
+                                fiatAmount: state.availableBalanceFiat,
+                                tokenAmount: state.availableBalance,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: FlatButtonLong(
-                          title: 'Create invite'.i18n,
-                          enabled: state.isCreateInviteButtonEnabled,
-                          onPressed: () => BlocProvider.of<InviteBloc>(context).add(const OnCreateInviteButtonTapped()),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: FlatButtonLong(
+                            title: 'Create invite'.i18n,
+                            enabled: state.isCreateInviteButtonEnabled,
+                            onPressed: () =>
+                                BlocProvider.of<InviteBloc>(context).add(const OnCreateInviteButtonTapped()),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               default:
                 return const SizedBox.shrink();

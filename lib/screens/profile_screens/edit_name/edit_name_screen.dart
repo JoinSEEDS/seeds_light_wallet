@@ -26,12 +26,25 @@ class _EditNameScreenState extends State<EditNameScreen> {
   void initState() {
     super.initState();
     _editNameBloc = EditNameBloc();
-    _nameController.addListener(_onNameChanged);
+    _nameController.addListener(() {
+      _editNameBloc.add(OnNameChanged(name: _nameController.text));
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  void _onSubmitted() {
+    if (_formKeyName.currentState!.validate()) {
+      _editNameBloc.add(SubmitName(profile: _profileModel));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO(raul): I do not like this way to retrive a value from navigation, https://github.com/JoinSEEDS/seeds_light_wallet/issues/500.
     _profileModel = ModalRoute.of(context)!.settings.arguments as ProfileModel?;
     _nameController.text = _profileModel?.nickname ?? '';
     return Scaffold(
@@ -39,13 +52,14 @@ class _EditNameScreenState extends State<EditNameScreen> {
       body: BlocProvider(
         create: (_) => _editNameBloc,
         child: BlocConsumer<EditNameBloc, EditNameState>(
-            listenWhen: (previous, current) =>
-                previous.pageState != PageState.success && current.pageState == PageState.success,
-            listener: (context, state) => Navigator.of(context).pop(state.name),
-            builder: (context, state) {
-              switch (state.pageState) {
-                case PageState.initial:
-                  return Form(
+          listenWhen: (previous, current) =>
+              previous.pageState != PageState.success && current.pageState == PageState.success,
+          listener: (context, state) => Navigator.of(context).pop(state.name),
+          builder: (_, state) {
+            switch (state.pageState) {
+              case PageState.initial:
+                return SafeArea(
+                  child: Form(
                     key: _formKeyName,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -65,37 +79,26 @@ class _EditNameScreenState extends State<EditNameScreen> {
                           const Spacer(),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 16.0),
-                            child: FlatButtonLong(title: 'Save Changes'.i18n, onPressed: () => _onSubmitted()),
+                            child: FlatButtonLong(
+                              title: 'Save Changes'.i18n,
+                              onPressed: () => _onSubmitted(),
+                            ),
                           )
                         ],
                       ),
                     ),
-                  );
-                case PageState.loading:
-                  return const FullPageLoadingIndicator();
-                case PageState.failure:
-                  return const FullPageErrorIndicator();
-                default:
-                  return const SizedBox.shrink();
-              }
-            }),
+                  ),
+                );
+              case PageState.loading:
+                return const FullPageLoadingIndicator();
+              case PageState.failure:
+                return const FullPageErrorIndicator();
+              default:
+                return const SizedBox.shrink();
+            }
+          },
+        ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
-  }
-
-  void _onNameChanged() {
-    _editNameBloc.add(OnNameChanged(name: _nameController.text));
-  }
-
-  void _onSubmitted() {
-    if (_formKeyName.currentState!.validate()) {
-      _editNameBloc.add(SubmitName(profile: _profileModel));
-    }
   }
 }

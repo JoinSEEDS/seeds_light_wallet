@@ -20,6 +20,7 @@ abstract class EosRepository {
   String actionNameInit = 'init';
   String actionNameClaim = 'claim';
   String actionNameInvite = 'invite';
+  String actionNameCancelInvite = 'cancel';
   String actionNameTransfer = 'transfer';
   String actionNameUpdateauth = 'updateauth';
   String actionNameUpdate = 'update';
@@ -40,10 +41,14 @@ abstract class EosRepository {
   String permissionApplication = 'application';
 
   // Voice scopes
+  static String voiceScopeAlliance = "alliance";
+  static String voiceScopeCampaign = "funds.seeds"; // Note: campaign voice scope is contract scope
+  static String voiceScopeMilestone = "milestone"; // Note: campaign voice scope is contract scope
+
   List<String> voiceScopes = [
-    "alliance",
-    "funds.seeds", // Note: this is the campaign voice scope
-    "milestone",
+    voiceScopeAlliance,
+    voiceScopeCampaign,
+    voiceScopeMilestone,
     // "referendum", // referendum delegation not working on the contract side at the moment
   ];
 

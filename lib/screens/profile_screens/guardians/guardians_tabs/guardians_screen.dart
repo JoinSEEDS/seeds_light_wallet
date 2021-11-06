@@ -27,75 +27,69 @@ class GuardiansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => GuardiansBloc(),
-        child: BlocListener<GuardiansBloc, GuardiansState>(
-            listenWhen: (_, current) => current.pageCommand != null,
-            listener: (context, state) {
-              final pageCommand = state.pageCommand;
-              BlocProvider.of<GuardiansBloc>(context).add(ClearPageCommand());
+      create: (_) => GuardiansBloc(),
+      child: BlocListener<GuardiansBloc, GuardiansState>(
+        listenWhen: (_, current) => current.pageCommand != null,
+        listener: (context, state) {
+          final pageCommand = state.pageCommand;
+          BlocProvider.of<GuardiansBloc>(context).add(ClearPageCommand());
 
-              if (pageCommand is NavigateToRouteWithArguments) {
-                NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
-              } else if (pageCommand is ShowRecoveryStarted) {
-                _showRecoveryStartedBottomSheet(context, pageCommand.guardian);
-              } else if (pageCommand is ShowRemoveGuardianView) {
-                _showRemoveGuardianDialog(context, pageCommand.guardian);
-              } else if (pageCommand is ShowErrorMessage) {
-                SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-              } else if (pageCommand is ShowMessage) {
-                SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
-              } else if (pageCommand is ShowOnboardingGuardianSingleAction) {
-                _showOnboardingGuardianDialogSingleAction(pageCommand, context);
-              } else if (pageCommand is ShowOnboardingGuardianDoubleAction) {
-                _showOnboardingGuardianDialogDoubleAction(pageCommand, context);
-              } else if (pageCommand is ShowActivateGuardian) {
-                _showActivateGuardianDialog(pageCommand, context);
-              }
-            },
-            child: BlocBuilder<GuardiansBloc, GuardiansState>(builder: (context, state) {
-              return DefaultTabController(
-                  length: 2,
-                  child: Scaffold(
-                      floatingActionButton: state.pageState == PageState.loading
-                          ? const SizedBox.shrink()
-                          : Padding(
-                              padding: const EdgeInsets.only(left: 32),
-                              child: FlatButtonLong(
-                                title: "+ Add Guardians".i18n,
-                                onPressed: () {
-                                  BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
-                                },
-                              )),
-                      appBar: AppBar(
-                        bottom: TabBar(
-                          tabs: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text("My Guardians".i18n),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text("I'm Guardian For".i18n),
-                            )
-                          ],
-                        ),
-                        leading: IconButton(
-                          icon: const Icon(Icons.arrow_back),
+          if (pageCommand is NavigateToRouteWithArguments) {
+            NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+          } else if (pageCommand is ShowRecoveryStarted) {
+            _showRecoveryStartedBottomSheet(context, pageCommand.guardian);
+          } else if (pageCommand is ShowRemoveGuardianView) {
+            _showRemoveGuardianDialog(context, pageCommand.guardian);
+          } else if (pageCommand is ShowErrorMessage) {
+            SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+          } else if (pageCommand is ShowMessage) {
+            SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+          } else if (pageCommand is ShowOnboardingGuardianSingleAction) {
+            _showOnboardingGuardianDialogSingleAction(pageCommand, context);
+          } else if (pageCommand is ShowOnboardingGuardianDoubleAction) {
+            _showOnboardingGuardianDialogDoubleAction(pageCommand, context);
+          } else if (pageCommand is ShowActivateGuardian) {
+            _showActivateGuardianDialog(pageCommand, context);
+          }
+        },
+        child: BlocBuilder<GuardiansBloc, GuardiansState>(
+          builder: (context, state) {
+            return DefaultTabController(
+              length: 2,
+              child: Scaffold(
+                floatingActionButton: state.pageState == PageState.loading
+                    ? const SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.only(left: 32),
+                        child: FlatButtonLong(
+                          title: "+ Add Guardians".i18n,
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            BlocProvider.of<GuardiansBloc>(context).add(OnAddGuardiansTapped());
                           },
                         ),
-                        title: Text("Key Guardians".i18n),
                       ),
-                      body: state.pageState == PageState.loading
-                          ? const FullPageLoadingIndicator()
-                          : const TabBarView(
-                              children: [
-                                MyGuardiansTab(),
-                                ImGuardianForTab(),
-                              ],
-                            )));
-            })));
+                appBar: AppBar(
+                  bottom: TabBar(
+                    tabs: [
+                      Padding(padding: const EdgeInsets.all(16.0), child: Text("My Guardians".i18n)),
+                      Padding(padding: const EdgeInsets.all(16.0), child: Text("I'm Guardian For".i18n))
+                    ],
+                  ),
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  title: Text("Key Guardians".i18n),
+                ),
+                body: state.pageState == PageState.loading
+                    ? const FullPageLoadingIndicator()
+                    : const SafeArea(child: TabBarView(children: [MyGuardiansTab(), ImGuardianForTab()])),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 

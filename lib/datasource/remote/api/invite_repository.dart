@@ -100,4 +100,33 @@ class InviteRepository extends NetworkRepository with EosRepository {
             }))
         .catchError((error) => mapHttpError(error));
   }
+
+  Future<Result> cancelInvite({
+    required String accountName,
+    required String inviteHash,
+  }) async {
+    print('[eos] cancel invite $inviteHash');
+
+    final transaction = buildFreeTransaction([
+      Action()
+        ..account = accountJoin
+        ..name = actionNameCancelInvite
+        ..authorization = [
+          Authorization()
+            ..actor = accountName
+            ..permission = permissionActive
+        ]
+        ..data = {
+          'sponsor': accountName,
+          'invite_hash': inviteHash,
+        }
+    ], accountName);
+
+    return buildEosClient()
+        .pushTransaction(transaction)
+        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+              return TransactionResponse.fromJson(map);
+            }))
+        .catchError((error) => mapEosError(error));
+  }
 }

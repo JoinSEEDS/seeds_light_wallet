@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
 import 'package:seeds/screens/authentication/login_screen.dart';
+import 'package:seeds/screens/authentication/onboarding/onboarding_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
 import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
@@ -20,7 +21,6 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_scr
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/delegate_a_user_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
-import 'package:seeds/screens/onboarding/onboarding_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
@@ -135,8 +135,7 @@ class NavigationService {
   };
   StreamController<String>? _streamRouteListener;
 
-  static NavigationService of(BuildContext context, {bool listen = false}) =>
-      Provider.of<NavigationService>(context, listen: listen);
+  static NavigationService of(BuildContext context) => RepositoryProvider.of<NavigationService>(context);
 
   // ignore: use_setters_to_change_properties
   void addListener(StreamController<String> listener) {

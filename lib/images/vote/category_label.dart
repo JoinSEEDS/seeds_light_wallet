@@ -5,7 +5,7 @@ import 'package:seeds/constants/app_colors.dart';
 class CategoryLabel extends CustomPainter {
   final Color? color;
 
-   const CategoryLabel( {this.color});
+  const CategoryLabel({this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
