@@ -21,7 +21,7 @@ class DelegatesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DelegateBloc()..add(const LoadDelegateData()),
+      create: (_) => DelegateBloc()..add(const LoadDelegateData()),
       child: BlocConsumer<DelegateBloc, DelegateState>(
         listener: (context, state) {
           final pageCommand = state.pageCommand;
@@ -49,7 +49,7 @@ class DelegatesTab extends StatelessWidget {
 
           BlocProvider.of<DelegateBloc>(context).add(ClearPageCommand());
         },
-        builder: (context, DelegateState state) {
+        builder: (context, state) {
           switch (state.pageState) {
             case PageState.initial:
               return const SizedBox.shrink();
@@ -71,12 +71,8 @@ class DelegatesTab extends StatelessWidget {
                     ),
                     const SizedBox(height: 30),
                     DelegateCard(
-                        onTapRemove: () {
-                          BlocProvider.of<DelegateBloc>(context).add(const RemoveDelegateTap());
-                        },
-                        onTap: () {
-                          NavigationService.of(context).navigateTo(Routes.delegateAUser);
-                        },
+                        onTapRemove: () => BlocProvider.of<DelegateBloc>(context).add(const RemoveDelegateTap()),
+                        onTap: () => NavigationService.of(context).navigateTo(Routes.delegateAUser),
                         activeDelegate: state.activeDelegate,
                         delegate: state.delegate)
                   ],
