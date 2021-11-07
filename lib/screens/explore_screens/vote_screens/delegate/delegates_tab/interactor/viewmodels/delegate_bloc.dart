@@ -2,14 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/datasource/remote/model/delegate_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/mapper/delegate_load_data_mapper.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/mapper/remove_delegate_mapper.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/usecase/delegate_load_data_usecase.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/usecase/load_delegate_as_member_use_case.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/usecase/remove_delegate_use_case.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_event.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_page_commands.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_state.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/mapper/delegate_load_data_mapper.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/mapper/remove_delegate_mapper.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/usecase/delegate_load_data_usecase.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/usecase/load_delegate_as_member_use_case.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/usecase/remove_delegate_use_case.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/viewmodels/delegate_event.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/viewmodels/delegate_page_commands.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/viewmodels/delegate_state.dart';
 
 class DelegateBloc extends Bloc<DelegateEvent, DelegateState> {
   DelegateBloc() : super(DelegateState.initial());
