@@ -1,7 +1,7 @@
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/interactor/viewmodels/delegate_state.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/viewmodels/delegate_state.dart';
 
 class RemoveDelegateResultMapper extends StateMapper {
   DelegateState mapResultToState(DelegateState currentState, Result result) {
