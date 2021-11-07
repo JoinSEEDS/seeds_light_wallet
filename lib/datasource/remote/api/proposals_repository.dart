@@ -235,6 +235,29 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
+  Future<Result> getDelegator(String account, String voiceScope) {
+    print('[http] get delegate for $account');
+
+    final request = createRequest(
+      code: accountFunds,
+      indexPosition: 2,
+      scope: voiceScope,
+      table: tableDelegates,
+      lowerBound: account,
+      upperBound: account,
+      limit: 100,
+    );
+
+    final url = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    return http
+        .post(url, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+      return DelegateModel.fromJson(body);
+    }))
+        .catchError((error) => mapHttpError(error));
+  }
+
   Future<Result> undelegate({required String accountName}) {
     print('[eos] undelegate all delegations for $accountName');
 
