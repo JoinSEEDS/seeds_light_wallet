@@ -41,9 +41,9 @@ class PlantedRepository extends NetworkRepository {
     return http
         .post(plantedURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-      return RefundModel.fromJson(body);
-    }))
+              final List<dynamic> allRefunds = body['rows'].toList();
+              return allRefunds.map((item) => RefundModel.fromJson(item)).toList();
+            }))
         .catchError((error) => mapHttpError(error));
   }
-
 }
