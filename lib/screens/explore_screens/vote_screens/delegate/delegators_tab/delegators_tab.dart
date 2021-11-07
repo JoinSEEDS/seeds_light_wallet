@@ -14,7 +14,7 @@ class DelegatorsTab extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-                'Delegators are Citizens that have chosen you to vote on their behalf. All votes already cast this cycle will not change. Deactivating Delegators makes it so other citizens cannot delegate their voting power to you.',
+                'Delegators are Citizens that have chosen you to vote on their behalf. All votes already cast this cycle will not change.',
                 style: Theme.of(context).textTheme.subtitle2),
           ),
           const SizedBox(height: 30),
