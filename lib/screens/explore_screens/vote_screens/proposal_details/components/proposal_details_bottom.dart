@@ -8,7 +8,7 @@ import 'package:seeds/i18n/explore_screens/vote/proposals/proposals_details.i18n
 import 'package:seeds/images/vote/arrow_next_proposal.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/components/current_vote_choice_label.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/components/vote_status_label.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/proposal_details_bloc.dart';
 
 class ProposalDetailsBottom extends StatelessWidget {
   const ProposalDetailsBottom({Key? key}) : super(key: key);

@@ -1,17 +1,14 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'vote_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class VoteEvent extends Equatable {
   const VoteEvent();
   @override
   List<Object> get props => [];
 }
 
-class StartCycleCountdown extends VoteEvent {
+class OnFetchInitialVoteSectionData extends VoteEvent {
   @override
-  String toString() => 'StartCycleCountdown';
+  String toString() => 'OnFetchInitialVoteSectionData';
 }
 
 class Tick extends VoteEvent {

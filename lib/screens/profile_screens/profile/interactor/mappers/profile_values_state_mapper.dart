@@ -64,7 +64,3 @@ class ProfileValuesStateMapper extends StateMapper {
     }
   }
 }
-
-extension _ValueResult<T> on Result<T> {
-  T? get valueOrNull => isValue ? asValue!.value : null;
-}

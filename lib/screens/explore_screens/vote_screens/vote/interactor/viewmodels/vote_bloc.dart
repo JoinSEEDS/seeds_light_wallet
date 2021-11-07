@@ -1,17 +1,20 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/mappers/initial_vote_data_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/mappers/remaining_time_state_mapper.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/usecases/get_next_moon_phase.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/usecases/get_initial_vote_section_data_use_case.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/campaign_delegate.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/current_remaining_time.dart';
 
-import '../mappers/next_moon_phase_state_mapper.dart';
+part 'vote_event.dart';
+part 'vote_state.dart';
 
-/// --- BLOC
 class VoteBloc extends Bloc<VoteEvent, VoteState> {
   StreamSubscription<int>? _tickerSubscription;
 
@@ -33,10 +36,10 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
 
   @override
   Stream<VoteState> mapEventToState(VoteEvent event) async* {
-    if (event is StartCycleCountdown) {
+    if (event is OnFetchInitialVoteSectionData) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result result = await GetNextMoonPhaseUseCase().run();
-      yield NextMoonPhaseStateMapper().mapResultToState(state, result);
+      final List<Result> results = await GetInitialVoteSectionDataUseCase().run();
+      yield InitialVoteDataStateMapper().mapResultToState(state, results);
       yield* _mapStartTimerToState();
     }
     if (event is Tick) {
@@ -45,7 +48,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
       } else {
         await _tickerSubscription?.cancel();
         // Fetch new cycle
-        add(StartCycleCountdown());
+        add(OnFetchInitialVoteSectionData());
       }
     }
   }
