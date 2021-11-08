@@ -10,9 +10,14 @@ class ClaimedInviteRow extends StatelessWidget {
   final ProfileStatus? status;
   final GestureTapCallback? resultCallBack;
 
-  const ClaimedInviteRow(
-      {Key? key, this.imageUrl, required this.account, this.name, this.resultCallBack, required this.status})
-      : super(key: key);
+  const ClaimedInviteRow({
+    Key? key,
+    this.imageUrl,
+    required this.account,
+    this.name,
+    this.resultCallBack,
+    required this.status,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
