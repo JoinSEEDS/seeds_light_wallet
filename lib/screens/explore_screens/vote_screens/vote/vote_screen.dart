@@ -27,8 +27,17 @@ class VoteScreen extends StatelessWidget {
                 actions: [
                   if (state.shouldShowDelegateIcon)
                     IconButton(
-                      onPressed:
-                          state.isCitizen ? () => NavigationService.of(context).navigateTo(Routes.delegate) : null,
+                      onPressed: state.isCitizen
+                          ? () async {
+                              await NavigationService.of(context)
+                                  .navigateTo(Routes.delegate)
+                                  .then((shouldRefreshDelegates) {
+                                if (shouldRefreshDelegates != null && shouldRefreshDelegates) {
+                                  BlocProvider.of<VoteBloc>(context).add(const OnRefreshCurrentDelegates());
+                                }
+                              });
+                            }
+                          : null,
                       icon: SvgPicture.asset('assets/images/explore/delegate.svg',
                           color: state.isCitizen ? null : AppColors.grey),
                     ),

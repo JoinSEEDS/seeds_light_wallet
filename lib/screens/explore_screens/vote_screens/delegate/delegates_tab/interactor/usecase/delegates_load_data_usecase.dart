@@ -3,7 +3,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/proposals_repository.dart';
 
-class DelegateLoadDataUseCase {
+class DelegatesLoadDataUseCase {
   final ProposalsRepository _proposalsRepository = ProposalsRepository();
 
   Future<Result> run() {
