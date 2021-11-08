@@ -51,6 +51,22 @@ class UnplantSeedsScreen extends StatelessWidget {
                 },
               );
             }
+            //Will add correct Dialog on next pr
+            if (pageCommand is ShowClaimSeedsSuccess) {
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<UnplantSeedsBloc>(context),
+                    child: UnplantSeedsSuccessDialog(
+                      unplantedInputAmountFiat: pageCommand.claimAmountFiat,
+                      unplantedInputAmount: pageCommand.claimAmount,
+                    ),
+                  );
+                },
+              );
+            }
             if (pageCommand is ShowErrorMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             }
@@ -96,14 +112,15 @@ class UnplantSeedsScreen extends StatelessWidget {
                               const SizedBox(height: 60),
                               if (state.showUnclaimedBalance)
                                 ClaimUnplantSeedsBalanceRow(
-                                  onTapClaim: () {},
-                                  isClaimButtonEnable: false,
-                                  tokenAmount: state.availableClaimBalance,
-                                  fiatAmount: state.availableClaimBalanceFiat),
-                            const SizedBox(height: 10),
-                            const DividerJungle(),
-                            const SizedBox(height: 10),
-                            BalanceRow(
+                                    onTapClaim: () =>
+                                        BlocProvider.of<UnplantSeedsBloc>(context).add(OnClaimButtonTap()),
+                                    isClaimButtonEnable: state.isClaimButtonEnabled,
+                                    tokenAmount: state.availableClaimBalance,
+                                    fiatAmount: state.availableClaimBalanceFiat),
+                              const SizedBox(height: 10),
+                              const DividerJungle(),
+                              const SizedBox(height: 10),
+                              BalanceRow(
                                 label: "Planted Balance",
                                 tokenAmount: state.plantedBalance,
                                 fiatAmount: state.plantedBalanceFiat,

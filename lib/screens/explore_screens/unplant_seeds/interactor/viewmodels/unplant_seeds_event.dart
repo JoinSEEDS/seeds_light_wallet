@@ -38,3 +38,8 @@ class OnUnplantSeedsButtonTap extends UnplantSeedsEvent {
   @override
   String toString() => 'OnUnplantSeedsButtonTap';
 }
+
+class OnClaimButtonTap extends UnplantSeedsEvent {
+  @override
+  String toString() => 'OnClaimButtonTap';
+}

@@ -23,6 +23,7 @@ class UnplantSeedsState extends Equatable {
   final TokenDataModel? availableClaimBalance;
   final FiatDataModel? availableClaimBalanceFiat;
   final List<int>? availableRequestIds;
+  final bool isClaimButtonEnabled;
 
   const UnplantSeedsState({
     required this.pageState,
@@ -41,6 +42,7 @@ class UnplantSeedsState extends Equatable {
     this.availableClaimBalance,
     this.availableClaimBalanceFiat,
     this.availableRequestIds,
+    required this.isClaimButtonEnabled,
   });
 
   @override
@@ -61,6 +63,7 @@ class UnplantSeedsState extends Equatable {
         availableClaimBalance,
         availableClaimBalanceFiat,
         availableRequestIds,
+        isClaimButtonEnabled,
       ];
 
   UnplantSeedsState copyWith({
@@ -81,6 +84,7 @@ class UnplantSeedsState extends Equatable {
     TokenDataModel? availableClaimBalance,
     FiatDataModel? availableClaimBalanceFiat,
     List<int>? availableRequestIds,
+    bool? isClaimButtonEnabled,
   }) {
     return UnplantSeedsState(
       pageState: pageState ?? this.pageState,
@@ -99,6 +103,7 @@ class UnplantSeedsState extends Equatable {
       availableClaimBalance: availableClaimBalance ?? this.availableClaimBalance,
       availableClaimBalanceFiat: availableClaimBalanceFiat ?? this.availableClaimBalanceFiat,
       availableRequestIds: availableRequestIds ?? this.availableRequestIds,
+      isClaimButtonEnabled: isClaimButtonEnabled ?? this.isClaimButtonEnabled,
     );
   }
 
@@ -114,6 +119,7 @@ class UnplantSeedsState extends Equatable {
       unplantedInputAmount: TokenDataModel(0),
       controller: TextEditingController(),
       showUnclaimedBalance: featureFlagDelegateEnabled,
+      isClaimButtonEnabled: false,
     );
   }
 }

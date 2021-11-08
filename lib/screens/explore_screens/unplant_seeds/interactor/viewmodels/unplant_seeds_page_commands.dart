@@ -8,3 +8,10 @@ class ShowUnplantSeedsSuccess extends PageCommand {
 
   ShowUnplantSeedsSuccess(this.unplantedInputAmount, this.unplantedInputAmountFiat);
 }
+
+class ShowClaimSeedsSuccess extends PageCommand {
+  final TokenDataModel claimAmount;
+  final FiatDataModel claimAmountFiat;
+
+  ShowClaimSeedsSuccess(this.claimAmount, this.claimAmountFiat);
+}

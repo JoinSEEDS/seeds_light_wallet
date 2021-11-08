@@ -15,20 +15,32 @@ class UserPlantedBalanceStateMapper extends StateMapper {
         pageState: PageState.failure,
       );
     } else {
+
       results.retainWhere((Result i) => i.isValue);
       final values = results.map((Result i) => i.asValue!.value).toList();
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
-      double availableTotalClaim = 0;
-      final List<int> availableRequestIds = [];
 
       final PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null);
       final plantedAmount = TokenDataModel(plantedSeeds?.quantity ?? 0);
 
+      final List<int> availableRequestIds = [];
+      final int millisecondsPerWeek = 24 * 60 * 60 * 1000;
+      bool enableClaimButton = false;
+      double availableTotalClaim = 0;
       final List<RefundModel> refunds = values.firstWhere((i) => i is List<RefundModel>, orElse: () => []);
 
       for (final element in refunds) {
-        availableTotalClaim = availableTotalClaim + element.amount;
-        availableRequestIds.add(element.requestId);
+        final int claimDate = (element.requestTime * 1000) + (element.weeksDelay * millisecondsPerWeek);
+
+        if (DateTime.now().millisecondsSinceEpoch > claimDate) {
+          availableTotalClaim = availableTotalClaim + element.amount;
+          if (availableRequestIds.isEmpty) {
+            enableClaimButton = true;
+            availableRequestIds.add(element.requestId);
+          } else if (availableRequestIds.last != element.requestId) {
+            availableRequestIds.add(element.requestId);
+          }
+        }
       }
 
       return currentState.copyWith(
@@ -40,6 +52,7 @@ class UserPlantedBalanceStateMapper extends StateMapper {
         availableClaimBalanceFiat:
             currentState.ratesState.tokenToFiat(TokenDataModel(availableTotalClaim), selectedFiat),
         availableRequestIds: availableRequestIds,
+        isClaimButtonEnabled: enableClaimButton,
       );
     }
   }
