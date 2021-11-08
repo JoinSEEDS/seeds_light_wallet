@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
@@ -48,14 +49,16 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
       yield state.copyWith(pageState: PageState.loading, showSendingAnimation: true);
 
       final Result result = await SendTransactionUseCase().run(
-        actionName: transferAction,
-        account: settingsStorage.selectedToken.contract,
-        data: {
-          'from': settingsStorage.accountName,
-          'to': state.sendTo.account,
-          'quantity': state.tokenAmount.asFormattedString(),
-          'memo': state.memo,
-        },
+        transaction: EOSTransaction.fromAction(
+          account: settingsStorage.selectedToken.contract,
+          actionName: transferAction,
+          data: {
+            'from': settingsStorage.accountName,
+            'to': state.sendTo.account,
+            'quantity': state.tokenAmount.asFormattedString(),
+            'memo': state.memo,
+          },
+        ),
       );
 
       yield SendTransactionMapper().mapResultToState(state, result);

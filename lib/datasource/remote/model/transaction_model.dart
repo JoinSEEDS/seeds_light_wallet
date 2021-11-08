@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/utils/read_times_tamp.dart';
 import 'package:seeds/utils/string_extension.dart';
 
@@ -50,8 +49,9 @@ class TransactionModel extends Equatable {
   }
 
   static TransactionModel? fromTransaction(GenericTransactionModel genericModel) {
-    if (genericModel.action == transferAction) {
-      final data = genericModel.data;
+    if (genericModel.transaction.isTransfer) {
+      final action = genericModel.transaction.actions.first;
+      final data = action.data;
       final String? from = data['from'];
       final String? to = data['to'];
       final String? quantity = data['quantity'];
@@ -69,16 +69,5 @@ class TransactionModel extends Equatable {
     }
 
     return null;
-  }
-
-  factory TransactionModel.fromTxData(Map<String, dynamic> data, String transactionId) {
-    return TransactionModel(
-      from: data['from'],
-      to: data['to'],
-      quantity: data['quantity'],
-      memo: data['memo'],
-      timestamp: DateTime.now().toUtc(),
-      transactionId: transactionId,
-    );
   }
 }

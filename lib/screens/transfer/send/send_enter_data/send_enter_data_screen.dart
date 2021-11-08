@@ -78,7 +78,7 @@ class SendEnterDataScreen extends StatelessWidget {
               context: context,
               barrierDismissible: false, // user must tap button
               builder: (BuildContext buildContext) => GenericTransactionSuccessDialog(
-                transaction: command.transactionModel,
+                transactionModel: command.transactionModel,
                 onCloseButtonPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();

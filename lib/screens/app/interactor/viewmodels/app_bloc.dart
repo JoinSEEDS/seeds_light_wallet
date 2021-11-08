@@ -88,9 +88,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield state.copyWith(showGuardianApproveOrDenyScreen: event.data);
     } else if (event is OnSigningRequest) {
       final args = SendConfirmationArguments(
-        account: event.esr.accountName,
-        name: event.esr.actionName,
-        data: event.esr.data,
+        transaction: event.esr.transaction,
       );
       yield state.copyWith(
         pageState: PageState.success,
