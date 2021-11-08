@@ -38,45 +38,47 @@ class SelectGuardiansScreen extends StatelessWidget {
           builder: (context, state) {
             return Scaffold(
               appBar: AppBar(title: Text(state.pageTitle)),
-              body: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 4, left: horizontalEdgePadding, right: horizontalEdgePadding),
-                          child: state.selectedGuardians.isEmpty
-                              ? const SizedBox.shrink()
-                              : const SelectedGuardiansWidget(),
-                        ),
-                        Expanded(
-                          child: SearchUser(
-                            noShowUsers: state.noShowGuardians,
-                            resultCallBack: (selectedUser) {
-                              BlocProvider.of<SelectGuardiansBloc>(context).add(OnUserSelected(selectedUser));
-                            },
+              body: SafeArea(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                bottom: 4, left: horizontalEdgePadding, right: horizontalEdgePadding),
+                            child: state.selectedGuardians.isEmpty
+                                ? const SizedBox.shrink()
+                                : const SelectedGuardiansWidget(),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(horizontalEdgePadding),
-                          child: FlatButtonLong(
-                            title: 'Next'.i18n,
-                            onPressed: state.selectedGuardians.isNotEmpty
-                                ? () => {
-                                      NavigationService.of(context)
-                                          .navigateTo(Routes.inviteGuardians, state.selectedGuardians),
-                                    }
-                                : null,
+                          Expanded(
+                            child: SearchUser(
+                              noShowUsers: state.noShowGuardians,
+                              resultCallBack: (selectedUser) {
+                                BlocProvider.of<SelectGuardiansBloc>(context).add(OnUserSelected(selectedUser));
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(horizontalEdgePadding),
+                            child: FlatButtonLong(
+                              title: 'Next'.i18n,
+                              onPressed: state.selectedGuardians.isNotEmpty
+                                  ? () => {
+                                        NavigationService.of(context)
+                                            .navigateTo(Routes.inviteGuardians, state.selectedGuardians),
+                                      }
+                                  : null,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

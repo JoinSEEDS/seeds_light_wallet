@@ -23,8 +23,8 @@ class SecurityScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Security'.i18n)),
       body: BlocProvider(
-        create: (context) => SecurityBloc(authenticationBloc: BlocProvider.of<AuthenticationBloc>(context))
-          ..add(const SetUpInitialValues()),
+        create: (context) =>
+            SecurityBloc(BlocProvider.of<AuthenticationBloc>(context))..add(const SetUpInitialValues()),
         child: MultiBlocListener(
           listeners: [
             BlocListener<SecurityBloc, SecurityState>(
@@ -41,7 +41,7 @@ class SecurityScreen extends StatelessWidget {
             BlocListener<SecurityBloc, SecurityState>(
               listenWhen: (previous, current) =>
                   previous.isSecureBiometric == false && current.isSecureBiometric == true,
-              listener: (context, state) {
+              listener: (context, _) {
                 showDialog<void>(
                   context: context,
                   barrierDismissible: false,
@@ -61,77 +61,81 @@ class SecurityScreen extends StatelessWidget {
                 case PageState.failure:
                   return const FullPageErrorIndicator();
                 case PageState.success:
-                  return ListView(
-                    padding: const EdgeInsets.all(16.0),
-                    children: [
-                      SecurityCard(
-                        icon: const Icon(Icons.update),
-                        title: 'Export Private Key'.i18n,
-                        description: 'Export your private key so you can easily recover and access your account.'.i18n,
-                        onTap: () => Share.share(settingsStorage.privateKey!),
-                      ),
-                      BlocBuilder<SecurityBloc, SecurityState>(
-                        buildWhen: (previous, current) =>
-                            previous.hasNotification != current.hasNotification ||
-                            previous.guardiansStatus != current.guardiansStatus,
-                        builder: (context, state) {
-                          return GuardianSecurityCard(
-                            onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
-                            hasNotification: state.hasNotification,
-                            guardiansStatus: state.guardiansStatus,
-                          );
-                        },
-                      ),
-                      if (state.shouldShowExportRecoveryPhrase)
+                  return SafeArea(
+                    child: ListView(
+                      padding: const EdgeInsets.all(16.0),
+                      children: [
                         SecurityCard(
-                          icon: const Icon(Icons.insert_drive_file),
-                          title: '12-word Recovery Phrase',
+                          icon: const Icon(Icons.update),
+                          title: 'Export Private Key'.i18n,
                           description:
-                              'Write down in a secret place your 12-word phrase so you can easily recover and access your account.',
-                          onTap: () {
-                            NavigationService.of(context).navigateTo(Routes.recoveryPhrase);
-                          },
-                        )
-                      else
-                        const SizedBox.shrink(),
-                      SecurityCard(
-                        icon: const Icon(Icons.lock_outline),
-                        title: 'Secure with Pin'.i18n,
-                        titleWidget: BlocBuilder<SecurityBloc, SecurityState>(
-                          buildWhen: (previous, current) => previous.isSecurePasscode != current.isSecurePasscode,
+                              'Export your private key so you can easily recover and access your account.'.i18n,
+                          onTap: () => Share.share(settingsStorage.privateKey!),
+                        ),
+                        BlocBuilder<SecurityBloc, SecurityState>(
+                          buildWhen: (previous, current) =>
+                              previous.hasNotification != current.hasNotification ||
+                              previous.guardiansStatus != current.guardiansStatus,
                           builder: (context, state) {
-                            return Switch(
-                              value: state.isSecurePasscode!,
-                              onChanged: (_) => BlocProvider.of<SecurityBloc>(context)..add(const OnPasscodePressed()),
-                              activeTrackColor: AppColors.canopy,
-                              activeColor: AppColors.white,
+                            return GuardianSecurityCard(
+                              onTap: () => BlocProvider.of<SecurityBloc>(context)..add(const OnGuardiansCardTapped()),
+                              hasNotification: state.hasNotification,
+                              guardiansStatus: state.guardiansStatus,
                             );
                           },
                         ),
-                        description: 'Secure your account with a 4-digit pincode'.i18n,
-                      ),
-                      SecurityCard(
-                        icon: const Icon(Icons.fingerprint),
-                        title: 'Secure with Touch/Face ID'.i18n,
-                        titleWidget: BlocBuilder<SecurityBloc, SecurityState>(
-                          builder: (context, state) {
-                            return Switch(
-                              value: state.isSecureBiometric!,
-                              onChanged: state.isSecurePasscode!
-                                  ? (_) {
-                                      BlocProvider.of<SecurityBloc>(context).add(const OnBiometricPressed());
-                                    }
-                                  : null,
-                              activeTrackColor: AppColors.canopy,
-                              activeColor: AppColors.white,
-                            );
-                          },
+                        if (state.shouldShowExportRecoveryPhrase)
+                          SecurityCard(
+                            icon: const Icon(Icons.insert_drive_file),
+                            title: '12-word Recovery Phrase',
+                            description:
+                                'Write down in a secret place your 12-word phrase so you can easily recover and access your account.',
+                            onTap: () {
+                              NavigationService.of(context).navigateTo(Routes.recoveryPhrase);
+                            },
+                          )
+                        else
+                          const SizedBox.shrink(),
+                        SecurityCard(
+                          icon: const Icon(Icons.lock_outline),
+                          title: 'Secure with Pin'.i18n,
+                          titleWidget: BlocBuilder<SecurityBloc, SecurityState>(
+                            buildWhen: (previous, current) => previous.isSecurePasscode != current.isSecurePasscode,
+                            builder: (context, state) {
+                              return Switch(
+                                value: state.isSecurePasscode!,
+                                onChanged: (_) =>
+                                    BlocProvider.of<SecurityBloc>(context)..add(const OnPasscodePressed()),
+                                activeTrackColor: AppColors.canopy,
+                                activeColor: AppColors.white,
+                              );
+                            },
+                          ),
+                          description: 'Secure your account with a 4-digit pincode'.i18n,
                         ),
-                        description:
-                            'Secure your account with your fingerprint. This will be used to sign-in and open your wallet.'
-                                .i18n,
-                      ),
-                    ],
+                        SecurityCard(
+                          icon: const Icon(Icons.fingerprint),
+                          title: 'Secure with Touch/Face ID'.i18n,
+                          titleWidget: BlocBuilder<SecurityBloc, SecurityState>(
+                            builder: (context, state) {
+                              return Switch(
+                                value: state.isSecureBiometric!,
+                                onChanged: state.isSecurePasscode!
+                                    ? (_) {
+                                        BlocProvider.of<SecurityBloc>(context).add(const OnBiometricPressed());
+                                      }
+                                    : null,
+                                activeTrackColor: AppColors.canopy,
+                                activeColor: AppColors.white,
+                              );
+                            },
+                          ),
+                          description:
+                              'Secure your account with your fingerprint. This will be used to sign-in and open your wallet.'
+                                  .i18n,
+                        ),
+                      ],
+                    ),
                   );
                 default:
                   return const SizedBox.shrink();

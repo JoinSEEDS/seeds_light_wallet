@@ -8,8 +8,8 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/comp
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/components/proposal_details_header.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/components/proposal_details_middle.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/components/vote_success_dialog.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/page_commands.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/proposal_details_bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
 
 class ProposalDetailsScreen extends StatefulWidget {

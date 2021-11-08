@@ -10,7 +10,7 @@ import 'package:seeds/domain-shared/user_citizenship_status.dart';
 
 /// --- BLOC
 class SearchUserBloc extends Bloc<SearchUserEvent, SearchUserState> {
-  final num _minTextLengthBeforeValidSearch = 2;
+  final int _minTextLengthBeforeValidSearch = 2;
 
   SearchUserBloc(List<String>? noShowUsers, UserCitizenshipStatus? filterByCitizenshipStatus)
       : super(SearchUserState.initial(noShowUsers, filterByCitizenshipStatus));

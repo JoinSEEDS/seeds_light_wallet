@@ -25,7 +25,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
     return BlocProvider(
       create: (_) => WalletBloc()..add(const OnLoadWalletData()),
       child: BlocBuilder<WalletBloc, WalletState>(
-        builder: (context, state) {
+        builder: (context, _) {
           return RefreshIndicator(
             onRefresh: () async {
               BlocProvider.of<RatesBloc>(context).add(const OnFetchRates());
@@ -34,7 +34,6 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
             child: Scaffold(
               appBar: const WalletAppBar(),
               body: ListView(
-                // TODO(n13): Use exact measurements from figma
                 children: [
                   const SizedBox(height: 15),
                   const TokenCards(),

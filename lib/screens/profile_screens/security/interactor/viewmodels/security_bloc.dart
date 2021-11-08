@@ -20,9 +20,8 @@ class SecurityBloc extends Bloc<SecurityEvent, SecurityState> {
   late StreamSubscription<List<GuardianModel>> _guardians;
   final FirebaseDatabaseGuardiansRepository _repository = FirebaseDatabaseGuardiansRepository();
 
-  SecurityBloc({required AuthenticationBloc authenticationBloc})
-      : _authenticationBloc = authenticationBloc,
-        super(SecurityState.initial(ShouldShowRecoveryPhraseFeatureUseCase().shouldShowRecoveryPhrase())) {
+  SecurityBloc(this._authenticationBloc)
+      : super(SecurityState.initial(ShouldShowRecoveryPhraseFeatureUseCase().shouldShowRecoveryPhrase())) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value: value)));

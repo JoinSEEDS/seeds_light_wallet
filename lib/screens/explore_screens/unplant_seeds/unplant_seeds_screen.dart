@@ -71,7 +71,7 @@ class UnplantSeedsScreen extends StatelessWidget {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
             }
           },
-          builder: (context, UnplantSeedsState state) {
+          builder: (context, state) {
             switch (state.pageState) {
               case PageState.initial:
                 return const SizedBox.shrink();
@@ -80,66 +80,68 @@ class UnplantSeedsScreen extends StatelessWidget {
               case PageState.failure:
                 return const FullPageErrorIndicator();
               case PageState.success:
-                return Stack(
-                  children: [
-                    SingleChildScrollView(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                        height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 26),
-                            Text('Unplant amount', style: Theme.of(context).textTheme.headline6),
-                            const SizedBox(height: 16),
-                            UnplantSeedsAmountEntry(
-                              controller: state.controller,
-                              unplantedBalanceFiat: state.unplantedInputAmountFiat,
-                              tokenDataModel: TokenDataModel(0),
-                              onValueChange: (value) {
-                                BlocProvider.of<UnplantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
-                              },
-                              autoFocus: state.onFocus,
-                              onTapMax: () {
-                                BlocProvider.of<UnplantSeedsBloc>(context)
-                                    .add(OnMaxButtonTap(maxAmount: state.plantedBalance?.amount.toString() ?? '0'));
-                              },
-                            ),
-                            const SizedBox(height: 24),
-                            AlertInputValue('Not enough balance', isVisible: state.showOverBalanceAlert),
-                            AlertInputValue('Need to keep at least 5 planted seeds',
-                                isVisible: state.showMinPlantedBalanceAlert),
-                            const SizedBox(height: 60),
-                            if (state.showUnclaimedBalance)
-                              ClaimUnplantSeedsBalanceRow(
-                                  onTapClaim: () {
-                                    BlocProvider.of<UnplantSeedsBloc>(context).add(OnClaimButtonTap());
-                                  },
-                                  isClaimButtonEnable: state.isClaimButtonEnabled,
-                                  tokenAmount: state.availableClaimBalance,
-                                  fiatAmount: state.availableClaimBalanceFiat),
-                            const SizedBox(height: 10),
-                            const DividerJungle(),
-                            const SizedBox(height: 10),
-                            BalanceRow(
+                return SafeArea(
+                  child: Stack(
+                    children: [
+                      SingleChildScrollView(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+                          height: MediaQuery.of(context).size.height - Scaffold.of(context).appBarMaxHeight!,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 26),
+                              Text('Unplant amount', style: Theme.of(context).textTheme.headline6),
+                              const SizedBox(height: 16),
+                              UnplantSeedsAmountEntry(
+                                controller: state.controller,
+                                unplantedBalanceFiat: state.unplantedInputAmountFiat,
+                                tokenDataModel: TokenDataModel(0),
+                                onValueChange: (value) {
+                                  BlocProvider.of<UnplantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
+                                },
+                                autoFocus: state.onFocus,
+                                onTapMax: () {
+                                  BlocProvider.of<UnplantSeedsBloc>(context)
+                                      .add(OnMaxButtonTap(maxAmount: state.plantedBalance?.amount.toString() ?? '0'));
+                                },
+                              ),
+                              const SizedBox(height: 24),
+                              AlertInputValue('Not enough balance', isVisible: state.showOverBalanceAlert),
+                              AlertInputValue('Need to keep at least 5 planted seeds',
+                                  isVisible: state.showMinPlantedBalanceAlert),
+                              const SizedBox(height: 60),
+                              if (state.showUnclaimedBalance)
+                                ClaimUnplantSeedsBalanceRow(
+                                    onTapClaim: () =>
+                                        BlocProvider.of<UnplantSeedsBloc>(context).add(OnClaimButtonTap()),
+                                    isClaimButtonEnable: state.isClaimButtonEnabled,
+                                    tokenAmount: state.availableClaimBalance,
+                                    fiatAmount: state.availableClaimBalanceFiat),
+                              const SizedBox(height: 10),
+                              const DividerJungle(),
+                              const SizedBox(height: 10),
+                              BalanceRow(
                                 label: "Planted Balance",
                                 tokenAmount: state.plantedBalance,
-                                fiatAmount: state.plantedBalanceFiat)
-                          ],
+                                fiatAmount: state.plantedBalanceFiat,
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(horizontalEdgePadding),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: FlatButtonLong(
-                          title: 'Unplant Seeds',
-                          enabled: state.isUnplantSeedsButtonEnabled,
-                          onPressed: () => {BlocProvider.of<UnplantSeedsBloc>(context).add(OnUnplantSeedsButtonTap())},
+                      Padding(
+                        padding: const EdgeInsets.all(horizontalEdgePadding),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: FlatButtonLong(
+                            title: 'Unplant Seeds',
+                            enabled: state.isUnplantSeedsButtonEnabled,
+                            onPressed: () => BlocProvider.of<UnplantSeedsBloc>(context).add(OnUnplantSeedsButtonTap()),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               default:
                 return const SizedBox.shrink();

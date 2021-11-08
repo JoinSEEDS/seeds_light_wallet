@@ -37,44 +37,46 @@ class InviteGuardians extends StatelessWidget {
           builder: (context, state) {
             return Scaffold(
               appBar: AppBar(title: Text("Invite Guardians".i18n)),
-              body: Column(
-                children: [
-                  const SizedBox(height: 24),
-                  const Image(image: AssetImage('assets/images/guardians/invite_guardian_mail.png')),
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Text(
-                      "The users below will be sent an invite to become your Guardian.".i18n,
-                      style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
-                      textAlign: TextAlign.center,
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 24),
+                    const Image(image: AssetImage('assets/images/guardians/invite_guardian_mail.png')),
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Text(
+                        "The users below will be sent an invite to become your Guardian.".i18n,
+                        style: Theme.of(context).textTheme.subtitle3OpacityEmphasis,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: ListView(
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      children: [
-                        for (var e in state.selectedGuardians)
-                          SearchResultRow(
-                            account: e.account,
-                            name: e.nickname.isNotEmpty ? e.nickname : e.account,
-                            imageUrl: e.image,
-                          ),
-                      ],
+                    const SizedBox(height: 20),
+                    Expanded(
+                      child: ListView(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        children: [
+                          for (var e in state.selectedGuardians)
+                            SearchResultRow(
+                              account: e.account,
+                              name: e.nickname.isNotEmpty ? e.nickname : e.account,
+                              imageUrl: e.image,
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: FlatButtonLong(
-                      title: 'Send Invite'.i18n,
-                      onPressed: () {
-                        BlocProvider.of<InviteGuardiansBloc>(context).add(OnSendInviteTapped());
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: FlatButtonLong(
+                        title: 'Send Invite'.i18n,
+                        onPressed: () {
+                          BlocProvider.of<InviteGuardiansBloc>(context).add(OnSendInviteTapped());
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

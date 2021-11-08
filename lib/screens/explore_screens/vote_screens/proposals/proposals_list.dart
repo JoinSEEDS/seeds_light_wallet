@@ -8,9 +8,10 @@ import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/loading_indicator_list.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/proposal_card.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/voting_end_cycle_card.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_args_data.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposals_list_bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
 
 class ProposalsList extends StatefulWidget {
   final ProposalType proposalType;
@@ -65,7 +66,9 @@ class _ProposalsListState extends State<ProposalsList> with AutomaticKeepAliveCl
           final pageCommand = state.pageCommand;
           _proposalsBloc.add(const ClearProposalsListPageCommand());
           if (pageCommand is NavigateToRouteWithArguments<ProposalsArgsData>) {
-            final int? index = await NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
+            final args = pageCommand.arguments
+                .copyWith(currentDelegates: BlocProvider.of<VoteBloc>(context).state.currentDelegates);
+            final int? index = await NavigationService.of(context).navigateTo(pageCommand.route, args);
             if (index != null) {
               // 420 is the height of this proposal card
               // ignore: unawaited_futures

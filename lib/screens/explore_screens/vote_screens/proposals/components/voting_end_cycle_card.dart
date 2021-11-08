@@ -5,7 +5,7 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals.i18n.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
 
 class VotingCycleEndCard implements SliverPersistentHeaderDelegate {
   const VotingCycleEndCard();

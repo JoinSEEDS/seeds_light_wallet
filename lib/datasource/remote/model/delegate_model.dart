@@ -1,5 +1,6 @@
 class DelegateModel {
   final String delegatee;
+  bool get hasDelegate => delegatee.isNotEmpty;
 
   const DelegateModel(this.delegatee);
 

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/bloc.dart';
 
 import '../interactor/viewmodels/proposal_details_bloc.dart';
 
@@ -50,6 +49,31 @@ class VoteStatusLabel extends StatelessWidget {
                                   : '${state.vote!.amount} ' 'votes'.i18n,
                               style: Theme.of(context).textTheme.subtitle2),
                         ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            case VoteStatus.hasDelegate:
+              return Padding(
+                padding: const EdgeInsets.only(top: horizontalEdgePadding, left: horizontalEdgePadding),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: RichText(
+                        maxLines: 2,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text: 'You have delegated your vote to'.i18n,
+                                style: Theme.of(context).textTheme.subtitle2),
+                            TextSpan(
+                                text: ' ${state.proposalDelegate}. ',
+                                style: Theme.of(context).textTheme.subtitle2Green2),
+                            TextSpan(
+                                text: 'They are voting for you'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                          ],
+                        ),
                       ),
                     ),
                   ],

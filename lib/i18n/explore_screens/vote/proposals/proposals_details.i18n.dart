@@ -24,8 +24,7 @@ extension Localization on String {
           'Vote ': 'Voto ',
           'Votes': 'Votos',
           'Confirm': 'Confirmar',
-          'Voting for this proposal is not open yet.':
-              'La votación para esta propuesta aún no está abierta.',
+          'Voting for this proposal is not open yet.': 'La votación para esta propuesta aún no está abierta.',
           'View Next Proposal': 'Ver siguiente propuesta',
           'You must be a': 'Debes ser un',
           ' Citizen ': ' Ciudadano ',
@@ -44,6 +43,8 @@ extension Localization on String {
           'from voting': 'de votar',
           ' against ': ' en contra ',
           'this proposal': 'de esta propuesta',
+          'You have delegated your vote to': 'Has delegado tu voto a',
+          'They are voting for you': 'Ellos estan votando por ti(masculin',
           'Cancel': 'Cancelar',
           'Confirm your Vote': 'Confirma tu Voto',
           'Your trust tokens cannot be reallocated afterwards so please be sure of your vote!':
@@ -74,8 +75,7 @@ extension Localization on String {
           'Vote ': 'Voto ',
           'Votes': 'Votos',
           'Confirm': 'Confirmar',
-          'Voting for this proposal is not open yet.':
-              'A votação para essa proposta ainda não está aberta.',
+          'Voting for this proposal is not open yet.': 'A votação para essa proposta ainda não está aberta.',
           'View Next Proposal': 'Ver proposta seguinte',
           'You must be a': 'Você precisa ser um',
           ' Citizen ': ' Cidadão ',
@@ -94,6 +94,8 @@ extension Localization on String {
           'from voting': 'de votar',
           ' against ': ' contra ',
           'this proposal': 'esta proposta',
+          'You have delegated your vote to': 'Você delegou seu voto a',
+          'They are voting for you': 'Eles estão votando em você',
           'Cancel': 'Cancelar',
           'Confirm your Vote': 'Confirmar seu Voto',
           'Your trust tokens cannot be reallocated afterwards so please be sure of your vote!':

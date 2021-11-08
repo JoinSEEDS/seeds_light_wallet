@@ -1,5 +1,5 @@
 import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/api/organization_model.dart';
+import 'package:seeds/datasource/remote/model/organization_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
@@ -63,8 +63,4 @@ class ProfileValuesStateMapper extends StateMapper {
       );
     }
   }
-}
-
-extension _ValueResult<T> on Result<T> {
-  T? get valueOrNull => isValue ? asValue!.value : null;
 }

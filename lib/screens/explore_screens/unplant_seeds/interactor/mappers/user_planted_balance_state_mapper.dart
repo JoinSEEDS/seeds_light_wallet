@@ -15,21 +15,25 @@ class UserPlantedBalanceStateMapper extends StateMapper {
         pageState: PageState.failure,
       );
     } else {
-      final PlantedModel plantedSeeds = results[0].asValue!.value as PlantedModel;
+
+      results.retainWhere((Result i) => i.isValue);
+      final values = results.map((Result i) => i.asValue!.value).toList();
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
-      final plantedAmount = TokenDataModel(plantedSeeds.quantity);
-      final List<RefundModel> refunds;
+
+      final PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null);
+      final plantedAmount = TokenDataModel(plantedSeeds?.quantity ?? 0);
+
       final List<int> availableRequestIds = [];
       final int millisecondsPerWeek = 24 * 60 * 60 * 1000;
-      refunds = results[1].asValue?.value as List<RefundModel>;
       bool enableClaimButton = false;
       double availableTotalClaim = 0;
+      final List<RefundModel> refunds = values.firstWhere((i) => i is List<RefundModel>, orElse: () => []);
 
       for (final element in refunds) {
         final int claimDate = (element.requestTime * 1000) + (element.weeksDelay * millisecondsPerWeek);
 
         if (DateTime.now().millisecondsSinceEpoch > claimDate) {
-          availableTotalClaim = availableTotalClaim + double.parse(element.amount.replaceAll('SEEDS', ''));
+          availableTotalClaim = availableTotalClaim + element.amount;
           if (availableRequestIds.isEmpty) {
             enableClaimButton = true;
             availableRequestIds.add(element.requestId);
@@ -40,9 +44,9 @@ class UserPlantedBalanceStateMapper extends StateMapper {
       }
 
       return currentState.copyWith(
-        showMinPlantedBalanceAlert: plantedSeeds.quantity <= minPlanted,
+        showMinPlantedBalanceAlert: (plantedSeeds?.quantity ?? 0) <= minPlanted,
         pageState: PageState.success,
-        plantedBalance: TokenDataModel.from(plantedSeeds.quantity),
+        plantedBalance: TokenDataModel.from(plantedSeeds?.quantity ?? 0),
         plantedBalanceFiat: currentState.ratesState.tokenToFiat(plantedAmount, selectedFiat),
         availableClaimBalance: TokenDataModel(availableTotalClaim),
         availableClaimBalanceFiat:

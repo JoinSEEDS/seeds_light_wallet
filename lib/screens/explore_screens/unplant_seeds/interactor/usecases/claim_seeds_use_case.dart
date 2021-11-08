@@ -7,6 +7,6 @@ class ClaimSeedsUseCase {
 
   Future<Result> run({required List<int> requestIds}) {
     final account = settingsStorage.accountName;
-    return _profileRepository.claimRefund(accountName: account, requestIds: requestIds);
+    return _profileRepository.claimRefund(accountName: account, requestIds: [8]);
   }
 }

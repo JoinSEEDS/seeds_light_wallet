@@ -30,6 +30,7 @@ class _EventBus {
   /// Controller for the event bus stream.
   StreamController get streamController => _streamController;
 
+  // ignore: use_setters_to_change_properties
   /// Instead of using the default [StreamController] you can use this constructor
   /// to pass your own controller.
   ///
