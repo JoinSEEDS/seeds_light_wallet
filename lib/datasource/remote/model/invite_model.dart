@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/utils/double_extension.dart';
 import 'package:seeds/utils/string_extension.dart';
 
 class InviteModel extends Equatable {
@@ -22,7 +24,10 @@ class InviteModel extends Equatable {
 
   bool get isClaimed => !account.isNullOrEmpty;
 
-  String get inviteAmount => transferQuantity + sowQuantity;
+  double get inviteTotalAmount => transferQuantity.quantityAsDouble + sowQuantity.quantityAsDouble;
+
+  /// Returns the rounded amount in seeds with its symbol Ex: 10.00 SEEDS
+  String get seedsFormattedInviteTotalAmount => '${inviteTotalAmount.seedsFormatted} $currencySeedsCode';
 
   factory InviteModel.fromJson(Map<String, dynamic> json) {
     return InviteModel(
