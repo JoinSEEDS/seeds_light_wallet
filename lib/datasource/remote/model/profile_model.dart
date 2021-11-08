@@ -3,6 +3,12 @@ import 'package:seeds/datasource/remote/model/serialization_helpers.dart';
 
 enum ProfileStatus { visitor, resident, citizen }
 
+extension ParseToString on ProfileStatus {
+  String toShortString() {
+    return toString().split('.').last;
+  }
+}
+
 class ProfileModel extends Equatable {
   final String account;
   final ProfileStatus? status;

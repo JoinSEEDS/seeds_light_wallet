@@ -12,10 +12,9 @@ class GetInvitesStateMapper extends StateMapper {
       return currentState.copyWith(pageState: PageState.failure);
     } else {
       final invites = invitesDto.invites;
-      final Iterable<ProfileModel> accounts =
-          invitesDto.accounts.map((e) => e.isError ? null : e.asValue).whereType<ProfileModel>();
+      final profiles = invitesDto.accounts;
 
-      final List<InvitesItemsData> invitesItemData = invites.map((InviteModel e) => matchElement(e, accounts)).toList();
+      final List<InvitesItemsData> invitesItemData = invites.map((InviteModel e) => matchElement(e, profiles)).toList();
 
       return currentState.copyWith(
         pageState: PageState.success,
