@@ -12,6 +12,7 @@ import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/components/claim_seeds_succes_dialog.dart';
 import 'components/claim_unplant_seeds_balance_row.dart';
 import 'components/unplant_seeds_amount_entry.dart';
 import 'components/unplant_seeds_success_dialog.dart';
@@ -51,7 +52,6 @@ class UnplantSeedsScreen extends StatelessWidget {
                 },
               );
             }
-            //Will add correct Dialog on next pr
             if (pageCommand is ShowClaimSeedsSuccess) {
               showDialog<void>(
                 context: context,
@@ -59,9 +59,9 @@ class UnplantSeedsScreen extends StatelessWidget {
                 builder: (_) {
                   return BlocProvider.value(
                     value: BlocProvider.of<UnplantSeedsBloc>(context),
-                    child: UnplantSeedsSuccessDialog(
-                      unplantedInputAmountFiat: pageCommand.claimAmountFiat,
-                      unplantedInputAmount: pageCommand.claimAmount,
+                    child: ClaimSeedsSuccessDialog(
+                      claimSeedsAmountFiat: pageCommand.claimAmountFiat,
+                      claimSeedsAmount: pageCommand.claimAmount,
                     ),
                   );
                 },
