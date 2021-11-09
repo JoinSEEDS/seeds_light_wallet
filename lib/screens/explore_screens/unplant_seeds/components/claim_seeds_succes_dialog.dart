@@ -17,8 +17,8 @@ class ClaimSeedsSuccessDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        Navigator.popUntil(context, ModalRoute.withName('app'));
+        await NavigationService.of(context).navigateTo(Routes.unPlantSeeds);
         return true;
       },
       child: CustomDialog(
