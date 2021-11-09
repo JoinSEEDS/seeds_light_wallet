@@ -6,11 +6,13 @@ class DelegatorState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final List<MemberModel>? delegators;
+  final bool hasDelegators;
 
   const DelegatorState({
     required this.pageState,
     this.errorMessage,
     this.delegators,
+    required this.hasDelegators,
   });
 
   @override
@@ -18,23 +20,26 @@ class DelegatorState extends Equatable {
         pageState,
         errorMessage,
         delegators,
+        hasDelegators,
       ];
 
   DelegatorState copyWith({
     PageState? pageState,
     String? errorMessage,
     List<MemberModel>? delegators,
+    bool? hasDelegators,
   }) {
     return DelegatorState(
-      pageState: pageState ?? this.pageState,
-      errorMessage: errorMessage,
-      delegators: delegators ?? this.delegators,
-    );
+        pageState: pageState ?? this.pageState,
+        errorMessage: errorMessage,
+        delegators: delegators ?? this.delegators,
+        hasDelegators: hasDelegators ?? this.hasDelegators);
   }
 
   factory DelegatorState.initial() {
     return const DelegatorState(
       pageState: PageState.initial,
+      hasDelegators: false,
     );
   }
 }
