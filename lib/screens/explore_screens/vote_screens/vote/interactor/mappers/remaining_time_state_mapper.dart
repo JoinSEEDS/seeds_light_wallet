@@ -1,6 +1,6 @@
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/current_remaining_time.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_state.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
 
 ///Seconds in a day
 const int _daySecond = 60 * 60 * 24;

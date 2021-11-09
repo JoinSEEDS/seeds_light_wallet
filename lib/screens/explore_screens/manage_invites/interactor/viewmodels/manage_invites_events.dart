@@ -7,3 +7,8 @@ abstract class ManageInvitesEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoadInvites extends ManageInvitesEvent {
+  @override
+  String toString() => 'LoadInvites';
+}

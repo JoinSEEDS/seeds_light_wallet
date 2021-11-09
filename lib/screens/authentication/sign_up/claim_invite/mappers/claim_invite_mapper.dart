@@ -21,7 +21,7 @@ class ClaimInviteMapper extends StateMapper {
     } else {
       final InviteModel inviteModel = result.asValue!.value;
 
-      if (inviteModel.account.isNullOrEmpty) {
+      if (!inviteModel.isClaimed) {
         // invite code is valid and can be claimed
         return currentState.copyWith(
           claimInviteState: claimInviteCurrentState.copyWith(
@@ -36,7 +36,7 @@ class ClaimInviteMapper extends StateMapper {
             claimInviteView: ClaimInviteView.fail, // gray screen
             pageCommand: ShowErrorMessage(''), // dialog
             errorMessage: 'Invite was already claimed'.i18n.fill(
-              [inviteModel.sponsor ?? '', inviteModel.account ?? ''],
+              [inviteModel.sponsor, inviteModel.account ?? ''],
             ),
           ),
         );

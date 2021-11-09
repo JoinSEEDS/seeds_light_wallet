@@ -7,8 +7,8 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/vote/vote.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/proposals_list.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
 
 /// VOTE SCREEN
 class VoteScreen extends StatelessWidget {
@@ -17,7 +17,7 @@ class VoteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => VoteBloc()..add(StartCycleCountdown()),
+      create: (_) => VoteBloc()..add(OnFetchInitialVoteSectionData()),
       child: DefaultTabController(
         length: proposalTypes.length,
         child: BlocBuilder<VoteBloc, VoteState>(

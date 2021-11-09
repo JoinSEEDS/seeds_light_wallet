@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/api/send_eos_transaction_repository.dart';
@@ -11,20 +12,19 @@ class SendTransactionUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
   final fromAccount = settingsStorage.accountName;
 
-  Future<Result> run({required String actionName, required String account, required Map<String, dynamic> data}) {
+  Future<Result> run({required EOSTransaction transaction}) {
     return _sendTransactionRepository
-        .sendTransaction(actionName: actionName, account: account, data: data, accountName: fromAccount)
+        .sendTransaction(eosTransaction: transaction, accountName: fromAccount)
         .then((Result value) async {
       if (value.isError) {
         return value;
       } else {
         final String transactionId = value.asValue!.value;
         final transactionModel = GenericTransactionModel(
-            account: account,
-            action: actionName,
-            data: data,
-            transactionId: transactionId,
-            timestamp: DateTime.now().toUtc());
+          transaction: transaction,
+          transactionId: transactionId,
+          timestamp: DateTime.now().toUtc(),
+        );
         final transferModel = TransactionModel.fromTransaction(transactionModel);
         List<Result> profiles = [];
         if (transferModel != null) {

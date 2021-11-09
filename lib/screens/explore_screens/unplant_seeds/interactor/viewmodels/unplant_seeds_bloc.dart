@@ -5,8 +5,10 @@ import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/mappers/amount_changer_mapper.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/mappers/claim_seeds_mapper.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/mappers/unplant_seeds_mapper.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/mappers/user_planted_balance_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/usecases/claim_seeds_use_case.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/usecases/get_planted_balance_use_case.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/usecases/unplant_seeds_use_case.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_event.dart';
@@ -20,7 +22,8 @@ class UnplantSeedsBloc extends Bloc<UnplantSeedsEvent, UnplantSeedsState> {
   Stream<UnplantSeedsState> mapEventToState(UnplantSeedsEvent event) async* {
     if (event is LoadUserPlantedBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result results = await GetPlantedBalanceUseCase().run();
+      final results = await GetPlantedBalanceUseCase().run();
+
       yield UserPlantedBalanceStateMapper().mapResultToState(
         state,
         results,
@@ -35,6 +38,10 @@ class UnplantSeedsBloc extends Bloc<UnplantSeedsEvent, UnplantSeedsState> {
       yield state.copyWith(pageState: PageState.loading, onFocus: false);
       final Result result = await UnplantSeedsUseCase().run(amount: state.unplantedInputAmount.amount);
       yield UnplantSeedsResultMapper().mapResultToState(state, result);
+    } else if (event is OnClaimButtonTap) {
+      yield state.copyWith(pageState: PageState.loading);
+      final Result result = await ClaimSeedsUseCase().run(requestIds: state.availableRequestIds!);
+      yield ClaimSeedsResultMapper().mapResultToState(state, result);
     }
   }
 }

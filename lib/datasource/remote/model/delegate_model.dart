@@ -1,8 +1,7 @@
 class DelegateModel {
   final String delegatee;
+  bool get hasDelegate => delegatee.isNotEmpty;
   final String delegator;
-
-  bool get hasDelegate => delegatee != '';
 
   const DelegateModel(this.delegatee, this.delegator);
 

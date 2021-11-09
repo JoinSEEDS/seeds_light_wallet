@@ -20,21 +20,30 @@ class UnplantSeedsState extends Equatable {
   final TextEditingController controller;
   final PageCommand? pageCommand;
   final bool showUnclaimedBalance;
+  final TokenDataModel? availableClaimBalance;
+  final FiatDataModel? availableClaimBalanceFiat;
+  final List<int>? availableRequestIds;
+  final bool isClaimButtonEnabled;
 
-  const UnplantSeedsState(
-      {required this.pageState,
-      required this.ratesState,
-      required this.unplantedInputAmountFiat,
-      required this.onFocus,
-      this.plantedBalance,
-      this.plantedBalanceFiat,
-      required this.isUnplantSeedsButtonEnabled,
-      required this.showOverBalanceAlert,
-      required this.showMinPlantedBalanceAlert,
-      required this.unplantedInputAmount,
-      required this.controller,
-      this.pageCommand,
-      required this.showUnclaimedBalance});
+  const UnplantSeedsState({
+    required this.pageState,
+    required this.ratesState,
+    required this.unplantedInputAmountFiat,
+    required this.onFocus,
+    this.plantedBalance,
+    this.plantedBalanceFiat,
+    required this.isUnplantSeedsButtonEnabled,
+    required this.showOverBalanceAlert,
+    required this.showMinPlantedBalanceAlert,
+    required this.unplantedInputAmount,
+    required this.controller,
+    this.pageCommand,
+    required this.showUnclaimedBalance,
+    this.availableClaimBalance,
+    this.availableClaimBalanceFiat,
+    this.availableRequestIds,
+    required this.isClaimButtonEnabled,
+  });
 
   @override
   List<Object?> get props => [
@@ -51,6 +60,10 @@ class UnplantSeedsState extends Equatable {
         pageCommand,
         showMinPlantedBalanceAlert,
         showUnclaimedBalance,
+        availableClaimBalance,
+        availableClaimBalanceFiat,
+        availableRequestIds,
+        isClaimButtonEnabled,
       ];
 
   UnplantSeedsState copyWith({
@@ -68,6 +81,10 @@ class UnplantSeedsState extends Equatable {
     TextEditingController? controller,
     PageCommand? pageCommand,
     bool? showUnclaimedBalance,
+    TokenDataModel? availableClaimBalance,
+    FiatDataModel? availableClaimBalanceFiat,
+    List<int>? availableRequestIds,
+    bool? isClaimButtonEnabled,
   }) {
     return UnplantSeedsState(
       pageState: pageState ?? this.pageState,
@@ -83,6 +100,10 @@ class UnplantSeedsState extends Equatable {
       controller: controller ?? this.controller,
       pageCommand: pageCommand,
       showUnclaimedBalance: showUnclaimedBalance ?? this.showUnclaimedBalance,
+      availableClaimBalance: availableClaimBalance ?? this.availableClaimBalance,
+      availableClaimBalanceFiat: availableClaimBalanceFiat ?? this.availableClaimBalanceFiat,
+      availableRequestIds: availableRequestIds ?? this.availableRequestIds,
+      isClaimButtonEnabled: isClaimButtonEnabled ?? this.isClaimButtonEnabled,
     );
   }
 
@@ -98,6 +119,7 @@ class UnplantSeedsState extends Equatable {
       unplantedInputAmount: TokenDataModel(0),
       controller: TextEditingController(),
       showUnclaimedBalance: featureFlagDelegateEnabled,
+      isClaimButtonEnabled: false,
     );
   }
 }
