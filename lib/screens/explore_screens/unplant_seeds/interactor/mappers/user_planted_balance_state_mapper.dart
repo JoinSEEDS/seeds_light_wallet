@@ -24,7 +24,7 @@ class UserPlantedBalanceStateMapper extends StateMapper {
       final plantedAmount = TokenDataModel(plantedSeeds?.quantity ?? 0);
 
       final List<int> availableRequestIds = [];
-      final int millisecondsPerWeek = 24 * 60 * 60 * 1000;
+      final int millisecondsPerWeek = 24 * 60 * 60 * 1000 * 7;
       bool enableClaimButton = false;
       double availableTotalClaim = 0;
       final List<RefundModel> refunds = values.firstWhere((i) => i is List<RefundModel>, orElse: () => []);
