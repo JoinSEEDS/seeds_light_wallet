@@ -33,4 +33,12 @@ class RefundModel extends Equatable {
         requestTime,
         weeksDelay,
       ];
+
+  double claimAmount(DateTime atDate) {
+    final int millisecondsPerWeek = 7 * 24 * 60 * 60 * 1000;
+
+    final int claimDate = requestTime * 1000 + weeksDelay * millisecondsPerWeek;
+
+    return atDate.millisecondsSinceEpoch > claimDate ? amount : 0;
+  }
 }

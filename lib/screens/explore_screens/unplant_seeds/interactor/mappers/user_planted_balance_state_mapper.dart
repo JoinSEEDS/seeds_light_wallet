@@ -15,7 +15,6 @@ class UserPlantedBalanceStateMapper extends StateMapper {
         pageState: PageState.failure,
       );
     } else {
-
       results.retainWhere((Result i) => i.isValue);
       final values = results.map((Result i) => i.asValue!.value).toList();
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
@@ -24,22 +23,16 @@ class UserPlantedBalanceStateMapper extends StateMapper {
       final plantedAmount = TokenDataModel(plantedSeeds?.quantity ?? 0);
 
       final List<int> availableRequestIds = [];
-      final int millisecondsPerWeek = 24 * 60 * 60 * 1000;
       bool enableClaimButton = false;
       double availableTotalClaim = 0;
       final List<RefundModel> refunds = values.firstWhere((i) => i is List<RefundModel>, orElse: () => []);
 
       for (final element in refunds) {
-        final int claimDate = (element.requestTime * 1000) + (element.weeksDelay * millisecondsPerWeek);
-
-        if (DateTime.now().millisecondsSinceEpoch > claimDate) {
-          availableTotalClaim = availableTotalClaim + element.amount;
-          if (availableRequestIds.isEmpty) {
-            enableClaimButton = true;
-            availableRequestIds.add(element.requestId);
-          } else if (availableRequestIds.last != element.requestId) {
-            availableRequestIds.add(element.requestId);
-          }
+        final elementRefund = element.claimAmount(DateTime.now());
+        if (elementRefund > 0) {
+          availableTotalClaim += elementRefund;
+          enableClaimButton = true;
+          availableRequestIds.add(element.requestId);
         }
       }
 
