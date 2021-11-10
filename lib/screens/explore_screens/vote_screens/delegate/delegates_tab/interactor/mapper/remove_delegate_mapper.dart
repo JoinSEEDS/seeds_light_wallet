@@ -8,7 +8,7 @@ class RemoveDelegateResultMapper extends StateMapper {
     if (result.isError) {
       print('Error transaction hash not retrieved');
       return currentState.copyWith(
-        pageState: PageState.failure,
+        pageState: PageState.success,
         pageCommand: ShowErrorMessage('Fail to remove delegate'),
       );
     } else {
