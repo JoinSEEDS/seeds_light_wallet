@@ -121,8 +121,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(inviteURL, headers: headers, body: request)
-        .then((http.Response res) => mapHttpResponse<List<InviteModel>>(res, toDomainInviteModel),
-            onError: mapHttpError)
+        .then((http.Response res) => mapHttpResponse<List<InviteModel>>(res, toDomainInviteModel))
         .catchError((e) => mapHttpError(e));
   }
 
