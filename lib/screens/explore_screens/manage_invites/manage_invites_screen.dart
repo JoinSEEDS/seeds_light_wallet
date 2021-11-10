@@ -79,7 +79,7 @@ class ManageInvitesScreen extends StatelessWidget {
                                             inviteHex: invite.invite.inviteHash,
                                             cancelCallback: () {
                                               BlocProvider.of<ManageInvitesBloc>(context)
-                                                  .add(OnCancelInviteTap(invite.invite.inviteHash));
+                                                  .add(OnCancelInviteTapped(invite.invite.inviteHash));
                                             },
                                           ))
                                       .toList(),

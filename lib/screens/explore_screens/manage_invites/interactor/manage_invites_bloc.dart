@@ -18,13 +18,12 @@ class ManageInvitesBloc extends Bloc<ManageInvitesEvent, ManageInvitesState> {
       yield state.copyWith(pageState: PageState.loading);
       final InvitesDto? result = await GetInvitesUseCase().run();
       yield GetInvitesStateMapper().mapResultToState(state, result);
-    } else if (event is OnCancelInviteTap) {
+    } else if (event is OnCancelInviteTapped) {
       yield state.copyWith(pageState: PageState.loading);
       final Result result = await CancelInviteUseCase().run(event.inviteHash);
       // If we succeed with the cancel, refresh the data
       if (result.isValue) {
-        final InvitesDto? result = await GetInvitesUseCase().run();
-        yield GetInvitesStateMapper().mapResultToState(state, result);
+        add(LoadInvites());
       }
       yield CancelInviteStateMapper().mapResultToState(state, result);
     }
