@@ -1,21 +1,20 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'delegates_bloc.dart';
 
-class DelegateState extends Equatable {
+class DelegatesState extends Equatable {
   final PageCommand? pageCommand;
   final PageState pageState;
   final String? errorMessage;
   final bool activeDelegate;
   final MemberModel? delegate;
+  final bool shouldRefreshCurrentDelegates;
 
-  const DelegateState({
+  const DelegatesState({
     this.pageCommand,
     required this.pageState,
     this.errorMessage,
     required this.activeDelegate,
     this.delegate,
+    required this.shouldRefreshCurrentDelegates,
   });
 
   @override
@@ -25,28 +24,32 @@ class DelegateState extends Equatable {
         errorMessage,
         activeDelegate,
         delegate,
+        shouldRefreshCurrentDelegates,
       ];
 
-  DelegateState copyWith({
+  DelegatesState copyWith({
     PageCommand? pageCommand,
     PageState? pageState,
     String? errorMessage,
     bool? activeDelegate,
     MemberModel? delegate,
+    bool? shouldRefreshCurrentDelegates,
   }) {
-    return DelegateState(
+    return DelegatesState(
       pageCommand: pageCommand,
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       activeDelegate: activeDelegate ?? this.activeDelegate,
       delegate: delegate ?? this.delegate,
+      shouldRefreshCurrentDelegates: shouldRefreshCurrentDelegates ?? this.shouldRefreshCurrentDelegates,
     );
   }
 
-  factory DelegateState.initial() {
-    return const DelegateState(
+  factory DelegatesState.initial() {
+    return const DelegatesState(
       pageState: PageState.initial,
       activeDelegate: false,
+      shouldRefreshCurrentDelegates: false,
     );
   }
 }

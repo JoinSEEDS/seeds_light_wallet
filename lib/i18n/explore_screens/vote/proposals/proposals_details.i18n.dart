@@ -44,7 +44,7 @@ extension Localization on String {
           ' against ': ' en contra ',
           'this proposal': 'de esta propuesta',
           'You have delegated your vote to': 'Has delegado tu voto a',
-          'They are voting for you': 'Ellos estan votando por ti(masculin',
+          'They are voting for you.': 'Ellos estan votando por ti.',
           'Cancel': 'Cancelar',
           'Confirm your Vote': 'Confirma tu Voto',
           'Your trust tokens cannot be reallocated afterwards so please be sure of your vote!':
@@ -95,7 +95,7 @@ extension Localization on String {
           ' against ': ' contra ',
           'this proposal': 'esta proposta',
           'You have delegated your vote to': 'Você delegou seu voto a',
-          'They are voting for you': 'Eles estão votando em você',
+          'They are voting for you.': 'Eles estão votando em você.',
           'Cancel': 'Cancelar',
           'Confirm your Vote': 'Confirmar seu Voto',
           'Your trust tokens cannot be reallocated afterwards so please be sure of your vote!':

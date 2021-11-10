@@ -71,7 +71,7 @@ class VoteStatusLabel extends StatelessWidget {
                                 text: ' ${state.proposalDelegate}. ',
                                 style: Theme.of(context).textTheme.subtitle2Green2),
                             TextSpan(
-                                text: 'They are voting for you'.i18n, style: Theme.of(context).textTheme.subtitle2),
+                                text: 'They are voting for you.'.i18n, style: Theme.of(context).textTheme.subtitle2),
                           ],
                         ),
                       ),
