@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:async/async.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
@@ -5,6 +7,7 @@ import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
+import 'package:seeds/datasource/remote/datamappers/toDomainInviteModel.dart';
 import 'package:seeds/datasource/remote/model/invite_model.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
@@ -101,7 +104,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getInvites(String userAccount) async {
+  Future<Result<List<InviteModel>>> getInvites(String userAccount) async {
     print('[http] find all invites');
 
     final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
@@ -118,11 +121,9 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(inviteURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              final List<dynamic> invites = body['rows'].toList();
-              return invites.map((item) => InviteModel.fromJson(item)).toList();
-            }))
-        .catchError((error) => mapHttpError(error));
+        .then((http.Response res) => mapHttpResponse<List<InviteModel>>(res, toDomainInviteModel),
+            onError: mapHttpError)
+        .catchError((e) => mapHttpError(e));
   }
 
   Future<Result> cancelInvite({

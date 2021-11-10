@@ -12,7 +12,7 @@ class GetInvitesUseCase {
   Future<InvitesDto?> run() async {
     final account = settingsStorage.accountName;
 
-    final result = await _inviteRepository.getInvites(account);
+    final Result<List<InviteModel>> result = await _inviteRepository.getInvites(account);
 
     if (result.isError) {
       return null;
