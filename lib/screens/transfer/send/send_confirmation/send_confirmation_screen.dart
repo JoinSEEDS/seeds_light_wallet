@@ -30,7 +30,7 @@ class SendConfirmationScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments! as SendConfirmationArguments;
 
     return BlocProvider(
-      create: (_) => SendConfirmationBloc(arguments)..add(InitSendConfirmationWithArguments()),
+      create: (_) => SendConfirmationBloc(arguments),
       child: Scaffold(
         appBar: AppBar(
             leading: IconButton(
@@ -70,12 +70,11 @@ class SendConfirmationScreen extends StatelessWidget {
           child: BlocBuilder<SendConfirmationBloc, SendConfirmationState>(
             builder: (context, SendConfirmationState state) {
               switch (state.pageState) {
-                case PageState.initial:
-                  return const SizedBox.shrink();
                 case PageState.loading:
                   return state.isTransfer ? const SendLoadingIndicator() : const FullPageLoadingIndicator();
                 case PageState.failure:
                   return const FullPageErrorIndicator();
+                case PageState.initial:
                 case PageState.success:
                   return Column(
                     children: [

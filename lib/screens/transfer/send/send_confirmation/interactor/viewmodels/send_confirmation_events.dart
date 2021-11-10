@@ -9,11 +9,6 @@ abstract class SendConfirmationEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class InitSendConfirmationWithArguments extends SendConfirmationEvent {
-  @override
-  String toString() => 'LoadSendConfirmation';
-}
-
 class SendTransactionEvent extends SendConfirmationEvent {
   final RatesState rates;
 
