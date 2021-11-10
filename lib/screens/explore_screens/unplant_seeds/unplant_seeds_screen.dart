@@ -57,12 +57,9 @@ class UnplantSeedsScreen extends StatelessWidget {
                 context: context,
                 barrierDismissible: false,
                 builder: (_) {
-                  return BlocProvider.value(
-                    value: BlocProvider.of<UnplantSeedsBloc>(context),
-                    child: ClaimSeedsSuccessDialog(
-                      claimSeedsAmountFiat: pageCommand.claimAmountFiat,
-                      claimSeedsAmount: pageCommand.claimAmount,
-                    ),
+                  return ClaimSeedsSuccessDialog(
+                    claimSeedsAmountFiat: pageCommand.claimAmountFiat,
+                    claimSeedsAmount: pageCommand.claimAmount,
                   );
                 },
               );
