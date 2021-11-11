@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class DelegatorModel extends Equatable {
+class DelegatorModel {
   final String? delegatee;
   final String delegator;
 
@@ -16,7 +14,6 @@ class DelegatorModel extends Equatable {
     );
   }
 
-  @override
   List<Object?> get props => [
         delegatee,
         delegator,

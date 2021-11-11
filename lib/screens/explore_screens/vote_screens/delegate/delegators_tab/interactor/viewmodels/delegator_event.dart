@@ -16,7 +16,7 @@ class LoadDelegatorData extends DelegatorEvent {
   String toString() => 'LoadDelegateData';
 }
 
-class ClearPageCommand extends DelegatorEvent {
+class ClearDelegatorsPageCommand extends DelegatorEvent {
   @override
   String toString() => 'ClearPageCommand';
 }
