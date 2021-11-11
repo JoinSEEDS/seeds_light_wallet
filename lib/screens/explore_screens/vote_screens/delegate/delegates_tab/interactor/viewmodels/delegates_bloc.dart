@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/delegate_model.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -8,11 +7,11 @@ import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/mapper/delegates_load_data_mapper.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/mapper/remove_delegate_mapper.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/usecase/delegates_load_data_usecase.dart';
-import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/usecase/load_delegate_as_member_use_case.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/usecase/remove_delegate_use_case.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegates_tab/interactor/viewmodels/delegates_page_commands.dart';
 
 part 'delegates_event.dart';
+
 part 'delegates_state.dart';
 
 class DelegatesBloc extends Bloc<DelegatesEvent, DelegatesState> {
@@ -26,16 +25,8 @@ class DelegatesBloc extends Bloc<DelegatesEvent, DelegatesState> {
 
   Future<void> _loadDelegatesData(LoadDelegatesData event, Emitter<DelegatesState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-    final Result result = await DelegatesLoadDataUseCase().run();
-    if (!result.isError && result.asValue != null && result.asValue!.value is DelegateModel) {
-      final DelegateModel delegate = result.asValue!.value;
-      if (delegate.delegatee.isNotEmpty) {
-        final Result memberResult = await LoadDelegateAsMemberUseCase().run(delegateAccount: delegate.delegatee);
-        emit(DelegatesLoadDataStateMapper().mapResultToState(state, memberResult));
-      } else {
-        emit(DelegatesLoadDataStateMapper().mapResultToState(state, result));
-      }
-    }
+    final Result? result = await DelegatesLoadDataUseCase().run();
+    emit(DelegatesLoadDataStateMapper().mapResultToState(state, result));
   }
 
   void _initOnboardingDelegate(InitOnboardingDelegate event, Emitter<DelegatesState> emit) {

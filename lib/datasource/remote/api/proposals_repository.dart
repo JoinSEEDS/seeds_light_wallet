@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/delegate_model.dart';
+import 'package:seeds/datasource/remote/model/delegator_model.dart';
 import 'package:seeds/datasource/remote/model/moon_phase_model.dart';
 import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/referendum_model.dart';
@@ -235,7 +236,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getDelegator(String account, String voiceScope) {
+  Future<Result> getDelegators(String account, String voiceScope) {
     print('[http] get delegate for $account');
 
     final request = createRequest(
@@ -253,8 +254,9 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     return http
         .post(url, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-      return DelegateModel.fromJson(body);
-    }))
+              final List<dynamic> allDelegator = body['rows'].toList();
+              return allDelegator.map((item) => DelegatorModel.fromJson(item)).toList();
+            }))
         .catchError((error) => mapHttpError(error));
   }
 
