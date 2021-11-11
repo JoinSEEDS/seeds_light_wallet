@@ -12,3 +12,12 @@ class LoadInvites extends ManageInvitesEvent {
   @override
   String toString() => 'LoadInvites';
 }
+
+class OnCancelInviteTapped extends ManageInvitesEvent {
+  final String inviteHash;
+
+  OnCancelInviteTapped(this.inviteHash);
+
+  @override
+  String toString() => 'OnCancelInviteTapped: $inviteHash';
+}

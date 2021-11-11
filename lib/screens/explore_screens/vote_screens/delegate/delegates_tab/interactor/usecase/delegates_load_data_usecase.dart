@@ -5,7 +5,7 @@ import 'package:seeds/datasource/remote/api/members_repository.dart';
 import 'package:seeds/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/datasource/remote/model/delegate_model.dart';
 
-class DelegateLoadDataUseCase {
+class DelegatesLoadDataUseCase {
   final ProposalsRepository _proposalsRepository = ProposalsRepository();
   final MembersRepository _membersRepository = MembersRepository();
 

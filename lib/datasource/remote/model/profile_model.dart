@@ -1,7 +1,15 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:seeds/datasource/remote/model/serialization_helpers.dart';
 
 enum ProfileStatus { visitor, resident, citizen }
+
+// Helper toString for ProfileStatus enum Returns: "visitor" , etc
+extension ParseToString on ProfileStatus {
+  String toShortString() {
+    return describeEnum(this);
+  }
+}
 
 class ProfileModel extends Equatable {
   final String account;

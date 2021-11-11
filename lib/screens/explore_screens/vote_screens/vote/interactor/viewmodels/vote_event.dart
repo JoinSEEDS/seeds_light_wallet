@@ -22,3 +22,10 @@ class Tick extends VoteEvent {
   @override
   String toString() => 'Tick { remaining seconds: $timer }';
 }
+
+class OnRefreshCurrentDelegates extends VoteEvent {
+  const OnRefreshCurrentDelegates();
+
+  @override
+  String toString() => 'OnRefreshCurrentDelegates';
+}

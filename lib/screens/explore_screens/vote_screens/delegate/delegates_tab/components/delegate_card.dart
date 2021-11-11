@@ -47,12 +47,13 @@ class DelegateCard extends StatelessWidget {
           const SizedBox(height: 10.0),
           if (activeDelegate)
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
-                child: DelegateRow(
-                    account: delegate?.account ?? '',
-                    nickname: delegate?.nickname ?? '',
-                    avatarImage: delegate?.image,
-                    onTapRemove: onTapRemove))
+              padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
+              child: DelegateRow(
+                  account: delegate?.account ?? '',
+                  nickname: delegate?.nickname ?? '',
+                  avatarImage: delegate?.image,
+                  onTapRemove: onTapRemove),
+            )
           else
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: horizontalEdgePadding),
@@ -65,11 +66,7 @@ class DelegateCard extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis,
                     ),
                     const SizedBox(width: 4),
-                    const Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: AppColors.green2,
-                      size: 16,
-                    )
+                    const Icon(Icons.arrow_forward_ios_outlined, color: AppColors.green2, size: 16)
                   ],
                 ),
               ),

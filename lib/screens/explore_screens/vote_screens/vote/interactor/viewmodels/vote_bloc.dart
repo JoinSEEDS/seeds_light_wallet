@@ -6,8 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/mappers/all_delegates_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/mappers/initial_vote_data_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/mappers/remaining_time_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/usecases/get_all_delegates_use_case.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/usecases/get_initial_vote_section_data_use_case.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/campaign_delegate.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/current_remaining_time.dart';
@@ -50,6 +52,10 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
         // Fetch new cycle
         add(OnFetchInitialVoteSectionData());
       }
+    }
+    if (event is OnRefreshCurrentDelegates) {
+      final List<Result> results = await GetAllDelegatesDataUseCase().run();
+      yield AllDelegatesStateMapper().mapResultToState(state, results);
     }
   }
 }

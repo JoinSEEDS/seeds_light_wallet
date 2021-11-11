@@ -12,12 +12,7 @@ class SendConfirmationBloc extends Bloc<SendConfirmationEvent, SendConfirmationS
 
   @override
   Stream<SendConfirmationState> mapEventToState(SendConfirmationEvent event) async* {
-    if (event is InitSendConfirmationWithArguments) {
-      yield state.copyWith(
-        pageState: PageState.success,
-        transaction: state.transaction,
-      );
-    } else if (event is SendTransactionEvent) {
+    if (event is SendTransactionEvent) {
       yield state.copyWith(pageState: PageState.loading);
 
       final Result result = await SendTransactionUseCase().run(
