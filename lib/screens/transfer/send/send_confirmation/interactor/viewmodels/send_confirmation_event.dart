@@ -1,10 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+part of 'send_confirmation_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class SendConfirmationEvent extends Equatable {
+  const SendConfirmationEvent();
+
   @override
   List<Object> get props => [];
 }
@@ -12,7 +10,7 @@ abstract class SendConfirmationEvent extends Equatable {
 class SendTransactionEvent extends SendConfirmationEvent {
   final RatesState rates;
 
-  SendTransactionEvent(this.rates);
+  const SendTransactionEvent(this.rates);
 
   @override
   String toString() => 'SendTransactionEvent { rates: $rates }';

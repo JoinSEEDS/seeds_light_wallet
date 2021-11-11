@@ -4,26 +4,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/constants/app_colors.dart';
-import 'package:seeds/datasource/local/models/eos_action.dart';
 import 'package:seeds/datasource/remote/model/generic_transaction_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_info_line_items.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 
 class GenericTransactionSuccessDialog extends StatelessWidget {
   final GenericTransactionModel transactionModel;
   final VoidCallback onCloseButtonPressed;
 
-  const GenericTransactionSuccessDialog({
-    Key? key,
-    required this.transactionModel,
-    required this.onCloseButtonPressed,
-  }) : super(key: key);
+  const GenericTransactionSuccessDialog({Key? key, required this.transactionModel, required this.onCloseButtonPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO(n13): make this work for list of actions, not just first action
-    final EOSAction eosAction = transactionModel.transaction.actions.first;
     return Center(
       child: SingleChildScrollView(
         child: CustomDialog(
@@ -33,43 +27,7 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  eosAction.actionName,
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 4),
-                  child: Text(eosAction.accountName, style: Theme.of(context).textTheme.subtitle2),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30.0),
-            Column(
-              children: <Widget>[
-                ...SendInfoLineItems.fromAction(eosAction)
-                    .map(
-                      (e) => Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              e.label!,
-                              style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
-                            ),
-                            Text(e.text.toString(), style: Theme.of(context).textTheme.subtitle2),
-                          ],
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ],
+              children: [Text('Success'.i18n, style: Theme.of(context).textTheme.headline4)],
             ),
             const SizedBox(height: 30.0),
             Row(
@@ -123,6 +81,22 @@ class GenericTransactionSuccessDialog extends StatelessWidget {
                     ),
                   ),
                 ),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  'See Transaction Actions (%s)'.i18n.fill([transactionModel.transaction.actions.length]),
+                  style: Theme.of(context).textTheme.buttonGreen1,
+                ),
+                const SizedBox(width: 16),
+                IconButton(
+                  onPressed: () {
+                    NavigationService.of(context)
+                        .navigateTo(Routes.transactionActions, transactionModel.transaction.actions);
+                  },
+                  icon: const Icon(Icons.chevron_right_sharp),
+                )
               ],
             ),
           ],

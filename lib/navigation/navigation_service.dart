@@ -37,6 +37,7 @@ import 'package:seeds/screens/transfer/receive/receive_detail_qr_code/receive_de
 import 'package:seeds/screens/transfer/receive/receive_enter_data/receive_seeds_screen.dart';
 import 'package:seeds/screens/transfer/receive/receive_selection/receive_screen.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/send_confirmation_screen.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/transaction_actions_screen.dart';
 import 'package:seeds/screens/transfer/send/send_enter_data/send_enter_data_screen.dart';
 import 'package:seeds/screens/transfer/send/send_scanner/send_scanner_screen.dart';
 import 'package:seeds/screens/transfer/send/send_search_user/send_search_user_screen.dart';
@@ -64,6 +65,7 @@ class Routes {
   static const plantSeeds = 'plantSeeds';
   static const unPlantSeeds = 'unPlantSeeds';
   static const sendConfirmation = 'sendConfirmation';
+  static const transactionActions = 'transactionActions';
   static const scanQRCode = 'scanQRCode';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
@@ -104,6 +106,7 @@ class NavigationService {
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
+    Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
