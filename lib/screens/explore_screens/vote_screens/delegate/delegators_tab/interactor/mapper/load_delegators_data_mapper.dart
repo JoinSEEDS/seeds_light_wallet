@@ -3,16 +3,18 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegators_tab/interactor/viewmodels/delegator_state.dart';
 
-class DelegatorLoadDataStateMapper extends StateMapper {
-  DelegatorState mapResultToState(DelegatorState currentState, List<Result>? results) {
-    if (results == null) {
-      return currentState.copyWith(pageState: PageState.failure);
-    } else if (results.isEmpty) {
+class LoadDelegatorsDataStateMapper extends StateMapper {
+  DelegatorState mapResultToState(DelegatorState currentState, List<Result> results) {
+    // No delegators case
+    if (results.isEmpty) {
       return currentState.copyWith(
         pageState: PageState.success,
         delegators: [],
         hasDelegators: false,
       );
+    }
+    if (areAllResultsError(results)) {
+      return currentState.copyWith(pageState: PageState.failure);
     } else {
       final List<MemberModel> delegators = [];
 
@@ -23,7 +25,7 @@ class DelegatorLoadDataStateMapper extends StateMapper {
       return currentState.copyWith(
         pageState: PageState.success,
         delegators: delegators,
-        hasDelegators: true,
+        hasDelegators: delegators.isNotEmpty,
       );
     }
   }
