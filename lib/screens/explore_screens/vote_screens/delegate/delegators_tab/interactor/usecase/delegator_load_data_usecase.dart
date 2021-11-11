@@ -11,7 +11,7 @@ class DelegatorLoadDataUseCase {
 
   Future<List<Result>?> run() async {
     final account = settingsStorage.accountName;
-    final result = await _proposalsRepository.getDelegator( account, EosRepository.voiceScopeCampaign);
+    final result = await _proposalsRepository.getDelegators(account, EosRepository.voiceScopeCampaign);
 
     if (result.isError) {
       return null;
