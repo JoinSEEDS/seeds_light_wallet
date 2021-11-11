@@ -7,11 +7,11 @@ abstract class SendConfirmationEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SendTransactionEvent extends SendConfirmationEvent {
+class OnSendTransactionButtonPressed extends SendConfirmationEvent {
   final RatesState rates;
 
-  const SendTransactionEvent(this.rates);
+  const OnSendTransactionButtonPressed(this.rates);
 
   @override
-  String toString() => 'SendTransactionEvent { rates: $rates }';
+  String toString() => 'OnSendTransactionButtonPressed { rates: $rates }';
 }

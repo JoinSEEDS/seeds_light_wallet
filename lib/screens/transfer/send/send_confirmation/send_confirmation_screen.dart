@@ -91,7 +91,7 @@ class SendConfirmationScreen extends StatelessWidget {
                             title: 'Confirm and Send'.i18n,
                             onPressed: () {
                               final RatesState rates = BlocProvider.of<RatesBloc>(context).state;
-                              BlocProvider.of<SendConfirmationBloc>(context).add(SendTransactionEvent(rates));
+                              BlocProvider.of<SendConfirmationBloc>(context).add(OnSendTransactionButtonPressed(rates));
                             },
                           ),
                         ),
