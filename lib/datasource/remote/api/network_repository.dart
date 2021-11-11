@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
@@ -30,7 +32,7 @@ abstract class NetworkRepository {
   String tableRecover = 'recovers';
   String tableTotals = 'totals';
 
-  Result mapHttpResponse(http.Response response, Function modelMapper) {
+  FutureOr<Result<T>> mapHttpResponse<T>(http.Response response, Function modelMapper) {
     switch (response.statusCode) {
       case 200:
         {
@@ -44,7 +46,7 @@ abstract class NetworkRepository {
     }
   }
 
-  Result mapHttpError(dynamic error) {
+  ErrorResult mapHttpError(dynamic error) {
     print('mapHttpError: $error');
     return ErrorResult(error);
   }

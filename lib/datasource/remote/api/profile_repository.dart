@@ -14,7 +14,7 @@ import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 class ProfileRepository extends NetworkRepository with EosRepository {
-  Future<Result> getProfile(String accountName) {
+  Future<Result<ProfileModel>> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
 
     final request = createRequest(
@@ -28,7 +28,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     return http
         .post(Uri.parse('${remoteConfigurations.activeEOSServerUrl.url}/v1/chain/get_table_rows'),
             headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<ProfileModel>(response, (dynamic body) {
               return ProfileModel.fromJson(body['rows'][0]);
             }))
         .catchError((error) => mapHttpError(error));
