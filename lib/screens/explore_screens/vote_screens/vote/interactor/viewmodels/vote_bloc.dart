@@ -22,12 +22,15 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
 
   VoteBloc() : super(VoteState.initial(remoteConfigurations.featureFlagDelegateEnabled, settingsStorage.isCitizen));
 
-  Stream<int> _tick(int ticks) {
-    return Stream.periodic(const Duration(seconds: 1), (x) => ticks - x - 1).take(ticks);
+  Stream<int> _tick({required int ticks, required int duration}) {
+    return Stream.periodic(Duration(seconds: duration), (x) => ticks - x - 1).take(ticks);
   }
 
   Stream<VoteState> _mapStartTimerToState() async* {
-    _tickerSubscription = _tick(state.remainingTimeStamp).listen((timer) => add(Tick(timer)));
+    _tickerSubscription = _tick(
+      ticks: state.cycleEndTimestamp,
+      duration: state.waitingForNewCycle ? 60 : 1,
+    ).listen((timer) => add(Tick(timer)));
   }
 
   @override
@@ -46,7 +49,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
     }
     if (event is Tick) {
       if (event.timer > DateTime.now().millisecondsSinceEpoch) {
-        yield RemainingTimeStateMapper().mapResultToState(state, event.timer);
+        yield RemainingTimeStateMapper().mapResultToState(state);
       } else {
         await _tickerSubscription?.cancel();
         // Fetch new cycle
