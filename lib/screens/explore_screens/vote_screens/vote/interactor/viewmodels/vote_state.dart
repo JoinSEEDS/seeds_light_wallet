@@ -3,16 +3,18 @@ part of 'vote_bloc.dart';
 class VoteState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
-  final int remainingTimeStamp;
+  final int cycleEndTimestamp;
   final CurrentRemainingTime? currentRemainingTime;
   final bool shouldShowDelegateIcon;
   final bool isCitizen;
   final List<CategoryDelegate> currentDelegates;
 
+  bool get waitingForNewCycle => cycleEndTimestamp < DateTime.now().millisecondsSinceEpoch;
+
   const VoteState({
     required this.pageState,
     this.errorMessage,
-    required this.remainingTimeStamp,
+    required this.cycleEndTimestamp,
     this.currentRemainingTime,
     required this.shouldShowDelegateIcon,
     required this.isCitizen,
@@ -23,7 +25,7 @@ class VoteState extends Equatable {
   List<Object?> get props => [
         pageState,
         errorMessage,
-        remainingTimeStamp,
+        cycleEndTimestamp,
         currentRemainingTime,
         shouldShowDelegateIcon,
         isCitizen,
@@ -33,7 +35,7 @@ class VoteState extends Equatable {
   VoteState copyWith({
     PageState? pageState,
     String? errorMessage,
-    int? remainingTimeStamp,
+    int? cycleEndTimestamp,
     CurrentRemainingTime? currentRemainingTime,
     bool? shouldShowDelegateIcon,
     bool? isCitizen,
@@ -42,7 +44,7 @@ class VoteState extends Equatable {
     return VoteState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
-      remainingTimeStamp: remainingTimeStamp ?? this.remainingTimeStamp,
+      cycleEndTimestamp: cycleEndTimestamp ?? this.cycleEndTimestamp,
       currentRemainingTime: currentRemainingTime ?? this.currentRemainingTime,
       shouldShowDelegateIcon: shouldShowDelegateIcon ?? this.shouldShowDelegateIcon,
       isCitizen: isCitizen ?? this.isCitizen,
@@ -53,7 +55,7 @@ class VoteState extends Equatable {
   factory VoteState.initial(bool featureFlagDelegateEnabled, bool isCitizen) {
     return VoteState(
       pageState: PageState.initial,
-      remainingTimeStamp: 0,
+      cycleEndTimestamp: 0,
       shouldShowDelegateIcon: featureFlagDelegateEnabled,
       isCitizen: isCitizen,
       currentDelegates: [],
