@@ -20,14 +20,10 @@ part 'vote_state.dart';
 class VoteBloc extends Bloc<VoteEvent, VoteState> {
   StreamSubscription<int>? _tickerSubscription;
 
-  VoteBloc() : super(VoteState.initial(remoteConfigurations.featureFlagDelegateEnabled, settingsStorage.isCitizen));
-
-  Stream<int> _tick(int ticks) {
-    return Stream.periodic(const Duration(seconds: 1), (x) => ticks - x - 1).take(ticks);
-  }
-
-  Stream<VoteState> _mapStartTimerToState() async* {
-    _tickerSubscription = _tick(state.remainingTimeStamp).listen((timer) => add(Tick(timer)));
+  VoteBloc() : super(VoteState.initial(remoteConfigurations.featureFlagDelegateEnabled, settingsStorage.isCitizen)) {
+    on<OnFetchInitialVoteSectionData>(_onFetchInitialVoteSectionData);
+    on<Tick>(_onTick);
+    on<OnRefreshCurrentDelegates>(_onRefreshCurrentDelegates);
   }
 
   @override
@@ -36,26 +32,28 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
     return super.close();
   }
 
-  @override
-  Stream<VoteState> mapEventToState(VoteEvent event) async* {
-    if (event is OnFetchInitialVoteSectionData) {
-      yield state.copyWith(pageState: PageState.loading);
-      final List<Result> results = await GetInitialVoteSectionDataUseCase().run();
-      yield InitialVoteDataStateMapper().mapResultToState(state, results);
-      yield* _mapStartTimerToState();
+  Stream<int> _tick(int ticks) {
+    return Stream.periodic(const Duration(seconds: 1), (x) => ticks - x - 1).take(ticks);
+  }
+
+  Future<void> _onFetchInitialVoteSectionData(OnFetchInitialVoteSectionData event, Emitter<VoteState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+    final List<Result> results = await GetInitialVoteSectionDataUseCase().run();
+    emit(InitialVoteDataStateMapper().mapResultToState(state, results));
+    await _tickerSubscription?.cancel();
+    _tickerSubscription = _tick(state.remainingTimeStamp).listen((timer) => add(Tick(timer)));
+  }
+
+  void _onTick(Tick event, Emitter<VoteState> emit) {
+    if (event.timer > DateTime.now().millisecondsSinceEpoch) {
+      emit(RemainingTimeStateMapper().mapResultToState(state, event.timer));
+    } else {
+      add(OnFetchInitialVoteSectionData()); // Fetch new cycle
     }
-    if (event is Tick) {
-      if (event.timer > DateTime.now().millisecondsSinceEpoch) {
-        yield RemainingTimeStateMapper().mapResultToState(state, event.timer);
-      } else {
-        await _tickerSubscription?.cancel();
-        // Fetch new cycle
-        add(OnFetchInitialVoteSectionData());
-      }
-    }
-    if (event is OnRefreshCurrentDelegates) {
-      final List<Result> results = await GetAllDelegatesDataUseCase().run();
-      yield AllDelegatesStateMapper().mapResultToState(state, results);
-    }
+  }
+
+  Future<void> _onRefreshCurrentDelegates(OnRefreshCurrentDelegates event, Emitter<VoteState> emit) async {
+    final List<Result> results = await GetAllDelegatesDataUseCase().run();
+    emit(AllDelegatesStateMapper().mapResultToState(state, results));
   }
 }
