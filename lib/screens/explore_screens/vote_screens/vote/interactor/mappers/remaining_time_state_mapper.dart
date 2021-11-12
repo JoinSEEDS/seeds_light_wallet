@@ -42,7 +42,7 @@ class RemainingTimeStateMapper {
 
     return currentState.copyWith(
       pageState: PageState.success,
-      remainingTimeStamp: remainingTime,
+      cycleEndTimestamp: remainingTime,
       currentRemainingTime: CurrentRemainingTime(
         days: days,
         hours: hours,
