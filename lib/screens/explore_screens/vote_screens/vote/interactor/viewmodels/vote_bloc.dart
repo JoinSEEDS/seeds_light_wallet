@@ -48,12 +48,12 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
       yield* _mapStartTimerToState();
     }
     if (event is Tick) {
-      if (state.cycleEndTimestamp > DateTime.now().millisecondsSinceEpoch) {
-        yield RemainingTimeStateMapper().mapResultToState(state);
-      } else {
-        await _tickerSubscription?.cancel();
+      if (state.voteCycleHasEnded) {
         // Fetch new cycle
+        await _tickerSubscription?.cancel();
         add(OnFetchInitialVoteSectionData());
+      } else {
+        yield RemainingTimeStateMapper().mapResultToState(state);
       }
     }
     if (event is OnRefreshCurrentDelegates) {
