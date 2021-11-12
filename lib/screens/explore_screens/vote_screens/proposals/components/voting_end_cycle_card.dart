@@ -27,7 +27,7 @@ class VotingCycleEndCard implements SliverPersistentHeaderDelegate {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Voting cycle ends in'.i18n),
+                  Center(child: Text('Time remaining'.i18n)),
                   const SizedBox(height: 16.0),
                   BlocBuilder<VoteBloc, VoteState>(
                     builder: (context, state) {
@@ -45,62 +45,68 @@ class VotingCycleEndCard implements SliverPersistentHeaderDelegate {
                             children: [Text(state.errorMessage!, style: Theme.of(context).textTheme.headline5)],
                           );
                         case PageState.success:
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Row(
-                                children: [
-                                  Text('${state.currentRemainingTime?.days ?? 0} ',
-                                      style: Theme.of(context).textTheme.headline5),
-                                  Column(
-                                    children: [
-                                      const SizedBox(height: 12),
-                                      Text('days'.i18n, style: Theme.of(context).textTheme.subtitle3Opacity),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text('${state.currentRemainingTime?.hours ?? 0} ',
-                                      style: Theme.of(context).textTheme.headline5),
-                                  Column(
-                                    children: [
-                                      const SizedBox(height: 12),
-                                      Text('hrs'.i18n, style: Theme.of(context).textTheme.subtitle3Opacity),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text('${state.currentRemainingTime?.min ?? 0} ',
-                                      style: Theme.of(context).textTheme.headline5),
-                                  Column(
-                                    children: [
-                                      const SizedBox(height: 12),
-                                      Text(
-                                        'mins'.i18n,
-                                        style: Theme.of(context).textTheme.subtitle3Opacity,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text('${state.currentRemainingTime?.sec ?? 0} ',
-                                      style: Theme.of(context).textTheme.headline5),
-                                  Column(
-                                    children: [
-                                      const SizedBox(height: 12),
-                                      Text('sec'.i18n, style: Theme.of(context).textTheme.subtitle3Opacity),
-                                    ],
-                                  )
-                                ],
-                              )
-                            ],
-                          );
+                          return state.waitingForNewCycle
+                              ? Row(
+                                  children: [
+                                    Text("Waiting for next cycle...".i18n, style: Theme.of(context).textTheme.headline5)
+                                  ],
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, // TOlld
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text('${state.currentRemainingTime?.days ?? 0} ',
+                                            style: Theme.of(context).textTheme.headline5),
+                                        Column(
+                                          children: [
+                                            const SizedBox(height: 12),
+                                            Text('days'.i18n, style: Theme.of(context).textTheme.subtitle3Opacity),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('${state.currentRemainingTime?.hours ?? 0} ',
+                                            style: Theme.of(context).textTheme.headline5),
+                                        Column(
+                                          children: [
+                                            const SizedBox(height: 12),
+                                            Text('hrs'.i18n, style: Theme.of(context).textTheme.subtitle3Opacity),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('${state.currentRemainingTime?.min ?? 0} ',
+                                            style: Theme.of(context).textTheme.headline5),
+                                        Column(
+                                          children: [
+                                            const SizedBox(height: 12),
+                                            Text(
+                                              'mins'.i18n,
+                                              style: Theme.of(context).textTheme.subtitle3Opacity,
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('${state.currentRemainingTime?.sec ?? 0} ',
+                                            style: Theme.of(context).textTheme.headline5),
+                                        Column(
+                                          children: [
+                                            const SizedBox(height: 12),
+                                            Text('sec'.i18n, style: Theme.of(context).textTheme.subtitle3Opacity),
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                );
                         default:
                           return const SizedBox.shrink();
                       }
