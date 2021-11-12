@@ -29,7 +29,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
   Stream<VoteState> _mapStartTimerToState() async* {
     _tickerSubscription = _tick(
       ticks: state.cycleEndTimestamp,
-      duration: state.waitingForNewCycle ? 60 : 1,
+      duration: state.voteCycleHasEnded ? 60 : 1,
     ).listen((timer) => add(Tick(timer)));
   }
 

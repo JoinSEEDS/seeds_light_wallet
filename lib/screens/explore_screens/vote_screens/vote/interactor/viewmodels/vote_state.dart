@@ -9,7 +9,7 @@ class VoteState extends Equatable {
   final bool isCitizen;
   final List<CategoryDelegate> currentDelegates;
 
-  bool get waitingForNewCycle => cycleEndTimestamp < DateTime.now().millisecondsSinceEpoch;
+  bool get voteCycleHasEnded => cycleEndTimestamp < DateTime.now().millisecondsSinceEpoch;
 
   const VoteState({
     required this.pageState,
