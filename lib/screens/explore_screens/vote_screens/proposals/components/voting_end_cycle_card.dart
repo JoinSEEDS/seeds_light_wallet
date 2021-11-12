@@ -45,7 +45,7 @@ class VotingCycleEndCard implements SliverPersistentHeaderDelegate {
                             children: [Text(state.errorMessage!, style: Theme.of(context).textTheme.headline5)],
                           );
                         case PageState.success:
-                          return state.waitingForNewCycle
+                          return state.voteCycleHasEnded
                               ? Row(
                                   children: [
                                     Text("Waiting for next cycle...".i18n, style: Theme.of(context).textTheme.headline5)
