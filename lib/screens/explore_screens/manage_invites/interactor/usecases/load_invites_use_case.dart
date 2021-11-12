@@ -18,13 +18,13 @@ class GetInvitesUseCase {
       return null;
     } else {
       final List<InviteModel> invites = result.asValue!.value;
-      final Iterable<Future<Result>> futures = invites
+      final Iterable<Future<Result<ProfileModel>>> futures = invites
           .where((element) => element.isClaimed && element.account != null)
           .map((e) => _profileRepository.getProfile(e.account!));
 
       final List<Result> accounts = await Future.wait(futures);
       final List<ProfileModel> profiles =
-          accounts.map((e) => e.isValue ? e.asValue?.value as ProfileModel : null).whereType<ProfileModel>().toList();
+          accounts.map((e) => e.isValue ? e.asValue?.value : null).whereType<ProfileModel>().toList();
 
       return InvitesDto(profiles, invites);
     }

@@ -15,7 +15,7 @@ import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 class InviteRepository extends NetworkRepository with EosRepository {
-  Future<Result> createInvite({
+  Future<Result<TransactionResponse>> createInvite({
     required double quantity,
     required String inviteHash,
     required String accountName,
@@ -58,13 +58,13 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
   }
 
-  Future<Result> getMembers() {
+  Future<Result<MemberModel>> getMembers() {
     print('[http] get members');
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
@@ -73,14 +73,14 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<MemberModel>(response, (dynamic body) {
               final List<dynamic> allAccounts = body['rows'].toList();
               return allAccounts.map((item) => MemberModel.fromJson(item)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> findInvite(String inviteHash) async {
+  Future<Result<InviteModel>> findInvite(String inviteHash) async {
     print('[http] find invite by hash');
 
     final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
@@ -97,7 +97,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(inviteURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<InviteModel>(response, (dynamic body) {
               final List<dynamic> invite = body['rows'].toList();
               return invite.map((item) => InviteModel.fromJson(item)).toList();
             }))
@@ -125,7 +125,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
         .catchError((e) => mapHttpError(e));
   }
 
-  Future<Result> cancelInvite({
+  Future<Result<InviteModel>> cancelInvite({
     required String accountName,
     required String inviteHash,
   }) async {
@@ -148,7 +148,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<InviteModel>(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
