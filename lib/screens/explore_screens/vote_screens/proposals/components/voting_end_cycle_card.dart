@@ -27,7 +27,7 @@ class VotingCycleEndCard implements SliverPersistentHeaderDelegate {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(child: Text('Time remaining'.i18n)),
+                  Text('Time remaining'.i18n),
                   const SizedBox(height: 16.0),
                   BlocBuilder<VoteBloc, VoteState>(
                     builder: (context, state) {
@@ -52,7 +52,7 @@ class VotingCycleEndCard implements SliverPersistentHeaderDelegate {
                                   ],
                                 )
                               : Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, // TOlld
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
