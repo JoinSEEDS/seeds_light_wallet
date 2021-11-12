@@ -29,7 +29,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
   Stream<VoteState> _mapStartTimerToState() async* {
     _tickerSubscription = _tick(
       ticks: state.cycleEndTimestamp,
-      duration: state.waitingForNewCycle ? 60 : 1,
+      duration: state.voteCycleHasEnded ? 60 : 1,
     ).listen((timer) => add(Tick(timer)));
   }
 
@@ -48,12 +48,12 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
       yield* _mapStartTimerToState();
     }
     if (event is Tick) {
-      if (event.timer > DateTime.now().millisecondsSinceEpoch) {
-        yield RemainingTimeStateMapper().mapResultToState(state);
-      } else {
-        await _tickerSubscription?.cancel();
+      if (state.voteCycleHasEnded) {
         // Fetch new cycle
+        await _tickerSubscription?.cancel();
         add(OnFetchInitialVoteSectionData());
+      } else {
+        yield RemainingTimeStateMapper().mapResultToState(state);
       }
     }
     if (event is OnRefreshCurrentDelegates) {
