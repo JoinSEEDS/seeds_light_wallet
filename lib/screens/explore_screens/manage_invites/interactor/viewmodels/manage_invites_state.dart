@@ -14,6 +14,11 @@ class ManageInvitesState extends Equatable {
 
   Iterable<InvitesItemsData> get unclaimedInvites => invitesItemData.where((element) => !element.invite.isClaimed);
 
+  String get claimedTabTitle => "Claimed Invites${claimedInvites.isNotEmpty ? " (${claimedInvites.length})" : ""}";
+
+  String get unClaimedTabTitle =>
+      "Unclaimed Invites${unclaimedInvites.isNotEmpty ? " (${unclaimedInvites.length})" : ""}";
+
   @override
   List<Object?> get props => [
         pageState,
