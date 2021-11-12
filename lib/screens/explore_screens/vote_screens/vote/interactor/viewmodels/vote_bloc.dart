@@ -29,6 +29,9 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
   Stream<VoteState> _mapStartTimerToState() async* {
     _tickerSubscription = _tick(
       ticks: state.cycleEndTimestamp,
+
+      /// if the vote cycle has ended, we poll for a new state every 1 minute
+      /// active vote cycle - showing the seconds countdown
       duration: state.voteCycleHasEnded ? 60 : 1,
     ).listen((timer) => add(Tick(timer)));
   }
