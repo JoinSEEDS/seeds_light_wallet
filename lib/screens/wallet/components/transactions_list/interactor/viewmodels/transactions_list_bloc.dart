@@ -6,6 +6,7 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/mappers/transactions_state_mapper.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/usecases/load_transactions_use_case.dart';
+import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_events.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_state.dart';
 
@@ -19,7 +20,7 @@ class TransactionsListBloc extends Bloc<TransactionsListEvent, TransactionsListS
     });
     eventBusSubscription = eventBus.on<OnNewTransactionEventBus>().listen((event) async {
       await Future.delayed(const Duration(milliseconds: 500)); // the blockchain needs 0.5 seconds to process
-      add(OnLoadTransactionsList());
+      add(const OnLoadTransactionsList());
     });
   }
 
@@ -40,6 +41,10 @@ class TransactionsListBloc extends Bloc<TransactionsListEvent, TransactionsListS
       yield TransactionsListStateMapper().mapResultToState(state, result);
     } else if (event is OnTransactionDisplayTick) {
       yield state.copyWith(counter: event.count);
+    } else if (event is OnTransactionRowTapped) {
+      yield state.copyWith(pageCommand: ShowTransactionDetails(event.transaction));
+    } else if (event is ClearTransactionListPageComand) {
+      yield state.copyWith();
     }
   }
 }

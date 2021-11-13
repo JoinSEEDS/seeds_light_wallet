@@ -132,6 +132,9 @@ flutter:
     - assets/images/explore/get_seeds_card.jpg
     - assets/images/explore/introducing_delegate.png
     - assets/images/wallet/arrow_up.svg
+    - assets/images/wallet/share_transaction_id.svg
+    - assets/images/wallet/leaves_bttm_left.png
+    - assets/images/wallet/leaves_bttm_right.png
     - assets/images/wallet/arrow_down.svg
     - assets/images/wallet/app_bar/appbar_icon.svg
     - assets/images/wallet/app_bar/scan_qr_code_icon.svg

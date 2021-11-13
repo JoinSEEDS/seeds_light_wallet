@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
-import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/member_bloc.dart';
-import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/member_events.dart';
-import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/member_state.dart';
+import 'package:seeds/screens/wallet/interactor/viewmodels/member_bloc.dart';
 import 'package:seeds/utils/read_times_tamp.dart';
 import 'package:seeds/utils/string_extension.dart';
 
@@ -14,12 +12,12 @@ class TransactionInfoRow extends StatelessWidget {
   final DateTime timestamp;
   final String amount;
   final bool incoming;
-  final GestureTapCallback callback;
+  final GestureTapCallback onTap;
 
   const TransactionInfoRow({
     Key? key,
     required this.amount,
-    required this.callback,
+    required this.onTap,
     required this.profileAccount,
     required this.timestamp,
     required this.incoming,
@@ -28,11 +26,11 @@ class TransactionInfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<MemberBloc>(
-      create: (_) => MemberBloc(profileAccount)..add(OnLoadMemberData(profileAccount)),
+      create: (_) => MemberBloc(profileAccount)..add(const OnLoadMemberData()),
       child: BlocBuilder<MemberBloc, MemberState>(
         builder: (context, state) {
           return InkWell(
-            onTap: callback,
+            onTap: onTap,
             child: Ink(
               decoration: const BoxDecoration(color: AppColors.primary),
               child: Container(

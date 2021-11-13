@@ -1,9 +1,14 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/datasource/remote/model/transaction_model.dart';
 
-abstract class TransactionsListEvent extends Equatable {}
+abstract class TransactionsListEvent extends Equatable {
+  const TransactionsListEvent();
+  @override
+  List<Object> get props => [];
+}
 
 class OnLoadTransactionsList extends TransactionsListEvent {
-  OnLoadTransactionsList();
+  const OnLoadTransactionsList();
 
   @override
   String toString() => 'OnLoadTransactionsList';
@@ -15,11 +20,30 @@ class OnLoadTransactionsList extends TransactionsListEvent {
 class OnTransactionDisplayTick extends TransactionsListEvent {
   final int count;
 
-  OnTransactionDisplayTick(this.count);
+  const OnTransactionDisplayTick(this.count);
 
   @override
   String toString() => 'OnTick';
 
   @override
   List<Object> get props => [count];
+}
+
+class OnTransactionRowTapped extends TransactionsListEvent {
+  final TransactionModel transaction;
+
+  const OnTransactionRowTapped(this.transaction);
+
+  @override
+  String toString() => 'OnTransactionRowTapped { transaction: $transaction }';
+
+  @override
+  List<Object> get props => [transaction];
+}
+
+class ClearTransactionListPageComand extends TransactionsListEvent {
+  const ClearTransactionListPageComand();
+
+  @override
+  String toString() => 'ClearTransactionListPageComand';
 }
