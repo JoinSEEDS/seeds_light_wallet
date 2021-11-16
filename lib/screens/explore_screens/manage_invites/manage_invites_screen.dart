@@ -34,15 +34,15 @@ class ManageInvitesScreen extends StatelessWidget {
                 top: false,
                 child: Scaffold(
                     appBar: AppBar(
-                      bottom: const TabBar(
+                      bottom: TabBar(
                         tabs: [
                           Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Text("Claimed Invites"),
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(state.claimedTabTitle),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Text("Unclaimed Invites"),
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(state.unClaimedTabTitle),
                           )
                         ],
                       ),
@@ -70,7 +70,7 @@ class ManageInvitesScreen extends StatelessWidget {
                                       .toList(),
                                 )
                               else
-                                const Center(child: Text("No Invitations have been claimed.")),
+                                const Center(child: Text("You have no claimed invitations.")),
                               if (state.unclaimedInvites.isNotEmpty)
                                 ListView(
                                   children: state.unclaimedInvites
