@@ -46,7 +46,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
 
   void _onTick(Tick event, Emitter<VoteState> emit) {
     if (event.timer > DateTime.now().millisecondsSinceEpoch) {
-      emit(RemainingTimeStateMapper().mapResultToState(state, event.timer));
+      emit(RemainingTimeStateMapper().mapResultToState(state));
     } else {
       add(OnFetchInitialVoteSectionData()); // Fetch new cycle
     }

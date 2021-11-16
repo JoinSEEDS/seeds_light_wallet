@@ -12,11 +12,11 @@ const int _hourSecond = 60 * 60;
 const int _minuteSecond = 60;
 
 class RemainingTimeStateMapper {
-  VoteState mapResultToState(VoteState currentState, int remainingTime) {
+  VoteState mapResultToState(VoteState currentState) {
     int days = 0;
     int hours = 0;
     int min = 0;
-    int remainingTimeStamp = (remainingTime - DateTime.now().millisecondsSinceEpoch) ~/ 1000;
+    int remainingTimeStamp = (currentState.cycleEndTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000;
 
     ///Calculate the number of days remaining.
     if (remainingTimeStamp >= _daySecond) {
@@ -42,7 +42,6 @@ class RemainingTimeStateMapper {
 
     return currentState.copyWith(
       pageState: PageState.success,
-      cycleEndTimestamp: remainingTime,
       currentRemainingTime: CurrentRemainingTime(
         days: days,
         hours: hours,
