@@ -1,6 +1,5 @@
-import 'package:collection/collection.dart' show IterableExtension;
 import 'package:seeds/datasource/remote/model/delegate_model.dart';
-import 'package:seeds/datasource/remote/model/moon_phase_model.dart';
+import 'package:seeds/datasource/remote/model/vote_cycle_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/explore_screens/vote/vote.i18n.dart';
@@ -8,7 +7,6 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/campaign_delegate.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
 
-const String _new_moon = 'New Moon';
 const int _moonPhasesResponseIndex = 0;
 const int _allianceDelegateResponseIndex = 1;
 const int _campaingDelegateResponseIndex = 2;
@@ -24,8 +22,7 @@ class InitialVoteDataStateMapper extends StateMapper {
       if (isMoonPhasesError) {
         return currentState.copyWith(pageState: PageState.failure, errorMessage: moonPhasesError);
       } else {
-        final List<MoonPhaseModel> moonPhases = results.first.asValue!.value;
-        final MoonPhaseModel? nextNewMoon = moonPhases.singleWhereOrNull((i) => i.phaseName == _new_moon);
+        final VoteCycleModel voteCycle = results.first.asValue!.value;
         final DelegateModel? allianceDelegate = results[_allianceDelegateResponseIndex].valueOrNull;
         final DelegateModel? campaingDelegate = results[_campaingDelegateResponseIndex].valueOrNull;
         final DelegateModel? milestoneDelegate = results[_milestoneDelegateResponseIndex].valueOrNull;
@@ -43,17 +40,10 @@ class InitialVoteDataStateMapper extends StateMapper {
               .add(CategoryDelegate(category: ProposalCategory.milestone, delegate: milestoneDelegate.delegatee));
         }
 
-        if (nextNewMoon != null) {
-          return currentState.copyWith(
-            remainingTimeStamp: DateTime.parse('${nextNewMoon.time}Z').toLocal().millisecondsSinceEpoch,
-            currentDelegates: currentDelegates,
-          );
-        } else {
-          return currentState.copyWith(
-            pageState: PageState.failure,
-            errorMessage: 'Error loading next moon cycle'.i18n,
-          );
-        }
+        return currentState.copyWith(
+          cycleEndTimestamp: voteCycle.endTime * 1000,
+          currentDelegates: currentDelegates,
+        );
       }
     }
   }

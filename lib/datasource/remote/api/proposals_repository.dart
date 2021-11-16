@@ -6,12 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/delegate_model.dart';
-import 'package:seeds/datasource/remote/model/delegator_model.dart';
 import 'package:seeds/datasource/remote/model/moon_phase_model.dart';
 import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/referendum_model.dart';
 import 'package:seeds/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
+import 'package:seeds/datasource/remote/model/vote_cycle_model.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
@@ -35,6 +35,28 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return body['rows'].map<MoonPhaseModel>((i) => MoonPhaseModel.fromJson(i)).toList();
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result<VoteCycleModel>> getCurrentVoteCycle() {
+    print('[http] get vote cycle');
+
+    final request = createRequest(
+      code: accountFunds,
+      scope: accountFunds,
+      table: tableCycleStats,
+      // ignore: avoid_redundant_argument_values
+      limit: 1,
+      reverse: true,
+    );
+
+    final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    return http
+        .post(proposalsURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse<VoteCycleModel>(response, (dynamic body) {
+              return VoteCycleModel.fromJson(body['rows'][0]);
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -254,8 +276,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     return http
         .post(url, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
-              final List<dynamic> allDelegator = body['rows'].toList();
-              return allDelegator.map((item) => DelegatorModel.fromJson(item)).toList();
+              return DelegateModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }

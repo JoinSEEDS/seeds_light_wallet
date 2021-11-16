@@ -31,6 +31,7 @@ abstract class NetworkRepository {
   String tableDelegates = 'deltrusts';
   String tableRecover = 'recovers';
   String tableTotals = 'totals';
+  String tableCycleStats = 'cyclestats';
 
   FutureOr<Result<T>> mapHttpResponse<T>(http.Response response, Function modelMapper) {
     switch (response.statusCode) {

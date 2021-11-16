@@ -41,7 +41,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
     final List<Result> results = await GetInitialVoteSectionDataUseCase().run();
     emit(InitialVoteDataStateMapper().mapResultToState(state, results));
     await _tickerSubscription?.cancel();
-    _tickerSubscription = _tick(state.remainingTimeStamp).listen((timer) => add(Tick(timer)));
+    _tickerSubscription = _tick(state.cycleEndTimestamp).listen((timer) => add(Tick(timer)));
   }
 
   void _onTick(Tick event, Emitter<VoteState> emit) {
