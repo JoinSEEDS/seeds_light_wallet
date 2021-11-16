@@ -5,9 +5,9 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/campaign_delegate.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
 
-const int _allianceDelegateResponseIndex = 1;
-const int _campaingDelegateResponseIndex = 2;
-const int _milestoneDelegateResponseIndex = 3;
+const int _allianceDelegateResponseIndex = 0;
+const int _campaingDelegateResponseIndex = 1;
+const int _milestoneDelegateResponseIndex = 2;
 
 class AllDelegatesStateMapper extends StateMapper {
   VoteState mapResultToState(VoteState currentState, List<Result> results) {
