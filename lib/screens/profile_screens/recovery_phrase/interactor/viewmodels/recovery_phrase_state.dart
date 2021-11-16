@@ -33,7 +33,7 @@ class RecoveryPhraseState extends Equatable {
   factory RecoveryPhraseState.initial(AuthDataModel authData) {
     return RecoveryPhraseState(
       pageState: PageState.initial,
-      words: authData.words,
+      words: authData.words.first.split('-'),
     );
   }
 }
