@@ -8,8 +8,7 @@ class VoteState extends Equatable {
   final bool shouldShowDelegateIcon;
   final bool isCitizen;
   final List<CategoryDelegate> currentDelegates;
-
-  bool get voteCycleHasEnded => cycleEndTimestamp < DateTime.now().millisecondsSinceEpoch;
+  final bool voteCycleHasEnded;
 
   const VoteState({
     required this.pageState,
@@ -19,6 +18,7 @@ class VoteState extends Equatable {
     required this.shouldShowDelegateIcon,
     required this.isCitizen,
     required this.currentDelegates,
+    required this.voteCycleHasEnded,
   });
 
   @override
@@ -30,6 +30,7 @@ class VoteState extends Equatable {
         shouldShowDelegateIcon,
         isCitizen,
         currentDelegates,
+        voteCycleHasEnded,
       ];
 
   VoteState copyWith({
@@ -40,6 +41,7 @@ class VoteState extends Equatable {
     bool? shouldShowDelegateIcon,
     bool? isCitizen,
     List<CategoryDelegate>? currentDelegates,
+    bool? voteCycleHasEnded,
   }) {
     return VoteState(
       pageState: pageState ?? this.pageState,
@@ -49,6 +51,7 @@ class VoteState extends Equatable {
       shouldShowDelegateIcon: shouldShowDelegateIcon ?? this.shouldShowDelegateIcon,
       isCitizen: isCitizen ?? this.isCitizen,
       currentDelegates: currentDelegates ?? this.currentDelegates,
+      voteCycleHasEnded: voteCycleHasEnded ?? this.voteCycleHasEnded,
     );
   }
 
@@ -59,6 +62,7 @@ class VoteState extends Equatable {
       shouldShowDelegateIcon: featureFlagDelegateEnabled,
       isCitizen: isCitizen,
       currentDelegates: [],
+      voteCycleHasEnded: false,
     );
   }
 }

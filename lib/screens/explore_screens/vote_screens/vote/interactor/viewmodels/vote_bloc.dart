@@ -32,8 +32,8 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
     return super.close();
   }
 
-  Stream<int> _tick(int ticks) {
-    return Stream.periodic(const Duration(seconds: 1), (x) => ticks - x - 1).take(ticks);
+  Stream<int> _tick({required int ticks, required int duration}) {
+    return Stream.periodic(Duration(seconds: duration), (x) => ticks - x - 1).take(ticks);
   }
 
   Future<void> _onFetchInitialVoteSectionData(OnFetchInitialVoteSectionData event, Emitter<VoteState> emit) async {
@@ -41,11 +41,17 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
     final List<Result> results = await GetInitialVoteSectionDataUseCase().run();
     emit(InitialVoteDataStateMapper().mapResultToState(state, results));
     await _tickerSubscription?.cancel();
-    _tickerSubscription = _tick(state.cycleEndTimestamp).listen((timer) => add(Tick(timer)));
+    _tickerSubscription = _tick(
+      ticks: state.cycleEndTimestamp,
+
+      /// if the vote cycle has ended, we poll for a new state every 1 minute
+      /// active vote cycle - showing the seconds countdown
+      duration: state.voteCycleHasEnded ? 60 : 1,
+    ).listen((timer) => add(Tick(timer)));
   }
 
-  void _onTick(Tick event, Emitter<VoteState> emit) {
-    if (event.timer > DateTime.now().millisecondsSinceEpoch) {
+  Future<void> _onTick(Tick event, Emitter<VoteState> emit) async {
+    if (state.cycleEndTimestamp > DateTime.now().millisecondsSinceEpoch) {
       emit(RemainingTimeStateMapper().mapResultToState(state));
     } else {
       add(OnFetchInitialVoteSectionData()); // Fetch new cycle

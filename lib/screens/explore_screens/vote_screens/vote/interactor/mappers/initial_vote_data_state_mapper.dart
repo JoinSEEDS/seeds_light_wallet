@@ -7,7 +7,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/campaign_delegate.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/vote_bloc.dart';
 
-const int _moonPhasesResponseIndex = 0;
+const int _voteCycleResponseIndex = 0;
 const int _allianceDelegateResponseIndex = 1;
 const int _campaingDelegateResponseIndex = 2;
 const int _milestoneDelegateResponseIndex = 3;
@@ -18,7 +18,7 @@ class InitialVoteDataStateMapper extends StateMapper {
     if (areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: moonPhasesError);
     } else {
-      final isMoonPhasesError = results[_moonPhasesResponseIndex].isError;
+      final isMoonPhasesError = results[_voteCycleResponseIndex].isError;
       if (isMoonPhasesError) {
         return currentState.copyWith(pageState: PageState.failure, errorMessage: moonPhasesError);
       } else {
@@ -41,8 +41,10 @@ class InitialVoteDataStateMapper extends StateMapper {
         }
 
         return currentState.copyWith(
+          pageState: PageState.success,
           cycleEndTimestamp: voteCycle.endTime * 1000,
           currentDelegates: currentDelegates,
+          voteCycleHasEnded: voteCycle.endTime * 1000 < DateTime.now().millisecondsSinceEpoch,
         );
       }
     }
