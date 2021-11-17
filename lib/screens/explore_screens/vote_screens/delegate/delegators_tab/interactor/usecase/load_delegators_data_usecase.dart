@@ -14,8 +14,7 @@ class LoadDelegatorsDataUseCase {
     final result = await _proposalsRepository.getDelegators(account, EosRepository.voiceScopeCampaign);
 
     if (result.isError) {
-      final List<Result> delegatorsResult = [result];
-      return delegatorsResult;
+      return [result];
     } else {
       final List<DelegatorModel> delegators = result.asValue!.value;
 
