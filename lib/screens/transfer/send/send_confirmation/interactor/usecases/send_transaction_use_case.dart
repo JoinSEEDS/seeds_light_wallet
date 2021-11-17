@@ -12,7 +12,7 @@ class SendTransactionUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
   final fromAccount = settingsStorage.accountName;
 
-  Future<Result> run({required EOSTransaction transaction}) {
+  Future<Result> run(EOSTransaction transaction) {
     return _sendTransactionRepository
         .sendTransaction(eosTransaction: transaction, accountName: fromAccount)
         .then((Result value) async {

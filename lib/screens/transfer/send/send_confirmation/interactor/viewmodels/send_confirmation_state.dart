@@ -1,8 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/models/eos_transaction.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
+part of 'send_confirmation_bloc.dart';
 
 class SendConfirmationState extends Equatable {
   final PageState pageState;
@@ -27,7 +23,6 @@ class SendConfirmationState extends Equatable {
     TransactionPageCommand? pageCommand,
     String? errorMessage,
     EOSTransaction? transaction,
-    int? popsOnDone,
   }) {
     return SendConfirmationState(
       pageState: pageState ?? this.pageState,

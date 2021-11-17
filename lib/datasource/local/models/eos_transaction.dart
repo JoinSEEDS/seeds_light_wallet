@@ -16,14 +16,8 @@ class EOSTransaction extends Equatable {
   List<Object?> get props => [actions];
 
   factory EOSTransaction.fromActionsList(List<esr.Action> esrActions) {
-    final List<EOSAction> eosActions = esrActions
-        .map(
-          (e) => EOSAction.fromESRAction(e),
-        )
-        .where(
-          (item) => item.isValid,
-        )
-        .toList();
+    final List<EOSAction> eosActions =
+        esrActions.map((e) => EOSAction.fromESRAction(e)).where((item) => item.isValid).toList();
     return EOSTransaction(eosActions);
   }
 
