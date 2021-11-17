@@ -44,13 +44,6 @@ class TransactionDetailsBottomSheet extends StatelessWidget {
             case PageState.success:
               return Stack(
                 children: [
-                  if (state.pageState == PageState.loading)
-                    Positioned.fill(
-                      child: Container(
-                        color: AppColors.primary,
-                        child: const Align(child: CircularProgressIndicator()),
-                      ),
-                    ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
