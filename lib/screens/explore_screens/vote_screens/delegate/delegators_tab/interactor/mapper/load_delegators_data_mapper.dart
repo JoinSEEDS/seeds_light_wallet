@@ -8,9 +8,8 @@ class LoadDelegatorsDataStateMapper extends StateMapper {
     if (results.isNotEmpty && areAllResultsError(results)) {
       return currentState.copyWith(pageState: PageState.failure);
     } else {
-      final List<Result> resultss = [];
       final List<MemberModel> delegators =
-          resultss.map((i) => i.asValue!.value as MemberModel?).whereType<MemberModel>().toList();
+          results.map((i) => i.asValue!.value as MemberModel?).whereType<MemberModel>().toList();
 
       return currentState.copyWith(pageState: PageState.success, delegators: delegators);
     }
