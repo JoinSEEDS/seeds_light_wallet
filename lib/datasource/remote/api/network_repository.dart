@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
@@ -76,4 +77,12 @@ class NetworkError extends Error {
   int statusCode;
 
   NetworkError(this.statusCode);
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
 }

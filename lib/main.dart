@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:isolate';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -15,6 +16,8 @@ import 'package:seeds/datasource/remote/firebase/firebase_push_notification_serv
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/bloc_observer.dart';
 import 'package:seeds/seeds_app.dart';
+
+import 'datasource/remote/api/network_repository.dart';
 
 bool get isInDebugMode {
   var inDebugMode = false;
@@ -34,6 +37,7 @@ Future<void> main(List<String> args) async {
   await settingsStorage.initialise();
   await PushNotificationService().initialise();
   await remoteConfigurations.initialise();
+  HttpOverrides.global = MyHttpOverrides();
   if (!kReleaseMode) {
     Bloc.observer = DebugBlocObserver();
   }
