@@ -87,9 +87,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     } else if (event is OnApproveGuardianRecoveryDeepLink) {
       yield state.copyWith(showGuardianApproveOrDenyScreen: event.data);
     } else if (event is OnSigningRequest) {
-      final args = SendConfirmationArguments(
-        transaction: event.esr.transaction,
-      );
+      final args = SendConfirmationArguments(transaction: event.esr.transaction);
       yield state.copyWith(
         pageState: PageState.success,
         pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmation, arguments: args),

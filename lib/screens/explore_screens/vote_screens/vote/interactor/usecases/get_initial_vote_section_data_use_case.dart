@@ -9,7 +9,7 @@ class GetInitialVoteSectionDataUseCase {
   Future<List<Result>> run() async {
     final account = settingsStorage.accountName;
     return Future.wait([
-      _proposalsRepository.getMoonPhases(),
+      _proposalsRepository.getCurrentVoteCycle(),
       _proposalsRepository.getDelegate(account, EosRepository.voiceScopeAlliance),
       _proposalsRepository.getDelegate(account, EosRepository.voiceScopeCampaign),
       _proposalsRepository.getDelegate(account, EosRepository.voiceScopeMilestone)

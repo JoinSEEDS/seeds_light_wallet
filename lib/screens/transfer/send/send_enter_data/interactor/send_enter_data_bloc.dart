@@ -49,7 +49,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
       yield state.copyWith(pageState: PageState.loading, showSendingAnimation: true);
 
       final Result result = await SendTransactionUseCase().run(
-        transaction: EOSTransaction.fromAction(
+        EOSTransaction.fromAction(
           account: settingsStorage.selectedToken.contract,
           actionName: transferAction,
           data: {

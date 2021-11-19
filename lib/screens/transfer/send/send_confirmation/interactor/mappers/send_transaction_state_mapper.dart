@@ -5,10 +5,9 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_bloc.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_commands.dart';
-import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_state.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_transaction_response.dart';
-
 import 'package:seeds/utils/rate_states_extensions.dart';
 
 class SendTransactionStateMapper extends StateMapper {
@@ -19,7 +18,9 @@ class SendTransactionStateMapper extends StateMapper {
       final resultResponse = result.asValue!.value as SendTransactionResponse;
 
       return currentState.copyWith(
-          pageState: PageState.success, pageCommand: transactionResultPageCommand(resultResponse, rateState));
+        pageState: PageState.success,
+        pageCommand: transactionResultPageCommand(resultResponse, rateState),
+      );
     }
   }
 
@@ -48,9 +49,7 @@ class SendTransactionStateMapper extends StateMapper {
         fiatAmount: fiatAmount,
       );
     } else {
-      return ShowTransactionSuccess(
-        transactionModel: resultResponse.transactionModel,
-      );
+      return ShowTransactionSuccess(resultResponse.transactionModel);
     }
   }
 }

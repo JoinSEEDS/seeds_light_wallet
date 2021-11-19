@@ -9,9 +9,7 @@ abstract class TransactionPageCommand extends PageCommand {}
 class ShowTransactionSuccess extends TransactionPageCommand {
   final GenericTransactionModel transactionModel;
 
-  ShowTransactionSuccess({
-    required this.transactionModel,
-  });
+  ShowTransactionSuccess(this.transactionModel);
 }
 
 class ShowTransferSuccess extends TransactionPageCommand {

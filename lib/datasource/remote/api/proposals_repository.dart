@@ -12,6 +12,7 @@ import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/referendum_model.dart';
 import 'package:seeds/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
+import 'package:seeds/datasource/remote/model/vote_cycle_model.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
@@ -35,6 +36,28 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .post(proposalsURL, headers: headers, body: request)
         .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
               return body['rows'].map<MoonPhaseModel>((i) => MoonPhaseModel.fromJson(i)).toList();
+            }))
+        .catchError((error) => mapHttpError(error));
+  }
+
+  Future<Result<VoteCycleModel>> getCurrentVoteCycle() {
+    print('[http] get vote cycle');
+
+    final request = createRequest(
+      code: accountFunds,
+      scope: accountFunds,
+      table: tableCycleStats,
+      // ignore: avoid_redundant_argument_values
+      limit: 1,
+      reverse: true,
+    );
+
+    final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
+
+    return http
+        .post(proposalsURL, headers: headers, body: request)
+        .then((http.Response response) => mapHttpResponse<VoteCycleModel>(response, (dynamic body) {
+              return VoteCycleModel.fromJson(body['rows'][0]);
             }))
         .catchError((error) => mapHttpError(error));
   }
@@ -236,8 +259,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getDelegators(String account, String voiceScope) {
-    print('[http] get delegate for $account');
+  Future<Result<List<DelegatorModel>>> getDelegators(String account, String voiceScope) {
+    print('[http] get delegators for $account');
 
     final request = createRequest(
       code: accountFunds,
@@ -253,7 +276,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(url, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<List<DelegatorModel>>(response, (dynamic body) {
               final List<dynamic> allDelegator = body['rows'].toList();
               return allDelegator.map((item) => DelegatorModel.fromJson(item)).toList();
             }))
