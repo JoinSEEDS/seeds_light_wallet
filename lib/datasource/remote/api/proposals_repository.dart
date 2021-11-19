@@ -259,7 +259,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getDelegators(String account, String voiceScope) {
+  Future<Result<List<DelegatorModel>>> getDelegators(String account, String voiceScope) {
     print('[http] get delegators for $account');
 
     final request = createRequest(
@@ -276,7 +276,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(url, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<List<DelegatorModel>>(response, (dynamic body) {
               final List<dynamic> allDelegator = body['rows'].toList();
               return allDelegator.map((item) => DelegatorModel.fromJson(item)).toList();
             }))

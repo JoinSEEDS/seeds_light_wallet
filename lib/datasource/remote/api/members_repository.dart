@@ -64,7 +64,7 @@ class MembersRepository extends NetworkRepository {
 
   /// accountName must be greater than 2 or we return empty list of users.
   /// This will return one account if found or null if not found.
-  Future<Result> getMemberByAccountName(String accountName) {
+  Future<Result<MemberModel?>> getMemberByAccountName(String accountName) {
     print('[http] getMemberByAccountName $accountName ');
     assert(accountName.length > 2);
 
@@ -79,7 +79,7 @@ class MembersRepository extends NetworkRepository {
 
     return http
         .post(membersURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<MemberModel?>(response, (dynamic body) {
               final List<dynamic> allAccounts = body['rows'].toList();
               if (allAccounts.isNotEmpty) {
                 return MemberModel.fromJson(allAccounts[0]);
