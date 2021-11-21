@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:seeds/components/scanner/interactor/scanner_bloc.dart';
 import 'package:seeds/components/scanner/interactor/viewmodels/scanner_events.dart';
+import 'package:seeds/utils/string_extension.dart';
 import 'package:seeds/components/scanner/interactor/viewmodels/scanner_state.dart';
 import 'package:seeds/components/scanner/seeds_qr_code_scanner_widget.dart';
 
@@ -59,13 +60,15 @@ class _ScannerWidgetState extends State<ScannerWidget> {
 
     _controller.scannedDataStream.listen((Barcode event) {
       print("scannedDataStream");
-      if (_handledQrCode || event.code.isEmpty) {
+      final code = event.code;
+
+      if (_handledQrCode || code.isNullOrEmpty) {
         return;
       }
 
       setState(() => _handledQrCode = true);
 
-      widget.resultCallBack(event.code);
+      widget.resultCallBack(code!);
     });
   }
 
