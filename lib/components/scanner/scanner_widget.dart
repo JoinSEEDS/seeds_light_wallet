@@ -68,7 +68,7 @@ class _ScannerWidgetState extends State<ScannerWidget> {
 
       setState(() => _handledQrCode = true);
 
-      widget.resultCallBack(code!);
+      widget.resultCallBack(code);
     });
   }
 
