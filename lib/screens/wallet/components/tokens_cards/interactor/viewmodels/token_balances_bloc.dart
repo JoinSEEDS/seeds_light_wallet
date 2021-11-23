@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:async/src/result/result.dart';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
@@ -39,7 +41,7 @@ class TokenBalancesBloc extends Bloc<TokenBalancesEvent, TokenBalancesState> {
 
       final potentialTokens = TokenModel.allTokens;
 
-      final result = await LoadTokenBalancesUseCase().run(potentialTokens);
+      final List<Result<BalanceModel>> result = await LoadTokenBalancesUseCase().run(potentialTokens);
 
       yield await TokenBalancesStateMapper().mapResultToState(state, potentialTokens, result);
       settingsStorage.selectedToken = state.selectedToken.token;
