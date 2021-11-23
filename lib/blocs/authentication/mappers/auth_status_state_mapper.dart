@@ -1,4 +1,4 @@
-import 'package:seeds/blocs/authentication/viewmodels/authentication_state.dart';
+import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 
 class AuthStatusStateMapper {

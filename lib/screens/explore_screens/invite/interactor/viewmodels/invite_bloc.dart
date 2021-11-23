@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_case.dart';

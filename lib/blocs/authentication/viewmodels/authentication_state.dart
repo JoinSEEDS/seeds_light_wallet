@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'authentication_bloc.dart';
 
 enum AuthStatus {
   initial,
@@ -10,7 +10,6 @@ enum AuthStatus {
   recoveryMode,
 }
 
-/// --- STATES
 class AuthenticationState extends Equatable {
   final AuthStatus authStatus;
   final bool isOnResumeAuth;

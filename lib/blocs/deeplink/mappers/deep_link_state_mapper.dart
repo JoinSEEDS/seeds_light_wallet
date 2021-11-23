@@ -1,7 +1,7 @@
 import 'package:seeds/blocs/deeplink/model/deep_link_data.dart';
 import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/blocs/deeplink/model/invite_link_data.dart';
-import 'package:seeds/blocs/deeplink/viewmodels/deeplink_state.dart';
+import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/utils/string_extension.dart';

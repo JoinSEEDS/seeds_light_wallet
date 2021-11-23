@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/blocs/deeplink/viewmodels/deeplink_event.dart';
 import 'package:seeds/components/scanner/scanner_widget.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
