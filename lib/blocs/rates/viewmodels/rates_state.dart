@@ -1,9 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/fiat_rate_model.dart';
-import 'package:seeds/datasource/remote/model/rate_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'rates_bloc.dart';
 
-/// --- STATES
 class RatesState extends Equatable {
   final PageState pageState;
   final String? errorMessage;

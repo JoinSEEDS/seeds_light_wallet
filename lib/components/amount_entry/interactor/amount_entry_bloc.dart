@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/components/amount_entry/interactor/mappers/amount_changer_mapper.dart';
 import 'package:seeds/components/amount_entry/interactor/mappers/currency_change_mapper.dart';
 import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_events.dart';

@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/authentication/verification/interactor/mappers/auth_state_state_mapper.dart';

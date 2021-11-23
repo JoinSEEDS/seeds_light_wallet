@@ -1,9 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
-import 'package:seeds/blocs/deeplink/model/invite_link_data.dart';
-import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
+part of 'deeplink_bloc.dart';
 
-/// --- STATES
 class DeeplinkState extends Equatable {
   final GuardianRecoveryRequestData? guardianRecoveryRequestData;
   final InviteLinkData? inviteLinkData;

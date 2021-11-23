@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
 import 'package:seeds/components/amount_entry/interactor/viewmodels/page_command.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/design/app_theme.dart';

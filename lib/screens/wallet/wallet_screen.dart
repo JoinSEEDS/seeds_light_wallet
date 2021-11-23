@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/bloc.dart';
+import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/tokens_cards.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/transactions_list.dart';
 import 'package:seeds/screens/wallet/components/wallet_appbar.dart';
