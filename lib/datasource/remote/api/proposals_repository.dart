@@ -18,7 +18,7 @@ import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
 class ProposalsRepository extends NetworkRepository with EosRepository {
-  Future<Result> getMoonPhases() {
+  Future<Result<List<MoonPhaseModel>>> getMoonPhases() {
     print('[http] get moon phases');
 
     final ms = DateTime.now().toUtc().millisecondsSinceEpoch;
@@ -34,7 +34,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<List<MoonPhaseModel>>(response, (dynamic body) {
               return body['rows'].map<MoonPhaseModel>((i) => MoonPhaseModel.fromJson(i)).toList();
             }))
         .catchError((error) => mapHttpError(error));
@@ -91,7 +91,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getReferendums(String scope, bool isReverse) {
+  Future<Result<List<ReferendumModel>>> getReferendums(String scope, bool isReverse) {
     print('[http] get referendums: stage = [$scope]');
 
     final request = createRequest(
@@ -106,7 +106,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<List<ReferendumModel>>(response, (dynamic body) {
               // The referendums do not have a status field as do the proposals, so the scope must be added
               // to each referendum, which also acts as a status field.
               final List<ReferendumModel> result =
@@ -116,7 +116,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getSupportLevel(String scope) {
+  Future<Result<List<SupportLevelModel>>> getSupportLevel(String scope) {
     print('[http] get support level for scope: $scope');
 
     final request = createRequest(code: accountFunds, scope: scope, table: tableSupport);
@@ -125,13 +125,13 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<List<SupportLevelModel>>(response, (dynamic body) {
               return body['rows'].map<SupportLevelModel>((i) => SupportLevelModel.fromJson(i)).toList();
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getProposalVote(int proposalId, String account) {
+  Future<Result<VoteModel>> getProposalVote(int proposalId, String account) {
     print('[http] get vote for proposal: $proposalId');
 
     final request = createRequest(
@@ -147,13 +147,13 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoteModel>(response, (dynamic body) {
               return VoteModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getReferendumVote(int referendumId, String account) {
+  Future<Result<VoteModel>> getReferendumVote(int referendumId, String account) {
     print('[http] get vote for referendum: $referendumId');
 
     final request = createRequest(
@@ -169,13 +169,13 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(proposalsURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoteModel>(response, (dynamic body) {
               return VoteModel.fromJsonReferendum(body);
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> voteProposal({required int id, required int amount, required String accountName}) {
+  Future<Result<TransactionResponse>> voteProposal({required int id, required int amount, required String accountName}) {
     print('[eos] vote proposal $id ($amount)');
 
     final transaction = buildFreeTransaction([
@@ -192,13 +192,13 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
   }
 
-  Future<Result> voteReferendum({required int id, required int amount, required String accountName}) {
+  Future<Result<TransactionResponse>> voteReferendum({required int id, required int amount, required String accountName}) {
     print('[eos] vote referendum $id ($amount)');
 
     final transaction = buildFreeTransaction([
@@ -215,13 +215,13 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
   }
 
-  Future<Result> setDelegate({required String accountName, required String delegateTo}) {
+  Future<Result<TransactionResponse>> setDelegate({required String accountName, required String delegateTo}) {
     print('[eos] set delegate $accountName -> $delegateTo');
 
     final List<Action> delegateActions = List.from(
@@ -231,14 +231,14 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
   }
 
   // return DelegateModel
-  Future<Result> getDelegate(String account, String voiceScope) {
+  Future<Result<DelegateModel>> getDelegate(String account, String voiceScope) {
     print('[http] get delegate for $account');
 
     final request = createRequest(
@@ -253,7 +253,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(url, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<DelegateModel>(response, (dynamic body) {
               return DelegateModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
@@ -283,7 +283,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> undelegate({required String accountName}) {
+  Future<Result<TransactionResponse>> undelegate({required String accountName}) {
     print('[eos] undelegate all delegations for $accountName');
 
     final List<Action> undelegateActions =
@@ -293,7 +293,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));
