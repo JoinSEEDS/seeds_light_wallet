@@ -6,7 +6,7 @@ import 'package:seeds/datasource/remote/model/refund_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 
 class PlantedRepository extends NetworkRepository {
-  Future<Result> getPlanted(String userAccount) {
+  Future<Result<PlantedModel>> getPlanted(String userAccount) {
     print('[http] get seeds getPlanted $userAccount');
 
     final plantedURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
@@ -20,13 +20,13 @@ class PlantedRepository extends NetworkRepository {
 
     return http
         .post(plantedURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<PlantedModel>(response, (dynamic body) {
               return PlantedModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getRefunds(String userAccount) {
+  Future<Result<List<RefundModel>>> getRefunds(String userAccount) {
     print('[http] get seeds getRefunds $userAccount');
 
     final plantedURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
@@ -40,7 +40,7 @@ class PlantedRepository extends NetworkRepository {
 
     return http
         .post(plantedURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<List<RefundModel>>(response, (dynamic body) {
               final List<dynamic> allRefunds = body['rows'].toList();
               return allRefunds.map((item) => RefundModel.fromJson(item)).toList();
             }))

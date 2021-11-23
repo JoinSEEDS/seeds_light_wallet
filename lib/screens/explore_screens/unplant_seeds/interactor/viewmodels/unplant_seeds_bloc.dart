@@ -24,10 +24,7 @@ class UnplantSeedsBloc extends Bloc<UnplantSeedsEvent, UnplantSeedsState> {
       yield state.copyWith(pageState: PageState.loading);
       final results = await GetPlantedBalanceUseCase().run();
 
-      yield UserPlantedBalanceStateMapper().mapResultToState(
-        state,
-        results,
-      );
+      yield UserPlantedBalanceStateMapper().mapResultToState(state, results);
     } else if (event is OnAmountChange) {
       yield AmountChangerMapper().mapResultToState(state, event.amountChanged);
     } else if (event is OnMaxButtonTap) {
