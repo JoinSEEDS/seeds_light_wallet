@@ -12,7 +12,7 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc() : super(AuthenticationState.initial()) {
-    on<InitAuthStatus>(_initAuthStatus);
+    on<InitAuthStatus>((_, emit) => emit(AuthStatusStateMapper().mapResultToState(state)));
     on<InitOnResumeAuth>((_, emit) => emit(state.copyWith(isOnResumeAuth: true)));
     on<SuccessOnResumeAuth>((_, emit) => emit(state.copyWith(isOnResumeAuth: false)));
     on<UnlockWallet>((_, emit) => emit(state.copyWith(authStatus: AuthStatus.unlocked)));
@@ -26,10 +26,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     on<EnableBiometric>((_, __) => settingsStorage.biometricActive = true);
     on<DisableBiometric>((_, __) => settingsStorage.biometricActive = false);
     on<OnLogout>(_onLogout);
-  }
-
-  void _initAuthStatus(InitAuthStatus event, Emitter<AuthenticationState> emit) {
-    emit(AuthStatusStateMapper().mapResultToState(state));
   }
 
   Future<void> _onCreateAccount(OnCreateAccount event, Emitter<AuthenticationState> emit) async {
