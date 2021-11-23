@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:async/async.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
@@ -84,7 +86,7 @@ abstract class EosRepository {
   EOSClient buildEosClient() => EOSClient(remoteConfigurations.activeEOSServerUrl.url!, 'v1',
       privateKeys: [settingsStorage.privateKey ?? onboardingPrivateKey, cpuPrivateKey]);
 
-  Result mapEosResponse(dynamic response, Function modelMapper) {
+  FutureOr<Result<T>> mapEosResponse<T>(dynamic response, Function modelMapper) {
     print('mapEosResponse - transaction id: ${response['transaction_id']}');
     if (response['transaction_id'] != null) {
       print('Model Class: $modelMapper');
@@ -96,7 +98,7 @@ abstract class EosRepository {
     }
   }
 
-  Result mapEosError(dynamic error) {
+  ErrorResult mapEosError(dynamic error) {
     print('mapEosError: $error');
     return ErrorResult(error);
   }

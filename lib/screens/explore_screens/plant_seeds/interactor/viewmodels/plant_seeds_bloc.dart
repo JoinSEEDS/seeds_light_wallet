@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/mappers/plant_seeds_result_mapper.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/interactor/mappers/seeds_amount_change_mapper.dart';

@@ -1,11 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
+part of 'authentication_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();
+
   @override
   List<Object> get props => [];
 }

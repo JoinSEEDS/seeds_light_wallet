@@ -1,4 +1,4 @@
-import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/remote/model/fiat_rate_model.dart';
 import 'package:seeds/datasource/remote/model/rate_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';

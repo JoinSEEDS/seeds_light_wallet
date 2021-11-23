@@ -1,10 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'rates_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class RatesEvent extends Equatable {
   const RatesEvent();
+
   @override
   List<Object> get props => [];
 }

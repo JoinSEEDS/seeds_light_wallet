@@ -48,7 +48,7 @@ class FirebaseDatabaseGuardiansRepository extends FirebaseDatabaseService {
   }
 
   /// Use only when we have successfully saved guardians to the user contract by calling eosService.initGuardians
-  Future<Result<dynamic>> setGuardiansInitialized(String userAccount) {
+  Future<Result<bool>> setGuardiansInitialized(String userAccount) {
     final data = <String, Object>{
       GUARDIAN_CONTRACT_INITIALIZED: true,
       GUARDIAN_CONTRACT_INITIALIZED_DATE: FieldValue.serverTimestamp(),

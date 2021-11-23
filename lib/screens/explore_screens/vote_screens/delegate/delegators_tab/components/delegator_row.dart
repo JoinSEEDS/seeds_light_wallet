@@ -4,13 +4,10 @@ import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/utils/string_extension.dart';
 
-class DelegatorRowWidget extends StatelessWidget {
+class DelegatorRow extends StatelessWidget {
   final MemberModel delegator;
 
-  const DelegatorRowWidget({
-    Key? key,
-    required this.delegator,
-  }) : super(key: key);
+  const DelegatorRow(this.delegator, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

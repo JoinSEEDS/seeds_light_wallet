@@ -1,4 +1,4 @@
-import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/amount_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/token_model.dart';

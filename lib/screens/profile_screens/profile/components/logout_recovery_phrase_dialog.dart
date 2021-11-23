@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/flat_button_long_outlined.dart';
@@ -26,14 +26,16 @@ class LogoutRecoveryPhraseDialog extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'Save private Recovery Phrase in secure place - to be able to restore access to your wallet later'.i18n,
+                    'Save private Recovery Phrase in secure place - to be able to restore access to your wallet later'
+                        .i18n,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
                   const SizedBox(height: 36.0),
                   FlatButtonLong(
                     title: 'Save Recovery Phrase'.i18n,
-                    onPressed: () => BlocProvider.of<ProfileBloc>(context).add(const OnSaveRecoveryPhraseButtonPressed()),
+                    onPressed: () =>
+                        BlocProvider.of<ProfileBloc>(context).add(const OnSaveRecoveryPhraseButtonPressed()),
                   ),
                   const SizedBox(height: 10.0),
                   if (state.showLogoutButton)

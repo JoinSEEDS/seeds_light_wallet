@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_state.dart';
+import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';

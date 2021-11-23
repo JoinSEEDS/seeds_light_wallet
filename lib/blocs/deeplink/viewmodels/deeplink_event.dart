@@ -1,8 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'deeplink_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class DeeplinkEvent extends Equatable {
   const DeeplinkEvent();
 

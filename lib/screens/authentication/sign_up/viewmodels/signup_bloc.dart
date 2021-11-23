@@ -4,7 +4,7 @@ import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:seeds/blocs/authentication/viewmodels/bloc.dart';
+import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/domain-shared/shared_use_cases/generate_random_key_and_words_use_case.dart';
