@@ -8,7 +8,6 @@ import 'package:seeds/datasource/remote/model/invite_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/generate_random_key_and_words_use_case.dart';
-import 'package:seeds/domain-shared/shared_use_cases/stop_recovery_use_case.dart';
 import 'package:seeds/screens/authentication/sign_up2/mappers/claim_invite_mapper.dart';
 import 'package:seeds/screens/authentication/sign_up2/mappers/create_account_state_mapper.dart';
 import 'package:seeds/screens/authentication/sign_up2/mappers/set_account_name_state_mapper.dart';
@@ -34,7 +33,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     on<OnBackPressed>(_onBackPressed);
     on<ClearSignupPageCommand>((_, emit) => emit(state.copyWith()));
   }
-// if it has a invite deep link
+
+  // if it has a invite deep link
   Future<void> _onInviteCodeFromDeepLink(OnInviteCodeFromDeepLink event, Emitter<SignupState> emit) async {
     if (event.inviteCode != null) {
       emit(state.copyWith(
@@ -64,6 +64,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   Future<void> _onQRScanned(OnQRScanned event, Emitter<SignupState> emit) async {
     emit(state.copyWith(claimInviteView: ClaimInviteView.processing, pageCommand: StopScan(), fromDeepLink: false));
     final Result result = await ClaimInviteUseCase().unpackLink(event.scannedLink);
+    await Future.delayed(const Duration(seconds: 1));
     emit(ClaimInviteMapper().mapInviteMnemonicToState(state, result));
 
     if (state.inviteMnemonic != null) {
@@ -108,11 +109,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
   Future<void> _onCreateAccountTapped(OnCreateAccountTapped event, Emitter<SignupState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
-
     final String inviteSecret = secretFromMnemonic(state.inviteMnemonic!);
-
     final AuthDataModel authData = GenerateRandomKeyAndWordsUseCase().run();
-
     final Result result = await CreateAccountUseCase().run(
       inviteSecret: inviteSecret,
       displayName: state.displayName!,
@@ -120,13 +118,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       authData: authData,
       phoneNumber: '',
     );
-
-    if (result.isValue) {
-      /// In case there was a recovery in place. We cancel it.
-      /// This will clean all data
-      await StopRecoveryUseCase().run();
-    }
-
     emit(CreateAccountStateMapper().mapResultToState(state, result, authData));
   }
 
@@ -136,7 +127,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         emit(state);
         break;
       case SignupScreens.displayName:
-        emit(state.copyWith(signupScreens: SignupScreens.claimInvite));
+        if (state.fromDeepLink) {
+          // Not return to processing screen if it is from invite link
+          emit(state.copyWith(pageCommand: ReturnToLogin()));
+        } else {
+          emit(state.copyWith(signupScreens: SignupScreens.claimInvite));
+        }
         break;
       case SignupScreens.accountName:
         emit(state.copyWith(signupScreens: SignupScreens.displayName));

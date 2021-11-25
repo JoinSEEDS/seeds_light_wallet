@@ -9,37 +9,8 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
-import 'package:seeds/datasource/remote/model/invite_model.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 
 class SignupRepository extends EosRepository with NetworkRepository {
-  Future<Result> findInvite(String inviteHash) async {
-    final inviteURL = '$hyphaURL/v1/chain/get_table_rows';
-
-    final request = createRequest(
-        code: accountJoin,
-        scope: accountJoin,
-        table: tableInvites,
-        lowerBound: inviteHash,
-        upperBound: inviteHash,
-        indexPosition: 2,
-        keyType: 'sha256');
-
-    return http
-        .post(Uri.parse(inviteURL), headers: headers, body: request)
-        .then(
-          (http.Response response) => mapHttpResponse(response, (dynamic body) {
-            final rows = body['rows'];
-            if (rows.isNotEmpty) {
-              return InviteModel.fromJson(rows.first);
-            } else {
-              throw Exception('empty result at $inviteURL');
-            }
-          }),
-        )
-        .catchError((error) => mapHttpError(error));
-  }
-
   Future<Result> unpackDynamicLink(String scannedLink) async {
     final PendingDynamicLinkData? unpackedLink =
         await FirebaseDynamicLinks.instance.getDynamicLink(Uri.parse(scannedLink));

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/sign_up2/claim_invite_screen.dart';
 import 'package:seeds/screens/authentication/sign_up2/create_account_name_screen.dart';
 import 'package:seeds/screens/authentication/sign_up2/create_display_name_screen.dart';
@@ -23,6 +24,9 @@ class SignupScreen extends StatelessWidget {
           if (pageCommand is OnAccountCreated) {
             BlocProvider.of<AuthenticationBloc>(context)
                 .add(OnCreateAccount(account: state.accountName!, authData: pageCommand.authData));
+          } else if (pageCommand is ReturnToLogin) {
+            BlocProvider.of<DeeplinkBloc>(context).add(const ClearDeepLink());
+            NavigationService.of(context).pushAndRemoveAll(Routes.login); // return user to login
           }
         },
         buildWhen: (previous, current) => previous.signupScreens != current.signupScreens,
