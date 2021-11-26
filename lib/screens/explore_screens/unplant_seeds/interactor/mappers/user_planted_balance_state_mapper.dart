@@ -1,7 +1,7 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/planted_model.dart';
-import 'package:collection/collection.dart' show IterableExtension;
 import 'package:seeds/datasource/remote/model/refund_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
