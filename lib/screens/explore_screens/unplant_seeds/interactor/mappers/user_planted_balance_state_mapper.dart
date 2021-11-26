@@ -16,7 +16,6 @@ class UserPlantedBalanceStateMapper extends StateMapper {
         pageState: PageState.failure,
       );
     } else {
-
       results.retainWhere((Result i) => i.isValue);
       final values = results.map((Result i) => i.asValue!.value).toList();
       final String selectedFiat = settingsStorage.selectedFiatCurrency;

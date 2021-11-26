@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:async/src/result/result.dart';
 import 'package:bloc/bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
@@ -8,6 +7,7 @@ import 'package:seeds/datasource/remote/model/token_model.dart';
 import 'package:seeds/domain-shared/event_bus/event_bus.dart';
 import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/mappers/token_balances_state_mapper.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/usecases/load_token_balances_use_case.dart';
 import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmodels/token_balances_event.dart';
