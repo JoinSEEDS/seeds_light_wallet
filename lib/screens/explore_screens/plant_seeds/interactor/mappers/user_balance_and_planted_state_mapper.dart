@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -17,8 +18,8 @@ class UserBalanceAndPlantedStateMapper extends StateMapper {
       results.retainWhere((i) => i.isValue);
       final values = results.map((i) => i.asValue!.value).toList();
 
-      final BalanceModel? balance = values.firstWhere((element) => element is BalanceModel, orElse: () => null);
-      final PlantedModel? plantedSeeds = values.firstWhere((element) => element is PlantedModel, orElse: () => null);
+      final BalanceModel? balance = values.whereType<BalanceModel>().firstOrNull;
+      final PlantedModel? plantedSeeds = values.whereType<PlantedModel>().firstOrNull;
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
 
       final availableBalance = TokenDataModel.from(balance?.quantity);

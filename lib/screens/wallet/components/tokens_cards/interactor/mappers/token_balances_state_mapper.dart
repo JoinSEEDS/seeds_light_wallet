@@ -10,7 +10,7 @@ import 'package:seeds/screens/wallet/components/tokens_cards/interactor/viewmode
 
 class TokenBalancesStateMapper {
   Future<TokenBalancesState> mapResultToState(
-      TokenBalancesState currentState, List<TokenModel> tokens, List<Result> results) async {
+      TokenBalancesState currentState, List<TokenModel> tokens, List<Result<BalanceModel>> results) async {
     assert(tokens.length == results.length, "invalid results");
 
     final List<TokenBalanceViewModel> available = [];
@@ -36,7 +36,7 @@ class TokenBalancesStateMapper {
             newWhitelist.add(token.id);
           }
         } else {
-          final BalanceModel balance = result.asValue?.value as BalanceModel;
+          final BalanceModel balance = result.asValue!.value;
           if (whitelisted || balance.quantity > 0) {
             available.add(TokenBalanceViewModel(token, TokenDataModel(balance.quantity, token: token)));
             newWhitelist.add(token.id);

@@ -6,7 +6,7 @@ import 'package:seeds/domain-shared/app_constants.dart';
 
 ///Seeds History Table
 class SeedsHistoryRepository extends NetworkRepository {
-  Future<Result<dynamic>> getNumberOfTransactions(String userAccount) {
+  Future<Result<SeedsHistoryModel>> getNumberOfTransactions(String userAccount) {
     print('[http] get seeds seeds history for account: $userAccount ');
 
     final String request = createRequest(
@@ -21,7 +21,7 @@ class SeedsHistoryRepository extends NetworkRepository {
 
     return http
         .post(seedsHistoryURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<SeedsHistoryModel>(response, (dynamic body) {
               return SeedsHistoryModel.fromJson(body);
             }))
         .catchError((dynamic error) => mapHttpError(error));

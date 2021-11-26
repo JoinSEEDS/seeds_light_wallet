@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/planted_model.dart';
@@ -15,12 +16,11 @@ class UserPlantedBalanceStateMapper extends StateMapper {
         pageState: PageState.failure,
       );
     } else {
-
       results.retainWhere((Result i) => i.isValue);
       final values = results.map((Result i) => i.asValue!.value).toList();
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
 
-      final PlantedModel? plantedSeeds = values.firstWhere((i) => i is PlantedModel, orElse: () => null);
+      final PlantedModel? plantedSeeds = values.firstWhereOrNull((element) => element is PlantedModel);
       final plantedAmount = TokenDataModel(plantedSeeds?.quantity ?? 0);
 
       final List<int> availableRequestIds = [];

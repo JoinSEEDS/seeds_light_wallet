@@ -9,11 +9,11 @@ import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invit
 import 'package:seeds/utils/rate_states_extensions.dart';
 
 class UserBalanceStateMapper extends StateMapper {
-  InviteState mapResultToState(InviteState currentState, Result result, RatesState rateState) {
+  InviteState mapResultToState(InviteState currentState, Result<BalanceModel> result, RatesState rateState) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance".i18n);
     } else {
-      final BalanceModel balance = result.asValue!.value as BalanceModel;
+      final BalanceModel balance = result.asValue!.value;
       final availableBalance = TokenDataModel(balance.quantity);
       final String selectedFiat = settingsStorage.selectedFiatCurrency;
 

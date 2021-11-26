@@ -7,11 +7,11 @@ class GetReferredAccountsUseCase {
   final ProfileRepository _profileRepository = ProfileRepository();
 
   Future<List<Result>> run() async {
-    final result = await _profileRepository.getReferredAccounts(settingsStorage.accountName);
+    final Result<ReferredAccounts> result = await _profileRepository.getReferredAccounts(settingsStorage.accountName);
     if (result.isError) {
       return [result];
     } else {
-      final ReferredAccounts referredAccounts = result.asValue?.value as ReferredAccounts;
+      final ReferredAccounts referredAccounts = result.asValue!.value;
       //This is an expensive approach we need change it
       return Future.wait([for (var i in referredAccounts.accounts) _profileRepository.getProfile(i)]);
     }
