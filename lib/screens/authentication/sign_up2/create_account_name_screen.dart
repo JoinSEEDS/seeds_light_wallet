@@ -20,7 +20,7 @@ class CreateAccountNameScreen extends StatefulWidget {
 }
 
 class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
-  late SignupBloc _bloc;
+  late SignupBloc _signupBloc;
   final TextEditingController _keyController = TextEditingController();
   final _usernameFormKey = GlobalKey<FormState>();
   final Debouncer _debouncer = Debouncer(milliseconds: 600);
@@ -28,11 +28,11 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
   @override
   void initState() {
     super.initState();
-    _bloc = BlocProvider.of<SignupBloc>(context);
-    if (_bloc.state.accountName != null) {
-      _keyController.text = _bloc.state.accountName!;
+    _signupBloc = BlocProvider.of<SignupBloc>(context);
+    if (_signupBloc.state.accountName != null) {
+      _keyController.text = _signupBloc.state.accountName!;
     } else {
-      _bloc.add(OnGenerateNewUsername(_bloc.state.displayName!));
+      _signupBloc.add(OnGenerateNewUsername(_signupBloc.state.displayName!));
     }
   }
 
@@ -40,24 +40,25 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _navigateBack,
-      child: Scaffold(
-        appBar: AppBar(),
-        body: SafeArea(
-          child: BlocConsumer<SignupBloc, SignupState>(
-            listener: (context, state) {
-              if (state.pageState == PageState.initial && state.pageCommand is OnAccountNameGenerated) {
-                _keyController.text = state.accountName ?? _keyController.text;
-                _bloc.add(OnAccountNameChanged(state.accountName!));
-              }
+      child: BlocConsumer<SignupBloc, SignupState>(
+        listener: (context, state) {
+          if (state.pageState == PageState.initial && state.pageCommand is OnAccountNameGenerated) {
+            _keyController.text = state.accountName ?? _keyController.text;
+            _signupBloc.add(OnAccountNameChanged(state.accountName!));
+          }
 
-              if (state.pageState == PageState.failure) {
-                SnackBarInfo(state.errorMessage ?? 'Oops, something went wrong. Please try again later.'.i18n,
-                        ScaffoldMessenger.of(context))
-                    .show();
-              }
-            },
-            builder: (context, state) {
-              return Stack(
+          if (state.pageState == PageState.failure) {
+            SnackBarInfo(state.errorMessage ?? 'Oops, something went wrong. Please try again later.'.i18n,
+                    ScaffoldMessenger.of(context))
+                .show();
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            // From invite link, there isn't a screen below the stack thus no implicit back arrow
+            appBar: AppBar(leading: state.fromDeepLink ? BackButton(onPressed: _navigateBack) : null),
+            body: SafeArea(
+              child: Stack(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(16),
@@ -77,7 +78,9 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                               isLoading: state.pageState == PageState.loading,
                               canClear: _keyController.text.isNotEmpty,
                             ),
-                            onChanged: _onUsernameChanged,
+                            onChanged: (text) {
+                              _debouncer.run(() => _signupBloc.add(OnAccountNameChanged(text)));
+                            },
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -88,36 +91,31 @@ class _CreateAccountNameStateScreen extends State<CreateAccountNameScreen> {
                             style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                           ),
                         ),
-                        FlatButtonLong(title: 'Create account'.i18n, onPressed: _onCreateAccountPressed()),
+                        FlatButtonLong(
+                          title: 'Create account'.i18n,
+                          onPressed: state.isNextButtonActive
+                              ? () {
+                                  FocusScope.of(context).unfocus();
+                                  _signupBloc.add(OnCreateAccountTapped(_keyController.text));
+                                }
+                              : null,
+                        ),
                         const SizedBox(height: 20),
                       ],
                     ),
                   ),
                   if (state.pageState == PageState.loading) const FullPageLoadingIndicator(),
                 ],
-              );
-            },
-          ),
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  void _onUsernameChanged(String text) {
-    _debouncer.run(() {
-      _bloc.add(OnAccountNameChanged(text));
-    });
-  }
-
-  VoidCallback? _onCreateAccountPressed() => _bloc.state.isNextButtonActive
-      ? () {
-          FocusScope.of(context).unfocus();
-          _bloc.add(OnCreateAccountTapped(_keyController.text));
-        }
-      : null;
-
   Future<bool> _navigateBack() {
-    _bloc.add(const OnBackPressed());
+    _signupBloc.add(const OnBackPressed());
     return Future.value(false);
   }
 }

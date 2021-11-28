@@ -15,18 +15,16 @@ class CreateDisplayNameScreen extends StatefulWidget {
 }
 
 class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
-  late SignupBloc _bloc;
+  late SignupBloc _signupBloc;
   final _keyController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _bloc = BlocProvider.of<SignupBloc>(context);
-    _keyController.text = _bloc.state.displayName ?? '';
+    _signupBloc = BlocProvider.of<SignupBloc>(context);
+    _keyController.text = _signupBloc.state.displayName ?? '';
     _keyController.addListener(() {
-      setState(() {
-        // Do nothing
-      });
+      setState(() {});
     });
   }
 
@@ -40,11 +38,12 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _navigateBack,
-      child: Scaffold(
-        appBar: AppBar(),
-        body: BlocBuilder<SignupBloc, SignupState>(
-          builder: (context, state) {
-            return SafeArea(
+      child: BlocBuilder<SignupBloc, SignupState>(
+        builder: (context, state) {
+          return Scaffold(
+            // From invite link, there isn't a screen below the stack thus no implicit back arrow
+            appBar: AppBar(leading: state.fromDeepLink ? BackButton(onPressed: _navigateBack) : null),
+            body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -55,7 +54,7 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
                       onFieldSubmitted: (_) => _onNextPressed(),
                       maxLength: 36,
                       controller: _keyController,
-                      validator: (String? value) {
+                      validator: (value) {
                         if (value.isNullOrEmpty) {
                           return 'Name cannot be empty'.i18n;
                         }
@@ -71,9 +70,9 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
                   ],
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -81,12 +80,12 @@ class _CreateDisplayNameStateScreen extends State<CreateDisplayNameScreen> {
   VoidCallback? _onNextPressed() => _keyController.text.isNotEmpty
       ? () {
           FocusScope.of(context).unfocus();
-          _bloc.add(DisplayNameOnNextTapped(_keyController.text));
+          _signupBloc.add(DisplayNameOnNextTapped(_keyController.text));
         }
       : null;
 
   Future<bool> _navigateBack() {
-    _bloc.add(const OnBackPressed());
+    _signupBloc.add(const OnBackPressed());
     return Future.value(false);
   }
 }

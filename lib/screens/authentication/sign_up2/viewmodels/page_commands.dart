@@ -11,3 +11,5 @@ class OnAccountCreated extends PageCommand {
   final AuthDataModel authData;
   OnAccountCreated(this.authData);
 }
+
+class ReturnToLogin extends PageCommand {}

@@ -5,6 +5,7 @@ import 'package:seeds/datasource/local/models/auth_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/shared_use_cases/remove_account_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/save_account_use_case.dart';
+import 'package:seeds/domain-shared/shared_use_cases/stop_recovery_use_case.dart';
 import 'package:seeds/domain-shared/shared_use_cases/switch_account_use_case.dart';
 
 part 'authentication_event.dart';
@@ -29,6 +30,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Future<void> _onCreateAccount(OnCreateAccount event, Emitter<AuthenticationState> emit) async {
+    /// In case there was a recovery in place. We cancel it.
+    /// This will clean all data
+    await StopRecoveryUseCase().run();
     await SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
     // New account --> re-start auth status
     add(const InitAuthStatus());

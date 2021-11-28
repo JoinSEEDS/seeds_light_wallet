@@ -7,11 +7,29 @@ import 'package:seeds/screens/authentication/sign_up2/viewmodels/signup_bloc.dar
 import 'package:seeds/utils/string_extension.dart';
 
 class ClaimInviteMapper extends StateMapper {
+  SignupState mapInviteMnemonicToState(SignupState currentState, Result result) {
+    if (result.isError) {
+      return currentState.copyWith(
+        claimInviteView: ClaimInviteView.fail, // No screen UI for error
+        pageCommand: ShowErrorMessage(''), // Error dialog
+        errorMessage: result.asError!.error.toString(),
+      );
+    } else {
+      final String inviteMnemonic = result.asValue!.value;
+
+      return currentState.copyWith(
+        claimInviteView: ClaimInviteView.processing,
+        inviteMnemonic: inviteMnemonic,
+        pageCommand: !inviteMnemonic.isNullOrEmpty ? StopScan() : null,
+      );
+    }
+  }
+
   SignupState mapValidateInviteCodeToState(SignupState currentState, Result result) {
     if (result.isError) {
       return currentState.copyWith(
-        claimInviteView: ClaimInviteView.fail, // gray screen
-        pageCommand: ShowErrorMessage(''), // dialog
+        claimInviteView: ClaimInviteView.fail, // No screen UI for error
+        pageCommand: ShowErrorMessage(''), // Error dialog
         errorMessage: 'No invites found, try another code'.i18n,
       );
     } else {
@@ -23,31 +41,13 @@ class ClaimInviteMapper extends StateMapper {
       } else {
         // invite code is valid but claimed before
         return currentState.copyWith(
-          claimInviteView: ClaimInviteView.fail, // gray screen
-          pageCommand: ShowErrorMessage(''), // dialog
+          claimInviteView: ClaimInviteView.fail, // No screen UI for error
+          pageCommand: ShowErrorMessage(''), // Error dialog
           errorMessage: 'Invite was already claimed'.i18n.fill(
             [inviteModel.sponsor, inviteModel.account ?? ''],
           ),
         );
       }
-    }
-  }
-
-  SignupState mapInviteMnemonicToState(SignupState currentState, Result result) {
-    if (result.isError) {
-      return currentState.copyWith(
-        claimInviteView: ClaimInviteView.fail, // gray screen
-        pageCommand: ShowErrorMessage(''), // dialog
-        errorMessage: result.asError!.error.toString(),
-      );
-    } else {
-      final String inviteMnemonic = result.asValue!.value;
-
-      return currentState.copyWith(
-        claimInviteView: ClaimInviteView.processing,
-        inviteMnemonic: inviteMnemonic,
-        pageCommand: !inviteMnemonic.isNullOrEmpty ? StopScan() : null,
-      );
     }
   }
 }
