@@ -14,7 +14,7 @@ class CitizenshipScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProfileValuesArguments args = ModalRoute.of(context)!.settings.arguments! as ProfileValuesArguments;
     return BlocProvider(
-      create: (_) => CitizenshipBloc()..add(SetValues(profile: args.profile, score: args.scores)),
+      create: (_) => CitizenshipBloc()..add(SetValues(profile: args.profile)),
       child: Scaffold(
         appBar: AppBar(),
         body: SafeArea(

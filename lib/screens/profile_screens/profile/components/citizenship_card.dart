@@ -118,7 +118,6 @@ class CitizenshipCard extends StatelessWidget {
                                         Routes.citizenship,
                                         ProfileValuesArguments(
                                           profile: BlocProvider.of<ProfileBloc>(context).state.profile!,
-                                          scores: BlocProvider.of<ProfileBloc>(context).state.score!,
                                         ),
                                       ),
                                       child: Text(

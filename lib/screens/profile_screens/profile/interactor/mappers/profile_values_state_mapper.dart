@@ -9,13 +9,9 @@ import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/prof
 
 const int _profileResultIndex = 0;
 const int _contributionScoreResultIndex = 1;
-const int _communityScoreResultIndex = 2;
-const int _reputationScoreResultIndex = 3;
-const int _plantedScoreResultIndex = 4;
-const int _transactionScoreResultIndex = 5;
-const int _organizationResultIndex = 6;
-const int _canResidentResultIndex = 7;
-const int _canCitizenResultIndex = 8;
+const int _organizationResultIndex = 2;
+const int _canResidentResultIndex = 3;
+const int _canCitizenResultIndex = 4;
 
 class ProfileValuesStateMapper extends StateMapper {
   ProfileState mapResultToState(ProfileState currentState, List<Result> results) {
@@ -28,39 +24,27 @@ class ProfileValuesStateMapper extends StateMapper {
       final CitizenshipUpgradeStatus citizenshipUpgradeStatus;
 
       if (isCitizen) {
-        final score = ScoresViewModel(
+        return currentState.copyWith(
+            pageState: PageState.success,
+            profile: profile,
+            contributionScore: results[_contributionScoreResultIndex].valueOrNull);
+      } else {
+        final organization = results[_organizationResultIndex].asValue?.value as List<OrganizationModel>;
+
+        results[_canResidentResultIndex].isValue
+            ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canResident
+            : results[_canCitizenResultIndex].isValue
+                ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canCitizen
+                : citizenshipUpgradeStatus = CitizenshipUpgradeStatus.notReady;
+
+        return currentState.copyWith(
+          pageState: PageState.success,
+          profile: profile,
           contributionScore: results[_contributionScoreResultIndex].valueOrNull,
-          communityScore: results[_communityScoreResultIndex].valueOrNull,
-          reputationScore: results[_reputationScoreResultIndex].valueOrNull,
-          plantedScore: results[_plantedScoreResultIndex].valueOrNull,
-          transactionScore: results[_transactionScoreResultIndex].valueOrNull,
+          isOrganization: organization.isNotEmpty,
+          citizenshipUpgradeStatus: citizenshipUpgradeStatus,
         );
-        return currentState.copyWith(pageState: PageState.success, profile: profile, score: score);
       }
-
-      final score = ScoresViewModel(
-        contributionScore: results[_contributionScoreResultIndex].valueOrNull,
-        communityScore: results[_communityScoreResultIndex].valueOrNull,
-        reputationScore: results[_reputationScoreResultIndex].valueOrNull,
-        plantedScore: results[_plantedScoreResultIndex].valueOrNull,
-        transactionScore: results[_transactionScoreResultIndex].valueOrNull,
-      );
-
-      final organization = results[_organizationResultIndex].asValue?.value as List<OrganizationModel>;
-
-      results[_canResidentResultIndex].isValue
-          ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canResident
-          : results[_canCitizenResultIndex].isValue
-              ? citizenshipUpgradeStatus = CitizenshipUpgradeStatus.canCitizen
-              : citizenshipUpgradeStatus = CitizenshipUpgradeStatus.notReady;
-
-      return currentState.copyWith(
-        pageState: PageState.success,
-        profile: profile,
-        score: score,
-        isOrganization: organization.isNotEmpty,
-        citizenshipUpgradeStatus: citizenshipUpgradeStatus,
-      );
     }
   }
 }

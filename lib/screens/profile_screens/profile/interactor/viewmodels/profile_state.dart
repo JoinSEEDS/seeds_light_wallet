@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/datasource/remote/model/score_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
@@ -12,7 +13,7 @@ class ProfileState extends Equatable {
   final PageCommand? pageCommand;
   final String? errorMessage;
   final ProfileModel? profile;
-  final ScoresViewModel? score;
+  final ScoreModel? contributionScore;
   final bool isOrganization;
   final bool showLogoutButton;
   final bool hasSecurityNotification;
@@ -24,7 +25,7 @@ class ProfileState extends Equatable {
     this.pageCommand,
     this.errorMessage,
     this.profile,
-    this.score,
+    this.contributionScore,
     required this.isOrganization,
     required this.showLogoutButton,
     required this.hasSecurityNotification,
@@ -38,7 +39,7 @@ class ProfileState extends Equatable {
         pageCommand,
         errorMessage,
         profile,
-        score,
+        contributionScore,
         isOrganization,
         showLogoutButton,
         hasSecurityNotification,
@@ -55,7 +56,7 @@ class ProfileState extends Equatable {
     PageCommand? pageCommand,
     String? errorMessage,
     ProfileModel? profile,
-    ScoresViewModel? score,
+    ScoreModel? contributionScore,
     bool? isOrganization,
     bool? showLogoutButton,
     bool? hasSecurityNotification,
@@ -67,7 +68,7 @@ class ProfileState extends Equatable {
       pageCommand: pageCommand,
       errorMessage: errorMessage,
       profile: profile ?? this.profile,
-      score: score ?? this.score,
+      contributionScore: contributionScore ?? this.contributionScore,
       isOrganization: isOrganization ?? this.isOrganization,
       showLogoutButton: showLogoutButton ?? this.showLogoutButton,
       hasSecurityNotification: hasSecurityNotification ?? this.hasSecurityNotification,
