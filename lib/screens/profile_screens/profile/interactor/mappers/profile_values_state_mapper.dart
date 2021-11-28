@@ -4,7 +4,6 @@ import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/profile_screens/profile/profile.i18n.dart';
-import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 import 'package:seeds/screens/profile_screens/profile/interactor/viewmodels/profile_state.dart';
 
 const int _profileResultIndex = 0;
