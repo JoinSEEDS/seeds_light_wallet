@@ -3,7 +3,7 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
-import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_state.dart';
+import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_bloc.dart';
 
 class CreateInviteResultStateMapper extends StateMapper {
   InviteState mapResultsToState(InviteState currentState, List<Result> results) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/snack_bar_info.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -12,7 +11,7 @@ import 'package:seeds/images/explore/vote.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/explore/components/explore_card.dart';
 import 'package:seeds/screens/explore_screens/explore/components/explore_link_card.dart';
-import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/explore_screens/explore/interactor/viewmodels/explore_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Explore SCREEN
@@ -30,9 +29,6 @@ class ExploreScreen extends StatelessWidget {
           BlocProvider.of<ExploreBloc>(context).add(const ClearExplorePageCommand());
           if (pageCommand is NavigateToRoute) {
             NavigationService.of(context).navigateTo(pageCommand.route);
-          }
-          if (pageCommand is ShowErrorMessage) {
-            SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
           }
         },
         builder: (context, _) {

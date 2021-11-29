@@ -7,7 +7,6 @@ import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/app/app.i18.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_bloc.dart';
-import 'package:seeds/screens/app/interactor/viewmodels/app_event.dart';
 
 class GuardianApproveOrDenyScreen extends StatelessWidget {
   final GuardianRecoveryRequestData data;
@@ -35,10 +34,7 @@ class GuardianApproveOrDenyScreen extends StatelessWidget {
                 color: AppColors.white,
                 borderRadius: BorderRadius.all(Radius.circular(defaultCardBorderRadius)),
                 image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/guardians/guardian_shield.png',
-                    ),
-                    fit: BoxFit.fitWidth),
+                    image: AssetImage('assets/images/guardians/guardian_shield.png'), fit: BoxFit.fitWidth),
               ),
             ),
             const SizedBox(height: 20),
