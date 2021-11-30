@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/components/circular_progress_item.dart';
 import 'package:seeds/components/full_page_error_indicator.dart';
+import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/profile_screens/contribution/contribution.i18n.dart';
 import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/bloc.dart';
-import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 /// CONTRIBUTION SCREEN
@@ -46,9 +46,8 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
 
   @override
   Widget build(BuildContext context) {
-    final scores = ModalRoute.of(context)!.settings.arguments;
     return BlocProvider(
-      create: (_) => ContributionBloc()..add(SetScores(score: scores as ScoresViewModel?)),
+      create: (_) => ContributionBloc()..add(const FetchScores()),
       child: Scaffold(
         appBar: AppBar(title: Text('Contribution Score'.i18n)),
         body: BlocConsumer<ContributionBloc, ContributionState>(
@@ -86,6 +85,8 @@ class _ContributionScreenState extends State<ContributionScreen> with TickerProv
           },
           builder: (context, state) {
             switch (state.pageState) {
+              case PageState.loading:
+                return const FullPageLoadingIndicator();
               case PageState.initial:
                 return const SizedBox.shrink();
               case PageState.failure:

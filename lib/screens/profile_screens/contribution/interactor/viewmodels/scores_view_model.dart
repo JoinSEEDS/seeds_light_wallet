@@ -8,11 +8,22 @@ class ScoresViewModel extends Equatable {
   final ScoreModel? plantedScore;
   final ScoreModel? transactionScore;
 
-  const ScoresViewModel(
-      {this.contributionScore, this.communityScore, this.reputationScore, this.plantedScore, this.transactionScore});
+  const ScoresViewModel({
+    this.contributionScore,
+    this.communityScore,
+    this.reputationScore,
+    this.plantedScore,
+    this.transactionScore,
+  });
 
   @override
-  List<Object?> get props => [contributionScore, communityScore, reputationScore, plantedScore, transactionScore];
+  List<Object?> get props => [
+        contributionScore,
+        communityScore,
+        reputationScore,
+        plantedScore,
+        transactionScore,
+      ];
 
   @override
   String toString() =>

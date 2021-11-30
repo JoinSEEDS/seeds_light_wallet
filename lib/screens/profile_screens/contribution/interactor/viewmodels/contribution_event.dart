@@ -6,13 +6,23 @@ import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels
 @immutable
 abstract class ContributionEvent extends Equatable {
   const ContributionEvent();
+
   @override
   List<Object> get props => [];
 }
 
 class SetScores extends ContributionEvent {
   final ScoresViewModel? score;
+
   const SetScores({required this.score});
+
   @override
   String toString() => 'SetScores { score: $score }';
+}
+
+class FetchScores extends ContributionEvent {
+  const FetchScores();
+
+  @override
+  String toString() => 'FetchScores';
 }

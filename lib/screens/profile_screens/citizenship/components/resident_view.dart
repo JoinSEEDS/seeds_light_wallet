@@ -60,7 +60,7 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
             setState(() => _timeLine = _timeLineAnimation.value.toInt());
           });
         _reputationAnimation =
-            Tween<double>(begin: 0, end: state.score!.reputationScore?.toDouble()).animate(_controller)
+            Tween<double>(begin: 0, end: state.reputationScore?.toDouble()).animate(_controller)
               ..addListener(() {
                 setState(() => _reputation = _reputationAnimation.value.toInt());
               });

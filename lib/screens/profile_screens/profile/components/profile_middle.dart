@@ -23,9 +23,9 @@ class ProfileMiddle extends StatelessWidget {
               showShimmer: state.showShimmer,
               leading: SvgPicture.asset('assets/images/profile/contribution_icon.svg'),
               title: 'Contribution Score'.i18n,
-              trailing: '${state.score?.contributionScore?.value ?? '00'}/99',
+              trailing: '${state.contributionScore?.value ?? '00'}/99',
               onTap: () {
-                NavigationService.of(context).navigateTo(Routes.contribution, state.score);
+                NavigationService.of(context).navigateTo(Routes.contribution);
               },
             ),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: DividerJungle(thickness: 2)),

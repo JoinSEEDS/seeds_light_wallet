@@ -12,10 +12,10 @@ class CitizenshipBloc extends Bloc<CitizenshipEvent, CitizenshipState> {
   @override
   Stream<CitizenshipState> mapEventToState(CitizenshipEvent event) async* {
     if (event is SetValues) {
-      if (event.profile == null || event.score == null) {
+      if (event.profile == null) {
         yield state.copyWith(pageState: PageState.failure, errorMessage: 'Error Loading Page');
       } else {
-        yield state.copyWith(pageState: PageState.loading, profile: event.profile, score: event.score);
+        yield state.copyWith(pageState: PageState.loading, profile: event.profile);
         final referredAccountResults = await GetReferredAccountsUseCase().run();
         final citizenshipDataResults = await GetCitizenshipDataUseCase().run();
         yield SetValuesStateMapper().mapResultToState(state, referredAccountResults, citizenshipDataResults);

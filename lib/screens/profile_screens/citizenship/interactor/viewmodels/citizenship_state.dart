@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
+import 'package:seeds/datasource/remote/model/score_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
 
 /// Resident requirements
 const int resident_required_reputation = 50;
@@ -22,7 +22,7 @@ class CitizenshipState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
   final ProfileModel? profile;
-  final ScoresViewModel? score;
+  final ScoreModel? reputationScore;
   final double? progressTimeline;
   final int? invitedVisitors;
   final int? invitedResidents;
@@ -33,7 +33,7 @@ class CitizenshipState extends Equatable {
     required this.pageState,
     this.errorMessage,
     this.profile,
-    this.score,
+    this.reputationScore,
     this.progressTimeline,
     this.invitedResidents,
     this.invitedVisitors,
@@ -46,7 +46,7 @@ class CitizenshipState extends Equatable {
         pageState,
         errorMessage,
         profile,
-        score,
+        reputationScore,
         progressTimeline,
         invitedResidents,
         invitedVisitors,
@@ -58,7 +58,7 @@ class CitizenshipState extends Equatable {
     PageState? pageState,
     String? errorMessage,
     ProfileModel? profile,
-    ScoresViewModel? score,
+    ScoreModel? reputationScore,
     double? progressTimeline,
     int? invitedResidents,
     int? invitedVisitors,
@@ -69,7 +69,7 @@ class CitizenshipState extends Equatable {
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       profile: profile ?? this.profile,
-      score: score ?? this.score,
+      reputationScore: reputationScore ?? this.reputationScore,
       progressTimeline: progressTimeline ?? this.progressTimeline,
       invitedResidents: invitedResidents ?? this.invitedResidents,
       invitedVisitors: invitedVisitors ?? this.invitedVisitors,
