@@ -14,7 +14,7 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/invite/components/invite_link_dialog.dart';
-import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_bloc.dart';
 
 /// INVITE SCREEN
 class InviteScreen extends StatelessWidget {

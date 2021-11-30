@@ -1,8 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'explore_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class ExploreEvent extends Equatable {
   const ExploreEvent();
 

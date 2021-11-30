@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
+import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/navigation/navigation_service.dart';
@@ -12,19 +15,17 @@ import 'package:seeds/screens/app/interactor/usecases/guardians_notification_use
 import 'package:seeds/screens/app/interactor/usecases/guardians_recovery_alert_use_case.dart';
 import 'package:seeds/screens/app/interactor/usecases/stop_guardian_recovery_use_case.dart';
 import 'package:seeds/screens/app/interactor/viewmodels/app_page_commands.dart';
-import 'package:seeds/screens/app/interactor/viewmodels/bloc.dart';
 import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmodels/send_confirmation_arguments.dart';
 
-/// --- BLOC
+part 'app_event.dart';
+part 'app_state.dart';
+
 class AppBloc extends Bloc<AppEvent, AppState> {
   late StreamSubscription<bool> _hasGuardianNotificationPending;
   late StreamSubscription<bool> _shouldShowCancelGuardianAlertMessage;
   final DeeplinkBloc _deeplinkBloc;
 
-  AppBloc(this._deeplinkBloc)
-      : super(AppState.initial(
-          _deeplinkBloc.state.guardianRecoveryRequestData,
-        )) {
+  AppBloc(this._deeplinkBloc) : super(AppState.initial(_deeplinkBloc.state.guardianRecoveryRequestData)) {
     _hasGuardianNotificationPending = GuardiansNotificationUseCase()
         .hasGuardianNotificationPending
         .listen((value) => add(ShouldShowNotificationBadge(value: value)));
@@ -40,57 +41,16 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         add(OnSigningRequest(deepLinkState.signingRequest!));
       }
     });
-  }
 
-  @override
-  Stream<AppState> mapEventToState(AppEvent event) async* {
-    if (event is ShouldShowNotificationBadge) {
-      yield state.copyWith(
-        hasNotification: event.value,
-        showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
-      );
-    }
-    if (event is BottomBarTapped) {
-      yield state.copyWith(
-        index: event.index,
-        pageCommand: BottomBarNavigateToIndex(event.index),
-        showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
-      );
-    }
-    if (event is ShouldShowGuardianRecoveryAlert) {
-      yield state.copyWith(
-        showGuardianRecoveryAlert: event.showGuardianRecoveryAlert,
-        showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
-      );
-    }
-    if (event is OnStopGuardianActiveRecoveryTapped) {
-      yield state.copyWith(pageState: PageState.loading);
-      final result = await StopGuardianRecoveryUseCase().stopRecovery();
-      yield StopGuardianRecoveryStateMapper().mapResultToState(state, result);
-    } else if (event is ClearAppPageCommand) {
-      yield state.copyWith(
-        showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
-      );
-    } else if (event is OnDismissGuardianRecoveryTapped) {
-      // Update Deep Link Bloc State
-      _deeplinkBloc.add(const OnGuardianRecoveryRequestSeen());
-      yield state.copyWith();
-    } else if (event is OnApproveGuardianRecoveryTapped) {
-      // Update Deep Link Bloc State
-      _deeplinkBloc.add(const OnGuardianRecoveryRequestSeen());
-      yield state.copyWith(pageState: PageState.loading);
-      final result = await ApproveGuardianRecoveryUseCase()
-          .approveGuardianRecovery(event.data.guardianAccount, event.data.publicKey);
-      yield ApproveGuardianRecoveryStateMapper().mapResultToState(state, result);
-    } else if (event is OnApproveGuardianRecoveryDeepLink) {
-      yield state.copyWith(showGuardianApproveOrDenyScreen: event.data);
-    } else if (event is OnSigningRequest) {
-      final args = SendConfirmationArguments(transaction: event.esr.transaction);
-      yield state.copyWith(
-        pageState: PageState.success,
-        pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmation, arguments: args),
-      );
-    }
+    on<ShouldShowNotificationBadge>(_shouldShowNotificationBadge);
+    on<BottomBarTapped>(_bottomBarTapped);
+    on<ShouldShowGuardianRecoveryAlert>(_shouldShowGuardianRecoveryAlert);
+    on<OnStopGuardianActiveRecoveryTapped>(_onStopGuardianActiveRecovery);
+    on<ClearAppPageCommand>(_clearAppPageCommand);
+    on<OnDismissGuardianRecoveryTapped>(_onDismissGuardianRecoveryTapped);
+    on<OnApproveGuardianRecoveryTapped>(_onApproveGuardianRecoveryTapped);
+    on<OnApproveGuardianRecoveryDeepLink>(_onApproveGuardianRecoveryDeepLink);
+    on<OnSigningRequest>(_onSigningRequest);
   }
 
   @override
@@ -98,5 +58,64 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _hasGuardianNotificationPending.cancel();
     _shouldShowCancelGuardianAlertMessage.cancel();
     return super.close();
+  }
+
+  void _shouldShowNotificationBadge(ShouldShowNotificationBadge event, Emitter<AppState> emit) {
+    emit(state.copyWith(
+      hasNotification: event.value,
+      showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
+    ));
+  }
+
+  void _bottomBarTapped(BottomBarTapped event, Emitter<AppState> emit) {
+    emit(state.copyWith(
+      index: event.index,
+      pageCommand: BottomBarNavigateToIndex(event.index),
+      showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
+    ));
+  }
+
+  void _shouldShowGuardianRecoveryAlert(ShouldShowGuardianRecoveryAlert event, Emitter<AppState> emit) {
+    emit(state.copyWith(
+      showGuardianRecoveryAlert: event.showGuardianRecoveryAlert,
+      showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen,
+    ));
+  }
+
+  Future<void> _onStopGuardianActiveRecovery(OnStopGuardianActiveRecoveryTapped event, Emitter<AppState> emit) async {
+    emit(state.copyWith(pageState: PageState.loading));
+    final result = await StopGuardianRecoveryUseCase().stopRecovery();
+    emit(StopGuardianRecoveryStateMapper().mapResultToState(state, result));
+  }
+
+  void _clearAppPageCommand(ClearAppPageCommand event, Emitter<AppState> emit) {
+    emit(state.copyWith(showGuardianApproveOrDenyScreen: state.showGuardianApproveOrDenyScreen));
+  }
+
+  void _onDismissGuardianRecoveryTapped(OnDismissGuardianRecoveryTapped event, Emitter<AppState> emit) {
+    // Update Deep Link Bloc State
+    _deeplinkBloc.add(const OnGuardianRecoveryRequestSeen());
+    emit(state.copyWith());
+  }
+
+  Future<void> _onApproveGuardianRecoveryTapped(OnApproveGuardianRecoveryTapped event, Emitter<AppState> emit) async {
+    // Update Deep Link Bloc State
+    _deeplinkBloc.add(const OnGuardianRecoveryRequestSeen());
+    emit(state.copyWith(pageState: PageState.loading));
+    final result = await ApproveGuardianRecoveryUseCase()
+        .approveGuardianRecovery(event.data.guardianAccount, event.data.publicKey);
+    emit(ApproveGuardianRecoveryStateMapper().mapResultToState(state, result));
+  }
+
+  void _onApproveGuardianRecoveryDeepLink(OnApproveGuardianRecoveryDeepLink event, Emitter<AppState> emit) {
+    emit(state.copyWith(showGuardianApproveOrDenyScreen: event.data));
+  }
+
+  void _onSigningRequest(OnSigningRequest event, Emitter<AppState> emit) {
+    final args = SendConfirmationArguments(transaction: event.esr.transaction);
+    emit(state.copyWith(
+      pageState: PageState.success,
+      pageCommand: NavigateToRouteWithArguments(route: Routes.sendConfirmation, arguments: args),
+    ));
   }
 }
