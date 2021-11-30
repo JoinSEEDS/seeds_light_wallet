@@ -17,13 +17,24 @@ import 'components/claim_unplant_seeds_balance_row.dart';
 import 'components/unplant_seeds_amount_entry.dart';
 import 'components/unplant_seeds_success_dialog.dart';
 import 'interactor/viewmodels/unplant_seeds_bloc.dart';
-import 'interactor/viewmodels/unplant_seeds_event.dart';
 import 'interactor/viewmodels/unplant_seeds_page_commands.dart';
-import 'interactor/viewmodels/unplant_seeds_state.dart';
 
 /// UNPLANT SEEDS SCREEN
-class UnplantSeedsScreen extends StatelessWidget {
+class UnplantSeedsScreen extends StatefulWidget {
   const UnplantSeedsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<UnplantSeedsScreen> createState() => _UnplantSeedsScreenState();
+}
+
+class _UnplantSeedsScreenState extends State<UnplantSeedsScreen> {
+  TextEditingController _amountController = TextEditingController();
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +62,7 @@ class UnplantSeedsScreen extends StatelessWidget {
                   );
                 },
               );
-            }
-            if (pageCommand is ShowClaimSeedsSuccess) {
+            } else if (pageCommand is ShowClaimSeedsSuccess) {
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
@@ -63,15 +73,14 @@ class UnplantSeedsScreen extends StatelessWidget {
                   );
                 },
               );
-            }
-            if (pageCommand is ShowErrorMessage) {
+            } else if (pageCommand is ShowErrorMessage) {
               SnackBarInfo(pageCommand.message, ScaffoldMessenger.of(context)).show();
+            } else if (pageCommand is UpdateTextController) {
+              _amountController = TextEditingController.fromValue(pageCommand.textEditingValue);
             }
           },
           builder: (context, state) {
             switch (state.pageState) {
-              case PageState.initial:
-                return const SizedBox.shrink();
               case PageState.loading:
                 return const FullPageLoadingIndicator();
               case PageState.failure:
@@ -90,16 +99,16 @@ class UnplantSeedsScreen extends StatelessWidget {
                               Text('Unplant amount', style: Theme.of(context).textTheme.headline6),
                               const SizedBox(height: 16),
                               UnplantSeedsAmountEntry(
-                                controller: state.controller,
+                                controller: _amountController,
                                 unplantedBalanceFiat: state.unplantedInputAmountFiat,
                                 tokenDataModel: TokenDataModel(0),
                                 onValueChange: (value) {
-                                  BlocProvider.of<UnplantSeedsBloc>(context).add(OnAmountChange(amountChanged: value));
+                                  BlocProvider.of<UnplantSeedsBloc>(context).add(OnAmountChange(value));
                                 },
                                 autoFocus: state.onFocus,
                                 onTapMax: () {
                                   BlocProvider.of<UnplantSeedsBloc>(context)
-                                      .add(OnMaxButtonTap(maxAmount: state.plantedBalance?.amount.toString() ?? '0'));
+                                      .add(OnMaxButtonTapped(state.plantedBalance?.amount.toString() ?? '0'));
                                 },
                               ),
                               const SizedBox(height: 24),
@@ -110,7 +119,7 @@ class UnplantSeedsScreen extends StatelessWidget {
                               if (state.showUnclaimedBalance)
                                 ClaimUnplantSeedsBalanceRow(
                                     onTapClaim: () =>
-                                        BlocProvider.of<UnplantSeedsBloc>(context).add(OnClaimButtonTap()),
+                                        BlocProvider.of<UnplantSeedsBloc>(context).add(const OnClaimButtonTapped()),
                                     isClaimButtonEnable: state.isClaimButtonEnabled,
                                     tokenAmount: state.availableClaimBalance,
                                     fiatAmount: state.availableClaimBalanceFiat),
@@ -133,7 +142,8 @@ class UnplantSeedsScreen extends StatelessWidget {
                           child: FlatButtonLong(
                             title: 'Unplant Seeds',
                             enabled: state.isUnplantSeedsButtonEnabled,
-                            onPressed: () => BlocProvider.of<UnplantSeedsBloc>(context).add(OnUnplantSeedsButtonTap()),
+                            onPressed: () =>
+                                BlocProvider.of<UnplantSeedsBloc>(context).add(const OnUnplantSeedsButtonTapped()),
                           ),
                         ),
                       ),

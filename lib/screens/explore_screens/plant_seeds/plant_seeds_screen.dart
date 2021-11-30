@@ -15,7 +15,7 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/plant_seeds/plant_seeds.i18n.dart';
 import 'package:seeds/screens/explore_screens/plant_seeds/components/plant_seeds_success_dialog.dart';
-import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/explore_screens/plant_seeds/interactor/viewmodels/plant_seeds_bloc.dart';
 
 /// PLANT SEEDS SCREEN
 class PlantSeedsScreen extends StatelessWidget {
@@ -49,8 +49,6 @@ class PlantSeedsScreen extends StatelessWidget {
           },
           builder: (context, PlantSeedsState state) {
             switch (state.pageState) {
-              case PageState.initial:
-                return const SizedBox.shrink();
               case PageState.loading:
                 return const FullPageLoadingIndicator();
               case PageState.failure:

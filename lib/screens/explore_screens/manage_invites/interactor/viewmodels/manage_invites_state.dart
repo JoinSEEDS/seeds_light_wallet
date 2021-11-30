@@ -1,7 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewdata/InvitesItemsData.dart';
+part of 'manage_invites_bloc.dart';
 
 class ManageInvitesState extends Equatable {
   final PageState pageState;
@@ -20,11 +17,7 @@ class ManageInvitesState extends Equatable {
       "Unclaimed Invites${unclaimedInvites.isNotEmpty ? " (${unclaimedInvites.length})" : ""}";
 
   @override
-  List<Object?> get props => [
-        pageState,
-        invitesItemData,
-        pageCommand,
-      ];
+  List<Object?> get props => [pageState, invitesItemData, pageCommand];
 
   ManageInvitesState copyWith({
     PageState? pageState,

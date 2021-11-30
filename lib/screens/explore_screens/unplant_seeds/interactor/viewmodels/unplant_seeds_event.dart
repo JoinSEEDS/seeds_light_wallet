@@ -1,12 +1,10 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'unplant_seeds_bloc.dart';
 
-@immutable
 abstract class UnplantSeedsEvent extends Equatable {
   const UnplantSeedsEvent();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class LoadUserPlantedBalance extends UnplantSeedsEvent {
@@ -19,27 +17,31 @@ class LoadUserPlantedBalance extends UnplantSeedsEvent {
 class OnAmountChange extends UnplantSeedsEvent {
   final String amountChanged;
 
-  const OnAmountChange({required this.amountChanged});
+  const OnAmountChange(this.amountChanged);
 
   @override
   String toString() => 'OnAmountChange { OnAmountChange: $amountChanged }';
 }
 
-class OnMaxButtonTap extends UnplantSeedsEvent {
+class OnMaxButtonTapped extends UnplantSeedsEvent {
   final String maxAmount;
 
-  const OnMaxButtonTap({required this.maxAmount});
+  const OnMaxButtonTapped(this.maxAmount);
 
   @override
-  String toString() => 'OnMaxButtonTap { OnAmountChange: $maxAmount }';
+  String toString() => 'OnMaxButtonTapped { OnAmountChange: $maxAmount }';
 }
 
-class OnUnplantSeedsButtonTap extends UnplantSeedsEvent {
+class OnUnplantSeedsButtonTapped extends UnplantSeedsEvent {
+  const OnUnplantSeedsButtonTapped();
+
   @override
-  String toString() => 'OnUnplantSeedsButtonTap';
+  String toString() => 'OnUnplantSeedsButtonTapped';
 }
 
-class OnClaimButtonTap extends UnplantSeedsEvent {
+class OnClaimButtonTapped extends UnplantSeedsEvent {
+  const OnClaimButtonTapped();
+
   @override
-  String toString() => 'OnClaimButtonTap';
+  String toString() => 'OnClaimButtonTaped';
 }

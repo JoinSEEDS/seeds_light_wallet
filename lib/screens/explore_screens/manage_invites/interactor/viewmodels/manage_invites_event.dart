@@ -1,22 +1,23 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'manage_invites_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class ManageInvitesEvent extends Equatable {
+  const ManageInvitesEvent();
+
   @override
   List<Object> get props => [];
 }
 
-class LoadInvites extends ManageInvitesEvent {
+class OnLoadInvites extends ManageInvitesEvent {
+  const OnLoadInvites();
+
   @override
-  String toString() => 'LoadInvites';
+  String toString() => 'OnLoadInvites';
 }
 
 class OnCancelInviteTapped extends ManageInvitesEvent {
   final String inviteHash;
 
-  OnCancelInviteTapped(this.inviteHash);
+  const OnCancelInviteTapped(this.inviteHash);
 
   @override
   String toString() => 'OnCancelInviteTapped: $inviteHash';
