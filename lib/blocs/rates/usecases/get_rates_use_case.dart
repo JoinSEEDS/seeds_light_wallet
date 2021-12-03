@@ -8,7 +8,8 @@ class GetRatesUseCase {
 
   Future<List<Result>> run() {
     final futures = [
-      _ratesRepository.getUSDRate(),
+      _ratesRepository.getSeedsRate(),
+      _ratesRepository.getTelosRate(),
       _ratesRepository.getFiatRates(),
     ];
     return Future.wait(futures);
