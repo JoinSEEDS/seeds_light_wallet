@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -14,4 +15,10 @@ class ShowClaimSeedsSuccess extends PageCommand {
   final FiatDataModel claimAmountFiat;
 
   ShowClaimSeedsSuccess(this.claimAmount, this.claimAmountFiat);
+}
+
+class UpdateTextController extends PageCommand {
+  final TextEditingValue textEditingValue;
+
+  UpdateTextController(this.textEditingValue);
 }

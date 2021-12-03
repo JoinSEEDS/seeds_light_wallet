@@ -9,9 +9,11 @@ class UnplantSeedsSuccessDialog extends StatelessWidget {
   final TokenDataModel unplantedInputAmount;
   final FiatDataModel unplantedInputAmountFiat;
 
-  const UnplantSeedsSuccessDialog(
-      {Key? key, required this.unplantedInputAmountFiat, required this.unplantedInputAmount})
-      : super(key: key);
+  const UnplantSeedsSuccessDialog({
+    Key? key,
+    required this.unplantedInputAmountFiat,
+    required this.unplantedInputAmount,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

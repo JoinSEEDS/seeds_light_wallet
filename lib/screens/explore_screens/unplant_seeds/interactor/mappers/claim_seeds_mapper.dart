@@ -3,8 +3,8 @@ import 'package:seeds/domain-shared/event_bus/events.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_bloc.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_page_commands.dart';
-import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_state.dart';
 
 class ClaimSeedsResultMapper extends StateMapper {
   UnplantSeedsState mapResultToState(UnplantSeedsState currentState, Result result) {
@@ -17,10 +17,11 @@ class ClaimSeedsResultMapper extends StateMapper {
     } else {
       eventBus.fire(const OnNewTransactionEventBus(null));
       return currentState.copyWith(
-          onFocus: false,
-          pageState: PageState.success,
-          pageCommand:
-              ShowClaimSeedsSuccess(currentState.availableClaimBalance!, currentState.availableClaimBalanceFiat!));
+        onFocus: false,
+        pageState: PageState.success,
+        pageCommand:
+            ShowClaimSeedsSuccess(currentState.availableClaimBalance!, currentState.availableClaimBalanceFiat!),
+      );
     }
   }
 }

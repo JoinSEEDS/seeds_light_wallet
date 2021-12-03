@@ -1,12 +1,10 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'plant_seeds_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class PlantSeedsEvent extends Equatable {
   const PlantSeedsEvent();
+
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class LoadUserBalance extends PlantSeedsEvent {
