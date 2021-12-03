@@ -1,8 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'delegate_a_user_bloc.dart';
 
 class DelegateAUserState extends Equatable {
   final PageCommand? pageCommand;
