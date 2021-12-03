@@ -4,6 +4,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/datasource/remote/api/voice_repository.dart';
+import 'package:seeds/datasource/remote/model/voice_model.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 
@@ -55,7 +56,7 @@ class GetProposalDataUseCase {
     return result;
   }
 
-  Future<Result> _getVoiceCall({required ProposalCategory proposalCategory, required String userAccount}) {
+  Future<Result<VoiceModel>> _getVoiceCall({required ProposalCategory proposalCategory, required String userAccount}) {
     if (proposalCategory == ProposalCategory.campaign) {
       return _voiceRepository.getCampaignVoice(userAccount);
     } else if (proposalCategory == ProposalCategory.milestone) {

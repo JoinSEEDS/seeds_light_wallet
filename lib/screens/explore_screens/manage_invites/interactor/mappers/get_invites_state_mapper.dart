@@ -4,8 +4,8 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/manage_invites/interactor/usecases/load_invites_use_case.dart';
-import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewdata/InvitesItemsData.dart';
-import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewmodels/manage_invites_state.dart';
+import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewmodels/invites_items_data.dart';
+import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewmodels/manage_invites_bloc.dart';
 
 class GetInvitesStateMapper extends StateMapper {
   ManageInvitesState mapResultToState(ManageInvitesState currentState, InvitesDto? invitesDto) {
@@ -20,10 +20,7 @@ class GetInvitesStateMapper extends StateMapper {
 
       final List<InvitesItemsData> invitesItemData = invites.map((InviteModel e) => matchElement(e, profiles)).toList();
 
-      return currentState.copyWith(
-        pageState: PageState.success,
-        invitesItemData: invitesItemData,
-      );
+      return currentState.copyWith(pageState: PageState.success, invitesItemData: invitesItemData);
     }
   }
 

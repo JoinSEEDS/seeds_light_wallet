@@ -9,11 +9,11 @@ import 'package:seeds/utils/rate_states_extensions.dart';
 
 class SendEnterDataStateMapper extends StateMapper {
   SendEnterDataPageState mapResultToState(
-      SendEnterDataPageState currentState, Result result, RatesState rateState, String quantity) {
+      SendEnterDataPageState currentState, Result<BalanceModel> result, RatesState rateState, String quantity) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error loading current balance");
     } else {
-      final BalanceModel balance = result.asValue!.value as BalanceModel;
+      final BalanceModel balance = result.asValue!.value;
       final availableBalance = TokenDataModel(balance.quantity, token: settingsStorage.selectedToken);
 
       return currentState.copyWith(

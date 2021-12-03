@@ -1,38 +1,16 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'explore_bloc.dart';
 
 class ExploreState extends Equatable {
-  final PageState pageState;
   final PageCommand? pageCommand;
-  final String? errorMessage;
 
-  const ExploreState({
-    required this.pageState,
-    this.pageCommand,
-    this.errorMessage,
-  });
+  const ExploreState({this.pageCommand});
 
   @override
-  List<Object?> get props => [
-        pageState,
-        pageCommand,
-        errorMessage,
-      ];
+  List<Object?> get props => [pageCommand];
 
-  ExploreState copyWith({
-    PageState? pageState,
-    PageCommand? pageCommand,
-    String? errorMessage,
-  }) {
-    return ExploreState(
-      pageState: pageState ?? this.pageState,
-      pageCommand: pageCommand,
-      errorMessage: errorMessage,
-    );
+  ExploreState copyWith({PageCommand? pageCommand}) {
+    return ExploreState(pageCommand: pageCommand);
   }
 
-  factory ExploreState.initial() {
-    return const ExploreState(pageState: PageState.initial);
-  }
+  factory ExploreState.initial() => const ExploreState();
 }

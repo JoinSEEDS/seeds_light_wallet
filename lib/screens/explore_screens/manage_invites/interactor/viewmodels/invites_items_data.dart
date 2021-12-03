@@ -5,5 +5,5 @@ class InvitesItemsData {
   final InviteModel invite;
   final ProfileModel? profileModel;
 
-  InvitesItemsData(this.invite, this.profileModel);
+  const InvitesItemsData(this.invite, this.profileModel);
 }

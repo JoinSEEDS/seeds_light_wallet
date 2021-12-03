@@ -1,12 +1,10 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'invite_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class InviteEvent extends Equatable {
   const InviteEvent();
+
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class LoadUserBalance extends InviteEvent {

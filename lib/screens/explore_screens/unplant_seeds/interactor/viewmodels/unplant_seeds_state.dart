@@ -1,10 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
-import 'package:seeds/datasource/local/models/fiat_data_model.dart';
-import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'unplant_seeds_bloc.dart';
 
 class UnplantSeedsState extends Equatable {
   final PageState pageState;
@@ -17,7 +11,6 @@ class UnplantSeedsState extends Equatable {
   final bool isUnplantSeedsButtonEnabled;
   final bool showOverBalanceAlert;
   final bool showMinPlantedBalanceAlert;
-  final TextEditingController controller;
   final PageCommand? pageCommand;
   final bool showUnclaimedBalance;
   final TokenDataModel? availableClaimBalance;
@@ -36,7 +29,6 @@ class UnplantSeedsState extends Equatable {
     required this.showOverBalanceAlert,
     required this.showMinPlantedBalanceAlert,
     required this.unplantedInputAmount,
-    required this.controller,
     this.pageCommand,
     required this.showUnclaimedBalance,
     this.availableClaimBalance,
@@ -56,7 +48,6 @@ class UnplantSeedsState extends Equatable {
         showOverBalanceAlert,
         unplantedInputAmountFiat,
         unplantedInputAmount,
-        controller,
         pageCommand,
         showMinPlantedBalanceAlert,
         showUnclaimedBalance,
@@ -78,7 +69,6 @@ class UnplantSeedsState extends Equatable {
     bool? showMinPlantedBalanceAlert,
     FiatDataModel? unplantedInputAmountFiat,
     TokenDataModel? unplantedInputAmount,
-    TextEditingController? controller,
     PageCommand? pageCommand,
     bool? showUnclaimedBalance,
     TokenDataModel? availableClaimBalance,
@@ -97,7 +87,6 @@ class UnplantSeedsState extends Equatable {
       showMinPlantedBalanceAlert: showMinPlantedBalanceAlert ?? this.showMinPlantedBalanceAlert,
       unplantedInputAmountFiat: unplantedInputAmountFiat ?? this.unplantedInputAmountFiat,
       unplantedInputAmount: unplantedInputAmount ?? this.unplantedInputAmount,
-      controller: controller ?? this.controller,
       pageCommand: pageCommand,
       showUnclaimedBalance: showUnclaimedBalance ?? this.showUnclaimedBalance,
       availableClaimBalance: availableClaimBalance ?? this.availableClaimBalance,
@@ -117,7 +106,6 @@ class UnplantSeedsState extends Equatable {
       showMinPlantedBalanceAlert: false,
       isUnplantSeedsButtonEnabled: false,
       unplantedInputAmount: TokenDataModel(0),
-      controller: TextEditingController(),
       showUnclaimedBalance: featureFlagDelegateEnabled,
       isClaimButtonEnabled: false,
     );

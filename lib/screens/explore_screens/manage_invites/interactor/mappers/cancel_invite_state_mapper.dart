@@ -1,7 +1,7 @@
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
-import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewmodels/manage_invites_state.dart';
+import 'package:seeds/screens/explore_screens/manage_invites/interactor/viewmodels/manage_invites_bloc.dart';
 
 class CancelInviteStateMapper extends StateMapper {
   ManageInvitesState mapResultToState(ManageInvitesState currentState, Result result) {

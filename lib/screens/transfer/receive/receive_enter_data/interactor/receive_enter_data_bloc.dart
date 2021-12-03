@@ -4,6 +4,7 @@ import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/usecases/receive_seeds_invoice_use_case.dart';
@@ -22,7 +23,7 @@ class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterData
   Stream<ReceiveEnterDataState> mapEventToState(ReceiveEnterDataEvents event) async* {
     if (event is LoadUserBalance) {
       yield state.copyWith(pageState: PageState.loading);
-      final Result result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
+      final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
       yield UserBalanceStateMapper().mapResultToState(state, result);
     } else if (event is OnAmountChange) {
       final double parsedQuantity = double.tryParse(event.amountChanged) ?? 0;

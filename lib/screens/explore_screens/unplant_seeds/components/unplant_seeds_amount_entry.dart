@@ -10,7 +10,7 @@ class UnplantSeedsAmountEntry extends StatelessWidget {
   final ValueSetter<String> onValueChange;
   final GestureTapCallback onTapMax;
   final bool autoFocus;
-  final TextEditingController controller;
+  final TextEditingController? controller;
 
   const UnplantSeedsAmountEntry({
     Key? key,
@@ -19,7 +19,7 @@ class UnplantSeedsAmountEntry extends StatelessWidget {
     required this.autoFocus,
     required this.onTapMax,
     required this.unplantedBalanceFiat,
-    required this.controller,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -44,7 +44,7 @@ class UnplantSeedsAmountEntry extends StatelessWidget {
                   disabledBorder: InputBorder.none,
                 ),
                 autofocus: autoFocus,
-                onChanged: (String value) => {onValueChange(value)},
+                onChanged: (String value) => onValueChange(value),
                 inputFormatters: [
                   UserInputNumberFormatter(),
                 ],
@@ -62,10 +62,9 @@ class UnplantSeedsAmountEntry extends StatelessWidget {
                     left: 70,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          primary: AppColors.green1),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+                        primary: AppColors.green1,
+                      ),
                       onPressed: onTapMax,
                       child: const Text("MAX"),
                     ),

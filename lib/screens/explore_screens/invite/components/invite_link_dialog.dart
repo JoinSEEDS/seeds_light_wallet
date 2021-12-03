@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seeds/components/custom_dialog.dart';
 import 'package:seeds/components/qr_code_generator_widget.dart';
 import 'package:seeds/i18n/explore_screens/invite/invite.i18n.dart';
-import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/explore_screens/invite/interactor/viewmodels/invite_bloc.dart';
 
 class InviteLinkDialog extends StatelessWidget {
   const InviteLinkDialog({Key? key}) : super(key: key);

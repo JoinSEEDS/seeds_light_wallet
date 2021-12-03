@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -25,7 +26,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
     if (event is InitSendDataArguments) {
       yield state.copyWith(pageState: PageState.loading, showSendingAnimation: false);
 
-      final Result result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
+      final Result<BalanceModel> result = await GetAvailableBalanceUseCase().run(settingsStorage.selectedToken);
 
       yield SendEnterDataStateMapper().mapResultToState(state, result, state.ratesState, "0");
     } else if (event is OnMemoChange) {

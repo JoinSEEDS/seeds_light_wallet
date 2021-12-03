@@ -5,7 +5,7 @@ import 'package:seeds/datasource/remote/model/voice_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 
 class VoiceRepository extends NetworkRepository {
-  Future<Result> getCampaignVoice(String userAccount) {
+  Future<Result<VoiceModel>> getCampaignVoice(String userAccount) {
     print('[http] get campaign voice: $userAccount');
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
@@ -19,13 +19,13 @@ class VoiceRepository extends NetworkRepository {
 
     return http
         .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
               return VoiceModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getAllianceVoice(String userAccount) {
+  Future<Result<VoiceModel>> getAllianceVoice(String userAccount) {
     print('[http] get alliance voice: $userAccount');
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
@@ -39,13 +39,13 @@ class VoiceRepository extends NetworkRepository {
 
     return http
         .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
               return VoiceModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getMilestoneVoice(String userAccount) {
+  Future<Result<VoiceModel>> getMilestoneVoice(String userAccount) {
     print('[http] get milestone voice: $userAccount');
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
@@ -59,13 +59,13 @@ class VoiceRepository extends NetworkRepository {
 
     return http
         .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
               return VoiceModel.fromJson(body);
             }))
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result> getReferendumVoice(String userAccount) {
+  Future<Result<VoiceModel>> getReferendumVoice(String userAccount) {
     print("[http] get referendum voice: $userAccount");
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
@@ -78,7 +78,7 @@ class VoiceRepository extends NetworkRepository {
 
     return http
         .post(voiceURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<VoiceModel>(response, (dynamic body) {
               return VoiceModel.fromBalanceJson(body);
             }))
         .catchError((error) => mapHttpError(error));
