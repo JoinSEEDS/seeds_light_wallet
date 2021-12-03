@@ -39,6 +39,7 @@ class InviteScreen extends StatelessWidget {
           listener: (context, state) {
             final pageCommand = state.pageCommand;
             if (pageCommand is ShowInviteLinkView) {
+              Navigator.of(context).pop(); // pop invite screen
               showDialog<void>(
                 context: context,
                 barrierDismissible: false,
