@@ -42,7 +42,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is OnUpdateProfileImage) {
       yield state.copyWith(pageState: PageState.loading);
       final urlResult = await SaveImageUseCase().run(file: event.file);
-      final result = await UpdateProfileImageUseCase().run(imageUrl: urlResult.asValue!.value, profile: state.profile!);
+      final result = await UpdateProfileImageUseCase()
+          .run(UpdateProfileImageUseCase.input(imageUrl: urlResult.asValue!.value, profile: state.profile!));
       yield UpdateProfileImageStateMapper().mapResultToState(state, result);
     }
     if (event is OnNameChanged) {

@@ -3,7 +3,7 @@ import 'package:async/async.dart';
 export 'package:async/src/result/error.dart';
 export 'package:async/src/result/result.dart';
 
-abstract class BaseUseCase<T> {
+abstract class _BaseUseCase<T> {
   bool areAllResultsError(List<Result> results) {
     return results.where((Result element) => element.isValue).isEmpty;
   }
@@ -13,18 +13,12 @@ abstract class BaseUseCase<T> {
   }
 }
 
-abstract class InputUseCase<T> extends BaseUseCase {
-  Future<Result<T>> run(Input input);
+abstract class InputUseCase<T, I> extends _BaseUseCase {
+  Future<Result<T>> run(I input);
 }
 
-abstract class NoInputUseCase<T> extends BaseUseCase<T> {
+abstract class NoInputUseCase<T> extends _BaseUseCase<T> {
   Future<Result<T>> run();
-}
-
-class Input<I> {
-  final I input;
-
-  Input(this.input);
 }
 
 extension ValueResult<T> on Result<T> {
