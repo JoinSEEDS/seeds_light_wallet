@@ -1,9 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+part of 'delegate_a_user_bloc.dart';
 
-@immutable
 abstract class DelegateAUserEvent extends Equatable {
+  const DelegateAUserEvent();
+
   @override
   List<Object> get props => [];
 }
@@ -11,7 +10,7 @@ abstract class DelegateAUserEvent extends Equatable {
 class OnUserSelected extends DelegateAUserEvent {
   final MemberModel user;
 
-  OnUserSelected(this.user);
+  const OnUserSelected(this.user);
 
   @override
   String toString() => 'OnUserSelected: { User: $user }';
@@ -20,13 +19,15 @@ class OnUserSelected extends DelegateAUserEvent {
 class OnConfirmDelegateTab extends DelegateAUserEvent {
   final MemberModel user;
 
-  OnConfirmDelegateTab(this.user);
+  const OnConfirmDelegateTab(this.user);
 
   @override
   String toString() => 'OnConfirmDelegateTab: { User: $user }';
 }
 
 class ClearPageCommand extends DelegateAUserEvent {
+  const ClearPageCommand();
+
   @override
   String toString() => 'ClearPageCommand';
 }
