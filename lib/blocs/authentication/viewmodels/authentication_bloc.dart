@@ -39,6 +39,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Future<void> _onImportAccount(OnImportAccount event, Emitter<AuthenticationState> emit) async {
+    /// Cancel recover should not be executed on switch account (app unlocked).
+    /// Since cancel recover removes preferences and secure storage.
+    if (state.authStatus != AuthStatus.unlocked) {
+      /// In case there was a recovery in place. We cancel it.
+      /// This will clean all data
+      await StopRecoveryUseCase().run();
+    }
     await SaveAccountUseCase().run(accountName: event.account, authData: event.authData);
     // New account --> re-start auth status
     add(const InitAuthStatus());
