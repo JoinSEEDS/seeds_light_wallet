@@ -80,7 +80,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result<InviteModel>> findInvite(String inviteHash) async {
+  Future<Result<List<InviteModel>>> findInvite(String inviteHash) async {
     print('[http] find invite by hash');
 
     final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
@@ -97,7 +97,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     return http
         .post(inviteURL, headers: headers, body: request)
-        .then((http.Response response) => mapHttpResponse<InviteModel>(response, (dynamic body) {
+        .then((http.Response response) => mapHttpResponse<List<InviteModel>>(response, (dynamic body) {
               final List<dynamic> invite = body['rows'].toList();
               return invite.map((item) => InviteModel.fromJson(item)).toList();
             }))

@@ -33,19 +33,27 @@ class ClaimInviteMapper extends StateMapper {
         errorMessage: 'No invites found, try another code'.i18n,
       );
     } else {
-      final InviteModel inviteModel = result.asValue!.value;
-
-      if (!inviteModel.isClaimed) {
-        // invite code is valid and can be claimed
-        return currentState.copyWith(claimInviteView: ClaimInviteView.success, inviteModel: inviteModel);
+      final List<InviteModel> inviteModels = result.asValue!.value;
+      if (inviteModels.isNotEmpty) {
+        final InviteModel inviteModel = inviteModels.first;
+        if (!inviteModel.isClaimed) {
+          // invite code is valid and can be claimed
+          return currentState.copyWith(claimInviteView: ClaimInviteView.success, inviteModel: inviteModel);
+        } else {
+          // invite code is valid but claimed before
+          return currentState.copyWith(
+            claimInviteView: ClaimInviteView.fail, // No screen UI for error
+            pageCommand: ShowErrorMessage(''), // Error dialog
+            errorMessage: 'Invite was already claimed'.i18n.fill(
+              [inviteModel.sponsor, inviteModel.account ?? ''],
+            ),
+          );
+        }
       } else {
-        // invite code is valid but claimed before
         return currentState.copyWith(
           claimInviteView: ClaimInviteView.fail, // No screen UI for error
           pageCommand: ShowErrorMessage(''), // Error dialog
-          errorMessage: 'Invite was already claimed'.i18n.fill(
-            [inviteModel.sponsor, inviteModel.account ?? ''],
-          ),
+          errorMessage: 'Invite hash not found, try another code'.i18n,
         );
       }
     }
