@@ -1,13 +1,10 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'import_key_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class ImportKeyEvent extends Equatable {
   const ImportKeyEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class FindAccountByKey extends ImportKeyEvent {

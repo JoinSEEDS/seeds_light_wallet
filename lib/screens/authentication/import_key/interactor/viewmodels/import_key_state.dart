@@ -1,7 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/models/auth_data_model.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'import_key_bloc.dart';
 
 class ImportKeyState extends Equatable {
   final PageState pageState;
@@ -10,6 +7,7 @@ class ImportKeyState extends Equatable {
   final List<ProfileModel> accounts;
   final bool enableButton;
   final Map<int, String> userEnteredWords;
+  final String? accountSelected;
 
   const ImportKeyState({
     required this.pageState,
@@ -18,6 +16,7 @@ class ImportKeyState extends Equatable {
     this.authData,
     required this.enableButton,
     required this.userEnteredWords,
+    this.accountSelected,
   });
 
   bool get areAllWordsEntered {
@@ -32,6 +31,7 @@ class ImportKeyState extends Equatable {
         accounts,
         enableButton,
         userEnteredWords,
+        accountSelected,
       ];
 
   ImportKeyState copyWith({
@@ -41,6 +41,7 @@ class ImportKeyState extends Equatable {
     AuthDataModel? authData,
     bool? enableButton,
     Map<int, String>? userEnteredWords,
+    String? accountSelected,
   }) {
     return ImportKeyState(
       pageState: pageState ?? this.pageState,
@@ -49,12 +50,12 @@ class ImportKeyState extends Equatable {
       authData: authData ?? this.authData,
       enableButton: enableButton ?? this.enableButton,
       userEnteredWords: userEnteredWords ?? this.userEnteredWords,
+      accountSelected: accountSelected,
     );
   }
 
   factory ImportKeyState.initial() {
-    // ignore: prefer_const_constructors
-    return ImportKeyState(
+    return const ImportKeyState(
       pageState: PageState.initial,
       accounts: [],
       enableButton: false,

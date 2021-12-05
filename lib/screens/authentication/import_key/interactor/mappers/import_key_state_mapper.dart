@@ -3,7 +3,7 @@ import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
-import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_state.dart';
+import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
 
 class ImportKeyStateMapper extends StateMapper {
   ImportKeyState mapResultsToState(ImportKeyState currentState, List<Result> results, AuthDataModel authData) {
