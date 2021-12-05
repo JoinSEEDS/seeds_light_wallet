@@ -1,26 +1,24 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'send_scanner_bloc.dart';
 
-class SendPageState extends Equatable {
+class SendScannerState extends Equatable {
   final PageState pageState;
   final PageCommand? pageCommand;
   final String? errorMessage;
 
-  const SendPageState({required this.pageState, this.pageCommand, this.errorMessage});
+  const SendScannerState({required this.pageState, this.pageCommand, this.errorMessage});
 
   @override
-  List<Object> get props => [pageState];
+  List<Object?> get props => [pageState, pageCommand, errorMessage];
 
-  SendPageState copyWith({PageState? pageState, PageCommand? pageCommand, String? errorMessage}) {
-    return SendPageState(
+  SendScannerState copyWith({PageState? pageState, PageCommand? pageCommand, String? errorMessage}) {
+    return SendScannerState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       pageCommand: pageCommand,
     );
   }
 
-  factory SendPageState.initial() {
-    return const SendPageState(pageState: PageState.initial);
+  factory SendScannerState.initial() {
+    return const SendScannerState(pageState: PageState.initial);
   }
 }
