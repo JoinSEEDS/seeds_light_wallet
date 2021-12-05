@@ -10,7 +10,7 @@ export 'package:async/src/result/result.dart';
 /// parameters to the use case at all, or [InputUseCase] otherwise.
 /// <p>
 /// When depending on multiple input parameters, define an private data class in the use case so this can be
-/// used as an Input parameter, as the example above. We need to remember that Generics have limitations.
+/// used as an Input parameter.
 abstract class _BaseUseCase<T> {
   bool areAllResultsError(List<Result> results) {
     return results.where((Result element) => element.isValue).isEmpty;
