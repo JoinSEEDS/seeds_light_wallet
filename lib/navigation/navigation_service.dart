@@ -90,7 +90,7 @@ class NavigationService {
     Routes.onboarding: (_) => const OnboardingScreen(),
     Routes.splash: (_) => const SplashScreen(),
     Routes.login: (_) => const LoginScreen(),
-    Routes.importKey: (args) => ImportKeyScreen(args),
+    Routes.importKey: (_) => const ImportKeyScreen(),
     Routes.importWords: (_) => const ImportWordsScreen(),
     Routes.recoverAccount: (_) => const RecoverAccountScreen(),
     Routes.recoverAccountFound: (_) => const RecoverAccountFoundScreen(),
