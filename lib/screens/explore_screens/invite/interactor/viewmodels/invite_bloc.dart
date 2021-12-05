@@ -14,7 +14,6 @@ import 'package:seeds/screens/explore_screens/invite/interactor/mappers/seeds_am
 import 'package:seeds/screens/explore_screens/invite/interactor/mappers/user_balance_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/invite/interactor/usecases/create_invite_use_case.dart';
 import 'package:seeds/utils/mnemonic_code/mnemonic_code.dart';
-import 'package:share/share.dart';
 
 part 'invite_event.dart';
 part 'invite_state.dart';
@@ -24,7 +23,6 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
     on<LoadUserBalance>(_loadUserBalance);
     on<OnAmountChange>(_onAmountChange);
     on<OnCreateInviteButtonTapped>(_onCreateInviteButtonTapped);
-    on<OnShareInviteLinkButtonPressed>(_onShareInviteLinkButtonPressed);
   }
 
   Future<void> _loadUserBalance(LoadUserBalance event, Emitter<InviteState> emit) async {
@@ -42,10 +40,5 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
     emit(state.copyWith(pageState: PageState.loading, isAutoFocus: false, mnemonicSecretCode: mnemonicSecretCode));
     final results = await CreateInviteUseCase().run(amount: state.tokenAmount.amount, mnemonic: mnemonicSecretCode);
     emit(CreateInviteResultStateMapper().mapResultsToState(state, results));
-  }
-
-  Future<void> _onShareInviteLinkButtonPressed(OnShareInviteLinkButtonPressed event, Emitter<InviteState> emit) async {
-    emit(state.copyWith(showCloseDialogButton: true));
-    await Share.share(state.dynamicSecretLink!);
   }
 }
