@@ -56,14 +56,7 @@ class InviteGuardians extends StatelessWidget {
                       child: ListView(
                         shrinkWrap: true,
                         physics: const ClampingScrollPhysics(),
-                        children: [
-                          for (var e in state.selectedGuardians)
-                            SearchResultRow(
-                              account: e.account,
-                              name: e.nickname.isNotEmpty ? e.nickname : e.account,
-                              imageUrl: e.image,
-                            ),
-                        ],
+                        children: [for (final i in state.selectedGuardians) SearchResultRow(member: i)],
                       ),
                     ),
                     Padding(

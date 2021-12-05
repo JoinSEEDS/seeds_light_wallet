@@ -34,6 +34,12 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
   }
 
   @override
+  void dispose() {
+    _keyController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => RecoverAccountBloc(),
@@ -78,17 +84,15 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
                             .run(() => BlocProvider.of<RecoverAccountBloc>(context).add(OnUsernameChanged(value)));
                       },
                     ),
-                    if (state.isValidAccount)
+                    if (state.accountFound)
                       Container(
                         decoration: BoxDecoration(
                           color: AppColors.darkGreen2,
                           borderRadius: BorderRadius.circular(defaultCardBorderRadius),
                         ),
                         child: SearchResultRow(
-                          imageUrl: state.accountImage,
-                          account: state.userName!,
-                          name: state.accountName,
-                          resultCallBack: () => BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
+                          member: state.accountInfo!,
+                          onTap: () => BlocProvider.of<RecoverAccountBloc>(context).add(OnNextButtonTapped()),
                         ),
                       ),
                     const SizedBox(height: 30),

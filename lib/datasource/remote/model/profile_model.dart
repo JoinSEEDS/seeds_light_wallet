@@ -100,7 +100,7 @@ class ProfileModel extends Equatable {
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
       account: hasValue<String>(_account, json),
-      status: enumFromString<ProfileStatus>(ProfileStatus.values, hasEmptyValue<String>(_status, json)),
+      status: enumFromString<ProfileStatus>(ProfileStatus.values, hasEmptyValue<String>(_status, json) ?? ''),
       type: hasEmptyValue<String>(_type, json),
       nickname: hasEmptyValue<String>(_nickname, json),
       image: hasEmptyValue<String>(_image, json),

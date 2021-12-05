@@ -21,15 +21,19 @@ class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
     reader.readByte();
     fields.add(reader.readString());
     reader.readByte();
+    fields.add(reader.readString());
+    reader.readByte();
     fields.add(reader.readInt());
 
     return MemberModelCacheItem(
-        MemberModel(
-          account: fields[0] as String,
-          nickname: fields[1] as String,
-          image: fields[2] as String,
-        ),
-        fields[3] as int);
+      MemberModel(
+        account: fields[0] as String,
+        nickname: fields[1] as String,
+        image: fields[2] as String,
+        status: fields[3] as String,
+      ),
+      fields[4] as int,
+    );
   }
 
   @override
@@ -41,6 +45,8 @@ class MemberModelCacheItemAdapter extends TypeAdapter<MemberModelCacheItem> {
     writer.writeByte(2);
     writer.writeString(obj.member.image);
     writer.writeByte(3);
+    writer.writeString(obj.member.status);
+    writer.writeByte(4);
     writer.writeInt(obj.refreshTimeStamp);
   }
 }
