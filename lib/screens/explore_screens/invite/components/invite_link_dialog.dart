@@ -19,8 +19,8 @@ class _InviteLinkDialogState extends State<InviteLinkDialog> {
 
   @override
   Widget build(BuildContext context) {
-    // Here you can only have access to the last of the bloc state,
-    // you cannot perform operations on this bloc that was passed
+    // Here you can only have read access to the last of the bloc state,
+    // you cannot perform write operations on this passed bloc (is dead),
     // because it no longer exists (invite screen was popped)
     return BlocBuilder<InviteBloc, InviteState>(
       builder: (context, state) {
