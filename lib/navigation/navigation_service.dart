@@ -21,6 +21,7 @@ import 'package:seeds/screens/explore_screens/vote_screens/delegate/delegate_scr
 import 'package:seeds/screens/explore_screens/vote_screens/delegate_a_user/delegate_a_user_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/proposal_details_screen.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/vote_screen.dart';
+import 'package:seeds/screens/explore_screens/vouch/vouch_screen.dart';
 import 'package:seeds/screens/profile_screens/citizenship/citizenship_screen.dart';
 import 'package:seeds/screens/profile_screens/contribution/contribution_screen.dart';
 import 'package:seeds/screens/profile_screens/edit_name/edit_name_screen.dart';
@@ -63,6 +64,7 @@ class Routes {
   static const vote = 'vote';
   static const proposalDetails = 'proposalDetails';
   static const plantSeeds = 'plantSeeds';
+  static const vouch = 'vouch';
   static const unPlantSeeds = 'unPlantSeeds';
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
@@ -103,6 +105,7 @@ class NavigationService {
     Routes.delegate: (_) => const DelegateScreen(),
     Routes.delegateAUser: (_) => const DelegateAUserScreen(),
     Routes.proposalDetails: (_) => const ProposalDetailsScreen(),
+    Routes.vouch: (_) => const VouchScreen(),
     Routes.plantSeeds: (_) => const PlantSeedsScreen(),
     Routes.unPlantSeeds: (_) => const UnplantSeedsScreen(),
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
