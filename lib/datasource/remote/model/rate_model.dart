@@ -28,9 +28,10 @@ class RateModel {
 
   factory RateModel.fromOracleJson(String tokenSymbol, int precision, Map<String, dynamic>? json) {
     if (json != null && json['rows'].isNotEmpty) {
+      print("JSON $json");
       final int value = json['rows'][0]['median'] ?? 0;
       final double amount = value / pow(10, precision).toDouble();
-      return RateModel(tokenSymbol, amount);
+      return RateModel(tokenSymbol, 1 / amount);
     } else {
       return RateModel(tokenSymbol, 0);
     }

@@ -32,23 +32,13 @@ class RatesRepository extends NetworkRepository {
   Future<Result<RateModel>> getTelosRate() async {
     print('[http] get telos rate USD');
 
-    final params = '''
-    {
-      "json": true,
-      "code": "delphioracle",
-      "scope": "tlosusd",
-      "table": "datapoints",
-      "table_key": "",
-      "lower_bound": "",
-      "upper_bound": "",
-      "limit": 1,
-      "key_type": "",
-      "index_position": "",
-      "encode_type": "dec",
-      "reverse": false,
-      "show_payer": false
-    }
-    ''';
+    final params = createRequest(
+      code: "delphioracle",
+      scope: "tlosusd",
+      table: "datapoints",
+      // ignore: avoid_redundant_argument_values
+      limit: 1,
+    );
 
     return http
         .post(Uri.parse('$baseURL/v1/chain/get_table_rows'), headers: headers, body: params)
