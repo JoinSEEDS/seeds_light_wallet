@@ -12,8 +12,8 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: SeedsScope.accountFunds,
-      scope: SeedsScope.accountFunds.value,
+      code: SeedsCode.accountFunds,
+      scope: SeedsCode.accountFunds.value,
       table: SeedsTable.tableVoice,
       lowerBound: userAccount,
       upperBound: userAccount,
@@ -32,7 +32,7 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: SeedsScope.accountFunds,
+      code: SeedsCode.accountFunds,
       scope: 'alliance',
       table: SeedsTable.tableVoice,
       lowerBound: userAccount,
@@ -52,7 +52,7 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: SeedsScope.accountFunds,
+      code: SeedsCode.accountFunds,
       scope: 'milestone',
       table: SeedsTable.tableVoice,
       lowerBound: userAccount,
@@ -72,8 +72,8 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: SeedsScope.accountRules,
-        scope: SeedsScope.accountRules.value,
+        code: SeedsCode.accountRules,
+        scope: SeedsCode.accountRules.value,
         table: SeedsTable.tableBalances,
         lowerBound: userAccount,
         upperBound: userAccount);

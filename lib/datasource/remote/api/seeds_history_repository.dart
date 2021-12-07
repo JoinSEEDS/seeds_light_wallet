@@ -12,8 +12,8 @@ class SeedsHistoryRepository extends NetworkRepository {
     print('[http] get seeds seeds history for account: $userAccount ');
 
     final String request = createRequest(
-      code: SeedsScope.historySeeds,
-      scope: SeedsScope.historySeeds.value,
+      code: SeedsCode.historySeeds,
+      scope: SeedsCode.historySeeds.value,
       table: SeedsTable.tableTotals,
       lowerBound: userAccount,
       upperBound: userAccount,

@@ -35,7 +35,7 @@ class RatesRepository extends NetworkRepository {
     print('[http] get telos rate USD');
 
     final params = createRequest(
-      code: SeedsScope.accountdelphioracle,
+      code: SeedsCode.accountdelphioracle,
       scope: "tlosusd",
       table: SeedsTable.tableDatapoints,
       // ignore: avoid_redundant_argument_values

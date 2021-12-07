@@ -12,7 +12,7 @@ const String _historySeeds = 'histry.seeds';
 const String _accountOrgs = 'orgs.seeds';
 const String _accountdelphioracle = 'delphioracle';
 
-enum SeedsScope {
+enum SeedsCode {
   accountAccounts,
   accountCycle,
   accountEosio,
@@ -28,34 +28,34 @@ enum SeedsScope {
   accountdelphioracle,
 }
 
-extension SeedsTableExtension on SeedsScope {
+extension SeedsCodeExtension on SeedsCode {
   String get value {
     switch (this) {
-      case SeedsScope.accountAccounts:
+      case SeedsCode.accountAccounts:
         return _accountAccounts;
-      case SeedsScope.accountCycle:
+      case SeedsCode.accountCycle:
         return _accountCycle;
-      case SeedsScope.accountEosio:
+      case SeedsCode.accountEosio:
         return _accountEosio;
-      case SeedsScope.accountFunds:
+      case SeedsCode.accountFunds:
         return _accountFunds;
-      case SeedsScope.accountGuards:
+      case SeedsCode.accountGuards:
         return _accountGuards;
-      case SeedsScope.accountHarvest:
+      case SeedsCode.accountHarvest:
         return _accountHarvest;
-      case SeedsScope.accountJoin:
+      case SeedsCode.accountJoin:
         return _accountJoin;
-      case SeedsScope.accountToken:
+      case SeedsCode.accountToken:
         return _accountToken;
-      case SeedsScope.accountRules:
+      case SeedsCode.accountRules:
         return _accountRules;
-      case SeedsScope.accountSettgs:
+      case SeedsCode.accountSettgs:
         return _accountSettgs;
-      case SeedsScope.historySeeds:
+      case SeedsCode.historySeeds:
         return _historySeeds;
-      case SeedsScope.accountOrgs:
+      case SeedsCode.accountOrgs:
         return _accountOrgs;
-      case SeedsScope.accountdelphioracle:
+      case SeedsCode.accountdelphioracle:
         return _accountdelphioracle;
       default:
         return '';

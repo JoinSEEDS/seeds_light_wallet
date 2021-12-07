@@ -34,7 +34,7 @@ abstract class NetworkRepository {
   }
 
   String createRequest({
-    required SeedsScope code,
+    required SeedsCode code,
     required String scope,
     required SeedsTable table,
     String lowerBound = "",
@@ -47,9 +47,10 @@ abstract class NetworkRepository {
     bool showPayer = false,
   }) {
     final tableName = table.value;
+    final seedsCode = code.value;
 
     final String request =
-        '{"json": true, "code": "$code", "scope": "$scope", "table": "$tableName", "table_key":"$tableKey", "lower_bound": "$lowerBound", "upper_bound": "$upperBound", "index_position": "$indexPosition", "key_type": "$keyType", "limit": $limit, "reverse": $reverse, "show_payer":"$showPayer"}';
+        '{"json": true, "code": "$seedsCode", "scope": "$scope", "table": "$tableName", "table_key":"$tableKey", "lower_bound": "$lowerBound", "upper_bound": "$upperBound", "index_position": "$indexPosition", "key_type": "$keyType", "limit": $limit, "reverse": $reverse, "show_payer":"$showPayer"}';
 
     return request;
   }

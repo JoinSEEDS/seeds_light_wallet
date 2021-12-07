@@ -29,7 +29,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = SeedsScope.accountToken.value
+        ..account = SeedsCode.accountToken.value
         ..name = actionNameTransfer
         ..authorization = [
           Authorization()
@@ -38,12 +38,12 @@ class InviteRepository extends NetworkRepository with EosRepository {
         ]
         ..data = {
           'from': accountName,
-          'to': SeedsScope.accountJoin.value,
+          'to': SeedsCode.accountJoin.value,
           'quantity': '${quantity.toStringAsFixed(4)} $currencySeedsCode',
           'memo': '',
         },
       Action()
-        ..account = SeedsScope.accountJoin.value
+        ..account = SeedsCode.accountJoin.value
         ..name = actionNameInvite
         ..authorization = [
           Authorization()
@@ -71,7 +71,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    final request = createRequest(code: SeedsScope.accountAccounts, scope: SeedsScope.accountAccounts.value, table: SeedsTable.tableUsers, limit: 1000);
+    final request = createRequest(code: SeedsCode.accountAccounts, scope: SeedsCode.accountAccounts.value, table: SeedsTable.tableUsers, limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
@@ -89,8 +89,8 @@ class InviteRepository extends NetworkRepository with EosRepository {
     // 'https://node.hypha.earth/v1/chain/get_table_rows'; // todo: Why is this still Hypha when config has changed?
 
     final request = createRequest(
-        code: SeedsScope.accountJoin,
-        scope: SeedsScope.accountJoin.value,
+        code: SeedsCode.accountJoin,
+        scope: SeedsCode.accountJoin.value,
         table: SeedsTable.tableInvites,
         lowerBound: inviteHash,
         upperBound: inviteHash,
@@ -112,8 +112,8 @@ class InviteRepository extends NetworkRepository with EosRepository {
     final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: SeedsScope.accountJoin,
-      scope: SeedsScope.accountJoin.value,
+      code: SeedsCode.accountJoin,
+      scope: SeedsCode.accountJoin.value,
       table: SeedsTable.tableInvites,
       limit: 200,
       indexPosition: 3,
@@ -135,7 +135,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = SeedsScope.accountJoin.value
+        ..account = SeedsCode.accountJoin.value
         ..name = actionNameCancelInvite
         ..authorization = [
           Authorization()

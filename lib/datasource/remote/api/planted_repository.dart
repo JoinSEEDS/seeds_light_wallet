@@ -14,8 +14,8 @@ class PlantedRepository extends NetworkRepository {
     final plantedURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: SeedsScope.accountHarvest,
-        scope: SeedsScope.accountHarvest.value,
+        code: SeedsCode.accountHarvest,
+        scope: SeedsCode.accountHarvest.value,
         table: SeedsTable.tableBalances,
         lowerBound: userAccount,
         upperBound: userAccount);
@@ -34,7 +34,7 @@ class PlantedRepository extends NetworkRepository {
     final plantedURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: SeedsScope.accountHarvest,
+      code: SeedsCode.accountHarvest,
       scope: userAccount,
       table: SeedsTable.tableRefunds,
       limit: 1000,

@@ -12,9 +12,9 @@ class GetProfileScoresUseCase {
     final futures = [
       _profileRepository.getScore(account: account, tableName: SeedsTable.tableCspoints),
       _profileRepository.getScore(
-          account: account, contractName: SeedsScope.accountAccounts, tableName: SeedsTable.tableCbs),
+          account: account, contractName: SeedsCode.accountAccounts, tableName: SeedsTable.tableCbs),
       _profileRepository.getScore(
-          account: account, contractName: SeedsScope.accountAccounts, tableName: SeedsTable.tableRep),
+          account: account, contractName: SeedsCode.accountAccounts, tableName: SeedsTable.tableRep),
       _profileRepository.getScore(account: account, tableName: SeedsTable.tablePlanted),
       _profileRepository.getScore(account: account, tableName: SeedsTable.tableTxpoints),
     ];

@@ -62,7 +62,7 @@ abstract class EosRepository {
 
     final freeAuth = <Authorization>[
       Authorization()
-        ..actor = SeedsScope.accountHarvest.value
+        ..actor = SeedsCode.accountHarvest.value
         ..permission = 'payforcpu',
       Authorization()
         ..actor = accountName
@@ -70,7 +70,7 @@ abstract class EosRepository {
     ];
 
     final freeAction = Action()
-      ..account = SeedsScope.accountHarvest.value
+      ..account = SeedsCode.accountHarvest.value
       ..name = 'payforcpu'
       ..authorization = freeAuth
       ..data = {'account': accountName};

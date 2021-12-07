@@ -12,8 +12,8 @@ class MembersRepository extends NetworkRepository {
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: SeedsScope.accountAccounts,
-        scope: SeedsScope.accountAccounts.value,
+        code: SeedsCode.accountAccounts,
+        scope: SeedsCode.accountAccounts.value,
         table: SeedsTable.tableUsers,
         limit: 1000);
 
@@ -37,8 +37,8 @@ class MembersRepository extends NetworkRepository {
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: SeedsScope.accountAccounts,
-        scope: SeedsScope.accountAccounts.value,
+        code: SeedsCode.accountAccounts,
+        scope: SeedsCode.accountAccounts.value,
         table: SeedsTable.tableUsers,
         lowerBound: lowerBound,
         upperBound: upperBound,
@@ -109,8 +109,8 @@ class MembersRepository extends NetworkRepository {
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: SeedsScope.accountAccounts,
-        scope: SeedsScope.accountAccounts.value,
+        code: SeedsCode.accountAccounts,
+        scope: SeedsCode.accountAccounts.value,
         table: SeedsTable.tableUsers,
         lowerBound: accountName,
         upperBound: accountName);
