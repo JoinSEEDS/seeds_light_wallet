@@ -10,7 +10,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/profile_screens/citizenship/citizenship.i18n.dart';
-import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_bloc.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ResidentView extends StatefulWidget {
@@ -59,11 +59,10 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
           ..addListener(() {
             setState(() => _timeLine = _timeLineAnimation.value.toInt());
           });
-        _reputationAnimation =
-            Tween<double>(begin: 0, end: state.reputationScore?.toDouble()).animate(_controller)
-              ..addListener(() {
-                setState(() => _reputation = _reputationAnimation.value.toInt());
-              });
+        _reputationAnimation = Tween<double>(begin: 0, end: state.reputationScore?.toDouble()).animate(_controller)
+          ..addListener(() {
+            setState(() => _reputation = _reputationAnimation.value.toInt());
+          });
         _residentsAnimation = Tween<double>(begin: 0, end: state.invitedResidents!.toDouble()).animate(_controller)
           ..addListener(() {
             setState(() => _residents = _residentsAnimation.value.toInt() * 100);

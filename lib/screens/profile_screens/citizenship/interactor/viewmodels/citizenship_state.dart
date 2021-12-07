@@ -1,7 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
-import 'package:seeds/datasource/remote/model/score_model.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'citizenship_bloc.dart';
 
 /// Resident requirements
 const int resident_required_reputation = 50;
@@ -17,7 +14,6 @@ const int citizen_required_planted_seeds = 200;
 const int citizen_required_seeds_transactions = 5;
 const int citizen_required_residents_invited = 1;
 
-/// --- STATE
 class CitizenshipState extends Equatable {
   final PageState pageState;
   final String? errorMessage;

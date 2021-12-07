@@ -1,9 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
+part of 'contribution_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class ContributionEvent extends Equatable {
   const ContributionEvent();
 
