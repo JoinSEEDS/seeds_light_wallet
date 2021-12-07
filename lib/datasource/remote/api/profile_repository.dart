@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,6 @@ import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/datasource/remote/model/referred_accounts_model.dart';
 import 'package:seeds/datasource/remote/model/score_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 class ProfileRepository extends NetworkRepository with EosRepository {
@@ -209,7 +209,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     final transaction = buildFreeTransaction(
         List.from(requestIds.map(
           (id) => Action()
-            ..account =SeedsCode.accountHarvest.value
+            ..account = SeedsCode.accountHarvest.value
             ..name = actionNameClaimRefund
             ..authorization = [
               Authorization()
@@ -247,7 +247,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     return citizenshipAction(accountName: accountName, isMake: false, isCitizen: false);
   }
 
-  Future<Result<TransactionResponse>> citizenshipAction({required String accountName, required bool isMake, required bool isCitizen}) async {
+  Future<Result<TransactionResponse>> citizenshipAction(
+      {required String accountName, required bool isMake, required bool isCitizen}) async {
     final String isMakeText = isMake ? "make" : "can";
     final String isCitizenText = isMake ? "citizen" : "resident";
 

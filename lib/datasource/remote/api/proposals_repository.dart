@@ -16,7 +16,6 @@ import 'package:seeds/datasource/remote/model/support_level_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/datasource/remote/model/vote_cycle_model.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
 class ProposalsRepository extends NetworkRepository with EosRepository {
@@ -177,7 +176,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result<TransactionResponse>> voteProposal({required int id, required int amount, required String accountName}) {
+  Future<Result<TransactionResponse>> voteProposal(
+      {required int id, required int amount, required String accountName}) {
     print('[eos] vote proposal $id ($amount)');
 
     final transaction = buildFreeTransaction([
@@ -200,7 +200,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
-  Future<Result<TransactionResponse>> voteReferendum({required int id, required int amount, required String accountName}) {
+  Future<Result<TransactionResponse>> voteReferendum(
+      {required int id, required int amount, required String accountName}) {
     print('[eos] vote referendum $id ($amount)');
 
     final transaction = buildFreeTransaction([
