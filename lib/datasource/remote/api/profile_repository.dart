@@ -3,6 +3,7 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/organization_model.dart';
@@ -20,7 +21,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: accountAccounts,
       scope: accountAccounts,
-      table: tableUsers,
+      table: SeedsTable.tableUsers,
       lowerBound: accountName,
       upperBound: accountName,
     );
@@ -98,7 +99,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     required String account,
     String contractName = accountHarvest,
     String? scope,
-    required String tableName,
+    required SeedsTable tableName,
     String fieldName = "rank",
   }) async {
     print('[http] get score $account $tableName');
@@ -127,7 +128,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: accountAccounts,
       scope: accountAccounts,
-      table: tableRefs,
+      table: SeedsTable.tableRefs,
       lowerBound: accountName,
       upperBound: accountName,
       indexPosition: 2,
@@ -304,7 +305,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
       scope: accountOrgs,
       lowerBound: accountName,
       upperBound: accountName,
-      table: tableOrganization,
+      table: SeedsTable.tableOrganization,
       limit: 10,
     );
 

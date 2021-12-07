@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/fiat_rate_model.dart';
 import 'package:seeds/datasource/remote/model/rate_model.dart';
@@ -35,7 +36,7 @@ class RatesRepository extends NetworkRepository {
     final params = createRequest(
       code: "delphioracle",
       scope: "tlosusd",
-      table: "datapoints",
+      table: SeedsTable.tableDatapoints,
       // ignore: avoid_redundant_argument_values
       limit: 1,
     );

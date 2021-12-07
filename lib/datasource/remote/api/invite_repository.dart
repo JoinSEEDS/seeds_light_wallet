@@ -6,6 +6,7 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/datamappers/toDomainInviteModel.dart';
 import 'package:seeds/datasource/remote/model/invite_model.dart';
@@ -69,7 +70,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    final request = createRequest(code: accountAccounts, scope: accountAccounts, table: tableUsers, limit: 1000);
+    final request = createRequest(code: accountAccounts, scope: accountAccounts, table: SeedsTable.tableUsers, limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
@@ -89,7 +90,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
         code: accountJoin,
         scope: accountJoin,
-        table: tableInvites,
+        table: SeedsTable.tableInvites,
         lowerBound: inviteHash,
         upperBound: inviteHash,
         indexPosition: 2,
@@ -112,7 +113,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: accountJoin,
       scope: accountJoin,
-      table: tableInvites,
+      table: SeedsTable.tableInvites,
       limit: 200,
       indexPosition: 3,
       lowerBound: userAccount,

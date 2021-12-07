@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/planted_repository.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/api/seeds_history_repository.dart';
@@ -14,7 +15,7 @@ class GetCitizenshipDataUseCase {
     final futures = [
       _plantedRepository.getPlanted(account),
       _seedsHistoryRepository.getNumberOfTransactions(account),
-      _profileRepository.getScore(account: account, contractName: "accts.seeds", tableName: "cbs"),
+      _profileRepository.getScore(account: account, contractName: "accts.seeds", tableName: SeedsTable.tableCbs),
     ];
     return Future.wait(futures);
   }

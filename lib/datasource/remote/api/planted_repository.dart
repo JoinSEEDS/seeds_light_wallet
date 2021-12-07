@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/planted_model.dart';
 import 'package:seeds/datasource/remote/model/refund_model.dart';
@@ -14,7 +15,7 @@ class PlantedRepository extends NetworkRepository {
     final request = createRequest(
         code: accountHarvest,
         scope: accountHarvest,
-        table: tableBalances,
+        table: SeedsTable.tableBalances,
         lowerBound: userAccount,
         upperBound: userAccount);
 
@@ -34,7 +35,7 @@ class PlantedRepository extends NetworkRepository {
     final request = createRequest(
       code: accountHarvest,
       scope: userAccount,
-      table: tableRefunds,
+      table: SeedsTable.tableRefunds,
       limit: 1000,
     );
 

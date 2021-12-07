@@ -8,6 +8,7 @@ import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
@@ -259,7 +260,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     final String request = createRequest(
         code: accountGuards,
         scope: accountGuards,
-        table: tableRecover,
+        table: SeedsTable.tableRecover,
         lowerBound: accountName,
         upperBound: accountName);
 
@@ -280,7 +281,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     final String request = createRequest(
       code: accountGuards,
       scope: accountGuards,
-      table: tableGuards,
+      table: SeedsTable.tableGuards,
       lowerBound: accountName,
       upperBound: accountName,
     );

@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
@@ -10,7 +11,7 @@ class MembersRepository extends NetworkRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    final request = createRequest(code: accountAccounts, scope: accountAccounts, table: tableUsers, limit: 1000);
+    final request = createRequest(code: accountAccounts, scope: accountAccounts, table: SeedsTable.tableUsers, limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
@@ -34,7 +35,7 @@ class MembersRepository extends NetworkRepository {
     final request = createRequest(
         code: accountAccounts,
         scope: accountAccounts,
-        table: tableUsers,
+        table: SeedsTable.tableUsers,
         lowerBound: lowerBound,
         upperBound: upperBound,
         limit: 100);
@@ -106,7 +107,7 @@ class MembersRepository extends NetworkRepository {
     final request = createRequest(
         code: accountAccounts,
         scope: accountAccounts,
-        table: tableUsers,
+        table: SeedsTable.tableUsers,
         lowerBound: accountName,
         upperBound: accountName);
 

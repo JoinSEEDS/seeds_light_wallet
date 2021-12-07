@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/delegate_model.dart';
 import 'package:seeds/datasource/remote/model/delegator_model.dart';
@@ -25,7 +26,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: accountCycle,
       scope: accountCycle,
-      table: tableMoonphases,
+      table: SeedsTable.tableMoonphases,
       limit: 4,
       lowerBound: '${(ms / 1000).round()}',
     );
@@ -46,7 +47,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: accountFunds,
       scope: accountFunds,
-      table: tableCycleStats,
+      table: SeedsTable.tableCycleStats,
       // ignore: avoid_redundant_argument_values
       limit: 1,
       reverse: true,
@@ -68,7 +69,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: accountFunds,
       scope: accountFunds,
-      table: tableProps,
+      table: SeedsTable.tableProps,
       lowerBound: proposalType.proposalStage,
       upperBound: proposalType.proposalStage,
       limit: 100,
@@ -97,7 +98,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: accountRules,
       scope: scope,
-      table: tableReferendums,
+      table: SeedsTable.tableReferendums,
       limit: 100,
       reverse: isReverse,
     );
@@ -119,7 +120,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result<List<SupportLevelModel>>> getSupportLevel(String scope) {
     print('[http] get support level for scope: $scope');
 
-    final request = createRequest(code: accountFunds, scope: scope, table: tableSupport);
+    final request = createRequest(code: accountFunds, scope: scope, table: SeedsTable.tableSupport);
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
@@ -137,7 +138,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: accountFunds,
       scope: '$proposalId',
-      table: tableProposalVotes,
+      table: SeedsTable.tableProposalVotes,
       lowerBound: account,
       upperBound: account,
       limit: 10,
@@ -159,7 +160,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: accountRules,
       scope: '$referendumId',
-      table: tableReferendumVoters,
+      table: SeedsTable.tableReferendumVoters,
       lowerBound: account,
       upperBound: account,
       limit: 10,
@@ -244,7 +245,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     final request = createRequest(
       code: accountFunds,
       scope: voiceScope,
-      table: tableDelegates,
+      table: SeedsTable.tableDelegates,
       lowerBound: account,
       upperBound: account,
     );
@@ -266,7 +267,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
       code: accountFunds,
       indexPosition: 2,
       scope: voiceScope,
-      table: tableDelegates,
+      table: SeedsTable.tableDelegates,
       lowerBound: account,
       upperBound: account,
       limit: 100,
