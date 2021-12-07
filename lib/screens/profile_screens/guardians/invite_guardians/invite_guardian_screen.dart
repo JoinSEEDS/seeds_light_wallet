@@ -8,9 +8,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/profile_screens/guardians/invite_guardians/interactor/invite_guardians_bloc.dart';
-import 'package:seeds/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_events.dart';
-import 'package:seeds/screens/profile_screens/guardians/invite_guardians/interactor/viewmodel/invite_guardians_state.dart';
+import 'package:seeds/screens/profile_screens/guardians/invite_guardians/interactor/viewmodels/invite_guardians_bloc.dart';
 
 class InviteGuardians extends StatelessWidget {
   const InviteGuardians({Key? key}) : super(key: key);
@@ -26,7 +24,7 @@ class InviteGuardians extends StatelessWidget {
         listener: (context, state) {
           final pageCommand = state.pageCommand;
 
-          BlocProvider.of<InviteGuardiansBloc>(context).add(InviteGuardianClearPageCommand());
+          BlocProvider.of<InviteGuardiansBloc>(context).add(const InviteGuardianClearPageCommand());
           if (pageCommand is NavigateToRoute) {
             NavigationService.of(context).navigateTo(pageCommand.route);
           } else if (pageCommand is ShowErrorMessage) {
@@ -71,7 +69,7 @@ class InviteGuardians extends StatelessWidget {
                       child: FlatButtonLong(
                         title: 'Send Invite'.i18n,
                         onPressed: () {
-                          BlocProvider.of<InviteGuardiansBloc>(context).add(OnSendInviteTapped());
+                          BlocProvider.of<InviteGuardiansBloc>(context).add(const OnSendInviteTapped());
                         },
                       ),
                     ),

@@ -7,10 +7,8 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/components/selected_guardians_widget.dart';
-import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/select_guardians_bloc.dart';
 import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/page_commands.dart';
-import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_events.dart';
-import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_state.dart';
+import 'package:seeds/screens/profile_screens/guardians/select_guardian/interactor/viewmodels/select_guardians_bloc.dart';
 
 /// SelectGuardiansScreen SCREEN
 class SelectGuardiansScreen extends StatelessWidget {
@@ -32,7 +30,7 @@ class SelectGuardiansScreen extends StatelessWidget {
                 content: Text((state.pageCommand as ShowMaxUserCountSelected).message)));
           }
 
-          BlocProvider.of<SelectGuardiansBloc>(context).add(ClearPageCommand());
+          BlocProvider.of<SelectGuardiansBloc>(context).add(const ClearPageCommand());
         },
         child: BlocBuilder<SelectGuardiansBloc, SelectGuardiansState>(
           builder: (context, state) {

@@ -1,7 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'invite_guardians_bloc.dart';
 
 class InviteGuardiansState extends Equatable {
   final PageState pageState;
