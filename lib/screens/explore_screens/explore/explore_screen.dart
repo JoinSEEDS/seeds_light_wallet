@@ -8,6 +8,7 @@ import 'package:seeds/i18n/explore_screens/explore/explore.i18n.dart';
 import 'package:seeds/images/explore/invite_person.dart';
 import 'package:seeds/images/explore/plant_seeds.dart';
 import 'package:seeds/images/explore/vote.dart';
+import 'package:seeds/images/explore/vouch.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/explore/components/explore_card.dart';
 import 'package:seeds/screens/explore_screens/explore/components/explore_link_card.dart';
@@ -63,6 +64,24 @@ class ExploreScreen extends StatelessWidget {
                           padding: EdgeInsets.only(left: 6.0),
                           child: CustomPaint(size: Size(40, 40), painter: InvitePerson()),
                         ),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    const Expanded(
+                      child: SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ExploreCard(
+                        onTap: () {
+                          BlocProvider.of<ExploreBloc>(context).add(const OnExploreCardTapped(Routes.vouch));
+                        },
+                        title: 'Vouch'.i18n,
+                        icon: const CustomPaint(size: Size(31, 41), painter: Vouch()),
                       ),
                     ),
                     const SizedBox(width: 20),
