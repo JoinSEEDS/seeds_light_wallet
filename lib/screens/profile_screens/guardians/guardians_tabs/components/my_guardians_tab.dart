@@ -9,8 +9,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/profile_screens/guardians/guardians.i18n.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/my_guardian_list_widget.dart';
 import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/components/no_guardian_widget.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/guardians_bloc.dart';
-import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_events.dart';
+import 'package:seeds/screens/profile_screens/guardians/guardians_tabs/interactor/viewmodels/guardians_bloc.dart';
 
 class MyGuardiansTab extends StatelessWidget {
   const MyGuardiansTab({Key? key}) : super(key: key);

@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'guardians_bloc.dart';
 
 class GuardiansState extends Equatable {
   final PageState pageState;
@@ -8,7 +6,12 @@ class GuardiansState extends Equatable {
   final PageCommand? pageCommand;
   final int indexDialog;
 
-  const GuardiansState({required this.pageState, this.errorMessage, this.pageCommand, required this.indexDialog});
+  const GuardiansState({
+    required this.pageState,
+    this.errorMessage,
+    this.pageCommand,
+    required this.indexDialog,
+  });
 
   @override
   List<Object?> get props => [

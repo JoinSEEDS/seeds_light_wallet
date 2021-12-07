@@ -1,7 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'edit_name_bloc.dart';
 
-/// STATE
 class EditNameState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
