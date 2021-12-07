@@ -3,6 +3,7 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
@@ -19,8 +20,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     print('[http] get seeds getProfile $accountName');
 
     final request = createRequest(
-      code: accountAccounts,
-      scope: accountAccounts,
+      code: SeedsScope.accountAccounts,
+      scope: SeedsScope.accountAccounts.value,
       table: SeedsTable.tableUsers,
       lowerBound: accountName,
       upperBound: accountName,
@@ -68,7 +69,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountAccounts
+        ..account = SeedsScope.accountAccounts.value
         ..name = actionNameUpdate
         ..authorization = [
           Authorization()
@@ -97,7 +98,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
   Future<Result<ScoreModel>> getScore({
     required String account,
-    String contractName = accountHarvest,
+    SeedsScope contractName = SeedsScope.accountHarvest,
     String? scope,
     required SeedsTable tableName,
     String fieldName = "rank",
@@ -108,7 +109,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final request = createRequest(
       code: contractName,
-      scope: scope ?? contractName,
+      scope: scope ?? contractName.value,
       table: tableName,
       lowerBound: account,
       upperBound: account,
@@ -126,8 +127,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     print('[http] get Referred Accounts $accountName');
 
     final request = createRequest(
-      code: accountAccounts,
-      scope: accountAccounts,
+      code: SeedsScope.accountAccounts,
+      scope: SeedsScope.accountAccounts.value,
       table: SeedsTable.tableRefs,
       lowerBound: accountName,
       upperBound: accountName,
@@ -149,7 +150,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountToken
+        ..account = SeedsScope.accountToken.value
         ..name = actionNameTransfer
         ..authorization = [
           Authorization()
@@ -158,7 +159,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
         ]
         ..data = {
           'from': accountName,
-          'to': accountHarvest,
+          'to': SeedsScope.accountHarvest.value,
           'quantity': '${amount.toStringAsFixed(4)} $currencySeedsCode',
           'memo': '',
         }
@@ -177,7 +178,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountHarvest
+        ..account = SeedsScope.accountHarvest.value
         ..name = actionNameUnplant
         ..authorization = [
           Authorization()
@@ -208,7 +209,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     final transaction = buildFreeTransaction(
         List.from(requestIds.map(
           (id) => Action()
-            ..account = accountHarvest
+            ..account =SeedsScope.accountHarvest.value
             ..name = actionNameClaimRefund
             ..authorization = [
               Authorization()
@@ -262,7 +263,7 @@ class ProfileRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountAccounts
+        ..account = SeedsScope.accountAccounts.value
         ..name = actionName
         ..authorization = [
           Authorization()
@@ -301,8 +302,8 @@ class ProfileRepository extends NetworkRepository with EosRepository {
     print('[http] get organization account');
 
     final request = createRequest(
-      code: accountOrgs,
-      scope: accountOrgs,
+      code: SeedsScope.accountOrgs,
+      scope: SeedsScope.accountOrgs.value,
       lowerBound: accountName,
       upperBound: accountName,
       table: SeedsTable.tableOrganization,

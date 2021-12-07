@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 
@@ -61,7 +62,7 @@ abstract class EosRepository {
 
     final freeAuth = <Authorization>[
       Authorization()
-        ..actor = accountHarvest
+        ..actor = SeedsScope.accountHarvest.value
         ..permission = 'payforcpu',
       Authorization()
         ..actor = accountName
@@ -69,7 +70,7 @@ abstract class EosRepository {
     ];
 
     final freeAction = Action()
-      ..account = accountHarvest
+      ..account = SeedsScope.accountHarvest.value
       ..name = 'payforcpu'
       ..authorization = freeAuth
       ..data = {'account': accountName};

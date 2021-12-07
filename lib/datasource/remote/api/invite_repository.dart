@@ -6,6 +6,7 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/datamappers/toDomainInviteModel.dart';
@@ -28,7 +29,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountToken
+        ..account = SeedsScope.accountToken.value
         ..name = actionNameTransfer
         ..authorization = [
           Authorization()
@@ -37,12 +38,12 @@ class InviteRepository extends NetworkRepository with EosRepository {
         ]
         ..data = {
           'from': accountName,
-          'to': accountJoin,
+          'to': SeedsScope.accountJoin.value,
           'quantity': '${quantity.toStringAsFixed(4)} $currencySeedsCode',
           'memo': '',
         },
       Action()
-        ..account = accountJoin
+        ..account = SeedsScope.accountJoin.value
         ..name = actionNameInvite
         ..authorization = [
           Authorization()
@@ -70,7 +71,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    final request = createRequest(code: accountAccounts, scope: accountAccounts, table: SeedsTable.tableUsers, limit: 1000);
+    final request = createRequest(code: SeedsScope.accountAccounts, scope: SeedsScope.accountAccounts.value, table: SeedsTable.tableUsers, limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
@@ -88,8 +89,8 @@ class InviteRepository extends NetworkRepository with EosRepository {
     // 'https://node.hypha.earth/v1/chain/get_table_rows'; // todo: Why is this still Hypha when config has changed?
 
     final request = createRequest(
-        code: accountJoin,
-        scope: accountJoin,
+        code: SeedsScope.accountJoin,
+        scope: SeedsScope.accountJoin.value,
         table: SeedsTable.tableInvites,
         lowerBound: inviteHash,
         upperBound: inviteHash,
@@ -111,8 +112,8 @@ class InviteRepository extends NetworkRepository with EosRepository {
     final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: accountJoin,
-      scope: accountJoin,
+      code: SeedsScope.accountJoin,
+      scope: SeedsScope.accountJoin.value,
       table: SeedsTable.tableInvites,
       limit: 200,
       indexPosition: 3,
@@ -134,7 +135,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountJoin
+        ..account = SeedsScope.accountJoin.value
         ..name = actionNameCancelInvite
         ..authorization = [
           Authorization()

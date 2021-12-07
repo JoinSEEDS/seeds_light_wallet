@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/util/response_extension.dart';
@@ -33,7 +34,7 @@ abstract class NetworkRepository {
   }
 
   String createRequest({
-    required String code,
+    required SeedsScope code,
     required String scope,
     required SeedsTable table,
     String lowerBound = "",

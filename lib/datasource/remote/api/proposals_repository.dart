@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/delegate_model.dart';
@@ -24,8 +25,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     final ms = DateTime.now().toUtc().millisecondsSinceEpoch;
     final request = createRequest(
-      code: accountCycle,
-      scope: accountCycle,
+      code: SeedsScope.accountCycle,
+      scope: SeedsScope.accountCycle.value,
       table: SeedsTable.tableMoonphases,
       limit: 4,
       lowerBound: '${(ms / 1000).round()}',
@@ -45,8 +46,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get vote cycle');
 
     final request = createRequest(
-      code: accountFunds,
-      scope: accountFunds,
+      code: SeedsScope.accountFunds,
+      scope: SeedsScope.accountFunds.value,
       table: SeedsTable.tableCycleStats,
       // ignore: avoid_redundant_argument_values
       limit: 1,
@@ -67,8 +68,8 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get proposals type - ${proposalType.type}');
 
     final request = createRequest(
-      code: accountFunds,
-      scope: accountFunds,
+      code: SeedsScope.accountFunds,
+      scope: SeedsScope.accountFunds.value,
       table: SeedsTable.tableProps,
       lowerBound: proposalType.proposalStage,
       upperBound: proposalType.proposalStage,
@@ -96,7 +97,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get referendums: stage = [$scope]');
 
     final request = createRequest(
-      code: accountRules,
+      code: SeedsScope.accountRules,
       scope: scope,
       table: SeedsTable.tableReferendums,
       limit: 100,
@@ -120,7 +121,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
   Future<Result<List<SupportLevelModel>>> getSupportLevel(String scope) {
     print('[http] get support level for scope: $scope');
 
-    final request = createRequest(code: accountFunds, scope: scope, table: SeedsTable.tableSupport);
+    final request = createRequest(code: SeedsScope.accountFunds, scope: scope, table: SeedsTable.tableSupport);
 
     final proposalsURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
@@ -136,7 +137,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get vote for proposal: $proposalId');
 
     final request = createRequest(
-      code: accountFunds,
+      code: SeedsScope.accountFunds,
       scope: '$proposalId',
       table: SeedsTable.tableProposalVotes,
       lowerBound: account,
@@ -158,7 +159,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get vote for referendum: $referendumId');
 
     final request = createRequest(
-      code: accountRules,
+      code: SeedsScope.accountRules,
       scope: '$referendumId',
       table: SeedsTable.tableReferendumVoters,
       lowerBound: account,
@@ -181,7 +182,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountFunds
+        ..account = SeedsScope.accountFunds.value
         ..name = amount.isNegative ? actionNameAgainst : actionNameFavour
         ..authorization = [
           Authorization()
@@ -204,7 +205,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountRules
+        ..account = SeedsScope.accountRules.value
         ..name = amount.isNegative ? actionNameAgainst : actionNameFavour
         ..authorization = [
           Authorization()
@@ -243,7 +244,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get delegate for $account');
 
     final request = createRequest(
-      code: accountFunds,
+      code: SeedsScope.accountFunds,
       scope: voiceScope,
       table: SeedsTable.tableDelegates,
       lowerBound: account,
@@ -264,7 +265,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     print('[http] get delegators for $account');
 
     final request = createRequest(
-      code: accountFunds,
+      code: SeedsScope.accountFunds,
       indexPosition: 2,
       scope: voiceScope,
       table: SeedsTable.tableDelegates,
@@ -306,7 +307,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     required String scope,
   }) =>
       Action()
-        ..account = accountFunds
+        ..account = SeedsScope.accountFunds.value
         ..name = proposalActionNameDelegate
         ..authorization = [
           Authorization()
@@ -324,7 +325,7 @@ class ProposalsRepository extends NetworkRepository with EosRepository {
     required String scope,
   }) =>
       Action()
-        ..account = accountFunds
+        ..account = SeedsScope.accountFunds.value
         ..name = proposalActionNameUndelegate
         ..authorization = [
           Authorization()
