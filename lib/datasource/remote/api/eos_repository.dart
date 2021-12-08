@@ -36,6 +36,7 @@ abstract class EosRepository {
   String actionNameClaimRefund = 'claimrefund';
   String proposalActionNameDelegate = 'delegate';
   String proposalActionNameUndelegate = 'undelegate';
+  String actionNameVouch = 'vouch';
 
   // Authorizations
   String permissionActive = 'active';
