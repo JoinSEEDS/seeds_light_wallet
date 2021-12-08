@@ -6,7 +6,9 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/transfer/send/send_scanner/interactor/viewmodels/send_scanner_bloc.dart';
+import 'package:seeds/screens/transfer/send/send_scanner/interactor/send_scanner_bloc.dart';
+import 'package:seeds/screens/transfer/send/send_scanner/interactor/viewmodels/scanner_events.dart';
+import 'package:seeds/screens/transfer/send/send_scanner/interactor/viewmodels/send_scanner_state.dart';
 
 /// SendScannerScreen SCREEN
 class SendScannerScreen extends StatefulWidget {
@@ -18,14 +20,14 @@ class SendScannerScreen extends StatefulWidget {
 
 class _SendScannerScreenState extends State<SendScannerScreen> {
   late ScannerWidget _scannerWidget;
-  late SendScannerBloc _sendScannerBloc;
+  late SendPageBloc _sendPageBloc;
 
   @override
   void initState() {
     super.initState();
-    _sendScannerBloc = SendScannerBloc();
+    _sendPageBloc = SendPageBloc();
     _scannerWidget = ScannerWidget(resultCallBack: (scanResult) async {
-      _sendScannerBloc.add(ExecuteScanResult(scanResult));
+      _sendPageBloc.add(ExecuteScanResult(scanResult: scanResult));
     });
   }
 
@@ -34,13 +36,14 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
     return Scaffold(
       appBar: AppBar(title: Text("Scan QR Code".i18n)),
       body: BlocProvider(
-        create: (_) => _sendScannerBloc,
-        child: BlocListener<SendScannerBloc, SendScannerState>(
-          listenWhen: (_, current) => current.pageCommand != null,
-          listener: (context, state) {
+        create: (_) => _sendPageBloc,
+        child: BlocListener<SendPageBloc, SendPageState>(
+          listenWhen: (_, current) => current.pageState == PageState.success && current.pageCommand != null,
+          listener: (context, SendPageState state) {
             _scannerWidget.stop();
+            BlocProvider.of<SendPageBloc>(context).add(ClearPageCommand());
+
             final pageCommand = state.pageCommand;
-            BlocProvider.of<SendScannerBloc>(context).add(const ClearSendScannerPageCommand());
             if (pageCommand is NavigateToRouteWithArguments) {
               NavigationService.of(context).navigateTo(pageCommand.route, pageCommand.arguments);
             }
@@ -51,8 +54,9 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
               Text("Scan QR Code to Send".i18n, style: Theme.of(context).textTheme.button),
               const SizedBox(height: 82),
               _scannerWidget,
-              BlocBuilder<SendScannerBloc, SendScannerState>(
-                builder: (context, state) {
+              BlocBuilder<SendPageBloc, SendPageState>(
+                buildWhen: (context, SendPageState state) => state.pageState != PageState.success,
+                builder: (context, SendPageState state) {
                   switch (state.pageState) {
                     case PageState.initial:
                       _scannerWidget.scan();

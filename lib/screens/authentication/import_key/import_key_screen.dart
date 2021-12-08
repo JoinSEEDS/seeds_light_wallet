@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/components/flat_button_long.dart';
 import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/constants/app_colors.dart';
@@ -10,10 +11,15 @@ import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/authentication/import_key/import_key.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/import_key/components/import_key_accounts_widget.dart';
-import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_bloc.dart';
+import 'package:seeds/screens/authentication/import_key/interactor/import_key_bloc.dart';
+import 'package:seeds/screens/authentication/import_key/interactor/viewmodels/import_key_events.dart';
+
+import 'interactor/viewmodels/import_key_state.dart';
 
 class ImportKeyScreen extends StatefulWidget {
-  const ImportKeyScreen({Key? key}) : super(key: key);
+  final bool? fromSwitchAccount;
+
+  const ImportKeyScreen(this.fromSwitchAccount, {Key? key}) : super(key: key);
 
   @override
   _ImportKeyScreenState createState() => _ImportKeyScreenState();
@@ -27,7 +33,7 @@ class _ImportKeyScreenState extends State<ImportKeyScreen> {
   @override
   void initState() {
     super.initState();
-    _importKeyBloc = ImportKeyBloc();
+    _importKeyBloc = ImportKeyBloc(BlocProvider.of<AuthenticationBloc>(context), widget.fromSwitchAccount ?? false);
     _keyController.text = '';
   }
 
