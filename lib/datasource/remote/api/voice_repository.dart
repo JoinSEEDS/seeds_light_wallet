@@ -1,8 +1,9 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/voice_model.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 
 class VoiceRepository extends NetworkRepository {
   Future<Result<VoiceModel>> getCampaignVoice(String userAccount) {
@@ -10,9 +11,9 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: accountFunds,
-      scope: accountFunds,
-      table: tableVoice,
+      code: SeedsCode.accountFunds,
+      scope: SeedsCode.accountFunds.value,
+      table: SeedsTable.tableVoice,
       lowerBound: userAccount,
       upperBound: userAccount,
     );
@@ -30,9 +31,9 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: accountFunds,
+      code: SeedsCode.accountFunds,
       scope: 'alliance',
-      table: tableVoice,
+      table: SeedsTable.tableVoice,
       lowerBound: userAccount,
       upperBound: userAccount,
     );
@@ -50,9 +51,9 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: accountFunds,
+      code: SeedsCode.accountFunds,
       scope: 'milestone',
-      table: tableVoice,
+      table: SeedsTable.tableVoice,
       lowerBound: userAccount,
       upperBound: userAccount,
     );
@@ -70,9 +71,9 @@ class VoiceRepository extends NetworkRepository {
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: accountRules,
-        scope: accountRules,
-        table: tableBalances,
+        code: SeedsCode.accountRules,
+        scope: SeedsCode.accountRules.value,
+        table: SeedsTable.tableBalances,
         lowerBound: userAccount,
         upperBound: userAccount);
 

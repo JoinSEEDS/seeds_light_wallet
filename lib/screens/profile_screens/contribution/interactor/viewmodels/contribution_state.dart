@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/domain-shared/page_state.dart';
-import 'package:seeds/screens/profile_screens/contribution/interactor/viewmodels/scores_view_model.dart';
+part of 'contribution_bloc.dart';
 
 class ContributionState extends Equatable {
   final PageState pageState;

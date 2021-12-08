@@ -67,7 +67,7 @@ class DelegateAUserScreen extends StatelessWidget {
                         filterByCitizenshipStatus: UserCitizenshipStatus.citizen,
                         noShowUsers: state.noShowUsers,
                         title: "Citizens",
-                        resultCallBack: (selectedUser) {
+                        onUserSelected: (selectedUser) {
                           BlocProvider.of<DelegateAUserBloc>(context).add(OnUserSelected(selectedUser));
                         },
                       ),

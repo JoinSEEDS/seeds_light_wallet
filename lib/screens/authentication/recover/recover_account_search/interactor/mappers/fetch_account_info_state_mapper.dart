@@ -7,29 +7,18 @@ import 'package:seeds/screens/authentication/recover/recover_account_search/inte
 class FetchAccountInfoStateMapper extends StateMapper {
   RecoverAccountState mapResultToState(RecoverAccountState currentState, Result userInfo, String userName) {
     if (userInfo.isError) {
-      return currentState.copyWith(
-        pageState: PageState.failure,
-        errorMessage: "Error Loading Account".i18n,
-        isValidAccount: false,
-      );
+      return currentState.copyWith(pageState: PageState.failure, errorMessage: "Error Loading Account".i18n);
     } else {
       final accountInfo = userInfo.asValue?.value as MemberModel?;
 
       if (accountInfo != null) {
         return currentState.copyWith(
           pageState: PageState.success,
-          isValidAccount: true,
-          userName: accountInfo.account,
-          accountName: accountInfo.nickname,
-          accountImage: accountInfo.image,
+          accountInfo: accountInfo,
           errorMessage: currentState.errorMessage,
         );
       } else {
-        return currentState.copyWith(
-          pageState: PageState.success,
-          isValidAccount: false,
-          errorMessage: 'Account is not valid'.i18n,
-        );
+        return currentState.copyWith(pageState: PageState.success, errorMessage: 'Account is not valid'.i18n);
       }
     }
   }

@@ -7,7 +7,7 @@ import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/profile_screens/edit_name/edit_name.i18n.dart';
-import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/edit_name/interactor/viewmodels/edit_name_bloc.dart';
 
 class EditNameScreen extends StatefulWidget {
   const EditNameScreen({Key? key}) : super(key: key);

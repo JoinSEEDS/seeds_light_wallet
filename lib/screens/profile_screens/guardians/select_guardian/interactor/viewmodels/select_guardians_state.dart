@@ -1,9 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:seeds/datasource/local/settings_storage.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
-import 'package:seeds/domain-shared/page_command.dart';
-import 'package:seeds/domain-shared/page_state.dart';
+part of 'select_guardians_bloc.dart';
 
 const MAX_GUARDIANS_ALLOWED = 5;
 
@@ -15,13 +10,14 @@ class SelectGuardiansState extends Equatable {
   final PageCommand? pageCommand;
   final List<String>? noShowGuardians;
 
-  const SelectGuardiansState(
-      {required this.pageState,
-      required this.selectedGuardians,
-      required this.pageTitle,
-      required this.myGuardians,
-      this.pageCommand,
-      this.noShowGuardians});
+  const SelectGuardiansState({
+    required this.pageState,
+    required this.selectedGuardians,
+    required this.pageTitle,
+    required this.myGuardians,
+    this.pageCommand,
+    this.noShowGuardians,
+  });
 
   @override
   List<Object?> get props => [
@@ -50,9 +46,7 @@ class SelectGuardiansState extends Equatable {
     );
   }
 
-  factory SelectGuardiansState.initial(
-    List<GuardianModel> myGuardians,
-  ) {
+  factory SelectGuardiansState.initial(List<GuardianModel> myGuardians) {
     var guardian = '';
     if (MAX_GUARDIANS_ALLOWED - myGuardians.length == 1) {
       guardian = 'Guardian';

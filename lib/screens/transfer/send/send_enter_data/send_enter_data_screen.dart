@@ -120,11 +120,7 @@ class SendEnterDataScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              SearchResultRow(
-                                account: memberModel.account,
-                                imageUrl: memberModel.image,
-                                name: memberModel.nickname,
-                              ),
+                              SearchResultRow(member: memberModel),
                               const SizedBox(height: 16),
                               AmountEntryWidget(
                                 tokenDataModel: TokenDataModel(0, token: settingsStorage.selectedToken),

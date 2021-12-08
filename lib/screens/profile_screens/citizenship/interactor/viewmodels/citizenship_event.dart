@@ -1,9 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:seeds/datasource/remote/model/profile_model.dart';
+part of 'citizenship_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class CitizenshipEvent extends Equatable {
   const CitizenshipEvent();
 

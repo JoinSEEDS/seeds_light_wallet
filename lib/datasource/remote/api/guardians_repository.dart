@@ -8,6 +8,8 @@ import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/model/account_guardians_model.dart';
@@ -37,7 +39,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     // Check if permissions are already set?
     // ignore: unnecessary_cast
     for (final Map<String, dynamic> acct in ownerPermission.requiredAuth.accounts as List<dynamic>) {
-      if (acct['permission']['actor'] == accountGuards) {
+      if (acct['permission']['actor'] == SeedsCode.accountGuards.value) {
         print('permission already set, doing nothing');
         return currentPermissions;
       }
@@ -45,7 +47,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     ownerPermission.requiredAuth.accounts.add({
       'weight': ownerPermission.requiredAuth.threshold,
-      'permission': {'actor': accountGuards, 'permission': 'eosio.code'}
+      'permission': {'actor': SeedsCode.accountGuards.value, 'permission': 'eosio.code'}
     });
 
     return await _updatePermission(ownerPermission);
@@ -64,7 +66,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final actions = [
       Action()
-        ..account = accountGuards
+        ..account = SeedsCode.accountGuards.value
         ..name = actionNameInit
         ..data = {
           'user_account': accountName,
@@ -103,7 +105,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final actions = [
       Action()
-        ..account = accountGuards
+        ..account = SeedsCode.accountGuards.value
         ..name = actionNameClaim
         ..data = {'user_account': userAccount}
     ];
@@ -111,7 +113,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     for (final action in actions) {
       action.authorization = [
         Authorization()
-          ..actor = accountGuards
+          ..actor = SeedsCode.accountGuards.value
           ..permission = permissionApplication
       ];
     }
@@ -139,7 +141,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final actions = [
       Action()
-        ..account = accountGuards
+        ..account = SeedsCode.accountGuards.value
         ..name = actionNameCancel
         ..authorization = [
           Authorization()
@@ -173,7 +175,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final actions = [
       Action()
-        ..account = accountGuards
+        ..account = SeedsCode.accountGuards.value
         ..name = actionNameRecover
         ..authorization = [
           Authorization()
@@ -223,7 +225,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
 
     final actions = [
       Action()
-        ..account = accountEosio
+        ..account = SeedsCode.accountEosio.value
         ..name = actionNameUpdateauth
         ..data = {
           'account': accountName,
@@ -257,9 +259,9 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
     final String request = createRequest(
-        code: accountGuards,
-        scope: accountGuards,
-        table: tableRecover,
+        code: SeedsCode.accountGuards,
+        scope: SeedsCode.accountGuards.value,
+        table: SeedsTable.tableRecover,
         lowerBound: accountName,
         upperBound: accountName);
 
@@ -278,9 +280,9 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     final String requestURL = "$baseURL/v1/chain/get_table_rows";
 
     final String request = createRequest(
-      code: accountGuards,
-      scope: accountGuards,
-      table: tableGuards,
+      code: SeedsCode.accountGuards,
+      scope: SeedsCode.accountGuards.value,
+      table: SeedsTable.tableGuards,
       lowerBound: accountName,
       upperBound: accountName,
     );
@@ -306,7 +308,7 @@ class GuardiansRepository extends EosRepository with NetworkRepository {
     };
 
     final esr.Action action = esr.Action()
-      ..account = accountGuards
+      ..account = SeedsCode.accountGuards.value
       ..name = 'recover'
       ..authorization = auth
       ..data = data;

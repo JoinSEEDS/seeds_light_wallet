@@ -37,7 +37,7 @@ class SearchUserStateMapper extends StateMapper {
       }
 
       if (currentState.showOnlyCitizenshipStatus != null) {
-        uniqueUsers.removeWhere((element) => element.citizenshipStatus != currentState.showOnlyCitizenshipStatus);
+        uniqueUsers.removeWhere((element) => element.userCitizenshipStatus != currentState.showOnlyCitizenshipStatus);
       }
 
       return currentState.copyWith(pageState: PageState.success, users: uniqueUsers);

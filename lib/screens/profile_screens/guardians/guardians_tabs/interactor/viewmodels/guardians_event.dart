@@ -1,10 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:seeds/datasource/remote/model/firebase_models/guardian_model.dart';
+part of 'guardians_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class GuardiansEvent extends Equatable {
+  const GuardiansEvent();
+
   @override
   List<Object> get props => [];
 }
@@ -12,7 +10,7 @@ abstract class GuardiansEvent extends Equatable {
 class InitGuardians extends GuardiansEvent {
   final Iterable<GuardianModel> myGuardians;
 
-  InitGuardians(this.myGuardians);
+  const InitGuardians(this.myGuardians);
 
   @override
   String toString() => 'InitGuardians: { myGuardians: $myGuardians }';
@@ -26,7 +24,7 @@ class OnAddGuardiansTapped extends GuardiansEvent {
 class OnAcceptGuardianTapped extends GuardiansEvent {
   final String guardianAccount;
 
-  OnAcceptGuardianTapped(this.guardianAccount);
+  const OnAcceptGuardianTapped(this.guardianAccount);
 
   @override
   String toString() => 'OnAcceptGuardianTapped : { guardianAccount: $guardianAccount }';
@@ -35,7 +33,7 @@ class OnAcceptGuardianTapped extends GuardiansEvent {
 class OnDeclineGuardianTapped extends GuardiansEvent {
   final String guardianAccount;
 
-  OnDeclineGuardianTapped(this.guardianAccount);
+  const OnDeclineGuardianTapped(this.guardianAccount);
 
   @override
   String toString() => 'OnDeclineGuardianTapped : { guardianAccount: $guardianAccount }';
@@ -44,7 +42,7 @@ class OnDeclineGuardianTapped extends GuardiansEvent {
 class OnCancelGuardianRequestTapped extends GuardiansEvent {
   final String guardianAccount;
 
-  OnCancelGuardianRequestTapped(this.guardianAccount);
+  const OnCancelGuardianRequestTapped(this.guardianAccount);
 
   @override
   String toString() => 'OnCancelGuardianRequestTapped : { guardianAccount: $guardianAccount }';
@@ -53,13 +51,15 @@ class OnCancelGuardianRequestTapped extends GuardiansEvent {
 class OnGuardianRowTapped extends GuardiansEvent {
   final GuardianModel guardian;
 
-  OnGuardianRowTapped(this.guardian);
+  const OnGuardianRowTapped(this.guardian);
 
   @override
   String toString() => 'OnGuardianRowTapped : { guardian: $guardian }';
 }
 
 class ClearPageCommand extends GuardiansEvent {
+  const ClearPageCommand();
+
   @override
   String toString() => 'ClearPageCommand';
 }
@@ -72,23 +72,29 @@ class OnStopRecoveryForUser extends GuardiansEvent {
 class OnRemoveGuardianTapped extends GuardiansEvent {
   final GuardianModel guardian;
 
-  OnRemoveGuardianTapped(this.guardian);
+  const OnRemoveGuardianTapped(this.guardian);
 
   @override
   String toString() => 'OnRemoveGuardianTapped : { guardian: $guardian }';
 }
 
 class InitOnboardingGuardian extends GuardiansEvent {
+  const InitOnboardingGuardian();
+
   @override
   String toString() => 'InitOnboardingGuardian';
 }
 
 class OnNextGuardianOnboardingTapped extends GuardiansEvent {
+  const OnNextGuardianOnboardingTapped();
+
   @override
   String toString() => 'OnNextGuardianOnboardingTapped';
 }
 
 class OnPreviousGuardianOnboardingTapped extends GuardiansEvent {
+  const OnPreviousGuardianOnboardingTapped();
+
   @override
   String toString() => 'OnPreviousGuardianOnboardingTapped';
 }
@@ -96,7 +102,7 @@ class OnPreviousGuardianOnboardingTapped extends GuardiansEvent {
 class OnGuardianReadyForActivation extends GuardiansEvent {
   final Iterable<GuardianModel> myGuardians;
 
-  OnGuardianReadyForActivation(this.myGuardians);
+  const OnGuardianReadyForActivation(this.myGuardians);
 
   @override
   String toString() => 'OnGuardianReadyForActivation: { myGuardians: $myGuardians }';

@@ -1,10 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:seeds/datasource/remote/model/member_model.dart';
+part of 'select_guardians_bloc.dart';
 
-/// --- EVENTS
-@immutable
 abstract class SelectGuardiansEvent extends Equatable {
+  const SelectGuardiansEvent();
+
   @override
   List<Object> get props => [];
 }
@@ -12,7 +10,7 @@ abstract class SelectGuardiansEvent extends Equatable {
 class OnUserSelected extends SelectGuardiansEvent {
   final MemberModel user;
 
-  OnUserSelected(this.user);
+  const OnUserSelected(this.user);
 
   @override
   String toString() => 'OnUserSelected: { OnUserSelected: $user }';
@@ -21,13 +19,15 @@ class OnUserSelected extends SelectGuardiansEvent {
 class OnUserRemoved extends SelectGuardiansEvent {
   final MemberModel user;
 
-  OnUserRemoved(this.user);
+  const OnUserRemoved(this.user);
 
   @override
   String toString() => 'OnUserRemoved: { OnUserRemoved: $user }';
 }
 
 class ClearPageCommand extends SelectGuardiansEvent {
+  const ClearPageCommand();
+
   @override
   String toString() => 'ClearPageCommand';
 }

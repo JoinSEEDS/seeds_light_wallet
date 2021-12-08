@@ -24,7 +24,7 @@ class SendSearchUserScreen extends StatelessWidget {
       ),
       body: SearchUser(
         noShowUsers: [settingsStorage.accountName],
-        resultCallBack: (selectedUser) {
+        onUserSelected: (selectedUser) {
           print('onResult: ${selectedUser.account}');
           NavigationService.of(context).navigateTo(Routes.sendEnterData, selectedUser);
         },

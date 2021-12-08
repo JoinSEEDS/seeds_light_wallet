@@ -1,8 +1,9 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/seeds_history_model.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 
 ///Seeds History Table
 class SeedsHistoryRepository extends NetworkRepository {
@@ -10,9 +11,9 @@ class SeedsHistoryRepository extends NetworkRepository {
     print('[http] get seeds seeds history for account: $userAccount ');
 
     final String request = createRequest(
-      code: historySeeds,
-      scope: historySeeds,
-      table: tableTotals,
+      code: SeedsCode.historySeeds,
+      scope: SeedsCode.historySeeds.value,
+      table: SeedsTable.tableTotals,
       lowerBound: userAccount,
       upperBound: userAccount,
     );

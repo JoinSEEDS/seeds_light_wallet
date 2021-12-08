@@ -10,7 +10,7 @@ import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/profile_screens/citizenship/citizenship.i18n.dart';
-import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/bloc.dart';
+import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_bloc.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class VisitorView extends StatefulWidget {

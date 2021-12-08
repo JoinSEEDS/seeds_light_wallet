@@ -7,7 +7,7 @@ import 'package:seeds/datasource/remote/model/seeds_history_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/profile_screens/citizenship/citizenship.i18n.dart';
-import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_state.dart';
+import 'package:seeds/screens/profile_screens/citizenship/interactor/viewmodels/citizenship_bloc.dart';
 
 class SetValuesStateMapper extends StateMapper {
   CitizenshipState mapResultToState(

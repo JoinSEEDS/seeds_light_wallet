@@ -1,64 +1,52 @@
 import 'package:equatable/equatable.dart';
+import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 
 class RecoverAccountState extends Equatable {
+  final PageCommand? pageCommand;
   final PageState pageState;
   final String? errorMessage;
-  final String? userName;
   final bool isGuardianActive;
   final List<String> userGuardians;
-  final PageCommand? pageCommand;
-  final bool isValidAccount;
-  final String? accountName;
-  final String? accountImage;
+  final MemberModel? accountInfo;
 
   const RecoverAccountState({
+    this.pageCommand,
     required this.pageState,
     this.errorMessage,
     required this.isGuardianActive,
     required this.userGuardians,
-    this.userName,
-    this.pageCommand,
-    required this.isValidAccount,
-    this.accountName,
-    this.accountImage,
+    this.accountInfo,
   });
 
   @override
   List<Object?> get props => [
+        pageCommand,
         pageState,
         errorMessage,
         isGuardianActive,
         userGuardians,
-        userName,
-        pageCommand,
-        isValidAccount,
-        accountName,
-        accountImage,
+        accountInfo,
       ];
 
+  bool get accountFound => accountInfo != null;
+
   RecoverAccountState copyWith({
+    PageCommand? pageCommand,
     PageState? pageState,
     String? errorMessage,
     bool? isGuardianActive,
     List<String>? userGuardians,
-    String? userName,
-    PageCommand? pageCommand,
-    bool? isValidAccount,
-    String? accountName,
-    String? accountImage,
+    MemberModel? accountInfo,
   }) {
     return RecoverAccountState(
+      pageCommand: pageCommand,
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
       isGuardianActive: isGuardianActive ?? this.isGuardianActive,
       userGuardians: userGuardians ?? this.userGuardians,
-      userName: userName ?? this.userName,
-      pageCommand: pageCommand,
-      isValidAccount: isValidAccount ?? this.isValidAccount,
-      accountName: accountName ?? this.accountName,
-      accountImage: accountImage ?? this.accountImage,
+      accountInfo: accountInfo ?? this.accountInfo,
     );
   }
 
@@ -67,7 +55,6 @@ class RecoverAccountState extends Equatable {
       pageState: PageState.initial,
       isGuardianActive: false,
       userGuardians: [],
-      isValidAccount: false,
     );
   }
 }

@@ -61,11 +61,10 @@ class SwithAccountBottomSheet extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 10.0, bottom: 30.0),
                                 child: InkWell(
                                   onTap: () {
-                                    // Pass true to import screens to indicate from switch accounts
                                     if (state.isRecoverPharseEnabled) {
-                                      NavigationService.of(context).navigateTo(Routes.importWords, true);
+                                      NavigationService.of(context).navigateTo(Routes.importWords);
                                     } else {
-                                      NavigationService.of(context).navigateTo(Routes.importKey, true);
+                                      NavigationService.of(context).navigateTo(Routes.importKey);
                                     }
                                   },
                                   child: Row(
