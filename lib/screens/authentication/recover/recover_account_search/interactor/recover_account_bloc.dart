@@ -19,14 +19,13 @@ class RecoverAccountBloc extends Bloc<RecoverAccountEvent, RecoverAccountState> 
         yield state.copyWith(pageState: PageState.loading);
         final userInfo = await FetchAccountInfoUseCase().run(event.userName);
         final result = await FetchAccountRecoveryUseCase().run(event.userName);
-
-        yield FetchAccountRecoveryStateMapper().mapResultToState(state, result, event.userName);
+        yield FetchAccountGuardiansStateMapper().mapResultToState(state, result);
         yield FetchAccountInfoStateMapper().mapResultToState(state, userInfo, event.userName);
       } else {
-        yield state.copyWith(isGuardianActive: false, isValidAccount: false);
+        yield state.copyWith(isGuardianActive: false);
       }
     } else if (event is OnNextButtonTapped) {
-      yield state.copyWith(pageCommand: NavigateToRecoverAccountFound(state.userName!));
+      yield state.copyWith(pageCommand: NavigateToRecoverAccountFound(state.accountInfo!.account));
     }
   }
 }

@@ -55,7 +55,7 @@ class SelectGuardiansScreen extends StatelessWidget {
                           Expanded(
                             child: SearchUser(
                               noShowUsers: state.noShowGuardians,
-                              resultCallBack: (selectedUser) {
+                              onUserSelected: (selectedUser) {
                                 BlocProvider.of<SelectGuardiansBloc>(context).add(OnUserSelected(selectedUser));
                               },
                             ),
