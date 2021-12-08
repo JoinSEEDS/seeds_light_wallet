@@ -125,7 +125,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
         .catchError((e) => mapHttpError(e));
   }
 
-  Future<Result<TransactionResponse>> cancelInvite({
+  Future<Result<InviteModel>> cancelInvite({
     required String accountName,
     required String inviteHash,
   }) async {
@@ -148,7 +148,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     return buildEosClient()
         .pushTransaction(transaction)
-        .then((dynamic response) => mapEosResponse<TransactionResponse>(response, (dynamic map) {
+        .then((dynamic response) => mapEosResponse<InviteModel>(response, (dynamic map) {
               return TransactionResponse.fromJson(map);
             }))
         .catchError((error) => mapEosError(error));

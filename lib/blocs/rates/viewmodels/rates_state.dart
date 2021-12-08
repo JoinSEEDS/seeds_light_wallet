@@ -3,13 +3,13 @@ part of 'rates_bloc.dart';
 class RatesState extends Equatable {
   final PageState pageState;
   final String? errorMessage;
-  final Map<String, RateModel>? rates;
+  final RateModel? rate;
   final FiatRateModel? fiatRate;
 
   const RatesState({
     required this.pageState,
     this.errorMessage,
-    this.rates,
+    this.rate,
     this.fiatRate,
   });
 
@@ -17,20 +17,20 @@ class RatesState extends Equatable {
   List<Object?> get props => [
         pageState,
         errorMessage,
-        rates,
+        rate,
         fiatRate,
       ];
 
   RatesState copyWith({
     PageState? pageState,
     String? errorMessage,
-    Map<String, RateModel>? rates,
+    RateModel? rate,
     FiatRateModel? fiatRate,
   }) {
     return RatesState(
       pageState: pageState ?? this.pageState,
       errorMessage: errorMessage,
-      rates: rates ?? this.rates,
+      rate: rate ?? this.rate,
       fiatRate: fiatRate ?? this.fiatRate,
     );
   }
