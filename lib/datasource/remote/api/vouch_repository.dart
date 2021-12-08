@@ -5,10 +5,11 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/datasource/remote/model/vouch_model.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 
 class VouchRepository extends NetworkRepository with EosRepository {
   Future<Result<TransactionResponse>> vouch({
@@ -19,7 +20,7 @@ class VouchRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountAccounts
+        ..account = SeedsCode.accountAccounts.value
         ..name = actionNameVouch
         ..authorization = [
           Authorization()
@@ -56,12 +57,12 @@ class VouchRepository extends NetworkRepository with EosRepository {
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: accountAccounts,
-      scope: accountAccounts,
+      code: SeedsCode.accountAccounts,
+      scope: SeedsCode.accountAccounts.value,
       indexPosition: isSponsor ? 3 : 2,
       lowerBound: accountName,
       upperBound: accountName,
-      table: tableVouches,
+      table: SeedsTable.tableVouches,
       limit: 200,
     );
 
