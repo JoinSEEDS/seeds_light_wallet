@@ -1,9 +1,10 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/planted_model.dart';
 import 'package:seeds/datasource/remote/model/refund_model.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 
 class PlantedRepository extends NetworkRepository {
   Future<Result<PlantedModel>> getPlanted(String userAccount) {
@@ -12,9 +13,9 @@ class PlantedRepository extends NetworkRepository {
     final plantedURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-        code: accountHarvest,
-        scope: accountHarvest,
-        table: tableBalances,
+        code: SeedsCode.accountHarvest,
+        scope: SeedsCode.accountHarvest.value,
+        table: SeedsTable.tableBalances,
         lowerBound: userAccount,
         upperBound: userAccount);
 
@@ -32,9 +33,9 @@ class PlantedRepository extends NetworkRepository {
     final plantedURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: accountHarvest,
+      code: SeedsCode.accountHarvest,
       scope: userAccount,
-      table: tableRefunds,
+      table: SeedsTable.tableRefunds,
       limit: 1000,
     );
 

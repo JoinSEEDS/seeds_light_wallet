@@ -1,4 +1,5 @@
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/model/organization_model.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
@@ -20,7 +21,7 @@ class GetProfileValuesUseCase extends NoInputUseCase<GetProfileValuesResponse> {
     final account = settingsStorage.accountName;
     final futures = [
       _profileRepository.getProfile(account),
-      _profileRepository.getScore(account: account, tableName: "cspoints"),
+      _profileRepository.getScore(account: account, tableName: SeedsTable.tableCspoints),
       _profileRepository.getOrganizationAccount(account),
       _profileRepository.canResident(account),
       _profileRepository.canCitizen(account),

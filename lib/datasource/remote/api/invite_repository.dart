@@ -6,12 +6,13 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/datamappers/toDomainInviteModel.dart';
 import 'package:seeds/datasource/remote/model/invite_model.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
-import 'package:seeds/domain-shared/app_constants.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
 class InviteRepository extends NetworkRepository with EosRepository {
@@ -27,7 +28,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountToken
+        ..account = SeedsCode.accountToken.value
         ..name = actionNameTransfer
         ..authorization = [
           Authorization()
@@ -36,12 +37,12 @@ class InviteRepository extends NetworkRepository with EosRepository {
         ]
         ..data = {
           'from': accountName,
-          'to': accountJoin,
+          'to': SeedsCode.accountJoin.value,
           'quantity': '${quantity.toStringAsFixed(4)} $currencySeedsCode',
           'memo': '',
         },
       Action()
-        ..account = accountJoin
+        ..account = SeedsCode.accountJoin.value
         ..name = actionNameInvite
         ..authorization = [
           Authorization()
@@ -69,7 +70,11 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
-    final request = createRequest(code: accountAccounts, scope: accountAccounts, table: tableUsers, limit: 1000);
+    final request = createRequest(
+        code: SeedsCode.accountAccounts,
+        scope: SeedsCode.accountAccounts.value,
+        table: SeedsTable.tableUsers,
+        limit: 1000);
 
     return http
         .post(membersURL, headers: headers, body: request)
@@ -87,9 +92,9 @@ class InviteRepository extends NetworkRepository with EosRepository {
     // 'https://node.hypha.earth/v1/chain/get_table_rows'; // todo: Why is this still Hypha when config has changed?
 
     final request = createRequest(
-        code: accountJoin,
-        scope: accountJoin,
-        table: tableInvites,
+        code: SeedsCode.accountJoin,
+        scope: SeedsCode.accountJoin.value,
+        table: SeedsTable.tableInvites,
         lowerBound: inviteHash,
         upperBound: inviteHash,
         indexPosition: 2,
@@ -110,9 +115,9 @@ class InviteRepository extends NetworkRepository with EosRepository {
     final inviteURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
     final request = createRequest(
-      code: accountJoin,
-      scope: accountJoin,
-      table: tableInvites,
+      code: SeedsCode.accountJoin,
+      scope: SeedsCode.accountJoin.value,
+      table: SeedsTable.tableInvites,
       limit: 200,
       indexPosition: 3,
       lowerBound: userAccount,
@@ -133,7 +138,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
 
     final transaction = buildFreeTransaction([
       Action()
-        ..account = accountJoin
+        ..account = SeedsCode.accountJoin.value
         ..name = actionNameCancelInvite
         ..authorization = [
           Authorization()
