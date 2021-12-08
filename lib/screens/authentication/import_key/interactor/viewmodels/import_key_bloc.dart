@@ -38,8 +38,9 @@ class ImportKeyBloc extends Bloc<ImportKeyEvent, ImportKeyState> {
   }
 
   void _onWordChange(OnWordChange event, Emitter<ImportKeyState> emit) {
-    state.userEnteredWords[event.wordIndex] = event.word;
-    emit(state.copyWith(userEnteredWords: state.userEnteredWords, enableButton: state.areAllWordsEntered));
+    final Map<int, String> enteredWords = Map.from(state.userEnteredWords);
+    enteredWords[event.wordIndex] = event.word;
+    emit(state.copyWith(userEnteredWords: enteredWords, enableButton: state.areAllWordsEntered));
   }
 
   void _findAccountFromWords(FindAccountFromWords event, Emitter<ImportKeyState> emit) {
