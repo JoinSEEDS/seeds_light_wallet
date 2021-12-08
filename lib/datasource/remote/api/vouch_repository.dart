@@ -15,7 +15,7 @@ class VouchRepository extends NetworkRepository with EosRepository {
     required String accountName,
     required String vouchee,
   }) async {
-    print('[eos] vouch for $vouch');
+    print('[eos] vouch for $vouchee');
 
     final transaction = buildFreeTransaction([
       Action()
