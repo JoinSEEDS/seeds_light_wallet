@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/util/response_extension.dart';
 
@@ -11,27 +13,6 @@ abstract class NetworkRepository {
   String hyphaURL = remoteConfigurations.hyphaEndPoint;
   String fxApiKey = "thesecretapikey989";
   Map<String, String> headers = {'Content-type': 'application/json'};
-
-  String tableBalances = 'balances';
-  String tableConfig = 'config';
-  String tableGuards = 'guards';
-  String tableHarvest = 'harvest';
-  String tableRefunds = 'refunds';
-  String tableInvites = 'invites';
-  String tableMoonphases = 'moonphases';
-  String tableProps = 'props';
-  String tableReferendums = 'referendums';
-  String tableRefs = 'refs';
-  String tableSupport = 'support';
-  String tableUsers = 'users';
-  String tableVoice = 'voice';
-  String tableOrganization = 'organization';
-  String tableProposalVotes = 'votes';
-  String tableReferendumVoters = 'voters';
-  String tableDelegates = 'deltrusts';
-  String tableRecover = 'recovers';
-  String tableTotals = 'totals';
-  String tableCycleStats = 'cyclestats';
 
   FutureOr<Result<T>> mapHttpResponse<T>(http.Response response, Function modelMapper) {
     switch (response.statusCode) {
@@ -53,9 +34,9 @@ abstract class NetworkRepository {
   }
 
   String createRequest({
-    required String code,
+    required SeedsCode code,
     required String scope,
-    required String table,
+    required SeedsTable table,
     String lowerBound = "",
     String upperBound = "",
     String tableKey = "",
@@ -65,8 +46,11 @@ abstract class NetworkRepository {
     bool reverse = false,
     bool showPayer = false,
   }) {
+    final tableName = table.value;
+    final seedsCode = code.value;
+
     final String request =
-        '{"json": true, "code": "$code", "scope": "$scope", "table": "$table", "table_key":"$tableKey", "lower_bound": "$lowerBound", "upper_bound": "$upperBound", "index_position": "$indexPosition", "key_type": "$keyType", "limit": $limit, "reverse": $reverse, "show_payer":"$showPayer"}';
+        '{"json": true, "code": "$seedsCode", "scope": "$scope", "table": "$tableName", "table_key":"$tableKey", "lower_bound": "$lowerBound", "upper_bound": "$upperBound", "index_position": "$indexPosition", "key_type": "$keyType", "limit": $limit, "reverse": $reverse, "show_payer":"$showPayer"}';
 
     return request;
   }

@@ -1,5 +1,7 @@
 import 'package:async/async.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
 
 class GetProfileScoresUseCase {
@@ -8,11 +10,13 @@ class GetProfileScoresUseCase {
   Future<List<Result>> run() {
     final account = settingsStorage.accountName;
     final futures = [
-      _profileRepository.getScore(account: account, tableName: "cspoints"),
-      _profileRepository.getScore(account: account, contractName: "accts.seeds", tableName: "cbs"),
-      _profileRepository.getScore(account: account, contractName: "accts.seeds", tableName: "rep"),
-      _profileRepository.getScore(account: account, tableName: "planted"),
-      _profileRepository.getScore(account: account, tableName: "txpoints"),
+      _profileRepository.getScore(account: account, tableName: SeedsTable.tableCspoints),
+      _profileRepository.getScore(
+          account: account, contractName: SeedsCode.accountAccounts, tableName: SeedsTable.tableCbs),
+      _profileRepository.getScore(
+          account: account, contractName: SeedsCode.accountAccounts, tableName: SeedsTable.tableRep),
+      _profileRepository.getScore(account: account, tableName: SeedsTable.tablePlanted),
+      _profileRepository.getScore(account: account, tableName: SeedsTable.tableTxpoints),
     ];
     return Future.wait(futures);
   }

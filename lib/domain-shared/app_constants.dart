@@ -9,20 +9,6 @@ const String androidPacakageName = 'com.joinseeds.seedswallet';
 const String iosBundleId = 'com.joinseeds.seedslight';
 const String iosAppStoreId = '1507143650';
 
-/// Accounts
-const String accountAccounts = 'accts.seeds';
-const String accountCycle = 'cycle.seeds';
-const String accountEosio = 'eosio';
-const String accountFunds = 'funds.seeds';
-const String accountGuards = 'guard.seeds';
-const String accountHarvest = 'harvst.seeds';
-const String accountJoin = 'join.seeds';
-const String accountToken = 'token.seeds';
-const String accountRules = 'rules.seeds';
-const String accountSettgs = 'settgs.seeds';
-const String historySeeds = 'histry.seeds';
-const String accountOrgs = 'orgs.seeds';
-
 /// Actions
 const String transferAction = 'transfer';
 
