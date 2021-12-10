@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart' show sha256;
+import 'package:seeds/utils/mnemonic_code/pbkdf2.dart';
 
 import 'hex.dart';
 import 'words_list.dart';
@@ -118,4 +119,9 @@ String mnemonicToEntropy(List<String> recoveryPhrase) {
   return entropyBytes.map((byte) {
     return byte.toRadixString(16).padLeft(2, '0');
   }).join();
+}
+
+Uint8List mnemonicToSeed(String mnemonic, {String passphrase = ""}) {
+  final pbkdf2 = PBKDF2();
+  return pbkdf2.process(mnemonic, passphrase: passphrase);
 }
