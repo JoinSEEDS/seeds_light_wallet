@@ -5,7 +5,7 @@ import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/http_repo/network_repository.dart';
 import 'package:seeds/datasource/remote/model/voice_model.dart';
 
-class VoiceRepository extends NetworkRepository {
+class VoiceRepository extends HttpRepository {
   Future<Result<VoiceModel>> getCampaignVoice(String userAccount) {
     print('[http] get campaign voice: $userAccount');
     final voiceURL = Uri.parse('$baseURL/v1/chain/get_table_rows');

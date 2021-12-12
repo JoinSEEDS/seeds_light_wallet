@@ -15,7 +15,7 @@ import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
-class InviteRepository extends NetworkRepository with EosRepository {
+class InviteRepository extends HttpRepository with EosRepository {
   Future<Result<TransactionResponse>> createInvite({
     required double quantity,
     required String inviteHash,

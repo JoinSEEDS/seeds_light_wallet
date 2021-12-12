@@ -6,7 +6,7 @@ import 'package:seeds/datasource/remote/api/http_repo/network_repository.dart';
 import 'package:seeds/datasource/remote/model/planted_model.dart';
 import 'package:seeds/datasource/remote/model/refund_model.dart';
 
-class PlantedRepository extends NetworkRepository {
+class PlantedRepository extends HttpRepository {
   Future<Result<PlantedModel>> getPlanted(String userAccount) {
     print('[http] get seeds getPlanted $userAccount');
 

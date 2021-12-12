@@ -6,7 +6,7 @@ import 'package:seeds/datasource/remote/api/http_repo/network_repository.dart';
 import 'package:seeds/datasource/remote/model/seeds_history_model.dart';
 
 ///Seeds History Table
-class SeedsHistoryRepository extends NetworkRepository {
+class SeedsHistoryRepository extends HttpRepository {
   Future<Result<SeedsHistoryModel>> getNumberOfTransactions(String userAccount) {
     print('[http] get seeds seeds history for account: $userAccount ');
 

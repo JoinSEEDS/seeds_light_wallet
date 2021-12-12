@@ -15,7 +15,7 @@ import 'package:seeds/datasource/remote/model/score_model.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 
-class ProfileRepository extends NetworkRepository with EosRepository {
+class ProfileRepository extends HttpRepository with EosRepository {
   Future<Result<ProfileModel>> getProfile(String accountName) {
     print('[http] get seeds getProfile $accountName');
 

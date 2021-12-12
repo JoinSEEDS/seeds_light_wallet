@@ -18,7 +18,7 @@ import 'package:seeds/datasource/remote/model/vote_cycle_model.dart';
 import 'package:seeds/datasource/remote/model/vote_model.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/vote/interactor/viewmodels/proposal_type_model.dart';
 
-class ProposalsRepository extends NetworkRepository with EosRepository {
+class ProposalsRepository extends HttpRepository with EosRepository {
   Future<Result<List<MoonPhaseModel>>> getMoonPhases() {
     print('[http] get moon phases');
 

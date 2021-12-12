@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/http_repo/network_repository.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 
-class BalanceRepository extends NetworkRepository {
+class BalanceRepository extends HttpRepository {
   Future<Result<BalanceModel>> getTokenBalance(String userAccount, {required String tokenContract, required String symbol}) {
     print('[http] get seeds getTokenBalance $userAccount for $symbol');
 

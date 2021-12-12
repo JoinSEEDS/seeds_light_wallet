@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/network_repository.dart';
 
-class SignupRepository extends EosRepository with NetworkRepository {
+class SignupRepository extends EosRepository with HttpRepository {
   Future<Result> unpackDynamicLink(String scannedLink) async {
     final PendingDynamicLinkData? unpackedLink =
         await FirebaseDynamicLinks.instance.getDynamicLink(Uri.parse(scannedLink));

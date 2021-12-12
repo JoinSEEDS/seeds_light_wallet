@@ -5,7 +5,7 @@ import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/api/http_repo/network_repository.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 
-class MembersRepository extends NetworkRepository {
+class MembersRepository extends HttpRepository {
   Future<Result<List<MemberModel>>> getMembers() {
     print('[http] get members');
 
