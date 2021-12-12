@@ -4,14 +4,14 @@ import 'package:async/async.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
-import 'package:seeds/datasource/remote/api/network_repository.dart';
 import 'package:seeds/datasource/remote/model/transaction_response.dart';
 import 'package:seeds/datasource/remote/model/vouch_model.dart';
 
-class VouchRepository extends NetworkRepository with EosRepository {
+class VouchRepository extends HttpRepository with EosRepository {
   Future<Result<TransactionResponse>> vouch({
     required String accountName,
     required String vouchee,
