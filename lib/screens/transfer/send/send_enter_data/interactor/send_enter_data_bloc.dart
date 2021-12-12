@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:seeds/blocs/rates/viewmodels/rates_bloc.dart';
 import 'package:seeds/datasource/local/models/eos_transaction.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
@@ -20,6 +21,8 @@ import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodel
 class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPageState> {
   SendEnterDataPageBloc(MemberModel memberModel, RatesState rates)
       : super(SendEnterDataPageState.initial(memberModel, rates));
+
+  final InAppReview inAppReview = InAppReview.instance;
 
   @override
   Stream<SendEnterDataPageState> mapEventToState(SendEnterDataPageEvent event) async* {
@@ -62,7 +65,9 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
         ),
       );
 
-      yield SendTransactionMapper().mapResultToState(state, result);
+      final bool shouldShowInAppReview = await inAppReview.isAvailable();
+
+      yield SendTransactionMapper().mapResultToState(state, result, shouldShowInAppReview);
     } else if (event is ClearPageCommand) {
       yield state.copyWith();
     }
