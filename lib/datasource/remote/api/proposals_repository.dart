@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
@@ -183,7 +184,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountFunds.value
-        ..name = amount.isNegative ? actionNameAgainst : actionNameFavour
+        ..name = amount.isNegative ? SeedsEosAction.actionNameAgainst.value : SeedsEosAction.actionNameFavour.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -207,7 +208,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountRules.value
-        ..name = amount.isNegative ? actionNameAgainst : actionNameFavour
+        ..name = amount.isNegative ? SeedsEosAction.actionNameAgainst.value : SeedsEosAction.actionNameFavour.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -309,7 +310,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
   }) =>
       Action()
         ..account = SeedsCode.accountFunds.value
-        ..name = proposalActionNameDelegate
+        ..name = SeedsEosAction.proposalActionNameDelegate.value
         ..authorization = [
           Authorization()
             ..actor = delegator
@@ -327,7 +328,7 @@ class ProposalsRepository extends HttpRepository with EosRepository {
   }) =>
       Action()
         ..account = SeedsCode.accountFunds.value
-        ..name = proposalActionNameUndelegate
+        ..name = SeedsEosAction.proposalActionNameUndelegate.value
         ..authorization = [
           Authorization()
             ..actor = delegator

@@ -5,6 +5,7 @@ import 'package:async/async.dart';
 import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
@@ -21,7 +22,7 @@ class VouchRepository extends HttpRepository with EosRepository {
     final transaction = buildFreeTransaction([
       Action()
         ..account = SeedsCode.accountAccounts.value
-        ..name = actionNameVouch
+        ..name = SeedsEosAction.actionNameVouch.value
         ..authorization = [
           Authorization()
             ..actor = accountName

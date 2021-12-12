@@ -16,29 +16,6 @@ abstract class EosRepository {
 
   String? get host => remoteConfigurations.activeEOSServerUrl.url;
 
-  // Actions
-  String actionNameAgainst = 'against';
-  String actionNameCancel = 'cancel';
-  String actionNameFavour = 'favour';
-  String actionNameInit = 'init';
-  String actionNameClaim = 'claim';
-  String actionNameInvite = 'invite';
-  String actionNameCancelInvite = 'cancel';
-  String actionNameTransfer = 'transfer';
-  String actionNameUpdateauth = 'updateauth';
-  String actionNameUpdate = 'update';
-  String actionNameMakeresident = 'makeresident';
-  String actionNameCanresident = 'canresident';
-  String actionNameMakecitizen = 'makecitizen';
-  String actionNameCakecitizen = 'cancitizen';
-  String actionNameAcceptnew = 'acceptnew';
-  String actionNameRecover = 'recover';
-  String actionNameUnplant = 'unplant';
-  String actionNameClaimRefund = 'claimrefund';
-  String proposalActionNameDelegate = 'delegate';
-  String proposalActionNameUndelegate = 'undelegate';
-  String actionNameVouch = 'vouch';
-
   // Authorizations
   String permissionActive = 'active';
   String permissionOwner = 'owner';

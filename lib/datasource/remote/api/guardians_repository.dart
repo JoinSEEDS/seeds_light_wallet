@@ -8,6 +8,7 @@ import 'package:eosdart/eosdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
@@ -67,7 +68,7 @@ class GuardiansRepository extends EosRepository with HttpRepository {
     final actions = [
       Action()
         ..account = SeedsCode.accountGuards.value
-        ..name = actionNameInit
+        ..name = SeedsEosAction.actionNameInit.value
         ..data = {
           'user_account': accountName,
           'guardian_accounts': guardians,
@@ -106,7 +107,7 @@ class GuardiansRepository extends EosRepository with HttpRepository {
     final actions = [
       Action()
         ..account = SeedsCode.accountGuards.value
-        ..name = actionNameClaim
+        ..name = SeedsEosAction.actionNameClaim.value
         ..data = {'user_account': userAccount}
     ];
 
@@ -142,7 +143,7 @@ class GuardiansRepository extends EosRepository with HttpRepository {
     final actions = [
       Action()
         ..account = SeedsCode.accountGuards.value
-        ..name = actionNameCancel
+        ..name = SeedsEosAction.actionNameCancel.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -176,7 +177,7 @@ class GuardiansRepository extends EosRepository with HttpRepository {
     final actions = [
       Action()
         ..account = SeedsCode.accountGuards.value
-        ..name = actionNameRecover
+        ..name = SeedsEosAction.actionNameRecover.value
         ..authorization = [
           Authorization()
             ..actor = accountName
@@ -226,7 +227,7 @@ class GuardiansRepository extends EosRepository with HttpRepository {
     final actions = [
       Action()
         ..account = SeedsCode.accountEosio.value
-        ..name = actionNameUpdateauth
+        ..name = SeedsEosAction.actionNameUpdateauth.value
         ..data = {
           'account': accountName,
           'permission': permission.permName,

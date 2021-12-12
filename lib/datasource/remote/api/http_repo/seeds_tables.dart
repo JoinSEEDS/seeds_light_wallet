@@ -113,8 +113,6 @@ extension SeedsTableExtension on SeedsTable {
         return _tabletxpoints;
       case SeedsTable.tableVouches:
         return _tableVouches;
-      default:
-        return '';
     }
   }
 }

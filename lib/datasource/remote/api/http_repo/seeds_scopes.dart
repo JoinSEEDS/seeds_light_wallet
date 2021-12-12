@@ -57,8 +57,6 @@ extension SeedsCodeExtension on SeedsCode {
         return _accountOrgs;
       case SeedsCode.accountdelphioracle:
         return _accountdelphioracle;
-      default:
-        return '';
     }
   }
 }
