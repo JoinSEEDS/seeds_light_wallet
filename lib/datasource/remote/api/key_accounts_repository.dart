@@ -1,6 +1,6 @@
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
-import 'package:seeds/datasource/remote/api/http_repo/network_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/http_repository.dart';
 
 class KeyAccountsRepository extends HttpRepository {
   Future<Result<dynamic>> getKeyAccounts(String publicKey) {
