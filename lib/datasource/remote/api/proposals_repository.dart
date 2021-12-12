@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:seeds/datasource/remote/api/eos_repository.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
-import 'package:seeds/datasource/remote/api/network_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/network_repository.dart';
 import 'package:seeds/datasource/remote/model/delegate_model.dart';
 import 'package:seeds/datasource/remote/model/delegator_model.dart';
 import 'package:seeds/datasource/remote/model/moon_phase_model.dart';
