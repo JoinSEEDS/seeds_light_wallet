@@ -1,5 +1,6 @@
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/http_repo/seeds_scopes.dart';
 import 'package:seeds/datasource/remote/api/proposals_repository.dart';
 import 'package:seeds/datasource/remote/model/delegate_model.dart';
 
@@ -13,7 +14,7 @@ class HasDelegateUseCase {
     final account = settingsStorage.accountName;
 
     return _proposalsRepository
-        .getDelegate(account, EosRepository.voiceScopeCampaign)
+        .getDelegate(account, SeedsCode.voiceScopeCampaign)
         .then((value) => (value.asValue as DelegateModel?)?.hasDelegate ?? false);
   }
 }

@@ -21,15 +21,11 @@ abstract class EosRepository {
   String permissionOwner = 'owner';
   String permissionApplication = 'application';
 
-  // Voice scopes
-  static String voiceScopeAlliance = "alliance";
-  static String voiceScopeCampaign = "funds.seeds"; // Note: campaign voice scope is contract scope
-  static String voiceScopeMilestone = "milestone"; // Note: campaign voice scope is contract scope
 
   List<String> voiceScopes = [
-    voiceScopeAlliance,
-    voiceScopeCampaign,
-    voiceScopeMilestone,
+    SeedsCode.voiceScopeAlliance.value,
+    SeedsCode.voiceScopeCampaign.value,
+    SeedsCode.voiceScopeMilestone.value,
     // "referendum", // referendum delegation not working on the contract side at the moment
   ];
 

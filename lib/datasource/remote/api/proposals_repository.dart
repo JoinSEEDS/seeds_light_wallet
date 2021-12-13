@@ -242,12 +242,12 @@ class ProposalsRepository extends HttpRepository with EosRepository {
   }
 
   // return DelegateModel
-  Future<Result<DelegateModel>> getDelegate(String account, String voiceScope) {
+  Future<Result<DelegateModel>> getDelegate(String account, SeedsCode seedsCode) {
     print('[http] get delegate for $account');
 
     final request = createRequest(
       code: SeedsCode.accountFunds,
-      scope: voiceScope,
+      scope: seedsCode.value,
       table: SeedsTable.tableDelegates,
       lowerBound: account,
       upperBound: account,
@@ -263,13 +263,13 @@ class ProposalsRepository extends HttpRepository with EosRepository {
         .catchError((error) => mapHttpError(error));
   }
 
-  Future<Result<List<DelegatorModel>>> getDelegators(String account, String voiceScope) {
+  Future<Result<List<DelegatorModel>>> getDelegators(String account, SeedsCode seedsCode) {
     print('[http] get delegators for $account');
 
     final request = createRequest(
       code: SeedsCode.accountFunds,
       indexPosition: 2,
-      scope: voiceScope,
+      scope: seedsCode.value,
       table: SeedsTable.tableDelegates,
       lowerBound: account,
       upperBound: account,
