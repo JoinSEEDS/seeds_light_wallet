@@ -56,15 +56,13 @@ class SignupRepository extends EosRepository with HttpRepository {
   }) async {
     final EOSPublicKey publicKey = privateKey.toEOSPublicKey();
 
-    final applicationAccount = onboardingAccountName;
-
     final actions = <Action>[
       Action()
-        ..account = applicationAccount
+        ..account = onboardingAccountName
         ..name = SeedsEosAction.actionNameAcceptnew.value
         ..authorization = <Authorization>[
           Authorization()
-            ..actor = applicationAccount
+            ..actor = onboardingAccountName
             ..permission = permissionApplication
         ]
         ..data = {

@@ -20,7 +20,7 @@ abstract class EosRepository {
   String permissionActive = 'active';
   String permissionOwner = 'owner';
   String permissionApplication = 'application';
-
+  String permissionPayForCpu = 'payforcpu';
 
   List<String> voiceScopes = [
     SeedsCode.voiceScopeAlliance.value,
@@ -37,7 +37,7 @@ abstract class EosRepository {
     final freeAuth = <Authorization>[
       Authorization()
         ..actor = SeedsCode.accountHarvest.value
-        ..permission = 'payforcpu',
+        ..permission = permissionPayForCpu,
       Authorization()
         ..actor = accountName
         ..permission = permissionActive
@@ -45,7 +45,7 @@ abstract class EosRepository {
 
     final freeAction = Action()
       ..account = SeedsCode.accountHarvest.value
-      ..name = 'payforcpu'
+      ..name = permissionPayForCpu
       ..authorization = freeAuth
       ..data = {'account': accountName};
 
