@@ -50,7 +50,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
             ..permission = permissionActive
         ]
         ..data = {
-          'sponsor_tab': accountName,
+          'sponsor': accountName,
           'transfer_quantity': '${transferQuantity.toStringAsFixed(4)} $currencySeedsCode',
           'sow_quantity': '${sowQuantity.toStringAsFixed(4)} $currencySeedsCode',
           'invite_hash': inviteHash,
@@ -146,7 +146,7 @@ class InviteRepository extends NetworkRepository with EosRepository {
             ..permission = permissionActive
         ]
         ..data = {
-          'sponsor_tab': accountName,
+          'sponsor': accountName,
           'invite_hash': inviteHash,
         }
     ], accountName);
