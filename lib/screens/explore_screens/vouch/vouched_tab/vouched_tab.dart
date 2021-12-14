@@ -6,6 +6,7 @@ import 'package:seeds/components/full_page_loading_indicator.dart';
 import 'package:seeds/components/member_info_row.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
+import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/explore_screens/vouch/vouched_tab//interactor/viewmodels/vouched_bloc.dart';
 
 class VouchedTab extends StatelessWidget {
@@ -29,7 +30,11 @@ class VouchedTab extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     child: FlatButtonLong(
                       title: 'Vouch for a member',
-                      onPressed: () => {},
+                      onPressed: () async {
+                        await NavigationService.of(context).navigateTo(Routes.vouchForAMember);
+                        // ignore: use_build_context_synchronously
+                        BlocProvider.of<VouchedBloc>(context).add(const LoadUserVouchedList());
+                      },
                     ),
                   ),
                   body: Padding(
