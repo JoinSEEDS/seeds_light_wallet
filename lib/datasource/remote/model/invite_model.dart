@@ -34,7 +34,7 @@ class InviteModel extends Equatable {
       inviteId: json['invite_id'],
       transferQuantity: json['transfer_quantity'],
       sowQuantity: json['sow_quantity'],
-      sponsor: json['sponsor'],
+      sponsor: json['sponsor_tab'],
       account: json['account'],
       inviteHash: json['invite_hash'],
       inviteSecret: json['invite_secret'],

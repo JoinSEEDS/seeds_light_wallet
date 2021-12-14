@@ -1682,7 +1682,7 @@ const wordList = [
   "spirit",
   "split",
   "spoil",
-  "sponsor",
+  "sponsor_tab",
   "spoon",
   "sport",
   "spot",

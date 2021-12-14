@@ -28,7 +28,7 @@ class VouchRepository extends NetworkRepository with EosRepository {
             ..permission = permissionActive
         ]
         ..data = {
-          'sponsor': accountName,
+          'sponsor_tab': accountName,
           'account': vouchee,
         },
     ], accountName);
@@ -41,7 +41,7 @@ class VouchRepository extends NetworkRepository with EosRepository {
         .catchError((error) => mapEosError(error));
   }
 
-  /// users where accountName is sponsor - who accountname vouched for
+  /// users where accountName is sponsor_tab - who accountname vouched_tab for
   Future<Result<List<VouchModel>>> getVouchees(String accountName) {
     return _getVouches(accountName, true);
   }
@@ -52,7 +52,7 @@ class VouchRepository extends NetworkRepository with EosRepository {
   }
 
   Future<Result<List<VouchModel>>> _getVouches(String accountName, bool isSponsor) {
-    print('[http] users where $accountName ($isSponsor ? "is sponsor" : "was sponsored")');
+    print('[http] users where $accountName ($isSponsor ? "is sponsor_tab" : "was sponsored")');
 
     final membersURL = Uri.parse('$baseURL/v1/chain/get_table_rows');
 
