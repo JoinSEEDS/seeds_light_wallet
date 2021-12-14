@@ -13,5 +13,3 @@ class LoadUserSponsorList extends SponsorEvent {
   @override
   String toString() => 'LoadUserSponsorList';
 }
-
-
