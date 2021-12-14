@@ -7,7 +7,7 @@ import 'package:seeds/datasource/remote/api/http_repo/seeds_tables.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/datasource/remote/util/response_extension.dart';
 
-abstract class NetworkRepository {
+abstract class HttpRepository {
   String baseURL = remoteConfigurations.defaultEndPointUrl;
   String v2historyURL = remoteConfigurations.defaultV2EndPointUrl;
   String hyphaURL = remoteConfigurations.hyphaEndPoint;

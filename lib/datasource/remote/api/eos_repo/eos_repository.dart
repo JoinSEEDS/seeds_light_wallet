@@ -16,43 +16,16 @@ abstract class EosRepository {
 
   String? get host => remoteConfigurations.activeEOSServerUrl.url;
 
-  // Actions
-  String actionNameAgainst = 'against';
-  String actionNameCancel = 'cancel';
-  String actionNameFavour = 'favour';
-  String actionNameInit = 'init';
-  String actionNameClaim = 'claim';
-  String actionNameInvite = 'invite';
-  String actionNameCancelInvite = 'cancel';
-  String actionNameTransfer = 'transfer';
-  String actionNameUpdateauth = 'updateauth';
-  String actionNameUpdate = 'update';
-  String actionNameMakeresident = 'makeresident';
-  String actionNameCanresident = 'canresident';
-  String actionNameMakecitizen = 'makecitizen';
-  String actionNameCakecitizen = 'cancitizen';
-  String actionNameAcceptnew = 'acceptnew';
-  String actionNameRecover = 'recover';
-  String actionNameUnplant = 'unplant';
-  String actionNameClaimRefund = 'claimrefund';
-  String proposalActionNameDelegate = 'delegate';
-  String proposalActionNameUndelegate = 'undelegate';
-  String actionNameVouch = 'vouch';
-
   // Authorizations
   String permissionActive = 'active';
   String permissionOwner = 'owner';
   String permissionApplication = 'application';
-
-  // Voice scopes
-  static String voiceScopeAlliance = "alliance";
-  static String voiceScopeCampaign = "funds.seeds"; // Note: campaign voice scope is contract scope
-  static String voiceScopeMilestone = "milestone"; // Note: campaign voice scope is contract scope
+  String permissionPayForCpu = 'payforcpu';
 
   List<String> voiceScopes = [
-    voiceScopeAlliance,
-    voiceScopeCampaign,
-    voiceScopeMilestone,
+    SeedsCode.voiceScopeAlliance.value,
+    SeedsCode.voiceScopeCampaign.value,
+    SeedsCode.voiceScopeMilestone.value,
     // "referendum", // referendum delegation not working on the contract side at the moment
   ];
 
@@ -64,7 +37,7 @@ abstract class EosRepository {
     final freeAuth = <Authorization>[
       Authorization()
         ..actor = SeedsCode.accountHarvest.value
-        ..permission = 'payforcpu',
+        ..permission = permissionPayForCpu,
       Authorization()
         ..actor = accountName
         ..permission = permissionActive
@@ -72,7 +45,7 @@ abstract class EosRepository {
 
     final freeAction = Action()
       ..account = SeedsCode.accountHarvest.value
-      ..name = 'payforcpu'
+      ..name = permissionPayForCpu
       ..authorization = freeAuth
       ..data = {'account': accountName};
 
