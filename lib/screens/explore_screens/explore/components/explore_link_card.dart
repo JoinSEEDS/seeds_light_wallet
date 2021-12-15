@@ -25,7 +25,7 @@ class ExploreLinkCard extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 50),
-          child: Center(child: Text("Get Seeds".i18n, style: Theme.of(context).textTheme.buttonWhiteL)),
+          child: Center(child: Text("P2P App".i18n, style: Theme.of(context).textTheme.buttonWhiteL)),
         ),
       ),
     );

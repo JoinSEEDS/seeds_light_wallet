@@ -60,6 +60,7 @@ dependencies:
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   palette_generator: ^0.3.2
+  webview_flutter: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -129,7 +130,7 @@ flutter:
     - assets/images/navigation_bar/user_profile_selected.svg
     - assets/images/explore/hypha_dho_card.jpg
     - assets/images/explore/delegate.svg
-    - assets/images/explore/get_seeds_card.jpg
+    - assets/images/explore/p2p_app.jpg
     - assets/images/explore/introducing_delegate.png
     - assets/images/wallet/arrow_up.svg
     - assets/images/wallet/share_transaction_id.svg

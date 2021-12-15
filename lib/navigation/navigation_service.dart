@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seeds/components/in_app_web_view.dart';
 import 'package:seeds/screens/app/app.dart';
 import 'package:seeds/screens/authentication/import_key/import_key_screen.dart';
 import 'package:seeds/screens/authentication/import_key/import_words_screen.dart';
@@ -69,6 +70,7 @@ class Routes {
   static const sendConfirmation = 'sendConfirmation';
   static const transactionActions = 'transactionActions';
   static const scanQRCode = 'scanQRCode';
+  static const inAppWebView = 'inAppWebView';
   static const receiveScreen = 'receiveScreen'; // TODO(gguij002): Route not yet implemented
   static const receiveEnterData = 'receiveEnterData';
   static const receiveQR = 'receiveQR';
@@ -111,9 +113,11 @@ class NavigationService {
     Routes.sendConfirmation: (args) => const SendConfirmationScreen(),
     Routes.transactionActions: (_) => const TransactionActionsScreen(),
     Routes.scanQRCode: (_) => const SendScannerScreen(),
+    Routes.inAppWebView: (_) => const InAppWebView(),
     Routes.receiveScreen: (_) => const ReceiveScreen(), // <- This route is not used
     Routes.receiveEnterData: (_) => const ReceiveEnterDataScreen(),
     Routes.receiveQR: (args) => ReceiveDetailQrCodeScreen(args),
+
     Routes.selectGuardians: (_) => const SelectGuardiansScreen(),
     Routes.inviteGuardians: (args) => const InviteGuardians(),
     Routes.inviteGuardiansSent: (_) => const InviteGuardiansSentScreen(),
