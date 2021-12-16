@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/components/scanner/scanner_screen.dart';
+import 'package:seeds/components/scanner/scanner_view.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_command.dart';
@@ -21,13 +21,13 @@ class ClaimInviteScreen extends StatefulWidget {
 
 class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
   late SignupBloc _signupBloc;
-  late ScannerScreen _scannerWidget;
+  late ScannerView _scannerWidget;
 
   @override
   void initState() {
     super.initState();
     _signupBloc = BlocProvider.of<SignupBloc>(context);
-    _scannerWidget = ScannerScreen(onCodeScanned: (scannedLink) => _signupBloc.add(OnQRScanned(scannedLink)));
+    _scannerWidget = ScannerView(onCodeScanned: (scannedLink) => _signupBloc.add(OnQRScanned(scannedLink)));
   }
 
   @override

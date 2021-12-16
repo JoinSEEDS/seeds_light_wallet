@@ -6,19 +6,19 @@ import 'package:seeds/components/scanner/interactor/viewmodels/scanner_bloc.dart
 import 'package:seeds/utils/string_extension.dart';
 
 /// Scanner SCREEN
-class ScannerScreen extends StatefulWidget {
+class ScannerView extends StatefulWidget {
   final ScannerBloc _scannerBloc = ScannerBloc();
   final ValueSetter<String> onCodeScanned;
 
-  ScannerScreen({Key? key, required this.onCodeScanned}) : super(key: key);
+  ScannerView({Key? key, required this.onCodeScanned}) : super(key: key);
 
   void scan() => _scannerBloc.add(const Scan());
 
   @override
-  _ScannerScreenState createState() => _ScannerScreenState();
+  _ScannerViewState createState() => _ScannerViewState();
 }
 
-class _ScannerScreenState extends State<ScannerScreen> {
+class _ScannerViewState extends State<ScannerView> {
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
   late QRViewController _controller;
 
