@@ -57,7 +57,6 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
                       _scannerWidget.scan();
                       return const SizedBox.shrink();
                     case PageState.loading:
-                      _scannerWidget.showLoading();
                       return const SizedBox.shrink();
                     case PageState.failure:
                       return Padding(

@@ -14,8 +14,6 @@ class ScannerScreen extends StatefulWidget {
 
   void scan() => _scannerBloc.add(const Scan());
 
-  void showLoading() => _scannerBloc.add(const ShowLoading());
-
   @override
   _ScannerScreenState createState() => _ScannerScreenState();
 }
@@ -47,6 +45,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                     if (state.gotValidQR || event.code.isNullOrEmpty) {
                       return;
                     } else {
+                      widget._scannerBloc.add(const ShowLoading());
                       widget.onCodeScanned(event.code);
                     }
                   });
