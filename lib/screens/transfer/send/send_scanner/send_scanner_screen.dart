@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seeds/components/scanner/scanner_widget.dart';
+import 'package:seeds/components/scanner/scanner_screen.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
@@ -17,14 +17,14 @@ class SendScannerScreen extends StatefulWidget {
 }
 
 class _SendScannerScreenState extends State<SendScannerScreen> {
-  late ScannerWidget _scannerWidget;
+  late ScannerScreen _scannerWidget;
   late SendScannerBloc _sendScannerBloc;
 
   @override
   void initState() {
     super.initState();
     _sendScannerBloc = SendScannerBloc();
-    _scannerWidget = ScannerWidget(resultCallBack: (scanResult) async {
+    _scannerWidget = ScannerScreen(onCodeScanned: (scanResult) async {
       _sendScannerBloc.add(ExecuteScanResult(scanResult));
     });
   }
@@ -38,7 +38,6 @@ class _SendScannerScreenState extends State<SendScannerScreen> {
         child: BlocListener<SendScannerBloc, SendScannerState>(
           listenWhen: (_, current) => current.pageCommand != null,
           listener: (context, state) {
-            _scannerWidget.stop();
             final pageCommand = state.pageCommand;
             BlocProvider.of<SendScannerBloc>(context).add(const ClearSendScannerPageCommand());
             if (pageCommand is NavigateToRouteWithArguments) {

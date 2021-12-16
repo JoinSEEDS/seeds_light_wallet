@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/components/scanner/scanner_widget.dart';
+import 'package:seeds/components/scanner/scanner_screen.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
 import 'package:seeds/screens/authentication/sign_up/claim_invite/components/invite_link_fail_dialog.dart';
@@ -20,14 +20,14 @@ class ClaimInviteScreen extends StatefulWidget {
 class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
   late SignupBloc _signupBloc;
   late DeeplinkBloc _deeplinkBloc;
-  late ScannerWidget _scannerWidget;
+  late ScannerScreen _scannerWidget;
 
   @override
   void initState() {
     super.initState();
     _signupBloc = BlocProvider.of<SignupBloc>(context);
     _deeplinkBloc = BlocProvider.of<DeeplinkBloc>(context);
-    _scannerWidget = ScannerWidget(resultCallBack: (scannedLink) => _signupBloc.add(OnQRScanned(scannedLink)));
+    _scannerWidget = ScannerScreen(onCodeScanned: (scannedLink) => _signupBloc.add(OnQRScanned(scannedLink)));
   }
 
   @override
@@ -37,9 +37,7 @@ class _ClaimInviteScreenState extends State<ClaimInviteScreen> {
       listener: (context, state) async {
         final pageCommand = state.claimInviteState.pageCommand;
         _signupBloc.add(ClearClaimInvitePageCommand());
-        if (pageCommand is StopScan) {
-          _scannerWidget.stop();
-        } else if (pageCommand is StartScan) {
+        if (pageCommand is StartScan) {
           _scannerWidget.scan();
         } else if (pageCommand is ShowErrorMessage) {
           await showDialog<void>(
