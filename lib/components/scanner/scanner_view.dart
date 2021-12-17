@@ -19,6 +19,7 @@ class ScannerView extends StatefulWidget {
 }
 
 class _ScannerViewState extends State<ScannerView> {
+  // This key is necessary for iOS in order to get the render context
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
   late QRViewController _controller;
 
