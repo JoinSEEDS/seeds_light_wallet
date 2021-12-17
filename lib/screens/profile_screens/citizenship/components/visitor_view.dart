@@ -55,7 +55,7 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
           ..addListener(() {
             setState(() => _timeLine = _timeLineAnimation.value.toInt());
           });
-        _reputationAnimation = Tween<double>(begin: 0, end: state.profile?.reputation?.toDouble()).animate(_controller)
+        _reputationAnimation = Tween<double>(begin: 0, end: state.profile?.reputation.toDouble()).animate(_controller)
           ..addListener(() {
             setState(() => _reputation = _reputationAnimation.value.toInt());
           });
@@ -99,7 +99,7 @@ class _VisitorViewState extends State<VisitorView> with TickerProviderStateMixin
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          state.profile!.nickname ?? '',
+                          state.profile!.nickname,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                         const SizedBox(height: 8.0),

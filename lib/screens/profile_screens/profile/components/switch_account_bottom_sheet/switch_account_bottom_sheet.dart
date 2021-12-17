@@ -110,7 +110,7 @@ class SwithAccountBottomSheet extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsets.only(top: 8.0),
                                             child: Text(
-                                              state.accounts[index].nickname ?? '',
+                                              state.accounts[index].nickname,
                                               style: Theme.of(context).textTheme.subtitle2OpacityEmphasis,
                                             ),
                                           )

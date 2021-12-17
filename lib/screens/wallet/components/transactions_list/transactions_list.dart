@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
