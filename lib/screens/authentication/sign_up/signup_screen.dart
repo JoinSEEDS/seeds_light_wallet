@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/blocs/authentication/viewmodels/authentication_bloc.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/sign_up2/claim_invite_screen.dart';
-import 'package:seeds/screens/authentication/sign_up2/create_account_name_screen.dart';
-import 'package:seeds/screens/authentication/sign_up2/create_display_name_screen.dart';
-import 'package:seeds/screens/authentication/sign_up2/viewmodels/page_commands.dart';
-import 'package:seeds/screens/authentication/sign_up2/viewmodels/signup_bloc.dart';
+import 'package:seeds/screens/authentication/sign_up/claim_invite_screen.dart';
+import 'package:seeds/screens/authentication/sign_up/create_account_name_screen.dart';
+import 'package:seeds/screens/authentication/sign_up/create_display_name_screen.dart';
+import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
+import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({Key? key}) : super(key: key);
