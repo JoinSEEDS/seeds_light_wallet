@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/api/profile_repository.dart';
 import 'package:seeds/datasource/remote/model/profile_model.dart';
@@ -15,12 +14,12 @@ class UpdateProfileImageUseCase extends InputUseCase<TransactionResponse, _Input
   Future<Result<TransactionResponse>> run(_Input input) {
     return _profileRepository.updateProfile(
       accountName: settingsStorage.accountName,
-      nickname: input.profile.nickname ?? '',
+      nickname: input.profile.nickname,
       image: input.imageUrl,
-      story: input.profile.story ?? '',
-      roles: input.profile.roles ?? '',
-      skills: input.profile.skills ?? '',
-      interests: input.profile.interests ?? '',
+      story: input.profile.story,
+      roles: input.profile.roles,
+      skills: input.profile.skills,
+      interests: input.profile.interests,
     );
   }
 }

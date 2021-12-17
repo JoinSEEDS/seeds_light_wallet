@@ -5,8 +5,8 @@ import 'dart:typed_data';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart' show sha256;
 
-import 'hex.dart';
-import 'words_list.dart';
+import 'package:seeds/utils/mnemonic_code/hex.dart';
+import 'package:seeds/utils/mnemonic_code/words_list.dart';
 
 /// Taken from Bip39 package
 const int _sizeByte = 255;

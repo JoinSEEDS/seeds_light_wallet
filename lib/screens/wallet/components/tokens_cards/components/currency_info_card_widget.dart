@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/i18n/wallet/wallet.i18n.dart';
