@@ -10,7 +10,7 @@ import 'package:seeds/screens/authentication/login_screen.dart';
 import 'package:seeds/screens/authentication/onboarding/onboarding_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_found/recover_account_found_screen.dart';
 import 'package:seeds/screens/authentication/recover/recover_account_search/recover_account_screen.dart';
-import 'package:seeds/screens/authentication/sign_up2/signup_screen.dart';
+import 'package:seeds/screens/authentication/sign_up/signup_screen.dart';
 import 'package:seeds/screens/authentication/splash_screen.dart';
 import 'package:seeds/screens/authentication/verification/verification_screen.dart';
 import 'package:seeds/screens/explore_screens/invite/invite_screen.dart';

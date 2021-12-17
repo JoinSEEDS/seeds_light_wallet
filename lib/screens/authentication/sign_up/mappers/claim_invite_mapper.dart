@@ -2,8 +2,8 @@ import 'package:seeds/datasource/remote/model/invite_model.dart';
 import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
-import 'package:seeds/screens/authentication/sign_up2/viewmodels/page_commands.dart';
-import 'package:seeds/screens/authentication/sign_up2/viewmodels/signup_bloc.dart';
+import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
+import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 import 'package:seeds/utils/string_extension.dart';
 
 class ClaimInviteMapper extends StateMapper {
