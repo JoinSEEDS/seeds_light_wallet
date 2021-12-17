@@ -4,7 +4,7 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/vote_amount_label/interactor/mappers/vote_result_state_mapper.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/vote_amount_label/interactor/usecases/get_vote_use_case.dart';
-import 'bloc.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/vote_amount_label/interactor/viewmodels/bloc.dart';
 
 /// --- BLOC
 class VoteAmountLabelBloc extends Bloc<VoteAmountLabelEvent, VoteAmountLabelState> {

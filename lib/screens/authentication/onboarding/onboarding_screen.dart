@@ -6,7 +6,7 @@ import 'package:seeds/i18n/onboarding/onboarding.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
 import 'package:seeds/screens/authentication/onboarding/components/pages/onboarding_page_1.dart';
 import 'package:seeds/screens/authentication/onboarding/components/pages/onboarding_page_2.dart';
-import 'components/pages/onboarding_page_3.dart';
+import 'package:seeds/screens/authentication/onboarding/components/pages/onboarding_page_3.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);

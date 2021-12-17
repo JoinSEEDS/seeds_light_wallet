@@ -13,11 +13,11 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/screens/explore_screens/unplant_seeds/components/claim_seeds_succes_dialog.dart';
-import 'components/claim_unplant_seeds_balance_row.dart';
-import 'components/unplant_seeds_amount_entry.dart';
-import 'components/unplant_seeds_success_dialog.dart';
-import 'interactor/viewmodels/unplant_seeds_bloc.dart';
-import 'interactor/viewmodels/unplant_seeds_page_commands.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/components/claim_unplant_seeds_balance_row.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/components/unplant_seeds_amount_entry.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/components/unplant_seeds_success_dialog.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_bloc.dart';
+import 'package:seeds/screens/explore_screens/unplant_seeds/interactor/viewmodels/unplant_seeds_page_commands.dart';
 
 /// UNPLANT SEEDS SCREEN
 class UnplantSeedsScreen extends StatefulWidget {
