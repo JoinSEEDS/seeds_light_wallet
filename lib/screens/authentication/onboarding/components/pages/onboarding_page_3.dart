@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seeds/constants/app_colors.dart';
 import 'package:seeds/i18n/onboarding/onboarding.i18n.dart';
-
-import '../onboarding_pages.dart';
+import 'package:seeds/screens/authentication/onboarding/components/onboarding_pages.dart';
 
 class ThirdPage extends StatelessWidget {
   const ThirdPage({Key? key}) : super(key: key);

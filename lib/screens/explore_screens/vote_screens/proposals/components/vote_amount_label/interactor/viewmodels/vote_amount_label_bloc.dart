@@ -2,8 +2,8 @@ import 'package:async/async.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/page_state.dart';
-import '../mappers/vote_result_state_mapper.dart';
-import '../usecases/get_vote_use_case.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/vote_amount_label/interactor/mappers/vote_result_state_mapper.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/vote_amount_label/interactor/usecases/get_vote_use_case.dart';
 import 'bloc.dart';
 
 /// --- BLOC

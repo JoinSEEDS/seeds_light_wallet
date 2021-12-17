@@ -5,6 +5,7 @@ import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/wallet/wallet.i18n.dart';
+import 'package:seeds/screens/wallet/components/transaction_details_bottom_sheet.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/components/transaction_info_row.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/components/transaction_loading_row.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/page_commands.dart';
@@ -12,8 +13,6 @@ import 'package:seeds/screens/wallet/components/transactions_list/interactor/vie
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_events.dart';
 import 'package:seeds/screens/wallet/components/transactions_list/interactor/viewmodels/transactions_list_state.dart';
 import 'package:seeds/screens/wallet/interactor/viewmodels/bloc.dart';
-
-import '../transaction_details_bottom_sheet.dart';
 
 class TransactionsList extends StatefulWidget {
   const TransactionsList({Key? key}) : super(key: key);
