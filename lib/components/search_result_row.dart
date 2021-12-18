@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:seeds/components/profile_avatar.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
@@ -40,7 +39,7 @@ class SearchResultRow extends StatelessWidget {
                           style: Theme.of(context).textTheme.button,
                         ),
                         Text(
-                          describeEnum(member.userCitizenshipStatus).inCaps,
+                          member.userCitizenshipStatus.name.inCaps,
                           style: Theme.of(context).textTheme.button,
                         ),
                       ],

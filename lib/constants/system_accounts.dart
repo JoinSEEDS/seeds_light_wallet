@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:seeds/datasource/remote/model/member_model.dart';
 import 'package:seeds/domain-shared/user_citizenship_status.dart';
 import 'package:seeds/i18n/constans/constans.i18n.dart';
@@ -11,19 +10,19 @@ class SystemAccounts {
     account: 'join.seeds',
     nickname: 'Onboarding Contract'.i18n,
     image: 'assets/images/community.svg',
-    status: describeEnum(UserCitizenshipStatus.unknown),
+    status: UserCitizenshipStatus.unknown.name,
   );
   static final exchangeContract = MemberModel(
     account: 'tlosto.seeds',
     nickname: 'Exchange Contract'.i18n,
     image: 'assets/images/exchange.svg',
-    status: describeEnum(UserCitizenshipStatus.unknown),
+    status: UserCitizenshipStatus.unknown.name,
   );
   static final harvestContract = MemberModel(
     account: 'harvst.seeds',
     nickname: 'Harvest Contract'.i18n,
     image: 'assets/images/harvest.svg',
-    status: describeEnum(UserCitizenshipStatus.unknown),
+    status: UserCitizenshipStatus.unknown.name,
   );
 
   static MemberModel? getSystemAccount(String accountName) {
