@@ -22,8 +22,6 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
   SendEnterDataPageBloc(MemberModel memberModel, RatesState rates)
       : super(SendEnterDataPageState.initial(memberModel, rates));
 
-  final InAppReview inAppReview = InAppReview.instance;
-
   @override
   Stream<SendEnterDataPageState> mapEventToState(SendEnterDataPageEvent event) async* {
     if (event is InitSendDataArguments) {
@@ -65,7 +63,7 @@ class SendEnterDataPageBloc extends Bloc<SendEnterDataPageEvent, SendEnterDataPa
         ),
       );
 
-      final bool shouldShowInAppReview = await inAppReview.isAvailable();
+      final bool shouldShowInAppReview = await InAppReview.instance.isAvailable();
 
       yield SendTransactionMapper().mapResultToState(state, result, shouldShowInAppReview);
     } else if (event is ClearPageCommand) {
