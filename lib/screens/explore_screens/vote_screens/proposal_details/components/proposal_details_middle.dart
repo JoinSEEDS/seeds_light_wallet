@@ -78,9 +78,7 @@ class ProposalDetailsMiddle extends StatelessWidget {
                               ),
                               const SizedBox(height: 10.0),
                               Row(
-                                children: [
-                                  Text(state.creator!.nickname ?? '', style: Theme.of(context).textTheme.subtitle2)
-                                ],
+                                children: [Text(state.creator!.nickname, style: Theme.of(context).textTheme.subtitle2)],
                               ),
                             ],
                           ),

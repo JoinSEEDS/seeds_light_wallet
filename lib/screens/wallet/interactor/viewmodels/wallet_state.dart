@@ -35,6 +35,20 @@ class WalletState extends Equatable {
 
   factory WalletState.initial() {
     return WalletState(
-        pageState: PageState.initial, profile: ProfileModel(account: settingsStorage.accountName, timestamp: 0));
+      pageState: PageState.initial,
+      profile: ProfileModel(
+        account: settingsStorage.accountName,
+        status: ProfileStatus.visitor,
+        type: '',
+        nickname: '',
+        image: '',
+        story: '',
+        roles: '',
+        skills: '',
+        interests: '',
+        reputation: 0,
+        timestamp: 0,
+      ),
+    );
   }
 }

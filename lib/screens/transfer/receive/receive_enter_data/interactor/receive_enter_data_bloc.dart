@@ -7,13 +7,12 @@ import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/datasource/remote/model/balance_model.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/shared_use_cases/get_available_balance_use_case.dart';
+import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/mappers/create_invoice_result_mapper.dart';
+import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/mappers/user_balance_state_mapper.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/usecases/receive_seeds_invoice_use_case.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_events.dart';
 import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_state.dart';
 import 'package:seeds/utils/rate_states_extensions.dart';
-
-import 'mappers/create_invoice_result_mapper.dart';
-import 'mappers/user_balance_state_mapper.dart';
 
 /// --- BLOC
 class ReceiveEnterDataBloc extends Bloc<ReceiveEnterDataEvents, ReceiveEnterDataState> {

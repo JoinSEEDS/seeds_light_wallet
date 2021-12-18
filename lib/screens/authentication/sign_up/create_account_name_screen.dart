@@ -8,8 +8,8 @@ import 'package:seeds/components/text_form_field_custom.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
-import 'package:seeds/screens/authentication/sign_up2/viewmodels/page_commands.dart';
-import 'package:seeds/screens/authentication/sign_up2/viewmodels/signup_bloc.dart';
+import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
+import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 import 'package:seeds/utils/debouncer.dart';
 
 class CreateAccountNameScreen extends StatefulWidget {

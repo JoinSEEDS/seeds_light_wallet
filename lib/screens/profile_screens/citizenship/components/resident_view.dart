@@ -111,7 +111,7 @@ class _ResidentViewState extends State<ResidentView> with TickerProviderStateMix
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          state.profile!.nickname ?? '',
+                          state.profile!.nickname,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                         const SizedBox(height: 8.0),

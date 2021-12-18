@@ -8,9 +8,9 @@ import 'package:seeds/domain-shared/page_command.dart';
 import 'package:seeds/i18n/authentication/sign_up/sign_up.i18n.dart';
 import 'package:seeds/images/signup/claim_invite/invite_link_success.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-import 'package:seeds/screens/authentication/sign_up2/components/invite_link_fail_dialog.dart';
-import 'package:seeds/screens/authentication/sign_up2/viewmodels/page_commands.dart';
-import 'package:seeds/screens/authentication/sign_up2/viewmodels/signup_bloc.dart';
+import 'package:seeds/screens/authentication/sign_up/components/invite_link_fail_dialog.dart';
+import 'package:seeds/screens/authentication/sign_up/viewmodels/page_commands.dart';
+import 'package:seeds/screens/authentication/sign_up/viewmodels/signup_bloc.dart';
 
 class ClaimInviteScreen extends StatefulWidget {
   const ClaimInviteScreen({Key? key}) : super(key: key);
