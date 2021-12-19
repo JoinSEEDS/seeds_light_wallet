@@ -39,10 +39,7 @@ class VouchForAMemberScreen extends StatelessWidget {
               context: context,
               barrierDismissible: false,
               builder: (_) {
-                return BlocProvider.value(
-                  value: BlocProvider.of<VouchForAMemberBloc>(context),
-                  child: const VouchSuccessDialog(),
-                );
+                return const VouchSuccessDialog();
               },
             );
           } else if (pageCommand is ShowErrorMessage) {

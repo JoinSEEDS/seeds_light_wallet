@@ -9,29 +9,25 @@ class VouchSuccessDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VouchForAMemberBloc, VouchForAMemberState>(
-      builder: (context, state) {
-        return WillPopScope(
-          onWillPop: () async {
-            Navigator.of(context).pop();
-            Navigator.of(context).pop(true);
-            return true;
-          },
-          child: CustomDialog(
-            icon: const CustomPaint(size: Size(60, 60), painter: VouchWhiteBackground()),
-            singleLargeButtonTitle: "Close",
-            onSingleLargeButtonPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop(true);
-            },
-            children: [
-              const SizedBox(height: 10.0),
-              Text('Successfully Vouched!', style: Theme.of(context).textTheme.headline6),
-              const SizedBox(height: 10.0),
-            ],
-          ),
-        );
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop(true);
+        return true;
       },
+      child: CustomDialog(
+        icon: const CustomPaint(size: Size(60, 60), painter: VouchWhiteBackground()),
+        singleLargeButtonTitle: "Close",
+        onSingleLargeButtonPressed: () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop(true);
+        },
+        children: [
+          const SizedBox(height: 10.0),
+          Text('Successfully Vouched!', style: Theme.of(context).textTheme.headline6),
+          const SizedBox(height: 10.0),
+        ],
+      ),
     );
   }
 }
