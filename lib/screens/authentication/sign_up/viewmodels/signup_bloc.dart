@@ -40,7 +40,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       emit(state.copyWith(
         inviteMnemonic: event.inviteCode,
         claimInviteView: ClaimInviteView.processing,
-        pageCommand: StopScan(),
         fromDeepLink: true,
       ));
       await Future.delayed(const Duration(seconds: 1));
@@ -62,13 +61,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   }
 
   Future<void> _onQRScanned(OnQRScanned event, Emitter<SignupState> emit) async {
-    emit(state.copyWith(claimInviteView: ClaimInviteView.processing, pageCommand: StopScan(), fromDeepLink: false));
+    emit(state.copyWith(claimInviteView: ClaimInviteView.processing, fromDeepLink: false));
     final Result result = await ClaimInviteUseCase().unpackLink(event.scannedLink);
     await Future.delayed(const Duration(seconds: 1));
     emit(ClaimInviteMapper().mapInviteMnemonicToState(state, result));
 
     if (state.inviteMnemonic != null) {
-      emit(state.copyWith(pageCommand: StopScan()));
       final Result result = await ClaimInviteUseCase().validateInviteCode(state.inviteMnemonic!);
       emit(ClaimInviteMapper().mapValidateInviteCodeToState(state, result));
     }
