@@ -2,13 +2,13 @@ part of 'vouch_for_a_member_bloc.dart';
 
 class VouchForAMemberState extends Equatable {
   final PageState pageState;
-  final Set<MemberModel> selectedMember;
+  final MemberModel? selectedMember;
   final List<String> noShowUsers;
   final PageCommand? pageCommand;
 
   const VouchForAMemberState({
     required this.pageState,
-    required this.selectedMember,
+    this.selectedMember,
     required this.noShowUsers,
     this.pageCommand,
   });
@@ -23,7 +23,7 @@ class VouchForAMemberState extends Equatable {
 
   VouchForAMemberState copyWith({
     PageState? pageState,
-    Set<MemberModel>? selectedMember,
+    MemberModel? selectedMember,
     List<String>? noShowUsers,
     PageCommand? pageCommand,
   }) {
@@ -40,7 +40,6 @@ class VouchForAMemberState extends Equatable {
 
     return VouchForAMemberState(
       pageState: PageState.success,
-      selectedMember: {},
       noShowUsers: noShowUsers,
     );
   }
