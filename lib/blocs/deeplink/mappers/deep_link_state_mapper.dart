@@ -2,7 +2,6 @@ import 'package:seeds/blocs/deeplink/model/deep_link_data.dart';
 import 'package:seeds/blocs/deeplink/model/guardian_recovery_request_data.dart';
 import 'package:seeds/blocs/deeplink/model/invite_link_data.dart';
 import 'package:seeds/blocs/deeplink/viewmodels/deeplink_bloc.dart';
-import 'package:seeds/datasource/local/models/scan_qr_code_result_data.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';
 import 'package:seeds/domain-shared/result_to_state_mapper.dart';
 import 'package:seeds/utils/result_extension.dart';
@@ -33,13 +32,13 @@ class DeepLinkStateMapper extends StateMapper {
         }
       case DeepLinkPlaceHolder.linkInvoice:
         final invite = deepLinkData.data["invoice"] as Result<dynamic>;
-        if(invite.isValue) {
+        if (invite.isValue) {
           return currentState.copyWith(signingRequest: invite.valueOrNull);
         } else {
           return currentState;
         }
       case DeepLinkPlaceHolder.linkUnknown:
-      // Don't know how to handle this link. Return current state
+        // Don't know how to handle this link. Return current state
         return currentState;
     }
   }
