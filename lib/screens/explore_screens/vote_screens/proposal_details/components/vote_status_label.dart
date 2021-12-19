@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seeds/design/app_theme.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/explore_screens/vote/proposals/proposals_details.i18n.dart';
-
-import '../interactor/viewmodels/proposal_details_bloc.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposal_details/interactor/viewmodels/proposal_details_bloc.dart';
 
 class VoteStatusLabel extends StatelessWidget {
   const VoteStatusLabel({Key? key}) : super(key: key);
@@ -89,7 +88,7 @@ class VoteStatusLabel extends StatelessWidget {
                         children: [
                           TextSpan(text: 'Voting'.i18n, style: Theme.of(context).textTheme.subtitle2),
                           TextSpan(
-                              text: ' - ${state.proposals[state.currentIndex].proposalCategoryLabel}: ',
+                              text: ' - ${state.proposals[state.currentIndex].proposalCategory.name}: ',
                               style: Theme.of(context).textTheme.subtitle2Green2),
                           TextSpan(
                               text: state.voteAmount == 1

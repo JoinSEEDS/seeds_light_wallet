@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:seeds/datasource/remote/model/proposal_model.dart';
 import 'package:seeds/datasource/remote/model/referendum_model.dart';
@@ -69,16 +68,14 @@ class ProposalViewModel {
     }
   }
 
-  String get proposalCategoryLabel => describeEnum(proposalCategory);
-
   ProposalCategory get proposalCategory {
     if (campaignType == 'cmp.funding' || campaignType == 'cmp.invite') {
       return ProposalCategory.campaign;
-    } else if (campaignType == describeEnum(ProposalCategory.alliance)) {
+    } else if (campaignType == ProposalCategory.alliance.name) {
       return ProposalCategory.alliance;
-    } else if (campaignType == describeEnum(ProposalCategory.milestone)) {
+    } else if (campaignType == ProposalCategory.milestone.name) {
       return ProposalCategory.milestone;
-    } else if (campaignType == describeEnum(ProposalCategory.referendum)) {
+    } else if (campaignType == ProposalCategory.referendum.name) {
       return ProposalCategory.referendum;
     } else {
       return ProposalCategory.campaign;
@@ -151,7 +148,7 @@ class ProposalViewModel {
       status: referendum.scope,
       stage: '',
       creationDate: referendum.createdAt,
-      campaignType: describeEnum(ProposalCategory.referendum),
+      campaignType: ProposalCategory.referendum.name,
     );
   }
 }

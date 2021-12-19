@@ -1,5 +1,5 @@
-import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_state.dart';
-import 'package:seeds/components/amount_entry/interactor/viewmodels/page_command.dart';
+import 'package:seeds/components/amount_entry/interactor/viewmodels/amount_entry_bloc.dart';
+import 'package:seeds/components/amount_entry/interactor/viewmodels/page_commands.dart';
 import 'package:seeds/datasource/local/models/fiat_data_model.dart';
 import 'package:seeds/datasource/local/models/token_data_model.dart';
 import 'package:seeds/datasource/local/settings_storage.dart';

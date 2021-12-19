@@ -13,11 +13,10 @@ import 'package:seeds/domain-shared/page_state.dart';
 import 'package:seeds/domain-shared/ui_constants.dart';
 import 'package:seeds/i18n/transfer/transfer.i18n.dart';
 import 'package:seeds/navigation/navigation_service.dart';
-
-import 'interactor/receive_enter_data_bloc.dart';
-import 'interactor/viewmodels/page_commands.dart';
-import 'interactor/viewmodels/receive_enter_data_events.dart';
-import 'interactor/viewmodels/receive_enter_data_state.dart';
+import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/receive_enter_data_bloc.dart';
+import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/page_commands.dart';
+import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_events.dart';
+import 'package:seeds/screens/transfer/receive/receive_enter_data/interactor/viewmodels/receive_enter_data_state.dart';
 
 class ReceiveEnterDataScreen extends StatelessWidget {
   const ReceiveEnterDataScreen({Key? key}) : super(key: key);

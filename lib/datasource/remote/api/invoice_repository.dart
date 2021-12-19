@@ -3,7 +3,8 @@ import 'package:async/async.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dart_esr/dart_esr.dart' as esr;
 import 'package:seeds/datasource/local/models/token_data_model.dart';
-import 'package:seeds/datasource/remote/api/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/eos_repository.dart';
+import 'package:seeds/datasource/remote/api/eos_repo/seeds_eos_actions.dart';
 import 'package:seeds/datasource/remote/firebase/firebase_remote_config.dart';
 import 'package:seeds/domain-shared/app_constants.dart';
 
@@ -23,7 +24,7 @@ class InvoiceRepository extends EosRepository {
 
     final esr.Action action = esr.Action()
       ..account = tokenContract
-      ..name = actionNameTransfer
+      ..name = SeedsEosAction.actionNameTransfer.value
       ..authorization = auth
       ..data = data;
 

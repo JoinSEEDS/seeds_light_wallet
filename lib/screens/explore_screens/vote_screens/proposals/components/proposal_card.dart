@@ -8,11 +8,10 @@ import 'package:seeds/images/vote/double_sided_arrow.dart';
 import 'package:seeds/images/vote/triangle_pass_value.dart';
 import 'package:seeds/images/vote/votes_down_arrow.dart';
 import 'package:seeds/images/vote/votes_up_arrow.dart';
+import 'package:seeds/screens/explore_screens/vote_screens/proposals/components/vote_amount_label/vote_amount_label.dart';
 import 'package:seeds/screens/explore_screens/vote_screens/proposals/viewmodels/proposal_view_model.dart';
 import 'package:seeds/utils/cap_utils.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-
-import 'vote_amount_label/vote_amount_label.dart';
 
 class ProposalCard extends StatefulWidget {
   final ProposalViewModel proposal;
@@ -214,7 +213,7 @@ class _ProposalCardState extends State<ProposalCard> with AutomaticKeepAliveClie
                   painter: const CategoryLabel(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-                    child: Text(widget.proposal.proposalCategoryLabel.i18n.inCaps,
+                    child: Text(widget.proposal.proposalCategory.name.i18n.inCaps,
                         style: Theme.of(context).textTheme.subtitle2),
                   ),
                 ),
