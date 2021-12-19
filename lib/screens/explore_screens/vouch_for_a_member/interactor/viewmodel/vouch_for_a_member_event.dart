@@ -17,12 +17,8 @@ class OnUserSelected extends VouchForAMemberEvent {
 }
 
 class OnConfirmVouchForMemberTap extends VouchForAMemberEvent {
-  final MemberModel user;
-
-  const OnConfirmVouchForMemberTap(this.user);
-
   @override
-  String toString() => 'OnConfirmVouchForMemberTap: { User: $user }';
+  String toString() => 'OnConfirmVouchForMemberTap';
 }
 
 class ClearPageCommand extends VouchForAMemberEvent {

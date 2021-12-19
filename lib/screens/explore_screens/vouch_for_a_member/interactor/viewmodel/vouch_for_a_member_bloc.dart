@@ -17,7 +17,7 @@ class VouchForAMemberBloc extends Bloc<VouchForAMemberEvent, VouchForAMemberStat
     on<ClearPageCommand>((_, emit) => emit(state.copyWith()));
   }
 
-  //To be finish on next pr
+  // TODO(ggui004): to be finish on next pr
   Future<void> _onConfirmVouchForMemberTap(OnConfirmVouchForMemberTap event, Emitter<VouchForAMemberState> emit) async {
     emit(state.copyWith(pageState: PageState.success, pageCommand: ShowVouchForMemberSuccess()));
   }
