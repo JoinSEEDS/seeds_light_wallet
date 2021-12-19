@@ -28,7 +28,7 @@ class ReceiveSeedsInvoiceUseCase extends InputUseCase<ReceiveInvoiceResponse, _I
       return Result.error(invoice.asError!.error);
     } else {
       final Result<Uri> decodedInvoice =
-          await _firebaseDynamicLinkUseCase.createDynamicLink(targetLink, invoice.valueOrCrash);
+          await _firebaseDynamicLinkUseCase.createDynamicLink(invoiceTargetLink, invoice.valueOrCrash);
 
       return Result.value(ReceiveInvoiceResponse(invoice.valueOrCrash, decodedInvoice.valueOrNull));
     }
