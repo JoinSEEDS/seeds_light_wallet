@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:seeds/datasource/remote/model/serialization_helpers.dart';
 import 'package:seeds/domain-shared/user_citizenship_status.dart';
 
@@ -35,7 +34,7 @@ class MemberModel {
       account: account,
       nickname: "",
       image: "assets/images/send/telos_logo.png",
-      status: describeEnum(UserCitizenshipStatus.unknown),
+      status: UserCitizenshipStatus.unknown.name,
       isSeedsUser: false,
     );
   }
