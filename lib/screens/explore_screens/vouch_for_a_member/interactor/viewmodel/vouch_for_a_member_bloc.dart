@@ -12,7 +12,7 @@ part 'vouch_for_a_member_state.dart';
 
 class VouchForAMemberBloc extends Bloc<VouchForAMemberEvent, VouchForAMemberState> {
   VouchForAMemberBloc() : super(VouchForAMemberState.initial()) {
-    on<OnUserSelected>((event, emit) => emit(state.copyWith(pageCommand: ShowVouchForMemberConfirmation(event.user))));
+    on<OnUserSelected>((event, emit) => emit(state.copyWith(pageCommand: ShowVouchForMemberConfirmation())));
     on<OnConfirmVouchForMemberTap>(_onConfirmVouchForMemberTap);
     on<ClearPageCommand>((_, emit) => emit(state.copyWith()));
   }

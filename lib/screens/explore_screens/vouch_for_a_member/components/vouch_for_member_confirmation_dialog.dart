@@ -7,9 +7,7 @@ import 'package:seeds/images/explore/vouch_white_background.dart';
 import 'package:seeds/screens/explore_screens/vouch_for_a_member/interactor/viewmodel/vouch_for_a_member_bloc.dart';
 
 class VouchForMemberConfirmationDialog extends StatelessWidget {
-  final MemberModel selectedMember;
-
-  const VouchForMemberConfirmationDialog(this.selectedMember, {Key? key}) : super(key: key);
+  const VouchForMemberConfirmationDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +46,7 @@ class VouchForMemberConfirmationDialog extends StatelessWidget {
                     style: Theme.of(context).textTheme.subtitle2,
                     children: <TextSpan>[
                       TextSpan(
-                          text: '${selectedMember.nickname} (${selectedMember.account})',
+                          text: '${state.selectedMember?.nickname} (${state.selectedMember?.account})',
                           style: Theme.of(context).textTheme.subtitle2Green3LowEmphasis),
                     ]),
               ),
