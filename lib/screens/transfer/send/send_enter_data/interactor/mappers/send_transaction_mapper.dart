@@ -7,13 +7,20 @@ import 'package:seeds/screens/transfer/send/send_confirmation/interactor/viewmod
 import 'package:seeds/screens/transfer/send/send_enter_data/interactor/viewmodels/send_enter_data_state.dart';
 
 class SendTransactionMapper extends StateMapper {
-  SendEnterDataPageState mapResultToState(SendEnterDataPageState currentState, Result result) {
+  SendEnterDataPageState mapResultToState(
+    SendEnterDataPageState currentState,
+    Result result,
+    bool shouldShowInAppReview,
+  ) {
     if (result.isError) {
       return currentState.copyWith(pageState: PageState.failure, errorMessage: result.asError!.error.toString());
     } else {
       final resultResponse = result.asValue!.value as SendTransactionResponse;
-      final pageCommand =
-          SendTransactionStateMapper.transactionResultPageCommand(resultResponse, currentState.ratesState);
+      final pageCommand = SendTransactionStateMapper.transactionResultPageCommand(
+        resultResponse,
+        currentState.ratesState,
+        shouldShowInAppReview,
+      );
       if (resultResponse.isTransfer) {
         eventBus.fire(OnNewTransactionEventBus(resultResponse.transferTransactionModel));
       }

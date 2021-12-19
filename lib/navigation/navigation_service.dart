@@ -132,12 +132,14 @@ class NavigationService {
     Routes.verification: (_) => const VerificationScreen(),
     Routes.recoveryPhrase: (_) => const RecoveryPhraseScreen(),
   };
+
   // iOS: full screen routes pop up from the bottom and disappear vertically too
   // On iOS that's a standard full screen dialog
   // Has no effect on Android.
   final _fullScreenRoutes = {
     Routes.verification,
   };
+
   // iOS transition: Pages that slides in from the right and exits in reverse.
   final _cupertinoRoutes = {
     Routes.citizenship,
